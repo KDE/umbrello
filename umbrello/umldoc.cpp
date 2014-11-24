@@ -3024,7 +3024,7 @@ void UMLDoc::createDatatype(const QString &name)
  */
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
 {
-//FIXME KF5
+//FIXME KF5 move to uml.cpp::slotDiagramPopupMenu ?!
     UMLView* view = (UMLView*) umlview;
 
     UMLListViewItem::ListViewType type = UMLListViewItem::lvt_Unknown;

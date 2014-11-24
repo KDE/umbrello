@@ -307,6 +307,8 @@ private slots:
     void setLang_vala();
     void setLang_xmlschema();
 
+    void slotDiagramPopupMenu(const QPoint& point);
+
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
     UMLAppPrivate *m_d;

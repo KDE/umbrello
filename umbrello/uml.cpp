@@ -802,7 +802,7 @@ void UMLApp::initView()
 
     connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
     m_tabWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint))); //FIXME KF5
+    connect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotDiagramPopupMenu(QPoint)));
     m_tabWidget->setCornerWidget(m_newSessionButton, Qt::TopLeftCorner);
     m_newSessionButton->installEventFilter(this);
 
@@ -3017,6 +3017,19 @@ QString UMLApp::imageMimeType() const
 }
 
 /**
+ * Called when right clicking on tab widget.
+ * @param point  the point where the right mouse button was clicked
+ */
+void UMLApp::slotDiagramPopupMenu(const QPoint& point)
+{
+    QTabBar* tabBar = m_tabWidget->tabBar();
+    int index = tabBar->tabAt(point);
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
+    QPoint globalPoint = m_tabWidget->mapToGlobal(point);
+    m_doc->slotDiagramPopupMenu(view, globalPoint);
+}
+
+/**
  * Called when the tab has changed.
  * @param index   the index of the changed tab widget
  */
@@ -3114,9 +3127,7 @@ void UMLApp::slotMoveTabLeft()
     else {
         to = m_tabWidget->count() - 1;
     }
-#if 0  //FIXME KF5
-    m_tabWidget->moveTab(from, to);
-#endif
+    m_tabWidget->tabBar()->moveTab(from, to);
 }
 
 /**
@@ -3134,9 +3145,7 @@ void UMLApp::slotMoveTabRight()
     else {
         to = 0;
     }
-#if 0  //FIXME KF5
-    m_tabWidget->moveTab(from, to);
-#endif
+    m_tabWidget->tabBar()->moveTab(from, to);
 }
 
 /**
