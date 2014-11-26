@@ -1184,12 +1184,12 @@ void UMLApp::slotFileOpen()
     } 
     else {
         QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File"), QUrl(),
-            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
-                 "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-                 "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-                 "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-                 "*.mdl|Rose model files (*.mdl)\n"
-                 "*.zargo|Compressed argo Files(*.zargo)\n"));
+            i18n("*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo | All Supported Files (*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo);;"
+                 "*.xmi | Uncompressed XMI Files (*.xmi);;"
+                 "*.xmi.tgz | Gzip Compressed XMI Files (*.xmi.tgz);;"
+                 "*.xmi.tar.bz2 | Bzip2 Compressed XMI Files (*.xmi.tar.bz2);;"
+                 "*.mdl | Rose model files (*.mdl);;"
+                 "*.zargo | Compressed argo Files(*.zargo)"));
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
