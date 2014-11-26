@@ -1113,7 +1113,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName(), true);
+            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
             QFile::remove(tempname);
         } else {
             enablePrint(false);
@@ -1298,7 +1298,7 @@ bool UMLApp::slotFileSaveAs()
         bool b = m_doc->saveDocument(url);
         if (b) {
             fileOpenRecent->addUrl(url);
-            setCaption(url.fileName(), m_doc->isModified());
+            setCaption(url.fileName() + QStringLiteral(" [*]"), m_doc->isModified());
             resetStatusMsg();
         }
         return b;
@@ -1778,7 +1778,8 @@ void UMLApp::setModified(bool modified)
     if (m_loading == false)  {
         if (m_doc) {
             DEBUG(DBG_SRC) << "Modified file=" << m_doc->url().fileName();
-            setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
+            setCaption(m_doc->url().fileName() + QStringLiteral(" [*]"), modified);
+            //TODO: add disk icon to taskbar if modified
         }
         else {
             DEBUG(DBG_SRC) << "m_doc is NULL!";
