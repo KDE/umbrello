@@ -96,14 +96,6 @@ set_package_properties(LibXml2 PROPERTIES
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    /opt/project-neon5/include/KF5/KConfigCore      #FIXME
-    /opt/project-neon5/include/KF5/KConfigGui       #FIXME
-    /opt/project-neon5/include/KF5/KConfigWidgets   #FIXME
-    /opt/project-neon5/include/KF5/KIOCore          #FIXME
-    /opt/project-neon5/include/KF5/KIOFileWidgets   #FIXME
-    /opt/project-neon5/include/KF5/KIOWidgets       #FIXME
-    /opt/project-neon5/include/KF5/KTextWidgets     #FIXME
-    /opt/project-neon5/include/KF5/SonnetUi         #FIXME
 )
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
