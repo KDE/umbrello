@@ -369,7 +369,7 @@ bool UMLDoc::newDocument()
     closeDocument();
     UMLApp::app()->setCurrentView(0);
     DEBUG(DBG_SRC) << "UMLDoc::newDocument ************* " << m_doc_url;  //FIXME KF5
-    setFileName(m_doc_url, i18n("Untitled"));
+    m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
     Uml::DiagramType::Enum dt = optionState.generalState.diagram;
@@ -397,14 +397,12 @@ bool UMLDoc::newDocument()
  * updateViews() signal.
  *
  * @param url      The filename in URL format.
- * @param format   The format (optional.)
  * @return  True if operation successful.
  */
-bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
+bool UMLDoc::openDocument(const QUrl& url)
 {
-    Q_UNUSED(format);
     DEBUG(DBG_SRC) << "UMLDoc::openDocument ************* " << url;  //FIXME KF5
-    if (url.fileName().length() == 0) {
+    if (url.isEmpty()) {
         newDocument();
         return false;
     }
@@ -416,14 +414,21 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
     // as it sets m_bLoading to false after it was temporarily
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
-    QUrl tmpfile;
-    KIO::FileCopyJob *job = KIO::file_copy(url, tmpfile);
+    QTemporaryFile tmpfile;
+    tmpfile.open();
+    QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
+    DEBUG(DBG_SRC) << "UMLDoc::openDocument: copy from <" << url << "> to <" << dest << ">.";
+    KIO::FileCopyJob *job = KIO::file_copy(url, dest, -1, KIO::Overwrite);
     KJobWidgets::setWindow(job, UMLApp::app());
     job->exec();
-    QFile file(tmpfile.toLocalFile());
-    if (job->error() || !file.exists()) {
-        KMessageBox::error(0, i18n("The file %1 does not exist.", url.url(QUrl::PreferLocalFile)), i18n("Load Error"));
-        setFileName(m_doc_url, i18n("Untitled"));
+    QFile file(tmpfile.fileName());
+    if (job->error() || !tmpfile.exists()) {
+        if (!tmpfile.exists())
+            DEBUG(DBG_SRC) << "UMLDoc::openDocument: temporary file <" << tmpfile.fileName() << "> failed!";
+        if (job->error())
+           DEBUG(DBG_SRC) << "UMLDoc::openDocument: " << job->errorString();
+        KMessageBox::error(0, i18n("The file <%1> does not exist.", url.toString()), i18n("Load Error"));
+        m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
         m_bLoading = false;
         newDocument();
         return false;
@@ -441,12 +446,42 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
         mimetype = QLatin1String("application/x-bzip");
     }
 
-    if (mimetype.isEmpty() == false) {
-        KTar archive(tmpfile.toLocalFile(), mimetype);
+    if (mimetype.isEmpty()) {
+        // ordinary file
+        if (!file.open(QIODevice::ReadOnly)) {
+            KMessageBox::error(0, i18n("There was a problem loading file: %1", url.toString()),
+                               i18n("Load Error"));
+            m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
+            m_bLoading = false;
+            newDocument();
+            return false;
+        }
+        if (filetype.endsWith(QLatin1String(".mdl"))) {
+            m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
+            m_bTypesAreResolved = false;
+            status = Import_Rose::loadFromMDL(file);
+            if (status) {
+                if (UMLApp::app()->currentView() == 0) {
+                    QString name = createDiagramName(Uml::DiagramType::Class, false);
+                    createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
+                    setCurrentRoot(Uml::ModelType::Logical);
+                }
+            }
+        }
+        else if (filetype.endsWith(QLatin1String(".zargo"))) {
+            m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
+            status = Import_Argo::loadFromZArgoFile(file);
+        }
+        else {
+            m_bTypesAreResolved = false;
+            status = loadFromXMI(file, ENC_UNKNOWN);
+        }
+    }
+    else {  // compressed archive
+        KTar archive(tmpfile.fileName(), mimetype);
         if (archive.open(QIODevice::ReadOnly) == false) {
-            KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.url(QUrl::PreferLocalFile)), i18n("Load Error"));
-            KIO::file_delete(tmpfile);
-            setFileName(m_doc_url, i18n("Untitled"));
+            KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.toString()), i18n("Load Error"));
+            m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
             m_bLoading = false;
             newDocument();
             return false;
@@ -483,10 +518,9 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             // try to cast the file entry in the archive to an archive entry
             entry = const_cast<KArchiveEntry*>(rootDir->entry(*it));
             if (entry == 0) {
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
+                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                    i18n("Load Error"));
-                KIO::file_delete(tmpfile);
-                setFileName(m_doc_url, i18n("Untitled"));
+                m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -496,10 +530,9 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             // extract the file
             fileEntry = dynamic_cast<KArchiveFile*>(entry);
             if (fileEntry == 0) {
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
+                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                    i18n("Load Error"));
-                KIO::file_delete(tmpfile);
-                setFileName(m_doc_url, i18n("Untitled"));
+                m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -511,10 +544,9 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             // now open the extracted file for reading
             QFile xmi_file(tmp_dir.path() + QLatin1Char('/') + *it);
             if(!xmi_file.open(QIODevice::ReadOnly)) {
-                KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.url(QUrl::PreferLocalFile)),
+                KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.toString()),
                                    i18n("Load Error"));
-                KIO::file_delete(tmpfile);
-                setFileName(m_doc_url, i18n("Untitled"));
+                m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -525,56 +557,24 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             // close the extracted file and the temporary directory
             xmi_file.close();
         } else {
-            KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
+            KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                i18n("Load Error"));
-            KIO::file_delete(tmpfile);
-            setFileName(m_doc_url, i18n("Untitled"));
+            m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
             m_bLoading = false;
             newDocument();
             return false;
         }
 
         archive.close();
-    } else {
-        // no, it seems to be an ordinary file
-        if (!file.open(QIODevice::ReadOnly)) {
-            KMessageBox::error(0, i18n("There was a problem loading file: %1", url.url(QUrl::PreferLocalFile)),
-                               i18n("Load Error"));
-            KIO::file_delete(tmpfile);
-            setFileName(m_doc_url, i18n("Untitled"));
-            m_bLoading = false;
-            newDocument();
-            return false;
-        }
-        if (filetype.endsWith(QLatin1String(".mdl"))) {
-            setFileName(m_doc_url, i18n("Untitled"));
-            m_bTypesAreResolved = false;
-            status = Import_Rose::loadFromMDL(file);
-            if (status) {
-                if (UMLApp::app()->currentView() == 0) {
-                    QString name = createDiagramName(Uml::DiagramType::Class, false);
-                    createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
-                    setCurrentRoot(Uml::ModelType::Logical);
-                }
-            }
-        }
-        else if (filetype.endsWith(QLatin1String(".zargo"))) {
-            setFileName(m_doc_url, i18n("Untitled"));
-            status = Import_Argo::loadFromZArgoFile(file);
-        }
-        else {
-            m_bTypesAreResolved = false;
-            status = loadFromXMI(file, ENC_UNKNOWN);
-        }
     }
 
-    if (file.isOpen())
+    if (file.isOpen()) {
         file.close();
-    KIO::file_delete(tmpfile);
+    }
     m_bLoading = false;
     m_bTypesAreResolved = true;
     if (!status) {
-        KMessageBox::error(0, i18n("There was a problem loading file: %1", url.url(QUrl::PreferLocalFile)),
+        KMessageBox::error(0, i18n("There was a problem loading file: %1", url.toString()),
                            i18n("Load Error"));
         newDocument();
         return false;
@@ -594,12 +594,10 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
  * Saves the document using the given filename and format.
  *
  * @param url      The filename in URL format.
- * @param format   The format (optional.)
  * @return  True if operation successful.
  */
-bool UMLDoc::saveDocument(const QUrl& url, const char * format)
+bool UMLDoc::saveDocument(const QUrl& url)
 {
-    Q_UNUSED(format);
     DEBUG(DBG_SRC) << "UMLDoc::saveDocument ************* " << url;  //FIXME KF5
     m_doc_url = url;
     bool uploaded = true;
@@ -732,14 +730,14 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
             fcj->exec();
             if (fcj->error()) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-                setFileName(m_doc_url, i18n("Untitled"));
+                m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 return false;
             }
         }
     }
     if (!uploaded) {
         KMessageBox::error(0, i18n("There was a problem uploading file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-        setFileName(m_doc_url, i18n("Untitled"));
+        m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
     }
     setModified(false);
     return uploaded;
@@ -2942,7 +2940,7 @@ void UMLDoc::slotAutoSave()
     if (tempUrl.fileName() == i18n("Untitled")) {
         tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);
-        setFileName(m_doc_url, i18n("Untitled"));
+        m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
         m_modified = true;
         UMLApp::app()->setModified(m_modified);
     } else {
@@ -2952,7 +2950,7 @@ void UMLDoc::slotAutoSave()
         QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = Settings::optionState();
         fileName.replace(QLatin1String(".xmi"), optionState.generalState.autosavesuffix);
-        setFileName(tempUrl, fileName);
+        tempUrl.setPath(tempUrl.toString(QUrl::RemoveFilename) + fileName);
 
         saveDocument(tempUrl);
         // re-activate m_modified if autosave is writing to other file
@@ -3108,14 +3106,4 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
     int patSections = pattern.count(QLatin1Char('.')) + 1;
     QString tagEnd = tag.section(QLatin1Char('.'), -patSections);
     return (tagEnd.toLower() == pattern.toLower());
-}
-
-/**
- * Function for setting the file name of m_doc_url.
- */
-void UMLDoc::setFileName(QUrl url, const QString& name)
-{
-DEBUG(DBG_SRC) << "UMLDoc::setFileName ************* " << url << "  " << name;  //FIXME KF5
-    url.adjusted(QUrl::RemoveFilename);
-    url.setPath(url.path() + name);
 }

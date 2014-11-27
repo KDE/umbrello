@@ -85,8 +85,8 @@ public:
 
     bool newDocument();
     void closeDocument();
-    bool openDocument(const QUrl& url, const char *format = 0);
-    bool saveDocument(const QUrl& url, const char *format = 0);
+    bool openDocument(const QUrl& url);
+    bool saveDocument(const QUrl& url);
 
     const QUrl& url() const;
     void setUrl(const QUrl& url);
@@ -223,7 +223,6 @@ public:
 private:
     void initSaveTimer();
     void createDatatypeFolder();
-    void setFileName(QUrl url, const QString& name);
 
     /**
      * Array of predefined root folders.
