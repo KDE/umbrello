@@ -130,6 +130,10 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
             UMLRole * role = dynamic_cast<UMLRole*>((*it)->getParentObject());
+            if (!role) {
+                uError() << "invalid parent object type";
+                return false;
+            }
             QString multi = role->multiplicity();
             if (
                 multi.contains(QRegExp(QLatin1String("[23456789\\*]"))) ||
