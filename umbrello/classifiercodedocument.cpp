@@ -300,6 +300,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
     UMLOperation *op = dynamic_cast<UMLOperation*>(o);
     if (op == NULL) {
         uError() << "arg is not a UMLOperation";
+        return;
     }
     QString tag = CodeOperation::findTag(op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
