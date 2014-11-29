@@ -1428,7 +1428,7 @@ void UMLApp::slotFilePrint()
     if (!slotPrintSettings())
         return;
 
-    QPrintDialog *printDialog = new QPrintDialog(m_printer, this);   //FIXME KF5  , QList<QWidget*>() << m_printSettings);
+    QPrintDialog *printDialog = new QPrintDialog(m_printer, this);
     printDialog->setWindowTitle(i18n("Print %1", m_doc->url().toDisplayString()));
 
     if (printDialog->exec()) {
