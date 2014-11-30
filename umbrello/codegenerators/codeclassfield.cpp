@@ -354,6 +354,10 @@ int CodeClassField::maximumListOccurances()
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+        if (!role) {
+            uError() << "no valid parent object";
+            return -1;
+        }
         QString multi = role->multiplicity();
         // ush. IF we had a multiplicty object, this would be much easier.
         if (!multi.isEmpty())
