@@ -2659,10 +2659,11 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
 }
 
 /**
- *
+ * Close (colapse) the data type folder.
  */
 void UMLListView::closeDatatypesFolder()
 {
+    Q_ASSERT(m_datatypeFolder);
     m_datatypeFolder->setOpen(false);
 }
 

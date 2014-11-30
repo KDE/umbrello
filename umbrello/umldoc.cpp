@@ -2999,7 +2999,9 @@ void UMLDoc::addDefaultDatatypes()
     for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
         createDatatype(*it);
     }
-//FIXME KF5    UMLApp::app()->listView()->closeDatatypesFolder();
+    UMLListView* listView = UMLApp::app()->listView();
+    Q_ASSERT(listView);
+    listView->closeDatatypesFolder();
 }
 
 /**

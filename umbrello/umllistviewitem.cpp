@@ -404,7 +404,7 @@ void UMLListViewItem::updateFolder()
     if (icon) {
         if (Model_Utils::typeIsFolder(m_type))
             icon = (Icon_Utils::IconType)((int)icon + (int)isExpanded());
-        setIcon(icon);
+//FIXME KF5        setIcon(icon);
     }
 }
 
