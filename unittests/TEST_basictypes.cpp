@@ -279,7 +279,7 @@ void TEST_basictypes::test_SequenceMessage_toString_fromString()
 
 void TEST_basictypes::test_RoleType_toString_fromString()
 {
-    for (int i = Uml::RoleType::A; i == Uml::RoleType::B; ++i) {
+    for (int i = Uml::RoleType::A; i <= Uml::RoleType::B; ++i) {
         Uml::RoleType::Enum at = Uml::RoleType::fromString(
                                       Uml::RoleType::toString(
                                           Uml::RoleType::fromInt(i)));
@@ -291,7 +291,7 @@ void TEST_basictypes::test_RoleType_toString_fromString()
 
 void TEST_basictypes::test_ParameterDirection_toString_fromString()
 {
-    for (int i = Uml::ParameterDirection::In; i == Uml::ParameterDirection::Out; ++i) {
+    for (int i = Uml::ParameterDirection::In; i <= Uml::ParameterDirection::Out; ++i) {
         Uml::ParameterDirection::Enum at = Uml::ParameterDirection::fromString(
                                       Uml::ParameterDirection::toString(
                                           Uml::ParameterDirection::fromInt(i)));
@@ -303,7 +303,7 @@ void TEST_basictypes::test_ParameterDirection_toString_fromString()
 
 void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
 {
-    for (int i = Uml::ProgrammingLanguage::ActionScript; i == Uml::ProgrammingLanguage::Reserved; ++i) {
+    for (int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; ++i) {
         Uml::ProgrammingLanguage::Enum at = Uml::ProgrammingLanguage::fromString(
                                       Uml::ProgrammingLanguage::toString(
                                           Uml::ProgrammingLanguage::fromInt(i)));
@@ -315,7 +315,7 @@ void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
 
 void TEST_basictypes::test_Region_toString_fromString()
 {
-    for (int i = Uml::Region::Error; i == Uml::Region::SouthWest; ++i) {
+    for (int i = Uml::Region::Error; i <= Uml::Region::SouthWest; ++i) {
         Uml::Region::Enum at = Uml::Region::fromString(
                                       Uml::Region::toString(
                                           Uml::Region::fromInt(i)));
@@ -327,7 +327,7 @@ void TEST_basictypes::test_Region_toString_fromString()
 
 void TEST_basictypes::test_Corner_toString_fromString()
 {
-    for (int i = Uml::Corner::TopLeft; i == Uml::Corner::BottomLeft; ++i) {
+    for (int i = Uml::Corner::TopLeft; i <= Uml::Corner::BottomLeft; i *= 2) {
         Uml::Corner::Enum at = Uml::Corner::fromString(
                                       Uml::Corner::toString(
                                           Uml::Corner::fromInt(i)));
