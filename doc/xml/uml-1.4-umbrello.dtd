@@ -385,7 +385,7 @@
    UML:CallState|UML:ObjectFlowState|UML:FinalState|UML:Pseudostate|
    UML:SynchState|UML:StubState|UML:Transition|UML:Guard|UML:Message|
    UML:Interaction|UML:InteractionInstanceSet|UML:CollaborationInstanceSet|
-   UML:Partition)*>
+   UML:Partition|UML:Entity)*>
 <!ENTITY % UML.NamespaceFeatures '%UML.ModelElementFeatures; |
    UML:Namespace.ownedElement'>
 <!ENTITY % UML.NamespaceAtts '%UML.ModelElementAtts;'>
@@ -1742,3 +1742,51 @@
 <!ATTLIST UML:ElementImport %UML.ElementImportAtts;>
 
 <!-- ========= UML:UML ========= -->
+
+<!-- ========= umbrello specific ========= -->
+
+<!ENTITY % UML.EntityAtts '
+   isAbstract (true|false) #IMPLIED
+   isLeaf (true|false) #IMPLIED
+   isRoot (true|false) #IMPLIED
+   isSpecification CDATA #IMPLIED
+   name CDATA #IMPLIED
+   namespace CDATA #IMPLIED
+   visibility %UML.VisibilityKind; #IMPLIED
+   xmi.id CDATA #IMPLIED'>
+
+
+<!ELEMENT UML:Entity (UML:EntityAttribute |
+    UML:UniqueConstraint |
+    UML:ForeignKeyConstraint)*>
+<!ATTLIST UML:Entity %UML.EntityAtts;>
+
+<!ELEMENT UML:EntityAttribute ANY>
+<!ATTLIST UML:EntityAttribute
+   %UML.EntityAtts;
+   allow_null CDATA #IMPLIED
+   auto_increment CDATA #IMPLIED
+   attributes CDATA #IMPLIED
+   dbindex_type CDATA #IMPLIED
+   initialValue CDATA #IMPLIED
+   type CDATA #IMPLIED
+   values CDATA #IMPLIED>
+
+<!ELEMENT AttributeMap ANY>
+<!ATTLIST AttributeMap
+    key CDATA #IMPLIED
+    value CDATA #IMPLIED>
+
+<!ELEMENT UML:UniqueConstraint (UML:EntityAttribute)>
+<!ELEMENT UML:ForeignKeyConstraint (AttributeMap)*>
+<!ATTLIST UML:ForeignKeyConstraint
+   %UML.EntityAtts;
+   comment CDATA #IMPLIED
+   deleteAction CDATA #IMPLIED
+   not CDATA #IMPLIED
+   referencedEntity CDATA #IMPLIED
+   updateAction CDATA #IMPLIED>
+
+<!ATTLIST UML:UniqueConstraint
+   %UML.EntityAtts;
+   isPrimary CDATA #IMPLIED>
