@@ -88,6 +88,7 @@
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QTabWidget>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QToolButton>
 #include <QUndoStack>
@@ -357,7 +358,7 @@ void UMLApp::initActions()
     deleteSelectedWidget = actionCollection()->addAction(QLatin1String("delete_selected"));
     deleteSelectedWidget->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteSelectedWidget->setText(i18nc("delete selected widget", "Delete &Selected"));
-    deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
+    actionCollection()->setDefaultShortcut(deleteSelectedWidget, QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()));
 
     // The different views
@@ -532,29 +533,33 @@ void UMLApp::initActions()
     QAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
-    moveTabLeft->setShortcut(QApplication::layoutDirection() ?
-                 QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
+    actionCollection()->setDefaultShortcut(moveTabLeft, QApplication::layoutDirection() ?
+                                                        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) :
+                                                        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
     QAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
-    moveTabRight->setShortcut(QApplication::layoutDirection() ?
-                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
+    actionCollection()->setDefaultShortcut(moveTabRight, QApplication::layoutDirection() ?
+                                                         QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) :
+                                                         QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
     connect(moveTabRight, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabRight()));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
     QAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
-    changeTabLeft->setShortcut(QApplication::layoutDirection() ?
-                   QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
+    actionCollection()->setDefaultShortcut(changeTabLeft, QApplication::layoutDirection() ?
+                                                          QKeySequence(Qt::SHIFT+Qt::Key_Right) :
+                                                          QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
     QAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
-    changeTabRight->setShortcut(QApplication::layoutDirection() ?
-                    QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
+    actionCollection()->setDefaultShortcut(changeTabRight, QApplication::layoutDirection() ?
+                                                           QKeySequence(Qt::SHIFT+Qt::Key_Left) :
+                                                           QKeySequence(Qt::SHIFT+Qt::Key_Right));
     connect(changeTabRight, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabRight()));
 
 // @todo Check if this should be ported
@@ -1066,27 +1071,22 @@ void UMLApp::readOptions()
  * Saves the window properties for each open window
  * during session end to the session config file,
  * including saving the currently opened file by a
- * temporary filename provided by QApplication.
+ * temporary filename.
  * @see KMainWindow#saveProperties
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
-    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
-    Q_UNUSED(cfg);
-/*
-    if (m_doc->url().fileName() != i18n("Untitled") && !m_doc->isModified()) {
-        // saving to tempfile not necessary
-    } else {
+    if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
         QUrl url = m_doc->url();
-        cfg.writePathEntry("filename", url.url());
+        cfg.writePathEntry("filename", url.toString());
         cfg.writeEntry("modified", m_doc->isModified());
-        QString tempname = qApp->tempSaveName(url.url());  //:TODO: change this - deprecated
-        QString tempurl = QUrl::toPercentEncoding(tempname);
+        DEBUG(DBG_SRC) << "Save properties - filename: " << url << " | modified: " << m_doc->isModified();
 
-        QUrl _url(tempurl);
-        m_doc->saveDocument(_url);
+        // saving to tempfile necessary
+        QTemporaryFile tmpfile(url.toString());
+        QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
+        m_doc->saveDocument(dest);
     }
-*/
 }
 
 /**
@@ -1098,23 +1098,21 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
-    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
-    Q_UNUSED(cfg);
-/*
     QString filename = cfg.readPathEntry("filename", QString());
     QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
+    DEBUG(DBG_SRC) << "Read properties - filename: " << url << " | modified: " << modified;
     if (modified) {
-        bool canRecover;
-        QString tempname = qApp->checkRecoverFile(filename, canRecover);
-        QUrl _url(tempname);
+        bool canRecover = false;
+//FIXME KF5        QString tempname = qApp->checkRecoverFile(filename, canRecover);
+//        QUrl _url(tempname);
 
         if (canRecover) {
-            m_doc->openDocument(_url);
+//            m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
-            QFile::remove(tempname);
+//            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
+//            QFile::remove(tempname);
         } else {
             enablePrint(false);
         }
@@ -1123,12 +1121,10 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(url);
             enablePrint(true);
             setCaption(url.fileName(), false);
-
         } else {
             enablePrint(false);
         }
     }
-*/
 }
 
 /**

@@ -19,10 +19,9 @@
 
 // kde includes
 #include <KAboutData>
-#include <kconfig.h>
+#include <KConfig>
 #include <KLocalizedString>
-#include <ktip.h>
-#include <kwindowsystem.h>
+#include <KWindowSystem>
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -106,8 +105,8 @@ int main(int argc, char *argv[])
     QCommandLineParser* parser = new QCommandLineParser;
     parser->addHelpOption();
     parser->addVersionOption();
-    parser->addOption(
-                QCommandLineOption(URL, i18n("File to open.")));
+    parser->addPositionalArgument(
+                URL, i18n("File to open with path."), URL);
     parser->addOption(
                 QCommandLineOption(EXPORT, i18n("Export diagrams to extension and exit.")));
     parser->addOption(
@@ -172,13 +171,13 @@ bool showGUI(QCommandLineParser *parser)
 
 void initDocument(QCommandLineParser *parser)
 {
-    if (parser->isSet(URL)) {
-        QString url = parser->value(URL);
-        UMLApp::app()->openDocumentFile(QUrl(url));
+    QStringList urls = parser->positionalArguments();
+    if (urls.count() > 0) {
+        UMLApp::app()->openDocumentFile(QUrl::fromUserInput(urls.at(0)));
     } else {
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();
-        if(last && !file.isEmpty()) {
+        if (last && !file.isEmpty()) {
             UMLApp::app()->openDocumentFile(QUrl(file));
         } else {
             UMLApp::app()->newDocument();

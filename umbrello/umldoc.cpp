@@ -417,7 +417,7 @@ bool UMLDoc::openDocument(const QUrl& url)
     QTemporaryFile tmpfile;
     tmpfile.open();
     QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
-    DEBUG(DBG_SRC) << "UMLDoc::openDocument: copy from <" << url << "> to <" << dest << ">.";
+    DEBUG(DBG_SRC) << "UMLDoc::openDocument: copy from " << url << " to " << dest << ".";
     KIO::FileCopyJob *job = KIO::file_copy(url, dest, -1, KIO::Overwrite);
     KJobWidgets::setWindow(job, UMLApp::app());
     job->exec();
