@@ -70,6 +70,8 @@ public:
     bool loadFromXMI(QDomElement & qElement);
     void removeDashLine(FloatingDashLineWidget *line);
 
+    virtual void cleanup();
+
 public slots:
     void slotMenuSelection(QAction* action);
 

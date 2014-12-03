@@ -231,7 +231,7 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
-        m_scene->setupNewWidget(m_dashLines.back());
+        m_scene->widgetList().append(m_dashLines.back());
     }
 }
 
@@ -373,6 +373,22 @@ void CombinedFragmentWidget::removeDashLine(FloatingDashLineWidget *line)
 {
     if (m_dashLines.contains(line))
         m_dashLines.removeOne(line);
+}
+
+/**
+ * Overrides the function from UMLWidget. Deletes all FloatingDashLineWidgets
+ * that are associated with this instance.
+ */
+void CombinedFragmentWidget::cleanup()
+{
+  foreach (FloatingDashLineWidget* w, m_dashLines)
+  {
+    if (!w->isSelected()) {
+      // no need to make this undoable, since the dashlines will be
+      // reconstructed when deleting the combined fragment is undone.
+      umlScene()->removeWidgetCmd(w);
+    }
+  }
 }
 
 /**

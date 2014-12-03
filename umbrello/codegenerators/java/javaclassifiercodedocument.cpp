@@ -117,9 +117,9 @@ void JavaClassifierCodeDocument::init ()
 bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op)
 {
     if (!op->getParentOperation()->isLifeOperation())
-        return operationsBlock->addTextBlock(op);
+        return operationsBlock == NULL ? false : operationsBlock->addTextBlock(op);
     else
-        return constructorBlock->addTextBlock(op);
+        return constructorBlock == NULL ? false : constructorBlock->addTextBlock(op);
 }
 
 // Sigh. NOT optimal. The only reason that we need to have this
