@@ -25,17 +25,14 @@
 /**
  * Constructor sets up the dialog, adding checkbox and label.
  */
-OverwriteDialog::OverwriteDialog(
-        const QString& fileName,
-        const QString& outputDirectory,
-        bool applyToAllRemaining, QWidget* parent)
+OverwriteDialog::OverwriteDialog(const QString& fileName, const QString& outputDirectory,
+                                 bool applyToAllRemaining, QWidget* parent)
   : QDialog(parent)
 {
     setWindowTitle(i18n("Destination File Already Exists"));
     setModal(true);
 
     QVBoxLayout* layout = new QVBoxLayout();
-//FIXME KF5    layout->setSpacing(spacingHint());
     layout->setMargin(0);
     setLayout(layout);
 
@@ -47,15 +44,13 @@ OverwriteDialog::OverwriteDialog(
     layout->addWidget(m_applyToAllRemaining);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox();
-    buttonBox->addButton(i18n("&Overwrite"), QDialogButtonBox::AcceptRole);
-//FIXME KF5    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-//FIXME KF5    okButton->setDefault(true);
-    buttonBox->addButton(i18n("&Generate Similar File Name"), QDialogButtonBox::ApplyRole);
-    buttonBox->addButton(i18n("&Do Not Generate File"), QDialogButtonBox::RejectRole);
-
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-//FIXME KF5    connect(buttonBox, SIGNAL(clicked()), this, SLOT(slotApply()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotCancel()));
+    QPushButton* okayBtn = buttonBox->addButton(i18n("&Overwrite"), QDialogButtonBox::AcceptRole);
+    QPushButton* applyBtn = buttonBox->addButton(i18n("&Generate Similar File Name"), QDialogButtonBox::ApplyRole);
+    QPushButton* cancelBtn = buttonBox->addButton(i18n("&Do Not Generate File"), QDialogButtonBox::RejectRole);
+    layout->addWidget(buttonBox);
+    connect(okayBtn, SIGNAL(clicked()), this, SLOT(slotOk()));
+    connect(applyBtn, SIGNAL(clicked()), this, SLOT(slotApply()));
+    connect(cancelBtn, SIGNAL(clicked()), this, SLOT(slotCancel()));
 }
 
 /**
@@ -71,7 +66,7 @@ OverwriteDialog::~OverwriteDialog()
  */
 void OverwriteDialog::slotOk()
 {
-    accept();
+    done(QDialogButtonBox::Yes);
 }
 
 /**
@@ -79,7 +74,7 @@ void OverwriteDialog::slotOk()
  */
 void OverwriteDialog::slotApply()
 {
-//FIXME KF5    done(No);
+    done(QDialogButtonBox::No);
 }
 
 /**
@@ -87,7 +82,7 @@ void OverwriteDialog::slotApply()
  */
 void OverwriteDialog::slotCancel()
 {
-    reject();
+    done(QDialogButtonBox::Cancel);
 }
 
 /**

@@ -175,35 +175,34 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     int suffix;
     QPointer<OverwriteDialog> overwriteDialog =
         new OverwriteDialog(filename, outputDir.absolutePath(),
-                              m_applyToAllRemaining, qApp->activeWindow());
+                            m_applyToAllRemaining, qApp->activeWindow());
     switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-        case QDialog::Accepted:  //overwrite file
+        case QDialogButtonBox::Yes:  //overwrite file
             if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
-//FIXME KF5
-//        case QDialog::No: //generate similar name
-//            suffix = 1;
-//            while (1) {
-//                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
-//                if (!outputDir.exists(filename))
-//                    break;
-//                suffix++;
-//            }
-//            if (overwriteDialog->applyToAllRemaining()) {
-//                commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
-//            } else {
-//                m_applyToAllRemaining = false;
-//            }
-//            break;
-        case QDialog::Rejected: //don't output anything
+        case QDialogButtonBox::No: //generate similar name
+            suffix = 1;
+            while (1) {
+                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
+                if (!outputDir.exists(filename))
+                    break;
+                suffix++;
+            }
+            if (overwriteDialog->applyToAllRemaining()) {
+                commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
+            } else {
+                m_applyToAllRemaining = false;
+            }
+            break;
+        case QDialogButtonBox::Cancel: //don't output anything
             if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {

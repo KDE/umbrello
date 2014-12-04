@@ -32,7 +32,7 @@
 
 // kde includes
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QApplication>
@@ -527,14 +527,14 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     int suffix;
     QPointer<OverwriteDialog> overwriteDialog =
         new OverwriteDialog(name, outputDirectory.absolutePath(),
-                              m_applyToAllRemaining, qApp->activeWindow());
+                            m_applyToAllRemaining, qApp->activeWindow());
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         filename = name + extension;
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-        case QDialog::Accepted:  //overwrite file
+        case QDialogButtonBox::Yes:  //overwrite file
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
@@ -543,23 +543,22 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                 m_applyToAllRemaining = false;
             }
             break;
-//FIXME KF5
-//        case QDialog::No: //generate similar name
-//            suffix = 1;
-//            while (1) {
-//                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
-//                if (!outputDirectory.exists(filename))
-//                    break;
-//                suffix++;
-//            }
-//            if (overwriteDialog->applyToAllRemaining()) {
-//                pol->setOverwritePolicy(CodeGenerationPolicy::Never);
-//            }
-//            else {
-//                m_applyToAllRemaining = false;
-//            }
-//            break;
-        case QDialog::Rejected: //don't output anything
+        case QDialogButtonBox::No: //generate similar name
+            suffix = 1;
+            while (1) {
+                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
+                if (!outputDirectory.exists(filename))
+                    break;
+                suffix++;
+            }
+            if (overwriteDialog->applyToAllRemaining()) {
+                pol->setOverwritePolicy(CodeGenerationPolicy::Never);
+            }
+            else {
+                m_applyToAllRemaining = false;
+            }
+            break;
+        case QDialogButtonBox::Cancel: //don't output anything
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             }
