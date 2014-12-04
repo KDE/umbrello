@@ -163,21 +163,21 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename_Object:
         {
             bool ok;
-            QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
+            QRegExpValidator validator(QRegExp(QLatin1String(".*")), 0);
+            int pos = 0;
             QString name = QInputDialog::getText(m_scene->activeView(),
                                                  i18n("Rename Object"),
                                                  i18n("Enter object name:"),
                                                  QLineEdit::Normal,
                                                  m_instanceName,
-                                                 &ok);  //FIXME KF5   ", validator);"
-            if (ok) {
+                                                 &ok);
+            if (ok && validator.validate(name, pos) == QValidator::Acceptable) {
                 m_instanceName = name;
                 updateGeometry();
                 moveEvent(0);
                 update();
                 UMLApp::app()->document()->setModified(true);
             }
-            delete validator;
             break;
         }
     case ListPopupMenu::mt_Properties:

@@ -390,7 +390,8 @@ Uml::TextRole::Enum FloatingTextWidget::textRole() const
  */
 void FloatingTextWidget::handleRename()
 {
-    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
+    QRegExpValidator validator(QRegExp(QLatin1String(".*")), 0);
+    int pos = 0;
     QString t;
     if (m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
         t = i18n("Enter role name:");
@@ -412,8 +413,8 @@ void FloatingTextWidget::handleRename()
     QString newText = QInputDialog::getText(m_scene->activeView(),
                                             i18n("Rename"), t,
                                             QLineEdit::Normal,
-                                            text(), &ok);       //FIXME KF5  ", &v);"
-    if (!ok || newText == text()) {
+                                            text(), &ok);
+    if (!ok || newText == text() || validator.validate(newText, pos) == QValidator::Invalid) {
         return;
     }
 

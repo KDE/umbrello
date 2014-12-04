@@ -2982,7 +2982,8 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
 void AssociationWidget::slotMenuSelection(QAction* action)
 {
     QString oldText, newText;
-    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
+    QRegExpValidator validator(QRegExp(QLatin1String(".*")), 0);
+    int pos = 0;
     Uml::AssociationType::Enum atype = associationType();
     Uml::RoleType::Enum r = RoleType::B;
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
@@ -3037,8 +3038,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);   //FIXME KF5   ", &v);"
-        if (newText != oldText) {
+                                        oldText, NULL);
+        if ((newText != oldText) &&
+            (validator.validate(newText, pos) == QValidator::Acceptable)) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
@@ -3057,8 +3059,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Association Name"),
                                         i18n("Enter association name:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);  //FIXME KF5  ", &v);"
-        if (newText != oldText) {
+                                        oldText, NULL);
+        if ((newText != oldText) &&
+            (validator.validate(newText, pos) == QValidator::Acceptable)) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else {
@@ -3079,8 +3082,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Role Name"),
                                         i18n("Enter role name:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);   //FIXME KF5  ", &v);"
-        if (newText != oldText) {
+                                        oldText, NULL);
+        if ((newText != oldText) &&
+            (validator.validate(newText, pos) == QValidator::Acceptable)) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
