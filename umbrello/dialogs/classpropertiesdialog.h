@@ -78,7 +78,6 @@ private:
     PackageContentsPage* m_pPkgContentsPage;
     ClassAssociationsPage* m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
-    UMLWidgetStylePage*  m_pStylePage;
 
     UMLDoc*              m_doc;
     UMLObject*           m_pObject;
