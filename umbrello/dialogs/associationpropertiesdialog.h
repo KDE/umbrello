@@ -43,7 +43,6 @@ protected slots:
 private:
     AssociationGeneralPage *m_pGenPage;
     AssociationRolePage *m_pRolePage;
-    UMLWidgetStylePage *m_pStylePage;
     KFontChooser       *m_pChooser;
     AssociationWidget  *m_pAssoc;
 

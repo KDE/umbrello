@@ -55,7 +55,6 @@ protected:
     KFontChooser*          m_pChooser;
     DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
-    UMLWidgetStylePage*    m_pStylePage;
     KPageWidgetItem*       m_pageStyleItem;
     KPageWidgetItem*       m_pageFontItem;
     KPageWidgetItem*       m_pageDisplayItem;

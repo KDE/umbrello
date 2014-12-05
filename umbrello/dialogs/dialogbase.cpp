@@ -37,7 +37,10 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
     m_pageDialog(0),
     m_pageWidget(0),
     m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
-    m_isModified(false)
+    m_isModified(false),
+    m_fontChooser(0),
+    m_pStylePage(0),
+    m_pageItem(0)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);
@@ -106,6 +109,7 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
  */
 void DialogBase::saveFontPageData(UMLWidget *widget)
 {
+    Q_ASSERT(m_fontChooser);
     widget->setFont(m_fontChooser->font());
 }
 
@@ -129,6 +133,7 @@ KPageWidgetItem *DialogBase::setupStylePage(UMLWidget *widget)
 void DialogBase::saveStylePageData(UMLWidget *widget)
 {
     Q_UNUSED(widget);
+    Q_ASSERT(m_pStylePage);
     m_pStylePage->updateUMLWidget();
 }
 

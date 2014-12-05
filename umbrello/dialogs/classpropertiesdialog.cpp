@@ -134,7 +134,6 @@ void ClassPropertiesDialog::init()
     m_pEntityAttributePage = 0;
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
-    m_pStylePage = 0;
     m_doc = UMLApp::app()->document();
 }
 
