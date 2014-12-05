@@ -51,6 +51,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/
+  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
@@ -221,6 +222,7 @@ set(libdialogs_SRCS
     dialogs/pages/diagramprintpage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
+    dialogs/widgets/umlstereotypewidget.cpp
 )
 
 qt5_wrap_ui(  libdialogs_SRCS

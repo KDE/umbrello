@@ -17,6 +17,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "dialog_utils.h"
+#include "umlstereotypewidget.h"
 
 // kde includes
 #include <klineedit.h>
@@ -71,10 +72,8 @@ void UMLTemplateDialog::setupDialog()
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("template name", "&Name:"),
                                     m_pNameLE, m_pTemplate->name());
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
-                                    m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pTemplate->stereotype());
+    m_stereotypeWidget = new UMLStereotypeWidget(m_pTemplate);
+    m_stereotypeWidget->addToLayout(valuesLayout, 2);
 
     mainLayout->addWidget(m_pValuesGB);
 
@@ -162,8 +161,7 @@ bool UMLTemplateDialog::apply()
         }
     }
     m_pTemplate->setName(name);
-
-    m_pTemplate->setStereotype(m_pStereoTypeLE->text());
+    m_stereotypeWidget->apply();
 
     return true;
 }

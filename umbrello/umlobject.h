@@ -109,7 +109,7 @@ public:
     QString stereotype(bool includeAdornments = false) const;
 
     void setUMLStereotype(UMLStereotype *stereo);
-    const UMLStereotype * umlStereotype();
+    UMLStereotype *umlStereotype();
 
     void setPackage(const QString &_name);
     QString package(const QString& separator = QString(),

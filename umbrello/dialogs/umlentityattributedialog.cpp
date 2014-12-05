@@ -16,10 +16,12 @@
 #include "classifier.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umlstereotypewidget.h"
 #include "codegenerator.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "umlclassifierlist.h"
+#include "umlstereotypewidget.h"
 
 // kde includes
 #include <klineedit.h>
@@ -83,9 +85,8 @@ void UMLEntityAttributeDialog::setupDialog()
                                     m_pInitialL, i18n("&Default value:"),
                                     m_pInitialLE, m_pEntityAttribute->getInitialValue());
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 3,
-                                    m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pEntityAttribute->stereotype());
+    m_stereotypeWidget = new UMLStereotypeWidget(m_pEntityAttribute);
+    m_stereotypeWidget->addToLayout(valuesLayout, 3);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 4,
                                     m_pValuesL, i18n("Length/Values:"),
@@ -186,7 +187,7 @@ bool UMLEntityAttributeDialog::apply()
     }
     m_pEntityAttribute->setName(name);
     m_pEntityAttribute->setInitialValue(m_pInitialLE->text());
-    m_pEntityAttribute->setStereotype(m_pStereoTypeLE->text());
+    m_stereotypeWidget->apply();
     m_pEntityAttribute->setValues(m_pValuesLE->text());
     m_pEntityAttribute->setAttributes(m_pAttributesCB->currentText());
     m_pEntityAttribute->setAutoIncrement(m_pAutoIncrementCB->isChecked());

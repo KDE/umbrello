@@ -15,6 +15,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "umlstereotypewidget.h"
 #include "umltemplatelist.h"
 #include "template.h"
 #include "umldoc.h"
@@ -91,10 +92,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, initialValue);
 
-    m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pParmGB);
-    propLayout->addWidget(m_pStereoTypeL, 3, 0);
-    m_pStereoTypeCB = new KComboBox(true, m_pParmGB);
-    propLayout->addWidget(m_pStereoTypeCB, 3, 1);
+    m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
+    m_stereotypeWidget->addToLayout(propLayout, 3);
 
     m_pKindGB =  new QGroupBox(i18n("Passing Direction"));
     m_pKindGB->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
@@ -151,18 +150,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
         insertTypesSorted(attr->getTypeName());
     }
 
-    // manage stereotypes
-    m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
-    if (m_pAtt) {
-        insertStereotypesSorted(m_pAtt->stereotype());
-    }
-
     // set tab order
     setTabOrder(m_pKindGB, m_pTypeCB);
     setTabOrder(m_pTypeCB, m_pNameLE);
     setTabOrder(m_pNameLE, m_pInitialLE);
-    setTabOrder(m_pInitialLE, m_pStereoTypeCB);
-    setTabOrder(m_pStereoTypeCB, m_pIn);
+    setTabOrder(m_pInitialLE, m_stereotypeWidget);
+    setTabOrder(m_stereotypeWidget, m_pIn);
     setTabOrder(m_pIn, m_doc);
     m_pNameLE->setFocus();
 }
@@ -240,35 +233,6 @@ void ParameterPropertiesDialog::insertTypesSorted(const QString& type)
 }
 
 /**
- * Inserts @p type into the stereotype-combobox as well as its completion object.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add and selected
- */
-void ParameterPropertiesDialog::insertStereotypesSorted(const QString& type)
-{
-    QStringList types;
-    types << QString(); // an empty stereotype is the default
-    foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes()) {
-        types << currentSt->name();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pStereoTypeCB->clear();
-    m_pStereoTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pStereoTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pStereoTypeCB->setCurrentIndex(currentIndex);
-    }
-}
-
-/**
  * Return the kind of the parameter (in, out, or inout).
  * @return  The Uml::ParameterDirection::Enum corresponding to
  *          the selected "Kind" radiobutton.
@@ -333,7 +297,7 @@ void ParameterPropertiesDialog::slotOk()
 
         m_pAtt->setName(getName());         // set the name
         m_pAtt->setParmKind(getParmKind());  // set the direction
-        m_pAtt->setStereotype(m_pStereoTypeCB->currentText()); // set the stereotype
+        m_stereotypeWidget->apply();
 
         // set the type name
         QString typeName = m_pTypeCB->currentText();

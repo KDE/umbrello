@@ -25,6 +25,7 @@ class QLabel;
 class QRadioButton;
 class UMLAttribute;
 class UMLDoc;
+class UMLStereotypeWidget;
 
 /**
  * Displays a dialog box that displays properties of a parameter.
@@ -54,8 +55,6 @@ protected:
 
     void insertTypesSorted(const QString& type = QString());
 
-    void insertStereotypesSorted(const QString& type = QString());
-
     bool validate();
 
 protected slots:
@@ -66,13 +65,14 @@ private:
     QGroupBox *m_docGB;
     QGroupBox *m_pKindGB;
     QRadioButton *m_pIn, *m_pOut, *m_pInOut;
-    QLabel *m_pTypeL, *m_pNameL, *m_pInitialL, *m_pStereoTypeL;
-    KComboBox *m_pTypeCB, *m_pStereoTypeCB;
+    QLabel *m_pTypeL, *m_pNameL, *m_pInitialL;
+    KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE, *m_pInitialLE;
     KTextEdit *m_doc;
     QDialogButtonBox *m_buttonBox;
     UMLDoc *m_pUmldoc;
     UMLAttribute *m_pAtt;
+    UMLStereotypeWidget *m_stereotypeWidget;
 };
 
 #endif

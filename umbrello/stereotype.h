@@ -56,6 +56,8 @@ public:
 
     int refCount() const;
 
+    QString name(bool includeAdornments=false) const;
+
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     bool showPropertiesDialog(QWidget* parent);
