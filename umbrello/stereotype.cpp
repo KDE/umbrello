@@ -140,3 +140,13 @@ int UMLStereotype::refCount() const
     return m_refCount;
 }
 
+/**
+ * Returns the name as string
+ */
+QString UMLStereotype::name(bool includeAdornments) const
+{
+    if (includeAdornments)
+        return QString::fromUtf8("«") + UMLObject::name() + QString::fromUtf8("»");
+    else
+        return UMLObject::name();
+}

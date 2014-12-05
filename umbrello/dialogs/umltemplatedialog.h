@@ -18,6 +18,7 @@ class KLineEdit;
 class QGroupBox;
 class QLabel;
 class UMLTemplate;
+class UMLStereotypeWidget;
 
 /**
  * A dialog to edit the properties of a class template (paramaterised class)
@@ -45,9 +46,10 @@ protected:
 
     // GUI Widgets
     QGroupBox *m_pValuesGB;
-    QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
+    QLabel *m_pTypeL, *m_pNameL;
     KComboBox *m_pTypeCB;
-    KLineEdit *m_pNameLE, *m_pStereoTypeLE;
+    KLineEdit *m_pNameLE;
+    UMLStereotypeWidget *m_stereotypeWidget;
 
 public slots:
 

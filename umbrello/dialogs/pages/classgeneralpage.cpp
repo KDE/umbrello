@@ -29,6 +29,7 @@
 #include "folder.h"
 #include "import_utils.h"
 #include "umlscene.h"
+#include "umlstereotypewidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -101,6 +102,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     case  UMLObject::ot_Entity:
         name = i18n("Entity &name:");
         break;
+    case  UMLObject::ot_Stereotype:
+        name = i18n("Stereotype &name:");
+        break;
     default:
         name = QLatin1String("<unknown> &name:");
         uWarning() << "creating class gen page for unknown widget type";
@@ -118,22 +122,16 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pClassNameLE->setFocus();
     m_pNameL->setBuddy(m_pClassNameLE);
 
-    m_pStereoTypeCB = 0;
     m_pPackageLE = 0;
     m_pAbstractCB = 0;
     m_pDeconCB = 0;
 
-    m_pStereoTypeL = new QLabel(i18n("&Stereotype name:"), this);
-    m_pNameLayout->addWidget(m_pStereoTypeL, 1, 0);
-
-    m_pStereoTypeCB = new KComboBox(true, this);
-    m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
-
-    m_pStereoTypeCB->setItemText(m_pStereoTypeCB->currentIndex(), m_pObject->stereotype());
-    m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
-
-    if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
-        m_pStereoTypeCB->setEditable(false);
+    if (t != UMLObject::ot_Stereotype) {
+        m_stereotypeWidget = new UMLStereotypeWidget(m_pObject);
+        if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
+            m_stereotypeWidget->setEditable(false);
+        }
+        m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
     int row = 2;
@@ -229,23 +227,40 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     // setup scope
-    m_pButtonGB = new QGroupBox(i18n("Visibility"), this);
-    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonGB);
-    scopeLayout->setMargin(margin);
+    if (t != UMLObject::ot_Stereotype) {
+        m_pButtonGB = new QGroupBox(i18n("Visibility"), this);
+        QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonGB);
+        scopeLayout->setMargin(margin);
 
-    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonGB);
-    scopeLayout->addWidget(m_pPublicRB);
+        m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonGB);
+        scopeLayout->addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonGB);
-    scopeLayout->addWidget(m_pPrivateRB);
+        m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonGB);
+        scopeLayout->addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonGB);
-    scopeLayout->addWidget(m_pProtectedRB);
-    topLayout->addWidget(m_pButtonGB);
+        m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonGB);
+        scopeLayout->addWidget(m_pProtectedRB);
+        topLayout->addWidget(m_pButtonGB);
 
-    m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonGB);
-    scopeLayout->addWidget(m_pImplementationRB);
-    topLayout->addWidget(m_pButtonGB);
+        m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonGB);
+        scopeLayout->addWidget(m_pImplementationRB);
+        topLayout->addWidget(m_pButtonGB);
+
+        switch (m_pObject->visibility()) {
+        case Uml::Visibility::Public:
+            m_pPublicRB->setChecked(true);
+            break;
+        case Uml::Visibility::Private:
+            m_pPrivateRB->setChecked(true);
+            break;
+        case Uml::Visibility::Protected:
+            m_pProtectedRB->setChecked(true);
+            break;
+        default:
+            m_pImplementationRB->setChecked(true);
+            break;
+        }
+    }
 
     // setup documentation
     m_docGB = new QGroupBox(this);
@@ -260,26 +275,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     // setup fields
     m_pClassNameLE->setText(m_pObject->name());
     m_doc->setText(m_pObject->doc());
-
-    switch (m_pObject->visibility()) {
-    case Uml::Visibility::Public:
-        m_pPublicRB->setChecked(true);
-        break;
-    case Uml::Visibility::Private:
-        m_pPrivateRB->setChecked(true);
-        break;
-    case Uml::Visibility::Protected:
-        m_pProtectedRB->setChecked(true);
-        break;
-    default:
-        m_pImplementationRB->setChecked(true);
-        break;
-    }
-
-    // manage stereotypes
-    m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
-    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-    Dialog_Utils::insertStereotypesSorted(m_pStereoTypeCB, m_pObject->stereotype());
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
@@ -385,14 +380,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pClassNameLE->setText(widget->name());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
-    m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
-    m_pNameLayout->addWidget(m_pStereoTypeL, 1, 0);
-
-    m_pStereoTypeCB = new KComboBox(true, this);
-    m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
-
-    m_pStereoTypeCB->setItemText(m_pStereoTypeCB->currentIndex(), widget->umlObject()->stereotype());
-    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+    m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
+    m_pNameLayout->addWidget(m_stereotypeWidget, 1, 0, 1, 2);
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));
@@ -430,8 +419,8 @@ void ClassGeneralPage::updateObject()
 
         m_pObject->setDoc(m_doc->toPlainText());
 
-        if (m_pStereoTypeCB) {
-            m_pObject->setStereotype(m_pStereoTypeCB->currentText());
+        if (m_stereotypeWidget) {
+            m_stereotypeWidget->apply();
         }
 
         UMLObject::ObjectType t = m_pObject->baseType();
@@ -465,14 +454,16 @@ void ClassGeneralPage::updateObject()
              m_pObject->setName(name);
         }
 
-        Uml::Visibility::Enum s = Uml::Visibility::Implementation;
-        if (m_pPublicRB->isChecked())
-            s = Uml::Visibility::Public;
-        else if (m_pPrivateRB->isChecked())
-            s = Uml::Visibility::Private;
-        else if (m_pProtectedRB->isChecked())
-            s = Uml::Visibility::Protected;
-        m_pObject->setVisibility(s);
+        if (t != UMLObject::ot_Stereotype) {
+            Uml::Visibility::Enum s = Uml::Visibility::Implementation;
+            if (m_pPublicRB->isChecked())
+                s = Uml::Visibility::Public;
+            else if (m_pPrivateRB->isChecked())
+                s = Uml::Visibility::Private;
+            else if (m_pProtectedRB->isChecked())
+                s = Uml::Visibility::Protected;
+            m_pObject->setVisibility(s);
+        }
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {
             (static_cast<UMLComponent*>(m_pObject))->setExecutable(m_pExecutableCB->isChecked());
@@ -525,7 +516,6 @@ void ClassGeneralPage::updateObject()
         } else {
             o->setName(name);
         }
-        o->setStereotype(m_pStereoTypeCB->currentText());
     } // end if m_pInstanceWidget
 }
 

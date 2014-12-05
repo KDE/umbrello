@@ -29,6 +29,7 @@ class KComboBox;
 class KLineEdit;
 class UMLDoc;
 class QToolButton;
+class UMLStereotypeWidget;
 
 /**
  * @author Paul Hensgen
@@ -49,7 +50,6 @@ protected:
     bool apply();
 
     void insertTypesSorted(const QString& type = QString());
-    void insertStereotypesSorted(const QString& type);
 
     UMLOperation*  m_operation;  ///< The operation to represent.
     UMLDoc*        m_doc;        ///< The UMLDocument where all objects live.
@@ -66,9 +66,8 @@ protected:
     QRadioButton* m_pImplementationRB;
     QLabel*       m_pRtypeL;
     QLabel*       m_pNameL;
-    QLabel*       m_pStereoTypeL;
     KComboBox*    m_pRtypeCB;
-    KComboBox*    m_pStereoTypeCB;
+    UMLStereotypeWidget* m_stereotypeWidget;
     KLineEdit*    m_pNameLE;
     QCheckBox*    m_pAbstractCB;
     QCheckBox*    m_pStaticCB;

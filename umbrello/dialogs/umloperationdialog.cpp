@@ -20,6 +20,7 @@
 #include "template.h"
 #include "listpopupmenu.h"
 #include "umlattributelist.h"
+#include "umlstereotypewidget.h"
 #include "classifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "dialog_utils.h"
@@ -105,10 +106,8 @@ void UMLOperationDialog::setupDialog()
     genLayout->addWidget(m_pRtypeCB, 0, 3);
     m_pRtypeL->setBuddy(m_pRtypeCB);
 
-    m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pGenGB);
-    genLayout->addWidget(m_pStereoTypeL, 1, 0);
-    m_pStereoTypeCB = new KComboBox(true, m_pGenGB);
-    genLayout->addWidget(m_pStereoTypeCB, 1, 1);
+    m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
+    m_stereotypeWidget->addToLayout(genLayout, 1);
 
     m_pAbstractCB = new QCheckBox(i18n("&Abstract operation"), m_pGenGB);
     m_pAbstractCB->setChecked(m_operation->isAbstract());
@@ -211,11 +210,6 @@ void UMLOperationDialog::setupDialog()
     default:
         break;
     }
-
-    // manage stereotypes
-    m_pStereoTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-    insertStereotypesSorted(m_operation->stereotype());
 
     // setup parm list box signals
     connect(m_pUpButton, SIGNAL(clicked()), this, SLOT(slotParameterUp()));
@@ -469,7 +463,7 @@ bool UMLOperationDialog::apply()
     else
         m_operation->setTypeName(typeName);
 
-    m_operation->setStereotype(m_pStereoTypeCB->currentText());
+    m_stereotypeWidget->apply();
 
     bool isAbstract = m_pAbstractCB->isChecked();
     m_operation->setAbstract(isAbstract);
@@ -547,35 +541,6 @@ void UMLOperationDialog::insertTypesSorted(const QString& type)
     if (currentIndex > -1) {
         m_pRtypeCB->setCurrentIndex(currentIndex);
     }
-}
-
-/**
- * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add and selected
- */
-void UMLOperationDialog::insertStereotypesSorted(const QString& type)
-{
-    QStringList types;
-    foreach (UMLStereotype* currentSt, m_doc->stereotypes()) {
-        types << currentSt->name();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pStereoTypeCB->clear();
-    m_pStereoTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pStereoTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pStereoTypeCB->setCurrentIndex(currentIndex);
-    }
-    m_pStereoTypeCB->completionObject()->addItem(type);
 }
 
 #include "umloperationdialog.moc"

@@ -18,8 +18,10 @@ class QGroupBox;
 class QRadioButton;
 class QLabel;
 class UMLAttribute;
+class UMLStereotypeWidget;
 class KComboBox;
 class KLineEdit;
+class UMLStereotypeWidget;
 
 /**
  * @author Paul Hensgen
@@ -49,10 +51,11 @@ protected:
     QGroupBox * m_pValuesGB;
     QGroupBox * m_pScopeGB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
+    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
     KComboBox * m_pTypeCB;
-    KLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
+    KLineEdit * m_pNameLE, * m_pInitialLE;
     QCheckBox* m_pStaticCB;
+    UMLStereotypeWidget *m_stereotypeWidget;
 
 public slots:
 

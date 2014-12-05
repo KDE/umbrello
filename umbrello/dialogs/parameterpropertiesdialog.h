@@ -19,6 +19,7 @@
 #include <ktextedit.h>
 
 class UMLDoc;
+class UMLStereotypeWidget;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
@@ -70,8 +71,6 @@ protected:
 
     void insertTypesSorted(const QString& type = QString());
 
-    void insertStereotypesSorted(const QString& type = QString());
-
     bool validate();
 
 protected slots:
@@ -82,12 +81,13 @@ private:
     QGroupBox * m_pParmGB, * m_docGB;
     QGroupBox *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-    KComboBox * m_pTypeCB, * m_pStereoTypeCB;
+    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
+    KComboBox * m_pTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE;
     KTextEdit * m_doc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
+    UMLStereotypeWidget *m_stereotypeWidget;
 };
 
 #endif

@@ -568,7 +568,7 @@ bool UMLObject::setUMLPackage(UMLPackage* pPkg)
  *
  * @return   Returns the classes UMLStereotype object.
  */
-const UMLStereotype * UMLObject::umlStereotype()
+UMLStereotype * UMLObject::umlStereotype()
 {
     return m_pStereotype;
 }
@@ -580,10 +580,7 @@ QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 {
     if (m_pStereotype == NULL)
         return QString();
-    QString name = m_pStereotype->name();
-    if (includeAdornments)
-        name = QString::fromUtf8("«") + name + QString::fromUtf8("»");
-    return name;
+    return m_pStereotype->name(includeAdornments);
 }
 
 /**

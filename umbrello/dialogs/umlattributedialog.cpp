@@ -17,6 +17,7 @@
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umlstereotypewidget.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "import_utils.h"
@@ -85,9 +86,8 @@ void UMLAttributeDialog::setupDialog()
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, m_pAttribute->getInitialValue());
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 3,
-                                    m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->stereotype());
+    m_stereotypeWidget = new UMLStereotypeWidget(m_pAttribute);
+    m_stereotypeWidget->addToLayout(valuesLayout, 3);
 
     m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pValuesGB);
     m_pStaticCB->setChecked(m_pAttribute->isStatic());
@@ -185,7 +185,7 @@ bool UMLAttributeDialog::apply()
     Settings::setOptionState(optionState);
 
     m_pAttribute->setInitialValue(m_pInitialLE->text());
-    m_pAttribute->setStereotype(m_pStereoTypeLE->text());
+    m_stereotypeWidget->apply();
     m_pAttribute->setStatic(m_pStaticCB->isChecked());
 
     QString typeName = m_pTypeCB->currentText();
