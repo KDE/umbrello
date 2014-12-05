@@ -42,6 +42,9 @@ DEBUG_REGISTER(DialogBase)
  */
 DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
+    m_fontChooser(0),
+    m_pStylePage(0),
+    m_pageItem(0),
     m_pageDialog(0),
     m_pageWidget(0),
     m_isModified(false),
