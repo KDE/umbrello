@@ -23,11 +23,12 @@
 #include "stereotype.h"
 
 // kde includes
-#include <kcombobox.h>
-#include <klineedit.h>
+#include <KComboBox>
+#include <KHelpClient>
+#include <KLineEdit>
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <ktextedit.h>
+#include <KMessageBox>
+#include <KTextEdit>
 
 // qt includes
 #include <QComboBox>
@@ -46,7 +47,7 @@
  * @param attr     the parameter to represent
  */
 ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
-        : QDialog(parent)
+  : QDialog(parent)
 {
     setWindowTitle(i18n("Parameter Properties"));
     setModal(true);
@@ -123,19 +124,10 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     topLayout->addWidget(m_docGB);
 
-#if 0 //FIXME KF5
-//    setDefaultButton(Ok);
-//    showButtonSeparator(true);
-#endif
     m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
                                        QDialogButtonBox::Cancel |
                                        QDialogButtonBox::Help);
-    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-#if 0 //FIXME KF5
-//    connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(...));
-#endif
 
     topLayout->addWidget(m_buttonBox);
 
@@ -313,12 +305,23 @@ bool ParameterPropertiesDialog::validate()
 void ParameterPropertiesDialog::slotButtonClicked(QAbstractButton* button)
 {
     uDebug() << "ParameterPropertiesDialog::slotButtonClicked - " << button->text();
-    if (m_buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole) {
+    switch (m_buttonBox->buttonRole(button)) {
+    case QDialogButtonBox::AcceptRole:
         if (!validate()) {
             return;
         }
+        slotOk();
+        break;
+    case QDialogButtonBox::RejectRole:
+        reject();
+        break;
+    case QDialogButtonBox::HelpRole:
+        KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
+        break;
+    default:
+        uDebug() << "ParameterPropertiesDialog::slotButtonClicked - " << button->text() << " unhandled!";
+        break;
     }
-//FIXME KF5    QDialog::slotButtonClicked(button);
 }
 
 /**
