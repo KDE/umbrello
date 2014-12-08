@@ -15,15 +15,15 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "operation.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "dialog_utils.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
+#include <KComboBox>
+#include <KLineEdit>
 #include <KLocalizedString>
 
 // qt includes
@@ -61,7 +61,6 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
-//FIXME KF5    mainLayout->setSpacing(spacingHint());
     mainLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(mainLayout, 0,
@@ -92,13 +91,13 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
-//FIXME KF5    enableButtonOk(false);
 
-    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                          QDialogButtonBox::Cancel);
-    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    mainLayout->addWidget(dlgButtonBox);
+    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                             QDialogButtonBox::Cancel);
+    connect(m_dialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_dialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    topLayout->addWidget(m_dialogButtonBox);
+    enableButtonOk(false);
 }
 
 /**
@@ -145,7 +144,7 @@ void SelectOperationDialog::setCustomOp(const QString &op)
 }
 
 /**
- * handle auto increment checkbox click
+ * Handle auto increment checkbox click.
  */
 void SelectOperationDialog::slotAutoIncrementChecked(bool state)
 {
@@ -154,7 +153,7 @@ void SelectOperationDialog::slotAutoIncrementChecked(bool state)
 }
 
 /**
- * handle new operation button click
+ * Handle new operation button click.
  */
 void SelectOperationDialog::slotNewOperation()
 {
@@ -163,7 +162,7 @@ void SelectOperationDialog::slotNewOperation()
         return;
     setupOperationsList();
     setClassOp(op->toString(Uml::SignatureType::SigNoVis));
-//FIXME KF5    enableButtonOk(true);
+    enableButtonOk(true);
 }
 
 /**
@@ -174,7 +173,10 @@ void SelectOperationDialog::slotIndexChanged(int index)
     if (index != -1) {
         m_pOpLE->setText(QString());
         m_id = OP;
-//FIXME KF5        enableButtonOk(true);
+        enableButtonOk(true);
+    }
+    if (m_pOpCB->currentText().isEmpty()) {
+        enableButtonOk(false);
     }
 }
 
@@ -183,10 +185,13 @@ void SelectOperationDialog::slotIndexChanged(int index)
  */
 void SelectOperationDialog::slotTextChanged(const QString &text)
 {
-    if (!text.isEmpty()) {
+    if (text.isEmpty()) {
+        enableButtonOk(false);
+    }
+    else {
         m_pOpCB->setCurrentIndex(-1);
         m_id = CUSTOM;
-//FIXME KF5        enableButtonOk(true);
+        enableButtonOk(true);
     }
 }
 
@@ -209,7 +214,7 @@ bool SelectOperationDialog::setClassOp(const QString &op)
 }
 
 /**
- * setup dialog operations list
+ * Setup dialog operations list.
  */
 void SelectOperationDialog::setupOperationsList()
 {
@@ -247,6 +252,8 @@ void SelectOperationDialog::setSeqNumber(const QString &num)
 }
 
 /**
+ * Set the flag for auto increment sequence numbering.
+ * @param state   the state of the flag
  */
 void SelectOperationDialog::setAutoIncrementSequence(bool state)
 {
@@ -254,8 +261,18 @@ void SelectOperationDialog::setAutoIncrementSequence(bool state)
 }
 
 /**
+ * Return the flag for auto increment sequence numbering.
  */
 bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
+}
+
+/**
+ * Enabel the ok button.
+ * @param enable   the enable value
+ */
+void SelectOperationDialog::enableButtonOk(bool enable)
+{
+    m_dialogButtonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }
