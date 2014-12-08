@@ -46,7 +46,7 @@ protected:
         QGroupBox * autosaveGB;
         QGroupBox * startupGB;
 
-        QSpinBox * timeISB;
+        QSpinBox  * timeISB;
         KComboBox * diagramKB;
         KComboBox * languageKB;
 

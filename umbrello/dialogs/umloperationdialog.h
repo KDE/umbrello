@@ -14,8 +14,10 @@
 //qt includes
 #include <QDialog>
 
-class UMLOperation;
+class KComboBox;
 class ListPopupMenu;
+class QAbstractButton;
+class QDialogButtonBox;
 class QGroupBox;
 class QListWidget;
 class QListWidgetItem;
@@ -23,10 +25,10 @@ class QLabel;
 class QRadioButton;
 class QPushButton;
 class QCheckBox;
-class KComboBox;
+class QToolButton;
 class KLineEdit;
 class UMLDoc;
-class QToolButton;
+class UMLOperation;
 
 /**
  * @author Paul Hensgen
@@ -49,32 +51,33 @@ protected:
     void insertTypesSorted(const QString& type = QString());
     void insertStereotypesSorted(const QString& type);
 
-    UMLOperation*  m_operation;  ///< The operation to represent.
-    UMLDoc*        m_doc;        ///< The UMLDocument where all objects live.
-    ListPopupMenu* m_menu;       ///< Menu used in parameter list box.
+    UMLOperation*     m_operation;  ///< The operation to represent.
+    UMLDoc*           m_doc;        ///< The UMLDocument where all objects live.
+    ListPopupMenu*    m_menu;       ///< Menu used in parameter list box.
 
     //GUI widgets
-    QGroupBox*    m_pParmsGB;
-    QGroupBox*    m_pGenGB;
-    QListWidget*  m_pParmsLW;
-    QGroupBox*    m_pScopeGB;
-    QRadioButton* m_pPublicRB;
-    QRadioButton* m_pPrivateRB;
-    QRadioButton* m_pProtectedRB;
-    QRadioButton* m_pImplementationRB;
-    QLabel*       m_pRtypeL;
-    QLabel*       m_pNameL;
-    QLabel*       m_pStereoTypeL;
-    KComboBox*    m_pRtypeCB;
-    KComboBox*    m_pStereoTypeCB;
-    KLineEdit*    m_pNameLE;
-    QCheckBox*    m_pAbstractCB;
-    QCheckBox*    m_pStaticCB;
-    QCheckBox*    m_pQueryCB;
-    QPushButton*  m_pDeleteButton;
-    QPushButton*  m_pPropertiesButton;
-    QToolButton*  m_pUpButton;
-    QToolButton*  m_pDownButton;
+    QGroupBox*        m_pParmsGB;
+    QGroupBox*        m_pGenGB;
+    QListWidget*      m_pParmsLW;
+    QGroupBox*        m_pScopeGB;
+    QRadioButton*     m_pPublicRB;
+    QRadioButton*     m_pPrivateRB;
+    QRadioButton*     m_pProtectedRB;
+    QRadioButton*     m_pImplementationRB;
+    QLabel*           m_pRtypeL;
+    QLabel*           m_pNameL;
+    QLabel*           m_pStereoTypeL;
+    KComboBox*        m_pRtypeCB;
+    KComboBox*        m_pStereoTypeCB;
+    KLineEdit*        m_pNameLE;
+    QCheckBox*        m_pAbstractCB;
+    QCheckBox*        m_pStaticCB;
+    QCheckBox*        m_pQueryCB;
+    QPushButton*      m_pDeleteButton;
+    QPushButton*      m_pPropertiesButton;
+    QToolButton*      m_pUpButton;
+    QToolButton*      m_pDownButton;
+    QDialogButtonBox* m_dialogButtonBox;
 
 public slots:
     void slotParmRightButtonPressed(const QPoint &p);
@@ -87,7 +90,8 @@ public slots:
     void slotParameterDown();
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
     void slotOk();
-
+    void slotHelpClicked();
+    void slotButtonClicked(QAbstractButton *button);
 };
 
 #endif

@@ -41,9 +41,6 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
     Settings::OptionState &optionState = Settings::optionState();
-#if 0 //FIXME KF5
-    int spacingHint = static_cast<QDialog*>(parent)->spacingHint();
-#endif
     int spacingHint = 2;
     // Set up undo setting
     m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"));
