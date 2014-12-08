@@ -22,22 +22,24 @@
 
 // qt/kde includes
 #include <KLocalizedString>
+#include <QDialogButtonBox>
 #include <QString>
 #include <QTabWidget>
 
-CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
-                                    Settings::CodeViewerState state)
-  : QDialog (parent), m_state(state)
+CodeViewerDialog::CodeViewerDialog(QWidget* parent, CodeDocument * doc,
+                                   Settings::CodeViewerState state)
+  : QDialog(parent),
+    m_state(state)
 {
     setModal(false);
-#if 0 //FIXME KF5
-    setButtons(QDialog::Cancel);
-    setInitialSize(QSize(630, 730));
-#endif
     setupUi(window());
     initGUI();
+
+    QDialogButtonBox *dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Cancel);
+    layout()->addWidget(dialogButtonBox);
+    connect(dialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     addCodeDocument(doc);
-    connect(this, SIGNAL(cancelClicked()), window(), SLOT(close()));
 }
 
 CodeViewerDialog::~CodeViewerDialog()
@@ -79,8 +81,14 @@ Settings::CodeViewerState CodeViewerDialog::state()
     return m_state;
 }
 
-bool CodeViewerDialog::close()
+/**
+ * Reimplementation of QDialog::reject().
+ * Save the made changes.
+ */
+void CodeViewerDialog::reject()
 {
+    uDebug() << "CodeViewerDialog::reject() called";
+
     // remember widget size for next time
     m_state.height = height() / fontMetrics().lineSpacing();
     m_state.width = width() / fontMetrics().maxWidth();
@@ -88,8 +96,19 @@ bool CodeViewerDialog::close()
     m_state.blocksAreHighlighted = ui_highlightCheckBox->isChecked();
     // remember block show status
     m_state.showHiddenBlocks = ui_showHiddenCodeCB->isChecked();
-    // run superclass close now
-    return QDialog::close();
+
+    done(QDialog::Rejected);
+}
+
+/**
+ * Event handler for the close event.
+ * @param event   the close event
+ */
+void CodeViewerDialog::closeEvent(QCloseEvent *event)
+{
+    uDebug() << "CodeViewerDialog::closeEvent() called";
+    reject();
+    event->accept();
 }
 
 /**

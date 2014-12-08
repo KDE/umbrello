@@ -20,7 +20,6 @@
 
 class CodeDocument;
 
-
 /**
  * This class is sooo ugly I don't know where to begin. For now, its a prototype
  * that works, and thats all we need. In the future, a re-write is mandated to
@@ -30,21 +29,17 @@ class CodeViewerDialog : public QDialog, private Ui::CodeViewerDialogBase
 {
     Q_OBJECT
 public:
-
-    CodeViewerDialog (QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state);
-
-    ~CodeViewerDialog ();
+    CodeViewerDialog(QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state);
+    ~CodeViewerDialog();
 
     Settings::CodeViewerState state();
 
     void addCodeDocument(CodeDocument * doc);
 
 protected:
-
-    bool close ();
+    void closeEvent(QCloseEvent *event);
 
 private:
-
     friend class CodeEditor;
 
     Settings::CodeViewerState m_state;
@@ -52,12 +47,11 @@ private:
     void initGUI();
 
 public slots:
+    virtual void reject();
 
 protected slots:
-
     virtual void languageChange();
 
 };
-
 
 #endif // CODEVIEWERDIALOG_H
