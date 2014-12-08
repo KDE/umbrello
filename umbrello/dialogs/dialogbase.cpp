@@ -19,6 +19,7 @@
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
+#include <KHelpClient>
 #include <KLocalizedString>
 #include <KPageDialog>
 #include <KPageWidget>
@@ -26,6 +27,7 @@
 // qt includes
 #include <QAbstractButton>
 #include <QApplication>
+#include <QDesktopServices>
 #include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFrame>
@@ -62,12 +64,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
             m_pageDialog->addActionButton(defaultButton);
             connect(defaultButton, SIGNAL(clicked()), this, SLOT(slotDefaultClicked()));
         }
-#if 0 //FIXME KF5
-        m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
-#endif
-        connect(m_pageDialog, SIGNAL(accepted()), this, SLOT(slotOkClicked()));
         connect(dlgButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-        connect(dlgButtonBox, SIGNAL(helpRequested()), this, SLOT(slotHelpClicked()));
     } else {
         m_pageWidget = new KPageWidget(this);
         m_pageWidget->setFaceType(KPageView::Tree);
@@ -156,16 +153,16 @@ void DialogBase::setCaption(const QString &caption)
 
 void DialogBase::accept()
 {
-//FIXME KF%
-//    if (m_pageDialog)
-//        m_pageDialog->accept();
+    if (m_pageDialog) {
+        m_pageDialog->accept();
+    }
 }
 
 void DialogBase::reject()
 {
-//FIXME KF%
-//    if (m_pageDialog)
-//        m_pageDialog->reject();
+    if (m_pageDialog) {
+        m_pageDialog->reject();
+    }
 }
 
 KPageWidgetItem *DialogBase::currentPage()
@@ -186,10 +183,7 @@ void DialogBase::addPage(KPageWidgetItem *page)
 
 int DialogBase::spacingHint()
 {
-#if 0 //FIXME KF5
-    return QDialog::spacingHint();
-#endif
-    return 0;
+    return 0;  // was QDialog::spacingHint();
 }
 
 int DialogBase::exec()
@@ -235,23 +229,37 @@ void DialogBase::slotDefaultClicked()
     emit defaultClicked();
 }
 
+/**
+ * Launch khelpcenter.
+ */
 void DialogBase::slotHelpClicked()
 {
     DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
+//    QUrl url = QUrl(QLatin1String("help:/umbrello/index.html"));
+//    QDesktopServices::openUrl(url);
+    KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
 }
 
+/**
+ * Button clicked event handler for the dialog button box.
+ * @param button  the button which was clicked
+ */
 void DialogBase::slotButtonClicked(QAbstractButton *button)
 {
     if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
         DEBUG(DBG_SRC)  << "APPLY clicked...";
         slotApplyClicked();
     }
-//    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Default)) {
-//        DEBUG(DBG_SRC)  << "DEFAULT clicked...";
-//        slotDefaultClicked();
-//    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Ok)) {
+        DEBUG(DBG_SRC)  << "OK clicked...";
+        slotOkClicked();
+    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Cancel)) {
+        DEBUG(DBG_SRC)  << "CANCEL clicked...";
+    }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
         DEBUG(DBG_SRC)  << "HELP clicked...";
+        slotHelpClicked();
     }
     else {
         DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
