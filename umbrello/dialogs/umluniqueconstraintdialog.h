@@ -17,14 +17,16 @@
 //qt includes
 #include <QDialog>
 
-class UMLDoc;
-class UMLUniqueConstraint;
 class KComboBox;
 class KLineEdit;
+class QAbstractButton;
+class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
 class QListWidget;
 class QPushButton;
+class UMLDoc;
+class UMLUniqueConstraint;
 
 /**
  * A dialog page to display unique constraint properties.
@@ -56,6 +58,7 @@ private:
     QListWidget* m_pAttributeListLW;
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB, *m_pRemovePB;
+    QDialogButtonBox *m_dialogButtonBox;
 
     // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
@@ -67,6 +70,9 @@ public slots:
     void slotOk();
     void slotAddAttribute();
     void slotDeleteAttribute();
+
+protected slots:
+    virtual void slotButtonClicked(QAbstractButton *button);
 
 };
 
