@@ -265,13 +265,16 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
-    QGridLayout * topLayout = new QGridLayout(this);
+    QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
     // setup name
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
-    topLayout->addLayout(m_pNameLayout, 3, 2);
+    topLayout->addLayout(m_pNameLayout, 4);
+    m_pNameL = new QLabel(this);
+    m_pNameL->setText(i18n("Class name:"));
+    m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
@@ -298,7 +301,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     }
     // setup documentation
     m_docGB = new QGroupBox(this);
-    topLayout->addWidget(m_docGB, 1, 0);
     QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
     m_docGB->setTitle(i18n("Documentation"));
@@ -307,6 +309,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_doc->setText(m_pWidget->documentation());
     docLayout->addWidget(m_doc);
+    topLayout->addWidget(m_docGB);
     if (m_pMultiCB) {
         connect(m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
