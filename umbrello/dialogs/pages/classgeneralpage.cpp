@@ -32,6 +32,7 @@
 #include "umlobjectnamewidget.h"
 #include "umlpackagewidget.h"
 #include "umlstereotypewidget.h"
+#include "umlartifacttypewidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -167,35 +168,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     if (t == UMLObject::ot_Artifact) {
-        // setup artifact draw as
-        m_pDrawAsGB = new QGroupBox(i18n("Draw As"), this);
-        QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsGB);
-        drawAsLayout->setMargin(margin);
-
-        m_pDefaultRB = new QRadioButton(i18nc("draw as default", "&Default"), m_pDrawAsGB);
-        drawAsLayout->addWidget(m_pDefaultRB);
-
-        m_pFileRB = new QRadioButton(i18n("&File"), m_pDrawAsGB);
-        drawAsLayout->addWidget(m_pFileRB);
-
-        m_pLibraryRB = new QRadioButton(i18n("&Library"), m_pDrawAsGB);
-        drawAsLayout->addWidget(m_pLibraryRB);
-
-        m_pTableRB = new QRadioButton(i18n("&Table"), m_pDrawAsGB);
-        drawAsLayout->addWidget(m_pTableRB);
-
-        topLayout->addWidget(m_pDrawAsGB);
-
-        UMLArtifact::Draw_Type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
-        if (drawAs == UMLArtifact::file) {
-            m_pFileRB->setChecked(true);
-        } else if (drawAs == UMLArtifact::library) {
-            m_pLibraryRB->setChecked(true);
-        } else if (drawAs == UMLArtifact::table) {
-            m_pTableRB->setChecked(true);
-        } else {
-            m_pDefaultRB->setChecked(true);
-        }
+        m_artifactTypeWidget = new UMLArtifactTypeWidget(static_cast<UMLArtifact*>(o));
+        m_artifactTypeWidget->addToLayout(topLayout);
     }
 
     // setup scope
@@ -414,17 +388,7 @@ void ClassGeneralPage::updateObject()
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Artifact) {
-            UMLArtifact::Draw_Type drawAsType;
-            if (m_pFileRB->isChecked()) {
-                drawAsType = UMLArtifact::file;
-            } else if (m_pLibraryRB->isChecked()) {
-                drawAsType = UMLArtifact::library;
-            } else if (m_pTableRB->isChecked()) {
-                drawAsType = UMLArtifact::table;
-            } else {
-                drawAsType = UMLArtifact::defaultDraw;
-            }
-            (static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
+            m_artifactTypeWidget->apply();
             m_pObject->emitModified();
         }
     } // end if m_pObject
