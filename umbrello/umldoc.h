@@ -96,8 +96,6 @@ public:
     bool isUnique(const QString &name);
     bool isUnique(const QString &name, UMLPackage *package);
 
-    UMLStereotype* findOrCreateStereotype(const QString &name);
-
     UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType::Enum type);
 
     void addAssociation(UMLAssociation *assoc);
@@ -136,8 +134,6 @@ public:
                                 UMLObject::ObjectType type = UMLObject::ot_UMLObject);
 
     UMLClassifier * findUMLClassifier(const QString &name);
-
-    UMLStereotype * findStereotype(const QString &name);
 
     UMLView * findView(Uml::ID::Type id);
     UMLView * findView(Uml::DiagramType::Enum type, const QString &name,
@@ -210,7 +206,10 @@ public:
     void addDefaultDatatypes();
     void createDatatype(const QString &name);
 
-    UMLStereotype * findStereotypeById(Uml::ID::Type id);
+    UMLStereotype *createStereotype(const QString &name);
+    UMLStereotype *findStereotype(const QString &name);
+    UMLStereotype *findOrCreateStereotype(const QString &name);
+    UMLStereotype *findStereotypeById(Uml::ID::Type id);
     void addStereotype(UMLStereotype *s);
     void removeStereotype(UMLStereotype *s);
     void addDefaultStereotypes();

@@ -808,20 +808,6 @@ UMLObject* UMLDoc::findObjectById(Uml::ID::Type id)
 }
 
 /**
- * Find a UMLStereotype by its unique ID.
- * @param id   the unique ID
- * @return the found stereotype or NULL
- */
-UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id)
-{
-    foreach (UMLStereotype *s, m_stereoList) {
-        if (s->id() == id)
-            return s;
-    }
-    return 0;
-}
-
-/**
  * Used to find a @ref UMLObject by its type and name.
  *
  * @param name         The name of the @ref UMLObject to find.
@@ -932,28 +918,6 @@ bool UMLDoc::addUMLObject(UMLObject* object)
 }
 
 /**
- * Add a UMLStereotype to the application.
- * @param s  the stereotype to be added
- */
-void UMLDoc::addStereotype(UMLStereotype *s)
-{
-    if (! m_stereoList.contains(s)) {
-        m_stereoList.append(s);
-    }
-}
-
-/**
- * Remove a UMLStereotype from the application.
- * @param s   the stereotype to be removed
- */
-void UMLDoc::removeStereotype(UMLStereotype *s)
-{
-    if (m_stereoList.contains(s)) {
-        m_stereoList.removeAll(s);
-    }
-}
-
-/**
  * Write text to the status bar.
  * @param text   the text to write
  */
@@ -1045,6 +1009,17 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 }
 
 /**
+ * Creates a stereotype for the parent object.
+ * @param name   the name of the stereotype
+ */
+UMLStereotype* UMLDoc::createStereotype(const QString &name)
+{
+    UMLStereotype *s = new UMLStereotype(name, Uml::ID::fromString(name));
+    addStereotype(s);
+    return s;
+}
+
+/**
  * Finds a UMLStereotype by its name.
  *
  * @param name   The name of the UMLStereotype to find.
@@ -1071,9 +1046,65 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
     if (s != 0) {
         return s;
     }
-    s = new UMLStereotype(name, Uml::ID::fromString(name));
-    addStereotype(s);
-    return s;
+    return createStereotype(name);
+}
+
+/**
+ * Find a UMLStereotype by its unique ID.
+ * @param id   the unique ID
+ * @return the found stereotype or NULL
+ */
+UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id)
+{
+    foreach (UMLStereotype *s, m_stereoList) {
+        if (s->id() == id)
+            return s;
+    }
+    return 0;
+}
+
+/**
+ * Add a UMLStereotype to the application.
+ * @param s  the stereotype to be added
+ */
+void UMLDoc::addStereotype(UMLStereotype *s)
+{
+    if (! m_stereoList.contains(s)) {
+        m_stereoList.append(s);
+    }
+}
+
+/**
+ * Remove a UMLStereotype from the application.
+ * @param s   the stereotype to be removed
+ */
+void UMLDoc::removeStereotype(UMLStereotype *s)
+{
+    if (m_stereoList.contains(s)) {
+        m_stereoList.removeAll(s);
+    }
+}
+
+/**
+ * Add a stereotype if it doesn't already exist.
+ * Used by code generators, operations and attribute dialog.
+ */
+void UMLDoc::addDefaultStereotypes()
+{
+    CodeGenerator *gen = UMLApp::app()->generator();
+    if (gen) {
+        gen->createDefaultStereotypes();
+    }
+}
+
+/**
+ * Returns a list of the stereotypes in this UMLDoc.
+ *
+ * @return  List of UML stereotypes.
+ */
+const UMLStereotypeList& UMLDoc::stereotypes() const
+{
+    return m_stereoList;
 }
 
 /**
@@ -3073,28 +3104,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     ListPopupMenu popup(UMLApp::app()->mainViewWidget(), type, 0);
     QAction *triggered = popup.exec(point);
     view->umlScene()->slotMenuSelection(triggered);
-}
-
-/**
- * Add a stereotype if it doesn't already exist.
- * Used by code generators, operations and attribute dialog.
- */
-void UMLDoc::addDefaultStereotypes()
-{
-    CodeGenerator *gen = UMLApp::app()->generator();
-    if (gen) {
-        gen->createDefaultStereotypes();
-    }
-}
-
-/**
- * Returns a list of the stereotypes in this UMLDoc.
- *
- * @return  List of UML stereotypes.
- */
-const UMLStereotypeList& UMLDoc::stereotypes() const
-{
-    return m_stereoList;
 }
 
 /**
