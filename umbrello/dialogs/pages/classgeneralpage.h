@@ -84,7 +84,6 @@ private:
     QGroupBox * m_docGB;
     QGroupBox * m_pButtonGB;
     QLabel * m_pInstanceL, * m_pStereoTypeL;
-    KLineEdit * m_pInstanceLE;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     KTextEdit * m_doc;
@@ -92,6 +91,7 @@ private:
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;
     UMLObjectNameWidget *m_nameWidget;
+    UMLObjectNameWidget *m_instanceNameWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
     UMLPackageWidget *m_packageWidget;
 
