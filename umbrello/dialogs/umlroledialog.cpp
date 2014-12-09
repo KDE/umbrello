@@ -11,12 +11,16 @@
 // own header
 #include "umlroledialog.h"
 
-// kde includes
-#include <KLocalizedString>
-
 // app includes
 #include "umlrole.h"
 #include "umlroleproperties.h"
+
+// kde includes
+#include <KHelpClient>
+#include <KLocalizedString>
+
+// qt includes
+#include <QDialogButtonBox>
 
 /**
  * Constructor.
@@ -51,13 +55,11 @@ void UMLRoleDialog::setupDialog()
 
     resize(QSize(425, 620).expandedTo(minimumSizeHint()));
 
-//    topLayout->addWidget(m_pParmsGB);
-
-//FIXME KF5
-//    setButtons(Help | Ok | Cancel);
-//    setDefaultButton(Ok);
-//    showButtonSeparator(true);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                             QDialogButtonBox::Help |
+                                             QDialogButtonBox::Cancel);
+    connect(m_dialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+    topLayout->addWidget(m_dialogButtonBox);
 }
 
 /**
@@ -80,5 +82,30 @@ void UMLRoleDialog::slotOk()
 {
     if (apply()) {
         accept();
+    }
+}
+
+/**
+ * Activated when a button is clicked
+ * @param button   the button that was clicked
+ */
+void UMLRoleDialog::slotButtonClicked(QAbstractButton* button)
+{
+    uDebug() << "UMLRoleDialog::slotButtonClicked - " << button->text();
+    switch (m_dialogButtonBox->buttonRole(button)) {
+    case QDialogButtonBox::AcceptRole:
+        slotOk();
+        break;
+    case QDialogButtonBox::RejectRole:
+        reject();
+        break;
+//    case QDialogButtonBox::ApplyRole:
+//        slotApply();
+    case QDialogButtonBox::HelpRole:
+        KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
+        break;
+    default:
+        uDebug() << "UMLRoleDialog::slotButtonClicked - " << button->text() << " unhandled!";
+        break;
     }
 }
