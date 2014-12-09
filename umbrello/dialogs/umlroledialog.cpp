@@ -12,6 +12,7 @@
 #include "umlroledialog.h"
 
 // app includes
+#include "debug_utils.h"
 #include "umlrole.h"
 #include "umlroleproperties.h"
 

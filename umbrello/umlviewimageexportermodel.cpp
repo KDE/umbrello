@@ -436,9 +436,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
         printer = new QPrinter(QPrinter::ScreenResolution);
     }
     printer->setOutputFileName(fileName);
-#if 0 //FIXME KF5
-    printer->setOutputFormat(QPrinter::PostScriptFormat);
-#endif
+    printer->setOutputFormat(QPrinter::PdfFormat);
     printer->setColorMode(QPrinter::Color);
 
     // do not call printer.setup(); because we want no user
