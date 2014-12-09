@@ -29,6 +29,7 @@
 #include "folder.h"
 #include "import_utils.h"
 #include "umlscene.h"
+#include "umlobjectnamewidget.h"
 #include "umlstereotypewidget.h"
 
 // kde includes
@@ -113,14 +114,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
-    m_pNameL = new QLabel(this);
-    m_pNameL->setText(name);
-    m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new KLineEdit(this);
-    m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
-    m_pClassNameLE->setFocus();
-    m_pNameL->setBuddy(m_pClassNameLE);
+    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     m_pPackageLE = 0;
     m_pAbstractCB = 0;
@@ -273,7 +269,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addWidget(m_docGB);
 
     // setup fields
-    m_pClassNameLE->setText(m_pObject->name());
     m_doc->setText(m_pObject->doc());
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
@@ -301,13 +296,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
-    m_pNameL = new QLabel(this);
-    m_pNameL->setText(i18n("Class name:"));
-    m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(m_pWidget->name());
-    m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
+    m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));
@@ -366,19 +357,18 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     QGridLayout* m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
-    m_pNameL = new QLabel(this);
+
+    QString name;
     if (widget->baseType() == WidgetBase::wt_Component) {
-        m_pNameL->setText(i18n("Component name:"));
+        name = i18n("Component name:");
     } else if (widget->baseType() == WidgetBase::wt_Node) {
-        m_pNameL->setText(i18n("Node name:"));
+        name = i18n("Node name:");
     } else {
         uWarning() << "ClassGenPage called on unknown widget type";
     }
-    m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
-    m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(widget->name());
-    m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
+    m_nameWidget = new UMLObjectNameWidget(name, widget->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
     m_pNameLayout->addWidget(m_stereotypeWidget, 1, 0, 1, 2);
@@ -414,9 +404,8 @@ ClassGeneralPage::~ClassGeneralPage()
  */
 void ClassGeneralPage::updateObject()
 {
+    QString name = m_nameWidget->text();
     if (m_pObject) {
-        QString name = m_pClassNameLE->text();
-
         m_pObject->setDoc(m_doc->toPlainText());
 
         if (m_stereotypeWidget) {
@@ -449,7 +438,7 @@ void ClassGeneralPage::updateObject()
         if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                 i18n("Name is Not Unique"), 0);
-             m_pClassNameLE->setText(m_pObject->name());
+             m_nameWidget->reset();
         } else {
              m_pObject->setName(name);
         }
@@ -493,26 +482,26 @@ void ClassGeneralPage::updateObject()
         if (m_pDeconCB) {
             m_pWidget->setShowDestruction(m_pDeconCB->isChecked());
         }
-        QString name = m_pClassNameLE->text();
         m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                i18n("Name is Not Unique"), 0);
+            m_nameWidget->reset();
         } else {
             o->setName(name);
         }
     } // end if m_pWidget
     else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
-        QString name = m_pClassNameLE->text();
         m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                i18n("Name is Not Unique"), 0);
+            m_nameWidget->reset();
         } else {
             o->setName(name);
         }

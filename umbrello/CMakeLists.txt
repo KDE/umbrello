@@ -223,6 +223,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/umlstereotypewidget.cpp
+    dialogs/widgets/umlobjectnamewidget.cpp
 )
 
 qt5_wrap_ui(  libdialogs_SRCS
