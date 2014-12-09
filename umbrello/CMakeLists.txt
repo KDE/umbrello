@@ -225,6 +225,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
+    dialogs/widgets/umlpackagewidget.cpp
 )
 
 kde4_add_ui_files(  libdialogs_SRCS
