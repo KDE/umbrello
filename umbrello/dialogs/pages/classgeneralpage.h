@@ -26,6 +26,7 @@ class UMLWidget;
 class ObjectWidget;
 class UMLDoc;
 class UMLStereotypeWidget;
+class UMLObjectNameWidget;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -81,8 +82,8 @@ private:
 
     QGroupBox * m_docGB;
     QGroupBox * m_pButtonGB;
-    QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
-    KLineEdit * m_pClassNameLE, * m_pInstanceLE, * m_pPackageLE;
+    QLabel * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
+    KLineEdit * m_pInstanceLE, * m_pPackageLE;
     KComboBox * m_pPackageCB ;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
@@ -90,6 +91,7 @@ private:
     QGroupBox * m_pDrawAsGB;
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;
+    UMLObjectNameWidget *m_nameWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
 
     void insertStereotypesSorted(const QString& type);
