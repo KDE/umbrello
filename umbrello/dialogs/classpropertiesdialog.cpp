@@ -248,7 +248,10 @@ void ClassPropertiesDialog::setupGeneralPage()
                                Icon_Utils::it_Properties_General);
     page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
-    m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
+    if (m_Type == pt_ObjectWidget)
+        m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
+    else
+        m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);
 }
 
