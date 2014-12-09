@@ -276,13 +276,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_pInstanceL = new QLabel(this);
-    m_pInstanceL->setText(i18n("Instance name:"));
-    m_pNameLayout->addWidget(m_pInstanceL, 1, 0);
+    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pWidget->instanceName());
+    m_instanceNameWidget->addToLayout(m_pNameLayout, 1);
 
-    m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(m_pWidget->instanceName());
-    m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->currentView();
 
     m_pDrawActorCB = new QCheckBox(i18n("Draw as actor"), this);
@@ -347,15 +343,10 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
-    m_pNameLayout->addWidget(m_stereotypeWidget, 1, 0, 1, 2);
+    m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
 
-    m_pInstanceL = new QLabel(this);
-    m_pInstanceL->setText(i18n("Instance name:"));
-    m_pNameLayout->addWidget(m_pInstanceL, 2, 0);
-
-    m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(widget->instanceName());
-    m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
+    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
+    m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
 
     //setup documentation
     m_docGB = new QGroupBox(this);
@@ -438,7 +429,7 @@ void ClassGeneralPage::updateObject()
         }
     } // end if m_pObject
     else if (m_pWidget) {
-        m_pWidget->setInstanceName(m_pInstanceLE->text());
+        m_pWidget->setInstanceName(m_instanceNameWidget->text());
         if (m_pMultiCB) {
             m_pWidget->setMultipleInstance(m_pMultiCB->isChecked());
         }
@@ -458,7 +449,7 @@ void ClassGeneralPage::updateObject()
         }
     } // end if m_pWidget
     else if (m_pInstanceWidget) {
-        m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
+        m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
         m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
