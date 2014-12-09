@@ -121,6 +121,7 @@ QStringList CodeTextHighlighter::keywords()
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     CodeGenerator* generator = CodeGenFactory::createObject(pl);
     QStringList keywordList = generator->reservedKeywords();
+    delete generator;
 
 //     if (keywordList.size() <= 0) {
 //         keywordList << "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
