@@ -30,6 +30,7 @@
 #include "import_utils.h"
 #include "umlscene.h"
 #include "umlobjectnamewidget.h"
+#include "umlpackagewidget.h"
 #include "umlstereotypewidget.h"
 
 // kde includes
@@ -118,7 +119,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_pPackageLE = 0;
     m_pAbstractCB = 0;
     m_pDeconCB = 0;
 
@@ -141,32 +141,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-        m_pPackageL = new QLabel(i18n("Package path:"), this);
-        m_pNameLayout->addWidget(m_pPackageL, row, 0);
-
-        m_pPackageCB = new KComboBox(this);
-        m_pPackageCB->setEditable(true);
-        m_pNameLayout->addWidget(m_pPackageCB, row, 1);
-
-        UMLPackageList packageList = m_pUmldoc->packages();
-        QStringList packages;
-        foreach(UMLPackage* package, packageList) {
-            packages << package->name();
-        }
-        packages.sort();
-        m_pPackageCB->insertItems(-1, packages);
-        QString packagePath = m_pObject->package();
-        UMLPackage* parentPackage = m_pObject->umlPackage();
-
-        UMLPackage* folderLogicalView =
-                static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical));
-        if (parentPackage == NULL ||
-             parentPackage == folderLogicalView) {
-            m_pPackageCB->setEditText(QString());
-        }
-        else {
-            m_pPackageCB->setEditText(packagePath);
-        }
+        m_packageWidget = new UMLPackageWidget(m_pObject);
+        m_packageWidget->addToLayout(m_pNameLayout, row);
         ++row;
     }
 
@@ -414,19 +390,7 @@ void ClassGeneralPage::updateObject()
 
         UMLObject::ObjectType t = m_pObject->baseType();
         if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-            QString packageName = m_pPackageCB->currentText().trimmed();
-            UMLObject* newPackage = NULL;
-
-            if (!packageName.isEmpty()) {
-                if ((newPackage = m_pUmldoc->findUMLObject(packageName, UMLObject::ot_Package)) == NULL) {
-                    newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
-                }
-            } else {
-                newPackage = m_pUmldoc->rootFolder(Uml::ModelType::Logical);
-            }
-
-            // adjust list view items
-            Model_Utils::treeViewMoveObjectTo(newPackage, m_pObject);
+            m_packageWidget->apply();
         }
 
         if (m_pAbstractCB) {

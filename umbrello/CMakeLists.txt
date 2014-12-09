@@ -224,6 +224,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
+    dialogs/widgets/umlpackagewidget.cpp
 )
 
 qt5_wrap_ui(  libdialogs_SRCS
