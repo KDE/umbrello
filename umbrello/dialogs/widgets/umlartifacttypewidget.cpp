@@ -55,10 +55,8 @@ UMLArtifactTypeWidget::~UMLArtifactTypeWidget()
 }
 
 /**
- * Add this widget to a given grid layout. Umbrello dialogs places labels in column 0
- * and the editable field in column 1.
+ * Add this widget to a given layout.
  * @param layout The layout to which the widget should be added
- * @param row The row in the grid layout where the widget should be placed
  */
 void UMLArtifactTypeWidget::addToLayout(QVBoxLayout *layout)
 {
