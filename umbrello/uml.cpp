@@ -56,17 +56,16 @@
 #include "umlscene.h"
 
 // kde includes
-#include <kactioncollection.h>
-#include <kstandardaction.h>
-#include <ktoggleaction.h>
-#include <krecentfilesaction.h>
-#include <kconfig.h>
-#include <kcursor.h>
+#include <KActionCollection>
+#include <KStandardAction>
+#include <KToggleAction>
+#include <KRecentFilesAction>
+#include <KConfig>
+#include <KCursor>
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <ktip.h>
-#include <kactionmenu.h>
-#include <kxmlguifactory.h>
+#include <KMessageBox>
+#include <KActionMenu>
+#include <KXMLGUIFactory>
 
 // qt includes
 #include <QApplication>
@@ -747,7 +746,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(defaultZoomWdg);
 
     m_pZoomOutPB = new QPushButton(this);
-    m_pZoomOutPB->setIcon(QIcon(QLatin1String("zoom-out")));
+    m_pZoomOutPB->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_Out));
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
@@ -765,7 +764,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(m_pZoomSlider);
 
     m_pZoomInPB = new QPushButton(this);
-    m_pZoomInPB->setIcon(QIcon(QLatin1String("zoom-in")));
+    m_pZoomInPB->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_In));
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);

@@ -208,6 +208,8 @@ namespace Icon_Utils {
         it_Category_Child,
         it_Zoom_Slider,
         it_Zoom_100,
+        it_Zoom_In,
+        it_Zoom_Out,
         it_Align_Right,
         it_Align_Left,
         it_Align_Top,

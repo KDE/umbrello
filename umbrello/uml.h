@@ -13,8 +13,8 @@
 
 #include "basictypes.h"
 
-#include <kxmlguiwindow.h>
-#include <ksharedconfig.h>
+#include <KXmlGuiWindow>
+#include <KSharedConfig>
 
 #include <QUrl>
 

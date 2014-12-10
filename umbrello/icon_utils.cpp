@@ -24,7 +24,7 @@
 #include "basictypes.h"
 #include "debug_utils.h"
 
-#include <kiconloader.h>
+#include <KIconLoader>
 
 namespace Icon_Utils {
 
@@ -477,6 +477,10 @@ QString toString(IconType type)
             return QLatin1String("zoom-original");
         case it_Zoom_100:
             return QLatin1String("zoom-original");
+        case it_Zoom_In:
+            return QLatin1String("zoom-in");
+        case it_Zoom_Out:
+            return QLatin1String("zoom-out");
         case it_Align_Right:
             return QLatin1String("align-horizontal-right");
         case it_Align_Left:
