@@ -33,6 +33,7 @@
 #include "umlpackagewidget.h"
 #include "umlstereotypewidget.h"
 #include "umlartifacttypewidget.h"
+#include "visibilityenumwidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -174,38 +175,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup scope
     if (t != UMLObject::ot_Stereotype) {
-        m_pButtonGB = new QGroupBox(i18n("Visibility"), this);
-        QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonGB);
-        scopeLayout->setMargin(margin);
-
-        m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonGB);
-        scopeLayout->addWidget(m_pPublicRB);
-
-        m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonGB);
-        scopeLayout->addWidget(m_pPrivateRB);
-
-        m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonGB);
-        scopeLayout->addWidget(m_pProtectedRB);
-        topLayout->addWidget(m_pButtonGB);
-
-        m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonGB);
-        scopeLayout->addWidget(m_pImplementationRB);
-        topLayout->addWidget(m_pButtonGB);
-
-        switch (m_pObject->visibility()) {
-        case Uml::Visibility::Public:
-            m_pPublicRB->setChecked(true);
-            break;
-        case Uml::Visibility::Private:
-            m_pPrivateRB->setChecked(true);
-            break;
-        case Uml::Visibility::Protected:
-            m_pProtectedRB->setChecked(true);
-            break;
-        default:
-            m_pImplementationRB->setChecked(true);
-            break;
-        }
+        m_visibilityEnumWidget = new VisibilityEnumWidget(m_pObject, this);
+        m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
     // setup documentation
@@ -373,14 +344,7 @@ void ClassGeneralPage::updateObject()
         }
 
         if (t != UMLObject::ot_Stereotype) {
-            Uml::Visibility::Enum s = Uml::Visibility::Implementation;
-            if (m_pPublicRB->isChecked())
-                s = Uml::Visibility::Public;
-            else if (m_pPrivateRB->isChecked())
-                s = Uml::Visibility::Private;
-            else if (m_pProtectedRB->isChecked())
-                s = Uml::Visibility::Protected;
-            m_pObject->setVisibility(s);
+            m_visibilityEnumWidget->apply();
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {

@@ -21,6 +21,7 @@ class ObjectWidget;
 class QRadioButton;
 class UMLDoc;
 class UMLObject;
+class VisibilityEnumWidget;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -46,10 +47,10 @@ private:
     AssociationWidget *m_pAssociationWidget;
     UMLDoc *m_pUmldoc;
     ObjectWidget *m_pWidget;
-    QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB, *m_ImplementationARB;
-    QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB, *m_ImplementationBRB;
     QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
     QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;
+    VisibilityEnumWidget *m_visibilityWidgetA;
+    VisibilityEnumWidget *m_visibilityWidgetB;
 
     void constructWidget();
 

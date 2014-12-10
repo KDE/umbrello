@@ -30,6 +30,7 @@ class KLineEdit;
 class UMLDoc;
 class QToolButton;
 class UMLStereotypeWidget;
+class VisibilityEnumWidget;
 
 /**
  * @author Paul Hensgen
@@ -59,15 +60,11 @@ protected:
     QGroupBox*    m_pParmsGB;
     QGroupBox*    m_pGenGB;
     QListWidget*  m_pParmsLW;
-    QGroupBox*    m_pScopeGB;
-    QRadioButton* m_pPublicRB;
-    QRadioButton* m_pPrivateRB;
-    QRadioButton* m_pProtectedRB;
-    QRadioButton* m_pImplementationRB;
     QLabel*       m_pRtypeL;
     QLabel*       m_pNameL;
     KComboBox*    m_pRtypeCB;
     UMLStereotypeWidget* m_stereotypeWidget;
+    VisibilityEnumWidget* m_visibilityEnumWidget;
     KLineEdit*    m_pNameLE;
     QCheckBox*    m_pAbstractCB;
     QCheckBox*    m_pStaticCB;

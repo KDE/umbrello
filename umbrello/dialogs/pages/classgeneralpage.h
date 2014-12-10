@@ -29,6 +29,7 @@ class UMLArtifactTypeWidget;
 class UMLObjectNameWidget;
 class UMLPackageWidget;
 class UMLStereotypeWidget;
+class VisibilityEnumWidget;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -83,9 +84,7 @@ private:
     UMLDoc * m_pUmldoc;
 
     QGroupBox * m_docGB;
-    QGroupBox * m_pButtonGB;
     QLabel * m_pInstanceL, * m_pStereoTypeL;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     KTextEdit * m_doc;
     QCheckBox * m_pExecutableCB;
@@ -94,6 +93,7 @@ private:
     UMLStereotypeWidget *m_stereotypeWidget;
     UMLPackageWidget *m_packageWidget;
     UMLArtifactTypeWidget *m_artifactTypeWidget;
+    VisibilityEnumWidget *m_visibilityEnumWidget;
 
     void insertStereotypesSorted(const QString& type);
 
