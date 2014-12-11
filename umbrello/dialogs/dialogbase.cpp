@@ -47,10 +47,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
     m_pageItem(0),
     m_pageDialog(0),
     m_pageWidget(0),
-    m_isModified(false),
-    m_fontChooser(0),
-    m_pStylePage(0),
-    m_pageItem(0)
+    m_isModified(false)
 {
     bool useDialog = false;
     if (parent) {

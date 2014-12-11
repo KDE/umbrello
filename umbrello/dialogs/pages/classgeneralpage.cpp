@@ -246,9 +246,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
-    m_pNameL = new QLabel(this);
-    m_pNameL->setText(i18n("Class name:"));
-    m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
