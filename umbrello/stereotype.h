@@ -39,6 +39,7 @@
  */
 class UMLStereotype : public UMLObject
 {
+    Q_OBJECT
 public:
     explicit UMLStereotype(const QString &name, Uml::ID::Type id = Uml::ID::None);
     UMLStereotype();

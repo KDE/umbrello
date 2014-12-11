@@ -100,7 +100,6 @@ void UMLStereotypeWidget::init()
     m_label->setBuddy(m_comboBox);
 
     m_comboBox->setDuplicatesEnabled(false);  // only allow one of each type in box
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
 
     insertItems(m_object->umlStereotype());
     setLayout(layout);
