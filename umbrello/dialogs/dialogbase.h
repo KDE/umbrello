@@ -46,8 +46,8 @@ public:
     explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
-    KPageWidgetItem *setupFontPage(UMLWidget *widget);
-    void saveFontPageData(UMLWidget *widget);
+    KPageWidgetItem *setupFontPage(WidgetBase *widget);
+    void applyFontPage(WidgetBase *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     void applyStylePage();

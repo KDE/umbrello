@@ -115,7 +115,7 @@ void ObjectNodeDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemFont)
     {
-        saveFontPageData(m_pObjectNodeWidget);
+        applyFontPage(m_pObjectNodeWidget);
     }
     else if (item == pageItemStyle)
     {

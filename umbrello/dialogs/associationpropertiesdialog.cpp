@@ -86,7 +86,7 @@ void AssociationPropertiesDialog::slotApply()
     }
 
     if (m_pAssoc) {
-        m_pAssoc->lwSetFont(m_pChooser->font());
+        applyFontPage(m_pAssoc);
     }
 }
 
@@ -106,14 +106,8 @@ void AssociationPropertiesDialog::setupPages()
     m_pRolePage = new AssociationRolePage(umlDoc, page, m_pAssoc),
     layout->addWidget(m_pRolePage);
 
-    // font page
-    page = createPage(i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
-    layout = new QHBoxLayout(page);
-    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), false);
-    m_pChooser->setFont(m_pAssoc->font());
-    m_pChooser->setSampleText(QString::fromLatin1("Association font"));
-    layout->addWidget(m_pChooser);
     setupStylePage(m_pAssoc);
+    setupFontPage(m_pAssoc);
 }
 
 #include "associationpropertiesdialog.moc"

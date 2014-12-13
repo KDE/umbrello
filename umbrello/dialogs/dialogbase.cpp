@@ -93,13 +93,13 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
  * Sets up the font selection page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+KPageWidgetItem *DialogBase::setupFontPage(WidgetBase *widget)
 {
     QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
+    QHBoxLayout * layout = new QHBoxLayout(page);
     m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_fontChooser->setFont(widget->font());
-    m_pStyleLayout->addWidget(m_fontChooser);
+    layout->addWidget(m_fontChooser);
     return m_pageItem;
 }
 
@@ -107,7 +107,7 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
  * updates the font page data
  * @param widget Widget to save the font data into
  */
-void DialogBase::saveFontPageData(UMLWidget *widget)
+void DialogBase::applyFontPage(WidgetBase *widget)
 {
     Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);

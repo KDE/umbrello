@@ -121,7 +121,7 @@ void ActivityDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemFont)
     {
-        saveFontPageData(m_pActivityWidget);
+        applyFontPage(m_pActivityWidget);
     }
     else if (item == pageItemStyle)
     {

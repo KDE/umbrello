@@ -73,7 +73,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
 
     setupGeneralPage();
     setupStylePage(m_pWidget);
-    setupFontPage();
+    setupFontPage(m_pWidget);
 
     setMinimumSize(340, 420);
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
@@ -115,7 +115,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         setupDisplayPage();
     }
     setupStylePage(m_pWidget);
-    setupFontPage();
+    setupFontPage(m_pWidget);
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
@@ -191,7 +191,7 @@ void ClassPropertiesDialog::slotApply()
         m_pStylePage->apply();
     }
     if (m_pWidget) {
-        m_pWidget->setFont(m_pChooser->font());
+        applyFontPage(m_pWidget);
     }
 }
 
@@ -370,23 +370,6 @@ void ClassPropertiesDialog::setupInstancePages()
     m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
     genLayout->addWidget(m_pGenPage);
     m_pAssocPage = 0;
-}
-
-/**
- * Sets up the font page.
- */
-void ClassPropertiesDialog::setupFontPage()
-{
-    if (!m_pWidget) {
-        return;
-    }
-    KVBox* page = new KVBox();
-    KPageWidgetItem *pageItem = new KPageWidgetItem(page, i18n("Font"));
-    pageItem->setHeader(i18n("Font Settings"));
-    pageItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
-    addPage(pageItem);
-    m_pChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont(m_pWidget->font());
 }
 
 #include "classpropertiesdialog.moc"

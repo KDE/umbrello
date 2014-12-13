@@ -99,7 +99,7 @@ void StateDialog::applyPage(KPageWidgetItem*item)
         applyStylePage();
     }
     else if (item == pageFont) {
-        saveFontPageData(m_pStateWidget);
+        applyFontPage(m_pStateWidget);
     }
 }
 

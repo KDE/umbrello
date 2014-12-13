@@ -63,7 +63,6 @@ protected:
     void setupContentsPage();
     void setupAssociationsPage();
     void setupInstancePages();
-    void setupFontPage();
 
 private:
     KFontChooser*        m_pChooser;
