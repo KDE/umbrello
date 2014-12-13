@@ -49,7 +49,6 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, boo
 {
     init();
     m_pWidget = 0;
-    m_Type = pt_Object;
     m_pObject = c;
 
     setupPages(assoc);
@@ -69,7 +68,6 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
 {
     init();
     m_pWidget = o;
-    m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->umlObject();
     m_doc = UMLApp::app()->document();
 
@@ -93,7 +91,6 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 {
     init();
     m_pWidget = w;
-    m_Type = pt_Widget;
     m_pObject = w->umlObject();
 
     if (w->baseType() == WidgetBase::wt_Class
@@ -245,7 +242,7 @@ void ClassPropertiesDialog::setupGeneralPage()
                                Icon_Utils::it_Properties_General);
     page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
-    if (m_Type == pt_ObjectWidget)
+    if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
         m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
     else
         m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
