@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     parser->addOption(
                 QCommandLineOption(EXPORT_FORMATS, i18n("List available export extensions.")));
     parser->addOption(
-                QCommandLineOption(DIRECTORY, i18n("The local directory to save the exported diagrams in.")));  //FIXME KF5  , I18N_NOOP("the directory of the file")));
+                QCommandLineOption(DIRECTORY, i18n("The local directory to save the exported diagrams in.")));
     parser->addOption(
                 QCommandLineOption(IMPORT_FILES, i18n("Import files.")));
     parser->addOption(
@@ -195,7 +195,7 @@ void exportAllViews(QCommandLineParser *parser, const QStringList &exportOpt)
     QUrl directory;
     QString directoryOpt = parser->value(DIRECTORY);
     if (directoryOpt.size() > 0) {
-        directory = QUrl(directoryOpt);    //FIXME KF5  .toLocal8Bit());
+        directory = QUrl(directoryOpt);
     } else {
         directory = UMLApp::app()->document()->url().adjusted(QUrl::RemoveFilename);
     }
