@@ -42,8 +42,6 @@ protected slots:
 
 private:
     AssociationGeneralPage *m_pGenPage;
-    AssociationRolePage *m_pRolePage;
-    KFontChooser       *m_pChooser;
     AssociationWidget  *m_pAssoc;
 
 };

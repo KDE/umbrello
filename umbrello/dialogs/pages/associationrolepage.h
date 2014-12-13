@@ -35,17 +35,16 @@ class AssociationRolePage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssociationRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    AssociationRolePage(QWidget *parent, AssociationWidget *a);
     ~AssociationRolePage();
 
-    void updateObject();
+    void apply();
 
 private:
     KLineEdit *m_pRoleALE, *m_pRoleBLE;
     KComboBox *m_pMultiACB, *m_pMultiBCB;
     KTextEdit *m_docA, *m_docB;
     AssociationWidget *m_pAssociationWidget;
-    UMLDoc *m_pUmldoc;
     ObjectWidget *m_pWidget;
     QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
     QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;

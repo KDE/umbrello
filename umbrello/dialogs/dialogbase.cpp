@@ -15,6 +15,7 @@
 #include "icon_utils.h"
 #include "uml.h"
 #include "umlwidget.h"
+#include "associationrolepage.h"
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
@@ -34,6 +35,7 @@
  */
 DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
+    m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
     m_pageItem(0),
@@ -138,6 +140,44 @@ void DialogBase::applyStylePage()
 {
     Q_ASSERT(m_pStylePage);
     m_pStylePage->apply();
+}
+
+/**
+ * Sets up the font selection page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupAssociationRolePage(AssociationWidget *widget)
+{
+    QFrame *page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_pRolePage = new AssociationRolePage(page, widget);
+    layout->addWidget(m_pRolePage);
+    return m_pageItem;
+}
+
+/**
+ * Save all used pages
+ */
+void DialogBase::applyAssociationRolePage()
+{
+    Q_ASSERT(m_pRolePage);
+    m_pRolePage->apply();
+}
+
+/**
+ * Apply all used pages
+ */
+void DialogBase::apply()
+{
+    if (m_pRolePage) {
+        applyAssociationRolePage();
+    }
+
+    if (m_pStylePage) {
+        applyStylePage();
+    }
+
+    //TODO include applying font settings data
 }
 
 void DialogBase::setCaption(const QString &caption)

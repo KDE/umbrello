@@ -47,7 +47,6 @@
 AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
   : DialogBase(parent),
     m_pGenPage(0),
-    m_pRolePage(0),
     m_pAssoc(assocWidget)
 {
     Q_UNUSED(pageNum)
@@ -73,16 +72,10 @@ void AssociationPropertiesDialog::slotOk()
 
 void AssociationPropertiesDialog::slotApply()
 {
+    DialogBase::apply();
+
     if (m_pGenPage) {
         m_pGenPage->updateObject();
-    }
-
-    if (m_pRolePage) {
-        m_pRolePage->updateObject();
-    }
-
-    if (m_pStylePage) {
-        applyStylePage();
     }
 
     if (m_pAssoc) {
@@ -100,12 +93,7 @@ void AssociationPropertiesDialog::setupPages()
     m_pGenPage = new AssociationGeneralPage (umlDoc, page, m_pAssoc);
     layout->addWidget(m_pGenPage);
 
-    // role page
-    page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
-    layout = new QHBoxLayout(page);
-    m_pRolePage = new AssociationRolePage(umlDoc, page, m_pAssoc),
-    layout->addWidget(m_pRolePage);
-
+    setupAssociationRolePage(m_pAssoc);
     setupStylePage(m_pAssoc);
     setupFontPage(m_pAssoc);
 }

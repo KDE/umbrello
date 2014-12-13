@@ -40,14 +40,13 @@
  *  @param  parent  The parent to the AssociationRolePage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */
-AssociationRolePage::AssociationRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
+AssociationRolePage::AssociationRolePage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
     m_pRoleALE(0),
     m_pRoleBLE(0),
     m_pMultiACB(0),
     m_pMultiBCB(0),
     m_pAssociationWidget(assoc),
-    m_pUmldoc(d),
     m_pWidget(0)
 {
     constructWidget();
@@ -243,7 +242,7 @@ void AssociationRolePage::constructWidget()
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void AssociationRolePage::updateObject()
+void AssociationRolePage::apply()
 {
     if (m_pAssociationWidget) {
 

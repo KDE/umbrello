@@ -20,6 +20,8 @@
 #include <QWidget>
 
 //forward declarations
+class AssociationWidget;
+class AssociationRolePage;
 class KFontChooser;
 class KPageDialog;
 class QFrame;
@@ -46,11 +48,17 @@ public:
     explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+
     KPageWidgetItem *setupFontPage(WidgetBase *widget);
     void applyFontPage(WidgetBase *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     void applyStylePage();
+
+    KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
+    void applyAssociationRolePage();
+
+    void apply();
 
     void setCaption(const QString &caption);
     void accept();
@@ -73,6 +81,7 @@ private slots:
     void slotDefaultClicked();
 
 protected:
+    AssociationRolePage *m_pRolePage;
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;
     KPageWidgetItem *m_pageItem;
