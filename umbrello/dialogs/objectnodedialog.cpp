@@ -119,7 +119,7 @@ void ObjectNodeDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemStyle)
     {
-        saveStylePageData(m_pObjectNodeWidget);
+        applyStylePage();
     }
 }
 

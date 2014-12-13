@@ -118,24 +118,26 @@ void DialogBase::saveFontPageData(UMLWidget *widget)
  * Sets up the style page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupStylePage(UMLWidget *widget)
+KPageWidgetItem *DialogBase::setupStylePage(WidgetBase *widget)
 {
-    QFrame * page = createPage(i18nc("widget style page", "Style"), i18n("Widget Style"), Icon_Utils::it_Properties_Color);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
+    QFrame * page;
+    if (widget->baseType() == WidgetBase::wt_Association)
+        page = createPage(i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color);
+    else
+        page = createPage(i18nc("widget style page", "Style"), i18n("Widget Style"), Icon_Utils::it_Properties_Color);
+    QHBoxLayout * layout = new QHBoxLayout(page);
     m_pStylePage = new UMLWidgetStylePage(page, widget);
-    m_pStyleLayout->addWidget(m_pStylePage);
+    layout->addWidget(m_pStylePage);
     return m_pageItem;
 }
 
 /**
- * updates the font page data
- * @param widget Widget to save the font data into
+ * Updates the style page.
  */
-void DialogBase::saveStylePageData(UMLWidget *widget)
+void DialogBase::applyStylePage()
 {
-    Q_UNUSED(widget);
     Q_ASSERT(m_pStylePage);
-    m_pStylePage->updateUMLWidget();
+    m_pStylePage->apply();
 }
 
 void DialogBase::setCaption(const QString &caption)

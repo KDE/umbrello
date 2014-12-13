@@ -53,7 +53,6 @@ protected slots:
 protected:
     void setupPages(bool assoc = false);
     void setupGeneralPage();
-    void setupStylePage();
     void setupDisplayPage();
     void setupAttributesPage();
     void setupOperationsPage();

@@ -175,7 +175,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     else if (item == m_pageStyleItem)
     {
         uDebug() << "setting colors ";
-        m_pStylePage->updateUMLWidget();
+        m_pStylePage->apply();
         m_pScene->setLineWidth(m_options.uiState.lineWidth);
         m_pScene->setUseFillColor(m_options.uiState.useFillColor);
         m_pScene->setTextColor(m_options.uiState.textColor);

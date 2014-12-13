@@ -235,7 +235,7 @@ void UMLWidgetStylePage::slotLineWidthButtonClicked()
 /**
  *   Updates the @ref UMLWidget with the dialog properties.
  */
-void UMLWidgetStylePage::updateUMLWidget()
+void UMLWidgetStylePage::apply()
 {
     if (m_pUMLWidget) {
         m_pUMLWidget->setUseFillColor(m_pUseFillColorCB->isChecked());

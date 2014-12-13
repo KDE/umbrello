@@ -125,7 +125,7 @@ void ActivityDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemStyle)
     {
-        saveStylePageData(m_pActivityWidget);
+        applyStylePage();
     }
 }
 

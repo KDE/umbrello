@@ -37,7 +37,7 @@ public:
 
     virtual ~UMLWidgetStylePage();
 
-    void updateUMLWidget();
+    void apply();
 
 public slots:
 

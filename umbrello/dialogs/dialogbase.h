@@ -25,6 +25,7 @@ class KPageDialog;
 class QFrame;
 class UMLWidget;
 class UMLWidgetStylePage;
+class WidgetBase;
 
 /**
  * Base class for property dialogs
@@ -48,8 +49,8 @@ public:
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
     void saveFontPageData(UMLWidget *widget);
 
-    KPageWidgetItem *setupStylePage(UMLWidget *widget);
-    void saveStylePageData(UMLWidget *widget);
+    KPageWidgetItem *setupStylePage(WidgetBase *widget);
+    void applyStylePage();
 
     void setCaption(const QString &caption);
     void accept();

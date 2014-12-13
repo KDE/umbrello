@@ -72,7 +72,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
     m_doc = UMLApp::app()->document();
 
     setupGeneralPage();
-    setupStylePage();
+    setupStylePage(m_pWidget);
     setupFontPage();
 
     setMinimumSize(340, 420);
@@ -114,7 +114,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         w->baseType() == WidgetBase::wt_Interface) {
         setupDisplayPage();
     }
-    setupStylePage();
+    setupStylePage(m_pWidget);
     setupFontPage();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
@@ -188,7 +188,7 @@ void ClassPropertiesDialog::slotApply()
         m_pOptionsPage->apply();
     }
     if (m_pStylePage) {
-        m_pStylePage->updateUMLWidget();
+        m_pStylePage->apply();
     }
     if (m_pWidget) {
         m_pWidget->setFont(m_pChooser->font());
@@ -247,18 +247,6 @@ void ClassPropertiesDialog::setupGeneralPage()
     else
         m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);
-}
-
-/**
- * Sets up the page "Style" for the component.
- */
-void ClassPropertiesDialog::setupStylePage()
-{
-    QFrame * page = createPage(i18nc("widget style page name", "Style"), i18n("Widget Style"),
-                                Icon_Utils::it_Properties_Color);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
-    m_pStylePage = new UMLWidgetStylePage(page, m_pWidget);
-    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**

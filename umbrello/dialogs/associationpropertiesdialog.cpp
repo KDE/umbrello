@@ -82,7 +82,7 @@ void AssociationPropertiesDialog::slotApply()
     }
 
     if (m_pStylePage) {
-        m_pStylePage->updateUMLWidget();
+        applyStylePage();
     }
 
     if (m_pAssoc) {
@@ -106,12 +106,6 @@ void AssociationPropertiesDialog::setupPages()
     m_pRolePage = new AssociationRolePage(umlDoc, page, m_pAssoc),
     layout->addWidget(m_pRolePage);
 
-    // style page
-    page = createPage(i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color);
-    layout = new QHBoxLayout(page);
-    m_pStylePage = new UMLWidgetStylePage(page, m_pAssoc);
-    layout->addWidget(m_pStylePage);
-
     // font page
     page = createPage(i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     layout = new QHBoxLayout(page);
@@ -119,6 +113,7 @@ void AssociationPropertiesDialog::setupPages()
     m_pChooser->setFont(m_pAssoc->font());
     m_pChooser->setSampleText(QString::fromLatin1("Association font"));
     layout->addWidget(m_pChooser);
+    setupStylePage(m_pAssoc);
 }
 
 #include "associationpropertiesdialog.moc"
