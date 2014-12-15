@@ -199,6 +199,18 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 break;
             }
             seenPkgs.append(pkg);
+
+            // exclude non package type
+            // dynamic_cast<UMLPackage*>(pg) fails for unknown reason
+            // see https://bugs.kde.org/show_bug.cgi?id=341709
+            UMLObject::ObjectType foundType = pkg->baseType();
+            if (foundType != UMLObject::ot_Package &&
+                foundType != UMLObject::ot_Folder &&
+                foundType != UMLObject::ot_Class &&
+                foundType != UMLObject::ot_Interface &&
+                foundType != UMLObject::ot_Component) {
+                continue;
+            }
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext();) {
                 UMLObject *obj = oit.next();

@@ -220,7 +220,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             // Find, or create, the scopes.
             QStringList components;
             if (typeName.contains(QLatin1String("::"))) {
-                components = typeName.split(QLatin1String("::"));
+                components = typeName.split(QLatin1String("::"), QString::SkipEmptyParts);
             } else if (typeName.contains(QLatin1String("..."))) {
                 // Java variable length arguments
                 type = UMLObject::ot_Datatype;
