@@ -314,7 +314,7 @@ ClassGeneralPage::~ClassGeneralPage()
  * Will move information from the dialog into the object.
  * Call when the ok or apply button is pressed.
  */
-void ClassGeneralPage::updateObject()
+void ClassGeneralPage::apply()
 {
     QString name = m_nameWidget->text();
     if (m_pObject) {

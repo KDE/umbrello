@@ -213,7 +213,7 @@ void AssociationGeneralPage::slotStereoCheckboxChanged(int state)
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void AssociationGeneralPage::updateObject()
+void AssociationGeneralPage::apply()
 {
     if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentIndex();

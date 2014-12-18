@@ -43,7 +43,7 @@ public:
     AssociationGeneralPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
     ~AssociationGeneralPage();
 
-    void updateObject();
+    void apply();
 
 private:
     QGridLayout *m_pNameAndTypeLayout;

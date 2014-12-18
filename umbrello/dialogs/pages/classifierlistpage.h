@@ -46,7 +46,7 @@ public:
                        UMLClassifier* classifier, UMLDoc* doc, UMLObject::ObjectType type);
     virtual ~ClassifierListPage();
 
-    void updateObject();
+    void apply();
 
 private:
 

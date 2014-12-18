@@ -164,25 +164,25 @@ void ClassPropertiesDialog::slotOk()
 void ClassPropertiesDialog::slotApply()
 {
     if (m_pGenPage) {
-        m_pGenPage->updateObject();
+        m_pGenPage->apply();
     }
     if (m_pAttPage) {
-        m_pAttPage->updateObject();
+        m_pAttPage->apply();
     }
     if (m_pOpsPage) {
-        m_pOpsPage->updateObject();
+        m_pOpsPage->apply();
     }
     if (m_pTemplatePage) {
-        m_pTemplatePage->updateObject();
+        m_pTemplatePage->apply();
     }
     if (m_pEnumLiteralPage) {
-        m_pEnumLiteralPage->updateObject();
+        m_pEnumLiteralPage->apply();
     }
     if (m_pEntityAttributePage) {
-        m_pEntityAttributePage->updateObject();
+        m_pEntityAttributePage->apply();
     }
     if (m_pEntityConstraintPage) {
-        m_pEntityConstraintPage->updateObject();
+        m_pEntityConstraintPage->apply();
     }
     if (m_pOptionsPage) {
         m_pOptionsPage->apply();

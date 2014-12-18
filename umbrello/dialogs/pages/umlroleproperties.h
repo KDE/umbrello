@@ -46,7 +46,7 @@ public:
      */
     ~UMLRoleProperties();
 
-    void updateObject();
+    void apply();
 
 protected:
 

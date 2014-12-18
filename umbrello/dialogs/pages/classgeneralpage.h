@@ -75,7 +75,7 @@ public:
      */
     ~ClassGeneralPage();
 
-    void updateObject();
+    void apply();
 
 private:
     UMLObject * m_pObject;

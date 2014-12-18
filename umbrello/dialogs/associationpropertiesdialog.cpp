@@ -75,7 +75,7 @@ void AssociationPropertiesDialog::slotApply()
     DialogBase::apply();
 
     if (m_pGenPage) {
-        m_pGenPage->updateObject();
+        m_pGenPage->apply();
     }
 
     if (m_pAssoc) {
