@@ -40,7 +40,7 @@ class AssociationGeneralPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssociationGeneralPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    AssociationGeneralPage(QWidget *parent, AssociationWidget *a);
     ~AssociationGeneralPage();
 
     void apply();
@@ -60,7 +60,6 @@ private:
     KTextEdit *m_doc;
 
     AssociationWidget *m_pAssociationWidget;
-    UMLDoc *m_pUmldoc;
     ObjectWidget *m_pWidget;
 
     void constructWidget();

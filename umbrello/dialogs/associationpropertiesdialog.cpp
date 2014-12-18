@@ -85,12 +85,10 @@ void AssociationPropertiesDialog::slotApply()
 
 void AssociationPropertiesDialog::setupPages()
 {
-    UMLDoc* umlDoc = UMLApp::app()->document();
-
     // general page
     QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
     QHBoxLayout *layout = new QHBoxLayout(page);
-    m_pGenPage = new AssociationGeneralPage (umlDoc, page, m_pAssoc);
+    m_pGenPage = new AssociationGeneralPage (page, m_pAssoc);
     layout->addWidget(m_pGenPage);
 
     setupAssociationRolePage(m_pAssoc);

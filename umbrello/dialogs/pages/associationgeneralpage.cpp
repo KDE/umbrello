@@ -44,7 +44,7 @@
  *  @param  parent  The parent to the AssociationGeneralPage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */
-AssociationGeneralPage::AssociationGeneralPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
+AssociationGeneralPage::AssociationGeneralPage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
     m_pAssocNameL(0),
     m_pAssocNameLE(0),
@@ -52,7 +52,6 @@ AssociationGeneralPage::AssociationGeneralPage (UMLDoc *d, QWidget *parent, Asso
     m_pStereoChkB(0),
     m_pTypeCB(0),
     m_pAssociationWidget(assoc),
-    m_pUmldoc(d),
     m_pWidget(0)
 {
     constructWidget();
