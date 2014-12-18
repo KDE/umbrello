@@ -94,6 +94,10 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
     return page;
 }
 
+/**
+ * Sets up the general settings page.
+ * @param widget The widget to load the initial data from
+ */
 void DialogBase::setupGeneralPage(AssociationWidget *widget)
 {
     QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
@@ -102,6 +106,10 @@ void DialogBase::setupGeneralPage(AssociationWidget *widget)
     layout->addWidget(m_pAssocGeneralPage);
 }
 
+/**
+ * updates the general page data
+ * @param widget Widget to save the general page data into
+ */
 void DialogBase::applyGeneralPage(AssociationWidget *widget)
 {
     Q_UNUSED(widget);
@@ -190,7 +198,7 @@ void DialogBase::applyStylePage()
 }
 
 /**
- * Sets up the font selection page.
+ * Sets up the role settings page.
  * @param widget The widget to load the initial data from
  */
 KPageWidgetItem *DialogBase::setupAssociationRolePage(AssociationWidget *widget)
