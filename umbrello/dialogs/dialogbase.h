@@ -53,7 +53,8 @@ public:
     void setupGeneralPage(AssociationWidget *widget);
     void applyGeneralPage(AssociationWidget *widget);
 
-    KPageWidgetItem *setupFontPage(WidgetBase *widget);
+    KPageWidgetItem *setupFontPage(UMLWidget *widget);
+    KPageWidgetItem *setupFontPage(AssociationWidget *widget);
     void applyFontPage(UMLWidget *widget);
     void applyFontPage(AssociationWidget *widget);
 

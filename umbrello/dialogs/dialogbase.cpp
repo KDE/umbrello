@@ -113,7 +113,21 @@ void DialogBase::applyGeneralPage(AssociationWidget *widget)
  * Sets up the font selection page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(WidgetBase *widget)
+KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+{
+    QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
+    QHBoxLayout * layout = new QHBoxLayout(page);
+    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_fontChooser->setFont(widget->font());
+    layout->addWidget(m_fontChooser);
+    return m_pageItem;
+}
+
+/**
+ * Sets up the font selection page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupFontPage(AssociationWidget *widget)
 {
     QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     QHBoxLayout * layout = new QHBoxLayout(page);
