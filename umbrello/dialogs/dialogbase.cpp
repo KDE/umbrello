@@ -127,7 +127,7 @@ KPageWidgetItem *DialogBase::setupFontPage(WidgetBase *widget)
  * updates the font page data
  * @param widget Widget to save the font data into
  */
-void DialogBase::applyFontPage(WidgetBase *widget)
+void DialogBase::applyFontPage(UMLWidget *widget)
 {
     Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);
