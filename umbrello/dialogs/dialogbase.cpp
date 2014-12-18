@@ -135,6 +135,17 @@ void DialogBase::applyFontPage(WidgetBase *widget)
 }
 
 /**
+ * updates the font page data
+ * @param widget Widget to save the font data into
+ */
+void DialogBase::applyFontPage(AssociationWidget *widget)
+{
+    Q_UNUSED(widget);
+    Q_ASSERT(m_fontChooser);
+    widget->lwSetFont(m_fontChooser->font());
+}
+
+/**
  * Sets up the style page.
  * @param widget The widget to load the initial data from
  */

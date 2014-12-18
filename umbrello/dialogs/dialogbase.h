@@ -55,6 +55,7 @@ public:
 
     KPageWidgetItem *setupFontPage(WidgetBase *widget);
     void applyFontPage(WidgetBase *widget);
+    void applyFontPage(AssociationWidget *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     void applyStylePage();
