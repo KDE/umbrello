@@ -111,14 +111,14 @@ void DialogBase::applyGeneralPage(AssociationWidget *widget)
 
 /**
  * Sets up the font selection page.
- * @param widget The widget to load the initial data from
+ * @param font The font to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+KPageWidgetItem *DialogBase::setupFontPage(const QFont &font)
 {
     QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     QHBoxLayout * layout = new QHBoxLayout(page);
     m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_fontChooser->setFont(widget->font());
+    m_fontChooser->setFont(font);
     layout->addWidget(m_fontChooser);
     return m_pageItem;
 }
@@ -127,14 +127,18 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
  * Sets up the font selection page.
  * @param widget The widget to load the initial data from
  */
+KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+{
+    return setupFontPage(widget->font());
+}
+
+/**
+ * Sets up the font selection page.
+ * @param widget The widget to load the initial data from
+ */
 KPageWidgetItem *DialogBase::setupFontPage(AssociationWidget *widget)
 {
-    QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
-    QHBoxLayout * layout = new QHBoxLayout(page);
-    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_fontChooser->setFont(widget->font());
-    layout->addWidget(m_fontChooser);
-    return m_pageItem;
+    return setupFontPage(widget->font());
 }
 
 /**

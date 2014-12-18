@@ -53,6 +53,7 @@ public:
     void setupGeneralPage(AssociationWidget *widget);
     void applyGeneralPage(AssociationWidget *widget);
 
+    KPageWidgetItem *setupFontPage(const QFont &font);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
     KPageWidgetItem *setupFontPage(AssociationWidget *widget);
     void applyFontPage(UMLWidget *widget);
