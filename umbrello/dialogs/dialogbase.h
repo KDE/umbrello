@@ -21,6 +21,7 @@
 
 //forward declarations
 class AssociationWidget;
+class AssociationGeneralPage;
 class AssociationRolePage;
 class KFontChooser;
 class KPageDialog;
@@ -48,6 +49,9 @@ public:
     explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+
+    void setupGeneralPage(AssociationWidget *widget);
+    void applyGeneralPage(AssociationWidget *widget);
 
     KPageWidgetItem *setupFontPage(WidgetBase *widget);
     void applyFontPage(WidgetBase *widget);
@@ -81,6 +85,7 @@ private slots:
     void slotDefaultClicked();
 
 protected:
+    AssociationGeneralPage *m_pAssocGeneralPage;
     AssociationRolePage *m_pRolePage;
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;

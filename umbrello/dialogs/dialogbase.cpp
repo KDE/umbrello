@@ -15,7 +15,9 @@
 #include "icon_utils.h"
 #include "uml.h"
 #include "umlwidget.h"
+#include "associationgeneralpage.h"
 #include "associationrolepage.h"
+#include "associationwidget.h"
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
@@ -35,6 +37,7 @@
  */
 DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
+    m_pAssocGeneralPage(0),
     m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
@@ -89,6 +92,21 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
     addPage(m_pageItem);
     //page->setMinimumSize(310, 330);
     return page;
+}
+
+void DialogBase::setupGeneralPage(AssociationWidget *widget)
+{
+    QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_pAssocGeneralPage = new AssociationGeneralPage (page, widget);
+    layout->addWidget(m_pAssocGeneralPage);
+}
+
+void DialogBase::applyGeneralPage(AssociationWidget *widget)
+{
+    Q_UNUSED(widget);
+    Q_ASSERT(m_pAssocGeneralPage);
+    m_pAssocGeneralPage->apply();
 }
 
 /**
@@ -169,6 +187,9 @@ void DialogBase::applyAssociationRolePage()
  */
 void DialogBase::apply()
 {
+    if (m_pAssocGeneralPage)
+        m_pAssocGeneralPage->apply();
+
     if (m_pRolePage) {
         applyAssociationRolePage();
     }

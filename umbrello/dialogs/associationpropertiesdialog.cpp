@@ -13,18 +13,12 @@
 
 // local includes
 #include "associationwidget.h"
-#include "associationgeneralpage.h"
-#include "associationrolepage.h"
-#include "classgeneralpage.h"
-#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "objectwidget.h"
 #include "uml.h"
-#include "umldoc.h"
 #include "umlobject.h"
 #include "umlview.h"
-#include "umlwidgetstylepage.h"
 
 // kde includes
 #include <kfontdialog.h>
@@ -46,7 +40,6 @@
  */
 AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
   : DialogBase(parent),
-    m_pGenPage(0),
     m_pAssoc(assocWidget)
 {
     Q_UNUSED(pageNum)
@@ -74,10 +67,6 @@ void AssociationPropertiesDialog::slotApply()
 {
     DialogBase::apply();
 
-    if (m_pGenPage) {
-        m_pGenPage->apply();
-    }
-
     if (m_pAssoc) {
         applyFontPage(m_pAssoc);
     }
@@ -85,12 +74,7 @@ void AssociationPropertiesDialog::slotApply()
 
 void AssociationPropertiesDialog::setupPages()
 {
-    // general page
-    QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
-    QHBoxLayout *layout = new QHBoxLayout(page);
-    m_pGenPage = new AssociationGeneralPage (page, m_pAssoc);
-    layout->addWidget(m_pGenPage);
-
+    setupGeneralPage(m_pAssoc);
     setupAssociationRolePage(m_pAssoc);
     setupStylePage(m_pAssoc);
     setupFontPage(m_pAssoc);
