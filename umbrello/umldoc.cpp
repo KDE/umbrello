@@ -2968,6 +2968,7 @@ void UMLDoc::slotAutoSave()
         return;
     }
     QUrl tempUrl = m_doc_url;
+    tempUrl.setScheme(QLatin1String("file"));
     if (tempUrl.fileName() == i18n("Untitled")) {
         tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);

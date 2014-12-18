@@ -1083,8 +1083,11 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
 
         // saving to tempfile necessary
         QTemporaryFile tmpfile(url.toString());
-        QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
-        m_doc->saveDocument(dest);
+        if (tmpfile.open()) {
+            QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
+            dest.setScheme(QLatin1String("file"));
+            m_doc->saveDocument(dest);
+        }
     }
 }
 
@@ -1102,16 +1105,14 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
     bool modified = cfg.readEntry("modified", false);
     DEBUG(DBG_SRC) << "Read properties - filename: " << url << " | modified: " << modified;
     if (modified) {
-        bool canRecover = false;
-//FIXME KF5        QString tempname = qApp->checkRecoverFile(filename, canRecover);
-//        QUrl _url(tempname);
-
-        if (canRecover) {
-//            m_doc->openDocument(_url);
+        QTemporaryFile tmpfile(filename);
+        if (tmpfile.open()) {
+            QUrl _url(QUrl::fromLocalFile(tmpfile.fileName()));
+            _url.setScheme(QLatin1String("file"));
+            m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-//            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
-//            QFile::remove(tempname);
+            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
         } else {
             enablePrint(false);
         }
@@ -2573,13 +2574,13 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
  */
 void UMLApp::slotUpdateViews()
 {
-    QMenu* menu = findMenu(QLatin1String(QLatin1String("views")));
+    QMenu* menu = findMenu(QLatin1String("views"));
     if (!menu) {
         uWarning() << "view menu not found";
         return;
     }
 
-    menu = findMenu(QLatin1String(QLatin1String("show_view")));
+    menu = findMenu(QLatin1String("show_view"));
     if (!menu) {
         uWarning() << "show menu not found";
         return;
