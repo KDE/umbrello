@@ -109,6 +109,7 @@ protected:
     void applyFontPage(AssociationWidget *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
+    KPageWidgetItem *setupStylePage(AssociationWidget *widget);
     void applyStylePage();
 
     KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
