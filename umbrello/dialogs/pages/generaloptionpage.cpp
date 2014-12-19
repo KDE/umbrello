@@ -39,8 +39,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 {
     Settings::OptionState &optionState = Settings::optionState();
     int spacingHint = static_cast<KDialog*>(parent)->spacingHint();
+
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
+
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), parent);
+    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), this);
 
     QGridLayout * miscLayout = new QGridLayout(m_GeneralWidgets.miscGB);
     miscLayout->setSpacing(spacingHint);
@@ -65,9 +68,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
+    topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
-    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"), parent);
+    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"), this);
 
     QGridLayout * autosaveLayout = new QGridLayout(m_GeneralWidgets.autosaveGB);
     autosaveLayout->setSpacing(spacingHint);
@@ -96,9 +100,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
                                         "the autosave will overwrite your file automatically.</p></qt>");
     m_GeneralWidgets.autosaveSuffixL->setToolTip(autoSaveSuffixToolTip);
     m_GeneralWidgets.autosaveSuffixT->setToolTip(autoSaveSuffixToolTip);
+    topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
     //setup startup settings
-    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"), parent);
+    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"), this);
 
     QGridLayout * startupLayout = new QGridLayout(m_GeneralWidgets.startupGB);
     startupLayout->setSpacing(spacingHint);
@@ -140,6 +145,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
         indexCounter++;
     }
     m_GeneralWidgets.languageKB->setCurrentIndex(optionState.generalState.defaultLanguage);
+    topLayout->addWidget(m_GeneralWidgets.startupGB);
 }
 
 /**
