@@ -320,6 +320,10 @@ void ClassGeneralPage::apply()
         }
         m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
+        if (!o) {
+            uError() << "UML object of widget is zero.";
+            return;
+        }
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
@@ -333,6 +337,11 @@ void ClassGeneralPage::apply()
         m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
         m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
+        if (!o) {
+            uError() << "UML object of instance widget is zero.";
+            return;
+        }
+
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
