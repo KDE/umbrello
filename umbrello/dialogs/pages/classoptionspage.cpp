@@ -254,7 +254,7 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->addWidget(m_showPublicOnlyCB, 4, 1);
 
     if (!m_isDiagram) {
-        m_scopeGB = new QGroupBox(i18n("Starting Scope"), parentWidget());
+        m_scopeGB = new QGroupBox(i18n("Starting Scope"));
         QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
         scopeLayout->setSpacing(10);
         scopeLayout->setMargin(fontMetrics().height());
@@ -280,6 +280,7 @@ void ClassOptionsPage::setupClassPageOption()
         m_operationScopeCB->setCurrentIndex(m_options->classState.defaultOperationScope);
         m_operationScopeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
         scopeLayout->addWidget(m_operationScopeCB, 1, 1);
+        topLayout->addWidget(m_scopeGB);
     }
 }
 
