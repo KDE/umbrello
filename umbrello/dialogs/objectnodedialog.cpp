@@ -133,10 +133,8 @@ void ObjectNodeDialog::setupGeneralPage()
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
     KVBox *page = new KVBox();
-    pageItemGeneral = new KPageWidgetItem(page, i18n("General"));
-    pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageItemGeneral);
+    pageItemGeneral = createPage(i18n("General"), i18n("General Properties"),
+                                 Icon_Utils::it_Properties_General, page);
 
     m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"), (QWidget *)page);
 

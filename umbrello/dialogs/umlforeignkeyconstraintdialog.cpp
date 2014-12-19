@@ -198,10 +198,8 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 {
     //setup General page
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem(page, i18nc("general page title", "General"));
-    pageGeneral->setHeader(i18n("General Settings"));
-    pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageGeneral);
+    pageGeneral = createPage(i18nc("general page title", "General"), i18n("General Settings"),
+                             Icon_Utils::it_Properties_General, page);
 
     m_GeneralWidgets.generalGB = new QGroupBox(i18nc("general group title", "General"), page);
 
@@ -283,10 +281,8 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
 {
     //setup Columns page
     KVBox * page = new KVBox();
-    pageColumn = new KPageWidgetItem(page, i18n("Columns"));
-    pageColumn->setHeader(i18n("Columns"));
-    pageColumn->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Columns));
-    addPage(pageColumn);
+    pageColumn = createPage(i18n("Columns"), i18n("Columns"),
+                            Icon_Utils::it_Properties_Columns, page);
 
     m_ColumnWidgets.mappingTW = new QTreeWidget(page);
 

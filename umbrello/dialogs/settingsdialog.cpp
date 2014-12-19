@@ -63,10 +63,8 @@ void SettingsDialog::setupUIPage()
     QWidget * page = new QWidget();
     QVBoxLayout* uiPageLayout = new QVBoxLayout(page);
     
-    pageUserInterface = new KPageWidgetItem(page, i18n("User Interface"));
-    pageUserInterface->setHeader(i18n("User Interface Settings"));
-    pageUserInterface->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface));
-    addPage(pageUserInterface);
+    pageUserInterface = createPage(i18n("User Interface"), i18n("User Interface Settings"),
+                                   Icon_Utils::it_Properties_UserInterface, page);
 
     m_UiWidgets.colorGB = new QGroupBox(i18nc("color group box", "Color"), page);
     QGridLayout * colorLayout = new QGridLayout(m_UiWidgets.colorGB);
@@ -167,79 +165,57 @@ void SettingsDialog::setupUIPage()
 
 void SettingsDialog::setupGeneralPage()
 {
-    //setup General page
-    KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem(page, i18nc("general settings page", "General"));
-    pageGeneral->setHeader(i18n("General Settings"));
-    pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageGeneral);
-    m_pGeneralPage = new GeneralOptionPage(page);
+    m_pGeneralPage = new GeneralOptionPage;
+    pageGeneral = createPage(i18nc("general settings page", "General"), i18n("General Settings"),
+                             Icon_Utils::it_Properties_General, m_pGeneralPage);
+    m_pGeneralPage->setMinimumSize(310, 330);
+
 }
 
 void SettingsDialog::setupClassPage()
 {
-    //setup class settings page
-    KVBox * page = new KVBox();
-    pageClass = new KPageWidgetItem(page, i18nc("class settings page", "Class"));
-    pageClass->setHeader(i18n("Class Settings"));
-    pageClass->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class));
-    addPage(pageClass);
-    m_pClassPage = new ClassOptionsPage(page, m_pOptionState, false);
+    m_pClassPage = new ClassOptionsPage(0, m_pOptionState, false);
+    pageClass = createPage(i18nc("class settings page", "Class"), i18n("Class Settings"),
+                           Icon_Utils::it_Properties_Class, m_pClassPage);
 }
 
 void SettingsDialog::setupCodeImportPage()
 {
-    //setup code importer settings page
-    KVBox * page = new KVBox();
-    pageCodeImport = new KPageWidgetItem(page, i18n("Code Importer"));
-    pageCodeImport->setHeader(i18n("Code Import Settings"));
-    pageCodeImport->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeImport));
-    addPage(pageCodeImport);
-    m_pCodeImportPage = new CodeImportOptionsPage(page);
+    m_pCodeImportPage = new CodeImportOptionsPage;
+    pageCodeImport = createPage(i18n("Code Importer"), i18n("Code Import Settings"),
+                                Icon_Utils::it_Properties_CodeImport, m_pCodeImportPage);
 }
 
 void SettingsDialog::setupCodeGenPage()
 {
-    //setup code generation settings page
-    KVBox * page = new KVBox();
-    pageCodeGen = new KPageWidgetItem(page, i18n("Code Generation"));
-    pageCodeGen->setHeader(i18n("Code Generation Settings"));
-    pageCodeGen->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeGeneration));
-    addPage(pageCodeGen);
-    m_pCodeGenPage = new CodeGenOptionsPage(page);
+    m_pCodeGenPage = new CodeGenOptionsPage;
     connect(m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()));
+
+    pageCodeGen = createPage(i18n("Code Generation"), i18n("Code Generation Settings"),
+                             Icon_Utils::it_Properties_CodeGeneration, m_pCodeGenPage);
 }
 
 void SettingsDialog::setupCodeViewerPage(Settings::CodeViewerState options)
 {
     //setup code generation settings page
-    KVBox * page = new KVBox();
-    pageCodeViewer = new KPageWidgetItem(page, i18n("Code Viewer"));
-    pageCodeViewer->setHeader(i18n("Code Viewer Settings"));
-    pageCodeViewer->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeViewer));
-    addPage(pageCodeViewer);
-    m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
+    m_pCodeViewerPage = new CodeViewerOptionsPage(options);
+    pageCodeViewer = createPage(i18n("Code Viewer"), i18n("Code Viewer Settings"),
+                                Icon_Utils::it_Properties_CodeViewer, m_pCodeViewerPage);
 }
 
 void SettingsDialog::setupFontPage()
 {
-    KVBox * page = new KVBox();
-    pageFont = new KPageWidgetItem(page, i18n("Font"));
-    pageFont->setHeader(i18n("Font Settings"));
-    pageFont->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
-    addPage(pageFont);
-    m_FontWidgets.chooser = new KFontChooser(page,  KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_FontWidgets.chooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
+    pageFont = createPage(i18n("Font"), i18n("Font Settings"),
+                          Icon_Utils::it_Properties_Font, m_FontWidgets.chooser);
 }
 
 void SettingsDialog::setupAutoLayoutPage()
 {
-    KVBox * page = new KVBox();
-    pageAutoLayout = new KPageWidgetItem(page, i18n("Auto Layout"));
-    pageAutoLayout->setHeader(i18n("Auto Layout Settings"));
-    pageAutoLayout->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_AutoLayout));
-    addPage(pageAutoLayout);
-    m_pAutoLayoutPage = new AutoLayoutOptionPage(page);
+    m_pAutoLayoutPage = new AutoLayoutOptionPage;
+    pageAutoLayout = createPage(i18n("Auto Layout"), i18n("Auto Layout Settings"),
+                                Icon_Utils::it_Properties_AutoLayout, m_pAutoLayoutPage);
 }
 
 void SettingsDialog::slotApply()

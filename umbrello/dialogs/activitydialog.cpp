@@ -138,10 +138,8 @@ void ActivityDialog::setupGeneralPage()
     ActivityWidget::ActivityType type = m_pActivityWidget->activityType();
 
     KVBox *page = new KVBox();
-    pageItemGeneral = new KPageWidgetItem(page, i18nc("general properties page", "General"));
-    pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageItemGeneral);
+    pageItemGeneral = createPage(i18nc("general properties page", "General"), i18n("General Properties"),
+                                 Icon_Utils::it_Properties_General, page);
 
     m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
 

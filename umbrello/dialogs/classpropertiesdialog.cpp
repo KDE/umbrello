@@ -267,11 +267,9 @@ void ClassPropertiesDialog::setupDisplayPage()
  */
 void ClassPropertiesDialog::setupAttributesPage()
 {
-    QFrame* page = createPage(i18n("Attributes"), i18n("Attribute Settings"),
-                               Icon_Utils::it_Properties_Attributes);
-    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
-    QHBoxLayout * attLayout = new QHBoxLayout(page);
-    attLayout->addWidget(m_pAttPage);
+    m_pAttPage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
+    createPage(i18n("Attributes"), i18n("Attribute Settings"),
+               Icon_Utils::it_Properties_Attributes, m_pAttPage);
 }
 
 /**
@@ -279,11 +277,9 @@ void ClassPropertiesDialog::setupAttributesPage()
  */
 void ClassPropertiesDialog::setupOperationsPage()
 {
-    QFrame* page = createPage(i18n("Operations"), i18n("Operation Settings"),
-                               Icon_Utils::it_Properties_Operations);
-    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
-    QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
-    pOpsLayout->addWidget(m_pOpsPage);
+    m_pOpsPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
+    createPage(i18n("Operations"), i18n("Operation Settings"),
+               Icon_Utils::it_Properties_Operations, m_pOpsPage);
 }
 
 /**
@@ -291,11 +287,9 @@ void ClassPropertiesDialog::setupOperationsPage()
  */
 void ClassPropertiesDialog::setupTemplatesPage()
 {
-    QFrame* page = createPage(i18n("Templates"), i18n("Templates Settings"),
-                               Icon_Utils::it_Properties_Templates);
-    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
-    QHBoxLayout* templatesLayout = new QHBoxLayout(page);
-    templatesLayout->addWidget(m_pTemplatePage);
+    m_pTemplatePage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
+    createPage(i18n("Templates"), i18n("Templates Settings"),
+               Icon_Utils::it_Properties_Templates, m_pTemplatePage);
 }
 
 /**
@@ -303,11 +297,9 @@ void ClassPropertiesDialog::setupTemplatesPage()
  */
 void ClassPropertiesDialog::setupEnumLiteralsPage()
 {
-    QFrame* page = createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
-                               Icon_Utils::it_Properties_EnumLiterals);
-    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
-    QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
-    enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
+    m_pEnumLiteralPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
+    createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
+               Icon_Utils::it_Properties_EnumLiterals, m_pEnumLiteralPage);
 }
 
 /**
@@ -315,11 +307,9 @@ void ClassPropertiesDialog::setupEnumLiteralsPage()
  */
 void ClassPropertiesDialog::setupEntityAttributesPage()
 {
-    QFrame* page = createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
-                               Icon_Utils::it_Properties_EntityAttributes);
-    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
-    QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
-    entityAttributesLayout->addWidget(m_pEntityAttributePage);
+    m_pEntityAttributePage = new ClassifierListPage(0, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
+    createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
+               Icon_Utils::it_Properties_EntityAttributes, m_pEntityAttributePage);
 }
 
 /**
@@ -327,11 +317,9 @@ void ClassPropertiesDialog::setupEntityAttributesPage()
  */
 void ClassPropertiesDialog::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
-                               Icon_Utils::it_Properties_EntityConstraints);
-    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
-    QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
-    entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
+    m_pEntityConstraintPage = new ConstraintListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
+    createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
+               Icon_Utils::it_Properties_EntityConstraints, m_pEntityConstraintPage);
 }
 
 /**
@@ -339,11 +327,9 @@ void ClassPropertiesDialog::setupEntityConstraintsPage()
  */
 void ClassPropertiesDialog::setupContentsPage()
 {
-    QFrame* page = createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
-                               Icon_Utils::it_Properties_Contents);
-    m_pPkgContentsPage = new PackageContentsPage(page, (UMLPackage*)m_pObject);
-    QHBoxLayout* contentsLayout = new QHBoxLayout(page);
-    contentsLayout->addWidget(m_pPkgContentsPage);
+    m_pPkgContentsPage = new PackageContentsPage(0, (UMLPackage*)m_pObject);
+    createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
+               Icon_Utils::it_Properties_Contents, m_pPkgContentsPage);
 }
 
 /**
@@ -351,11 +337,9 @@ void ClassPropertiesDialog::setupContentsPage()
  */
 void ClassPropertiesDialog::setupAssociationsPage()
 {
-    QFrame* page = createPage(i18n("Associations"), i18n("Class Associations"),
-                               Icon_Utils::it_Properties_Associations);
-    m_pAssocPage = new ClassAssociationsPage(page, UMLApp::app()->currentView()->umlScene(), m_pObject);
-    QHBoxLayout* assocLayout = new QHBoxLayout(page);
-    assocLayout->addWidget(m_pAssocPage);
+    m_pAssocPage = new ClassAssociationsPage(0, UMLApp::app()->currentView()->umlScene(), m_pObject);
+    createPage(i18n("Associations"), i18n("Class Associations"),
+               Icon_Utils::it_Properties_Associations, m_pAssocPage);
 }
 
 /**
@@ -363,12 +347,9 @@ void ClassPropertiesDialog::setupAssociationsPage()
  */
 void ClassPropertiesDialog::setupInstancePages()
 {
-    QFrame* page = createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
-                               Icon_Utils::it_Properties_General);
-    QHBoxLayout* genLayout = new QHBoxLayout(page);
-    page->setMinimumSize(310, 330);
-    m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
-    genLayout->addWidget(m_pGenPage);
+    m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pWidget);
+    createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
+               Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
     m_pAssocPage = 0;
 }
 

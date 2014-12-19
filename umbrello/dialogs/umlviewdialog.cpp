@@ -88,13 +88,9 @@ void UMLViewDialog::setupPages()
  */
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-    KVBox *page = new KVBox();
-    m_pageDiagramItem = new KPageWidgetItem(page, i18nc("general settings page", "General"));
-    m_pageDiagramItem->setHeader(i18n("General Settings"));
-    m_pageDiagramItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(m_pageDiagramItem);
-
-    m_diagramPropertiesPage = new DiagramPropertiesPage(page, m_pScene);
+    m_diagramPropertiesPage = new DiagramPropertiesPage(0, m_pScene);
+    m_pageDiagramItem = createPage(i18nc("general settings page", "General"), i18n("General Settings"),
+                                   Icon_Utils::it_Properties_General, m_diagramPropertiesPage);
 }
 
 /**
@@ -110,22 +106,14 @@ void UMLViewDialog::setupDisplayPage()
         return;
     }
 
-
-    QFrame * newPage = new QFrame();
-    m_pageDisplayItem = new KPageWidgetItem(newPage, i18nc("classes display options page", "Display"));
-    m_pageDisplayItem->setHeader(i18n("Classes Display Options"));
-    m_pageDisplayItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Display));
-    addPage(m_pageDisplayItem);
-
-    QHBoxLayout * pOptionsLayout = new QHBoxLayout(newPage);
     if (m_pScene->type() != Uml::DiagramType::Class) {
-        m_pOptionsPage = new ClassOptionsPage(newPage, m_pScene);
+        m_pOptionsPage = new ClassOptionsPage(0, m_pScene);
     }
     else {
-        m_pOptionsPage = new ClassOptionsPage(newPage, &m_options);
+        m_pOptionsPage = new ClassOptionsPage(0, &m_options);
     }
-
-    pOptionsLayout->addWidget(m_pOptionsPage);
+    m_pageDisplayItem = createPage(i18nc("classes display options page", "Display"), i18n("Classes Display Options"),
+                                   Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
 
 /**
@@ -133,15 +121,9 @@ void UMLViewDialog::setupDisplayPage()
  */
 void UMLViewDialog::setupStylePage()
 {
-    QFrame * stylePage = new QFrame();
-    m_pageStyleItem = new KPageWidgetItem(stylePage, i18nc("diagram style page", "Style"));
-    m_pageStyleItem->setHeader(i18n("Diagram Style"));
-    m_pageStyleItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color));
-    addPage(m_pageStyleItem);
-
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
-    m_pStylePage = new UMLWidgetStylePage(stylePage, &m_options);
-    m_pStyleLayout->addWidget(m_pStylePage);
+    m_pStylePage = new UMLWidgetStylePage(0, &m_options);
+    m_pageStyleItem = createPage(i18nc("diagram style page", "Style"), i18n("Diagram Style"),
+                                 Icon_Utils::it_Properties_Color, m_pStylePage);
 }
 
 /**
@@ -149,14 +131,10 @@ void UMLViewDialog::setupStylePage()
  */
 void UMLViewDialog::setupFontPage()
 {
-    KVBox *page = new KVBox();
-    m_pageFontItem = new KPageWidgetItem(page, i18n("Font"));
-    m_pageFontItem->setHeader(i18n("Font Settings"));
-    m_pageFontItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
-    addPage(m_pageFontItem);
-
-    m_pChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_pChooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont(m_pScene->optionState().uiState.font);
+    m_pageFontItem = createPage(i18n("Font"), i18n("Font Settings"),
+                                Icon_Utils::it_Properties_Font, m_pChooser);
 }
 
 /**
