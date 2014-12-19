@@ -53,7 +53,11 @@
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
-    m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
+    m_pObject(o),
+    m_pWidget(0),
+    m_pInstanceWidget(0),
+    m_stereotypeWidget(0),
+    m_pUmldoc(d)
 {
     if (!m_pObject) {
         uWarning() << "Given UMLObject is NULL.";
@@ -234,8 +238,10 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_nameWidget = new UMLObjectNameWidget(typeName, widget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
-    m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+    if (widget->umlObject()) {
+        m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
+        m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+    }
 
     m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
