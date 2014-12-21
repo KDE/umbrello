@@ -211,6 +211,23 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
 }
 
 /**
+ * create new page using a dedicated widget
+ * @param name   The Text displayed in the page list
+ * @param header The Text displayed above the page
+ * @param icon  The icon to display in the page list
+ * @param widget Widget to display in the page
+ * @return page widget item instance
+ */
+KPageWidgetItem *DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon, QWidget *widget)
+{
+    QFrame* page = createPage(name, header, icon);
+    QHBoxLayout * topLayout = new QHBoxLayout(page);
+    widget->setParent(page);
+    topLayout->addWidget(widget);
+    return m_pageItem;
+}
+
+/**
  * Sets up the general settings page.
  * @param widget The widget to load the initial data from
  */

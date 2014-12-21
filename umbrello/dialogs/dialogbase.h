@@ -84,6 +84,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+    KPageWidgetItem *createPage(const QString &name, const QString &header, Icon_Utils::IconType icon, QWidget *widget);
 
     void setupGeneralPage(AssociationWidget *widget);
     void applyGeneralPage(AssociationWidget *widget);
