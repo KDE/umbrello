@@ -36,7 +36,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pageDialog(0),
     m_pageWidget(0),
-    m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
+    m_useDialog(!parent || strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
     m_isModified(false)
 {
     if (m_useDialog) {
