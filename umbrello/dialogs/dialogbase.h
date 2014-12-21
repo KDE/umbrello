@@ -48,22 +48,6 @@ class DialogBase : public QWidget
 public:
     explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
-    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
-
-    void setupGeneralPage(AssociationWidget *widget);
-    void applyGeneralPage(AssociationWidget *widget);
-
-    KPageWidgetItem *setupFontPage(const QFont &font);
-    KPageWidgetItem *setupFontPage(UMLWidget *widget);
-    KPageWidgetItem *setupFontPage(AssociationWidget *widget);
-    void applyFontPage(UMLWidget *widget);
-    void applyFontPage(AssociationWidget *widget);
-
-    KPageWidgetItem *setupStylePage(WidgetBase *widget);
-    void applyStylePage();
-
-    KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
-    void applyAssociationRolePage();
 
     void apply();
 
@@ -98,6 +82,24 @@ protected:
     bool m_useDialog;
     bool m_isModified;
     virtual void keyPressEvent(QKeyEvent *event);
+
+    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+
+    void setupGeneralPage(AssociationWidget *widget);
+    void applyGeneralPage(AssociationWidget *widget);
+
+    KPageWidgetItem *setupFontPage(const QFont &font);
+    KPageWidgetItem *setupFontPage(UMLWidget *widget);
+    KPageWidgetItem *setupFontPage(AssociationWidget *widget);
+    void applyFontPage(UMLWidget *widget);
+    void applyFontPage(AssociationWidget *widget);
+
+    KPageWidgetItem *setupStylePage(WidgetBase *widget);
+    void applyStylePage();
+
+    KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
+    void applyAssociationRolePage();
+
 };
 
 #endif

@@ -74,6 +74,122 @@ DialogBase::~DialogBase()
 }
 
 /**
+ * Apply all used pages
+ */
+void DialogBase::apply()
+{
+    if (m_pAssocGeneralPage)
+        m_pAssocGeneralPage->apply();
+
+    if (m_pRolePage) {
+        applyAssociationRolePage();
+    }
+
+    if (m_pStylePage) {
+        applyStylePage();
+    }
+
+    //TODO include applying font settings data
+}
+
+void DialogBase::setCaption(const QString &caption)
+{
+    if (m_pageDialog)
+        m_pageDialog->setCaption(caption);
+}
+
+void DialogBase::accept()
+{
+    if (m_pageDialog)
+        m_pageDialog->accept();
+}
+
+void DialogBase::reject()
+{
+    if (m_pageDialog)
+        m_pageDialog->reject();
+}
+
+KPageWidgetItem *DialogBase::currentPage()
+{
+    if (m_pageDialog)
+        return m_pageDialog->currentPage();
+    else
+        return m_pageWidget->currentPage();
+}
+
+void DialogBase::addPage(KPageWidgetItem *page)
+{
+    if (m_pageDialog)
+        m_pageDialog->addPage(page);
+    else
+        m_pageWidget->addPage(page);
+}
+
+int DialogBase::spacingHint()
+{
+    return KDialog::spacingHint();
+}
+
+int DialogBase::exec()
+{
+    if (m_pageDialog)
+        return m_pageDialog->exec();
+    else {
+        return 0;
+    }
+}
+
+/**
+ * Return state if any data has been changed in the dialog.
+ *
+ * @return true data has been changed
+ */
+bool DialogBase::isModified()
+{
+    return m_isModified;
+}
+
+/**
+ * Handle click on ok button.
+ */
+void DialogBase::slotOkClicked()
+{
+    emit okClicked();
+}
+
+/**
+ * Handle click on apply button.
+ */
+void DialogBase::slotApplyClicked()
+{
+    emit applyClicked();
+}
+
+/**
+ * Handle click on default button, if enabled in constructor.
+ */
+void DialogBase::slotDefaultClicked()
+{
+    emit defaultClicked();
+}
+
+/**
+ * Handle key press event.
+ *
+ * @param event key press event
+ */
+void DialogBase::keyPressEvent(QKeyEvent *event)
+{
+    // Set modified state if any text has been typed in
+    if (event->key() >= Qt::Key_Space
+            && event->key() < Qt::Key_Multi_key)
+        m_isModified = true;
+
+    QWidget::keyPressEvent(event);
+}
+
+/**
  * Create a property page
  * @param name   The Text displayed in the page list
  * @param header The Text displayed above the page
@@ -217,120 +333,4 @@ void DialogBase::applyAssociationRolePage()
 {
     Q_ASSERT(m_pRolePage);
     m_pRolePage->apply();
-}
-
-/**
- * Apply all used pages
- */
-void DialogBase::apply()
-{
-    if (m_pAssocGeneralPage)
-        m_pAssocGeneralPage->apply();
-
-    if (m_pRolePage) {
-        applyAssociationRolePage();
-    }
-
-    if (m_pStylePage) {
-        applyStylePage();
-    }
-
-    //TODO include applying font settings data
-}
-
-void DialogBase::setCaption(const QString &caption)
-{
-    if (m_pageDialog)
-        m_pageDialog->setCaption(caption);
-}
-
-void DialogBase::accept()
-{
-    if (m_pageDialog)
-        m_pageDialog->accept();
-}
-
-void DialogBase::reject()
-{
-    if (m_pageDialog)
-        m_pageDialog->reject();
-}
-
-KPageWidgetItem *DialogBase::currentPage()
-{
-    if (m_pageDialog)
-        return m_pageDialog->currentPage();
-    else
-        return m_pageWidget->currentPage();
-}
-
-void DialogBase::addPage(KPageWidgetItem *page)
-{
-    if (m_pageDialog)
-        m_pageDialog->addPage(page);
-    else
-        m_pageWidget->addPage(page);
-}
-
-int DialogBase::spacingHint()
-{
-    return KDialog::spacingHint();
-}
-
-int DialogBase::exec()
-{
-    if (m_pageDialog)
-        return m_pageDialog->exec();
-    else {
-        return 0;
-    }
-}
-
-/**
- * Return state if any data has been changed in the dialog.
- *
- * @return true data has been changed
- */
-bool DialogBase::isModified()
-{
-    return m_isModified;
-}
-
-/**
- * Handle click on ok button.
- */
-void DialogBase::slotOkClicked()
-{
-    emit okClicked();
-}
-
-/**
- * Handle click on apply button.
- */
-void DialogBase::slotApplyClicked()
-{
-    emit applyClicked();
-}
-
-/**
- * Handle click on default button, if enabled in constructor.
- */
-void DialogBase::slotDefaultClicked()
-{
-    emit defaultClicked();
-}
-
-/**
- * Handle key press event.
- *
- * @param event key press event
- */
-void DialogBase::keyPressEvent(QKeyEvent *event)
-{
-    // Set modified state if any text has been typed in
-    if (event->key() >= Qt::Key_Space
-            && event->key() < Qt::Key_Multi_key)
-        m_isModified = true;
-
-    QWidget::keyPressEvent(event);
 }
