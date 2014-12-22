@@ -77,6 +77,7 @@ public:
     };
 
     static QString toString(ObjectType ot);
+    static QString toI18nString(ObjectType t);
 
     explicit UMLObject(UMLObject* parent, const QString& name, Uml::ID::Type id = Uml::ID::None);
     explicit UMLObject(UMLObject* parent);

@@ -1082,6 +1082,63 @@ QString UMLObject::toString(ObjectType ot)
 }
 
 /**
+ * Returns the given object type value as localized string.
+ * @param ot   ObjectType of which a string representation is wanted
+ * @return   the ObjectType as localized string
+ */
+QString UMLObject::toI18nString(ObjectType t)
+{
+    QString name;
+
+    switch (t) {
+    case UMLObject::ot_Actor:
+        name = i18n("Actor &name:");
+        break;
+    case  UMLObject::ot_Artifact:
+        name = i18n("Artifact &name:");
+        break;
+    case UMLObject::ot_Class:
+        name = i18n("Class &name:");
+        break;
+    case  UMLObject::ot_Component:
+        name = i18n("Component &name:");
+        break;
+    case  UMLObject::ot_Datatype:
+        name = i18n("Datatype &name:");
+        break;
+    case  UMLObject::ot_Entity:
+        name = i18n("Entity &name:");
+        break;
+    case  UMLObject::ot_Enum:
+        name = i18n("Enum &name:");
+        break;
+    case  UMLObject::ot_Interface:
+        name = i18n("Interface &name:");
+        break;
+    case  UMLObject::ot_Node:
+        name = i18n("Node &name:");
+        break;
+    case  UMLObject::ot_Package:
+        name = i18n("Package &name:");
+        break;
+    case  UMLObject::ot_Port:
+        name = i18n("Port &name:");
+        break;
+    case  UMLObject::ot_Stereotype:
+        name = i18n("Stereotype &name:");
+        break;
+    case  UMLObject::ot_UseCase:
+        name = i18n("Use case &name:");
+        break;
+    default:
+        name = QLatin1String("<unknown> &name:");
+        uWarning() << "unknown object type";
+        break;
+    }
+    return name;
+}
+
+/**
  * Print UML Object to debug output stream, so it can be used like
  *   uDebug() << "This object shouldn't be here: " << illegalObject;
  */
