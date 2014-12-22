@@ -21,6 +21,7 @@
 
 #include <kcolordialog.h>
 #include <kfontdialog.h>
+#include <klocale.h>
 
 #include <QAction>
 #include <QPointer>
@@ -987,6 +988,111 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 QString WidgetBase::toString(WidgetType wt)
 {
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, wt));
+}
+
+/**
+ * Returns the given enum value as localized string.
+ * @param wt   WidgetType of which a string representation is wanted
+ * @return   the WidgetType as localized string
+ */
+QString WidgetBase::toI18nString(WidgetType wt)
+{
+    QString name;
+
+    switch (wt) {
+    case wt_Activity:
+        name = i18n("Activity");
+        break;
+    case wt_Actor:
+        name = i18n("Actor");
+        break;
+    case wt_Artifact:
+        name = i18n("Artifact");
+        break;
+    case wt_Association:
+        name = i18n("Association");
+        break;
+    case wt_Box:
+        name = i18n("Box");
+        break;
+    case wt_Category:
+        name = i18n("Category");
+        break;
+    case wt_CombinedFragment:
+        name = i18n("CombinedFragment");
+        break;
+    case wt_Component:
+        name = i18n("Component");
+        break;
+    case wt_Class:
+        name = i18n("Class");
+        break;
+    case wt_Datatype:
+        name = i18n("Datatype");
+        break;
+    case wt_Entity:
+        name = i18n("Entity");
+        break;
+    case wt_Enum:
+        name = i18n("Enum");
+        break;
+    case wt_FloatingDashLine:
+        name = i18n("FloatingDashLine");
+        break;
+    case wt_ForkJoin:
+        name = i18n("ForkJoin");
+        break;
+    case wt_Interface:
+        name = i18n("Interface");
+        break;
+    case wt_Message:
+        name = i18n("Message");
+        break;
+    case wt_Node:
+        name = i18n("Node");
+        break;
+    case wt_Note:
+        name = i18n("Note");
+        break;
+    case wt_Object:
+        name = i18n("Object");
+        break;
+    case wt_ObjectNode:
+        name = i18n("ObjectNode");
+        break;
+    case wt_Package:
+        name = i18n("Package");
+        break;
+    case wt_Pin:
+        name = i18n("Pin");
+        break;
+    case wt_Port:
+        name = i18n("Port");
+        break;
+    case wt_Precondition:
+        name = i18n("Precondition");
+        break;
+    case wt_Region:
+        name = i18n("Region");
+        break;
+    case wt_Signal:
+        name = i18n("Signal");
+        break;
+    case wt_State:
+        name = i18n("State");
+        break;
+    case wt_Text:
+        name = i18n("Text");
+        break;
+    case wt_UseCase:
+        name = i18n("UseCase");
+        break;
+    default:
+        name = QLatin1String("<unknown> &name:");
+        uWarning() << "unknown widget type";
+        break;
+    }
+    return name;
 }
 
 #include "widgetbase.moc"

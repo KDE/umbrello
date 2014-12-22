@@ -230,16 +230,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
 
-    QString name;
-    if (widget->baseType() == WidgetBase::wt_Component) {
-        name = i18n("Component name:");
-    } else if (widget->baseType() == WidgetBase::wt_Node) {
-        name = i18n("Node name:");
-    } else {
-        uWarning() << "ClassGenPage called on unknown widget type";
-    }
-
-    m_nameWidget = new UMLObjectNameWidget(name, widget->name());
+    QString typeName = UMLWidget::toI18nString(widget->baseType());
+    m_nameWidget = new UMLObjectNameWidget(typeName, widget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
