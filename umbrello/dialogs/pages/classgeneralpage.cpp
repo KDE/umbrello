@@ -67,53 +67,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->setSpacing(6);
 
     // setup name
-    QString name;
     UMLObject::ObjectType t = m_pObject->baseType();
-    switch (t) {
-    case UMLObject::ot_Class:
-        name = i18n("Class &name:");
-        break;
-    case UMLObject::ot_Actor:
-        name = i18n("Actor &name:");
-        break;
-    case  UMLObject::ot_Package:
-        name = i18n("Package &name:");
-        break;
-    case  UMLObject::ot_UseCase:
-        name = i18n("Use case &name:");
-        break;
-    case  UMLObject::ot_Interface:
-        name = i18n("Interface &name:");
-        break;
-    case  UMLObject::ot_Component:
-        name = i18n("Component &name:");
-        break;
-    case  UMLObject::ot_Port:
-        name = i18n("Port &name:");
-        break;
-    case  UMLObject::ot_Node:
-        name = i18n("Node &name:");
-        break;
-    case  UMLObject::ot_Artifact:
-        name = i18n("Artifact &name:");
-        break;
-    case  UMLObject::ot_Enum:
-        name = i18n("Enum &name:");
-        break;
-    case  UMLObject::ot_Datatype:
-        name = i18n("Datatype &name:");
-        break;
-    case  UMLObject::ot_Entity:
-        name = i18n("Entity &name:");
-        break;
-    case  UMLObject::ot_Stereotype:
-        name = i18n("Stereotype &name:");
-        break;
-    default:
-        name = QLatin1String("<unknown> &name:");
-        uWarning() << "creating class gen page for unknown widget type";
-        break;
-    }
+    QString name = UMLObject::toI18nString(t);
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
