@@ -1112,6 +1112,9 @@ QString UMLObject::toI18nString(ObjectType t)
     case  UMLObject::ot_Enum:
         name = i18n("Enum &name:");
         break;
+    case  UMLObject::ot_Folder:
+        name = i18n("Folder &name:");
+        break;
     case  UMLObject::ot_Interface:
         name = i18n("Interface &name:");
         break;
