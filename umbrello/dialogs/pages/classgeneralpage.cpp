@@ -56,8 +56,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pObject(o),
     m_pWidget(0),
     m_pInstanceWidget(0),
-    m_stereotypeWidget(0),
-    m_pUmldoc(d)
+    m_pUmldoc(d),
+    m_stereotypeWidget(0)
 {
     if (!m_pObject) {
         uWarning() << "Given UMLObject is NULL.";
