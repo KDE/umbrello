@@ -57,7 +57,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pWidget(0),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
-    m_stereotypeWidget(0)
+    m_stereotypeWidget(0),
+    m_visibilityEnumWidget(0)
 {
     if (!m_pObject) {
         uWarning() << "Given UMLObject is NULL.";
@@ -156,7 +157,11 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
   : DialogPageBase(parent),
-    m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
+    m_pObject(0),
+    m_pWidget(o),
+    m_pInstanceWidget(0),
+    m_pUmldoc(d),
+    m_visibilityEnumWidget(0)
 {
     if (!m_pWidget) {
         uWarning() << "Given ObjectWidget is NULL.";
@@ -218,7 +223,11 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
   : DialogPageBase(parent),
-    m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
+    m_pObject(0),
+    m_pWidget(0),
+    m_pInstanceWidget(widget),
+    m_pUmldoc(d),
+    m_visibilityEnumWidget(0)
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
@@ -297,7 +306,8 @@ void ClassGeneralPage::apply()
         }
 
         if (t != UMLObject::ot_Stereotype) {
-            m_visibilityEnumWidget->apply();
+            if (m_visibilityEnumWidget)
+                m_visibilityEnumWidget->apply();
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {
