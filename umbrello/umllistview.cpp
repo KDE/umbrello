@@ -634,7 +634,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
                 UMLApp::app()->docWindow()->updateDocumentation(false);
-                pView->showPropDialog();
+                pView->showPropertiesDialog();
                 UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
             }
             return;
@@ -1447,7 +1447,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
             UMLApp::app()->docWindow()->updateDocumentation(false);
-            pView->showPropDialog();
+            pView->showPropertiesDialog();
             UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
         }
         return;
