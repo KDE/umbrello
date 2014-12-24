@@ -36,10 +36,9 @@
 /**
  * Constructor.
  */
-ObjectNodeDialog::ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget)
-  : DialogBase(pView),
+ObjectNodeDialog::ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget)
+  : DialogBase(parent),
     m_pObjectNodeWidget(pWidget),
-    m_pView(pView),
     m_bChangesMade(false)
 {
     setCaption(i18n("Properties"));
