@@ -396,6 +396,7 @@ set(libumbrello_SRCS
     assocrules.cpp
     attribute.cpp
     basictypes.cpp
+    birdview.cpp
     category.cpp
     checkconstraint.cpp
     classifier.cpp
