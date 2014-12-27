@@ -44,7 +44,7 @@ public:
     void setZoom(int zoom);
     int currentZoom();
 
-    bool showPropDialog();
+    virtual bool showPropertiesDialog(QWidget *parent = 0);
 
 public slots:
     void zoomIn();

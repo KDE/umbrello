@@ -634,7 +634,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
                 UMLApp::app()->docWindow()->updateDocumentation(false);
-                pView->showPropDialog();
+                pView->showPropertiesDialog();
                 UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
             }
             return;
@@ -646,60 +646,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 uError() << "UMLObject of ... is null! Doing nothing.";
                 return;
             }
-            umlType = object->baseType();
-
-            if (Model_Utils::typeIsCanvasWidget(lvt)) {
-                object->showPropertiesPagedDialog(ClassPropertiesDialog::page_gen);
-            } else if (umlType == UMLObject::ot_EnumLiteral) {
-                // Show the Enum Literal Dialog
-                UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
-                selectedEnumLiteral->showPropertiesDialog(this);
-
-            } else if (umlType == UMLObject::ot_Attribute) {
-                // show the attribute dialog
-                UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
-                QPointer<UMLAttributeDialog> dialog = new UMLAttributeDialog(this, selectedAttribute);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_EntityAttribute) {
-                // show the attribute dialog
-                UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
-                QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(this, selectedAttribute);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_Operation) {
-                // show the operation dialog
-                UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
-                QPointer<UMLOperationDialog> dialog = new UMLOperationDialog(this, selectedOperation);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_Template) {
-                // show the template dialog
-                UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
-                QPointer<UMLTemplateDialog> dialog = new UMLTemplateDialog(this, selectedTemplate);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_UniqueConstraint) {
-                // show the Unique Constraint dialog
-                UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
-                QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(this, selectedUniqueConstraint);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_ForeignKeyConstraint) {
-                // show the Unique Constraint dialog
-                UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
-                QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(this, selectedForeignKeyConstraint);
-                dialog->exec();
-                delete dialog;
-            } else if (umlType == UMLObject::ot_CheckConstraint) {
-                // show the Check Constraint dialog
-                UMLCheckConstraint* selectedCheckConstraint = static_cast<UMLCheckConstraint*>(object);
-                QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(this, selectedCheckConstraint);
-                dialog->exec();
-                delete dialog;
-            } else {
-                uWarning() << "calling properties on unknown type";
-            }
+            object->showPropertiesDialog();
         }
         break;
 
@@ -1447,7 +1394,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
             UMLApp::app()->docWindow()->updateDocumentation(false);
-            pView->showPropDialog();
+            pView->showPropertiesDialog();
             UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
         }
         return;
@@ -1459,36 +1406,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         return;
     }
 
-    UMLObject::ObjectType type = object->baseType();
-    int page = ClassPropertiesDialog::page_gen;
-    if (Model_Utils::isClassifierListitem(type)) {
-        object = (UMLObject *)object->parent();
-    }
-    //set what page to show
-    switch (type) {
-
-    case UMLObject::ot_Attribute:
-        page = ClassPropertiesDialog::page_att;
-        break;
-    case UMLObject::ot_Operation:
-        page = ClassPropertiesDialog::page_op;
-        break;
-    case UMLObject::ot_EntityAttribute:
-        page = ClassPropertiesDialog::page_entatt;
-        break;
-    case UMLObject::ot_UniqueConstraint:
-    case UMLObject::ot_ForeignKeyConstraint:
-    case UMLObject::ot_CheckConstraint:
-        page = ClassPropertiesDialog::page_constraint;
-        break;
-    default:
-        page = ClassPropertiesDialog::page_gen;
-        break;
-    }
-
-    if (object) {
-        object->showPropertiesPagedDialog(page);
-    }
+    object->showPropertiesDialog(this);
 }
 
 /**

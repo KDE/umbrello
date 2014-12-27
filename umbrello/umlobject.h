@@ -131,8 +131,7 @@ public:
     void setAbstract(bool bAbstract);
     bool isAbstract() const;
 
-    // FIXME: merge with showPropertiesDialog()
-    virtual bool showPropertiesPagedDialog(int page = 0, bool assoc = false);
+    virtual bool showPropertiesDialog(QWidget* parent = 0);
 
     virtual bool resolveRef();
 

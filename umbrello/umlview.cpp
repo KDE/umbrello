@@ -98,10 +98,10 @@ int UMLView::currentZoom()
 /**
  * Shows the properties dialog for the view.
  */
-bool UMLView::showPropDialog()
+bool UMLView::showPropertiesDialog(QWidget *parent)
 {
     bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(this, umlScene());
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(parent, umlScene());
     if (dlg->exec() == QDialog::Accepted) {
         success = true;
     }

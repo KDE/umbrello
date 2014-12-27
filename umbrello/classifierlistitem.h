@@ -45,14 +45,6 @@ public:
 
     virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
-    /**
-     * Display the properties configuration dialog for the list item.
-     *
-     * @param parent    The parent widget.
-     * @return  True for success of this operation.
-     */
-    virtual bool showPropertiesDialog(QWidget* parent) = 0;
-
     virtual void copyInto(UMLObject *lhs) const;
 
     /**

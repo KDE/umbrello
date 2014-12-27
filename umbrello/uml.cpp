@@ -2547,7 +2547,7 @@ void UMLApp::slotAllViewsExportImage()
  */
 void UMLApp::slotCurrentViewProperties()
 {
-    currentView()->showPropDialog();
+    currentView()->showPropertiesDialog();
 }
 
 /**
