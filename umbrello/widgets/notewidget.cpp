@@ -232,8 +232,14 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 void NoteWidget::rename()
 {
-    UMLApp::app()->docWindow()->showDocumentation(this);
-    UMLApp::app()->docWindow()->setFocus();
+    bool ok = false;
+    QString newNote = KInputDialog::getMultiLineText(i18n("Changing note"),
+                                                     i18n("Enter note:"),
+                                                     documentation(), &ok,
+                                                     (QWidget*)UMLApp::app());
+    if (ok) {
+        setDocumentation(newNote);
+    }
 }
 
 /**
