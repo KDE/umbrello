@@ -12,7 +12,9 @@
 #include "umlobject.h"
 
 // app includes
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
+#include "enumliteral.h"
 #include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -24,7 +26,6 @@
 #include "model_utils.h"
 #include "import_utils.h"
 #include "docwindow.h"
-#include "classpropertiesdialog.h"
 #include "cmds.h"
 
 // kde includes
@@ -108,20 +109,16 @@ void UMLObject::init()
 }
 
 /**
- * This method is called if you wish to see the properties of a
- * UMLObject.  A dialog box will be displayed from which you
- * can change the object's properties.
+ * Display the properties configuration dialog for the object.
  *
- * @param page    The page to show.
- * @param assoc   Whether to show association page.
- * @return        True if we modified the object.
+ * @param parent    The parent widget.
+ * @return  True for success of this operation.
  */
-bool UMLObject::showPropertiesPagedDialog(int page, bool assoc)
+bool UMLObject::showPropertiesDialog(QWidget *parent)
 {
-    Q_UNUSED(page);
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
-    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this, assoc);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(parent, this, false);
     bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);

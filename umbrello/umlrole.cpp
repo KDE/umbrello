@@ -15,9 +15,11 @@
 #include "association.h"
 #include "debug_utils.h"
 #include "umldoc.h"
+#include "umlroledialog.h"
 #include "uml.h"
 
 // qt includes
+#include <QPointer>
 #include <QRegExp>
 
 /**
@@ -210,6 +212,23 @@ void UMLRole::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             break;
     }
     qElement.appendChild(roleElement);
+}
+
+/**
+ * Display the properties configuration dialog for the object.
+ *
+ * @param parent    The parent widget.
+ * @return  True for success of this operation.
+ */
+bool UMLRole::showPropertiesDialog(QWidget *parent)
+{
+    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(parent, this);
+    bool modified = false;
+    if (dlg->exec() == KDialog::Accepted) {
+        modified = true;
+    }
+    delete dlg;
+    return modified;
 }
 
 /**

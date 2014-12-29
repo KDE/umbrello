@@ -60,7 +60,7 @@ public:
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    bool showPropertiesDialog(QWidget* parent);
+    virtual bool showPropertiesDialog(QWidget* parent);
 
 protected:
     int m_refCount;

@@ -64,7 +64,7 @@ public:
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    virtual bool showPropertiesDialog(QWidget* parent);
+    virtual bool showPropertiesDialog(QWidget* parent = 0);
 
     bool addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr);
 

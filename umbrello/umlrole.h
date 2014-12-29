@@ -48,6 +48,8 @@ public:
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+    virtual bool showPropertiesDialog(QWidget *parent = 0);
+
 protected:
 
     bool load(QDomElement& element);
