@@ -782,7 +782,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
             showPropertiesDialog();
 
         } else if (wt == WidgetBase::wt_Object) {
-            m_umlObject->showPropertiesPagedDialog();
+            m_umlObject->showPropertiesDialog();
         } else {
             uWarning() << "making properties dialog for unknown widget type";
         }

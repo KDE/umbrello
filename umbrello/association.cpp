@@ -14,6 +14,7 @@
 // app includes
 #include "debug_utils.h"
 #include "classifier.h"
+#include "classpropertiesdialog.h"
 #include "folder.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -26,6 +27,7 @@
 #include <KLocalizedString>
 
 // qt includes
+#include <QPointer>
 #include <QRegExp>
 
 using namespace Uml;
@@ -200,6 +202,18 @@ void UMLAssociation::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     getUMLRole(RoleType::B)->saveToXMI (qDoc, connElement);
     associationElement.appendChild (connElement);
     qElement.appendChild(associationElement);
+}
+
+bool UMLAssociation::showPropertiesDialog(QWidget *parent)
+{
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(parent, this, true);
+    bool modified = false;
+    if (dlg->exec()) {
+        modified = true;
+    }
+    dlg->close();
+    delete dlg;
+    return modified;
 }
 
 /**

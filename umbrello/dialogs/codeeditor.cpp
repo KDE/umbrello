@@ -161,41 +161,11 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
         if (info) {
             UMLObject *obj = info->parent();
             if (obj) {
-                UMLAttribute * at = NULL;
-                UMLRole * role = NULL;
-                UMLOperation * op = NULL;
-
-                if ((at = dynamic_cast<UMLAttribute*>(obj))) {
-                    QPointer<UMLAttributeDialog> dlg = new UMLAttributeDialog(this, at);
-                    if (dlg->exec() == QDialog::Accepted) {
-                        rebuildView(para);
-                    }
-                    delete dlg;
+                if (obj->showPropertiesDialog(this)) {
+                    rebuildView(para);
                 }
-                else if ((dynamic_cast<UMLClassifier*>(obj))) {
-                    if (obj->showPropertiesPagedDialog()) {
-                        rebuildView(para);
-                    }
-                }
-                else if ((role = dynamic_cast<UMLRole*>(obj))) {
-                    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(this, role);
-                    if (dlg->exec() == QDialog::Accepted) {
-                        rebuildView(para);
-                    }
-                    delete dlg;
-                }
-                else if ((op = dynamic_cast<UMLOperation*>(obj))) 
-                    //else if((cop = dynamic_cast<CodeOperation*>(tBlock)))
-                {
-                    QPointer<UMLOperationDialog> dlg = new UMLOperationDialog(this, op);
-                    if (dlg->exec() == QDialog::Accepted) {
-                        rebuildView(para);
-                    }
-                    delete dlg;
-                }
-                else {
-                    uError() << "UNKNOWN parent for textBlock";
-                }
+            } else {
+                uError() << "UNKNOWN parent for textBlock";
             }
         }
     }

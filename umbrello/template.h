@@ -44,7 +44,7 @@ public:
 
     virtual QString getTypeName() const;
 
-    bool showPropertiesDialog(QWidget* parent);
+    virtual bool showPropertiesDialog(QWidget* parent);
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
