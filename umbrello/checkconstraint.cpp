@@ -142,9 +142,9 @@ bool UMLCheckConstraint::load(QDomElement & element)
 
     QDomText checkConstraintText = node.toText();
     if (checkConstraintText.isNull())
-        return false;
-
-    m_CheckCondition = checkConstraintText.data();
+        m_CheckCondition = QString();
+    else
+        m_CheckCondition = checkConstraintText.data();
 
     return true;
 }
