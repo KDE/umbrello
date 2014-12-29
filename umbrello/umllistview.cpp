@@ -319,9 +319,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         return;
     }
     UMLListViewItem::ListViewType lvt = currItem->type();
-    UMLObject::ObjectType umlType = UMLObject::ot_UMLObject;
     ListPopupMenu::MenuType menuType = ListPopupMenu::typeFromAction(action);
-    QString name;
 
     switch (menuType) {
     case ListPopupMenu::mt_Class:
