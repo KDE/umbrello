@@ -226,6 +226,7 @@ set(libdialogs_SRCS
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp
+    dialogs/widgets/visibilityenumwidget.cpp
 )
 
 qt5_wrap_ui(  libdialogs_SRCS
@@ -394,6 +395,7 @@ set(libumbrello_SRCS
     assocrules.cpp
     attribute.cpp
     basictypes.cpp
+    birdview.cpp
     category.cpp
     checkconstraint.cpp
     classifier.cpp

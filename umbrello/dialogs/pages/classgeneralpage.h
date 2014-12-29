@@ -15,7 +15,6 @@
 
 class QGroupBox;
 class QLabel;
-class QRadioButton;
 class QCheckBox;
 class KComboBox;
 class KLineEdit;
@@ -29,6 +28,7 @@ class UMLArtifactTypeWidget;
 class UMLObjectNameWidget;
 class UMLPackageWidget;
 class UMLStereotypeWidget;
+class VisibilityEnumWidget;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -43,38 +43,12 @@ class ClassGeneralPage : public DialogPageBase
     Q_OBJECT
 public:
 
-    /**
-     * Sets up the ClassGenPage.
-     * @param  d       The UMLDoc which controls controls object creation.
-     * @param  parent  The parent to the ClassGenPage.
-     * @param  o       The UMLObject to display the properties of.
-     */
     ClassGeneralPage(UMLDoc *d, QWidget *parent, UMLObject * o);
-
-    /**
-     * Sets up the ClassGenPage for an ObjectWidget
-     * @param  d       The UMLDoc which controls controls object creation.
-     * @param  parent  The parent to the ClassGenPage.
-     * @param  o       The ObjectWidget to display the properties of.
-     */
     ClassGeneralPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
-
-    /**
-     *  Sets up the ClassGenPage for a UMLWidget instance (used
-     *  for component instances on deployment diagrams)
-     *
-     *  @param  d       The UMLDoc which controls controls object creation.
-     *  @param  parent  The parent to the ClassGenPage.
-     *  @param  widget  The UMLWidget to display the properties of.
-     */
     ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget);
-
-    /**
-     * Standard deconstructor.
-     */
     ~ClassGeneralPage();
 
-    void updateObject();
+    void apply();
 
 private:
     UMLObject * m_pObject;
@@ -83,9 +57,7 @@ private:
     UMLDoc * m_pUmldoc;
 
     QGroupBox * m_docGB;
-    QGroupBox * m_pButtonGB;
     QLabel * m_pInstanceL, * m_pStereoTypeL;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     KTextEdit * m_doc;
     QCheckBox * m_pExecutableCB;
@@ -94,6 +66,7 @@ private:
     UMLStereotypeWidget *m_stereotypeWidget;
     UMLPackageWidget *m_packageWidget;
     UMLArtifactTypeWidget *m_artifactTypeWidget;
+    VisibilityEnumWidget *m_visibilityEnumWidget;
 
     void insertStereotypesSorted(const QString& type);
 

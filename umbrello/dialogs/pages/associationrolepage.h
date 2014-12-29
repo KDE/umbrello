@@ -21,6 +21,7 @@ class ObjectWidget;
 class QRadioButton;
 class UMLDoc;
 class UMLObject;
+class VisibilityEnumWidget;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -34,22 +35,21 @@ class AssociationRolePage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssociationRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    AssociationRolePage(QWidget *parent, AssociationWidget *a);
     ~AssociationRolePage();
 
-    void updateObject();
+    void apply();
 
 private:
     KLineEdit *m_pRoleALE, *m_pRoleBLE;
     KComboBox *m_pMultiACB, *m_pMultiBCB;
     KTextEdit *m_docA, *m_docB;
     AssociationWidget *m_pAssociationWidget;
-    UMLDoc *m_pUmldoc;
     ObjectWidget *m_pWidget;
-    QRadioButton *m_PublicARB, *m_ProtectedARB, *m_PrivateARB, *m_ImplementationARB;
-    QRadioButton *m_PublicBRB, *m_ProtectedBRB, *m_PrivateBRB, *m_ImplementationBRB;
     QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
     QRadioButton *m_ChangeableBRB, *m_AddOnlyBRB, *m_FrozenBRB;
+    VisibilityEnumWidget *m_visibilityWidgetA;
+    VisibilityEnumWidget *m_visibilityWidgetB;
 
     void constructWidget();
 

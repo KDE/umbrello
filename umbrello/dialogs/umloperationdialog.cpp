@@ -27,6 +27,7 @@
 #include "parameterpropertiesdialog.h"
 #include "stereotype.h"
 #include "uniqueid.h"
+#include "visibilityenumwidget.h"
 
 //kde includes
 #include <KComboBox>
@@ -116,22 +117,8 @@ void UMLOperationDialog::setupDialog()
     m_pQueryCB->setChecked(m_operation->getConst());
     genLayout->addWidget(m_pQueryCB, 2, 2);
 
-    m_pScopeGB = new QGroupBox(i18n("Visibility"));
-
-    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
-    scopeLayout->setMargin(margin);
-
-    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pScopeGB);
-    scopeLayout->addWidget(m_pPublicRB);
-
-    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pScopeGB);
-    scopeLayout->addWidget(m_pPrivateRB);
-
-    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Prot&ected"), m_pScopeGB);
-    scopeLayout->addWidget(m_pProtectedRB);
-
-    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeGB);
-    scopeLayout->addWidget(m_pImplementationRB);
+    m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
+    m_visibilityEnumWidget->addToLayout(topLayout);
 
     m_pParmsGB = new QGroupBox(i18n("Parameters"));
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
@@ -171,7 +158,6 @@ void UMLOperationDialog::setupDialog()
     parmsLayout->addWidget(buttonBox);
 
     topLayout->addWidget(m_pGenGB);
-    topLayout->addWidget(m_pScopeGB);
     topLayout->addWidget(m_pParmsGB);
 
     m_pDeleteButton->setEnabled(false);
@@ -187,24 +173,6 @@ void UMLOperationDialog::setupDialog()
     UMLAttributeList list = m_operation->getParmList();
     foreach (UMLAttribute* pAtt, list) {
         m_pParmsLW->addItem(pAtt->toString(Uml::SignatureType::SigNoVis));
-    }
-
-    // set scope
-    switch (m_operation->visibility()) {
-    case Uml::Visibility::Public:
-        m_pPublicRB->setChecked(true);
-        break;
-    case Uml::Visibility::Private:
-        m_pPrivateRB->setChecked(true);
-        break;
-    case Uml::Visibility::Protected:
-        m_pProtectedRB->setChecked(true);
-        break;
-    case Uml::Visibility::Implementation:
-        m_pImplementationRB->setChecked(true);
-        break;
-    default:
-        break;
     }
 
     // setup parm list box signals
@@ -439,14 +407,7 @@ bool UMLOperationDialog::apply()
     }
     m_operation->setName(name);
 
-    if(m_pPublicRB->isChecked())
-      m_operation->setVisibility(Uml::Visibility::Public);
-    else if(m_pPrivateRB->isChecked())
-      m_operation->setVisibility(Uml::Visibility::Private);
-    else if (m_pProtectedRB->isChecked())
-      m_operation->setVisibility(Uml::Visibility::Protected);
-    else if (m_pImplementationRB->isChecked())
-      m_operation->setVisibility(Uml::Visibility::Implementation);
+    m_visibilityEnumWidget->apply();
 
     QString typeName = m_pRtypeCB->currentText();
     UMLTemplate *tmplParam = 0;

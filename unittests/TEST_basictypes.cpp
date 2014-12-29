@@ -26,6 +26,7 @@ class TEST_basictypes : public QObject
 {
     Q_OBJECT
 private slots:
+    void test_dynamic_cast();
     void test_ModelType_toString();
     void test_ModelType_fromString();
     void test_ModelType_forLoop();
@@ -47,6 +48,26 @@ private slots:
 };
 
 //-----------------------------------------------------------------------------
+
+class A
+{
+public:
+  virtual ~A () { }
+};
+
+class B : public A
+{
+};
+
+void TEST_basictypes::test_dynamic_cast()
+{
+    A *a1 = new A;
+    B* b1 = dynamic_cast<B*> (a1);
+    QVERIFY(!b1);
+    A *a2 = new B;
+    B* b2 = dynamic_cast<B*> (a2);
+    QVERIFY(b2);
+}
 
 void TEST_basictypes::test_ModelType_toString()
 {

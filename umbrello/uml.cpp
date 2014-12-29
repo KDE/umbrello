@@ -12,6 +12,7 @@
 #include "uml.h"
 
 // app includes
+#include "birdview.h"
 #include "umlappprivate.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -83,6 +84,7 @@
 #include <QPrintPreviewDialog>
 #include <QPushButton>
 #include <QRegExp>
+#include <QScrollBar>
 #include <QSlider>
 #include <QStackedWidget>
 #include <QStatusBar>
@@ -134,6 +136,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_doc(new UMLDoc()),
     m_listView(0),
     m_docWindow(0),
+    m_birdView(0),
     m_refactoringAssist(0),
     m_clipTimer(0),
     m_copyTimer(0),
@@ -199,6 +202,7 @@ UMLApp::~UMLApp()
     delete m_pUndoStack;
     delete m_printer;
     delete m_d;
+    delete m_birdView;
 }
 
 /**
@@ -438,6 +442,10 @@ void UMLApp::initActions()
     viewShowCmdHistory = actionCollection()->add<KToggleAction>(QLatin1String("view_show_undo"));
     viewShowCmdHistory->setText(i18n("&Command history"));
     connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
+
+    viewShowBirdView = actionCollection()->add<KToggleAction>(QLatin1String("view_show_bird"));
+    viewShowBirdView->setText(i18n("&Bird's eye view"));
+    connect(viewShowBirdView, SIGNAL(triggered(bool)), this, SLOT(slotShowBirdView(bool)));
 
     viewClearDiagram = actionCollection()->addAction(QLatin1String("view_clear_diagram"));
     viewClearDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Clear));
@@ -785,8 +793,8 @@ void UMLApp::initView()
 
 //     m_mainDock = new QDockWidget(this);
 //     addDockWidget (Qt::RightDockWidgetArea, m_mainDock);
-    m_newSessionButton = NULL;
-    m_diagramMenu = NULL;
+    m_newSessionButton = 0;
+    m_diagramMenu = 0;
 
     // Prepare Stacked Diagram Representation
     m_viewStack = new QStackedWidget(this);
@@ -876,6 +884,12 @@ void UMLApp::initView()
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
     //m_propertyDock->setObjectName(QLatin1String("PropertyDock"));
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
+
+    // create the bird's eye view
+    m_birdViewDock = new BirdViewDockWidget(i18n("&Bird's eye view"), this);
+    m_birdViewDock->setObjectName(QLatin1String("BirdViewDock"));
+    addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
+    connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);
@@ -2498,6 +2512,12 @@ void UMLApp::slotShowLogView(bool state)
     viewShowLog->setChecked(state);
 }
 
+void UMLApp::slotShowBirdView(bool state)
+{
+    m_birdViewDock->setVisible(state);
+    viewShowBirdView->setChecked(state);
+}
+
 /**
  * Menu selection for clear current view.
  */
@@ -2545,7 +2565,7 @@ void UMLApp::slotAllViewsExportImage()
  */
 void UMLApp::slotCurrentViewProperties()
 {
-    currentView()->showPropDialog();
+    currentView()->showPropertiesDialog();
 }
 
 /**
@@ -2939,6 +2959,41 @@ QWidget* UMLApp::mainViewWidget()
 }
 
 /**
+ * Create bird's view window in a dock widget.
+ */
+void UMLApp::createBirdView(UMLView *view)
+{
+    if (m_birdView) {
+        delete m_birdView;
+    }
+    m_birdView = new BirdView(m_birdViewDock, view);
+    connect(m_birdView, SIGNAL(viewPositionChanged(QPoint)), this, SLOT(slotBirdViewChanged(QPoint)));
+    connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
+}
+
+/**
+ * Slot for changes of the bird view's rectangle by moving.
+ * @param delta   change value for a move
+ */
+void UMLApp::slotBirdViewChanged(const QPoint& delta)
+{
+    m_birdView->setSlotsEnabled(false);
+    UMLView* view = currentView();
+    QScrollBar* hScroll = view->horizontalScrollBar();
+    if (hScroll) {
+        int hvalue = hScroll->value() + delta.x();
+        hScroll->setValue(hvalue);
+    }
+    QScrollBar* vScroll = view->verticalScrollBar();
+    if (vScroll) {
+        int vvalue = vScroll->value() + delta.y();
+        vScroll->setValue(vvalue);
+    }
+    DEBUG(DBG_SRC) << "view moved with: " << delta;
+    m_birdView->setSlotsEnabled(true);
+}
+
+/**
  * Puts this view to the top of the viewStack, i.e. makes it
  * visible to the user.
  *
@@ -2985,6 +3040,8 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
         }
     }
     DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
+
+    createBirdView(view);
 }
 
 /**

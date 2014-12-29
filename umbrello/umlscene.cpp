@@ -919,7 +919,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
         m_pToolBarState->mouseDoubleClick(event);
     if (!event->isAccepted()) {
         // show properties dialog of the scene
-        if (m_view->showPropDialog() == true) {
+        if (m_view->showPropertiesDialog() == true) {
             m_doc->setModified();
         }
         event->accept();
@@ -3106,7 +3106,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        if (m_view->showPropDialog() == true)
+        if (m_view->showPropertiesDialog() == true)
             m_doc->setModified();
         break;
 

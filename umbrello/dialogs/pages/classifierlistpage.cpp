@@ -366,7 +366,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void ClassifierListPage::updateObject()
+void ClassifierListPage::apply()
 {
     saveCurrentItemDocumentation();
     QListWidgetItem* i = m_pItemListLB->currentItem();

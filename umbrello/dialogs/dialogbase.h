@@ -13,19 +13,23 @@
 
 #include "icon_utils.h"
 
-#include <kpagewidget.h>
+#include <KPageWidget>
 
 // qt class includes
 #include <QDialog>
 #include <QWidget>
 
 //forward declarations
+class AssociationWidget;
+class AssociationGeneralPage;
+class AssociationRolePage;
 class KFontChooser;
 class KPageDialog;
 class QAbstractButton;
 class QFrame;
 class UMLWidget;
 class UMLWidgetStylePage;
+class WidgetBase;
 
 /**
  * Base class for property dialogs
@@ -45,12 +49,8 @@ class DialogBase : public QWidget
 public:
     explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
-    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
-    KPageWidgetItem *setupFontPage(UMLWidget *widget);
-    void saveFontPageData(UMLWidget *widget);
 
-    KPageWidgetItem *setupStylePage(UMLWidget *widget);
-    void saveStylePageData(UMLWidget *widget);
+    void apply();
 
     void setCaption(const QString &caption);
     void accept();
@@ -75,6 +75,8 @@ private slots:
     void slotDefaultClicked();
 
 protected:
+    AssociationGeneralPage *m_pAssocGeneralPage;
+    AssociationRolePage *m_pRolePage;
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;
     KPageWidgetItem *m_pageItem;
@@ -82,6 +84,25 @@ protected:
     KPageWidget *m_pageWidget;
     bool m_isModified;
     virtual void keyPressEvent(QKeyEvent *event);
+
+    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+    KPageWidgetItem *createPage(const QString &name, const QString &header, Icon_Utils::IconType icon, QWidget *widget);
+
+    void setupGeneralPage(AssociationWidget *widget);
+    void applyGeneralPage(AssociationWidget *widget);
+
+    KPageWidgetItem *setupFontPage(const QFont &font);
+    KPageWidgetItem *setupFontPage(UMLWidget *widget);
+    KPageWidgetItem *setupFontPage(AssociationWidget *widget);
+    void applyFontPage(UMLWidget *widget);
+    void applyFontPage(AssociationWidget *widget);
+
+    KPageWidgetItem *setupStylePage(WidgetBase *widget);
+    void applyStylePage();
+
+    KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
+    void applyAssociationRolePage();
+
 };
 
 #endif

@@ -36,7 +36,7 @@ public:
     UMLRoleProperties(QWidget *parent, UMLRole *role);
     ~UMLRoleProperties();
 
-    void updateObject();
+    void apply();
 
 protected:
 

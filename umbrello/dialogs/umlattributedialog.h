@@ -15,13 +15,13 @@
 
 class QCheckBox;
 class QGroupBox;
-class QRadioButton;
 class QLabel;
 class UMLAttribute;
 class UMLStereotypeWidget;
 class KComboBox;
 class KLineEdit;
 class UMLStereotypeWidget;
+class VisibilityEnumWidget;
 
 /**
  * @author Paul Hensgen
@@ -45,13 +45,12 @@ protected:
 
     //GUI Widgets
     QGroupBox * m_pValuesGB;
-    QGroupBox * m_pScopeGB;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
     KComboBox * m_pTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE;
     QCheckBox* m_pStaticCB;
     UMLStereotypeWidget *m_stereotypeWidget;
+    VisibilityEnumWidget *m_visibilityEnumWidget;
 
 public slots:
     void slotOk();

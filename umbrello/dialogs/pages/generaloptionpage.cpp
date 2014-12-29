@@ -42,6 +42,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 
     Settings::OptionState &optionState = Settings::optionState();
     int spacingHint = 2;
+
     // Set up undo setting
     m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"));
     topLayout->addWidget(m_GeneralWidgets.miscGB);
@@ -69,6 +70,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
+    topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
@@ -104,6 +106,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
                                         "the autosave will overwrite your file automatically.</p></qt>");
     m_GeneralWidgets.autosaveSuffixL->setToolTip(autoSaveSuffixToolTip);
     m_GeneralWidgets.autosaveSuffixT->setToolTip(autoSaveSuffixToolTip);
+    topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
     //setup startup settings
     m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"));
@@ -147,6 +150,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
         indexCounter++;
     }
     m_GeneralWidgets.languageKB->setCurrentIndex(optionState.generalState.defaultLanguage);
+    topLayout->addWidget(m_GeneralWidgets.startupGB);
 }
 
 /**

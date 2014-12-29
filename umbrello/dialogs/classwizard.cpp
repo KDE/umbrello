@@ -134,9 +134,9 @@ void ClassWizard::next()
 {
     QWizardPage* page = currentPage();
     if (page == m_GeneralPage) {
-        m_pGenPage->updateObject();
+        m_pGenPage->apply();
     } else if (page == m_AttributesPage) {
-        m_pAttPage->updateObject();
+        m_pAttPage->apply();
     }
     QWizard::next();
 }
@@ -148,28 +148,28 @@ void ClassWizard::back()
 {
     QWizardPage* page = currentPage();
     if (page == m_AttributesPage) {
-        m_pAttPage->updateObject();
+        m_pAttPage->apply();
     } else if (page == m_OperationsPage) {
-        m_pOpPage->updateObject();
+        m_pOpPage->apply();
     }
     QWizard::back();
 }
 
 /**
  * Finish button was called.
- * @todo Calling m_pGenPage->updateObject() twice is ugly,
+ * @todo Calling m_pGenPage->apply() twice is ugly,
  *       but without the first call the documentation of the class is cleared.
  */
 void ClassWizard::accept()
 {
-    m_pGenPage->updateObject();
+    m_pGenPage->apply();
 
     m_doc->addUMLObject(m_pClass);
     m_doc->signalUMLObjectCreated(m_pClass);
 
-    // call updateObject of General Page again so as to bind to package
+    // call apply of General Page again so as to bind to package
     // now that the classifier object is in the document.
-    m_pGenPage->updateObject();
+    m_pGenPage->apply();
 
     QWizard::accept();
 }

@@ -33,13 +33,14 @@
 #include "umlpackagewidget.h"
 #include "umlstereotypewidget.h"
 #include "umlartifacttypewidget.h"
+#include "visibilityenumwidget.h"
 
 // kde includes
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <ktextedit.h>
+#include <KMessageBox>
+#include <KComboBox>
+#include <KLineEdit>
+#include <KTextEdit>
 
 // qt includes
 #include <QCheckBox>
@@ -50,9 +51,20 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
+/**
+ * Sets up the ClassGenPage.
+ * @param  d       The UMLDoc which controls controls object creation.
+ * @param  parent  The parent to the ClassGenPage.
+ * @param  o       The UMLObject to display the properties of.
+ */
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
-    m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
+    m_pObject(o),
+    m_pWidget(0),
+    m_pInstanceWidget(0),
+    m_pUmldoc(d),
+    m_stereotypeWidget(0),
+    m_visibilityEnumWidget(0)
 {
     if (!m_pObject) {
         uWarning() << "Given UMLObject is NULL.";
@@ -66,53 +78,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->setSpacing(6);
 
     // setup name
-    QString name;
     UMLObject::ObjectType t = m_pObject->baseType();
-    switch (t) {
-    case UMLObject::ot_Class:
-        name = i18n("Class &name:");
-        break;
-    case UMLObject::ot_Actor:
-        name = i18n("Actor &name:");
-        break;
-    case  UMLObject::ot_Package:
-        name = i18n("Package &name:");
-        break;
-    case  UMLObject::ot_UseCase:
-        name = i18n("Use case &name:");
-        break;
-    case  UMLObject::ot_Interface:
-        name = i18n("Interface &name:");
-        break;
-    case  UMLObject::ot_Component:
-        name = i18n("Component &name:");
-        break;
-    case  UMLObject::ot_Port:
-        name = i18n("Port &name:");
-        break;
-    case  UMLObject::ot_Node:
-        name = i18n("Node &name:");
-        break;
-    case  UMLObject::ot_Artifact:
-        name = i18n("Artifact &name:");
-        break;
-    case  UMLObject::ot_Enum:
-        name = i18n("Enum &name:");
-        break;
-    case  UMLObject::ot_Datatype:
-        name = i18n("Datatype &name:");
-        break;
-    case  UMLObject::ot_Entity:
-        name = i18n("Entity &name:");
-        break;
-    case  UMLObject::ot_Stereotype:
-        name = i18n("Stereotype &name:");
-        break;
-    default:
-        name = QLatin1String("<unknown> &name:");
-        uWarning() << "creating class gen page for unknown widget type";
-        break;
-    }
+    QString name = UMLObject::toI18nString(t);
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
@@ -174,38 +141,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup scope
     if (t != UMLObject::ot_Stereotype) {
-        m_pButtonGB = new QGroupBox(i18n("Visibility"), this);
-        QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonGB);
-        scopeLayout->setMargin(margin);
-
-        m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonGB);
-        scopeLayout->addWidget(m_pPublicRB);
-
-        m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonGB);
-        scopeLayout->addWidget(m_pPrivateRB);
-
-        m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonGB);
-        scopeLayout->addWidget(m_pProtectedRB);
-        topLayout->addWidget(m_pButtonGB);
-
-        m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonGB);
-        scopeLayout->addWidget(m_pImplementationRB);
-        topLayout->addWidget(m_pButtonGB);
-
-        switch (m_pObject->visibility()) {
-        case Uml::Visibility::Public:
-            m_pPublicRB->setChecked(true);
-            break;
-        case Uml::Visibility::Private:
-            m_pPrivateRB->setChecked(true);
-            break;
-        case Uml::Visibility::Protected:
-            m_pProtectedRB->setChecked(true);
-            break;
-        default:
-            m_pImplementationRB->setChecked(true);
-            break;
-        }
+        m_visibilityEnumWidget = new VisibilityEnumWidget(m_pObject, this);
+        m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
     // setup documentation
@@ -224,9 +161,19 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
+/**
+ * Sets up the ClassGenPage for an ObjectWidget
+ * @param  d       The UMLDoc which controls controls object creation.
+ * @param  parent  The parent to the ClassGenPage.
+ * @param  o       The ObjectWidget to display the properties of.
+ */
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
   : DialogPageBase(parent),
-    m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
+    m_pObject(0),
+    m_pWidget(o),
+    m_pInstanceWidget(0),
+    m_pUmldoc(d),
+    m_visibilityEnumWidget(0)
 {
     if (!m_pWidget) {
         uWarning() << "Given ObjectWidget is NULL.";
@@ -286,9 +233,21 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     }
 }
 
+/**
+ *  Sets up the ClassGenPage for a UMLWidget instance (used
+ *  for component instances on deployment diagrams)
+ *
+ *  @param  d       The UMLDoc which controls controls object creation.
+ *  @param  parent  The parent to the ClassGenPage.
+ *  @param  widget  The UMLWidget to display the properties of.
+ */
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
   : DialogPageBase(parent),
-    m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
+    m_pObject(0),
+    m_pWidget(0),
+    m_pInstanceWidget(widget),
+    m_pUmldoc(d),
+    m_visibilityEnumWidget(0)
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
@@ -304,20 +263,14 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
 
-    QString name;
-    if (widget->baseType() == WidgetBase::wt_Component) {
-        name = i18n("Component name:");
-    } else if (widget->baseType() == WidgetBase::wt_Node) {
-        name = i18n("Node name:");
-    } else {
-        uWarning() << "ClassGenPage called on unknown widget type";
-    }
-
-    m_nameWidget = new UMLObjectNameWidget(name, widget->name());
+    QString typeName = UMLWidget::toI18nString(widget->baseType());
+    m_nameWidget = new UMLObjectNameWidget(typeName, widget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
-    m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+    if (widget->umlObject()) {
+        m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
+        m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+    }
 
     m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
@@ -335,6 +288,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     docLayout->addWidget(m_doc);
 }
 
+/**
+ * Standard destructor.
+ */
 ClassGeneralPage::~ClassGeneralPage()
 {
 }
@@ -343,7 +299,7 @@ ClassGeneralPage::~ClassGeneralPage()
  * Will move information from the dialog into the object.
  * Call when the ok or apply button is pressed.
  */
-void ClassGeneralPage::updateObject()
+void ClassGeneralPage::apply()
 {
     QString name = m_nameWidget->text();
     if (m_pObject) {
@@ -373,14 +329,8 @@ void ClassGeneralPage::updateObject()
         }
 
         if (t != UMLObject::ot_Stereotype) {
-            Uml::Visibility::Enum s = Uml::Visibility::Implementation;
-            if (m_pPublicRB->isChecked())
-                s = Uml::Visibility::Public;
-            else if (m_pPrivateRB->isChecked())
-                s = Uml::Visibility::Private;
-            else if (m_pProtectedRB->isChecked())
-                s = Uml::Visibility::Protected;
-            m_pObject->setVisibility(s);
+            if (m_visibilityEnumWidget)
+                m_visibilityEnumWidget->apply();
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {
@@ -403,6 +353,10 @@ void ClassGeneralPage::updateObject()
         }
         m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
+        if (!o) {
+            uError() << "UML object of widget is zero.";
+            return;
+        }
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
@@ -416,6 +370,11 @@ void ClassGeneralPage::updateObject()
         m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
         m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
+        if (!o) {
+            uError() << "UML object of instance widget is zero.";
+            return;
+        }
+
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),

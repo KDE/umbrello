@@ -14,20 +14,21 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "dialog_utils.h"
+#include "import_utils.h"
+#include "object_factory.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlstereotypewidget.h"
-#include "dialog_utils.h"
-#include "object_factory.h"
-#include "import_utils.h"
+#include "visibilityenumwidget.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <kcompletion.h>
+#include <KLineEdit>
+#include <KComboBox>
+#include <KCompletion>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QCheckBox>
@@ -91,40 +92,8 @@ void UMLAttributeDialog::setupDialog()
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeGB = new QGroupBox(i18n("Visibility"));
-    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
-    scopeLayout->setMargin(margin);
-
-    m_pPublicRB = new QRadioButton(i18nc("access control public", "&Public"), m_pScopeGB);
-    scopeLayout->addWidget(m_pPublicRB);
-
-    m_pPrivateRB = new QRadioButton(i18nc("access control private", "P&rivate"), m_pScopeGB);
-    scopeLayout->addWidget(m_pPrivateRB);
-
-    m_pProtectedRB = new QRadioButton(i18nc("access control protected", "Prot&ected"), m_pScopeGB);
-    scopeLayout->addWidget(m_pProtectedRB);
-
-    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeGB);
-    scopeLayout->addWidget(m_pImplementationRB);
-
-    mainLayout->addWidget(m_pScopeGB);
-
-    switch (m_pAttribute->visibility()) {
-    case Uml::Visibility::Public:
-        m_pPublicRB->setChecked(true);
-        break;
-    case Uml::Visibility::Private:
-        m_pPrivateRB->setChecked(true);
-        break;
-    case Uml::Visibility::Protected:
-        m_pProtectedRB->setChecked(true);
-        break;
-    case Uml::Visibility::Implementation:
-        m_pImplementationRB->setChecked(true);
-        break;
-    default:
-        break;
-    }
+    m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
+    m_visibilityEnumWidget->addToLayout(mainLayout);
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
 
@@ -162,18 +131,11 @@ bool UMLAttributeDialog::apply()
         return false;
     }
     m_pAttribute->setName(name);
-    Uml::Visibility::Enum scope = Uml::Visibility::Protected;
-    if (m_pPublicRB->isChecked()) {
-        scope = Uml::Visibility::Public;
-    } else if (m_pPrivateRB->isChecked()) {
-        scope = Uml::Visibility::Private;
-    } else if (m_pImplementationRB->isChecked()) {
-        scope = Uml::Visibility::Implementation;
-    }
-    m_pAttribute->setVisibility(scope);
+    m_visibilityEnumWidget->apply();
+
     // Set the scope as the default in the option state
     Settings::OptionState optionState = Settings::optionState();
-    optionState.classState.defaultAttributeScope = scope;
+    optionState.classState.defaultAttributeScope = m_pAttribute->visibility();
     Settings::setOptionState(optionState);
 
     m_pAttribute->setInitialValue(m_pInitialLE->text());

@@ -70,7 +70,7 @@ void UMLRoleDialog::setupDialog()
 bool UMLRoleDialog::apply()
 {
     if (m_pRoleProps) {
-        m_pRoleProps->updateObject();
+        m_pRoleProps->apply();
         return true;
     }
     return false;

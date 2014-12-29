@@ -33,7 +33,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QFontDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 
@@ -49,7 +48,6 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, boo
 {
     init();
     m_pWidget = 0;
-    m_Type = pt_Object;
     m_pObject = c;
 
     setupPages(assoc);
@@ -69,13 +67,12 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
 {
     init();
     m_pWidget = o;
-    m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->umlObject();
     m_doc = UMLApp::app()->document();
 
     setupGeneralPage();
-    setupStylePage();
-    setupFontPage();
+    setupStylePage(m_pWidget);
+    setupFontPage(m_pWidget);
 
     setMinimumSize(340, 420);
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
@@ -93,7 +90,6 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 {
     init();
     m_pWidget = w;
-    m_Type = pt_Widget;
     m_pObject = w->umlObject();
 
     if (w->baseType() == WidgetBase::wt_Class
@@ -117,8 +113,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         w->baseType() == WidgetBase::wt_Interface) {
         setupDisplayPage();
     }
-    setupStylePage();
-    setupFontPage();
+    setupStylePage(m_pWidget);
+    setupFontPage(m_pWidget);
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
@@ -134,8 +130,6 @@ void ClassPropertiesDialog::init()
     m_pEntityAttributePage = 0;
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
-    m_pStylePage = 0;
-    m_pChooser = 0;
     m_doc = UMLApp::app()->document();
 }
 
@@ -169,35 +163,34 @@ void ClassPropertiesDialog::slotOk()
 void ClassPropertiesDialog::slotApply()
 {
     if (m_pGenPage) {
-        m_pGenPage->updateObject();
+        m_pGenPage->apply();
     }
     if (m_pAttPage) {
-        m_pAttPage->updateObject();
+        m_pAttPage->apply();
     }
     if (m_pOpsPage) {
-        m_pOpsPage->updateObject();
+        m_pOpsPage->apply();
     }
     if (m_pTemplatePage) {
-        m_pTemplatePage->updateObject();
+        m_pTemplatePage->apply();
     }
     if (m_pEnumLiteralPage) {
-        m_pEnumLiteralPage->updateObject();
+        m_pEnumLiteralPage->apply();
     }
     if (m_pEntityAttributePage) {
-        m_pEntityAttributePage->updateObject();
+        m_pEntityAttributePage->apply();
     }
     if (m_pEntityConstraintPage) {
-        m_pEntityConstraintPage->updateObject();
+        m_pEntityConstraintPage->apply();
     }
     if (m_pOptionsPage) {
         m_pOptionsPage->apply();
     }
     if (m_pStylePage) {
-        m_pStylePage->updateUMLWidget();
+        m_pStylePage->apply();
     }
     if (m_pWidget) {
-        uDebug() << "setting font " << m_pChooser->currentFont().toString();
-        m_pWidget->setFont(m_pChooser->currentFont());
+        applyFontPage(m_pWidget);
     }
 }
 
@@ -248,23 +241,11 @@ void ClassPropertiesDialog::setupGeneralPage()
                                Icon_Utils::it_Properties_General);
     page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
-    if (m_Type == pt_ObjectWidget)
+    if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
         m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
     else
         m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);
-}
-
-/**
- * Sets up the page "Style" for the component.
- */
-void ClassPropertiesDialog::setupStylePage()
-{
-    QFrame * page = createPage(i18nc("widget style page name", "Style"), i18n("Widget Style"),
-                                Icon_Utils::it_Properties_Color);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
-    m_pStylePage = new UMLWidgetStylePage(page, m_pWidget);
-    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**
@@ -285,11 +266,9 @@ void ClassPropertiesDialog::setupDisplayPage()
  */
 void ClassPropertiesDialog::setupAttributesPage()
 {
-    QFrame* page = createPage(i18n("Attributes"), i18n("Attribute Settings"),
-                               Icon_Utils::it_Properties_Attributes);
-    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
-    QHBoxLayout * attLayout = new QHBoxLayout(page);
-    attLayout->addWidget(m_pAttPage);
+    m_pAttPage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
+    createPage(i18n("Attributes"), i18n("Attribute Settings"),
+               Icon_Utils::it_Properties_Attributes, m_pAttPage);
 }
 
 /**
@@ -297,11 +276,9 @@ void ClassPropertiesDialog::setupAttributesPage()
  */
 void ClassPropertiesDialog::setupOperationsPage()
 {
-    QFrame* page = createPage(i18n("Operations"), i18n("Operation Settings"),
-                               Icon_Utils::it_Properties_Operations);
-    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
-    QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
-    pOpsLayout->addWidget(m_pOpsPage);
+    m_pOpsPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
+    createPage(i18n("Operations"), i18n("Operation Settings"),
+               Icon_Utils::it_Properties_Operations, m_pOpsPage);
 }
 
 /**
@@ -309,11 +286,9 @@ void ClassPropertiesDialog::setupOperationsPage()
  */
 void ClassPropertiesDialog::setupTemplatesPage()
 {
-    QFrame* page = createPage(i18n("Templates"), i18n("Templates Settings"),
-                               Icon_Utils::it_Properties_Templates);
-    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
-    QHBoxLayout* templatesLayout = new QHBoxLayout(page);
-    templatesLayout->addWidget(m_pTemplatePage);
+    m_pTemplatePage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
+    createPage(i18n("Templates"), i18n("Templates Settings"),
+               Icon_Utils::it_Properties_Templates, m_pTemplatePage);
 }
 
 /**
@@ -321,11 +296,9 @@ void ClassPropertiesDialog::setupTemplatesPage()
  */
 void ClassPropertiesDialog::setupEnumLiteralsPage()
 {
-    QFrame* page = createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
-                               Icon_Utils::it_Properties_EnumLiterals);
-    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
-    QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
-    enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
+    m_pEnumLiteralPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
+    createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
+               Icon_Utils::it_Properties_EnumLiterals, m_pEnumLiteralPage);
 }
 
 /**
@@ -333,11 +306,9 @@ void ClassPropertiesDialog::setupEnumLiteralsPage()
  */
 void ClassPropertiesDialog::setupEntityAttributesPage()
 {
-    QFrame* page = createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
-                               Icon_Utils::it_Properties_EntityAttributes);
-    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
-    QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
-    entityAttributesLayout->addWidget(m_pEntityAttributePage);
+    m_pEntityAttributePage = new ClassifierListPage(0, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
+    createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
+               Icon_Utils::it_Properties_EntityAttributes, m_pEntityAttributePage);
 }
 
 /**
@@ -345,11 +316,9 @@ void ClassPropertiesDialog::setupEntityAttributesPage()
  */
 void ClassPropertiesDialog::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
-                               Icon_Utils::it_Properties_EntityConstraints);
-    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
-    QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
-    entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
+    m_pEntityConstraintPage = new ConstraintListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
+    createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
+               Icon_Utils::it_Properties_EntityConstraints, m_pEntityConstraintPage);
 }
 
 /**
@@ -357,11 +326,9 @@ void ClassPropertiesDialog::setupEntityConstraintsPage()
  */
 void ClassPropertiesDialog::setupContentsPage()
 {
-    QFrame* page = createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
-                               Icon_Utils::it_Properties_Contents);
-    m_pPkgContentsPage = new PackageContentsPage(page, (UMLPackage*)m_pObject);
-    QHBoxLayout* contentsLayout = new QHBoxLayout(page);
-    contentsLayout->addWidget(m_pPkgContentsPage);
+    m_pPkgContentsPage = new PackageContentsPage(0, (UMLPackage*)m_pObject);
+    createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
+               Icon_Utils::it_Properties_Contents, m_pPkgContentsPage);
 }
 
 /**
@@ -369,11 +336,9 @@ void ClassPropertiesDialog::setupContentsPage()
  */
 void ClassPropertiesDialog::setupAssociationsPage()
 {
-    QFrame* page = createPage(i18n("Associations"), i18n("Class Associations"),
-                               Icon_Utils::it_Properties_Associations);
-    m_pAssocPage = new ClassAssociationsPage(page, UMLApp::app()->currentView()->umlScene(), m_pObject);
-    QHBoxLayout* assocLayout = new QHBoxLayout(page);
-    assocLayout->addWidget(m_pAssocPage);
+    m_pAssocPage = new ClassAssociationsPage(0, UMLApp::app()->currentView()->umlScene(), m_pObject);
+    createPage(i18n("Associations"), i18n("Class Associations"),
+               Icon_Utils::it_Properties_Associations, m_pAssocPage);
 }
 
 /**
@@ -381,31 +346,9 @@ void ClassPropertiesDialog::setupAssociationsPage()
  */
 void ClassPropertiesDialog::setupInstancePages()
 {
-    QFrame* page = createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
-                              Icon_Utils::it_Properties_General);
-    page->setMinimumSize(310, 330);
-    m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
-    QHBoxLayout* genLayout = new QHBoxLayout(page);
-    genLayout->addWidget(m_pGenPage);
+    m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pWidget);
+    createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
+               Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
     m_pAssocPage = 0;
 }
 
-/**
- * Sets up the font page.
- */
-void ClassPropertiesDialog::setupFontPage()
-{
-    if (!m_pWidget) {
-        return;
-    }
-    QWidget *page = new QWidget();
-    QVBoxLayout *topLayout = new QVBoxLayout(page);
-    KPageWidgetItem *pageItem = new KPageWidgetItem(page, i18n("Font"));
-    pageItem->setHeader(i18n("Font Settings"));
-    pageItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
-    addPage(pageItem);
-    m_pChooser = new QFontDialog();
-    m_pChooser->setCurrentFont(m_pWidget->font());
-    m_pChooser->setOption(QFontDialog::NoButtons);
-    topLayout->addWidget(m_pChooser);
-}

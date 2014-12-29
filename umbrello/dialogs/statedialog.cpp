@@ -19,9 +19,9 @@
 #include "icon_utils.h"
 
 // kde includes
-#include <klineedit.h>
+#include <KLineEdit>
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <KTextEdit>
 
 // qt includes
 #include <QFrame>
@@ -94,10 +94,10 @@ void StateDialog::applyPage(KPageWidgetItem*item)
         }
     }
     else if (item == pageStyle) {
-        saveStylePageData(m_pStateWidget);
+        applyStylePage();
     }
     else if (item == pageFont) {
-        saveFontPageData(m_pStateWidget);
+        applyFontPage(m_pStateWidget);
     }
 }
 
@@ -112,10 +112,8 @@ void StateDialog::setupGeneralPage()
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
 
-    pageGeneral = new KPageWidgetItem(page, i18nc("general page", "General"));
-    pageGeneral->setHeader(i18n("General Properties"));
-    pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageGeneral);
+    pageGeneral = createPage(i18nc("general page", "General"), i18n("General Properties"),
+                             Icon_Utils::it_Properties_General, page);
 
     m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_GenPageWidgets.generalGB);
@@ -189,13 +187,7 @@ void StateDialog::setupGeneralPage()
  */
 void StateDialog::setupActivityPage()
 {
-    QFrame * activityPage = new QFrame();
-    pageActivity = new KPageWidgetItem(activityPage, i18n("Activities"));
-    pageActivity->setHeader(i18n("Activities"));
-    pageActivity->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Activities));
-    addPage(pageActivity);
-
-    QHBoxLayout * activityLayout = new QHBoxLayout(activityPage);
-    m_pActivityPage = new ActivityPage(activityPage, m_pStateWidget);
-    activityLayout->addWidget(m_pActivityPage);
+    m_pActivityPage = new ActivityPage(0, m_pStateWidget);
+    pageActivity = createPage(i18n("Activities"), i18n("Activities"),
+                              Icon_Utils::it_Properties_Activities, m_pActivityPage);
 }

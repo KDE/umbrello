@@ -83,7 +83,7 @@ void UMLRoleProperties::constructWidget()
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void UMLRoleProperties::updateObject()
+void UMLRoleProperties::apply()
 {
     if (m_pRole) {
 

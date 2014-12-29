@@ -253,6 +253,7 @@ void ClassOptionsPage::setupClassPageOption()
     if (!m_isDiagram) {
         m_scopeGB = new QGroupBox(i18n("Starting Scope"));
         topLayout->addWidget(m_scopeGB);
+
         QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
         scopeLayout->setSpacing(10);
         scopeLayout->setMargin(fontMetrics().height());
@@ -276,6 +277,7 @@ void ClassOptionsPage::setupClassPageOption()
         insertOperationScope(i18n("Protected"));
         m_operationScopeCB->setCurrentIndex(m_options->classState.defaultOperationScope);
         scopeLayout->addWidget(m_operationScopeCB, 1, 1);
+        topLayout->addWidget(m_scopeGB);
     }
 }
 

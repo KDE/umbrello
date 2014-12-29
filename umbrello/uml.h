@@ -19,6 +19,8 @@
 #include <QUrl>
 
 // forward declaration of the UML classes
+class BirdView;
+class BirdViewDockWidget;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
@@ -248,6 +250,7 @@ public slots:
     void slotShowDocumentationView(bool state);
     void slotShowCmdHistoryView(bool state);
     void slotShowLogView(bool state);
+    void slotShowBirdView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -271,6 +274,8 @@ public slots:
     void slotZoom100();
     void slotZoomOut();
     void slotZoomIn();
+
+    void slotBirdViewChanged(const QPoint& delta);
 
     void setupZoomMenu();
 
@@ -331,6 +336,8 @@ private:
 
     void createDiagram(Uml::DiagramType::Enum type);
 
+    void createBirdView(UMLView* view);
+
     QMenu* m_langSelect;  ///< For selecting the active language.
     QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
 
@@ -366,8 +373,11 @@ private:
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
     QDockWidget* m_logDock;            ///< Contains the log window widget.
+    BirdViewDockWidget* m_birdViewDock;///< Contains the bird's eye view
 
-    DocWindow*   m_docWindow;         ///< Documentation window.
+    DocWindow*   m_docWindow;          ///< Documentation window.
+    QListWidget* m_logWindow;          ///< Logging window.
+    BirdView*    m_birdView;           ///< Bird View window
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
@@ -386,6 +396,7 @@ private:
     QAction* viewShowDoc;
     QAction* viewShowLog;
     QAction* viewShowCmdHistory;
+    QAction* viewShowBirdView;
 
     KActionMenu* newDiagram;
     QAction* viewClearDiagram;

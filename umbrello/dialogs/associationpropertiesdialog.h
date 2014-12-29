@@ -14,10 +14,6 @@
 #include "dialogbase.h"
 
 class AssociationWidget;
-class AssociationRolePage;
-class AssociationGeneralPage;
-class QFontDialog;
-class UMLWidgetStylePage;
 
 /**
  * Based off of AssociationPropertiesDialog class
@@ -31,8 +27,6 @@ public:
     AssociationPropertiesDialog(QWidget *parent, AssociationWidget *a, int pageNum = 0);
     ~AssociationPropertiesDialog();
 
-    enum Page { page_gen = 0, page_role, page_font };
-
 protected:
     void setupPages();
 
@@ -41,11 +35,7 @@ protected slots:
     void slotApply();
 
 private:
-    AssociationGeneralPage *m_pGenPage;
-    AssociationRolePage    *m_pRolePage;
-    UMLWidgetStylePage     *m_pStylePage;
-    QFontDialog            *m_pChooser;
-    AssociationWidget      *m_pAssoc;
+    AssociationWidget  *m_pAssoc;
 
 };
 

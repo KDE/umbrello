@@ -73,6 +73,7 @@ public:
     };
 
     static QString toString(WidgetType wt);
+    static QString toI18nString(WidgetType wt);
 
     explicit WidgetBase(UMLScene * scene, WidgetType type= wt_UMLWidget);
     virtual ~WidgetBase();

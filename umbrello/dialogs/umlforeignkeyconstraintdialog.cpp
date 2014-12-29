@@ -29,10 +29,10 @@
 #include "uniqueconstraint.h"
 #include "icon_utils.h"
 
-#include <kcombobox.h>
-#include <klineedit.h>
+#include <KComboBox>
+#include <KLineEdit>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -199,10 +199,8 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
 
-    pageGeneral = new KPageWidgetItem(page, i18nc("general page title", "General"));
-    pageGeneral->setHeader(i18n("General Settings"));
-    pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageGeneral);
+    pageGeneral = createPage(i18nc("general page title", "General"), i18n("General Settings"),
+                             Icon_Utils::it_Properties_General, page);
 
     m_GeneralWidgets.generalGB = new QGroupBox(i18nc("general group title", "General"));
     topLayout->addWidget(m_GeneralWidgets.generalGB);
@@ -283,15 +281,12 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
  */
 void UMLForeignKeyConstraintDialog::setupColumnPage()
 {
-    //setup Columns page
     QWidget* page = new QWidget();
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
 
-    pageColumn = new KPageWidgetItem(page, i18n("Columns"));
-    pageColumn->setHeader(i18n("Columns"));
-    pageColumn->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Columns));
-    addPage(pageColumn);
+    pageColumn = createPage(i18n("Columns"), i18n("Columns"),
+                            Icon_Utils::it_Properties_Columns, page);
 
     m_ColumnWidgets.mappingTW = new QTreeWidget();
     topLayout->addWidget(m_ColumnWidgets.mappingTW);

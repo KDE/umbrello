@@ -16,6 +16,9 @@
 #include "icon_utils.h"
 #include "uml.h"
 #include "umlwidget.h"
+#include "associationgeneralpage.h"
+#include "associationrolepage.h"
+#include "associationwidget.h"
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
@@ -42,6 +45,8 @@ DEBUG_REGISTER(DialogBase)
  */
 DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
+    m_pAssocGeneralPage(0),
+    m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
     m_pageItem(0),
@@ -81,73 +86,22 @@ DialogBase::~DialogBase()
 }
 
 /**
- * Create a property page
- * @param name   The Text displayed in the page list
- * @param header The Text displayed above the page
- * @param icon  The icon to display in the page list
- * @return Pointer to created frame
+ * Apply all used pages
  */
-QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
+void DialogBase::apply()
 {
-    QFrame* page = new QFrame();
-    m_pageItem = new KPageWidgetItem(page, name);
-    if (!m_pageWidget) {
-        m_pageItem->setHeader(header);
-        m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
-    } else
-        m_pageItem->setHeader(QString());
-    addPage(m_pageItem);
-    //page->setMinimumSize(310, 330);
-    return page;
-}
+    if (m_pAssocGeneralPage)
+        m_pAssocGeneralPage->apply();
 
-/**
- * Sets up the font selection page.
- * @param widget The widget to load the initial data from
- */
-KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
-{
-    QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
-    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_fontChooser->setFont(widget->font());
-    m_pStyleLayout->addWidget(m_fontChooser);
-    return m_pageItem;
-}
+    if (m_pRolePage) {
+        applyAssociationRolePage();
+    }
 
-/**
- * updates the font page data
- * @param widget Widget to save the font data into
- */
-void DialogBase::saveFontPageData(UMLWidget *widget)
-{
-    Q_UNUSED(widget);
-    Q_ASSERT(m_fontChooser);
-    widget->setFont(m_fontChooser->font());
-}
+    if (m_pStylePage) {
+        applyStylePage();
+    }
 
-/**
- * Sets up the style page.
- * @param widget The widget to load the initial data from
- */
-KPageWidgetItem *DialogBase::setupStylePage(UMLWidget *widget)
-{
-    QFrame * page = createPage(i18nc("widget style page", "Style"), i18n("Widget Style"), Icon_Utils::it_Properties_Color);
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
-    m_pStylePage = new UMLWidgetStylePage(page, widget);
-    m_pStyleLayout->addWidget(m_pStylePage);
-    return m_pageItem;
-}
-
-/**
- * updates the font page data
- * @param widget Widget to save the font data into
- */
-void DialogBase::saveStylePageData(UMLWidget *widget)
-{
-    Q_UNUSED(widget);
-    Q_ASSERT(m_pStylePage);
-    m_pStylePage->updateUMLWidget();
+    //TODO include applying font settings data
 }
 
 void DialogBase::setCaption(const QString &caption)
@@ -189,7 +143,7 @@ void DialogBase::addPage(KPageWidgetItem *page)
 
 int DialogBase::spacingHint()
 {
-    return 0;  // was QDialog::spacingHint();
+    return 0;  // FIXME KF5 was QDialog::spacingHint();
 }
 
 int DialogBase::exec()
@@ -285,4 +239,167 @@ void DialogBase::keyPressEvent(QKeyEvent *event)
         m_isModified = true;
 
     QWidget::keyPressEvent(event);
+}
+
+/**
+ * Create a property page
+ * @param name   The Text displayed in the page list
+ * @param header The Text displayed above the page
+ * @param icon  The icon to display in the page list
+ * @return Pointer to created frame
+ */
+QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
+{
+    QFrame* page = new QFrame();
+    m_pageItem = new KPageWidgetItem(page, name);
+    if (!m_pageWidget) {
+        m_pageItem->setHeader(header);
+        m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
+    } else
+        m_pageItem->setHeader(QString());
+    addPage(m_pageItem);
+    //page->setMinimumSize(310, 330);
+    return page;
+}
+
+/**
+ * create new page using a dedicated widget
+ * @param name   The Text displayed in the page list
+ * @param header The Text displayed above the page
+ * @param icon  The icon to display in the page list
+ * @param widget Widget to display in the page
+ * @return page widget item instance
+ */
+KPageWidgetItem *DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon, QWidget *widget)
+{
+    QFrame* page = createPage(name, header, icon);
+    QHBoxLayout * topLayout = new QHBoxLayout(page);
+    widget->setParent(page);
+    topLayout->addWidget(widget);
+    return m_pageItem;
+}
+
+/**
+ * Sets up the general settings page.
+ * @param widget The widget to load the initial data from
+ */
+void DialogBase::setupGeneralPage(AssociationWidget *widget)
+{
+    QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_pAssocGeneralPage = new AssociationGeneralPage (page, widget);
+    layout->addWidget(m_pAssocGeneralPage);
+}
+
+/**
+ * updates the general page data
+ * @param widget Widget to save the general page data into
+ */
+void DialogBase::applyGeneralPage(AssociationWidget *widget)
+{
+    Q_UNUSED(widget);
+    Q_ASSERT(m_pAssocGeneralPage);
+    m_pAssocGeneralPage->apply();
+}
+
+/**
+ * Sets up the font selection page.
+ * @param font The font to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupFontPage(const QFont &font)
+{
+    QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
+    QHBoxLayout * layout = new QHBoxLayout(page);
+    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_fontChooser->setFont(font);
+    layout->addWidget(m_fontChooser);
+    return m_pageItem;
+}
+
+/**
+ * Sets up the font selection page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+{
+    return setupFontPage(widget->font());
+}
+
+/**
+ * Sets up the font selection page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupFontPage(AssociationWidget *widget)
+{
+    return setupFontPage(widget->font());
+}
+
+/**
+ * updates the font page data
+ * @param widget Widget to save the font data into
+ */
+void DialogBase::applyFontPage(UMLWidget *widget)
+{
+    Q_UNUSED(widget);
+    Q_ASSERT(m_fontChooser);
+    widget->setFont(m_fontChooser->font());
+}
+
+/**
+ * updates the font page data
+ * @param widget Widget to save the font data into
+ */
+void DialogBase::applyFontPage(AssociationWidget *widget)
+{
+    Q_UNUSED(widget);
+    Q_ASSERT(m_fontChooser);
+    widget->lwSetFont(m_fontChooser->font());
+}
+
+/**
+ * Sets up the style page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupStylePage(WidgetBase *widget)
+{
+    QFrame * page;
+    if (widget->baseType() == WidgetBase::wt_Association)
+        page = createPage(i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color);
+    else
+        page = createPage(i18nc("widget style page", "Style"), i18n("Widget Style"), Icon_Utils::it_Properties_Color);
+    QHBoxLayout * layout = new QHBoxLayout(page);
+    m_pStylePage = new UMLWidgetStylePage(page, widget);
+    layout->addWidget(m_pStylePage);
+    return m_pageItem;
+}
+
+/**
+ * Updates the style page.
+ */
+void DialogBase::applyStylePage()
+{
+    Q_ASSERT(m_pStylePage);
+    m_pStylePage->apply();
+}
+
+/**
+ * Sets up the role settings page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *DialogBase::setupAssociationRolePage(AssociationWidget *widget)
+{
+    QFrame *page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_pRolePage = new AssociationRolePage(page, widget);
+    layout->addWidget(m_pRolePage);
+    return m_pageItem;
+}
+
+/**
+ * Save all used pages
+ */
+void DialogBase::applyAssociationRolePage()
+{
+    Q_ASSERT(m_pRolePage);
+    m_pRolePage->apply();
 }

@@ -20,7 +20,6 @@ class ClassOptionsPage;
 class ConstraintListPage;
 class PackageContentsPage;
 class ObjectWidget;
-class QFontDialog;
 class UMLDoc;
 class UMLObject;
 class UMLWidget;
@@ -53,7 +52,6 @@ protected slots:
 protected:
     void setupPages(bool assoc = false);
     void setupGeneralPage();
-    void setupStylePage();
     void setupDisplayPage();
     void setupAttributesPage();
     void setupOperationsPage();
@@ -64,10 +62,8 @@ protected:
     void setupContentsPage();
     void setupAssociationsPage();
     void setupInstancePages();
-    void setupFontPage();
 
 private:
-    QFontDialog*         m_pChooser;
     ClassGeneralPage*    m_pGenPage;
     ClassifierListPage*  m_pAttPage;
     ClassifierListPage*  m_pOpsPage;
@@ -82,14 +78,6 @@ private:
     UMLDoc*              m_doc;
     UMLObject*           m_pObject;
     UMLWidget*           m_pWidget;
-
-    enum Page_Type {
-        pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colors page
-        pt_ObjectWidget,  // Shows pages needed for an ObjectWidget
-        pt_Widget         // Shows pages needed for any other widget
-    };
-
-    Page_Type m_Type;
 
 private:
     void init();

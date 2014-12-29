@@ -19,9 +19,9 @@
 #include "objectnodewidget.h"
 
 // kde includes
-#include <klineedit.h>
+#include <KLineEdit>
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <KTextEdit>
 
 // qt includes
 #include <QCheckBox>
@@ -35,10 +35,9 @@
 /**
  * Constructor.
  */
-ObjectNodeDialog::ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget)
-  : DialogBase(pView),
+ObjectNodeDialog::ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget)
+  : DialogBase(parent),
     m_pObjectNodeWidget(pWidget),
-    m_pView(pView),
     m_bChangesMade(false)
 {
     setCaption(i18n("Properties"));
@@ -114,11 +113,11 @@ void ObjectNodeDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemFont)
     {
-        saveFontPageData(m_pObjectNodeWidget);
+        applyFontPage(m_pObjectNodeWidget);
     }
     else if (item == pageItemStyle)
     {
-        saveStylePageData(m_pObjectNodeWidget);
+        applyStylePage();
     }
 }
 
@@ -133,10 +132,8 @@ void ObjectNodeDialog::setupGeneralPage()
 
     QWidget *page = new QWidget();
     QVBoxLayout *topLayout = new QVBoxLayout(page);
-    pageItemGeneral = new KPageWidgetItem(page, i18n("General"));
-    pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageItemGeneral);
+    pageItemGeneral = createPage(i18n("General"), i18n("General Properties"),
+                                 Icon_Utils::it_Properties_General, page);
 
     m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"));
     topLayout->addWidget(m_GenPageWidgets.generalGB);

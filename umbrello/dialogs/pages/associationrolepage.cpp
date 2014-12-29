@@ -17,6 +17,7 @@
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "visibilityenumwidget.h"
 
 // kde includes
 #include <kcombobox.h>
@@ -39,14 +40,13 @@
  *  @param  parent  The parent to the AssociationRolePage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */
-AssociationRolePage::AssociationRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
+AssociationRolePage::AssociationRolePage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
     m_pRoleALE(0),
     m_pRoleBLE(0),
     m_pMultiACB(0),
     m_pMultiBCB(0),
     m_pAssociationWidget(assoc),
-    m_pUmldoc(d),
     m_pWidget(0)
 {
     constructWidget();
@@ -82,8 +82,6 @@ void AssociationRolePage::constructWidget()
     // group boxes for role, documentation properties
     QGroupBox *propsAGB = new QGroupBox(this);
     QGroupBox *propsBGB = new QGroupBox(this);
-    QGroupBox *scopeABG = new QGroupBox(i18n("Role A Visibility"), this);
-    QGroupBox *scopeBBG = new QGroupBox(i18n("Role B Visibility"), this);
     QGroupBox *changeABG = new QGroupBox(i18n("Role A Changeability"), this);
     QGroupBox *changeBBG = new QGroupBox(i18n("Role B Changeability"), this);
     QGroupBox *docAGB = new QGroupBox(this);
@@ -132,36 +130,8 @@ void AssociationRolePage::constructWidget()
     propsALayout->addWidget(pMultiAL, 1, 0);
     propsALayout->addWidget(m_pMultiACB, 1, 1);
 
-    // Visibility A
-    QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
-    scopeALayout->setMargin(margin);
-
-    m_PublicARB = new QRadioButton(i18nc("scope for A is public", "Public"), scopeABG);
-    scopeALayout->addWidget(m_PublicARB);
-
-    m_PrivateARB = new QRadioButton(i18nc("scope for A is private", "Private"), scopeABG);
-    scopeALayout->addWidget(m_PrivateARB);
-
-    m_ProtectedARB = new QRadioButton(i18nc("scope for A is protected", "Protected"), scopeABG);
-    scopeALayout->addWidget(m_ProtectedARB);
-
-    m_ImplementationARB = new QRadioButton(i18nc("scope for A is implementation", "Implementation"), scopeABG);
-    scopeALayout->addWidget(m_ImplementationARB);
-
-    switch (m_pAssociationWidget->visibility(Uml::RoleType::A)) {
-    case Uml::Visibility::Public:
-        m_PublicARB->setChecked(true);
-        break;
-    case Uml::Visibility::Private:
-        m_PrivateARB->setChecked(true);
-        break;
-    case Uml::Visibility::Implementation:
-        m_PrivateARB->setChecked(true);
-        break;
-    default:
-        m_ProtectedARB->setChecked(true);
-        break;
-    }
+    m_visibilityWidgetA = new VisibilityEnumWidget(m_pAssociationWidget, Uml::RoleType::A, this);
+    mainLayout->addWidget(m_visibilityWidgetA, 1, 0);
 
     // Changeability A
     QHBoxLayout * changeALayout = new QHBoxLayout(changeABG);
@@ -209,36 +179,8 @@ void AssociationRolePage::constructWidget()
     propsBLayout->addWidget(pMultiBL, 1, 0);
     propsBLayout->addWidget(m_pMultiBCB, 1, 1);
 
-    // Visibility B
-    QHBoxLayout * scopeBLayout = new QHBoxLayout(scopeBBG);
-    scopeBLayout->setMargin(margin);
-
-    m_PublicBRB = new QRadioButton(i18nc("scope for B is public", "Public"), scopeBBG);
-    scopeBLayout->addWidget(m_PublicBRB);
-
-    m_PrivateBRB = new QRadioButton(i18nc("scope for B is private", "Private"), scopeBBG);
-    scopeBLayout->addWidget(m_PrivateBRB);
-
-    m_ProtectedBRB = new QRadioButton(i18nc("scope for B is protected", "Protected"), scopeBBG);
-    scopeBLayout->addWidget(m_ProtectedBRB);
-
-    m_ImplementationBRB = new QRadioButton(i18nc("scope for B is implementation", "Implementation"), scopeBBG);
-    scopeBLayout->addWidget(m_ImplementationBRB);
-
-    switch (m_pAssociationWidget->visibility(Uml::RoleType::B)) {
-    case Uml::Visibility::Public:
-        m_PublicBRB->setChecked(true);
-        break;
-    case Uml::Visibility::Private:
-        m_PrivateBRB->setChecked(true);
-        break;
-    case Uml::Visibility::Protected:
-          m_ProtectedBRB->setChecked(true);
-        break;
-    default:
-        m_ImplementationBRB->setChecked(true);
-        break;
-    }
+    m_visibilityWidgetB = new VisibilityEnumWidget(m_pAssociationWidget, Uml::RoleType::B, this);
+    mainLayout->addWidget(m_visibilityWidgetB, 1, 1);
 
     // Changeability B
     QHBoxLayout * changeBLayout = new QHBoxLayout(changeBBG);
@@ -289,11 +231,9 @@ void AssociationRolePage::constructWidget()
 
     // add group boxes to main layout
     mainLayout->addWidget(propsAGB, 0, 0);
-    mainLayout->addWidget(scopeABG, 1, 0);
     mainLayout->addWidget(changeABG, 2, 0);
     mainLayout->addWidget(docAGB, 3, 0);
     mainLayout->addWidget(propsBGB, 0, 1);
-    mainLayout->addWidget(scopeBBG, 1, 1);
     mainLayout->addWidget(changeBBG, 2, 1);
     mainLayout->addWidget(docBGB, 3, 1);
 }
@@ -302,7 +242,7 @@ void AssociationRolePage::constructWidget()
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void AssociationRolePage::updateObject()
+void AssociationRolePage::apply()
 {
     if (m_pAssociationWidget) {
 
@@ -312,23 +252,8 @@ void AssociationRolePage::updateObject()
         m_pAssociationWidget->setMultiplicity(m_pMultiACB->currentText(), Uml::RoleType::A);
         m_pAssociationWidget->setMultiplicity(m_pMultiBCB->currentText(), Uml::RoleType::B);
 
-        if (m_PrivateARB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::RoleType::A);
-        else if (m_ProtectedARB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Protected, Uml::RoleType::A);
-        else if (m_PublicARB->isChecked())
-            m_pAssociationWidget->setVisibility(Uml::Visibility::Public, Uml::RoleType::A);
-        else if (m_ImplementationARB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Implementation, Uml::RoleType::A);
-
-        if (m_PrivateBRB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::RoleType::B);
-        else if (m_ProtectedBRB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Protected, Uml::RoleType::B);
-        else if (m_PublicBRB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Public, Uml::RoleType::B);
-        else if (m_ImplementationBRB->isChecked())
-              m_pAssociationWidget->setVisibility(Uml::Visibility::Implementation, Uml::RoleType::B);
+        m_visibilityWidgetA->apply();
+        m_visibilityWidgetB->apply();
 
         if (m_FrozenARB->isChecked())
             m_pAssociationWidget->setChangeability(Uml::Changeability::Frozen, Uml::RoleType::A);

@@ -84,6 +84,7 @@
     <Action name="view_show_tree"/>
     <Action name="view_show_doc"/>
     <Action name="view_show_undo"/>
+    <Action name="view_show_bird"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="true" newline="true">

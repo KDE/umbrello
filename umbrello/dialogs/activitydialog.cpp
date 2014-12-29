@@ -18,9 +18,9 @@
 #include "icon_utils.h"
 
 //kde includes
-#include <klineedit.h>
+#include <KLineEdit>
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <KTextEdit>
 
 //qt includes
 #include <QCheckBox>
@@ -119,11 +119,11 @@ void ActivityDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == pageItemFont)
     {
-        saveFontPageData(m_pActivityWidget);
+        applyFontPage(m_pActivityWidget);
     }
     else if (item == pageItemStyle)
     {
-        saveStylePageData(m_pActivityWidget);
+        applyStylePage();
     }
 }
 
@@ -139,10 +139,8 @@ void ActivityDialog::setupGeneralPage()
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
 
-    pageItemGeneral = new KPageWidgetItem(page, i18nc("general properties page", "General"));
-    pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(pageItemGeneral);
+    pageItemGeneral = createPage(i18nc("general properties page", "General"), i18n("General Properties"),
+                                 Icon_Utils::it_Properties_General, page);
 
     m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_GenPageWidgets.generalGB);

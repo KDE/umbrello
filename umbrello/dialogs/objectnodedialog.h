@@ -33,7 +33,7 @@ class ObjectNodeDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget);
+    ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget);
 
     bool getChangesMade() {
         return m_bChangesMade;
