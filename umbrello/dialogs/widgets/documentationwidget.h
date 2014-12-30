@@ -14,6 +14,7 @@
 #include <QWidget>
 
 class UMLObject;
+class UMLWidget;
 
 class KTextEdit;
 
@@ -25,6 +26,7 @@ class DocumentationWidget : public QWidget
     Q_OBJECT
 public:
     DocumentationWidget(UMLObject *o, QWidget *parent = 0);
+    DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
     ~DocumentationWidget();
 
     void apply();
@@ -33,6 +35,8 @@ protected:
     QGroupBox *m_box;
     KTextEdit *m_editField;
     UMLObject *m_object;
+    UMLWidget *m_widget;
+    void init(const QString &text);
 };
 
 #endif // DOCUMENTATIONWIDGET_H

@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "documentationwidget.h"
 #include "dialog_utils.h"
 #include "classifier.h"
 #include "umlobject.h"
@@ -64,8 +65,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         uWarning() << "Given UMLObject is NULL.";
         return;
     }
-
-    int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -139,20 +138,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
-    // setup documentation
-    m_docGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
-
-    m_doc = new KTextEdit(m_docGB);
-    docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_docGB);
-
-    // setup fields
-    m_doc->setText(m_pObject->doc());
-
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_docWidget = new DocumentationWidget(m_pObject, this);
+    topLayout->addWidget(m_docWidget);
 }
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
@@ -170,8 +157,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
     m_pDeconCB = 0;
     m_pMultiCB = 0;
-
-    int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -205,17 +190,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pDeconCB->setChecked(m_pWidget->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2, 1);
     }
-    // setup documentation
-    m_docGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
+    m_docWidget = new DocumentationWidget(m_pObject, this);
+    topLayout->addWidget(m_docWidget);
 
-    m_doc = new KTextEdit(m_docGB);
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_doc->setText(m_pWidget->documentation());
-    docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_docGB);
     if (m_pMultiCB) {
         connect(m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
@@ -231,8 +208,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
-
-    int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
     QGridLayout* topLayout = new QGridLayout(this);
@@ -255,17 +230,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
 
-    //setup documentation
-    m_docGB = new QGroupBox(this);
-    topLayout->addWidget(m_docGB, 1, 0);
-    QHBoxLayout* docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
-
-    m_doc = new KTextEdit(m_docGB);
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_doc->setText(widget->documentation());
-    docLayout->addWidget(m_doc);
+    m_docWidget = new DocumentationWidget(widget, this);
+    topLayout->addWidget(m_docWidget);
 }
 
 ClassGeneralPage::~ClassGeneralPage()
@@ -279,8 +245,9 @@ ClassGeneralPage::~ClassGeneralPage()
 void ClassGeneralPage::apply()
 {
     QString name = m_nameWidget->text();
+    m_docWidget->apply();
+
     if (m_pObject) {
-        m_pObject->setDoc(m_doc->toPlainText());
 
         if (m_stereotypeWidget) {
             m_stereotypeWidget->apply();
@@ -328,7 +295,6 @@ void ClassGeneralPage::apply()
         if (m_pDeconCB) {
             m_pWidget->setShowDestruction(m_pDeconCB->isChecked());
         }
-        m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
         if (!o) {
             uError() << "UML object of widget is zero.";
@@ -345,7 +311,6 @@ void ClassGeneralPage::apply()
     } // end if m_pWidget
     else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
-        m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         if (!o) {
             uError() << "UML object of instance widget is zero.";
