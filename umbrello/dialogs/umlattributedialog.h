@@ -13,6 +13,7 @@
 
 #include <kdialog.h>
 
+class DocumentationWidget;
 class QCheckBox;
 class QGroupBox;
 class QRadioButton;
@@ -53,6 +54,7 @@ protected:
     KComboBox * m_pTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE, * m_pStereoTypeLE;
     QCheckBox* m_pStaticCB;
+    DocumentationWidget *m_docWidget;
 
 public slots:
 

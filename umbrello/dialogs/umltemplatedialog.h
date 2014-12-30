@@ -13,6 +13,7 @@
 
 #include <kdialog.h>
 
+class DocumentationWidget;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
@@ -48,6 +49,7 @@ protected:
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
     KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE, *m_pStereoTypeLE;
+    DocumentationWidget *m_docWidget;
 
 public slots:
 

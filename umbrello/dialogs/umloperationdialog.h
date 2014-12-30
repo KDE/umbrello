@@ -17,6 +17,7 @@
 //qt includes
 #include <QListWidgetItem>
 
+class DocumentationWidget;
 class UMLOperation;
 class ListPopupMenu;
 class QGroupBox;
@@ -77,6 +78,7 @@ protected:
     QPushButton*  m_pPropertiesButton;
     QToolButton*  m_pUpButton;
     QToolButton*  m_pDownButton;
+    DocumentationWidget*  m_docWidget;
 
 public slots:
     void slotParmRightButtonPressed(const QPoint &p);
