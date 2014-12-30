@@ -65,6 +65,7 @@ void DocumentationWidget::init(const QString &text)
     m_box->setTitle(i18n("Documentation"));
     m_editField = new KTextEdit(m_box);
     m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_editField->setWordWrapMode(QTextOption::WordWrap);
     m_editField->setText(text);
     QHBoxLayout *layout = new QHBoxLayout(m_box);
     layout->addWidget(m_editField);

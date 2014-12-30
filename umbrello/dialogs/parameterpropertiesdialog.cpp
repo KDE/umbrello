@@ -14,6 +14,7 @@
 // local includes
 #include "classifier.h"
 #include "debug_utils.h"
+#include "documentationwidget.h"
 #include "umlstereotypewidget.h"
 #include "umltemplatelist.h"
 #include "template.h"
@@ -45,6 +46,7 @@
 ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
         : KDialog(parent)
 {
+    Q_ASSERT(attr);
     setCaption(i18n("Parameter Properties"));
     setButtons(Help | Ok | Cancel);
     setDefaultButton(Ok);
@@ -53,13 +55,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     m_pUmldoc = doc;
     m_pAtt = attr;
-    QString type, text, name, initialValue;
-    if (attr) {
-        type = attr->getTypeName();
-        name = attr->name();
-        initialValue = attr->getInitialValue();
-        text = attr->doc();
-    }
+
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
     //disableResize();
@@ -85,11 +81,11 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     Dialog_Utils::makeLabeledEditField(propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
-                                    m_pNameLE, name);
+                                    m_pNameLE, attr->name());
 
     Dialog_Utils::makeLabeledEditField(propLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, initialValue);
+                                    m_pInitialLE, attr->getInitialValue());
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
@@ -111,15 +107,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     topLayout->addWidget(m_pKind);
 
-    m_docGB = new QGroupBox(i18n("Documentation"), frame);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-
-    m_doc = new KTextEdit(m_docGB);
-    m_doc->setWordWrapMode(QTextOption::WordWrap);
-    m_doc->setText(text);
-    docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_docGB);
+    m_docWidget = new DocumentationWidget(m_pAtt, frame);
+    topLayout->addWidget(m_docWidget);
 
     // Check the proper Kind radiobutton.
     if (attr) {
@@ -148,7 +137,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     setTabOrder(m_pNameLE, m_pInitialLE);
     setTabOrder(m_pInitialLE, m_stereotypeWidget);
     setTabOrder(m_stereotypeWidget, m_pIn);
-    setTabOrder(m_pIn, m_doc);
+    setTabOrder(m_pIn, m_docWidget);
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     m_pNameLE->setFocus();
 }
@@ -288,7 +277,7 @@ void ParameterPropertiesDialog::slotOk()
             m_pAtt->setType(newObj);
         }
 
-        m_pAtt->setDoc(getDoc()); // set the documentation
+        m_docWidget->apply();
         m_pAtt->setInitialValue(getInitialValue()); // set the initial value
     }
 }
