@@ -174,7 +174,7 @@ void SettingsDialog::setupUIPage()
 
 void SettingsDialog::setupGeneralPage()
 {
-    m_pGeneralPage = new GeneralOptionPage;  // FIXME KF5 (page);
+    m_pGeneralPage = new GeneralOptionPage;
     pageGeneral = createPage(i18nc("general settings page", "General"), i18n("General Settings"),
                              Icon_Utils::it_Properties_General, m_pGeneralPage);
     m_pGeneralPage->setMinimumSize(310, 330);
