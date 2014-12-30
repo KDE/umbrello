@@ -13,13 +13,13 @@
 
 #include "dialogpagebase.h"
 
+class DocumentationWidget;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
 class QCheckBox;
 class KComboBox;
 class KLineEdit;
-class KTextEdit;
 
 class UMLObject;
 class UMLWidget;
@@ -78,14 +78,13 @@ private:
     UMLWidget * m_pInstanceWidget;
     UMLDoc * m_pUmldoc;
 
-    QGroupBox * m_docGB;
     QGroupBox * m_pButtonGB;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
     KLineEdit * m_pClassNameLE, * m_pInstanceLE, * m_pPackageLE;
     KComboBox * m_pStereoTypeCB, * m_pPackageCB ;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
-    KTextEdit * m_doc;
+    DocumentationWidget *m_docWidget;
     QGroupBox * m_pDrawAsGB;
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;

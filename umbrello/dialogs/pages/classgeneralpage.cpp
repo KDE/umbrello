@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "documentationwidget.h"
 #include "dialog_utils.h"
 #include "classifier.h"
 #include "umlobject.h"
@@ -205,19 +206,11 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     scopeLayout->addWidget(m_pImplementationRB);
     topLayout->addWidget(m_pButtonGB);
 
-    // setup documentation
-    m_docGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
-
-    m_doc = new KTextEdit(m_docGB);
-    docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_docGB);
+    m_docWidget = new DocumentationWidget(m_pObject, this);
+    topLayout->addWidget(m_docWidget);
 
     // setup fields
     m_pClassNameLE->setText(m_pObject->name());
-    m_doc->setText(m_pObject->doc());
 
     switch (m_pObject->visibility()) {
     case Uml::Visibility::Public:
@@ -238,8 +231,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
     Dialog_Utils::insertStereotypesSorted(m_pStereoTypeCB, m_pObject->stereotype());
-
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
@@ -253,8 +244,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
     m_pDeconCB = 0;
     m_pMultiCB = 0;
-
-    int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -296,17 +285,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pDeconCB->setChecked(m_pWidget->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2, 1);
     }
-    // setup documentation
-    m_docGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
+    m_docWidget = new DocumentationWidget(m_pObject, this);
+    topLayout->addWidget(m_docWidget);
 
-    m_doc = new KTextEdit(m_docGB);
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_doc->setText(m_pWidget->documentation());
-    docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_docGB);
     if (m_pMultiCB) {
         connect(m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
@@ -318,8 +299,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
-
-    int margin = fontMetrics().height();
 
     setMinimumSize(310, 330);
     QGridLayout* topLayout = new QGridLayout(this);
@@ -360,17 +339,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pInstanceLE->setText(widget->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
-    //setup documentation
-    m_docGB = new QGroupBox(this);
-    topLayout->addWidget(m_docGB, 1, 0);
-    QHBoxLayout* docLayout = new QHBoxLayout(m_docGB);
-    docLayout->setMargin(margin);
-    m_docGB->setTitle(i18n("Documentation"));
-
-    m_doc = new KTextEdit(m_docGB);
-    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_doc->setText(widget->documentation());
-    docLayout->addWidget(m_doc);
+    m_docWidget = new DocumentationWidget(widget, this);
+    topLayout->addWidget(m_docWidget);
 }
 
 ClassGeneralPage::~ClassGeneralPage()
@@ -386,7 +356,7 @@ void ClassGeneralPage::updateObject()
     if (m_pObject) {
         QString name = m_pClassNameLE->text();
 
-        m_pObject->setDoc(m_doc->toPlainText());
+        m_docWidget->apply();
 
         if (m_pStereoTypeCB) {
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
@@ -461,7 +431,6 @@ void ClassGeneralPage::updateObject()
             m_pWidget->setShowDestruction(m_pDeconCB->isChecked());
         }
         QString name = m_pClassNameLE->text();
-        m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
@@ -474,7 +443,6 @@ void ClassGeneralPage::updateObject()
     else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
-        m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {

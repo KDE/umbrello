@@ -11,6 +11,7 @@
 #include "documentationwidget.h"
 
 #include "umlobject.h"
+#include "umlwidget.h"
 
 #include <KTextEdit>
 #include <KLocalizedString>
@@ -20,19 +21,20 @@
 
 DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     QWidget(parent),
-    m_object(o)
+    m_object(o),
+    m_widget(0)
 {
     Q_ASSERT(o);
+    init(o->doc());
+}
 
-    QVBoxLayout *l = new QVBoxLayout;
-    m_box = new QGroupBox;
-    m_box->setTitle(i18n("Documentation"));
-    m_editField = new KTextEdit(m_box);
-    m_editField->setText(o->doc());
-    QVBoxLayout *layout = new QVBoxLayout(m_box);
-    layout->addWidget(m_editField);
-    l->addWidget(m_box);
-    setLayout(l);
+DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
+    QWidget(parent),
+    m_object(0),
+    m_widget(w)
+{
+    Q_ASSERT(w);
+    init(w->documentation());
 }
 
 DocumentationWidget::~DocumentationWidget()
@@ -46,6 +48,27 @@ DocumentationWidget::~DocumentationWidget()
  */
 void DocumentationWidget::apply()
 {
-    m_object->setDoc(m_editField->toPlainText());
+    if (m_object)
+        m_object->setDoc(m_editField->toPlainText());
+    else if (m_widget)
+        m_widget->setDocumentation(m_editField->toPlainText());
 }
 
+/**
+ * initialize widget
+ * @param text text to display
+ */
+void DocumentationWidget::init(const QString &text)
+{
+    QHBoxLayout *l = new QHBoxLayout;
+    m_box = new QGroupBox;
+    m_box->setTitle(i18n("Documentation"));
+    m_editField = new KTextEdit(m_box);
+    m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_editField->setText(text);
+    QHBoxLayout *layout = new QHBoxLayout(m_box);
+    layout->addWidget(m_editField);
+    layout->setMargin(fontMetrics().height());
+    l->addWidget(m_box);
+    setLayout(l);
+}
