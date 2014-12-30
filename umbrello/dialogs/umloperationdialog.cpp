@@ -122,7 +122,6 @@ void UMLOperationDialog::setupDialog()
     genLayout->addWidget(m_pQueryCB, 2, 2);
 
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
-    m_visibilityEnumWidget->addToLayout(topLayout);
 
     m_docWidget = new DocumentationWidget(m_operation, this);
 
@@ -164,6 +163,7 @@ void UMLOperationDialog::setupDialog()
     parmsLayout->addWidget(buttonBox);
 
     topLayout->addWidget(m_pGenGB);
+    topLayout->addWidget(m_visibilityEnumWidget);
     topLayout->addWidget(m_docWidget);
     topLayout->addWidget(m_pParmsGB);
 
