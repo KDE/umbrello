@@ -13,6 +13,7 @@
 
 // local includes
 #include "debug_utils.h"
+#include "documentationwidget.h"
 #include "umlview.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
@@ -21,7 +22,6 @@
 // kde includes
 #include <klineedit.h>
 #include <klocale.h>
-#include <ktextedit.h>
 #include <kvbox.h>
 
 // qt includes
@@ -99,7 +99,7 @@ void ObjectNodeDialog::applyPage(KPageWidgetItem *item)
     if (item == pageItemGeneral)
     {
         m_pObjectNodeWidget->setName(m_GenPageWidgets.nameLE->text());
-        m_pObjectNodeWidget->setDocumentation(m_GenPageWidgets.docMLE->toPlainText());
+        m_GenPageWidgets.docWidget->apply();
         m_pObjectNodeWidget->setState(m_GenPageWidgets.stateLE->text());
 
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
@@ -164,13 +164,13 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateLE->hide();
 
     m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.bufferRB);
+    generalLayout->addWidget(m_GenPageWidgets.bufferRB, 3, 0);
 
     m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.dataRB);
+    generalLayout->addWidget(m_GenPageWidgets.dataRB, 3, 1);
 
     m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.flowRB);
+    generalLayout->addWidget(m_GenPageWidgets.flowRB, 4, 1);
 
     if (type == ObjectNodeWidget::Flow)
     {
@@ -187,15 +187,8 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.dataRB->setChecked (newType == ObjectNodeWidget::Data);
     m_GenPageWidgets.flowRB->setChecked (newType == ObjectNodeWidget::Flow);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
-
-    QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
-    docLayout->setSpacing(spacingHint());
-    docLayout->setMargin(fontMetrics().height());
-
-    m_GenPageWidgets.docMLE = new KTextEdit(m_GenPageWidgets.docGB);
-    m_GenPageWidgets.docMLE->setText(m_pObjectNodeWidget->documentation());
-    docLayout->addWidget(m_GenPageWidgets.docMLE);
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pObjectNodeWidget, page);
+    generalLayout->addWidget(m_GenPageWidgets.docWidget, 5, 0, 1, 2);
 
     if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {
         m_GenPageWidgets.nameLE->setEnabled(false);

@@ -15,13 +15,13 @@
 #include "dialogbase.h"
 
 //forward declarations
+class DocumentationWidget;
 class UMLView;
 class ObjectNodeWidget;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
 class KLineEdit;
-class KTextEdit;
 
 /**
  *   Displays the properties for a @ref ObjectNodeWidget
@@ -63,9 +63,9 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL, * stateL;
         KLineEdit * nameLE, * typeLE, * stateLE;
-        KTextEdit * docMLE;
         QRadioButton * bufferRB, * dataRB, * flowRB;
-        QGroupBox * docGB, * generalGB;
+        QGroupBox * generalGB;
+        DocumentationWidget *docWidget;
     }
     m_GenPageWidgets;
 
