@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "documentationwidget.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
@@ -104,6 +105,9 @@ void UMLAttributeDialog::setupDialog()
     //now add the Concepts
     insertTypesSorted(m_pAttribute->getTypeName());
 
+    m_docWidget = new DocumentationWidget(m_pAttribute, this);
+    mainLayout->addWidget(m_docWidget);
+
     m_pNameLE->setFocus();
     connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     slotNameChanged(m_pNameLE->text());
@@ -190,6 +194,8 @@ bool UMLAttributeDialog::apply()
         classifier = static_cast<UMLClassifier*>(obj);
     }
     m_pAttribute->setType(classifier);
+    m_docWidget->apply();
+
     return true;
 }
 

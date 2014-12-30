@@ -13,6 +13,7 @@
 
 #include <kdialog.h>
 
+class DocumentationWidget;
 class QCheckBox;
 class QGroupBox;
 class QRadioButton;
@@ -56,6 +57,7 @@ protected:
     QCheckBox* m_pStaticCB;
     UMLStereotypeWidget *m_stereotypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
+    DocumentationWidget *m_docWidget;
 
 public slots:
 
