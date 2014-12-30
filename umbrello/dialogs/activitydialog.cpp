@@ -15,12 +15,12 @@
 #include "umlview.h"
 #include "activitywidget.h"
 #include "dialog_utils.h"
+#include "documentationwidget.h"
 #include "icon_utils.h"
 
 //kde includes
 #include <klineedit.h>
 #include <klocale.h>
-#include <ktextedit.h>
 #include <kvbox.h>
 
 //qt includes
@@ -107,7 +107,7 @@ void ActivityDialog::applyPage(KPageWidgetItem *item)
     if (item == pageItemGeneral)
     {
         m_pActivityWidget->setName(m_GenPageWidgets.nameLE->text());
-        m_pActivityWidget->setDocumentation(m_GenPageWidgets.docTE->toPlainText());
+        m_GenPageWidgets.docWidget->apply();
         m_pActivityWidget->setPreconditionText(m_GenPageWidgets.preLE->text());
         m_pActivityWidget->setPostconditionText(m_GenPageWidgets.postLE->text());
 
@@ -157,11 +157,11 @@ void ActivityDialog::setupGeneralPage()
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE);
 
-    Dialog_Utils::makeLabeledEditField(generalLayout, 2,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 5,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
                                     m_GenPageWidgets.preLE);
 
-    Dialog_Utils::makeLabeledEditField(generalLayout, 3,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 6,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
                                     m_GenPageWidgets.postLE);
     m_GenPageWidgets.preL->hide();
@@ -170,13 +170,13 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.postLE->hide();
 
     m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.NormalRB);
+    generalLayout->addWidget(m_GenPageWidgets.NormalRB, 3, 0);
 
     m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.InvokRB);
+    generalLayout->addWidget(m_GenPageWidgets.InvokRB, 3, 1);
 
     m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"), (QWidget *)page);
-    generalLayout->addWidget(m_GenPageWidgets.ParamRB);
+    generalLayout->addWidget(m_GenPageWidgets.ParamRB, 4, 0);
 
     if (type == ActivityWidget::Param)
     {
@@ -195,15 +195,8 @@ void ActivityDialog::setupGeneralPage()
 
     m_GenPageWidgets.ParamRB->setChecked (newType == ActivityWidget::Param);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
-
-    QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
-    docLayout->setSpacing(spacingHint());
-    docLayout->setMargin(fontMetrics().height());
-
-    m_GenPageWidgets.docTE = new KTextEdit(m_GenPageWidgets.docGB);
-    m_GenPageWidgets.docTE->setText(m_pActivityWidget->documentation());
-    docLayout->addWidget(m_GenPageWidgets.docTE);
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pActivityWidget, (QWidget *)page);
+    generalLayout->addWidget(m_GenPageWidgets.docWidget, 7, 0, 1, 3);
 
     if (type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE->setEnabled(false);
