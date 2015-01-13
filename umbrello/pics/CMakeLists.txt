@@ -55,5 +55,24 @@ install(FILES actor.png  aggregation.png
     DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics
 )
 
-ecm_install_icons(DESTINATION ${DATA_INSTALL_DIR}/umbrello/icons)
-
+ecm_install_icons(
+    ICONS   hi16-action-umbrello_diagram_activity.png
+            hi16-action-umbrello_diagram_class.png
+            hi16-action-umbrello_diagram_collaboration.png
+            hi16-action-umbrello_diagram_component.png
+            hi16-action-umbrello_diagram_deployment.png
+            hi16-action-umbrello_diagram_sequence.png
+            hi16-action-umbrello_diagram_state.png
+            hi16-action-umbrello_diagram_usecase.png
+            hi22-action-umbrello_diagram_activity.png
+            hi22-action-umbrello_diagram_class.png
+            hi22-action-umbrello_diagram_collaboration.png
+            hi22-action-umbrello_diagram_component.png
+            hi22-action-umbrello_diagram_deployment.png
+            hi22-action-umbrello_diagram_entityrelationship.png
+            hi22-action-umbrello_diagram_sequence.png
+            hi22-action-umbrello_diagram_state.png
+            hi22-action-umbrello_diagram_usecase.png
+    THEME hicolor
+    DESTINATION ${ICON_INSTALL_DIR}
+)
