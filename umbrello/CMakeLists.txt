@@ -512,6 +512,9 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES
     umbrelloui.rc
+    DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
+
+install( FILES
     docgenerators/xmi2docbook.xsl
     docgenerators/docbook2xhtml.xsl
     docgenerators/xmi.css
