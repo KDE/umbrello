@@ -160,7 +160,7 @@ set(libcodegenerator_SRCS
     codegenerators/xml/xmlcodecomment.cpp
 )
 
-qt5_wrap_ui(  libcodegenerator_SRCS
+ki18n_wrap_ui(  libcodegenerator_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cpp/cppcodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/rubycodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/d/dcodegenerationformbase.ui
@@ -229,7 +229,7 @@ set(libdialogs_SRCS
     dialogs/widgets/visibilityenumwidget.cpp
 )
 
-qt5_wrap_ui(  libdialogs_SRCS
+ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
@@ -251,7 +251,7 @@ set(libcodegenwizard_SRCS
     codegenwizard/codegenerationwizard.cpp
 )
 
-qt5_wrap_ui(  libcodegenwizard_SRCS
+ki18n_wrap_ui(  libcodegenwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
@@ -264,7 +264,7 @@ set(libcodeimpwizard_SRCS
     codeimpwizard/codeimportingwizard.cpp
 )
 
-qt5_wrap_ui(  libcodeimpwizard_SRCS
+ki18n_wrap_ui(  libcodeimpwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
 )
