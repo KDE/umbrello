@@ -496,7 +496,7 @@ QString toString(IconType type)
         case it_Align_HorizontalDistribute:
             return QLatin1String("distribute-horizontal");
         case it_Code_Gen_Wizard:
-            return QLatin1String("hi64-app-umbrello.png");
+            return QLatin1String("umbrello");
         case it_Document_Edit:
             return QLatin1String("document-edit");
         case it_ClassOrPackage:
