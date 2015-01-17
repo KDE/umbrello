@@ -55,7 +55,7 @@ ClassWizard::ClassWizard(UMLDoc* doc)
     } while(pTemp);
 
     setWizardStyle(QWizard::ModernStyle);
-    setPixmap(QWizard::LogoPixmap, Icon_Utils::UserIcon(Icon_Utils::it_Code_Gen_Wizard));
+    setPixmap(QWizard::LogoPixmap, Icon_Utils::DesktopIcon(Icon_Utils::it_Code_Gen_Wizard));
     setWindowTitle(i18n("Class Wizard"));
     setOption(QWizard::NoBackButtonOnStartPage, true);
     setOption(QWizard::HaveHelpButton, true);
