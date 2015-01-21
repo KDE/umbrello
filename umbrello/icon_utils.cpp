@@ -73,7 +73,7 @@ QPixmap UserIcon(IconType type)
  * @param type   the identification of the icon
  * @return       the wanted icon
  */
-QIcon DesktopIcon(IconType type)
+QPixmap DesktopIcon(IconType type)
 {
     return DesktopIcon(toString(type));
 }
@@ -95,7 +95,7 @@ QCursor Cursor(IconType type)
  * @param dt   the diagram type
  * @return     the wanted icon
  */
-QIcon iconSet(Uml::DiagramType::Enum dt)
+QPixmap iconSet(Uml::DiagramType::Enum dt)
 {
     switch (dt) {
         case Uml::DiagramType::UseCase:
@@ -119,7 +119,7 @@ QIcon iconSet(Uml::DiagramType::Enum dt)
         default:
             uDebug() << "Widget_Utils::iconSet: unknown diagram type "
                      << Uml::DiagramType::toString(dt);
-            return QIcon();
+            return QPixmap();
     }
 }
 
@@ -498,7 +498,7 @@ QString toString(IconType type)
         case it_Align_HorizontalDistribute:
             return QLatin1String("distribute-horizontal");
         case it_Code_Gen_Wizard:
-            return QLatin1String("hi64-app-umbrello.png");
+            return QLatin1String("umbrello");
         case it_Document_Edit:
             return QLatin1String("document-edit");
         case it_ClassOrPackage:

@@ -230,13 +230,13 @@ namespace Icon_Utils {
     QPixmap MainBarIcon(IconType type);
     QPixmap UserIcon(IconType type);
 
-    QIcon DesktopIcon(IconType type);
+    QPixmap DesktopIcon(IconType type);
 
     QCursor Cursor(IconType type);
 
     QString toString(IconType type);
 
-    QIcon iconSet(Uml::DiagramType::Enum dt);
+    QPixmap iconSet(Uml::DiagramType::Enum dt);
 
 }  // namespace
 

@@ -13,6 +13,7 @@
 
 // local includes
 #include "activitypage.h"
+#include "documentationwidget.h"
 #include "umlview.h"
 #include "statewidget.h"
 #include "dialog_utils.h"
@@ -86,7 +87,7 @@ void StateDialog::applyPage(KPageWidgetItem*item)
     m_bChangesMade = true;
     if (item == pageGeneral) {
         m_pStateWidget->setName(m_GenPageWidgets.nameLE->text());
-        m_pStateWidget->setDocumentation(m_GenPageWidgets.docMLE->toPlainText());
+        m_GenPageWidgets.docWidget->apply();
     }
     else if (item == pageActivity) {
         if (m_pActivityPage) {
@@ -164,16 +165,8 @@ void StateDialog::setupGeneralPage()
                                     m_GenPageWidgets.nameL, i18n("State name:"),
                                     m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"));
-    topLayout->addWidget(m_GenPageWidgets.docGB);
-
-    QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
-    docLayout->setSpacing(spacingHint());
-    docLayout->setMargin(fontMetrics().height());
-
-    m_GenPageWidgets.docMLE = new KTextEdit(m_GenPageWidgets.docGB);
-    m_GenPageWidgets.docMLE->setText(m_pStateWidget->documentation());
-    docLayout->addWidget(m_GenPageWidgets.docMLE);
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
+    generalLayout->addWidget(m_GenPageWidgets.docWidget, 2, 0, 1, 2);
 
     if (type != StateWidget::Normal) {
         m_GenPageWidgets.nameLE->setEnabled(false);

@@ -13,6 +13,7 @@
 
 #include <QDialog>
 
+class DocumentationWidget;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
@@ -51,6 +52,7 @@ protected:
     QCheckBox* m_pStaticCB;
     UMLStereotypeWidget *m_stereotypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
+    DocumentationWidget *m_docWidget;
 
 public slots:
     void slotOk();

@@ -22,6 +22,7 @@
 #include "umlattributelist.h"
 #include "umlstereotypewidget.h"
 #include "classifierlistitem.h"
+#include "documentationwidget.h"
 #include "umlclassifierlistitemlist.h"
 #include "dialog_utils.h"
 #include "parameterpropertiesdialog.h"
@@ -118,7 +119,8 @@ void UMLOperationDialog::setupDialog()
     genLayout->addWidget(m_pQueryCB, 2, 2);
 
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
-    m_visibilityEnumWidget->addToLayout(topLayout);
+
+    m_docWidget = new DocumentationWidget(m_operation, this);
 
     m_pParmsGB = new QGroupBox(i18n("Parameters"));
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
@@ -158,6 +160,8 @@ void UMLOperationDialog::setupDialog()
     parmsLayout->addWidget(buttonBox);
 
     topLayout->addWidget(m_pGenGB);
+    topLayout->addWidget(m_visibilityEnumWidget);
+    topLayout->addWidget(m_docWidget);
     topLayout->addWidget(m_pParmsGB);
 
     m_pDeleteButton->setEnabled(false);
@@ -435,6 +439,7 @@ bool UMLOperationDialog::apply()
     }
     m_operation->setStatic(m_pStaticCB->isChecked());
     m_operation->setConst(m_pQueryCB->isChecked());
+    m_docWidget->apply();
 
     return true;
 }

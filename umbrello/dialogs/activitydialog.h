@@ -15,8 +15,8 @@
 
 //forward declarations
 class ActivityWidget;
+class DocumentationWidget;
 class KLineEdit;
-class KTextEdit;
 class QLabel;
 class QGroupBox;
 class QRadioButton;
@@ -59,9 +59,9 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL, * preL, * postL;
         KLineEdit * nameLE, * typeLE, * preLE, * postLE;
-        KTextEdit * docTE;
+        DocumentationWidget *docWidget;
         QRadioButton * NormalRB, * ParamRB, * InvokRB; // this is to implement the parameter node activity or an invok action
-        QGroupBox * docGB, * generalGB;
+        QGroupBox * generalGB;
     }
     m_GenPageWidgets;
 

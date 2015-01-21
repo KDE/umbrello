@@ -14,6 +14,7 @@
 // app includes
 #include "template.h"
 #include "classifier.h"
+#include "documentationwidget.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "dialog_utils.h"
@@ -76,6 +77,9 @@ void UMLTemplateDialog::setupDialog()
     m_stereotypeWidget->addToLayout(valuesLayout, 2);
 
     mainLayout->addWidget(m_pValuesGB);
+
+    m_docWidget = new DocumentationWidget(m_pTemplate, this);
+    mainLayout->addWidget(m_docWidget);
 
     m_pTypeCB->setEditable(true);
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
@@ -162,6 +166,7 @@ bool UMLTemplateDialog::apply()
     }
     m_pTemplate->setName(name);
     m_stereotypeWidget->apply();
+    m_docWidget->apply();
 
     return true;
 }

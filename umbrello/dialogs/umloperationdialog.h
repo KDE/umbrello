@@ -14,6 +14,7 @@
 //qt includes
 #include <QDialog>
 
+class DocumentationWidget;
 class KComboBox;
 class ListPopupMenu;
 class QAbstractButton;
@@ -77,6 +78,7 @@ protected:
     QPushButton*          m_pPropertiesButton;
     QToolButton*          m_pUpButton;
     QToolButton*          m_pDownButton;
+    DocumentationWidget*  m_docWidget;
     QDialogButtonBox*     m_dialogButtonBox;
     VisibilityEnumWidget* m_visibilityEnumWidget;
 

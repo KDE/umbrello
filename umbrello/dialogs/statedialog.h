@@ -16,6 +16,7 @@
 
 //forward declarations
 class ActivityPage;
+class DocumentationWidget;
 class StateWidget;
 class KLineEdit;
 class QGroupBox;
@@ -58,8 +59,8 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL;
         KLineEdit * nameLE, * typeLE;
-        KTextEdit * docMLE;
-        QGroupBox * docGB, * generalGB;
+        DocumentationWidget *docWidget;
+        QGroupBox * generalGB;
     }
     m_GenPageWidgets;
 

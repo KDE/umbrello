@@ -233,16 +233,18 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
     // we don't do this on startup/load of a xmi file, because every time
     // modified is set, we get another undo/redo backup point
     if (isModified()) {
-        if (m_pUMLObject) {
+        if (m_Showing == st_UMLObject && m_pUMLObject) {
             m_pUMLObject->setDoc(m_docTE->toPlainText());
-        } else if(m_pUMLScene) {
+        } else if(m_Showing == st_UMLScene &&  m_pUMLScene) {
             m_pUMLScene->setDocumentation(m_docTE->toPlainText());
-        } else if (m_pUMLWidget) {
+        } else if (m_Showing == st_UMLWidget &&  m_pUMLWidget) {
             m_pUMLWidget->setDocumentation(m_docTE->toPlainText());
-        } else if (m_pAssocWidget) {
+        } else if (m_Showing == st_Association &&  m_pAssocWidget) {
             m_pAssocWidget->setDocumentation(m_docTE->toPlainText());
-        } else {
+        } else if (m_Showing == st_Project) {
             m_pUMLDoc->setDocumentation(m_docTE->toPlainText());
+        } else {
+            uError() << "could not update documentation because of unkown type and object combination";
         }
 
         // now do the setModified call

@@ -254,7 +254,7 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
     m_pageItem = new KPageWidgetItem(page, name);
     if (!m_pageWidget) {
         m_pageItem->setHeader(header);
-        m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
+        m_pageItem->setIcon(QIcon(Icon_Utils::DesktopIcon(icon)));
     } else
         m_pageItem->setHeader(QString());
     addPage(m_pageItem);

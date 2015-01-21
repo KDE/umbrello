@@ -15,6 +15,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "dialog_utils.h"
+#include "documentationwidget.h"
 #include "import_utils.h"
 #include "object_factory.h"
 #include "template.h"
@@ -100,6 +101,9 @@ void UMLAttributeDialog::setupDialog()
     //now add the Concepts
     insertTypesSorted(m_pAttribute->getTypeName());
 
+    m_docWidget = new DocumentationWidget(m_pAttribute, this);
+    mainLayout->addWidget(m_docWidget);
+
     m_pNameLE->setFocus();
 
     QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
@@ -183,6 +187,8 @@ bool UMLAttributeDialog::apply()
         classifier = static_cast<UMLClassifier*>(obj);
     }
     m_pAttribute->setType(classifier);
+    m_docWidget->apply();
+
     return true;
 }
 

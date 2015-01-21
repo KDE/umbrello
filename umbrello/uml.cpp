@@ -1925,7 +1925,7 @@ void UMLApp::slotApplyPrefs()
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
                     int tabIndex = m_tabWidget->addTab(view, scene->name());
-                    m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(scene->type()));
+                    m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(scene->type())));
                     m_tabWidget->setTabToolTip(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
@@ -3014,7 +3014,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
         int tabIndex = m_tabWidget->indexOf(view);
         if ((tabIndex < 0) && (view->umlScene()->isOpen())) {
             tabIndex = m_tabWidget->addTab(view, view->umlScene()->name());
-            m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
+            m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(view->umlScene()->type())));
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
         if (!updateTreeView)

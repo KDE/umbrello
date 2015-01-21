@@ -13,6 +13,7 @@
 
 #include <QDialog>
 
+class DocumentationWidget;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
@@ -46,6 +47,7 @@ protected:
     KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE;
     UMLStereotypeWidget *m_stereotypeWidget;
+    DocumentationWidget *m_docWidget;
 
 public slots:
     void slotOk();

@@ -15,6 +15,7 @@
 
 #include <QDialog>
 
+class DocumentationWidget;
 class KComboBox;
 class KLineEdit;
 class KTextEdit;
@@ -47,7 +48,6 @@ public slots:
     void slotOk();
 
 protected:
-    QString getDoc();
     QString getName();
     QString getInitialValue();
     QString getTypeName();
@@ -62,13 +62,12 @@ protected slots:
 
 private:
     QGroupBox *m_pParmGB;
-    QGroupBox *m_docGB;
     QGroupBox *m_pKindGB;
     QRadioButton *m_pIn, *m_pOut, *m_pInOut;
     QLabel *m_pTypeL, *m_pNameL, *m_pInitialL;
     KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE, *m_pInitialLE;
-    KTextEdit *m_doc;
+    DocumentationWidget * m_docWidget;
     QDialogButtonBox *m_buttonBox;
     UMLDoc *m_pUmldoc;
     UMLAttribute *m_pAtt;
