@@ -56,23 +56,23 @@ install(FILES actor.png  aggregation.png
 )
 
 ecm_install_icons(
-    ICONS   hi16-action-umbrello_diagram_activity.png
-            hi16-action-umbrello_diagram_class.png
-            hi16-action-umbrello_diagram_collaboration.png
-            hi16-action-umbrello_diagram_component.png
-            hi16-action-umbrello_diagram_deployment.png
-            hi16-action-umbrello_diagram_sequence.png
-            hi16-action-umbrello_diagram_state.png
-            hi16-action-umbrello_diagram_usecase.png
-            hi22-action-umbrello_diagram_activity.png
-            hi22-action-umbrello_diagram_class.png
-            hi22-action-umbrello_diagram_collaboration.png
-            hi22-action-umbrello_diagram_component.png
-            hi22-action-umbrello_diagram_deployment.png
-            hi22-action-umbrello_diagram_entityrelationship.png
-            hi22-action-umbrello_diagram_sequence.png
-            hi22-action-umbrello_diagram_state.png
-            hi22-action-umbrello_diagram_usecase.png
+    ICONS   hi16-actions-umbrello_diagram_activity.png
+            hi16-actions-umbrello_diagram_class.png
+            hi16-actions-umbrello_diagram_collaboration.png
+            hi16-actions-umbrello_diagram_component.png
+            hi16-actions-umbrello_diagram_deployment.png
+            hi16-actions-umbrello_diagram_sequence.png
+            hi16-actions-umbrello_diagram_state.png
+            hi16-actions-umbrello_diagram_usecase.png
+            hi22-actions-umbrello_diagram_activity.png
+            hi22-actions-umbrello_diagram_class.png
+            hi22-actions-umbrello_diagram_collaboration.png
+            hi22-actions-umbrello_diagram_component.png
+            hi22-actions-umbrello_diagram_deployment.png
+            hi22-actions-umbrello_diagram_entityrelationship.png
+            hi22-actions-umbrello_diagram_sequence.png
+            hi22-actions-umbrello_diagram_state.png
+            hi22-actions-umbrello_diagram_usecase.png
     THEME hicolor
     DESTINATION ${ICON_INSTALL_DIR}
 )
