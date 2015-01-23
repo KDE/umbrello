@@ -1099,7 +1099,7 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
         QTemporaryFile tmpfile(url.toString());
         if (tmpfile.open()) {
             QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
-            dest.setScheme(QLatin1String("file"));
+//FIXME KF5            dest.setScheme(QLatin1String("file"));
             m_doc->saveDocument(dest);
         }
     }
@@ -1122,7 +1122,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
         QTemporaryFile tmpfile(filename);
         if (tmpfile.open()) {
             QUrl _url(QUrl::fromLocalFile(tmpfile.fileName()));
-            _url.setScheme(QLatin1String("file"));
+//FIXME KF5            _url.setScheme(QLatin1String("file"));
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
@@ -1269,7 +1269,6 @@ bool UMLApp::slotFileSaveAs()
     slotStatusMsg(i18n("Saving file with a new filename..."));
     bool cont = true;
     QUrl url;
-    QString ext;
     while (cont) {
         url = QFileDialog::getSaveFileUrl(this, i18n("Save As"), QUrl(),
                                       i18n("*.xmi | XMI File (*.xmi);;"
@@ -1283,7 +1282,7 @@ bool UMLApp::slotFileSaveAs()
             // now check that we have a file extension; standard will be plain xmi
             //QString file = url.path(QUrl::RemoveTrailingSlash);
             //QFileInfo info(file);
-            //ext = info.completeSuffix();
+            //QString ext = info.completeSuffix();
             //if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
             //{
             //    url.setFileName(url.fileName() + ".xmi");

@@ -340,7 +340,6 @@ void UMLDoc::closeDocument()
         removeAllViews();
         m_bLoading = m_bLoading_old;
         // Remove all objects from the predefined folders.
-        // @fixme With advanced code generation enabled, this crashes.
         removeAllObjects();
 
         // Restore the datatype folder, it has been deleted above.
@@ -643,7 +642,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
 
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
         }
@@ -653,7 +652,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
         QTemporaryFile tmp_xmi_file;
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
         }
@@ -670,7 +669,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
         if (!archive->close()) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
         }
@@ -706,7 +705,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+            KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             return false;
         }
         saveToXMI(tmpfile); // save the xmi stuff to it
@@ -729,14 +728,14 @@ bool UMLDoc::saveDocument(const QUrl& url)
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
-                KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+                KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
                 m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 return false;
             }
         }
     }
     if (!uploaded) {
-        KMessageBox::error(0, i18n("There was a problem uploading file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
+        KMessageBox::error(0, i18n("There was a problem uploading: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
         m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
     }
     setModified(false);
@@ -2968,8 +2967,8 @@ void UMLDoc::slotAutoSave()
         return;
     }
     QUrl tempUrl = m_doc_url;
-    tempUrl.setScheme(QLatin1String("file"));
     if (tempUrl.fileName() == i18n("Untitled")) {
+        tempUrl.setScheme(QLatin1String("file"));
         tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);
         m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
