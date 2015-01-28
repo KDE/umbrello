@@ -26,53 +26,34 @@
 
 #include <QDockWidget>
 #include <QGraphicsView>
-//#include <qmath.h>
 #include <QMouseEvent>
 #include <QScrollBar>
+//#include <QTimer>
 
 DEBUG_REGISTER(BirdView)
 
 /**
  * @brief Constructor.
- * @param parent
- * @param rect
+ * @param parent   the dock widget where the bird view is loaded
+ * @param view     the view to show
  */
 BirdView::BirdView(QDockWidget *parent, UMLView* view)
     : QFrame(),
       m_view(view)
 {
-    // create container frame
-    QFrame* container = new QFrame(parent);
-    container->setLineWidth(1);
-    setBackgroundColor(container, Qt::white);
-
     // create view and add it to the container frame
     UMLScene* scene = m_view->umlScene();
-    m_birdView = new QGraphicsView(scene, container);
+    m_birdView = new QGraphicsView(scene); //A: , container);
     m_birdView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_birdView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-//    m_birdView->fitInView(container->rect(), Qt::KeepAspectRatio);
-
-//    QRectF maxRect = scene->itemsBoundingRect();
-//    qreal scaleW = container->rect().width() / maxRect.width();
-//    qreal scaleH = container->rect().height() / maxRect.height();
-//    qreal scale = scaleH;
-//    if (scaleW > scaleH) {
-//        scale = scaleW;
-//    }
-//    DEBUG(DBG_SRC) << "scale: " << scale;
-//    QMatrix wm;
-//    wm.scale(scale, scale);
-//    m_birdView->setMatrix(wm);
-
     // create a frame on top of the view to hide it from the mouse
-    m_baseFrame = new QFrame(container);
-    m_baseFrame->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    setBackgroundColor(m_baseFrame, QColor(255, 255, 224, 0));
+    m_protectFrame = new QFrame(m_birdView);
+    m_protectFrame->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setBackgroundColor(m_protectFrame, QColor(255, 255, 220, 0));
 
     // draw window frame in the size of shown scene
-    setParent(m_baseFrame);
+    setParent(m_protectFrame);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setLineWidth(1);
     setMidLineWidth(2);
@@ -83,72 +64,55 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     slotViewChanged();
 
     setSlotsEnabled(true);
-    parent->setWidget(container);  // must be the last command
+    parent->setWidget(m_birdView);  // must be the last command
 }
 
 BirdView::~BirdView()
 {
-    delete m_birdView;
 }
 
 /**
- * @brief BirdView::slotDockSizeChanged
- * @param
+ * Event handler for size changed events of the dock window.
+ * @param size   new size to which the dock window was resized
  *
  */
 void BirdView::slotDockSizeChanged(const QSize& size)
 {
-    QWidget* container = static_cast<QWidget*>(m_birdView->parent());
-    if (container) {
-        QDockWidget* parent = static_cast<QDockWidget*>(container->parent());
-        container->setGeometry(parent->rect());
+    QRectF maxRect = m_birdView->scene()->itemsBoundingRect();
+    m_birdView->scene()->setSceneRect(maxRect);
+    m_birdView->setSceneRect(maxRect);
+    m_birdView->fitInView(maxRect, Qt::KeepAspectRatio);
 
-        m_birdView->fitInView(container->rect(), Qt::KeepAspectRatio);
+    QRect viewRect = QRect(0, 0, size.width(), size.height());
+    m_protectFrame->setGeometry(viewRect);
 
-        const int deltaX =  5;
-        const int deltaY = 25;
-        QRect rect = QRect(container->rect().x()+deltaX, container->rect().y() + deltaY,
-                           size.width() - deltaX -5, size.height() - deltaY -5);
-        m_baseFrame->setGeometry(container->rect());
-
-        qreal scaleW = rect.width() / m_birdView->scene()->width();
-        qreal scaleH = rect.height() / m_birdView->scene()->height();
-        qreal scale = scaleH;
-        if (scaleW > scaleH) {
-            scale = scaleW;
-        }
-        if (scale > 1.0) {
-            scale = 1.0;
-        }
-        QMatrix wm;
-        wm.scale(scale, scale);
-        m_birdView->setMatrix(wm);
-        DEBUG(DBG_SRC) << "setting the size to the container: " << rect
-                       << " / scale: " << scale;
-        //crash        slotViewChanged();
+    qreal scaleW = viewRect.width() / m_birdView->scene()->width();
+    qreal scaleH = viewRect.height() / m_birdView->scene()->height();
+    qreal scale = scaleH;
+    if (scaleW < scaleH) {
+        scale = scaleW;
     }
-    else {
-        DEBUG(DBG_SRC) << size << " not set!";
-    }
+    QMatrix wm;
+    wm.scale(scale, scale);
+    m_birdView->setMatrix(wm);
+#if 0
+    DEBUG(DBG_SRC) << "setting the size to the container: " << maxRect
+                   << " / to the view: " << viewRect
+                   << " / scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
+#endif
+
+//:TODO:crash
+//            QMetaObject::invokeMethod(this, "slotViewChanged", Qt::AutoConnection);
+//            QTimer::singleShot(0, this, SLOT(slotViewChanged()));
+//            emit sigSizeChanged();
 }
 
 /**
- * @brief BirdView::slotViewChanged
- * @param
- *
+ * Event handler for view changed events of the graphics view.
+ * This is done by changing the scroll bars.
  */
 void BirdView::slotViewChanged()
 {
-//    QMatrix matrix = m_view->matrix();
-////    QRectF rect = matrix.mapRect(m_view->sceneRect());
-//    QRectF rect = matrix.mapRect(QRectF(m_birdView->rect()));
-//    setGeometry(rect.toRect());
-
-//    QPoint topLeft = m_view->viewport()->rect().topLeft();
-//    QSize size = m_birdView->maximumViewportSize();
-//    QRect rect = QRect(topLeft.x() - hvalue, topLeft.y() - vvalue,
-//                       size.width(), size.height());
-
     int hvalue = 0;
     int hmin = 0;
     int hmax = 0;
@@ -160,10 +124,12 @@ void BirdView::slotViewChanged()
         hmin = hScroll->minimum();
         hmax = hScroll->maximum();
         hpage = hScroll->pageStep();
-        hlen = abs(hmax) - hmin + hpage;
+        hlen = abs(hmax) - hmin + 2 * hpage;
+#if 0
         DEBUG(DBG_SRC) << "hvalue: " << hvalue << " / hlen: " << hlen
                        << " / hmin: " << hmin << " / hmax: " << hmax
                        << " / hpage: " << hpage;
+#endif
     }
 
     int vvalue = 0;
@@ -177,23 +143,33 @@ void BirdView::slotViewChanged()
         vmin = vScroll->minimum();
         vmax = vScroll->maximum();
         vpage = vScroll->pageStep();
-        vlen = abs(vmax) - vmin + vpage;
+        vlen = abs(vmax) - vmin + 2 * vpage;
+#if 0
         DEBUG(DBG_SRC) << "vvalue: " << vvalue << " / vlen: " << vlen
                        << " / vmin: " << vmin << " / vmax: " << vmax
                        << " / vpage: " << vpage;
+#endif
     }
 
     int hdiv = hlen - hpage;
     int vdiv = vlen - vpage;
-    if (!(hlen == 0) && !(vlen == 0) &&
+    if (!(hvalue == 0) && !(vvalue == 0) &&
         !(hdiv == 0) && !(vdiv == 0)) {
-        int width = m_baseFrame->width() * hpage / hlen;
-        int height = m_baseFrame->height() * vpage / vlen;
-        int x = m_baseFrame->width() * (hvalue - hmin) / hdiv;
-        int y = m_baseFrame->height() * (vvalue - vmin) / vdiv;
+        int width = m_protectFrame->width() * hpage / hdiv;
+        int height = m_protectFrame->height() * vpage / vdiv;
+        int x = m_protectFrame->width() * (hvalue - hmin) / hdiv;
+        if (x + width > hmax) {
+            x = hmax - width;
+        }
+        int y = m_protectFrame->height() * (vvalue - vmin) / vdiv;
+        if (y + height > vmax) {
+            y = vmax - height;
+        }
         QRect rect = QRect(x, y, width, height);
         setGeometry(rect);
+#if 0
         DEBUG(DBG_SRC) << "rect: " << rect;
+#endif
     }
     else {
         QWidget* container = (QWidget*)m_birdView->parent();
@@ -204,8 +180,9 @@ void BirdView::slotViewChanged()
 }
 
 /**
- * @brief BirdView::mousePressEvent
- * @param event
+ * Event handler for mouse press events.
+ * Keep the start position for later.
+ * @param event   mouse event
  */
 void BirdView::mousePressEvent(QMouseEvent *event)
 {
@@ -213,29 +190,33 @@ void BirdView::mousePressEvent(QMouseEvent *event)
 }
 
 /**
- * @brief BirdView::mouseMoveEvent
- * @param event
+ * Event handler for mouse move events.
+ * Move the frame which represents the viewable window to a new position.
+ * Move is only done inside the container.
+ * @param event   mouse event
  */
 void BirdView::mouseMoveEvent(QMouseEvent *event)
 {
     const QPoint delta = event->globalPos() - m_moveStartPos;
     int newX = x() + delta.x();
     int newY = y() + delta.y();
-    QRect limit = static_cast<QWidget*>(m_baseFrame->parent())->rect();
+    QRect limit = m_protectFrame->frameRect();
+#if 0
     DEBUG(DBG_SRC) << limit << " contains ";
     DEBUG(DBG_SRC) << "   top    left  [ " << newX << ", " << newY << "]";
     DEBUG(DBG_SRC) << "   bottom right [ " << newX + width() << ", " << newY + height() << "]";
-//    if (limit.contains(newX, newY, true) &&
-//        limit.contains(newX + width(), newY + height())) {
+#endif
+    if (limit.contains(newX, newY, true) &&
+        limit.contains(newX + width(), newY + height())) {
         move(newX, newY);
         m_moveStartPos = event->globalPos();
-        emit viewPositionChanged(delta * 10);  //:TODO: no no no !
-//    }
+        emit viewPositionChanged(delta * 10);  //:TODO: no no no ! Why ?
+    }
 }
 
 /**
- * @brief BirdView::mouseReleaseEvent
- * @param event
+ * Event handler for mouse release events.
+ * @param event   mouse event
  */
 void BirdView::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -243,8 +224,8 @@ void BirdView::mouseReleaseEvent(QMouseEvent *event)
 }
 
 /**
- * @brief BirdView::setSlots
- * @param
+ * Enable or disable the value changed slots of the scroll bars of the view.
+ * @param enabled   flag whether to enable or disable the slots
  *
  */
 void BirdView::setSlotsEnabled(bool enabled)
@@ -255,19 +236,23 @@ void BirdView::setSlotsEnabled(bool enabled)
                 this, SLOT(slotViewChanged()));
         connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(slotViewChanged()));
+        connect(this, SIGNAL(sigSizeChanged()),  //:TODO: remove
+                this, SLOT(slotViewChanged()));
     }
     else {
         disconnect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(slotViewChanged()));
+                   this, SLOT(slotViewChanged()));
         disconnect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(slotViewChanged()));
+                   this, SLOT(slotViewChanged()));
+        disconnect(this, SIGNAL(sigSizeChanged()),  //:TODO: remove
+                   this, SLOT(slotViewChanged()));
     }
 }
 
 /**
- * @brief BirdView::setBackgroundColor
- * @param frame
- * @param color
+ * Method to set the background color of a frame to a new color.
+ * @param frame   frame where the new color has to be set
+ * @param color   new color, which has to be set to the frame
  */
 void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
 {

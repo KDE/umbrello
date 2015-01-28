@@ -2991,7 +2991,7 @@ void UMLApp::slotBirdViewChanged(const QPoint& delta)
         int vvalue = vScroll->value() + delta.y();
         vScroll->setValue(vvalue);
     }
-    DEBUG(DBG_SRC) << "view moved with: " << delta;
+    // DEBUG(DBG_SRC) << "view moved with: " << delta;
     m_birdView->setSlotsEnabled(true);
 }
 

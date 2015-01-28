@@ -72,6 +72,7 @@ public:
 
 signals:
     void viewPositionChanged(QPoint delta);
+    void sigSizeChanged();  //:TODO: remove
 
 public slots:
     void slotViewChanged();
@@ -87,7 +88,7 @@ private slots:
 private:
     UMLView*       m_view;
     QGraphicsView* m_birdView;
-    QFrame*        m_baseFrame;
+    QFrame*        m_protectFrame;
     QPoint         m_moveStartPos;
 
     static void setBackgroundColor(QFrame* frame, const QColor& color);
