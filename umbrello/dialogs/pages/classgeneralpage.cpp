@@ -285,7 +285,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pDeconCB->setChecked(m_pWidget->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2, 1);
     }
-    m_docWidget = new DocumentationWidget(m_pObject, this);
+    m_docWidget = new DocumentationWidget(m_pWidget, this);
     topLayout->addWidget(m_docWidget);
 
     if (m_pMultiCB) {
