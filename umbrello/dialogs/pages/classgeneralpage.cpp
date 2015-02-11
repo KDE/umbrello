@@ -353,10 +353,10 @@ ClassGeneralPage::~ClassGeneralPage()
  */
 void ClassGeneralPage::updateObject()
 {
+    m_docWidget->apply();
+
     if (m_pObject) {
         QString name = m_pClassNameLE->text();
-
-        m_docWidget->apply();
 
         if (m_pStereoTypeCB) {
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
