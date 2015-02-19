@@ -509,7 +509,7 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES
     umbrelloui.rc
     DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
