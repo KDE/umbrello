@@ -80,6 +80,7 @@ private:
     bool isModified();
     QLabel* createPixmapLabel();
     void updateLabel(const QString &name = QString());
+    void toForeground();
 };
 
 #endif
