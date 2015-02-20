@@ -16,6 +16,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "icon_utils.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -115,6 +116,7 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
     }
     else
         updateLabel(m_pUMLObject->name());
+    toForeground();
 }
 
 /**
@@ -146,6 +148,7 @@ void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
     m_pUMLScene = scene;
     m_docTE->setText(m_pUMLScene->documentation());
     updateLabel(m_pUMLScene->name());
+    toForeground();
 }
 
 /**
@@ -185,6 +188,7 @@ void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
     m_pUMLWidget = widget;
     m_docTE->setText(m_pUMLWidget->documentation());
     updateLabel(m_pUMLWidget->name());
+    toForeground();
 }
 
 /**
@@ -213,6 +217,7 @@ void DocWindow::showDocumentation(AssociationWidget * widget, bool overwrite)
     m_pAssocWidget = widget;
     m_docTE->setText(m_pAssocWidget->documentation());
     updateLabel(m_pAssocWidget->name());
+    toForeground();
 }
 
 /**
@@ -414,6 +419,19 @@ QLabel* DocWindow::createPixmapLabel()
     QLabel* label = new QLabel(this);
     label->setAlignment(Qt::AlignCenter);
     return label;
+}
+
+/**
+ * Bring doc windows to the foreground if it is tabbed with other dock widgets.
+ */
+void DocWindow::toForeground()
+{
+    foreach(QTabBar *tab, UMLApp::app()->findChildren<QTabBar *>()) {
+        for(int i = 0; i < tab->count(); i++) {
+            if (tab->tabText(i) == parentWidget()->windowTitle())
+                tab->setCurrentIndex(i);
+        }
+    }
 }
 
 #include "docwindow.moc"
