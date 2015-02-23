@@ -15,6 +15,7 @@
 
 class AssociationWidget;
 class KTextEdit;
+class ModifiedWidget;
 class QLabel;
 class UMLObject;
 class UMLDoc;
@@ -74,12 +75,13 @@ private:
 
     QLabel    *m_typeLabel;      ///< label for type icon
     QLabel    *m_nameLabel;      ///< label for name text
-    QLabel    *m_modifiedLabel;  ///< label for modified flag icon
+    ModifiedWidget *m_modifiedWidget;  ///< label for modified flag icon
     KTextEdit *m_docTE;          ///< documentation widget
 
     bool isModified();
     QLabel* createPixmapLabel();
     void updateLabel(const QString &name = QString());
+    void toForeground();
 };
 
 #endif

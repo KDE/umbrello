@@ -16,6 +16,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "icon_utils.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -29,6 +30,41 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QVBoxLayout>
+
+/**
+ * Displays the 'modified' state of class DocWindow documentation.
+ *
+ * Also provides left mouse click handler to apply documentation back
+ * to the related object/widget.
+ */
+class ModifiedWidget : public QLabel
+{
+public:
+    ModifiedWidget(DocWindow *_parent)
+      : QLabel(_parent),
+        parent(_parent)
+    {
+        setAlignment(Qt::AlignCenter);
+        setToolTip(i18n("Flag whether documentation was modified. Press left mouse button to apply modified content."));
+    }
+
+    void setModified(bool state)
+    {
+        if (state)
+            setPixmap(Icon_Utils::SmallIcon(Icon_Utils::it_Document_Edit));
+        else
+            setPixmap(QPixmap());
+    }
+
+    virtual void mousePressEvent(QMouseEvent *ev)
+    {
+        QLabel::mousePressEvent(ev);
+        parent->updateDocumentation();
+        setPixmap(QPixmap());
+    }
+
+    DocWindow *parent;
+};
 
 /**
  * Constructor.
@@ -51,9 +87,8 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_nameLabel->setFrameStyle(QFrame::Panel | QFrame::Raised);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
-    m_modifiedLabel = createPixmapLabel();
-    m_modifiedLabel->setToolTip(i18n("Flag whether documentation was modified"));
-    statusLayout->addWidget(m_modifiedLabel, 0, 5, 1, 1);
+    m_modifiedWidget = new ModifiedWidget(this);
+    statusLayout->addWidget(m_modifiedWidget, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText(QString());
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
@@ -115,6 +150,7 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
     }
     else
         updateLabel(m_pUMLObject->name());
+    toForeground();
 }
 
 /**
@@ -146,6 +182,7 @@ void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
     m_pUMLScene = scene;
     m_docTE->setText(m_pUMLScene->documentation());
     updateLabel(m_pUMLScene->name());
+    toForeground();
 }
 
 /**
@@ -185,6 +222,7 @@ void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
     m_pUMLWidget = widget;
     m_docTE->setText(m_pUMLWidget->documentation());
     updateLabel(m_pUMLWidget->name());
+    toForeground();
 }
 
 /**
@@ -213,6 +251,7 @@ void DocWindow::showDocumentation(AssociationWidget * widget, bool overwrite)
     m_pAssocWidget = widget;
     m_docTE->setText(m_pAssocWidget->documentation());
     updateLabel(m_pAssocWidget->name());
+    toForeground();
 }
 
 /**
@@ -397,12 +436,7 @@ void DocWindow::updateLabel(const QString& name)
         m_typeLabel->setPixmap(Icon_Utils::SmallIcon(icon));
         m_nameLabel->setText(name);
     }
-    if (isModified()) {
-        m_modifiedLabel->setPixmap(Icon_Utils::SmallIcon(Icon_Utils::it_Document_Edit));
-    }
-    else {
-        m_modifiedLabel->setPixmap(QPixmap());
-    }
+    m_modifiedWidget->setModified(isModified());
 }
 
 /**
@@ -414,4 +448,17 @@ QLabel* DocWindow::createPixmapLabel()
     QLabel* label = new QLabel(this);
     label->setAlignment(Qt::AlignCenter);
     return label;
+}
+
+/**
+ * Bring doc window to foreground if it is tabbed with other dock widgets.
+ */
+void DocWindow::toForeground()
+{
+    foreach(QTabBar *tab, UMLApp::app()->findChildren<QTabBar *>()) {
+        for(int i = 0; i < tab->count(); i++) {
+            if (tab->tabText(i) == parentWidget()->windowTitle())
+                tab->setCurrentIndex(i);
+        }
+    }
 }
