@@ -32,6 +32,41 @@
 #include <QVBoxLayout>
 
 /**
+ * Displays the 'modified' state of class DocWindow documentation.
+ *
+ * Also provides left mouse click handler to apply documentation back
+ * to the related object/widget.
+ */
+class ModifiedWidget : public QLabel
+{
+public:
+    ModifiedWidget(DocWindow *_parent)
+      : QLabel(_parent),
+        parent(_parent)
+    {
+        setAlignment(Qt::AlignCenter);
+        setToolTip(i18n("Flag whether documentation was modified. Press left mouse button to apply modified content."));
+    }
+
+    void setModified(bool state)
+    {
+        if (state)
+            setPixmap(Icon_Utils::SmallIcon(Icon_Utils::it_Document_Edit));
+        else
+            setPixmap(QPixmap());
+    }
+
+    virtual void mousePressEvent(QMouseEvent *ev)
+    {
+        QLabel::mousePressEvent(ev);
+        parent->updateDocumentation();
+        setPixmap(QPixmap());
+    }
+
+    DocWindow *parent;
+};
+
+/**
  * Constructor.
  */
 DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
@@ -52,9 +87,8 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_nameLabel->setFrameStyle(QFrame::Panel | QFrame::Raised);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
-    m_modifiedLabel = createPixmapLabel();
-    m_modifiedLabel->setToolTip(i18n("Flag whether documentation was modified"));
-    statusLayout->addWidget(m_modifiedLabel, 0, 5, 1, 1);
+    m_modifiedWidget = new ModifiedWidget(this);
+    statusLayout->addWidget(m_modifiedWidget, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText(QString());
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
@@ -402,12 +436,7 @@ void DocWindow::updateLabel(const QString& name)
         m_typeLabel->setPixmap(Icon_Utils::SmallIcon(icon));
         m_nameLabel->setText(name);
     }
-    if (isModified()) {
-        m_modifiedLabel->setPixmap(Icon_Utils::SmallIcon(Icon_Utils::it_Document_Edit));
-    }
-    else {
-        m_modifiedLabel->setPixmap(QPixmap());
-    }
+    m_modifiedWidget->setModified(isModified());
 }
 
 /**
