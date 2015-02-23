@@ -27,6 +27,7 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::ID::T
   : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
     m_orientation(ori)
 {
+    setSize(10, 40);
 }
 
 /**
