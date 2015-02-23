@@ -451,7 +451,7 @@ QLabel* DocWindow::createPixmapLabel()
 }
 
 /**
- * Bring doc windows to the foreground if it is tabbed with other dock widgets.
+ * Bring doc window to foreground if it is tabbed with other dock widgets.
  */
 void DocWindow::toForeground()
 {
