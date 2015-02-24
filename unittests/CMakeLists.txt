@@ -1,4 +1,4 @@
-include(ECMMarkAsTest)
+include(ECMAddTests)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
@@ -40,11 +40,11 @@ include_directories(
       ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-# unit test for basictypes.cpp
-message(STATUS "Unit test: basictypes")
-add_executable(TEST_basictypes  ${SRC_PATH}/basictypes.cpp TEST_basictypes.cpp)    #FIXME KF5
-target_link_libraries(TEST_basictypes Qt5::Test Qt5::Widgets KF5::I18n)
-add_test(TEST_basictypes TEST_basictypes)
+ecm_add_test(
+    ${SRC_PATH}/basictypes.cpp TEST_basictypes.cpp
+    LINK_LIBRARIES Qt5::Test Qt5::Widgets KF5::I18n
+    TEST_NAME TEST_basictypes
+)
 
 # unit test for classifier.cpp
 #message(STATUS "Unit test: classifier")
@@ -65,10 +65,12 @@ add_test(TEST_basictypes TEST_basictypes)
 #add_test(TEST_pythonwriter TEST_pythonwriter)
 
 # run ctest after building all unit tests
-macro(add_unit_test target unittests)
-    set(UNIT_TEST_TARGETS ${UNIT_TEST_TARGETS} ${unittests} PARENT_SCOPE)
-    add_test(target ${CMAKE_CURRENT_BINARY_DIR}/unittests)
-endmacro(add_unit_test)
+#macro(add_unit_test target unittests)
+#    set(UNIT_TEST_TARGETS ${UNIT_TEST_TARGETS} ${unittests} PARENT_SCOPE)
+#    add_test(target ${CMAKE_CURRENT_BINARY_DIR}/unittests)
+#endmacro(add_unit_test)
+
+set(UNIT_TEST_TARGETS TEST_basictypes)
 
 add_custom_target(all_tests ALL
                   DEPENDS ${UNIT_TEST_TARGETS})
