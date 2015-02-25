@@ -70,12 +70,12 @@ ecm_add_test(
 #    add_test(target ${CMAKE_CURRENT_BINARY_DIR}/unittests)
 #endmacro(add_unit_test)
 
-set(UNIT_TEST_TARGETS TEST_basictypes)
+#set(UNIT_TEST_TARGETS TEST_basictypes)
 
-add_custom_target(all_tests ALL
-                  DEPENDS ${UNIT_TEST_TARGETS})
-add_custom_command(TARGET all_tests
-    COMMENT "Run unit tests -----------------------------"
-    POST_BUILD
-    COMMAND ctest ARGS
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+#add_custom_target(all_tests ALL
+#                  DEPENDS ${UNIT_TEST_TARGETS})
+#add_custom_command(TARGET all_tests
+#    COMMENT "Run unit tests -----------------------------"
+#    POST_BUILD
+#    COMMAND ctest ARGS
+#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
