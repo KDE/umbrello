@@ -254,7 +254,7 @@ public slots:
     void slotCurrentViewToggleShowGrid();
     void slotCurrentViewExportImage();
     void slotAllViewsExportImage();
-    void slotCurrentViewProperties();
+    void slotCurrentProperties();
     void slotClassWizard();
     void slotAddDefaultDatatypes();
     void slotCurrentViewChanged();
