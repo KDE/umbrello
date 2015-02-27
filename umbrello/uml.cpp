@@ -478,7 +478,7 @@ void UMLApp::initActions()
     viewProperties = actionCollection()->addAction(QLatin1String("view_properties"));
     viewProperties->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Properties));
     viewProperties->setText(i18n("&Properties"));
-    connect(viewProperties, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewProperties()));
+    connect(viewProperties, SIGNAL(triggered(bool)), this, SLOT(slotCurrentProperties()));
 
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
@@ -2561,11 +2561,15 @@ void UMLApp::slotAllViewsExportImage()
 }
 
 /**
- * Menu selection for current view properties.
+ * Menu selection for current view and contained widgets properties.
  */
-void UMLApp::slotCurrentViewProperties()
+void UMLApp::slotCurrentProperties()
 {
-    currentView()->showPropertiesDialog();
+    UMLWidgetList items = currentView()->umlScene()->selectedWidgets();
+    if (items.count() == 0)
+        currentView()->showPropertiesDialog();
+    else if (items.count() == 1)
+        items.at(0)->showPropertiesDialog();
 }
 
 /**
