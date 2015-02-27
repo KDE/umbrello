@@ -188,10 +188,10 @@ SQLWriter::~SQLWriter()
  */
 void SQLWriter::writeClass(UMLClassifier *c)
 {
-    UMLEntity* e = static_cast<UMLEntity*>(c);
+    UMLEntity* e = dynamic_cast<UMLEntity*>(c);
 
     if (!e) {
-        uDebug() << "Cannot write entity of NULL concept!";
+        uError() << "Invalid cast from" << c->baseTypeStr() << "'" << c->name() << "' to UMLEntity*";
         return;
     }
 
