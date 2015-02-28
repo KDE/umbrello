@@ -15,6 +15,7 @@
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
+#include "notedialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
@@ -228,18 +229,19 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 }
 
 /**
- * Rename the text of the note widget.
+ * Show a properties dialog for a NoteWidget.
  */
-void NoteWidget::rename()
+void NoteWidget::showPropertiesDialog()
 {
-    bool ok = false;
-    QString newNote = KInputDialog::getMultiLineText(i18n("Changing note"),
-                                                     i18n("Enter note:"),
-                                                     documentation(), &ok,
-                                                     (QWidget*)UMLApp::app());
-    if (ok) {
-        setDocumentation(newNote);
+    NoteDialog * dlg = 0;
+    UMLApp::app()->docWindow()->updateDocumentation(false);
+    dlg = new NoteDialog(umlScene()->activeView(), this);
+    if (dlg->exec()) {
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
+        UMLApp::app()->document()->setModified(true);
+        update();
     }
+    delete dlg;
 }
 
 /**
@@ -253,7 +255,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        rename();
+        showPropertiesDialog();
         break;
 
     default:
@@ -491,7 +493,7 @@ void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         if (m_diagramLink == Uml::ID::None) {
-            rename();
+            showPropertiesDialog();
         } else {
             UMLDoc *umldoc = UMLApp::app()->document();
             umldoc->changeCurrentView(m_diagramLink);

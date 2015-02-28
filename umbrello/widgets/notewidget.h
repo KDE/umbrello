@@ -58,6 +58,8 @@ public:
 
     void askForNoteType(UMLWidget* &targetWidget);
 
+    virtual void showPropertiesDialog();
+
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
@@ -76,8 +78,6 @@ protected:
 private:
     Uml::ID::Type m_diagramLink;  ///< The diagram/scene this note links to.
     NoteType      m_noteType;     ///< The type of note. @see NoteWidget::NoteType
-
-    void rename();
 };
 
 #endif

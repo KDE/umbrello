@@ -187,6 +187,7 @@ set(libdialogs_SRCS
     dialogs/dialogbase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
+    dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialog.cpp
     dialogs/parameterpropertiesdialog.cpp
