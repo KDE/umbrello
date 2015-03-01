@@ -30,8 +30,6 @@ UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckCons
     setCaption(i18n("Check Constraint Properties"));
 
     m_pCheckConstraint = pCheckConstraint;
-    m_doc = UMLApp::app()->document();
-
     setupDialog();
 }
 

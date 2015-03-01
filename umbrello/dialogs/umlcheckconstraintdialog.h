@@ -56,11 +56,6 @@ private:
     UMLCheckConstraint* m_pCheckConstraint;
 
     /**
-     * The UMLDocument where all objects live
-     */
-    UMLDoc* m_doc;
-
-    /**
      * The GUI widgets
      */
     QLabel* m_pNameL;
