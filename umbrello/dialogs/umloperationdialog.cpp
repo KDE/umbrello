@@ -55,20 +55,13 @@
  * Constructor.
  */
 UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperation)
-  : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Operation Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-
     m_operation = pOperation;
     m_doc = UMLApp::app()->document();
     m_menu = 0;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -447,22 +440,6 @@ bool UMLOperationDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here.
- */
-void UMLOperationDialog::slotApply()
-{
-    apply();
-}
-
-void UMLOperationDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

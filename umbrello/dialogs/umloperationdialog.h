@@ -12,7 +12,7 @@
 #define UMLOPERATIONDIALOG_H
 
 //kde includes
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 //qt includes
 #include <QListWidgetItem>
@@ -37,7 +37,7 @@ class VisibilityEnumWidget;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLOperationDialog : public KDialog
+class UMLOperationDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -85,12 +85,7 @@ public slots:
     void slotParameterProperties();
     void slotParameterUp();
     void slotParameterDown();
-
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
-
-    void slotApply();
-
-    void slotOk();
     void slotNameChanged(const QString &);
 
 };
