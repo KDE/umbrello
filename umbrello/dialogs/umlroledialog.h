@@ -13,7 +13,7 @@
 #define UMLROLEDIALOG_H
 
 //kde includes
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 /**
  * @author Paul Hensgen
@@ -21,7 +21,7 @@
 class UMLRole;
 class UMLRoleProperties;
 
-class UMLRoleDialog : public KDialog
+class UMLRoleDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -52,10 +52,6 @@ private:
     UMLRoleProperties * m_pRoleProps;
 
 public slots:
-
-    void slotApply();
-
-    void slotOk();
 };
 
 #endif

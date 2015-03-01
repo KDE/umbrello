@@ -19,17 +19,11 @@
 #include "umlroleproperties.h"
 
 UMLRoleDialog::UMLRoleDialog(QWidget * parent, UMLRole * pRole)
-  : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Role Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
     m_pRole = pRole;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 UMLRoleDialog::~UMLRoleDialog()
@@ -61,25 +55,6 @@ bool UMLRoleDialog::apply()
         return true;
     }
     return false;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLRoleDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
- */
-void UMLRoleDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 #include "umlroledialog.moc"
