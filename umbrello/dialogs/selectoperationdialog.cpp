@@ -48,13 +48,9 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
-   : KDialog(parent), m_pView(parent), m_classifier(c)
+  : SinglePageDialogBase(parent), m_pView(parent), m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Yes);
-    setModal(true);
-    showButtonSeparator(true);
 
     QFrame *frame = new QFrame(this);
     setMainWidget(frame);

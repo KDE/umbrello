@@ -11,7 +11,7 @@
 #ifndef SELECTOPERATIONDIALOG_H
 #define SELECTOPERATIONDIALOG_H
 
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 class KComboBox;
 class KLineEdit;
@@ -28,7 +28,7 @@ class UMLView;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SelectOperationDialog : public KDialog
+class SelectOperationDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
