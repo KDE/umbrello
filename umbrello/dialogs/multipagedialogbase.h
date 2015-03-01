@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef DIALOGBASE_H
-#define DIALOGBASE_H
+#ifndef MULTIPAGEDIALOGBASE_H
+#define MULTIPAGEDIALOGBASE_H
 
 #include "icon_utils.h"
 
@@ -33,7 +33,7 @@ class WidgetBase;
 /**
  * Base class for property dialogs
  *
- * DialogBase contains common property dialog related methods and attributes
+ * MultiPageDialogBase contains common property dialog related methods and attributes
  * In finished state this class provides simple methods to setup common pages
  * like WidgetStyle, FontSetting and others
  *
@@ -41,13 +41,13 @@ class WidgetBase;
  *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class DialogBase : public QWidget
+class MultiPageDialogBase : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
-    virtual ~DialogBase();
+    explicit MultiPageDialogBase(QWidget *parent, bool withDefaultButton=false);
+    virtual ~MultiPageDialogBase();
 
     void apply();
 

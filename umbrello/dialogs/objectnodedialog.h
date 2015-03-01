@@ -12,7 +12,7 @@
 #define OBJECTNODEDIALOG_H
 
 // local class includes
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 
 //forward declarations
 class DocumentationWidget;
@@ -29,7 +29,7 @@ class KLineEdit;
  *   @author   Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ObjectNodeDialog : public DialogBase
+class ObjectNodeDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:

@@ -45,7 +45,7 @@
  *  @param assoc     Determines whether to display associations
  */
 ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, bool assoc)
-  : DialogBase(parent)
+  : MultiPageDialogBase(parent)
 {
     init();
     m_pWidget = 0;
@@ -64,7 +64,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, boo
  *  @param  o       The ObjectWidget to display properties of.
  */
 ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
-  : DialogBase(parent)
+  : MultiPageDialogBase(parent)
 {
     init();
     m_pWidget = o;
@@ -87,7 +87,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
  *  @param  w       The UMLWidget to display properties of.
  */
 ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
-  : DialogBase(parent)
+  : MultiPageDialogBase(parent)
 {
     init();
     m_pWidget = w;

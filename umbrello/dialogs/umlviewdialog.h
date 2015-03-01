@@ -15,7 +15,7 @@
 // kde includes
 
 // app includes
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 #include "optionstate.h"
 
 class ClassOptionsPage;
@@ -29,7 +29,7 @@ class KFontChooser;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLViewDialog : public DialogBase
+class UMLViewDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:

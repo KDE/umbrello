@@ -34,7 +34,7 @@
 
 
 SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
-  : DialogBase(parent, true)
+  : MultiPageDialogBase(parent, true)
 {
     setCaption(i18n("Umbrello Setup"));
     m_bChangesApplied = false;

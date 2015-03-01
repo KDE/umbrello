@@ -36,7 +36,7 @@
  * Constructor.
  */
 StateDialog::StateDialog(QWidget * parent, StateWidget * pWidget)
-  : DialogBase(parent),
+  : MultiPageDialogBase(parent),
     m_pActivityPage(0),
     m_pStateWidget(pWidget),
     m_bChangesMade(false)

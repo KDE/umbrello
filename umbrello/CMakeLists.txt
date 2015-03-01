@@ -184,9 +184,9 @@ set(libdialogs_SRCS
     dialogs/codetextedit.cpp
     dialogs/codetexthighlighter.cpp
     dialogs/dialog_utils.cpp
-    dialogs/dialogbase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
+    dialogs/multipagedialogbase.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialog.cpp

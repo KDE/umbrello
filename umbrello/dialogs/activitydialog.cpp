@@ -36,7 +36,7 @@
  * Constructor.
  */
 ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
-   : DialogBase(parent),
+   : MultiPageDialogBase(parent),
      m_pActivityWidget(pWidget),
      m_bChangesMade(false)
 {

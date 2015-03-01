@@ -54,7 +54,7 @@ typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
  *  @param pForeignKeyConstraint The Unique Constraint to show the properties of
  */
 UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UMLForeignKeyConstraint* pForeignKeyConstraint)
-  : DialogBase(parent),
+  : MultiPageDialogBase(parent),
     m_doc(UMLApp::app()->document()),
     m_pForeignKeyConstraint(pForeignKeyConstraint)
 {

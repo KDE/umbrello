@@ -11,7 +11,7 @@
 #ifndef ASSOCIATIONPROPERTIESDIALOG_H
 #define ASSOCIATIONPROPERTIESDIALOG_H
 
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 
 class AssociationWidget;
 
@@ -20,7 +20,7 @@ class AssociationWidget;
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssociationPropertiesDialog : public DialogBase
+class AssociationPropertiesDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:

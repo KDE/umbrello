@@ -12,7 +12,7 @@
 #define STATEDIALOG_H
 
 // kde class includes
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 
 //forward declarations
 class ActivityPage;
@@ -28,7 +28,7 @@ class KTextEdit;
  * @author   Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class StateDialog : public DialogBase
+class StateDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:

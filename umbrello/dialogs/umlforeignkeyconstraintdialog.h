@@ -12,7 +12,7 @@
 #define UMLFOREIGNKEYCONSTRAINTDIALOG_H
 
 //app includes
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 #include "umlentityattributelist.h"
 
 //kde includes
@@ -36,7 +36,7 @@ class QTreeWidget;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLForeignKeyConstraintDialog : public DialogBase
+class UMLForeignKeyConstraintDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:
