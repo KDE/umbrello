@@ -25,19 +25,14 @@
 #include <QVBoxLayout>
 
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
-  : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Check Constraint Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
 
     m_pCheckConstraint = pCheckConstraint;
     m_doc = UMLApp::app()->document();
 
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
@@ -81,16 +76,6 @@ void UMLCheckConstraintDialog::setupDialog()
 
     // set text of label
     m_pNameLE->setText(m_pCheckConstraint->name());
-}
-
-/**
- * Used when the OK button is clicked. Calls apply()
- */
-void UMLCheckConstraintDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**
