@@ -27,7 +27,7 @@
  * @see KDialog::KDialog
  */
 ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
-  : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setObjectName(QString::fromLatin1(name));
     setModal(false);
