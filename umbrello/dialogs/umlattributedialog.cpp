@@ -42,13 +42,9 @@
 #include <QVBoxLayout>
 
 UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
-        : KDialog(pParent)
+  : SinglePageDialogBase(pParent)
 {
     setCaption(i18n("Attribute Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
     m_pAttribute = pAttribute;
     setupDialog();
 }
@@ -111,8 +107,6 @@ void UMLAttributeDialog::setupDialog()
     m_pNameLE->setFocus();
     connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     slotNameChanged(m_pNameLE->text());
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 void UMLAttributeDialog::slotNameChanged(const QString &_text)
@@ -197,25 +191,6 @@ bool UMLAttributeDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLAttributeDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
- */
-void UMLAttributeDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**
