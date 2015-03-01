@@ -193,6 +193,7 @@ set(libdialogs_SRCS
     dialogs/parameterpropertiesdialog.cpp
     dialogs/selectoperationdialog.cpp
     dialogs/settingsdialog.cpp
+    dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
