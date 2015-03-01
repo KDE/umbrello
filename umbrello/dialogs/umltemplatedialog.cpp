@@ -35,17 +35,11 @@
 #include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-        : KDialog(pParent)
+  : SinglePageDialogBase(pParent)
 {
     m_pTemplate = pTemplate;
     setCaption(i18n("Template Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 UMLTemplateDialog::~UMLTemplateDialog()
@@ -169,25 +163,6 @@ bool UMLTemplateDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLTemplateDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
- */
-void UMLTemplateDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 #include "umltemplatedialog.moc"

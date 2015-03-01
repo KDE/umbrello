@@ -11,7 +11,7 @@
 #ifndef UMLTEMPLATEDIALOG_H
 #define UMLTEMPLATEDIALOG_H
 
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 class DocumentationWidget;
 class KComboBox;
@@ -27,7 +27,7 @@ class UMLStereotypeWidget;
  * @author Jonathan Riddell
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLTemplateDialog : public KDialog
+class UMLTemplateDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -38,7 +38,7 @@ protected:
 
     void setupDialog();
 
-    bool apply();
+    virtual bool apply();
 
     /**
      *   The Attribute to represent
@@ -52,12 +52,6 @@ protected:
     KLineEdit *m_pNameLE;
     UMLStereotypeWidget *m_stereotypeWidget;
     DocumentationWidget *m_docWidget;
-
-public slots:
-
-    void slotApply();
-
-    void slotOk();
 
 protected:
 
