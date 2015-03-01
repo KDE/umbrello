@@ -42,17 +42,11 @@
 #include <QVBoxLayout>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
-        : KDialog(pParent)
+  : SinglePageDialogBase(pParent)
 {
     setCaption(i18n("Entity Attribute Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
     m_pEntityAttribute = pEntityAttribute;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
@@ -238,25 +232,6 @@ bool UMLEntityAttributeDialog::apply()
     }
     m_pEntityAttribute->setType(classifier);
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here.
- */
-void UMLEntityAttributeDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply().
- */
-void UMLEntityAttributeDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**
