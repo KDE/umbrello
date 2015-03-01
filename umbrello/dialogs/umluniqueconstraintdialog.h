@@ -15,7 +15,7 @@
 #include "umlentityattributelist.h"
 
 //kde includes
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 class UMLDoc;
 class UMLUniqueConstraint;
@@ -33,7 +33,7 @@ class QPushButton;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLUniqueConstraintDialog : public KDialog
+class UMLUniqueConstraintDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -43,7 +43,7 @@ public:
 protected:
     void setupDialog();
 
-    bool apply();
+    virtual bool apply();
 
 private:
     UMLUniqueConstraint *m_pUniqueConstraint;
@@ -63,8 +63,6 @@ private:
 
 public slots:
     void slotResetWidgetState();
-    void slotApply();
-    void slotOk();
     void slotAddAttribute();
     void slotDeleteAttribute();
 

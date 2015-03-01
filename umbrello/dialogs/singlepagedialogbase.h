@@ -26,7 +26,7 @@ class SinglePageDialogBase : public KDialog
     Q_OBJECT
 
 public:
-    explicit SinglePageDialogBase(QWidget *parent);
+    explicit SinglePageDialogBase(QWidget *parent, bool withApplyButton = false);
     virtual ~SinglePageDialogBase();
     virtual bool apply();
 

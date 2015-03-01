@@ -43,19 +43,12 @@
  *  @param pUniqueConstraint The Unique Constraint to show the properties of.
  */
 UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint)
-  : KDialog(parent),
+  : SinglePageDialogBase(parent, true),
     m_pUniqueConstraint(pUniqueConstraint),
     m_doc(UMLApp::app()->document())
 {
     setCaption(i18n("Unique Constraint Properties"));
-    setButtons(Help | Ok | Apply | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -219,24 +212,6 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
     m_pAttributeCB->insertItem(count, entAtt->toString(Uml::SignatureType::SigNoVis));
 
     slotResetWidgetState();
-}
-
-/**
- * Used when the Apply Button is clicked.
- */
-void UMLUniqueConstraintDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply().
- */
-void UMLUniqueConstraintDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

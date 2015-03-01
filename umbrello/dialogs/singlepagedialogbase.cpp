@@ -13,10 +13,14 @@
 /**
  * Constructor
  */
-SinglePageDialogBase::SinglePageDialogBase(QWidget *parent)
+SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton)
   : KDialog(parent)
 {
-    setButtons(Help | Ok | Cancel);
+    if (withApplyButton)
+        setButtons(Help | Ok | Cancel | Apply);
+    else
+        setButtons(Help | Ok | Cancel);
+
     setDefaultButton(Ok);
     setModal(true);
     showButtonSeparator(true);
