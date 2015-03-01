@@ -11,16 +11,13 @@
 #include "finddialog.h"
 
 FindDialog::FindDialog(QWidget *parent) :
-    KDialog(parent)
+    SinglePageDialogBase(parent, i18n("Find"))
 {
     setupUi(mainWidget());
 
-    setCaption(i18n("Find"));
     setButtons(User1 | Cancel);
     setDefaultButton(User1);
     setButtonText(User1, i18n("Search"));
-    setModal(true);
-    showButtonSeparator(true);
     ui_treeView->setChecked(true);
 }
 
