@@ -13,7 +13,7 @@
 
 #include "attribute.h"
 
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 #include <klineedit.h>
 #include <kcombobox.h>
 
@@ -33,7 +33,7 @@ class QRadioButton;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ParameterPropertiesDialog : public KDialog
+class ParameterPropertiesDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -41,9 +41,7 @@ public:
     ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr);
     ~ParameterPropertiesDialog();
 
-public slots:
-
-    void slotOk();
+    virtual bool apply();
 
 protected:
     QString getName() {

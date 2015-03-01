@@ -44,14 +44,10 @@
  * @param attr     the parameter to represent
  */
 ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
-        : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     Q_ASSERT(attr);
     setCaption(i18n("Parameter Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
 
     m_pUmldoc = doc;
     m_pAtt = attr;
@@ -138,7 +134,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     setTabOrder(m_pInitialLE, m_stereotypeWidget);
     setTabOrder(m_stereotypeWidget, m_pIn);
     setTabOrder(m_pIn, m_docWidget);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     m_pNameLE->setFocus();
 }
 
@@ -234,10 +229,7 @@ void ParameterPropertiesDialog::slotButtonClicked(int button)
     KDialog::slotButtonClicked(button);
 }
 
-/**
- * Ok clicked slot.
- */
-void ParameterPropertiesDialog::slotOk()
+bool ParameterPropertiesDialog::apply()
 {
     if (m_pAtt != NULL) {
 
@@ -254,7 +246,7 @@ void ParameterPropertiesDialog::slotOk()
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
                 m_pAtt->setType(tmplParam);
-                return;
+                return true;
             }
         }
         UMLClassifierList namesList(m_pUmldoc->concepts());
@@ -280,6 +272,7 @@ void ParameterPropertiesDialog::slotOk()
         m_docWidget->apply();
         m_pAtt->setInitialValue(getInitialValue()); // set the initial value
     }
+    return true;
 }
 
 #include "parameterpropertiesdialog.moc"
