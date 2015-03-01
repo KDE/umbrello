@@ -12,7 +12,7 @@
 #define NOTEDIALOG_H
 
 // kde includes
-#include <KDialog>
+#include "singlepagedialogbase.h"
 
 class DocumentationWidget;
 class NoteWidget;
@@ -21,19 +21,18 @@ class NoteWidget;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class NoteDialog : public KDialog
+class NoteDialog : public SinglePageDialogBase
 {
    Q_OBJECT
 public:
     NoteDialog(QWidget *parent, NoteWidget *pNote);
     ~NoteDialog();
 
-public slots:
-    void slotOk();
-
-private:
+protected:
     DocumentationWidget *m_docWidget; ///< widget holding the documentation
     NoteWidget *m_pNoteWidget;  ///< note widget to show documentation for
+
+    bool apply();
 };
 
 #endif

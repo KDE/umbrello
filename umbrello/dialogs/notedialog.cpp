@@ -25,13 +25,9 @@
  * Constructs an NoteDialog.
  */
 NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
-  : KDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Note Documentation"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
 
     m_pNoteWidget = pNote;
     QFrame *frame = new QFrame(this);
@@ -40,7 +36,6 @@ NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
     QVBoxLayout *layout = new QVBoxLayout(frame);
     layout->addWidget(m_docWidget, 10);
     setMinimumSize(600, 250);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 /**
@@ -50,10 +45,10 @@ NoteDialog::~NoteDialog()
 {
 }
 
-void NoteDialog::slotOk()
+bool NoteDialog::apply()
 {
     m_docWidget->apply();
-    accept();
+    return true;
 }
 
 #include "notedialog.moc"
