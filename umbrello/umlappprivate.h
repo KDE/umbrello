@@ -79,7 +79,7 @@ public slots:
         if(iface)
             iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
-        KDialog *dialog = new KDialog(parent);
+        SinglePageDialogBase *dialog = new SinglePageDialogBase(parent);
         dialog->setMainWidget(view);
         dialog->setMinimumSize(800, 800);
         dialog->exec();
