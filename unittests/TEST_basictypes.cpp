@@ -358,5 +358,5 @@ void TEST_basictypes::test_Corner_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-QTEST_MAIN(TEST_basictypes)
+QTEST_GUILESS_MAIN(TEST_basictypes)
 #include "TEST_basictypes.moc"
