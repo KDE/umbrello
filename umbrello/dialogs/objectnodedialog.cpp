@@ -37,7 +37,7 @@
  * Constructor.
  */
 ObjectNodeDialog::ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget)
-  : DialogBase(parent),
+  : MultiPageDialogBase(parent),
     m_pObjectNodeWidget(pWidget),
     m_bChangesMade(false)
 {

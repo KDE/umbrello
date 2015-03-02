@@ -11,7 +11,7 @@
 #ifndef CLASSPROPERTIESDIALOG_H
 #define CLASSPROPERTIESDIALOG_H
 
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 
 class ClassAssociationsPage;
 class ClassGeneralPage;
@@ -30,7 +30,7 @@ class UMLWidgetStylePage;
  * @version 1.0
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ClassPropertiesDialog : public DialogBase
+class ClassPropertiesDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:

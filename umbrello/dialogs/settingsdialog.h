@@ -11,7 +11,7 @@
 #define SETTINGSDIALOG_H
 
 // app includes
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 #include "optionstate.h"
 
 class AutoLayoutOptionPage;
@@ -32,7 +32,7 @@ class UMLWidgetStylePage;
  * modified by brian thomas Aug-2003
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SettingsDialog : public DialogBase
+class SettingsDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 

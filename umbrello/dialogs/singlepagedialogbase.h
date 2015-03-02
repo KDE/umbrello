@@ -4,40 +4,35 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2014                                               *
+ *   copyright (C) 2012-2015                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCIATIONPROPERTIESDIALOG_H
-#define ASSOCIATIONPROPERTIESDIALOG_H
+#ifndef SINGLEPAGEDIALOGBASE_H
+#define SINGLEPAGEDIALOGBASE_H
 
-#include "multipagedialogbase.h"
-
-class AssociationWidget;
+// kde includes
+#include <KDialog>
 
 /**
- * Based off of AssociationPropertiesDialog class
- * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
+ * Base class for single page property dialogs
+ *
+ * @author   Ralf Habacker
+ *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssociationPropertiesDialog : public MultiPageDialogBase
+class SinglePageDialogBase : public KDialog
 {
     Q_OBJECT
-public:
-    AssociationPropertiesDialog(QWidget *parent, AssociationWidget *a, int pageNum = 0);
-    ~AssociationPropertiesDialog();
 
-protected:
-    void setupPages();
+public:
+    explicit SinglePageDialogBase(QWidget *parent);
+    virtual ~SinglePageDialogBase();
+    virtual bool apply();
 
 protected slots:
-    void slotOk();
     void slotApply();
-
-private:
-    AssociationWidget  *m_pAssoc;
-
+    void slotOk();
 };
 
 #endif
-

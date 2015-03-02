@@ -679,6 +679,7 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
     m_bSigWaiting = true;
     if (listItem->showPropertiesDialog(this)) {
         m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
+        m_docTE->setText(listItem->doc());
     }
 }
 
@@ -721,9 +722,10 @@ void ClassifierListPage::slotNewListItem()
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
     m_pLastObjectCreated = Object_Factory::createChildObject(m_pClassifier, m_itemType);
-    if (m_pLastObjectCreated == NULL) {
+    if (m_pLastObjectCreated)
+        m_docTE->setText(m_pLastObjectCreated->doc());
+    else
         m_bSigWaiting = false;
-    }
 }
 
 /**

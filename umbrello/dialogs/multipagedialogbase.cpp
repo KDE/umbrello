@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "dialogbase.h"
+#include "multipagedialogbase.h"
 
 // local includes
 #include "debug_utils.h"
@@ -43,7 +43,7 @@ DEBUG_REGISTER(DialogBase)
 /**
  * Constructor
  */
-DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
+MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pAssocGeneralPage(0),
     m_pRolePage(0),
@@ -79,7 +79,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
     }
 }
 
-DialogBase::~DialogBase()
+MultiPageDialogBase::~MultiPageDialogBase()
 {
     delete m_pageDialog;
     delete m_pageWidget;
@@ -88,7 +88,7 @@ DialogBase::~DialogBase()
 /**
  * Apply all used pages
  */
-void DialogBase::apply()
+void MultiPageDialogBase::apply()
 {
     if (m_pAssocGeneralPage)
         m_pAssocGeneralPage->apply();
@@ -104,28 +104,28 @@ void DialogBase::apply()
     //TODO include applying font settings data
 }
 
-void DialogBase::setCaption(const QString &caption)
+void MultiPageDialogBase::setCaption(const QString &caption)
 {
     if (m_pageDialog) {
         m_pageDialog->setWindowTitle(caption);
     }
 }
 
-void DialogBase::accept()
+void MultiPageDialogBase::accept()
 {
     if (m_pageDialog) {
         m_pageDialog->accept();
     }
 }
 
-void DialogBase::reject()
+void MultiPageDialogBase::reject()
 {
     if (m_pageDialog) {
         m_pageDialog->reject();
     }
 }
 
-KPageWidgetItem *DialogBase::currentPage()
+KPageWidgetItem *MultiPageDialogBase::currentPage()
 {
     if (m_pageDialog)
         return m_pageDialog->currentPage();
@@ -133,7 +133,7 @@ KPageWidgetItem *DialogBase::currentPage()
         return m_pageWidget->currentPage();
 }
 
-void DialogBase::addPage(KPageWidgetItem *page)
+void MultiPageDialogBase::addPage(KPageWidgetItem *page)
 {
     if (m_pageDialog)
         m_pageDialog->addPage(page);
@@ -141,12 +141,12 @@ void DialogBase::addPage(KPageWidgetItem *page)
         m_pageWidget->addPage(page);
 }
 
-int DialogBase::spacingHint()
+int MultiPageDialogBase::spacingHint()
 {
     return 0;  // FIXME KF5 was QDialog::spacingHint();
 }
 
-int DialogBase::exec()
+int MultiPageDialogBase::exec()
 {
     if (m_pageDialog)
         return m_pageDialog->exec();
@@ -160,7 +160,7 @@ int DialogBase::exec()
  *
  * @return true data has been changed
  */
-bool DialogBase::isModified()
+bool MultiPageDialogBase::isModified()
 {
     return m_isModified;
 }
@@ -168,7 +168,7 @@ bool DialogBase::isModified()
 /**
  * Handle click on ok button.
  */
-void DialogBase::slotOkClicked()
+void MultiPageDialogBase::slotOkClicked()
 {
     emit okClicked();
 }
@@ -176,7 +176,7 @@ void DialogBase::slotOkClicked()
 /**
  * Handle click on apply button.
  */
-void DialogBase::slotApplyClicked()
+void MultiPageDialogBase::slotApplyClicked()
 {
     emit applyClicked();
 }
@@ -184,7 +184,7 @@ void DialogBase::slotApplyClicked()
 /**
  * Handle click on default button, if enabled in constructor.
  */
-void DialogBase::slotDefaultClicked()
+void MultiPageDialogBase::slotDefaultClicked()
 {
     emit defaultClicked();
 }
@@ -231,7 +231,7 @@ void DialogBase::slotButtonClicked(QAbstractButton *button)
  *
  * @param event key press event
  */
-void DialogBase::keyPressEvent(QKeyEvent *event)
+void MultiPageDialogBase::keyPressEvent(QKeyEvent *event)
 {
     // Set modified state if any text has been typed in
     if (event->key() >= Qt::Key_Space
@@ -248,7 +248,7 @@ void DialogBase::keyPressEvent(QKeyEvent *event)
  * @param icon  The icon to display in the page list
  * @return Pointer to created frame
  */
-QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
+QFrame* MultiPageDialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
 {
     QFrame* page = new QFrame();
     m_pageItem = new KPageWidgetItem(page, name);
@@ -270,7 +270,7 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
  * @param widget Widget to display in the page
  * @return page widget item instance
  */
-KPageWidgetItem *DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon, QWidget *widget)
+KPageWidgetItem *MultiPageDialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon, QWidget *widget)
 {
     QFrame* page = createPage(name, header, icon);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
@@ -283,7 +283,7 @@ KPageWidgetItem *DialogBase::createPage(const QString& name, const QString& head
  * Sets up the general settings page.
  * @param widget The widget to load the initial data from
  */
-void DialogBase::setupGeneralPage(AssociationWidget *widget)
+void MultiPageDialogBase::setupGeneralPage(AssociationWidget *widget)
 {
     QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
     QHBoxLayout *layout = new QHBoxLayout(page);
@@ -295,7 +295,7 @@ void DialogBase::setupGeneralPage(AssociationWidget *widget)
  * updates the general page data
  * @param widget Widget to save the general page data into
  */
-void DialogBase::applyGeneralPage(AssociationWidget *widget)
+void MultiPageDialogBase::applyGeneralPage(AssociationWidget *widget)
 {
     Q_UNUSED(widget);
     Q_ASSERT(m_pAssocGeneralPage);
@@ -306,7 +306,7 @@ void DialogBase::applyGeneralPage(AssociationWidget *widget)
  * Sets up the font selection page.
  * @param font The font to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(const QFont &font)
+KPageWidgetItem *MultiPageDialogBase::setupFontPage(const QFont &font)
 {
     QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     QHBoxLayout * layout = new QHBoxLayout(page);
@@ -320,7 +320,7 @@ KPageWidgetItem *DialogBase::setupFontPage(const QFont &font)
  * Sets up the font selection page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
+KPageWidgetItem *MultiPageDialogBase::setupFontPage(UMLWidget *widget)
 {
     return setupFontPage(widget->font());
 }
@@ -329,7 +329,7 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
  * Sets up the font selection page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupFontPage(AssociationWidget *widget)
+KPageWidgetItem *MultiPageDialogBase::setupFontPage(AssociationWidget *widget)
 {
     return setupFontPage(widget->font());
 }
@@ -338,7 +338,7 @@ KPageWidgetItem *DialogBase::setupFontPage(AssociationWidget *widget)
  * updates the font page data
  * @param widget Widget to save the font data into
  */
-void DialogBase::applyFontPage(UMLWidget *widget)
+void MultiPageDialogBase::applyFontPage(UMLWidget *widget)
 {
     Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);
@@ -349,7 +349,7 @@ void DialogBase::applyFontPage(UMLWidget *widget)
  * updates the font page data
  * @param widget Widget to save the font data into
  */
-void DialogBase::applyFontPage(AssociationWidget *widget)
+void MultiPageDialogBase::applyFontPage(AssociationWidget *widget)
 {
     Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);
@@ -360,7 +360,7 @@ void DialogBase::applyFontPage(AssociationWidget *widget)
  * Sets up the style page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupStylePage(WidgetBase *widget)
+KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
 {
     QFrame * page;
     if (widget->baseType() == WidgetBase::wt_Association)
@@ -376,7 +376,7 @@ KPageWidgetItem *DialogBase::setupStylePage(WidgetBase *widget)
 /**
  * Updates the style page.
  */
-void DialogBase::applyStylePage()
+void MultiPageDialogBase::applyStylePage()
 {
     Q_ASSERT(m_pStylePage);
     m_pStylePage->apply();
@@ -386,7 +386,7 @@ void DialogBase::applyStylePage()
  * Sets up the role settings page.
  * @param widget The widget to load the initial data from
  */
-KPageWidgetItem *DialogBase::setupAssociationRolePage(AssociationWidget *widget)
+KPageWidgetItem *MultiPageDialogBase::setupAssociationRolePage(AssociationWidget *widget)
 {
     QFrame *page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
     QHBoxLayout *layout = new QHBoxLayout(page);
@@ -398,7 +398,7 @@ KPageWidgetItem *DialogBase::setupAssociationRolePage(AssociationWidget *widget)
 /**
  * Save all used pages
  */
-void DialogBase::applyAssociationRolePage()
+void MultiPageDialogBase::applyAssociationRolePage()
 {
     Q_ASSERT(m_pRolePage);
     m_pRolePage->apply();

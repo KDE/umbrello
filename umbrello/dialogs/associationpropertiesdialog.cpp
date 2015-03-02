@@ -38,7 +38,7 @@
  *  @param  pageNum The page to show first.
  */
 AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
-  : DialogBase(parent),
+  : MultiPageDialogBase(parent),
     m_pAssoc(assocWidget)
 {
     Q_UNUSED(pageNum)
@@ -64,7 +64,7 @@ void AssociationPropertiesDialog::slotOk()
 
 void AssociationPropertiesDialog::slotApply()
 {
-    DialogBase::apply();
+    MultiPageDialogBase::apply();
 
     if (m_pAssoc) {
         applyFontPage(m_pAssoc);

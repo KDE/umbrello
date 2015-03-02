@@ -11,7 +11,7 @@
 #ifndef ACTIVITYDIALOG_H
 #define ACTIVITYDIALOG_H
 
-#include <dialogbase.h>
+#include <multipagedialogbase.h>
 
 //forward declarations
 class ActivityWidget;
@@ -28,7 +28,7 @@ class UMLView;
  * @author   Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ActivityDialog : public DialogBase
+class ActivityDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:
