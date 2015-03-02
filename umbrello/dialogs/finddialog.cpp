@@ -11,8 +11,9 @@
 #include "finddialog.h"
 
 FindDialog::FindDialog(QWidget *parent) :
-    SinglePageDialogBase(parent, i18n("Find"))
+    SinglePageDialogBase(parent)
 {
+    setCaption(i18n("Find"));
     setupUi(mainWidget());
 
     setButtons(User1 | Cancel);
