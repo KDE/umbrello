@@ -192,7 +192,7 @@ void MultiPageDialogBase::slotDefaultClicked()
 /**
  * Launch khelpcenter.
  */
-void DialogBase::slotHelpClicked()
+void MultiPageDialogBase::slotHelpClicked()
 {
     DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
 //    QUrl url = QUrl(QLatin1String("help:/umbrello/index.html"));
@@ -204,7 +204,7 @@ void DialogBase::slotHelpClicked()
  * Button clicked event handler for the dialog button box.
  * @param button  the button which was clicked
  */
-void DialogBase::slotButtonClicked(QAbstractButton *button)
+void MultiPageDialogBase::slotButtonClicked(QAbstractButton *button)
 {
     if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
         DEBUG(DBG_SRC)  << "APPLY clicked...";
