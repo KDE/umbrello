@@ -25,7 +25,6 @@
 // kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
-#include <kdialog.h>
 
 // qt includes
 #include <QPainter>
