@@ -12,7 +12,9 @@
 #define SINGLEPAGEDIALOGBASE_H
 
 // kde includes
-#include <KDialog>
+#include <QDialog>
+
+class QDialogButtonBox;
 
 /**
  * Base class for single page property dialogs
@@ -21,7 +23,7 @@
  *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SinglePageDialogBase : public KDialog
+class SinglePageDialogBase : public QDialog
 {
     Q_OBJECT
 
@@ -29,10 +31,16 @@ public:
     explicit SinglePageDialogBase(QWidget *parent);
     virtual ~SinglePageDialogBase();
     virtual bool apply();
+    // keep in sync with MultiPageDialogBase
+    void setCaption(const QString &caption);
+    void setMainWidget(QWidget *widget);
 
 protected slots:
     void slotApply();
     void slotOk();
+
+protected:
+    QDialogButtonBox *m_buttonBox;
 };
 
 #endif

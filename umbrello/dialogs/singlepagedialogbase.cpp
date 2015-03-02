@@ -10,19 +10,26 @@
 
 #include "singlepagedialogbase.h"
 
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+
 /**
  * Constructor
  */
 SinglePageDialogBase::SinglePageDialogBase(QWidget *parent)
-  : KDialog(parent)
+  : QDialog(parent)
 {
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
     setModal(true);
-    showButtonSeparator(true);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->setMargin(0);
+    setLayout(layout);
+
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                       QDialogButtonBox::Cancel);
+    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    layout->addWidget(m_buttonBox);
 }
 
 SinglePageDialogBase::~SinglePageDialogBase()
@@ -35,6 +42,21 @@ SinglePageDialogBase::~SinglePageDialogBase()
 bool SinglePageDialogBase::apply()
 {
     return false;
+}
+
+void SinglePageDialogBase::setCaption(const QString &caption)
+{
+    setWindowTitle(caption);
+}
+
+void SinglePageDialogBase::setMainWidget(QWidget *widget)
+{
+    delete layout();
+    QVBoxLayout* vlayout = new QVBoxLayout;
+    vlayout->setMargin(0);
+    vlayout->addWidget(widget);
+    vlayout->addWidget(m_buttonBox);
+    setLayout(vlayout);
 }
 
 /**
