@@ -15,7 +15,7 @@
 #include "documentationwidget.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QFrame>
@@ -50,5 +50,3 @@ bool NoteDialog::apply()
     m_docWidget->apply();
     return true;
 }
-
-#include "notedialog.moc"
