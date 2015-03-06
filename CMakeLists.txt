@@ -7,7 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 set(KDE4_BUILD_TESTS ON)  # for unit tests
 
 set(VERSION_MAJOR "2")
-set(VERSION_MINOR "15")
+set(VERSION_MINOR "16")
 set(VERSION_PATCH "99")
 
 # set default umbrello version
