@@ -16,8 +16,8 @@
 
 // kde includes
 #include <KLocalizedString>
-#include <ktextedit.h>
-#include <klineedit.h>
+#include <KTextEdit>
+#include <KLineEdit>
 
 // qt includes
 #include <QDialogButtonBox>
@@ -32,12 +32,10 @@
  *  @param pUniqueConstraint The Unique Constraint to show the properties of.
  */
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
-  : QDialog(parent),
-    m_pCheckConstraint(pCheckConstraint),
-    m_doc(UMLApp::app()->document())
+  : SinglePageDialogBase(parent),
+    m_pCheckConstraint(pCheckConstraint)
 {
-    setWindowTitle(i18n("Check Constraint Properties"));
-    setModal(true);
+    setCaption(i18n("Check Constraint Properties"));
     setupDialog();
 }
 
@@ -89,16 +87,6 @@ void UMLCheckConstraintDialog::setupDialog()
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     mainLayout->addWidget(buttonBox);
-}
-
-/**
- * Used when the OK button is clicked. Calls apply()
- */
-void UMLCheckConstraintDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

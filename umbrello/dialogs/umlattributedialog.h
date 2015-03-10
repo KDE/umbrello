@@ -11,7 +11,7 @@
 #ifndef UMLATTRIBUTEDIALOG_H
 #define UMLATTRIBUTEDIALOG_H
 
-#include <QDialog>
+#include "singlepagedialogbase.h"
 
 class DocumentationWidget;
 class QCheckBox;
@@ -28,7 +28,7 @@ class VisibilityEnumWidget;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLAttributeDialog : public QDialog
+class UMLAttributeDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -54,8 +54,6 @@ protected:
     VisibilityEnumWidget *m_visibilityEnumWidget;
     DocumentationWidget *m_docWidget;
 
-public slots:
-    void slotOk();
 };
 
 #endif

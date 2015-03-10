@@ -667,6 +667,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     if (m_umlObject->baseType() == UMLObject::ot_Package) {
         drawAsPackage(painter, option);
+        UMLWidget::paint(painter, option, widget);
         return;
     }
     UMLClassifier *umlc = this->classifier();
@@ -676,6 +677,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
     if (umlc->isInterface() && visualProperty(DrawAsCircle)) {
         drawAsCircle(painter, option);
+        UMLWidget::paint(painter, option, widget);
         return;
     }
 

@@ -58,13 +58,12 @@
  * Constructor.
  */
 UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperation)
-  : QDialog(parent),
+  : SinglePageDialogBase(parent),
     m_operation(pOperation),
     m_doc(UMLApp::app()->document()),
     m_menu(0)
 {
-    setWindowTitle(i18n("Operation Properties"));
-    setModal(true);
+    setCaption(i18n("Operation Properties"));
     setupDialog();
 }
 
@@ -442,13 +441,6 @@ bool UMLOperationDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-void UMLOperationDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

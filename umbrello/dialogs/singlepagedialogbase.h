@@ -26,7 +26,6 @@ class QDialogButtonBox;
 class SinglePageDialogBase : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit SinglePageDialogBase(QWidget *parent);
     virtual ~SinglePageDialogBase();

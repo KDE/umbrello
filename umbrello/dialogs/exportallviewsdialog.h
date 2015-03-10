@@ -12,8 +12,7 @@
 
 // application specific includes
 #include "ui_exportallviewsdialogbase.h"
-
-#include <QDialog>
+#include "singlepagedialogbase.h"
 
 // KDE forward declarations
 class KComboBox;
@@ -26,14 +25,12 @@ class KComboBox;
  * The KFileFilterCombo is declared here instead of in the .ui file because QT
  * Designer and uic don't recognize it.
  */
-class ExportAllViewsDialog : public QDialog, private Ui::ExportAllViewsDialogBase
+class ExportAllViewsDialog : public SinglePageDialogBase, private Ui::ExportAllViewsDialogBase
 {
-  Q_OBJECT
-
+    Q_OBJECT
 public:
 
     explicit ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0);
-
     ~ExportAllViewsDialog();
 
 private:

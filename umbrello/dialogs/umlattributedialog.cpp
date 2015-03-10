@@ -42,11 +42,10 @@
 #include <QVBoxLayout>
 
 UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
-  : QDialog(pParent),
+  : SinglePageDialogBase(pParent),
     m_pAttribute(pAttribute)
 {
-    setWindowTitle(i18n("Attribute Properties"));
-    setModal(true);
+    setCaption(i18n("Attribute Properties"));
     setupDialog();
 }
 
@@ -190,16 +189,6 @@ bool UMLAttributeDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
- */
-void UMLAttributeDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

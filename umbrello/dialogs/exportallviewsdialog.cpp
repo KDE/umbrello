@@ -30,7 +30,7 @@
  * @see QDialog::QDialog
  */
 ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
-  : QDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     setObjectName(QString::fromLatin1(name));
     setModal(false);

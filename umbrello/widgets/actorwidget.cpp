@@ -24,6 +24,7 @@
 ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a)
   : UMLWidget(scene, WidgetBase::wt_Actor, a)
 {
+    setFixedAspectRatio(true);
 }
 
 /**
@@ -47,12 +48,10 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     const int h = height();
     painter->setFont(UMLWidget::font());
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(name());
     const int fontHeight = fm.lineSpacing();
     const int a_height = h - fontHeight - A_MARGIN;
     const int h2 = a_height / 2;
-    const int w2 = w - A_MARGIN * 2;
-    const int a_width = (h2 > w2 || w > textWidth + A_MARGIN * 2 ?  w2 : h2);
+    const int a_width = (h2);
     const int middleX = w / 2;
     const int thirdY = a_height / 3;
 

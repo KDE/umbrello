@@ -16,12 +16,10 @@
 #include <QPushButton>
 
 FindDialog::FindDialog(QWidget *parent)
-  : QDialog(parent)
+  : SinglePageDialogBase(parent)
 {
+    setCaption(i18n("Find"));
     setupUi(window());
-
-    setWindowTitle(i18n("Find"));
-    setModal(true);
 
     QDialogButtonBox* dlgButtonBox = new QDialogButtonBox();
     QPushButton* searchBtn = dlgButtonBox->addButton(i18n("Search"), QDialogButtonBox::AcceptRole);

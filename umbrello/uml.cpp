@@ -3034,7 +3034,6 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
         view->show();
     }
     setZoom(view->zoom());
-    qApp->processEvents();
     slotStatusMsg(view->umlScene()->name());
     if (updateTreeView) {
         UMLListViewItem* lvitem = m_listView->findView(view);

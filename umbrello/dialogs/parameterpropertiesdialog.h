@@ -13,7 +13,7 @@
 
 #include "basictypes.h"
 
-#include <QDialog>
+#include "singlepagedialogbase.h"
 
 class DocumentationWidget;
 class KComboBox;
@@ -37,7 +37,7 @@ class UMLStereotypeWidget;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ParameterPropertiesDialog : public QDialog
+class ParameterPropertiesDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -45,7 +45,7 @@ public:
     ~ParameterPropertiesDialog();
 
 public slots:
-    void slotOk();
+    virtual bool apply();
 
 protected:
     QString getName();

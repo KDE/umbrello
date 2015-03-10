@@ -11,7 +11,7 @@
 #ifndef UMLENTITYATTRIBUTEDIALOG_H
 #define UMLENTITYATTRIBUTEDIALOG_H
 
-#include <QDialog>
+#include "singlepagedialogbase.h"
 
 class QCheckBox;
 class QGroupBox;
@@ -26,7 +26,7 @@ class KLineEdit;
  * @author Jonathan Riddell
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLEntityAttributeDialog : public QDialog
+class UMLEntityAttributeDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -36,7 +36,7 @@ public:
 protected:
     void setupDialog();
 
-    bool apply();
+    virtual bool apply();
 
     void insertTypesSorted(const QString& type = QString());
     void insertAttribute(const QString& type, int index = -1);
@@ -57,7 +57,6 @@ protected:
 
 public slots:
     void slotAutoIncrementStateChanged(bool checked);
-    void slotOk();
 };
 
 #endif

@@ -11,8 +11,8 @@
 #ifndef UMLCHECKCONSTRAINTDIALOG_H
 #define UMLCHECKCONSTRAINTDIALOG_H
 
-// qt includes
-#include <QDialog>
+//kde includes
+#include "singlepagedialogbase.h"
 
 class UMLDoc;
 class UMLCheckConstraint;
@@ -27,7 +27,7 @@ class QLabel;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLCheckConstraintDialog : public QDialog
+class UMLCheckConstraintDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -37,22 +37,16 @@ public:
 protected:
     void setupDialog();
 
-    bool apply();
+    virtual bool apply();
 
 private:
     UMLCheckConstraint* m_pCheckConstraint;
-
-    UMLDoc* m_doc;  //< the UMLDocument where all objects live
 
     // the GUI widgets
     QLabel* m_pNameL;
     KLineEdit* m_pNameLE;
     QLabel* m_pCheckConditionL;
     KTextEdit* m_pCheckConditionTE;
-
-public slots:
-    void slotOk();
-
 };
 
 #endif

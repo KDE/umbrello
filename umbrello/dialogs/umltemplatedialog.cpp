@@ -36,11 +36,10 @@
 #include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-  : QDialog(pParent),
+  : SinglePageDialogBase(pParent),
     m_pTemplate(pTemplate)
 {
-    setWindowTitle(i18n("Template Properties"));
-    setModal(true);
+    setCaption(i18n("Template Properties"));
     setupDialog();
 }
 
@@ -169,14 +168,4 @@ bool UMLTemplateDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * Used when the OK button is clicked. Calls apply()
- */
-void UMLTemplateDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }

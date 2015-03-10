@@ -49,11 +49,10 @@
  * @param attr     the parameter to represent
  */
 ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
-  : QDialog(parent)
+  : SinglePageDialogBase(parent)
 {
     Q_ASSERT(attr);
     setWindowTitle(i18n("Parameter Properties"));
-    setModal(true);
 
     m_pUmldoc = doc;
     m_pAtt = attr;
@@ -267,10 +266,7 @@ void ParameterPropertiesDialog::slotButtonClicked(QAbstractButton* button)
     }
 }
 
-/**
- * Ok clicked slot.
- */
-void ParameterPropertiesDialog::slotOk()
+bool ParameterPropertiesDialog::apply()
 {
     if (m_pAtt != NULL) {
 
@@ -287,7 +283,7 @@ void ParameterPropertiesDialog::slotOk()
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
                 m_pAtt->setType(tmplParam);
-                return;
+                return true;
             }
         }
         UMLClassifierList namesList(m_pUmldoc->concepts());
@@ -315,4 +311,5 @@ void ParameterPropertiesDialog::slotOk()
 
         accept();
     }
+    return true;
 }

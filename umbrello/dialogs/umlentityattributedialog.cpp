@@ -43,11 +43,10 @@
 #include <QVBoxLayout>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
-  : QDialog(pParent),
+  : SinglePageDialogBase(pParent),
     m_pEntityAttribute(pEntityAttribute)
 {
-    setWindowTitle(i18n("Entity Attribute Properties"));
-    setModal(true);
+    setCaption(i18n("Entity Attribute Properties"));
     setupDialog();
 }
 
@@ -231,16 +230,6 @@ bool UMLEntityAttributeDialog::apply()
     }
     m_pEntityAttribute->setType(classifier);
     return true;
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply().
- */
-void UMLEntityAttributeDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

@@ -80,10 +80,8 @@ public slots:
         if(iface)
             iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
-        QDialog *dialog = new QDialog(parent);
-        QGridLayout *layout = new QGridLayout();
-        layout->addWidget(view, 0, 0);
-        dialog->setLayout(layout);
+        SinglePageDialogBase *dialog = new SinglePageDialogBase(parent);
+        dialog->setMainWidget(view);
         dialog->setMinimumSize(800, 800);
         dialog->exec();
         delete dialog;

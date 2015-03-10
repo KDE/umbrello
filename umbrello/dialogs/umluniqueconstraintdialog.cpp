@@ -22,7 +22,6 @@
 #include "template.h"
 #include "uml.h"
 #include "uniqueconstraint.h"
-#include "umldoc.h"
 
 #include <KComboBox>
 #include <KLineEdit>
@@ -43,12 +42,10 @@
  *  @param pUniqueConstraint The Unique Constraint to show the properties of.
  */
 UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint)
-  : QDialog(parent),
-    m_pUniqueConstraint(pUniqueConstraint),
-    m_doc(UMLApp::app()->document())
+  : SinglePageDialogBase(parent),
+    m_pUniqueConstraint(pUniqueConstraint)
 {
-    setWindowTitle(i18n("Unique Constraint Properties"));
-    setModal(true);
+    setCaption(i18n("Unique Constraint Properties"));
     setupDialog();
 }
 
@@ -243,24 +240,6 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
     m_pAttributeCB->insertItem(count, entAtt->toString(Uml::SignatureType::SigNoVis));
 
     slotResetWidgetState();
-}
-
-/**
- * Used when the Apply Button is clicked.
- */
-void UMLUniqueConstraintDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply().
- */
-void UMLUniqueConstraintDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

@@ -11,8 +11,8 @@
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
-//qt includes
-#include <QDialog>
+//kde includes
+#include "singlepagedialogbase.h"
 
 class DocumentationWidget;
 class KComboBox;
@@ -37,7 +37,7 @@ class VisibilityEnumWidget;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLOperationDialog : public QDialog
+class UMLOperationDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -92,7 +92,6 @@ public slots:
     void slotParameterUp();
     void slotParameterDown();
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
-    void slotOk();
     void slotHelpClicked();
     void slotButtonClicked(QAbstractButton *button);
 };

@@ -14,8 +14,8 @@
 //app includes
 #include "umlentityattributelist.h"
 
-//qt includes
-#include <QDialog>
+//kde includes
+#include "singlepagedialogbase.h"
 
 class KComboBox;
 class KLineEdit;
@@ -25,7 +25,6 @@ class QGroupBox;
 class QLabel;
 class QListWidget;
 class QPushButton;
-class UMLDoc;
 class UMLUniqueConstraint;
 
 /**
@@ -35,7 +34,7 @@ class UMLUniqueConstraint;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLUniqueConstraintDialog : public QDialog
+class UMLUniqueConstraintDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -45,11 +44,10 @@ public:
 protected:
     void setupDialog();
 
-    bool apply();
+    virtual bool apply();
 
 private:
     UMLUniqueConstraint *m_pUniqueConstraint;
-    UMLDoc              *m_doc;  ///< the UMLDocument where all objects live
 
     // GUI Widgets
     QGroupBox* m_pAttributeListGB;
@@ -66,8 +64,6 @@ private:
 
 public slots:
     void slotResetWidgetState();
-    void slotApply();
-    void slotOk();
     void slotAddAttribute();
     void slotDeleteAttribute();
 

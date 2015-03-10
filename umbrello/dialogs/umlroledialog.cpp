@@ -27,11 +27,10 @@
  * Constructor.
  */
 UMLRoleDialog::UMLRoleDialog(QWidget *parent, UMLRole *pRole)
-  : QDialog(parent),
+  : SinglePageDialogBase(parent),
     m_pRole(pRole)
 {
-    setWindowTitle(i18n("Role Properties"));
-    setModal(true);
+    setCaption(i18n("Role Properties"));
     setupDialog();
 }
 
@@ -74,16 +73,6 @@ bool UMLRoleDialog::apply()
         return true;
     }
     return false;
-}
-
-/**
- * Used when the OK button is clicked. Calls apply().
- */
-void UMLRoleDialog::slotOk()
-{
-    if (apply()) {
-        accept();
-    }
 }
 
 /**

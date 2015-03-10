@@ -11,8 +11,8 @@
 #ifndef UMLROLEDIALOG_H
 #define UMLROLEDIALOG_H
 
-//qt includes
-#include <QDialog>
+//kde includes
+#include "singlepagedialogbase.h"
 
 /**
  * @author Paul Hensgen
@@ -22,7 +22,7 @@ class QDialogButtonBox;
 class UMLRole;
 class UMLRoleProperties;
 
-class UMLRoleDialog : public QDialog
+class UMLRoleDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
@@ -39,9 +39,6 @@ protected:
 private:
     UMLRoleProperties *m_pRoleProps;
     QDialogButtonBox  *m_dialogButtonBox;
-
-public slots:
-    void slotOk();
 
 protected slots:
     virtual void slotButtonClicked(QAbstractButton *button);
