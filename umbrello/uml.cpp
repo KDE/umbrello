@@ -1353,13 +1353,7 @@ void UMLApp::slotFind()
         return;
     }
 
-    int count = 0;
-    if (m_d->findDialog.filter() == FindDialog::TreeView)
-        count = m_d->findResults.collect(FindResults::TreeView, FindResults::Class, m_d->findDialog.text());
-    else if (m_d->findDialog.filter() == FindDialog::CurrentDiagram)
-        count = m_d->findResults.collect(FindResults::CurrentDiagram, FindResults::Class, m_d->findDialog.text());
-    else if (m_d->findDialog.filter() == FindDialog::AllDiagrams)
-        count = m_d->findResults.collect(FindResults::AllDiagrams, FindResults::Class, m_d->findDialog.text());
+    int count = m_d->findResults.collect(m_d->findDialog.filter(), m_d->findDialog.category(), m_d->findDialog.text());
 
     UMLApp::app()->document()->writeToStatusBar(i18n("'%1': %2 found", m_d->findDialog.text(), count));
     slotFindNext();

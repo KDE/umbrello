@@ -27,7 +27,6 @@ public:
     virtual ~UMLSceneFinder();
     virtual int collect(Category category, const QString &text);
 
-public slots:
     virtual Result displayNext();
     virtual Result displayPrevious();
 

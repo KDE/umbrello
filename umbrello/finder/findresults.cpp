@@ -33,21 +33,21 @@ FindResults::~FindResults()
  * @param  text
  * @return Number of items found
  */
-int FindResults::collect(FindResults::Filter filter, Category category, const QString &text)
+int FindResults::collect(UMLFinder::Filter filter, UMLFinder::Category category, const QString &text)
 {
     Q_UNUSED(category);
     clear();
-    if (filter == TreeView) {
+    if (filter == UMLFinder::TreeView) {
         m_listViewFinder.append(UMLListViewFinder());
-        return m_listViewFinder.last().collect(UMLFinder::All, text);
+        return m_listViewFinder.last().collect(category, text);
     }
-    else if (filter == CurrentDiagram) {
+    else if (filter == UMLFinder::CurrentDiagram) {
         m_sceneFinder.append(UMLSceneFinder(UMLApp::app()->currentView()));
-        return m_sceneFinder.last().collect(UMLFinder::All, text);
+        return m_sceneFinder.last().collect(category, text);
     }
-    else if (filter == AllDiagrams) {
+    else if (filter == UMLFinder::AllDiagrams) {
         m_docFinder.append(UMLDocFinder());
-        return m_docFinder.last().collect(UMLFinder::All, text);
+        return m_docFinder.last().collect(category, text);
     }
     return 0;
 }

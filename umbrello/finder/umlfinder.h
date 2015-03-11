@@ -11,13 +11,13 @@
 #ifndef UMLFINDER_H
 #define UMLFINDER_H
 
-#include "findresults.h"
-
 // app include
 #include "basictypes.h"
 
 // qt include
 #include <QList>
+
+class UMLObject;
 
 /**
  * The UMLFinder class provides the interface for find related classes.
@@ -27,7 +27,8 @@
 class UMLFinder
 {
 public:
-    typedef enum { All } Category;
+    typedef enum { All, Classes, Packages, Interfaces, Operations, Attributes } Category;
+    typedef enum { TreeView, CurrentDiagram, AllDiagrams } Filter;
     typedef enum { Empty, End, Found, NotFound } Result;
     UMLFinder();
     virtual ~UMLFinder();
@@ -57,6 +58,8 @@ public:
 protected:
     int m_index;
     QList<Uml::ID::Type> m_items;
+
+    bool includeObject(Category category, UMLObject *o);
 };
 
 #endif // UMLFINDER_H

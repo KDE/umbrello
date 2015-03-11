@@ -26,7 +26,7 @@ UMLSceneFinder::~UMLSceneFinder()
 {
 }
 
-int UMLSceneFinder::collect(UMLFinder::Category category, const QString &text)
+int UMLSceneFinder::collect(Category category, const QString &text)
 {
     Q_UNUSED(category);
     m_items.clear();
@@ -38,6 +38,8 @@ int UMLSceneFinder::collect(UMLFinder::Category category, const QString &text)
 
     UMLScene *scene = view->umlScene();
     foreach(UMLWidget* w, scene->widgetList()) {
+        if (!includeObject(category, w->umlObject()))
+            continue;
         if (w->name().contains(text, Qt::CaseInsensitive))
             m_items.append(w->id());
     }

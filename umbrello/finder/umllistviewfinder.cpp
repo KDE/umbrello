@@ -30,16 +30,13 @@ int UMLListViewFinder::collect(Category category, const QString &text)
     QList<QTreeWidgetItem*> items = UMLApp::app()->listView()->findItems(text, Qt::MatchContains | Qt::MatchRecursive);
     m_items.clear();
     foreach(QTreeWidgetItem *item, items) {
-        UMLListViewItem *ui = static_cast<UMLListViewItem*>(item);
-        // TODO check category
-#if 0
-        UMLObject::ObjectType type = ui->umlObject() ? ui->umlObject()->baseType() : UMLObject::ot_Unknown;
-        if (type == UMLObject::ot_Class
-            || type == UMLObject::ot_Interface
-            || type == UMLObject::ot_Package)
-#endif
-            if (ui->umlObject())
-                m_items.append(ui->umlObject()->id());
+        UMLListViewItem *ui = dynamic_cast<UMLListViewItem*>(item);
+        if (!ui)
+            continue;
+        UMLObject *o = ui->umlObject();
+        if (!includeObject(category, o))
+            continue;
+        m_items.append(o->id());
     }
 
     m_index = -1;
