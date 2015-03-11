@@ -11,6 +11,8 @@
 #ifndef FINDRESULTS_H
 #define FINDRESULTS_H
 
+#include "umlfinder.h"
+
 #include <QList>
 #include <QObject>
 
@@ -28,14 +30,12 @@ class FindResults : QObject
 {
     Q_OBJECT
 public:
-    typedef enum { TreeView, CurrentDiagram, AllDiagrams } Filter;
-    typedef enum { Class } Category;
 
     FindResults();
     virtual ~FindResults ();
 
     void clear();
-    int collect(Filter filter, Category category, const QString & text);
+    int collect(UMLFinder::Filter filter, UMLFinder::Category category, const QString & text);
 
 public slots:
     bool displayNext();
