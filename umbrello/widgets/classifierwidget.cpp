@@ -662,9 +662,9 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     setPenFromSettings(painter);
     if (UMLWidget::useFillColor())
         painter->setBrush(UMLWidget::fillColor());
-    else
-        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
-
+    else {
+        painter->setBrush(m_scene->backgroundColor());
+    }
     if (m_umlObject->baseType() == UMLObject::ot_Package) {
         drawAsPackage(painter, option);
         UMLWidget::paint(painter, option, widget);

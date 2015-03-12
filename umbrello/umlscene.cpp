@@ -1253,6 +1253,17 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
 }
 
 /**
+ * Returns background color
+ */
+const QColor& UMLScene::backgroundColor() const
+{
+    if (activeView())
+        return activeView()->viewport()->palette().color(QPalette::Background);
+    else
+        return m_Options.uiState.backgroundColor;
+}
+
+/**
  * Returns whether to use the fill/background color
  */
 bool UMLScene::useFillColor() const
