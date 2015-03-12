@@ -62,7 +62,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     if (UMLWidget::useFillColor())
         painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
+        painter->setBrush(m_scene->backgroundColor());
 
     int w = width();
     int h = height();

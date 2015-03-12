@@ -58,7 +58,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     if(UMLWidget::useFillColor())
         painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
+        painter->setBrush(m_scene->backgroundColor());
 
     const int w = width();
     const int h = height();

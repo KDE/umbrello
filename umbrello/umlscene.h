@@ -115,6 +115,8 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor& color);
 
+    const QColor& backgroundColor() const;
+
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
 

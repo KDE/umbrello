@@ -55,7 +55,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
     } else {
-        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
+        painter->setBrush(m_scene->backgroundColor());
     }
     const int w = width();
     const int h = height();
