@@ -3492,6 +3492,7 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
  */
 void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    QGraphicsScene::drawBackground(painter, rect);
     m_layoutGrid->paint(painter, rect);
 }
 
