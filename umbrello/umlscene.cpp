@@ -419,6 +419,7 @@ const QColor& UMLScene::gridDotColor() const
  */
 void UMLScene::setGridDotColor(const QColor& color)
 {
+    m_Options.uiState.gridDotColor = color;
     m_layoutGrid->setGridDotColor(color);
 }
 
@@ -436,6 +437,8 @@ const Settings::OptionState& UMLScene::optionState() const
 void UMLScene::setOptionState(const Settings::OptionState& options)
 {
     m_Options = options;
+    setBackgroundBrush(options.uiState.backgroundColor);
+    setGridDotColor(options.uiState.gridDotColor);
 }
 
 /**
@@ -1257,10 +1260,7 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
  */
 const QColor& UMLScene::backgroundColor() const
 {
-    if (activeView())
-        return activeView()->viewport()->palette().color(QPalette::Background);
-    else
-        return m_Options.uiState.backgroundColor;
+    return backgroundBrush().color();
 }
 
 /**
