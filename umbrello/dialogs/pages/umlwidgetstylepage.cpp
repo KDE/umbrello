@@ -43,17 +43,6 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
     m_pFillColorB->setColor(pWidget->fillColor());
     m_pUseFillColorCB->setChecked(pWidget->useFillColor());
     m_lineWidthB->setValue(pWidget->lineWidth());
-
-    if (!m_pUMLWidget) {  //  when we are on the diagram
-        UMLView * view = UMLApp::app()->currentView();
-        if (view) {
-            UMLScene* scene = view->umlScene();
-            if (scene) {
-                m_BackgroundColorB->setColor(scene->backgroundBrush().color());
-                m_GridDotColorB->setColor(scene->gridDotColor());
-            }
-        }
-    }
 }
 
 /**
@@ -72,6 +61,26 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget * pParent, Settings::OptionState 
     m_GridDotColorB->setColor(m_options->uiState.gridDotColor);
     m_BackgroundColorB->setColor(m_options->uiState.backgroundColor);
     m_lineWidthB->setValue(m_options->uiState.lineWidth);
+}
+
+/**
+ *   Constructor - Observe a UMLScene.
+ */
+UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, UMLScene *scene)
+  : QWidget(pParent),
+    m_pUMLWidget(0),
+    m_scene(scene),
+    m_options(0)
+{
+    init();
+    const Settings::OptionState state = m_scene->optionState();
+    m_pTextColorB->setColor(state.uiState.textColor);
+    m_pLineColorB->setColor(state.uiState.lineColor);
+    m_pFillColorB->setColor(state.uiState.fillColor);
+    m_pUseFillColorCB->setChecked(state.uiState.useFillColor);
+    m_lineWidthB->setValue(state.uiState.lineWidth);
+    m_GridDotColorB->setColor(state.uiState.gridDotColor);
+    m_BackgroundColorB->setColor(state.uiState.backgroundColor);
 }
 
 void UMLWidgetStylePage::init()
@@ -253,17 +262,17 @@ void UMLWidgetStylePage::apply()
         m_options->uiState.gridDotColor = m_GridDotColorB->color();
         m_options->uiState.lineWidth = m_lineWidthB->value();
     }
-
-    if (!m_pUMLWidget) {  // when we are on the diagram
-        UMLView * view = UMLApp::app()->currentView();
-        if (view) {
-            UMLScene* scene = view->umlScene();
-            if (scene) {
-                uDebug() << "Setting background and grid dot color.";
-                scene->setBackgroundBrush(m_BackgroundColorB->color());
-                scene->setGridDotColor(m_GridDotColorB->color());
-            }
-        }
+    else if (m_scene) {
+        Settings::OptionState state;
+        state.uiState.useFillColor = m_pUseFillColorCB->isChecked();
+        state.uiState.textColor = m_pTextColorB->color();
+        state.uiState.lineColor = m_pLineColorB->color();
+        state.uiState.fillColor = m_pFillColorB->color();
+        state.uiState.backgroundColor = m_BackgroundColorB->color();
+        state.uiState.gridDotColor = m_GridDotColorB->color();
+        state.uiState.lineWidth = m_lineWidthB->value();
+        m_scene->setOptionState(state);
+        //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
 }
 
