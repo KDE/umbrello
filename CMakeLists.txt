@@ -8,7 +8,7 @@ set(KDE4_BUILD_TESTS ON)  # for unit tests
 
 set(VERSION_MAJOR "2")
 set(VERSION_MINOR "15")
-set(VERSION_PATCH "80")
+set(VERSION_PATCH "95")
 
 # set default umbrello version
 # umbrello version could be overridden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
