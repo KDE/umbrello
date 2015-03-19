@@ -1648,7 +1648,7 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // Draw the resize anchor in the lower right corner.
         // Don't draw it if the widget is so small that the
         // resize anchor would cover up most of the widget.
-        if (m_resizable && w * h > (s*3) * (s*3)) {
+        if (m_resizable && w >= s+8 && h >= s+8) {
             brush.setColor(Qt::red);
             const int right = 0 + w;
             const int bottom = 0 + h;

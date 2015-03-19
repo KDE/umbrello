@@ -19,36 +19,92 @@ FindDialog::FindDialog(QWidget *parent)
   : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Find"));
-    setupUi(window());
-
-    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox();
-    QPushButton* searchBtn = dlgButtonBox->addButton(i18n("Search"), QDialogButtonBox::AcceptRole);
-    searchBtn->setDefault(true);
-    QPushButton* cancelBtn = dlgButtonBox->addButton(i18n("Cancel"), QDialogButtonBox::RejectRole);
-    cancelBtn->setAutoDefault(false);
-    layout()->addWidget(dlgButtonBox);
-
-    connect(searchBtn, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(cancelBtn, SIGNAL(clicked()), this, SLOT(reject()));
+    setupUi(mainWidget());
+    connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
 
     ui_treeView->setChecked(true);
+    ui_categoryAll->setChecked(true);
 }
 
 FindDialog::~FindDialog()
 {
 }
 
+/**
+ * return entered text.
+ * @return text
+ */
 QString FindDialog::text()
 {
     return ui_searchTerm->text();
 }
 
-FindDialog::Filter FindDialog::filter()
+/**
+ * Return user selected filter.
+ * @return filter enum
+ */
+UMLFinder::Filter FindDialog::filter()
 {
     if (ui_treeView->isChecked())
-        return TreeView;
+        return UMLFinder::TreeView;
     else if (ui_CurrentDiagram->isChecked())
-        return CurrentDiagram;
+        return UMLFinder::CurrentDiagram;
     else
-        return AllDiagrams;
+        return UMLFinder::AllDiagrams;
+}
+
+/**
+ * Return user selected category.
+ * @return category enum
+ */
+UMLFinder::Category FindDialog::category()
+{
+    if (ui_categoryAll->isChecked())
+        return UMLFinder::All;
+    else if (ui_categoryClass->isChecked())
+        return UMLFinder::Classes;
+    else if (ui_categoryPackage->isChecked())
+        return UMLFinder::Packages;
+    else if (ui_categoryInterface->isChecked())
+        return UMLFinder::Interfaces;
+    else if (ui_categoryOperation->isChecked())
+        return UMLFinder::Operations;
+    else if (ui_categoryAttribute->isChecked())
+        return UMLFinder::Attributes;
+    else
+        return UMLFinder::All;
+}
+
+/**
+ * Handles dialog button click.
+ * @param button
+ */
+void FindDialog::slotButtonClicked(int button)
+{
+    if (button == KDialog::User1)
+       accept();
+    else
+       KDialog::slotButtonClicked(button);
+}
+
+/**
+ * Handles filter radio button group click.
+ * @param button (-2=Treeview,-3,-4)
+ */
+void FindDialog::slotFilterButtonClicked(int button)
+{
+    ui_categoryOperation->setEnabled(button == -2);
+    ui_categoryAttribute->setEnabled(button == -2);
+    if (button != -2)
+        ui_categoryAll->setChecked(true);
+}
+
+/**
+ * Override default event handler for show event.
+ * @param event
+ */
+void FindDialog::showEvent(QShowEvent *event)
+{
+    ui_searchTerm->setFocus();
+    KDialog::showEvent(event);
 }

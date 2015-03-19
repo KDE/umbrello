@@ -417,6 +417,7 @@ const QColor& UMLScene::gridDotColor() const
  */
 void UMLScene::setGridDotColor(const QColor& color)
 {
+    m_Options.uiState.gridDotColor = color;
     m_layoutGrid->setGridDotColor(color);
 }
 
@@ -434,6 +435,8 @@ const Settings::OptionState& UMLScene::optionState() const
 void UMLScene::setOptionState(const Settings::OptionState& options)
 {
     m_Options = options;
+    setBackgroundBrush(options.uiState.backgroundColor);
+    setGridDotColor(options.uiState.gridDotColor);
 }
 
 /**
@@ -1248,6 +1251,14 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
     o->deleteLater();
     m_doc->setModified(true);
+}
+
+/**
+ * Returns background color
+ */
+const QColor& UMLScene::backgroundColor() const
+{
+    return backgroundBrush().color();
 }
 
 /**
@@ -3499,6 +3510,7 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
  */
 void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    QGraphicsScene::drawBackground(painter, rect);
     m_layoutGrid->paint(painter, rect);
 }
 

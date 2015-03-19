@@ -19,6 +19,7 @@
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
+class UMLScene;
 class WidgetBase;
 class KColorButton;
 class QLabel;
@@ -34,6 +35,7 @@ public:
 
     UMLWidgetStylePage(QWidget * pParent, WidgetBase * pWidget);
     UMLWidgetStylePage(QWidget * pParent, Settings::OptionState *options);
+    UMLWidgetStylePage(QWidget * pParent, UMLScene *scene);
 
     virtual ~UMLWidgetStylePage();
 
@@ -51,6 +53,7 @@ public slots:
 protected:
 
     WidgetBase * m_pUMLWidget;  ///< the widget to set the style for
+    UMLScene *m_scene;
 
     Settings::OptionState * m_options;
 

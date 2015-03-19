@@ -6,60 +6,122 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
-    <height>130</height>
+    <width>520</width>
+    <height>268</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <property name="minimumSize">
+   <size>
+    <width>441</width>
+    <height>268</height>
+   </size>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Filter:</string>
-         </property>
-         <property name="buddy">
-          <cstring>ui_CurrentDiagram</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QRadioButton" name="ui_treeView">
-           <property name="text">
-            <string>Tree View</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
-           </attribute>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="ui_CurrentDiagram">
-           <property name="text">
-            <string>&amp;Current diagram</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
-           </attribute>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="ui_Diagrams">
-           <property name="text">
-            <string>&amp;All diagrams</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
-           </attribute>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Filter</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QRadioButton" name="ui_treeView">
+            <property name="text">
+             <string>Tree View</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">ui_buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_CurrentDiagram">
+            <property name="text">
+             <string>&amp;Current diagram</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">ui_buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_Diagrams">
+            <property name="text">
+             <string>&amp;All diagrams</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">ui_buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+       <zorder>ui_Diagrams</zorder>
+       <zorder>ui_CurrentDiagram</zorder>
+       <zorder>ui_treeView</zorder>
+       <zorder>ui_Diagrams</zorder>
+       <zorder>ui_CurrentDiagram</zorder>
+       <zorder>ui_treeView</zorder>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Category</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QRadioButton" name="ui_categoryAll">
+            <property name="text">
+             <string>All</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_categoryClass">
+            <property name="text">
+             <string>Class</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_categoryPackage">
+            <property name="text">
+             <string>Package</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_categoryInterface">
+            <property name="text">
+             <string>Interface</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_categoryOperation">
+            <property name="text">
+             <string>Operation</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ui_categoryAttribute">
+            <property name="text">
+             <string>Attribute</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -98,10 +160,6 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup">
-   <property name="exclusive">
-    <bool>true</bool>
-   </property>
-  </buttongroup>
+  <buttongroup name="ui_buttonGroup"/>
  </buttongroups>
 </ui>

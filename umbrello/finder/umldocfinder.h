@@ -14,6 +14,8 @@
 #include "umlfinder.h"
 #include "umlscene.h"
 
+class UMLSceneFinder;
+
 #include <QList>
 
 /**

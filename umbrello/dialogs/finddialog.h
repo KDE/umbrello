@@ -14,6 +14,7 @@
 #include "ui_finddialog.h"
 
 #include "singlepagedialogbase.h"
+#include "umlfinder.h"
 
 /**
   * Class FindDialog provides the ui part for selecting find attributes.
@@ -24,12 +25,17 @@ class FindDialog : public SinglePageDialogBase, private Ui::FindDialog
 {
     Q_OBJECT
 public:
-    typedef enum { TreeView, CurrentDiagram, AllDiagrams } Filter;
     explicit FindDialog(QWidget *parent = 0);
     ~FindDialog();
     QString text();
-    Filter filter();
+    UMLFinder::Filter filter();
+    UMLFinder::Category category();
+protected:
+    void showEvent(QShowEvent *event);
 
+private slots:
+    virtual void slotButtonClicked(int button);
+    void slotFilterButtonClicked(int button);
 };
 
 #endif // FINDDIALOG_H

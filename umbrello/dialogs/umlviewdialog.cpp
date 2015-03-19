@@ -120,7 +120,7 @@ void UMLViewDialog::setupDisplayPage()
  */
 void UMLViewDialog::setupStylePage()
 {
-    m_pStylePage = new UMLWidgetStylePage(0, &m_options);
+    m_pStylePage = new UMLWidgetStylePage(0, m_pScene);
     m_pageStyleItem = createPage(i18nc("diagram style page", "Style"), i18n("Diagram Style"),
                                  Icon_Utils::it_Properties_Color, m_pStylePage);
 }
@@ -154,14 +154,6 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         uDebug() << "setting colors ";
         m_pStylePage->apply();
-        m_pScene->setLineWidth(m_options.uiState.lineWidth);
-        m_pScene->setUseFillColor(m_options.uiState.useFillColor);
-        m_pScene->setTextColor(m_options.uiState.textColor);
-        m_pScene->setLineColor(m_options.uiState.lineColor);
-        m_pScene->setFillColor(m_options.uiState.fillColor);
-        m_pScene->setBackgroundBrush(m_options.uiState.backgroundColor);
-        m_pScene->setGridDotColor(m_options.uiState.gridDotColor);
-        //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
     else if (item == m_pageFontItem)
     {
