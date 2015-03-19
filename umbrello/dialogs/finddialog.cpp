@@ -76,18 +76,6 @@ UMLFinder::Category FindDialog::category()
 }
 
 /**
- * Handles dialog button click.
- * @param button
- */
-void FindDialog::slotButtonClicked(int button)
-{
-    if (button == KDialog::User1)
-       accept();
-    else
-       KDialog::slotButtonClicked(button);
-}
-
-/**
  * Handles filter radio button group click.
  * @param button (-2=Treeview,-3,-4)
  */
@@ -106,5 +94,5 @@ void FindDialog::slotFilterButtonClicked(int button)
 void FindDialog::showEvent(QShowEvent *event)
 {
     ui_searchTerm->setFocus();
-    KDialog::showEvent(event);
+    QDialog::showEvent(event);
 }

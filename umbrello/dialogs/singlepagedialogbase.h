@@ -32,6 +32,8 @@ public:
     virtual bool apply();
     // keep in sync with MultiPageDialogBase
     void setCaption(const QString &caption);
+
+    QWidget *mainWidget();
     void setMainWidget(QWidget *widget);
 
 protected slots:
@@ -40,6 +42,7 @@ protected slots:
 
 protected:
     QDialogButtonBox *m_buttonBox;
+    QWidget *m_mainWidget;
 };
 
 #endif

@@ -34,7 +34,6 @@ protected:
     void showEvent(QShowEvent *event);
 
 private slots:
-    virtual void slotButtonClicked(int button);
     void slotFilterButtonClicked(int button);
 };
 

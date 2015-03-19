@@ -17,19 +17,16 @@
  * Constructor
  */
 SinglePageDialogBase::SinglePageDialogBase(QWidget *parent)
-  : QDialog(parent)
+  : QDialog(parent),
+    m_mainWidget(0)
 {
     setModal(true);
-
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->setMargin(0);
-    setLayout(layout);
 
     m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
                                        QDialogButtonBox::Cancel);
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
     connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    layout->addWidget(m_buttonBox);
+    mainWidget();
 }
 
 SinglePageDialogBase::~SinglePageDialogBase()
@@ -41,7 +38,7 @@ SinglePageDialogBase::~SinglePageDialogBase()
  */
 bool SinglePageDialogBase::apply()
 {
-    return false;
+    return true;
 }
 
 void SinglePageDialogBase::setCaption(const QString &caption)
@@ -49,14 +46,41 @@ void SinglePageDialogBase::setCaption(const QString &caption)
     setWindowTitle(caption);
 }
 
+/**
+ * Sets the main widget of the dialog.
+ */
 void SinglePageDialogBase::setMainWidget(QWidget *widget)
 {
+    if (widget == m_mainWidget)
+        return;
+    m_mainWidget = widget;
+    if (m_mainWidget && m_mainWidget->layout()) {
+        // Avoid double-margin problem
+        m_mainWidget ->layout()->setMargin(0);
+    }
+
     delete layout();
-    QVBoxLayout* vlayout = new QVBoxLayout;
+    QVBoxLayout* vlayout = new QVBoxLayout(this);
     vlayout->setMargin(0);
-    vlayout->addWidget(widget);
+    vlayout->addWidget(m_mainWidget);
     vlayout->addWidget(m_buttonBox);
     setLayout(vlayout);
+}
+
+/**
+ * @return The current main widget. Will create a QWidget as the mainWidget
+ * if none was set before. This way you can write
+ * \code
+ *   ui.setupUi(mainWidget());
+ * \endcode
+ * when using designer.
+ */
+QWidget *SinglePageDialogBase::mainWidget()
+{
+    if (!m_mainWidget)
+        setMainWidget(new QWidget(this));
+
+    return m_mainWidget;
 }
 
 /**
