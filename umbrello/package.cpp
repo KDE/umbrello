@@ -218,9 +218,7 @@ void UMLPackage::removeAllObjects()
         if (pkg)
             pkg->removeAllObjects();
         removeObject(o);
-        //delete o;
-        // CHECK: Direct usage of the destructor crashes on associations.
-        o->deleteLater();
+        delete o;
     }
 }
 

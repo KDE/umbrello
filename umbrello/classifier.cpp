@@ -1279,7 +1279,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType)
  */
 UMLClassifier * UMLClassifier::originType() const
 {
-    return static_cast<UMLClassifier*>(m_pSecondary);
+    return dynamic_cast<UMLClassifier*>(m_pSecondary.data());
 }
 
 /**
