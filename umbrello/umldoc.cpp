@@ -2529,6 +2529,8 @@ void UMLDoc::removeAllViews()
  */
 void UMLDoc::removeAllObjects()
 {
+    m_root[Uml::ModelType::Logical]->removeObject(m_datatypeRoot);
+
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_root[i]->removeAllObjects();
     }

@@ -18,6 +18,7 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QObject>
+#include <QPointer>
 #include <QString>
 
 class UMLStereotype;
@@ -179,7 +180,7 @@ protected:
     bool                   m_bStatic;      ///< flag for instance scope
     bool                   m_bInPaste;     ///< caller sets this true when in paste operation
     bool        m_bCreationWasSignalled;   ///< auxiliary to maybeSignalObjectCreated()
-    UMLObject*             m_pSecondary;   ///< pointer to an associated object
+    QPointer<UMLObject>    m_pSecondary;   ///< pointer to an associated object
                                            ///< Only a few of the classes inheriting from UMLObject use this.
                                            ///< However, it needs to be here because of inheritance graph
                                            ///< disjunctness.
