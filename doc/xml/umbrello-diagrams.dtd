@@ -7,6 +7,12 @@
 <!ENTITY % ids
            'xmi.id CDATA #IMPLIED localid CDATA #IMPLIED'>
 
+<!ENTITY % coordinates
+          'height CDATA #IMPLIED
+          width CDATA #IMPLIED
+          x CDATA #IMPLIED
+          y CDATA #IMPLIED'>
+
 <!ELEMENT diagrams ANY >
 <!ATTLIST diagrams
 >
@@ -49,6 +55,7 @@
 <!ELEMENT classwidget ANY >
 <!ATTLIST classwidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -57,34 +64,27 @@
           usesdiagramusefillcolor CDATA #IMPLIED
           showpubliconly CDATA #IMPLIED
           showpackage CDATA #IMPLIED
-          x CDATA #IMPLIED
           showattsigs CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           showattributes CDATA #IMPLIED
           font CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           showscope CDATA #IMPLIED
-          height CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
           drawascircle CDATA #IMPLIED
 >
 <!ELEMENT notewidget ANY >
 <!ATTLIST notewidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           noteType CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -144,24 +144,21 @@
 <!ELEMENT floatingtext ANY >
 <!ATTLIST floatingtext
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           text CDATA #IMPLIED
           font CDATA #IMPLIED
           pretext CDATA #IMPLIED
           role CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           posttext CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           roleBdoc CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
           documentation CDATA #IMPLIED
@@ -169,15 +166,12 @@
 <!ELEMENT datatypewidget ANY >
 <!ATTLIST datatypewidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -192,15 +186,12 @@
 <!ELEMENT enumwidget ANY >
 <!ATTLIST enumwidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           showpackage CDATA #IMPLIED
           textcolor CDATA #IMPLIED
@@ -211,15 +202,12 @@
 <!ELEMENT boxwidget ANY >
 <!ATTLIST boxwidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -229,6 +217,7 @@
 <!ELEMENT interfacewidget ANY >
 <!ATTLIST interfacewidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -237,39 +226,32 @@
           usesdiagramusefillcolor CDATA #IMPLIED
           showpubliconly CDATA #IMPLIED
           showpackage CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
           drawascircle CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           showscope CDATA #IMPLIED
-          height CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
 >
 <!ELEMENT statewidget ANY >
 <!ATTLIST statewidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
           statename CDATA #IMPLIED
           statetype CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           documentation CDATA #IMPLIED
-          height CDATA #IMPLIED
           drawvertical CDATA #IMPLIED
 >
 <!ELEMENT Activities ANY >
@@ -404,27 +386,25 @@
 <!ELEMENT objectwidget ANY >
 <!ATTLIST objectwidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           decon CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           multipleinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           drawasactor CDATA #IMPLIED
 >
 <!ELEMENT messagewidget ANY >
 <!ATTLIST messagewidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           widgetbid CDATA #IMPLIED
@@ -434,16 +414,12 @@
           textcolor CDATA #IMPLIED
           seqnum CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           widgetaid CDATA #IMPLIED
           font CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           sequencemessagetype CDATA #IMPLIED
           xclicked CDATA #IMPLIED
           yclicked CDATA #IMPLIED          
@@ -451,15 +427,12 @@
 <!ELEMENT actorwidget ANY >
 <!ATTLIST actorwidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -469,15 +442,12 @@
 <!ELEMENT usecasewidget ANY >
 <!ATTLIST usecasewidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -487,14 +457,11 @@
 <!ELEMENT packagewidget ANY >
 <!ATTLIST packagewidget
           %ids;
-          width CDATA #IMPLIED
-          x CDATA #IMPLIED
+          %coordinates;
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -507,16 +474,14 @@
 <!ELEMENT activitywidget ANY >
 <!ATTLIST activitywidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
@@ -524,7 +489,6 @@
           postcondition CDATA #IMPLIED
           documentation CDATA #IMPLIED
           activitytype CDATA #IMPLIED
-          height CDATA #IMPLIED
           precondition CDATA #IMPLIED
           drawvertical CDATA #IMPLIED
           type CDATA #IMPLIED
@@ -532,37 +496,31 @@
 <!ELEMENT signalwidget ANY >
 <!ATTLIST signalwidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           signaltype CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           signalname CDATA #IMPLIED
           documentation CDATA #IMPLIED
-          height CDATA #IMPLIED
           textid CDATA #IMPLIED
 >
 <!ELEMENT regionwidget ANY >
 <!ATTLIST regionwidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           regionname CDATA #IMPLIED
           textcolor CDATA #IMPLIED
@@ -574,16 +532,13 @@
 <!ELEMENT pinwidget ANY >
 <!ATTLIST pinwidget
           %ids;
-          width CDATA #IMPLIED
+          %coordinates;
           showstereotype CDATA #IMPLIED
-          x CDATA #IMPLIED
           widgetaid CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
-          y CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -593,24 +548,21 @@
 <!ELEMENT objectnodewidget ANY >
 <!ATTLIST objectnodewidget
           %ids;
+          %coordinates;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
           objectnodetype CDATA #IMPLIED
-          x CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
-          y CDATA #IMPLIED
           font CDATA #IMPLIED
           objectnodestate CDATA #IMPLIED
-          width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           objectnodename CDATA #IMPLIED
           documentation CDATA #IMPLIED
-          height CDATA #IMPLIED
 >
 <!ELEMENT objectnodename ANY >
 <!ATTLIST objectnodename
