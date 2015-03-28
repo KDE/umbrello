@@ -67,7 +67,7 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
     xmlReader.setDevice(&file);
     while (!xmlReader.atEnd()) {
         QXmlStreamReader::TokenType type = xmlReader.readNext();
-        if (!type == QXmlStreamReader::StartElement)
+        if (type != QXmlStreamReader::StartElement)
             continue;
 
         foreach(const QString &attributeName, attributes) {
