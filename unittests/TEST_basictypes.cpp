@@ -67,6 +67,8 @@ void TEST_basictypes::test_dynamic_cast()
     A *a2 = new B;
     B* b2 = dynamic_cast<B*> (a2);
     QVERIFY(b2);
+    delete a1;
+    delete a2;
 }
 
 void TEST_basictypes::test_ModelType_toString()
