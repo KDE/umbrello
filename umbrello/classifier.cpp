@@ -1100,6 +1100,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
  */
 bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
 {
+    Q_ASSERT(templt);
     QString name = templt->name();
     if (findChildObject(name) == NULL) {
         templt->setParent(this);
