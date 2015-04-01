@@ -179,6 +179,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
  */
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 {
+    Q_ASSERT(literal);
     QString name = (QString)literal->name();
     if (findChildObject(name) == NULL) {
         literal->setParent(this);
