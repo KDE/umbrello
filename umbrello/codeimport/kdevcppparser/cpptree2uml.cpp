@@ -561,6 +561,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
 void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
                                          UMLOperation* method)
 {
+    if (!declarator)
+        return;
     ParameterDeclarationClauseAST* clause = declarator->parameterDeclarationClause();
 
     if (clause && clause->parameterDeclarationList()){

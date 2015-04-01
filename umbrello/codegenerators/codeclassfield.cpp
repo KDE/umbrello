@@ -114,7 +114,8 @@ QString CodeClassField::getListObjectType()
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-        return getUMLObjectName(role->object());
+        if (role)
+            return getUMLObjectName(role->object());
     }
     return QString();
 }

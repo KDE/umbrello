@@ -62,8 +62,8 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    const int w = width();
-    const int h = height();
+    const qreal w = width();
+    const qreal h = height();
     if (w == 0 || h == 0)
         return;
 
