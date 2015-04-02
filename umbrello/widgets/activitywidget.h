@@ -91,12 +91,6 @@ protected:
 
     ActivityType m_activityType; ///< Type of activity.
 
-    /**
-     * Type of normal activity (Invok or not).
-     * This function is call by the dialog box properties
-     */
-    bool m_NormalActivityType;
-
     QString m_preconditionText;
     QString m_postconditionText;
 };

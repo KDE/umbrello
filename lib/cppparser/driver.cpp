@@ -975,12 +975,18 @@ const MacroSet& ParsedFile::usedMacros() const
     return m_usedMacros;
 }
 
-ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp) : m_translationUnit(0), m_fileName(fileName), m_timeStamp(timeStamp)
+ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp)
+  : m_translationUnit(0),
+    m_skippedLines(0),
+    m_fileName(fileName),
+    m_timeStamp(timeStamp)
 {
     m_includeFiles.insert(fileName);
 }
 
 ParsedFile::ParsedFile(const QByteArray& array)
+  : m_translationUnit(0),
+    m_skippedLines(0)
 {
     QByteArray a(array);
     QBuffer b(&a);
