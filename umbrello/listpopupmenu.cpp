@@ -292,7 +292,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param uniqueType The type of widget shared by all selected widgets
  */
 ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
-  : KMenu(parent)
+  : KMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
