@@ -362,6 +362,10 @@ inline Token::Token(const QString & text)
     : m_type(-1),
       m_position(0),
       m_length(0),
+      m_startLine(0),
+      m_startColumn(0),
+      m_endLine(0),
+      m_endColumn(0),
       m_text(text)
 {
 }
@@ -370,6 +374,10 @@ inline Token::Token(int type, int position, int length, const QString& text)
     : m_type(type),
       m_position(position),
       m_length(length),
+      m_startLine(0),
+      m_startColumn(0),
+      m_endLine(0),
+      m_endColumn(0),
       m_text(text)
 {
     DBG_LEXER << type << position << length << text.mid(position, length);

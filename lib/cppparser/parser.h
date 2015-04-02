@@ -159,7 +159,7 @@ public:
     {
     }
 
-    Comment(int line) : m_line(line)
+    Comment(int line) : m_line(line), m_formatted(false)
     {
     }
 
