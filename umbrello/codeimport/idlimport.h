@@ -33,7 +33,7 @@ public:
 
 protected:
     QString joinTypename();
-    bool m_isOneway, m_isReadonly, m_isAttribute, m_isLocal;
+    bool m_isOneway, m_isReadonly, m_isAttribute;
     static QString m_preProcessor;
     static QStringList m_preProcessorArguments;
     static bool m_preProcessorChecked;
