@@ -32,6 +32,7 @@
  * Constructor, initialises a couple of variables.
  */
 DWriter::DWriter()
+  : isInterface(false)
 {
     startline = m_endl + m_indentation;
 }
