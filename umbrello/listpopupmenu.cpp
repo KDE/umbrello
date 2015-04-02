@@ -57,7 +57,8 @@ const bool CHECKABLE = true;
  * @param view     The UMLView object
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
-  : KMenu(parent), m_isListView(false)
+  : KMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
@@ -73,7 +74,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
  * @param widget   The WidgetBase object.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
-  : KMenu(parent), m_isListView(false)
+  : KMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
@@ -89,7 +91,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
  * @param object   The UMLObject of the ListViewItem
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject* object)
-  : KMenu(parent), m_isListView(true)
+  : KMenu(parent),
+    m_isListView(true)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
