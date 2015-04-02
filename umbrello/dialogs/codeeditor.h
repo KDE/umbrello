@@ -42,7 +42,11 @@ public:
     QColor bgcolor;
     bool isEditable;
 
-    ParaInfo () { isEditable = false; }
+    ParaInfo ()
+      : start(0),
+        size(0),
+        end(0),
+        isEditable(false) { }
 };
 
 
