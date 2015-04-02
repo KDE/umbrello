@@ -126,6 +126,8 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
  */
 void MessageWidget::init()
 {
+    m_xclicked = -1;
+    m_yclicked = -1;
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
