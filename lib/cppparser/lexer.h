@@ -362,6 +362,10 @@ inline Token::Token(const QString & text)
     : m_type(-1),
       m_position(0),
       m_length(0),
+      m_startLine(0),
+      m_startColumn(0),
+      m_endLine(0),
+      m_endColumn(0),
       m_text(text)
 {
 }
