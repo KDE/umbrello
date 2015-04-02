@@ -185,7 +185,6 @@ private:
     QPoint m_dragStartPosition;
     QMimeData* m_dragCopyData;
     QList<QTreeWidgetItem*> m_findItems;
-    int n_findIndex;
 };
 
 #endif
