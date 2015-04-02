@@ -89,7 +89,7 @@ void CppImport::feedTheModel(const QString& fileName)
             uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
             if (ms_seenFiles.indexOf(includeFile) == -1)
                 ms_seenFiles.append(includeFile);
-                feedTheModel(includeFile);
+            feedTheModel(includeFile);
         }
     }
     ParsedFilePointer ast = ms_driver->translationUnit(fileName);
