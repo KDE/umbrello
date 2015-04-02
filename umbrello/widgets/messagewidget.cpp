@@ -108,15 +108,15 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
 
     m_sequenceMessageType = sequenceMessageType;
 
-    xclicked = xclick;
-    yclicked = yclick;
+    m_xclicked = xclick;
+    m_yclicked = yclick;
 
     updateResizability();
     calculateWidget();
     yclick = yclick < getMinY() ? getMinY() : yclick;
     yclick = yclick > getMaxY() ? getMaxY() : yclick;
     setY(yclick);
-    yclicked = yclick;
+    m_yclicked = yclick;
 
     this->activate();
 }
@@ -514,7 +514,7 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
 void MessageWidget::paintLost(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
-    int x2 = xclicked;
+    int x2 = m_xclicked;
     int w = width();
     int h = height();
     int offsetX = 0;
@@ -552,7 +552,7 @@ void MessageWidget::paintLost(QPainter *painter, const QStyleOptionGraphicsItem 
 void MessageWidget::paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
-    int x2 = xclicked;
+    int x2 = m_xclicked;
     int w = width();
     int h = height();
     int offsetX = 0;
@@ -1125,7 +1125,7 @@ void MessageWidget::calculateDimensionsLost()
     int x = 0;
 
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
-    int x2 = xclicked;
+    int x2 = m_xclicked;
 
     int widgetWidth = 0;
     int widgetHeight = 10;
@@ -1148,7 +1148,7 @@ void MessageWidget::calculateDimensionsFound()
     int x = 0;
 
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
-    int x2 = xclicked;
+    int x2 = m_xclicked;
 
     int widgetWidth = 0;
     int widgetHeight = 10;
@@ -1271,7 +1271,7 @@ ObjectWidget* MessageWidget::objectWidget(Uml::RoleType::Enum role)
  */
 void MessageWidget::setxclicked(int xclick)
 {
-    xclicked = xclick;
+    m_xclicked = xclick;
 }
 
 /**
@@ -1279,7 +1279,7 @@ void MessageWidget::setxclicked(int xclick)
  */
 void MessageWidget::setyclicked(int yclick)
 {
-    yclicked = yclick;
+    m_yclicked = yclick;
 }
 
 /**
@@ -1316,8 +1316,8 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         messageElement.setAttribute(QLatin1String("operation"), m_CustomOp);
     messageElement.setAttribute(QLatin1String("sequencemessagetype"), m_sequenceMessageType);
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        messageElement.setAttribute(QLatin1String("xclicked"), xclicked);
-        messageElement.setAttribute(QLatin1String("yclicked"), yclicked);
+        messageElement.setAttribute(QLatin1String("xclicked"), m_xclicked);
+        messageElement.setAttribute(QLatin1String("yclicked"), m_yclicked);
     }
 
     // save the corresponding message text
@@ -1347,8 +1347,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     QString sequenceMessageType = qElement.attribute(QLatin1String("sequencemessagetype"), QLatin1String("1001"));
     m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        xclicked = qElement.attribute(QLatin1String("xclicked"), QLatin1String("-1")).toFloat();
-        yclicked = qElement.attribute(QLatin1String("yclicked"), QLatin1String("-1")).toFloat();
+        m_xclicked = qElement.attribute(QLatin1String("xclicked"), QLatin1String("-1")).toFloat();
+        m_yclicked = qElement.attribute(QLatin1String("yclicked"), QLatin1String("-1")).toFloat();
     }
 
     m_widgetAId = Uml::ID::fromString(widgetaid);
