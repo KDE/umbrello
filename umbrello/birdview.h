@@ -72,7 +72,6 @@ public:
 
 signals:
     void viewPositionChanged(QPoint delta);
-    void sigSizeChanged();  //:TODO: remove
 
 public slots:
     void slotViewChanged();

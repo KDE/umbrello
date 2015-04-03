@@ -202,6 +202,7 @@ UMLApp::UMLApp(QWidget* parent)
  */
 UMLApp::~UMLApp()
 {
+    delete m_birdView;
     delete m_imageExporterAll;
     delete m_clipTimer;
     delete m_copyTimer;
@@ -209,7 +210,6 @@ UMLApp::~UMLApp()
     delete m_pUndoStack;
     delete m_printer;
     delete m_d;
-    delete m_birdView;
 }
 
 /**
