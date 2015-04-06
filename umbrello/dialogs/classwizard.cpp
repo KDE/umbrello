@@ -179,8 +179,7 @@ void ClassWizard::accept()
  */
 void ClassWizard::reject()
 {
-    m_doc->removeUMLObject(m_pClass);
-    delete m_pClass;
+    m_doc->removeUMLObject(m_pClass, true);
     QWizard::reject();
 }
 

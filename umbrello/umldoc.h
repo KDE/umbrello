@@ -115,7 +115,7 @@ public:
     void removeDiagramCmd(Uml::ID::Type id);
     void renameDiagram(Uml::ID::Type id);
 
-    void removeUMLObject(UMLObject* umlobject);
+    void removeUMLObject(UMLObject* umlobject, bool deleteObject = false);
     void renameUMLObject(UMLObject *o);
     void renameChildUMLObject(UMLObject *o);
 
