@@ -25,8 +25,8 @@ class DocumentationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    DocumentationWidget(UMLObject *o, QWidget *parent = 0);
-    DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
+    explicit DocumentationWidget(UMLObject *o, QWidget *parent = 0);
+    explicit DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
     ~DocumentationWidget();
 
     void apply();

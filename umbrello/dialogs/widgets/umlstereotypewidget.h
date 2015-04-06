@@ -24,7 +24,7 @@ class QLabel;
 class UMLStereotypeWidget : public QWidget
 {
 public:
-    UMLStereotypeWidget(UMLObject *object, QWidget *parent=0);
+    explicit UMLStereotypeWidget(UMLObject *object, QWidget *parent=0);
     ~UMLStereotypeWidget();
 
     void setEditable(bool state);

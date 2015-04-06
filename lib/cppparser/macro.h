@@ -128,7 +128,7 @@ public:
     typedef QString Argument;
 
 public:
-    Macro(bool hasArguments = false)
+    explicit Macro(bool hasArguments = false)
         : m_idHashValid(false),
           m_valueHashValid(false),
           m_idHash(0),

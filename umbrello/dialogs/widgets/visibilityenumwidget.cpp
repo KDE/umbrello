@@ -77,7 +77,7 @@ void VisibilityEnumWidget::addToLayout(QVBoxLayout *layout)
  */
 void VisibilityEnumWidget::apply()
 {
-    for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); i++) {
+    for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
         if (i.value()->isChecked()) {
             if (m_object)
                 m_object->setVisibility(i.key());
@@ -99,7 +99,7 @@ void VisibilityEnumWidget::init(const QString &title)
     QList<Uml::Visibility::Enum> orders;
     orders << Uml::Visibility::Public << Uml::Visibility::Protected << Uml::Visibility::Private << Uml::Visibility::Implementation;
 
-    for(QList<Uml::Visibility::Enum>::const_iterator i = orders.constBegin(); i != orders.constEnd(); i++) {
+    for(QList<Uml::Visibility::Enum>::const_iterator i = orders.constBegin(); i != orders.constEnd(); ++i) {
         Uml::Visibility::Enum key = *i;
         QRadioButton *button = new QRadioButton(m_texts[key], m_box);
         m_buttons[key] = button;

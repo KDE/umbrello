@@ -21,7 +21,6 @@
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "umlclassifierlist.h"
-#include "umlstereotypewidget.h"
 
 // kde includes
 #include <klineedit.h>
