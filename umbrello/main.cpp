@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
                         QStringLiteral("okellogg@users.sourceforge.de"));
     aboutData.addCredit(i18n("Ralf Habacker"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
-                        QStringLiteral("ralf@freenet.de"));
+                        QStringLiteral("ralf.habacker@freenet.de"));
     aboutData.addCredit(i18n("Andi Fischer"),
                         i18n("Porting work, code cleanup, new features."),
                         QStringLiteral("andi.fischer@hispeed.ch"));
