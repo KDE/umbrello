@@ -746,14 +746,14 @@ namespace Widget_Utils
 
         case Uml::Region::NorthWest:
             // Find other's point with largest X and largest Y value
-            for (i = 0; i < otherLastIndex; i++) {
+            for (i = 0; i < otherLastIndex; ++i) {
                 QPointF current(other.at(i));
                 if (current.x() + current.y() >= otherPoint.x() + otherPoint.y()) {
                     otherPoint = current;
                 }
             }
             // Find own point with smallest X and smallest Y value
-            for (i = 0; i < selfLastIndex; i++) {
+            for (i = 0; i < selfLastIndex; ++i) {
                 QPointF current(self.at(i));
                 if (current.x() + current.y() <= selfPoint.x() + selfPoint.y()) {
                     selfPoint = current;
@@ -764,14 +764,14 @@ namespace Widget_Utils
 
         case Uml::Region::SouthWest:
             // Find other's point with largest X and smallest Y value
-            for (i = 0; i < otherLastIndex; i++) {
+            for (i = 0; i < otherLastIndex; ++i) {
                 QPointF current(other.at(i));
                 if (current.x() >= otherPoint.x() && current.y() <= otherPoint.y()) {
                     otherPoint = current;
                 }
             }
             // Find own point with smallest X and largest Y value
-            for (i = 0; i < selfLastIndex; i++) {
+            for (i = 0; i < selfLastIndex; ++i) {
                 QPointF current(self.at(i));
                 if (current.x() <= selfPoint.x() && current.y() >= selfPoint.y()) {
                     selfPoint = current;
@@ -782,14 +782,14 @@ namespace Widget_Utils
 
         case Uml::Region::NorthEast:
             // Find other's point with smallest X and largest Y value
-            for (i = 0; i < otherLastIndex; i++) {
+            for (i = 0; i < otherLastIndex; ++i) {
                 QPointF current(other.at(i));
                 if (current.x() <= otherPoint.x() && current.y() >= otherPoint.y()) {
                     otherPoint = current;
                 }
             }
             // Find own point with largest X and smallest Y value
-            for (i = 0; i < selfLastIndex; i++) {
+            for (i = 0; i < selfLastIndex; ++i) {
                 QPointF current(self.at(i));
                 if (current.x() >= selfPoint.x() && current.y() <= selfPoint.y()) {
                     selfPoint = current;
@@ -800,14 +800,14 @@ namespace Widget_Utils
 
         case Uml::Region::SouthEast:
             // Find other's point with smallest X and smallest Y value
-            for (i = 0; i < otherLastIndex; i++) {
+            for (i = 0; i < otherLastIndex; ++i) {
                 QPointF current(other.at(i));
                 if (current.x() + current.y() <= otherPoint.x() + otherPoint.y()) {
                     otherPoint = current;
                 }
             }
             // Find own point with largest X and largest Y value
-            for (i = 0; i < selfLastIndex; i++) {
+            for (i = 0; i < selfLastIndex; ++i) {
                 QPointF current(self.at(i));
                 if (current.x() + current.y() >= selfPoint.x() + selfPoint.y()) {
                     selfPoint = current;
