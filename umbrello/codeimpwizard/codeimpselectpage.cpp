@@ -160,7 +160,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
 {
     bool found = false;
     QString filename = path.fileName();
-    foreach (QString extension, m_fileExtensions) {
+    foreach (QString extension, m_fileExtensions) { // krazy:exclude=foreach
         extension.remove(QLatin1Char('*'));
         if (filename.endsWith(extension)) {
             found = true;
@@ -382,7 +382,7 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     QModelIndexList list = ui_treeView->selectionModel()->selectedIndexes();
     int row = -1;
-    foreach (QModelIndex idx, list) {
+    foreach (const QModelIndex &idx, list) {
         if (idx.row() != row && idx.column() == 0) {
             QFileInfo fileInfo = model->fileInfo(idx);
             if (fileInfo.isFile() && matchFilter(fileInfo)) {
