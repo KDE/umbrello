@@ -69,6 +69,9 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 
 BirdView::~BirdView()
 {
+    setParent(0);
+    delete m_protectFrame;
+    delete m_birdView;
 }
 
 /**
