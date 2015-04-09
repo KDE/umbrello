@@ -123,9 +123,12 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 void ClassPropertiesDialog::init()
 {
     setCaption(i18n("Properties"));
+    m_pAssocPage = 0;
+    m_pChooser = 0;
     m_pGenPage = 0;
     m_pAttPage = 0;
     m_pOpsPage = 0;
+    m_pPkgContentsPage = 0;
     m_pTemplatePage = 0;
     m_pEnumLiteralPage = 0;
     m_pEntityAttributePage = 0;
