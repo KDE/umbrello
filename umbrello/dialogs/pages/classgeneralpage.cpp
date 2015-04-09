@@ -223,11 +223,21 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pWidget(0),
     m_pInstanceWidget(widget),
     m_pUmldoc(d),
+    m_pInstanceL(0),
+    m_pStereoTypeL(0),
+    m_pMultiCB(0),
+    m_pDrawActorCB(0),
+    m_pAbstractCB(0),
+    m_pDeconCB(0),
+    m_pExecutableCB(0),
+    m_docWidget(0),
+    m_nameWidget(0),
+    m_instanceNameWidget(0),
+    m_stereotypeWidget(0),
+    m_packageWidget(0),
+    m_artifactTypeWidget(0),
     m_visibilityEnumWidget(0)
 {
-    m_pDeconCB = 0;
-    m_pMultiCB = 0;
-
     setMinimumSize(310, 330);
     QGridLayout* topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
