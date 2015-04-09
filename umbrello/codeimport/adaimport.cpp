@@ -270,7 +270,8 @@ bool AdaImport::parseStmt()
             skipStmt(QLatin1String("is"));
         }
         if (m_inGenericFormalPart) {
-            ns->setStereotype(QLatin1String("generic"));
+            if (ns)
+                ns->setStereotype(QLatin1String("generic"));
             m_inGenericFormalPart = false;
         }
         return true;
