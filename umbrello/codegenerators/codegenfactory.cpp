@@ -216,8 +216,10 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
         default:
             break;
     }
-    retval->initCodeClassFields();
-    retval->synchronize();
+    if (retval) {
+        retval->initCodeClassFields();
+        retval->synchronize();
+    }
     return retval;
 }
 
