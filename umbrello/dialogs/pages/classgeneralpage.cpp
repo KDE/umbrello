@@ -157,15 +157,25 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pWidget(o),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
+    m_pInstanceL(0),
+    m_pStereoTypeL(0),
+    m_pMultiCB(0),
+    m_pDrawActorCB(0),
+    m_pAbstractCB(0),
+    m_pDeconCB(0),
+    m_pExecutableCB(0),
+    m_docWidget(0),
+    m_nameWidget(0),
+    m_instanceNameWidget(0),
+    m_stereotypeWidget(0),
+    m_packageWidget(0),
+    m_artifactTypeWidget(0),
     m_visibilityEnumWidget(0)
 {
     if (!m_pWidget) {
         uWarning() << "Given ObjectWidget is NULL.";
         return;
     }
-
-    m_pDeconCB = 0;
-    m_pMultiCB = 0;
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
