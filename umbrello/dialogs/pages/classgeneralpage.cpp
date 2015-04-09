@@ -58,7 +58,19 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pWidget(0),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
+    m_pInstanceL(0),
+    m_pStereoTypeL(0),
+    m_pMultiCB(0),
+    m_pDrawActorCB(0),
+    m_pAbstractCB(0),
+    m_pDeconCB(0),
+    m_pExecutableCB(0),
+    m_docWidget(0),
+    m_nameWidget(0),
+    m_instanceNameWidget(0),
     m_stereotypeWidget(0),
+    m_packageWidget(0),
+    m_artifactTypeWidget(0),
     m_visibilityEnumWidget(0)
 {
     if (!m_pObject) {
@@ -79,9 +91,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
-
-    m_pAbstractCB = 0;
-    m_pDeconCB = 0;
 
     if (t != UMLObject::ot_Stereotype) {
         m_stereotypeWidget = new UMLStereotypeWidget(m_pObject);
