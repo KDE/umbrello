@@ -92,6 +92,8 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
+        m_root[i] = 0;
 }
 
 /**
