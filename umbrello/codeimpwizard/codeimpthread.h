@@ -61,7 +61,6 @@ private:
     QFileInfo         m_file;
     //QWaitCondition    m_waitCondition;
     //QMutex            m_mutex;
-    ClassImport*      m_importer;
 };
 
 #endif

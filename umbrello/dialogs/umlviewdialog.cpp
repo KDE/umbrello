@@ -36,7 +36,8 @@
  * Constructor.
  */
 UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
-  : MultiPageDialogBase(pParent)
+  : MultiPageDialogBase(pParent),
+    m_pOptionsPage(0)
 {
     setCaption(i18n("Properties"));
     m_pScene = pScene;

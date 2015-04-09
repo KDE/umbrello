@@ -78,6 +78,7 @@ static const char *reserved_words[] = {
  * Constructor, initialises a couple of variables.
  */
 TclWriter::TclWriter()
+  : mStream(0)
 {
 }
 
