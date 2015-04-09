@@ -892,12 +892,10 @@ void UMLApp::initView()
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
     // create the bird's eye view
-#ifdef ENABLE_BIRDVIEW
     m_birdViewDock = new BirdViewDockWidget(i18n("&Bird's eye view"), this);
     m_birdViewDock->setObjectName(QLatin1String("BirdViewDock"));
     addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
     connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
-#endif
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);
@@ -3042,9 +3040,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
     }
     DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
 
-#ifdef ENABLE_BIRDVIEW
     createBirdView(view);
-#endif
 }
 
 /**
