@@ -69,6 +69,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    KLocalizedString::setApplicationDomain("umbrello");
+
     KAboutData aboutData(QStringLiteral("umbrello"),
                          i18n("Umbrello UML Modeller"),
                          QLatin1String(umbrelloVersion()),
