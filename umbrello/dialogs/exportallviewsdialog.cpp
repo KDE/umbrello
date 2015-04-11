@@ -34,7 +34,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
 {
     setObjectName(QString::fromLatin1(name));
     setModal(false);
-    setupUi(window());
+    setupUi(mainWidget());
 
     // create and initialize m_imageType
     m_imageType = new KComboBox(this);
@@ -57,12 +57,6 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
     languageChange();
 
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly);
-
-    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                          QDialogButtonBox::Cancel);
-    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    layout()->addWidget(dlgButtonBox);
 }
 
 /**
