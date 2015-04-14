@@ -68,6 +68,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
+
+    m_GeneralWidgets.experimentalCB = new QCheckBox(i18n("Enable experimental features (need restart)"), m_GeneralWidgets.miscGB);
+    m_GeneralWidgets.experimentalCB->setChecked(optionState.generalState.experimentalFeatures);
+    miscLayout->addWidget(m_GeneralWidgets.experimentalCB, 2, 1);
+
     topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
@@ -180,6 +185,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
     optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
+    optionState.generalState.experimentalFeatures = m_GeneralWidgets.experimentalCB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();
     // retrieve Suffix setting from dialog entry

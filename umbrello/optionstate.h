@@ -46,6 +46,7 @@ struct GeneralState {
     Uml::ProgrammingLanguage::Enum defaultLanguage;
     QString lastFile;
     bool uml2;
+    bool experimentalFeatures;
 };
 
 struct UIState {

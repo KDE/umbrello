@@ -58,6 +58,7 @@ protected:
         
         QCheckBox * autosaveCB;
         QCheckBox * loadlastCB;
+        QCheckBox * experimentalCB;
 
         // Allow definition of Suffix for autosave
         // (Default: ".xmi"), private Ui::GeneralOptionPage

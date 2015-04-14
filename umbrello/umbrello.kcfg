@@ -44,6 +44,11 @@
          <whatsthis>Enables/Disables Support for footer printing</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="experimentalFeatures" type="Bool">
+         <label>Experimental Features</label>
+         <whatsthis>Enables/Disables Support for Experimental Features</whatsthis>
+         <default>false</default>
+       </entry>
        <entry name="autosave" type="Bool">
          <label>Auto Save</label>
          <whatsthis>Enables/Disables Auto Saving at Regular Intervals</whatsthis>
