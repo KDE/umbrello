@@ -2948,7 +2948,7 @@ void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent * me)
         m_scene->clearSelected();
     }
 
-    if (me->button() == Qt::LeftButton && me->modifiers() && Qt::ControlModifier) {
+    if (me->button() == Qt::LeftButton && me->modifiers() == Qt::ControlModifier) {
         if (checkRemovePoint(me->scenePos()))
             return;
     }
