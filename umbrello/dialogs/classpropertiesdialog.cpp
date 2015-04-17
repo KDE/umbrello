@@ -247,6 +247,8 @@ void ClassPropertiesDialog::setupGeneralPage()
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
         m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
+    else if (m_pWidget && !m_pObject)
+        m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
     else
         m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);

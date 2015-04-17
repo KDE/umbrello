@@ -290,6 +290,7 @@ void DClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
+    Q_ASSERT(c != NULL);
     CodeGenerationPolicy * commonPolicy = UMLApp::app()->commonPolicy();
     CodeGenPolicyExt * pe = UMLApp::app()->policyExt();
     DCodeGenerationPolicy * policy = dynamic_cast<DCodeGenerationPolicy*>(pe);
@@ -319,11 +320,10 @@ void DClassifierCodeDocument::updateContent()
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
-    Q_ASSERT(c != NULL);
-    if (c) {
-        UMLOperationList list = c->getOpList();
-        hasOperationMethods = ! list.isEmpty();
-    }
+
+    UMLOperationList list = c->getOpList();
+    hasOperationMethods = ! list.isEmpty();
+
     QString endLine = commonPolicy->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //

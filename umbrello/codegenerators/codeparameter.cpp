@@ -227,7 +227,8 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
                     << Uml::ID::toString(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
-            initFields (m_parentDocument, role);
+            if (role)
+                initFields (m_parentDocument, role);
 
         } else
             initFields (m_parentDocument, obj); // just the regular approach
