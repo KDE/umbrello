@@ -830,11 +830,11 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
         UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(op->parent());
         if (oldClassifier) {
             oldClassifier->removeOperation(op);
+            DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
         }
 
         newClassifier->addOperation(newOp);
         m_doc->signalUMLObjectCreated(newOp);  //:TODO: really?
-DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
     }
     else if (t == UMLObject::ot_Attribute) {
         DEBUG(DBG_SRC) << "Moving attribute";
@@ -851,11 +851,11 @@ DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier
         UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(att->parent());
         if (oldClassifier) {
             oldClassifier->removeAttribute(att);
+            DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
         }
 
         newClassifier->addAttribute(newAtt);
         m_doc->signalUMLObjectCreated(newAtt);  //:TODO: really?
-DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
     }
 //    emit moved();
     refactor(m_umlObject);  //:TODO:fischer
