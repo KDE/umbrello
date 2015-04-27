@@ -367,8 +367,8 @@ bool UMLDoc::newDocument()
 {
     closeDocument();
     UMLApp::app()->setCurrentView(0);
-    DEBUG(DBG_SRC) << "UMLDoc::newDocument ************* " << m_doc_url;  //FIXME KF5
     m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
+    DEBUG(DBG_SRC) << "UMLDoc::newDocument with " << m_doc_url;
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
     Uml::DiagramType::Enum dt = optionState.generalState.diagram;
@@ -400,7 +400,7 @@ bool UMLDoc::newDocument()
  */
 bool UMLDoc::openDocument(const QUrl& url)
 {
-    DEBUG(DBG_SRC) << "UMLDoc::openDocument ************* " << url;  //FIXME KF5
+    DEBUG(DBG_SRC) << "UMLDoc::openDocument from " << url;
     if (url.isEmpty()) {
         newDocument();
         return false;
@@ -597,7 +597,7 @@ bool UMLDoc::openDocument(const QUrl& url)
  */
 bool UMLDoc::saveDocument(const QUrl& url)
 {
-    DEBUG(DBG_SRC) << "UMLDoc::saveDocument ************* " << url;  //FIXME KF5
+    DEBUG(DBG_SRC) << "UMLDoc::saveDocument to " << url;
     m_doc_url = url;
     bool uploaded = true;
 
@@ -615,7 +615,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
     } else {
         fileFormat = QLatin1String("xmi");
     }
-    DEBUG(DBG_SRC) << "UMLDoc::saveDocument ************* file format = " << fileFormat;  //FIXME KF5
+    DEBUG(DBG_SRC) << "UMLDoc::saveDocument to file format = " << fileFormat;
 
     initSaveTimer();
 
@@ -705,6 +705,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
+            DEBUG(DBG_SRC) << "There was a problem saving: " << tmpfile.fileName() << " is not open.";
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             return false;
         }
@@ -728,6 +729,7 @@ bool UMLDoc::saveDocument(const QUrl& url)
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
+                DEBUG(DBG_SRC) << "UMLDoc::saveDocument moving with error = " << tmpfile.fileName() << " to " << url;
                 KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
                 m_doc_url.setPath(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
                 return false;
@@ -2981,8 +2983,7 @@ void UMLDoc::slotAutoSave()
         QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = Settings::optionState();
         fileName.replace(QLatin1String(".xmi"), optionState.generalState.autosavesuffix);
-        tempUrl.setPath(tempUrl.toString(QUrl::RemoveFilename) + fileName);
-
+        tempUrl.setUrl(tempUrl.toString(QUrl::RemoveFilename) + fileName);
         saveDocument(tempUrl);
         // re-activate m_modified if autosave is writing to other file
         // than the main project file->autosave-suffix != ".xmi"
@@ -2992,9 +2993,8 @@ void UMLDoc::slotAutoSave()
         }
         // restore original file name -
         // UMLDoc::saveDocument() sets doc_url to filename which is given as autosave-filename
-        setUrl(orgDocUrl);
-        UMLApp * pApp = UMLApp::app();
-        pApp->setCaption(orgFileName, isModified());
+        m_doc_url = orgDocUrl;
+        UMLApp::app()->setCaption(orgFileName, isModified());
     }
 }
 

@@ -175,7 +175,7 @@ void initDocument(QCommandLineParser *parser)
 {
     QStringList urls = parser->positionalArguments();
     if (urls.count() > 0) {
-        UMLApp::app()->openDocumentFile(QUrl::fromUserInput(urls.at(0)));
+        UMLApp::app()->openDocumentFile(QUrl::fromLocalFile(urls.at(0)));
     } else {
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();

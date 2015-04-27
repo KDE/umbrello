@@ -1,5 +1,5 @@
  ============================
-| Application Test Procedure |  (last updated: 2011-07-31 by Andi Fischer)
+| Application Test Procedure |  (last updated: 2015-03-12 by Andi Fischer)
  ============================
 
 ===============================================================================
@@ -16,9 +16,10 @@ Test data
 ===============================================================================
 Name of tester:
 Date:
-OS Version:
-Qt Version:
-KDE Version:
+OS Version: 
+Qt Version: 
+KDE Version: 
+Umbrello Version: 
 
 
 ===============================================================================
@@ -85,18 +86,40 @@ Testresult:
 SSC05 - Popupmenu of docks:                                      OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
-
+ 1) Right click on a title bar of a dock in docked position.
+ 2) Deactivate and activate an open dock.
+ 3) Activate and deactivate a closed dock.
+ 4) Deactivate and activate the main toolbar.
+ 5) Deactivate and activate the diagram toolbar. 
+ 
 Testresult:
+ 1) Verify that a popupmenu appears.
+ 2) Verify that the selected action is executed.
 
 -------------------------------------------------------------------------------
 SSC06 - Layout of toolbars:                                      OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
+ 1) Right click on main toolbar.
+ 2) Adjust text position.
+ 3) Adjust icon size.
+ 4) Select "Configure Toolbars..." and add "Class Diagram" action.
+ 5) Select "Configure Toolbars..." and remove "Class Diagram" action again.
+ 6) Unlock toolbar position and move the main toolbar to different positions.
+ 7) Select "Lock Toolbar Positions" again.
+ 8) Right click on diagram toolbar.
+ 9) Adjust text positions.
+10) Adjust icon size.
+11) Unlock toolbar position and move the diagram toolbar to different positions.
+12) Select "Lock Toolbar Positions" again.
 
 Testresult:
-
+ 1) Popupmenu is shown.
+ 
+ 8) Popupmenu is shown.
+ 
 -------------------------------------------------------------------------------
-SSC07 - Configured toolbar:                                      OK[ ]   NOK[ ]
+SSC07 - Configure toolbars:                                      OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
 
@@ -120,13 +143,24 @@ Testresult:
 SSC10 - Command line:                                            OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
-
-  --export
-
-  umbrello [-e png] [filename.xmi]
-  umbrello [-e eps] [filename.xmi]
-
+ 1) Start appication in a konsole with the following command line parameters:
+  umbrello --help
   umbrello --version
+  umbrello --authors
+  umbrello --license
+  umbrello --export-formats
+ 2) Start application in a konsole with an xmi file like the following:
+  umbrello <FileName>.xmi
+  umbrello ./<FileName>.xmi
+  umbrello </Path/FileName>.xmi
+  umbrello ~/<FileName>.xmi
+
+  umbrello --export png --directory <Directory> <FileName>.xmi
+  umbrello --export eps --directory <Directory> <FileName>.xmi
+
+
+	--use-folders ???
+
 
 Testresult:
 
@@ -141,6 +175,11 @@ Testprocedure:
   5) Do the same by clicking on the Window Close icon.
 Testresult:
   1) The application is closed without any error message.
+
+===============================================================================
+Popup Menus (POM)
+===============================================================================
+
 
 ===============================================================================
 Menu commands File (MEF)
@@ -289,13 +328,179 @@ Diagram toolbar (DTB)
 Tree view dock window (TDW)
 ===============================================================================
 
+
 ===============================================================================
 Documentation dock window (DDW)
 ===============================================================================
 
+
 ===============================================================================
 Command history dock window (CDW)
 ===============================================================================
+
+
+===============================================================================
+Bird view dock window (BVW)
+===============================================================================
+
+test-BVW.xmi
+
+
+
+
+===============================================================================
+Dialog windows (DLG)
+===============================================================================
+
+-------------------------------------------------------------------------------
+DLG01 - Dialog Activity Properties - multi page dialog:          OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open an activity diagram.
+  2) Right click on the diagram and select 'Properties' from the popup menu.
+     or
+     Double click on the diagram background.
+     or
+     Right click on the diagram icon in the tree view and select 'Properties'
+     from the popup menu.
+  3) Select every page, change every control and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG02 - Dialog Association Properties - multi page dialog:       OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open a class diagram and draw some associations between classes.
+  2) Right click on an association and select 'Properties' from the popup menu.
+     or
+     Open the class properties dialog, select page 'Associations', right click
+     on an item in the association list and select 'Properties' in the popup
+     menu.
+  3) Select every page, change every control and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG03 - Dialog Class Properties - multi page dialog:             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open a class diagram.
+  2) Right click on the diagram and select 'Properties' from the popup menu.
+     or
+     Double click on the diagram background.
+     or
+     Right click on the diagram icon in the tree view and select 'Properties'
+     from the popup menu.
+  3) Select every page, change every control and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG04 - Dialog Find - single page dialog:                        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open several diagrams.
+  2) Click on ....
+  3) Select every page, change every control and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG05 - Dialog Note - single page dialog:                        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open or create a diagram.
+  2) Add a note.
+  3) Right click on the note and select 'Change Text...' from the popup menu.
+     or
+     Double click on the note.
+  4) Change the text and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG06 - Dialog Object Node - multi page dialog:                  OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Open or create an activity diagram.
+  2) Add an object node.
+  3) Right click on the object node and select 'Properties...' from the popup
+     menu.
+     or
+     Double click on the object node.
+  4) Select every page, change every control and activate every command button.
+Testresult:
+  1) Verify the expected behaviour of the dialog.
+
+
+-------------------------------------------------------------------------------
+DLG07 - Dialog Parameter Properties - single page dialog:        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG08 - Dialog Select Operation - single page dialog:            OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG09 - Dialog Settings - single page dialog:                    OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG10 - Dialog State - multi page dialog:                        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG11 - Dialog Attribute - single page dialog:                   OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG12 - Dialog Check Constraint Properties - single page dialog: OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG13 - Dialog Entity Attribute Properties - single page dialog: OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG14 - Dialog Foreign Key Setup - multi page dialog:            OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG15 - Dialog Operation Properties - single page dialog:        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG16 - Dialog Role Properties - single page dialog:             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG17 - Dialog Template Properties - single page dialog:         OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG18 - Dialog Unique Constraint Propert. - single page dialog:  OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+DLG19 - Dialog View Properties - multi page dialog:              OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+
+
+classwizard
+codeeditor
+codetextedit
+codetexthighlighter
+codeviewerdialog
+overwritedialog
+umlfiledialog
+
 
 ===============================================================================
 Code importing (COI)
@@ -384,15 +589,18 @@ COI15 - Code import PostgreSQL:                                  OK[ ]   NOK[ ]
 COI16 - Code import Python:                                      OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
-  1) Download a python project, e.g. eric5
+  1) Download a python project, e.g. eric
      information at http://eric-ide.python-projects.org/
-     source code at http://sourceforge.net/projects/eric-ide/files/eric5/stable/
+     source code at http://sourceforge.net/projects/eric-ide/files/eric6/stable/
   2) Import all or only some single files.
 Testresult:
   1) The code is parsed and imported as expected.
   2) All classes are found.
   3) All methods are found with the right parameters.
   4) All attributes are found.
+Note:
+  Other python projects:
+    xtopdf    https://bitbucket.org/vasudevram/xtopdf/overview
 
 -------------------------------------------------------------------------------
 COI17 - Code import Ruby:                                        OK[ ]   NOK[ ]
@@ -491,6 +699,46 @@ Drawing deployment diagram (DDP)
 ===============================================================================
 Drawing entity relationship diagram (DER) 
 ===============================================================================
+
+
+===============================================================================
+Code generation settings (CGS)
+===============================================================================
+
+-------------------------------------------------------------------------------
+CGS01 - Code Generation Settings - General Language:             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+CGS02 - Code Generation Settings - General Folders:              OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+CGS03 - Code Generation Settings - General Overwrite Policy:     OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Select Menu Settings - Configure Umbrello UML Modeller...
+  2) In dialog select Code Generation page.
+  3) Overwrite.
+  4) Ask. Code generation two times with same file --> dialog.
+  5) Use a different name.
+Testresult:
+  1) The selected files are present in the expected location.
+  2) .
+
+-------------------------------------------------------------------------------
+CGS04 - Code Generation Settings - Formatting Comment Verbosity: OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+CGS05 - Code Generation Settings - Formatting Lines:             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+CGS06 - Code Generation Settings - Language Options:             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
 
 
 ===============================================================================
@@ -615,8 +863,16 @@ Settings (SET)
 ===============================================================================
 
 ===============================================================================
+Check Jenkins output (JKN)
+===============================================================================
+Visit http://build.kde.org/job/umbrello_master/
+- check build status
+
+
+===============================================================================
 Check Krazy output (KRZ)
 ===============================================================================
+Visit http://ebn.kde.org/krazy/
 - checks
 - API documentation
 
@@ -639,6 +895,7 @@ Total number of tests:              0
 
 Summary / State of application:
 -------------------------------
+
 
 
 
