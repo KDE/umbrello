@@ -90,6 +90,7 @@ public:
 
     const QUrl& url() const;
     void setUrl(const QUrl& url);
+    void setUrlUntitled();
 
     void setupSignals();
 
