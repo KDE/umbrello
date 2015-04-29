@@ -40,11 +40,16 @@ Tracer* Tracer::instance()
 
 /**
  * Constructor.
+ * The debug message pattern can be changed by adding something like the following line to ~/.bashrc:
+ * export QT_MESSAGE_PATTERN="`echo -e "%{appname}(%{pid})/(%{category}) \033[31m%{if-debug}\033[34m%{endif}%{function}\033[0m: %{message}"`"
+ *
  * @param parent   the parent widget
  */
 Tracer::Tracer(QWidget *parent)
   : QTreeWidget(parent)
 {
+    qSetMessagePattern(QStringLiteral("%{appname} \033\[31m%{if-debug}\033\[32m%{endif}%{function}\033\[0m: %{message}"));
+
     //TODO: can be removed in Qt 5.3
     QLoggingCategory::setFilterRules(QStringLiteral("umbrello.debug = true"));
 
