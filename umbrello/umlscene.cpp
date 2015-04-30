@@ -2858,6 +2858,7 @@ void UMLScene::setPaste(bool paste)
 void UMLScene::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
+    // DEBUG(DBG_SRC) << "menu= " << action->text() << " / type= " << ListPopupMenu::toString(sel);
     switch (sel) {
     case ListPopupMenu::mt_Undo:
         UMLApp::app()->undo();

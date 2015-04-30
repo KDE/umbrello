@@ -38,7 +38,7 @@
 #include <QKeyEvent>
 #include <QPushButton>
 
-DEBUG_REGISTER(DialogBase)
+DEBUG_REGISTER(MultiPageDialogBase)
 
 /**
  * Constructor
@@ -54,10 +54,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
     m_pageWidget(0),
     m_isModified(false)
 {
-    bool useDialog = false;
-    if (parent) {
-        useDialog = (strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0);
-    }
+    bool useDialog = !parent || (strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0);
     if (useDialog) {
         m_pageDialog = new KPageDialog(parent);
         m_pageDialog->setModal(true);

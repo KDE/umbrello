@@ -31,6 +31,8 @@
 #include <QFontDialog>
 #include <QHBoxLayout>
 
+DEBUG_REGISTER(UMLViewDialog)
+
 /**
  * Constructor.
  */
