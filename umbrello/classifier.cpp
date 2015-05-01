@@ -1100,6 +1100,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
  */
 bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
 {
+    Q_ASSERT(templt);
     QString name = templt->name();
     if (findChildObject(name) == NULL) {
         templt->setParent(this);
@@ -1279,7 +1280,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType)
  */
 UMLClassifier * UMLClassifier::originType() const
 {
-    return static_cast<UMLClassifier*>(m_pSecondary);
+    return dynamic_cast<UMLClassifier*>(m_pSecondary.data());
 }
 
 /**

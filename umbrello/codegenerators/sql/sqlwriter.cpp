@@ -600,7 +600,7 @@ void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemLis
     foreach(UMLClassifierListItem* cli, constrList) {
         UMLCheckConstraint* chConstr = dynamic_cast<UMLCheckConstraint*>(cli);
         if (!chConstr) {
-            uError() << "Invalid cast from" << chConstr->baseTypeStr() << "'" << chConstr->name() << "' to UMLCheckConstraint*";
+            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLCheckConstraint*";
             return;
         }
 

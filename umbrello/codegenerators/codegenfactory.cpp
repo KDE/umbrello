@@ -216,8 +216,10 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
         default:
             break;
     }
-    retval->initCodeClassFields();
-    retval->synchronize();
+    if (retval) {
+        retval->initCodeClassFields();
+        retval->synchronize();
+    }
     return retval;
 }
 
@@ -283,7 +285,8 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
         default:
             break;
     }
-    retval->finishInitialization();
+    if (retval)
+        retval->finishInitialization();
     return retval;
 }
 
@@ -306,7 +309,8 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role)
         default:
             break;
     }
-    retval->finishInitialization();
+    if (retval)
+        retval->finishInitialization();
     return retval;
 }
 

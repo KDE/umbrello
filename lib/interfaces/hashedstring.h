@@ -30,12 +30,12 @@ class HashedString
 public:
     HashedString() : m_hash(0) {}
 
-    HashedString(const QString& str) : m_str(str)
+    HashedString(const QString& str) : m_str(str) // krazy:exclude=explicit
     {
         initHash();
     }
 
-    HashedString(const char* str) : m_str(QLatin1String(str))
+    HashedString(const char* str) : m_str(QLatin1String(str)) // krazy:exclude=explicit
     {
         initHash();
     }
@@ -95,7 +95,7 @@ public:
     ~HashedStringSet();
 
     ///Constructs a string-set from one single file
-    HashedStringSet(const HashedString& file);
+    explicit HashedStringSet(const HashedString& file);
 
     HashedStringSet(const HashedStringSet& rhs);
 

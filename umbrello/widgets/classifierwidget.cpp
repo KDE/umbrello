@@ -925,13 +925,11 @@ void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphi
     painter->setFont(font);
 
     int lines = 1;
-    if (m_umlObject != NULL) {
-        QString stereotype = m_umlObject->stereotype();
-        if (!stereotype.isEmpty()) {
-            painter->drawText(0, fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
-            lines = 2;
-        }
+    QString stereotype = m_umlObject->stereotype();
+    if (!stereotype.isEmpty()) {
+        painter->drawText(0, fontHeight + PACKAGE_MARGIN,
+                   w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
+        lines = 2;
     }
 
     painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,

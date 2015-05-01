@@ -13,9 +13,8 @@
    Library General Public License for more details.
 
    You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.
+   along with this library; see the file COPYING.LIB.  If not, see
+   <http://www.gnu.org/licenses/>.
 */
 
 #define CACHELEXER
@@ -975,12 +974,18 @@ const MacroSet& ParsedFile::usedMacros() const
     return m_usedMacros;
 }
 
-ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp) : m_translationUnit(0), m_fileName(fileName), m_timeStamp(timeStamp)
+ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp)
+  : m_translationUnit(0),
+    m_skippedLines(0),
+    m_fileName(fileName),
+    m_timeStamp(timeStamp)
 {
     m_includeFiles.insert(fileName);
 }
 
 ParsedFile::ParsedFile(const QByteArray& array)
+  : m_translationUnit(0),
+    m_skippedLines(0)
 {
     QByteArray a(array);
     QBuffer b(&a);

@@ -26,7 +26,7 @@ class UMLArtifactTypeWidget : public QWidget
 public:
     typedef QMap<UMLArtifact::Draw_Type,QRadioButton*> ButtonMap;
 
-    UMLArtifactTypeWidget(UMLArtifact *a, QWidget *parent = 0);
+    explicit UMLArtifactTypeWidget(UMLArtifact *a, QWidget *parent = 0);
     ~UMLArtifactTypeWidget();
 
     void addToLayout(QVBoxLayout *layout);

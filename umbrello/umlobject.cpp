@@ -714,7 +714,7 @@ bool UMLObject::resolveRef()
         m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
         if (m_pSecondary != NULL) {
             if (m_pSecondary->baseType() == ot_Stereotype) {
-                m_pStereotype = static_cast<UMLStereotype*>(m_pSecondary);
+                m_pStereotype = dynamic_cast<UMLStereotype*>(m_pSecondary.data());
                 m_pStereotype->incrRefCount();
                 m_pSecondary = NULL;
             }

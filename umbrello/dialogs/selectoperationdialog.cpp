@@ -49,7 +49,10 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
-  : SinglePageDialogBase(parent), m_pView(parent), m_classifier(c)
+  : SinglePageDialogBase(parent),
+    m_id(CUSTOM),
+    m_pView(parent),
+    m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
 

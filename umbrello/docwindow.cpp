@@ -283,7 +283,7 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
         } else if (m_Showing == st_Project) {
             m_pUMLDoc->setDocumentation(m_docTE->toPlainText());
         } else {
-            uError() << "could not update documentation because of unkown type and object combination";
+            uError() << "could not update documentation because of unknown type and object combination";
         }
 
         // now do the setModified call

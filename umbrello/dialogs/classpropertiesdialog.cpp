@@ -122,9 +122,12 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 void ClassPropertiesDialog::init()
 {
     setCaption(i18n("Properties"));
+    m_pAssocPage = 0;
+    m_pChooser = 0;
     m_pGenPage = 0;
     m_pAttPage = 0;
     m_pOpsPage = 0;
+    m_pPkgContentsPage = 0;
     m_pTemplatePage = 0;
     m_pEnumLiteralPage = 0;
     m_pEntityAttributePage = 0;
@@ -243,6 +246,8 @@ void ClassPropertiesDialog::setupGeneralPage()
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
         m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
+    else if (m_pWidget && !m_pObject)
+        m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
     else
         m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);

@@ -39,7 +39,7 @@ UMLArtifactTypeWidget::UMLArtifactTypeWidget(UMLArtifact *a, QWidget *parent) :
     int margin = fontMetrics().height();
     drawAsLayout->setMargin(margin);
 
-    for(Map::const_iterator i = texts.constBegin(); i != texts.constEnd(); i++) {
+    for(Map::const_iterator i = texts.constBegin(); i != texts.constEnd(); ++i) {
         QRadioButton *button = new QRadioButton(i.value(), m_box );
         m_buttons[i.key()] = button;
         drawAsLayout->addWidget(button);
@@ -68,7 +68,7 @@ void UMLArtifactTypeWidget::addToLayout(QVBoxLayout *layout)
  */
 void UMLArtifactTypeWidget::apply()
 {
-    for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); i++) {
+    for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
         if (i.value()->isChecked())
             m_object->setDrawAsType(i.key());
     }

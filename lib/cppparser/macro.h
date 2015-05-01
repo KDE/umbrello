@@ -128,7 +128,7 @@ public:
     typedef QString Argument;
 
 public:
-    Macro(bool hasArguments = false)
+    explicit Macro(bool hasArguments = false)
         : m_idHashValid(false),
           m_valueHashValid(false),
           m_idHash(0),
@@ -474,7 +474,11 @@ class MacroSet
 public:
     //typedef __gnu_cxx::hash_set< Macro, Macro::NameArgHash, Macro::NameArgEqual > Macros;
     typedef std::set< Macro, Macro::NameCompare > Macros;
-    MacroSet() : m_idHashValid(false), m_valueHashValid(false)
+    MacroSet()
+      : m_idHashValid(false),
+        m_valueHashValid(false),
+        m_idHash(0),
+        m_valueHash(0)
     {
     }
 

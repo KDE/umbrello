@@ -39,7 +39,9 @@
  * @param id           The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Signal, id)
+  : UMLWidget(scene, WidgetBase::wt_Signal, id),
+    m_oldX(0),
+    m_oldY(0)
 {
     m_signalType = signalType;
     m_pName = NULL;

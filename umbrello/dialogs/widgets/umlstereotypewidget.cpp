@@ -124,7 +124,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
 
     m_comboBox->clear();
     m_comboBox->addItem(QLatin1String(""), QVariant(0));
-    foreach(const QString &key, types.keys()) {
+    foreach(const QString &key, types.keys()) { // krazy:exclude=foreach
         m_comboBox->addItem(key, QVariant::fromValue((types[key])));
     }
 

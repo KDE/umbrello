@@ -37,7 +37,8 @@ int JavaImport::s_parseDepth = 0;
  * Constructor.
  */
 JavaImport::JavaImport(CodeImpThread* thread)
-  : NativeImportBase(QLatin1String("//"), thread)
+  : NativeImportBase(QLatin1String("//"), thread),
+    m_defaultCurrentAccess(Uml::Visibility::Public)
 {
     setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
     initVars();

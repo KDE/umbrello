@@ -91,6 +91,8 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
+        m_root[i] = 0;
 }
 
 /**
@@ -1616,8 +1618,9 @@ void UMLDoc::setCurrentRoot(Uml::ModelType::Enum rootType)
  * representations.
  *
  * @param umlobject   Pointer to the UMLObject to delete.
+ * @param deleteObject Delete the UMLObject instance.
  */
-void UMLDoc::removeUMLObject(UMLObject* umlobject)
+void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
 {
     if (umlobject == NULL) {
         uError() << "called with NULL parameter";
@@ -1635,6 +1638,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
         }
         if (type == UMLObject::ot_Operation) {
             parent->removeOperation(static_cast<UMLOperation*>(umlobject));
+            if (deleteObject)
+                delete static_cast<UMLOperation*>(umlobject);
         } else if (type == UMLObject::ot_EnumLiteral) {
             UMLEnum *e = static_cast<UMLEnum*>(parent);
             e->removeEnumLiteral(static_cast<UMLEnumLiteral*>(umlobject));
@@ -1656,6 +1661,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
                 pClass->removeAttribute(static_cast<UMLAttribute*>(umlobject));
             } else if (type == UMLObject::ot_Template) {
                 pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
+                if (deleteObject)
+                    delete static_cast<UMLTemplate*>(umlobject);
             } else {
                 uError() << "umlobject has unexpected type " << type;
             }
@@ -1664,6 +1671,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
         if (type == UMLObject::ot_Association) {
             UMLAssociation *a = (UMLAssociation *)umlobject;
             removeAssociation(a, false);  // don't call setModified here, it's done below
+            if (deleteObject)
+                delete a;
         } else {
             UMLPackage* pkg = umlobject->umlPackage();
             if (pkg) {
@@ -1695,6 +1704,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
                     }
                 }
                 pkg->removeObject(umlobject);
+                if (deleteObject)
+                    delete umlobject;
             } else {
                 uError() << umlobject->name() << ": parent package is not set !";
             }
@@ -2561,6 +2572,8 @@ void UMLDoc::removeAllViews()
  */
 void UMLDoc::removeAllObjects()
 {
+    m_root[Uml::ModelType::Logical]->removeObject(m_datatypeRoot);
+
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_root[i]->removeAllObjects();
     }

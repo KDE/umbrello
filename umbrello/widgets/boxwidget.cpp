@@ -11,6 +11,13 @@
 // own header
 #include "boxwidget.h"
 
+// app includes
+#include "uml.h"
+#include "umldoc.h"
+
+// qt includes
+#include <QColorDialog>
+
 /**
  * Constructs a BoxWidget.
  *
@@ -56,4 +63,17 @@ void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement boxElement = qDoc.createElement(QLatin1String("boxwidget"));
     UMLWidget::saveToXMI(qDoc, boxElement);
     qElement.appendChild(boxElement);
+}
+
+/**
+ * Show a properties dialog for a BoxWidget.
+ */
+void BoxWidget::showPropertiesDialog()
+{
+    QColor newColor = QColorDialog::getColor(lineColor()); // krazy:exclude=qclasses
+    if (newColor != lineColor()) {
+        setLineColor(newColor);
+        setUsesDiagramLineColor(false);
+        umlDoc()->setModified(true);
+    }
 }

@@ -347,6 +347,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
  */
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
 {
+    Q_ASSERT(att);
     QString name = (QString)att->name();
     if (findChildObject(name) == NULL) {
         att->setParent(this);

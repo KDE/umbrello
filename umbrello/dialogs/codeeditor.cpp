@@ -353,9 +353,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
         }
 
     }
-    if (tbinfo) {
-        tbinfo->m_paraList.append(item);
-    }
+    tbinfo->m_paraList.append(item);
 }
 
 /**

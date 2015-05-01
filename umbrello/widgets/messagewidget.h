@@ -143,7 +143,7 @@ public:
      * Return the xclicked
      */
     int getxclicked() const {
-        return xclicked;
+        return m_xclicked;
     }
 
 protected:
@@ -187,8 +187,8 @@ private:
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
 
-    int xclicked;
-    int yclicked;
+    int m_xclicked;
+    int m_yclicked;
 
     /**
      * The following variables are used by loadFromXMI() as an intermediate

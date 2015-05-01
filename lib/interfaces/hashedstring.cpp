@@ -72,7 +72,9 @@ public:
     StringSet m_files;
     mutable bool m_hashValid;
     mutable size_t m_hash;
-    HashedStringSetData() : m_hashValid(false)
+    HashedStringSetData()
+      : m_hashValid(false),
+        m_hash(0)
     {
     }
     inline void invalidateHash()

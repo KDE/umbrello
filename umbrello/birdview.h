@@ -41,7 +41,7 @@ class BirdViewDockWidget : public QDockWidget
 {
     Q_OBJECT
 public:
-    BirdViewDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit BirdViewDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
 signals:
     void sizeChanged(const QSize& size);

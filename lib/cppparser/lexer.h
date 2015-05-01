@@ -12,9 +12,8 @@
     Library General Public License for more details.
 
     You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-    Boston, MA 02111-1307, USA.
+    along with this library; see the file COPYING.LIB.  If not, see
+    <http://www.gnu.org/licenses/>.
 */
 
 #ifndef LEXER_H
@@ -362,6 +361,10 @@ inline Token::Token(const QString & text)
     : m_type(-1),
       m_position(0),
       m_length(0),
+      m_startLine(0),
+      m_startColumn(0),
+      m_endLine(0),
+      m_endColumn(0),
       m_text(text)
 {
 }
@@ -370,6 +373,10 @@ inline Token::Token(int type, int position, int length, const QString& text)
     : m_type(type),
       m_position(position),
       m_length(length),
+      m_startLine(0),
+      m_startColumn(0),
+      m_endLine(0),
+      m_endColumn(0),
       m_text(text)
 {
     DBG_LEXER << type << position << length << text.mid(position, length);

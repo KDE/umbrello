@@ -85,7 +85,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
         if (role->object()->baseType() == UMLObject::ot_Interface)
         {
-            // do nothing.. can't instanciate an interface
+            // do nothing.. can't instantiate an interface
         } else {
 
             // FIX?: IF a constructor method exists in the classifiercodedoc

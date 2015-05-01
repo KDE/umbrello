@@ -57,7 +57,8 @@ const bool CHECKABLE = true;
  * @param view     The UMLView object
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
-  : QMenu(parent), m_isListView(false)
+  : QMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
@@ -73,7 +74,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
  * @param widget   The WidgetBase object.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
-  : QMenu(parent), m_isListView(false)
+  : QMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
@@ -89,7 +91,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
  * @param object   The UMLObject of the ListViewItem
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject* object)
-  : QMenu(parent), m_isListView(true)
+  : QMenu(parent),
+    m_isListView(true)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
@@ -289,7 +292,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param uniqueType The type of widget shared by all selected widgets
  */
 ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
-  : QMenu(parent)
+  : QMenu(parent),
+    m_isListView(false)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
@@ -1083,7 +1087,7 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
         QHash<QString, QString> configFiles;
         if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
             int i = 0;
-            foreach(const QString &key, configFiles.keys()) {
+            foreach(const QString &key, configFiles.keys()) { // krazy:ecxlude=foreach
                 if (i >= types.size())
                     break;
                 if (key == QLatin1String("export") &&

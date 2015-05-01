@@ -347,6 +347,7 @@ void CPPHeaderCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
+    Q_ASSERT(c != NULL);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
@@ -381,11 +382,9 @@ void CPPHeaderCodeDocument::updateContent()
     CodeClassFieldList privCompositionClassFields = getSpecificClassFields (CodeClassField::Composition, Uml::Visibility::Private);
 
     bool hasOperationMethods = false;
-    Q_ASSERT(c != NULL);
-    if (c) {
-        UMLOperationList list = c->getOpList();
-        hasOperationMethods = ! list.isEmpty();
-    }
+    UMLOperationList list = c->getOpList();
+    hasOperationMethods = ! list.isEmpty();
+
     bool hasNamespace = false;
     bool isEnumeration = false;
     bool isInterface = parentIsInterface();
