@@ -123,7 +123,6 @@ void ClassPropertiesDialog::init()
 {
     setCaption(i18n("Properties"));
     m_pAssocPage = 0;
-    m_pChooser = 0;
     m_pGenPage = 0;
     m_pAttPage = 0;
     m_pOpsPage = 0;
