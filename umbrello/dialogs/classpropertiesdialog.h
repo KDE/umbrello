@@ -18,7 +18,6 @@ class ClassGeneralPage;
 class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
-class KFontChooser;
 class PackageContentsPage;
 class ObjectWidget;
 class UMLDoc;
@@ -65,7 +64,6 @@ protected:
     void setupInstancePages();
 
 private:
-    KFontChooser*        m_pChooser;
     ClassGeneralPage*    m_pGenPage;
     ClassifierListPage*  m_pAttPage;
     ClassifierListPage*  m_pOpsPage;
