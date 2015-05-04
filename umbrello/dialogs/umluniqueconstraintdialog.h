@@ -19,8 +19,6 @@
 
 class KComboBox;
 class KLineEdit;
-class QAbstractButton;
-class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
 class QListWidget;
@@ -56,7 +54,6 @@ private:
     QListWidget* m_pAttributeListLW;
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB, *m_pRemovePB;
-    QDialogButtonBox *m_dialogButtonBox;
 
     // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
@@ -66,9 +63,6 @@ public slots:
     void slotResetWidgetState();
     void slotAddAttribute();
     void slotDeleteAttribute();
-
-protected slots:
-    virtual void slotButtonClicked(QAbstractButton *button);
 
 };
 

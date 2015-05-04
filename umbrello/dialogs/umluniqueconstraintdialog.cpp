@@ -61,6 +61,8 @@ UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog()
  */
 void UMLUniqueConstraintDialog::setupDialog()
 {
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
     int margin = fontMetrics().height();
 
     // what do we need,
@@ -69,9 +71,8 @@ void UMLUniqueConstraintDialog::setupDialog()
     // a combo box, two push buttons, yeah that's it.
     // start
     //main layout contains the name fields, the column group box
-    QVBoxLayout* mainLayout = new QVBoxLayout();
+    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
     mainLayout->setSpacing(10);
-    setLayout(mainLayout);
 
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
@@ -150,37 +151,6 @@ void UMLUniqueConstraintDialog::setupDialog()
     slotResetWidgetState();
 
     connect(m_pAttributeListLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotResetWidgetState()));
-
-    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                             QDialogButtonBox::Apply |
-                                             QDialogButtonBox::Cancel);
-    connect(m_dialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-    mainLayout->addWidget(m_dialogButtonBox);
-}
-
-/**
- * Activated when a button is clicked
- * @param button   the button that was clicked
- */
-void UMLUniqueConstraintDialog::slotButtonClicked(QAbstractButton* button)
-{
-    uDebug() << "UMLUniqueConstraintDialog::slotButtonClicked - " << button->text();
-    switch (m_dialogButtonBox->buttonRole(button)) {
-    case QDialogButtonBox::AcceptRole:
-        slotOk();
-        break;
-    case QDialogButtonBox::RejectRole:
-        reject();
-        break;
-    case QDialogButtonBox::ApplyRole:
-        slotApply();
-    case QDialogButtonBox::HelpRole:
-        //KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-        break;
-    default:
-        uDebug() << "UMLUniqueConstraintDialog::slotButtonClicked - " << button->text() << " unhandled!";
-        break;
-    }
 }
 
 /**
