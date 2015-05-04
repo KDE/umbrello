@@ -32,7 +32,6 @@
 // qt includes
 #include <QApplication>
 #include <QCheckBox>
-#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -59,9 +58,9 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
 void UMLEntityAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
-
-    QVBoxLayout * mainLayout = new QVBoxLayout();
-    setLayout(mainLayout);
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
@@ -154,12 +153,6 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pNameLE->setFocus();
     connect(m_pAutoIncrementCB, SIGNAL(clicked(bool)), this, SLOT(slotAutoIncrementStateChanged(bool)));
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                       QDialogButtonBox::Cancel);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    mainLayout->addWidget(buttonBox);
 }
 
 /**
