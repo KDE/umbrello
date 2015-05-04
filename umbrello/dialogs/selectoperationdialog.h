@@ -16,7 +16,6 @@
 class KComboBox;
 class KLineEdit;
 class QCheckBox;
-class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
 class UMLClassifier;
@@ -53,12 +52,9 @@ protected:
     void setupOperationsList();
 
 private:
-    void enableButtonOk(bool enable);
-
     static const int OP     = 0;
     static const int CUSTOM = 1;
 
-    QDialogButtonBox *m_dialogButtonBox;
     QGroupBox        *m_pOpGB;
     KComboBox        *m_pOpCB;
     QLabel           *m_pSeqL;

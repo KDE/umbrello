@@ -28,7 +28,6 @@
 
 // qt includes
 #include <QCheckBox>
-#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -59,8 +58,7 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     QFrame *frame = new QFrame(this);
     setMainWidget(frame);
 
-    QVBoxLayout * topLayout = new QVBoxLayout();
-    setLayout(topLayout);
+    QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
     m_pOpGB = new QGroupBox(i18n("Select Operation"));
     topLayout->addWidget(m_pOpGB);
@@ -96,13 +94,6 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
-
-    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                             QDialogButtonBox::Cancel);
-    connect(m_dialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(m_dialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    topLayout->addWidget(m_dialogButtonBox);
-    enableButtonOk(false);
 }
 
 /**
@@ -271,13 +262,4 @@ void SelectOperationDialog::setAutoIncrementSequence(bool state)
 bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
-}
-
-/**
- * Enabel the ok button.
- * @param enable   the enable value
- */
-void SelectOperationDialog::enableButtonOk(bool enable)
-{
-    m_dialogButtonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }

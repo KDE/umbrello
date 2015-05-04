@@ -43,6 +43,7 @@ protected slots:
 protected:
     QDialogButtonBox *m_buttonBox;
     QWidget *m_mainWidget;
+    void enableButtonOk(bool enable);
 };
 
 #endif

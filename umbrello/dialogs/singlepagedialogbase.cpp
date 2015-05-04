@@ -12,6 +12,7 @@
 
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
+#include <QPushButton>
 
 /**
  * Constructor
@@ -99,4 +100,13 @@ void SinglePageDialogBase::slotOk()
     if (apply()) {
         accept();
     }
+}
+
+/**
+ * Enable the ok button.
+ * @param enable   the enable value
+ */
+void SinglePageDialogBase::enableButtonOk(bool enable)
+{
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }
