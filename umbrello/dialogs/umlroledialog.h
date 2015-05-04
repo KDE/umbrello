@@ -17,8 +17,6 @@
 /**
  * @author Paul Hensgen
  */
-class QAbstractButton;
-class QDialogButtonBox;
 class UMLRole;
 class UMLRoleProperties;
 
@@ -38,10 +36,6 @@ protected:
 
 private:
     UMLRoleProperties *m_pRoleProps;
-    QDialogButtonBox  *m_dialogButtonBox;
-
-protected slots:
-    virtual void slotButtonClicked(QAbstractButton *button);
 
 };
 

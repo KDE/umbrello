@@ -20,9 +20,6 @@
 #include <KHelpClient>
 #include <KLocalizedString>
 
-// qt includes
-#include <QDialogButtonBox>
-
 /**
  * Constructor.
  */
@@ -46,20 +43,16 @@ UMLRoleDialog::~UMLRoleDialog()
  */
 void UMLRoleDialog::setupDialog()
 {
-    QVBoxLayout *topLayout = new QVBoxLayout();
-    setLayout(topLayout);
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
+
+    QVBoxLayout *topLayout = new QVBoxLayout(frame);
 
 //   UMLRoleDialogLayout = new QGridLayout(this, 1, 1, 11, 6, "UMLRoleLayout");
     m_pRoleProps = new UMLRoleProperties(this, m_pRole);
     topLayout->addWidget(m_pRoleProps);
 
     resize(QSize(425, 620).expandedTo(minimumSizeHint()));
-
-    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                             QDialogButtonBox::Help |
-                                             QDialogButtonBox::Cancel);
-    connect(m_dialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-    topLayout->addWidget(m_dialogButtonBox);
 }
 
 /**
@@ -75,27 +68,3 @@ bool UMLRoleDialog::apply()
     return false;
 }
 
-/**
- * Activated when a button is clicked
- * @param button   the button that was clicked
- */
-void UMLRoleDialog::slotButtonClicked(QAbstractButton* button)
-{
-    uDebug() << "UMLRoleDialog::slotButtonClicked - " << button->text();
-    switch (m_dialogButtonBox->buttonRole(button)) {
-    case QDialogButtonBox::AcceptRole:
-        slotOk();
-        break;
-    case QDialogButtonBox::RejectRole:
-        reject();
-        break;
-//    case QDialogButtonBox::ApplyRole:
-//        slotApply();
-    case QDialogButtonBox::HelpRole:
-        KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-        break;
-    default:
-        uDebug() << "UMLRoleDialog::slotButtonClicked - " << button->text() << " unhandled!";
-        break;
-    }
-}
