@@ -60,10 +60,11 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
     //disableResize();
-    QVBoxLayout * topLayout = new QVBoxLayout();
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout * topLayout = new QVBoxLayout(frame);
     topLayout->setSpacing(10);
     topLayout->setMargin(margin);
-    setLayout(topLayout);
 
     m_pParmGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_pParmGB);
@@ -109,13 +110,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     m_docWidget = new DocumentationWidget(m_pAtt);
     topLayout->addWidget(m_docWidget);
-
-    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                       QDialogButtonBox::Cancel |
-                                       QDialogButtonBox::Help);
-    connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-
-    topLayout->addWidget(m_buttonBox);
 
     // Check the proper Kind radiobutton.
     if (attr) {
@@ -238,32 +232,6 @@ bool ParameterPropertiesDialog::validate()
             return false;
     }
     return true;
-}
-
-/**
- * Activated when a button is clicked
- * @param button The button that was clicked
- */
-void ParameterPropertiesDialog::slotButtonClicked(QAbstractButton* button)
-{
-    uDebug() << "ParameterPropertiesDialog::slotButtonClicked - " << button->text();
-    switch (m_buttonBox->buttonRole(button)) {
-    case QDialogButtonBox::AcceptRole:
-        if (!validate()) {
-            return;
-        }
-        slotOk();
-        break;
-    case QDialogButtonBox::RejectRole:
-        reject();
-        break;
-    case QDialogButtonBox::HelpRole:
-        KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-        break;
-    default:
-        uDebug() << "ParameterPropertiesDialog::slotButtonClicked - " << button->text() << " unhandled!";
-        break;
-    }
 }
 
 bool ParameterPropertiesDialog::apply()

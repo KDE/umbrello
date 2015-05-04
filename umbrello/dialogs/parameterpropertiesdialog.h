@@ -19,8 +19,6 @@ class DocumentationWidget;
 class KComboBox;
 class KLineEdit;
 class KTextEdit;
-class QAbstractButton;
-class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
@@ -57,9 +55,6 @@ protected:
 
     bool validate();
 
-protected slots:
-    virtual void slotButtonClicked(QAbstractButton *button);
-
 private:
     QGroupBox *m_pParmGB;
     QGroupBox *m_pKindGB;
@@ -68,7 +63,6 @@ private:
     KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE, *m_pInitialLE;
     DocumentationWidget * m_docWidget;
-    QDialogButtonBox *m_buttonBox;
     UMLDoc *m_pUmldoc;
     UMLAttribute *m_pAtt;
     UMLStereotypeWidget *m_stereotypeWidget;
