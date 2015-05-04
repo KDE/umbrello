@@ -18,7 +18,6 @@ class DocumentationWidget;
 class KComboBox;
 class ListPopupMenu;
 class QAbstractButton;
-class QDialogButtonBox;
 class QGroupBox;
 class QListWidget;
 class QListWidgetItem;
@@ -92,8 +91,6 @@ public slots:
     void slotParameterUp();
     void slotParameterDown();
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
-    void slotHelpClicked();
-    void slotButtonClicked(QAbstractButton *button);
 };
 
 #endif

@@ -79,10 +79,10 @@ UMLOperationDialog::~UMLOperationDialog()
  */
 void UMLOperationDialog::setupDialog()
 {
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
     int margin = fontMetrics().height();
-
-    QVBoxLayout *topLayout = new QVBoxLayout();
-    setLayout(topLayout);
+    QVBoxLayout *topLayout = new QVBoxLayout(frame);
 
     m_pGenGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * genLayout = new QGridLayout(m_pGenGB);
@@ -190,12 +190,6 @@ void UMLOperationDialog::setupDialog()
             this, SLOT(slotParmDoubleClick(QListWidgetItem*)));
 
     m_pNameLE->setFocus();
-
-    m_dialogButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                             QDialogButtonBox::Help |
-                                             QDialogButtonBox::Cancel);
-    connect(m_dialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
-    topLayout->addWidget(m_dialogButtonBox);
 }
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
@@ -441,42 +435,6 @@ bool UMLOperationDialog::apply()
     m_docWidget->apply();
 
     return true;
-}
-
-/**
- * Launch khelpcenter.
- */
-void UMLOperationDialog::slotHelpClicked()
-{
-    DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
-    KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-}
-
-/**
- * Button clicked event handler for the dialog button box.
- * @param button  the button which was clicked
- */
-void UMLOperationDialog::slotButtonClicked(QAbstractButton *button)
-{
-    if (button == (QAbstractButton*)m_dialogButtonBox->button(QDialogButtonBox::Apply)) {
-        DEBUG(DBG_SRC)  << "APPLY clicked...";
-       // slotApplyClicked();
-    }
-    else if (button == (QAbstractButton*)m_dialogButtonBox->button(QDialogButtonBox::Ok)) {
-        DEBUG(DBG_SRC)  << "OK clicked...";
-        slotOk();
-    }
-    else if (button == (QAbstractButton*)m_dialogButtonBox->button(QDialogButtonBox::Cancel)) {
-        DEBUG(DBG_SRC)  << "CANCEL clicked...";
-        reject();
-    }
-    else if (button == (QAbstractButton*)m_dialogButtonBox->button(QDialogButtonBox::Help)) {
-        DEBUG(DBG_SRC)  << "HELP clicked...";
-        slotHelpClicked();
-    }
-    else {
-        DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
-    }
 }
 
 /**
