@@ -20,7 +20,6 @@
 #include <KLineEdit>
 
 // qt includes
-#include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -51,10 +50,12 @@ UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
  */
 void UMLCheckConstraintDialog::setupDialog()
 {
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
+
     //main layout contains the name fields, the text field
-    QVBoxLayout* mainLayout = new QVBoxLayout();
+    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
     mainLayout->setSpacing(15);
-    setLayout(mainLayout);
 
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
@@ -81,12 +82,6 @@ void UMLCheckConstraintDialog::setupDialog()
 
     // set text of label
     m_pNameLE->setText(m_pCheckConstraint->name());
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                       QDialogButtonBox::Cancel);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    mainLayout->addWidget(buttonBox);
 }
 
 /**
