@@ -64,7 +64,10 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
     QVBoxLayout* vlayout = new QVBoxLayout(this);
     vlayout->setMargin(0);
     vlayout->addWidget(m_mainWidget);
-    vlayout->addWidget(m_buttonBox);
+    QHBoxLayout* hlayout = new QHBoxLayout;
+    hlayout->addWidget(m_buttonBox);
+    hlayout->setContentsMargins (8,0,8,8);
+    vlayout->addLayout(hlayout);
     setLayout(vlayout);
 }
 
