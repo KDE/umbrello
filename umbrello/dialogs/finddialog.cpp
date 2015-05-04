@@ -12,7 +12,6 @@
 
 #include <KLocalizedString>
 
-#include <QDialogButtonBox>
 #include <QPushButton>
 
 FindDialog::FindDialog(QWidget *parent)

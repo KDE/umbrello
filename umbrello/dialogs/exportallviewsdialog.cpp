@@ -18,9 +18,6 @@
 #include <KComboBox>
 #include <KLocalizedString>
 
-// qt include files
-#include <QDialogButtonBox>
-
 /**
  * Constructor for UMLViewImageExporterModel.
  *
