@@ -60,8 +60,9 @@ void UMLAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QVBoxLayout * mainLayout = new QVBoxLayout();
-    setLayout(mainLayout);
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
@@ -104,12 +105,6 @@ void UMLAttributeDialog::setupDialog()
     mainLayout->addWidget(m_docWidget);
 
     m_pNameLE->setFocus();
-
-    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                          QDialogButtonBox::Cancel);
-    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    mainLayout->addWidget(dlgButtonBox);
 }
 
 /**
