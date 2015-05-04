@@ -28,7 +28,6 @@
 
 // qt includes
 #include <QComboBox>
-#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -54,8 +53,9 @@ void UMLTemplateDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QVBoxLayout* mainLayout = new QVBoxLayout();
-    setLayout(mainLayout);
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
@@ -86,12 +86,6 @@ void UMLTemplateDialog::setupDialog()
     insertTypesSorted(m_pTemplate->getTypeName());
 
     m_pNameLE->setFocus();
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                                       QDialogButtonBox::Cancel);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    mainLayout->addWidget(buttonBox);
 }
 
 /**
