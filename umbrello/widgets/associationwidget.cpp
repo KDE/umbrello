@@ -956,11 +956,13 @@ void AssociationWidget::setStereotype(const QString &stereo) {
     UMLAssociation *umlassoc = association();
     if (umlassoc) {
         umlassoc->setStereotype(stereo);
-    }
-    if (m_nameWidget) {
-        m_nameWidget->setText(umlassoc->stereotype(true));
+        if (m_nameWidget) {
+            m_nameWidget->setText(umlassoc->stereotype(true));
+        } else {
+            uDebug() << "not setting " << stereo << " because m_nameWidget is NULL";
+        }
     } else {
-        uDebug() << "not setting " << stereo << " because m_nameWidget is NULL";
+        uDebug() << "not setting " << stereo << " because association is NULL";
     }
 }
 
@@ -4281,6 +4283,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             ft->setParentItem(this);
             ft->setLink(this);
             ft->setSequenceNumber(m_SequenceNumber);
+            ft->setFontCmd(ft->font());
 
             switch(role) {
             case Uml::TextRole::MultiA:
