@@ -4283,6 +4283,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             ft->setParentItem(this);
             ft->setLink(this);
             ft->setSequenceNumber(m_SequenceNumber);
+            ft->setFontCmd(ft->font());
 
             switch(role) {
             case Uml::TextRole::MultiA:
