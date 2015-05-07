@@ -83,6 +83,7 @@ protected:
 
 private slots:
     void slotDockSizeChanged(const QSize &size);
+    void slotDestroyed(QObject *object);
 
 private:
     UMLView*       m_view;

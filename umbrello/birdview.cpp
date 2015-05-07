@@ -65,10 +65,12 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 
     setSlotsEnabled(true);
     parent->setWidget(m_birdView);  // must be the last command
+    connect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
 }
 
 BirdView::~BirdView()
 {
+    disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
     setParent(0);
     delete m_protectFrame;
     delete m_birdView;
@@ -81,6 +83,8 @@ BirdView::~BirdView()
  */
 void BirdView::slotDockSizeChanged(const QSize& size)
 {
+    if (!m_view)
+        return;
     QRectF itemsRect = m_birdView->scene()->itemsBoundingRect();
     m_birdView->scene()->setSceneRect(itemsRect);
     m_birdView->setSceneRect(itemsRect);
@@ -112,6 +116,8 @@ void BirdView::slotDockSizeChanged(const QSize& size)
  */
 void BirdView::slotViewChanged()
 {
+    if (!m_view)
+        return;
     int hvalue = 0;
     int hmin = 0;
     int hmax = 0;
@@ -276,4 +282,15 @@ BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt
 void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
 {
     emit sizeChanged(event->size());
+}
+
+/**
+ * Handle destroyed view.
+ */
+void BirdView::slotDestroyed(QObject *object)
+{
+    if (m_view == object) {
+        m_birdView->setScene(0);
+        m_view = 0;
+    }
 }
