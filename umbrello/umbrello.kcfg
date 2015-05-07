@@ -211,7 +211,7 @@
        <entry name="showPublicOnly" type="Bool">
           <label>Show Public Only</label>
           <whatsthis>Enables/Disables showing of public attributes/methods</whatsthis>
-          <default>true</default>
+          <default>false</default>
        </entry> 
        <entry name="showAttSig" type="Bool">
          <label>Show Attribute Signature</label>
