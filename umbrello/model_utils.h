@@ -77,6 +77,7 @@ bool typeIsClassifier(UMLListViewItem::ListViewType type);
 bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     UMLListViewItem::ListViewType parentType);
 bool typeIsAllowedInDiagram(UMLObject *o, UMLScene *scene);
+bool typeIsAllowedInDiagram(UMLWidget *w, UMLScene *scene);
 
 Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);

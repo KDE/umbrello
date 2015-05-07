@@ -12,6 +12,7 @@
 #include "model_utils.h"
 
 // app includes
+#include "floatingtextwidget.h"
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
@@ -1859,6 +1860,51 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
             bAccept = false;
         break;
     default:
+        break;
+    }
+    return bAccept;
+}
+
+/**
+ * Return true if the widget type is allowed in the related diagram
+ * @param w UML widget object
+ * @param scene diagram instance
+ * @return true type is allowed
+ * @return false type is not allowed
+ */
+bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
+{
+    UMLWidget::WidgetType wt = w->baseType();
+    Uml::DiagramType::Enum diagramType = scene->type();
+    bool bAccept = true;
+
+    // TODO: check additional widgets
+    switch (diagramType) {
+    case Uml::DiagramType::Activity:
+    case Uml::DiagramType::Class:
+    case Uml::DiagramType::Collaboration:
+    case Uml::DiagramType::Component:
+    case Uml::DiagramType::Deployment:
+    case Uml::DiagramType::EntityRelationship:
+    case Uml::DiagramType::Sequence:
+    case Uml::DiagramType::State:
+    case Uml::DiagramType::UseCase:
+    default:
+        switch(wt) {
+        case WidgetBase::wt_Note:
+            break;
+        case WidgetBase::wt_Text:
+            {
+                FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(w);
+                if (ft && ft->textRole() != Uml::TextRole::Floating) {
+                    bAccept = false;
+                }
+            }
+            break;
+        default:
+            bAccept = false;
+            break;
+        }
         break;
     }
     return bAccept;
