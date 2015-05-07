@@ -730,71 +730,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         e->ignore();
         return;
     }
-    //make sure dragging item onto correct diagram
-    // concept - class, seq, coll diagram
-    // actor, usecase - usecase diagram
-    UMLObject::ObjectType ot = temp->baseType();
-    bool bAccept = true;
-    switch (diagramType) {
-    case DiagramType::UseCase:
-        if ((widgetOnDiagram(id) && ot == UMLObject::ot_Actor) ||
-            (ot != UMLObject::ot_Actor && ot != UMLObject::ot_UseCase))
-            bAccept = false;
-        break;
-    case DiagramType::Class:
-        if (widgetOnDiagram(id) ||
-            (ot != UMLObject::ot_Class &&
-             ot != UMLObject::ot_Package &&
-             ot != UMLObject::ot_Interface &&
-             ot != UMLObject::ot_Enum &&
-             ot != UMLObject::ot_Datatype)) {
-            bAccept = false;
-        }
-        break;
-    case DiagramType::Sequence:
-    case DiagramType::Collaboration:
-        if (ot != UMLObject::ot_Class &&
-            ot != UMLObject::ot_Interface &&
-            ot != UMLObject::ot_Actor)
-            bAccept = false;
-        break;
-    case DiagramType::Deployment:
-        if (widgetOnDiagram(id))
-            bAccept = false;
-        else if (ot != UMLObject::ot_Interface &&
-                 ot != UMLObject::ot_Package &&
-                 ot != UMLObject::ot_Component &&
-                 ot != UMLObject::ot_Class &&
-                 ot != UMLObject::ot_Node)
-            bAccept = false;
-        else if (ot == UMLObject::ot_Package &&
-                 temp->stereotype() != QLatin1String("subsystem"))
-            bAccept = false;
-        break;
-    case DiagramType::Component:
-        if (widgetOnDiagram(id) ||
-            (ot != UMLObject::ot_Interface &&
-             ot != UMLObject::ot_Package &&
-             ot != UMLObject::ot_Component &&
-             ot != UMLObject::ot_Port &&
-             ot != UMLObject::ot_Artifact &&
-             ot != UMLObject::ot_Class))
-            bAccept = false;
-        else if (ot == UMLObject::ot_Class && !temp->isAbstract())
-            bAccept = false;
-        else if (ot == UMLObject::ot_Port) {
-            const bool componentOnDiagram = widgetOnDiagram(temp->umlPackage()->id());
-            DEBUG(DBG_SRC) << "ot_Port: componentOnDiagram = " << componentOnDiagram;
-            bAccept = componentOnDiagram;
-        }
-        break;
-    case DiagramType::EntityRelationship:
-        if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
-            bAccept = false;
-        break;
-    default:
-        break;
-    }
+    bool bAccept = Model_Utils::typeIsAllowedInDiagram(temp, this);
     if (bAccept) {
         e->accept();
     } else {

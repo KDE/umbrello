@@ -1785,5 +1785,84 @@ QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction u
     }
 }
 
+/**
+ * Return true if the object type is allowed in the related diagram
+ * @param o UML object instance
+ * @param scene diagram instance
+ * @return true type is allowed
+ * @return false type is not allowed
+ */
+bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
+{
+    //make sure dragging item onto correct diagram
+    // concept - class, seq, coll diagram
+    // actor, usecase - usecase diagram
+    UMLObject::ObjectType ot = o->baseType();
+    Uml::ID::Type id = o->id();
+    Uml::DiagramType::Enum diagramType = scene->type();
+    bool bAccept = true;
+
+    switch (diagramType) {
+    case Uml::DiagramType::UseCase:
+        if ((scene->widgetOnDiagram(id) && ot == UMLObject::ot_Actor) ||
+            (ot != UMLObject::ot_Actor && ot != UMLObject::ot_UseCase))
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Class:
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Class &&
+             ot != UMLObject::ot_Package &&
+             ot != UMLObject::ot_Interface &&
+             ot != UMLObject::ot_Enum &&
+             ot != UMLObject::ot_Datatype)) {
+            bAccept = false;
+        }
+        break;
+    case Uml::DiagramType::Sequence:
+    case Uml::DiagramType::Collaboration:
+        if (ot != UMLObject::ot_Class &&
+            ot != UMLObject::ot_Interface &&
+            ot != UMLObject::ot_Actor)
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Deployment:
+        if (scene->widgetOnDiagram(id))
+            bAccept = false;
+        else if (ot != UMLObject::ot_Interface &&
+                 ot != UMLObject::ot_Package &&
+                 ot != UMLObject::ot_Component &&
+                 ot != UMLObject::ot_Class &&
+                 ot != UMLObject::ot_Node)
+            bAccept = false;
+        else if (ot == UMLObject::ot_Package &&
+                 o->stereotype() != QLatin1String("subsystem"))
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Component:
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Interface &&
+             ot != UMLObject::ot_Package &&
+             ot != UMLObject::ot_Component &&
+             ot != UMLObject::ot_Port &&
+             ot != UMLObject::ot_Artifact &&
+             ot != UMLObject::ot_Class))
+            bAccept = false;
+        else if (ot == UMLObject::ot_Class && !o->isAbstract())
+            bAccept = false;
+        else if (ot == UMLObject::ot_Port) {
+            const bool componentOnDiagram = scene->widgetOnDiagram(o->umlPackage()->id());
+            bAccept = componentOnDiagram;
+        }
+        break;
+    case Uml::DiagramType::EntityRelationship:
+        if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
+            bAccept = false;
+        break;
+    default:
+        break;
+    }
+    return bAccept;
+}
+
 }  // namespace Model_Utils
 
