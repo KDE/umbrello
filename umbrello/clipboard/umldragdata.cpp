@@ -473,7 +473,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
 
 /**
  * For use when the user selects UML Objects from a
- * Diagram. The Selected widegets and the relationships
+ * Diagram. The Selected widgets and the relationships
  * between only selected widgets will be copied
  *
  * decodes Mime type = "application/x-uml-clip4"
