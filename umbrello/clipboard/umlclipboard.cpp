@@ -525,14 +525,6 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     }
 
     UMLScene *currentScene = UMLApp::app()->currentView()->umlScene();
-    if(diagramType != currentScene->type()) {
-        if(!checkPasteWidgets(widgets)) {
-            while (!assocs.isEmpty()) {
-                delete assocs.takeFirst();
-            }
-            return false;
-        }
-    }
 
     idchanges = doc->changeLog();
     if(!idchanges) {
@@ -736,45 +728,6 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
 
     return result;
-}
-
-/**
- * When pasting widgets see if they can be pasted on
- * different diagram types.  Will return true if all the
- * widgets to be pasted can be.  At the moment this only
- * includes NoteWidgets and lines of text.
- *
- * @param widgetList   List of widgets to examine.
- * @return   True if all widgets can be put on different diagrams.
- */
-bool UMLClipboard::checkPasteWidgets(UMLWidgetList & widgetList)
-{
-    bool retval = true;
-
-    foreach (UMLWidget* p, widgetList) {
-        switch(p->baseType()) {
-        case WidgetBase::wt_Note:
-            break;
-
-        case WidgetBase::wt_Text:
-            {
-                FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(p);
-                if (ft->textRole() != Uml::TextRole::Floating) {
-                    widgetList.removeAll(p);
-                    delete ft;
-                    retval = false;
-                }
-            }
-            break;
-
-        default:
-            widgetList.removeAll(p);
-            delete p;
-            retval = false;
-            break;
-        }
-    }
-    return retval;
 }
 
 /**
