@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     // authors with more than 200 commits: git shortlog -seu | sort -g
     aboutData.addCredit(ki18n("Oliver Kellogg"),
                         ki18n("Bug fixing, porting work, code cleanup, new features."),
-                        QByteArray("okellogg@users.sourceforge.de"));
+                        QByteArray("okellogg@users.sourceforge.net"));
     aboutData.addCredit(ki18n("Ralf Habacker"),
                         ki18n("Bug fixing, porting work, code cleanup, new features."),
                         QByteArray("ralf.habacker@freenet.de"));
