@@ -225,8 +225,6 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
     view->hide();
-    //remove all widgets before deleting view
-    view->umlScene()->removeAllWidgets();
     UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
         uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
