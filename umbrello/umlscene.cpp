@@ -181,6 +181,7 @@ UMLScene::~UMLScene()
 
     delete m_pToolBarStateFactory;
     m_pToolBarStateFactory = 0;
+    delete m_layoutGrid;
     delete m_d;
 }
 
