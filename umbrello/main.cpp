@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
     // NOTE: for deprecated net.sf.umbrello dbus service name
     // aboutData.setOrganizationDomain("sf.net");
     KApplication app;
+    QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();
     } else {
@@ -97,7 +98,7 @@ int main(int argc, char *argv[])
         }
 
         bool showGUI = getShowGUI(args);
-        UMLApp* uml = new UMLApp();
+        uml = new UMLApp();
         app.processEvents();
 
         if (showGUI) {
@@ -120,7 +121,9 @@ int main(int argc, char *argv[])
              exportAllViews(args, exportOpt);
         }
     }
-    return app.exec();
+    int result = app.exec();
+    delete uml;
+    return result;
 }
 
 bool getShowGUI(KCmdLineArgs *args)
