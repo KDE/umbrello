@@ -48,7 +48,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
  */
 UMLView::~UMLView()
 {
-    //TODO: Check if the scene shd be deleted
+    delete umlScene();
 }
 
 /**
