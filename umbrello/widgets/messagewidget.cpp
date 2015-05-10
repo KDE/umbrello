@@ -1383,18 +1383,4 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     return true;
 }
 
-/**
- * :TODO: REMOVE IT!
- */
-//ListPopupMenu* MessageWidget::setupPopupMenu(ListPopupMenu *menu)
-//{
-//    UMLWidget::setupPopupMenu(menu); // will setup the menu in m_pMenu
-//    ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
-//    floatingtextSubMenu->setTitle(i18n("Operation"));
-
-//    m_pMenu->addMenu(floatingtextSubMenu);
-
-//    return m_pMenu;
-//}
-
 #include "messagewidget.moc"
