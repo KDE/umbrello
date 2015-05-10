@@ -3299,6 +3299,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
         UMLApp::app()->enableUndoAction(true);
     } else {
         cmd->redo();
+        delete cmd;
     }
 
     m_doc->setModified(true);
