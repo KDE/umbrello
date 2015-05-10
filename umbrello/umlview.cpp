@@ -49,8 +49,7 @@ UMLView::~UMLView()
 }
 
 /**
- * Getter for the scene.
- * TODO: Should be removed. Use scene() instead.
+ * Getter for the uml scene.
  */
 UMLScene* UMLView::umlScene() const
 {
