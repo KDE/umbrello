@@ -1,5 +1,5 @@
  ============================
-| Application Test Procedure |  (last updated: 2015-03-12 by Andi Fischer)
+| Application Test Procedure |  (last updated: 2015-05-11 by Andi Fischer)
  ============================
 
 ===============================================================================
@@ -668,6 +668,13 @@ Testprocedure:
 
 Testresult:
 
+-------------------------------------------------------------------------------
+DCL05 - Add associations between classes:                        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
 ===============================================================================
 Drawing sequence diagram (DSQ)
 ===============================================================================
@@ -683,6 +690,50 @@ Drawing use case diagram (DUC)
 ===============================================================================
 Drawing state diagram (DST)
 ===============================================================================
+
+-------------------------------------------------------------------------------
+DSM01 - Create state diagram:                                    OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Click on the button left to the first tab view and select state diagram
+     in the popupmenu.
+    OR
+     Select the menu 'Diagram' - 'New' - 'State Diagram...'.
+  2) In the just opened dialog enter the name "Player State Diagram".
+  3) Select from the diagram toolbar the 'Initial State' tool.
+  4) Draw an initial state.
+  5) Select from the diagram toolbar the 'State' tool.
+  6) Draw a state and name it "Empty".
+  7) Select the menu 'File' - 'Save As...' and save the current work in
+     the file "test.xmi" in a location of your choice.
+  8) Draw a state and name it "Stopped".
+  9) Draw a state and name it "Open".
+ 10) Draw a state and name it "Paused".
+ 11) Draw a state and name it "Playing".
+ 12) Select from the diagram toolbar the 'State Transition' drawing tool.
+ 13) Click on the initial state and drag to "Empty".
+ 14) Click on "Stopped" and drag to "Stopped".
+ 15) Click on "Emtpy" and drag to "Stopped".
+ 16) Click on "Stopped" and drag to "Playing".
+ 17) Click on "Playing" and drag to "Paused".
+ 18) Click on "Paused" and drag to "Stopped".
+ 19) Click on "Paused" and drag to "Open".
+ 20) Click on "Empty" and drag to "Open".
+ 21) Click on "Open" and drag to "Empty".
+ 22) Click on the save button in the main toolbar.
+Testresult:
+  1) A simple state diagram is created.
+
+-------------------------------------------------------------------------------
+DSM02 - Load existing class diagram:                             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Load file "./umbrello/test/test-DSM.xmi".
+  2) Load your file "test.xmi"
+Testresult:
+  1) The file is loading correctly.
+  2) The file is loading correctly.
+
 
 ===============================================================================
 Drawing activity diagram (DAC)
