@@ -274,6 +274,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_Model;
         break;
 
+    case UMLListViewItem::lvt_Properties:
+        mt = mt_Properties;
+        break;
+
     default:
         uWarning() << "unhandled ListViewType "
                    << UMLListViewItem::toString(type);
@@ -1940,6 +1944,10 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_Model:
         insert(mt_Model, i18n("Rename..."));
+        break;
+
+    case mt_Properties:
+        insert(mt_Properties);
         break;
 
     default:

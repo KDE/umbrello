@@ -90,6 +90,7 @@ UMLListView::UMLListView(QWidget *parent)
   : QTreeWidget(parent),
     m_rv(0),
     m_datatypeFolder(0),
+    m_settingsFolder(0),
     m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
@@ -133,6 +134,7 @@ UMLListView::UMLListView(QWidget *parent)
 UMLListView::~UMLListView()
 {
     delete m_datatypeFolder;
+    delete m_settingsFolder;
 }
 
 /**
@@ -628,7 +630,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
     case ListPopupMenu::mt_Properties:
         // first check if we are on a diagram
-        if (Model_Utils::typeIsDiagram(lvt)) {
+        if (Model_Utils::typeIsProperties(lvt)) {
+            UMLApp::app()->slotPrefs();
+            return;
+        }
+        else if (Model_Utils::typeIsDiagram(lvt)) {
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
                 UMLApp::app()->docWindow()->updateDocumentation(false);
@@ -1340,6 +1346,13 @@ void UMLListView::init()
         m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
                                            UMLListViewItem::lvt_Datatype_Folder, datatypeFolder);
     }
+    if (m_settingsFolder == 0) {
+        m_settingsFolder =  new UMLListViewItem(this, i18n("Settings"), UMLListViewItem::lvt_Properties);
+        Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_settingsFolder->type());
+        m_settingsFolder->setIcon(icon);
+        m_settingsFolder->setID("Settings");
+    }
+
     m_rv->setOpen(true);
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i]->setOpen(true);
@@ -1386,9 +1399,14 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     UMLListViewItem * item = static_cast<UMLListViewItem *>(currentItem());
     if (!item || me->button() != Qt::LeftButton)
         return;
-    //see if on view
+
     UMLListViewItem::ListViewType lvType = item->type();
-    if (Model_Utils::typeIsDiagram(lvType)) {
+    if (Model_Utils::typeIsProperties(lvType)) {
+        UMLApp::app()->docWindow()->updateDocumentation(false);
+        UMLApp::app()->slotPrefs();
+        return;
+    }
+    else if (Model_Utils::typeIsDiagram(lvType)) {
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
             UMLApp::app()->docWindow()->updateDocumentation(false);

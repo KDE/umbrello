@@ -1049,6 +1049,21 @@ bool typeIsClassifier(UMLListViewItem::ListViewType type)
 }
 
 /**
+ * Return true if the listview type is a settings entry.
+ */
+bool typeIsProperties(UMLListViewItem::ListViewType type)
+{
+    switch (type) {
+        case UMLListViewItem::lvt_Properties:
+            return true;
+            break;
+        default:
+            break;
+    }
+    return false;
+}
+
+/**
  * Check if a listviewitem of type childType is allowed
  * as child of type parentType
  */
@@ -1679,7 +1694,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_EntityRelationship_Diagram:
             icon = Icon_Utils::it_Diagram_EntityRelationship;
             break;
-
+        case UMLListViewItem::lvt_Properties:
+            icon = Icon_Utils::it_Properties;
+            break;
         default:
             break;
     }

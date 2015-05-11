@@ -88,6 +88,7 @@ public:
         lvt_CheckConstraint,
         lvt_Category,
         lvt_Port,
+        lvt_Properties,
         lvt_Unknown = -1
     };
 

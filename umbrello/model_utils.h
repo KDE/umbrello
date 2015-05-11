@@ -74,6 +74,7 @@ bool typeIsContainer(UMLListViewItem::ListViewType type);
 bool typeIsDiagram(UMLListViewItem::ListViewType type);
 bool typeIsClassifierList(UMLListViewItem::ListViewType type);
 bool typeIsClassifier(UMLListViewItem::ListViewType type);
+bool typeIsProperties(UMLListViewItem::ListViewType type);
 bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     UMLListViewItem::ListViewType parentType);
 bool typeIsAllowedInDiagram(UMLObject *o, UMLScene *scene);

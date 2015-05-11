@@ -1029,6 +1029,8 @@ QString UMLListViewItem::toString(ListViewType type)
             return QLatin1String("lvt_CheckConstraint");
         case lvt_Category:
             return QLatin1String("lvt_Category");
+        case lvt_Properties:
+            return QLatin1String("lvt_Properties");
         case lvt_Unknown:
             return QLatin1String("lvt_Unknown");
         default:
