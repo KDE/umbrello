@@ -126,6 +126,19 @@ void MultiPageDialogBase::addPage(KPageWidgetItem *page)
         m_pageWidget->addPage(page);
 }
 
+/**
+ * Set current page.
+ *
+ * @param page the page to set
+ */
+void MultiPageDialogBase::setCurrentPage(KPageWidgetItem *page)
+{
+    if (m_pageDialog)
+        m_pageDialog->setCurrentPage(page);
+    else
+        m_pageWidget->setCurrentPage(page);
+}
+
 int MultiPageDialogBase::spacingHint()
 {
     return KDialog::spacingHint();

@@ -1878,11 +1878,12 @@ void UMLApp::slotCopyChanged()
 /**
  * Shows the global preferences dialog.
  */
-void UMLApp::slotPrefs()
+void UMLApp::slotPrefs(MultiPageDialogBase::PageType page)
 {
        Settings::OptionState& optionState = Settings::optionState();
 
        m_settingsDialog = new SettingsDialog(this, &optionState);
+       m_settingsDialog->setCurrentPage(page);
        connect(m_settingsDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
 
        if (m_settingsDialog->exec() == QDialog::Accepted && m_settingsDialog->getChangesApplied()) {

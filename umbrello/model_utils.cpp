@@ -1054,11 +1054,19 @@ bool typeIsClassifier(UMLListViewItem::ListViewType type)
 bool typeIsProperties(UMLListViewItem::ListViewType type)
 {
     switch (type) {
-        case UMLListViewItem::lvt_Properties:
-            return true;
-            break;
-        default:
-            break;
+    case UMLListViewItem::lvt_Properties:
+    case UMLListViewItem::lvt_Properties_AutoLayout:
+    case UMLListViewItem::lvt_Properties_Class:
+    case UMLListViewItem::lvt_Properties_CodeImport:
+    case UMLListViewItem::lvt_Properties_CodeGeneration:
+    case UMLListViewItem::lvt_Properties_CodeViewer:
+    case UMLListViewItem::lvt_Properties_Font:
+    case UMLListViewItem::lvt_Properties_General:
+    case UMLListViewItem::lvt_Properties_UserInterface:
+        return true;
+        break;
+    default:
+        break;
     }
     return false;
 }
@@ -1697,6 +1705,30 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Properties:
             icon = Icon_Utils::it_Properties;
             break;
+        case UMLListViewItem::lvt_Properties_AutoLayout:
+            icon = Icon_Utils::it_Properties_AutoLayout;
+            break;
+        case UMLListViewItem::lvt_Properties_Class:
+            icon = Icon_Utils::it_Properties_Class;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeImport:
+            icon = Icon_Utils::it_Properties_CodeImport;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeGeneration:
+            icon = Icon_Utils::it_Properties_CodeGeneration;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeViewer:
+            icon = Icon_Utils::it_Properties_CodeViewer;
+            break;
+        case UMLListViewItem::lvt_Properties_Font:
+            icon = Icon_Utils::it_Properties_Font;
+            break;
+        case UMLListViewItem::lvt_Properties_General:
+            icon = Icon_Utils::it_Properties_General;
+            break;
+        case UMLListViewItem::lvt_Properties_UserInterface:
+            icon = Icon_Utils::it_Properties_UserInterface;
+            break;
         default:
             break;
     }
@@ -1745,6 +1777,49 @@ Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
             break;
     }
     return dt;
+}
+
+/**
+ * Converts a list view type enum to the equivalent settings dialog type.
+ *
+ * @param lvt   The ListViewType to convert.
+ * @return  The converted settings dialog type
+ */
+MultiPageDialogBase::PageType convert_LVT_PT(UMLListViewItem::ListViewType type)
+{
+    MultiPageDialogBase::PageType pt = MultiPageDialogBase::GeneralPage;
+    switch (type) {
+    case UMLListViewItem::lvt_Properties:
+        pt = MultiPageDialogBase::GeneralPage;
+        break;
+    case UMLListViewItem::lvt_Properties_AutoLayout:
+        pt = MultiPageDialogBase::AutoLayoutPage;
+        break;
+    case UMLListViewItem::lvt_Properties_Class:
+        pt = MultiPageDialogBase::ClassPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeImport:
+        pt = MultiPageDialogBase::CodeImportPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeGeneration:
+        pt = MultiPageDialogBase::CodeGenerationPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeViewer:
+        pt = MultiPageDialogBase::CodeViewerPage;
+        break;
+    case UMLListViewItem::lvt_Properties_Font:
+        pt = MultiPageDialogBase::FontPage;
+        break;
+    case UMLListViewItem::lvt_Properties_General:
+        pt = MultiPageDialogBase::GeneralPage;
+        break;
+    case UMLListViewItem::lvt_Properties_UserInterface:
+        pt = MultiPageDialogBase::UserInterfacePage;
+        break;
+    default:
+        break;
+    }
+    return pt;
 }
 
 /**

@@ -89,6 +89,14 @@ public:
         lvt_Category,
         lvt_Port,
         lvt_Properties,
+        lvt_Properties_AutoLayout,
+        lvt_Properties_Class,
+        lvt_Properties_CodeGeneration,
+        lvt_Properties_CodeImport,
+        lvt_Properties_CodeViewer,
+        lvt_Properties_Font,
+        lvt_Properties_General,
+        lvt_Properties_UserInterface,
         lvt_Unknown = -1
     };
 

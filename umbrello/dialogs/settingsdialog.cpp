@@ -56,6 +56,46 @@ SettingsDialog::~SettingsDialog()
 {
 }
 
+/**
+ * Set current page
+ *
+ * @param page the page to set
+ */
+void SettingsDialog::setCurrentPage(PageType page)
+{
+    KPageWidgetItem *currentPage;
+
+    switch(page) {
+    case FontPage:
+        currentPage = pageFont;
+        break;
+    case UserInterfacePage:
+        currentPage = pageUserInterface;
+        break;
+    case AutoLayoutPage:
+        currentPage = pageAutoLayout;
+        break;
+    case CodeImportPage:
+        currentPage = pageCodeImport;
+        break;
+    case CodeGenerationPage:
+        currentPage = pageCodeGen;
+        break;
+    case CodeViewerPage:
+        currentPage = pageCodeViewer;
+        break;
+    case ClassPage:
+        currentPage = pageClass;
+        break;
+    case GeneralPage:
+    default:
+        currentPage = pageGeneral;
+        break;
+    }
+    MultiPageDialogBase::setCurrentPage(currentPage);
+}
+
+
 void SettingsDialog::setupUIPage()
 {
     // FIXME: merge with UMLWidgetStylePage

@@ -629,9 +629,8 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         break;
 
     case ListPopupMenu::mt_Properties:
-        // first check if we are on a diagram
         if (Model_Utils::typeIsProperties(lvt)) {
-            UMLApp::app()->slotPrefs();
+            UMLApp::app()->slotPrefs(Model_Utils::convert_LVT_PT(lvt));
             return;
         }
         else if (Model_Utils::typeIsDiagram(lvt)) {
@@ -1351,6 +1350,14 @@ void UMLListView::init()
         Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_settingsFolder->type());
         m_settingsFolder->setIcon(icon);
         m_settingsFolder->setID("Settings");
+        new UMLListViewItem(m_settingsFolder, i18n("Auto Layout"), UMLListViewItem::lvt_Properties_AutoLayout);
+        new UMLListViewItem(m_settingsFolder, i18n("Class"), UMLListViewItem::lvt_Properties_Class);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Importer"), UMLListViewItem::lvt_Properties_CodeImport);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Generation"), UMLListViewItem::lvt_Properties_CodeGeneration);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Viewer"), UMLListViewItem::lvt_Properties_CodeViewer);
+        new UMLListViewItem(m_settingsFolder, i18n("Font"), UMLListViewItem::lvt_Properties_Font);
+        new UMLListViewItem(m_settingsFolder, i18n("General"), UMLListViewItem::lvt_Properties_General);
+        new UMLListViewItem(m_settingsFolder, i18n("User Interface"), UMLListViewItem::lvt_Properties_UserInterface);
     }
 
     m_rv->setOpen(true);
@@ -1403,7 +1410,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     UMLListViewItem::ListViewType lvType = item->type();
     if (Model_Utils::typeIsProperties(lvType)) {
         UMLApp::app()->docWindow()->updateDocumentation(false);
-        UMLApp::app()->slotPrefs();
+        UMLApp::app()->slotPrefs(Model_Utils::convert_LVT_PT(lvType));
         return;
     }
     else if (Model_Utils::typeIsDiagram(lvType)) {

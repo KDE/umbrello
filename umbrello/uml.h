@@ -12,6 +12,7 @@
 #define UML_H
 
 #include "basictypes.h"
+#include "multipagedialogbase.h"
 
 #include <kxmlguiwindow.h>
 #include <kurl.h>
@@ -238,7 +239,7 @@ public slots:
     void slotAlignHorizontalDistribute();
     void slotClipDataChanged();
     void slotCopyChanged();
-    void slotPrefs();
+    void slotPrefs(MultiPageDialogBase::PageType page = MultiPageDialogBase::GeneralPage);
     void slotApplyPrefs();
     void slotImportClass();
     void slotImportProject();

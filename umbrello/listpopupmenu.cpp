@@ -278,6 +278,38 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_Properties;
         break;
 
+    case UMLListViewItem::lvt_Properties_AutoLayout:
+        mt = mt_Properties_AutoLayout;
+        break;
+
+    case UMLListViewItem::lvt_Properties_Class:
+        mt = mt_Properties_Class;
+        break;
+
+    case UMLListViewItem::lvt_Properties_CodeImport:
+        mt = mt_Properties_CodeImport;
+        break;
+
+    case UMLListViewItem::lvt_Properties_CodeGeneration:
+        mt = mt_Properties_CodeGeneration;
+        break;
+
+    case UMLListViewItem::lvt_Properties_CodeViewer:
+        mt = mt_Properties_CodeViewer;
+        break;
+
+    case UMLListViewItem::lvt_Properties_Font:
+        mt = mt_Properties_Font;
+        break;
+
+    case UMLListViewItem::lvt_Properties_General:
+        mt = mt_Properties_General;
+        break;
+
+    case UMLListViewItem::lvt_Properties_UserInterface:
+        mt = mt_Properties_UserInterface;
+        break;
+
     default:
         uWarning() << "unhandled ListViewType "
                    << UMLListViewItem::toString(type);
@@ -1947,6 +1979,16 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_Properties:
+        insert(mt_Expand_All);
+        insert(mt_Collapse_All);
+    case mt_Properties_AutoLayout:
+    case mt_Properties_Class:
+    case mt_Properties_CodeImport:
+    case mt_Properties_CodeGeneration:
+    case mt_Properties_CodeViewer:
+    case mt_Properties_Font:
+    case mt_Properties_General:
+    case mt_Properties_UserInterface:
         insert(mt_Properties);
         break;
 
