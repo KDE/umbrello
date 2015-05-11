@@ -12,6 +12,7 @@
 #include "umlviewimageexporter.h"
 
 // application specific includes
+#include "debug_utils.h"
 #include "dotgenerator.h"
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
@@ -29,6 +30,9 @@
 #include <QPointer>
 #include <QString>
 #include <QStringList>
+
+#define DBG_IE QLatin1String("UMLViewImageExporter")
+DEBUG_REGISTER_DISABLED(UMLViewImageExporter)
 
 /**
  * Constructor for UMLViewImageExporter.
@@ -140,11 +144,12 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
-        QStringList mimeTypeFilters = dialog->mimeTypeFilters();
-        m_imageMimeType = mimeTypeFilters[0];  //FIXME KF5
-        UMLApp::app()->setImageMimeType(m_imageMimeType);
         QList<QUrl> selectedUrls = dialog->selectedUrls();
-        m_imageURL = selectedUrls[0];  //FIXME KF5
+        m_imageURL = selectedUrls.first();
+        QFileInfo f(m_imageURL.toLocalFile());
+        m_imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(f.suffix());
+        UMLApp::app()->setImageMimeType(m_imageMimeType);
+        DEBUG(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
     }
     delete dialog;
     return success;
@@ -160,10 +165,12 @@ void UMLViewImageExporter::prepareFileDialog(QFileDialog *fileDialog)
 {
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
+    DEBUG(DBG_IE) << "supported mime types: " << mimeTypes;
 
     QHash<QString, QString> configFiles;
-    if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
+    if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0) {
         mimeTypes.removeOne(QLatin1String("image/x-dot"));
+    }
 
     fileDialog->setWindowTitle(i18n("Save As"));
     fileDialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -172,10 +179,13 @@ void UMLViewImageExporter::prepareFileDialog(QFileDialog *fileDialog)
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
         QUrl docURL = UMLApp::app()->document()->url();
-        docURL.adjusted(QUrl::RemoveFilename);
-
-        fileDialog->selectFile(docURL.path() + m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        docURL.setUrl(docURL.toString(QUrl::RemoveFilename)
+                      + m_scene->name() + QLatin1Char('.')
+                      + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->selectUrl(docURL);
     } else {
-        fileDialog->selectFile(m_imageURL.path() + m_imageURL.fileName());
+        fileDialog->selectUrl(m_imageURL);
+        fileDialog->selectMimeTypeFilter(m_imageMimeType);
+        DEBUG(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
     }
 }

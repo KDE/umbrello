@@ -43,8 +43,7 @@
 #include <cmath>
 
 #define DBG_IEM QLatin1String("UMLViewImageExporterModel")
-
-DEBUG_REGISTER(UMLViewImageExporterModel)
+DEBUG_REGISTER_DISABLED(UMLViewImageExporterModel)
 
 QStringList UMLViewImageExporterModel::s_supportedImageTypesList;
 QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
@@ -350,6 +349,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
  */
 bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
+    DEBUG(DBG_IEM) << "image type=" << imageType << " / file name=" << fileName;
     if (!scene) {
         uWarning() << "Scene is null!";
         return false;
@@ -359,6 +359,7 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
     scene->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
+    DEBUG(DBG_IEM) << "image mime type=" << imageMimeType;
     if (imageMimeType == QLatin1String("image/x-dot")) {
         if (!exportViewToDot(scene, fileName)) {
             return false;
@@ -533,9 +534,10 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
         return false;
     }
 
-    QRectF rect = scene->diagramRect();
+    QRectF rectF = scene->diagramRect();
+    QRect rect = rectF.toRect();
     QPixmap diagram(rect.width(), rect.height());
-    scene->getDiagram(diagram, rect);
+    scene->getDiagram(diagram, rectF);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
     DEBUG(DBG_IEM) << "saving to file " << fileName
                    << ", imageType=" << imageType
