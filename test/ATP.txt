@@ -638,8 +638,8 @@ Testprocedure:
   6) Draw a class and name it "Engine".
   7) Draw a class and name it "Tire".
   8) Select from the diagram toolbar the aggregation drawing tool.
-  9) Click on "Car" and drag to "Engine".
- 10) Click on "Car" and drag to "Tire".
+  9) Click on "Car" and on "Engine".
+ 10) Click on "Car" and on "Tire".
  11) Click on the save button in the main toolbar.
 Testresult:
   1) A simple class diagram with three classes is created.
@@ -686,13 +686,68 @@ Drawing collaboration diagram (DCO)
 ===============================================================================
 Drawing use case diagram (DUC)
 ===============================================================================
+-------------------------------------------------------------------------------
+DUC01 - Create use case diagram:                                 OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Click on the button left to the first tab view and select use case diagram
+     in the popupmenu.
+    OR
+     Select the menu 'Diagram' - 'New' - 'Use Case Diagram...'.
+  2) In the just opened dialog enter the name
+     "Use Case Diagram Passenger Service".
+  3) Select from the diagram toolbar the 'Box' tool.
+  4) Draw a box and resize it.
+  5) Select from the diagram toolbar the 'Label' tool.
+  6) Draw a label and name it "Passenger Service".
+  7) Move the label inside the box at the top border.
+  8) Select the menu 'File' - 'Save As...' and save the current work in
+     the file "test.xmi" in a location of your choice.
+  9) Select from the diagram toolbar the 'Actor' drawing tool.
+ 10) Draw an actor and name it "Passenger".
+ 11) Draw an actor and name it "new_actor".
+ 12) Double-click on "new_actor" and change the name in the just opened dialog
+     to "Baggage Transportation".
+ 13) Right-click on the diagram and select 'New' - 'Actor...' and name it
+     "Check-In Representative".
+ 14) Right-click on the diagram and select 'New' - 'Actor...' and name it
+     "new_actor".
+ 15) Right-click on the just created actor and select 'Rename...' from
+     the popup menu and enter "Customs of Destination Airport".
+ 16) Select from the diagram toolbar the 'Use Case' drawing tool.
+ 17) Draw a use case with the name "Check-In".
+ 18) Draw a use case with the name "new_usecase".
+ 19) Right-click on "use_case" and select 'Rename...'.
+ 20) Change the name to "Automated Check-In".
+ 21) Right-click on the diagram and select 'New' - 'Use Case...' and name it
+     "Express Check-In".   
+ 22) Select from the diagram toolbar the 'Association" drawing tool.
+ 23) Click on the actor "Passenger" and again on the use case "Check-In".
+ 24) Click on the actor "Check-In Representative" and again on the use case
+     "Check-In".
+ 25) Click on the save button in the main toolbar.
+Testresult:
+  1) A simple use case diagram is created.
+
+-------------------------------------------------------------------------------
+DUC02 - Load existing use case diagram:                          OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Load file "./umbrello/test/test-DUC.xmi".
+  2) Load your file "test.xmi"
+  3) Load file "./umbrello/test/test-DUC2.xmi".
+Testresult:
+  1) The file is loading correctly.
+  2) The file is loading correctly.
+  3) The file is loading correctly.
+
 
 ===============================================================================
 Drawing state diagram (DST)
 ===============================================================================
 
 -------------------------------------------------------------------------------
-DSM01 - Create state diagram:                                    OK[ ]   NOK[ ]
+DST01 - Create state diagram:                                    OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
   1) Click on the button left to the first tab view and select state diagram
@@ -711,28 +766,30 @@ Testprocedure:
  10) Draw a state and name it "Paused".
  11) Draw a state and name it "Playing".
  12) Select from the diagram toolbar the 'State Transition' drawing tool.
- 13) Click on the initial state and drag to "Empty".
- 14) Click on "Stopped" and drag to "Stopped".
- 15) Click on "Emtpy" and drag to "Stopped".
- 16) Click on "Stopped" and drag to "Playing".
- 17) Click on "Playing" and drag to "Paused".
- 18) Click on "Paused" and drag to "Stopped".
- 19) Click on "Paused" and drag to "Open".
- 20) Click on "Empty" and drag to "Open".
- 21) Click on "Open" and drag to "Empty".
+ 13) Click on the initial state and again on state "Empty".
+ 14) Click on "Stopped" and again on state "Stopped".
+ 15) Click on "Emtpy" and again on state "Stopped".
+ 16) Click on "Stopped" and again on "Playing".
+ 17) Click on "Playing" and on "Paused".
+ 18) Click on "Paused" and on "Stopped".
+ 19) Click on "Paused" and on "Open".
+ 20) Click on "Empty" and on "Open".
+ 21) Click on "Open" and on "Empty".
  22) Click on the save button in the main toolbar.
 Testresult:
   1) A simple state diagram is created.
 
 -------------------------------------------------------------------------------
-DSM02 - Load existing class diagram:                             OK[ ]   NOK[ ]
+DST02 - Load existing class diagram:                             OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 Testprocedure:
   1) Load file "./umbrello/test/test-DSM.xmi".
-  2) Load your file "test.xmi"
+  2) Load file "./umbrello/test/test-DST.xmi".
+  3) Load your file "test.xmi"
 Testresult:
   1) The file is loading correctly.
   2) The file is loading correctly.
+  3) The file is loading correctly.
 
 
 ===============================================================================
