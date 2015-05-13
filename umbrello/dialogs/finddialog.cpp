@@ -26,6 +26,7 @@ FindDialog::FindDialog(QWidget *parent) :
 
 FindDialog::~FindDialog()
 {
+    disconnect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
 }
 
 /**

@@ -202,14 +202,21 @@ UMLApp::UMLApp(QWidget* parent)
  */
 UMLApp::~UMLApp()
 {
+    disconnect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
+    disconnect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
+
     delete m_birdView;
-    delete m_imageExporterAll;
     delete m_clipTimer;
     delete m_copyTimer;
-    delete m_refactoringAssist;
-    delete m_pUndoStack;
-    delete m_printer;
+    delete m_commoncodegenpolicy;
     delete m_d;
+    delete m_doc;
+    delete m_imageExporterAll;
+    delete m_listView;
+    delete m_printer;
+    delete m_policyext;
+    delete m_pUndoStack;
+    delete m_refactoringAssist;
 }
 
 /**
@@ -3289,6 +3296,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
         UMLApp::app()->enableUndoAction(true);
     } else {
         cmd->redo();
+        delete cmd;
     }
 
     m_doc->setModified(true);

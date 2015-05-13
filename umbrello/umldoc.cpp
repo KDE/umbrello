@@ -150,8 +150,23 @@ void UMLDoc::createDatatypeFolder()
  */
 UMLDoc::~UMLDoc()
 {
+    UMLApp * pApp = UMLApp::app();
+    disconnect(this, SIGNAL(sigDiagramCreated(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    disconnect(this, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    disconnect(this, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    disconnect(this, SIGNAL(sigCurrentViewChanged()),          pApp, SLOT(slotCurrentViewChanged()));
+
+    disconnect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    delete m_pAutoSaveTimer;
+
+    m_root[Uml::ModelType::Logical]->removeObject(m_datatypeRoot);
     delete m_datatypeRoot;
+
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        delete m_root[i];
+    }
     delete m_pChangeLog;
+    qDeleteAll(m_stereoList);
 }
 
 /**
@@ -210,8 +225,6 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
     view->hide();
-    //remove all widgets before deleting view
-    view->umlScene()->removeAllWidgets();
     UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
         uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
