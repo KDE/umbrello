@@ -12,6 +12,7 @@
 #include "model_utils.h"
 
 // app includes
+#include "floatingtextwidget.h"
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
@@ -1048,6 +1049,29 @@ bool typeIsClassifier(UMLListViewItem::ListViewType type)
 }
 
 /**
+ * Return true if the listview type is a settings entry.
+ */
+bool typeIsProperties(UMLListViewItem::ListViewType type)
+{
+    switch (type) {
+    case UMLListViewItem::lvt_Properties:
+    case UMLListViewItem::lvt_Properties_AutoLayout:
+    case UMLListViewItem::lvt_Properties_Class:
+    case UMLListViewItem::lvt_Properties_CodeImport:
+    case UMLListViewItem::lvt_Properties_CodeGeneration:
+    case UMLListViewItem::lvt_Properties_CodeViewer:
+    case UMLListViewItem::lvt_Properties_Font:
+    case UMLListViewItem::lvt_Properties_General:
+    case UMLListViewItem::lvt_Properties_UserInterface:
+        return true;
+        break;
+    default:
+        break;
+    }
+    return false;
+}
+
+/**
  * Check if a listviewitem of type childType is allowed
  * as child of type parentType
  */
@@ -1678,7 +1702,33 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_EntityRelationship_Diagram:
             icon = Icon_Utils::it_Diagram_EntityRelationship;
             break;
-
+        case UMLListViewItem::lvt_Properties:
+            icon = Icon_Utils::it_Properties;
+            break;
+        case UMLListViewItem::lvt_Properties_AutoLayout:
+            icon = Icon_Utils::it_Properties_AutoLayout;
+            break;
+        case UMLListViewItem::lvt_Properties_Class:
+            icon = Icon_Utils::it_Properties_Class;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeImport:
+            icon = Icon_Utils::it_Properties_CodeImport;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeGeneration:
+            icon = Icon_Utils::it_Properties_CodeGeneration;
+            break;
+        case UMLListViewItem::lvt_Properties_CodeViewer:
+            icon = Icon_Utils::it_Properties_CodeViewer;
+            break;
+        case UMLListViewItem::lvt_Properties_Font:
+            icon = Icon_Utils::it_Properties_Font;
+            break;
+        case UMLListViewItem::lvt_Properties_General:
+            icon = Icon_Utils::it_Properties_General;
+            break;
+        case UMLListViewItem::lvt_Properties_UserInterface:
+            icon = Icon_Utils::it_Properties_UserInterface;
+            break;
         default:
             break;
     }
@@ -1727,6 +1777,49 @@ Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
             break;
     }
     return dt;
+}
+
+/**
+ * Converts a list view type enum to the equivalent settings dialog type.
+ *
+ * @param lvt   The ListViewType to convert.
+ * @return  The converted settings dialog type
+ */
+MultiPageDialogBase::PageType convert_LVT_PT(UMLListViewItem::ListViewType type)
+{
+    MultiPageDialogBase::PageType pt = MultiPageDialogBase::GeneralPage;
+    switch (type) {
+    case UMLListViewItem::lvt_Properties:
+        pt = MultiPageDialogBase::GeneralPage;
+        break;
+    case UMLListViewItem::lvt_Properties_AutoLayout:
+        pt = MultiPageDialogBase::AutoLayoutPage;
+        break;
+    case UMLListViewItem::lvt_Properties_Class:
+        pt = MultiPageDialogBase::ClassPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeImport:
+        pt = MultiPageDialogBase::CodeImportPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeGeneration:
+        pt = MultiPageDialogBase::CodeGenerationPage;
+        break;
+    case UMLListViewItem::lvt_Properties_CodeViewer:
+        pt = MultiPageDialogBase::CodeViewerPage;
+        break;
+    case UMLListViewItem::lvt_Properties_Font:
+        pt = MultiPageDialogBase::FontPage;
+        break;
+    case UMLListViewItem::lvt_Properties_General:
+        pt = MultiPageDialogBase::GeneralPage;
+        break;
+    case UMLListViewItem::lvt_Properties_UserInterface:
+        pt = MultiPageDialogBase::UserInterfacePage;
+        break;
+    default:
+        break;
+    }
+    return pt;
 }
 
 /**
@@ -1783,6 +1876,130 @@ QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction u
      default:
          return QString();
     }
+}
+
+/**
+ * Return true if the object type is allowed in the related diagram
+ * @param o UML object instance
+ * @param scene diagram instance
+ * @return true type is allowed
+ * @return false type is not allowed
+ */
+bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
+{
+    //make sure dragging item onto correct diagram
+    // concept - class, seq, coll diagram
+    // actor, usecase - usecase diagram
+    UMLObject::ObjectType ot = o->baseType();
+    Uml::ID::Type id = o->id();
+    Uml::DiagramType::Enum diagramType = scene->type();
+    bool bAccept = true;
+
+    switch (diagramType) {
+    case Uml::DiagramType::UseCase:
+        if ((scene->widgetOnDiagram(id) && ot == UMLObject::ot_Actor) ||
+            (ot != UMLObject::ot_Actor && ot != UMLObject::ot_UseCase))
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Class:
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Class &&
+             ot != UMLObject::ot_Package &&
+             ot != UMLObject::ot_Interface &&
+             ot != UMLObject::ot_Enum &&
+             ot != UMLObject::ot_Datatype)) {
+            bAccept = false;
+        }
+        break;
+    case Uml::DiagramType::Sequence:
+    case Uml::DiagramType::Collaboration:
+        if (ot != UMLObject::ot_Class &&
+            ot != UMLObject::ot_Interface &&
+            ot != UMLObject::ot_Actor)
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Deployment:
+        if (scene->widgetOnDiagram(id))
+            bAccept = false;
+        else if (ot != UMLObject::ot_Interface &&
+                 ot != UMLObject::ot_Package &&
+                 ot != UMLObject::ot_Component &&
+                 ot != UMLObject::ot_Class &&
+                 ot != UMLObject::ot_Node)
+            bAccept = false;
+        else if (ot == UMLObject::ot_Package &&
+                 o->stereotype() != QLatin1String("subsystem"))
+            bAccept = false;
+        break;
+    case Uml::DiagramType::Component:
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Interface &&
+             ot != UMLObject::ot_Package &&
+             ot != UMLObject::ot_Component &&
+             ot != UMLObject::ot_Port &&
+             ot != UMLObject::ot_Artifact &&
+             ot != UMLObject::ot_Class))
+            bAccept = false;
+        else if (ot == UMLObject::ot_Class && !o->isAbstract())
+            bAccept = false;
+        else if (ot == UMLObject::ot_Port) {
+            const bool componentOnDiagram = scene->widgetOnDiagram(o->umlPackage()->id());
+            bAccept = componentOnDiagram;
+        }
+        break;
+    case Uml::DiagramType::EntityRelationship:
+        if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
+            bAccept = false;
+        break;
+    default:
+        break;
+    }
+    return bAccept;
+}
+
+/**
+ * Return true if the widget type is allowed in the related diagram
+ * @param w UML widget object
+ * @param scene diagram instance
+ * @return true type is allowed
+ * @return false type is not allowed
+ */
+bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
+{
+    UMLWidget::WidgetType wt = w->baseType();
+    Uml::DiagramType::Enum diagramType = scene->type();
+    bool bAccept = true;
+
+    // TODO: check additional widgets
+    switch (diagramType) {
+    case Uml::DiagramType::Activity:
+    case Uml::DiagramType::Class:
+    case Uml::DiagramType::Collaboration:
+    case Uml::DiagramType::Component:
+    case Uml::DiagramType::Deployment:
+    case Uml::DiagramType::EntityRelationship:
+    case Uml::DiagramType::Sequence:
+    case Uml::DiagramType::State:
+    case Uml::DiagramType::UseCase:
+    default:
+        switch(wt) {
+        case WidgetBase::wt_Note:
+            break;
+        case WidgetBase::wt_Text:
+            {
+                FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(w);
+                if (ft && ft->textRole() != Uml::TextRole::Floating) {
+                    bAccept = false;
+                }
+            }
+            break;
+        default:
+            bAccept = false;
+            break;
+        }
+        break;
+    }
+    return bAccept;
 }
 
 }  // namespace Model_Utils

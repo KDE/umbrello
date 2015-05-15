@@ -40,6 +40,8 @@ public:
     SettingsDialog(QWidget * parent, Settings::OptionState *state);
     ~SettingsDialog();
 
+    void setCurrentPage(PageType page);
+
     //public methods
     bool getChangesApplied() {
         return m_bChangesApplied;

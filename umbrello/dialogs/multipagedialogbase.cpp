@@ -138,6 +138,19 @@ void MultiPageDialogBase::addPage(KPageWidgetItem *page)
         m_pageWidget->addPage(page);
 }
 
+/**
+ * Set current page.
+ *
+ * @param page the page to set
+ */
+void MultiPageDialogBase::setCurrentPage(KPageWidgetItem *page)
+{
+    if (m_pageDialog)
+        m_pageDialog->setCurrentPage(page);
+    else
+        m_pageWidget->setCurrentPage(page);
+}
+
 int MultiPageDialogBase::spacingHint()
 {
     return 0;  // FIXME KF5 was QDialog::spacingHint();
@@ -305,12 +318,10 @@ void MultiPageDialogBase::applyGeneralPage(AssociationWidget *widget)
  */
 KPageWidgetItem *MultiPageDialogBase::setupFontPage(const QFont &font)
 {
-    QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
-    QHBoxLayout * layout = new QHBoxLayout(page);
-    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_fontChooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_fontChooser->setFont(font);
-    layout->addWidget(m_fontChooser);
-    return m_pageItem;
+    return createPage(i18n("Font"), i18n("Font Settings"),
+                      Icon_Utils::it_Properties_Font, m_fontChooser);
 }
 
 /**
@@ -359,15 +370,20 @@ void MultiPageDialogBase::applyFontPage(AssociationWidget *widget)
  */
 KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
 {
-    QFrame * page;
-    if (widget->baseType() == WidgetBase::wt_Association)
-        page = createPage(i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color);
-    else
-        page = createPage(i18nc("widget style page", "Style"), i18n("Widget Style"), Icon_Utils::it_Properties_Color);
-    QHBoxLayout * layout = new QHBoxLayout(page);
-    m_pStylePage = new UMLWidgetStylePage(page, widget);
-    layout->addWidget(m_pStylePage);
-    return m_pageItem;
+    m_pStylePage = new UMLWidgetStylePage(0, widget);
+    return createPage(i18nc("widget style page", "Style"), i18n("Widget Style"),
+                      Icon_Utils::it_Properties_Color, m_pStylePage);
+}
+
+/**
+ * Sets up the style page.
+ * @param widget The widget to load the initial data from
+ */
+KPageWidgetItem *MultiPageDialogBase::setupStylePage(AssociationWidget *widget)
+{
+    m_pStylePage = new UMLWidgetStylePage(0, widget);
+    return createPage(i18nc("style page name", "Style"), i18n("Role Style"),
+                      Icon_Utils::it_Properties_Color, m_pStylePage);
 }
 
 /**
@@ -385,11 +401,9 @@ void MultiPageDialogBase::applyStylePage()
  */
 KPageWidgetItem *MultiPageDialogBase::setupAssociationRolePage(AssociationWidget *widget)
 {
-    QFrame *page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
-    QHBoxLayout *layout = new QHBoxLayout(page);
-    m_pRolePage = new AssociationRolePage(page, widget);
-    layout->addWidget(m_pRolePage);
-    return m_pageItem;
+    m_pRolePage = new AssociationRolePage(0, widget);
+    return createPage(i18nc("role page name", "Roles"), i18n("Role Settings"),
+                      Icon_Utils::it_Properties_Roles, m_pRolePage);
 }
 
 /**

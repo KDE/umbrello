@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     // authors with more than 200 commits: git shortlog -seu | sort -g
     aboutData.addCredit(i18n("Oliver Kellogg"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
-                        QStringLiteral("okellogg@users.sourceforge.de"));
+                        QStringLiteral("okellogg@users.sourceforge.net"));
     aboutData.addCredit(i18n("Ralf Habacker"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
                         QStringLiteral("ralf.habacker@freenet.de"));
@@ -125,6 +125,7 @@ int main(int argc, char *argv[])
 
     aboutData.processCommandLine(parser);
 
+    QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {
         kRestoreMainWindows<UMLApp>();
     } else {
@@ -135,7 +136,7 @@ int main(int argc, char *argv[])
             return 0;
         }
 
-        UMLApp* uml = new UMLApp();
+        uml = new UMLApp();
         app.processEvents();
 
         if (showGUI(parser)) {
@@ -160,7 +161,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    return app.exec();
+    int result = app.exec();
+    delete uml;
+    return result;
 }
 
 bool showGUI(QCommandLineParser *parser)

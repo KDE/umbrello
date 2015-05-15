@@ -259,13 +259,13 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_visibilityEnumWidget(0)
 {
     setMinimumSize(310, 330);
-    QGridLayout* topLayout = new QGridLayout(this);
+    QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
-    //setup name
-    QGridLayout* m_pNameLayout = new QGridLayout();
+    // setup name
+    QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
-    topLayout->addLayout(m_pNameLayout, 3, 2);
+    topLayout->addLayout(m_pNameLayout, 4);
 
     QString typeName = UMLWidget::toI18nString(widget->baseType());
     m_nameWidget = new UMLObjectNameWidget(typeName, widget->name());

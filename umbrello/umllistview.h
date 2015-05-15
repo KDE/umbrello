@@ -178,6 +178,7 @@ private:
     UMLListViewItem* m_rv;         ///< root view (home)
     UMLListViewItem* m_lv[Uml::ModelType::N_MODELTYPES];  ///< predefined list view roots
     UMLListViewItem* m_datatypeFolder;
+    UMLListViewItem* m_settingsFolder; ///< settings root
     UMLDoc*          m_doc;
     bool             m_bStartedCut;
     bool             m_bStartedCopy;

@@ -473,7 +473,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
 
 /**
  * For use when the user selects UML Objects from a
- * Diagram. The Selected widegets and the relationships
+ * Diagram. The Selected widgets and the relationships
  * between only selected widgets will be copied
  *
  * decodes Mime type = "application/x-uml-clip4"
@@ -548,6 +548,25 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                 continue;
             }
 
+            // check if widget is pastable
+            if (sourceView->umlScene()->type() != scene->type()) {
+                UMLObject *object = widget->umlObject();
+                if (object) {
+                    if (!Model_Utils::typeIsAllowedInDiagram(object, scene)) {
+                        delete widget;
+                        widgetNode = widgetNode.nextSibling();
+                        widgetElement = widgetNode.toElement();
+                        continue;
+                    }
+                }
+                else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
+                    delete widget;
+                    widgetNode = widgetNode.nextSibling();
+                    widgetElement = widgetNode.toElement();
+                    continue;
+                }
+            }
+
             // Generate a new unique 'local ID' so a second widget for the same
             // UMLObject can be distinguished from the first widget
             widget->setLocalID(doc->assignNewID(widget->localID()));
@@ -569,6 +588,9 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
     }
+
+    if (widgets.size() == 0)
+        return false;
 
     IDChangeLog* log = doc->changeLog();
 

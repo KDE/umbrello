@@ -90,6 +90,7 @@ UMLListView::UMLListView(QWidget *parent)
   : QTreeWidget(parent),
     m_rv(0),
     m_datatypeFolder(0),
+    m_settingsFolder(0),
     m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
@@ -133,6 +134,7 @@ UMLListView::UMLListView(QWidget *parent)
 UMLListView::~UMLListView()
 {
     delete m_datatypeFolder;
+    delete m_settingsFolder;
 }
 
 /**
@@ -627,8 +629,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         break;
 
     case ListPopupMenu::mt_Properties:
-        // first check if we are on a diagram
-        if (Model_Utils::typeIsDiagram(lvt)) {
+        if (Model_Utils::typeIsProperties(lvt)) {
+            UMLApp::app()->slotPrefs(Model_Utils::convert_LVT_PT(lvt));
+            return;
+        }
+        else if (Model_Utils::typeIsDiagram(lvt)) {
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
                 UMLApp::app()->docWindow()->updateDocumentation(false);
@@ -1340,6 +1345,21 @@ void UMLListView::init()
         m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
                                            UMLListViewItem::lvt_Datatype_Folder, datatypeFolder);
     }
+    if (m_settingsFolder == 0) {
+        m_settingsFolder =  new UMLListViewItem(this, i18n("Settings"), UMLListViewItem::lvt_Properties);
+        Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_settingsFolder->type());
+        m_settingsFolder->setIcon(icon);
+        m_settingsFolder->setID("Settings");
+        new UMLListViewItem(m_settingsFolder, i18n("Auto Layout"), UMLListViewItem::lvt_Properties_AutoLayout);
+        new UMLListViewItem(m_settingsFolder, i18n("Class"), UMLListViewItem::lvt_Properties_Class);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Importer"), UMLListViewItem::lvt_Properties_CodeImport);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Generation"), UMLListViewItem::lvt_Properties_CodeGeneration);
+        new UMLListViewItem(m_settingsFolder, i18n("Code Viewer"), UMLListViewItem::lvt_Properties_CodeViewer);
+        new UMLListViewItem(m_settingsFolder, i18n("Font"), UMLListViewItem::lvt_Properties_Font);
+        new UMLListViewItem(m_settingsFolder, i18n("General"), UMLListViewItem::lvt_Properties_General);
+        new UMLListViewItem(m_settingsFolder, i18n("User Interface"), UMLListViewItem::lvt_Properties_UserInterface);
+    }
+
     m_rv->setOpen(true);
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i]->setOpen(true);
@@ -1386,9 +1406,14 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     UMLListViewItem * item = static_cast<UMLListViewItem *>(currentItem());
     if (!item || me->button() != Qt::LeftButton)
         return;
-    //see if on view
+
     UMLListViewItem::ListViewType lvType = item->type();
-    if (Model_Utils::typeIsDiagram(lvType)) {
+    if (Model_Utils::typeIsProperties(lvType)) {
+        UMLApp::app()->docWindow()->updateDocumentation(false);
+        UMLApp::app()->slotPrefs(Model_Utils::convert_LVT_PT(lvType));
+        return;
+    }
+    else if (Model_Utils::typeIsDiagram(lvType)) {
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
             UMLApp::app()->docWindow()->updateDocumentation(false);

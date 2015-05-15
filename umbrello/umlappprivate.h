@@ -62,6 +62,11 @@ public:
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
 
+    ~UMLAppPrivate()
+    {
+        delete logWindow;
+    }
+
 public slots:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {

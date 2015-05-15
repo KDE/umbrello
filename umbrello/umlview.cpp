@@ -37,10 +37,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     setAcceptDrops(true);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setDragMode(NoDrag); //:TODO: RubberBandDrag);
-    // [PORT] For now the following is used. Shd check for creation of
-    // new scene later.
-    UMLScene *scene = new UMLScene(parentFolder, this);
-    setScene(scene);
+    setScene(new UMLScene(parentFolder, this));
 }
 
 /**
@@ -48,12 +45,11 @@ UMLView::UMLView(UMLFolder *parentFolder)
  */
 UMLView::~UMLView()
 {
-    //TODO: Check if the scene shd be deleted
+    delete umlScene();
 }
 
 /**
- * Getter for the scene.
- * TODO: Should be removed. Use scene() instead.
+ * Getter for the uml scene.
  */
 UMLScene* UMLView::umlScene() const
 {

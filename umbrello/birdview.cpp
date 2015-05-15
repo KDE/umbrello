@@ -28,7 +28,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QScrollBar>
-//#include <QTimer>
+#include <QTimer>
 
 DEBUG_REGISTER(BirdView)
 
@@ -43,9 +43,10 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 {
     // create view and add it to the container frame
     UMLScene* scene = m_view->umlScene();
-    m_birdView = new QGraphicsView(scene); //A: , container);
+    m_birdView = new QGraphicsView(scene);
     m_birdView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_birdView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_birdView->setFrameStyle(QFrame::Box);  //:TODO: remove this line - only for debugging
 
     // create a frame on top of the view to hide it from the mouse
     m_protectFrame = new QFrame(m_birdView);
@@ -53,7 +54,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     setBackgroundColor(m_protectFrame, QColor(255, 255, 220, 0));
 
     // draw window frame in the size of shown scene
-    setParent(m_protectFrame);
+    setParent(m_birdView);  //m_protectFrame);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setLineWidth(1);
     setMidLineWidth(2);
@@ -61,14 +62,15 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     setBackgroundColor(this, QColor(115, 205, 240, 100));
 
     slotDockSizeChanged(parent->rect().size());
-    slotViewChanged();
 
     setSlotsEnabled(true);
     parent->setWidget(m_birdView);  // must be the last command
+    connect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
 }
 
 BirdView::~BirdView()
 {
+    disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
     setParent(0);
     delete m_protectFrame;
     delete m_birdView;
@@ -81,16 +83,18 @@ BirdView::~BirdView()
  */
 void BirdView::slotDockSizeChanged(const QSize& size)
 {
-    QRectF maxRect = m_birdView->scene()->itemsBoundingRect();
-    m_birdView->scene()->setSceneRect(maxRect);
-    m_birdView->setSceneRect(maxRect);
-    m_birdView->fitInView(maxRect, Qt::KeepAspectRatio);
+    if (!m_view)
+        return;
+    QRectF itemsRect = m_birdView->scene()->itemsBoundingRect();
+    m_birdView->scene()->setSceneRect(itemsRect);
+    m_birdView->setSceneRect(itemsRect);
+    m_birdView->fitInView(itemsRect, Qt::KeepAspectRatio);
 
-    QRect viewRect = QRect(0, 0, size.width(), size.height());
-    m_protectFrame->setGeometry(viewRect);
+    QRect frameRect = QRect(0, 0, size.width(), size.height());
+    m_protectFrame->setGeometry(frameRect);
 
-    qreal scaleW = viewRect.width() / m_birdView->scene()->width();
-    qreal scaleH = viewRect.height() / m_birdView->scene()->height();
+    qreal scaleW = frameRect.width() / m_birdView->scene()->width();
+    qreal scaleH = frameRect.height() / m_birdView->scene()->height();
     qreal scale = scaleH;
     if (scaleW < scaleH) {
         scale = scaleW;
@@ -98,16 +102,12 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     QMatrix wm;
     wm.scale(scale, scale);
     m_birdView->setMatrix(wm);
-#if 0
-    DEBUG(DBG_SRC) << "setting the size to the container: " << maxRect
-                   << " / to the view: " << viewRect
+#if 1
+    DEBUG(DBG_SRC) << "setting the size to the scene: " << itemsRect
+                   << " / to the frame: " << frameRect
                    << " / scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
 #endif
-
-//:TODO:crash
-//            QMetaObject::invokeMethod(this, "slotViewChanged", Qt::AutoConnection);
-//            QTimer::singleShot(0, this, SLOT(slotViewChanged()));
-//            emit sigSizeChanged();
+    QTimer::singleShot(0, this, SLOT(slotViewChanged()));
 }
 
 /**
@@ -116,6 +116,8 @@ void BirdView::slotDockSizeChanged(const QSize& size)
  */
 void BirdView::slotViewChanged()
 {
+    if (!m_view)
+        return;
     int hvalue = 0;
     int hmin = 0;
     int hmax = 0;
@@ -127,8 +129,8 @@ void BirdView::slotViewChanged()
         hmin = hScroll->minimum();
         hmax = hScroll->maximum();
         hpage = hScroll->pageStep();
-        hlen = abs(hmax) - hmin + 2 * hpage;
-#if 0
+        hlen = abs(hmax - hmin) + hpage;
+#if 1
         DEBUG(DBG_SRC) << "hvalue: " << hvalue << " / hlen: " << hlen
                        << " / hmin: " << hmin << " / hmax: " << hmax
                        << " / hpage: " << hpage;
@@ -146,31 +148,35 @@ void BirdView::slotViewChanged()
         vmin = vScroll->minimum();
         vmax = vScroll->maximum();
         vpage = vScroll->pageStep();
-        vlen = abs(vmax) - vmin + 2 * vpage;
-#if 0
+        vlen = abs(vmax - vmin) + vpage;
+#if 1
         DEBUG(DBG_SRC) << "vvalue: " << vvalue << " / vlen: " << vlen
                        << " / vmin: " << vmin << " / vmax: " << vmax
                        << " / vpage: " << vpage;
 #endif
     }
 
-    int hdiv = hlen - hpage;
-    int vdiv = vlen - vpage;
-    if (!(hvalue == 0) && !(vvalue == 0) &&
-        !(hdiv == 0) && !(vdiv == 0)) {
-        int width = m_protectFrame->width() * hpage / hdiv;
-        int height = m_protectFrame->height() * vpage / vdiv;
-        int x = m_protectFrame->width() * (hvalue - hmin) / hdiv;
-        if (x + width > hmax) {
+    if (!((hmin == 0) && (hmax == 0)) |
+        !((vmin == 0) && (vmax == 0))) {
+        int width = m_protectFrame->width() * hpage / hlen;
+        int height = m_protectFrame->height() * vpage / vlen;
+        int x = m_protectFrame->width() * (hvalue - hmin) / hlen;
+        if (x > (hmax - width)) {
             x = hmax - width;
         }
-        int y = m_protectFrame->height() * (vvalue - vmin) / vdiv;
-        if (y + height > vmax) {
+        if (x <= hmin) {
+            x = hmin;
+        }
+        int y = m_protectFrame->height() * (vvalue - vmin) / vlen;
+        if (y > (vmax - height)) {
             y = vmax - height;
+        }
+        if (y <= vmin) {
+            y = vmin;
         }
         QRect rect = QRect(x, y, width, height);
         setGeometry(rect);
-#if 0
+#if 1
         DEBUG(DBG_SRC) << "rect: " << rect;
 #endif
     }
@@ -239,15 +245,11 @@ void BirdView::setSlotsEnabled(bool enabled)
                 this, SLOT(slotViewChanged()));
         connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(slotViewChanged()));
-        connect(this, SIGNAL(sigSizeChanged()),  //:TODO: remove
-                this, SLOT(slotViewChanged()));
     }
     else {
         disconnect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
                    this, SLOT(slotViewChanged()));
         disconnect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                   this, SLOT(slotViewChanged()));
-        disconnect(this, SIGNAL(sigSizeChanged()),  //:TODO: remove
                    this, SLOT(slotViewChanged()));
     }
 }
@@ -280,4 +282,15 @@ BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt
 void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
 {
     emit sizeChanged(event->size());
+}
+
+/**
+ * Handle destroyed view.
+ */
+void BirdView::slotDestroyed(QObject *object)
+{
+    if (m_view == object) {
+        m_birdView->setScene(0);
+        m_view = 0;
+    }
 }

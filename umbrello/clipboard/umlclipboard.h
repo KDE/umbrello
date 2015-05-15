@@ -60,8 +60,6 @@ private:
     bool pasteClip4(const QMimeData* data);
     bool pasteClip5(const QMimeData* data);
 
-    bool checkPasteWidgets(UMLWidgetList & widgetList);
-
     UMLObjectList m_ObjectList;
     UMLListViewItemList m_ItemList;
     UMLWidgetList m_WidgetList;

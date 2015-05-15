@@ -72,7 +72,6 @@ public:
 
 signals:
     void viewPositionChanged(QPoint delta);
-    void sigSizeChanged();  //:TODO: remove
 
 public slots:
     void slotViewChanged();
@@ -84,6 +83,7 @@ protected:
 
 private slots:
     void slotDockSizeChanged(const QSize &size);
+    void slotDestroyed(QObject *object);
 
 private:
     UMLView*       m_view;

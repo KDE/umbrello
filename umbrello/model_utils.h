@@ -17,6 +17,7 @@
 #include "umlviewlist.h"
 #include "foreignkeyconstraint.h"
 #include "icon_utils.h"
+#include "multipagedialogbase.h"
 #include "widgetbase.h"
 
 #include <QLinkedList>
@@ -74,8 +75,11 @@ bool typeIsContainer(UMLListViewItem::ListViewType type);
 bool typeIsDiagram(UMLListViewItem::ListViewType type);
 bool typeIsClassifierList(UMLListViewItem::ListViewType type);
 bool typeIsClassifier(UMLListViewItem::ListViewType type);
+bool typeIsProperties(UMLListViewItem::ListViewType type);
 bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     UMLListViewItem::ListViewType parentType);
+bool typeIsAllowedInDiagram(UMLObject *o, UMLScene *scene);
+bool typeIsAllowedInDiagram(UMLWidget *w, UMLScene *scene);
 
 Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);
@@ -85,6 +89,7 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
 Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject *o=0);
 Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt);
+MultiPageDialogBase::PageType convert_LVT_PT(UMLListViewItem::ListViewType type);
 Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot);
 
 Uml::ModelType::Enum guessContainer(UMLObject *o);  // deprecated !

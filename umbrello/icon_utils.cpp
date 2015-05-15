@@ -194,15 +194,15 @@ QString toString(IconType type)
         case it_Properties_Class:
             return QLatin1String("document-properties");
         case it_Properties_CodeImport:
-            return QLatin1String("text-x-generic");
+            return QLatin1String("document-import");
         case it_Properties_CodeGeneration:
-            return QLatin1String("text-x-generic");
+            return QLatin1String("document-export");
         case it_Properties_CodeViewer:
-            return QLatin1String("text-x-generic");
+            return QLatin1String("package_graphics_viewer");
         case it_Properties_Columns:
             return QLatin1String("preferences-other");
         case it_Properties_AutoLayout:
-            return QLatin1String("preferences-other");
+            return QLatin1String("code-class");
         case it_Diagram_Activity:
             return QLatin1String("umbrello_diagram_activity");
         case it_Diagram_Class:
@@ -330,7 +330,7 @@ QString toString(IconType type)
         case it_Go_Previous:
             return QLatin1String("go-previous");
         case it_Properties:
-            return QLatin1String("document-properties");
+            return QLatin1String("preferences-system");
         case it_Show:
             return QLatin1String("document-preview");
         case it_Refactor:

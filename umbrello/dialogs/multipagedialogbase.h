@@ -47,6 +47,18 @@ class MultiPageDialogBase : public QWidget
     Q_OBJECT
 
 public:
+    /// Available page types
+    typedef enum {
+        AutoLayoutPage,
+        ClassPage,
+        CodeImportPage,
+        CodeGenerationPage,
+        CodeViewerPage,
+        FontPage,
+        GeneralPage,
+        UserInterfacePage,
+    } PageType;
+
     explicit MultiPageDialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~MultiPageDialogBase();
 
@@ -57,6 +69,7 @@ public:
     void reject();
     KPageWidgetItem *currentPage();
     void addPage(KPageWidgetItem *page);
+    void setCurrentPage(KPageWidgetItem *page);
     static int spacingHint();
     int exec();
 
@@ -98,6 +111,7 @@ protected:
     void applyFontPage(AssociationWidget *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
+    KPageWidgetItem *setupStylePage(AssociationWidget *widget);
     void applyStylePage();
 
     KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
