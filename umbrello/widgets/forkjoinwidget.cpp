@@ -14,7 +14,11 @@
 //app includes
 #include "debug_utils.h"
 #include "umlview.h"
+#include "umldoc.h"
 #include "listpopupmenu.h"
+
+// qt includes
+#include <QColorDialog>
 
 /**
  * Constructs a ForkJoinWidget.
@@ -28,6 +32,8 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::ID::T
     m_orientation(ori)
 {
     setSize(10, 40);
+    m_usesDiagramFillColor = false;
+    setFillColorCmd(QColor("black"));
 }
 
 /**
@@ -64,7 +70,7 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->fillRect(0, 0, width(), height(), QBrush(Qt::black));
+    painter->fillRect(0, 0, width(), height(), fillColor());
 
     UMLWidget::paint(painter, option, widget);
 }
@@ -105,6 +111,19 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     }
     fjElement.setAttribute(QLatin1String("drawvertical"), drawVertical);
     qElement.appendChild(fjElement);
+}
+
+/**
+ * Show a properties dialog for a Fork/Join Widget.
+ */
+void ForkJoinWidget::showPropertiesDialog()
+{
+    QColor newColor = QColorDialog::getColor(fillColor()); // krazy:exclude=qclasses
+    if (newColor != fillColor()) {
+        setFillColor(newColor);
+        setUsesDiagramFillColor(false);
+        umlDoc()->setModified(true);
+    }
 }
 
 /**
