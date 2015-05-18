@@ -134,6 +134,10 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch (sel) {
+    case ListPopupMenu::mt_Fill_Color:
+        showPropertiesDialog();
+        break;
+
     case ListPopupMenu::mt_Flip:
         switch (m_orientation) {
         case Qt::Vertical:
