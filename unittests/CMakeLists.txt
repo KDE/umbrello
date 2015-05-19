@@ -1,9 +1,8 @@
-IF( KDE4_BUILD_TESTS )
 
-  set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
-  set( SRC_PATH ../umbrello )
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+set(SRC_PATH ../umbrello)
 
-  include_directories(
+include_directories(
       ${LIBXML2_INCLUDE_DIR}
       ${LIBXSLT_INCLUDE_DIR}
       ${CMAKE_SOURCE_DIR}
@@ -38,32 +37,48 @@ IF( KDE4_BUILD_TESTS )
       ${SRC_PATH}/refactoring
       ${SRC_PATH}/widgets
       ${CMAKE_CURRENT_BINARY_DIR}
-      ${KDE4_INCLUDES}
-  )
+)
 
-  link_directories(
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir/dialogs
+if(NOT BUILD_KF5)
+    set(LIBS
+        ${QT_QTTEST_LIBRARY}
+        ${KDE4_KFILE_LIBS}
+        ${LIBXML2_LIBRARIES}
+        ${LIBXSLT_LIBRARIES}
+    )
+else()
+    set(LIBS
+        Qt5::Test
+        Qt5::Widgets
+        KF5::I18n
+        ${LIBXML2_LIBRARIES}
+        ${LIBXSLT_LIBRARIES}
+    )
+endif()
 
-  )
+ecm_add_test(
+    TEST_basictypes.cpp ${SRC_PATH}/basictypes.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_basictypes
+)
 
-  MACRO(UNIT_TESTS)
-      FOREACH(_className ${ARGN})
-          MESSAGE(STATUS "Unit test: ${_className}")
-          set(_testName TEST_${_className})
-          kde4_add_unit_test(${_testName} TESTNAME umbrello-${_testName} NOGUI ${_testName}.cpp
-              ${SRC_PATH}/${_className}.cpp)
-          target_link_libraries(${_testName} ${QT_QTTEST_LIBRARY}
-              ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
-      ENDFOREACH(_className)
-  ENDMACRO(UNIT_TESTS)
+# FIXME requires mostly of umbrello code -> add umbrello library target
+#ecm_add_test(
+#    TEST_classifier.cpp ${SRC_PATH}/classifier.cpp
+#    LINK_LIBRARIES ${LIBS}
+#    TEST_NAME TEST_classifier
+#)
 
-  unit_tests(
-      basictypes
-#      classifier
-#      cppwriter
-#      pythonwriter
-  )
+# FIXME requires mostly of umbrello code -> add umbrello library target
+#ecm_add_test(
+#    TEST_cppwriter.cpp ${SRC_PATH}/codegenerators/cpp/cppwriter.cpp
+#    LINK_LIBRARIES ${LIBS}
+#    TEST_NAME TEST_cppwriter
+#)
 
-ENDIF( KDE4_BUILD_TESTS )
+# FIXME requires mostly of umbrello code -> add umbrello library target
+#ecm_add_test(
+#    TEST_pythonwriter.cpp ${SRC_PATH}/codegenerators/python/pythonwriter.cpp
+#    LINK_LIBRARIES ${LIBS}
+#    TEST_NAME TEST_pythonwriter
+#)
