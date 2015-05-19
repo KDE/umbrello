@@ -325,7 +325,7 @@ bool Parser::skipCommaExpression(AST::Node& node)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -376,7 +376,7 @@ bool Parser::skipExpression(AST::Node& node)
         case Token_goto: {
             AST::Node ast = CreateNode<AST>();
             UPDATE_POS(ast, start, lex->index());
-            node = ast;
+            node = std::move(ast);
         }
         return true;
 
@@ -427,7 +427,7 @@ bool Parser::parseName(NameAST::Node& node)
         return false;
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -537,7 +537,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
             ast->setTypeSpec(spec);
             ast->setInitDeclaratorList(declarators);
             UPDATE_POS(ast, start, lex->index());
-            node = ast;
+            node = std::move(ast);
 
             return true;
         }
@@ -585,7 +585,7 @@ bool Parser::parseLinkageSpecification(DeclarationAST::Node& node)
 
     UPDATE_POS(ast, start, lex->index());
 
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -602,7 +602,7 @@ bool Parser::parseLinkageBody(LinkageBodyAST::Node& node)
     nextToken();
 
     LinkageBodyAST::Node lba = CreateNode<LinkageBodyAST>();
-    node = lba;
+    node = std::move(lba);
 
     while (!lex->lookAhead(0).isNull()) {
         int tk = lex->lookAhead(0);
@@ -663,7 +663,7 @@ bool Parser::parseNamespace(DeclarationAST::Node& node)
             ast->setNamespaceName(namespaceName);
             ast->setAliasName(name);
             UPDATE_POS(ast, start, lex->index());
-            node = ast;
+            node = std::move(ast);
             return true;
         } else {
             reportError(i18n("namespace expected"));
@@ -682,7 +682,7 @@ bool Parser::parseNamespace(DeclarationAST::Node& node)
 
     ast->setLinkageBody(linkageBody);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -725,7 +725,7 @@ bool Parser::parseUsing(DeclarationAST::Node& node)
     ADVANCE(';', ";");
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -752,7 +752,7 @@ bool Parser::parseUsingDirective(DeclarationAST::Node& node)
     UsingDirectiveAST::Node ast = CreateNode<UsingDirectiveAST>();
     ast->setName(name);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -772,7 +772,7 @@ bool Parser::parseOperatorFunctionId(AST::Node& node)
     AST::Node op;
     if(parseOperator(op)){
         AST::Node asn = CreateNode<AST>();
-        node = asn;
+        node = std::move(asn);
         UPDATE_POS(node, start, lex->index());
         if (node->text() == QLatin1String("operator > >"))
             node->setText(QLatin1String("operator >>"));
@@ -798,7 +798,7 @@ bool Parser::parseOperatorFunctionId(AST::Node& node)
             ;
 
         AST::Node asn = CreateNode<AST>();
-        node = asn;
+        node = std::move(asn);
         UPDATE_POS(node, start, lex->index());
         return true;
     }
@@ -831,7 +831,7 @@ bool Parser::parseTemplateArgumentList(TemplateArgumentListAST::Node& node, bool
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -879,7 +879,7 @@ bool Parser::parseTypedef(DeclarationAST::Node& node)
     ast->setTypeSpec(spec);
     ast->setInitDeclaratorList(declarators);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -913,7 +913,7 @@ bool Parser::parseTemplateDeclaration(DeclarationAST::Node& node)
         nextToken();
         AST::Node n = CreateNode<AST>();
         UPDATE_POS(n, startExport, lex->index());
-        exp = n;
+        exp = std::move(n);
     }
 
     if (lex->lookAhead(0) != Token_template) {
@@ -939,7 +939,7 @@ bool Parser::parseTemplateDeclaration(DeclarationAST::Node& node)
     ast->setTemplateParameterList(params);
     ast->setDeclaration(def);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1035,7 +1035,7 @@ bool Parser::parseCvQualify(GroupAST::Node& node)
     DBG_PAR << "-----------------> token = " << lex->lookAhead(0).text() << endl;
     UPDATE_POS(ast, start, lex->index());
 
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -1092,7 +1092,7 @@ bool Parser::parseSimpleTypeSpecifier(TypeSpecifierAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -1120,7 +1120,7 @@ bool Parser::parsePtrOperator(AST::Node& node)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1285,7 +1285,7 @@ bool Parser::parseDeclarator(DeclaratorAST::Node& node)
 
 update_pos:
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1382,7 +1382,7 @@ bool Parser::parseAbstractDeclarator(DeclaratorAST::Node& node)
 
 UPDATE_POS:
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1441,7 +1441,7 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1472,7 +1472,7 @@ bool Parser::parseTemplateParameterList(TemplateParameterListAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1500,7 +1500,7 @@ bool Parser::parseTemplateParameter(TemplateParameterAST::Node& node)
 
 ok:
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1586,7 +1586,7 @@ bool Parser::parseTypeParameter(TypeParameterAST::Node& node)
 
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -1615,7 +1615,7 @@ bool Parser::parseStorageClassSpecifier(GroupAST::Node& node)
         return false;
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -1644,7 +1644,7 @@ bool Parser::parseFunctionSpecifier(GroupAST::Node& node)
         return false;
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -1665,7 +1665,7 @@ bool Parser::parseTypeId(AST::Node& node)
     parseAbstractDeclarator(decl);
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1696,7 +1696,7 @@ bool Parser::parseInitDeclaratorList(InitDeclaratorListAST::Node& node)
     DBG_PAR << "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseInitDeclaratorList() -- end" << endl;
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1735,7 +1735,7 @@ good:
 
     /// @todo add ellipsis
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1852,7 +1852,7 @@ bool Parser::parseParameterDeclarationList(ParameterDeclarationListAST::Node& no
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1895,7 +1895,7 @@ bool Parser::parseParameterDeclaration(ParameterDeclarationAST::Node& node)
     ast->setExpression(expr);
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1913,7 +1913,7 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
     int kind = lex->lookAhead(0);
     if (kind == Token_class || kind == Token_struct || kind == Token_union) {
         AST::Node asn = CreateNode<AST>();
-        classKey = asn;
+        classKey = std::move(asn);
         nextToken();
         UPDATE_POS(classKey, classKeyStart, lex->index());
     } else {
@@ -1976,7 +1976,7 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
         nextToken();
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -1992,7 +1992,7 @@ bool Parser::parseAccessSpecifier(AST::Node& node)
     case Token_protected:
     case Token_private: {
         AST::Node asn = CreateNode<AST>();
-        node = asn;
+        node = std::move(asn);
         nextToken();
         UPDATE_POS(node, start, lex->index());
         return true;
@@ -2024,7 +2024,7 @@ bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
         ast->addAccess(n);
         ADVANCE(':', ":");
         UPDATE_POS(ast, start, lex->index());
-        node = ast;
+        node = std::move(ast);
         return true;
     } else if (parseTypedef(node)) {
         return true;
@@ -2045,7 +2045,7 @@ bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
         }
         ADVANCE(':', ":");
         UPDATE_POS(ast, start, lex->index());
-        node = ast;
+        node = std::move(ast);
         return true;
     }
 
@@ -2073,7 +2073,7 @@ bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
         ast->setTypeSpec(spec);
         ast->setInitDeclaratorList(declarators);
         UPDATE_POS(ast, start, lex->index());
-        node = ast;
+        node = std::move(ast);
 
         return true;
     }
@@ -2122,7 +2122,7 @@ bool Parser::parseElaboratedTypeSpecifier(TypeSpecifierAST::Node& node)
             ast->setKind(kind);
             ast->setName(name);
             UPDATE_POS(ast, start, lex->index());
-            node = ast;
+            node = std::move(ast);
 
             return true;
         }
@@ -2156,7 +2156,7 @@ bool Parser::parseExceptionSpecification(GroupAST::Node& node)
         ast->addNode(ellipsis);
         nextToken();
         UPDATE_POS(ast, start, lex->index());
-        node = ast;
+        node = std::move(ast);
     } else if (lex->lookAhead(0) == ')') {
         node = CreateNode<GroupAST>();
     } else {
@@ -2181,7 +2181,7 @@ bool Parser::parseEnumerator(EnumeratorAST::Node& node)
 
 
     EnumeratorAST::Node ena = CreateNode<EnumeratorAST>();
-    node = ena;
+    node = std::move(ena);
 
     AST::Node id = CreateNode<AST>();
     UPDATE_POS(id, start, lex->index());
@@ -2226,7 +2226,7 @@ bool Parser::parseInitDeclarator(InitDeclaratorAST::Node& node)
     ast->setDeclarator(decl);
     ast->setInitializer(init);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2262,7 +2262,7 @@ bool Parser::parseBaseClause(BaseClauseAST::Node& node)
         return false;
 
     UPDATE_POS(bca, start, lex->index());
-    node = bca;
+    node = std::move(bca);
 
     return true;
 }
@@ -2353,7 +2353,7 @@ bool Parser::parseTypeIdList(GroupAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -2390,7 +2390,7 @@ bool Parser::parseBaseSpecifier(BaseSpecifierAST::Node& node)
     ast->setAccess(access);
     ast->setName(name);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2498,7 +2498,7 @@ bool Parser::parseUnqualifiedName(ClassOrNamespaceNameAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2533,7 +2533,7 @@ bool Parser::skipExpressionStatement(StatementAST::Node& node)
     ExpressionStatementAST::Node ast = CreateNode<ExpressionStatementAST>();
     ast->setExpression(expr);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2626,7 +2626,7 @@ bool Parser::parseCondition(ConditionAST::Node& node)
                     ast->setExpression(expr);
 
                     UPDATE_POS(ast, start, lex->index());
-                    node = ast;
+                    node = std::move(ast);
 
                     return true;
                 }
@@ -2635,7 +2635,7 @@ bool Parser::parseCondition(ConditionAST::Node& node)
                 ast->setDeclarator(decl);
 
                 UPDATE_POS(ast, start, lex->index());
-                node = ast;
+                node = std::move(ast);
 
                 return true;
             }
@@ -2650,7 +2650,7 @@ bool Parser::parseCondition(ConditionAST::Node& node)
 
     ast->setExpression(expr);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -2679,7 +2679,7 @@ bool Parser::parseWhileStatement(StatementAST::Node& node)
     ast->setCondition(cond);
     ast->setStatement(body);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2713,7 +2713,7 @@ bool Parser::parseDoStatement(StatementAST::Node& node)
     ast->setStatement(body);
     //ast->setCondition(condition);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2749,7 +2749,7 @@ bool Parser::parseForStatement(StatementAST::Node& node)
     // ast->setExpression(expression);
     ast->setStatement(body);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2775,7 +2775,7 @@ bool Parser::parseForEachStatement(StatementAST::Node& node)
     // add here the parser results
     ast->setStatement(body);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2826,7 +2826,7 @@ bool Parser::parseCompoundStatement(StatementAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2868,7 +2868,7 @@ bool Parser::parseIfStatement(StatementAST::Node& node)
     }
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2898,7 +2898,7 @@ bool Parser::parseSwitchStatement(StatementAST::Node& node)
     ast->setCondition(cond);
     ast->setStatement(stmt);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -2915,7 +2915,7 @@ bool Parser::parseLabeledStatement(StatementAST::Node& node)
 
             StatementAST::Node stmt;
             if (parseStatement(stmt)) {
-                node = stmt;
+                node = std::move(stmt);
                 return true;
             }
         }
@@ -2938,7 +2938,7 @@ bool Parser::parseLabeledStatement(StatementAST::Node& node)
 
         StatementAST::Node stmt;
         if (parseStatement(stmt)) {
-            node = stmt;
+            node = std::move(stmt);
             return true;
         }
     }
@@ -2995,7 +2995,7 @@ bool Parser::parseBlockDeclaration(DeclarationAST::Node& node)
     ast->setTypeSpec(spec);
     ast->setInitDeclaratorList(declarators);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -3035,7 +3035,7 @@ bool Parser::parseDeclarationStatement(StatementAST::Node& node)
     DeclarationStatementAST::Node ast = CreateNode<DeclarationStatementAST>();
     ast->setDeclaration(decl);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     DBG_PAR << "---------------------> found a block declaration" << endl;
     return true;
@@ -3098,7 +3098,7 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
                 SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
                 ast->setInitDeclaratorList(declarators);
                 ast->setText(toString(start, endSignature));
-                node = ast;
+                node = std::move(ast);
                 UPDATE_POS(node, start, lex->index());
                 return true;
 
@@ -3115,7 +3115,7 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
                     ast->setInitDeclarator(declarator);
                     ast->setFunctionBody(funBody);
                     ast->setText(toString(start, endSignature));
-                    node = ast;
+                    node = std::move(ast);
                     UPDATE_POS(node, start, lex->index());
                     return true;
                 }
@@ -3131,7 +3131,7 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
                     ast->setInitDeclarator(declarator);
                     ast->setText(toString(start, endSignature));
                     ast->setFunctionBody(funBody);
-                    node = ast;
+                    node = std::move(ast);
                     UPDATE_POS(node, start, lex->index());
                     return true;
                 }
@@ -3161,7 +3161,7 @@ start_decl:
         if (parseInitDeclaratorList(declarators)) {
             ADVANCE(';', ";");
             DeclarationAST::Node ast = CreateNode<DeclarationAST>();
-            node = ast;
+            node = std::move(ast);
             UPDATE_POS(node, start, lex->index());
             return true;
         }
@@ -3221,7 +3221,7 @@ start_decl:
             ast->setWinDeclSpec(winDeclSpec);
             ast->setInitDeclaratorList(declarators);
 
-            node = ast;
+            node = std::move(ast);
             UPDATE_POS(node, start, lex->index());
         }
         return true;
@@ -3244,7 +3244,7 @@ start_decl:
                 ast->setTypeSpec(spec);
                 ast->setFunctionBody(funBody);
                 ast->setInitDeclarator(decl);
-                node = ast;
+                node = std::move(ast);
                 UPDATE_POS(node, start, lex->index());
                 return true;
             }
@@ -3292,7 +3292,7 @@ bool Parser::parseFunctionBody(StatementListAST::Node& node)
         nextToken();
 
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -3380,7 +3380,7 @@ bool Parser::parseTryBlockStatement(StatementAST::Node& node)
     ast->setStatement(stmt);
     ast->setCatchStatementList(list);
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
 
     return true;
 }
@@ -3894,7 +3894,7 @@ bool Parser::parseLogicalOrExpression(AST::Node& node, bool templArgs)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -3939,7 +3939,7 @@ bool Parser::parseAssignmentExpression(AST::Node& node)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -3950,7 +3950,7 @@ bool Parser::parseConstantExpression(AST::Node& node)
     if (parseConditionalExpression(node)) {
         AST::Node ast = CreateNode<AST>();
         UPDATE_POS(ast, start, lex->index());
-        node = ast;
+        node = std::move(ast);
         return true;
     }
     return false;
@@ -3967,7 +3967,7 @@ bool Parser::parseExpression(AST::Node& node)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -3989,7 +3989,7 @@ bool Parser::parseCommaExpression(AST::Node& node)
 
     AST::Node ast = CreateNode<AST>();
     UPDATE_POS(ast, start, lex->index());
-    node = ast;
+    node = std::move(ast);
     return true;
 }
 
@@ -4192,7 +4192,7 @@ bool Parser::parseIdentifierList(GroupAST::Node & node)
         ADVANCE(Token_identifier, "identifier");
     }
 
-    node = ast;
+    node = std::move(ast);
     UPDATE_POS(node, start, lex->index());
     return true;
 }

@@ -123,7 +123,7 @@ public:
 };
 
 #else
-#define AUTO_PTR std::auto_ptr
+#define AUTO_PTR std::unique_ptr
 #endif
 
 template <class T> typename T::Node CreateNode()
