@@ -442,6 +442,7 @@ set(libumbrello_SRCS
     toolbarstateother.cpp
     toolbarstatepool.cpp
     uml.cpp
+    umlappprivate.cpp
     umlattributelist.cpp
     umlcanvasobject.cpp
     umlclassifierlistitemlist.cpp
