@@ -11,8 +11,14 @@
 #ifndef SINGLEPAGEDIALOGBASE_H
 #define SINGLEPAGEDIALOGBASE_H
 
-// kde includes
+#include <QtGlobal>
+
+#if QT_VERSION >= 0x050000
+#include <QDialog>
+class QDialogButtonBox;
+#else
 #include <KDialog>
+#endif
 
 /**
  * Base class for single page property dialogs
@@ -21,7 +27,11 @@
  *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
+#if QT_VERSION >= 0x050000
+class SinglePageDialogBase : public QDialog
+#else
 class SinglePageDialogBase : public KDialog
+#endif
 {
     Q_OBJECT
 
@@ -30,9 +40,24 @@ public:
     virtual ~SinglePageDialogBase();
     virtual bool apply();
 
+#if QT_VERSION >= 0x050000
+    // keep in sync with MultiPageDialogBase
+    void setCaption(const QString &caption);
+
+    QWidget *mainWidget();
+    void setMainWidget(QWidget *widget);
+#endif
+
 protected slots:
     void slotApply();
     void slotOk();
+
+protected:
+#if QT_VERSION >= 0x050000
+    QDialogButtonBox *m_buttonBox;
+    QWidget *m_mainWidget;
+    void enableButtonOk(bool enable);
+#endif
 };
 
 #endif
