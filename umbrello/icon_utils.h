@@ -20,11 +20,19 @@
 #ifndef ICON_UTILS_H
 #define ICON_UTILS_H
 
+// app includes
 #include "basictypes.h"
 
+// kde includes
+#if QT_VERSION < 0x050000
 #include <kicon.h>
+#endif
 
+// qt includes
 #include <QCursor>
+#if QT_VERSION >= 0x050000
+#include <QIcon>
+#endif
 #include <QPixmap>
 
 /**
