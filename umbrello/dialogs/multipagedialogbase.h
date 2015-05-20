@@ -25,6 +25,7 @@ class AssociationGeneralPage;
 class AssociationRolePage;
 class KFontChooser;
 class KPageDialog;
+class QAbstractButton;
 class QFrame;
 class UMLWidget;
 class UMLWidgetStylePage;
@@ -83,7 +84,10 @@ private slots:
     void slotOkClicked();
     void slotApplyClicked();
     void slotDefaultClicked();
-
+    void slotHelpClicked();
+#if QT_VERSION >= 0x050000
+    void slotButtonClicked(QAbstractButton *button);
+#endif
 protected:
     AssociationGeneralPage *m_pAssocGeneralPage;
     AssociationRolePage *m_pRolePage;

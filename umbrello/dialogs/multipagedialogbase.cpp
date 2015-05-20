@@ -12,29 +12,71 @@
 #include "multipagedialogbase.h"
 
 // local includes
-#include "icon_utils.h"
-#include "uml.h"
-#include "umlwidget.h"
 #include "associationgeneralpage.h"
 #include "associationrolepage.h"
 #include "associationwidget.h"
+#include "debug_utils.h"
+#include "icon_utils.h"
+#include "uml.h"
+#include "umlwidget.h"
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
-#include <KLocale>
+#if QT_VERSION >=0x050000
+#include <KHelpClient>
+#endif
+#include <KLocalizedString>
 #include <KPageDialog>
 #include <KPageWidget>
 
 // qt includes
 #include <QApplication>
+#include <QDesktopServices>
 #include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPushButton>
+
+DEBUG_REGISTER(MultiPageDialogBase)
 
 /**
  * Constructor
  */
+#if QT_VERSION >= 0x050000
+MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
+  : QWidget(parent),
+    m_pAssocGeneralPage(0),
+    m_pRolePage(0),
+    m_fontChooser(0),
+    m_pStylePage(0),
+    m_pageItem(0),
+    m_pageDialog(0),
+    m_pageWidget(0),
+    m_useDialog(!parent || strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
+    m_isModified(false)
+{
+    if (m_useDialog) {
+        m_pageDialog = new KPageDialog(parent);
+        m_pageDialog->setModal(true);
+        m_pageDialog->setFaceType(KPageDialog::List);
+        m_pageDialog->setStandardButtons(QDialogButtonBox::Ok |
+                                         QDialogButtonBox::Apply |
+                                         QDialogButtonBox::Cancel |
+                                         QDialogButtonBox::Help);
+        QDialogButtonBox * dlgButtonBox = m_pageDialog->findChild<QDialogButtonBox*>(QLatin1String("buttonbox"));
+        if (withDefaultButton) {
+            QPushButton *defaultButton = new QPushButton(i18n("Default"));
+            m_pageDialog->addActionButton(defaultButton);
+            connect(defaultButton, SIGNAL(clicked()), this, SLOT(slotDefaultClicked()));
+        }
+        connect(dlgButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+    } else {
+        m_pageWidget = new KPageWidget(this);
+        m_pageWidget->setFaceType(KPageView::Tree);
+    }
+}
+#else
 MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pAssocGeneralPage(0),
@@ -66,6 +108,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         m_pageWidget->setFaceType(KPageView::Tree);
     }
 }
+#endif
 
 MultiPageDialogBase::~MultiPageDialogBase()
 {
@@ -94,8 +137,13 @@ void MultiPageDialogBase::apply()
 
 void MultiPageDialogBase::setCaption(const QString &caption)
 {
+#if QT_VERSION >= 0x050000
+    if (m_pageDialog)
+        m_pageDialog->setWindowTitle(caption);
+#else
     if (m_pageDialog)
         m_pageDialog->setCaption(caption);
+#endif
 }
 
 void MultiPageDialogBase::accept()
@@ -141,7 +189,11 @@ void MultiPageDialogBase::setCurrentPage(KPageWidgetItem *page)
 
 int MultiPageDialogBase::spacingHint()
 {
+#if QT_VERSION >= 0x050000
+    return 0;  // FIXME KF5 was QDialog::spacingHint();
+#else
     return KDialog::spacingHint();
+#endif
 }
 
 int MultiPageDialogBase::exec()
@@ -188,6 +240,48 @@ void MultiPageDialogBase::slotDefaultClicked()
 }
 
 /**
+ * Launch khelpcenter.
+ */
+void MultiPageDialogBase::slotHelpClicked()
+{
+    DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
+#if QT_VERSION >= 0x050000
+    KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
+#else
+    QUrl url = QUrl(QLatin1String("help:/umbrello/index.html"));
+    QDesktopServices::openUrl(url);
+#endif
+}
+
+#if QT_VERSION >= 0x050000
+/**
+ * Button clicked event handler for the dialog button box.
+ * @param button  the button which was clicked
+ */
+void MultiPageDialogBase::slotButtonClicked(QAbstractButton *button)
+{
+    if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
+        DEBUG(DBG_SRC)  << "APPLY clicked...";
+        slotApplyClicked();
+    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Ok)) {
+        DEBUG(DBG_SRC)  << "OK clicked...";
+        slotOkClicked();
+    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Cancel)) {
+        DEBUG(DBG_SRC)  << "CANCEL clicked...";
+    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
+        DEBUG(DBG_SRC)  << "HELP clicked...";
+        slotHelpClicked();
+    }
+    else {
+        DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
+    }
+}
+#endif
+
+/**
  * Handle key press event.
  *
  * @param event key press event
@@ -215,7 +309,11 @@ QFrame* MultiPageDialogBase::createPage(const QString& name, const QString& head
     m_pageItem = new KPageWidgetItem(page, name);
     if (!m_pageWidget) {
         m_pageItem->setHeader(header);
+#if QT_VERSION >= 0x050000
+        m_pageItem->setIcon(QIcon(Icon_Utils::DesktopIcon(icon)));
+#else
         m_pageItem->setIcon(KIcon(Icon_Utils::DesktopIcon(icon)));
+#endif
     } else
         m_pageItem->setHeader(QString());
     addPage(m_pageItem);
