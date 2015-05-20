@@ -41,10 +41,10 @@
 
 static QString pngViewer()
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     return QLatin1String("start");
 #else
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     return QLatin1String("unknown");
 #else
     return QLatin1String("okular");
@@ -54,10 +54,10 @@ static QString pngViewer()
 
 static QString textViewer()
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     return QLatin1String("start");
 #else
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     return QLatin1String("unknown");
 #else
     return QLatin1String("mcedit");

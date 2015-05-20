@@ -53,7 +53,7 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//
     if (!executable.isEmpty()) {
         arguments << QLatin1String("-C");   // -C means "preserve comments"
     }
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     else {
         executable = KStandardDirs::findExe(QLatin1String("cl"));
         if (executable.isEmpty()) {

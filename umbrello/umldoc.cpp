@@ -743,7 +743,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         }
         else {
             // now remove the original file
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
             tmpfile.setAutoRemove(true);
             KIO::FileCopyJob* fcj = KIO::file_copy(tmpfile.fileName(), url, -1, KIO::Overwrite);
 #else
