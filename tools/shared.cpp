@@ -225,7 +225,7 @@ bool applyTranslationToXMIFile(const char *fileName, const QStringList &attribut
     QXmlStreamWriter writer(&outFile);
     writer.setAutoFormatting (true);
     writer.setAutoFormattingIndent(1);
-    writer.setCodec(reader.documentEncoding().toAscii().constData());
+    writer.setCodec(reader.documentEncoding().toLatin1().constData());
 
     while (!reader.atEnd())
     {
