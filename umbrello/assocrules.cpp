@@ -28,7 +28,7 @@
 
 // kde includes
 #include <typeinfo>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 /**
  * Constructor.

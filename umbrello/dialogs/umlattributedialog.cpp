@@ -29,7 +29,7 @@
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QCheckBox>

@@ -21,7 +21,7 @@
 #include "attribute.h"
 #include "operation.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QFile>
 #include <QRegExp>

@@ -35,7 +35,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QPointer>

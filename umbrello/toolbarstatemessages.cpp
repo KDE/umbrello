@@ -23,7 +23,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 /**
  * Creates a new ToolBarStateMessages.

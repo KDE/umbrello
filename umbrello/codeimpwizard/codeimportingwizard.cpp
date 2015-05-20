@@ -29,7 +29,7 @@
 // kde includes
 #include <kdebug.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QFileInfo>

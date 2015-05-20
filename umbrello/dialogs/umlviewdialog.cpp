@@ -24,7 +24,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kfontdialog.h>
 
 // qt includes

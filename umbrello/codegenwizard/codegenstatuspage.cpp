@@ -29,7 +29,7 @@
 #include <knuminput.h>
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 //qt includes
 #include <QListWidget>

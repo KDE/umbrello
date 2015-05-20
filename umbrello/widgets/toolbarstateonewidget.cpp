@@ -31,7 +31,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kinputdialog.h>
 
 // using namespace Uml;

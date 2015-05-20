@@ -33,7 +33,7 @@
 #include <kdialogbuttonbox.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QApplication>
 #include <QGridLayout>

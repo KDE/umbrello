@@ -23,7 +23,7 @@
 // kde includes
 #include <kfontdialog.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kvbox.h>
 
 // qt includes

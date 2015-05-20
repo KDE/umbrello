@@ -38,7 +38,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <ktextedit.h>

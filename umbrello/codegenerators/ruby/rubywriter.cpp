@@ -21,7 +21,7 @@
 #include "umlattributelist.h"
 
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QFile>
 #include <QRegExp>

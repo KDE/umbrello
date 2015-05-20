@@ -34,7 +34,7 @@
 #include <klineedit.h>
 #include <kcombobox.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kdialogbuttonbox.h>
 
 //qt includes

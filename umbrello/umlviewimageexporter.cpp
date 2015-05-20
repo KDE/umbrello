@@ -23,7 +23,7 @@
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kurl.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kio/netaccess.h>
 
 // Qt include files

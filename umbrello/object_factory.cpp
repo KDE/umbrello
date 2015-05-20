@@ -43,7 +43,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kinputdialog.h>
 
 // qt includes

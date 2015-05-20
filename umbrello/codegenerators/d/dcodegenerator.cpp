@@ -20,7 +20,7 @@
 // kde includes
 #include <kconfig.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QRegExp>

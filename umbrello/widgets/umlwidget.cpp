@@ -33,7 +33,7 @@
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QApplication>

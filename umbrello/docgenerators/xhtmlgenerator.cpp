@@ -19,7 +19,7 @@
 #include "docbookgenerator.h"
 
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>

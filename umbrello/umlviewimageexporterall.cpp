@@ -22,7 +22,7 @@
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <kfilefiltercombo.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // Qt include files 
 #include <QString>

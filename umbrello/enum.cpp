@@ -21,7 +21,7 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 /**
  * Sets up an enum.

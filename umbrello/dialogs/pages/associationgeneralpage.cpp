@@ -25,7 +25,7 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <ktextedit.h>
 
 // qt includes

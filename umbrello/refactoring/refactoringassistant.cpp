@@ -23,7 +23,7 @@
 #include "umloperationdialog.h"
 
 #include <klocale.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QApplication>
 #include <QMenu>

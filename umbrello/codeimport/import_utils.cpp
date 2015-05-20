@@ -31,7 +31,7 @@
 #include "umbrellosettings.h"
 
 // kde includes
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <klocale.h>
 
 // qt includes
