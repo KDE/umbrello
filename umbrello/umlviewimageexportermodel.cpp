@@ -21,7 +21,7 @@
 #include "umlview.h"
 
 // kde include files
-#include <klocale.h>
+#include <KLocalizedString>
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 

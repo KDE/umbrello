@@ -26,7 +26,7 @@
 #include <klineedit.h>
 #include <kcombobox.h>
 #include <kcompletion.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes

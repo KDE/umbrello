@@ -24,7 +24,7 @@
 #include "lexer.h"
 #include "parser.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <stdlib.h>
 #include <qfile.h>
 #include <qfileinfo.h>

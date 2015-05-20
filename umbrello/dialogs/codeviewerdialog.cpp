@@ -21,7 +21,7 @@
 #include "uml.h"
 
 // qt/kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QString>
 #include <QTabWidget>
 

@@ -12,7 +12,7 @@
 
 #include "attribute.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 UMLAttributeList::UMLAttributeList()
 {

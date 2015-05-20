@@ -32,7 +32,7 @@
 
 // kde includes
 #include <KMessageBox>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QMap>

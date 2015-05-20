@@ -18,7 +18,7 @@
 #include "umldoc.h"
 
 // kde include files
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <kfilefiltercombo.h>

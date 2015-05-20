@@ -37,7 +37,7 @@
 
 // kde includes
 #include <kaction.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmenu.h>
 
 // qt includes

@@ -14,7 +14,7 @@
 #include "umlobject.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

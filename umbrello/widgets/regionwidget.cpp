@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 #define REGION_MARGIN 5
 #define REGION_WIDTH 90

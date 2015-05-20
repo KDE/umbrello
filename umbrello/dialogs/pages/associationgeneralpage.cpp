@@ -24,7 +24,7 @@
 // kde includes
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <ktextedit.h>
 

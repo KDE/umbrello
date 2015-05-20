@@ -28,7 +28,7 @@
 
 // kde includes
 #include <kdebug.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes

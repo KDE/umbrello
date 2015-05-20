@@ -13,7 +13,7 @@
 
 //kde includes
 #include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 //app includes
 #include "debug_utils.h"

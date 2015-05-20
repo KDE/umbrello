@@ -19,7 +19,7 @@
 
 // kde includes
 #include <kconfig.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes

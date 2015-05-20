@@ -37,7 +37,7 @@
 #include "visibilityenumwidget.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kcombobox.h>
 #include <klineedit.h>

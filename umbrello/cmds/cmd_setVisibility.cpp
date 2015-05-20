@@ -15,7 +15,7 @@
 #include "umldoc.h"
 #include "umlobject.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

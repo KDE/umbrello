@@ -48,8 +48,8 @@
 // kde includes
 #include <kio/job.h>
 #include <kio/netaccess.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 #include <kmimetype.h>
 #include <ktar.h>
 #include <ktempdir.h>

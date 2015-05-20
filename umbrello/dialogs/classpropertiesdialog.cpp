@@ -30,7 +30,7 @@
 
 // kde includes
 #include <kfontdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QFrame>

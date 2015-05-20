@@ -27,7 +27,7 @@
 
 #include <ktemporaryfile.h>
 #include <kstandarddirs.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QTextOStream>
 

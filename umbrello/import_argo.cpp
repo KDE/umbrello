@@ -17,7 +17,7 @@
 #include "umldoc.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KTempDir>
 #include <KZip>
 

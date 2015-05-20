@@ -21,7 +21,7 @@
 
 #include <kcolordialog.h>
 #include <kfontdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QPointer>

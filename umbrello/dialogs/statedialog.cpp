@@ -21,7 +21,7 @@
 
 // kde includes
 #include <klineedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kfontdialog.h>
 
 // qt includes

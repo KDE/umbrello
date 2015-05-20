@@ -30,7 +30,7 @@
 #include "widget_factory.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kinputdialog.h>
 

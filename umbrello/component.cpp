@@ -18,7 +18,7 @@
 #include "clipboard/idchangelog.h"
 #include "umldoc.h"
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up a Component.

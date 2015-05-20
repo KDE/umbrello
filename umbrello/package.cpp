@@ -22,7 +22,7 @@
 #include "model_utils.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kinputdialog.h>
 #include <KMessageBox>
 

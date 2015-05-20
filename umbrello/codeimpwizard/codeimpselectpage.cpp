@@ -25,7 +25,7 @@
 #include "uml.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QFileSystemModel>

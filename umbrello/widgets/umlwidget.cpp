@@ -32,7 +32,7 @@
 // kde includes
 #include <kcolordialog.h>
 #include <kfontdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes

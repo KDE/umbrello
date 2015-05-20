@@ -14,7 +14,7 @@
 
 // qt/kde includes
 #include <QLabel>
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * This is the page which comes up IF there is no special options for the

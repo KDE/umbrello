@@ -22,7 +22,7 @@
 
 // kde includes
 #include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QPainter>

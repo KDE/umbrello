@@ -25,7 +25,7 @@
 #include "operation.h"
 #include "template.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QFile>

@@ -31,7 +31,7 @@
 #include <QResizeEvent>
 
 //kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 DEBUG_REGISTER_DISABLED(MessageWidget)
 

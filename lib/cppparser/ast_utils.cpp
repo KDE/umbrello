@@ -17,7 +17,7 @@
 #include <QRegExp>
 #include <QStringList>
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 void scopeOfNode(AST* ast, QStringList& scope)
 {

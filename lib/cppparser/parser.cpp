@@ -27,7 +27,7 @@
 #include <QStringList>
 
 #include <kdebug.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 using namespace std;
 

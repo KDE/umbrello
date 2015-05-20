@@ -21,7 +21,7 @@
 
 #include "debug_utils.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QFileInfo>
 

@@ -27,7 +27,7 @@
 #include "object_factory.h"
 
 #include <kdialogbuttonbox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <ktabwidget.h>
 #include <ktextedit.h>
 

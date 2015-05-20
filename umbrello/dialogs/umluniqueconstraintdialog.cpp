@@ -27,7 +27,7 @@
 #include <kcombobox.h>
 #include <kdialogbuttonbox.h>
 #include <klineedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QGroupBox>

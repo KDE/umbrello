@@ -35,8 +35,8 @@
 
 //kde includes
 #include <kfiledialog.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 //qt includes
 #include <QListWidget>

@@ -21,7 +21,7 @@
 #include "umlview.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kinputdialog.h>
 
 // qt includes

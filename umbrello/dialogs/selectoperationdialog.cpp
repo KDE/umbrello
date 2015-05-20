@@ -24,7 +24,7 @@
 // kde includes
 #include <klineedit.h>
 #include <kcombobox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QCheckBox>

@@ -16,7 +16,7 @@
 #include "uml.h"
 
 #include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kdialogbuttonbox.h>
 
 #include <QHBoxLayout>

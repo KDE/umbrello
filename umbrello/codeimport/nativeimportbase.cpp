@@ -17,7 +17,7 @@
 #include "import_utils.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QFile>

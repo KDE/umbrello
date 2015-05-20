@@ -15,7 +15,7 @@
 #include "floatingtextwidget.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

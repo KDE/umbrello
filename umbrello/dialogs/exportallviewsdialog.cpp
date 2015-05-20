@@ -13,7 +13,7 @@
 
 // kde include files
 #include <kfilefiltercombo.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // application specific includes
 #include "umlviewimageexportermodel.h"

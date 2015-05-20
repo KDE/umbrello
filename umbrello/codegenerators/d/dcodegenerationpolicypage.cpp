@@ -16,7 +16,7 @@
 #include "uml.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 DCodeGenerationPolicyPage::DCodeGenerationPolicyPage(QWidget *parent, const char *name, DCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)

@@ -19,7 +19,7 @@
 #include "lexer.h"
 #include "lookup.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <qregexp.h>
 #include <qmap.h>

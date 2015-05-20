@@ -66,9 +66,9 @@
 #include <kcursor.h>
 #include <kfiledialog.h>
 #include <KInputDialog>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmenubar.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kstandarddirs.h>
 #include <ktip.h>
 #include <ktabwidget.h>

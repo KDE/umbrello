@@ -12,7 +12,7 @@
 #include "umlroleproperties.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 UMLRoleProperties::UMLRoleProperties (QWidget *parent, UMLRole *role)
         : UMLRolePropertiesBase (parent)

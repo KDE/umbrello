@@ -18,7 +18,7 @@
 #include "umlviewimageexportermodel.h"
 #include "docbookgenerator.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>

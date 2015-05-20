@@ -22,7 +22,7 @@
 
 // kde includes
 #include <kfontdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kvbox.h>
 

@@ -24,7 +24,7 @@
 
 // kde includes
 #include <ktextedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QLabel>

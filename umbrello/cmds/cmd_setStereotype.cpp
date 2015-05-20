@@ -13,7 +13,7 @@
 // app includes
 #include "umlobject.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

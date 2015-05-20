@@ -61,8 +61,8 @@
 
 // kde includes
 #include <kfiledialog.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 #include <kinputdialog.h>
 #include <kapplication.h>
 #include <ktabwidget.h>

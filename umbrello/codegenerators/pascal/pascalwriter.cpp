@@ -24,7 +24,7 @@
 #include "umldoc.h"
 #include "umltemplatelist.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QFile>

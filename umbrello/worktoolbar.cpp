@@ -19,7 +19,7 @@
 #include "umlview.h"
 
 // kde include files
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KAction>
 #include <KActionCollection>
 

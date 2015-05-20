@@ -19,7 +19,7 @@
 #include "umldoc.h"
 #include "umlattributelist.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QFile>

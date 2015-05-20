@@ -20,7 +20,7 @@
 
 // qt/kde includes
 #include <qlabel.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // local includes
 #include "../codegenerationpolicy.h"

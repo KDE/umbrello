@@ -18,7 +18,7 @@
 #include "umldoc.h"
 #include "umlobjectlist.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QHBoxLayout>
 #include <QGroupBox>

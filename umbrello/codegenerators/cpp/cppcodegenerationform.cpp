@@ -13,9 +13,9 @@
 
 // kde includes
 #include <kfiledialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kcombobox.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 // qt includes
 #include <QLabel>

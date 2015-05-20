@@ -23,7 +23,7 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kfontdialog.h>
 

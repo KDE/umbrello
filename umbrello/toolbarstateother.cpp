@@ -34,7 +34,7 @@
 #include "umlscene.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kinputdialog.h>
 
 using namespace Uml;

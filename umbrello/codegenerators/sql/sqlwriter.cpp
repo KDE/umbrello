@@ -24,7 +24,7 @@
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QFile>

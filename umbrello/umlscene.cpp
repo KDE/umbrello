@@ -73,11 +73,11 @@
 //kde include files
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kcursor.h>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // include files for Qt
 #include <QColor>

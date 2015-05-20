@@ -12,7 +12,7 @@
 
 #include "entityattribute.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 UMLEntityAttributeList::UMLEntityAttributeList()
 {

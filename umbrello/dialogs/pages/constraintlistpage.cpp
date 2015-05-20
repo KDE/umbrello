@@ -26,7 +26,7 @@
 
 #include <kaction.h>
 #include <kdialogbuttonbox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmenu.h>
 #include <kpushbutton.h>
 

@@ -11,7 +11,7 @@
 #include "enumliteral.h"
 
 #include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up an enum literal.

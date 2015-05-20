@@ -12,7 +12,7 @@
 
 #include "entityconstraint.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 UMLEntityConstraintList::UMLEntityConstraintList()
 {

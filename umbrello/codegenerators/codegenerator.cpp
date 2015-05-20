@@ -31,7 +31,7 @@
 #include "umloperationlist.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <kdialog.h>
 #include <kapplication.h>

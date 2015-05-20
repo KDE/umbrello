@@ -12,7 +12,7 @@
 
 #include "classifierlistitem.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 UMLClassifierListItemList::UMLClassifierListItemList()
 {

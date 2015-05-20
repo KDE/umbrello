@@ -38,7 +38,7 @@
 // kde includes
 #include <kinputdialog.h>
 #include <kfontdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kcolordialog.h>
 
 // qt includes
