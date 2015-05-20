@@ -65,8 +65,6 @@ set(libdebug_SRCS
 )
 
 set(libcodegenerator_SRCS
-    codegenerators/codegenfactory.cpp
-    codegenerators/codegenpolicyext.cpp
     codegenerators/codeblock.cpp
     codegenerators/codeblockwithcomments.cpp
     codegenerators/codeclassfield.cpp
@@ -75,103 +73,105 @@ set(libcodegenerator_SRCS
     codegenerators/codedocument.cpp
     codegenerators/codegenerationpolicy.cpp
     codegenerators/codegenerator.cpp
+    codegenerators/codegenfactory.cpp
     codegenerators/codegenobjectwithtextblocks.cpp
+    codegenerators/codegenpolicyext.cpp
+    codegenerators/codegen_utils.cpp
     codegenerators/codemethodblock.cpp
     codegenerators/codeoperation.cpp
     codegenerators/codeparameter.cpp
-    codegenerators/codegen_utils.cpp
-    codegenerators/hierarchicalcodeblock.cpp
-    codegenerators/ownedcodeblock.cpp
-    codegenerators/ownedhierarchicalcodeblock.cpp
-    codegenerators/textblock.cpp
-    codegenerators/java/javacodegenerator.cpp
-    codegenerators/java/javaantcodedocument.cpp
-    codegenerators/java/javacodeclassfield.cpp
-    codegenerators/java/javaclassifiercodedocument.cpp
-    codegenerators/java/javacodecomment.cpp
-    codegenerators/java/javacodedocumentation.cpp
-    codegenerators/java/javacodeoperation.cpp
-    codegenerators/java/javacodeaccessormethod.cpp
-    codegenerators/java/javaclassdeclarationblock.cpp
-    codegenerators/java/javacodeclassfielddeclarationblock.cpp
-    codegenerators/java/javacodegenerationpolicy.cpp
-    codegenerators/java/javacodegenerationpolicypage.cpp
-    codegenerators/cpp/cppcodegenerator.cpp
-    codegenerators/cpp/cppcodedocumentation.cpp
-    codegenerators/cpp/cppcodeclassfield.cpp
-    codegenerators/cpp/cppcodecomment.cpp
-    codegenerators/cpp/cppmakecodedocument.cpp
-    codegenerators/cpp/cppsourcecodedocument.cpp
-    codegenerators/cpp/cppsourcecodeoperation.cpp
-    codegenerators/cpp/cppsourcecodeaccessormethod.cpp
-    codegenerators/cpp/cppsourcecodeclassfielddeclarationblock.cpp
-    codegenerators/cpp/cppheadercodedocument.cpp
-    codegenerators/cpp/cppheaderclassdeclarationblock.cpp
-    codegenerators/cpp/cppheadercodeoperation.cpp
-    codegenerators/cpp/cppheadercodeaccessormethod.cpp
-    codegenerators/cpp/cppheadercodeclassfielddeclarationblock.cpp
-    codegenerators/cpp/cppcodegenerationpolicy.cpp
-    codegenerators/cpp/cppcodegenerationpolicypage.cpp
-    codegenerators/cpp/cppcodegenerationform.cpp
-    codegenerators/d/dcodegenerator.cpp
-    codegenerators/d/dcodedocumentation.cpp
-    codegenerators/d/dcodeclassfield.cpp
-    codegenerators/d/dcodecomment.cpp
-    codegenerators/d/dclassdeclarationblock.cpp
-    codegenerators/d/dclassifiercodedocument.cpp
-    codegenerators/d/dcodeoperation.cpp
-    codegenerators/d/dcodeaccessormethod.cpp
-    codegenerators/d/dcodeclassfielddeclarationblock.cpp
-    codegenerators/d/dcodegenerationpolicy.cpp
-    codegenerators/d/dcodegenerationpolicypage.cpp
-    codegenerators/ruby/rubycodegenerator.cpp
-    codegenerators/ruby/rubycodeclassfield.cpp
-    codegenerators/ruby/rubyclassifiercodedocument.cpp
-    codegenerators/ruby/rubycodecomment.cpp
-    codegenerators/ruby/rubycodedocumentation.cpp
-    codegenerators/ruby/rubycodeoperation.cpp
-    codegenerators/ruby/rubycodeaccessormethod.cpp
-    codegenerators/ruby/rubyclassdeclarationblock.cpp
-    codegenerators/ruby/rubycodeclassfielddeclarationblock.cpp
-    codegenerators/ruby/rubycodegenerationpolicy.cpp
-    codegenerators/ruby/rubycodegenerationpolicypage.cpp
-    codegenerators/simplecodegenerator.cpp
     codegenerators/ada/adawriter.cpp
     codegenerators/as/aswriter.cpp
+    codegenerators/cpp/cppcodeclassfield.cpp
+    codegenerators/cpp/cppcodecomment.cpp
+    codegenerators/cpp/cppcodedocumentation.cpp
+    codegenerators/cpp/cppcodegenerationform.cpp
+    codegenerators/cpp/cppcodegenerationpolicy.cpp
+    codegenerators/cpp/cppcodegenerationpolicypage.cpp
+    codegenerators/cpp/cppcodegenerator.cpp
+    codegenerators/cpp/cppheaderclassdeclarationblock.cpp
+    codegenerators/cpp/cppheadercodeaccessormethod.cpp
+    codegenerators/cpp/cppheadercodeclassfielddeclarationblock.cpp
+    codegenerators/cpp/cppheadercodedocument.cpp
+    codegenerators/cpp/cppheadercodeoperation.cpp
+    codegenerators/cpp/cppmakecodedocument.cpp
+    codegenerators/cpp/cppsourcecodeaccessormethod.cpp
+    codegenerators/cpp/cppsourcecodeclassfielddeclarationblock.cpp
+    codegenerators/cpp/cppsourcecodedocument.cpp
+    codegenerators/cpp/cppsourcecodeoperation.cpp
     codegenerators/cpp/cppwriter.cpp
     codegenerators/csharp/csharpwriter.cpp
+    codegenerators/d/dclassdeclarationblock.cpp
+    codegenerators/d/dclassifiercodedocument.cpp
+    codegenerators/d/dcodeaccessormethod.cpp
+    codegenerators/d/dcodeclassfield.cpp
+    codegenerators/d/dcodeclassfielddeclarationblock.cpp
+    codegenerators/d/dcodecomment.cpp
+    codegenerators/d/dcodedocumentation.cpp
+    codegenerators/d/dcodegenerationpolicy.cpp
+    codegenerators/d/dcodegenerationpolicypage.cpp
+    codegenerators/d/dcodegenerator.cpp
+    codegenerators/d/dcodeoperation.cpp
     codegenerators/d/dwriter.cpp
+    codegenerators/hierarchicalcodeblock.cpp
+    codegenerators/idl/idlwriter.cpp
+    codegenerators/java/javaantcodedocument.cpp
+    codegenerators/java/javaclassdeclarationblock.cpp
+    codegenerators/java/javaclassifiercodedocument.cpp
+    codegenerators/java/javacodeaccessormethod.cpp
+    codegenerators/java/javacodeclassfield.cpp
+    codegenerators/java/javacodeclassfielddeclarationblock.cpp
+    codegenerators/java/javacodecomment.cpp
+    codegenerators/java/javacodedocumentation.cpp
+    codegenerators/java/javacodegenerationpolicy.cpp
+    codegenerators/java/javacodegenerationpolicypage.cpp
+    codegenerators/java/javacodegenerator.cpp
+    codegenerators/java/javacodeoperation.cpp
     codegenerators/java/javawriter.cpp
     codegenerators/js/jswriter.cpp
-    codegenerators/idl/idlwriter.cpp
-    codegenerators/sql/mysqlwriter.cpp
+    codegenerators/ownedcodeblock.cpp
+    codegenerators/ownedhierarchicalcodeblock.cpp
     codegenerators/pascal/pascalwriter.cpp
     codegenerators/perl/perlwriter.cpp
-    codegenerators/php/phpwriter.cpp
     codegenerators/php/php5writer.cpp
-    codegenerators/sql/postgresqlwriter.cpp
+    codegenerators/php/phpwriter.cpp
     codegenerators/python/pythonwriter.cpp
+    codegenerators/ruby/rubyclassdeclarationblock.cpp
+    codegenerators/ruby/rubyclassifiercodedocument.cpp
+    codegenerators/ruby/rubycodeaccessormethod.cpp
+    codegenerators/ruby/rubycodeclassfield.cpp
+    codegenerators/ruby/rubycodeclassfielddeclarationblock.cpp
+    codegenerators/ruby/rubycodecomment.cpp
+    codegenerators/ruby/rubycodedocumentation.cpp
+    codegenerators/ruby/rubycodegenerationpolicy.cpp
+    codegenerators/ruby/rubycodegenerationpolicypage.cpp
+    codegenerators/ruby/rubycodegenerator.cpp
+    codegenerators/ruby/rubycodeoperation.cpp
     codegenerators/ruby/rubywriter.cpp
+    codegenerators/simplecodegenerator.cpp
+    codegenerators/sql/mysqlwriter.cpp
+    codegenerators/sql/postgresqlwriter.cpp
     codegenerators/sql/sqlwriter.cpp
     codegenerators/tcl/tclwriter.cpp
+    codegenerators/textblock.cpp
     codegenerators/vala/valawriter.cpp
-    codegenerators/xml/xmlschemawriter.cpp
-    codegenerators/xml/xmlelementcodeblock.cpp
     codegenerators/xml/xmlcodecomment.cpp
+    codegenerators/xml/xmlelementcodeblock.cpp
+    codegenerators/xml/xmlschemawriter.cpp
 )
 
 ki18n_wrap_ui(  libcodegenerator_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cpp/cppcodegenerationformbase.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/rubycodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/d/dcodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/java/javacodegenerationformbase.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/rubycodegenerationformbase.ui
 )
 
 set(libdocgenerator_SRCS
+    docgenerators/docbook2xhtmlgeneratorjob.cpp
     docgenerators/docbookgenerator.cpp
     docgenerators/docbookgeneratorjob.cpp
     docgenerators/xhtmlgenerator.cpp
-    docgenerators/docbook2xhtmlgeneratorjob.cpp
 )
 
 set(libdialogs_SRCS
@@ -180,9 +180,9 @@ set(libdialogs_SRCS
     dialogs/classpropertiesdialog.cpp
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
-    dialogs/codeviewerdialog.cpp
     dialogs/codetextedit.cpp
     dialogs/codetexthighlighter.cpp
+    dialogs/codeviewerdialog.cpp
     dialogs/dialog_utils.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
@@ -198,11 +198,11 @@ set(libdialogs_SRCS
     dialogs/umlattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
-    dialogs/umlforeignkeyconstraintdialog.cpp
     dialogs/umlfiledialog.cpp
+    dialogs/umlforeignkeyconstraintdialog.cpp
     dialogs/umloperationdialog.cpp
-    dialogs/umltemplatedialog.cpp
     dialogs/umlroledialog.cpp
+    dialogs/umltemplatedialog.cpp
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
     dialogs/pages/activitypage.cpp
@@ -218,18 +218,18 @@ set(libdialogs_SRCS
     dialogs/pages/codevieweroptionspage.cpp
     dialogs/pages/constraintlistpage.cpp
     dialogs/pages/defaultcodegenpolicypage.cpp
+    dialogs/pages/diagramprintpage.cpp
     dialogs/pages/diagrampropertiespage.cpp
     dialogs/pages/dialogpagebase.cpp
     dialogs/pages/generaloptionpage.cpp
     dialogs/pages/packagecontentspage.cpp
-    dialogs/pages/diagramprintpage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/documentationwidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
-    dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp
+    dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/visibilityenumwidget.cpp
 )
 
@@ -249,23 +249,23 @@ set(librefactoring_SRCS
 )
 
 set(libcodegenwizard_SRCS
-    codegenwizard/codegenselectpage.cpp
-    codegenwizard/codegenoptionspage.cpp
-    codegenwizard/codegenstatuspage.cpp
     codegenwizard/codegenerationwizard.cpp
+    codegenwizard/codegenoptionspage.cpp
+    codegenwizard/codegenselectpage.cpp
+    codegenwizard/codegenstatuspage.cpp
 )
 
 ki18n_wrap_ui(  libcodegenwizard_SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
 )
 
 set(libcodeimpwizard_SRCS
+    codeimpwizard/codeimportingwizard.cpp
     codeimpwizard/codeimpselectpage.cpp
     codeimpwizard/codeimpstatuspage.cpp
     codeimpwizard/codeimpthread.cpp
-    codeimpwizard/codeimportingwizard.cpp
 )
 
 ki18n_wrap_ui(  libcodeimpwizard_SRCS
@@ -305,27 +305,22 @@ set(libkdevcppparser_SRCS
 )
 
 set(libclipboard_SRCS
-    clipboard/umldragdata.cpp
-    clipboard/umlclipboard.cpp
     clipboard/idchangelog.cpp
+    clipboard/umlclipboard.cpp
+    clipboard/umldragdata.cpp
 )
 
 set(libcmds_SRCS
+    cmds/cmd_baseObjectCommand.cpp
     cmds/cmd_createDiagram.cpp
-    cmds/cmd_removeDiagram.cpp
     cmds/cmd_handleRename.cpp
+    cmds/cmd_removeDiagram.cpp
     cmds/cmd_setStereotype.cpp
     cmds/cmd_setVisibility.cpp
-    cmds/cmd_baseObjectCommand.cpp
-
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_removeUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
-
     cmds/widget/cmd_baseWidgetCommand.cpp
-    cmds/widget/cmd_moveWidget.cpp
-    cmds/widget/cmd_resizeWidget.cpp
-    cmds/widget/cmd_removeWidget.cpp
     cmds/widget/cmd_changeFont.cpp
     cmds/widget/cmd_changeTextColor.cpp
     cmds/widget/cmd_changeLineColor.cpp
@@ -335,6 +330,9 @@ set(libcmds_SRCS
     cmds/widget/cmd_changeMultiplicity.cpp
     cmds/widget/cmd_changeVisualProperty.cpp
     cmds/widget/cmd_createWidget.cpp
+    cmds/widget/cmd_moveWidget.cpp
+    cmds/widget/cmd_resizeWidget.cpp
+    cmds/widget/cmd_removeWidget.cpp
     cmds/widget/cmd_setName.cpp
     cmds/widget/cmd_setTxt.cpp
 )
@@ -384,8 +382,8 @@ set(libwidgets_SRCS
 
 set(libfinder_SRCS
     finder/findresults.cpp
-    finder/umlfinder.cpp
     finder/umldocfinder.cpp
+    finder/umlfinder.cpp
     finder/umllistviewfinder.cpp
     finder/umlscenefinder.cpp
 )
@@ -408,8 +406,8 @@ set(libumbrello_SRCS
     cmdlineexportallviewsevent.cpp
     codeaccessormethod.cpp
     component.cpp
-    dotgenerator.cpp
     docwindow.cpp
+    dotgenerator.cpp
     entity.cpp
     entityattribute.cpp
     entityconstraint.cpp
@@ -434,18 +432,18 @@ set(libumbrello_SRCS
     port.cpp
     stereotype.cpp
     template.cpp
-    toolbarstate.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
+    toolbarstate.cpp
     toolbarstatefactory.cpp
     toolbarstatemessages.cpp
     toolbarstateother.cpp
     toolbarstatepool.cpp
-    uml.cpp
     umlappprivate.cpp
     umlattributelist.cpp
     umlcanvasobject.cpp
     umlclassifierlistitemlist.cpp
+    uml.cpp
     umldoc.cpp
     umlentityattributelist.cpp
     umlentityconstraintlist.cpp
@@ -456,8 +454,8 @@ set(libumbrello_SRCS
     umlrole.cpp
     umlscene.cpp
     umlview.cpp
-    umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
+    umlviewimageexporter.cpp
     umlviewimageexportermodel.cpp
     uniqueconstraint.cpp
     uniqueid.cpp
