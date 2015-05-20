@@ -27,8 +27,6 @@ Code Model - a memory symbol store.
 
 #include "ast.h"
 
-#include <KSharedPtr>
-
 #include <qmap.h>
 #include <QStringList>
 #include <qvector.h>

@@ -19,7 +19,15 @@
 #ifndef __ast_h
 #define __ast_h
 
+#include <QtGlobal>
+
+#if QT_VERSION >= 0x050000
+#include <QExplicitlySharedDataPointer>
+#define KShared QSharedData
+#define KSharedPtr QExplicitlySharedDataPointer
+#else
 #include <KSharedPtr>
+#endif
 
 #include <memory>
 #include <QString>
