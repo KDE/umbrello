@@ -170,4 +170,3 @@ void XhtmlGenerator::threadFinished()
     m_d2xg = 0;
 }
 
-#include "xhtmlgenerator.moc"

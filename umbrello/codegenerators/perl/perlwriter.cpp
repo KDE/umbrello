@@ -744,4 +744,3 @@ QStringList PerlWriter::reservedKeywords() const
     return keywords;
 }
 
-#include "perlwriter.moc"

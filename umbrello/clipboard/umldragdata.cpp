@@ -881,4 +881,3 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     return result;
 }
 
-#include "umldragdata.moc"

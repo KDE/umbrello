@@ -3362,5 +3362,4 @@ QStringList PhpWriter::reservedKeywords() const
     return keywords;
 }
 
-#include "phpwriter.moc"
 

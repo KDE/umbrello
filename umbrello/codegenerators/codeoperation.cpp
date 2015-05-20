@@ -155,4 +155,3 @@ void CodeOperation::updateContent()
 }
 
 
-#include "codeoperation.moc"

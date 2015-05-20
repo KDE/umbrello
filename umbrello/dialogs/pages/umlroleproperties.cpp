@@ -112,4 +112,3 @@ void UMLRoleProperties::apply()
     } //end if m_pRole
 }
 
-#include "umlroleproperties.moc"

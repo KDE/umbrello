@@ -80,4 +80,3 @@ void AssociationPropertiesDialog::setupPages()
     setupFontPage(m_pAssoc);
 }
 
-#include "associationpropertiesdialog.moc"

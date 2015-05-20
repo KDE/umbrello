@@ -161,4 +161,3 @@ Plugin::category()
     return QString("miscellaneous");
 }
 
-#include "plugin.moc"

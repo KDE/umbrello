@@ -536,4 +536,3 @@ void JavaClassifierCodeDocument::updateContent()
 }
 
 
-#include "javaclassifiercodedocument.moc"

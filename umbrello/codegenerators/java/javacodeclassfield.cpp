@@ -85,4 +85,3 @@ QString JavaCodeClassField::getTypeName ()
     return JavaCodeGenerator::fixTypeName(CodeClassField::getTypeName());
 }
 
-#include "javacodeclassfield.moc"

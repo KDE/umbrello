@@ -261,4 +261,3 @@ void DiagramPrintPage::slotActivated(int index)
     m_pSelectLW->selectAll();
 }
 
-#include "diagramprintpage.moc"

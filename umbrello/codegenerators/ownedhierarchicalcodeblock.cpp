@@ -103,4 +103,3 @@ void OwnedHierarchicalCodeBlock::syncToParent()
     updateContent();
 }
 
-#include "ownedhierarchicalcodeblock.moc"

@@ -228,4 +228,3 @@ void AssociationGeneralPage::apply()
     }
 }
 
-#include "associationgeneralpage.moc"

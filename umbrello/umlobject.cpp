@@ -1146,4 +1146,3 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
     return out.space();
 }
 
-#include "umlobject.moc"

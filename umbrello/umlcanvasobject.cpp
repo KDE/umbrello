@@ -462,4 +462,3 @@ bool UMLCanvasObject::resolveRef()
     return overallSuccess;
 }
 
-#include "umlcanvasobject.moc"

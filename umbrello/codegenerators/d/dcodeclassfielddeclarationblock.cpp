@@ -103,4 +103,3 @@ void DCodeClassFieldDeclarationBlock::updateContent()
 
 }
 
-#include "dcodeclassfielddeclarationblock.moc"

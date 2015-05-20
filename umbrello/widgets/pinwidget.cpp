@@ -88,4 +88,3 @@ void PinWidget::slotMenuSelection(QAction* action)
     }
 }
 
-#include "pinwidget.moc"

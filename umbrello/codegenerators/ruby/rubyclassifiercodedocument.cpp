@@ -609,4 +609,3 @@ void RubyClassifierCodeDocument::updateContent()
 }
 
 
-#include "rubyclassifiercodedocument.moc"

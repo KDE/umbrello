@@ -139,4 +139,3 @@ void ClassAssociationsPage::slotMenuSelection(QAction* action)
     }
 }
 
-#include "classassociationspage.moc"

@@ -65,4 +65,3 @@ bool UMLActor::load(QDomElement& element)
     return true;
 }
 
-#include "actor.moc"

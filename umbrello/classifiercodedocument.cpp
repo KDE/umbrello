@@ -789,4 +789,3 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
 }
 
 
-#include "classifiercodedocument.moc"

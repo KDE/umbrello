@@ -275,4 +275,3 @@ bool ParameterPropertiesDialog::apply()
     return true;
 }
 
-#include "parameterpropertiesdialog.moc"

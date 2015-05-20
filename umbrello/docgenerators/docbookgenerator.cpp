@@ -129,4 +129,3 @@ void DocbookGenerator::threadFinished()
 }
 
 
-#include "docbookgenerator.moc"

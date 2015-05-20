@@ -167,4 +167,3 @@ void MySQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemL
     SQLWriter::printCheckConstraints(sql, constrList);
 }
 
-#include "mysqlwriter.moc"

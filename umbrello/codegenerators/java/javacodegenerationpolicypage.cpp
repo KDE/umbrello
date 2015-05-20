@@ -71,4 +71,3 @@ void JavaCodeGenerationPolicyPage::apply()
     commonPolicy->emitModifiedCodeContentSig();
 }
 
-#include "javacodegenerationpolicypage.moc"

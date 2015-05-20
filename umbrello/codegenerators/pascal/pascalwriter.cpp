@@ -581,4 +581,3 @@ QStringList PascalWriter::reservedKeywords() const
     return keywords;
 }
 
-#include "pascalwriter.moc"

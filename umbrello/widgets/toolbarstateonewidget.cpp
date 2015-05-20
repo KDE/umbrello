@@ -232,4 +232,3 @@ void ToolBarStateOneWidget::init()
     ToolBarStatePool::init();
 }
 
-#include "toolbarstateonewidget.moc"

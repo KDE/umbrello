@@ -457,5 +457,4 @@ void UMLForeignKeyConstraintDialog::slotResetWidgetState()
     }
 }
 
-#include "umlforeignkeyconstraintdialog.moc"
 

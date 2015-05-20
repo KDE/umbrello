@@ -436,4 +436,3 @@ QString SettingsDialog::getCodeGenerationLanguage()
     return m_pCodeGenPage->getLanguage();
 }
 
-#include "settingsdialog.moc"

@@ -154,4 +154,3 @@ void RubyCodeGenerationPolicy::init()
     blockSignals(false);
 }
 
-#include "rubycodegenerationpolicy.moc"

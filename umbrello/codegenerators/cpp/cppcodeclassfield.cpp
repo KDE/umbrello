@@ -86,4 +86,3 @@ QString CPPCodeClassField::getInitialValue()
     }
 }
 
-#include "cppcodeclassfield.moc"

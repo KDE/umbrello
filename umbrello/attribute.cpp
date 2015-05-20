@@ -422,4 +422,3 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     return templateParamList;
 }
 
-#include "attribute.moc"

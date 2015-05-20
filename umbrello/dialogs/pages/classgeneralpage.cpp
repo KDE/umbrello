@@ -369,4 +369,3 @@ void ClassGeneralPage::slotActorToggled(bool state)
     }
 }
 
-#include "classgeneralpage.moc"

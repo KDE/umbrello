@@ -1858,4 +1858,3 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     return true;
 }
 
-#include "umlwidget.moc"

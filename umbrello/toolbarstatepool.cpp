@@ -57,4 +57,3 @@ ToolBarStatePool::ToolBarStatePool(UMLScene *umlScene)
     m_ToolBarButton = WorkToolBar::tbb_Arrow;
 }
 
-#include "toolbarstatepool.moc"

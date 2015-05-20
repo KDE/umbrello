@@ -138,4 +138,3 @@ void DClassDeclarationBlock::init (DClassifierCodeDocument *parentDoc, const QSt
 }
 
 
-#include "dclassdeclarationblock.moc"

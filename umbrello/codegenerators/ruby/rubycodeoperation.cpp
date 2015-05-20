@@ -206,4 +206,3 @@ int RubyCodeOperation::lastEditableLine()
     return 0;
 }
 
-#include "rubycodeoperation.moc"

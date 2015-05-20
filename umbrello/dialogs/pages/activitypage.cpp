@@ -351,4 +351,3 @@ void ActivityPage::enableWidgets(bool state)
     m_pRenameButton->setEnabled(true);
 }
 
-#include "activitypage.moc"

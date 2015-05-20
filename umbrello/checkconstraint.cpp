@@ -158,4 +158,3 @@ void UMLCheckConstraint::init()
     m_CheckCondition.clear();
 }
 
-#include "checkconstraint.moc"

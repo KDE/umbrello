@@ -57,4 +57,3 @@ bool UMLRoleDialog::apply()
     return false;
 }
 
-#include "umlroledialog.moc"

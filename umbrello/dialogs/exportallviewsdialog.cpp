@@ -72,4 +72,3 @@ void ExportAllViewsDialog::languageChange()
     m_imageType->setToolTip(i18n("The format that the images will be exported to"));
 }
 
-#include "exportallviewsdialog.moc"

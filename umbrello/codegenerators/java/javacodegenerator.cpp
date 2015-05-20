@@ -366,5 +366,4 @@ QStringList JavaCodeGenerator::reservedKeywords() const
     return keywords;
 }
 
-#include "javacodegenerator.moc"
 

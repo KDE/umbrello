@@ -438,4 +438,3 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     }
 }
 
-#include "combinedfragmentwidget.moc"

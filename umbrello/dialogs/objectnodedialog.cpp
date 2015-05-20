@@ -208,4 +208,3 @@ void ObjectNodeDialog::showState()
     m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
 }
 
-#include "objectnodedialog.moc"

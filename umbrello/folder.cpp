@@ -543,4 +543,3 @@ QDebug operator<<(QDebug out, const UMLFolder& item)
     return out.space();
 }
 
-#include "folder.moc"

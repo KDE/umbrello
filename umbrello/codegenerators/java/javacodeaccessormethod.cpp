@@ -205,4 +205,3 @@ void JavaCodeAccessorMethod::update()
     updateContent();
 }
 
-#include "javacodeaccessormethod.moc"

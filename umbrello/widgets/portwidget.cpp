@@ -92,4 +92,3 @@ void PortWidget::slotMenuSelection(QAction* action)
     }
 }
 
-#include "portwidget.moc"

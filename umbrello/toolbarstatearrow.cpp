@@ -225,4 +225,3 @@ void ToolBarStateArrow::setCurrentWidget(UMLWidget* widget)
     ToolBarState::setCurrentWidget(widget);
 }
 
-#include "toolbarstatearrow.moc"

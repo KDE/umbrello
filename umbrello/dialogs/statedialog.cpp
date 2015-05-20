@@ -183,4 +183,3 @@ void StateDialog::setupActivityPage()
                               Icon_Utils::it_Properties_Activities, m_pActivityPage);
 }
 
-#include "statedialog.moc"

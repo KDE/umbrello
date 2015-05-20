@@ -3340,4 +3340,3 @@ KConfig* UMLApp::config()
     return m_config.data();
 }
 
-//#include "uml.moc"

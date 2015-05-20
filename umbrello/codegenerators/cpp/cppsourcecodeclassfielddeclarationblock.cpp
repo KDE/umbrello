@@ -47,4 +47,3 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
     setText(body + QLatin1Char(';'));
 }
 
-#include "cppsourcecodeclassfielddeclarationblock.moc"

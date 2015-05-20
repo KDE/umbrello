@@ -444,4 +444,3 @@ void CodeImpSelectPage::updateSelectionCounter()
     ui_filesNumLabel->setText(QString::number(files.size()));
 }
 
-#include "codeimpselectpage.moc"

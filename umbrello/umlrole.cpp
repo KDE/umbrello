@@ -413,4 +413,3 @@ bool UMLRole::load(QDomElement & element)
     return true;
 }
 
-#include "umlrole.moc"

@@ -371,4 +371,3 @@ void SignalWidget::slotTextDestroyed()
     m_pName = 0;
 }
 
-#include "signalwidget.moc"

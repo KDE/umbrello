@@ -347,5 +347,4 @@ void ObjectNodeWidget::slotOk()
      //   KDialog::accept();
 }
 
-#include "objectnodewidget.moc"
 

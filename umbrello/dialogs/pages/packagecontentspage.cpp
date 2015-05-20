@@ -136,4 +136,3 @@ void PackageContentsPage::slotMenuSelection(QAction* action)
     }
 }
 
-#include "packagecontentspage.moc"

@@ -96,4 +96,3 @@ void CPPCodeGenerationPolicyPage::apply()
 }
 
 
-#include "cppcodegenerationpolicypage.moc"

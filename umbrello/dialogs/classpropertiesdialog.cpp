@@ -357,4 +357,3 @@ void ClassPropertiesDialog::setupInstancePages()
     m_pAssocPage = 0;
 }
 
-#include "classpropertiesdialog.moc"

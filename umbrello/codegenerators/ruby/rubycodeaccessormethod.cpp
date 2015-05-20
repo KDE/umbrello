@@ -228,4 +228,3 @@ void RubyCodeAccessorMethod::update()
     updateContent();
 }
 
-#include "rubycodeaccessormethod.moc"

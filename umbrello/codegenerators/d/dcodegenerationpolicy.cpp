@@ -174,4 +174,3 @@ void DCodeGenerationPolicy::init()
     blockSignals(false);
 }
 
-#include "dcodegenerationpolicy.moc"

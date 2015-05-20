@@ -414,4 +414,3 @@ void CPPCodeGenerationPolicy::init()
     blockSignals(false);
 }
 
-#include "cppcodegenerationpolicy.moc"

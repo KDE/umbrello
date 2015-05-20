@@ -828,4 +828,3 @@ void CPPHeaderCodeDocument::updateContent()
     addOrUpdateTaggedCodeBlockWithComments(QLatin1String("hashDefBlockEnd"), defTextEnd, QString(), 0, false);
 }
 
-#include "cppheadercodedocument.moc"

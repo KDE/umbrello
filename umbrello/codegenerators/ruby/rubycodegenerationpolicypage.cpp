@@ -60,4 +60,3 @@ void RubyCodeGenerationPolicyPage::apply()
     common->emitModifiedCodeContentSig();
 }
 
-#include "rubycodegenerationpolicypage.moc"

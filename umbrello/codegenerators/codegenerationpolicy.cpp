@@ -595,4 +595,3 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     return retstr;
 }
 
-#include "codegenerationpolicy.moc"

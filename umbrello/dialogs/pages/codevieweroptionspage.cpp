@@ -60,4 +60,3 @@ Settings::CodeViewerState CodeViewerOptionsPage::getOptions()
     return m_options;
 }
 
-#include "codevieweroptionspage.moc"

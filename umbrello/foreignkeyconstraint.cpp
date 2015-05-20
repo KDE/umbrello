@@ -442,4 +442,3 @@ void UMLForeignKeyConstraint::setUpdateAction(UpdateDeleteAction uda)
     m_UpdateAction = uda;
 }
 
-#include "foreignkeyconstraint.moc"

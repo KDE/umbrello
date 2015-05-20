@@ -787,4 +787,3 @@ void AdaWriter::finalizeRun()
 }
 
 
-#include "adawriter.moc"

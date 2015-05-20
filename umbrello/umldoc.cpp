@@ -3123,4 +3123,3 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
     return (tagEnd.toLower() == pattern.toLower());
 }
 
-#include "umldoc.moc"

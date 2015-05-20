@@ -167,4 +167,3 @@ void OwnedCodeBlock::syncToParent()
     updateContent();
 }
 
-#include "ownedcodeblock.moc"

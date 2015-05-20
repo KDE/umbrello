@@ -89,4 +89,3 @@ void DocbookGeneratorJob::run()
     emit docbookGenerated(tmpDocBook.fileName());
 }
 
-#include "docbookgeneratorjob.moc"

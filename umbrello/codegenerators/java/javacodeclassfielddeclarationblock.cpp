@@ -102,4 +102,3 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
     setText(body+QLatin1Char(';'));
 }
 
-#include "javacodeclassfielddeclarationblock.moc"

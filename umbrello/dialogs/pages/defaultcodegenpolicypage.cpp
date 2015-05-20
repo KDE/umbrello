@@ -32,4 +32,3 @@ DefaultCodeGenPolicyPage::~DefaultCodeGenPolicyPage()
 {
 }
 
-#include "defaultcodegenpolicypage.moc"

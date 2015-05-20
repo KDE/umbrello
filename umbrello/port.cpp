@@ -66,4 +66,3 @@ bool UMLPort::load(QDomElement&)
     return true;
 }
 
-#include "port.moc"

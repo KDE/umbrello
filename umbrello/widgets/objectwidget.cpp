@@ -694,4 +694,3 @@ bool ObjectWidget::loadFromXMI(QDomElement& qElement)
     return true;
 }
 
-#include "objectwidget.moc"

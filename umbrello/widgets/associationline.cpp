@@ -1402,4 +1402,3 @@ void Symbol::setBrush(const QBrush &brush)
     update();
 }
 
-#include "associationline.moc"

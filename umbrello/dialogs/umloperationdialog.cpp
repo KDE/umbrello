@@ -486,4 +486,3 @@ void UMLOperationDialog::insertTypesSorted(const QString& type)
     }
 }
 
-#include "umloperationdialog.moc"

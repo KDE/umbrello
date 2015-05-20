@@ -106,4 +106,3 @@ bool RegionWidget::loadFromXMI(QDomElement& qElement)
     return true;
 }
 
-#include "regionwidget.moc"

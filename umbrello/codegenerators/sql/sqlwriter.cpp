@@ -619,4 +619,3 @@ void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemLis
    }
 }
 
-#include "sqlwriter.moc"

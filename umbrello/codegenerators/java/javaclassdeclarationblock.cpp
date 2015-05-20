@@ -141,4 +141,3 @@ void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, con
 }
 
 
-#include "javaclassdeclarationblock.moc"

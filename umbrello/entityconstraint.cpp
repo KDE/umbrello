@@ -73,5 +73,4 @@ void UMLEntityConstraint::copyInto(UMLObject *lhs) const
     UMLClassifierListItem::copyInto(lhs);
 }
 
-#include "entityconstraint.moc"
 

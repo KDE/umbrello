@@ -2763,4 +2763,3 @@ QDebug operator<<(QDebug out, const UMLListView& view)
     return out.space();
 }
 
-#include "umllistview.moc"

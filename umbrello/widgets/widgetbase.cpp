@@ -1095,4 +1095,3 @@ QString WidgetBase::toI18nString(WidgetType wt)
     return name;
 }
 
-#include "widgetbase.moc"

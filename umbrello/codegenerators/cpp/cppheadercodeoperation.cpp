@@ -160,4 +160,3 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     }
 }
 
-#include "cppheadercodeoperation.moc"

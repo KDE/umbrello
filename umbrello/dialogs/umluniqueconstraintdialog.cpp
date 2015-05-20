@@ -266,5 +266,4 @@ void UMLUniqueConstraintDialog::slotResetWidgetState()
     }
 }
 
-#include "umluniqueconstraintdialog.moc"
 

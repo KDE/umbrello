@@ -511,4 +511,3 @@ void StateWidget::slotMenuSelection(QAction* action)
     }
 }
 
-#include "statewidget.moc"

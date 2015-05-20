@@ -442,4 +442,3 @@ QSizeF ActivityWidget::maximumSize()
 }
 
 
-#include "activitywidget.moc"

@@ -318,4 +318,3 @@ void SimpleCodeGenerator::initFromParentDocument()
     // do nothing
 }
 
-#include "simplecodegenerator.moc"

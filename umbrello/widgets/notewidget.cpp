@@ -502,4 +502,3 @@ void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-#include "notewidget.moc"

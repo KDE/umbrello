@@ -173,4 +173,3 @@ PluginLoader::slotDestroyed(QObject *obj)
     }
 }
 
-#include "pluginloader.moc"

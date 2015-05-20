@@ -59,4 +59,3 @@ QString CPPMakefileCodeDocument::getPath ()
 
     return path;
 }
-#include "cppmakecodedocument.moc"

@@ -102,4 +102,3 @@ QString UMLFileDialog::currentMimeFilter()
     return UMLViewImageExporterModel::imageTypeToMimeType(fi.suffix());
 }
 
-#include "umlfiledialog.moc"

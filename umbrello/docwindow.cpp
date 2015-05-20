@@ -463,4 +463,3 @@ void DocWindow::toForeground()
     }
 }
 
-#include "docwindow.moc"

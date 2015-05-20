@@ -89,4 +89,3 @@ bool UMLCheckConstraintDialog::apply()
     return true;
 }
 
-#include "umlcheckconstraintdialog.moc"

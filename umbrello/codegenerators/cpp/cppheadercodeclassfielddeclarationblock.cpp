@@ -56,4 +56,3 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
     setText(body);
 }
 
-#include "cppheadercodeclassfielddeclarationblock.moc"

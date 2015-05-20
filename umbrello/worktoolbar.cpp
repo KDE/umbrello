@@ -470,4 +470,3 @@ void WorkToolBar::setupActions()
     }
 }
 
-#include "worktoolbar.moc"

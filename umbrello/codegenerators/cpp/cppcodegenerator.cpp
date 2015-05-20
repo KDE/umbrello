@@ -410,4 +410,3 @@ void CPPCodeGenerator::createDefaultStereotypes()
     Codegen_Utils::createCppStereotypes();
 }
 
-#include "cppcodegenerator.moc"

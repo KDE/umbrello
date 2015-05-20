@@ -334,4 +334,3 @@ Qt::CheckState CPPCodeGenerationForm::toCheckState(bool value)
     }
 }
 
-#include "cppcodegenerationform.moc"

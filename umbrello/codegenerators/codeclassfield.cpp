@@ -665,4 +665,3 @@ void CodeClassField::finishInitialization()
     connect(getParentObject(), SIGNAL(modified()), this, SIGNAL(modified())); // child objects will trigger off this signal
 }
 
-#include "codeclassfield.moc"

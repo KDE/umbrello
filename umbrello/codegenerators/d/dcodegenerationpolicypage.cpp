@@ -71,4 +71,3 @@ void DCodeGenerationPolicyPage::apply()
     commonPolicy->emitModifiedCodeContentSig();
 }
 
-#include "dcodegenerationpolicypage.moc"

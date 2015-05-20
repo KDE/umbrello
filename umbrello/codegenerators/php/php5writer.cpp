@@ -3452,5 +3452,4 @@ QStringList Php5Writer::reservedKeywords() const
 }
 
 
-#include "php5writer.moc"
 

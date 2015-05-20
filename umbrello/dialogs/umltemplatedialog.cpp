@@ -165,4 +165,3 @@ bool UMLTemplateDialog::apply()
     return true;
 }
 
-#include "umltemplatedialog.moc"

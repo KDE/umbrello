@@ -178,4 +178,3 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
 }
 
-#include "umlviewdialog.moc"

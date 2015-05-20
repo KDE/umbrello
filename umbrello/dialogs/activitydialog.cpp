@@ -222,4 +222,3 @@ void ActivityDialog::showParameterActivity()
     }
 }
 
-#include "activitydialog.moc"

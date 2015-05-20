@@ -281,4 +281,3 @@ QString JavaANTCodeDocument::getPath ()
 }
 
 
-#include "javaantcodedocument.moc"

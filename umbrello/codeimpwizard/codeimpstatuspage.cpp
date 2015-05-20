@@ -341,4 +341,3 @@ void CodeImpStatusPage::loggerExport()
     }
 }
 
-#include "codeimpstatuspage.moc"

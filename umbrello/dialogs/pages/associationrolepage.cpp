@@ -275,4 +275,3 @@ void AssociationRolePage::apply()
     } //end if m_pAssociationWidget
 }
 
-#include "associationrolepage.moc"

@@ -185,4 +185,3 @@ bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
     return true;
 }
 
-#include "floatingdashlinewidget.moc"

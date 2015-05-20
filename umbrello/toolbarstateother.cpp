@@ -310,4 +310,3 @@ bool ToolBarStateOther::newWidget()
     return true;
 }
 
-#include "toolbarstateother.moc"

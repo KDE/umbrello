@@ -151,4 +151,3 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
 
 }
 
-#include "cppsourcecodeaccessormethod.moc"

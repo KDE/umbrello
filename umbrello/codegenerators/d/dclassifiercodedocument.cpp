@@ -544,4 +544,3 @@ void DClassifierCodeDocument::updateContent()
 
 }
 
-#include "dclassifiercodedocument.moc"

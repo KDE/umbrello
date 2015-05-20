@@ -318,4 +318,3 @@ void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
     UMLApp::app()->document()->setModified();
 }
 
-#include "toolbarstatemessages.moc"

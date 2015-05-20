@@ -51,4 +51,3 @@ bool NoteDialog::apply()
     return true;
 }
 
-#include "notedialog.moc"

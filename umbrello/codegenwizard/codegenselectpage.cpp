@@ -146,4 +146,3 @@ void CodeGenSelectPage::moveSelectedItems(QListWidget* fromList, QListWidget* to
     }
 }
 
-#include "codegenselectpage.moc"

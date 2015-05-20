@@ -157,4 +157,3 @@ void UMLClassifierListItem::setTypeName(const QString &type)
     UMLObject::emitModified();
 }
 
-#include "classifierlistitem.moc"

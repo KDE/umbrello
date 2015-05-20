@@ -100,4 +100,3 @@ void CodeViewerDialog::languageChange()
     setWindowTitle(i18n("Code Viewer - %1", Uml::ProgrammingLanguage::toString(pl)));
 }
 
-#include "codeviewerdialog.moc"

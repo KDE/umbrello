@@ -88,4 +88,3 @@ UMLArtifact::Draw_Type UMLArtifact::getDrawAsType()
     return m_drawAsType;
 }
 
-#include "artifact.moc"

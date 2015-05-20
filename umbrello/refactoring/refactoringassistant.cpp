@@ -861,4 +861,3 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
     refactor(m_umlObject);  //:TODO:fischer
 }
 
-#include "refactoringassistant.moc"

@@ -912,4 +912,3 @@ void CodeGenerator::createDefaultStereotypes()
     //e.g.  m_document->createDefaultStereotypes("constructor");
 }
 
-#include "codegenerator.moc"
