@@ -20,7 +20,6 @@
 #include "icon_utils.h"
 
 // kde includes
-#include <kvbox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kfontdialog.h>
@@ -111,11 +110,15 @@ void StateDialog::setupGeneralPage()
 {
     StateWidget::StateType type = m_pStateWidget->stateType();
 
-    KVBox * page = new KVBox();
+    QWidget* page = new QWidget();
+    QVBoxLayout* topLayout = new QVBoxLayout();
+    page->setLayout(topLayout);
+
     pageGeneral = createPage(i18nc("general page", "General"), i18n("General Properties"),
                              Icon_Utils::it_Properties_General, page);
 
-    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
+    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"));
+    topLayout->addWidget(m_GenPageWidgets.generalGB);
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -163,7 +166,7 @@ void StateDialog::setupGeneralPage()
                                     m_GenPageWidgets.nameL, i18n("State name:"),
                                     m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget, (QWidget *)page);
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
     generalLayout->addWidget(m_GenPageWidgets.docWidget, 2, 0, 1, 2);
 
     if (type != StateWidget::Normal) {

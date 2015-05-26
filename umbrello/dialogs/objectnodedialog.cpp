@@ -22,7 +22,6 @@
 // kde includes
 #include <klineedit.h>
 #include <klocale.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QCheckBox>
@@ -131,11 +130,13 @@ void ObjectNodeDialog::setupGeneralPage()
     types << i18n("Central Buffer") << i18n("Data Store") << i18n("ObjectFlow");
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
-    KVBox *page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageItemGeneral = createPage(i18n("General"), i18n("General Properties"),
                                  Icon_Utils::it_Properties_General, page);
 
-    m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"), (QWidget *)page);
+    m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"));
+    topLayout->addWidget(m_GenPageWidgets.generalGB);
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -163,13 +164,13 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
 
-    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"), (QWidget *)page);
+    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"));
     generalLayout->addWidget(m_GenPageWidgets.bufferRB, 3, 0);
 
-    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "), (QWidget *)page);
+    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "));
     generalLayout->addWidget(m_GenPageWidgets.dataRB, 3, 1);
 
-    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"), (QWidget *)page);
+    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"));
     generalLayout->addWidget(m_GenPageWidgets.flowRB, 4, 1);
 
     if (type == ObjectNodeWidget::Flow)
@@ -187,7 +188,7 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.dataRB->setChecked (newType == ObjectNodeWidget::Data);
     m_GenPageWidgets.flowRB->setChecked (newType == ObjectNodeWidget::Flow);
 
-    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pObjectNodeWidget, page);
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pObjectNodeWidget);
     generalLayout->addWidget(m_GenPageWidgets.docWidget, 5, 0, 1, 2);
 
     if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {

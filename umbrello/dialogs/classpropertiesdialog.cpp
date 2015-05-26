@@ -31,7 +31,6 @@
 // kde includes
 #include <kfontdialog.h>
 #include <klocale.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QFrame>

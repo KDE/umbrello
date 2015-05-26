@@ -34,7 +34,6 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kvbox.h>
 
 #include <QApplication>
 #include <QGridLayout>
@@ -197,11 +196,15 @@ bool UMLForeignKeyConstraintDialog::apply()
 void UMLForeignKeyConstraintDialog::setupGeneralPage()
 {
     //setup General page
-    KVBox * page = new KVBox();
+    QWidget* page = new QWidget();
+    QVBoxLayout* topLayout = new QVBoxLayout();
+    page->setLayout(topLayout);
+
     pageGeneral = createPage(i18nc("general page title", "General"), i18n("General Settings"),
                              Icon_Utils::it_Properties_General, page);
 
-    m_GeneralWidgets.generalGB = new QGroupBox(i18nc("general group title", "General"), page);
+    m_GeneralWidgets.generalGB = new QGroupBox(i18nc("general group title", "General"));
+    topLayout->addWidget(m_GeneralWidgets.generalGB);
 
     QGridLayout* generalLayout = new QGridLayout(m_GeneralWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -211,29 +214,29 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
                                        m_GeneralWidgets.nameL, i18nc("label for entering name", "Name"),
                                        m_GeneralWidgets.nameT);
 
-    m_GeneralWidgets.referencedEntityL = new QLabel(i18n("Referenced Entity"), page);
+    m_GeneralWidgets.referencedEntityL = new QLabel(i18n("Referenced Entity"));
     generalLayout->addWidget(m_GeneralWidgets.referencedEntityL, 1, 0);
 
-    m_GeneralWidgets.referencedEntityCB = new KComboBox(page);
-
+    m_GeneralWidgets.referencedEntityCB = new KComboBox();
     generalLayout->addWidget(m_GeneralWidgets.referencedEntityCB, 1, 1);
 
-    m_GeneralWidgets.actionGB = new QGroupBox(i18n("Actions"), page);
+    m_GeneralWidgets.actionGB = new QGroupBox(i18n("Actions"));
+    topLayout->addWidget(m_GeneralWidgets.actionGB);
 
     QGridLayout* actionLayout = new QGridLayout(m_GeneralWidgets.actionGB);
     generalLayout->setSpacing(spacingHint());
     generalLayout->setMargin(fontMetrics().height());
 
-    m_GeneralWidgets.onUpdateL = new QLabel(i18n("On Update"), page);
+    m_GeneralWidgets.onUpdateL = new QLabel(i18n("On Update"));
     actionLayout->addWidget(m_GeneralWidgets.onUpdateL, 0, 0);
 
     m_GeneralWidgets.updateActionCB = new KComboBox(page);
     actionLayout->addWidget(m_GeneralWidgets.updateActionCB, 0, 1);
 
-    m_GeneralWidgets.onDeleteL = new QLabel(i18n("On Delete"), page);
+    m_GeneralWidgets.onDeleteL = new QLabel(i18n("On Delete"));
     actionLayout->addWidget(m_GeneralWidgets.onDeleteL, 1, 0);
 
-    m_GeneralWidgets.deleteActionCB = new KComboBox(page);
+    m_GeneralWidgets.deleteActionCB = new KComboBox();
     actionLayout->addWidget(m_GeneralWidgets.deleteActionCB, 1, 1);
 
     // set the name
@@ -280,29 +283,34 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 void UMLForeignKeyConstraintDialog::setupColumnPage()
 {
     //setup Columns page
-    KVBox * page = new KVBox();
+    QWidget* page = new QWidget();
+    QVBoxLayout* topLayout = new QVBoxLayout();
+    page->setLayout(topLayout);
+
     pageColumn = createPage(i18n("Columns"), i18n("Columns"),
                             Icon_Utils::it_Properties_Columns, page);
 
-    m_ColumnWidgets.mappingTW = new QTreeWidget(page);
+    m_ColumnWidgets.mappingTW = new QTreeWidget();
+    topLayout->addWidget(m_ColumnWidgets.mappingTW);
 
     QStringList headers;
     headers << i18nc("column header local", "Local") << i18nc("column header referenced", "Referenced");
     m_ColumnWidgets.mappingTW->setHeaderLabels(headers);
 
-    QWidget* columns = new QWidget(page);
+    QWidget* columns = new QWidget();
+    topLayout->addWidget(columns);
     QGridLayout* columnsLayout = new QGridLayout(columns);
 
-    m_ColumnWidgets.localColumnL = new QLabel(i18n("Local Column"), page);
+    m_ColumnWidgets.localColumnL = new QLabel(i18n("Local Column"));
     columnsLayout->addWidget(m_ColumnWidgets.localColumnL, 0, 0);
 
-    m_ColumnWidgets.localColumnCB = new KComboBox(page);
+    m_ColumnWidgets.localColumnCB = new KComboBox();
     columnsLayout->addWidget(m_ColumnWidgets.localColumnCB, 0, 1);
 
-    m_ColumnWidgets.referencedColumnL = new QLabel(i18n("Referenced Column"), page);
+    m_ColumnWidgets.referencedColumnL = new QLabel(i18n("Referenced Column"));
     columnsLayout->addWidget(m_ColumnWidgets.referencedColumnL, 1, 0);
 
-    m_ColumnWidgets.referencedColumnCB = new KComboBox(page);
+    m_ColumnWidgets.referencedColumnCB = new KComboBox();
     columnsLayout->addWidget(m_ColumnWidgets.referencedColumnCB, 1, 1);
 
     KDialogButtonBox* buttonBox = new KDialogButtonBox(page);

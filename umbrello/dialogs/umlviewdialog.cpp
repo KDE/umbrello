@@ -26,7 +26,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfontdialog.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QFrame>

@@ -43,7 +43,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     QVBoxLayout *topLayout = new QVBoxLayout(this);
 
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), this);
+    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"));
+    topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     QGridLayout * miscLayout = new QGridLayout(m_GeneralWidgets.miscGB);
     miscLayout->setSpacing(spacingHint);
@@ -71,7 +72,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
-    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"), this);
+    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
+    topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
     QGridLayout * autosaveLayout = new QGridLayout(m_GeneralWidgets.autosaveGB);
     autosaveLayout->setSpacing(spacingHint);
@@ -103,7 +105,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
     //setup startup settings
-    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"), this);
+    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"));
+    topLayout->addWidget(m_GeneralWidgets.startupGB);
 
     QGridLayout * startupLayout = new QGridLayout(m_GeneralWidgets.startupGB);
     startupLayout->setSpacing(spacingHint);

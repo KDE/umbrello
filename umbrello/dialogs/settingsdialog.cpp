@@ -25,7 +25,6 @@
 #include "layoutgenerator.h"
 
 #include <kfiledialog.h>
-#include <kvbox.h>
 
 //TODO don't do that, but it's better than hardcoded in the functions body
 #define FILL_COLOR QColor(255, 255, 192) 
