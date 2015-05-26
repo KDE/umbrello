@@ -90,6 +90,7 @@ public:
 
     const KUrl& url() const;
     void setUrl(const KUrl& url);
+    void setUrlUntitled();
 
     void setupSignals();
 
