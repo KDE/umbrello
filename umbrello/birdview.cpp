@@ -32,6 +32,8 @@
 
 DEBUG_REGISTER(BirdView)
 
+#define VERBOSE_DBG_OUT 1
+
 /**
  * @brief Constructor.
  * @param parent   the dock widget where the bird view is loaded
@@ -77,6 +79,17 @@ BirdView::~BirdView()
 }
 
 /**
+ * Handle destroyed view.
+ */
+void BirdView::slotDestroyed(QObject *object)
+{
+    if (m_view == object) {
+        m_birdView->setScene(0);
+        m_view = 0;
+    }
+}
+
+/**
  * Event handler for size changed events of the dock window.
  * @param size   new size to which the dock window was resized
  *
@@ -102,7 +115,7 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     QMatrix wm;
     wm.scale(scale, scale);
     m_birdView->setMatrix(wm);
-#if 1
+#if VERBOSE_DBG_OUT
     DEBUG(DBG_SRC) << "setting the size to the scene: " << itemsRect
                    << " / to the frame: " << frameRect
                    << " / scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
@@ -130,7 +143,7 @@ void BirdView::slotViewChanged()
         hmax = hScroll->maximum();
         hpage = hScroll->pageStep();
         hlen = abs(hmax - hmin) + hpage;
-#if 1
+#if VERBOSE_DBG_OUT
         DEBUG(DBG_SRC) << "hvalue: " << hvalue << " / hlen: " << hlen
                        << " / hmin: " << hmin << " / hmax: " << hmax
                        << " / hpage: " << hpage;
@@ -149,41 +162,46 @@ void BirdView::slotViewChanged()
         vmax = vScroll->maximum();
         vpage = vScroll->pageStep();
         vlen = abs(vmax - vmin) + vpage;
-#if 1
+#if VERBOSE_DBG_OUT
         DEBUG(DBG_SRC) << "vvalue: " << vvalue << " / vlen: " << vlen
                        << " / vmin: " << vmin << " / vmax: " << vmax
                        << " / vpage: " << vpage;
 #endif
     }
 
-    if (!((hmin == 0) && (hmax == 0)) |
-        !((vmin == 0) && (vmax == 0))) {
-        int width = m_protectFrame->width() * hpage / hlen;
-        int height = m_protectFrame->height() * vpage / vlen;
-        int x = m_protectFrame->width() * (hvalue - hmin) / hlen;
-        if (x > (hmax - width)) {
-            x = hmax - width;
-        }
-        if (x <= hmin) {
-            x = hmin;
-        }
-        int y = m_protectFrame->height() * (vvalue - vmin) / vlen;
-        if (y > (vmax - height)) {
-            y = vmax - height;
-        }
-        if (y <= vmin) {
-            y = vmin;
-        }
-        QRect rect = QRect(x, y, width, height);
-        setGeometry(rect);
-#if 1
-        DEBUG(DBG_SRC) << "rect: " << rect;
-#endif
+    if ((vlen == 0) || (hlen == 0)) {
+        DEBUG(DBG_SRC) << "Geometry cannot be changed!";
     }
     else {
-        QWidget* container = (QWidget*)m_birdView->parent();
-        if (container) {
-            setGeometry(container->rect());
+        if (!((hmin == 0) && (hmax == 0)) |
+            !((vmin == 0) && (vmax == 0))) {
+            int width = m_protectFrame->width() * hpage / hlen;
+            int height = m_protectFrame->height() * vpage / vlen;
+            int x = m_protectFrame->width() * (hvalue - hmin) / hlen;
+            if (x > (hmax - width)) {
+                x = hmax - width;
+            }
+            if (x <= hmin) {
+                x = hmin;
+            }
+            int y = m_protectFrame->height() * (vvalue - vmin) / vlen;
+            if (y > (vmax - height)) {
+                y = vmax - height;
+            }
+            if (y <= vmin) {
+                y = vmin;
+            }
+            QRect rect = QRect(x, y, width, height);
+            setGeometry(rect);
+#if VERBOSE_DBG_OUT
+            DEBUG(DBG_SRC) << "rect: " << rect;
+#endif
+        }
+        else {
+            QWidget* container = (QWidget*)m_birdView->parent();
+            if (container) {
+                setGeometry(container->rect());
+            }
         }
     }
 }
@@ -210,7 +228,7 @@ void BirdView::mouseMoveEvent(QMouseEvent *event)
     int newX = x() + delta.x();
     int newY = y() + delta.y();
     QRect limit = m_protectFrame->frameRect();
-#if 0
+#if VERBOSE_DBG_OUT
     DEBUG(DBG_SRC) << limit << " contains ";
     DEBUG(DBG_SRC) << "   top    left  [ " << newX << ", " << newY << "]";
     DEBUG(DBG_SRC) << "   bottom right [ " << newX + width() << ", " << newY + height() << "]";
@@ -267,6 +285,8 @@ void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
     frame->setAutoFillBackground(true);
 }
 
+//------------------------------------------------------------------------------
+
 /**
  * Constructor.
  */
@@ -282,15 +302,4 @@ BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt
 void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
 {
     emit sizeChanged(event->size());
-}
-
-/**
- * Handle destroyed view.
- */
-void BirdView::slotDestroyed(QObject *object)
-{
-    if (m_view == object) {
-        m_birdView->setScene(0);
-        m_view = 0;
-    }
 }
