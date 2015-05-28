@@ -48,6 +48,7 @@ signals:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 };
 
 /**
@@ -80,6 +81,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void slotDockSizeChanged(const QSize &size);

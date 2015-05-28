@@ -40,8 +40,8 @@ DEBUG_REGISTER(BirdView)
  * @param view     the view to show
  */
 BirdView::BirdView(QDockWidget *parent, UMLView* view)
-    : QFrame(),
-      m_view(view)
+  : QFrame(),
+    m_view(view)
 {
     // create view and add it to the container frame
     UMLScene* scene = m_view->umlScene();
@@ -62,6 +62,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     setMidLineWidth(2);
     setFrameStyle(Box | Raised);
     setBackgroundColor(this, QColor(115, 205, 240, 100));
+    setFocusPolicy(Qt::StrongFocus);  // enable key press event
 
     slotDockSizeChanged(parent->rect().size());
 
@@ -70,6 +71,9 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     connect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
 }
 
+/**
+ * Destructor.
+ */
 BirdView::~BirdView()
 {
     disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
@@ -228,17 +232,24 @@ void BirdView::mouseMoveEvent(QMouseEvent *event)
     int newX = x() + delta.x();
     int newY = y() + delta.y();
     QRect limit = m_protectFrame->frameRect();
+    if (limit.contains(newX, newY, true) &&
+        limit.contains(newX + width(), newY + height())) {
 #if VERBOSE_DBG_OUT
+    DEBUG(DBG_SRC) << "moving delta=" << delta;
     DEBUG(DBG_SRC) << limit << " contains ";
     DEBUG(DBG_SRC) << "   top    left  [ " << newX << ", " << newY << "]";
     DEBUG(DBG_SRC) << "   bottom right [ " << newX + width() << ", " << newY + height() << "]";
 #endif
-    if (limit.contains(newX, newY, true) &&
-        limit.contains(newX + width(), newY + height())) {
         move(newX, newY);
         m_moveStartPos = event->globalPos();
+        event->accept();
         emit viewPositionChanged(delta * 10);  //:TODO: no no no ! Why ?
     }
+#if VERBOSE_DBG_OUT
+    else {
+        DEBUG(DBG_SRC) << "not moving.";
+    }
+#endif
 }
 
 /**
@@ -248,6 +259,51 @@ void BirdView::mouseMoveEvent(QMouseEvent *event)
 void BirdView::mouseReleaseEvent(QMouseEvent *event)
 {
     mouseMoveEvent(event);
+}
+
+/**
+ * Event handler for key press events.
+ * @param event   key press event
+ */
+void BirdView::keyPressEvent(QKeyEvent *event)
+{
+    const int STEP = 10;
+    QPoint point = pos();
+    m_moveStartPos = mapToGlobal(point);
+    QString key;
+    bool doMove = true;
+    QPoint newPoint;
+    switch (event->key()) {
+    case Qt::Key_Left:
+        key = QLatin1String("LEFT");
+        newPoint = QPoint(point.x() - STEP, point.y());
+        break;
+    case Qt::Key_Right:
+        key = QLatin1String("RIGHT");
+        newPoint = QPoint(point.x() + STEP, point.y());
+        break;
+    case Qt::Key_Up:
+        key = QLatin1String("UP");
+        newPoint = QPoint(point.x(), point.y() - STEP);
+        break;
+    case Qt::Key_Down:
+        key = QLatin1String("DOWN");
+        newPoint = QPoint(point.x(), point.y() + STEP);
+        break;
+    default:
+        QFrame::keyPressEvent(event);
+        doMove = false;
+        break;
+    }
+    if (doMove) {
+        event->accept();
+#if VERBOSE_DBG_OUT
+        DEBUG(DBG_SRC) << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
+#endif
+        QMouseEvent* e = new QMouseEvent(QEvent::MouseMove, QPointF(newPoint), QPointF(mapToGlobal(newPoint)),
+                                         Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+        mouseMoveEvent(e);
+    }
 }
 
 /**
@@ -291,8 +347,9 @@ void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
  * Constructor.
  */
 BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
-    : QDockWidget(title, parent, flags)
+  : QDockWidget(title, parent, flags)
 {
+    setFocusPolicy(Qt::StrongFocus);  // enable key press event
 }
 
 /**
@@ -302,4 +359,14 @@ BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt
 void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
 {
     emit sizeChanged(event->size());
+}
+
+/**
+ * Event handler for key press events.
+ * @param event   key press event
+ */
+void BirdViewDockWidget::keyPressEvent(QKeyEvent *event)
+{
+    DEBUG(DBG_SRC) << event->key();  //:TODO: is not working
+    QDockWidget::keyPressEvent(event);
 }
