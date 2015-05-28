@@ -15,8 +15,11 @@
 #ifndef LEXERCACHE_H
 #define LEXERCACHE_H
 #include <hashedstring.h>
-#include "macro.h"
+#if QT_VERSION >= 0x050000
+#else
 #include <kdebug.h>
+#endif
+#include "macro.h"
 #include <qdatetime.h>
 #include <qfileinfo.h>
 #include "cachemanager.h"

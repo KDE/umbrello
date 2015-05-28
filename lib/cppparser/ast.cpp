@@ -18,7 +18,10 @@
 
 #include "ast.h"
 #include <QStringList>
+#if QT_VERSION >= 0x050000
+#else
 #include <kdebug.h>
+#endif
 
 QString nodeTypeToString(int type)
 {

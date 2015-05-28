@@ -25,6 +25,10 @@
 
 #include <QFileInfo>
 
+#if QT_VERSION >= 0x050000
+Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
+#endif
+
 Tracer* Tracer::m_instance = 0;
 Tracer::MapType *Tracer::m_classes = 0;
 

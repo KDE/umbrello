@@ -20,7 +20,10 @@
 #include "debug_utils.h"
 #include "driver.h"
 
+#if QT_VERSION >= 0x050000
+#else
 #include <kdebug.h>
+#endif
 
 #define DBG_TPAR  DEBUG(QLatin1String("TreeParser"))
 DEBUG_REGISTER_DISABLED(TreeParser)
