@@ -298,7 +298,7 @@ is empty</string>
                </widget>
               </item>
               <item>
-               <widget class="KIntNumInput" name="ui_SelectIndentationNumber"/>
+               <widget class="QSpinBox" name="ui_SelectIndentationNumber"/>
               </item>
              </layout>
             </item>
@@ -353,11 +353,6 @@ is empty</string>
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
@@ -369,10 +364,6 @@ is empty</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local">knuminput.h</include>
-  <include location="local">knuminput.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

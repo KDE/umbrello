@@ -157,10 +157,6 @@
    <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local">knuminput.h</include>
-  <include location="local">knuminput.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

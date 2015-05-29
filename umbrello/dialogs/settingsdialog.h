@@ -17,17 +17,8 @@
 // kde includes
 #include <kcombobox.h>
 #include <kcolorbutton.h>
-#include <knuminput.h>
 #include <klineedit.h>
 
-// qt includes
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QPushButton>
-#include <QRadioButton>
-
-class UMLWidgetStylePage;
 class AutoLayoutOptionPage;
 class ClassOptionsPage;
 class CodeImportOptionsPage;
@@ -37,10 +28,17 @@ class GeneralOptionPage;
 class KColorButton;
 #if QT_VERSION < 0x050000
 class KFontChooser;
+class KIntSpinBox;
 #endif
+class QCheckBox;
 #if QT_VERSION >= 0x050000
 class QFontDialog;
 #endif
+class QGroupBox;
+#if QT_VERSION >= 0x050000
+class QSpinBox;
+#endif
+class UMLWidgetStylePage;
 
 /**
  * @author Paul Hensgen
@@ -83,8 +81,11 @@ private:
         KColorButton * fillColorB;
         KColorButton * gridColorB;
         KColorButton * bgColorB;
+#if QT_VERSION >= 0x050000
+        QSpinBox     * lineWidthB;
+#else
         KIntSpinBox  * lineWidthB;
-
+#endif
         QCheckBox * useFillColorCB;
     }
     ;//end struct UIWidgets

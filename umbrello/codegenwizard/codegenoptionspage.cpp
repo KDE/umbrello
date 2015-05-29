@@ -22,8 +22,10 @@
 #include "uml.h"
 
 // kde includes
-#include <knuminput.h>
+#if QT_VERSION < 0x050000
 #include <kfiledialog.h>
+#include <KIntSpinBox>
+#endif
 #include <KMessageBox>
 #include <KLocalizedString>
 

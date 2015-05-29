@@ -28,6 +28,7 @@
 #include <KColorButton>
 #if QT_VERSION < 0x050000
 #include <kfontchooser.h>
+#include <KIntSpinBox>
 #endif
 #include <kfiledialog.h>
 
@@ -35,6 +36,10 @@
 #include <QCheckBox>
 #if QT_VERSION >= 0x050000
 #include <QFontDialog>
+#endif
+#include <QGroupBox>
+#if QT_VERSION >= 0x050000
+#include <QSpinBox>
 #endif
 
 //TODO don't do that, but it's better than hardcoded in the functions body
@@ -162,7 +167,15 @@ void SettingsDialog::setupUIPage()
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineWidthCB, 5, 0);
 
+#if QT_VERSION >= 0x050000
+    m_UiWidgets.lineWidthB = new QSpinBox(m_UiWidgets.colorGB);
+    m_UiWidgets.lineWidthB->setMinimum(0);
+    m_UiWidgets.lineWidthB->setMaximum(10);
+    m_UiWidgets.lineWidthB->setSingleStep(1);
+    m_UiWidgets.lineWidthB->setValue(m_pOptionState->uiState.lineWidth);
+#else
     m_UiWidgets.lineWidthB = new KIntSpinBox(0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB);
+#endif
     colorLayout->addWidget(m_UiWidgets.lineWidthB, 5, 1);
     
     m_UiWidgets.useFillColorCB = new QCheckBox(i18n("&Use fill color"), m_UiWidgets.colorGB);

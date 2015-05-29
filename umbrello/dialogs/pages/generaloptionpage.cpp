@@ -17,8 +17,10 @@
 
 // kde includes
 #include <KComboBox>
+#if QT_VERSION < 0x050000
 #include <KDialog>
 #include <KIntSpinBox>
+#endif
 #include <KLineEdit>
 #include <KLocale>
 
@@ -29,6 +31,9 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
+#if QT_VERSION >= 0x050000
+#include <QSpinBox>
+#endif
 
 /**
  * Constructor.
@@ -38,7 +43,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
   : DialogPageBase(parent)
 {
     Settings::OptionState &optionState = Settings::optionState();
+#if QT_VERSION >= 0x050000
+    int spacingHint = 2;
+#else
     int spacingHint = static_cast<KDialog*>(parent)->spacingHint();
+#endif
 
     QVBoxLayout *topLayout = new QVBoxLayout(this);
 
@@ -86,7 +95,14 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.autosaveL = new QLabel(i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB);
     autosaveLayout->addWidget(m_GeneralWidgets.autosaveL, 1, 0);
 
+#if QT_VERSION >= 0x050000
+    m_GeneralWidgets.timeISB = new QSpinBox(m_GeneralWidgets.autosaveGB);
+    m_GeneralWidgets.timeISB->setRange(1, 600);
+    m_GeneralWidgets.timeISB->setSingleStep(1);
+    m_GeneralWidgets.timeISB->setValue(optionState.generalState.autosavetime);
+#else
     m_GeneralWidgets.timeISB = new KIntSpinBox(1, 600, 1, optionState.generalState.autosavetime, m_GeneralWidgets.autosaveGB);
+#endif
     m_GeneralWidgets.timeISB->setEnabled(optionState.generalState.autosave);
     autosaveLayout->addWidget(m_GeneralWidgets.timeISB, 1, 1);
 
