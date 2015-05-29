@@ -34,7 +34,13 @@ class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
+class KColorButton;
+#if QT_VERSION < 0x050000
+class KFontChooser;
+#endif
+#if QT_VERSION >= 0x050000
 class QFontDialog;
+#endif
 
 /**
  * @author Paul Hensgen
@@ -84,7 +90,11 @@ private:
     ;//end struct UIWidgets
 
     struct FontWidgets {
-        QFontDialog * chooser;
+#if QT_VERSION >= 0x050000
+        QFontDialog *chooser;
+#else
+        KFontChooser *chooser;
+#endif
     };
 
     //private methods
