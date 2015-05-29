@@ -65,7 +65,6 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
-#include <KInputDialog>
 #include <KLocalizedString>
 #include <kmenubar.h>
 #include <KMessageBox>

@@ -31,11 +31,16 @@
 #include "umlview.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kfontdialog.h>
 #include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPointer>
 #include <QRegExp>
 #include <QPainter>
@@ -202,8 +207,14 @@ void FloatingTextWidget::setTextcmd(const QString &t)
 void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
+#if QT_VERSION >= 0x050000
+    QString newText = QInputDialog::getText(m_scene->activeView(),
+                                            i18n("Change Text"), i18n("Enter new text:"),
+                                            QLineEdit::Normal,
+                                            text(), &ok);
+#else
     QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_scene->activeView());
-
+#endif
     if (ok && newText != text() && isTextValid(newText)) {
         setText(newText);
         setVisible(!text().isEmpty());
@@ -406,7 +417,14 @@ void FloatingTextWidget::handleRename()
         t = i18n("ERROR");
     }
     bool ok = false;
+#if QT_VERSION >= 0x050000
+    QString newText = QInputDialog::getText(m_scene->activeView(),
+                                            i18n("Rename"), t,
+                                            QLineEdit::Normal,
+                                            text(), &ok);
+#else
     QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_scene->activeView(), &v);
+#endif
     if (!ok || newText == text()) {
         return;
     }
@@ -757,9 +775,17 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
             UMLClassifier* c = m_linkWidget->operationOwner();
             if (c == 0) {
                 bool ok = false;
+#if QT_VERSION >= 0x050000
+                QString opText = QInputDialog::getText(m_scene->activeView(),
+                                                       i18nc("operation name", "Name"),
+                                                       i18n("Enter operation name:"),
+                                                       QLineEdit::Normal,
+                                                       text(), &ok);
+#else
                 QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
                                                        text(), &ok, m_scene->activeView());
+#endif
                 if (ok)
                     m_linkWidget->setCustomOpText(opText);
                 return;

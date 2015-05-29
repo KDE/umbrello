@@ -17,9 +17,15 @@
 #include "uml.h"
 
 // kde includes
-#include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
+#include <KLocalizedString>
 
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 
 /**
  * Sets up a stereotype.
@@ -109,7 +115,14 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
+#if QT_VERSION >= 0x050000
+    QString stereoTypeName = QInputDialog::getText(parent,
+                                                   i18n("Stereotype"), i18n("Enter name:"),
+                                                   QLineEdit::Normal,
+                                                   name(), &ok);
+#else
     QString stereoTypeName = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), name(), &ok, parent);
+#endif
     if (ok) {
         setName(stereoTypeName);
     }

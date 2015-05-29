@@ -18,13 +18,18 @@
 #include "umlwidget.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <klineedit.h>
 #include <kcombobox.h>
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -69,7 +74,14 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
 {
     bool pressedOK = false;
 
+#if QT_VERSION >= 0x050000
+    QString name = QInputDialog::getText(UMLApp::app(),
+                                         dialogTitle, dialogPrompt,
+                                         QLineEdit::Normal,
+                                         defaultName, &pressedOK);
+#else
     QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
+#endif
 
     if (pressedOK) {
         targetWidget->setName(name);

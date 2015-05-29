@@ -25,10 +25,15 @@
 
 // kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 
 // qt includes
 #include <QEvent>
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPolygon>
 
 /**
@@ -325,9 +330,17 @@ void SignalWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
+#if QT_VERSION >= 0x050000
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter signal name"),
+                                         i18n("Enter the signal name :"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
+#else
             name = KInputDialog::getText(i18n("Enter signal name"),
                                          i18n("Enter the signal name :"),
                                          m_Text, &ok);
+#endif
             if (ok && name.length() > 0) {
                 setName(name);
             }

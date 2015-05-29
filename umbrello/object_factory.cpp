@@ -42,12 +42,19 @@
 #include "cmds.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
+#include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kinputdialog.h>
+
+// qt includes
 
 // qt includes
 #include <QApplication>
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QRegExp>
 #include <QStringList>
 
@@ -233,7 +240,14 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
 
     bool ok = false;
     while (bValidNameEntered == false) {
+#if QT_VERSION >= 0x050000
+        name = QInputDialog::getText(UMLApp::app(),
+                                     i18nc("UMLObject name", "Name"), i18n("Enter name:"),
+                                     QLineEdit::Normal,
+                                     name, &ok);
+#else
         name = KInputDialog::getText(i18nc("UMLObject name", "Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
+#endif
         if (!ok) {
             return 0;
         }

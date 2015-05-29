@@ -22,9 +22,14 @@
 
 // kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPainter>
 #include <QString>
 
@@ -289,9 +294,19 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
                              << QLatin1String("Assertion")
                              << QLatin1String("Alternative")
                              << QLatin1String("Parallel") ;
+#if QT_VERSION >= 0x050000
+    QInputDialog *inputDlg = new QInputDialog();
+    inputDlg->setComboBoxItems(list);
+    inputDlg->setOptions(QInputDialog::UseListViewForComboBoxItems);
+    inputDlg->setWindowTitle(dialogTitle);
+    inputDlg->setLabelText(dialogPrompt);
+    pressedOK = inputDlg->exec();
+    QStringList result;
+    result.append(inputDlg->textValue());
+#else
     const QStringList select = list;
     QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
-
+#endif
     if (pressedOK) {
         QString type = result.join(QString());
         dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
@@ -419,6 +434,26 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
             bool ok = false;
             QString name = m_Text;
 
+#if QT_VERSION >= 0x050000
+            if (m_CombinedFragment == Alt) {
+                name = QInputDialog::getText(Q_NULLPTR,
+                                             i18n("Enter first alternative"), i18n("Enter first alternative :"),
+                                             QLineEdit::Normal,
+                                             m_Text, &ok);
+            }
+            else if (m_CombinedFragment == Ref) {
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
+            }
+            else if (m_CombinedFragment == Loop) {
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
+            }
+#else
             if (m_CombinedFragment == Alt) {
                 name = KInputDialog::getText(i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok);
             }
@@ -428,6 +463,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
             else if (m_CombinedFragment == Loop) {
             name = KInputDialog::getText(i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok);
             }
+#endif
             if (ok && name.length() > 0)
                 m_Text = name;
         }

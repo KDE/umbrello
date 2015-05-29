@@ -47,14 +47,16 @@
 
 // kde includes
 #include <kio/job.h>
+#if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
+#include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <kmimetype.h>
 #include <ktar.h>
 #include <ktempdir.h>
 #include <ktemporaryfile.h>
-#include <kinputdialog.h>
 #include <ktabwidget.h>
 #include <kapplication.h>
 
@@ -64,6 +66,9 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
@@ -1345,8 +1350,15 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
 
     while (true) {
         if (askForName)  {
+#if QT_VERSION >= 0x050000
+            name = QInputDialog::getText(UMLApp::app(),
+                                         i18nc("diagram name", "Name"), i18n("Enter name:"),
+                                         QLineEdit::Normal,
+                                         defaultName, &ok);
+#else
             name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"),
                                          defaultName, &ok, (QWidget*)UMLApp::app());
+#endif
         }
         if (!ok)  {
             break;
@@ -1417,8 +1429,14 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
 
     QString oldName= view->umlScene()->name();
     while (true) {
+#if QT_VERSION >= 0x050000
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming diagram", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
+#else
         QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-
+#endif
         if (!ok) {
             break;
         }
@@ -1448,7 +1466,14 @@ void UMLDoc::renameUMLObject(UMLObject *o)
     bool ok = false;
     QString oldName= o->name();
     while (true) {
+#if QT_VERSION >= 0x050000
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming uml object", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
+#else
         QString name = KInputDialog::getText(i18nc("renaming uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
+#endif
         if (!ok)  {
             break;
         }
@@ -1482,7 +1507,14 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 
     QString oldName= o->name();
     while (true) {
+#if QT_VERSION >= 0x050000
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming child uml object", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
+#else
         QString name = KInputDialog::getText(i18nc("renaming child uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
+#endif
         if (!ok) {
             break;
         }

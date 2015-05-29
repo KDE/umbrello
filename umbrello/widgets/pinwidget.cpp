@@ -19,10 +19,15 @@
 #include "activitywidget.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PinWidget)
@@ -74,9 +79,17 @@ void PinWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
+#if QT_VERSION >= 0x050000
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter Pin Name"),
+                                         i18n("Enter the pin name :"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
+#else
             name = KInputDialog::getText(i18n("Enter Pin Name"),
                                          i18n("Enter the pin name :"),
                                          m_Text, &ok);
+#endif
             if (ok) {
                 setName(name);
             }

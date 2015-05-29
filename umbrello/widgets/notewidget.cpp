@@ -24,9 +24,14 @@
 // kde includes
 #include <KLocalizedString>
 #include <kcolordialog.h>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPainter>
 
 NoteWidget * NoteWidget::s_pCurrentNote;
@@ -185,8 +190,15 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
                                                   << i18n("Postcondition")
                                                   << i18n("Transformation");
     bool pressedOK = false;
+
+#if QT_VERSION >= 0x050000
+    QString type = QInputDialog::getItem (UMLApp::app(),
+                                          i18n("Note Type"), i18n("Select the Note Type"), list,
+                                          0, false, &pressedOK);
+#else
     QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list,
                                           0, false, &pressedOK, UMLApp::app());
+#endif
 
     if (pressedOK) {
         dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);

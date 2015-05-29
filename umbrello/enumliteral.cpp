@@ -10,8 +10,16 @@
 
 #include "enumliteral.h"
 
+// kde includes
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
+
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 
 /**
  * Sets up an enum literal.
@@ -101,7 +109,14 @@ bool UMLEnumLiteral::load(QDomElement& element)
 bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
+#if QT_VERSION >= 0x050000
+    QString enumName = QInputDialog::getText(parent,
+                                             i18nc("enum name", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             name(), &ok);
+#else
     QString enumName = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), name(), &ok, parent);
+#endif
     if (ok && !enumName.isEmpty())  {
         setName(enumName);
         return true;

@@ -22,9 +22,16 @@
 #include "model_utils.h"
 
 // kde includes
-#include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
+#include <KLocalizedString>
 #include <KMessageBox>
+
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 
 using namespace Uml;
 
@@ -163,9 +170,17 @@ bool UMLPackage::addObject(UMLObject *pObject)
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = true;
+#if QT_VERSION >= 0x050000
+         name = QInputDialog::getText((QWidget*)UMLApp::app(),
+                                      i18nc("object name", "Name"),
+                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
+                                      QLineEdit::Normal,
+                                      name, &ok);
+#else
          name = KInputDialog::getText(i18nc("object name", "Name"),
                                       i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
                                       name, &ok, (QWidget*)UMLApp::app());
+#endif
          if (!ok) {
             name = oldName;
             continue;

@@ -24,9 +24,14 @@
 
 // kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 
 // qt includes
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QPointer>
 
 /**
@@ -480,9 +485,17 @@ void StateWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
+#if QT_VERSION >= 0x050000
+        nameNew = QInputDialog::getText(Q_NULLPTR,
+                                        i18n("Enter State Name"),
+                                        i18n("Enter the name of the new state:"),
+                                        QLineEdit::Normal,
+                                        name(), &ok);
+#else
         nameNew = KInputDialog::getText(i18n("Enter State Name"),
                                          i18n("Enter the name of the new state:"),
                                          name(), &ok);
+#endif
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }
@@ -493,9 +506,17 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
+#if QT_VERSION >= 0x050000
+        nameNew = QInputDialog::getText(Q_NULLPTR,
+                                        i18n("Enter Activity"),
+                                        i18n("Enter the name of the new activity:"),
+                                        QLineEdit::Normal,
+                                        i18n("new activity"), &ok);
+#else
         nameNew = KInputDialog::getText(i18n("Enter Activity"),
                                          i18n("Enter the name of the new activity:"),
                                          i18n("new activity"), &ok);
+#endif
         if (ok && nameNew.length() > 0) {
             addActivity(nameNew);
         }

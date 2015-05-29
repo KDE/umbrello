@@ -60,10 +60,12 @@
 #include "object_factory.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kfiledialog.h>
+#include <kinputdialog.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kinputdialog.h>
 #include <kapplication.h>
 #include <ktabwidget.h>
 
@@ -71,6 +73,9 @@
 #include <QDropEvent>
 #include <QEvent>
 #include <QFocusEvent>
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
@@ -553,9 +558,17 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_Model:
         {
             bool ok = false;
+#if QT_VERSION >= 0x050000
+            QString name = QInputDialog::getText(UMLApp::app(),
+                                                 i18n("Enter Model Name"),
+                                                 i18n("Enter the new name of the model:"),
+                                                 QLineEdit::Normal,
+                                                 m_doc->name(), &ok);
+#else
             QString name = KInputDialog::getText(i18n("Enter Model Name"),
                                                  i18n("Enter the new name of the model:"),
                                                  m_doc->name(), &ok, UMLApp::app());
+#endif
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);
