@@ -18,7 +18,11 @@
 //qt  includes
 #include <QWidget>
 
+#if QT_VERSION < 0x050000
 class KAction;
+#else
+class QAction;
+#endif
 class KMenu;
 
 /**
@@ -39,11 +43,17 @@ public:
 
 private:
 
+#if QT_VERSION >= 0x050000
+    QAction* newUniqueConstraintAction;
+    QAction* newPrimaryKeyConstraintAction;
+    QAction* newForeignKeyConstraintAction;
+    QAction* newCheckConstraintAction;
+#else
     KAction* newUniqueConstraintAction;
     KAction* newPrimaryKeyConstraintAction;
     KAction* newForeignKeyConstraintAction;
     KAction* newCheckConstraintAction;
-
+#endif
     void setupActions();
 
 private slots:

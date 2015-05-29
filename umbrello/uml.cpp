@@ -57,7 +57,9 @@
 #include "umlscene.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kaction.h>
+#endif
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
@@ -558,14 +560,22 @@ void UMLApp::initActions()
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
+#if QT_VERSION >= 0x050000
+    QAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
+#else
     KAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
+#endif
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
+#if QT_VERSION >= 0x050000
+    QAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
+#else
     KAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
+#endif
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -574,13 +584,21 @@ void UMLApp::initActions()
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
+#if QT_VERSION >= 0x050000
+    QAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
+#else
     KAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
+#endif
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
+#if QT_VERSION >= 0x050000
+    QAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
+#else
     KAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
+#endif
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));

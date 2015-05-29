@@ -24,7 +24,9 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
+#if QT_VERSION < 0x050000
 #include <kaction.h>
+#endif
 #include <kdialogbuttonbox.h>
 #include <KLocalizedString>
 #include <kmenu.h>
@@ -69,19 +71,35 @@ ConstraintListPage::~ConstraintListPage()
 
 void ConstraintListPage::setupActions()
 {
+#if QT_VERSION >= 0x050000
+    newUniqueConstraintAction = new QAction(i18n("Unique Constraint..."), this);
+#else
     newUniqueConstraintAction = new KAction(i18n("Unique Constraint..."), this);
+#endif
     connect(newUniqueConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewUniqueConstraint()));
 
+#if QT_VERSION >= 0x050000
+    newPrimaryKeyConstraintAction = new QAction(i18n("Primary Key Constraint..."), this);
+#else
     newPrimaryKeyConstraintAction = new KAction(i18n("Primary Key Constraint..."), this);
+#endif
     connect(newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewPrimaryKeyConstraint()));
 
+#if QT_VERSION >= 0x050000
+    newForeignKeyConstraintAction = new QAction(i18n("Foreign Key Constraint..."), this);
+#else
     newForeignKeyConstraintAction = new KAction(i18n("Foreign Key Constraint..."), this);
+#endif
     connect(newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewForeignKeyConstraint()));
 
+#if QT_VERSION >= 0x050000
+    newCheckConstraintAction = new QAction(i18n("Check Constraint..."), this);
+#else
     newCheckConstraintAction = new KAction(i18n("Check Constraint..."), this);
+#endif
     connect(newCheckConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewCheckConstraint()));
 }

@@ -36,7 +36,9 @@
 #include "umloperationdialog.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <kaction.h>
+#endif
 #include <KLocalizedString>
 #include <kmenu.h>
 
@@ -750,13 +752,21 @@ KMenu * CodeEditor::createPopup()
     TextBlock * tb = m_selectedTextBlock;
     if (tb) {
         if (tb->getWriteOutText()) {
+#if QT_VERSION >= 0x050000
+            QAction* hideAct = new QAction(i18n("Hide"), this);
+#else
             KAction* hideAct = new KAction(i18n("Hide"), this);
+#endif
             hideAct->setShortcut(Qt::Key_H);
             connect(hideAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
             menu->addAction(hideAct);
         }
         else {
+#if QT_VERSION >= 0x050000
+            QAction* showAct = new QAction(i18n("Show"), this);
+#else
             KAction* showAct = new KAction(i18n("Show"), this);
+#endif
             showAct->setShortcut(Qt::Key_S);
             connect(showAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
             menu->addAction(showAct);
@@ -765,13 +775,21 @@ KMenu * CodeEditor::createPopup()
         CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
         if (cb) {
             if (cb->getComment()->getWriteOutText()) {
+#if QT_VERSION >= 0x050000
+                QAction* hideCommAct = new QAction(i18n("Hide Comment"), this);
+#else
                 KAction* hideCommAct = new KAction(i18n("Hide Comment"), this);
+#endif
                 hideCommAct->setShortcut(Qt::CTRL + Qt::Key_H);
                 connect(hideCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
                 menu->addAction(hideCommAct);
             }
             else {
+#if QT_VERSION >= 0x050000
+                QAction* showCommAct = new QAction(i18n("Show Comment"), this);
+#else
                 KAction* showCommAct = new KAction(i18n("Show Comment"), this);
+#endif
                 showCommAct->setShortcut(Qt::CTRL + Qt::Key_S);
                 connect(showCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
                 menu->addAction(showCommAct);
@@ -779,29 +797,49 @@ KMenu * CodeEditor::createPopup()
         }
         menu->addSeparator();
 
+#if QT_VERSION >= 0x050000
+        QAction* insCodeBeforeAct = new QAction(i18n("Insert Code Block Before"), this);
+#else
         KAction* insCodeBeforeAct = new KAction(i18n("Insert Code Block Before"), this);
+#endif
         insCodeBeforeAct->setShortcut(Qt::CTRL + Qt::Key_B);
         connect(insCodeBeforeAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockBeforeSelected()));
         menu->addAction(insCodeBeforeAct);
 
+#if QT_VERSION >= 0x050000
+        QAction* insCodeAfterAct = new QAction(i18n("Insert Code Block After"), this);
+#else
         KAction* insCodeAfterAct = new KAction(i18n("Insert Code Block After"), this);
+#endif
         insCodeAfterAct->setShortcut(Qt::CTRL + Qt::Key_A);
         connect(insCodeAfterAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockAfterSelected()));
         menu->addAction(insCodeAfterAct);
 
         menu->addSeparator();
 
+#if QT_VERSION >= 0x050000
+        QAction* copyAct = new QAction(i18n("Copy"), this);
+#else
         KAction* copyAct = new KAction(i18n("Copy"), this);
+#endif
         copyAct->setShortcut(Qt::CTRL + Qt::Key_C);
         connect(copyAct, SIGNAL(triggered()), this, SLOT(slotCopyTextBlock()));
         menu->addAction(copyAct);
 
+#if QT_VERSION >= 0x050000
+        QAction* pasteAct = new QAction(i18n("Paste"), this);
+#else
         KAction* pasteAct = new KAction(i18n("Paste"), this);
+#endif
         pasteAct->setShortcut(Qt::CTRL + Qt::Key_V);
         connect(pasteAct, SIGNAL(triggered()), this, SLOT(slotPasteTextBlock()));
         menu->addAction(pasteAct);
 
+#if QT_VERSION >= 0x050000
+        QAction* cutAct = new QAction(i18n("Cut"), this);
+#else
         KAction* cutAct = new KAction(i18n("Cut"), this);
+#endif
         cutAct->setShortcut(Qt::CTRL + Qt::Key_X);
         connect(cutAct, SIGNAL(triggered()), this, SLOT(slotCutTextBlock()));
         menu->addAction(cutAct);
