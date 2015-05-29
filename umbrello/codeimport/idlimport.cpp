@@ -24,11 +24,16 @@
 #include "umlpackagelist.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <KStandardDirs>
+#endif
 
 // qt includes
 #include <QProcess>
 #include <QRegExp>
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
 #include <QStringList>
 
 #include <stdio.h>
@@ -49,7 +54,11 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//
     }
 
     QStringList arguments;
+#if QT_VERSION >= 0x050000
+    QString executable = QStandardPaths::findExecutable(QLatin1String("cpp"));
+#else
     QString executable = KStandardDirs::findExe(QLatin1String("cpp"));
+#endif
     if (!executable.isEmpty()) {
         arguments << QLatin1String("-C");   // -C means "preserve comments"
     }

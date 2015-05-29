@@ -20,13 +20,18 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kstandarddirs.h>
+#if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
+#include <kstandarddirs.h>
+#endif
 #include <kio/job.h>
 
 #include <QApplication>
 #include <QFile>
 #include <QRegExp>
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
 #include <QTextStream>
 
 /**
@@ -139,7 +144,11 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
+#if QT_VERSION >= 0x050000
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("xmi.css")));
+#else
     QString cssFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi.css")));
+#endif
     KUrl cssUrl = m_destDir;
     cssUrl.addPath(QLatin1String("xmi.css"));
     KIO::Job* cssJob = KIO::file_copy(cssFileName, cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);

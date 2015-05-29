@@ -70,7 +70,6 @@
 #include <KLocalizedString>
 #include <kmenubar.h>
 #include <KMessageBox>
-#include <kstandarddirs.h>
 #include <ktip.h>
 #include <ktabwidget.h>
 #include <kactionmenu.h>

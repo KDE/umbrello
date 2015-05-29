@@ -26,10 +26,16 @@
 #include <libxslt/xsltutils.h>
 
 #include <ktemporaryfile.h>
+#if QT_VERSION < 0x050000
 #include <kstandarddirs.h>
+#endif
 #include <KLocalizedString>
 
-#include <QTextOStream>
+// qt includes
+#include <QTextStream>
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -65,7 +71,11 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = NULL;
 
+#if QT_VERSION >= 0x050000
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("xmi2docbook.xsl")));
+#else
     QString xsltFile(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi2docbook.xsl")));
+#endif
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;

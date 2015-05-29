@@ -25,9 +25,17 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
+// kde includes
 #include <ktemporaryfile.h>
-#include <kstandarddirs.h>
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
+#include <kstandarddirs.h>
+#endif
+
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
 
 #include <QTextOStream>
 
@@ -55,7 +63,11 @@ void Docbook2XhtmlGeneratorJob::run()
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
+#if QT_VERSION >= 0x050000
+  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
+#else
   QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
+#endif
   uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
@@ -63,7 +75,11 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "XSLT is'" << xslt << "'";
   xsltFile.close();
 
+#if QT_VERSION >= 0x050000
+  QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
+#else
   QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
+#endif
   uDebug() << "Local xsl is'" << localXsl << "'";
   if (!localXsl.isEmpty())
   {
