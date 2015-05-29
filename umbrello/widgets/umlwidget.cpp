@@ -31,7 +31,6 @@
 
 // kde includes
 #include <kcolordialog.h>
-#include <kfontdialog.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 

@@ -20,10 +20,15 @@
 #include "umlscene.h"
 
 #include <kcolordialog.h>
+#if QT_VERSION < 0x050000
 #include <kfontdialog.h>
+#endif
 #include <KLocalizedString>
 
 #include <QAction>
+#if QT_VERSION >= 0x050000
+#include <QFontDialog>
+#endif
 #include <QPointer>
 
 /**
@@ -898,8 +903,14 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
+#if QT_VERSION >= 0x050000
+        bool ok = false;
+        QFont newFont = QFontDialog::getFont(&ok, font());
+        if (ok) {
+#else
         QFont newFont = font();
         if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
+#endif
             if (sel == ListPopupMenu::mt_Change_Font_Selection) {
                 m_scene->selectionSetFont(newFont);
             } else {

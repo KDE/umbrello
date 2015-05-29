@@ -23,7 +23,11 @@ class DiagramPropertiesPage;
 class UMLScene;
 class UMLView;
 class UMLWidgetStylePage;
+#if QT_VERSION >= 0x050000
+class QFontDialog;
+#else
 class KFontChooser;
+#endif
 
 /**
  * @author Paul Hensgen
@@ -52,7 +56,11 @@ protected:
 
     UMLScene*              m_pScene;  ///< the scene to represent
     Settings::OptionState  m_options;
+#if QT_VERSION >= 0x050000
+    QFontDialog*           m_pChooser;
+#else
     KFontChooser*          m_pChooser;
+#endif
     DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
     KPageWidgetItem*       m_pageStyleItem;

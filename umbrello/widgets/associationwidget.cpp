@@ -45,6 +45,7 @@
 
 // qt includes
 #if QT_VERSION >= 0x050000
+#include <QFontDialog>
 #include <QInputDialog>
 #endif
 #include <QPainterPath>
@@ -3117,8 +3118,14 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
+#if QT_VERSION >= 0x050000
+            bool ok = false;
+            QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
+            if (ok)
+#else
             QFont fnt = font();
             if (KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()))
+#endif
                 lwSetFont(fnt);
         }
         break;

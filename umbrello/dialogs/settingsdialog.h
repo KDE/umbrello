@@ -16,7 +16,6 @@
 
 // kde includes
 #include <kcombobox.h>
-#include <kfontdialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 #include <klineedit.h>
@@ -35,6 +34,7 @@ class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
+class QFontDialog;
 
 /**
  * @author Paul Hensgen
@@ -84,7 +84,7 @@ private:
     ;//end struct UIWidgets
 
     struct FontWidgets {
-        KFontChooser * chooser;
+        QFontDialog * chooser;
     };
 
     //private methods

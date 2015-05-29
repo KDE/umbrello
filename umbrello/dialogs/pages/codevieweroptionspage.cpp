@@ -14,7 +14,6 @@
 #include "codevieweroptionspage.h"
 
 // qt/kde includes
-#include <kfontdialog.h>
 #include <kcolorbutton.h>
 
 

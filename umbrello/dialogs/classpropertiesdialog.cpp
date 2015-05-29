@@ -29,7 +29,6 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <KLocalizedString>
 
 // qt includes

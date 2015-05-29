@@ -23,16 +23,17 @@
 
 // kde includes
 #include <KLocalizedString>
-#include <kcolordialog.h>
 #if QT_VERSION < 0x050000
+#include <kcolordialog.h>
 #include <kinputdialog.h>
 #endif
 
 // qt includes
+#include <QPainter>
 #if QT_VERSION >= 0x050000
+#include <QColorDialog>
 #include <QInputDialog>
 #endif
-#include <QPainter>
 
 NoteWidget * NoteWidget::s_pCurrentNote;
 

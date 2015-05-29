@@ -21,7 +21,6 @@
 #include "umlview.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <kvbox.h>
