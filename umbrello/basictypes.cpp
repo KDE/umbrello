@@ -21,8 +21,16 @@
 
 #include "debug_utils.h"
 
+// kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
+#include <KGlobalSettings>
+#endif
 
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QFontDatabase>
+#endif
 #include <QRegExp>
 
 namespace Uml
@@ -1140,5 +1148,20 @@ ID::Type fromString(const QString &id)
 }
 
 }  // end namespace ID
+
+
+/**
+* Return general system font.
+* @return font
+*/
+
+QFont systemFont()
+{
+#if QT_VERSION >= 0x050000
+    return QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+#else
+    return KGlobalSettings::generalFont();
+#endif
+}
 
 }  // end namespace Uml

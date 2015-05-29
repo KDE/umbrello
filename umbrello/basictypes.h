@@ -20,7 +20,10 @@
 #ifndef BASICTYPES_H
 #define BASICTYPES_H
 
+// qt includes
+#include <QFont>
 #include <QString>
+
 #include <string>
 
 /**
@@ -331,6 +334,8 @@ namespace Uml
         ID::Type fromString(const QString &id);
         QDebug operator<<(QDebug out, ID::Type &type);
     }
+
+QFont systemFont();
 
 }  // end namespace Uml
 

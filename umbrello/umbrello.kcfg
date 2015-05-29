@@ -3,7 +3,6 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
-  <include>kglobalsettings.h</include>
   <include>basictypes.h</include> 
   <include>codegenerationpolicy.h</include>
   <include>codegenerators/cpp/cppcodegenerationpolicy.h</include>
@@ -164,7 +163,7 @@
        <entry name="uiFont" key="font" type="Font">
          <label>Font</label>
          <whatsthis>The Font to be used</whatsthis>
-         <default code="true">KGlobalSettings::generalFont()</default>
+         <default code="true">Uml::systemFont()</default>
        </entry>
        <entry name="backgroundColor" type="Color">
          <label>Background Color</label>
@@ -274,7 +273,7 @@
        <entry name="codeViewerFont" key="font" type="Font">
          <label>Font</label>
          <whatsthis>Font to be used in the Code Viewer</whatsthis>
-         <default>KGlobalSettings::generalFont()</default>
+         <default>Uml::systemFont()</default>
        </entry>
        <entry name="paperColor" type="Color">
          <label>Paper Color</label>
