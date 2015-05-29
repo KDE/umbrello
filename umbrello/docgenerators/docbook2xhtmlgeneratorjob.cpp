@@ -26,15 +26,16 @@
 #include <libxslt/xsltutils.h>
 
 // kde includes
-#include <ktemporaryfile.h>
 #include <KLocalizedString>
 #if QT_VERSION < 0x050000
 #include <kstandarddirs.h>
+#include <ktemporaryfile.h>
 #endif
 
 // qt includes
 #if QT_VERSION >= 0x050000
 #include <QStandardPaths>
+#include <QTemporaryFile>
 #endif
 
 #include <QTextOStream>
@@ -86,7 +87,11 @@ void Docbook2XhtmlGeneratorJob::run()
     localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
     xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
   }
+#if QT_VERSION >= 0x050000
+  QTemporaryFile tmpXsl;
+#else
   KTemporaryFile tmpXsl;
+#endif
   tmpXsl.setAutoRemove(false);
   tmpXsl.open();
   QTextStream str (&tmpXsl);
@@ -102,7 +107,11 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 
+#if QT_VERSION >= 0x050000
+  QTemporaryFile tmpXhtml;
+#else
   KTemporaryFile tmpXhtml;
+#endif
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 

@@ -71,7 +71,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#include <ktemporaryfile.h>
 #if QT_VERSION < 0x050000
 #include <kfiledialog.h>
 #include <kinputdialog.h>

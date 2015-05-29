@@ -22,8 +22,10 @@
 
 // kde include files
 #include <KLocalizedString>
-#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
+#if QT_VERSION < 0x050000
+#include <ktemporaryfile.h>
+#endif
 
 // include files for Qt
 #include <QApplication>
@@ -36,6 +38,9 @@
 #include <QRect>
 #include <QRegExp>
 #include <QSvgGenerator>
+#if QT_VERSION >= 0x050000
+#include <QTemporaryFile>
+#endif
 
 // system includes
 #include <cmath>
@@ -249,7 +254,11 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
     // the fileName is the name of a temporal local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
+#if QT_VERSION >= 0x050000
+    QTemporaryFile tmpFile;
+#else
     KTemporaryFile tmpFile;
+#endif
     if (url.isLocalFile()) {
         fileName = url.toLocalFile();
     } else {

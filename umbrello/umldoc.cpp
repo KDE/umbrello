@@ -56,7 +56,9 @@
 #include <kmimetype.h>
 #include <ktar.h>
 #include <ktempdir.h>
+#if QT_VERSION < 0x050000
 #include <ktemporaryfile.h>
+#endif
 #include <ktabwidget.h>
 
 // qt includes
@@ -72,6 +74,9 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
+#if QT_VERSION >= 0x050000
+#include <QTemporaryFile>
+#endif
 #include <QTextStream>
 #include <QTimer>
 
@@ -656,7 +661,11 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
     if (fileFormat == QLatin1String("tgz") || fileFormat == QLatin1String("bz2")) {
         KTar * archive;
+#if QT_VERSION >= 0x050000
+        QTemporaryFile tmp_tgz_file;
+#else
         KTemporaryFile tmp_tgz_file;
+#endif
         tmp_tgz_file.setAutoRemove(false);
         tmp_tgz_file.open();
 
@@ -684,7 +693,11 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // we have to create a temporary xmi file
         // we will add this file later to the archive
+#if QT_VERSION >= 0x050000
+        QTemporaryFile tmp_xmi_file;
+#else
         KTemporaryFile tmp_xmi_file;
+#endif
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
@@ -725,7 +738,11 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
     else {
         // save as normal uncompressed XMI
 
+#if QT_VERSION >= 0x050000
+        QTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
+#else
         KTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
+#endif
         tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file

@@ -18,7 +18,6 @@
 #include "umlviewimageexportermodel.h"
 
 #include <KLocalizedString>
-#include <ktemporaryfile.h>
 #include <KMessageBox>
 #include <kio/netaccess.h>
 #include <kio/job.h>
