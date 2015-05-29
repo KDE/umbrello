@@ -34,6 +34,9 @@
 #include <KMessageBox>
 
 //qt includes
+#if QT_VERSION >= 0x050000
+#include <QFileDialog>
+#endif
 #include <QListWidget>
 
 /**
@@ -213,7 +216,11 @@ void CodeGenStatusPage::loggerClear()
 void CodeGenStatusPage::loggerExport()
 {
     const QString caption = i18n("Umbrello Code Generation - Logger Export");
+#if QT_VERSION >= 0x050000
+    QString fileName = QFileDialog::getSaveFileName(this, caption, QLatin1String("UmbrelloCodeGenerationLogger.html"));
+#else
     QString fileName = KFileDialog::getSaveFileName(KUrl(), QString(), 0, caption);
+#endif
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {

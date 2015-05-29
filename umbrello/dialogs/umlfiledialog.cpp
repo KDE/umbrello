@@ -13,9 +13,12 @@
 #include "umlviewimageexportermodel.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
 #include <KMimeType>
+#endif
 #include <klocalizedstring.h>
 
+#if QT_VERSION < 0x050000
 static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExtensions = 0)
 {
     const KUrl emptyUrl;
@@ -39,10 +42,15 @@ static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExte
     }
     return kdeFilter;
 }
+#endif
 
-
+#if QT_VERSION >= 0x050000
+UMLFileDialog::UMLFileDialog(const QUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget)
+  : m_dialog(new QFileDialog(parent, QString(), startDir.toLocalFile(), filter))
+#else
 UMLFileDialog::UMLFileDialog(const KUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget)
   : m_dialog(new KFileDialog(startDir, filter, parent, widget))
+#endif
 {
 }
 
@@ -56,6 +64,47 @@ int UMLFileDialog::exec()
     return m_dialog->exec();
 }
 
+#if QT_VERSION >= 0x050000
+void UMLFileDialog::setCaption(const QString &caption)
+{
+    m_dialog->setWindowTitle(caption);
+}
+
+void UMLFileDialog::setAcceptMode(QFileDialog::AcceptMode mode)
+{
+    m_dialog->setAcceptMode(mode);
+}
+
+void UMLFileDialog::setMimeTypeFilters(const QStringList &filters)
+{
+    m_dialog->setMimeTypeFilters(filters);
+}
+
+void UMLFileDialog::selectUrl(const QUrl &url)
+{
+    m_dialog->selectUrl(url);
+}
+
+void UMLFileDialog::setUrl(const QUrl &url)
+{
+    m_dialog->selectUrl(url);
+}
+
+QUrl UMLFileDialog::selectedUrl()
+{
+    QList<QUrl> urls = m_dialog->selectedUrls();
+    if (urls.size() > 0)
+        return urls.first();
+    else
+        return QUrl();
+}
+
+void UMLFileDialog::setSelection(const QString &name)
+{
+    m_dialog->selectFile(name);
+}
+
+#else
 void UMLFileDialog::setCaption(const QString &caption)
 {
     m_dialog->setCaption(caption);
@@ -101,4 +150,4 @@ QString UMLFileDialog::currentMimeFilter()
     QFileInfo fi(url.toLocalFile());
     return UMLViewImageExporterModel::imageTypeToMimeType(fi.suffix());
 }
-
+#endif

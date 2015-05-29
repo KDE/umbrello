@@ -21,12 +21,17 @@
 
 //kde include files
 #include <klocale.h>
+#if QT_VERSION >= 0x050000
 #include <kfiledialog.h>
 #include <kurl.h>
-#include <KMessageBox>
 #include <kio/netaccess.h>
+#endif
+#include <KMessageBox>
 
 // Qt include files
+#if QT_VERSION >= 0x050000
+#include <QFileDialog>
+#endif
 #include <QPointer>
 #include <QString>
 #include <QStringList>

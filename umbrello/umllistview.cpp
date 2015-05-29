@@ -72,6 +72,9 @@
 // qt includes
 #include <QDropEvent>
 #include <QEvent>
+#if QT_VERSION >= 0x050000
+#include <QFileDialog>
+#endif
 #include <QFocusEvent>
 #if QT_VERSION >= 0x050000
 #include <QInputDialog>
@@ -485,23 +488,40 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 return;
             }
             // configure & show the file dialog
+#if QT_VERSION >= 0x050000
+            const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
+            QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QLatin1String("*.xml"));
+#else
             const QString rootDir(m_doc->url().directory());
             QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
             fileDialog->setCaption(i18n("Externalize Folder"));
             fileDialog->setOperationMode(KFileDialog::Other);
+#endif
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
             defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
             defaultFilename.append(QLatin1String(".xml"));  // default extension
+#if QT_VERSION >= 0x050000
+            fileDialog->selectFile(defaultFilename);
+            QList<QUrl> selURL;
+            if (fileDialog->exec() == QDialog::Accepted) {
+                selURL = fileDialog->selectedUrls();
+            }
+#else
             fileDialog->setSelection(defaultFilename);
             KUrl selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
                 selURL = fileDialog->selectedUrl();
             }
+#endif
             delete fileDialog;
             if (selURL.isEmpty())
                 return;
+#if QT_VERSION >= 0x050000
+            QString path = selURL[0].toLocalFile();
+#else
             QString path = selURL.toLocalFile();
+#endif
             QString fileName = path;
             if (fileName.startsWith(rootDir)) {
                 fileName.remove(rootDir);

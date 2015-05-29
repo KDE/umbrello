@@ -15,7 +15,6 @@
 #include "layoutgenerator.h"
 
 // kde includes
-#include <KFileDialog>
 #include <KLineEdit>
 #include <KLocale>
 

@@ -30,7 +30,6 @@
 #include <kfontchooser.h>
 #include <KIntSpinBox>
 #endif
-#include <kfiledialog.h>
 
 // qt includes
 #include <QCheckBox>

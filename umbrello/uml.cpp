@@ -64,7 +64,9 @@
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
+#if QT_VERSION < 0x050000
 #include <kfiledialog.h>
+#endif
 #include <KLocalizedString>
 #include <kmenubar.h>
 #include <KMessageBox>
@@ -83,6 +85,9 @@
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#if QT_VERSION >= 0x050000
+#include <QFileDialog>
+#endif
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
@@ -1213,14 +1218,23 @@ void UMLApp::slotFileOpen()
         // here saving wasn't successful
     } 
     else {
+#if QT_VERSION >= 0x050000
+        QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File"), QUrl(),
+#else
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
+#endif
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
                  "*.mdl|Rose model files (*.mdl)\n"
                  "*.zargo|Compressed argo Files(*.zargo)\n"
-                 ), this, i18n("Open File"));
+                 )
+#if QT_VERSION >= 0x050000
+            );
+#else
+            ,this, i18n("Open File"));
+#endif
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
@@ -1289,10 +1303,22 @@ bool UMLApp::slotFileSaveAs()
 {
     slotStatusMsg(i18n("Saving file with a new filename..."));
     bool cont = true;
+#if QT_VERSION >= 0x050000
+    QUrl url;
+#else
     KUrl url;
+#endif
     QString ext;
     while (cont) {
-        url=KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
+#if QT_VERSION >= 0x050000
+        url = QFileDialog::getSaveFileUrl(this, i18n("Save As"), QUrl(),
+#else
+        url = KFileDialog::getSaveUrl(KUrl(),
+#endif
+        i18n("*.xmi | XMI File (*.xmi);;"
+             "*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
+             "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;"
+             "* | All Files (*)"));
         if (url.isEmpty()) {
             cont = false;
         }
@@ -1307,8 +1333,11 @@ bool UMLApp::slotFileSaveAs()
             //    ext = "xmi";
             //}
             if (url.isLocalFile()) {
+#if QT_VERSION >= 0x050000
+                QString file = url.toLocalFile();
+#else
                 QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
-
+#endif
                 if (QFile::exists(file)) {
                     int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.toLocalFile()), 
                                                                        i18n("Warning"), KGuiItem(i18n("Overwrite")));
@@ -2655,7 +2684,11 @@ void UMLApp::slotImportClass()
     QString f = filters.join(QLatin1String(" ")) + QLatin1String("|") +
                              Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
 
+#if QT_VERSION >= 0x050000
+    QStringList files = QFileDialog::getOpenFileNames(this, i18n("Select file(s) to import:"), QString(), f);
+#else
     QStringList files = KFileDialog::getOpenFileNames(KUrl(), f, this, i18n("Select file(s) to import:"));
+#endif
     if (!files.isEmpty()) {
         importFiles(&files);
     }
@@ -2684,7 +2717,11 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 void UMLApp::slotImportProject()
 {
     QStringList listFile;
+#if QT_VERSION >= 0x050000
+    QString dir = QFileDialog::getExistingDirectory(this, i18n("Select directory to import:"));
+#else
     QString dir = KFileDialog::getExistingDirectory(KUrl(),this, i18n("Select directory to import:"));
+#endif
     if (!dir.isEmpty()) {
         QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
         getFiles(listFile, dir, filter);
