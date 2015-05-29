@@ -41,15 +41,23 @@ public:
 
     UMLViewImageExporterModel();
     virtual ~UMLViewImageExporterModel();
-
+#if QT_VERSION >= 0x050000
+    QStringList exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const;
+    QString exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const;
+#else
     QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
     QString exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const;
+#endif
 
 private:
 
     QString getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders = false) const;
 
+#if QT_VERSION >= 0x050000
+    bool prepareDirectory(const QUrl &url) const;
+#else
     bool prepareDirectory(const KUrl &url) const;
+#endif
 
     bool exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const;
     bool exportViewToDot(UMLScene* scene, const QString &fileName) const;

@@ -202,7 +202,11 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
  * @return A QStringList with all the error messages that occurred during export.
  *         If the list is empty, all the views were exported successfully.
  */
+#if QT_VERSION >= 0x050000
+QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const
+#else
 QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const
+#endif
 {
     UMLApp *app = UMLApp::app();
 
@@ -211,8 +215,13 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
 
     UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view, views) {
+#if QT_VERSION >= 0x050000
+        QUrl url(directory.path() + QLatin1Char('/') +
+                 getDiagramFileName(view->umlScene(), imageType, useFolders));
+#else
         KUrl url = directory;
         url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
+#endif
 
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
@@ -239,7 +248,11 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
  * @return  The error message if some problem occurred when exporting, or
  *          QString() if all went fine.
  */
+#if QT_VERSION >= 0x050000
+QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const
+#else
 QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const
+#endif
 {
     if (!scene) {
         return i18n("Empty scene");
@@ -247,7 +260,11 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // create the needed directories
     if (!prepareDirectory(url)) {
+#if QT_VERSION >= 0x050000
+        return i18n("Cannot create directory: %1", url.path());
+#else
         return i18n("Cannot create directory: %1", url.directory());
+#endif
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
