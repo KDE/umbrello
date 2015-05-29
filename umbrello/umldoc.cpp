@@ -58,9 +58,9 @@
 #include <ktempdir.h>
 #include <ktemporaryfile.h>
 #include <ktabwidget.h>
-#include <kapplication.h>
 
 // qt includes
+#include <QApplication>
 #include <QBuffer>
 #include <QDateTime>
 #include <QDir>

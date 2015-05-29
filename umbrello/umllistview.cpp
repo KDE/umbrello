@@ -66,10 +66,10 @@
 #endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kapplication.h>
 #include <ktabwidget.h>
 
 // qt includes
+#include <QApplication>
 #include <QDropEvent>
 #include <QEvent>
 #if QT_VERSION >= 0x050000

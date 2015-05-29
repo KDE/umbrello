@@ -76,12 +76,12 @@
 #include <kactionmenu.h>
 #include <kmenu.h>
 #include <kxmlguifactory.h>
-#include <kapplication.h>
 #include <kdeprintdialog.h>
 #include <kundostack.h>
 #include <kstatusbar.h>
 
 // qt includes
+#include <QApplication>
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>

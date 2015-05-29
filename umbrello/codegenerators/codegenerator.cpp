@@ -34,9 +34,9 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <kdialog.h>
-#include <kapplication.h>
 
 // qt includes
+#include <QApplication>
 #include <QDateTime>
 #include <QDir>
 #include <QDomDocument>
@@ -527,7 +527,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     int suffix;
     QPointer<OverwriteDialog> overwriteDialog =
         new OverwriteDialog(name, outputDirectory.absolutePath(),
-                              m_applyToAllRemaining, kapp->activeWindow());
+                              m_applyToAllRemaining, qApp->activeWindow());
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         filename = name + extension;
