@@ -30,7 +30,6 @@
 #include "uniqueid.h"
 
 // kde includes
-#include <kcolordialog.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 

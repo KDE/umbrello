@@ -37,14 +37,15 @@
 
 // kde includes
 #if QT_VERSION < 0x050000
+#include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <kinputdialog.h>
 #endif
 #include <KLocalizedString>
-#include <kcolordialog.h>
 
 // qt includes
 #if QT_VERSION >= 0x050000
+#include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
 #endif
@@ -3132,8 +3133,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         {
+#if QT_VERSION >= 0x050000
+            QColor newColor = QColorDialog::getColor(lineColor());
+            if (newColor != lineColor()) {
+#else
             QColor newColor;
             if (KColorDialog::getColor(newColor)) {
+#endif
                 m_scene->selectionSetLineColor(newColor);
                 umlDoc()->setModified(true);
             }

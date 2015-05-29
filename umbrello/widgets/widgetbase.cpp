@@ -19,14 +19,15 @@
 #include "umlobject.h"
 #include "umlscene.h"
 
-#include <kcolordialog.h>
 #if QT_VERSION < 0x050000
+#include <kcolordialog.h>
 #include <kfontdialog.h>
 #endif
 #include <KLocalizedString>
 
 #include <QAction>
 #if QT_VERSION >= 0x050000
+#include <QColorDialog>
 #include <QFontDialog>
 #endif
 #include <QPointer>
@@ -795,8 +796,13 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
+#if QT_VERSION >= 0x050000
+        newColor = QColorDialog::getColor(lineColor());
+        if (newColor != lineColor()) {
+#else
         newColor = lineColor();
         if (KColorDialog::getColor(newColor)) {
+#endif
             if (sel == ListPopupMenu::mt_Line_Color_Selection) {
                 umlScene()->selectionSetLineColor(newColor);
             } else {
@@ -809,8 +815,13 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Fill_Color:
     case ListPopupMenu::mt_Fill_Color_Selection:
+#if QT_VERSION >= 0x050000
+        newColor = QColorDialog::getColor(fillColor());
+        if (newColor != fillColor()) {
+#else
         newColor = fillColor();
         if (KColorDialog::getColor(newColor)) {
+#endif
             if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
                 umlScene()->selectionSetFillColor(newColor);
             } else {
