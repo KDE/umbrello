@@ -15,10 +15,14 @@
 #include "umllistviewitem.h"
 #include "umlobject.h"
 #include "widgetbase.h"
-
+#if QT_VERSION < 0x050000
 #include <kmenu.h>
+#endif
 
 #include <QHash>
+#if QT_VERSION >= 0x050000
+#include <QMenu>
+#endif
 
 class AssociationLine;
 class ClassifierWidget;
@@ -37,7 +41,11 @@ class UMLView;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
+#if QT_VERSION >= 0x050000
+class ListPopupMenu : public QMenu
+#else
 class ListPopupMenu : public KMenu
+#endif
 {
     Q_OBJECT
     Q_ENUMS(MenuType)
@@ -306,11 +314,18 @@ private:
     void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
 
     void insert(MenuType m);
+#if QT_VERSION >= 0x050000
+    void insert(const MenuType m, QMenu* menu);
+    void insert(const MenuType m, QMenu* menu, const QIcon & icon, const QString & text);
+    void insert(const MenuType m, QMenu* menu, const QString & text, const bool checkable = false);
+#else
     void insert(const MenuType m, KMenu* menu);
-    void insert(const MenuType m, const QIcon & icon, const QString & text);
-    void insert(const MenuType m, const QString & text, const bool checkable = false);
     void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
     void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);
+#endif
+    void insert(const MenuType m, const QIcon & icon, const QString & text);
+    void insert(const MenuType m, const QString & text, const bool checkable = false);
+
 
     void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
@@ -324,7 +339,11 @@ private:
     void makeClassifierPopup(ClassifierWidget *c);
     void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
     void makeClassifierShowPopup(ClassifierWidget *c);
+#if QT_VERSION >= 0x050000
+    QMenu* makeCategoryTypeMenu(UMLCategory* category);
+#else
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
+#endif
 
     void insertSubMenuNew(MenuType type);
     void insertSubMenuAlign();

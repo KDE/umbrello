@@ -68,7 +68,11 @@ protected:
 
     bool greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2);
 
+#if QT_VERSION >= 0x050000
+    QMenu* buttonMenu;
+#else
     KMenu* buttonMenu;
+#endif
 
 };
 

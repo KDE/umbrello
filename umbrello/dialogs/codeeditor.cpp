@@ -734,7 +734,11 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
  */
 void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
 {
+#if QT_VERSION >= 0x050000
+    QMenu* menu = createPopup();
+#else
     KMenu* menu = createPopup();
+#endif
     menu->exec(event->globalPos());
     delete menu;
 }
@@ -743,11 +747,19 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
  * Create the popup menu.
  * @return   the popup menu
  */
+#if QT_VERSION >= 0x050000
+QMenu * CodeEditor::createPopup()
+#else
 KMenu * CodeEditor::createPopup()
+#endif
 {
     DEBUG(DBG_SRC) << "called...";
 
+#if QT_VERSION >= 0x050000
+    QMenu * menu = new QMenu(this);
+#else
     KMenu * menu = new KMenu(this);
+#endif
 
     TextBlock * tb = m_selectedTextBlock;
     if (tb) {
