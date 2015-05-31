@@ -15,7 +15,11 @@
 #include "singlepagedialogbase.h"
 
 // KDE forward declarations
+#if QT_VERSION >= 0x050000
+class KComboBox;
+#else
 class KFileFilterCombo;
+#endif
 
 /**
  * Dialog for collecting the "Export all views" params.
@@ -37,8 +41,11 @@ public:
 
 private:
 
+#if QT_VERSION >= 0x050000
+    KComboBox* m_imageType;  ///< The image type selected.
+#else
     KFileFilterCombo* m_imageType;  ///< The image type selected.
-
+#endif
 protected slots:
 
     friend class UMLViewImageExporterAll;
