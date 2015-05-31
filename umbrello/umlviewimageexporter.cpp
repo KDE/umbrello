@@ -21,7 +21,7 @@
 
 //kde include files
 #include <klocale.h>
-#if QT_VERSION >= 0x050000
+#if QT_VERSION < 0x050000
 #include <kfiledialog.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
