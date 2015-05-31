@@ -29,9 +29,7 @@ class QCheckBox;
 class OverwriteDialog: public KDialog
 {
     Q_OBJECT
-
 public:
-
     OverwriteDialog(const QString& fileName, const QString& outputDirectory,
                       bool applyToAllRemaining, QWidget* parent=0);
     ~OverwriteDialog();
@@ -39,12 +37,8 @@ public:
     bool applyToAllRemaining();
 
 protected slots:
-
     virtual void slotOk();
-
     virtual void slotApply();
-
-
     virtual void slotCancel();
 
 private:
