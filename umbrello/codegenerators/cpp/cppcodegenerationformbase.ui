@@ -36,7 +36,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="KTabWidget" name="ui_tabWidget">
+      <widget class="QTabWidget" name="ui_tabWidget">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -616,12 +616,6 @@
    <class>KHistoryComboBox</class>
    <extends>KComboBox</extends>
    <header>khistorycombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <includes>
