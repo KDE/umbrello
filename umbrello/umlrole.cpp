@@ -224,7 +224,7 @@ bool UMLRole::showPropertiesDialog(QWidget *parent)
 {
     QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(parent, this);
     bool modified = false;
-    if (dlg->exec() == KDialog::Accepted) {
+    if (dlg->exec() == QDialog::Accepted) {
         modified = true;
     }
     delete dlg;

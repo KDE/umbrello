@@ -111,12 +111,12 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
 
     UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, vis, type, iv);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
     bool goodName = false;
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+    while (button == QDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(0, newAttribute);
         button = dialog->exec();
         QString name = newAttribute->name();
@@ -131,7 +131,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
         delete dialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         delete newAttribute;
         return 0;
     }
@@ -164,12 +164,12 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name)
 
     UMLUniqueConstraint* newUniqueConstraint = new UMLUniqueConstraint(this, currentName, id);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
     bool goodName = false;
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+    while (button == QDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(0, newUniqueConstraint);
         button = dialog->exec();
         QString name = newUniqueConstraint->name();
@@ -184,7 +184,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name)
         delete dialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         delete newUniqueConstraint;
         return NULL;
     }
@@ -214,12 +214,12 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
 
     UMLForeignKeyConstraint* newForeignKeyConstraint = new UMLForeignKeyConstraint(this, currentName, id);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
     bool goodName = false;
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+    while (button == QDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(0, newForeignKeyConstraint);
         button = dialog->exec();
         QString name = newForeignKeyConstraint->name();
@@ -234,7 +234,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
         delete dialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         return NULL;
     }
 
@@ -263,12 +263,12 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
 
     UMLCheckConstraint* newCheckConstraint = new UMLCheckConstraint(this, currentName, id);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
     bool goodName = false;
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+    while (button == QDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(0, newCheckConstraint);
         button = dialog->exec();
         QString name = newCheckConstraint->name();
@@ -283,7 +283,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
         delete dialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         return NULL;
     }
 

@@ -276,7 +276,7 @@ UMLOperation* UMLClassifier::createOperation(
 
         while (true) {
             QPointer<UMLOperationDialog> operationDialog = new UMLOperationDialog(0, op);
-            if(operationDialog->exec() != KDialog::Accepted) {
+            if(operationDialog->exec() != QDialog::Accepted) {
                 delete op;
                 delete operationDialog;
                 return NULL;
@@ -401,9 +401,9 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
     }
     UMLTemplate* newTemplate = new UMLTemplate(this, name);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
 
-    while (button == KDialog::Accepted && !goodName) {
+    while (button == QDialog::Accepted && !goodName) {
         QPointer<UMLTemplateDialog> templateDialog = new UMLTemplateDialog(0, newTemplate);
         button = templateDialog->exec();
         name = newTemplate->name();
@@ -420,7 +420,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
         delete templateDialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         return NULL;
     }
 
@@ -775,12 +775,12 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
     }
     UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, vis, type, init);
 
-    int button = KDialog::Accepted;
+    int button = QDialog::Accepted;
     bool goodName = false;
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+    while (button == QDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLAttributeDialog> attributeDialog = new UMLAttributeDialog(0, newAttribute);
         button = attributeDialog->exec();
         QString name = newAttribute->name();
@@ -795,7 +795,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
         delete attributeDialog;
     }
 
-    if (button != KDialog::Accepted) {
+    if (button != QDialog::Accepted) {
         delete newAttribute;
         return NULL;
     }

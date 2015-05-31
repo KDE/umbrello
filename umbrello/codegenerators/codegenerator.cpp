@@ -31,9 +31,11 @@
 #include "umloperationlist.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
+#include <kdialog.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kdialog.h>
 
 // qt includes
 #include <QApplication>
@@ -534,7 +536,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-        case KDialog::Yes:  //overwrite file
+        case QDialog::Accepted:  //overwrite file
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
@@ -558,7 +560,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialog::Cancel: //don't output anything
+        case QDialog::Rejected: //don't output anything
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             }

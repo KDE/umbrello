@@ -26,9 +26,11 @@
 #include "uml.h"
 
 // kde includes
+#if QT_VERSION < 0x050000
+#include <kdialog.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kdialog.h>
 
 // qt includes
 #include <QApplication>
