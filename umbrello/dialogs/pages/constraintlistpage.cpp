@@ -50,7 +50,11 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 {
     setupActions();
 
+#if QT_VERSION >= 0x050000
+    buttonMenu = new QMenu(this);
+#else
     buttonMenu = new KMenu(this);
+#endif
     // add a button menu
     m_pNewClassifierListItemButton->setMenu(buttonMenu);
     buttonMenu->addAction(newPrimaryKeyConstraintAction);
