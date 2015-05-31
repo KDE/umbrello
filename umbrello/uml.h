@@ -14,9 +14,17 @@
 #include "basictypes.h"
 #include "multipagedialogbase.h"
 
+// kde includes
 #include <kxmlguiwindow.h>
+#if QT_VERSION < 0x050000
 #include <kurl.h>
+#endif
 #include <ksharedconfig.h>
+
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QUrl>
+#endif
 
 // forward declaration of the UML classes
 class BirdView;
@@ -90,7 +98,11 @@ public:
 
     static UMLApp* app();
 
+#if QT_VERSION >= 0x050000
+    void openDocumentFile(const QUrl& url=QUrl());
+#else
     void openDocumentFile(const KUrl& url=KUrl());
+#endif
 
     void newDocument();
 
@@ -202,7 +214,12 @@ public slots:
 
     void slotFileNew();
     void slotFileOpen();
+
+#if QT_VERSION >= 0x050000
+    void slotFileOpenRecent(const QUrl& url);
+#else
     void slotFileOpenRecent(const KUrl& url);
+#endif
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();

@@ -77,7 +77,11 @@ public slots:
 
         document = editor->createDocument(0);
         view = document->createView(parent);
+#if QT_VERSION >= 0x050000
+        view->document()->openUrl(QUrl(columns[0]));
+#else
         view->document()->openUrl(columns[0]);
+#endif
         view->document()->setReadWrite(false);
         view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
         KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);

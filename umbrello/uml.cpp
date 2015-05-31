@@ -933,7 +933,11 @@ void UMLApp::initView()
 /**
  * Opens a file specified by commandline option.
  */
+#if QT_VERSION >= 0x050000
+void UMLApp::openDocumentFile(const QUrl& url)
+#else
 void UMLApp::openDocumentFile(const KUrl& url)
+#endif
 {
     slotStatusMsg(i18n("Opening file..."));
 
@@ -1007,7 +1011,11 @@ void UMLApp::saveOptions()
         UmbrelloSettings::setLastFile(QString());
     }
     else {
+#if QT_VERSION >= 0x050000
+        UmbrelloSettings::setLastFile(m_doc->url().toDisplayString());
+#else
         UmbrelloSettings::setLastFile(m_doc->url().prettyUrl());
+#endif
     }
 
     UmbrelloSettings::setImageMimeType(imageMimeType());
@@ -1270,12 +1278,20 @@ void UMLApp::slotFileOpen()
 /**
  * Opens a file from the recent files menu.
  */
-void UMLApp::slotFileOpenRecent(const KUrl& url)
+#if QT_VERSION >= 0x050000
+void UMLApp::slotFileOpenRecent(const QUrl &url)
+#else
+void UMLApp::slotFileOpenRecent(const KUrl &url)
+#endif
 {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
+#if QT_VERSION >= 0x050000
+    QUrl oldUrl = m_doc->url();
+#else
     KUrl oldUrl = m_doc->url();
+#endif
 
     if (!m_doc->saveModified()) {
         // here saving wasn't successful

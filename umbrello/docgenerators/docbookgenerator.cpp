@@ -56,10 +56,18 @@ DocbookGenerator::~DocbookGenerator()
  */
 bool DocbookGenerator::generateDocbookForProject()
 {
-  KUrl url = umlDoc->url();
+#if QT_VERSION >= 0x050000
+    QUrl url = umlDoc->url();
+#else
+    KUrl url = umlDoc->url();
+#endif
   QString fileName = url.fileName();
   fileName.remove(QRegExp(QLatin1String(".xmi$")));
+#if QT_VERSION >= 0x050000
+  url.setPath(url.path() + QLatin1Char('/') + fileName);
+#else
   url.setFileName(fileName);
+#endif
   uDebug() << "Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
@@ -72,7 +80,11 @@ bool DocbookGenerator::generateDocbookForProject()
  * @todo better handling of error conditions
  * @return true if saving is successful and false otherwise.
  */
+#if QT_VERSION >= 0x050000
+void DocbookGenerator::generateDocbookForProjectInto(const QUrl& destDir)
+#else
 void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
+#endif
 {
     m_destDir = destDir;
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
@@ -96,12 +108,19 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
     uDebug() << "Generation Finished" << tmpFileName;
+#if QT_VERSION >= 0x050000
+    QUrl url = umlDoc->url();
+#else
     KUrl url = umlDoc->url();
+#endif
     QString fileName = url.fileName();
     fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
+#if QT_VERSION >= 0x050000
+    url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
+#else
     url.setPath(m_destDir.path());
     url.addPath(fileName);
-
+#endif
     KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
         umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));

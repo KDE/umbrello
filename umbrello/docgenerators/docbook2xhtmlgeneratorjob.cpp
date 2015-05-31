@@ -30,12 +30,14 @@
 #if QT_VERSION < 0x050000
 #include <kstandarddirs.h>
 #include <ktemporaryfile.h>
+#include <KUrl>
 #endif
 
 // qt includes
 #if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #include <QTemporaryFile>
+#include <QUrl>
 #endif
 
 #include <QTextOStream>
@@ -47,8 +49,14 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
  * @param parent     Parent object for QThread constructor
  */
+
+#if QT_VERSION >= 0x050000
+Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent)
+    :QThread(parent), m_docbookUrl(docBookUrl)
+#else
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
     :QThread(parent), m_docbookUrl(docBookUrl)
+#endif
 {
 }
 
