@@ -200,12 +200,22 @@ void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
  */
 void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout)
 {
+#if QT_VERSION >= 0x050000
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pItemListGB);
+    m_pNewClassifierListItemButton = buttonBox->addButton(itemType, QDialogButtonBox::ActionRole);
+    connect(m_pNewClassifierListItemButton, SIGNAL(clicked()), this, SLOT(slotNewListItem()));
+    m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
+    connect(m_pDeleteListItemButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
+    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
+    connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotProperties()));
+#else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
     m_pNewClassifierListItemButton = buttonBox->addButton(itemType, KDialogButtonBox::ActionRole, this,
                           SLOT(slotNewListItem()));
     m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"),
                               KDialogButtonBox::ActionRole, this, SLOT(slotDelete()));
     m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole, this, SLOT(slotProperties()));
+#endif
     parentLayout->addWidget(buttonBox);
 }
 

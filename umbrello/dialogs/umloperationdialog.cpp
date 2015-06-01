@@ -141,6 +141,15 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
     buttonLayout->addWidget(m_pDownButton);
 
+#if QT_VERSION >= 0x050000
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pParmsGB);
+    QPushButton* newParam = buttonBox->addButton(i18n("Ne&w Parameter..."), QDialogButtonBox::ActionRole);
+    connect(newParam, SIGNAL(clicked()), this, SLOT(slotNewParameter()));
+    m_pDeleteButton = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
+    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(slotDeleteParameter()));
+    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
+    connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotParameterProperties()));
+#else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pParmsGB);
     buttonBox->addButton(i18n("Ne&w Parameter..."), KDialogButtonBox::ActionRole,
                           this, SLOT(slotNewParameter()));
@@ -148,6 +157,7 @@ void UMLOperationDialog::setupDialog()
                                             this, SLOT(slotDeleteParameter()));
     m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole,
                           this, SLOT(slotParameterProperties()));
+#endif
 
     parmsHBoxLayout->addWidget(m_pParmsLW);
     parmsHBoxLayout->addLayout(buttonLayout);
