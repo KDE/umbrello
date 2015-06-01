@@ -525,7 +525,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     }
 
     if (mimetype.isEmpty() == false) {
+#if QT_VERSION >= 0x050000
+        KTar archive(tmpfile.fileName(), mimetype);
+#else
         KTar archive(tmpfile, mimetype);
+#endif
         if (archive.open(QIODevice::ReadOnly) == false) {
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.toString()), i18n("Load Error"));
