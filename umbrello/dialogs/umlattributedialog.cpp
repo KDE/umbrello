@@ -96,8 +96,9 @@ void UMLAttributeDialog::setupDialog()
     m_visibilityEnumWidget->addToLayout(mainLayout);
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
+#if QT_VERSION < 0x050000
     m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-
+#endif
     //now add the Concepts
     insertTypesSorted(m_pAttribute->getTypeName());
 

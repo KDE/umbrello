@@ -166,7 +166,9 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
 
     m_pRtypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
+#if QT_VERSION < 0x050000
     m_pRtypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     // add the return types
     insertTypesSorted(m_operation->getTypeName());
 
