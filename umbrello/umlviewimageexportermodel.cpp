@@ -493,7 +493,11 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
         printer = new QPrinter(QPrinter::ScreenResolution);
     }
     printer->setOutputFileName(fileName);
+#if QT_VERSION >= 0x050000
+    printer->setOutputFormat(QPrinter::PdfFormat);
+#else
     printer->setOutputFormat(QPrinter::PostScriptFormat);
+#endif
     printer->setColorMode(QPrinter::Color);
 
     // do not call printer.setup(); because we want no user
