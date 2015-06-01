@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     KAboutData aboutData(QStringLiteral("umbrello"),
                          i18n("Umbrello UML Modeller"),
                          QLatin1String(umbrelloVersion()),
-                         i18n("Umbrello – Visual development environment for software,"
+                         i18n("Umbrello – Visual development environment for software, "
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."),
                          KAboutLicense::GPL,
