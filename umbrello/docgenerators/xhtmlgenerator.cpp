@@ -18,6 +18,9 @@
 #include "umlviewimageexportermodel.h"
 #include "docbookgenerator.h"
 
+#if QT_VERSION >= 0x050000
+#include <kjobwidgets.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 #if QT_VERSION < 0x050000
@@ -160,8 +163,15 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 #endif
+#if QT_VERSION >= 0x050000
+    KIO::Job* htmlCopyJob = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    KJobWidgets::setWindow(htmlCopyJob, (QWidget*)UMLApp::app());
+    htmlCopyJob->exec();
+    if (!htmlCopyJob->error()) {
+#else
     KIO::Job* htmlCopyJob = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if (KIO::NetAccess::synchronousRun(htmlCopyJob, (QWidget*)UMLApp::app())) {
+#endif
         m_umlDoc->writeToStatusBar(i18n("XHTML Generation Complete..."));
     } else {
         m_pStatus = false;
@@ -182,9 +192,16 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     KUrl cssUrl = m_destDir;
     cssUrl.addPath(QLatin1String("xmi.css"));
 #endif
+#if QT_VERSION >= 0x050000
+    KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    KJobWidgets::setWindow(cssJob, (QWidget*)UMLApp::app());
+    cssJob->exec();
+    if (!cssJob->error()) {
+#else
     KIO::Job* cssJob = KIO::file_copy(cssFileName, cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
 
     if (KIO::NetAccess::synchronousRun(cssJob, (QWidget*)UMLApp::app())) {
+#endif
         m_umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));
         m_pStatus = true;
     } else {

@@ -17,9 +17,14 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
+#if QT_VERSION >= 0x050000
+#include <kjobwidgets.h>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
+#if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
+#endif
 #include <kio/job.h>
 
 #include <QApplication>
@@ -121,8 +126,15 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 #endif
+#if QT_VERSION >= 0x050000
+    KIO::Job* job = KIO::file_copy(QUrl(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());
+    job->exec();
+    if (!job->error()) {
+#else
     KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
+#endif
         umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
     } else {

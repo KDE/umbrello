@@ -21,8 +21,14 @@
 #include "umlview.h"
 
 // kde include files
+#if QT_VERSION >= 0x050000
+#include <KIO/Job>
+#include <KJobWidgets>
+#include <KIO/MkdirJob>
+#else
 #include <KLocalizedString>
 #include <kio/netaccess.h>
+#endif
 #if QT_VERSION < 0x050000
 #include <ktemporaryfile.h>
 #endif
@@ -295,7 +301,14 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
+#if QT_VERSION >= 0x050000
+        KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpFile.fileName()), url);
+        KJobWidgets::setWindow(job, UMLApp::app());
+        job->exec();
+        if (job->error()) {
+#else
         if (!KIO::NetAccess::upload(tmpFile.fileName(), url, UMLApp::app())) {
+#endif
             return i18n("There was a problem saving file: %1", url.path());
         }
     }
@@ -342,6 +355,27 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 #endif
 {
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
+#if QT_VERSION >= 0x050000
+    QUrl directory = url;
+    directory.setPath(QString());
+
+    // creates the directory and any needed parent directories
+    QStringList dirs = url.path().split(QDir::separator(), QString::SkipEmptyParts);
+    for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
+        directory.setPath(directory.path() + QLatin1Char('/') + *it);
+
+        KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, 0);
+        KJobWidgets::setWindow(statJob, UMLApp::app());
+        statJob->exec();
+        if (statJob->error()) {
+
+            KIO::MkdirJob* job = KIO::mkdir(directory);
+            if (!job->exec()) {
+                return false;
+            }
+        }
+    }
+#else
     KUrl directory = url;
     directory.setPath(QString());
 
@@ -357,6 +391,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
             }
         }
     }
+#endif
 
     return true;
 }

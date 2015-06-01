@@ -21,7 +21,10 @@
 
 //kde include files
 #include <klocale.h>
-#if QT_VERSION < 0x050000
+#if QT_VERSION >= 0x050000
+#include <KIO/Job>
+#include <KJobWidgets>
+#else
 #include <kfiledialog.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
@@ -105,9 +108,21 @@ bool UMLViewImageExporter::prepareExport()
         }
 
         // check if the file exists
-        if (KIO::NetAccess::exists(m_imageURL, KIO::NetAccess::SourceSide, UMLApp::app())) {
+#if QT_VERSION >= 0x050000
+        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, 0);
+        KJobWidgets::setWindow(job, UMLApp::app());
+        job->exec();
+        bool result = !job->error();
+#else
+        bool result = KIO::NetAccess::exists(m_imageURL, KIO::NetAccess::SourceSide, UMLApp::app());
+#endif
+        if (result) {
             int wantSave = KMessageBox::warningContinueCancel(0,
+#if QT_VERSION >= 0x050000
+                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.url(QUrl::PreferLocalFile)),
+#else
                                 i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
+#endif
                                 i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));
             if (wantSave == KMessageBox::Continue) {
                 exportPrepared = true;

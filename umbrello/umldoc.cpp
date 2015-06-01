@@ -51,6 +51,9 @@
 #include <kio/netaccess.h>
 #include <kinputdialog.h>
 #endif
+#if QT_VERSION >= 0x050000
+#include <KJobWidgets>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <kmimetype.h>
@@ -470,6 +473,27 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // as it sets m_bLoading to false after it was temporarily
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
+#if QT_VERSION >= 0x050000
+    QTemporaryFile tmpfile;
+    tmpfile.open();
+    QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
+    DEBUG(DBG_SRC) << "UMLDoc::openDocument: copy from " << url << " to " << dest << ".";
+    KIO::FileCopyJob *job = KIO::file_copy(url, dest, -1, KIO::Overwrite);
+    KJobWidgets::setWindow(job, UMLApp::app());
+    job->exec();
+    QFile file(tmpfile.fileName());
+    if (job->error() || !tmpfile.exists()) {
+        if (!tmpfile.exists())
+            DEBUG(DBG_SRC) << "UMLDoc::openDocument: temporary file <" << tmpfile.fileName() << "> failed!";
+        if (job->error())
+           DEBUG(DBG_SRC) << "UMLDoc::openDocument: " << job->errorString();
+        KMessageBox::error(0, i18n("The file <%1> does not exist.", url.toString()), i18n("Load Error"));
+        setUrlUntitled();
+        m_bLoading = false;
+        newDocument();
+        return false;
+    }
+#else
     QString tmpfile;
     KIO::NetAccess::download(url, tmpfile, UMLApp::app());
     QFile file(tmpfile);
@@ -481,6 +505,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         newDocument();
         return false;
     }
+#endif
 
     // status of XMI loading
     bool status = false;
@@ -670,7 +695,9 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
     if (file.isOpen())
         file.close();
+#if QT_VERSION < 0x050000
     KIO::NetAccess::removeTempFile(tmpfile);
+#endif
     m_bLoading = false;
     m_bTypesAreResolved = true;
     if (!status) {
