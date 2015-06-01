@@ -266,7 +266,7 @@ void UMLApp::initActions()
 {
     QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     QAction* fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
-#if QT_VERSION >= 0x040600
+#if QT_VERSION >= 0x050000
     fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(QUrl)), actionCollection());
 #else
     fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(KUrl)), actionCollection());
