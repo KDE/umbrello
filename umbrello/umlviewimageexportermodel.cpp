@@ -335,7 +335,11 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
  * @return True if the operation was successful,
  *         false if the directory didn't exist and couldn't be created.
  */
+#if QT_VERSION >= 0x050000
+bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
+#else
 bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
+#endif
 {
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
     KUrl directory = url;

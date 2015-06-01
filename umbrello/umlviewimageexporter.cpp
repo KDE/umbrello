@@ -132,7 +132,11 @@ bool UMLViewImageExporter::getParametersFromUser()
     bool success = true;
 
     // configure & show the file dialog
+#if QT_VERSION >= 0x050000
+    QUrl url;
+#else
     KUrl url;
+#endif
     QPointer<UMLFileDialog> dialog = new UMLFileDialog(url, QString(), UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
@@ -144,9 +148,14 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
-        m_imageMimeType = dialog->currentMimeFilter();
-        UMLApp::app()->setImageMimeType(m_imageMimeType);
         m_imageURL = dialog->selectedUrl();
+#if QT_VERSION >= 0x050000
+        QFileInfo f(m_imageURL.toLocalFile());
+        m_imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(f.suffix());
+#else
+        m_imageMimeType = dialog->currentMimeFilter();
+#endif
+        UMLApp::app()->setImageMimeType(m_imageMimeType);
     }
     delete dialog;
     return success;
