@@ -24,7 +24,7 @@
 #include "stereotype.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes

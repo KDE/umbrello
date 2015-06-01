@@ -22,7 +22,7 @@
 #include <KIntSpinBox>
 #endif
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 
 // qt includes
 #include <QCheckBox>

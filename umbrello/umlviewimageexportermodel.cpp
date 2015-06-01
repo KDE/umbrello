@@ -26,12 +26,12 @@
 #include <KJobWidgets>
 #include <KIO/MkdirJob>
 #else
-#include <KLocalizedString>
 #include <kio/netaccess.h>
 #endif
 #if QT_VERSION < 0x050000
 #include <ktemporaryfile.h>
 #endif
+#include <KLocalizedString>
 
 // include files for Qt
 #include <QApplication>

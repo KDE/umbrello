@@ -16,7 +16,7 @@
 #if QT_VERSION < 0x050000
 #include <KMimeType>
 #endif
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #if QT_VERSION < 0x050000
 static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExtensions = 0)

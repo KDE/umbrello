@@ -21,7 +21,6 @@
 #include "umlscene.h"
 
 //kde include files
-#include <klocale.h>
 #if QT_VERSION >= 0x050000
 #include <KIO/Job>
 #include <KJobWidgets>
@@ -30,6 +29,7 @@
 #include <kurl.h>
 #include <kio/netaccess.h>
 #endif
+#include <KLocalizedString>
 #include <KMessageBox>
 
 // Qt include files

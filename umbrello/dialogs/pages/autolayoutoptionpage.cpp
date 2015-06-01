@@ -16,7 +16,7 @@
 
 // kde includes
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 
 // qt includes
 #include <QCheckBox>
