@@ -94,7 +94,9 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
+#if QT_VERSION < 0x050000
 #include <QMenuItem>
+#endif
 #include <QPointer>
 #include <QPrinter>
 #include <QPrintDialog>
