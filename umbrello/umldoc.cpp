@@ -75,6 +75,7 @@
 #include <QPrinter>
 #include <QRegExp>
 #if QT_VERSION >= 0x050000
+#include <QTemporaryDir>
 #include <QTemporaryFile>
 #endif
 #include <QTextStream>
@@ -532,7 +533,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
         // if we found an XMI file, we have to extract it to a temporary file
         if (foundXMI == true) {
+#if QT_VERSION >= 0x050000
+            QTemporaryDir tmp_dir;
+#else
             KTempDir tmp_dir;
+#endif
             KArchiveEntry * entry;
             KArchiveFile * fileEntry;
 
@@ -574,10 +579,17 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             }
 
             // now we can extract the file to the temporary directory
+#if QT_VERSION >= 0x050000
+            fileEntry->copyTo(tmp_dir.path() + QLatin1Char('/'));
+
+            // now open the extracted file for reading
+            QFile xmi_file(tmp_dir.path() + QLatin1Char('/') + *it);
+#else
             fileEntry->copyTo(tmp_dir.name());
 
             // now open the extracted file for reading
             QFile xmi_file(tmp_dir.name() + *it);
+#endif
             if(!xmi_file.open(QIODevice::ReadOnly)) {
 #if QT_VERSION >= 0x050000
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.toString()),

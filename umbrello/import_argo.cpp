@@ -18,12 +18,17 @@
 
 // kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <KTempDir>
+#endif
 #include <KZip>
 
 // qt includes
 #include <QFile>
 #include <QStringList>
+#if QT_VERSION >= 0x050000
+#include <QTemporaryDir>
+#endif
 #include <QXmlStreamReader>
 
 static void reportError(const QXmlStreamReader &xml, const KZip &zipFile, const QString &fileName)
@@ -109,11 +114,20 @@ bool Import_Argo::loadFromXMIFile(const KZip &zipFile, const QString &fileName)
     if (!file)
         return false;
 
+#if QT_VERSION >= 0x050000
+    QTemporaryDir tmpDir;
+#else
     KTempDir tmpDir;
+#endif
     tmpDir.setAutoRemove(true);
-    file->copyTo(tmpDir.name());
 
+#if QT_VERSION >= 0x050000
+    file->copyTo(tmpDir.path());
+    QFile xmiFile(tmpDir.path() + QLatin1Char('/') + file->name());
+#else
+    file->copyTo(tmpDir.name());
     QFile xmiFile(tmpDir.name() + file->name());
+#endif
     if(!xmiFile.open(QIODevice::ReadOnly)) {
         return false;
     }
