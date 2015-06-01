@@ -22,7 +22,7 @@
 #include "umlwidget.h"
 
 // qt includes
-#include <QWMatrix> // need for inverseWorldMatrix.map
+#include <QMatrix> // need for inverseWorldMatrix.map
 #include <QScrollBar>
 
 /**
