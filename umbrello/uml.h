@@ -52,7 +52,9 @@ class KRecentFilesAction;
 class KToggleAction;
 class KTabWidget;
 class KMenu;
+#if QT_VERSION < 0x050000
 class KUndoStack;
+#endif
 class KAction;
 
 // Qt forward declarations
@@ -65,6 +67,9 @@ class QMenu;
 class QMimeData;
 class QUndoCommand;
 class QUndoView;
+#if QT_VERSION >= 0x050000
+class QUndoStack;
+#endif
 class QPushButton;
 class QLabel;
 class QListWidget;
@@ -497,7 +502,11 @@ private:
      */
     XhtmlGenerator* m_xhtmlGenerator;
 
+#if QT_VERSION >= 0x050000
+    QUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
+#else
     KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
+#endif
     bool m_undoEnabled; ///< Undo enabled flag
 
     bool m_hasBegunMacro;  ///< Macro creation flag.

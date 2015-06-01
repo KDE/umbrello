@@ -78,7 +78,9 @@
 #include <kmenu.h>
 #include <kxmlguifactory.h>
 #include <kdeprintdialog.h>
+#if QT_VERSION < 0x050000
 #include <kundostack.h>
+#endif
 #include <kstatusbar.h>
 
 // qt includes
@@ -104,6 +106,9 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <QToolButton>
+#if QT_VERSION >= 0x050000
+#include <QUndoStack>
+#endif
 #include <QUndoView>
 #include <QListWidget>
 
@@ -157,7 +162,11 @@ UMLApp::UMLApp(QWidget* parent)
     m_settingsDialog(0),
     m_imageExporterAll(new UMLViewImageExporterAll()),
     m_xhtmlGenerator(0),
+#if QT_VERSION >= 0x050000
+    m_pUndoStack(new QUndoStack(this)),
+#else
     m_pUndoStack(new KUndoStack(this)),
+#endif
     m_hasBegunMacro(false),
     m_printSettings(0),
     m_printer(new QPrinter())
