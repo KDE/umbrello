@@ -56,7 +56,11 @@ public:
         view(0),
         document(0)
     {
+#if QT_VERSION >= 0x050000
+        editor = KTextEditor::Editor::instance();
+#else
         editor = KTextEditor::EditorChooser::editor();
+#endif
         logWindow = new QListWidget;
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
