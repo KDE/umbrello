@@ -148,7 +148,11 @@ UMLApp::UMLApp(QWidget* parent)
     m_codegen(0),
     m_commoncodegenpolicy(new CodeGenerationPolicy()),
     m_policyext(0),
+#if QT_VERSION >= 0x050000
+    m_config(KSharedConfig::openConfig()),
+#else
     m_config(KGlobal::config()),
+#endif
     m_view(0),
     m_doc(new UMLDoc()),
     m_listView(0),
