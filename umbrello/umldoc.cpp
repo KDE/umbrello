@@ -56,7 +56,9 @@
 #endif
 #include <KLocalizedString>
 #include <KMessageBox>
+#if QT_VERSION < 0x050000
 #include <kmimetype.h>
+#endif
 #include <ktar.h>
 #include <ktempdir.h>
 #if QT_VERSION < 0x050000
@@ -73,6 +75,9 @@
 #include <QDomElement>
 #if QT_VERSION >= 0x050000
 #include <QInputDialog>
+#endif
+#if QT_VERSION >= 0x050000
+#include <QMimeDatabase>
 #endif
 #include <QPainter>
 #include <QPrinter>
@@ -548,7 +553,12 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             // only check files, we do not go in subdirectories
             if (rootDir->entry(*it)->isFile() == true) {
                 // we found a file, check the mimetype
+#if QT_VERSION >= 0x050000
+                QMimeDatabase db;
+                entryMimeType = db.mimeTypeForFile(*it, QMimeDatabase::MatchExtension).name();
+#else
                 entryMimeType = KMimeType::findByPath(*it, 0, true)->name();
+#endif
                 if (entryMimeType == QLatin1String("application/x-uml")) {
                     foundXMI = true;
                     break;
