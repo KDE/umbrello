@@ -3155,6 +3155,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
             connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
 #else
             connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+#endif
     }
     else {
         if (m_viewStack->indexOf(view) < 0) {
