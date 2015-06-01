@@ -1483,7 +1483,22 @@ bool UMLApp::slotPrintSettings()
         delete m_printSettings;
     }
     m_printSettings = new DiagramPrintPage(0, m_doc);
+#if QT_VERSION >= 0x050000
+    QPointer<QDialog> dlg = new QDialog();
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(m_printSettings);
 
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                       QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), dlg, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dlg, SLOT(reject()));
+    layout->addWidget(buttonBox);
+
+    dlg->setLayout(layout);
+    bool result = dlg->exec() == QDialog::Accepted;
+    // keep settings
+    layout->removeWidget(m_printSettings);
+#else
     QPointer<KDialog> dlg = new KDialog();
     dlg->setMainWidget(m_printSettings);
 
@@ -1491,6 +1506,7 @@ bool UMLApp::slotPrintSettings()
 
     // keep settings
     dlg->setMainWidget(0);
+#endif
     m_printSettings->setParent(0);
 
     delete dlg;
