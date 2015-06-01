@@ -10,6 +10,8 @@
 
 #include "singlepagedialogbase.h"
 
+// app include
+#include <KLocalizedString>
 
 #if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
@@ -19,7 +21,7 @@
 /**
  * Constructor
  */
-SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton)
+SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
   : QDialog(parent),
     m_mainWidget(0)
 {
@@ -31,6 +33,8 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
         buttons = QDialogButtonBox::Ok | QDialogButtonBox::Cancel;
 
     m_buttonBox = new QDialogButtonBox(buttons);
+    if (withSearchButton)
+        m_buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Search"));
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
     connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     mainWidget();
@@ -40,13 +44,16 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
 /**
  * Constructor
  */
-SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton)
+SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
   : KDialog(parent)
 {
     if (withApplyButton)
         setButtons(Help | Ok | Cancel | Apply);
     else
         setButtons(Help | Ok | Cancel);
+
+    if (withSearchButton)
+        setButtonText(Ok, i18n("Search"));
 
     setDefaultButton(Ok);
     setModal(true);
@@ -63,6 +70,8 @@ SinglePageDialogBase::~SinglePageDialogBase()
 
 /**
  * Apply dialog changes to the related object.
+ * @return true apply succeeds
+ * @return false apply does not succeed
  */
 bool SinglePageDialogBase::apply()
 {

@@ -31,11 +31,12 @@ public:
     QString text();
     UMLFinder::Filter filter();
     UMLFinder::Category category();
+
 protected:
+    virtual bool apply();
     void showEvent(QShowEvent *event);
 
 private slots:
-    virtual void slotButtonClicked(int button);
     void slotFilterButtonClicked(int button);
 };
 

@@ -15,6 +15,7 @@
 
 #if QT_VERSION >= 0x050000
 #include <QDialog>
+class QAbstractButton;
 class QDialogButtonBox;
 #else
 #include <KDialog>
@@ -34,9 +35,8 @@ class SinglePageDialogBase : public KDialog
 #endif
 {
     Q_OBJECT
-
 public:
-    explicit SinglePageDialogBase(QWidget *parent, bool withApplyButton = false);
+    explicit SinglePageDialogBase(QWidget *parent, bool withApplyButton = false, bool withSearchButton = false);
     virtual ~SinglePageDialogBase();
     virtual bool apply();
 

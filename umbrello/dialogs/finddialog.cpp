@@ -11,15 +11,11 @@
 #include "finddialog.h"
 
 FindDialog::FindDialog(QWidget *parent) :
-    SinglePageDialogBase(parent)
+    SinglePageDialogBase(parent, false, true)
 {
     setCaption(i18n("Find"));
     setupUi(mainWidget());
     connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
-
-    setButtons(User1 | Cancel);
-    setDefaultButton(User1);
-    setButtonText(User1, i18n("Search"));
     ui_treeView->setChecked(true);
     ui_categoryAll->setChecked(true);
 }
@@ -27,6 +23,14 @@ FindDialog::FindDialog(QWidget *parent) :
 FindDialog::~FindDialog()
 {
     disconnect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+}
+
+/**
+ * derived method from SinglePageDialogBase
+ */
+bool FindDialog::apply()
+{
+    return true;
 }
 
 /**
@@ -75,18 +79,6 @@ UMLFinder::Category FindDialog::category()
 }
 
 /**
- * Handles dialog button click.
- * @param button
- */
-void FindDialog::slotButtonClicked(int button)
-{
-    if (button == KDialog::User1)
-       accept();
-    else
-       KDialog::slotButtonClicked(button);
-}
-
-/**
  * Handles filter radio button group click.
  * @param button (-2=Treeview,-3,-4)
  */
@@ -105,5 +97,9 @@ void FindDialog::slotFilterButtonClicked(int button)
 void FindDialog::showEvent(QShowEvent *event)
 {
     ui_searchTerm->setFocus();
+#if QT_VERSION >= 0x050000
+    QDialog::showEvent(event);
+#else
     KDialog::showEvent(event);
+#endif
 }
