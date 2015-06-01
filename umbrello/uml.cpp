@@ -1113,7 +1113,11 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setCreateArtifacts(optionState.codeImportState.createArtifacts);
     UmbrelloSettings::setResolveDependencies(optionState.codeImportState.resolveDependencies);
 
+#if QT_VERSION >= 0x050000
+    UmbrelloSettings::self()->save();
+#else
     UmbrelloSettings::self()->writeConfig();
+#endif
 }
 
 /**
@@ -2169,7 +2173,11 @@ void UMLApp::readOptionState()
 {
     Settings::OptionState& optionState = Settings::optionState();
 
+#if QT_VERSION >= 0x050000
+    UmbrelloSettings::self()->load();
+#else
     UmbrelloSettings::self()->readConfig();
+#endif
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
