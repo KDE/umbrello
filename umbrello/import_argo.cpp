@@ -47,7 +47,7 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
 
     while (!xml.atEnd()) {
         xml.readNext();
-        if (xml.name() == "member") {
+        if (xml.name() == QLatin1String("member")) {
             QXmlStreamAttributes attributes = xml.attributes();
             QString type = attributes.value(QLatin1String("type")).toString();
             QString name = attributes.value(QLatin1String("name")).toString();
