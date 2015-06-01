@@ -40,7 +40,7 @@
 #include <QUrl>
 #endif
 
-#include <QTextOStream>
+#include <QTextStream>
 
 extern int xmlLoadExtDtdDefaultValue;
 
