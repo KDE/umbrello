@@ -25,8 +25,6 @@
 #include "debug_utils.h"
 
 #include <kiconloader.h>
-#include <kicon.h>
-
 
 namespace Icon_Utils {
 
