@@ -20,10 +20,11 @@
 
 #if QT_VERSION < 0x050000
 class KAction;
+class KMenu;
 #else
 class QAction;
+class QMenu;
 #endif
-class KMenu;
 
 /**
  * A dialog page to display entity constraint properties.
