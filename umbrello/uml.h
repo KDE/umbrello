@@ -65,6 +65,7 @@ class QVBoxLayout;
 class QKeyEvent;
 class QMenu;
 class QMimeData;
+class QPrinter;
 class QUndoCommand;
 class QUndoView;
 #if QT_VERSION >= 0x050000

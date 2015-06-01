@@ -1522,9 +1522,14 @@ void UMLApp::slotFilePrint()
     if (!slotPrintSettings())
         return;
 
+#if QT_VERSION >= 0x050000
+    QPrintDialog *printDialog = new QPrintDialog(m_printer, this);
+    printDialog->setWindowTitle(i18n("Print %1", m_doc->url().toDisplayString()));
+#else
     QPrintDialog *printDialog =
                   KdePrint::createPrintDialog(m_printer, QList<QWidget*>() << m_printSettings, this);
     printDialog->setWindowTitle(i18n("Print %1", m_doc->url().prettyUrl()));
+#endif
 
     if (printDialog->exec()) {
         m_doc->print(m_printer, m_printSettings);
