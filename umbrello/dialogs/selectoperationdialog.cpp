@@ -145,7 +145,7 @@ void SelectOperationDialog::setCustomOp(const QString &op)
 }
 
 /**
- * handle auto increment checkbox click
+ * Handle auto increment checkbox click.
  */
 void SelectOperationDialog::slotAutoIncrementChecked(bool state)
 {
@@ -154,7 +154,7 @@ void SelectOperationDialog::slotAutoIncrementChecked(bool state)
 }
 
 /**
- * handle new operation button click
+ * Handle new operation button click.
  */
 void SelectOperationDialog::slotNewOperation()
 {
@@ -209,7 +209,7 @@ bool SelectOperationDialog::setClassOp(const QString &op)
 }
 
 /**
- * setup dialog operations list
+ * Setup dialog operations list.
  */
 void SelectOperationDialog::setupOperationsList()
 {
@@ -247,6 +247,8 @@ void SelectOperationDialog::setSeqNumber(const QString &num)
 }
 
 /**
+ * Set the flag for auto increment sequence numbering.
+ * @param state   the state of the flag
  */
 void SelectOperationDialog::setAutoIncrementSequence(bool state)
 {
@@ -254,9 +256,9 @@ void SelectOperationDialog::setAutoIncrementSequence(bool state)
 }
 
 /**
+ * Return the flag for auto increment sequence numbering.
  */
 bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
 }
-
