@@ -27,12 +27,10 @@
 
 CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state)
-  : KDialog (parent), m_state(state)
+  : SinglePageDialogBase(parent), m_state(state)
 {
     setModal(false);
-    setButtons(KDialog::Cancel);
     setupUi(mainWidget());
-    setInitialSize(QSize(630, 730));
     initGUI();
     addCodeDocument(doc);
     connect(this, SIGNAL(cancelClicked()), mainWidget(), SLOT(close()));
@@ -87,7 +85,7 @@ bool CodeViewerDialog::close()
     // remember block show status
     m_state.showHiddenBlocks = ui_showHiddenCodeCB->isChecked();
     // run superclass close now
-    return KDialog::close();
+    return QDialog::close();
 }
 
 /**
