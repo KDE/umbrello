@@ -156,7 +156,11 @@ public:
 
     bool editCutCopy(bool bFromView);
 
+#if QT_VERSION >= 0x050000
+    QTabWidget *tabWidget();
+#else
     KTabWidget *tabWidget();
+#endif
 
     QString statusBarMsg();
 
@@ -281,7 +285,11 @@ public slots:
     void slotSelectAll();
     void slotDeleteSelected();
     void slotDeleteDiagram();
+#if QT_VERSION >= 0x050000
+    void slotCloseDiagram(int index);
+#else
     void slotCloseDiagram(QWidget* tab);
+#endif
     void slotGenerateAllCode();
 
     void slotSetZoom(QAction* action);
@@ -298,7 +306,11 @@ public slots:
     void slotEditUndo();
     void slotEditRedo();
 
+#if QT_VERSION >= 0x050000
+    void slotTabChanged(int index);
+#else
     void slotTabChanged(QWidget* tab);
+#endif
     void slotChangeTabLeft();
     void slotChangeTabRight();
     void slotMoveTabLeft();
@@ -327,6 +339,9 @@ private slots:
     void setLang_tcl();
     void setLang_vala();
     void setLang_xmlschema();
+#if QT_VERSION >= 0x050000
+    void slotDiagramPopupMenu(const QPoint& point);
+#endif
 
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
@@ -423,9 +438,13 @@ private:
     QAction* zoom100Action;
 
     QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
+#if QT_VERSION >= 0x050000
+    QAction* deleteSelectedWidget;
+    QAction* deleteDiagram;
+#else
     KAction* deleteSelectedWidget;
     KAction* deleteDiagram;
-
+#endif
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
     WorkToolBar* m_toolsbar;
@@ -444,7 +463,11 @@ private:
      * Shows, and is parent of, all the UMLViews (diagrams)
      * if tabbed diagrams are enabled.
      */
+#if QT_VERSION >= 0x050000
+    QTabWidget* m_tabWidget;
+#else
     KTabWidget* m_tabWidget;
+#endif
 
     /**
      * Layout supports the dynamic management of the diagram representation (tabbed/stacked)

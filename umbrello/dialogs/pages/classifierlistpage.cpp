@@ -222,7 +222,11 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     if (m_itemType == UMLObject::ot_Operation) {
         m_docTE = new KTextEdit();
         m_pCodeTE = new CodeTextEdit();
+#if QT_VERSION >= 0x050000
+        QTabWidget* tabWidget = new QTabWidget();
+#else
         KTabWidget* tabWidget = new KTabWidget();
+#endif
         tabWidget->addTab(m_docTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
         docLayout->addWidget(tabWidget);

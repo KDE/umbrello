@@ -835,10 +835,20 @@ void UMLApp::initView()
     m_viewStack = new QStackedWidget(this);
 
     // Prepare Tabbed Diagram Representation
+#if QT_VERSION >= 0x050000
+    m_tabWidget = new QTabWidget(this);
+    m_tabWidget->setMovable(true);
+    connect(m_tabWidget, SIGNAL(tabCloseRequested(int)), SLOT(slotCloseDiagram(int)));
+    connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
+    connect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotDiagramPopupMenu(QPoint)));
+#else
     m_tabWidget = new KTabWidget(this);
     m_tabWidget->setAutomaticResizeTabs(true);
-    m_tabWidget->setTabsClosable(true);
     connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
+    connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint)));
+#endif
+    m_tabWidget->setTabsClosable(true);
 
     m_newSessionButton = new QToolButton(m_tabWidget);
     m_newSessionButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_New));
@@ -847,8 +857,6 @@ void UMLApp::initView()
     m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
     m_newSessionButton->setMenu(newDiagram->menu());
 
-    connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint)));
     m_tabWidget->setCornerWidget(m_newSessionButton, Qt::TopLeftCorner);
     m_newSessionButton->installEventFilter(this);
 
@@ -1990,7 +1998,11 @@ void UMLApp::slotApplyPrefs()
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
                     int tabIndex = m_tabWidget->addTab(view, scene->name());
+#if QT_VERSION >= 0x050000
+                    m_tabWidget->setTabIcon(tabIndex, QIcon(Icon_Utils::iconSet(scene->type())));
+#else
                     m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(scene->type())));
+#endif
                     m_tabWidget->setTabToolTip(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
@@ -2499,6 +2511,21 @@ void UMLApp::setLang_xmlschema()
     setActiveLanguage(Uml::ProgrammingLanguage::XMLSchema);
 }
 
+#if QT_VERSION >= 0x050000
+/**
+ * Called when right clicking on tab widget.
+ * @param point  the point where the right mouse button was clicked
+ */
+void UMLApp::slotDiagramPopupMenu(const QPoint& point)
+{
+    QTabBar* tabBar = m_tabWidget->tabBar();
+    int index = tabBar->tabAt(point);
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
+    QPoint globalPoint = m_tabWidget->mapToGlobal(point);
+    m_doc->slotDiagramPopupMenu(view, globalPoint);
+}
+#endif
+
 /**
  * Set the language for which code will be generated.
  *
@@ -2860,6 +2887,23 @@ void UMLApp::slotDeleteDiagram()
     m_doc->removeDiagram(currentView()->umlScene()->ID());
 }
 
+#if QT_VERSION >= 0x050000
+/**
+ * Close the current diagram. Clicked on tab close button.
+ * @param index   widget's index to close
+ */
+void UMLApp::slotCloseDiagram(int index)
+{
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
+    if (view) {
+        if (view != currentView()) {
+            setCurrentView(view);
+        }
+        m_tabWidget->removeTab(index);
+        view->umlScene()->setIsOpen(false);
+    }
+}
+#else
 /**
  * Close the current diagram. Clicked on tab close button.
  * @param tab   Widget's tab to close
@@ -2875,6 +2919,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
         view->umlScene()->setIsOpen(false);
     }
 }
+#endif
 
 /**
  * Return the default code generation language as configured by KConfig.
@@ -3091,13 +3136,24 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
         int tabIndex = m_tabWidget->indexOf(view);
         if ((tabIndex < 0) && (view->umlScene()->isOpen())) {
             tabIndex = m_tabWidget->addTab(view, view->umlScene()->name());
+#if QT_VERSION >= 0x050000
+            m_tabWidget->setTabIcon(tabIndex, QIcon(Icon_Utils::iconSet(view->umlScene()->type())));
+#else
             m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(view->umlScene()->type())));
+#endif
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
         if (!updateTreeView)
+#if QT_VERSION >= 0x050000
+            disconnect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabChanged(int)));
+#else
             disconnect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotTabChanged(QWidget*)));
+#endif
         m_tabWidget->setCurrentIndex(tabIndex);
         if (!updateTreeView)
+#if QT_VERSION >= 0x050000
+            connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
+#else
             connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
     }
     else {
@@ -3149,6 +3205,19 @@ QString UMLApp::imageMimeType() const
     return m_imageMimeType;
 }
 
+#if QT_VERSION >= 0x050000
+/**
+ * Called when the tab has changed.
+ * @param index   the index of the changed tab widget
+ */
+void UMLApp::slotTabChanged(int index)
+{
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
+    if (view) {
+        m_doc->changeCurrentView(view->umlScene()->ID());
+    }
+}
+#else
 /**
  * Called when the tab has changed.
  * @param tab   The changed tab widget
@@ -3160,6 +3229,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
+#endif
 
 /**
  * Make the tab on the left of the current one the active one.
@@ -3247,7 +3317,11 @@ void UMLApp::slotMoveTabLeft()
     else {
         to = m_tabWidget->count() - 1;
     }
+#if QT_VERSION >= 0x050000
+    m_tabWidget->tabBar()->moveTab(from, to);
+#else
     m_tabWidget->moveTab(from, to);
+#endif
 }
 
 /**
@@ -3265,7 +3339,11 @@ void UMLApp::slotMoveTabRight()
     else {
         to = 0;
     }
+#if QT_VERSION >= 0x050000
+    m_tabWidget->tabBar()->moveTab(from, to);
+#else
     m_tabWidget->moveTab(from, to);
+#endif
 }
 
 /**
@@ -3286,7 +3364,11 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 /**
  * Return the tab widget.
  */
+#if QT_VERSION >= 0x050000
+QTabWidget* UMLApp::tabWidget()
+#else
 KTabWidget* UMLApp::tabWidget()
+#endif
 {
     return m_tabWidget;
 }
