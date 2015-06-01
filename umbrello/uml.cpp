@@ -806,7 +806,11 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(defaultZoomWdg);
 
     m_pZoomOutPB = new QPushButton(this);
+#if QT_VERSION >= 0x050000
+    m_pZoomOutPB->setIcon(QIcon(QLatin1String("zoom-out")));
+#else
     m_pZoomOutPB->setIcon(KIcon(QLatin1String("zoom-out")));
+#endif
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
@@ -824,7 +828,11 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(m_pZoomSlider);
 
     m_pZoomInPB = new QPushButton(this);
+#if QT_VERSION >= 0x050000
+    m_pZoomInPB->setIcon(QIcon(QLatin1String("zoom-in")));
+#else
     m_pZoomInPB->setIcon(KIcon(QLatin1String("zoom-in")));
+#endif
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);
