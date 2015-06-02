@@ -60,11 +60,13 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
 
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
-    m_pOpGB = new QGroupBox(i18n("Select Operation"), frame);
+    m_pOpGB = new QGroupBox(i18n("Select Operation"));
     topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
+#if QT_VERSION < 0x050000
     mainLayout->setSpacing(spacingHint());
+#endif
     mainLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(mainLayout, 0,
