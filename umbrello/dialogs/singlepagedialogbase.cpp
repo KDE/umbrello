@@ -35,8 +35,8 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
     m_buttonBox = new QDialogButtonBox(buttons);
     if (withSearchButton)
         m_buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Search"));
-    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotClicked(QAbstractButton*)));
     mainWidget();
 }
 #else
@@ -110,6 +110,26 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
 }
 
 /**
+ * Set the text of a dedicated button.
+ * @param code button code
+ * @param text button text
+ */
+void SinglePageDialogBase::setButtonText(SinglePageDialogBase::ButtonCode code, const QString &text)
+{
+    switch(code) {
+    case Ok:
+        m_buttonBox->button(QDialogButtonBox::Ok)->setText(text);
+        break;
+    case Apply:
+        m_buttonBox->button(QDialogButtonBox::Apply)->setText(text);
+        break;
+    case Cancel:
+        m_buttonBox->button(QDialogButtonBox::Cancel)->setText(text);
+        break;
+    }
+}
+
+/**
  * @return The current main widget. Will create a QWidget as the mainWidget
  * if none was set before. This way you can write
  * \code
@@ -132,6 +152,7 @@ QWidget *SinglePageDialogBase::mainWidget()
 void SinglePageDialogBase::slotApply()
 {
     apply();
+    done(Apply);
 }
 
 /**
@@ -140,11 +161,32 @@ void SinglePageDialogBase::slotApply()
 void SinglePageDialogBase::slotOk()
 {
     if (apply()) {
-        accept();
+        done(Ok);
     }
 }
 
 #if QT_VERSION >= 0x050000
+/**
+ * Used when the Cancel button is clicked.
+ */
+void SinglePageDialogBase::slotCancel()
+{
+    done(Cancel);
+}
+
+/**
+ * Used when the Cancel button is clicked.
+ */
+void SinglePageDialogBase::slotClicked(QAbstractButton *button)
+{
+    if (button == m_buttonBox->button(QDialogButtonBox::Apply))
+        slotApply();
+    else if (button == m_buttonBox->button(QDialogButtonBox::Ok))
+        slotOk();
+    else if (button == m_buttonBox->button(QDialogButtonBox::Cancel))
+        slotCancel();
+}
+
 /**
  * Enable the ok button.
  * @param enable   the enable value

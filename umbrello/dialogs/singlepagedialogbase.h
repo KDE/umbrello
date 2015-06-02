@@ -41,16 +41,22 @@ public:
     virtual bool apply();
 
 #if QT_VERSION >= 0x050000
+    typedef enum { Cancel = 0, Ok = 1, Apply = 2, No = 2 } ButtonCode;
     // keep in sync with MultiPageDialogBase
     void setCaption(const QString &caption);
 
     QWidget *mainWidget();
     void setMainWidget(QWidget *widget);
+    void setButtonText(ButtonCode code, const QString &text);
 #endif
 
 protected slots:
     void slotApply();
     void slotOk();
+#if QT_VERSION >= 0x050000
+    void slotCancel();
+    void slotClicked(QAbstractButton*);
+#endif
 
 protected:
 #if QT_VERSION >= 0x050000

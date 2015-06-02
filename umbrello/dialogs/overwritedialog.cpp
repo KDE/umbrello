@@ -16,45 +16,36 @@
 
 // qt includes
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QLabel>
 #include <QLayout>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 /**
  * Constructor sets up the dialog, adding checkbox and label.
  */
-OverwriteDialog::OverwriteDialog(
-        const QString& fileName,
-        const QString& outputDirectory,
-        bool applyToAllRemaining, QWidget* parent)
-  : KDialog(parent)
+OverwriteDialog::OverwriteDialog(const QString& fileName, const QString& outputDirectory,
+                                 bool applyToAllRemaining, QWidget* parent)
+  : SinglePageDialogBase(parent, true)
 {
     setCaption(i18n("Destination File Already Exists"));
-    setButtons(Ok | Apply | Cancel);
-    setDefaultButton(Yes);
+    setButtonText(Ok, i18n("&Overwrite"));
+    setButtonText(Apply, i18n("&Generate Similar File Name"));
+    setButtonText(Cancel, i18n("&Do Not Generate File"));
     setModal(true);
-    showButtonSeparator(true);
 
     QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-
     QVBoxLayout* layout = new QVBoxLayout(frame);
-    layout->setSpacing(spacingHint());
     layout->setMargin(0);
 
-    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), frame);
+    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory));
     layout->addWidget(dialogueLabel);
 
-    m_applyToAllRemaining = new QCheckBox(i18n("&Apply to all remaining files"), frame);
+    m_applyToAllRemaining = new QCheckBox(i18n("&Apply to all remaining files"));
     m_applyToAllRemaining->setChecked(applyToAllRemaining);
     layout->addWidget(m_applyToAllRemaining);
-
-    setButtonText(KDialog::Ok, i18n("&Overwrite"));
-    setButtonText(KDialog::Apply, i18n("&Generate Similar File Name"));
-    setButtonText(KDialog::Cancel, i18n("&Do Not Generate File"));
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
+    setMainWidget(frame);
 }
 
 /**
@@ -65,28 +56,12 @@ OverwriteDialog::~OverwriteDialog()
 }
 
 /**
- * Overrides standard operation to call QDialog::done(Yes).
- * This is a kludge, see note in class description.
+ * Apply the dialog
+ * @return true apply succeeds
  */
-void OverwriteDialog::slotOk()
+bool OverwriteDialog::apply()
 {
-    done(Yes);
-}
-
-/**
- * Overrides standard operation to call QDialog::done(No).
- */
-void OverwriteDialog::slotApply()
-{
-    done(No);
-}
-
-/**
- * Overrides standard operation to call QDialog::done(Cancel).
- */
-void OverwriteDialog::slotCancel()
-{
-    done(Cancel);
+    return true;
 }
 
 /**

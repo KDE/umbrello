@@ -11,7 +11,7 @@
 #ifndef OVERWRITEDIALOG_H
 #define OVERWRITEDIALOG_H
 
-#include <kdialog.h>
+#include "singlepagedialogbase.h"
 
 class QCheckBox;
 
@@ -21,25 +21,21 @@ class QCheckBox;
  * or cancel.  Gives an option to apply the choice to all remaining files.
  *
  * Uses OK and Apply buttons but overrides their text and behaviour, probably
- * better to use user defined buttons but I couldn't work out how.  KDialogBase guru needed.
+ * better to use user defined buttons but I couldn't work out how.
  *
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class OverwriteDialog: public KDialog
+class OverwriteDialog: public SinglePageDialogBase
 {
     Q_OBJECT
 public:
     OverwriteDialog(const QString& fileName, const QString& outputDirectory,
-                      bool applyToAllRemaining, QWidget* parent=0);
+                    bool applyToAllRemaining, QWidget* parent = 0);
     ~OverwriteDialog();
 
+    bool apply();
     bool applyToAllRemaining();
-
-protected slots:
-    virtual void slotOk();
-    virtual void slotApply();
-    virtual void slotCancel();
 
 private:
     QCheckBox* m_applyToAllRemaining;
