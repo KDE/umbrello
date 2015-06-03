@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Update patch level in CMakelists.txt for non master branch and commit the new version.
+#
+# requirements:
+# - current branch is named 'Applications/...'
+#
+# Author: ralf.habacker@freenet.de
+#
+version_major=$(grep set\(VERSION_MAJOR CMakeLists.txt | sed 's,^.* ",,g;s,".*$,,g')
+version_minor=$(grep set\(VERSION_MINOR CMakeLists.txt | sed 's,^.* ",,g;s,".*$,,g')
+version_patch=$(grep set\(VERSION_PATCH CMakeLists.txt | sed 's,^.* ",,g;s,".*$,,g')
+if test $version_patch -eq 99; then
+	echo could not update master branch
+	exit 1
+fi
+
+kde_branch=$(git branch | grep '* Applications' | sed 's,^.*/,,g')
+if test -z "$kde_branch"; then
+	echo could not find Applications branch
+	exit 1
+fi
+old_version_patch=$version_patch
+version_patch=$(expr $version_patch '+' 1)
+perl -pi -e "s,VERSION_PATCH \"$old_version_patch\",VERSION_PATCH \"$version_patch\",g" CMakeLists.txt
+git commit -m "Update version to $version_major.$version_minor.$version_patch (KDE Applications version $kde_branch.$version_patch)." CMakeLists.txt
+
