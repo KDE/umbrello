@@ -501,17 +501,16 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 #else
     QString tmpfile;
     KIO::NetAccess::download(url, tmpfile, UMLApp::app());
+
     QFile file(tmpfile);
     if (!file.exists()) {
         KMessageBox::error(0, i18n("The file %1 does not exist.", url.pathOrUrl()), i18n("Load Error"));
         setUrlUntitled();
-
         m_bLoading = false;
         newDocument();
         return false;
     }
 #endif
-
     // status of XMI loading
     bool status = false;
 
@@ -538,7 +537,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             KIO::NetAccess::removeTempFile(tmpfile);
 #endif
             setUrlUntitled();
-
             m_bLoading = false;
             newDocument();
             return false;
@@ -592,7 +590,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 KIO::NetAccess::removeTempFile(tmpfile);
 #endif
                 setUrlUntitled();
-
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -611,7 +608,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 KIO::NetAccess::removeTempFile(tmpfile);
 #endif
                 setUrlUntitled();
-
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -639,7 +635,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 KIO::NetAccess::removeTempFile(tmpfile);
 #endif
                 setUrlUntitled();
-
                 m_bLoading = false;
                 newDocument();
                 return false;
@@ -659,7 +654,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             KIO::NetAccess::removeTempFile(tmpfile);
 #endif
             setUrlUntitled();
-
             m_bLoading = false;
             newDocument();
             return false;
@@ -678,14 +672,12 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             KIO::NetAccess::removeTempFile(tmpfile);
 #endif
             setUrlUntitled();
-
             m_bLoading = false;
             newDocument();
             return false;
         }
         if (filetype.endsWith(QLatin1String(".mdl"))) {
             setUrlUntitled();
-
             m_bTypesAreResolved = false;
             status = Import_Rose::loadFromMDL(file);
             if (status) {
@@ -698,7 +690,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         }
         else if (filetype.endsWith(QLatin1String(".zargo"))) {
             setUrlUntitled();
-
             status = Import_Argo::loadFromZArgoFile(file);
         }
         else {
@@ -3214,7 +3205,6 @@ void UMLDoc::slotAutoSave()
         tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);
         setUrlUntitled();
-
         m_modified = true;
         UMLApp::app()->setModified(m_modified);
     } else {

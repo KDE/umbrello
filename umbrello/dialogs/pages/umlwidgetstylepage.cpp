@@ -287,4 +287,3 @@ void UMLWidgetStylePage::apply()
         //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
 }
-

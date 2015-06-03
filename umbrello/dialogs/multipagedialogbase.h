@@ -118,7 +118,6 @@ protected:
 
     KPageWidgetItem *setupAssociationRolePage(AssociationWidget *widget);
     void applyAssociationRolePage();
-
 };
 
 #endif

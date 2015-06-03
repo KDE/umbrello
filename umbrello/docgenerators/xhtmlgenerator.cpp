@@ -226,4 +226,3 @@ void XhtmlGenerator::threadFinished()
     delete m_d2xg;
     m_d2xg = 0;
 }
-
