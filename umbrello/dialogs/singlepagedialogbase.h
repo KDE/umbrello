@@ -64,6 +64,7 @@ protected:
     QWidget *m_mainWidget;
     void enableButtonOk(bool enable);
 #endif
+    virtual bool validate();
 };
 
 #endif

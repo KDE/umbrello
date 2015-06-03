@@ -160,6 +160,8 @@ void SinglePageDialogBase::slotApply()
  */
 void SinglePageDialogBase::slotOk()
 {
+    if (!validate())
+        return;
     if (apply()) {
         done(Ok);
     }
@@ -194,6 +196,18 @@ void SinglePageDialogBase::slotClicked(QAbstractButton *button)
 void SinglePageDialogBase::enableButtonOk(bool enable)
 {
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
+}
+
+/**
+ * Return state of dialog input validation.
+ *
+ * The false state is used to prevent closing the dialog.
+ *
+ * @return true if dialog entries are valid
+ */
+bool SinglePageDialogBase::validate()
+{
+    return true;
 }
 
 #endif

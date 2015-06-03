@@ -59,12 +59,7 @@ protected:
     Uml::ParameterDirection::Enum getParmKind();
 
     void insertTypesSorted(const QString& type = QString());
-
-    bool validate();
-
-protected slots:
-
-    virtual void slotButtonClicked(int button);
+    virtual bool validate();
 
 private:
     QGroupBox * m_pParmGB;

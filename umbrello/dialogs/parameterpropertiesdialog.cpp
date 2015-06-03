@@ -217,20 +217,6 @@ bool ParameterPropertiesDialog::validate()
     return true;
 }
 
-/**
- * Activated when a button is clicked
- * @param button The button that was clicked
- */
-void ParameterPropertiesDialog::slotButtonClicked(int button)
-{
-    if (button == KDialog::Ok) {
-        if (!validate()) {
-            return;
-        }
-    }
-    KDialog::slotButtonClicked(button);
-}
-
 bool ParameterPropertiesDialog::apply()
 {
     if (m_pAtt != NULL) {
