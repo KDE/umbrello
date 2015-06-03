@@ -178,6 +178,9 @@ void SelectOperationDialog::slotIndexChanged(int index)
         m_id = OP;
         enableButtonOk(true);
     }
+    if (m_pOpCB->currentText().isEmpty()) {
+        enableButtonOk(false);
+    }
 }
 
 /**
@@ -185,7 +188,10 @@ void SelectOperationDialog::slotIndexChanged(int index)
  */
 void SelectOperationDialog::slotTextChanged(const QString &text)
 {
-    if (!text.isEmpty()) {
+    if (text.isEmpty()) {
+        enableButtonOk(false);
+    }
+    else {
         m_pOpCB->setCurrentIndex(-1);
         m_id = CUSTOM;
         enableButtonOk(true);
