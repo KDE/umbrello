@@ -34,7 +34,6 @@ public:
                     bool applyToAllRemaining, QWidget* parent = 0);
     ~OverwriteDialog();
 
-    bool apply();
     bool applyToAllRemaining();
 
 private:

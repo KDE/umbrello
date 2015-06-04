@@ -33,7 +33,6 @@ public:
     UMLFinder::Category category();
 
 protected:
-    virtual bool apply();
     void showEvent(QShowEvent *event);
 
 private slots:

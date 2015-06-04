@@ -26,14 +26,6 @@ FindDialog::~FindDialog()
 }
 
 /**
- * derived method from SinglePageDialogBase
- */
-bool FindDialog::apply()
-{
-    return true;
-}
-
-/**
  * return entered text.
  * @return text
  */

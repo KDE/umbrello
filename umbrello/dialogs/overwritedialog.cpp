@@ -56,15 +56,6 @@ OverwriteDialog::~OverwriteDialog()
 }
 
 /**
- * Apply the dialog
- * @return true apply succeeds
- */
-bool OverwriteDialog::apply()
-{
-    return true;
-}
-
-/**
  * @return the value of the Apply To All Remaining Files checkbox
  */
 bool OverwriteDialog::applyToAllRemaining()

@@ -11,7 +11,10 @@
 #include "singlepagedialogbase.h"
 
 // app include
+#include <debug_utils.h>
 #include <KLocalizedString>
+
+DEBUG_REGISTER(SinglePageDialogBase)
 
 #if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
@@ -70,14 +73,17 @@ SinglePageDialogBase::~SinglePageDialogBase()
 
 /**
  * Apply dialog changes to the related object.
+ *
+ * This method could be overriden in derived dialogs to suppport post dialog applying.
+ *
  * @return true apply succeeds
  * @return false apply does not succeed
  */
 bool SinglePageDialogBase::apply()
 {
-    return false;
+    DEBUG(DBG_SRC) << "no derived apply() method present, called empty base implementation";
+    return true;
 }
-
 
 #if QT_VERSION >= 0x050000
 void SinglePageDialogBase::setCaption(const QString &caption)
