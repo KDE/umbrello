@@ -298,7 +298,7 @@
   <customwidget>
    <class>KFontChooser</class>
    <extends>QWidget</extends>
-   <header>kfontdialog.h</header>
+   <header>kfontchooser.h</header>
   </customwidget>
  </customwidgets>
  <includes>
