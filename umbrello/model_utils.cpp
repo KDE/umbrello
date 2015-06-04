@@ -431,6 +431,8 @@ UMLPackage* treeViewGetPackageFromCurrent()
 
 /**
  * Build the diagram name from the tree view.
+
+ * The function returns a relative path constructed from the folder hierachy.
  * @param id   the id of the diaram
  * @return     the constructed diagram name
  */
@@ -440,13 +442,12 @@ QString treeViewBuildDiagramName(Uml::ID::Type id)
     UMLListViewItem* listViewItem = listView->findItem(id);
 
     if (listViewItem) {
-        // skip the name of the first item because it's the View
+        QString name = listViewItem->text(0);
         listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
         
         // Relies on the tree structure of the UMLListView. There are a base "Views" folder
         // and five children, one for each view type (Logical, use case, components, deployment
         // and entity relationship)
-        QString name;
         while (listView->rootView(listViewItem->type()) == NULL) {
             name.insert(0, listViewItem->text(0) + QLatin1Char('/'));
             listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
