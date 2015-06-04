@@ -17,13 +17,13 @@
 
 class DocumentationWidget;
 class KComboBox;
-class UMLDoc;
-class UMLStereotypeWidget;
 class KLineEdit;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
 class UMLAttribute;
+class UMLDoc;
+class UMLStereotypeWidget;
 
 /**
  * Displays a dialog box that displays properties of a parameter.

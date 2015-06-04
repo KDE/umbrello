@@ -34,6 +34,7 @@ class CodeGenerator;
 class CodeGenerationPolicy;
 class CodeGenPolicyExt;
 class DocWindow;
+class UMLAppPrivate;
 class UMLClassifier;
 class UMLDoc;
 class UMLListView;
@@ -75,7 +76,6 @@ class QPushButton;
 class QLabel;
 class QListWidget;
 class QSlider;
-class UMLAppPrivate;
 
 /**
  * The base class for UML application windows. It sets up the main
