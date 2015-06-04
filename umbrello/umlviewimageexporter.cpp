@@ -197,16 +197,29 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
         mimeTypes.removeOne(QLatin1String("image/x-dot"));
 
     fileDialog->setCaption(i18n("Save As"));
+#if QT_VERSION >= 0x050000
+    fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog->setMimeTypeFilters(mimeTypes);
+#else
     fileDialog->setOperationMode(KFileDialog::Saving);
     fileDialog->setMimeFilter(mimeTypes, m_imageMimeType);
+#endif
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
+#if QT_VERSION >= 0x050000
+        QUrl docURL = UMLApp::app()->document()->url();
+        docURL.setUrl(docURL.toString(QUrl::RemoveFilename)
+                      + m_scene->name() + QLatin1Char('.')
+                      + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->selectUrl(docURL);
+#else
         KUrl docURL = UMLApp::app()->document()->url();
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
 
         fileDialog->setUrl(directory);
+#endif
         fileDialog->setSelection(m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
