@@ -222,7 +222,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view, views) {
 #if QT_VERSION >= 0x050000
-        QUrl url(directory.path() + QLatin1Char('/') +
+        QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +
                  getDiagramFileName(view->umlScene(), imageType, useFolders));
 #else
         KUrl url = directory;
@@ -360,10 +360,9 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
     directory.setPath(QString());
 
     // creates the directory and any needed parent directories
-    QStringList dirs = url.path().split(QDir::separator(), QString::SkipEmptyParts);
+    QStringList dirs = url.adjusted(QUrl::RemoveFilename).path().split(QDir::separator(), QString::SkipEmptyParts);
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.setPath(directory.path() + QLatin1Char('/') + *it);
-
         KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, 0);
         KJobWidgets::setWindow(statJob, UMLApp::app());
         statJob->exec();
