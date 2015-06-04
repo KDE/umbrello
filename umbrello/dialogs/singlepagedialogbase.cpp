@@ -197,6 +197,7 @@ void SinglePageDialogBase::enableButtonOk(bool enable)
 {
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }
+#endif
 
 /**
  * Return state of dialog input validation.
@@ -210,4 +211,3 @@ bool SinglePageDialogBase::validate()
     return true;
 }
 
-#endif
