@@ -88,22 +88,22 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
 
-    m_pKind =  new QGroupBox(i18n("Passing Direction"));
-    m_pKind->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
+    m_pKindGB =  new QGroupBox(i18n("Passing Direction"));
+    m_pKindGB->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
-    QHBoxLayout * kindLayout = new QHBoxLayout(m_pKind);
+    QHBoxLayout * kindLayout = new QHBoxLayout(m_pKindGB);
     kindLayout->setMargin(margin);
 
-    m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKind);
+    m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKindGB);
     kindLayout->addWidget(m_pIn);
 
-    m_pInOut =  new QRadioButton(QString::fromLatin1("inout"), m_pKind);
+    m_pInOut =  new QRadioButton(QString::fromLatin1("inout"), m_pKindGB);
     kindLayout->addWidget(m_pInOut);
 
-    m_pOut =  new QRadioButton(QString::fromLatin1("out"), m_pKind);
+    m_pOut =  new QRadioButton(QString::fromLatin1("out"), m_pKindGB);
     kindLayout->addWidget(m_pOut);
 
-    topLayout->addWidget(m_pKind);
+    topLayout->addWidget(m_pKindGB);
 
     m_docWidget = new DocumentationWidget(m_pAtt);
     topLayout->addWidget(m_docWidget);
@@ -132,7 +132,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     }
 
     // set tab order
-    setTabOrder(m_pKind, m_pTypeCB);
+    setTabOrder(m_pKindGB, m_pTypeCB);
     setTabOrder(m_pTypeCB, m_pNameLE);
     setTabOrder(m_pNameLE, m_pInitialLE);
     setTabOrder(m_pInitialLE, m_stereotypeWidget);

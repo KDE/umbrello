@@ -55,7 +55,7 @@ protected:
 
 private:
     QGroupBox * m_pParmGB;
-    QGroupBox *m_pKind;
+    QGroupBox * m_pKindGB;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
     KComboBox * m_pTypeCB;
