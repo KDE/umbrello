@@ -45,18 +45,9 @@ public:
     virtual bool apply();
 
 protected:
-    QString getName() {
-        return m_pNameLE->text();
-    }
-
-    QString getInitialValue() {
-        return m_pInitialLE->text();
-    }
-
-    QString getTypeName() {
-        return m_pTypeCB->currentText();
-    }
-
+    QString getName();
+    QString getInitialValue();
+    QString getTypeName();
     Uml::ParameterDirection::Enum getParmKind();
 
     void insertTypesSorted(const QString& type = QString());

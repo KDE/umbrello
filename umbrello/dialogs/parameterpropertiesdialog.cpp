@@ -148,6 +148,21 @@ ParameterPropertiesDialog::~ParameterPropertiesDialog()
 {
 }
 
+QString ParameterPropertiesDialog::getName()
+{
+    return m_pNameLE->text();
+}
+
+QString ParameterPropertiesDialog::getInitialValue()
+{
+    return m_pInitialLE->text();
+}
+
+QString ParameterPropertiesDialog::getTypeName()
+{
+    return m_pTypeCB->currentText();
+}
+
 /**
  * Inserts @p type into the type-combobox as well as its completion object.
  * The combobox is cleared and all types together with the optional new one
