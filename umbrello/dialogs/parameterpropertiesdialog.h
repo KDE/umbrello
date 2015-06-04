@@ -11,18 +11,19 @@
 #ifndef PARAMETERPROPERTIESDIALOG_H
 #define PARAMETERPROPERTIESDIALOG_H
 
-#include "attribute.h"
+#include "basictypes.h"
 
 #include "singlepagedialogbase.h"
-#include <klineedit.h>
-#include <kcombobox.h>
 
 class DocumentationWidget;
+class KComboBox;
 class UMLDoc;
 class UMLStereotypeWidget;
+class KLineEdit;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
+class UMLAttribute;
 
 /**
  * Displays a dialog box that displays properties of a parameter.

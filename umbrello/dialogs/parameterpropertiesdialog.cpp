@@ -12,6 +12,7 @@
 #include "parameterpropertiesdialog.h"
 
 // local includes
+#include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "documentationwidget.h"
@@ -24,11 +25,12 @@
 #include "stereotype.h"
 
 // kde includes
+#include <KComboBox>
+#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes
-#include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
