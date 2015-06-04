@@ -63,7 +63,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     topLayout->setSpacing(10);
     topLayout->setMargin(margin);
 
-    m_pParmGB = new QGroupBox(i18n("Properties"), frame);
+    m_pParmGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
@@ -88,7 +88,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
 
-    m_pKind =  new QGroupBox(i18n("Passing Direction"), frame);
+    m_pKind =  new QGroupBox(i18n("Passing Direction"));
     m_pKind->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
     QHBoxLayout * kindLayout = new QHBoxLayout(m_pKind);
@@ -105,7 +105,7 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     topLayout->addWidget(m_pKind);
 
-    m_docWidget = new DocumentationWidget(m_pAtt, frame);
+    m_docWidget = new DocumentationWidget(m_pAtt);
     topLayout->addWidget(m_docWidget);
 
     // Check the proper Kind radiobutton.
