@@ -9,6 +9,8 @@ include_directories(
       ${SRC_PATH}
       ${SRC_PATH}/debug/
       ${SRC_PATH}/dialogs/
+      ${SRC_PATH}/dialogs/pages
+      ${SRC_PATH}/dialogs/widgets
       ${SRC_PATH}/clipboard
       ${SRC_PATH}/cmds
       ${SRC_PATH}/codegenerators
@@ -41,18 +43,22 @@ include_directories(
 
 if(NOT BUILD_KF5)
     set(LIBS
+        ${QT_QTXML_LIBRARY}
         ${QT_QTTEST_LIBRARY}
         ${KDE4_KFILE_LIBS}
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
+        umbrello
     )
 else()
     set(LIBS
+        Qt5::Xml
         Qt5::Test
         Qt5::Widgets
         KF5::I18n
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
+        umbrello
     )
 endif()
 
@@ -82,3 +88,10 @@ ecm_add_test(
 #    LINK_LIBRARIES ${LIBS}
 #    TEST_NAME TEST_pythonwriter
 #)
+
+set(TEST_umlroledialog_SRCS
+    TEST_umlroledialog.cpp
+)
+
+ecm_add_executable(TEST_umlroledialog ${TEST_umlroledialog_SRCS})
+target_link_libraries(TEST_umlroledialog ${LIBS})
