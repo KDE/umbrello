@@ -133,8 +133,9 @@ void BirdView::slotDockSizeChanged(const QSize& size)
  */
 void BirdView::slotViewChanged()
 {
-    if (!m_view)
+    if (!m_view) {
         return;
+    }
     int hvalue = 0;
     int hmin = 0;
     int hmax = 0;
@@ -182,23 +183,23 @@ void BirdView::slotViewChanged()
             int width = m_protectFrame->width() * hpage / hlen;
             int height = m_protectFrame->height() * vpage / vlen;
             int x = m_protectFrame->width() * (hvalue - hmin) / hlen;
-            if (x > (hmax - width)) {
-                x = hmax - width;
+            if (x > m_protectFrame->width() - width) {
+                x = m_protectFrame->width() - width;
             }
-            if (x <= hmin) {
-                x = hmin;
+            if (x <= m_protectFrame->x()) {
+                x = m_protectFrame->x();
             }
             int y = m_protectFrame->height() * (vvalue - vmin) / vlen;
-            if (y > (vmax - height)) {
-                y = vmax - height;
+            if (y > m_protectFrame->height() - height) {
+                y = m_protectFrame->height() - height;
             }
-            if (y <= vmin) {
-                y = vmin;
+            if (y <= m_protectFrame->y()) {
+                y = m_protectFrame->y();
             }
             QRect rect = QRect(x, y, width, height);
             setGeometry(rect);
 #if VERBOSE_DBG_OUT
-            DEBUG(DBG_SRC) << "rect: " << rect;
+            DEBUG(DBG_SRC) << "protectFrame: " << m_protectFrame->rect() << " / rect: " << rect;
 #endif
         }
         else {
@@ -231,19 +232,73 @@ void BirdView::mouseMoveEvent(QMouseEvent *event)
     const QPoint delta = event->globalPos() - m_moveStartPos;
     int newX = x() + delta.x();
     int newY = y() + delta.y();
-    QRect limit = m_protectFrame->frameRect();
-    if (limit.contains(newX, newY, true) &&
-        limit.contains(newX + width(), newY + height())) {
+
+//    QRect limit = m_protectFrame->frameRect();
+//    if (limit.contains(newX, newY) &&
+//        limit.contains(newX + width(), newY + height())) {
+
+    QRect frameRect = m_protectFrame->frameRect();
+    QRect limit = QRect(m_protectFrame->mapToGlobal(QPoint(0, 0)), frameRect.size());
 #if VERBOSE_DBG_OUT
-    DEBUG(DBG_SRC) << "moving delta=" << delta;
+    DEBUG(DBG_SRC) << "mouse event pos=" << event->pos() << " / globalPos=" << event->globalPos();
     DEBUG(DBG_SRC) << limit << " contains ";
     DEBUG(DBG_SRC) << "   top    left  [ " << newX << ", " << newY << "]";
     DEBUG(DBG_SRC) << "   bottom right [ " << newX + width() << ", " << newY + height() << "]";
 #endif
+    if (limit.contains(event->globalPos())) {
+        if (newX < 0) {
+            newX = 0;
+        }
+        if (newX > frameRect.width() - width()) {
+            newX = frameRect.width() - width();
+        }
+        if (newY < 0) {
+            newY = 0;
+        }
+        if (newY > frameRect.height() - height()) {
+            newY = frameRect.height() - height();
+        }
+#if VERBOSE_DBG_OUT
+    DEBUG(DBG_SRC) << "moving delta=" << delta;
+#endif
         move(newX, newY);
         m_moveStartPos = event->globalPos();
         event->accept();
-        emit viewPositionChanged(delta * 10);  //:TODO: no no no ! Why ?
+        // calculate the scale value for the "real" view
+        int hmin = 0;
+        int hmax = 0;
+        int hpage = 0;
+        int hlen = 0;
+        QScrollBar* hScroll = m_view->horizontalScrollBar();
+        qreal scaleW = 1.0;
+        if (hScroll) {
+            hmin = hScroll->minimum();
+            hmax = hScroll->maximum();
+            hpage = hScroll->pageStep();
+            hlen = (abs(hmax - hmin) + hpage);
+            scaleW = hlen / m_protectFrame->width();
+        }
+        int vmin = 0;
+        int vmax = 0;
+        int vpage = 0;
+        int vlen = 0;
+        QScrollBar* vScroll = m_view->verticalScrollBar();
+        qreal scaleH = 1.0;
+        if (vScroll) {
+            vmin = vScroll->minimum();
+            vmax = vScroll->maximum();
+            vpage = vScroll->pageStep();
+            vlen = abs(vmax - vmin) + vpage;
+            scaleH = vlen / m_protectFrame->height();
+        }
+        qreal scale = scaleH;
+        if (scaleW > scaleH) {
+            scale = scaleW;
+        }
+#if VERBOSE_DBG_OUT
+            DEBUG(DBG_SRC) << "scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
+#endif
+        emit viewPositionChanged(delta * scale);
     }
 #if VERBOSE_DBG_OUT
     else {
