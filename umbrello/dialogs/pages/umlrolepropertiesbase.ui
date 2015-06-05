@@ -62,7 +62,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KButtonGroup" name="ui_visibilityButtonGroup" >
+    <widget class="QGroupBox" name="ui_visibilityButtonGroup" >
      <property name="title" >
       <string>Role Visibility</string>
      </property>
@@ -102,7 +102,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KButtonGroup" name="ui_changeabilityButtonGroup" >
+    <widget class="QGroupBox" name="ui_changeabilityButtonGroup" >
      <property name="title" >
       <string>Role Changeability</string>
      </property>
@@ -149,12 +149,6 @@
   </layout>
  </widget>
   <customwidgets>
-  <customwidget>
-   <class>KButtonGroup</class>
-   <extends>QGroupBox</extends>
-   <header>kbuttongroup.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
