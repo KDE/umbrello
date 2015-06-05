@@ -420,7 +420,6 @@ set(libumbrello_SRCS
     import_rose.cpp
     layoutgenerator.cpp
     listpopupmenu.cpp
-    main.cpp
     model_utils.cpp
     node.cpp
     object_factory.cpp
@@ -463,10 +462,9 @@ set(libumbrello_SRCS
     worktoolbar.cpp
 )
 
-kconfig_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
+kconfig_add_kcfg_files(libumbrello_SRCS umbrellosettings.kcfgc)
 
 set(umbrello_SRCS
-    ${umbrello_SRCS}
     ${libdebug_SRCS}
     ${libdialogs_SRCS}
     ${libfinder_SRCS}
@@ -484,12 +482,21 @@ set(umbrello_SRCS
     ${libumbrello_SRCS}
 )
 
+set(umbrello_app_SRCS
+    main.cpp
+)
+
+set(LIB_BUILD_MODE STATIC)
+
 if(NOT BUILD_KF5)
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
-    kde4_add_executable(umbrello ${umbrello_SRCS})
+    kde4_add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS})
+    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
+    kde4_add_executable(umbrello_app ${umbrello_app_SRCS})
+    target_link_libraries(umbrello_app ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} umbrello)
+    set_target_properties(umbrello_app PROPERTIES OUTPUT_NAME umbrello)
 else()
-    add_executable(umbrello ${umbrello_SRCS})
+    add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
     target_link_libraries(umbrello
         Qt5::Widgets
         Qt5::Xml
@@ -511,8 +518,14 @@ else()
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
     )
+    add_executable(umbrello_app ${umbrello_app_SRCS})
+    target_link_libraries(umbrello_app umbrello)
+    set_target_properties(umbrello_app PROPERTIES OUTPUT_NAME umbrello)
 endif()
-install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
+if(LIB_BUILD_MODE EQUAL SHARED)
+    install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
+endif()
+install(TARGETS umbrello_app ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
