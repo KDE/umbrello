@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML @DTD_VERSION@-Based Variant V1.1//EN"
+ "@DTD_FILE@" [
  <!ENTITY umbrello "<application>Umbrello &UML; Modeller</application>">
  <!ENTITY kappname "&umbrello;">
  <!ENTITY packagename "kdesdk">
