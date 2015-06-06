@@ -18,56 +18,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QtTest>
+#include "TEST_classifier.h"
 
+// app include
 #include "classifier.h"
 
-const bool IS_NOT_IMPL = false;
+// qt includes
+#include <QtTest>
 
-/**
- * Unit test for class UMLClassifier (classifier.h).
- */
-class TEST_classifier: public QObject
-{
-    Q_OBJECT
-private slots:
-    void test_equal();
-    void test_copyInto();
-    void test_clone();
-    void test_addAttributeWithType();
-    void test_addAttributeWithObject();
-    void test_addAttributeWithAttribute();
-    void test_removeAndCountAttribute();
-    void test_getAttributeList();
-    void test_addOperationWithPosition();
-    void test_addOperationWithLog();
-    void test_checkOperationSignature();
-    void test_removeAndCountOperation();
-    void test_getOperationList();
-    void test_addTemplateWithType();
-    void test_addTemplateWithLog();
-    void test_addTemplateWithPosition();
-    void test_removeAndCountTemplate();
-    void test_findTemplate();
-    void test_getTemplateList();
-    void test_takeItem();
-    void test_getFilteredList();
-    void test_resolveRef();
-    void test_findOperations();
-    void test_findChildObjectById();
-    void test_findOperation();
-    void test_findSuperClassConcepts();
-    void test_findSubClassConcepts();
-    void test_setGetClassAssoc();
-    void test_setBaseType();
-    void test_isInterface();
-    void test_isDatatype();
-    void test_setGetOriginType();
-    void test_setGetIsReference();
-    void test_hasAbstractOps();
-    void test_makeChildObject();
-    void test_getUniAssociationToBeImplemented();
-};
+
+const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------
 
@@ -287,4 +247,3 @@ void TEST_classifier::test_getUniAssociationToBeImplemented()
 }
 
 QTEST_MAIN(TEST_classifier)
-#include "test_classifier.moc"

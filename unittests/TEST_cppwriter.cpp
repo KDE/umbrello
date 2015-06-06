@@ -18,34 +18,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QtTest>
+#include "TEST_cppwriter.h"
 
+// app include
+#include "classifier.h"
 #include "cppwriter.h"
 
-#include "classifier.h"
+// qt includes
+#include <QtTest>
+
 
 const bool IS_NOT_IMPL = false;
-
-/**
- * Unit test for class CppWriter (cppwriter.h).
- */
-class TEST_cppwriter: public QObject
-{
-    Q_OBJECT
-private slots:
-    void test_language();
-    void test_writeClass();
-    void test_reservedKeywords();
-    void test_defaultDatatypes();
-    void test_toBeImplemented();
-};
 
 //-----------------------------------------------------------------------------
 
 void TEST_cppwriter::test_language()
 {
     CppWriter* cpp = new CppWriter();
-    Uml::ProgrammingLanguage lang = cpp->language();
+    Uml::ProgrammingLanguage::Enum lang = cpp->language();
     QCOMPARE(lang, Uml::ProgrammingLanguage::Cpp);
 }
 
@@ -70,9 +60,9 @@ void TEST_cppwriter::test_reservedKeywords()
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->reservedKeywords();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], "and");
-    QCOMPARE(list[11], "case");
-    QCOMPARE(list.last(), "xor_eq");
+    QCOMPARE(list[0], QLatin1String("and"));
+    QCOMPARE(list[11], QLatin1String("case"));
+    QCOMPARE(list.last(), QLatin1String("xor_eq"));
 }
 
 void TEST_cppwriter::test_defaultDatatypes()
@@ -80,10 +70,9 @@ void TEST_cppwriter::test_defaultDatatypes()
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->defaultDatatypes();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], "int");
-    QCOMPARE(list[5], "short");
-    QCOMPARE(list.last(), "string");
+    QCOMPARE(list[0], QLatin1String("int"));
+    QCOMPARE(list[5], QLatin1String("short"));
+    QCOMPARE(list.last(), QLatin1String("string"));
 }
 
 QTEST_MAIN(TEST_cppwriter)
-#include "test_cppwriter.moc"

@@ -18,33 +18,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QtTest>
+#include "TEST_pythonwriter.h"
 
+// app includes
+#include "classifier.h"
 #include "pythonwriter.h"
 
-#include "classifier.h"
+// qt includes
+#include <QtTest>
+
 
 const bool IS_NOT_IMPL = false;
-
-/**
- * Unit test for class PythonWriter (pythonwriter.h).
- */
-class TEST_pythonwriter: public QObject
-{
-    Q_OBJECT
-private slots:
-    void test_language();
-    void test_writeClass();
-    void test_reservedKeywords();
-    void test_toBeImplemented();
-};
 
 //-----------------------------------------------------------------------------
 
 void TEST_pythonwriter::test_language()
 {
     PythonWriter* py = new PythonWriter();
-    Uml::ProgrammingLanguage lang = py->language();
+    Uml::ProgrammingLanguage::Enum lang = py->language();
     QCOMPARE(lang, Uml::ProgrammingLanguage::Python);
 }
 
@@ -66,9 +57,9 @@ void TEST_pythonwriter::test_reservedKeywords()
     PythonWriter* py = new PythonWriter();
     QStringList list = py->reservedKeywords();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], "abs");
-    QCOMPARE(list[11], "class");
-    QCOMPARE(list.last(), "zip");
+    QCOMPARE(list[0], QLatin1String("abs"));
+    QCOMPARE(list[11], QLatin1String("class"));
+    QCOMPARE(list.last(), QLatin1String("zip"));
 }
 
 void TEST_pythonwriter::test_toBeImplemented()
@@ -77,4 +68,3 @@ void TEST_pythonwriter::test_toBeImplemented()
 }
 
 QTEST_MAIN(TEST_pythonwriter)
-#include "test_pythonwriter.moc"

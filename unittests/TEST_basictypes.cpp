@@ -20,9 +20,12 @@
 
 #include "TEST_basictypes.h"
 
+// app includes
+#include "basictypes.h"
+
+// qt includes
 #include <QtTest>
 
-#include "basictypes.h"
 
 //-----------------------------------------------------------------------------
 

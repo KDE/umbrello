@@ -63,31 +63,28 @@ else()
 endif()
 
 ecm_add_test(
-    TEST_basictypes.cpp ${SRC_PATH}/basictypes.cpp
+    TEST_basictypes.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_basictypes
 )
 
-# FIXME requires mostly of umbrello code -> add umbrello library target
-#ecm_add_test(
-#    TEST_classifier.cpp ${SRC_PATH}/classifier.cpp
-#    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME TEST_classifier
-#)
+ecm_add_test(
+    TEST_classifier.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_classifier
+)
 
-# FIXME requires mostly of umbrello code -> add umbrello library target
-#ecm_add_test(
-#    TEST_cppwriter.cpp ${SRC_PATH}/codegenerators/cpp/cppwriter.cpp
-#    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME TEST_cppwriter
-#)
+ecm_add_test(
+    TEST_cppwriter.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_cppwriter
+)
 
-# FIXME requires mostly of umbrello code -> add umbrello library target
-#ecm_add_test(
-#    TEST_pythonwriter.cpp ${SRC_PATH}/codegenerators/python/pythonwriter.cpp
-#    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME TEST_pythonwriter
-#)
+ecm_add_test(
+    TEST_pythonwriter.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_pythonwriter
+)
 
 set(TEST_umlroledialog_SRCS
     TEST_umlroledialog.cpp
