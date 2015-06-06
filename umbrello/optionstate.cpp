@@ -11,7 +11,7 @@
 #include "optionstate.h"
 
 #if QT_VERSION < 0x050000
-#defineinclude <kglobal.h>
+#include <kglobal.h>
 #endif
 
 namespace Settings {
