@@ -11,10 +11,12 @@
 #ifndef CMDS_H
 #define CMDS_H
 
+#if QT_VERSION < 0x050000
+#include <kundostack.h>
+#endif
+
 #include <QUndoCommand>
 #include <QUndoStack>
-
-#include <kundostack.h>
 
 #include "cmds/cmd_createDiagram.h"
 #include "cmds/cmd_handleRename.h"

@@ -67,21 +67,27 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #if QT_VERSION < 0x050000
+#include <kdeprintdialog.h>
 #include <kfiledialog.h>
 #endif
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kmenubar.h>
+#endif
 #include <KMessageBox>
 #include <ktip.h>
-#include <ktabwidget.h>
-#include <kactionmenu.h>
-#include <kmenu.h>
-#include <kxmlguifactory.h>
-#include <kdeprintdialog.h>
 #if QT_VERSION < 0x050000
+#include <ktabwidget.h>
+#endif
+#include <kactionmenu.h>
+#if QT_VERSION < 0x050000
+#include <kmenu.h>
+#endif
+#include <kxmlguifactory.h>
+#if QT_VERSION < 0x050000
+#include <kstatusbar.h>
 #include <kundostack.h>
 #endif
-#include <kstatusbar.h>
 
 // qt includes
 #include <QApplication>
@@ -105,6 +111,9 @@
 #include <QRegExp>
 #include <QScrollBar>
 #include <QSlider>
+#if QT_VERSION >= 0x050000
+#include <QStatusBar>
+#endif
 #include <QStackedWidget>
 #include <QTimer>
 #include <QToolButton>

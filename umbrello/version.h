@@ -11,7 +11,9 @@
 #ifndef UMBRELLO_VERSION_H
 #define UMBRELLO_VERSION_H
 
+#if QT_VERSION < 0x050000
 #include <kdeversion.h>
+#endif
 
 inline QByteArray umbrelloVersion()
 {

@@ -64,11 +64,19 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//
     }
 #ifdef Q_OS_WIN
     else {
+#if QT_VERSION >= 0x050000
+        executable = QStandardPaths::findExecutable(QLatin1String("cl"));
+#else
         executable = KStandardDirs::findExe(QLatin1String("cl"));
+#endif
         if (executable.isEmpty()) {
             QString path = QLatin1String(qgetenv("VS100COMNTOOLS").constData());
             if (!path.isEmpty())
+#if QT_VERSION >= 0x050000
+                executable = QStandardPaths::findExecutable(QLatin1String("cl"), QStringList() << path + QLatin1String("/../../VC/bin"));
+#else
                 executable = KStandardDirs::findExe(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
+#endif
         }
         if (!executable.isEmpty()) {
             arguments << QLatin1String("-E");   // -E means "preprocess to stdout"

@@ -26,12 +26,17 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
+#if QT_VERSION < 0x050000
 #include <kdialogbuttonbox.h>
+#endif
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <ktabwidget.h>
+#endif
 #include <ktextedit.h>
 
 #include <QApplication>
+#include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QListWidget>

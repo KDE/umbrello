@@ -20,7 +20,9 @@
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
+#if QT_VERSION < 0x050000
 #include <ktexteditor/editorchooser.h>
+#endif
 #include <ktexteditor/view.h>
 
 // qt includes

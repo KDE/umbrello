@@ -14,7 +14,6 @@
 
 #include "basictypes.h"
 
-#include <ktempdir.h>
 #if QT_VERSION < 0x050000
 #include <kurl.h>
 #endif

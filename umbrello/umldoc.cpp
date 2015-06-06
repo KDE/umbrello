@@ -60,11 +60,11 @@
 #include <kmimetype.h>
 #endif
 #include <ktar.h>
-#include <ktempdir.h>
 #if QT_VERSION < 0x050000
+#include <ktempdir.h>
+#include <ktabwidget.h>
 #include <ktemporaryfile.h>
 #endif
-#include <ktabwidget.h>
 
 // qt includes
 #include <QApplication>

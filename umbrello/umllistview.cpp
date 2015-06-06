@@ -66,7 +66,9 @@
 #endif
 #include <KLocalizedString>
 #include <KMessageBox>
+#if QT_VERSION < 0x050000
 #include <ktabwidget.h>
+#endif
 
 // qt includes
 #include <QApplication>

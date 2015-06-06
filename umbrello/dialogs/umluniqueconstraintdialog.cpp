@@ -25,7 +25,9 @@
 #include "umldoc.h"
 
 #include <kcombobox.h>
+#if QT_VERSION < 0x050000
 #include <kdialogbuttonbox.h>
+#endif
 #include <klineedit.h>
 #include <KLocalizedString>
 #include <KMessageBox>

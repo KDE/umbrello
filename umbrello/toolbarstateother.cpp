@@ -35,7 +35,9 @@
 
 // kde includes
 #include <KLocalizedString>
+#if QT_VERSION < 0x050000
 #include <kinputdialog.h>
+#endif
 
 using namespace Uml;
 

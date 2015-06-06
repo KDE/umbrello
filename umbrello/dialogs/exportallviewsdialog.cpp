@@ -12,7 +12,10 @@
 #include "exportallviewsdialog.h"
 
 // kde include files
+#include <KComboBox>
+#if QT_VERSION < 0x050000
 #include <kfilefiltercombo.h>
+#endif
 #include <KLocalizedString>
 
 // application specific includes

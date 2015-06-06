@@ -18,12 +18,13 @@
 #include "umldoc.h"
 
 // kde include files
+#include <KComboBox>
 #include <KLocalizedString>
 #if QT_VERSION < 0x050000
+#include <kfilefiltercombo.h>
 #include <kurl.h>
 #endif
 #include <kurlrequester.h>
-#include <kfilefiltercombo.h>
 #include <KMessageBox>
 
 // Qt include files 

@@ -26,11 +26,11 @@
 
 #if QT_VERSION < 0x050000
 #include <kaction.h>
-#endif
 #include <kdialogbuttonbox.h>
+#endif
 #include <KLocalizedString>
-#include <kmenu.h>
 #if QT_VERSION < 0x050000
+#include <kmenu.h>
 #include <kpushbutton.h>
 #endif
 

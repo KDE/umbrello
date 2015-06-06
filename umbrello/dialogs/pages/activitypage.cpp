@@ -16,15 +16,16 @@
 #include "uml.h"
 
 #if QT_VERSION < 0x050000
+#include <kdialogbuttonbox.h>
 #include <kinputdialog.h>
 #endif
 #include <KLocalizedString>
-#include <kdialogbuttonbox.h>
 
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #if QT_VERSION >= 0x050000
+#include <QDialogButtonBox>
 #include <QInputDialog>
 #endif
 #include <QLayout>

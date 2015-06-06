@@ -38,9 +38,9 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kaction.h>
+#include <kmenu.h>
 #endif
 #include <KLocalizedString>
-#include <kmenu.h>
 
 // qt includes
 #include <QBrush>
