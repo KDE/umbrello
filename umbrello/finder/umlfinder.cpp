@@ -24,7 +24,7 @@ bool UMLFinder::includeObject(UMLFinder::Category category, UMLObject *o)
 {
     if (!o)
         return false;
-    UMLObject::ObjectType type = o ? o->baseType() : UMLObject::ot_Unknown;
+    UMLObject::ObjectType type = o->baseType();
     return category == All
             || (category == Classes && type == UMLObject::ot_Class)
             || (category == Interfaces && type == UMLObject::ot_Interface)
