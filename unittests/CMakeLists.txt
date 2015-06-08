@@ -48,7 +48,7 @@ if(NOT BUILD_KF5)
         ${KDE4_KFILE_LIBS}
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
-        umbrello
+        libumbrello
     )
 else()
     set(LIBS
@@ -58,7 +58,7 @@ else()
         KF5::I18n
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
-        umbrello
+        libumbrello
     )
 endif()
 

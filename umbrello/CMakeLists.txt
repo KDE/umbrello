@@ -390,7 +390,7 @@ set(libfinder_SRCS
 
 ########### next target ###############
 
-set(libumbrello_SRCS
+set(umbrellobase_SRCS
     actor.cpp
     artifact.cpp
     association.cpp
@@ -464,7 +464,7 @@ set(libumbrello_SRCS
 
 kconfig_add_kcfg_files(libumbrello_SRCS umbrellosettings.kcfgc)
 
-set(umbrello_SRCS
+set(libumbrello_SRCS
     ${libdebug_SRCS}
     ${libdialogs_SRCS}
     ${libfinder_SRCS}
@@ -479,25 +479,26 @@ set(umbrello_SRCS
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
     ${libwidgets_SRCS}
-    ${libumbrello_SRCS}
+    ${umbrellobase_SRCS}
 )
 
-set(umbrello_app_SRCS
+set(umbrello_SRCS
     main.cpp
 )
 
 set(LIB_BUILD_MODE STATIC)
 
 if(NOT BUILD_KF5)
-    kde4_add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
-    target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS})
-    kde4_add_executable(umbrello_app ${umbrello_app_SRCS})
-    target_link_libraries(umbrello_app ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} umbrello)
-    set_target_properties(umbrello_app PROPERTIES OUTPUT_NAME umbrello)
+    kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
+    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
+    target_link_libraries(libumbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS})
     kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
+    kde4_add_executable(umbrello ${umbrello_SRCS})
+    target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
-    add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
-    target_link_libraries(umbrello
+    add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
+    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
+    target_link_libraries(libumbrello
         Qt5::Widgets
         Qt5::Xml
         Qt5::DBus
@@ -527,14 +528,13 @@ else()
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi64-apps-umbrello.png
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi128-apps-umbrello.png
     )
-    add_executable(umbrello_app ${umbrello_app_SRCS})
-    target_link_libraries(umbrello_app umbrello)
-    set_target_properties(umbrello_app PROPERTIES OUTPUT_NAME umbrello)
+    add_executable(umbrello ${umbrello_SRCS})
+    target_link_libraries(umbrello libumbrello)
 endif()
 if(LIB_BUILD_MODE EQUAL SHARED)
-    install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
+    install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()
-install(TARGETS umbrello_app ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
