@@ -3101,7 +3101,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
 void UMLApp::slotChangeTabLeft()
 {
     //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
-    if (m_tabWidget) {
+    if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() - 1);
         return;
     }
@@ -3131,7 +3131,7 @@ void UMLApp::slotChangeTabLeft()
 void UMLApp::slotChangeTabRight()
 {
     //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
-    if (m_tabWidget) {
+    if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() + 1);
         return;
     }
@@ -3143,16 +3143,12 @@ void UMLApp::slotChangeTabRight()
         return;
     }
     UMLView* nextView = NULL;
-    if (viewIndex!= views.count()) {
-        views.begin()[viewIndex + 1];
+    if (viewIndex < views.count()-1) {
+        nextView = views.begin()[viewIndex + 1];
+        setCurrentView(nextView);
     }
-
-    if ((currView = nextView) != NULL) {
-        setCurrentView(currView);
-    }
-    else {
+    else
         setCurrentView(views.first());
-    }
 }
 
 /* for debugging only
