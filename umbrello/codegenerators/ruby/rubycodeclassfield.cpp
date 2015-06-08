@@ -71,7 +71,6 @@ QString RubyCodeClassField::getInitialValue()
             uError() << "parent object is not a UMLAttribute";
             return QString();
         }
-        return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
     }
     else
     {
