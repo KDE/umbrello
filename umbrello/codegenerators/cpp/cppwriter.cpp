@@ -923,7 +923,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     QString indnt = indent();
 
     // set method
-    if (change == Uml::Changeability::Changeable && !isStatic) {
+    if (change == Uml::Changeability::Changeable) {
         writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QLatin1String("param new_var the new value of ") + fieldVarName, stream);
         stream << indnt << "void ";
         if (!isHeaderMethod)
