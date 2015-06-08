@@ -462,7 +462,7 @@ set(umbrellobase_SRCS
     worktoolbar.cpp
 )
 
-kconfig_add_kcfg_files(libumbrello_SRCS umbrellosettings.kcfgc)
+kconfig_add_kcfg_files(umbrellobase_SRCS umbrellosettings.kcfgc)
 
 set(libumbrello_SRCS
     ${libdebug_SRCS}
