@@ -491,10 +491,10 @@ set(LIB_BUILD_MODE STATIC)
 if(NOT BUILD_KF5)
     kde4_add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS})
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
     kde4_add_executable(umbrello_app ${umbrello_app_SRCS})
     target_link_libraries(umbrello_app ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} umbrello)
     set_target_properties(umbrello_app PROPERTIES OUTPUT_NAME umbrello)
+    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
 else()
     add_library(umbrello ${LIB_BUILD_MODE} ${umbrello_SRCS})
     target_link_libraries(umbrello
@@ -517,6 +517,15 @@ else()
         KF5::XmlGui
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
+    )
+    ecm_add_app_icon(umbrello_SRCS
+        ICONS
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi16-apps-umbrello.png
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi22-apps-umbrello.png
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi32-apps-umbrello.png
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi48-apps-umbrello.png
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi64-apps-umbrello.png
+        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi128-apps-umbrello.png
     )
     add_executable(umbrello_app ${umbrello_app_SRCS})
     target_link_libraries(umbrello_app umbrello)

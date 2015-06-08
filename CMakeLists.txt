@@ -109,6 +109,7 @@ else()
     include(ECMInstallIcons)
     include(ECMSetupVersion)
     include(ECMOptionalAddSubdirectory)
+    include(ECMAddAppIcon)
     include(ECMAddTests)
 
     # search packages used by Qt
