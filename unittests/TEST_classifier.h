@@ -30,6 +30,8 @@ class TEST_classifier: public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
     void test_equal();
     void test_copyInto();
     void test_clone();
