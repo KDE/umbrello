@@ -2074,6 +2074,9 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Properties:
         insert(mt_Expand_All);
         insert(mt_Collapse_All);
+        insert(mt_Properties);
+        break;
+
     case mt_Properties_AutoLayout:
     case mt_Properties_Class:
     case mt_Properties_CodeImport:
