@@ -41,10 +41,6 @@ if(NOT BUILD_KF5)
         kde4_add_ui_files(${ARGN})
     endmacro(ki18n_wrap_ui)
 
-    macro(kdoctools_create_handbook)
-        kde4_create_handbook(${ARGN})
-    endmacro(kdoctools_create_handbook)
-
     macro(kconfig_add_kcfg_files)
         kde4_add_kcfg_files(${ARGN})
     endmacro(kconfig_add_kcfg_files)
