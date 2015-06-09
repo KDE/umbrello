@@ -38,7 +38,9 @@ UMLApp *umlApp;
 void TEST_classifier::initTestCase()
 {
     // FIXME  we need to force QTEST_MAIN to use the GUI variant
-    app = new QApplication(0, 0);
+    char **argv;
+    int argc = 0;
+    app = new QApplication(argc, argv);
     QWidget *w = new QWidget;
     umlApp = new UMLApp(w);
 }
