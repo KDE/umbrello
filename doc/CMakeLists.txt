@@ -1,10 +1,2 @@
 ########### install files ###############
-if(BUILD_KF5)
-    set(DTD_FILE dtd/kdedb45x.dtd)
-    set(DTD_VERSION V4.5)
-else()
-    set(DTD_FILE dtd/kdex.dtd)
-    set(DTD_VERSION V4.2)
-endif()
-configure_file(index.docbook.cmake ${CMAKE_CURRENT_SOURCE_DIR}/index.docbook)
 kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en SUBDIR umbrello)
