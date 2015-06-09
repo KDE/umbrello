@@ -1,7 +1,6 @@
 ########### install files ###############
 if(BUILD_KF5)
     file(READ "index.docbook" index_file)
-    message("${index_file}")
     string(REPLACE "4.2" "4.5" index_file "${index_file}")
     string(REPLACE "kdex.dtd" "kdedbx45.dtd" index_file "${index_file}")
     file(WRITE "index-kf5.docbook" "${index_file}")
