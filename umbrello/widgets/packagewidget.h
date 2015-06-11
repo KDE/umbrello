@@ -30,7 +30,7 @@ class ListPopupMenu;
 class PackageWidget : public UMLWidget
 {
 public:
-    PackageWidget(UMLScene * scene, UMLPackage * o);
+    explicit PackageWidget(UMLScene * scene, UMLPackage * o);
     virtual ~PackageWidget();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
