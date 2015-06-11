@@ -655,14 +655,6 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
  */
 bool UMLClassifier::operator==(const UMLClassifier & rhs) const
 {
-  /*
-    if (m_List.count() != rhs.m_List.count()) {
-        return false;
-    }
-    if (&m_List != &(rhs.m_List)) {
-        return false;
-    }
-   */
     return UMLCanvasObject::operator==(rhs);
 }
 
