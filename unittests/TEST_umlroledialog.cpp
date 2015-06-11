@@ -37,7 +37,8 @@ int main(int argc, char **argv)
     UMLStereotype object;
     UMLAssociation assoc;
     UMLRole role(&assoc, &object, Uml::RoleType::A);
-    UMLRoleDialog dialog(0, &role);
-    int result = dialog.exec();
+    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(0, &role);
+    int result = dlg->exec();
+    delete dlg;
     return result;
 }
