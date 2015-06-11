@@ -70,6 +70,7 @@ ecm_add_test(
 
 ecm_add_test(
     TEST_umlobject.cpp
+    testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_umlobject
 )

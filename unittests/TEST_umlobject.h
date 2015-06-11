@@ -21,14 +21,12 @@
 #ifndef TEST_UMLOBJECT_H
 #define TEST_UMLOBJECT_H
 
-#include <QObject>
+#include "testbase.h"
 
-class TEST_UMLObject : public QObject
+class TEST_UMLObject : public TestBase
 {
     Q_OBJECT
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
     void test_equal();
     void test_copyInto();
     void test_clone();
