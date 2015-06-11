@@ -41,6 +41,16 @@ DEBUG_REGISTER_DISABLED(UMLObject)
 
 /**
  * Creates a UMLObject.
+ * @param other object to created from
+ */
+UMLObject::UMLObject(const UMLObject &other)
+  : QObject(other.parent())
+{
+    other.copyInto(this);
+}
+
+/**
+ * Creates a UMLObject.
  * @param parent   The parent of the object.
  * @param name     The name of the object.
  * @param id       The ID of the object (optional.) If omitted
@@ -302,6 +312,13 @@ void UMLObject::copyInto(UMLObject *lhs) const
     // Hope that the parent from QObject is okay.
     if (lhs->parent() != parent())
         uDebug() << "copyInto has a wrong parent";
+}
+
+UMLObject *UMLObject::clone() const
+{
+    UMLObject *clone = new UMLObject;
+    UMLObject::copyInto(clone);
+    return clone;
 }
 
 /**
@@ -789,6 +806,11 @@ bool UMLObject::resolveRef()
     maybeSignalObjectCreated();
     //qApp->processEvents();
     return true;
+}
+
+void UMLObject::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+{
+
 }
 
 /**

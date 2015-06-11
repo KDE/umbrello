@@ -80,6 +80,7 @@ public:
     static QString toString(ObjectType ot);
     static QString toI18nString(ObjectType t);
 
+    explicit UMLObject(const UMLObject& other);
     explicit UMLObject(UMLObject* parent, const QString& name, Uml::ID::Type id = Uml::ID::None);
     explicit UMLObject(UMLObject* parent);
     explicit UMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None);
@@ -89,7 +90,7 @@ public:
 
     virtual void copyInto(UMLObject *lhs) const;
 
-    virtual UMLObject* clone() const = 0;
+    virtual UMLObject* clone() const;
 
     virtual void setBaseType(ObjectType ot);
     ObjectType baseType() const;
@@ -136,7 +137,7 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement) = 0;
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & element);
 
     bool loadStereotype(QDomElement & element);

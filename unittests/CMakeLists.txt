@@ -69,6 +69,12 @@ ecm_add_test(
 )
 
 ecm_add_test(
+    TEST_umlobject.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_umlobject
+)
+
+ecm_add_test(
     TEST_classifier.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_classifier
