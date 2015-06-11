@@ -70,12 +70,27 @@ void TEST_UMLObject::test_clone()
 void TEST_UMLObject::test_resolveRef()
 {
     UMLPackage parent("Test Parent");
-    //UMLStereotype stereotype("test");
     UMLStereotype *stereotype = UMLApp::app()->document()->createStereotype("test");
+
     UMLObject a("Test A");
+    // no resolve
     a.setUMLPackage(&parent);
+    QCOMPARE(a.resolveRef(), true);
+
+    // secondary
     a.setSecondaryId(Uml::ID::toString(stereotype->id()));
     QCOMPARE(a.resolveRef(), true);
+
+    // secondary fallback
+    a.setSecondaryId(QLatin1String(""));
+    a.setSecondaryFallback(Uml::ID::toString(stereotype->id()));
+    QCOMPARE(a.resolveRef(), true);
+
+    UMLObject b("Test B");
+    UMLStereotype stereotype2("test");
+    b.setUMLPackage(&parent);
+    b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
+    QCOMPARE(!b.resolveRef(), true);
 }
 
 void TEST_UMLObject::test_setBaseType()
