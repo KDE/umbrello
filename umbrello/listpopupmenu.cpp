@@ -1168,7 +1168,7 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
         QHash<QString, QString> configFiles;
         if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
             int i = 0;
-            foreach(const QString &key, configFiles.keys()) { // krazy:ecxlude=foreach
+            foreach(const QString &key, configFiles.keys()) { // krazy:exclude=foreach
                 if (i >= types.size())
                     break;
                 if (key == QLatin1String("export") &&
