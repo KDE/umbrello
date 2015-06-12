@@ -37,6 +37,8 @@ private slots:
     void test_setVisibility();
     void test_setSterotype();
     void test_setUMLPackage();
+    void test_toString();
+    void test_doc();
 };
 
 #endif // TEST_UMLOBJECT_H

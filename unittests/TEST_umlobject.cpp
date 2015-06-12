@@ -26,6 +26,11 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+
+// kde includes
+#include <KLocalizedString>
+
+// qt includes
 #include <QtTest>
 
 const bool IS_NOT_IMPL = false;
@@ -146,6 +151,22 @@ void TEST_UMLObject::test_setUMLPackage()
     QCOMPARE(a.umlPackage(), (UMLPackage*)0);
     a.setUMLPackage(&parent);
     QCOMPARE(a.umlPackage(), &parent);
+}
+
+void TEST_UMLObject::test_toString()
+{
+    QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QLatin1String("ot_Class"));
+    QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
+}
+
+void TEST_UMLObject::test_doc()
+{
+    UMLPackage parent("Test Parent");
+    UMLObject a("Test A");
+    QCOMPARE(a.hasDoc(), false);
+    a.setDoc(QLatin1String("new doc"));
+    QCOMPARE(a.hasDoc(), true);
+    QCOMPARE(a.doc(), QLatin1String("new doc"));
 }
 
 QTEST_MAIN(TEST_UMLObject)
