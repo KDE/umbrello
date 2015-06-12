@@ -114,7 +114,6 @@ public:
     void setUMLStereotype(UMLStereotype *stereo);
     UMLStereotype *umlStereotype();
 
-    void setPackage(const QString &_name);
     QString package(const QString& separator = QString(),
                     bool includeRoot = false);
 

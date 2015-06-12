@@ -522,34 +522,6 @@ void UMLObject::setStereotypeCmd(const QString& name)
 }
 
 /**
- * Sets the classes Package.
- * DEPRECATED - use SetUMLPackage instead.
- *
- * @param _name   The classes Package name.
- */
-void UMLObject::setPackage(const QString &_name)
-{
-    UMLObject *pkgObj = NULL;
-    if (!_name.isEmpty()) {
-        UMLDoc* umldoc = UMLApp::app()->document();
-        pkgObj = umldoc->findUMLObject(_name);
-        if (pkgObj == NULL) {
-            uDebug() << "creating UMLPackage " << _name << " for " << m_name;
-            pkgObj = Import_Utils::createUMLObject(ot_Package, _name);
-        } else {
-            const ObjectType ot = pkgObj->baseType();
-            if (ot != ot_Package && ot != ot_Folder && ot != ot_Component) {
-                uError() << m_name << ": " << "existing " << _name << " is not a container";
-                // This should not happen - if it does, there may be further problems.
-                // A container name should not overlap with another name in the same scope.
-                pkgObj = Import_Utils::createUMLObject(ot_Package, _name);
-            }
-        }
-    }
-    setUMLPackage(static_cast<UMLPackage *>(pkgObj));
-}
-
-/**
  * Sets the UMLPackage in which this class is located.
  *
  * @param pPkg   Pointer to the class' UMLPackage.
