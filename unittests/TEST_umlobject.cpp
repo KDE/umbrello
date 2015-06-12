@@ -41,9 +41,9 @@ void TEST_UMLObject::test_equal()
     UMLObject c("Test A", Uml::ID::Reserved);
     c.setUMLPackage(&parent);
     UMLObject d("Test B", Uml::ID::None);
-    QCOMPARE(a == b, true);
-    QCOMPARE(a == c, true);
-    QCOMPARE(b == c, true);
+    QCOMPARE(a, b);
+    QCOMPARE(a, c);
+    QCOMPARE(b, c);
     QCOMPARE(c == d, false);
 }
 
@@ -55,7 +55,7 @@ void TEST_UMLObject::test_copyInto()
     UMLObject b("Test B");
     b.setUMLPackage(&parent);
     b.copyInto(&a);
-    QCOMPARE(a == b, true);
+    QCOMPARE(a, b);
 }
 
 void TEST_UMLObject::test_clone()
@@ -64,7 +64,7 @@ void TEST_UMLObject::test_clone()
     UMLObject a("Test A");
     a.setUMLPackage(&parent);
     UMLObject &b = *a.clone();
-    QCOMPARE(a == b, true);
+    QCOMPARE(a, b);
 }
 
 void TEST_UMLObject::test_resolveRef()
@@ -90,21 +90,21 @@ void TEST_UMLObject::test_resolveRef()
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
-    QCOMPARE(!b.resolveRef(), true);
+    QCOMPARE(b.resolveRef(), false);
 }
 
 void TEST_UMLObject::test_setBaseType()
 {
     UMLObject a("Test A");
-    QCOMPARE(a.baseType() == UMLObject::ot_UMLObject, true);
+    QCOMPARE(a.baseType(), UMLObject::ot_UMLObject);
     a.setBaseType(UMLObject::ot_Class);
-    QCOMPARE(a.baseType() == UMLObject::ot_Class, true);
+    QCOMPARE(a.baseType(), UMLObject::ot_Class);
 }
 
 void TEST_UMLObject::test_isAbstract()
 {
     UMLObject a("Test A");
-    QCOMPARE(!a.isAbstract(), true);
+    QCOMPARE(a.isAbstract(), false);
     a.setAbstract(true);
     QCOMPARE(a.isAbstract(), true);
 }
@@ -112,7 +112,7 @@ void TEST_UMLObject::test_isAbstract()
 void TEST_UMLObject::test_isStatic()
 {
     UMLObject a("Test A");
-    QCOMPARE(!a.isStatic(), true);
+    QCOMPARE(a.isStatic(), false);
     a.setStatic(true);
     QCOMPARE(a.isStatic(), true);
 }
@@ -120,32 +120,32 @@ void TEST_UMLObject::test_isStatic()
 void TEST_UMLObject::test_setVisibility()
 {
     UMLObject a("Test A");
-    QCOMPARE(a.visibility() == Uml::Visibility::Public, true);
+    QCOMPARE(a.visibility(), Uml::Visibility::Public);
     a.setVisibilityCmd(Uml::Visibility::Protected);
-    QCOMPARE(a.visibility() == Uml::Visibility::Protected, true);
+    QCOMPARE(a.visibility(), Uml::Visibility::Protected);
     a.setVisibilityCmd(Uml::Visibility::Private);
-    QCOMPARE(a.visibility() == Uml::Visibility::Private, true);
+    QCOMPARE(a.visibility(), Uml::Visibility::Private);
     a.setVisibilityCmd(Uml::Visibility::Implementation);
-    QCOMPARE(a.visibility() == Uml::Visibility::Implementation, true);
+    QCOMPARE(a.visibility(), Uml::Visibility::Implementation);
     a.setVisibilityCmd(Uml::Visibility::FromParent);
-    QCOMPARE(a.visibility() == Uml::Visibility::FromParent, true);
+    QCOMPARE(a.visibility(), Uml::Visibility::FromParent);
 }
 
 void TEST_UMLObject::test_setSterotype()
 {
     UMLObject a("Test A");
-    QCOMPARE(a.stereotype() == QLatin1String(""), true);
+    QCOMPARE(a.stereotype(), QLatin1String(""));
     a.setStereotypeCmd(QLatin1String("test"));
-    QCOMPARE(a.stereotype() == QLatin1String("test"), true);
+    QCOMPARE(a.stereotype(), QLatin1String("test"));
 }
 
 void TEST_UMLObject::test_setUMLPackage()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
-    QCOMPARE(!a.umlPackage(), true);
+    QCOMPARE(a.umlPackage(), (UMLPackage*)0);
     a.setUMLPackage(&parent);
-    QCOMPARE(a.umlPackage() == &parent, true);
+    QCOMPARE(a.umlPackage(), &parent);
 }
 
 QTEST_MAIN(TEST_UMLObject)
