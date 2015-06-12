@@ -810,7 +810,7 @@ bool UMLObject::resolveRef()
 
 void UMLObject::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-
+    Q_UNUSED(qDoc); Q_UNUSED(qElement);
 }
 
 /**
