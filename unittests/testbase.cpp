@@ -25,8 +25,8 @@
 // qt includes
 #include <QApplication>
 
-static QApplication *app;
-static UMLApp *umlApp;
+static QApplication *app = 0;
+static UMLApp *umlApp = 0;
 
 TestBase::TestBase(QObject *parent)
   : QObject(parent)
@@ -35,10 +35,12 @@ TestBase::TestBase(QObject *parent)
 
 void TestBase::initTestCase()
 {
-    // FIXME  we need to force QTEST_MAIN to use the GUI variant
+#if !defined(QT_GUI_LIB)
+    // UMLApp requires QApplication
     char **argv = { 0 };
     int argc = 0;
     app = new QApplication(argc , argv);
+#endif
     QWidget *w = new QWidget;
     umlApp = new UMLApp(w);
 }
