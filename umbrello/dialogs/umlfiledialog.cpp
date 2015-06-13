@@ -52,6 +52,7 @@ UMLFileDialog::UMLFileDialog(const KUrl &startDir, const QString &filter, QWidge
   : m_dialog(new KFileDialog(startDir, filter, parent, widget))
 #endif
 {
+    Q_UNUSED(widget);
 }
 
 UMLFileDialog::~UMLFileDialog()
