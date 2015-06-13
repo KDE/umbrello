@@ -21,6 +21,7 @@
 #include "TEST_umlobject.h"
 
 // app include
+#include "folder.h"
 #include "package.h"
 #include "stereotype.h"
 #include "uml.h"
@@ -157,6 +158,24 @@ void TEST_UMLObject::test_toString()
 {
     QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QLatin1String("ot_Class"));
     QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
+}
+
+void TEST_UMLObject::test_fullyQualifiedName()
+{
+    UMLObject a("Test A");
+    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Test A"));
+
+    UMLPackage topParent("Top Parent");
+    UMLPackage parent("Test Parent");
+    parent.setUMLPackage(&topParent);
+    a.setUMLPackage(&parent);
+    QCOMPARE(a.umlPackage()->fullyQualifiedName(), a.package());
+    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
+    QCOMPARE(a.fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
+
+    UMLFolder *f = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+    parent.setUMLPackage(f);
+    QCOMPARE(a.fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
 }
 
 void TEST_UMLObject::test_doc()

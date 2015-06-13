@@ -39,6 +39,7 @@ private slots:
     void test_setUMLPackage();
     void test_toString();
     void test_doc();
+    void test_fullyQualifiedName();
 };
 
 #endif // TEST_UMLOBJECT_H
