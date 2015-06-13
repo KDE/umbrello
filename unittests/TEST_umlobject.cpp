@@ -38,21 +38,6 @@ const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------
 
-void TEST_UMLObject::test_equal()
-{
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A", Uml::ID::Reserved);
-    a.setUMLPackage(&parent);
-    UMLObject b(a);
-    UMLObject c("Test A", Uml::ID::Reserved);
-    c.setUMLPackage(&parent);
-    UMLObject d("Test B", Uml::ID::None);
-    QCOMPARE(a, b);
-    QCOMPARE(a, c);
-    QCOMPARE(b, c);
-    QCOMPARE(c == d, false);
-}
-
 void TEST_UMLObject::test_copyInto()
 {
     UMLPackage parent("Test Parent");
@@ -71,6 +56,65 @@ void TEST_UMLObject::test_clone()
     a.setUMLPackage(&parent);
     UMLObject &b = *a.clone();
     QCOMPARE(a, b);
+}
+
+void TEST_UMLObject::test_doc()
+{
+    UMLPackage parent("Test Parent");
+    UMLObject a("Test A");
+    QCOMPARE(a.hasDoc(), false);
+    a.setDoc(QLatin1String("new doc"));
+    QCOMPARE(a.hasDoc(), true);
+    QCOMPARE(a.doc(), QLatin1String("new doc"));
+}
+
+void TEST_UMLObject::test_equal()
+{
+    UMLPackage parent("Test Parent");
+    UMLObject a("Test A", Uml::ID::Reserved);
+    a.setUMLPackage(&parent);
+    UMLObject b(a);
+    UMLObject c("Test A", Uml::ID::Reserved);
+    c.setUMLPackage(&parent);
+    UMLObject d("Test B", Uml::ID::None);
+    QCOMPARE(a, b);
+    QCOMPARE(a, c);
+    QCOMPARE(b, c);
+    QCOMPARE(c == d, false);
+}
+
+void TEST_UMLObject::test_fullyQualifiedName()
+{
+    UMLObject a("Test A");
+    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Test A"));
+
+    UMLPackage topParent("Top Parent");
+    UMLPackage parent("Test Parent");
+    parent.setUMLPackage(&topParent);
+    a.setUMLPackage(&parent);
+    QCOMPARE(a.umlPackage()->fullyQualifiedName(), a.package());
+    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
+    QCOMPARE(a.fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
+
+    UMLFolder *f = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+    parent.setUMLPackage(f);
+    QCOMPARE(a.fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
+}
+
+void TEST_UMLObject::test_isAbstract()
+{
+    UMLObject a("Test A");
+    QCOMPARE(a.isAbstract(), false);
+    a.setAbstract(true);
+    QCOMPARE(a.isAbstract(), true);
+}
+
+void TEST_UMLObject::test_isStatic()
+{
+    UMLObject a("Test A");
+    QCOMPARE(a.isStatic(), false);
+    a.setStatic(true);
+    QCOMPARE(a.isStatic(), true);
 }
 
 void TEST_UMLObject::test_resolveRef()
@@ -107,36 +151,6 @@ void TEST_UMLObject::test_setBaseType()
     QCOMPARE(a.baseType(), UMLObject::ot_Class);
 }
 
-void TEST_UMLObject::test_isAbstract()
-{
-    UMLObject a("Test A");
-    QCOMPARE(a.isAbstract(), false);
-    a.setAbstract(true);
-    QCOMPARE(a.isAbstract(), true);
-}
-
-void TEST_UMLObject::test_isStatic()
-{
-    UMLObject a("Test A");
-    QCOMPARE(a.isStatic(), false);
-    a.setStatic(true);
-    QCOMPARE(a.isStatic(), true);
-}
-
-void TEST_UMLObject::test_setVisibility()
-{
-    UMLObject a("Test A");
-    QCOMPARE(a.visibility(), Uml::Visibility::Public);
-    a.setVisibilityCmd(Uml::Visibility::Protected);
-    QCOMPARE(a.visibility(), Uml::Visibility::Protected);
-    a.setVisibilityCmd(Uml::Visibility::Private);
-    QCOMPARE(a.visibility(), Uml::Visibility::Private);
-    a.setVisibilityCmd(Uml::Visibility::Implementation);
-    QCOMPARE(a.visibility(), Uml::Visibility::Implementation);
-    a.setVisibilityCmd(Uml::Visibility::FromParent);
-    QCOMPARE(a.visibility(), Uml::Visibility::FromParent);
-}
-
 void TEST_UMLObject::test_setSterotype()
 {
     UMLObject a("Test A");
@@ -154,38 +168,25 @@ void TEST_UMLObject::test_setUMLPackage()
     QCOMPARE(a.umlPackage(), &parent);
 }
 
+
+void TEST_UMLObject::test_setVisibility()
+{
+    UMLObject a("Test A");
+    QCOMPARE(a.visibility(), Uml::Visibility::Public);
+    a.setVisibilityCmd(Uml::Visibility::Protected);
+    QCOMPARE(a.visibility(), Uml::Visibility::Protected);
+    a.setVisibilityCmd(Uml::Visibility::Private);
+    QCOMPARE(a.visibility(), Uml::Visibility::Private);
+    a.setVisibilityCmd(Uml::Visibility::Implementation);
+    QCOMPARE(a.visibility(), Uml::Visibility::Implementation);
+    a.setVisibilityCmd(Uml::Visibility::FromParent);
+    QCOMPARE(a.visibility(), Uml::Visibility::FromParent);
+}
+
 void TEST_UMLObject::test_toString()
 {
     QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QLatin1String("ot_Class"));
     QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
-}
-
-void TEST_UMLObject::test_fullyQualifiedName()
-{
-    UMLObject a("Test A");
-    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Test A"));
-
-    UMLPackage topParent("Top Parent");
-    UMLPackage parent("Test Parent");
-    parent.setUMLPackage(&topParent);
-    a.setUMLPackage(&parent);
-    QCOMPARE(a.umlPackage()->fullyQualifiedName(), a.package());
-    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
-    QCOMPARE(a.fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
-
-    UMLFolder *f = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
-    parent.setUMLPackage(f);
-    QCOMPARE(a.fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
-}
-
-void TEST_UMLObject::test_doc()
-{
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
-    QCOMPARE(a.hasDoc(), false);
-    a.setDoc(QLatin1String("new doc"));
-    QCOMPARE(a.hasDoc(), true);
-    QCOMPARE(a.doc(), QLatin1String("new doc"));
 }
 
 QTEST_MAIN(TEST_UMLObject)

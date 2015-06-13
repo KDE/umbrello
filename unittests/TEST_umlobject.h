@@ -27,19 +27,19 @@ class TEST_UMLObject : public TestBase
 {
     Q_OBJECT
 private slots:
-    void test_equal();
     void test_copyInto();
     void test_clone();
+    void test_doc();
+    void test_equal();
+    void test_fullyQualifiedName();
     void test_isAbstract();
+    void test_isStatic();
     void test_resolveRef();
     void test_setBaseType();
-    void test_isStatic();
-    void test_setVisibility();
     void test_setSterotype();
     void test_setUMLPackage();
+    void test_setVisibility();
     void test_toString();
-    void test_doc();
-    void test_fullyQualifiedName();
 };
 
 #endif // TEST_UMLOBJECT_H
