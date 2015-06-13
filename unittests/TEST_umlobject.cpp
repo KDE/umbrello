@@ -160,6 +160,20 @@ void TEST_UMLObject::test_resolveRef()
     QCOMPARE(b.secondary()->name(), QLatin1String("undef"));
 }
 
+void TEST_UMLObject::test_saveAndLoad()
+{
+    UMLPackage parent("Test Parent");
+    UMLObject a("Test A");
+    a.setUMLPackage(&parent);
+    a.setStereotypeCmd("test");
+    QDomDocument doc;
+    QDomElement save = a.save("test", doc);
+    UMLObject b;
+    b.setUMLPackage(&parent);
+    QCOMPARE(b.loadFromXMI(save), true);
+    QCOMPARE(a, b);
+}
+
 void TEST_UMLObject::test_setBaseType()
 {
     UMLObject a("Test A");
