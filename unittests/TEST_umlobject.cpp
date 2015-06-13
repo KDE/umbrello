@@ -117,6 +117,20 @@ void TEST_UMLObject::test_isStatic()
     QCOMPARE(a.isStatic(), true);
 }
 
+class TestUMLObject : public UMLObject
+{
+public:
+    TestUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
+      : UMLObject(name, id)
+    {
+    }
+
+    UMLObject *secondary() const
+    {
+        return m_pSecondary.data();
+    }
+};
+
 void TEST_UMLObject::test_resolveRef()
 {
     UMLPackage parent("Test Parent");
@@ -136,11 +150,14 @@ void TEST_UMLObject::test_resolveRef()
     a.setSecondaryFallback(Uml::ID::toString(stereotype->id()));
     QCOMPARE(a.resolveRef(), true);
 
-    UMLObject b("Test B");
+    // unknown stereotype
+    TestUMLObject b("Test B");
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
-    QCOMPARE(b.resolveRef(), false);
+    QCOMPARE(b.resolveRef(), true);
+    // resolveRef creates an "undef" datatype and assigns it to m_Secondary
+    QCOMPARE(b.secondary()->name(), QLatin1String("undef"));
 }
 
 void TEST_UMLObject::test_setBaseType()
