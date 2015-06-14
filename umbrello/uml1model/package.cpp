@@ -196,7 +196,10 @@ void UMLPackage::removeObject(UMLObject *pObject)
     if (pObject->baseType() == UMLObject::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = o->asUMLAssociation();
-        removeAssocFromConcepts(assoc);
+        if (assoc)
+	        removeAssocFromConcepts(assoc);
+        else
+            uError() << "invalid cast found";
     }
     if (m_objects.indexOf(pObject) == -1)
         uDebug() << name() << " removeObject: object with id="
