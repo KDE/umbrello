@@ -95,7 +95,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         uError() << name << ": parentPkg is NULL";
         return NULL;
     }
-    UMLObject *o = NULL;
+    QPointer<UMLObject> o = NULL;
     switch (type) {
         case UMLObject::ot_Actor:
             o = new UMLActor(name, g_predefinedId);
