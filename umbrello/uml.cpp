@@ -115,6 +115,7 @@
 #include <QStatusBar>
 #endif
 #include <QStackedWidget>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QToolButton>
 #if QT_VERSION >= 0x050000
@@ -1180,22 +1181,19 @@ void UMLApp::readOptions()
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
-    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
-    Q_UNUSED(cfg);
-/*
-    if (m_doc->url().fileName() != i18n("Untitled") && !m_doc->isModified()) {
-        // saving to tempfile not necessary
-    } else {
-        KUrl url = m_doc->url();
-        cfg.writePathEntry("filename", url.url());
+    if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
+        QUrl url = m_doc->url();
+        cfg.writePathEntry("filename", url.toString());
         cfg.writeEntry("modified", m_doc->isModified());
-        QString tempname = kapp->tempSaveName(url.url());  //:TODO: change this - deprecated
-        QString tempurl = KUrl::toPercentEncoding(tempname);
+        DEBUG(DBG_SRC) << "Save properties - filenam: " << url << " | modified: " << m_doc->isModified();
 
-        KUrl _url(tempurl);
-        m_doc->saveDocument(_url);
+        // saving to tempfile necessary
+        QTemporaryFile tmpfile(url.toString());
+        if (tmpfile.open()) {
+            QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
+            m_doc->saveDocument(dest);
+        }
     }
-*/
 }
 
 /**
@@ -1207,23 +1205,18 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
-    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
-    Q_UNUSED(cfg);
-/*
     QString filename = cfg.readPathEntry("filename", QString());
-    KUrl url(filename);
+    QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
+    DEBUG(DBG_SRC) << "Read properties - filename: " << url << " | modified: " << modified;
     if (modified) {
-        bool canRecover;
-        QString tempname = kapp->checkRecoverFile(filename, canRecover);
-        KUrl _url(tempname);
-
-        if (canRecover) {
+        QTemporaryFile tmpfile(filename);
+        if (tmpfile.open()) {
+            QUrl _url(QUrl::fromLocalFile(tmpfile.fileName()));
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName(), true);
-            QFile::remove(tempname);
+            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
         } else {
             enablePrint(false);
         }
@@ -1232,12 +1225,10 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(url);
             enablePrint(true);
             setCaption(url.fileName(), false);
-
         } else {
             enablePrint(false);
         }
     }
-*/
 }
 
 /**
