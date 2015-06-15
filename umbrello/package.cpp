@@ -256,6 +256,8 @@ UMLObject * UMLPackage::findObject(const QString &name)
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *obj = oit.next();
+        if (!obj)
+            continue;
         if (caseSensitive) {
             if (obj->name() == name)
                 return obj;

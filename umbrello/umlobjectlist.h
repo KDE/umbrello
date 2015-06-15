@@ -13,17 +13,19 @@
 #define UMLOBJECTLIST_H
 
 #include <QList>
+#include <QPointer>
 
 // forward declarations
 class UMLObject;
 
-typedef QListIterator<UMLObject*> UMLObjectListIt;
+typedef QListIterator<QPointer<UMLObject>>
+UMLObjectListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QList<UMLObject*>
  * base class.
  */
-class UMLObjectList : public QList<UMLObject*>
+class UMLObjectList : public QList<QPointer<UMLObject>>
 {
 public:
 
