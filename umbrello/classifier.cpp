@@ -1217,7 +1217,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Attribute: {
-            UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.takeAt(index));
+            UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.takeAt(index).data());
             if (retval) {
                 emit attributeRemoved(retval);
                 UMLObject::emitModified();
@@ -1227,7 +1227,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Template: {
-            UMLTemplate *templt = dynamic_cast<UMLTemplate*>(m_List.takeAt(index));
+            UMLTemplate *templt = dynamic_cast<UMLTemplate*>(m_List.takeAt(index).data());
             if (templt) {
                 emit templateRemoved(templt);
                 UMLObject::emitModified();
@@ -1237,7 +1237,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EnumLiteral: {
-            UMLEnumLiteral *el = dynamic_cast<UMLEnumLiteral*>(m_List.takeAt(index) );
+            UMLEnumLiteral *el = dynamic_cast<UMLEnumLiteral*>(m_List.takeAt(index).data());
             if (el) {
                 UMLEnum *e = static_cast<UMLEnum*>(this);
                 e->signalEnumLiteralRemoved(el);
@@ -1248,7 +1248,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EntityAttribute: {
-            UMLEntityAttribute* el = dynamic_cast<UMLEntityAttribute*>(m_List.takeAt(index));
+            UMLEntityAttribute* el = dynamic_cast<UMLEntityAttribute*>(m_List.takeAt(index).data());
             if (el) {
                 UMLEntity *e = static_cast<UMLEntity*>(this);
                 e->signalEntityAttributeRemoved(el);
