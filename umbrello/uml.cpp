@@ -1393,13 +1393,13 @@ bool UMLApp::slotFileSaveAs()
     while (cont) {
 #if QT_VERSION >= 0x050000
         url = QFileDialog::getSaveFileUrl(this, i18n("Save As"), QUrl(),
+                                          i18n("*.xmi | XMI File (*.xmi);;"
+                                               "*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
+                                               "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;"
+                                               "* | All Files (*)"));
 #else
-        url = KFileDialog::getSaveUrl(KUrl(),
+        url = KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 #endif
-        i18n("*.xmi | XMI File (*.xmi);;"
-             "*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
-             "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;"
-             "* | All Files (*)"));
         if (url.isEmpty()) {
             cont = false;
         }
