@@ -20,6 +20,8 @@
 
 #include "testbase.h"
 
+// app includes
+#include "codegenerationpolicy.h"
 #include "uml.h"
 
 // qt includes
@@ -27,6 +29,14 @@
 
 #if !defined(QT_GUI_LIB)
 #error umbrello unittests require QT_GUI_LIB to be present
+#endif
+
+#if QT_VERSION < 0x050000
+#include <KTempDir>
+#endif
+
+#if QT_VERSION >= 0x050000
+#include <QTemporaryDir>
 #endif
 
 static UMLApp *umlApp = 0;
@@ -45,4 +55,27 @@ void TestBase::initTestCase()
 void TestBase::cleanupTestCase()
 {
     delete umlApp;
+}
+
+void TestCodeGeneratorBase::initTestCase()
+{
+    TestBase::initTestCase();
+
+#if QT_VERSION >= 0x050000
+    static QTemporaryDir tmpDir;
+    m_tempPath = tmpDir.path() + QLatin1String("/");
+#else
+    static KTempDir tmpDir;
+    m_tempPath = tmpDir.name();
+#endif
+    UMLApp::app()->commonPolicy()->setOutputDirectory(m_tempPath);
+}
+
+/**
+ * Return temporay path usable to generated code.
+ * @return
+ */
+QString TestCodeGeneratorBase::temporaryPath()
+{
+    return m_tempPath;
 }

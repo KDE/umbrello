@@ -26,18 +26,14 @@
 /**
  * Unit test for class CppWriter (cppwriter.h).
  */
-class TEST_cppwriter: public TestBase
+class TEST_cppwriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
 private slots:
-    void initTestCase();
     void test_language();
     void test_writeClass();
     void test_reservedKeywords();
     void test_defaultDatatypes();
-
-protected:
-    QString tempDir;
 };
 
 #endif // TEST_CPPWRITER_H

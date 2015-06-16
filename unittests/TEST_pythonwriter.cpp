@@ -28,6 +28,15 @@ const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------
 
+class PythonWriterTest : public PythonWriter
+{
+public:
+    QString findFileName(UMLPackage* concept, const QString &ext)
+    {
+       return PythonWriter::findFileName(concept,ext);
+    }
+};
+
 void TEST_pythonwriter::test_language()
 {
     PythonWriter* py = new PythonWriter();
@@ -37,7 +46,7 @@ void TEST_pythonwriter::test_language()
 
 void TEST_pythonwriter::test_writeClass()
 {
-    PythonWriter* py = new PythonWriter();
+    PythonWriterTest* py = new PythonWriterTest();
     UMLClassifier* c = new UMLClassifier("Customer", "12345678");
     UMLAttribute* attr;
     attr = c->createAttribute("name_");
@@ -45,7 +54,8 @@ void TEST_pythonwriter::test_writeClass()
 
     py->writeClass(c);
     // does the just created file exist?
-    QCOMPARE(IS_NOT_IMPL, true);
+    QFile file(temporaryPath() + py->findFileName(c, QLatin1String(".py")));
+    QCOMPARE(file.exists(), true);
 }
 
 void TEST_pythonwriter::test_reservedKeywords()

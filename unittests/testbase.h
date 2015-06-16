@@ -25,6 +25,14 @@
 #include <QObject>
 #include <QtTest>
 
+/**
+ * The TestBase class is intended as base class for umbrello unit tests.
+ *
+ * Currently it provides an instance of class UMLApp, which is required
+ * to run mostly unit tests.
+ *
+ * @author Ralf Habacker <ralf.habacker@freenet.de>
+ */
 class TestBase : public QObject
 {
     Q_OBJECT
@@ -34,6 +42,25 @@ public:
 protected slots:
     virtual void initTestCase();
     virtual void cleanupTestCase();
+};
+
+/**
+ * The TestCodeGeneratorBase class is intended as base class for code generator unit tests
+ *
+ * Currently it provides a path to a temporary directory, where generated code could be
+ * placed into. The temporary path is set as default output path for any code generating.
+ *
+ * @author Ralf Habacker <ralf.habacker@freenet.de>
+ */
+class TestCodeGeneratorBase : public TestBase
+{
+    Q_OBJECT
+private slots:
+    virtual void initTestCase();
+
+protected:
+    QString m_tempPath;  ///< holds path to temporary directory
+    QString temporaryPath();
 };
 
 #endif // TESTBASE_H

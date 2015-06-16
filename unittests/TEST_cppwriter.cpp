@@ -23,15 +23,6 @@
 // app include
 #include "classifier.h"
 #include "cppwriter.h"
-#include "uml.h"
-
-#if QT_VERSION < 0x050000
-#include <KTempDir>
-#endif
-
-#if QT_VERSION >= 0x050000
-#include <QTemporaryDir>
-#endif
 
 const bool IS_NOT_IMPL = false;
 
@@ -45,20 +36,6 @@ public:
        return CppWriter::findFileName(concept,ext);
     }
 };
-
-void TEST_cppwriter::initTestCase()
-{
-    TestBase::initTestCase();
-#if QT_VERSION >= 0x050000
-    static QTemporaryDir tmpDir;
-    tempDir = tmpDir.path() + QLatin1String("/");
-#else
-    static KTempDir tmpDir;
-    tempDir = tmpDir.name();
-#endif
-
-    UMLApp::app()->commonPolicy()->setOutputDirectory(tempDir);
-}
 
 void TEST_cppwriter::test_language()
 {
@@ -80,8 +57,8 @@ void TEST_cppwriter::test_writeClass()
 
     cpp->writeClass(c);
     // does the just created file exist?
-    QFile fileHeader(tempDir + cpp->findFileName(c, QLatin1String(".h")));
-    QFile fileCPP(tempDir + cpp->findFileName(c, QLatin1String(".cpp")));
+    QFile fileHeader(temporaryPath() + cpp->findFileName(c, QLatin1String(".h")));
+    QFile fileCPP(temporaryPath() + cpp->findFileName(c, QLatin1String(".cpp")));
     QCOMPARE(fileHeader.exists(), true);
     QCOMPARE(fileCPP.exists(), true);
 }

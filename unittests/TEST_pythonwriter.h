@@ -26,7 +26,7 @@
 /**
  * Unit test for class PythonWriter (pythonwriter.h).
  */
-class TEST_pythonwriter: public TestBase
+class TEST_pythonwriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
 private slots:
