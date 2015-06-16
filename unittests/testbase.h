@@ -32,8 +32,8 @@ public:
     explicit TestBase(QObject *parent = 0);
 
 protected slots:
-    void initTestCase();
-    void cleanupTestCase();
+    virtual void initTestCase();
+    virtual void cleanupTestCase();
 };
 
 #endif // TESTBASE_H

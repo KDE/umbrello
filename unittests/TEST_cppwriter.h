@@ -30,6 +30,7 @@ class TEST_cppwriter: public TestBase
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void test_language();
     void test_writeClass();
     void test_reservedKeywords();
