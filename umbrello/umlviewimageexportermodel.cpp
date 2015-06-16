@@ -418,7 +418,6 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     printer.setOutputFileName(fileName);
     printer.setOutputFormat(QPrinter::PostScriptFormat);
     printer.setColorMode(QPrinter::Color);
-    printer.setPageSize(QPrinter::Custom);
     printer.setPaperSize(paperSize, QPrinter::Millimeter);
     printer.setPageMargins(paperSize.width() * border, paperSize.height() * border, 0, 0, QPrinter::Millimeter);
     printer.setResolution(qApp->desktop()->logicalDpiX());
@@ -465,6 +464,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QSvgGenerator generator;
     generator.setFileName(fileName);
     generator.setSize(rect.toRect().size());
+    generator.setResolution(qApp->desktop()->logicalDpiX());
     generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 
@@ -509,7 +509,9 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     QRectF rect = scene->diagramRect();
-    QPixmap diagram(rect.width(), rect.height());
+    float scale = 72.0f / qApp->desktop()->logicalDpiX();
+    QSizeF size = rect.size() * scale;
+    QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
     DEBUG(DBG_IEM) << "saving to file " << fileName
