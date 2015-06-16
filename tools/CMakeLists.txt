@@ -1,6 +1,6 @@
 
 if(NOT BUILD_KF5)
-    set(LIBS ${QT_QTXML_LIBRARY} ${QT_QTCORE_LIBRARY})
+    set(LIBS Qt4::QtXml Qt4::QtCore)
 else()
     set(LIBS Qt5::Xml Qt5::Core)
 endif()

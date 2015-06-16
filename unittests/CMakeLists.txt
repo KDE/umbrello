@@ -43,8 +43,10 @@ include_directories(
 
 if(NOT BUILD_KF5)
     set(LIBS
-        ${QT_QTXML_LIBRARY}
-        ${QT_QTTEST_LIBRARY}
+        Qt4::QtCore
+        Qt4::QtGui
+        Qt4::QtXml
+        Qt4::QtTest
         ${KDE4_KFILE_LIBS}
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}

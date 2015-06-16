@@ -491,7 +491,15 @@ set(LIB_BUILD_MODE STATIC)
 if(NOT BUILD_KF5)
     kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
     set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS})
+    target_link_libraries(libumbrello
+        Qt4::QtCore
+        Qt4::QtGui
+        Qt4::QtXml
+        ${LIBXML2_LIBRARIES}
+        ${LIBXSLT_LIBRARIES}
+        ${KDE4_KTEXTEDITOR_LIBS}
+        ${KDE4_KFILE_LIBS}
+    )
     kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)

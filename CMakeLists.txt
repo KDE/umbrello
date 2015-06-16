@@ -11,6 +11,10 @@ option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
 if(NOT BUILD_KF5)
     set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest)
+
     set(KDE4_BUILD_TESTS ON)  # for unit tests
 
     # search packages used by KDE
@@ -24,7 +28,6 @@ if(NOT BUILD_KF5)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
     add_definitions (
-        ${QT_DEFINITIONS}
         ${KDE4_DEFINITIONS}
     )
 

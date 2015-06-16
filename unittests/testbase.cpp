@@ -25,7 +25,10 @@
 // qt includes
 #include <QApplication>
 
-static QApplication *app = 0;
+#if !defined(QT_GUI_LIB)
+#error umbrello unittests require QT_GUI_LIB to be present
+#endif
+
 static UMLApp *umlApp = 0;
 
 TestBase::TestBase(QObject *parent)
@@ -35,12 +38,6 @@ TestBase::TestBase(QObject *parent)
 
 void TestBase::initTestCase()
 {
-#if !defined(QT_GUI_LIB)
-    // UMLApp requires QApplication
-    char **argv = { 0 };
-    int argc = 0;
-    app = new QApplication(argc , argv);
-#endif
     QWidget *w = new QWidget;
     umlApp = new UMLApp(w);
 }
@@ -48,5 +45,4 @@ void TestBase::initTestCase()
 void TestBase::cleanupTestCase()
 {
     delete umlApp;
-    delete app;
 }
