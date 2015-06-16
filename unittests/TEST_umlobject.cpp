@@ -31,9 +31,6 @@
 // kde includes
 #include <KLocalizedString>
 
-// qt includes
-#include <QtTest>
-
 const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------

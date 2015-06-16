@@ -24,33 +24,7 @@
 #include "uml.h"
 #include "classifier.h"
 
-// qt includes
-#include <QApplication>
-#include <QtTest>
-
-
 const bool IS_NOT_IMPL = false;
-
-QApplication *app;
-UMLApp *umlApp;
-
-//-----------------------------------------------------------------------------
-void TEST_classifier::initTestCase()
-{
-    // FIXME  we need to force QTEST_MAIN to use the GUI variant
-    char **argv = { 0 };
-    int argc = 0;
-    app = new QApplication(argc, argv);
-    QWidget *w = new QWidget;
-    umlApp = new UMLApp(w);
-}
-
-void TEST_classifier::cleanupTestCase()
-{
-    delete umlApp;
-    delete app;
-}
-
 //-----------------------------------------------------------------------------
 
 void TEST_classifier::test_equal()

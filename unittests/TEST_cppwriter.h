@@ -21,12 +21,12 @@
 #ifndef TEST_CPPWRITER_H
 #define TEST_CPPWRITER_H
 
-#include <QObject>
+#include "testbase.h"
 
 /**
  * Unit test for class CppWriter (cppwriter.h).
  */
-class TEST_cppwriter: public QObject
+class TEST_cppwriter: public TestBase
 {
     Q_OBJECT
 private slots:

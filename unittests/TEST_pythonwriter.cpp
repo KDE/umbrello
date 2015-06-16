@@ -24,10 +24,6 @@
 #include "classifier.h"
 #include "pythonwriter.h"
 
-// qt includes
-#include <QtTest>
-
-
 const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------

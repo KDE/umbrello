@@ -79,18 +79,21 @@ ecm_add_test(
 
 ecm_add_test(
     TEST_classifier.cpp
+    testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_classifier
 )
 
 ecm_add_test(
     TEST_cppwriter.cpp
+    testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_cppwriter
 )
 
 ecm_add_test(
     TEST_pythonwriter.cpp
+    testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME TEST_pythonwriter
 )

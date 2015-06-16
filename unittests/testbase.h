@@ -21,7 +21,9 @@
 #ifndef TESTBASE_H
 #define TESTBASE_H
 
+// qt includes
 #include <QObject>
+#include <QtTest>
 
 class TestBase : public QObject
 {

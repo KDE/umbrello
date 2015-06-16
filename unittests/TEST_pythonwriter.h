@@ -21,12 +21,12 @@
 #ifndef TEST_PYTHONWRITER_H
 #define TEST_PYTHONWRITER_H
 
-#include <QObject>
+#include "testbase.h"
 
 /**
  * Unit test for class PythonWriter (pythonwriter.h).
  */
-class TEST_pythonwriter: public QObject
+class TEST_pythonwriter: public TestBase
 {
     Q_OBJECT
 private slots:

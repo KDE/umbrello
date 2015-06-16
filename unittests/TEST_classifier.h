@@ -21,17 +21,15 @@
 #ifndef TEST_CLASSIFIER_H
 #define TEST_CLASSIFIER_H
 
-#include <QObject>
+#include "testbase.h"
 
 /**
  * Unit test for class UMLClassifier (classifier.h).
  */
-class TEST_classifier: public QObject
+class TEST_classifier: public TestBase
 {
     Q_OBJECT
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
     void test_equal();
     void test_copyInto();
     void test_clone();
