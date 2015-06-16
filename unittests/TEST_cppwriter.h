@@ -35,6 +35,9 @@ private slots:
     void test_writeClass();
     void test_reservedKeywords();
     void test_defaultDatatypes();
+
+protected:
+    QString tempDir;
 };
 
 #endif // TEST_CPPWRITER_H

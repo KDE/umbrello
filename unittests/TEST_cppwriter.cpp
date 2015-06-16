@@ -35,12 +35,6 @@
 
 const bool IS_NOT_IMPL = false;
 
-#if QT_VERSION >= 0x050000
-QTemporaryDir tmpDir;
-#else
-KTempDir tmpDir;
-#endif
-
 //-----------------------------------------------------------------------------
 
 class CppWriterTest : public CppWriter
@@ -55,7 +49,15 @@ public:
 void TEST_cppwriter::initTestCase()
 {
     TestBase::initTestCase();
-    UMLApp::app()->commonPolicy()->setOutputDirectory(tmpDir.name());
+#if QT_VERSION >= 0x050000
+    static QTemporaryDir tmpDir;
+    tempDir = tmpDir.path() + QLatin1String("/");
+#else
+    static KTempDir tmpDir;
+    tempDir = tmpDir.name();
+#endif
+
+    UMLApp::app()->commonPolicy()->setOutputDirectory(tempDir);
 }
 
 void TEST_cppwriter::test_language()
@@ -78,8 +80,8 @@ void TEST_cppwriter::test_writeClass()
 
     cpp->writeClass(c);
     // does the just created file exist?
-    QFile fileHeader(tmpDir.name() + cpp->findFileName(c, QLatin1String(".h")));
-    QFile fileCPP(tmpDir.name() + cpp->findFileName(c, QLatin1String(".cpp")));
+    QFile fileHeader(tempDir + cpp->findFileName(c, QLatin1String(".h")));
+    QFile fileCPP(tempDir + cpp->findFileName(c, QLatin1String(".cpp")));
     QCOMPARE(fileHeader.exists(), true);
     QCOMPARE(fileCPP.exists(), true);
 }
