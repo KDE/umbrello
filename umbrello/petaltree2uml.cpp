@@ -488,9 +488,6 @@ void handleAssocView(PetalNode *attr,
             uError() << assocStr << " roleview_list roles are incomplete";
             return;
         }
-    } else {
-        supElem = attr->findAttribute(QLatin1String("supplier"));
-        cliElem = attr->findAttribute(QLatin1String("client"));
     }
     QString supplier = supElem.string;
     QString client   = cliElem.string;
