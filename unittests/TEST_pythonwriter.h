@@ -33,7 +33,6 @@ private slots:
     void test_language();
     void test_writeClass();
     void test_reservedKeywords();
-    void test_toBeImplemented();
 };
 
 #endif // TEST_PYTHONWRITER_H

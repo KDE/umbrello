@@ -68,9 +68,4 @@ void TEST_pythonwriter::test_reservedKeywords()
     QCOMPARE(list.last(), QLatin1String("zip"));
 }
 
-void TEST_pythonwriter::test_toBeImplemented()
-{
-    QCOMPARE(IS_NOT_IMPL, true);
-}
-
 QTEST_MAIN(TEST_pythonwriter)
