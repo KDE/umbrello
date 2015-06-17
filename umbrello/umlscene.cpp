@@ -1019,7 +1019,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
 
     foreach(MessageWidget *obj, m_MessageList) {
         if (obj->hasObjectWidget(w)) {
-            removeWidget(obj);
+            removeWidgetCmd(obj);
         }
     }
 }

@@ -61,11 +61,9 @@ private:
 
     bool exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const;
     bool exportViewToDot(UMLScene* scene, const QString &fileName) const;
-    bool exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const;
+    bool exportViewToEps(UMLScene* scene, const QString &fileName) const;
     bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
     bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
-
-    bool fixEPS(const QString &fileName, const QRectF& rect) const;
 
     static QStringList s_supportedImageTypesList;
     static QStringList s_supportedMimeTypesList;

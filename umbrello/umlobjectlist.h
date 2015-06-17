@@ -18,14 +18,14 @@
 // forward declarations
 class UMLObject;
 
-typedef QListIterator<QPointer<UMLObject>>
+typedef QListIterator<QPointer<UMLObject> >
 UMLObjectListIt;
 
 /**
  * This sub-class adds copyInto and clone to the QList<UMLObject*>
  * base class.
  */
-class UMLObjectList : public QList<QPointer<UMLObject>>
+class UMLObjectList : public QList<QPointer<UMLObject> >
 {
 public:
 

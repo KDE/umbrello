@@ -35,6 +35,7 @@
 
 // include files for Qt
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
 #include <QImageWriter>
@@ -420,7 +421,7 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
             return false;
         }
     } else if (imageMimeType == QLatin1String("image/x-eps")) {
-        if (!exportViewToEps(scene, fileName, true)) {
+        if (!exportViewToEps(scene, fileName)) {
             return false;
         }
     } else if (imageMimeType == QLatin1String("image/svg+xml")) {
@@ -463,70 +464,51 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
  *
  * @param scene    The scene to export.
  * @param fileName The name of the file where the image will be saved.
- * @param isEPS    The file is an eps file and needs adjusting
- *                 of the eps bounding box values.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const
+bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
         uWarning() << "Scene is null!";
         return false;
     }
 
-    bool exportSuccessful = true;
+    qreal border = 0.01; // mm
+    QRectF rect = scene->diagramRect();
+    QSizeF paperSize(rect.size() * 25.4f / qApp->desktop()->logicalDpiX());
 
-    // print the image to a normal postscript file,
-    // do not clip so that everything ends up in the file
-    // regardless of "paper size"
-
-    // because we want to work with postscript
-    // user-coordinates, set to the resolution
-    // of the printer (which should be 72dpi here)
-    QPrinter *printer;
-
-    if (isEPS == false) {
-        printer = new QPrinter(QPrinter::PrinterResolution);
-    } else {
-        printer = new QPrinter(QPrinter::ScreenResolution);
-    }
-    printer->setOutputFileName(fileName);
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setOutputFileName(fileName);
 #if QT_VERSION >= 0x050000
-    printer->setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFormat(QPrinter::PdfFormat);
 #else
-    printer->setOutputFormat(QPrinter::PostScriptFormat);
+    printer.setOutputFormat(QPrinter::PostScriptFormat);
 #endif
-    printer->setColorMode(QPrinter::Color);
+    printer.setColorMode(QPrinter::Color);
+    printer.setPaperSize(paperSize, QPrinter::Millimeter);
+    printer.setPageMargins(paperSize.width() * border, paperSize.height() * border, 0, 0, QPrinter::Millimeter);
+    printer.setResolution(qApp->desktop()->logicalDpiX());
+    printer.setOrientation(paperSize.width() < paperSize.height() ? QPrinter::Landscape : QPrinter::Portrait);
 
     // do not call printer.setup(); because we want no user
     // interaction here
-    QPainter *painter = new QPainter(printer);
+    QPainter painter(&printer);
+
+    // add border around image
+    painter.scale(1 - border, 1 - border);
 
     // make sure the widget sizes will be according to the
     // actually used printer font, important for diagramRect()
     // and the actual painting
-    scene->forceUpdateWidgetFontMetrics(painter);
+    scene->forceUpdateWidgetFontMetrics(&painter);
 
-    QRectF rect = scene->diagramRect();
-    painter->translate(-rect.x(), -rect.y());
-    scene->getDiagram(*painter, rect);
+    scene->getDiagram(painter, rect);
 
-    int resolution = printer->resolution();
-
-    // delete painter and printer before we try to open and fix the file
-    delete painter;
-    delete printer;
-    if (isEPS) {
-        // modify bounding box from screen to eps resolution.
-        rect.setWidth(int(ceil(rect.width() * 72.0/resolution)));
-        rect.setHeight(int(ceil(rect.height() * 72.0/resolution)));
-        exportSuccessful = fixEPS(fileName, rect);
-    }
     // next painting will most probably be to a different device (i.e. the screen)
     scene->forceUpdateWidgetFontMetrics(0);
 
-    return exportSuccessful;
+    return true;
 }
 
 /**
@@ -550,6 +532,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QSvgGenerator generator;
     generator.setFileName(fileName);
     generator.setSize(rect.toRect().size());
+    generator.setResolution(qApp->desktop()->logicalDpiX());
     generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 
@@ -594,7 +577,9 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     QRectF rect = scene->diagramRect();
-    QPixmap diagram(rect.width(), rect.height());
+    float scale = 72.0f / qApp->desktop()->logicalDpiX();
+    QSizeF size = rect.size() * scale;
+    QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
     DEBUG(DBG_IEM) << "saving to file " << fileName
@@ -603,57 +588,4 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
                    << ", height=" << rect.height()
                    << ", successful=" << exportSuccessful;
     return exportSuccessful;
-}
-
-/**
- * Fix the file 'fileName' to be a valid EPS containing the
- * specified area (rect) of the diagram.
- * Corrects the bounding box.
- *
- * @return True if the operation was successful,
- *         false if a problem occurred while exporting.
- */
-bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRectF& rect) const
-{
-    // now open the file and make a correct eps out of it
-    QFile epsfile(fileName);
-    if (! epsfile.open(QIODevice::ReadOnly)) {
-        return false;
-    }
-    // read
-    QTextStream ts(&epsfile);
-    QString fileContent = ts.readAll();
-    epsfile.close();
-    
-    // read information
-    QRegExp rx(QLatin1String("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)"));
-    const int pos = rx.indexIn(fileContent);
-    if (pos < 0) {
-        uError() << fileName << ": cannot find %%BoundingBox";
-        return false;
-    }
-    
-    // write new content to file
-    if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        uError() << fileName << ": cannot open file for writing";
-        return false;
-    }
-    
-    // be careful when rounding (ceil/floor) the BB, these roundings
-    // were mainly obtained experimentally...
-    const double epsleft = rx.cap(1).toFloat();
-    const double epstop = rx.cap(4).toFloat();
-    const int left = int(floor(epsleft));
-    const int right = int(ceil(epsleft)) + rect.width();
-    const int top = int(ceil(epstop)) + 1;
-    const int bottom = int(floor(epstop)) - rect.height() + 1;
-    
-    // modify content
-    fileContent.replace(pos, rx.cap(0).length(),
-                        QString::fromLatin1("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
-    
-    ts << fileContent;
-    epsfile.close();
-    
-    return true;
 }

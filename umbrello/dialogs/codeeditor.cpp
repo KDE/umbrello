@@ -1111,7 +1111,7 @@ void CodeEditor::slotCursorPositionChanged()
         // auto-indent new lines
         textCursor().setPosition(para);
         QString currentParaText = textCursor().block().text();
-        QString baseIndent = tBlock->getNewEditorLine(tBlock->getIndentationLevel()+(cmb ? 1 : 0));
+        QString baseIndent = tBlock->getNewEditorLine(tBlock->getIndentationLevel() + 1);
         // cerr<<"AUTO INDENT:["<<baseIndent.latin1()<<"] isMethod?"<<(cmb?"true":"false")<<endl;
         int minPos = baseIndent.length();
 
