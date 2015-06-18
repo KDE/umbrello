@@ -1181,6 +1181,10 @@ void UMLApp::readOptions()
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
+#if QT_VERSION < 0x050000
+    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    Q_UNUSED(cfg);
+#else
     if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
         QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.toString());
@@ -1194,6 +1198,7 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
             m_doc->saveDocument(dest);
         }
     }
+#endif
 }
 
 /**
@@ -1205,6 +1210,10 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
+#if QT_VERSION < 0x050000
+    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    Q_UNUSED(cfg);
+#else
     QString filename = cfg.readPathEntry("filename", QString());
     QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
@@ -1229,6 +1238,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             enablePrint(false);
         }
     }
+#endif
 }
 
 /**
