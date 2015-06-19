@@ -127,7 +127,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     url.addPath(fileName);
 #endif
 #if QT_VERSION >= 0x050000
-    KIO::Job* job = KIO::file_copy(QUrl(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    KIO::Job* job = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());
     job->exec();
     if (!job->error()) {
