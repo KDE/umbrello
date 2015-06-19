@@ -1484,8 +1484,12 @@ void UMLApp::slotFileQuit()
  */
 void UMLApp::slotFileExportDocbook()
 {
+    QString path = KFileDialog::getExistingDirectory();
+    if (path.isEmpty()) {
+        return;
+    }
   DocbookGenerator* docbookGenerator = new DocbookGenerator;
-  docbookGenerator->generateDocbookForProject();
+  docbookGenerator->generateDocbookForProjectInto(path);
   connect(docbookGenerator, SIGNAL(finished(bool)), docbookGenerator, SLOT(deleteLater()));
 }
 
@@ -1497,12 +1501,16 @@ void UMLApp::slotFileExportDocbook()
  */
 void UMLApp::slotFileExportXhtml()
 {
-  if (m_xhtmlGenerator != 0) {
-    return;
-  }
-  m_xhtmlGenerator = new XhtmlGenerator();
-  m_xhtmlGenerator->generateXhtmlForProject();
-  connect(m_xhtmlGenerator, SIGNAL(finished(bool)), this, SLOT(slotXhtmlDocGenerationFinished(bool)));
+    QString path = KFileDialog::getExistingDirectory();
+    if (path.isEmpty()) {
+        return;
+    }
+
+    if (!m_xhtmlGenerator) {
+        m_xhtmlGenerator = new XhtmlGenerator;
+    }
+    m_xhtmlGenerator->generateXhtmlForProjectInto(path);
+    connect(m_xhtmlGenerator, SIGNAL(finished(bool)), this, SLOT(slotXhtmlDocGenerationFinished(bool)));
 }
 
 /**
