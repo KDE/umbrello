@@ -1610,13 +1610,21 @@ void UMLApp::slotFileQuit()
  */
 void UMLApp::slotFileExportDocbook()
 {
+#if QT_VERSION > 0x050000
+    QString path = QFileDialog::getExistingDirectory();
+#else
     QString path = KFileDialog::getExistingDirectory();
+#endif
     if (path.isEmpty()) {
         return;
     }
-  DocbookGenerator* docbookGenerator = new DocbookGenerator;
-  docbookGenerator->generateDocbookForProjectInto(path);
-  connect(docbookGenerator, SIGNAL(finished(bool)), docbookGenerator, SLOT(deleteLater()));
+    DocbookGenerator* docbookGenerator = new DocbookGenerator;
+#if QT_VERSION > 0x050000
+    docbookGenerator->generateDocbookForProjectInto(QUrl::fromLocalFile(path));
+#else
+    docbookGenerator->generateDocbookForProjectInto(path);
+#endif
+    connect(docbookGenerator, SIGNAL(finished(bool)), docbookGenerator, SLOT(deleteLater()));
 }
 
 /**
@@ -1627,7 +1635,11 @@ void UMLApp::slotFileExportDocbook()
  */
 void UMLApp::slotFileExportXhtml()
 {
+#if QT_VERSION > 0x050000
+    QString path = QFileDialog::getExistingDirectory();
+#else
     QString path = KFileDialog::getExistingDirectory();
+#endif
     if (path.isEmpty()) {
         return;
     }
@@ -1635,7 +1647,11 @@ void UMLApp::slotFileExportXhtml()
     if (!m_xhtmlGenerator) {
         m_xhtmlGenerator = new XhtmlGenerator;
     }
+#if QT_VERSION > 0x050000
+    m_xhtmlGenerator->generateXhtmlForProjectInto(QUrl::fromLocalFile(path));
+#else
     m_xhtmlGenerator->generateXhtmlForProjectInto(path);
+#endif
     connect(m_xhtmlGenerator, SIGNAL(finished(bool)), this, SLOT(slotXhtmlDocGenerationFinished(bool)));
 }
 
