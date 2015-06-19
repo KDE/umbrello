@@ -246,6 +246,7 @@ UMLApp::~UMLApp()
     delete m_policyext;
     delete m_pUndoStack;
     delete m_refactoringAssist;
+    delete m_xhtmlGenerator;
 }
 
 /**
