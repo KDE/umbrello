@@ -194,7 +194,7 @@ public:
     void setDocumentation(const QString &doc);
     QString documentation() const;
 
-    void settingsChanged(Settings::OptionState optionState);
+    void settingsChanged(Settings::OptionState &optionState);
 
     QString uniqueViewName(const Uml::DiagramType::Enum type);
 
