@@ -16,6 +16,12 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 #add_definitions(-DDEBUG_PRINTING)                # umlview
 #add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
                                                   # umlobject, umldoc, classifierlistpage
+
+# enable experimental features only in master branch
+if (VERSION_PATCH GREATER 95)
+    add_definitions(-DENABLE_BIRDVIEW)
+endif()
+
 if(UNIX)
     add_definitions(-D_GLIBCXX_PERMIT_BACKWARD_HASH)
 endif()

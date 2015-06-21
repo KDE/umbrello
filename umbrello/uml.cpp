@@ -496,9 +496,11 @@ void UMLApp::initActions()
     viewShowCmdHistory->setText(i18n("&Command history"));
     connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
 
+#ifdef ENABLE_BIRDVIEW
     viewShowBirdView = actionCollection()->add<KToggleAction>(QLatin1String("view_show_bird"));
     viewShowBirdView->setText(i18n("&Bird's eye view"));
     connect(viewShowBirdView, SIGNAL(triggered(bool)), this, SLOT(slotShowBirdView(bool)));
+#endif
 
     viewClearDiagram = actionCollection()->addAction(QLatin1String("view_clear_diagram"));
     viewClearDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Clear));
@@ -965,11 +967,13 @@ void UMLApp::initView()
     //m_propertyDock->setObjectName(QLatin1String("PropertyDock"));
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
+#ifdef ENABLE_BIRDVIEW
     // create the bird's eye view
     m_birdViewDock = new BirdViewDockWidget(i18n("&Bird's eye view"), this);
     m_birdViewDock->setObjectName(QLatin1String("BirdViewDock"));
     addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
     connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
+#endif
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);
@@ -3262,7 +3266,9 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
     }
     DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
 
+#ifdef ENABLE_BIRDVIEW
     createBirdView(view);
+#endif
 }
 
 /**
