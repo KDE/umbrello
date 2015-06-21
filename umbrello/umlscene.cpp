@@ -432,7 +432,7 @@ void UMLScene::setGridDotColor(const QColor& color)
 /**
  * Returns the options being used.
  */
-const Settings::OptionState& UMLScene::optionState() const
+Settings::OptionState& UMLScene::optionState()
 {
     return m_Options;
 }

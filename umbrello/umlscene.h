@@ -145,7 +145,7 @@ public:
     bool showOpSig() const;
     void setShowOpSig(bool bShowOpSig);
 
-    const Settings::OptionState& optionState() const;
+    Settings::OptionState& optionState();
     void setOptionState(const Settings::OptionState& options);
 
     AssociationWidgetList& associationList();
