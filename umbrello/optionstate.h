@@ -182,6 +182,9 @@ public:
     {
     }
 
+    void saveToXMI(QDomElement& element);
+    bool loadFromXMI(QDomElement& element);
+
     bool createArtifacts;
     bool resolveDependencies;
 };

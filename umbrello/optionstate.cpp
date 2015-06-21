@@ -115,6 +115,32 @@ namespace Settings {
         return true;
     }
 
+    /**
+     * Save instance into a QDomElement.
+     * @param element A QDomElement representing xml element data.
+     */
+    void CodeImportState::saveToXMI(QDomElement &element)
+    {
+        element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
+        element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
+    }
+
+    /**
+     * Load instance from a QDomElement.
+     * @param element A QDomElement representing xml element data.
+     * @return true on success
+     * @return false on error
+     */
+    bool CodeImportState::loadFromXMI(QDomElement &element)
+    {
+        QString temp = element.attribute(QLatin1String("createartifacts"), QLatin1String("0"));
+        createArtifacts = (bool)temp.toInt();
+        temp = element.attribute(QLatin1String("resolvedependencies"), QLatin1String("0"));
+        resolveDependencies = (bool)temp.toInt();
+
+        return true;
+    }
+
     OptionState& optionState()
     {
         return OptionState::instance();
