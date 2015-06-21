@@ -174,7 +174,14 @@ struct CodeGenerationState {
     RubyCodeGenerationState rubyCodeGenerationState;
 };
 
-struct CodeImportState {
+class CodeImportState {
+public:
+    CodeImportState()
+      : createArtifacts(false),
+        resolveDependencies(false)
+    {
+    }
+
     bool createArtifacts;
     bool resolveDependencies;
 };
