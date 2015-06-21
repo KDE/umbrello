@@ -3156,7 +3156,7 @@ void UMLDoc::activateAllViews()
  * Sets the default settings to the given settings.
  * @param optionState   settings
  */
-void UMLDoc::settingsChanged(Settings::OptionState optionState)
+void UMLDoc::settingsChanged(Settings::OptionState &optionState)
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_root[i]->setViewOptions(optionState);
