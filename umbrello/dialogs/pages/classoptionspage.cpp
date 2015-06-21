@@ -43,11 +43,20 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
 
 ClassOptionsPage::ClassOptionsPage(QWidget *pParent, UMLScene *scene)
   : QWidget(pParent),
-    m_isDiagram(false)
+    m_isDiagram(true)
 {
     init();
+
     m_scene = scene;
-    setupPageFromScene();
+
+    // class diagram uses full UIState
+    if (scene->type() == Uml::DiagramType::Class) {
+        m_options = &scene->optionState();
+        setupClassPageOption();
+    }
+    else {
+        setupPageFromScene();
+    }
 }
 
 /**
@@ -93,10 +102,10 @@ void ClassOptionsPage::apply()
 {
     if (m_pWidget) {
         applyWidget();
-    } else if (m_options) {
-        applyOptionState();
     } else if (m_scene) {
         applyScene();
+    } else if (m_options) {
+        applyOptionState();
     }
 }
 
@@ -340,7 +349,12 @@ void ClassOptionsPage::applyOptionState()
  */
 void ClassOptionsPage::applyScene()
 {
-    m_scene->setShowOpSig(m_showOpSigCB->isChecked());
+    if (m_scene->type() == Uml::DiagramType::Class) {
+        applyOptionState();
+        m_scene->setClassWidgetOptions(this);
+    }
+    else
+        m_scene->setShowOpSig(m_showOpSigCB->isChecked());
 }
 
 /**

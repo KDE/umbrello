@@ -55,7 +55,6 @@ protected:
     void checkName();
 
     UMLScene*              m_pScene;  ///< the scene to represent
-    Settings::OptionState  m_options;
 #if QT_VERSION >= 0x050000
     QFontDialog*           m_pChooser;
 #else

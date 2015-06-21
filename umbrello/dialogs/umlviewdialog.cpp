@@ -45,7 +45,6 @@ UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
 {
     setCaption(i18n("Properties"));
     m_pScene = pScene;
-    m_options = m_pScene->optionState();
     setupPages();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
@@ -111,12 +110,7 @@ void UMLViewDialog::setupDisplayPage()
         return;
     }
 
-    if (m_pScene->type() != Uml::DiagramType::Class) {
-        m_pOptionsPage = new ClassOptionsPage(0, m_pScene);
-    }
-    else {
-        m_pOptionsPage = new ClassOptionsPage(0, &m_options);
-    }
+    m_pOptionsPage = new ClassOptionsPage(0, m_pScene);
     m_pageDisplayItem = createPage(i18nc("classes display options page", "Display"), i18n("Classes Display Options"),
                                    Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
@@ -179,17 +173,5 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     else if (item == m_pageDisplayItem)
     {
         m_pOptionsPage->apply();
-        if (m_pScene->type() != Uml::DiagramType::Class) {
-            return;
-        }
-        m_pScene->setClassWidgetOptions(m_pOptionsPage);
-        //       sig = m_pTempWidget->getShowOpSigs();
-        //       showSig = !(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis);
-        //       options.classState.showOpSig = showSig;
-        //       sig = m_pTempWidget->getShowAttSigs();
-        //       showSig = !(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis);
-        //       options.classState.showAttSig = showSig;
-        m_pScene->setOptionState(m_options);
     }
 }
-
