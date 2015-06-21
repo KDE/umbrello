@@ -31,7 +31,24 @@ enum Page
 };
 
 //public structs
-struct GeneralState {
+class GeneralState {
+public:
+    GeneralState()
+      : undo(false),
+        tabdiagrams(false),
+        newcodegen(false),
+        angularlines(false),
+        footerPrinting(false),
+        autosave(false),
+        time(0),
+        autosavetime(0),
+        loadlast(false),
+        diagram(Uml::DiagramType::Class),
+        defaultLanguage(Uml::ProgrammingLanguage::Cpp),
+        uml2(false)
+    {
+    }
+
     bool undo;
     bool tabdiagrams;
     bool newcodegen;
@@ -48,7 +65,14 @@ struct GeneralState {
     bool uml2;
 };
 
-struct UIState {
+class UIState {
+public:
+    UIState()
+     : useFillColor(false),
+       lineWidth(0)
+    {
+    }
+
     bool   useFillColor;
     QColor fillColor;
     QColor lineColor;
@@ -59,7 +83,23 @@ struct UIState {
     QColor gridDotColor;
 };
 
-struct ClassState {
+class ClassState {
+public:
+    ClassState()
+      : showVisibility(false),
+        showAtts(false),
+        showOps(false),
+        showStereoType(false),
+        showAttSig(false),
+        showOpSig(false),
+        showPackage(false),
+        showAttribAssocs(false),
+        showPublicOnly(false),
+        defaultAttributeScope(Uml::Visibility::Public),
+        defaultOperationScope(Uml::Visibility::Public)
+    {
+    }
+
     bool showVisibility;
     bool showAtts;
     bool showOps;
@@ -133,7 +173,14 @@ struct CodeImportState {
     bool resolveDependencies;
 };
 
-struct AutoLayoutState {
+class AutoLayoutState {
+public:
+    AutoLayoutState()
+     : autoDotPath(false),
+       showExportLayout(false)
+    {
+    }
+
     bool autoDotPath;  ///< determine path to dot executable automatically
     QString dotPath;  ///< path to dot executable
     bool showExportLayout;  ///< flag for display export layout
