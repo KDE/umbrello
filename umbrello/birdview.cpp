@@ -355,7 +355,7 @@ void BirdView::keyPressEvent(QKeyEvent *event)
 #if VERBOSE_DBG_OUT
         DEBUG(DBG_SRC) << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
 #endif
-        QMouseEvent* e = new QMouseEvent(QEvent::MouseMove, QPointF(newPoint), QPointF(mapToGlobal(newPoint)),
+        QMouseEvent* e = new QMouseEvent(QEvent::MouseMove, newPoint, mapToGlobal(newPoint),
                                          Qt::NoButton, Qt::NoButton, Qt::NoModifier);
         mouseMoveEvent(e);
     }
