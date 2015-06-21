@@ -263,7 +263,7 @@ void UMLWidgetStylePage::apply()
         m_options->uiState.lineWidth = m_lineWidthB->value();
     }
     else if (m_scene) {
-        Settings::OptionState state;
+        Settings::OptionState state = m_scene->optionState();
         state.uiState.useFillColor = m_pUseFillColorCB->isChecked();
         state.uiState.textColor = m_pTextColorB->color();
         state.uiState.lineColor = m_pLineColorB->color();
