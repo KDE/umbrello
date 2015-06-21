@@ -3488,7 +3488,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute(QLatin1String("type"), m_Type);
     viewElement.setAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
-    Settings::saveToXMI(viewElement, m_Options);
+    m_Options.saveToXMI(viewElement);
     //misc
     viewElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
     viewElement.setAttribute(QLatin1String("showgrid"), m_layoutGrid->isVisible());
@@ -3562,7 +3562,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_Documentation = qElement.attribute(QLatin1String("documentation"));
     QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
     // option state
-    Settings::loadFromXMI(qElement, m_Options);
+    m_Options.loadFromXMI(qElement);
     setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc

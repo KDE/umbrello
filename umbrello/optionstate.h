@@ -73,6 +73,9 @@ public:
     {
     }
 
+    void saveToXMI(QDomElement& element);
+    bool loadFromXMI(QDomElement& element);
+
     bool   useFillColor;
     QColor fillColor;
     QColor lineColor;
@@ -99,6 +102,9 @@ public:
         defaultOperationScope(Uml::Visibility::Public)
     {
     }
+
+    void saveToXMI(QDomElement& element);
+    bool loadFromXMI(QDomElement& element);
 
     bool showVisibility;
     bool showAtts;
@@ -181,12 +187,21 @@ public:
     {
     }
 
+    void saveToXMI(QDomElement& element);
+    bool loadFromXMI(QDomElement& element);
+
     bool autoDotPath;  ///< determine path to dot executable automatically
     QString dotPath;  ///< path to dot executable
     bool showExportLayout;  ///< flag for display export layout
 };
 
-struct OptionState {
+class OptionState {
+public:
+    OptionState();
+
+    void saveToXMI(QDomElement& element);
+    bool loadFromXMI(QDomElement& element);
+
     GeneralState        generalState;
     UIState             uiState;
     ClassState          classState;
@@ -198,8 +213,6 @@ struct OptionState {
 
 OptionState& optionState();
 void setOptionState(const OptionState& optstate);
-void saveToXMI(QDomElement& element, const OptionState& optstate);
-bool loadFromXMI(QDomElement& element, OptionState& optstate);
 
 }  // namespace Settings
 
