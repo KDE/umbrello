@@ -140,9 +140,7 @@ bool UMLAttributeDialog::apply()
     m_visibilityEnumWidget->apply();
 
     // Set the scope as the default in the option state
-    Settings::OptionState optionState = Settings::optionState();
-    optionState.classState.defaultAttributeScope = m_pAttribute->visibility();
-    Settings::setOptionState(optionState);
+    Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
 
     m_pAttribute->setInitialValue(m_pInitialLE->text());
     m_stereotypeWidget->apply();
