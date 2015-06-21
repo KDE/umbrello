@@ -98,6 +98,13 @@ ecm_add_test(
     TEST_NAME TEST_pythonwriter
 )
 
+ecm_add_test(
+    TEST_optionstate.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME TEST_optionstate
+)
+
 set(TEST_umlroledialog_SRCS
     TEST_umlroledialog.cpp
 )
