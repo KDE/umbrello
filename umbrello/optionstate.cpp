@@ -16,18 +16,6 @@
 
 namespace Settings {
 
-    /*
-     * Impt: This ensures creation of OptionState object after
-     * QApplication thereby avoiding nasty font rendering issues
-     * which occurs due to creation of QFont objects before
-     * QApplication object is created.
-     */
-#if QT_VERSION >= 0x050000
-    Q_GLOBAL_STATIC(OptionState, opState)
-#else
-    K_GLOBAL_STATIC(OptionState, opState)
-#endif
-
     /**
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
@@ -129,12 +117,12 @@ namespace Settings {
 
     OptionState& optionState()
     {
-        return *opState;
+        return OptionState::instance();
     }
 
     void setOptionState(const OptionState& optstate)
     {
-        *opState = optstate;
+        OptionState::instance() = optstate;
     }
 
     OptionState::OptionState()
@@ -163,6 +151,21 @@ namespace Settings {
         classState.loadFromXMI(element);
 
         return true;
+    }
+
+    OptionState &OptionState::instance()
+    {
+    /*
+     * Impt: This ensures creation of OptionState object after
+     * QApplication thereby avoiding nasty font rendering issues
+     * which occurs due to creation of QFont objects before
+     * QApplication object is created.
+     *
+     * QScopedPointer usage covers object destroy on application
+     * exit to avoid a memory leak.
+     */
+        static QScopedPointer<OptionState> optionState(new OptionState);
+        return *optionState;
     }
 
 }  // namespace Settings

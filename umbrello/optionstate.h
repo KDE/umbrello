@@ -202,6 +202,8 @@ public:
     void saveToXMI(QDomElement& element);
     bool loadFromXMI(QDomElement& element);
 
+    static OptionState &instance();
+
     GeneralState        generalState;
     UIState             uiState;
     ClassState          classState;
