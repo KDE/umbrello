@@ -1477,6 +1477,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     if (m_objects.count()) {
         QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
         foreach (UMLObject* obj, m_objects) {
+            uIgnoreZeroPointer(obj);
             obj->saveToXMI (qDoc, ownedElement);
         }
         classifierElement.appendChild(ownedElement);

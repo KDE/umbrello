@@ -1896,6 +1896,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                     // being iterated over.
                     UMLAssociationList assocsToRemove;
                     foreach (UMLObject *obj, rootObjects) {
+                        uIgnoreZeroPointer(obj);
                         if (obj->baseType() == UMLObject::ot_Association) {
                             UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
                             if (c->hasAssociation(assoc)) {
@@ -2857,6 +2858,7 @@ UMLClassifierList UMLDoc::datatypes()
     UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
+        uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }

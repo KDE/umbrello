@@ -107,6 +107,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
         foreach (UMLObject* o, m_objects) {
+            uIgnoreZeroPointer(o);
             if (o->baseType() == UMLObject::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
@@ -126,6 +127,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 void UMLFolder::activateViews()
 {
     foreach (UMLObject* o, m_objects) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() == UMLObject::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
@@ -191,6 +193,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
     UMLView* v = 0;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects) {
+            uIgnoreZeroPointer(o);
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }
@@ -221,6 +224,7 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 void UMLFolder::removeAllViews()
 {
     foreach (UMLObject* o, m_objects) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -269,6 +273,7 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
     // Save contained objects if any.
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
+        uIgnoreZeroPointer(obj);
         obj->saveToXMI (qDoc, ownedElement);
     }
     // Save asscociations if any.

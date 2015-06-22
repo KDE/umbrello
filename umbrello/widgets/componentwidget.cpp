@@ -148,6 +148,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
     UMLWidget::adjustAssocs(dx, dy);
     UMLPackage *comp = static_cast<UMLPackage*>(m_umlObject);
     foreach (UMLObject *o, comp->containedObjects()) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
             continue;
         UMLWidget *portW = m_scene->widgetOnDiagram(o->id());

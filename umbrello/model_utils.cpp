@@ -215,6 +215,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext();) {
                 UMLObject *obj = oit.next();
+                uIgnoreZeroPointer(obj);
                 if (caseSensitive) {
                     if (obj->name() != name)
                         continue;
@@ -261,6 +262,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     }
     for (UMLObjectListIt oit(inList); oit.hasNext();) {
         UMLObject *obj = oit.next();
+        uIgnoreZeroPointer(obj);
         if (caseSensitive) {
             if (obj->name() != name)
                 continue;

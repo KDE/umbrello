@@ -97,6 +97,7 @@ void PackageContentsPage::fillListBox()
     UMLObject* umlo = NULL;
     while (objList_it.hasNext()) {
         umlo = objList_it.next();
+        uIgnoreZeroPointer(umlo);
         m_contentLW->addItem(umlo->name());
     }
 }

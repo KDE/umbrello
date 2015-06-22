@@ -291,6 +291,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
+        uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Package || ot == ot_Folder) {
             packages.append(static_cast<UMLPackage*>(o));
@@ -315,6 +316,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
+        uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
                 ot == ot_Datatype || ot == ot_Enum || ot == ot_Entity) {
@@ -339,6 +341,7 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
+        uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
             UMLEntity *c = static_cast<UMLEntity*>(o);
@@ -363,6 +366,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
+        uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
@@ -387,6 +391,7 @@ bool UMLPackage::resolveRef()
     bool overallSuccess = UMLCanvasObject::resolveRef();
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *obj = oit.next();
+        uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             UMLObject::ObjectType ot = obj->baseType();
             if (ot != UMLObject::ot_Package && ot != UMLObject::ot_Folder)
@@ -408,6 +413,7 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     // save classifiers etc.
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
+        uIgnoreZeroPointer(obj);
         obj->saveToXMI (qDoc, ownedElement);
     }
     // save associations

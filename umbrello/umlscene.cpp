@@ -2318,6 +2318,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
+            uIgnoreZeroPointer(obj);
             // if the containedObject has a widget representation on this view then
             Uml::ID::Type id = obj->id();
             foreach(UMLWidget *w, m_WidgetList) {
