@@ -1255,12 +1255,10 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
  */
 UMLListViewItem * UMLListView::findUMLObject(const UMLObject *p) const
 {
-    for (int i=0; i < topLevelItemCount(); ++i) {
-        UMLListViewItem *item = static_cast<UMLListViewItem*>(topLevelItem(i));
-        UMLListViewItem *testItem = item->findUMLObject(p);
-        if (testItem)
-            return testItem;
-    }
+    UMLListViewItem *item = m_rv;
+    UMLListViewItem *testItem = item->findUMLObject(p);
+    if (testItem)
+        return testItem;
     return 0;
 }
 
@@ -1347,7 +1345,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
  */
 UMLListViewItem* UMLListView::findItem(Uml::ID::Type id)
 {
-    UMLListViewItem *topLevel = static_cast<UMLListViewItem*>(topLevelItem(0));
+    UMLListViewItem *topLevel = m_rv;
     UMLListViewItem *item = topLevel->findItem(id);
     if (item)
         return item;
@@ -2536,7 +2534,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
  */
 void UMLListView::expandAll(UMLListViewItem  *item)
 {
-    if (!item) item = static_cast<UMLListViewItem*>(topLevelItem(0));
+    if (!item) item = m_rv;
     for (int i = 0; i < item->childCount(); i++)  {
         expandAll(item->childItem(i));
     }
@@ -2548,7 +2546,7 @@ void UMLListView::expandAll(UMLListViewItem  *item)
  */
 void UMLListView::collapseAll(UMLListViewItem  *item)
 {
-    if (!item) item = static_cast<UMLListViewItem*>(topLevelItem(0));
+    if (!item) item = m_rv;
     for (int i = 0; i < item->childCount(); i++)  {
         collapseAll(item->childItem(i));
     }
