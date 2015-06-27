@@ -549,7 +549,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             }
 
             // check if widget is pastable
-            if (sourceView->umlScene()->type() != scene->type()) {
+            if (!sourceView || sourceView->umlScene()->type() != scene->type()) {
                 UMLObject *object = widget->umlObject();
                 if (object) {
                     if (!Model_Utils::typeIsAllowedInDiagram(object, scene)) {
