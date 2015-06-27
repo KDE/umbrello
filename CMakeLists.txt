@@ -198,6 +198,12 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
+# enable experimental features only in master branch
+if (VERSION_PATCH GREATER 95)
+    add_definitions(-DENABLE_BIRDVIEW)
+    add_definitions(-DENABLE_WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
+endif()
+
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)

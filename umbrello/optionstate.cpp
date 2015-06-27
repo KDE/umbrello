@@ -30,6 +30,9 @@ namespace Settings {
         element.setAttribute(QLatin1String("showpackage"),      showPackage);
         element.setAttribute(QLatin1String("showpubliconly"),   showPublicOnly);
         element.setAttribute(QLatin1String("showscope"),        showVisibility);
+#ifdef ENABLE_WIDGET_SHOW_DOC
+        element.setAttribute(QLatin1String("showdocumentation"),showDocumentation);
+#endif
         element.setAttribute(QLatin1String("showstereotype"),   showStereoType);
     }
 
@@ -53,6 +56,10 @@ namespace Settings {
         showOpSig = (bool)temp.toInt();
         temp = element.attribute(QLatin1String("showpackage"), QLatin1String("0"));
         showPackage = (bool)temp.toInt();
+#ifdef ENABLE_WIDGET_SHOW_DOC
+        temp = element.attribute(QLatin1String("showdocumentation"), QLatin1String("0"));
+        showDocumentation = (bool)temp.toInt();
+#endif
         temp = element.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
         showPublicOnly = (bool)temp.toInt();
         temp = element.attribute(QLatin1String("showscope"), QLatin1String("0"));

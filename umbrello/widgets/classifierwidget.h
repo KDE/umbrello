@@ -50,6 +50,7 @@ public:
         ShowOperationSignature = 0x60,  ///< only in setter
         ShowAttributeSignature = 0x80,   ///< only in setter
         DrawAsPackage          = 0x100,
+        ShowDocumentation      = 0x200,
     };
 
     Q_DECLARE_FLAGS(VisualProperties, VisualProperty)

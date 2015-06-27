@@ -86,11 +86,13 @@ void ClassOptionsPage::setDefaults()
 {
     m_showVisibilityCB->setChecked(false);
     m_showAttsCB->setChecked(true);
+    m_showDocumentationCB->setChecked(false);
     m_showOpsCB->setChecked(true);
     m_showStereotypeCB->setChecked(false);
     m_showAttSigCB->setChecked(false);
     m_showOpSigCB->setChecked(false);
     m_showPackageCB->setChecked(false);
+    m_showPublicOnlyCB->setChecked(true);
     m_attribScopeCB->setCurrentIndex(1); // Private
     m_operationScopeCB->setCurrentIndex(0); // Public
 }
@@ -137,13 +139,19 @@ void ClassOptionsPage::setupPage()
     visibilityLayout->setMargin(margin);
     visibilityLayout->setRowStretch(3, 1);
 
+#ifdef ENABLE_WIDGET_SHOW_DOC
+    m_showDocumentationCB = new QCheckBox(i18n("&Documentation"), m_visibilityGB);
+    m_showDocumentationCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowDocumentation));
+    visibilityLayout->addWidget(m_showDocumentationCB, 0, 0);
+#endif
+
     m_showOpsCB = new QCheckBox(i18n("Operatio&ns"), m_visibilityGB);
     m_showOpsCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowOperations));
-    visibilityLayout->addWidget(m_showOpsCB, 0, 0);
+    visibilityLayout->addWidget(m_showOpsCB, 1, 0);
 
     m_showVisibilityCB = new QCheckBox(i18n("&Visibility"), m_visibilityGB);
     m_showVisibilityCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowVisibility));
-    visibilityLayout->addWidget(m_showVisibilityCB, 0, 1);
+    visibilityLayout->addWidget(m_showVisibilityCB, 1, 1);
 
     sigtype = m_pWidget->operationSignature();
     if (sigtype == Uml::SignatureType::NoSig || sigtype == Uml::SignatureType::NoSigNoVis)
@@ -152,22 +160,22 @@ void ClassOptionsPage::setupPage()
         sig = true;
     m_showOpSigCB = new QCheckBox(i18n("O&peration signature"), m_visibilityGB);
     m_showOpSigCB->setChecked(sig);
-    visibilityLayout->addWidget(m_showOpSigCB, 1, 0);
+    visibilityLayout->addWidget(m_showOpSigCB, 2, 0);
 
     m_showPackageCB = new QCheckBox(i18n("Pac&kage"), m_visibilityGB);
     m_showPackageCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowPackage));
-    visibilityLayout->addWidget(m_showPackageCB, 1, 1);
+    visibilityLayout->addWidget(m_showPackageCB, 2, 1);
 
     WidgetBase::WidgetType type = m_pWidget->baseType();
 
     if (type == WidgetBase::wt_Class) {
         m_showAttsCB = new QCheckBox(i18n("Att&ributes"), m_visibilityGB);
         m_showAttsCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowAttributes));
-        visibilityLayout->addWidget(m_showAttsCB, 2, 0);
+        visibilityLayout->addWidget(m_showAttsCB, 3, 0);
 
         m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
         m_showStereotypeCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowStereotype));
-        visibilityLayout->addWidget(m_showStereotypeCB, 2, 1);
+        visibilityLayout->addWidget(m_showStereotypeCB, 3, 1);
 
         m_showAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_visibilityGB);
         sigtype = m_pWidget->attributeSignature();
@@ -176,17 +184,17 @@ void ClassOptionsPage::setupPage()
         else
             sig = true;
         m_showAttSigCB->setChecked(sig);
-        visibilityLayout->addWidget(m_showAttSigCB, 3, 0);
+        visibilityLayout->addWidget(m_showAttSigCB, 4, 0);
 
         m_showPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_visibilityGB);
         m_showPublicOnlyCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowPublicOnly));
-        visibilityLayout->addWidget(m_showPublicOnlyCB, 3, 1);
+        visibilityLayout->addWidget(m_showPublicOnlyCB, 4, 1);
 
 
     } else if (type == WidgetBase::wt_Interface) {
         m_drawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_visibilityGB);
         m_drawAsCircleCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::DrawAsCircle));
-        visibilityLayout->addWidget(m_drawAsCircleCB, 2, 0);
+        visibilityLayout->addWidget(m_drawAsCircleCB, 3, 0);
     }
 }
 
@@ -225,42 +233,48 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->setSpacing(10);
     visibilityLayout->setMargin(margin);
 
+#ifdef ENABLE_WIDGET_SHOW_DOC
+    m_showDocumentationCB = new QCheckBox(i18n("&Documentation"), m_visibilityGB);
+    m_showDocumentationCB->setChecked(m_options->classState.showDocumentation);
+    visibilityLayout->addWidget(m_showDocumentationCB, 0, 0);
+#endif
+
     m_showOpsCB = new QCheckBox(i18n("Operatio&ns"), m_visibilityGB);
     m_showOpsCB->setChecked(m_options->classState.showOps);
-    visibilityLayout->addWidget(m_showOpsCB, 0, 0);
+    visibilityLayout->addWidget(m_showOpsCB, 1, 0);
 
     m_showOpSigCB = new QCheckBox(i18n("O&peration signature"), m_visibilityGB);
     m_showOpSigCB->setChecked(m_options->classState.showOpSig);
-    visibilityLayout->addWidget(m_showOpSigCB, 1, 0);
+    visibilityLayout->addWidget(m_showOpSigCB, 2, 0);
     visibilityLayout->setRowStretch(3, 1);
 
     m_showAttsCB = new QCheckBox(i18n("Att&ributes"), m_visibilityGB);
     m_showAttsCB->setChecked(m_options->classState.showAtts);
-    visibilityLayout->addWidget(m_showAttsCB, 2, 0);
+    visibilityLayout->addWidget(m_showAttsCB, 3, 0);
 
     m_showAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_visibilityGB);
     m_showAttSigCB->setChecked(m_options->classState.showAttSig);
-    visibilityLayout->addWidget(m_showAttSigCB, 3, 0);
+    visibilityLayout->addWidget(m_showAttSigCB, 4, 0);
 
     m_showVisibilityCB = new QCheckBox(i18n("&Visibility"), m_visibilityGB);
     m_showVisibilityCB->setChecked(m_options->classState.showVisibility);
-    visibilityLayout->addWidget(m_showVisibilityCB, 0, 1);
+    visibilityLayout->addWidget(m_showVisibilityCB, 1, 1);
 
     m_showPackageCB = new QCheckBox(i18n("Pac&kage"), m_visibilityGB);
     m_showPackageCB->setChecked(m_options->classState.showPackage);
-    visibilityLayout->addWidget(m_showPackageCB, 1, 1);
+    visibilityLayout->addWidget(m_showPackageCB, 2, 1);
 
     m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
     m_showStereotypeCB->setChecked(m_options->classState.showStereoType);
-    visibilityLayout->addWidget(m_showStereotypeCB, 2, 1);
+    visibilityLayout->addWidget(m_showStereotypeCB, 3, 1);
 
     m_showAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_visibilityGB);
     m_showAttribAssocsCB->setChecked(m_options->classState.showAttribAssocs);
-    visibilityLayout->addWidget(m_showAttribAssocsCB, 3, 1);
+    visibilityLayout->addWidget(m_showAttribAssocsCB, 4, 1);
 
     m_showPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_visibilityGB);
     m_showPublicOnlyCB->setChecked(m_options->classState.showPublicOnly);
-    visibilityLayout->addWidget(m_showPublicOnlyCB, 4, 1);
+    visibilityLayout->addWidget(m_showPublicOnlyCB, 5, 1);
 
     if (!m_isDiagram) {
         m_scopeGB = new QGroupBox(i18n("Starting Scope"));
@@ -304,6 +318,7 @@ void ClassOptionsPage::setupClassPageOption()
  */
 void ClassOptionsPage::applyWidget()
 {
+    m_pWidget->setVisualProperty(ClassifierWidget::ShowDocumentation, m_showDocumentationCB->isChecked());
     m_pWidget->setVisualProperty(ClassifierWidget::ShowPackage, m_showPackageCB->isChecked());
     m_pWidget->setVisualProperty(ClassifierWidget::ShowVisibility, m_showVisibilityCB->isChecked());
     m_pWidget->setVisualProperty(ClassifierWidget::ShowOperations, m_showOpsCB->isChecked());
@@ -325,6 +340,9 @@ void ClassOptionsPage::applyWidget()
  */
 void ClassOptionsPage::applyOptionState()
 {
+#ifdef ENABLE_WIDGET_SHOW_DOC
+    m_options->classState.showDocumentation = m_showDocumentationCB->isChecked();
+#endif
     m_options->classState.showVisibility = m_showVisibilityCB->isChecked();
     if (m_showAttsCB)
         m_options->classState.showAtts = m_showAttsCB->isChecked();
@@ -369,6 +387,7 @@ void ClassOptionsPage::init()
     m_showAttsCB = NULL;
     m_showAttSigCB = NULL;
     m_showAttribAssocsCB = NULL;
+    m_showDocumentationCB = NULL;
     m_showPublicOnlyCB = NULL;
     m_drawAsCircleCB = NULL;
 }

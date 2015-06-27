@@ -146,6 +146,7 @@ public:
         mt_Show_Attributes,                      // Toggle visual property on a widget
         mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
         mt_Hide_Attributes_Selection,            // Unset visual property on multiple widgets
+        mt_Show_Documentation,
         mt_Show_Operations,                      // Toggle 'show operations'
         mt_Show_Operations_Selection,            // Show operations
         mt_Hide_Operations_Selection,            // Hide operations

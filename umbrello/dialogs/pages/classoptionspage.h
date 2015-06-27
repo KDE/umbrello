@@ -68,6 +68,7 @@ protected:
     QCheckBox * m_showOpSigCB, * m_showAttsCB, * m_showOpsCB;
     QCheckBox * m_showStereotypeCB, * m_showPackageCB, * m_showPublicOnlyCB;
     QCheckBox * m_showAttribAssocsCB;
+    QCheckBox * m_showDocumentationCB;
     QCheckBox * m_drawAsCircleCB;
 
     QGroupBox * m_scopeGB;

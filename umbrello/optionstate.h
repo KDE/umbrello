@@ -97,6 +97,7 @@ public:
         showOpSig(false),
         showPackage(false),
         showAttribAssocs(false),
+        showDocumentation(false),
         showPublicOnly(false),
         defaultAttributeScope(Uml::Visibility::Public),
         defaultOperationScope(Uml::Visibility::Public)
@@ -114,6 +115,7 @@ public:
     bool showOpSig;
     bool showPackage;
     bool showAttribAssocs;
+    bool showDocumentation;
     bool showPublicOnly;
     Uml::Visibility::Enum defaultAttributeScope;
     Uml::Visibility::Enum defaultOperationScope;

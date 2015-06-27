@@ -1203,6 +1203,10 @@ void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     KMenu* show = new KMenu(i18n("Show"), this);
 #endif
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
+#ifdef ENABLE_WIDGET_SHOW_DOC
+    insert(mt_Show_Documentation, show, i18n("Documentation"), CHECKABLE);
+    setActionChecked(mt_Show_Documentation, c->visualProperty(ClassifierWidget::ShowDocumentation));
+#endif
     if (type == WidgetBase::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes, show, i18n("Attributes"), CHECKABLE);
