@@ -482,19 +482,24 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         return calculateAsCircleSize();
     }
 
+    const bool showNameOnly = !visualProperty(ShowAttributes) &&
+                              !visualProperty(ShowOperations) &&
+                              !visualProperty(ShowDocumentation);
+
     const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
     // width is the width of the longest 'word'
     int width = 0, height = 0;
-
     // consider stereotype
-    if (m_showStereotype && !m_umlObject->stereotype().isEmpty()) {
+    if (visualProperty(ShowStereotype) && !m_umlObject->stereotype().isEmpty()) {
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
         const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
+    } else if (showNameOnly) {
+        height += MARGIN;
     }
 
     // consider name
@@ -512,47 +517,59 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
 
 #ifdef ENABLE_WIDGET_SHOW_DOC
     // consider documentation
-    if (visualProperty(ShowDocumentation) && !documentation().isEmpty()) {
-        QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*MARGIN, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
-        height += brect.height();
+    if (visualProperty(ShowDocumentation)) {
+        if (!documentation().isEmpty()) {
+            QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*MARGIN, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            height += brect.height();
+            if (!visualProperty(ShowOperations) && !visualProperty(ShowAttributes)) {
+                if (brect.width() >= width)
+                    width = brect.width();
+            }
+        }
+        else
+            height += fontHeight / 2;
     }
 #endif
 
     // consider attributes
-    const int numAtts = displayedAttributes();
-    if (numAtts == 0) {
-        height += fontHeight / 2;  // no atts, so just add a bit of space
-    } else {
-        height += fontHeight * numAtts;
-        // calculate width of the attributes
-        UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
-        foreach (UMLClassifierListItem *a, list) {
-            if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
-                continue;
-            const int attWidth = fm.size(0, a->toString(m_attributeSignature)).width();
-            if (attWidth > width)
-                width = attWidth;
+    if (visualProperty(ShowAttributes)) {
+        const int numAtts = displayedAttributes();
+        if (numAtts > 0) {
+            height += fontHeight * numAtts;
+            // calculate width of the attributes
+            UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
+            foreach (UMLClassifierListItem *a, list) {
+                if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
+                    continue;
+                const int attWidth = fm.size(0, a->toString(m_attributeSignature)).width();
+                if (attWidth > width)
+                    width = attWidth;
+            }
         }
+        else
+            height += fontHeight / 2;
     }
 
     // consider operations
-    const int numOps = displayedOperations();
-    if (numOps == 0) {
-        height += fontHeight / 2;  // no ops, so just add a bit of space
-    } else {
-        height += numOps * fontHeight;
-        // ... width
-        UMLOperationList list(umlc->getOpList());
-        foreach (UMLOperation* op,  list) {
-                  if (visualProperty(ShowPublicOnly) && op->visibility() != Uml::Visibility::Public)
-                continue;
-            const QString displayedOp = op->toString(m_operationSignature);
-            UMLWidget::FontType oft;
-            oft = (op->isAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
-            const int w = UMLWidget::getFontMetrics(oft).size(0, displayedOp).width();
-            if (w > width)
-                width = w;
+    if (visualProperty(ShowOperations)) {
+        const int numOps = displayedOperations();
+        if (numOps > 0) {
+            height += numOps * fontHeight;
+            // ... width
+            UMLOperationList list(umlc->getOpList());
+            foreach (UMLOperation* op,  list) {
+                      if (visualProperty(ShowPublicOnly) && op->visibility() != Uml::Visibility::Public)
+                    continue;
+                const QString displayedOp = op->toString(m_operationSignature);
+                UMLWidget::FontType oft;
+                oft = (op->isAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
+                const int w = UMLWidget::getFontMetrics(oft).size(0, displayedOp).width();
+                if (w > width)
+                    width = w;
+            }
         }
+        else
+            height += fontHeight / 2;
     }
 
     if (withExtensions) {
@@ -568,8 +585,8 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     }
 
     // allow for height margin
-    if (!visualProperty(ShowOperations) && !visualProperty(ShowAttributes) && !m_showStereotype) {
-        height += MARGIN * 2;
+    if (showNameOnly) {
+        height += MARGIN;
     }
 
     // allow for width margin
@@ -736,23 +753,17 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     // draw stereotype
     font.setBold(true);
-    QString stereo = m_umlObject->stereotype();
-    /* if no stereotype is given we don't want to show the empty << >> */
-    const bool showStereotype = m_showStereotype && !stereo.isEmpty() && visualProperty(ShowStereotype);
-    const bool showDocumentation = visualProperty(ShowDocumentation) && !documentation().isEmpty();
-    const bool showAttributes = visualProperty(ShowAttributes);
-    const bool showOperations = visualProperty(ShowOperations);
-    const bool showNameOnly = (!showOperations && !showAttributes &&
-                               !showStereotype && !showDocumentation);
+    const bool showNameOnly = !visualProperty(ShowAttributes) &&
+                              !visualProperty(ShowOperations) &&
+                              !visualProperty(ShowDocumentation);
 
     int nameHeight = fontHeight;
-    if (showNameOnly) {
-        nameHeight = h;
-    } else if (showStereotype) {
+    if (visualProperty(ShowStereotype) && !m_umlObject->stereotype().isEmpty()) {
         painter->setFont(font);
-        stereo = m_umlObject->stereotype(true);
-        painter->drawText(textX, bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
+        painter->drawText(textX, bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
         bodyOffsetY += fontHeight;
+    } else if (showNameOnly) {
+        nameHeight = h;
     }
 
     // draw name
@@ -765,53 +776,59 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
     painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
-    if (!showNameOnly) {
-        bodyOffsetY += fontHeight;
-        setPenFromSettings(painter);
-        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
-        painter->setPen(textColor());
-    }
+    bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
     painter->setFont(font);
 
-    const int numAtts = displayedAttributes();
-    const int numOps = displayedOperations();
-
 #ifdef ENABLE_WIDGET_SHOW_DOC
     // draw documentation
-    if (showDocumentation) {
-        QRect brect = fm.boundingRect(QRect(0, 0, w-2*MARGIN, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
-        brect.adjust(textX, bodyOffsetY, textX, bodyOffsetY);
-        painter->drawText(brect, Qt::AlignCenter | Qt::TextWordWrap, documentation());
-        bodyOffsetY += brect.height();
-        if (numAtts > 0 || numOps > 0) {
-            setPenFromSettings(painter);
-            painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
-            painter->setPen(textColor());
+    if (visualProperty(ShowDocumentation)) {
+        setPenFromSettings(painter);
+        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
+        painter->setPen(textColor());
+
+        if (!documentation().isEmpty()) {
+            QRect brect = fm.boundingRect(QRect(0, 0, w-2*MARGIN, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            if (brect.width() > width() + 2*MARGIN)
+                brect.setWidth(width()-2*MARGIN);
+            brect.adjust(textX, bodyOffsetY, textX, bodyOffsetY);
+            painter->drawText(brect, Qt::AlignCenter | Qt::TextWordWrap, documentation());
+            bodyOffsetY += brect.height();
         }
+        else
+            bodyOffsetY += fontHeight / 2;
     }
 #endif
     // draw attributes
-    if (numAtts > 0) {
-        drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
-                    bodyOffsetY, fontHeight);
+    if (visualProperty(ShowAttributes)) {
+        // draw dividing line between doc/name and attributes
+        setPenFromSettings(painter);
+        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
+        painter->setPen(textColor());
 
-        // draw dividing line between attributes and operations
-        if (numOps > 0) {
+        const int numAtts = displayedAttributes();
+        if (numAtts > 0) {
+            drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
+                        bodyOffsetY, fontHeight);
             bodyOffsetY += fontHeight * numAtts;
-            setPenFromSettings(painter);
-            painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
-            painter->setPen(QPen(textColor()));
         }
+        else
+            bodyOffsetY += fontHeight / 2;
     }
-    else
-        bodyOffsetY += fontHeight / 2;  // no atts, so just
 
     // draw operations
-    if (numOps) {
-        drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
-                    bodyOffsetY, fontHeight);
+    if (visualProperty(ShowOperations)) {
+        // draw dividing line between attributes and operations
+        setPenFromSettings(painter);
+        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
+        painter->setPen(QPen(textColor()));
+
+        const int numOps = displayedOperations();
+        if (numOps >= 0) {
+            drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
+                        bodyOffsetY, fontHeight);
+        }
     }
 
     UMLWidget::paint(painter, option, widget);
