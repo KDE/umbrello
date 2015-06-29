@@ -1080,6 +1080,12 @@ UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
     return NULL;
 }
 
+void ClassifierWidget::setDocumentation(const QString &doc)
+{
+    WidgetBase::setDocumentation(doc);
+    updateGeometry();
+}
+
 /**
  * Sets whether to draw as circle.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.

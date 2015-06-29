@@ -94,7 +94,7 @@ public:
 
     QString documentation() const;
     bool hasDocumentation();
-    void setDocumentation(const QString& doc);
+    virtual void setDocumentation(const QString& doc);
 
     QString name() const;
     virtual void setName(const QString &strName);

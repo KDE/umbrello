@@ -96,6 +96,8 @@ public:
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
 
+    virtual void setDocumentation(const QString& doc);
+
     QSizeF calculateSize(bool withExtensions = true) const;
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
