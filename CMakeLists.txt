@@ -1,6 +1,5 @@
 project(umbrello)
 
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 set(VERSION_MAJOR "2")
 set(VERSION_MINOR "16")
@@ -9,6 +8,7 @@ set(VERSION_PATCH "99")
 option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
 
 if(NOT BUILD_KF5)
+    cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
     set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
     set(CMAKE_AUTOMOC ON)
@@ -97,6 +97,8 @@ if(NOT BUILD_KF5)
     macro_display_feature_log()
     KDE4_NO_ENABLE_FINAL(umbrello)
 else()
+    cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+
     # we need some parts of the ECM CMake helpers
     find_package(ECM 1.1.0 REQUIRED NO_MODULE)
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
