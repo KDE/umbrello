@@ -107,7 +107,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
         // alter the table column (set not null)
         sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
            <<" ALTER COLUMN "<<cleanName(ea->name())
-           <<" SET NOT NULL ";
+           <<" SET NOT NULL;";
 
         sql<<m_endl;
 
