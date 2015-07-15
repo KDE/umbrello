@@ -20,6 +20,7 @@
 #include "javaimport.h"
 #include "adaimport.h"
 #include "pascalimport.h"
+#include "sqlimport.h"
 #include "cppimport.h"
 #include "csharpimport.h"
 #include "codeimpthread.h"
@@ -50,6 +51,8 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
         classImporter = new PascalImport(thread);
     else if (fileName.endsWith(QLatin1String(".cs")))
         classImporter = new CSharpImport(thread);
+    else if (fileName.endsWith(QLatin1String(".sql")))
+        classImporter = new SQLImport(thread);
     else
         classImporter = new CppImport(thread);  // the default.
     return classImporter;

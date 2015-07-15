@@ -283,6 +283,7 @@ set(libcodeimport_SRCS
     codeimport/nativeimportbase.cpp
     codeimport/pascalimport.cpp
     codeimport/pythonimport.cpp
+    codeimport/sqlimport.cpp
     codeimport/csharp/csharpimport.cpp
 )
 
