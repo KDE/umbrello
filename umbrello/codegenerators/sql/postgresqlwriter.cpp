@@ -92,8 +92,8 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
             continue;
 
         QString sequenceName;
-        // we keep the sequence name as entityName + '_' + entityAttributeName
-        sequenceName = m_pEntity->name() + QLatin1Char('_') + ea->name();
+        // we keep the sequence name as entityName + '_' + entityAttributeName + '_seq'
+        sequenceName = m_pEntity->name() + QLatin1Char('_') + ea->name() + QLatin1String("_seq");
 
         // we assume the sequence count starts with 1 and interval is 1 too
         // change the values when we start supporting different start values and
