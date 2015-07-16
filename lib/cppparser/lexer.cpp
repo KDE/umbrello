@@ -21,8 +21,8 @@
 
 #include <KLocalizedString>
 
-#include <qregexp.h>
-#include <qmap.h>
+#include <QRegExp>
+#include <QMap>
 #include <QList>
 
 DEBUG_REGISTER_DISABLED(Lexer)

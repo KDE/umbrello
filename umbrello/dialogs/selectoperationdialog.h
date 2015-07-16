@@ -45,9 +45,7 @@ public:
     void setAutoIncrementSequence(bool state);
 
     void setSeqNumber(const QString &num);
-
     void setCustomOp(const QString &op);
-
     bool setClassOp(const QString &op);
 
 protected:
@@ -57,18 +55,18 @@ private:
     static const int OP     = 0;
     static const int CUSTOM = 1;
 
-    QGroupBox * m_pOpGB;
-    KComboBox * m_pOpCB;
-    QLabel * m_pSeqL;
-    KLineEdit * m_pOpLE, * m_pSeqLE;
-    QLabel * m_pCustomRB, * m_pOpRB;
-    QPushButton * m_newOperationButton;
-    QCheckBox * m_pOpAS;
-    QString m_Text;
-    int m_nOpCount;
-    int m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
-    UMLView *m_pView;
-    UMLClassifier *m_classifier;
+    QGroupBox        *m_pOpGB;
+    KComboBox        *m_pOpCB;
+    QLabel           *m_pSeqL;
+    KLineEdit        *m_pOpLE, *m_pSeqLE;
+    QLabel           *m_pCustomRB, *m_pOpRB;
+    QPushButton      *m_newOperationButton;
+    QCheckBox        *m_pOpAS;
+    QString           m_Text;
+    int               m_nOpCount;
+    int               m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
+    UMLView          *m_pView;
+    UMLClassifier    *m_classifier;
 
 public slots:
     void slotAutoIncrementChecked(bool state);

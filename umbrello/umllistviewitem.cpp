@@ -402,9 +402,10 @@ void UMLListViewItem::updateFolder()
     Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type, m_object);
 
     if (icon) {
-        if (Model_Utils::typeIsFolder(m_type))
+        if (Model_Utils::typeIsFolder(m_type)) {
             icon = (Icon_Utils::IconType)((int)icon + (int)isExpanded());
-        setIcon(icon);
+        }
+//FIXME KF5        setIcon(icon);
     }
 }
 
@@ -449,7 +450,9 @@ QString UMLListViewItem::getSavedText() const
 void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 {
     QPixmap p = Icon_Utils::SmallIcon(iconType);
-    QTreeWidgetItem::setIcon(0, QIcon(p));
+    if (!p.isNull()) {
+        QTreeWidgetItem::setIcon(0, QIcon(p));
+    }
 }
 
 /**

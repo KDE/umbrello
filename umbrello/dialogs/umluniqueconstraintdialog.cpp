@@ -46,8 +46,7 @@
  */
 UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint)
   : SinglePageDialogBase(parent, true),
-    m_pUniqueConstraint(pUniqueConstraint),
-    m_doc(UMLApp::app()->document())
+    m_pUniqueConstraint(pUniqueConstraint)
 {
     setCaption(i18n("Unique Constraint Properties"));
     setupDialog();

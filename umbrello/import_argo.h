@@ -11,7 +11,7 @@
 #ifndef IMPORT_ARGO_H
 #define IMPORT_ARGO_H
 
-#include <qiodevice.h>
+#include <QIODevice>
 
 class UMLPackage;
 class KZip;

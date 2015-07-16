@@ -19,6 +19,7 @@
 #include "classoptionspage.h"
 #include "componentwidget.h"
 #include "constraintlistpage.h"
+#include "debug_utils.h"
 #include "entity.h"
 #include "objectwidget.h"
 #include "packagecontentspage.h"

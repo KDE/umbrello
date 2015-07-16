@@ -17,8 +17,8 @@
 */
 
 #include "codemodel.h"
+#include "debug_utils.h"
 #include "driver.h"
-#include <kdebug.h>
 #include <kdatastream.h>
 
 ///Little helper-functions to save a lot of typing and possible errors
@@ -49,11 +49,11 @@ bool eachCanUpdate(const MapContainer& old, const MapContainer& newMap)
 template<class MapContainer>
 void eachUpdate(MapContainer& old, const MapContainer& newMap)
 {
-    if (old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
+    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" << endl;
     typename MapContainer::iterator oldIt = old.begin();
     typename MapContainer::const_iterator newIt = newMap.begin();
     while (oldIt != old.end()) {
-        if ((*oldIt).size() != (*newIt).size()) kdError(9007) << "error in eachUpdate(...) 2" << endl;
+        if ((*oldIt).size() != (*newIt).size()) uError() << "error in eachUpdate(...) 2" << endl;
         typedef typename MapContainer::mapped_type ListType;
         typename ListType::iterator it1 = (*oldIt).begin();
         typename ListType::const_iterator it2 = (*newIt).begin();
@@ -86,7 +86,7 @@ bool eachCanUpdateSingle(const MapContainer& old, const MapContainer& newMap)
 template<class MapContainer>
 void eachUpdateSingle(MapContainer& old, const MapContainer& newMap)
 {
-    if (old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
+    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" << endl;
     typename MapContainer::iterator oldIt = old.begin();
     typename MapContainer::const_iterator newIt = newMap.begin();
     while (oldIt != old.end()) {
@@ -519,8 +519,7 @@ bool CodeModel::addFile(FileDom file)
         return false;
 
     if (m_files.find(file->name()) != m_files.end()) {
-        ///the error-channel is set to 9007 because this problem appears with the cpp-support, so it is needed while debugging it
-        kdDebug(9007) << "file " << file->name() << " was added to code-model without removing it before! \n" << kdBacktrace() << endl;
+        uDebug() << "file " << file->name() << " was added to code-model without removing it before! \n" << kdBacktrace();  //FIXME KF5
         removeFile(fileByName(file->name()));
     }
 
@@ -597,7 +596,7 @@ void CodeModel::removeFile(FileDom file)
 CodeModelItem::CodeModelItem(int kind, CodeModel* model)
     : m_kind(kind), m_model(model)
 {
-    //kdDebug() << "CodeModelItem::CodeModelItem()" << endl;
+    //uDebug() << "CodeModelItem::CodeModelItem()";
     m_startLine = 0;
     m_startColumn = 0;
     m_endLine = 0;

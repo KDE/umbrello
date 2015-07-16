@@ -24,7 +24,6 @@
 class FindDialog : public SinglePageDialogBase, private Ui::FindDialog
 {
     Q_OBJECT
-
 public:
     explicit FindDialog(QWidget *parent = 0);
     ~FindDialog();

@@ -17,14 +17,13 @@
 //kde includes
 #include "singlepagedialogbase.h"
 
-class UMLDoc;
-class UMLUniqueConstraint;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
 class QLabel;
 class QListWidget;
 class QPushButton;
+class UMLUniqueConstraint;
 
 /**
  * A dialog page to display unique constraint properties.
@@ -47,9 +46,8 @@ protected:
 
 private:
     UMLUniqueConstraint *m_pUniqueConstraint;
-    UMLDoc              *m_doc;  ///< the UMLDocument where all objects live
 
-    /* GUI Widgets */
+    // GUI Widgets
     QGroupBox* m_pAttributeListGB;
     QLabel* m_pNameL;
     KLineEdit* m_pNameLE;
@@ -57,7 +55,7 @@ private:
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB, *m_pRemovePB;
 
-    /* local cache */
+    // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
     UMLEntityAttributeList m_pConstraintAttributeList;
 
