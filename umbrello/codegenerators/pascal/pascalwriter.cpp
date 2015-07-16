@@ -319,13 +319,18 @@ void PascalWriter::writeClass(UMLClassifier *c)
         pas << "private" << m_endl << m_endl;
 
         foreach (UMLAttribute* at, atpriv) {
-            // if (at->getStatic())
-            //     continue;
-            pas << indent() << cleanName(at->name()) << " : "
-                << at->getTypeName();
-            if (at && !at->getInitialValue().isEmpty())
-                pas << " := " << at->getInitialValue();
-            pas << ";" << m_endl;
+            if (at) {
+                pas << indent() << cleanName(at->name()) << " : "
+                    << at->getTypeName();
+
+                // if (at->getStatic())
+                //     continue;
+
+                if (!at->getInitialValue().isEmpty())
+                    pas << " := " << at->getInitialValue();
+
+                pas << ";" << m_endl;
+            }
         }
         pas << m_endl;
     }
