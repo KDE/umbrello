@@ -93,6 +93,26 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
 }
 
 /**
+ * Helper function for requesting a name using a dialog.
+ *
+ * @param title           Title of the dialog.
+ * @param prompt          Prompt of the dialog.
+ * @param name            Default value of the name field.
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askName(const QString& title, const QString& prompt, QString& name)
+{
+    bool ok;
+#if QT_VERSION >= 0x050000
+     name = QInputDialog::getText((QWidget*)UMLApp::app(), title, prompt, QLineEdit::Normal, name, &ok);
+#else
+     name = KInputDialog::getText(title, prompt, name, &ok, (QWidget*)UMLApp::app());
+#endif
+     return ok;
+}
+
+/**
  * Helper function for inserting available stereotypes into a KComboBox
  *
  * @param kcb    The KComboBox into which to insert the stereotypes

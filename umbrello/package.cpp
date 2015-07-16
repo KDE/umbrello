@@ -13,6 +13,7 @@
 
 // local includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
@@ -169,18 +170,9 @@ bool UMLPackage::addObject(UMLObject *pObject)
       while (findObject(name) != NULL) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
-         bool ok = true;
-#if QT_VERSION >= 0x050000
-         name = QInputDialog::getText((QWidget*)UMLApp::app(),
-                                      i18nc("object name", "Name"),
-                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
-                                      QLineEdit::Normal,
-                                      name, &ok);
-#else
-         name = KInputDialog::getText(i18nc("object name", "Name"),
-                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
-                                      name, &ok, (QWidget*)UMLApp::app());
-#endif
+         bool ok = Dialog_Utils::askName(i18nc("object name", "Name"),
+                                         i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
+                                         name);
          if (!ok) {
             name = oldName;
             continue;

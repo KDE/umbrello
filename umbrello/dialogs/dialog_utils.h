@@ -34,6 +34,8 @@ KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
+bool askName(const QString& title, const QString& prompt, QString& name);
+
 void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 
 }
