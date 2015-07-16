@@ -173,7 +173,7 @@ QStringList SQLImport::parseIdentifierList(QString &token)
  * Parse field type.
  *
  * @param token string with current token
- * @return string list containing field type and size/count
+ * @return string list containing field type (index 0), size/count (index 1) and optional values (index > 2)
  */
 QStringList SQLImport::parseFieldType(QString &token)
 {
@@ -192,6 +192,11 @@ QStringList SQLImport::parseFieldType(QString &token)
             type += token;
             token = advance();
         }
+    }
+
+    if (type.toLower() == QLatin1String("enum")) {
+        QStringList values = parseIdentifierList(token);
+        return QStringList() << type << QString() << values;
     }
 
     if (token.toLower() == QLatin1String("varying")) {
@@ -572,9 +577,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
 
         DEBUG(DBG_SRC) << "field" << fieldName << fieldType.at(0);
         if (entity && !fieldName.isEmpty()) {
-            UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Datatype,
-                              fieldType.at(0),
-                              UMLApp::app()->document()->datatypeFolder());
+            UMLObject *type = addDatatype(fieldType);
             UMLEntityAttribute *a = new UMLEntityAttribute(0, fieldName,
                     Uml::ID::None,
                     Uml::Visibility::Public,
@@ -800,6 +803,23 @@ QString SQLImport::advance()
     QString token = NativeImportBase::advance();
     DEBUG(DBG_SRC) << m_srcIndex << token;
     return token;
+}
+
+UMLObject *SQLImport::addDatatype(const QStringList &type)
+{
+    UMLObject *datatype = 0;
+    UMLPackage *parent = UMLApp::app()->document()->datatypeFolder();
+    if (type.at(0).toLower() == QLatin1String("enum")) {
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
+        datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
+        UMLEnum *enumType = dynamic_cast<UMLEnum*>(datatype);
+        for (int i = 2; i < type.size(); i++) {
+            Import_Utils::addEnumLiteral(enumType, type.at(i));
+        }
+    } else {
+        datatype = Import_Utils::createUMLObject(UMLObject::ot_Datatype, type.at(0), parent);
+    }
+    return datatype;
 }
 
 bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QStringList &fields)

@@ -24,6 +24,7 @@
 #include "nativeimportbase.h"
 
 class UMLEntity;
+class UMLObject;
 
 /**
  * Postgresql/mysql code import
@@ -96,6 +97,7 @@ protected:
     ColumnConstraints parseColumnConstraints(QString &token);
     TableConstraints parseTableConstraints(QString &token);
     bool parseCreateDefinition(QString &token, UMLEntity *entity);
+    UMLObject *addDatatype(const QStringList &type);
     bool addPrimaryKey(UMLEntity *entity, const QString &name, const QStringList &fields);
     bool addUniqueConstraint(UMLEntity *entity, const QString &name, const QStringList &fields);
     bool addForeignConstraint(UMLEntity *entityA, const QString &name, const QStringList &fieldNames,
