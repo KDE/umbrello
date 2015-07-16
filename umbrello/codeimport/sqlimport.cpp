@@ -164,8 +164,9 @@ QStringList SQLImport::parseIdentifierList(QString &token)
         }
         token = advance();
     }
-    else
+    else {
         ;// error;
+    }
     return values;
 }
 
@@ -543,13 +544,15 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         TableConstraints tableConstraints = parseTableConstraints(token);
 
         if (tableConstraints.primaryKey) {
-            if (!addPrimaryKey(entity, tableConstraints.constraintName, tableConstraints.primaryKeyFields))
+            if (!addPrimaryKey(entity, tableConstraints.constraintName, tableConstraints.primaryKeyFields)) {
                 ; // log error
+            }
         }
 
         if (tableConstraints.uniqueKeys) {
-            if (!addUniqueConstraint(entity, tableConstraints.uniqueKeyName, tableConstraints.uniqueKeysFields))
+            if (!addUniqueConstraint(entity, tableConstraints.uniqueKeyName, tableConstraints.uniqueKeysFields)) {
                 ; // log error
+            }
         }
 
         if (tableConstraints.checkConstraint) {
