@@ -1047,7 +1047,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_EnumLiteral && m_BaseType != ot_EntityAttribute &&
         m_BaseType != ot_Template && m_BaseType != ot_Stereotype &&
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
-        m_BaseType != ot_ForeignKeyConstraint) {
+        m_BaseType != ot_ForeignKeyConstraint && m_BaseType != ot_CheckConstraint) {
         if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {
