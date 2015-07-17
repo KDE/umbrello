@@ -12,6 +12,7 @@
 #include "umlviewimageexporterall.h"
 
 // application specific includes
+#include "diagramprintpage.h"
 #include "exportallviewsdialog.h"
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
@@ -51,6 +52,27 @@ UMLViewImageExporterAll::~UMLViewImageExporterAll()
 }
 
 /**
+ * Export views selected by the DiagramPrintPage instance.
+ *
+ * See @ref exportViews(const UMLViewList &views) for more details.
+ *
+ * @param selectPage instance of DiagramPrintPage
+ */
+void UMLViewImageExporterAll::exportViews(DiagramPrintPage *selectPage)
+{
+    UMLViewList views;
+    int count = selectPage->printUmlCount();
+    for (int i = 0; i < count; ++i) {
+        QString sID = selectPage->printUmlDiagram(i);
+        Uml::ID::Type id = Uml::ID::fromString(sID);
+        UMLView *v = UMLApp::app()->document()->findView(id);
+        if (v)
+            views.append(v);
+    }
+    exportViews(views);
+}
+
+/**
  * Shows a dialog to the user to get the needed parameters and then exports
  * the views.
  * The dialog remembers values between calls (in the same application instance,
@@ -62,7 +84,7 @@ UMLViewImageExporterAll::~UMLViewImageExporterAll()
  * If something went wrong while exporting, an error dialog is shown to the
  * user with the error messages explaining the problems occurred.
  */
-void UMLViewImageExporterAll::exportAllViews()
+void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
 {
     UMLApp* app = UMLApp::app();
     UMLDoc* umlDoc = app->document();
@@ -91,7 +113,7 @@ void UMLViewImageExporterAll::exportAllViews()
 
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
-    QStringList errors = UMLViewImageExporterModel().exportAllViews(
+    QStringList errors = UMLViewImageExporterModel().exportViews(views,
 #if QT_VERSION >= 0x050000
                                 UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentText()),
                                 QUrl(m_dialog->m_kURL->url()),

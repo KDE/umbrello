@@ -184,6 +184,7 @@ set(libdialogs_SRCS
     dialogs/codetextedit.cpp
     dialogs/codetexthighlighter.cpp
     dialogs/codeviewerdialog.cpp
+    dialogs/diagramselectiondialog.cpp
     dialogs/dialog_utils.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp

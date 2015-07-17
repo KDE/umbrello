@@ -22,6 +22,7 @@
 #include <ksharedconfig.h>
 
 // qt includes
+#include <QPointer>
 #if QT_VERSION >= 0x050000
 #include <QUrl>
 #endif
@@ -281,7 +282,7 @@ public slots:
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
     void slotCurrentViewExportImage();
-    void slotAllViewsExportImage();
+    void slotViewsExportImages();
     void slotCurrentProperties();
     void slotClassWizard();
     void slotAddDefaultDatatypes();
@@ -512,7 +513,7 @@ private:
 
     bool m_hasBegunMacro;  ///< Macro creation flag.
 
-    DiagramPrintPage *m_printSettings; ///< printer diagram settings
+    QPointer<DiagramPrintPage> m_printSettings; ///< printer diagram settings
     QPrinter *m_printer;               ///< print instance
 
 signals:

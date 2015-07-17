@@ -2,10 +2,11 @@
 <kpartgui name="umbrello" version="12">
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
-      <Menu name="file_export"><text>&amp;Export</text>
+      <Menu name="file_export"><text>&amp;Export model</text>
           <Action name="file_export_docbook"/>
           <Action name="file_export_xhtml"/>
       </Menu>
+      <Action name="view_export_images"/>
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="delete_selected"/>
@@ -25,7 +26,6 @@
     <Action name="view_clear_diagram"/>
     <Action name="view_delete"/>
     <Action name="view_export_image"/>
-    <Action name="view_export_image_all"/>
     <Separator/>
     <Menu name="show_view"><text>Sh&amp;ow</text>
       <ActionList name="view_list" />

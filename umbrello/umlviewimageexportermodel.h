@@ -12,6 +12,7 @@
 #define UMLVIEWIMAGEEXPORTERMODEL_H
 
 #include "umlscene.h"
+#include "umlviewlist.h"
 
 #include <QStringList>
 #include <QRect>
@@ -42,13 +43,12 @@ public:
     UMLViewImageExporterModel();
     virtual ~UMLViewImageExporterModel();
 #if QT_VERSION >= 0x050000
-    QStringList exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const;
     QString exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const;
 #else
-    QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
     QString exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const;
 #endif
 
+    QStringList exportViews(const UMLViewList &views, const QString &imageType, const QUrl &directory, bool useFolders) const;
 private:
 
     QString getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders = false) const;

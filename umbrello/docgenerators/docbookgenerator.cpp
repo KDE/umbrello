@@ -94,7 +94,8 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     m_destDir = destDir;
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
 
-    QStringList errors = UMLViewImageExporterModel().exportAllViews(
+    UMLViewList views = UMLApp::app()->document()->viewIterator();
+    QStringList errors = UMLViewImageExporterModel().exportViews(views,
         UMLViewImageExporterModel::mimeTypeToImageType(QLatin1String("image/png")), destDir, false);
     if (!errors.empty()) {
         KMessageBox::errorList(UMLApp::app(), i18n("Some errors happened when exporting the images:"), errors);

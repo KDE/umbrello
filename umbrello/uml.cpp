@@ -44,6 +44,7 @@
 #include "codeimportingwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
+#include "diagramselectiondialog.h"
 #include "settingsdialog.h"
 #include "finddialog.h"
 #include "classimport.h"
@@ -525,10 +526,10 @@ void UMLApp::initActions()
     viewExportImage->setText(i18n("&Export as Picture..."));
     connect(viewExportImage, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewExportImage()));
 
-    QAction* viewExportImageAll = actionCollection()->addAction(QLatin1String("view_export_image_all"));
+    QAction* viewExportImageAll = actionCollection()->addAction(QLatin1String("view_export_images"));
     viewExportImageAll->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture));
-    viewExportImageAll->setText(i18n("Export &All Diagrams as Pictures..."));
-    connect(viewExportImageAll, SIGNAL(triggered(bool)), this, SLOT(slotAllViewsExportImage()));
+    viewExportImageAll->setText(i18n("Export &Diagrams as Pictures..."));
+    connect(viewExportImageAll, SIGNAL(triggered(bool)), this, SLOT(slotViewsExportImages()));
 
     viewProperties = actionCollection()->addAction(QLatin1String("view_properties"));
     viewProperties->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Properties));
@@ -2739,9 +2740,14 @@ void UMLApp::slotCurrentViewExportImage()
 /**
  * Menu selection for exporting all views as images.
  */
-void UMLApp::slotAllViewsExportImage()
+void UMLApp::slotViewsExportImages()
 {
-    m_imageExporterAll->exportAllViews();
+    //delete m_printSettings;
+    m_printSettings = new DiagramPrintPage(0, m_doc);
+
+    DiagramSelectionDialog dlg(m_printSettings);
+    if (dlg.exec() == QDialog::Accepted)
+        m_imageExporterAll->exportViews(m_printSettings);
 }
 
 /**

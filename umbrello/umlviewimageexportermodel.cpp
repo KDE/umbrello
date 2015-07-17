@@ -188,7 +188,7 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
 }
 
 /**
- * Exports all the views in the document to the directory specified in the url
+ * Exports views in the document to the directory specified in the url
  * using the 'imageType' for the images.
  * The name of the exported images will be like their view's name and using the
  * 'imageType' as extension.
@@ -209,18 +209,11 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
  * @return A QStringList with all the error messages that occurred during export.
  *         If the list is empty, all the views were exported successfully.
  */
-#if QT_VERSION >= 0x050000
-QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const
-#else
-QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const
-#endif
+QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, const QString &imageType, const QUrl &directory, bool useFolders) const
 {
-    UMLApp *app = UMLApp::app();
-
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view, views) {
 #if QT_VERSION >= 0x050000
         QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +

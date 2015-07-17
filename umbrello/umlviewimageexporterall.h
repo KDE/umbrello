@@ -11,6 +11,9 @@
 #ifndef UMLVIEWIMAGEEXPORTERALL_H
 #define UMLVIEWIMAGEEXPORTERALL_H
 
+#include "umlviewlist.h"
+
+class DiagramPrintPage;
 class ExportAllViewsDialog;
 
 /**
@@ -25,7 +28,8 @@ public:
     UMLViewImageExporterAll();
     virtual ~UMLViewImageExporterAll();
 
-    void exportAllViews();
+    void exportViews(DiagramPrintPage *selectPage);
+    void exportViews(const UMLViewList &views);
 
 private:
 

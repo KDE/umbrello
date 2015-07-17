@@ -14,6 +14,7 @@
 // app includes
 #include "debug_utils.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
 // kde includes
@@ -70,7 +71,8 @@ CmdLineExportAllViewsEvent::~CmdLineExportAllViewsEvent()
  */
 void CmdLineExportAllViewsEvent::exportAllViews()
 {
-    QStringList errors = UMLViewImageExporterModel().exportAllViews(m_imageType, m_directory, m_useFolders);
+    UMLViewList views = UMLApp::app()->document()->viewIterator();
+    QStringList errors = UMLViewImageExporterModel().exportViews(views, m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
         uError() << "CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:";
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
