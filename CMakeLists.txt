@@ -2,7 +2,7 @@ project(umbrello)
 
 
 set(VERSION_MAJOR "2")
-set(VERSION_MINOR "16")
+set(VERSION_MINOR "17")
 set(VERSION_PATCH "99")
 
 option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
