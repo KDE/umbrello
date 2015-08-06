@@ -56,7 +56,7 @@ Uml::ProgrammingLanguage::Enum DCodeGenerator::language() const
  * In the D version, we make the ANT build file also available.
  */
 CodeViewerDialog * DCodeGenerator::getCodeViewerDialog (QWidget* parent, CodeDocument *doc,
-        Settings::CodeViewerState state)
+        Settings::CodeViewerState & state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
     return dialog;

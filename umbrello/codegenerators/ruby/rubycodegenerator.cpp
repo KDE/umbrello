@@ -59,7 +59,7 @@ Uml::ProgrammingLanguage::Enum RubyCodeGenerator::language() const
  * @return code viewer dialog object
  */
 CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
-        Settings::CodeViewerState state)
+        Settings::CodeViewerState & state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
     return dialog;

@@ -66,6 +66,7 @@ protected:
         TableConstraints()
           : primaryKey(false),
             uniqueKeys(false),
+            notNullConstraint(false),
             autoIncrement(false),
             checkConstraint(false)
         {

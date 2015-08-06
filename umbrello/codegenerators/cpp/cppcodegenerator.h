@@ -47,7 +47,7 @@ public:
     CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
 
     virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
-            Settings::CodeViewerState state);
+            Settings::CodeViewerState & state);
 
     virtual void writeCodeToFile();
     virtual void writeCodeToFile(UMLClassifierList &list);

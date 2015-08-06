@@ -74,7 +74,9 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     const int fontHeight  = fm.lineSpacing();
 
     painter->drawRect(0, 0, 50, fontHeight);
-    if (m_umlObject->stereotype() == QLatin1String("subsystem")) {
+    if (m_umlObject != NULL
+         && m_umlObject->stereotype() == QLatin1String("subsystem")) {
+
         const int fHalf = fontHeight / 2;
         const int symY = fHalf;
         const int symX = 38;

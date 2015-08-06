@@ -556,14 +556,18 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         }
 
         if (tableConstraints.checkConstraint) {
-            QString name;
-            if (!tableConstraints.constraintName.isEmpty())
-                name = tableConstraints.constraintName;
-            else
-                name = entity->name() + QLatin1String("_check");
-            UMLCheckConstraint *cc = new UMLCheckConstraint(entity, name);
-            cc->setCheckCondition(tableConstraints.checkExpression);
-            entity->addConstraint(cc);
+            if (entity) {
+                QString name;
+                if (!tableConstraints.constraintName.isEmpty())
+                    name = tableConstraints.constraintName;
+                else
+                    name = entity->name() + QLatin1String("_check");
+                UMLCheckConstraint *cc = new UMLCheckConstraint(entity, name);
+                cc->setCheckCondition(tableConstraints.checkExpression);
+                entity->addConstraint(cc);
+            } else {
+                uError() << "Could not add check constraint '" << tableConstraints.constraintName << "' because of zero entity.";
+            }
         }
 
         if (token == QLatin1String(","))
@@ -602,6 +606,8 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                 entity->addConstraint(uc);
             }
             entity->addEntityAttribute(a);
+        } else if (!entity) {
+            uError() << "Could not add field '" << fieldName << "' because of zero entity.";
         }
         if (token == QLatin1String(","))
             continue;
@@ -621,6 +627,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
  */
 bool SQLImport::parseCreateTable(QString &token)
 {
+    bool returnValue = true;
     QString tableName = parseIdentifier(token);
     DEBUG(DBG_SRC) << "parsing create table" << tableName;
 
@@ -645,11 +652,16 @@ bool SQLImport::parseCreateTable(QString &token)
         UMLObject *b = Import_Utils::createUMLObject(UMLObject::ot_Entity,
                        baseTable, folder, m_comment);
         UMLAssociation *a = new UMLAssociation(Uml::AssociationType::Generalization, o, b);
-        entity->addAssocToConcepts(a);
+        if (entity)
+            entity->addAssocToConcepts(a);
+        else {
+            uError() << "Could not add generalization '" << baseTable << "' because of zero entity.";
+            returnValue = false;
+        }
     }
 
     skipStmt(QLatin1String(";"));
-    return true;
+    return returnValue;
 }
 
 /**
@@ -816,8 +828,12 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = dynamic_cast<UMLEnum*>(datatype);
-        for (int i = 2; i < type.size(); i++) {
-            Import_Utils::addEnumLiteral(enumType, type.at(i));
+        if (enumType) {
+            for (int i = 2; i < type.size(); i++) {
+                Import_Utils::addEnumLiteral(enumType, type.at(i));
+            }
+        } else {
+            uError() << "Invalid dynamic cast to UMLEnum from datatype.";
         }
     } else {
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Datatype, type.at(0), parent);
@@ -827,6 +843,11 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
 
 bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
+    if (!entity) {
+        uError() << "Could not add primary key '" << _name << "' because of zero entity.";
+        return false;
+    }
+
     QString name;
     if (_name.isEmpty())
         name = entity->name() + QLatin1String("_pkey");
@@ -866,6 +887,11 @@ bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QSt
  */
 bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
+    if (!entity) {
+        uError() << "Could not add unique constraint '" << _name << "' because of zero entity.";
+        return false;
+    }
+
     QString name;
     if (_name.isEmpty())
         name = entity->name() + QLatin1String("_unique");
@@ -900,6 +926,11 @@ bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, con
  */
 bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, const QStringList &fieldNames, const QString &referencedTable, const QStringList &referencedFields)
 {
+    if (!entityA) {
+        uError() << "Could not add foreign constraint '" << _name << "' because of zero entity.";
+        return false;
+    }
+
     QString name;
     if (_name.isEmpty())
         name = entityA->name() + QLatin1String("_foreign");

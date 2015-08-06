@@ -181,7 +181,7 @@ CodeDocumentList * CodeGenerator::getCodeDocumentList()
  * Get the editing dialog for this code document.
  */
 CodeViewerDialog * CodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
-        Settings::CodeViewerState state)
+        Settings::CodeViewerState & state)
 {
     return new CodeViewerDialog(parent, doc, state);
 }

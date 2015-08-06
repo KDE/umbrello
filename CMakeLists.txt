@@ -1,5 +1,9 @@
 project(umbrello)
 
+# KDE Application Version, managed by release script
+set (KDE_APPLICATIONS_VERSION_MAJOR "15")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MICRO "90")
 
 set(VERSION_MAJOR "2")
 set(VERSION_MINOR "17")
@@ -164,7 +168,7 @@ add_definitions(
 # set default umbrello version
 # umbrello version could be overridden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
 if(NOT UMBRELLO_VERSION_STRING)
-    set(UMBRELLO_VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+    set(UMBRELLO_VERSION_STRING "${UMBRELLO_VERSION_MAJOR}.${UMBRELLO_VERSION_MINOR}.${UMBRELLO_VERSION_PATCH}")
     if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
         execute_process(
             COMMAND git rev-parse --short HEAD
@@ -201,7 +205,7 @@ include_directories(
 )
 
 # enable experimental features only in master branch
-if (VERSION_PATCH GREATER 95)
+if (UMBRELLO_VERSION_PATCH GREATER 95)
     add_definitions(-DENABLE_BIRDVIEW)
     add_definitions(-DENABLE_WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 endif()

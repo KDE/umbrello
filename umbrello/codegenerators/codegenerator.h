@@ -147,7 +147,7 @@ public:
     virtual QStringList defaultDatatypes();
 
     virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
-            Settings::CodeViewerState state);
+            Settings::CodeViewerState & state);
 
     virtual bool isReservedKeyword(const QString & keyword);
 
