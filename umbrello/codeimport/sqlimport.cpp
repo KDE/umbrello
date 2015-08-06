@@ -621,6 +621,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
  */
 bool SQLImport::parseCreateTable(QString &token)
 {
+    bool returnValue = true;
     QString tableName = parseIdentifier(token);
     DEBUG(DBG_SRC) << "parsing create table" << tableName;
 
@@ -645,11 +646,16 @@ bool SQLImport::parseCreateTable(QString &token)
         UMLObject *b = Import_Utils::createUMLObject(UMLObject::ot_Entity,
                        baseTable, folder, m_comment);
         UMLAssociation *a = new UMLAssociation(Uml::AssociationType::Generalization, o, b);
-        entity->addAssocToConcepts(a);
+        if (entity)
+            entity->addAssocToConcepts(a);
+        else {
+            uError() << "could not add generalization '" << baseTable << "' because of zero entity";
+            returnValue = false;
+        }
     }
 
     skipStmt(QLatin1String(";"));
-    return true;
+    return returnValue;
 }
 
 /**
