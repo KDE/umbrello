@@ -44,10 +44,9 @@ void TEST_basictypes::test_dynamic_cast()
     QScopedPointer<A> a1(new A);
     B* b1 = dynamic_cast<B*> (a1.data());
     QVERIFY(!b1);
-    A *a2 = new B;
-    B* b2 = dynamic_cast<B*> (a2);
+    QScopedPointer<A> a2(new B);
+    B* b2 = dynamic_cast<B*> (a2.data());
     QVERIFY(b2);
-    delete a2;
 }
 
 void TEST_basictypes::test_ModelType_toString()
