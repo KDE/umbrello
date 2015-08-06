@@ -133,7 +133,7 @@ bool CPPCodeGenerator::removeHeaderCodeDocument(CPPHeaderCodeDocument * remove_o
  * @return         the code viewer dialog object
  */
 CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
-        Settings::CodeViewerState state)
+        Settings::CodeViewerState & state)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
     if (!cdoc)

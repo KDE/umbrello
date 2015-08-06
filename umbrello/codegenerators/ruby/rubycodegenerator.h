@@ -38,7 +38,7 @@ public:
     static QString getListFieldClassName();
 
     virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
-            Settings::CodeViewerState state);
+            Settings::CodeViewerState & state);
 
     RubyCodeGenerationPolicy * getRubyPolicy();
 
