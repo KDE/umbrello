@@ -556,6 +556,7 @@ if(NOT BUILD_KF5)
         DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 else()
     install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
+    install( FILES org.kde.umbrello.appdata.xml  DESTINATION  ${CMAKE_INSTALL_METAINFODIR})
     install( FILES
         umbrelloui.rc
         DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
