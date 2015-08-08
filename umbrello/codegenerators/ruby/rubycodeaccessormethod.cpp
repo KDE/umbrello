@@ -79,6 +79,14 @@ void RubyCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(parentField);
+
+    // Check for dynamic casting failure!
+    if (rubyfield == NULL)
+    {
+        uError() << "rubyfield: invalid dynamic cast";
+        return;
+    }
+
     QString fieldName = rubyfield->getFieldName();
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
@@ -136,6 +144,13 @@ void RubyCodeAccessorMethod::updateContent()
 void RubyCodeAccessorMethod::updateMethodDeclaration()
 {
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
+
+    // Check for dynamic casting failure!
+    if (rubyfield == NULL)
+    {
+        uError() << "rubyfield: invalid dynamic cast";
+        return;
+    }
 
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();

@@ -18,6 +18,7 @@
 #include "classifier.h"
 #include "umlrole.h"
 #include "uml.h"
+#include "debug_utils.h"
 
 /**
  * Constructor.
@@ -42,6 +43,13 @@ void DCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     DCodeClassField * jcf = dynamic_cast<DCodeClassField*>(cf);
+
+    if (!jcf)
+    {
+       uError() << "jcf: invalid dynamic cast";
+       return;
+    }
+
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
     Uml::Visibility::Enum scopePolicy = commonpolicy->getAssociationFieldScope();
@@ -55,7 +63,7 @@ void DCodeClassFieldDeclarationBlock::updateContent()
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
-    if(!jcf->parentIsAttribute())
+    if (!jcf->parentIsAttribute())
     {
         switch (scopePolicy) {
         case Uml::Visibility::Public:
@@ -83,6 +91,14 @@ void DCodeClassFieldDeclarationBlock::updateContent()
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
+
+        // Check for dynamic casting failure!
+        if (role == NULL)
+        {
+            uError() << "role: invalid dynamic cast";
+            return;
+        }
+
         if (role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instantiate an interface

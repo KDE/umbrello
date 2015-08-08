@@ -12,6 +12,7 @@
 #include "cppsourcecodeclassfielddeclarationblock.h"
 
 #include "cppcodeclassfield.h"
+#include "debug_utils.h"
 #include "model_utils.h"
 
 CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock (CodeClassField * parent)
@@ -28,6 +29,13 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     CPPCodeClassField * jcf = dynamic_cast<CPPCodeClassField*>(cf);
+
+    // Check for dynamic casting failure!
+    if (jcf == NULL)
+    {
+        uError() << "jcf: invalid dynamic cast";
+        return;
+    }
 
     // Set the comment
     QString notes = getParentObject()->doc();

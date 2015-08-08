@@ -14,6 +14,7 @@
 #include "rubycodeoperation.h"
 
 // local includes
+#include "debug_utils.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
@@ -200,6 +201,14 @@ void RubyCodeOperation::updateMethodDeclaration()
 int RubyCodeOperation::lastEditableLine()
 {
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+
+    // Check for dynamic casting failure
+    if (doc == NULL)
+    {
+        uError() << "doc: invalid dynamic cast";
+        return -1;
+    }
+
     if (doc->parentIsInterface())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
     // an interface.

@@ -13,7 +13,7 @@
 
 #include "cppcodeclassfield.h"
 #include "cppheadercodedocument.h"
-
+#include "debug_utils.h"
 
 CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock (CodeClassField * parent)
         : CodeClassFieldDeclarationBlock (parent)
@@ -34,6 +34,13 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
 
     CodeClassField * cf = getParentClassField();
     CPPCodeClassField * hcppcf = dynamic_cast<CPPCodeClassField*>(cf);
+
+    // Check for dynamic casting failure!
+    if (hcppcf == NULL)
+    {
+        uError() << "hcppcf: invalid dynamic cast";
+        return;
+    }
 
     // Set the comment
     QString notes = umlparent->doc();
