@@ -1753,6 +1753,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
             // update model objects
             m_bCreatingChildObject = true;
 
+			if (!srcObj) {
+			    uError() << "srcObj is NULL";
+			    break;
+			}
+
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
             if (srcType == UMLListViewItem::lvt_Attribute) {
