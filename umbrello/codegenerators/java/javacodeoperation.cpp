@@ -11,6 +11,7 @@
 
 #include "javacodeoperation.h"
 
+#include "debug_utils.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodedocumentation.h"
 #include "javacodegenerator.h"
@@ -108,6 +109,14 @@ void JavaCodeOperation::updateMethodDeclaration()
 int JavaCodeOperation::lastEditableLine()
 {
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+
+    // Check for dynamic casting failure
+    if (doc == NULL)
+    {
+        uError() << "doc: invalid dynamic cast";
+        return -1;
+    }
+
     if(doc->parentIsInterface())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in
     // an interface.

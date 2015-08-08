@@ -119,6 +119,14 @@ void DCodeAccessorMethod::updateContent()
 void DCodeAccessorMethod::updateMethodDeclaration()
 {
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(getParentClassField());
+
+    // Check for dynamic casting failure!
+    if (dfield == NULL)
+    {
+        uError() << "dfield: invalid dynamic cast";
+        return;
+    }
+
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->commonPolicy();
 
     // gather defs

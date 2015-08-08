@@ -19,6 +19,7 @@
 #include "cppcodegenerationpolicy.h"
 #include "cppcodeclassfield.h"
 #include "cppcodedocumentation.h"
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
@@ -45,8 +46,24 @@ void CPPSourceCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
+
+    // Check for dynamic casting failure!
+    if(cppfield == NULL)
+    {
+        uError() << "cppfield: invalid dynamic cast";
+        return;
+    }
+
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+
+    // Check for dynamic casting failure!
+    if(policy == NULL)
+    {
+        uError() << "policy: invalid dynamic cast";
+        return;
+    }
+
     bool isInlineMethod = policy->getAccessorsAreInline();
 
     QString variableName = cppfield->getFieldName();
@@ -82,7 +99,23 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     ClassifierCodeDocument * doc = parentField->getParentDocument();
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+
+    // Check for dynamic casting failure!
+    if (policy == NULL)
+    {
+        uError() << "policy: invalid dynamic cast";
+        return;
+    }
+
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
+
+    // Check for dynamic casting failure!
+    if (cppfield == NULL)
+    {
+        uError() << "cppfield: invalid dynamic cast";
+        return;
+    }
+
     UMLClassifier * c = doc->getParentClassifier();
 
     bool isInlineMethod = policy->getAccessorsAreInline();

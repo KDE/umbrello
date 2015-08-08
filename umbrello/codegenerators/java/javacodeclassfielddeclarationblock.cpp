@@ -13,6 +13,7 @@
 
 #include "codegenerator.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "javacodeclassfield.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
@@ -42,6 +43,12 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
+
+    if (!jcf){
+        uError() << "jcf: invalid dynamic cast";
+        return;
+    }
+
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
     Uml::Visibility::Enum scopePolicy = commonpolicy->getAssociationFieldScope();
@@ -83,6 +90,14 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
+
+        // Check for dynamic casting failure
+        if (role == NULL)
+        {
+            uError() << "role: invalid dynamic cast";
+            return;
+        }
+
         if (role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instantiate an interface
