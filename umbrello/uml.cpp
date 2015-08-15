@@ -2251,7 +2251,9 @@ void UMLApp::readOptionState()
 #endif
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
+#ifdef ENABLE_NEW_CODE_GENERATORS
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
+#endif
     optionState.generalState.angularlines = UmbrelloSettings::angularlines();
     optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
     optionState.generalState.uml2 = UmbrelloSettings::uml2();
