@@ -66,11 +66,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.tabdiagramsCB = new QCheckBox(i18n("Use tabbed diagrams"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.tabdiagramsCB->setChecked(optionState.generalState.tabdiagrams);
     miscLayout->addWidget(m_GeneralWidgets.tabdiagramsCB, 0, 1);
-
+#ifdef ENABLE_NEW_CODE_GENERATORS
     m_GeneralWidgets.newcodegenCB = new QCheckBox(i18n("Use new C++/Java/Ruby generators"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.newcodegenCB->setChecked(optionState.generalState.newcodegen);
     miscLayout->addWidget(m_GeneralWidgets.newcodegenCB, 1, 0);
-
+#endif
     m_GeneralWidgets.angularLinesCB = new QCheckBox(i18n("Use angular association lines"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.angularLinesCB->setChecked(optionState.generalState.angularlines);
     miscLayout->addWidget(m_GeneralWidgets.angularLinesCB, 1, 1);
@@ -200,7 +200,9 @@ void GeneralOptionPage::apply()
     Settings::OptionState &optionState = Settings::optionState();
     optionState.generalState.undo = m_GeneralWidgets.undoCB->isChecked();
     optionState.generalState.tabdiagrams = m_GeneralWidgets.tabdiagramsCB->isChecked();
+#ifdef ENABLE_NEW_CODE_GENERATORS
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
+#endif
     optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();

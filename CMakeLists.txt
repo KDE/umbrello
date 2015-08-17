@@ -208,6 +208,7 @@ include_directories(
 if (UMBRELLO_VERSION_PATCH GREATER 95)
     add_definitions(-DENABLE_BIRDVIEW)
     add_definitions(-DENABLE_WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
+    add_definitions(-DENABLE_NEW_CODE_GENERATORS)
 endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
