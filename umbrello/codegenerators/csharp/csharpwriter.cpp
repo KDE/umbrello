@@ -756,14 +756,14 @@ void CSharpWriter::writeAttribute(const QString& doc,
  */
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 {
-    UMLPackage *p = cl->getType()->umlPackage();
-    if (m_seenIncludes.indexOf(p) != -1) {
-        return cl->getType()->name();
+    UMLClassifier *c = cl->getType();
+    if (c) {
+        UMLPackage *p = c->umlPackage();
+        if (m_seenIncludes.indexOf(p) != -1) {
+            return c->name();
+        }
     }
-    else {
-        return cl->getTypeName();
-    }
-
+    return cl->getTypeName();
 }
 
 /**
