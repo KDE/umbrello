@@ -30,12 +30,13 @@
  * Constructor.
  */
 RubyCodeGenerator::RubyCodeGenerator()
-   : CodeGenerator()
+   : AdvancedCodeGenerator()
 {
     // These initializations are done in CodeGenFactory::createObject()
         //UMLApp::app()->setPolicyExt (new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()));
         // load Classifier documents from parent document
         //initFromParentDocument();
+    connect_newcodegen_slots();
 }
 
 /**

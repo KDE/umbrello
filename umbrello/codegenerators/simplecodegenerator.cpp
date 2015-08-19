@@ -278,18 +278,6 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 }
 
 /**
- * Create a new classifier code document.
- * TODO: Not yet implemented.
- * @param classifier   UML classifier
- * @return classifier code document object
- */
-CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* classifier)
-{
-    Q_UNUSED(classifier);
-    return 0;
-}
-
-/**
  * Write all concepts in project to file.
  */
 void SimpleCodeGenerator::writeCodeToFile()

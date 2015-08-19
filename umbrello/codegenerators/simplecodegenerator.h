@@ -41,10 +41,7 @@ public:
      */
     virtual void writeClass(UMLClassifier *c) = 0;
 
-    CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
-
 protected:
-
     QString className_;
     QString fileName_;
 
@@ -74,12 +71,10 @@ protected:
     int m_indentLevel;
     QString m_endl;
 
-    // override parent method..we need special handling
-    void initFromParentDocument();
+    virtual void initFromParentDocument();
 
 public slots:
-
-    void syncCodeToDocument();
+    virtual void syncCodeToDocument();
 
 };
 

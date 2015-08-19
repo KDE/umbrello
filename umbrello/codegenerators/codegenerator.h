@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
+ *   copyright (C) 2004-2015                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -72,17 +72,6 @@ public:
     virtual ~CodeGenerator();
 
     bool addCodeDocument(CodeDocument * add_object);
-
-//    /**
-//     * Replace (or possibly add a new) CodeDocument object to the m_codedocumentVector List.
-//     * As names must be unique and each code document must have a name.
-//     * @return  boolean value which will be true if the passed document was able to replace some
-//     *    other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true).
-//     *    The document which was replaced will be deleted IF deleteReplacedDocument is true.
-//     */
-//    bool replaceCodeDocument(CodeDocument * replace_doc = 0, bool addIfPriorDocumentNotPresent = true,
-//                             bool deleteReplacedDocument = true);
-
     bool removeCodeDocument(CodeDocument * remove_object);
 
     CodeDocumentList * getCodeDocumentList();
@@ -95,13 +84,6 @@ public:
 
     virtual void writeCodeToFile();
     virtual void writeCodeToFile(UMLClassifierList &list);
-
-    // these are utility methods for accessing the default
-    // code gen policy object and *perhaps* should go away when we
-    // finally implement the CodeGenDialog class -b.t.
-
-    void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
-    CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy() const;
 
     void setIncludeHeadings(bool i);
     bool includeHeadings() const;
@@ -131,11 +113,7 @@ public:
      * A series of accessor method constructors that we need to define
      * for any particular language.
      */
-    virtual CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier) = 0;
-
     virtual void loadFromXMI(QDomElement & element);
-
-    virtual CodeDocument * newCodeDocument();
 
     /**
      * Return the unique language enum that identifies this type of code generator.
@@ -146,18 +124,13 @@ public:
 
     virtual QStringList defaultDatatypes();
 
-    virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
-            Settings::CodeViewerState & state);
-
     virtual bool isReservedKeyword(const QString & keyword);
 
     virtual QStringList reservedKeywords() const;
 
     virtual void createDefaultStereotypes();
 
-    virtual void initFromParentDocument();
-
-    void connect_newcodegen_slots();
+    virtual void initFromParentDocument() = 0;
 
 protected:
 
@@ -204,17 +177,11 @@ private:
     void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
 public slots:
-
-    virtual void checkAddUMLObject(UMLObject * obj);
-    virtual void checkRemoveUMLObject(UMLObject * obj);
-
     virtual void syncCodeToDocument();
 
 signals:
-
     void codeGenerated(UMLClassifier* concept, bool generated);
     void showGeneratedFile(const QString& filename);
-
 };
 
 #endif // CODEGENERATOR_H

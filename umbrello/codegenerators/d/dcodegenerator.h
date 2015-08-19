@@ -13,7 +13,7 @@
 #define DCODEGENERATOR_H
 
 #include "codeviewerstate.h"
-#include "codegenerator.h"
+#include "advancedcodegenerator.h"
 #include "codeblockwithcomments.h"
 #include "dclassifiercodedocument.h"
 #include "dcodegenerationpolicy.h"
@@ -23,7 +23,7 @@
 
 class CodeViewerDialog;
 
-class DCodeGenerator : public CodeGenerator
+class DCodeGenerator : public AdvancedCodeGenerator
 {
     Q_OBJECT
 public:

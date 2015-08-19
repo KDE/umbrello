@@ -29,10 +29,11 @@
  * Constructor.
  */
 DCodeGenerator::DCodeGenerator()
-  : CodeGenerator()
+  : AdvancedCodeGenerator()
 {
     // load Classifier documents from parent document
     //initFromParentDocument();
+    connect_newcodegen_slots();
 }
 
 /**

@@ -29,7 +29,7 @@
 #include "findresults.h"
 
 // code generation
-#include "codegenerator.h"
+#include "advancedcodegenerator.h"
 #include "codegenerationpolicy.h"
 #include "codegenfactory.h"
 #include "codegenpolicyext.h"
@@ -2360,12 +2360,13 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 {
     CodeGenerator * currentGen = generator();
     if (currentGen && classifier) {
-        if (!dynamic_cast<SimpleCodeGenerator*>(currentGen)) {
-            CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(classifier);
+        AdvancedCodeGenerator *generator = dynamic_cast<AdvancedCodeGenerator*>(currentGen);
+        if (generator) {
+            CodeDocument *cdoc = generator->findCodeDocumentByClassifier(classifier);
 
             if (cdoc) {
                 Settings::OptionState& optionState = Settings::optionState();
-                CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this, cdoc, optionState.codeViewerState);
+                CodeViewerDialog * dialog = generator->getCodeViewerDialog(this, cdoc, optionState.codeViewerState);
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
                 delete dialog;
