@@ -67,6 +67,7 @@ set(libdebug_SRCS
 )
 
 set(libcodegenerator_SRCS
+    codegenerators/advancedcodegenerator.cpp
     codegenerators/codeblock.cpp
     codegenerators/codeblockwithcomments.cpp
     codegenerators/codeclassfield.cpp

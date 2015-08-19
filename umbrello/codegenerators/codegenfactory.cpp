@@ -108,7 +108,6 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
         case Uml::ProgrammingLanguage::Cpp:
             if (optionState.generalState.newcodegen) {
                 obj = new CPPCodeGenerator();
-                obj->connect_newcodegen_slots();
             } else {
                 obj = new CppWriter();
             }
@@ -119,7 +118,6 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
         case Uml::ProgrammingLanguage::D:
             if (optionState.generalState.newcodegen) {
                 obj = new DCodeGenerator();
-                obj->connect_newcodegen_slots();
             } else {
                 obj = new DWriter();
             }
@@ -130,7 +128,6 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
         case Uml::ProgrammingLanguage::Java:
             if (optionState.generalState.newcodegen) {
                 obj = new JavaCodeGenerator();
-                obj->connect_newcodegen_slots();
             } else {
                 obj = new JavaWriter();
             }
@@ -162,7 +159,6 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
         case Uml::ProgrammingLanguage::Ruby:
             if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
-                obj->connect_newcodegen_slots();
             } else {
                 obj = new RubyWriter();
             }

@@ -14,7 +14,7 @@
 
 #include "codedocumentlist.h"
 #include "codeviewerstate.h"
-#include "codegenerator.h"
+#include "advancedcodegenerator.h"
 #include "cppmakecodedocument.h"
 #include "umldoc.h"
 
@@ -23,7 +23,7 @@
 class CodeViewerDialog;
 class CPPHeaderCodeDocument;
 
-class CPPCodeGenerator : public CodeGenerator
+class CPPCodeGenerator : public AdvancedCodeGenerator
 {
     Q_OBJECT
 public:

@@ -14,7 +14,7 @@
 #define RUBYCODEGENERATOR_H
 
 #include "codeviewerstate.h"
-#include "codegenerator.h"
+#include "advancedcodegenerator.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
 #include "umldoc.h"
@@ -24,7 +24,7 @@
 class CodeBlockWithComments;
 class CodeViewerDialog;
 
-class RubyCodeGenerator : public CodeGenerator
+class RubyCodeGenerator : public AdvancedCodeGenerator
 {
     Q_OBJECT
 public:

@@ -188,7 +188,7 @@ static const char *reserved_words[] = {
  * Constructor.
  */
 JavaCodeGenerator::JavaCodeGenerator()
-  : CodeGenerator()
+  : AdvancedCodeGenerator()
 {
     // load Classifier documents from parent document
     //initFromParentDocument();
@@ -199,6 +199,7 @@ JavaCodeGenerator::JavaCodeGenerator()
 
     // set our 'writeout' policy for that code document
     setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
+    connectSlots();
 }
 
 /**

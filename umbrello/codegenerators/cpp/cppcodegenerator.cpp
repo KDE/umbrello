@@ -34,13 +34,14 @@ const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
  * Basic Constructor.
  */
 CPPCodeGenerator::CPPCodeGenerator()
-  : CodeGenerator(),
+  : AdvancedCodeGenerator(),
     m_createMakefile(false)
 {
     UMLApp::app()->setPolicyExt(new CPPCodeGenerationPolicy());
 
     // load Classifier documents from parent document
     //initFromParentDocument();
+    connectSlots();
 }
 
 /**
@@ -138,7 +139,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDo
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
     if (!cdoc)
         // bah..not a classcode document?? then just use vanilla version
-        return CodeGenerator::getCodeViewerDialog(parent, doc, state);
+        return AdvancedCodeGenerator::getCodeViewerDialog(parent, doc, state);
     else {
         // build with passed (source) code document
         CodeViewerDialog *dialog;

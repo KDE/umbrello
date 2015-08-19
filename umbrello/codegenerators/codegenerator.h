@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
+ *   copyright (C) 2004-2015                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -36,33 +36,22 @@ class QDomElement;
  * This class collects together all of the code documents which form this project,
  * and generates code for them in a given language.
  *
- * CodeGenerator is the base class for all CodeGenerators. It
- * provides the interface through which all Generators are invoked and
- * the all the basic functionality. The only thing it doesn't do is to
- * generate code =)
+ * CodeGenerator is the abstract base class for all types of code generators.
+ * It provides the interface through which all generators are invoked and
+ * provides most of the basic functionality.
  *
  * If you want to implement a CodeGenerator for some language follow
  * these steps:
  *
- * Create a class which inherits CodeGenerator. This class can have
- * any name, I use names like CppCodeGenerator for the Cpp Generator,
- * JavaCodeGenerator  for the Java Generator and so on, but you can use what
- * you want.
+ * Create a class which inherits SimpleCodeGenerator or AdvancedCodeGenerator.
+ * This class can have any name, I use names like CppCodeGenerator
+ * for the Cpp Generator, JavaCodeGenerator for the Java Generator and so on,
+ * but you can use what you want.
  *
- * The code you generate should be output to "outputDirectory" and you
- * should respect the OverwritePolicy specified. You should call
- * findFileName(..) to get an appropriate file name, and then you can
- * call openFile if you want, but if you want to do it yourself you
- *
- * Finally put your generator in a library which can be dlopened
- * together with a factory class (see below) and you are ready to go.
- *
- * Note for "simple" code generators:
- * Code can be entered into a QTextEdit widget in the ClassPropertiesDialog. This
- * code is then stored in the respective UMLOperation, written to the
- * xmi file, and also used when generating the source files.
- * The code fragments are stored into the xmi file in the section "codegeneration"
- * with the tag "sourcecode".
+ * The code you generate should be output to getOutputDirectory() of the
+ * CodeGenerationPolicy instance and you  should respect the OverwritePolicy
+ * specified. You should call findFileName(..) to get an appropriate file name,
+ * and then you can call openFile() and write the generated content to this file.
  */
 class CodeGenerator : public QObject
 {
@@ -72,17 +61,6 @@ public:
     virtual ~CodeGenerator();
 
     bool addCodeDocument(CodeDocument * add_object);
-
-//    /**
-//     * Replace (or possibly add a new) CodeDocument object to the m_codedocumentVector List.
-//     * As names must be unique and each code document must have a name.
-//     * @return  boolean value which will be true if the passed document was able to replace some
-//     *    other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true).
-//     *    The document which was replaced will be deleted IF deleteReplacedDocument is true.
-//     */
-//    bool replaceCodeDocument(CodeDocument * replace_doc = 0, bool addIfPriorDocumentNotPresent = true,
-//                             bool deleteReplacedDocument = true);
-
     bool removeCodeDocument(CodeDocument * remove_object);
 
     CodeDocumentList * getCodeDocumentList();
@@ -95,13 +73,6 @@ public:
 
     virtual void writeCodeToFile();
     virtual void writeCodeToFile(UMLClassifierList &list);
-
-    // these are utility methods for accessing the default
-    // code gen policy object and *perhaps* should go away when we
-    // finally implement the CodeGenDialog class -b.t.
-
-    void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
-    CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy() const;
 
     void setIncludeHeadings(bool i);
     bool includeHeadings() const;
@@ -131,11 +102,7 @@ public:
      * A series of accessor method constructors that we need to define
      * for any particular language.
      */
-    virtual CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier) = 0;
-
     virtual void loadFromXMI(QDomElement & element);
-
-    virtual CodeDocument * newCodeDocument();
 
     /**
      * Return the unique language enum that identifies this type of code generator.
@@ -146,27 +113,18 @@ public:
 
     virtual QStringList defaultDatatypes();
 
-    virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
-            Settings::CodeViewerState & state);
-
     virtual bool isReservedKeyword(const QString & keyword);
 
     virtual QStringList reservedKeywords() const;
 
     virtual void createDefaultStereotypes();
 
-    virtual void initFromParentDocument();
-
-    void connect_newcodegen_slots();
+    /**
+     * Initialize this code generator from its parent UMLDoc.
+     */
+    virtual void initFromParentDocument() = 0;
 
 protected:
-
-//    /**
-//     * Remove (and possibly delete) all AutoGenerated content type CodeDocuments but leave
-//     * the UserGenerated (and any other type) documents in this generator alone.
-//     */
-//    void removeAndDeleteAllAutoGeneratedCodeDocuments(bool deleteRemovedDocs = true);
-
     QString overwritableName(const QString& name, const QString &extension);
 
     bool openFile(QFile& file, const QString &name);
@@ -190,31 +148,17 @@ protected:
     UMLDoc* m_document;
 
 private:
-
-//    /**
-//     * Maps CodeDocuments to filenames. Used for finding out which file
-//     * each class was written to.
-//     */
-    // this seems silly and overkill now. -b.t.
-    // QMap<CodeDocument*, QString> *m_fileMap;
-
     CodeDocumentList m_codedocumentVector;
     int m_lastIDIndex;
 
     void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
 public slots:
-
-    virtual void checkAddUMLObject(UMLObject * obj);
-    virtual void checkRemoveUMLObject(UMLObject * obj);
-
     virtual void syncCodeToDocument();
 
 signals:
-
     void codeGenerated(UMLClassifier* concept, bool generated);
     void showGeneratedFile(const QString& filename);
-
 };
 
 #endif // CODEGENERATOR_H

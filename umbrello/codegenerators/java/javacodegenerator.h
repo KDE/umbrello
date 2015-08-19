@@ -13,7 +13,7 @@
 #define JAVACODEGENERATOR_H
 
 #include "codeviewerstate.h"
-#include "codegenerator.h"
+#include "advancedcodegenerator.h"
 #include "codeblockwithcomments.h"
 #include "javaclassifiercodedocument.h"
 #include "javaantcodedocument.h"
@@ -24,7 +24,7 @@
 
 class CodeViewerDialog;
 
-class JavaCodeGenerator : public CodeGenerator
+class JavaCodeGenerator : public AdvancedCodeGenerator
 {
     Q_OBJECT
 public:

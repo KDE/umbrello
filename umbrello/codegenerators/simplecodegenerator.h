@@ -23,6 +23,12 @@
 /**
  * A simple code generator interface designed to work with
  * the existing codewriters.
+ *
+ * Code can be entered into a QTextEdit widget in the ClassPropertiesDialog. This
+ * code is then stored in the respective UMLOperation, written to the
+ * xmi file, and also used when generating the source files.
+ * The code fragments are stored into the xmi file in the section "codegeneration"
+ * with the tag "sourcecode".
  */
 class SimpleCodeGenerator : public CodeGenerator
 {
@@ -41,10 +47,7 @@ public:
      */
     virtual void writeClass(UMLClassifier *c) = 0;
 
-    CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
-
 protected:
-
     QString className_;
     QString fileName_;
 
@@ -74,12 +77,10 @@ protected:
     int m_indentLevel;
     QString m_endl;
 
-    // override parent method..we need special handling
-    void initFromParentDocument();
+    virtual void initFromParentDocument();
 
 public slots:
-
-    void syncCodeToDocument();
+    virtual void syncCodeToDocument();
 
 };
 
