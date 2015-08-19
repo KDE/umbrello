@@ -107,9 +107,9 @@ void AdvancedCodeGenerator::initFromParentDocument()
 
 /**
  * Connect additional slots.
- * To be called after constructing the code generator (see CodeGenFactory).
+ * To be called after constructing the code generator.
  */
-void AdvancedCodeGenerator::connect_newcodegen_slots()
+void AdvancedCodeGenerator::connectSlots()
 {
     connect(m_document, SIGNAL(sigObjectCreated(UMLObject*)),
             this, SLOT(checkAddUMLObject(UMLObject*)));

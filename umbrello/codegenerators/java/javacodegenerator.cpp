@@ -199,7 +199,7 @@ JavaCodeGenerator::JavaCodeGenerator()
 
     // set our 'writeout' policy for that code document
     setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
-    connect_newcodegen_slots();
+    connectSlots();
 }
 
 /**

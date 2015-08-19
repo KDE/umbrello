@@ -35,7 +35,7 @@ public slots:
 
 protected:
     virtual void initFromParentDocument();
-    void connect_newcodegen_slots();
+    void connectSlots();
 };
 
 #endif // ADVANCEDCODEGENERATOR_H

@@ -36,7 +36,7 @@ RubyCodeGenerator::RubyCodeGenerator()
         //UMLApp::app()->setPolicyExt (new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()));
         // load Classifier documents from parent document
         //initFromParentDocument();
-    connect_newcodegen_slots();
+    connectSlots();
 }
 
 /**
