@@ -56,6 +56,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
+  ${CMAKE_CURRENT_SOURCE_DIR}/umlmodel/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
   ${CMAKE_SOURCE_DIR}/lib/interfaces/
@@ -391,49 +392,60 @@ set(libfinder_SRCS
     finder/umlscenefinder.cpp
 )
 
-########### next target ###############
+set(libuml_SRCS
+    umlmodel/actor.cpp
+    umlmodel/artifact.cpp
+    umlmodel/association.cpp
+    umlmodel/attribute.cpp
+    umlmodel/category.cpp
+    umlmodel/checkconstraint.cpp
+    umlmodel/classifier.cpp
+    umlmodel/classifierlistitem.cpp
+    umlmodel/component.cpp
+    umlmodel/entity.cpp
+    umlmodel/entityattribute.cpp
+    umlmodel/entityconstraint.cpp
+    umlmodel/enum.cpp
+    umlmodel/enumliteral.cpp
+    umlmodel/folder.cpp
+    umlmodel/foreignkeyconstraint.cpp
+    umlmodel/node.cpp
+    umlmodel/operation.cpp
+    umlmodel/package.cpp
+    umlmodel/port.cpp
+    umlmodel/stereotype.cpp
+    umlmodel/template.cpp
+    umlmodel/umlattributelist.cpp
+    umlmodel/umlcanvasobject.cpp
+    umlmodel/umlclassifierlistitemlist.cpp
+    umlmodel/umlentityattributelist.cpp
+    umlmodel/umlentityconstraintlist.cpp
+    umlmodel/umlobject.cpp
+    umlmodel/umlobjectlist.cpp
+    umlmodel/umlrole.cpp
+    umlmodel/usecase.cpp
+    umlmodel/uniqueconstraint.cpp
+)
 
 set(umbrellobase_SRCS
-    actor.cpp
-    artifact.cpp
-    association.cpp
     assocrules.cpp
-    attribute.cpp
     basictypes.cpp
     birdview.cpp
-    category.cpp
-    checkconstraint.cpp
-    classifier.cpp
     classifiercodedocument.cpp
-    classifierlistitem.cpp
     cmdlineexportallviewsevent.cpp
     codeaccessormethod.cpp
-    component.cpp
     docwindow.cpp
     dotgenerator.cpp
-    entity.cpp
-    entityattribute.cpp
-    entityconstraint.cpp
-    enum.cpp
-    enumliteral.cpp
-    folder.cpp
-    foreignkeyconstraint.cpp
     icon_utils.cpp
     import_argo.cpp
     import_rose.cpp
     layoutgenerator.cpp
     listpopupmenu.cpp
     model_utils.cpp
-    node.cpp
     object_factory.cpp
-    operation.cpp
     optionstate.cpp
-    package.cpp
     petalnode.cpp
     petaltree2uml.cpp
-    port.cpp
-    stereotype.cpp
-    template.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
     toolbarstate.cpp
@@ -442,26 +454,16 @@ set(umbrellobase_SRCS
     toolbarstateother.cpp
     toolbarstatepool.cpp
     umlappprivate.cpp
-    umlattributelist.cpp
-    umlcanvasobject.cpp
-    umlclassifierlistitemlist.cpp
     uml.cpp
     umldoc.cpp
-    umlentityattributelist.cpp
-    umlentityconstraintlist.cpp
     umllistview.cpp
     umllistviewitem.cpp
-    umlobject.cpp
-    umlobjectlist.cpp
-    umlrole.cpp
     umlscene.cpp
     umlview.cpp
     umlviewimageexporterall.cpp
     umlviewimageexporter.cpp
     umlviewimageexportermodel.cpp
-    uniqueconstraint.cpp
     uniqueid.cpp
-    usecase.cpp
     worktoolbar.cpp
 )
 
@@ -481,6 +483,7 @@ set(libumbrello_SRCS
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
+    ${libuml_SRCS}
     ${libwidgets_SRCS}
     ${umbrellobase_SRCS}
 )

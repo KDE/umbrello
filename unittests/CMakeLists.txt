@@ -37,6 +37,7 @@ include_directories(
       ${SRC_PATH}/dialogs
       ${SRC_PATH}/docgenerators
       ${SRC_PATH}/refactoring
+      ${SRC_PATH}/umlmodel/
       ${SRC_PATH}/widgets
       ${CMAKE_CURRENT_BINARY_DIR}
 )
