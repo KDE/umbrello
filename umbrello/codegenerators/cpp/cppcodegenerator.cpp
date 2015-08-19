@@ -41,7 +41,7 @@ CPPCodeGenerator::CPPCodeGenerator()
 
     // load Classifier documents from parent document
     //initFromParentDocument();
-    connect_newcodegen_slots();
+    connectSlots();
 }
 
 /**
