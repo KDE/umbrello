@@ -67,6 +67,8 @@ set(libdebug_SRCS
 
 set(libcodegenerator_SRCS
     codegenerators/advancedcodegenerator.cpp
+    codegenerators/classifiercodedocument.cpp
+    codegenerators/codeaccessormethod.cpp
     codegenerators/codeblock.cpp
     codegenerators/codeblockwithcomments.cpp
     codegenerators/codeclassfield.cpp
@@ -405,10 +407,8 @@ set(umbrellobase_SRCS
     category.cpp
     checkconstraint.cpp
     classifier.cpp
-    classifiercodedocument.cpp
     classifierlistitem.cpp
     cmdlineexportallviewsevent.cpp
-    codeaccessormethod.cpp
     component.cpp
     docwindow.cpp
     dotgenerator.cpp
