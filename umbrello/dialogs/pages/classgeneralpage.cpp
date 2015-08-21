@@ -276,12 +276,11 @@ void ClassGeneralPage::apply()
     QString name = m_nameWidget->text();
     m_docWidget->apply();
 
+    if (m_stereotypeWidget) {
+        m_stereotypeWidget->apply();
+    }
+
     if (m_pObject) {
-
-        if (m_stereotypeWidget) {
-            m_stereotypeWidget->apply();
-        }
-
         UMLObject::ObjectType t = m_pObject->baseType();
         if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
             m_packageWidget->apply();

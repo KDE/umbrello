@@ -49,7 +49,8 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setFont(UMLWidget::font());
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
-    const int a_height = h - fontHeight - A_MARGIN;
+    bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
+    const int a_height = h - (drawStereotype ? 2 * fontHeight : fontHeight) - A_MARGIN;
     const int h2 = a_height / 2;
     const int a_width = (h2);
     const int middleX = w / 2;
@@ -67,6 +68,8 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                middleX + a_width / 2, thirdY + thirdY / 2); //arms
     //draw text
     painter->setPen(textColor());
+    if (drawStereotype)
+        painter->drawText(A_MARGIN, h - 2 * fontHeight, w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, umlObject()->stereotype(true));
     painter->drawText(A_MARGIN, h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     UMLWidget::paint(painter, option, widget);
@@ -91,8 +94,9 @@ QSizeF ActorWidget::minimumSize() const
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(name());
+    bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
-    int height = A_HEIGHT + fontHeight + A_MARGIN;
+    int height = A_HEIGHT + (drawStereotype ? 2 * fontHeight : fontHeight) + A_MARGIN;
     width += A_MARGIN * 2;
     return QSizeF(width, height);
 }
