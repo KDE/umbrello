@@ -53,10 +53,14 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     const int w = width();
     const int h = height();
     //int middleX = w / 2;
-    const int textStartY = (h / 2) - (fontHeight / 2);
+    bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
+    const int textStartY = (h / 2) - (drawStereotype ? fontHeight / 4 : fontHeight / 2);
 
     painter->drawEllipse(0, 0, w, h);
     painter->setPen(textColor());
+    if (drawStereotype)
+        painter->drawText(UC_MARGIN, textStartY-fontHeight, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, umlObject()->stereotype(true));
+
     painter->drawText(UC_MARGIN, textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     setPenFromSettings(painter);
 
@@ -82,8 +86,9 @@ QSizeF UseCaseWidget::minimumSize() const
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     const int textWidth = fm.width(name());
+    bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
     int width = textWidth > UC_WIDTH?textWidth:UC_WIDTH;
-    int height = UC_HEIGHT + fontHeight + UC_MARGIN;
+    int height = UC_HEIGHT + (drawStereotype ? 2 * fontHeight : fontHeight) + UC_MARGIN;
 
     width += UC_MARGIN * 2;
 
