@@ -51,9 +51,11 @@ void TEST_cppwriter::test_writeClass()
     UMLAttribute* attr;
     attr = c->createAttribute("name_");
     attr = c->createAttribute("address_");
+    c->addAttribute(attr);
     UMLOperation* op;
     op = c->createOperation("getName");
     op = c->createOperation("getAddress");
+    c->addOperation(op);
 
     cpp->writeClass(c);
     // does the just created file exist?
