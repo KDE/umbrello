@@ -9,7 +9,7 @@ set(UMBRELLO_VERSION_MAJOR "2")
 set(UMBRELLO_VERSION_MINOR "18")
 set(UMBRELLO_VERSION_PATCH "99")
 
-option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
+option(BUILD_KF5 "Build for KDE Frameworks 5" ON)
 
 if(NOT BUILD_KF5)
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
