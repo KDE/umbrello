@@ -1309,6 +1309,10 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
 {
     if (tBlock) {
         TextBlockInfo *info = m_tbInfoMap[tBlock];
+        if (!info) {
+            uWarning() << "zero TextBlockInfo instance";
+            return;
+        }
         QList<ParaInfo*> list = info->m_paraList;
         int pstart = m_textBlockList.indexOf(tBlock);
         foreach (ParaInfo * item, list) {
