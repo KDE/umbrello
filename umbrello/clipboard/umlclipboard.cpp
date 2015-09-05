@@ -127,9 +127,14 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // in the Diagram
         if (m_type == clip2) {
             foreach (UMLView* view, m_ViewList) {
-                fillObjectListForWidgets(view->umlScene()->widgetList());
+                UMLScene *scene = view->umlScene();
+                if (scene == NULL) {
+                    uError() << "currentView umlScene() is NULL";
+                    continue;
+                }
+                fillObjectListForWidgets(scene->widgetList());
 
-                AssociationWidgetList associations = view->umlScene()->associationList();
+                AssociationWidgetList associations = scene->associationList();
                 foreach (AssociationWidget* association, associations) {
                     if (association->umlObject() != 0) {
                         m_ObjectList.append(association->umlObject());

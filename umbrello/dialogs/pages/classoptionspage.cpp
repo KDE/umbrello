@@ -86,7 +86,9 @@ void ClassOptionsPage::setDefaults()
 {
     m_showVisibilityCB->setChecked(false);
     m_showAttsCB->setChecked(true);
+#ifdef ENABLE_WIDGET_SHOW_DOC
     m_showDocumentationCB->setChecked(false);
+#endif
     m_showOpsCB->setChecked(true);
     m_showStereotypeCB->setChecked(false);
     m_showAttSigCB->setChecked(false);
@@ -318,7 +320,9 @@ void ClassOptionsPage::setupClassPageOption()
  */
 void ClassOptionsPage::applyWidget()
 {
+#ifdef ENABLE_WIDGET_SHOW_DOC
     m_pWidget->setVisualProperty(ClassifierWidget::ShowDocumentation, m_showDocumentationCB->isChecked());
+#endif
     m_pWidget->setVisualProperty(ClassifierWidget::ShowPackage, m_showPackageCB->isChecked());
     m_pWidget->setVisualProperty(ClassifierWidget::ShowVisibility, m_showVisibilityCB->isChecked());
     m_pWidget->setVisualProperty(ClassifierWidget::ShowOperations, m_showOpsCB->isChecked());
