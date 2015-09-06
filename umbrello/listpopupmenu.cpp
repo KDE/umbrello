@@ -1195,7 +1195,6 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
 void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
 {
     WidgetBase::WidgetType type = c->baseType();
-    ClassifierWidget *cls = NULL;
 
 #if QT_VERSION >= 0x050000
     QMenu* show = new QMenu(i18n("Show"), this);
@@ -1208,9 +1207,8 @@ void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     setActionChecked(mt_Show_Documentation, c->visualProperty(ClassifierWidget::ShowDocumentation));
 #endif
     if (type == WidgetBase::wt_Class) {
-        cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes, show, i18n("Attributes"), CHECKABLE);
-        setActionChecked(mt_Show_Attributes, cls->visualProperty(ClassifierWidget::ShowAttributes));
+        setActionChecked(mt_Show_Attributes, c->visualProperty(ClassifierWidget::ShowAttributes));
     }
     insert(mt_Show_Operations, show, i18n("Operations"), CHECKABLE);
     setActionChecked(mt_Show_Operations, c->visualProperty(ClassifierWidget::ShowOperations));
@@ -1224,16 +1222,14 @@ void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     setActionChecked(mt_Show_Operation_Signature, sig);
     if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Attribute_Signature, show, i18n("Attribute Signature"), CHECKABLE);
-        sig = (cls->attributeSignature() == Uml::SignatureType::SigNoVis ||
-               cls->attributeSignature() == Uml::SignatureType::ShowSig);
+        sig = (c->attributeSignature() == Uml::SignatureType::SigNoVis ||
+               c->attributeSignature() == Uml::SignatureType::ShowSig);
         setActionChecked(mt_Show_Attribute_Signature, sig);
     }
     insert(mt_Show_Packages, show, i18n("Package"), CHECKABLE);
     setActionChecked(mt_Show_Packages, c->visualProperty(ClassifierWidget::ShowPackage));
-    if (type == WidgetBase::wt_Class) {
-        insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
-        setActionChecked(mt_Show_Stereotypes, cls->visualProperty(ClassifierWidget::ShowStereotype));
-    }
+    insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
+    setActionChecked(mt_Show_Stereotypes, c->visualProperty(ClassifierWidget::ShowStereotype));
     addMenu(show);
 }
 
