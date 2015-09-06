@@ -172,7 +172,7 @@ protected:
     Uml::ID::Type          m_nId;          ///< object's id
     QString                m_Doc;          ///< object's documentation
     UMLPackage*            m_pUMLPackage;  ///< package the object belongs to if applicable
-    UMLStereotype*         m_pStereotype;  ///< stereotype of the object if applicable
+    QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
