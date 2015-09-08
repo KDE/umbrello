@@ -65,6 +65,11 @@ void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
  */
 void UMLStereotypeWidget::apply()
 {
+    if (m_comboBox->currentText().isEmpty()) {
+        m_object->setUMLStereotype(0);
+        return;
+    }
+
     QVariant v = m_comboBox->itemData(m_comboBox->currentIndex());
     if (v.canConvert<UMLStereotype*>()) {
         UMLStereotype *selected = v.value<UMLStereotype*>();
@@ -74,14 +79,11 @@ void UMLStereotypeWidget::apply()
         }
         else
             m_object->setUMLStereotype(selected);
-    }
-    else if (!m_comboBox->currentText().isEmpty()) {
+    } else {
         UMLStereotype *stereotype = new UMLStereotype(m_comboBox->currentText());
         UMLApp::app()->document()->addStereotype(stereotype);
         m_object->setUMLStereotype(stereotype);
     }
-    else
-        m_object->setUMLStereotype(0);
 }
 
 /**
