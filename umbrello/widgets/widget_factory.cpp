@@ -86,6 +86,8 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
         break;
     case UMLObject::ot_Folder:
+        newWidget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
+        break;
     case UMLObject::ot_Package:
         newWidget = new ClassifierWidget(scene, static_cast<UMLPackage*>(o));
         break;
