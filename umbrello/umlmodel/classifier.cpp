@@ -100,7 +100,7 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
             newIcon = Icon_Utils::it_Datatype;
             break;
         case ot_Package:
-            UMLObject::setStereotypeCmd(QLatin1String("package"));
+            UMLObject::setStereotypeCmd(QString());
             UMLObject::m_bAbstract = false;
             newIcon = Icon_Utils::it_Package;
             break;
