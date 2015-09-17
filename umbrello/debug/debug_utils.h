@@ -125,7 +125,7 @@ private:
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
 #define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
-#define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(src)
+#define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(QString::fromLatin1(#src))
 #define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
 #define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
 
