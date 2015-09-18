@@ -57,7 +57,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/umlmodel/
-  ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
+  ${CMAKE_CURRENT_SOURCE_DIR}/umlwidgets/
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
   ${CMAKE_SOURCE_DIR}/lib/interfaces/
 )
@@ -344,47 +344,47 @@ set(libcmds_SRCS
     cmds/widget/cmd_setTxt.cpp
 )
 
-set(libwidgets_SRCS
-    widgets/activitywidget.cpp
-    widgets/actorwidget.cpp
-    widgets/artifactwidget.cpp
-    widgets/associationline.cpp
-    widgets/associationwidget.cpp
-    widgets/boxwidget.cpp
-    widgets/categorywidget.cpp
-    widgets/classifierwidget.cpp
-    widgets/combinedfragmentwidget.cpp
-    widgets/componentwidget.cpp
-    widgets/datatypewidget.cpp
-    widgets/entitywidget.cpp
-    widgets/enumwidget.cpp
-    widgets/floatingdashlinewidget.cpp
-    widgets/floatingtextwidget.cpp
-    widgets/forkjoinwidget.cpp
-    widgets/layoutgrid.cpp
-    widgets/linkwidget.cpp
-    widgets/messagewidget.cpp
-    widgets/nodewidget.cpp
-    widgets/notewidget.cpp
-    widgets/objectnodewidget.cpp
-    widgets/objectwidget.cpp
-    widgets/packagewidget.cpp
-    widgets/pinportbase.cpp
-    widgets/pinwidget.cpp
-    widgets/portwidget.cpp
-    widgets/preconditionwidget.cpp
-    widgets/regionwidget.cpp
-    widgets/seqlinewidget.cpp
-    widgets/signalwidget.cpp
-    widgets/statewidget.cpp
-    widgets/toolbarstateonewidget.cpp
-    widgets/umlwidget.cpp
-    widgets/usecasewidget.cpp
-    widgets/widget_factory.cpp
-    widgets/widget_utils.cpp
-    widgets/widgetbase.cpp
-    widgets/widgetlist_utils.cpp
-    widgets/statusbartoolbutton.cpp
+set(libumlwidgets_SRCS
+    umlwidgets/activitywidget.cpp
+    umlwidgets/actorwidget.cpp
+    umlwidgets/artifactwidget.cpp
+    umlwidgets/associationline.cpp
+    umlwidgets/associationwidget.cpp
+    umlwidgets/boxwidget.cpp
+    umlwidgets/categorywidget.cpp
+    umlwidgets/classifierwidget.cpp
+    umlwidgets/combinedfragmentwidget.cpp
+    umlwidgets/componentwidget.cpp
+    umlwidgets/datatypewidget.cpp
+    umlwidgets/entitywidget.cpp
+    umlwidgets/enumwidget.cpp
+    umlwidgets/floatingdashlinewidget.cpp
+    umlwidgets/floatingtextwidget.cpp
+    umlwidgets/forkjoinwidget.cpp
+    umlwidgets/layoutgrid.cpp
+    umlwidgets/linkwidget.cpp
+    umlwidgets/messagewidget.cpp
+    umlwidgets/nodewidget.cpp
+    umlwidgets/notewidget.cpp
+    umlwidgets/objectnodewidget.cpp
+    umlwidgets/objectwidget.cpp
+    umlwidgets/packagewidget.cpp
+    umlwidgets/pinportbase.cpp
+    umlwidgets/pinwidget.cpp
+    umlwidgets/portwidget.cpp
+    umlwidgets/preconditionwidget.cpp
+    umlwidgets/regionwidget.cpp
+    umlwidgets/seqlinewidget.cpp
+    umlwidgets/signalwidget.cpp
+    umlwidgets/statewidget.cpp
+    umlwidgets/toolbarstateonewidget.cpp
+    umlwidgets/umlwidget.cpp
+    umlwidgets/usecasewidget.cpp
+    umlwidgets/widget_factory.cpp
+    umlwidgets/widget_utils.cpp
+    umlwidgets/widgetbase.cpp
+    umlwidgets/widgetlist_utils.cpp
+    umlwidgets/statusbartoolbutton.cpp
 )
 
 set(libfinder_SRCS
@@ -485,7 +485,7 @@ set(libumbrello_SRCS
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
     ${libuml_SRCS}
-    ${libwidgets_SRCS}
+    ${libumlwidgets_SRCS}
     ${umbrellobase_SRCS}
 )
 
