@@ -36,6 +36,7 @@ NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
     QVBoxLayout *layout = new QVBoxLayout(frame);
     layout->addWidget(m_docWidget, 10);
     setMinimumSize(600, 250);
+    m_docWidget->setFocus();
 }
 
 /**
