@@ -18,6 +18,7 @@
   <name xml:lang="pt">Umbrello</name>
   <name xml:lang="pt-BR">Umbrello</name>
   <name xml:lang="sk">Umbrello</name>
+  <name xml:lang="sl">Umbrello</name>
   <name xml:lang="sv">Umbrello</name>
   <name xml:lang="uk">Umbrello</name>
   <name xml:lang="x-test">xxUmbrelloxx</name>
@@ -36,6 +37,7 @@
   <summary xml:lang="pt">Modelador de UML</summary>
   <summary xml:lang="pt-BR">Modelador de UML</summary>
   <summary xml:lang="sk">Modelár UML</summary>
+  <summary xml:lang="sl">Modelirnik UML</summary>
   <summary xml:lang="sv">UML-modellering</summary>
   <summary xml:lang="uk">Засіб моделювання UML</summary>
   <summary xml:lang="x-test">xxUML Modellerxx</summary>
@@ -57,6 +59,7 @@
     <p xml:lang="pt">O Umbrello é uma ferramenta de modelação em UML (Unified Modelling Language) e gerador de código. Poderá criar diagramas de aplicações e outros sistemas, usando o formato-padrão da indústria UML, podendo também gerar código a partir de diagramas UML, numa grande variedade de linguagens de programação.</p>
     <p xml:lang="pt-BR">Umbrello é uma ferramenta de modelação de UML (Unified Modelling Language) e gerador de código. Ele pode criar diagramas de softwares e outros sistemas, usando o formato de UML padrão da indústria, assim como gerar código a partir de diagramas UML, em uma grande variedade de linguagens de programação.</p>
     <p xml:lang="sk">Umbrello je nástroj na modelovania v UML a generátor kódu. Dokáže vytvárať diagramy softvéru a iných systémov v priemyselnom štandarde UML a tiež generovať kód z UML diagramov v množstve programovacích jazykov.</p>
+    <p xml:lang="sl">Umbrello je orodje za modeliranje v poenotenem jeziku za modeliranje (UML) in ustvarjalnik kode. Ustvari lahko diagrame programov in drugih sistemov v industrijski standardizirani obliki UML, iz diagramov UML pa lahko ustvari tudi kodo v različnih programskih jezikih.</p>
     <p xml:lang="sv">Umbrello är ett modelleringsverktyg för Unified Modelling Language och kodgenerator. Det kan skapa diagram av programvara och andra system med industristandardformatet UML, och kan också skapa kod från UML-diagram på ett antal olika programspråk.</p>
     <p xml:lang="uk">Umbrello — засіб моделювання уніфікованою мовою моделювання (UML) та інструмент для створення шаблонів коду. Програма здатна створювати діаграми систем програмного забезпечення та інших систем у стандартному форматі UML та реалізовувати діаграми UML у програмному коді багатьма мовами програмування.</p>
     <p xml:lang="x-test">xxUmbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.xx</p>
@@ -75,6 +78,7 @@
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
     <p xml:lang="sk">Funkcie:</p>
+    <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
@@ -94,6 +98,7 @@
       <li xml:lang="pt">Formatos suportados: XMI</li>
       <li xml:lang="pt-BR">Formatos suportados: XMI</li>
       <li xml:lang="sk">Podporované formáty: XMI</li>
+      <li xml:lang="sl">Podprte oblike: XMI</li>
       <li xml:lang="sv">Format som stöds: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
@@ -110,6 +115,7 @@
       <li xml:lang="pt">Diversos tipos de diagramas suportados: casos de uso, classe, sequência, colaboração, estado, actividade, componente, entrada em produção, entidade-associação</li>
       <li xml:lang="pt-BR">Há suporte para diversos tipos de diagramas: casos de uso, classe, sequência, colaboração, estado, atividade, componente, distribuição, relacionamento de entidade</li>
       <li xml:lang="sk">Podporovaných je niekoľko typov diagramov: prípady použitia, triedy, sekvencie, stavy, aktivity, nasadenie, vzžahy entít</li>
+      <li xml:lang="sl">Podprte so številne vrste diagramov: primer uporabe, razred, zaporedje, sodelovanje, stanje, dejavnost, sestavni del, namestitev, odvisnost entitete</li>
       <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, samarbete, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
       <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, співпраці, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
       <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, collaboration, state, activity, component, deployment, entity relationshipxx</li>
