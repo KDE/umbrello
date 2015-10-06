@@ -3082,7 +3082,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
-            } else {
+            } else if (m_nameWidget) {
                 m_scene->removeWidget(m_nameWidget);
                 m_nameWidget = NULL;
             }
