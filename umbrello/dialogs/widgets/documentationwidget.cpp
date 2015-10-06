@@ -67,6 +67,8 @@ void DocumentationWidget::init(const QString &text)
     m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
     m_editField->setWordWrapMode(QTextOption::WordWrap);
     m_editField->setText(text);
+    setFocusProxy(m_editField);
+
     QHBoxLayout *layout = new QHBoxLayout(m_box);
     layout->addWidget(m_editField);
     layout->setMargin(fontMetrics().height());

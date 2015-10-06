@@ -91,6 +91,7 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     statusLayout->addWidget(m_modifiedWidget, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText(QString());
+    setFocusProxy(m_docTE);
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
     QVBoxLayout* docLayout = new QVBoxLayout(this);
     docLayout->addLayout(statusLayout);
@@ -461,5 +462,6 @@ void DocWindow::toForeground()
                 tab->setCurrentIndex(i);
         }
     }
+    m_docTE->setFocus();
 }
 

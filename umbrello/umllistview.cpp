@@ -2161,6 +2161,11 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         QString name = classifier->uniqChildName(objectType);
         UMLObject* object = Object_Factory::createChildObject(classifier, objectType, name);
 
+        if (object == 0) {
+            // creation was cancelled by the user
+            return;
+        }
+
         // Handle primary key constraints (mark the unique constraint as PK on
         // the parent entity)
         if (type == UMLListViewItem::lvt_PrimaryKeyConstraint) {
