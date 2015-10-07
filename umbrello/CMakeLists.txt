@@ -435,6 +435,8 @@ set(umbrellobase_SRCS
     port.cpp
     stereotype.cpp
     template.cpp
+    stereotypeswindow.cpp
+    stereotypesmodel.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
     toolbarstate.cpp
