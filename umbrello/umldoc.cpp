@@ -402,17 +402,17 @@ void UMLDoc::closeDocument()
         // @fixme With advanced code generation enabled, this crashes.
         removeAllObjects();
 
-        // Restore the datatype folder, it has been deleted above.
-        createDatatypeFolder();
-        // this creates to much items only Logical View should be created
-        listView->init();
-
         // Remove any stereotypes.
         if (stereotypes().count() > 0) {
             foreach(UMLStereotype *s, stereotypes())
                 delete s;
             m_stereoList.clear();
         }
+
+        // Restore the datatype folder, it has been deleted above.
+        createDatatypeFolder();
+        // this creates to much items only Logical View should be created
+        listView->init();
     }
     m_bClosing = false;
 }
