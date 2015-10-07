@@ -21,9 +21,6 @@
 // qt includes
 #include <QtDebug>
 
-// TODO: remove in 2.18
-#define I18N(a) QLatin1String(a)
-
 StereotypesModel::StereotypesModel(UMLStereotypeList *stereotypes)
   : m_count(0),
     m_stereotypes(stereotypes)
@@ -56,9 +53,9 @@ QVariant StereotypesModel::headerData(int section, Qt::Orientation orientation, 
     if (orientation == Qt::Vertical)
         return section + 1;
     if (section == 0)
-        return QVariant(I18N("Name"));
+        return QVariant(i18n("Name"));
     else if (section == 1)
-        return QVariant(I18N("Usage"));
+        return QVariant(i18n("Usage"));
     else return QVariant();
 }
 

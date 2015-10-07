@@ -25,11 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-// TODO: remove in 2.18
-#define I18N(a) QLatin1String(a)
-
 StereotypesWindow::StereotypesWindow(QWidget *parent)
-    : QDockWidget(I18N("&Stereotypes"), parent)
+    : QDockWidget(i18n("&Stereotypes"), parent)
 {
     setObjectName(QLatin1String("StereotypesWindow"));
 

@@ -114,8 +114,7 @@ public slots:
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
         viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));
-        // TODO: wrap with i18n in 2.18
-        viewStereotypesWindow->setText(QLatin1String("Stereotypes"));
+        viewStereotypesWindow->setText(i18n("Stereotypes"));
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
