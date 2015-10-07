@@ -190,6 +190,7 @@ UMLDoc::~UMLDoc()
     }
     delete m_pChangeLog;
     qDeleteAll(m_stereoList);
+    delete m_stereotypesModel;
 }
 
 /**
