@@ -185,7 +185,6 @@ UMLDoc::~UMLDoc()
     delete m_pAutoSaveTimer;
 
     m_root[Uml::ModelType::Logical]->removeObject(m_datatypeRoot);
-    delete m_stereotypesModel;
     delete m_datatypeRoot;
 
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -193,6 +192,7 @@ UMLDoc::~UMLDoc()
     }
     delete m_pChangeLog;
     qDeleteAll(m_stereoList);
+    delete m_stereotypesModel;
 }
 
 /**

@@ -240,15 +240,15 @@ UMLApp::~UMLApp()
     delete m_clipTimer;
     delete m_copyTimer;
     delete m_commoncodegenpolicy;
-    delete m_d;
-    delete m_doc;
     delete m_imageExporterAll;
-    delete m_listView;
     delete m_printer;
     delete m_policyext;
     delete m_pUndoStack;
     delete m_refactoringAssist;
     delete m_xhtmlGenerator;
+    delete m_listView;
+    delete m_doc;
+    delete m_d;
 }
 
 /**

@@ -39,8 +39,6 @@
 #include <QTemporaryDir>
 #endif
 
-static UMLApp *umlApp = 0;
-
 TestBase::TestBase(QObject *parent)
   : QObject(parent)
 {
@@ -49,12 +47,12 @@ TestBase::TestBase(QObject *parent)
 void TestBase::initTestCase()
 {
     QWidget *w = new QWidget;
-    umlApp = new UMLApp(w);
+    new UMLApp(w);
 }
 
 void TestBase::cleanupTestCase()
 {
-    delete umlApp;
+    delete UMLApp::app();
 }
 
 void TestCodeGeneratorBase::initTestCase()
