@@ -15,8 +15,11 @@
 #include "finddialog.h"
 #include "findresults.h"
 #include "uml.h"
+#include "stereotypeswindow.h"
 
 // kde includes
+#include <KActionCollection>
+#include <KToggleAction>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
@@ -43,16 +46,18 @@ class UMLAppPrivate : public QObject
 {
     Q_OBJECT
 public:
-    QWidget *parent;
+    UMLApp *parent;
     FindDialog findDialog;
     FindResults findResults;
     QListWidget *logWindow;         ///< Logging window.
+    KToggleAction *viewStereotypesWindow;
+    StereotypesWindow *stereotypesWindow;
 
     KTextEditor::Editor *editor;
     KTextEditor::View *view;
     KTextEditor::Document *document;
 
-    explicit UMLAppPrivate(QWidget *_parent)
+    explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
         view(0),
@@ -101,6 +106,19 @@ public slots:
         delete dialog;
         delete document;
     }
+
+    void createStereotypesWindow()
+    {
+        // create the tree viewer
+        stereotypesWindow = new StereotypesWindow(parent);
+        parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
+
+        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));
+        // TODO: wrap with i18n in 2.18
+        viewStereotypesWindow->setText(QLatin1String("Stereotypes"));
+        connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
+    }
+
 };
 
 #endif

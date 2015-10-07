@@ -447,6 +447,8 @@ set(umbrellobase_SRCS
     optionstate.cpp
     petalnode.cpp
     petaltree2uml.cpp
+    stereotypeswindow.cpp
+    stereotypesmodel.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
     toolbarstate.cpp
