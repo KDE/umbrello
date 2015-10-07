@@ -440,6 +440,7 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         if (index == m_srcIndex) {
             log(m_parsedFiles.first(), QLatin1String("could not parse column constraint '") + token + QLatin1String("'"));
             token = advance();
+            index = m_srcIndex;
         }
     }
     return constraints;
