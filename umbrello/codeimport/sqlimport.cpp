@@ -290,8 +290,8 @@ QString SQLImport::parseDefaultExpression(QString &token)
  *  [ CONSTRAINT constraint_name ]
  *  { NOT NULL |
  *    NULL |
- *    CHARACTER SET <format> |
  *    CHECK ( expression ) |
+ *    COLLATE collation |
  *    DEFAULT default_expr |
  *    UNIQUE index_parameters |
  *    PRIMARY KEY index_parameters |
@@ -301,7 +301,9 @@ QString SQLImport::parseDefaultExpression(QString &token)
  *
  * mysql:
  *  [ PRIMARY KEY index_parameters |
- *    KEY key_name ( fields ) ]
+ *    KEY key_name ( fields )
+ *    CHARACTER SET charset_name |
+ *    COLLATE collation ]
  *
  * @param token string with current token
  * @return column constraints
