@@ -621,6 +621,15 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                 UMLUniqueConstraint *uc = new UMLUniqueConstraint(a, a->name() + QLatin1String("_unique"));
                 entity->addConstraint(uc);
             }
+
+            QStringList attributes;
+            if (!constraints.characterSet.isEmpty())
+                attributes.append(QLatin1String("CHARACTER SET ") + constraints.characterSet);
+            if (!constraints.collate.isEmpty())
+                attributes.append(QLatin1String("COLLATE ") + constraints.collate);
+            if (attributes.size() > 0)
+                a->setAttributes(attributes.join(QLatin1String(" ")));
+
             entity->addEntityAttribute(a);
         } else if (!entity) {
             uError() << "Could not add field '" << fieldName << "' because of zero entity.";
