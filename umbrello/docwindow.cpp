@@ -462,6 +462,5 @@ void DocWindow::toForeground()
                 tab->setCurrentIndex(i);
         }
     }
-    m_docTE->setFocus();
 }
 
