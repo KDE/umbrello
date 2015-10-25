@@ -51,6 +51,7 @@ public slots:
 
 private slots:
     void slotTextChanged();
+    void slotFocusEnabledChanged(int state);
 
 private:
     /**
@@ -77,6 +78,7 @@ private:
     QLabel    *m_nameLabel;      ///< label for name text
     ModifiedWidget *m_modifiedWidget;  ///< label for modified flag icon
     KTextEdit *m_docTE;          ///< documentation widget
+    bool m_focusEnabled;
 
     bool isModified();
     QLabel* createPixmapLabel();

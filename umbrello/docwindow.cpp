@@ -27,6 +27,7 @@
 #include <KLocalizedString>
 
 // qt includes
+#include <QCheckBox>
 #include <QLabel>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -76,7 +77,8 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_pUMLDoc(doc),
     m_pUMLWidget(0),
     m_pAssocWidget(0),
-    m_Showing(st_Project)
+    m_Showing(st_Project),
+    m_focusEnabled(false)
 {
     //setup visual display
     QGridLayout* statusLayout = new QGridLayout();
@@ -87,8 +89,12 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_nameLabel->setFrameStyle(QFrame::Panel | QFrame::Raised);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
+    QCheckBox *box = new QCheckBox();
+    box->setToolTip(i18n("Activate documentation edit after focus change."));
+    connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotFocusEnabledChanged(int)));
+    statusLayout->addWidget(box, 0, 5, 1, 1);
     m_modifiedWidget = new ModifiedWidget(this);
-    statusLayout->addWidget(m_modifiedWidget, 0, 5, 1, 1);
+    statusLayout->addWidget(m_modifiedWidget, 0, 6, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText(QString());
     setFocusProxy(m_docTE);
@@ -410,6 +416,14 @@ void DocWindow::slotTextChanged()
 }
 
 /**
+ * Set state of focus enabled support.
+ */
+void DocWindow::slotFocusEnabledChanged(int status)
+{
+    m_focusEnabled = status == Qt::Checked;
+}
+
+/**
  * Updates the info label with the current state.
  * If the given name is empty only the modified icon is set.
  */
@@ -462,5 +476,6 @@ void DocWindow::toForeground()
                 tab->setCurrentIndex(i);
         }
     }
+    if (m_focusEnabled)
+        m_docTE->setFocus();
 }
-
