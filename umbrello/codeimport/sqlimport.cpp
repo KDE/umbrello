@@ -290,6 +290,7 @@ QString SQLImport::parseDefaultExpression(QString &token)
  *  [ CONSTRAINT constraint_name ]
  *  { NOT NULL |
  *    NULL |
+ *    CHARACTER SET <format> |
  *    CHECK ( expression ) |
  *    DEFAULT default_expr |
  *    UNIQUE index_parameters |
@@ -311,6 +312,18 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
     int index = m_srcIndex;
 
     while(token != QLatin1String(",") && token != QLatin1String(")")) {
+        if (token.toLower() == QLatin1String("character")) { // mysql
+            token = advance(); // set
+            if (token.toLower() == QLatin1String("set")) {
+                constraints.characterSet = advance(); // <value>
+                token = advance();
+            }
+            else {
+                m_srcIndex--; // take back
+                token = m_source[m_srcIndex];
+            }
+        }
+
         if (token.toLower() == QLatin1String("collate")) { // mysql
             constraints.collate = advance();
             token = advance();
@@ -440,6 +453,7 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         if (index == m_srcIndex) {
             log(m_parsedFiles.first(), QLatin1String("could not parse column constraint '") + token + QLatin1String("'"));
             token = advance();
+            index = m_srcIndex;
         }
     }
     return constraints;

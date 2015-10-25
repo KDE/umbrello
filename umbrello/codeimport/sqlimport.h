@@ -59,6 +59,7 @@ protected:
         QString collate;
         QString defaultValue;
         QString constraintName;
+        QString characterSet;
     };
 
     class TableConstraints {
