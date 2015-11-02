@@ -57,21 +57,19 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
     UMLDoc* doc = UMLApp::app()->document();
 
     UMLClassifierList cList;
+    ui_listSelected->clear();
 
     if (classList == NULL) {
-        UMLFolder* currRoot = doc->currentRoot();
-        Uml::ModelType::Enum type = doc->rootFolderType(currRoot);
-
-        switch (type) {
-            case Uml::ModelType::Logical:
-                cList = doc->classesAndInterfaces();
-                break;
-            case Uml::ModelType::EntityRelationship:
+        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+        switch (pl) {
+            case Uml::ProgrammingLanguage::PostgreSQL:
+            case Uml::ProgrammingLanguage::MySQL:
                 foreach (UMLEntity* ent, doc->entities()) {
                     cList.append(ent);
                 }
                 break;
-           default:
+            default:
+                cList = doc->classesAndInterfaces();
                 break;
         }
         classList = &cList;
