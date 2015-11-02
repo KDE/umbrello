@@ -33,12 +33,15 @@ class CodeGenerationWizard : public QWizard
 {
     Q_OBJECT
 public:
-    enum {SelectionPage, OptionsPage, StatusPage};
+    enum {OptionsPage, SelectionPage, StatusPage};
 
     explicit CodeGenerationWizard(UMLClassifierList *classList);
     ~CodeGenerationWizard();
 
     QListWidget* getSelectionListWidget();
+
+protected slots:
+    void slotLanguageChanged();
 
 private:
     QWizardPage* createSelectionPage(UMLClassifierList *classList);

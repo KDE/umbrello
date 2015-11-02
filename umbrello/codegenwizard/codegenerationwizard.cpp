@@ -41,9 +41,10 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
     setWindowTitle(i18n("Code Generation Wizard"));
     setOption(QWizard::NoBackButtonOnStartPage, true);
 
-    setPage(SelectionPage, createSelectionPage(classList));
     setPage(OptionsPage, createOptionsPage());
+    setPage(SelectionPage, createSelectionPage(classList));
     setPage(StatusPage, createStatusPage());
+    connect(m_OptionsPage, SIGNAL(languageChanged()), this, SLOT(slotLanguageChanged()));
 }
 
 /**
@@ -96,4 +97,12 @@ QWizardPage* CodeGenerationWizard::createStatusPage()
 QListWidget* CodeGenerationWizard::getSelectionListWidget()
 {
     return m_SelectionPage->getSelectionListWidget();
+}
+
+/**
+ * Slot to handle generator language change.
+ */
+void CodeGenerationWizard::slotLanguageChanged()
+{
+    m_SelectionPage->setClassifierList(0);
 }
