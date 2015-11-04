@@ -232,6 +232,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/documentationwidget.cpp
+    dialogs/widgets/imagetypewidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp

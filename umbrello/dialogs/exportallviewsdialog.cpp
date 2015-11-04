@@ -12,10 +12,6 @@
 #include "exportallviewsdialog.h"
 
 // kde include files
-#include <KComboBox>
-#if QT_VERSION < 0x050000
-#include <kfilefiltercombo.h>
-#endif
 #include <KLocalizedString>
 
 // application specific includes
@@ -36,29 +32,12 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
     setupUi(mainWidget());
 
     // create and initialize m_imageType
-#if QT_VERSION >= 0x050000
-    m_imageType = new KComboBox(this);
-#else
-    m_imageType = new KFileFilterCombo(this);
-#endif
+    m_imageType = new ImageTypeWidget(UMLViewImageExporterModel::supportedMimeTypes(), QLatin1String("image/png"), this);
 
-    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    sp.setHorizontalStretch(0);
-    sp.setVerticalStretch(0);
-    sp.setHeightForWidth(m_imageType->sizePolicy().hasHeightForWidth());
-    m_imageType->setSizePolicy(sp);
-    m_imageType->setEditable(false);
-#if QT_VERSION >= 0x050000
-    m_imageType->addItems(UMLViewImageExporterModel::supportedMimeTypes());
-    m_imageType->setCurrentText(QString::fromLatin1("image/png"));
-#else
-    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), QString::fromLatin1("image/png"));
-#endif
     // Cannot give an object name to the layout when using QtDesigner,
     // therefore go and use an editor and add it by hand.
     ui_imageTypeLayout->addWidget(m_imageType);
 
-    ui_imageTypeLabel->setBuddy(m_imageType);
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();

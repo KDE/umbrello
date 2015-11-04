@@ -10,8 +10,9 @@
 #ifndef EXPORTALLVIEWSDIALOG_H
 #define EXPORTALLVIEWSDIALOG_H
 
-// application specific includes
+// app includes
 #include "ui_exportallviewsdialogbase.h"
+#include "imagetypewidget.h"
 #include "singlepagedialogbase.h"
 
 // KDE forward declarations
@@ -40,12 +41,8 @@ public:
     ~ExportAllViewsDialog();
 
 private:
+    ImageTypeWidget* m_imageType;  ///< The image type selected.
 
-#if QT_VERSION >= 0x050000
-    KComboBox* m_imageType;  ///< The image type selected.
-#else
-    KFileFilterCombo* m_imageType;  ///< The image type selected.
-#endif
 protected slots:
 
     friend class UMLViewImageExporterAll;

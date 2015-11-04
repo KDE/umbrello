@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>366</width>
-    <height>157</height>
+    <width>368</width>
+    <height>246</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,21 +45,8 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="ui_imageTypeLayout">
-     <item>
-      <widget class="QLabel" name="ui_imageTypeLabel">
-       <property name="toolTip">
-        <string>The format that the images will be exported to</string>
-       </property>
-       <property name="text">
-        <string>&amp;Image type:</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <layout class="QHBoxLayout" name="ui_imageTypeLayout"/>
+   </item>
    </item>
    <item>
     <widget class="QCheckBox" name="m_useFolders">
