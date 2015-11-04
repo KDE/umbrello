@@ -47,6 +47,8 @@
    <item>
     <layout class="QHBoxLayout" name="ui_imageTypeLayout"/>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="ui_imageResolutionLayout"/>
    </item>
    <item>
     <widget class="QCheckBox" name="m_useFolders">

@@ -106,9 +106,10 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
     }
 
     app->setImageMimeType(m_dialog->m_imageType->currentType());
+    float resolution = m_dialog->m_imageResolution->currentResolution();
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
-    QStringList errors = UMLViewImageExporterModel().exportViews(views,
+    QStringList errors = UMLViewImageExporterModel(resolution).exportViews(views,
 #if QT_VERSION >= 0x050000
                                 UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentType()),
                                 QUrl(m_dialog->m_kURL->url()),
