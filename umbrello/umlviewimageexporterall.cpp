@@ -105,20 +105,15 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
         return;
     }
 
-#if QT_VERSION >= 0x050000
-    app->setImageMimeType(m_dialog->m_imageType->currentText());
-#else
-    app->setImageMimeType(m_dialog->m_imageType->currentFilter());
-#endif
-
+    app->setImageMimeType(m_dialog->m_imageType->currentType());
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
     QStringList errors = UMLViewImageExporterModel().exportViews(views,
 #if QT_VERSION >= 0x050000
-                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentText()),
+                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentType()),
                                 QUrl(m_dialog->m_kURL->url()),
 #else
-                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentFilter()),
+                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentType()),
                                 KUrl(m_dialog->m_kURL->url()),
 #endif
                                 m_dialog->m_useFolders->isChecked());
