@@ -175,8 +175,10 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
 
 /**
  * Constructor for UMLViewImageExporterModel.
+ * @param resolution resolution of export in DPI (default 0.0 means export type related default)
  */
-UMLViewImageExporterModel::UMLViewImageExporterModel()
+UMLViewImageExporterModel::UMLViewImageExporterModel(float resolution)
+  : m_resolution(resolution)
 {
 }
 
@@ -570,7 +572,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     QRectF rect = scene->diagramRect();
-    float scale = 72.0f / qApp->desktop()->logicalDpiX();
+    float scale = m_resolution != 0.0 ? m_resolution / qApp->desktop()->logicalDpiX() : 72.0f / qApp->desktop()->logicalDpiX();
     QSizeF size = rect.size() * scale;
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);

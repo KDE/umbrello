@@ -13,6 +13,7 @@
 // app includes
 #include "ui_exportallviewsdialogbase.h"
 #include "imagetypewidget.h"
+#include "resolutionwidget.h"
 #include "singlepagedialogbase.h"
 
 // KDE forward declarations
@@ -42,13 +43,14 @@ public:
 
 private:
     ImageTypeWidget* m_imageType;  ///< The image type selected.
+    ResolutionWidget* m_imageResolution;  ///< The image resolution selected.
 
 protected slots:
 
     friend class UMLViewImageExporterAll;
 
     virtual void languageChange();
-
+    void slotImageTypeChanged(QString imageType);
 };
 
 #endif
