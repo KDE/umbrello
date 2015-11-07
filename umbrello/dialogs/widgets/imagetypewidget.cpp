@@ -68,7 +68,7 @@ ImageTypeWidget::ImageTypeWidget(const QStringList &imageTypes, const QString &_
 QString ImageTypeWidget::currentType()
 {
 #if QT_VERSION >= 0x050000
-    return m_comboBox->currentText());
+    return m_comboBox->currentText();
 #else
     return m_comboBox->currentFilter();
 #endif
