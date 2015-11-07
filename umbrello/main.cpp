@@ -97,6 +97,7 @@ static const QString EXPORT_FORMATS = QStringLiteral("export-formats");
 static const QString IMPORT_FILES   = QStringLiteral("import-files");
 static const QString USE_FOLDERS    = QStringLiteral("use-folders");
 static const QString DIRECTORY      = QStringLiteral("directory");
+static const QString LANGUAGES      = QStringLiteral("languages");
 #endif
 
 int main(int argc, char *argv[])
@@ -192,7 +193,11 @@ int main(int argc, char *argv[])
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
+#if QT_VERSION >= 0x050000
+        } else if (args->isSet(LANGUAGES)) {
+#else
         } else if (args->isSet("languages")) {
+#endif
             for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
                 Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
                 fprintf(stdout, "%s\n", qPrintable(Uml::ProgrammingLanguage::toString(pl)));
