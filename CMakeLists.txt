@@ -121,7 +121,6 @@ else()
     set(QT_MIN_VERSION "5.2.0")
     find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
         Core
-        DBus
         Gui
         PrintSupport
         Svg
@@ -133,20 +132,14 @@ else()
     # search packages used by KDE
     find_package(KF5 REQUIRED COMPONENTS
         Archive
-        Auth
         Completion
         Config
         CoreAddons
         DocTools
-        GuiAddons
         I18n
         IconThemes
-        Init
         KIO
-        Parts
-        Service
         TextEditor
-        WindowSystem
         WidgetsAddons
         XmlGui
     )
