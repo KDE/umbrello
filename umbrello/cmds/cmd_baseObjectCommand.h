@@ -13,6 +13,7 @@
 
 #include "basictypes.h"
 
+#include <QPointer>
 #include <QUndoCommand>
 
 class UMLObject;
@@ -27,6 +28,7 @@ namespace Uml
 
         protected:
             Uml::ID::Type m_objectId;
+            QPointer<UMLObject> m_object;
 
             void setObject(UMLObject* object);
             UMLObject* object();
