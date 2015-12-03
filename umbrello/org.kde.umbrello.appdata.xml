@@ -107,7 +107,7 @@
       <li xml:lang="sv">Format som stöds: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
-      <li>Several type of diagrams supported: use case, class, sequence, collaboration, state, activity, component, deployment, entity relationship</li>
+      <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, col·laboració, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, col·laboració, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="de">Verschiedene Diagramm-Typen werden unterstützt: Anwendungsfalldiagramm, Klassendiagramm, Sequenzdiagramm, Kommunikationsdiagramm, Zustandsdiagramm, Aktivitätsdiagramm, Komponentendiagramm, Verteilungsdiagramm, Entity-Relationship-Diagramm</li>
