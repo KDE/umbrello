@@ -60,10 +60,10 @@ public:
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
-        view(0),
-        document(0),
         viewStereotypesWindow(0),
-        stereotypesWindow(0)
+        stereotypesWindow(0),
+        view(0),
+        document(0)
     {
 #if QT_VERSION >= 0x050000
         editor = KTextEditor::Editor::instance();
