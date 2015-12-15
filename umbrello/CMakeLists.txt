@@ -531,6 +531,7 @@ else()
         KF5::TextEditor
         KF5::WidgetsAddons
         KF5::XmlGui
+        KF5::WindowSystem
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
     )

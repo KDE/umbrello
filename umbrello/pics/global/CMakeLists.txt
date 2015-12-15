@@ -1,5 +1,5 @@
 if(NOT BUILD_KF5)
-    kde4_install_icons(${ICON_INSTALL_DIR})
+    add_subdirectory(kde4)
 else()
     ecm_install_icons(
         ICONS 16-apps-umbrello.png

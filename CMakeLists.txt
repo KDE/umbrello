@@ -2,8 +2,8 @@ project(umbrello)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "15")
-set (KDE_APPLICATIONS_VERSION_MINOR "11")
-set (KDE_APPLICATIONS_VERSION_MICRO "80")
+set (KDE_APPLICATIONS_VERSION_MINOR "12")
+set (KDE_APPLICATIONS_VERSION_MICRO "0")
 
 set(UMBRELLO_VERSION_MAJOR "2")
 set(UMBRELLO_VERSION_MINOR "19")
@@ -141,6 +141,7 @@ else()
         KIO
         TextEditor
         WidgetsAddons
+        WindowSystem
         XmlGui
     )
 

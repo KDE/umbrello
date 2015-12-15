@@ -60,6 +60,8 @@ public:
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
+        viewStereotypesWindow(0),
+        stereotypesWindow(0),
         view(0),
         document(0)
     {
