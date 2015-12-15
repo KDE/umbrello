@@ -141,6 +141,7 @@ else()
         KIO
         TextEditor
         WidgetsAddons
+        WindowSystem
         XmlGui
     )
 
