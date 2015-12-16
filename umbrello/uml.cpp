@@ -918,6 +918,8 @@ void UMLApp::initView()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
+    m_d->createStereotypesWindow();
+
     // create the tree viewer
     m_listDock = new QDockWidget(i18n("&Tree View"), this);
     m_listDock->setObjectName(QLatin1String("TreeViewDock"));

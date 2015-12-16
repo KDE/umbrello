@@ -449,6 +449,8 @@ set(umbrellobase_SRCS
     optionstate.cpp
     petalnode.cpp
     petaltree2uml.cpp
+    stereotypeswindow.cpp
+    stereotypesmodel.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
     toolbarstate.cpp
@@ -518,21 +520,18 @@ else()
     target_link_libraries(libumbrello
         Qt5::Widgets
         Qt5::Xml
-        Qt5::DBus
         Qt5::PrintSupport
         Qt5::Svg
         KF5::Archive
-        KF5::Auth
         KF5::Completion
         KF5::CoreAddons
         KF5::I18n
         KF5::IconThemes
-        KF5::GuiAddons
         KF5::KIOCore
         KF5::TextEditor
         KF5::WidgetsAddons
-        KF5::WindowSystem
         KF5::XmlGui
+        KF5::WindowSystem
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
     )

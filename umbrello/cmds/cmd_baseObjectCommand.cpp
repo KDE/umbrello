@@ -33,6 +33,7 @@ namespace Uml
     {
         Q_ASSERT(object);
 
+        m_object = object;
         m_objectId = object->id();
     }
 
@@ -41,7 +42,8 @@ namespace Uml
         UMLDoc *doc = UMLApp::app()->document();
         UMLObject *umlObject = doc->findObjectById(m_objectId);
 
-        //Q_ASSERT(umlObject);
+        if (!umlObject)
+            umlObject = m_object;
 
         return umlObject;
     }
