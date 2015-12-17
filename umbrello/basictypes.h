@@ -339,4 +339,14 @@ QFont systemFont();
 
 }  // end namespace Uml
 
+static inline QString toString(Uml::ProgrammingLanguage::Enum lang)
+{
+    return Uml::ProgrammingLanguage::toString(lang);
+}
+
+static inline QString toString(Uml::Visibility::Enum visibility)
+{
+    return Uml::Visibility::toString(visibility);
+}
+
 #endif
