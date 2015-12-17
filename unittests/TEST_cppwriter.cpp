@@ -41,8 +41,7 @@ void TEST_cppwriter::test_language()
 {
     CppWriter* cpp = new CppWriter();
     Uml::ProgrammingLanguage::Enum lang = cpp->language();
-    QCOMPARE(Uml::ProgrammingLanguage::toString(lang),
-             Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Cpp));
+    QCOMPARE(lang, Uml::ProgrammingLanguage::Cpp);
 }
 
 void TEST_cppwriter::test_writeClass()
