@@ -26,14 +26,6 @@
 
 const bool IS_NOT_IMPL = false;
 
-namespace QTest {
-    char *toString(const Uml::ProgrammingLanguage::Enum lang)
-    {
-        QByteArray ba = "Uml::ProgrammingLanguage::Enum(" + Uml::ProgrammingLanguage::toString(lang).toLocal8Bit() + ")";
-        return qstrdup(ba.data());
-    }
-}
-
 //-----------------------------------------------------------------------------
 
 class CppWriterTest : public CppWriter
@@ -49,7 +41,7 @@ void TEST_cppwriter::test_language()
 {
     CppWriter* cpp = new CppWriter();
     Uml::ProgrammingLanguage::Enum lang = cpp->language();
-    QCOMPARE(lang, Uml::ProgrammingLanguage::Cpp);
+    QVERIFY(lang == Uml::ProgrammingLanguage::Cpp);
 }
 
 void TEST_cppwriter::test_writeClass()
