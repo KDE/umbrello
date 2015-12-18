@@ -33,6 +33,14 @@
 
 const bool IS_NOT_IMPL = false;
 
+namespace QTest {
+    char *toString(const Uml::Visibility::Enum visibility)
+    {
+        QByteArray ba = "Uml::Visibility::Enum(" + Uml::Visibility::toString(visibility).toLocal8Bit()  + ")";
+        return qstrdup(ba.data());
+    }
+}
+
 //-----------------------------------------------------------------------------
 
 void TEST_UMLObject::test_copyInto()
