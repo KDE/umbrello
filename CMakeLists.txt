@@ -128,7 +128,6 @@ else()
         Widgets
         Xml
     )
-    message(STATUS "Using Qt version ${QT_MIN_VERSION}")
 
     # search packages used by KDE
     find_package(KF5 REQUIRED COMPONENTS
