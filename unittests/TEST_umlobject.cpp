@@ -33,14 +33,6 @@
 
 const bool IS_NOT_IMPL = false;
 
-namespace QTest {
-    char *toString(const Uml::Visibility::Enum visibility)
-    {
-        QByteArray ba = "Uml::Visibility::Enum(" + Uml::Visibility::toString(visibility).toLocal8Bit()  + ")";
-        return qstrdup(ba.data());
-    }
-}
-
 //-----------------------------------------------------------------------------
 
 void TEST_UMLObject::test_copyInto()
@@ -208,15 +200,15 @@ void TEST_UMLObject::test_setUMLPackage()
 void TEST_UMLObject::test_setVisibility()
 {
     UMLObject a("Test A");
-    QCOMPARE(a.visibility(), Uml::Visibility::Public);
+    QVERIFY(a.visibility() == Uml::Visibility::Public);
     a.setVisibilityCmd(Uml::Visibility::Protected);
-    QCOMPARE(a.visibility(), Uml::Visibility::Protected);
+    QVERIFY(a.visibility() == Uml::Visibility::Protected);
     a.setVisibilityCmd(Uml::Visibility::Private);
-    QCOMPARE(a.visibility(), Uml::Visibility::Private);
+    QVERIFY(a.visibility() == Uml::Visibility::Private);
     a.setVisibilityCmd(Uml::Visibility::Implementation);
-    QCOMPARE(a.visibility(), Uml::Visibility::Implementation);
+    QVERIFY(a.visibility() == Uml::Visibility::Implementation);
     a.setVisibilityCmd(Uml::Visibility::FromParent);
-    QCOMPARE(a.visibility(), Uml::Visibility::FromParent);
+    QVERIFY(a.visibility() == Uml::Visibility::FromParent);
 }
 
 void TEST_UMLObject::test_toString()

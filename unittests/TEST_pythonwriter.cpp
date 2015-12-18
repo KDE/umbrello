@@ -41,7 +41,7 @@ void TEST_pythonwriter::test_language()
 {
     PythonWriter* py = new PythonWriter();
     Uml::ProgrammingLanguage::Enum lang = py->language();
-    QCOMPARE(lang, Uml::ProgrammingLanguage::Python);
+    QVERIFY(lang == Uml::ProgrammingLanguage::Python);
 }
 
 void TEST_pythonwriter::test_writeClass()
