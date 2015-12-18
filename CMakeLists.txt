@@ -181,6 +181,7 @@ add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
 
 message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
+message(STATUS "Using Qt version ${QT_MIN_VERSION}")
 
 find_package(LibXslt)
 set_package_properties(LibXslt PROPERTIES
