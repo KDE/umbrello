@@ -1,9 +1,19 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[en_GB]=Export Layout
+Name[fi]=Vientiasettelu
+Name[nl]=Indeling exporteren
+Name[sk]=Exportovať rozloženie
 Name[sv]=Exportera layout
+Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Class Diagrams
+Comment[en_GB]=Export Layout for Class Diagrams
+Comment[fi]=Luokkakaavioiden vientiasettelu
+Comment[nl]=Indeling voor klassediagrammen exporteren
+Comment[sk]=Exportovať rozloženie pre diagramy tried
 Comment[sv]=Exportera layout av klassdiagram
+Comment[x-test]=xxExport Layout for Class Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box

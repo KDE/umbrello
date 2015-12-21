@@ -1,9 +1,19 @@
 [Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[en_GB]=UseCase Default Layout
+Name[fi]=Käyttötapauksen oletusasettelu
+Name[nl]=Standaard indeling van gebruiksgeval
+Name[sk]=Predvolené rozloženie Usecase
 Name[sv]=Standardlayout för användarfall
+Name[x-test]=xxUseCase Default Layoutxx
 Comment=Usecase Default Layout
+Comment[en_GB]=Usecase Default Layout
+Comment[fi]=Käyttötapauksen oletusasettelu
+Comment[nl]=Standaard indeling van gebruiksgeval
+Comment[sk]=Predvolené rozloženie Usecase
 Comment[sv]=Standardlayout för användarfall
+Comment[x-test]=xxUsecase Default Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::usecase shape=ellipse

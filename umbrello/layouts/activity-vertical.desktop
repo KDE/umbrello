@@ -1,9 +1,19 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
+Name[en_GB]=Vertical Layout
+Name[fi]=Pystysuuntainen asettelu
+Name[nl]=Verticale indeling
+Name[sk]=Zvislé rozloženie
 Name[sv]=Vertikal layout
+Name[x-test]=xxVertical Layoutxx
 Comment=Layout which renders vertical
+Comment[en_GB]=Layout which renders vertical
+Comment[fi]=Pystysuuntaan piirtävä asettelu
+Comment[nl]=Indeling die zich verticaal laat weergeven
+Comment[sk]=Rozloženie, ktoré renderuje zvislo
 Comment[sv]=Layout som återger vertikalt
+Comment[x-test]=xxLayout which renders verticalxx
 
 [X-UMBRELLO-Dot-Nodes]
 # FIXME: graphviz dot not have appropriate node shape yet

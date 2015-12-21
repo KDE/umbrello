@@ -1,9 +1,19 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[en_GB]=Export Layout
+Name[fi]=Vientiasettelu
+Name[nl]=Indeling exporteren
+Name[sk]=Exportovať rozloženie
 Name[sv]=Exportera layout
+Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Activity Diagrams
+Comment[en_GB]=Export Layout for Activity Diagrams
+Comment[fi]=Aktiviteettikaavioiden vientiasettelu
+Comment[nl]=Indeling voor activiteitsdiagrammen exporteren
+Comment[sk]=Exportovať rozloženie pre diagramy aktivít
 Comment[sv]=Exportera layout av aktivitetsdiagram
+Comment[x-test]=xxExport Layout for Activity Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 # FIXME: graphviz dot not have appropriate node shape yet
