@@ -10,6 +10,7 @@ Name[nl]=Standaard indeling van gebruiksgeval
 Name[pt]=Disposição de Casos de Uso
 Name[sk]=Predvolené rozloženie Usecase
 Name[sv]=Standardlayout för användarfall
+Name[uk]=Типове компонування випадку використання
 Name[x-test]=xxUseCase Default Layoutxx
 Comment=Usecase Default Layout
 Comment[en_GB]=Usecase Default Layout
@@ -21,6 +22,7 @@ Comment[nl]=Standaard indeling van gebruiksgeval
 Comment[pt]=Disposição Predefinida de Casos de Uso
 Comment[sk]=Predvolené rozloženie Usecase
 Comment[sv]=Standardlayout för användarfall
+Comment[uk]=Типове компонування випадку використання
 Comment[x-test]=xxUsecase Default Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]

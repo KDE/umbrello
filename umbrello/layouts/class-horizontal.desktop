@@ -10,6 +10,7 @@ Name[nl]=Horizontale indeling
 Name[pt]=Disposição Horizontal
 Name[sk]=Vodorovné rozloženie
 Name[sv]=Horisontell layout
+Name[uk]=Горизонтальне компонування
 Name[x-test]=xxHorizontal Layoutxx
 Comment=Layout which renders Horizontal
 Comment[en_GB]=Layout which renders Horizontal
@@ -21,6 +22,7 @@ Comment[nl]=Indeling die zich horizontaal laat weergeven
 Comment[pt]=Uma disposição que representa os itens na horizontal
 Comment[sk]=Rozloženie, ktoré renderuje vodorovne
 Comment[sv]=Layout som återger horisontellt
+Comment[uk]=Компонування з горизонтальним розташуванням елементів
 Comment[x-test]=xxLayout which renders Horizontalxx
 
 [X-UMBRELLO-Dot-Nodes]

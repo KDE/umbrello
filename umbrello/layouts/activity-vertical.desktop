@@ -10,6 +10,7 @@ Name[nl]=Verticale indeling
 Name[pt]=Disposição Vertical
 Name[sk]=Zvislé rozloženie
 Name[sv]=Vertikal layout
+Name[uk]=Вертикальне компонування
 Name[x-test]=xxVertical Layoutxx
 Comment=Layout which renders vertical
 Comment[en_GB]=Layout which renders vertical
@@ -21,6 +22,7 @@ Comment[nl]=Indeling die zich verticaal laat weergeven
 Comment[pt]=Uma disposição que representa os itens na vertical
 Comment[sk]=Rozloženie, ktoré renderuje zvislo
 Comment[sv]=Layout som återger vertikalt
+Comment[uk]=Компонування з вертикальним розташуванням елементів
 Comment[x-test]=xxLayout which renders verticalxx
 
 [X-UMBRELLO-Dot-Nodes]

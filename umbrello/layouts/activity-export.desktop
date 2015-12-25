@@ -10,6 +10,7 @@ Name[nl]=Indeling exporteren
 Name[pt]=Exportar a Disposição
 Name[sk]=Exportovať rozloženie
 Name[sv]=Exportera layout
+Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Activity Diagrams
 Comment[en_GB]=Export Layout for Activity Diagrams
@@ -21,6 +22,7 @@ Comment[nl]=Indeling voor activiteitsdiagrammen exporteren
 Comment[pt]=Exportar a Disposição dos Diagramas de Actividades
 Comment[sk]=Exportovať rozloženie pre diagramy aktivít
 Comment[sv]=Exportera layout av aktivitetsdiagram
+Comment[uk]=Компонування для експортування діаграм дій
 Comment[x-test]=xxExport Layout for Activity Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
