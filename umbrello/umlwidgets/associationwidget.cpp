@@ -1544,6 +1544,7 @@ QString AssociationWidget::toString() const
 {
     QString string;
     static const QChar colon(QLatin1Char(':'));
+    static const QChar space(QLatin1Char(' '));
 
     if (widgetForRole(RoleType::A)) {
         string = widgetForRole(RoleType::A)->name();
@@ -1553,9 +1554,9 @@ QString AssociationWidget::toString() const
     if (m_role[RoleType::A].roleWidget) {
         string += m_role[RoleType::A].roleWidget->text();
     }
-    string.append(colon);
+    string.append(space);
     string.append(Uml::AssociationType::toStringI18n(associationType()));
-    string.append(colon);
+    string.append(space);
 
     if (widgetForRole(RoleType::B)) {
         string += widgetForRole(RoleType::B)->name();
