@@ -756,7 +756,7 @@ void UMLApp::setupZoomMenu()
 {
     m_zoomSelect->clear();
 
-    int currentZoom = currentView()->currentZoom();
+    int currentZoom = currentView()->zoom();
 
     m_zoomSelect->addAction(createZoomAction(33, currentZoom));
     m_zoomSelect->addAction(createZoomAction(50, currentZoom));

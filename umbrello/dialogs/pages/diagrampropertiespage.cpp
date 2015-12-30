@@ -33,7 +33,7 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
     setupUi(this);
 
     ui_diagramName->setText(scene->name());
-    ui_zoom->setValue(scene->activeView()->currentZoom());
+    ui_zoom->setValue(scene->activeView()->zoom());
 
     ui_checkBoxShowGrid->setChecked(scene->isSnapGridVisible());
     ui_snapToGrid->setChecked(scene->snapToGrid());
@@ -104,7 +104,7 @@ bool DiagramPropertiesPage::checkUniqueDiagramName()
 void DiagramPropertiesPage::apply()
 {
     checkUniqueDiagramName();
-    //:TODO: m_pScene->setZoom(m_diagramProperties->ui_zoom->value());
+    m_scene->activeView()->setZoom(ui_zoom->value());
     m_scene->setDocumentation(ui_documentation->toPlainText());
     m_scene->setSnapSpacing(ui_gridSpaceX->value(), ui_gridSpaceY->value());
     m_scene->setSnapToGrid(ui_snapToGrid->isChecked());
