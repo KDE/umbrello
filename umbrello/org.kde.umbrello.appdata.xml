@@ -10,6 +10,7 @@
   <name xml:lang="en-GB">Umbrello</name>
   <name xml:lang="es">Umbrello</name>
   <name xml:lang="fi">Umbrello</name>
+  <name xml:lang="gl">Umbrello</name>
   <name xml:lang="it">Umbrello</name>
   <name xml:lang="nl">Umbrello</name>
   <name xml:lang="pl">Umbrello</name>
@@ -26,6 +27,7 @@
   <summary xml:lang="en-GB">UML Modeller</summary>
   <summary xml:lang="es">Modelador UML</summary>
   <summary xml:lang="fi">UML-mallinnusohjelma</summary>
+  <summary xml:lang="gl">Modelador de UML</summary>
   <summary xml:lang="it">Modellatore UML</summary>
   <summary xml:lang="nl">UML-modeller</summary>
   <summary xml:lang="pl">Program do modelowania UML</summary>
@@ -46,6 +48,7 @@
     <p xml:lang="en-GB">Umbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.</p>
     <p xml:lang="es">Umbrello es una herramienta de modelado y de generación de código para el lenguaje unificado de modelado (UML). Puede crear diagramas de software y de otros sistemas en el formato estándar de la industria UML, además de generar código a partir de diagramas UML en diversos lenguajes de programación.</p>
     <p xml:lang="fi">Umbrello on UML-mallinnusohjelma. Umbrellolla voi luoda kaavioita ohjelmistoista ja muista järjestelmistä käyttäen standardia UML-muotoa. Sillä voi myös luoda koodin UML-kaavioiden perusteella useille ohjelmointikielille.</p>
+    <p xml:lang="gl">Umbrello é unha ferramenta de modelaxe e xerador de código baseado na linguaxe de modelaxe UML. Pode crear diagramas de software e doutros sistemas usando o formato estándar da industria, UML, e pode tamén xerar código a partir de diagramas UML en varios linguaxes de programación.</p>
     <p xml:lang="it">Umbrello è uno strumento per diagrammi UML e un generatore di codice. Può creare diagrammi di software e altri sistemi nello standard industriale UML, e può anche generare codice partendo dai diagrammi UML in diversi linguaggi di programmazione.</p>
     <p xml:lang="nl">Umbrello is een Unified Modelling Language (UML) hulpmiddel voor modellering en generator van code. Het kan diagrammen van software en andere systemen maken  in het industrie-standaard UML-formaat en kan ook code genereren uit UML diagrammen in een verscheidenheid van programmeertalen.</p>
     <p xml:lang="pl">Umbrello jest Unified Modelling Language (UML) (z ang. Językiem do Jednolitego Modelowania)  i generatorem kodu. Może tworzyć diagramy oprogramowania i innych systemów w formacie standardu przemysłowego UML, a także generować kod z diagramów UML w wielu językach programowania.</p>
@@ -62,6 +65,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
+    <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="pl">Możliwości:</p>
@@ -79,6 +83,7 @@
       <li xml:lang="en-GB">Supported formats: XMI</li>
       <li xml:lang="es">Formatos permitidos: XMI</li>
       <li xml:lang="fi">Tukee XMI-tiedostomuotoa</li>
+      <li xml:lang="gl">Formatos compatíbeis: XMI.</li>
       <li xml:lang="it">Formati supportati: XMI</li>
       <li xml:lang="nl">Ondersteunde formaten: XMI</li>
       <li xml:lang="pl">Obsługiwane formaty: XMI</li>
@@ -95,6 +100,7 @@
       <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, collaboration, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, colaboración, estado, actividad, componente, despliegue y relación de entidades</li>
       <li xml:lang="fi">Tukee monenlaisia kaavioita: käyttötapauskaavio, luokkakaavio, sekvenssikaavio, yhteistyökaavio, tilakaavio, aktiviteettikaavio, komponenttikaavio, sijoittelukaavio, käsitekaavio</li>
+      <li xml:lang="gl">Permite traballar con varios tipos de diagramas: caso de uso, clase, secuencia, colaboración, estado, actividade, compoñente, distribución, e entidade-relación.</li>
       <li xml:lang="it">Diversi tipi di diagrammi supportati: casi d'uso, classe, sequenza, collaborazione, stato, attività, componente, dispiegamento, relazione tra entità</li>
       <li xml:lang="nl">Verschillende typen diagrammen worden ondersteund: use case, klassen, volgorde, samenwerking, status, activiteit, component, deployment, relaties tussen eenheden</li>
       <li xml:lang="pl">Kilka obsługiwanych rodzajów diagramów: przypadki użycia, klasy, sekwencje, kolaboracje, stany, aktywności, składniki, zastosowanie, współzależności obiektów</li>
