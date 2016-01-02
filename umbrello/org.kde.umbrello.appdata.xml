@@ -108,24 +108,6 @@
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
-      <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, col·laboració, estat, activitat, component, desplegament, entitat relació</li>
-      <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, col·laboració, estat, activitat, component, desplegament, entitat relació</li>
-      <li xml:lang="de">Verschiedene Diagramm-Typen werden unterstützt: Anwendungsfalldiagramm, Klassendiagramm, Sequenzdiagramm, Kommunikationsdiagramm, Zustandsdiagramm, Aktivitätsdiagramm, Komponentendiagramm, Verteilungsdiagramm, Entity-Relationship-Diagramm</li>
-      <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, collaboration, state, activity, component, deployment, entity relationship</li>
-      <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, colaboración, estado, actividad, componente, despliegue y relación de entidades</li>
-      <li xml:lang="et">Toetatud on mitut tüüpi skeemid: kasutus, klass, järgnevus, koostöö, olek, tegevus, komponent, evitus, olem-seos</li>
-      <li xml:lang="fi">Tukee monenlaisia kaavioita: käyttötapauskaavio, luokkakaavio, sekvenssikaavio, yhteistyökaavio, tilakaavio, aktiviteettikaavio, komponenttikaavio, sijoittelukaavio, käsitekaavio</li>
-      <li xml:lang="gl">Permite traballar con varios tipos de diagramas: caso de uso, clase, secuencia, colaboración, estado, actividade, compoñente, distribución, e entidade-relación.</li>
-      <li xml:lang="it">Diversi tipi di diagrammi supportati: casi d'uso, classe, sequenza, collaborazione, stato, attività, componente, dispiegamento, relazione tra entità</li>
-      <li xml:lang="nl">Verschillende typen diagrammen worden ondersteund: use case, klassen, volgorde, samenwerking, status, activiteit, component, deployment, relaties tussen eenheden</li>
-      <li xml:lang="pl">Kilka obsługiwanych rodzajów diagramów: przypadki użycia, klasy, sekwencje, kolaboracje, stany, aktywności, składniki, zastosowanie, współzależności obiektów</li>
-      <li xml:lang="pt">Diversos tipos de diagramas suportados: casos de uso, classe, sequência, colaboração, estado, actividade, componente, entrada em produção, entidade-associação</li>
-      <li xml:lang="pt-BR">Há suporte para diversos tipos de diagramas: casos de uso, classe, sequência, colaboração, estado, atividade, componente, distribuição, relacionamento de entidade</li>
-      <li xml:lang="sk">Podporovaných je niekoľko typov diagramov: prípady použitia, triedy, sekvencie, stavy, aktivity, nasadenie, vzžahy entít</li>
-      <li xml:lang="sl">Podprte so številne vrste diagramov: primer uporabe, razred, zaporedje, sodelovanje, stanje, dejavnost, sestavni del, namestitev, odvisnost entitete</li>
-      <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, samarbete, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
-      <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, співпраці, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
-      <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, collaboration, state, activity, component, deployment, entity relationshipxx</li>
     </ul>
   </description>
   <url type="homepage">http://umbrello.kde.org</url>
