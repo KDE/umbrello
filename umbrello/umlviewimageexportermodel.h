@@ -40,7 +40,7 @@ public:
     static QString imageTypeToMimeType(const QString& imageType);
     static QString mimeTypeToImageType(const QString& mimeType);
 
-    UMLViewImageExporterModel(float resolution = 0.0);
+    explicit UMLViewImageExporterModel(float resolution = 0.0);
     virtual ~UMLViewImageExporterModel();
 #if QT_VERSION >= 0x050000
     QString exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const;

@@ -437,7 +437,7 @@ void UMLApp::initActions()
 
     QAction* collaborationDiagram = actionCollection()->addAction(QLatin1String("new_collaboration_diagram"));
     collaborationDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Collaboration));
-    collaborationDiagram->setText(i18n("C&ollaboration Diagram..."));
+    collaborationDiagram->setText(i18n("C&ommunication Diagram..."));
     connect(collaborationDiagram, SIGNAL(triggered(bool)), this, SLOT(slotCollaborationDiagram()));
     newDiagram->addAction(collaborationDiagram);
 
