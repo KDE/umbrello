@@ -25,7 +25,7 @@ class StereotypesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    StereotypesModel(UMLStereotypeList *stereotypes);
+    explicit StereotypesModel(UMLStereotypeList *stereotypes);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

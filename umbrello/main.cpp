@@ -26,7 +26,6 @@
 #include <kconfig.h>
 #include <KLocalizedString>
 #include <ktip.h>
-#include <kwindowsystem.h>
 
 #if QT_VERSION >= 0x050000
 #include <QApplication>
