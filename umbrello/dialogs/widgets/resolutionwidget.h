@@ -31,7 +31,7 @@ class ResolutionWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ResolutionWidget(QWidget *parent = 0);
+    explicit ResolutionWidget(QWidget *parent = 0);
     void addToLayout(QHBoxLayout *layout);
     float currentResolution();
 

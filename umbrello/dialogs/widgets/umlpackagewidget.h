@@ -24,7 +24,7 @@ class UMLPackageWidget : public QWidget
 {
     Q_OBJECT
 public:
-    UMLPackageWidget(UMLObject *o, QWidget *parent = 0);
+    explicit UMLPackageWidget(UMLObject *o, QWidget *parent = 0);
     ~UMLPackageWidget();
 
     void addToLayout(QGridLayout *layout, int row);
