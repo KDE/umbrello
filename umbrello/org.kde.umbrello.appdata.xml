@@ -108,6 +108,14 @@
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
+      <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, comunicación, estado, actividad, componente, despliegue y relación de entidades</li>
+      <li xml:lang="gl">Permite traballar con varios tipos de diagramas: caso de uso, clase, secuencia, comunicación, estado, actividade, compoñente, distribución, e entidade-relación.</li>
+      <li xml:lang="nl">Verschillende typen diagrammen worden ondersteund: use case, klassen, volgorde, communicatie, status, activiteit, component, toepassing, relaties tussen eenheden</li>
+      <li xml:lang="pt">Diversos tipos de diagramas suportados: casos de uso, classe, sequência, comunicação, estado, actividade, componente, entrada em produção, entidade-associação</li>
+      <li xml:lang="pt-BR">Há suporte para diversos tipos de diagramas: casos de uso, classe, sequência, comunicação, estado, atividade, componente, distribuição, relacionamento de entidade</li>
+      <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, kommunikation, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
+      <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, обміну даними, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
+      <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationshipxx</li>
     </ul>
   </description>
   <url type="homepage">http://umbrello.kde.org</url>
