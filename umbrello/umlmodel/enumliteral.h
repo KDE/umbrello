@@ -26,7 +26,8 @@ class UMLEnumLiteral : public UMLClassifierListItem
 {
 public:
     UMLEnumLiteral(UMLObject* parent,
-                   const QString& name, Uml::ID::Type id = Uml::ID::None);
+                   const QString& name, Uml::ID::Type id = Uml::ID::None,
+                   const QString& v = QString());
     explicit UMLEnumLiteral(UMLObject* parent);
 
     bool operator==(const UMLEnumLiteral &rhs) const;
@@ -37,12 +38,25 @@ public:
 
     virtual ~UMLEnumLiteral();
 
+    QString value() const;
+    void setValue(const QString &v);
+
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
+
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual bool showPropertiesDialog(QWidget* parent = 0);
 
 protected:
     bool load(QDomElement& element);
+
+    /**
+     *   Value is an extension to the UML 2.5 metamodel.
+     *   It manage the internal representation of enumeration value
+     *   in system programming languages.
+     */
+
+    QString m_Value;
 
 };
 
