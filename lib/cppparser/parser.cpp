@@ -215,6 +215,7 @@ bool Parser::skipUntilDeclaration()
         case Token_export:
 
         case Token_const:       // cv
+        case Token_const_expr:       // cv
         case Token_volatile:    // cv
 
         case Token_public:
@@ -242,6 +243,7 @@ bool Parser::skipUntilStatement()
         case '{':
         case '}':
         case Token_const:
+        case Token_const_expr:
         case Token_volatile:
         case Token_identifier:
         case Token_case:
@@ -1611,7 +1613,7 @@ bool Parser::parseStorageClassSpecifier(GroupAST::Node& node)
     while (!lex->lookAhead(0).isNull()) {
         int tk = lex->lookAhead(0);
         if (tk == Token_friend || tk == Token_auto || tk == Token_register || tk == Token_static ||
-            tk == Token_extern || tk == Token_mutable) {
+            tk == Token_extern || tk == Token_mutable || tk == Token_const_expr ) {
             int startNode = lex->index();
             nextToken();
 

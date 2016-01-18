@@ -82,6 +82,7 @@ enum Type {
     Token_class,
     Token_compl,
     Token_const,
+    Token_const_expr,
     Token_const_cast,
     Token_continue,
     Token_default,

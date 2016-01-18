@@ -324,6 +324,7 @@ const QStringList reservedCppKeywords()
         keywords.append(QLatin1String("SSHRT_MIN"));
         keywords.append(QLatin1String("ssize_t"));
         keywords.append(QLatin1String("static"));
+        keywords.append(QLatin1String("constexpr"));
         keywords.append(QLatin1String("static_cast"));
         keywords.append(QLatin1String("__STDC__"));
         keywords.append(QLatin1String("__STDC_VERSION__"));
