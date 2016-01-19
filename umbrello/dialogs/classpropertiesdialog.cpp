@@ -94,6 +94,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 
     if (w->baseType() == WidgetBase::wt_Class
             || w->baseType() == WidgetBase::wt_Interface
+            || w->baseType() == WidgetBase::wt_Enum
             || w->baseType() == WidgetBase::wt_Package) {
         setupPages(true);
     } else if (w->baseType() == WidgetBase::wt_Component) {
