@@ -198,12 +198,33 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-# enable experimental features only in master branch
-if (UMBRELLO_VERSION_PATCH GREATER 95)
-    add_definitions(-DENABLE_BIRDVIEW)
-    add_definitions(-DENABLE_WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
-    add_definitions(-DENABLE_NEW_CODE_GENERATORS)
-endif()
+#
+# Unstable features should not be enabled in stable branches.
+# This macro limits unstable feature to development branches
+# by only adding -DENABLE_<name> to the compile command when
+# the patch level is greater 95. On cmake configure time a
+# related status note is displayed.
+#
+# syntax:  add_unstable_feature(<name>)
+#
+# In code wrap feature related code with
+#
+#  #ifdef ENABLE_<name>
+#    <feature code>
+#  #endif
+#
+macro(add_unstable_feature name)
+    if(UMBRELLO_VERSION_PATCH GREATER 95)
+        add_definitions(-DENABLE_${name})
+        message(STATUS "Enable unstable feature ${name} - use '#ifdef ENABLE_${name}' in related code")
+    else()
+        message(STATUS "Disable unstable feature ${name}")
+    endif()
+endmacro(add_unstable_feature)
+
+add_unstable_feature(BIRDVIEW) # bird view dock widget
+add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
+add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
