@@ -126,6 +126,8 @@ void AssociationLine::removePoint(int index)
 {
     prepareGeometryChange();
     m_points.remove(index);
+    m_activePointIndex = -1;
+    m_activeSegmentIndex = -1;
     alignSymbols();
 }
 
@@ -170,6 +172,8 @@ void AssociationLine::optimizeLinePoints()
             ++i;
         }
     }
+    m_activePointIndex = -1;
+    m_activeSegmentIndex = -1;
     alignSymbols();
 }
 
