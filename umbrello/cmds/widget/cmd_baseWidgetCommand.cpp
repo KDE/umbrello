@@ -36,7 +36,9 @@ namespace Uml
     {
         Q_ASSERT(widget);
 
+        m_widget = widget;
         m_widgetId = widget->localID();
+        m_scene = widget->umlScene();
         m_sceneId = widget->umlScene()->ID();
     }
 
@@ -44,18 +46,22 @@ namespace Uml
     {
         UMLView* umlView = UMLApp::app()->document()->findView(m_sceneId);
 
-        Q_ASSERT(umlView);
+        if (umlView)
+            return umlView->umlScene();
 
-        return umlView->umlScene();
+        Q_ASSERT(m_scene.data());
+        return m_scene;
     }
 
     UMLWidget* CmdBaseWidgetCommand::widget()
     {
         UMLWidget* umlWidget = scene()->findWidget(m_widgetId);
 
-        Q_ASSERT(umlWidget);
+        if (umlWidget)
+            return umlWidget;
 
-        return umlWidget;
+        Q_ASSERT(m_widget.data());
+        return m_widget;
     }
 
     /**
