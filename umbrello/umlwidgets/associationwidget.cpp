@@ -3239,6 +3239,22 @@ void AssociationWidget::setTextColor(const QColor &color)
         m_role[RoleType::B].changeabilityWidget->setTextColor(color);
 }
 
+void AssociationWidget::setLineColor(const QColor &color)
+{
+    WidgetBase::setLineColor(color);
+    QPen pen = m_associationLine->pen();
+    pen.setColor(color);
+    m_associationLine->setPen(pen);
+}
+
+void AssociationWidget::setLineWidth(uint width)
+{
+    WidgetBase::setLineWidth(width);
+    QPen pen = m_associationLine->pen();
+    pen.setWidth(width);
+    m_associationLine->setPen(pen);
+}
+
 bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
 {
     if (associationType() == AssociationType::Exception) {

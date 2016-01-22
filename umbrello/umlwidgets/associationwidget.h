@@ -174,6 +174,8 @@ public:
     QFont font() const;
 
     virtual void setTextColor(const QColor &color);
+    virtual void setLineColor(const QColor &color);
+    virtual void setLineWidth(uint width);
 
     void calculateEndingPoints();
 
