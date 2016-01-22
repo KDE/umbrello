@@ -392,22 +392,37 @@ QBrush AssociationLine::brush() const
 }
 
 /**
- * Returns the type of pen to use depending on the type of Association.
+ * Returns the pen used for drawing.
  */
 QPen AssociationLine::pen() const
 {
-    QPen pen(m_associationWidget->lineColor(),
-             m_associationWidget->lineWidth(),
-             Qt::SolidLine,
-             Qt::RoundCap,
-             Qt::RoundJoin);
+    return m_pen;
+}
+
+/**
+ * Setup new pen.
+ */
+void AssociationLine::setPen(const QPen &pen)
+{
+    if (m_startSymbol)
+        m_startSymbol->setPen(pen);
+    if (m_subsetSymbol)
+        m_subsetSymbol->setPen(pen);
+    if (m_endSymbol)
+        m_endSymbol->setPen(pen);
+
+    m_pen = pen;
+    m_pen.setCapStyle(Qt::RoundCap);
+    m_pen.setJoinStyle(Qt::RoundJoin);
     Uml::AssociationType::Enum type = m_associationWidget->associationType();
     if (type == Uml::AssociationType::Dependency  ||
         type == Uml::AssociationType::Realization ||
         type == Uml::AssociationType::Anchor) {
-        pen.setStyle(Qt::DashLine);
+        m_pen.setStyle(Qt::DashLine);
     }
-    return pen;
+    else {
+        m_pen.setStyle(Qt::SolidLine);
+    }
 }
 
 /**
