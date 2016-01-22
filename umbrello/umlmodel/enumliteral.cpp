@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 #include "enumliteral.h"
+#include "umlenumliteraldialog.h"
 
 // kde includes
 #if QT_VERSION < 0x050000
@@ -26,11 +27,14 @@
  * @param parent    The parent of this UMLEnumLiteral.
  * @param name      The name of this UMLEnumLiteral.
  * @param id        The unique id given to this UMLEnumLiteral.
+ * @param v         The value fo this UMLEnumLiteral.
  */
 UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
-                               const QString& name, Uml::ID::Type id)
+                               const QString& name, Uml::ID::Type id,
+                               const QString& v)
   : UMLClassifierListItem(parent, name, id)
 {
+    m_Value = v;
     m_BaseType = UMLObject::ot_EnumLiteral;
 }
 
@@ -49,6 +53,46 @@ UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent)
  */
 UMLEnumLiteral::~UMLEnumLiteral()
 {
+}
+
+/**
+ * Returns the value of the UMLEnumLiteral.
+ *
+ * @return  The value of the Enum Literal.
+ */
+QString UMLEnumLiteral::value() const
+{
+    return m_Value;
+}
+
+/**
+ * Sets the value of the UMLEnumLiteral.
+ *
+ * @param v   The value of the Enum Literal.
+ */
+void UMLEnumLiteral::setValue(const QString &v)
+{
+    if(m_Value != v) {
+        m_Value = v;
+        UMLObject::emitModified();
+    }
+}
+
+/**
+ * Returns a string representation of the UMLEnumLiteral.
+ *
+ * @param sig   If true will show the attribute type and value.
+ * @return  Returns a string representation of the UMLEnumLiteral.
+ */
+QString UMLEnumLiteral::toString(Uml::SignatureType::Enum sig)
+{
+    QString s;
+    Q_UNUSED(sig);
+
+    s = name();
+    if (m_Value.length() > 0)
+        s += QLatin1String(" = ") + m_Value;
+    return s;
 }
 
 /**
@@ -71,7 +115,10 @@ bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) const
  */
 void UMLEnumLiteral::copyInto(UMLObject *lhs) const
 {
+    UMLEnumLiteral *target = static_cast<UMLEnumLiteral*>(lhs);
     UMLClassifierListItem::copyInto(lhs);
+
+    target->m_Value = m_Value;
 }
 
 /**
@@ -91,6 +138,8 @@ UMLObject* UMLEnumLiteral::clone() const
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement attributeElement = UMLObject::save(QLatin1String("UML:EnumerationLiteral"), qDoc);
+    if (! m_Value.isEmpty())
+        attributeElement.setAttribute(QLatin1String("value"), m_Value);
     qElement.appendChild(attributeElement);
 }
 
@@ -99,7 +148,7 @@ void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLEnumLiteral::load(QDomElement& element)
 {
-    Q_UNUSED(element);
+    m_Value = element.attribute(QLatin1String("value"));
     return true;
 }
 
@@ -108,19 +157,6 @@ bool UMLEnumLiteral::load(QDomElement& element)
  */
 bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
-    bool ok;
-#if QT_VERSION >= 0x050000
-    QString enumName = QInputDialog::getText(parent,
-                                             i18nc("enum name", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             name(), &ok);
-#else
-    QString enumName = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), name(), &ok, parent);
-#endif
-    if (ok && !enumName.isEmpty())  {
-        setName(enumName);
-        return true;
-    } else {
-        return false;
-    }
+    UMLEnumLiteralDialog dialog(parent, this);
+    return dialog.exec();
 }

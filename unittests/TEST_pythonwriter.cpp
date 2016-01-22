@@ -51,6 +51,7 @@ void TEST_pythonwriter::test_writeClass()
     UMLAttribute* attr;
     attr = c->createAttribute("name_");
     attr = c->createAttribute("address_");
+    c->addAttribute(attr);
 
     py->writeClass(c);
     // does the just created file exist?

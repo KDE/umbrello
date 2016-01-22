@@ -204,6 +204,7 @@ set(libdialogs_SRCS
     dialogs/umlattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
+    dialogs/umlenumliteraldialog.cpp
     dialogs/umlfiledialog.cpp
     dialogs/umlforeignkeyconstraintdialog.cpp
     dialogs/umloperationdialog.cpp

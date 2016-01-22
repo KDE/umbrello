@@ -1245,6 +1245,26 @@ int MessageWidget::getMaxY()
     }
     return (height - this->height());
 }
+/**
+ * Overrides method from UMLWidget.
+ */
+QSizeF MessageWidget::minimumSize() const
+{
+    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous) {
+        return QSizeF(width(), 20);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Asynchronous) {
+        return isSelf() ? QSizeF(width(), 20) : QSizeF(width(), 8);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
+        return QSizeF(width(), 8);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
+        return QSizeF(width(), 10);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
+        return QSizeF(width(), 10);
+    } else {
+        uWarning() << "Unknown message type";
+    }
+    return QSize(width(), height());
+}
 
 /**
  * Sets the related widget on the given side.

@@ -45,7 +45,6 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_scene(scene),
     m_umlObject(0),
     m_textColor(QColor("black")),
-    m_lineColor(QColor("black")),
     m_fillColor(QColor("yellow")),
     m_brush(m_fillColor),
     m_lineWidth(0), // initialize with 0 to have valid start condition
@@ -54,6 +53,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true)
 {
+    setLineColor(QColor("black"));
     setSelected(false);
     scene->addItem(this);
 
@@ -66,8 +66,8 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
         m_usesDiagramTextColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_textColor = optionState.uiState.textColor;
-        m_lineColor = optionState.uiState.lineColor;
-        m_lineWidth  = optionState.uiState.lineWidth;
+        setLineColor(optionState.uiState.lineColor);
+        setLineWidth(optionState.uiState.lineWidth);
         m_font = optionState.uiState.font;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
@@ -529,18 +529,18 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     QString lineColor = qElement.attribute(QLatin1String("linecolour"), QLatin1String("none"));
     lineColor = qElement.attribute(QLatin1String("linecolor"), lineColor);
     if (lineColor != QLatin1String("none")) {
-        m_lineColor = QColor(lineColor);
+        setLineColor(QColor(lineColor));
         m_usesDiagramLineColor = false;
     } else if (m_baseType != WidgetBase::wt_Box && m_scene != NULL) {
-        m_lineColor = m_scene->lineColor();
+        setLineColor(m_scene->lineColor());
         m_usesDiagramLineColor = true;
     }
     QString lineWidth = qElement.attribute(QLatin1String("linewidth"), QLatin1String("none"));
     if (lineWidth != QLatin1String("none")) {
-        m_lineWidth = lineWidth.toInt();
+        setLineWidth(lineWidth.toInt());
         m_usesDiagramLineWidth = false;
     } else if (m_scene) {
-        m_lineWidth = m_scene->lineWidth();
+        setLineWidth(m_scene->lineWidth());
         m_usesDiagramLineWidth = true;
     }
     QString textColor = qElement.attribute(QLatin1String("textcolor"), QLatin1String("none"));
@@ -597,7 +597,7 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_Text = other.m_Text;
     m_nId = other.m_nId;
     m_textColor = other.m_textColor;
-    m_lineColor = other.m_lineColor;
+    setLineColor(other.lineColor());
     m_fillColor = other.m_fillColor;
     m_brush = other.m_brush;
     m_font = other.m_font;

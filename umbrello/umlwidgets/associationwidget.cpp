@@ -1544,6 +1544,7 @@ QString AssociationWidget::toString() const
 {
     QString string;
     static const QChar colon(QLatin1Char(':'));
+    static const QChar space(QLatin1Char(' '));
 
     if (widgetForRole(RoleType::A)) {
         string = widgetForRole(RoleType::A)->name();
@@ -1553,9 +1554,9 @@ QString AssociationWidget::toString() const
     if (m_role[RoleType::A].roleWidget) {
         string += m_role[RoleType::A].roleWidget->text();
     }
-    string.append(colon);
+    string.append(space);
     string.append(Uml::AssociationType::toStringI18n(associationType()));
-    string.append(colon);
+    string.append(space);
 
     if (widgetForRole(RoleType::B)) {
         string += widgetForRole(RoleType::B)->name();
@@ -3236,6 +3237,22 @@ void AssociationWidget::setTextColor(const QColor &color)
         m_role[RoleType::A].changeabilityWidget->setTextColor(color);
     if (m_role[RoleType::B].changeabilityWidget)
         m_role[RoleType::B].changeabilityWidget->setTextColor(color);
+}
+
+void AssociationWidget::setLineColor(const QColor &color)
+{
+    WidgetBase::setLineColor(color);
+    QPen pen = m_associationLine->pen();
+    pen.setColor(color);
+    m_associationLine->setPen(pen);
+}
+
+void AssociationWidget::setLineWidth(uint width)
+{
+    WidgetBase::setLineWidth(width);
+    QPen pen = m_associationLine->pen();
+    pen.setWidth(width);
+    m_associationLine->setPen(pen);
 }
 
 bool AssociationWidget::checkAddPoint(const QPointF &scenePos)

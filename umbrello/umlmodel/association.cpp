@@ -118,13 +118,17 @@ QString UMLAssociation::toString() const
         string += m_pRole[RoleType::A]->object()->name();
         string += QLatin1Char(':');
         string += m_pRole[RoleType::A]->name();
+    } else {
+        string += QLatin1String("null");
     }
-    string += QLatin1Char(':') + Uml::AssociationType::toStringI18n(m_AssocType) + QLatin1Char(':');
+    string += QLatin1Char(' ') + Uml::AssociationType::toStringI18n(m_AssocType) + QLatin1Char(' ');
     if(m_pRole[RoleType::B])
     {
         string += m_pRole[RoleType::B]->object()->name();
         string += QLatin1Char(':');
         string += m_pRole[RoleType::B]->name();
+    } else {
+        string += QLatin1String("null");
     }
     return string;
 }

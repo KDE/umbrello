@@ -148,6 +148,7 @@ public:
 
     QBrush brush() const;
     QPen pen() const;
+    void setPen(const QPen &pen);
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
@@ -195,6 +196,7 @@ private:
     QGraphicsLineItem *m_collaborationLineItem;  ///< parallel arrow line drawn in case of collaboration message
     Symbol            *m_collaborationLineHead;  ///< arrow head drawn at end of m_collaborationLineItem
     LayoutType         m_layout;
+    QPen               m_pen;                    ///< pen used to draw an association line
 
     static QPainterPath createBezierCurve(QVector<QPointF> points);
     static QPainterPath createOrthogonalPath(QVector<QPointF> points);

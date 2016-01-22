@@ -13,6 +13,7 @@
 
 #include "basictypes.h"
 
+#include <QPointer>
 #include <QUndoCommand>
 
 class UMLScene;
@@ -29,6 +30,8 @@ namespace Uml
         protected:
             Uml::ID::Type m_sceneId;
             Uml::ID::Type m_widgetId;
+            QPointer<UMLScene> m_scene;
+            QPointer<UMLWidget> m_widget;
 
             void setWidget(UMLWidget* widget);
             void addWidgetToScene(UMLWidget* widget);
