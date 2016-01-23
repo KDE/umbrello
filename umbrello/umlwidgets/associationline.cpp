@@ -310,9 +310,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
-    qreal nX = x.toFloat();
+    qreal nX = toDoubleFromAnyLocale(x);
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
-    qreal nY = y.toFloat();
+    qreal nY = toDoubleFromAnyLocale(y);
     QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
@@ -321,9 +321,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     x = endElement.attribute(QLatin1String("endx"), QLatin1String("0"));
-    nX = x.toFloat();
+    nX = toDoubleFromAnyLocale(x);
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
-    nY = y.toFloat();
+    nY = toDoubleFromAnyLocale(y);
     QPointF endPoint(nX, nY);
     setEndPoints(startPoint, endPoint);
     QPointF point;
@@ -334,8 +334,8 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         if(element.tagName() == QLatin1String("point")) {
             x = element.attribute(QLatin1String("x"), QLatin1String("0"));
             y = element.attribute(QLatin1String("y"), QLatin1String("0"));
-            point.setX(x.toFloat());
-            point.setY(y.toFloat());
+            point.setX(toDoubleFromAnyLocale(x));
+            point.setY(toDoubleFromAnyLocale(y));
             insertPoint(i++, point);
         }
         node = element.nextSibling();

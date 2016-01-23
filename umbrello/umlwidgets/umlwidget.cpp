@@ -1839,10 +1839,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));
     QString w = qElement.attribute(QLatin1String("width"), QLatin1String("0"));
+    setSize(toDoubleFromAnyLocale(w), toDoubleFromAnyLocale(h));
+    setX(toDoubleFromAnyLocale(x));
+    setY(toDoubleFromAnyLocale(y));
 
-    setSize(w.toFloat(), h.toFloat());
-    setX(x.toFloat());
-    setY(y.toFloat());
     QString isinstance = qElement.attribute(QLatin1String("isinstance"), QLatin1String("0"));
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute(QLatin1String("instancename"));

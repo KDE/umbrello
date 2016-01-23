@@ -1165,3 +1165,24 @@ QFont systemFont()
 }
 
 }  // end namespace Uml
+
+/**
+ * Convert floating point number string with '.' or ',' as decimal point to qreal.
+ * @param s floating point number string
+ * @return floating point number
+ * @note See https://bugs.kde.org/show_bug.cgi?id=357373 for more informations.
+ */
+qreal toDoubleFromAnyLocale(const QString &s)
+{
+    bool ok;
+    qreal value = s.toDouble(&ok);
+    if (!ok) {
+        static QLocale hungary(QLocale::Hungarian);
+        value = hungary.toDouble(s, &ok);
+        if (!ok) {
+            qCritical() << "could not read floating point number";
+            value = 0;
+        }
+    }
+    return value;
+}

@@ -349,4 +349,6 @@ static inline QString toString(Uml::Visibility::Enum visibility)
     return Uml::Visibility::toString(visibility);
 }
 
+qreal toDoubleFromAnyLocale(const QString &s);
+
 #endif
