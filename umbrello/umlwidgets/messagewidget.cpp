@@ -1369,8 +1369,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     QString sequenceMessageType = qElement.attribute(QLatin1String("sequencemessagetype"), QLatin1String("1001"));
     m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        m_xclicked = qElement.attribute(QLatin1String("xclicked"), QLatin1String("-1")).toFloat();
-        m_yclicked = qElement.attribute(QLatin1String("yclicked"), QLatin1String("-1")).toFloat();
+        m_xclicked = qElement.attribute(QLatin1String("xclicked"), QLatin1String("-1")).toInt();
+        m_yclicked = qElement.attribute(QLatin1String("yclicked"), QLatin1String("-1")).toInt();
     }
 
     m_widgetAId = Uml::ID::fromString(widgetaid);
