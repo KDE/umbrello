@@ -366,8 +366,8 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     for(int i = 1; i < count()-1; ++i) {
         QDomElement pointElement = qDoc.createElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
-        pointElement.setAttribute(QLatin1String("x"), point.x());
-        pointElement.setAttribute(QLatin1String("y"), point.y());
+        pointElement.setAttribute(QLatin1String("x"), QString::number(point.x()));
+        pointElement.setAttribute(QLatin1String("y"), QString::number(point.y()));
         lineElement.appendChild(pointElement);
     }
     qElement.appendChild(lineElement);

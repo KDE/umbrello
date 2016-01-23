@@ -1814,10 +1814,10 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     */
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
-    qElement.setAttribute(QLatin1String("x"), x());
-    qElement.setAttribute(QLatin1String("y"), y());
-    qElement.setAttribute(QLatin1String("width"), width());
-    qElement.setAttribute(QLatin1String("height"), height());
+    qElement.setAttribute(QLatin1String("x"), QString::number(x()));
+    qElement.setAttribute(QLatin1String("y"), QString::number(y()));
+    qElement.setAttribute(QLatin1String("width"), QString::number(width()));
+    qElement.setAttribute(QLatin1String("height"), QString::number(height()));
     qElement.setAttribute(QLatin1String("isinstance"), m_isInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute(QLatin1String("instancename"), m_instanceName);

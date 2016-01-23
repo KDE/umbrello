@@ -25,7 +25,7 @@
 
 // qt includes
 #include <QtTest>
-
+#include <QDomDocument>
 
 //-----------------------------------------------------------------------------
 
@@ -47,6 +47,123 @@ void TEST_basictypes::test_dynamic_cast()
     QScopedPointer<A> a2(new B);
     B* b2 = dynamic_cast<B*> (a2.data());
     QVERIFY(b2);
+}
+
+void TEST_basictypes::test_QString_english()
+{
+    QLocale _default = QLocale();
+    QLocale english(QLocale::English);
+    QLocale::setDefault(english);
+
+    QString value1String(QLatin1String("123.456"));
+    float referenceValue = 123.456;
+    qreal referenceDValue = 123.456;
+
+    QString a = QString::number(referenceValue);
+    QCOMPARE(value1String, a);
+
+    bool ok;
+    float value = value1String.toFloat(&ok);
+    QVERIFY(ok);
+    QCOMPARE(value, referenceValue);
+    qreal dValue = value1String.toDouble(&ok);
+    QVERIFY(ok);
+    QCOMPARE(dValue, referenceDValue);
+    QLocale::setDefault(_default);
+}
+
+void TEST_basictypes::test_QString_non_english()
+{
+    QLocale _default = QLocale();
+    QLocale hungarian(QLocale::Hungarian);
+    QLocale::setDefault(hungarian);
+
+    QString value1String(QLatin1String("123.456"));
+    float referenceValue = 123.456;
+    qreal referenceDValue = 123.456;
+
+    QString a = QString::number(referenceValue);
+    QCOMPARE(value1String, a);
+
+    bool ok;
+    float value = value1String.toFloat(&ok);
+    QVERIFY(ok);
+    QCOMPARE(value, referenceValue);
+    qreal dValue = value1String.toDouble(&ok);
+    QVERIFY(ok);
+    QCOMPARE(dValue, referenceDValue);
+    QLocale::setDefault(_default);
+}
+
+void TEST_basictypes::test_DomDocument_english()
+{
+    QLocale _default = QLocale();
+    QLocale locale(QLocale::English);
+    QLocale::setDefault(locale);
+    QCOMPARE(QChar(QLatin1Char('.')), locale.decimalPoint());
+
+    float fVar = 123.456;
+    double dVar = 123.456;
+    QString refValue(QLatin1String("123.456"));
+    QString localeValue;
+    localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
+
+    QDomDocument doc("test");
+    QDomElement root = doc.createElement("test");
+    doc.appendChild(root);
+    root.setAttribute("a", fVar);
+    QString xml = doc.toString();
+    QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
+
+    // caused by bug in Qt xml
+    root.setAttribute("a", dVar);
+    xml = doc.toString();
+    QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
+
+    root.setAttribute("a", QString::number(fVar));
+    xml = doc.toString();
+    QVERIFY(xml.contains(refValue));
+
+    root.setAttribute("a", QString::number(dVar));
+    xml = doc.toString();
+    QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
+    QLocale::setDefault(_default);
+}
+
+void TEST_basictypes::test_DomDocument_non_english()
+{
+    QLocale _default = QLocale();
+    QLocale locale(QLocale::Hungarian);
+    QLocale::setDefault(locale);
+    QCOMPARE(QChar(QLatin1Char(',')), locale.decimalPoint());
+
+    float fVar = 123.456;
+    double dVar = 123.456;
+    QString refValue(QLatin1String("123.456"));
+    QString localeValue;
+    localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
+
+    QDomDocument doc("test");
+    QDomElement root = doc.createElement("test");
+    doc.appendChild(root);
+
+    root.setAttribute("a", fVar);
+    QString xml = doc.toString();
+    QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
+
+    // caused by bug in Qt xml
+    root.setAttribute("a", dVar);
+    xml = doc.toString();
+    QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
+
+    root.setAttribute("a", QString::number(fVar));
+    xml = doc.toString();
+    QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
+
+    root.setAttribute("a", QString::number(dVar));
+    xml = doc.toString();
+    QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
+    QLocale::setDefault(_default);
 }
 
 void TEST_basictypes::test_ModelType_toString()

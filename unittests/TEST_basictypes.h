@@ -28,6 +28,10 @@ class TEST_basictypes : public QObject
     Q_OBJECT
 private slots:
     void test_dynamic_cast();
+    void test_QString_english();
+    void test_QString_non_english();
+    void test_DomDocument_english();
+    void test_DomDocument_non_english();
     void test_ModelType_toString();
     void test_ModelType_fromString();
     void test_ModelType_forLoop();
