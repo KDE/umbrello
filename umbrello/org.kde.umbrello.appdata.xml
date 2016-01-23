@@ -6,6 +6,7 @@
   <name>Umbrello</name>
   <name xml:lang="ca">Umbrello</name>
   <name xml:lang="ca-valencia">Umbrello</name>
+  <name xml:lang="cs">Umbrello</name>
   <name xml:lang="de">Umbrello</name>
   <name xml:lang="en-GB">Umbrello</name>
   <name xml:lang="es">Umbrello</name>
@@ -24,6 +25,7 @@
   <summary>UML Modeller</summary>
   <summary xml:lang="ca">Modelador UML</summary>
   <summary xml:lang="ca-valencia">Modelador UML</summary>
+  <summary xml:lang="cs">UML modelář</summary>
   <summary xml:lang="de">UML-Modeller</summary>
   <summary xml:lang="en-GB">UML Modeller</summary>
   <summary xml:lang="es">Modelador UML</summary>
@@ -64,6 +66,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
+    <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
@@ -83,6 +86,7 @@
       <li>Supported formats: XMI</li>
       <li xml:lang="ca">Formats acceptats: XMI</li>
       <li xml:lang="ca-valencia">Formats acceptats: XMI</li>
+      <li xml:lang="cs">Podporované formáty: XMI</li>
       <li xml:lang="de">Unterstützte Formate: XMI</li>
       <li xml:lang="en-GB">Supported formats: XMI</li>
       <li xml:lang="es">Formatos permitidos: XMI</li>
