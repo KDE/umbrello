@@ -24,6 +24,7 @@
 #include "umlwidget.h"
 
 #include <QPointer>
+#include <QScrollBar>
 
 DEBUG_REGISTER(UMLView)
 
@@ -37,6 +38,8 @@ UMLView::UMLView(UMLFolder *parentFolder)
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setDragMode(NoDrag); //:TODO: RubberBandDrag);
     setScene(new UMLScene(parentFolder, this));
+    setResizeAnchor(AnchorUnderMouse);
+    setTransformationAnchor(AnchorUnderMouse);
 }
 
 /**
@@ -132,14 +135,14 @@ void UMLView::wheelEvent(QWheelEvent* event)
     if (event->delta() > 0) {
         // zoom in
         if (zoom() < 500) {
-            scale(scaleFactor, scaleFactor);
+            setZoom(zoom() * scaleFactor);
         } else {
             return;
         }
     } else {
         // zooming out
         if (zoom() > 10) {
-            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+            setZoom(zoom() / scaleFactor);
         } else {
             return;
         }
@@ -152,11 +155,16 @@ void UMLView::wheelEvent(QWheelEvent* event)
     QPointF offset = pointBeforeScale - pointAfterScale;
 
     // adjust to the new center for correct zooming
-    QPointF newCenter = mapToScene(rect()).boundingRect().center() + offset;
+    QPointF newCenter = mapToScene(viewport()->rect().center()) + offset;
+
+    bool oldState1 = verticalScrollBar()->blockSignals(true);
+    bool oldState2 = horizontalScrollBar()->blockSignals(true);
     centerOn(newCenter);
+    verticalScrollBar()->blockSignals(oldState1);
+    horizontalScrollBar()->blockSignals(oldState2);
 
     DEBUG(DBG_SRC) << "currentZoom=" << zoom();
-    UMLApp::app()->slotZoomSliderMoved(zoom());
+    UMLApp::app()->setZoom(zoom(), false);
 }
 
 /**
@@ -214,4 +222,16 @@ void UMLView::mouseReleaseEvent(QMouseEvent* event)
         setDragMode(QGraphicsView::NoDrag);
     } else
         QGraphicsView::mouseReleaseEvent(event);
+}
+
+/**
+ * Override standard method.
+ */
+void UMLView::resizeEvent(QResizeEvent *event)
+{
+    bool oldState1 = verticalScrollBar()->blockSignals(true);
+    bool oldState2 = horizontalScrollBar()->blockSignals(true);
+    QGraphicsView::resizeEvent(event);
+    verticalScrollBar()->blockSignals(oldState1);
+    horizontalScrollBar()->blockSignals(oldState2);
 }
