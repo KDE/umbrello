@@ -61,15 +61,15 @@ UMLScene* UMLView::umlScene() const
 /**
  * Returns the zoom of the diagram.
  */
-int UMLView::zoom() const
+qreal UMLView::zoom() const
 {
-    return (int)(matrix().m11()*100.0);
+    return matrix().m11()*100.0;
 }
 
 /**
  * Sets the zoom of the diagram.
  */
-void UMLView::setZoom(int zoom)
+void UMLView::setZoom(qreal zoom)
 {
     if (zoom < 10) {
         zoom = 10;
@@ -77,6 +77,7 @@ void UMLView::setZoom(int zoom)
         zoom = 500;
     }
 
+    DEBUG(DBG_SRC) << "setZoom" << zoom;
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setMatrix(wm);
@@ -102,14 +103,14 @@ void UMLView::zoomIn()
 {
     QMatrix wm = matrix();
     wm.scale(1.5, 1.5); // adjust zooming step here
-    setZoom((int)(wm.m11()*100.0));
+    setZoom(wm.m11()*100.0);
 }
 
 void UMLView::zoomOut()
 {
     QMatrix wm = matrix();
     wm.scale(2.0 / 3.0, 2.0 / 3.0); //adjust zooming step here
-    setZoom((int)(wm.m11()*100.0));
+    setZoom(wm.m11()*100.0);
 }
 
 /**
@@ -163,7 +164,6 @@ void UMLView::wheelEvent(QWheelEvent* event)
     verticalScrollBar()->blockSignals(oldState1);
     horizontalScrollBar()->blockSignals(oldState2);
 
-    DEBUG(DBG_SRC) << "currentZoom=" << zoom();
     UMLApp::app()->setZoom(zoom(), false);
 }
 

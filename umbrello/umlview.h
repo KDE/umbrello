@@ -40,8 +40,8 @@ public:
 
     UMLScene* umlScene() const;
 
-    int zoom() const ;
-    void setZoom(int zoom);
+    qreal zoom() const ;
+    void setZoom(qreal zoom);
 
     virtual bool showPropertiesDialog(QWidget *parent = 0);
 
