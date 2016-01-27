@@ -158,11 +158,7 @@ void UMLView::wheelEvent(QWheelEvent* event)
     // adjust to the new center for correct zooming
     QPointF newCenter = mapToScene(viewport()->rect().center()) + offset;
 
-    bool oldState1 = verticalScrollBar()->blockSignals(true);
-    bool oldState2 = horizontalScrollBar()->blockSignals(true);
-    centerOn(newCenter);
-    verticalScrollBar()->blockSignals(oldState1);
-    horizontalScrollBar()->blockSignals(oldState2);
+   centerOn(newCenter);
 
     UMLApp::app()->setZoom(zoom(), false);
 }
