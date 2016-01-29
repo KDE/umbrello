@@ -28,7 +28,7 @@
         </size>
        </property>
        <property name="title">
-        <string>Include search pathes</string>
+        <string>Include search paths</string>
        </property>
        <widget class="QLabel" name="label">
         <property name="geometry">
@@ -40,7 +40,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Additional include search pathes could be added by specifying environment variable UMBRELLO_INCPATH.</string>
+         <string>Additional include search paths could be added by specifying environment variable UMBRELLO_INCPATH.</string>
         </property>
        </widget>
       </widget>
