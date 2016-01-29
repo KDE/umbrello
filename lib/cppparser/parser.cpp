@@ -445,8 +445,15 @@ bool Parser::parseTranslationUnit(TranslationUnitAST::Node& node)
     m_problems = 0;
     TranslationUnitAST::Node tun = CreateNode<TranslationUnitAST>();
     node = tun;
+    // only setup file comment if present at first line, and first column
     if (lex->lookAhead(0) == Token_comment) {
-        node->setComment(lex->lookAhead(0).text());
+        processComment();
+        if (lex->lookAhead(0).position() == 0) {
+            if (comment()) {
+                tun->setComment(comment());
+                clearComment();
+            }
+        }
         nextToken();
     }
 
