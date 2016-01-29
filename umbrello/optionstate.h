@@ -135,7 +135,7 @@ public:
         indentationType(CodeGenerationPolicy::NONE),
 #ifdef Q_OS_WIN
         lineEndingType(CodeGenerationPolicy::DOS),
-#elifdef Q_OS_MAC
+#elif defined(Q_OS_MAC)
         lineEndingType(CodeGenerationPolicy::MAC),
 #else
         lineEndingType(CodeGenerationPolicy::UNIX),
