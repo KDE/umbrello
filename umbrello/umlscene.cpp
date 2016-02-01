@@ -3512,8 +3512,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute(QLatin1String("snapy"), m_layoutGrid->gridSpacingY());
     // FIXME: move to UMLView
     viewElement.setAttribute(QLatin1String("zoom"), activeView()->zoom());
-    viewElement.setAttribute(QLatin1String("canvasheight"), height());
-    viewElement.setAttribute(QLatin1String("canvaswidth"), width());
+    viewElement.setAttribute(QLatin1String("canvasheight"), QString::number(height()));
+    viewElement.setAttribute(QLatin1String("canvaswidth"), QString::number(width()));
     viewElement.setAttribute(QLatin1String("isopen"), isOpen());
     if (type() == Uml::DiagramType::Sequence ||
         type() == Uml::DiagramType::Collaboration)

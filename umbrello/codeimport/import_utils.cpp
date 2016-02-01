@@ -41,6 +41,12 @@
 #include <QMap>
 #include <QRegExp>
 
+#ifdef Q_OS_WIN
+#define PATH_SEPARATOR QLatin1Char(';')
+#else
+#define PATH_SEPARATOR QLatin1Char(':')
+#endif
+
 DEBUG_REGISTER_DISABLED(Import_Utils)
 #undef DBG_SRC
 #define DBG_SRC QLatin1String("Import_Utils")
@@ -601,7 +607,7 @@ QStringList includePathList()
     QStringList includePathList(incPathList);
     QString umbrello_incpath = QString::fromLatin1(qgetenv("UMBRELLO_INCPATH"));
     if (!umbrello_incpath.isEmpty()) {
-        includePathList += umbrello_incpath.split(QLatin1Char(':'));
+        includePathList += umbrello_incpath.split(PATH_SEPARATOR);
     }
     return includePathList;
 }

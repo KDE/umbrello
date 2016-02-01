@@ -121,7 +121,30 @@ public:
     Uml::Visibility::Enum defaultOperationScope;
 };
 
-struct CodeGenerationState {
+class CodeGenerationState {
+public:
+    CodeGenerationState()
+      : autoGenEmptyConstructors(false),
+        commentStyle(CodeGenerationPolicy::SingleLine),
+        defaultAssocFieldScope(Uml::Visibility::Public),
+        defaultAttributeAccessorScope(Uml::Visibility::Public),
+        forceDoc(false),
+        forceSections(false),
+        includeHeadings(false),
+        indentationAmount(false),
+        indentationType(CodeGenerationPolicy::NONE),
+#ifdef Q_OS_WIN
+        lineEndingType(CodeGenerationPolicy::DOS),
+#elif defined(Q_OS_MAC)
+        lineEndingType(CodeGenerationPolicy::MAC),
+#else
+        lineEndingType(CodeGenerationPolicy::UNIX),
+#endif
+        modnamePolicy(CodeGenerationPolicy::No),
+        overwritePolicy(CodeGenerationPolicy::Ok)
+    {
+    }
+
     bool autoGenEmptyConstructors;
     CodeGenerationPolicy::CommentStyle commentStyle;
     Uml::Visibility::Enum defaultAssocFieldScope;
@@ -137,7 +160,20 @@ struct CodeGenerationState {
     QDir outputDirectory;
     CodeGenerationPolicy::OverwritePolicy overwritePolicy;
 
-    struct CPPCodeGenerationState {
+    class CPPCodeGenerationState {
+    public:
+        CPPCodeGenerationState()
+          : autoGenAccessors(false),
+            inlineAccessors(false),
+            inlineOps(false),
+            packageIsNamespace(false),
+            publicAccessors(false),
+            stringIncludeIsGlobal(false),
+            vectorIncludeIsGlobal(false),
+            virtualDestructors(false)
+        {
+        }
+
         bool autoGenAccessors;
         bool inlineAccessors;
         bool inlineOps;
@@ -153,19 +189,42 @@ struct CodeGenerationState {
         bool virtualDestructors;
     };
 
-    struct DCodeGenerationState {
+    class DCodeGenerationState {
+    public:
+        DCodeGenerationState()
+          : autoGenerateAttributeAccessors(false),
+            autoGenerateAssocAccessors(false),
+            buildANTDocument(false)
+        {
+        }
+
         bool autoGenerateAttributeAccessors;
         bool autoGenerateAssocAccessors;
         bool buildANTDocument;
     };
 
-    struct JavaCodeGenerationState{
+    class JavaCodeGenerationState {
+    public:
+        JavaCodeGenerationState()
+          : autoGenerateAttributeAccessors(false),
+            autoGenerateAssocAccessors(false),
+            buildANTDocument(false)
+        {
+        }
+
         bool autoGenerateAttributeAccessors;
         bool autoGenerateAssocAccessors;
         bool buildANTDocument;
     };
 
-    struct RubyCodeGenerationState{
+    class RubyCodeGenerationState {
+    public:
+        RubyCodeGenerationState()
+         : autoGenerateAttributeAccessors(false),
+           autoGenerateAssocAccessors(false)
+        {
+        }
+
         bool autoGenerateAttributeAccessors;
         bool autoGenerateAssocAccessors;
     };

@@ -310,9 +310,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
-    qreal nX = x.toFloat();
+    qreal nX = toDoubleFromAnyLocale(x);
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
-    qreal nY = y.toFloat();
+    qreal nY = toDoubleFromAnyLocale(y);
     QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
@@ -321,9 +321,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     x = endElement.attribute(QLatin1String("endx"), QLatin1String("0"));
-    nX = x.toFloat();
+    nX = toDoubleFromAnyLocale(x);
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
-    nY = y.toFloat();
+    nY = toDoubleFromAnyLocale(y);
     QPointF endPoint(nX, nY);
     setEndPoints(startPoint, endPoint);
     QPointF point;
@@ -334,8 +334,8 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         if(element.tagName() == QLatin1String("point")) {
             x = element.attribute(QLatin1String("x"), QLatin1String("0"));
             y = element.attribute(QLatin1String("y"), QLatin1String("0"));
-            point.setX(x.toFloat());
-            point.setY(y.toFloat());
+            point.setX(toDoubleFromAnyLocale(x));
+            point.setY(toDoubleFromAnyLocale(y));
             insertPoint(i++, point);
         }
         node = element.nextSibling();
@@ -355,19 +355,19 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
     lineElement.setAttribute(QLatin1String("layout"), toString(m_layout));
     QDomElement startElement = qDoc.createElement(QLatin1String("startpoint"));
-    startElement.setAttribute(QLatin1String("startx"), point.x());
-    startElement.setAttribute(QLatin1String("starty"), point.y());
+    startElement.setAttribute(QLatin1String("startx"), QString::number(point.x()));
+    startElement.setAttribute(QLatin1String("starty"), QString::number(point.y()));
     lineElement.appendChild(startElement);
     QDomElement endElement = qDoc.createElement(QLatin1String("endpoint"));
     point = m_associationWidget->mapToScene(endPoint());
-    endElement.setAttribute(QLatin1String("endx"), point.x());
-    endElement.setAttribute(QLatin1String("endy"), point.y());
+    endElement.setAttribute(QLatin1String("endx"), QString::number(point.x()));
+    endElement.setAttribute(QLatin1String("endy"), QString::number(point.y()));
     lineElement.appendChild(endElement);
     for(int i = 1; i < count()-1; ++i) {
         QDomElement pointElement = qDoc.createElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
-        pointElement.setAttribute(QLatin1String("x"), point.x());
-        pointElement.setAttribute(QLatin1String("y"), point.y());
+        pointElement.setAttribute(QLatin1String("x"), QString::number(point.x()));
+        pointElement.setAttribute(QLatin1String("y"), QString::number(point.y()));
         lineElement.appendChild(pointElement);
     }
     qElement.appendChild(lineElement);
