@@ -1,0 +1,34 @@
+# generated from gdb: copy and paste of the output of gdb 'bt' command into a file (single line for each stack frame)
+#0  Import_Utils::importStackTrace (fileName=..., scene=scene@entry=0x137c000) at /home/umbrello/src/umbrello-3/umbrello/codeimport/import_utils.cpp:715
+#1  0x000000000047e069 in UMLScene::slotMenuSelection (this=this@entry=0x137c000, action=<optimized out>) at /home/umbrello/src/umbrello-3/umbrello/umlscene.cpp:3115
+#2  0x000000000048253c in UMLScene::setMenu (this=this@entry=0x137c000, pos=...) at /home/umbrello/src/umbrello-3/umbrello/umlscene.cpp:2779
+#3  0x00000000004825a2 in UMLScene::contextMenuEvent (this=0x137c000, contextMenuEvent=0x7fffffffccd0) at /home/umbrello/src/umbrello-3/umbrello/umlscene.cpp:2721
+#4  0x00007ffff51d7695 in QGraphicsScene::event (this=0x137c000, event=0x7fffffffccd0) at graphicsview/qgraphicsscene.cpp:3412
+#5  0x00007ffff4bf0d9c in QApplicationPrivate::notify_helper (this=this@entry=0xa255b0, receiver=receiver@entry=0x137c000, e=e@entry=0x7fffffffccd0) at kernel/qapplication.cpp:4565
+#6  0x00007ffff4bf731d in QApplication::notify (this=this@entry=0x7fffffffd9b0, receiver=receiver@entry=0x137c000, e=e@entry=0x7fffffffccd0) at kernel/qapplication.cpp:4351
+#7  0x00007ffff64cf7ca in KApplication::notify (this=0x7fffffffd9b0, receiver=0x137c000, event=0x7fffffffccd0) at /usr/src/debug/kdelibs-4.14.10/kdeui/kernel/kapplication.cpp:311
+#8  0x00007ffff4463e6d in QCoreApplication::notifyInternal (this=0x7fffffffd9b0, receiver=0x137c000, event=event@entry=0x7fffffffccd0) at kernel/qcoreapplication.cpp:955
+#9  0x00007ffff51ef247 in sendEvent (event=0x7fffffffccd0, receiver=<optimized out>) at ../../src/corelib/kernel/qcoreapplication.h:231
+#10 QGraphicsView::contextMenuEvent (this=0x12d5ec0, event=0x7fffffffd1a0) at graphicsview/qgraphicsview.cpp:2892
+#11 0x00007ffff4c43712 in QWidget::event (this=this@entry=0x12d5ec0, event=event@entry=0x7fffffffd1a0) at kernel/qwidget.cpp:8567
+#12 0x00007ffff4fe1b6e in QFrame::event (this=0x12d5ec0, e=0x7fffffffd1a0) at widgets/qframe.cpp:557
+#13 0x00007ffff51eecf9 in QGraphicsView::viewportEvent (this=0x12d5ec0, event=0x7fffffffd1a0) at graphicsview/qgraphicsview.cpp:2866
+#14 0x00007ffff4463fd6 in QCoreApplicationPrivate::sendThroughObjectEventFilters (this=this@entry=0xa255b0, receiver=receiver@entry=0x130b3d0, event=event@entry=0x7fffffffd1a0) at kernel/qcoreapplication.cpp:1065
+#15 0x00007ffff4bf0d7c in QApplicationPrivate::notify_helper (this=this@entry=0xa255b0, receiver=receiver@entry=0x130b3d0, e=e@entry=0x7fffffffd1a0) at kernel/qapplication.cpp:4561
+#16 0x00007ffff4bf80d8 in QApplication::notify (this=this@entry=0x7fffffffd9b0, receiver=receiver@entry=0x130b3d0, e=e@entry=0x7fffffffd1a0) at kernel/qapplication.cpp:4187
+#17 0x00007ffff64cf7ca in KApplication::notify (this=0x7fffffffd9b0, receiver=0x130b3d0, event=0x7fffffffd1a0) at /usr/src/debug/kdelibs-4.14.10/kdeui/kernel/kapplication.cpp:311
+#18 0x00007ffff4463e6d in QCoreApplication::notifyInternal (this=0x7fffffffd9b0, receiver=receiver@entry=0x130b3d0, event=event@entry=0x7fffffffd1a0) at kernel/qcoreapplication.cpp:955
+#19 0x00007ffff4c6b620 in sendSpontaneousEvent (event=0x7fffffffd1a0, receiver=0x130b3d0) at ../../src/corelib/kernel/qcoreapplication.h:234
+#20 QETWidget::translateMouseEvent (this=this@entry=0x12d5ec0, event=event@entry=0x7fffffffd4e0) at kernel/qapplication_x11.cpp:4541
+#21 0x00007ffff4c6a03c in QApplication::x11ProcessEvent (this=0x7fffffffd9b0, event=event@entry=0x7fffffffd4e0) at kernel/qapplication_x11.cpp:3653
+#22 0x00007ffff4c90ef2 in x11EventSourceDispatch (s=0xa0f8d0, callback=0x0, user_data=0x0) at kernel/qguieventdispatcher_glib.cpp:146
+#23 0x00007fffefe16316 in g_main_context_dispatch () from /usr/lib64/libglib-2.0.so.0
+#24 0x00007fffefe16668 in ?? () from /usr/lib64/libglib-2.0.so.0
+#25 0x00007fffefe1670c in g_main_context_iteration () from /usr/lib64/libglib-2.0.so.0
+#26 0x00007ffff4490d4e in QEventDispatcherGlib::processEvents (this=0x9d5af0, flags=...) at kernel/qeventdispatcher_glib.cpp:450
+#27 0x00007ffff4c90fa6 in QGuiEventDispatcherGlib::processEvents (this=<optimized out>, flags=...) at kernel/qguieventdispatcher_glib.cpp:204
+#28 0x00007ffff4462a3f in QEventLoop::processEvents (this=this@entry=0x7fffffffd8c0, flags=...) at kernel/qeventloop.cpp:149
+#29 0x00007ffff4462d35 in QEventLoop::exec (this=this@entry=0x7fffffffd8c0, flags=...) at kernel/qeventloop.cpp:204
+#30 0x00007ffff44681bb in QCoreApplication::exec () at kernel/qcoreapplication.cpp:1227
+#31 0x00007ffff4bef55c in QApplication::exec () at kernel/qapplication.cpp:3823
+#32 0x000000000043e4e5 in main (argc=<optimized out>, argv=<optimized out>) at /home/umbrello/src/umbrello-3/umbrello/main.cpp:245

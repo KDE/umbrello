@@ -273,6 +273,7 @@ public:
         mt_Align_HorizontalMiddle,
         mt_Align_VerticalDistribute,
         mt_Align_HorizontalDistribute,
+        mt_Import_from_File,
 
         mt_Undefined  =  - 1
     };

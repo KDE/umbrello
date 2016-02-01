@@ -1,0 +1,42 @@
+# generated from qtcreator: select frames in stack window, right click and select "copy into clipboard", then paste into file
+0   raise   /lib64/libc.so.6        0x7ffff37454c9
+1   abort   /lib64/libc.so.6        0x7ffff3746958
+2   qt_message_output   qglobal.cpp 2423    0x7ffff4357564
+3   qt_message(QtMsgType, const char *, typedef __va_list_tag __va_list_tag *)  qglobal.cpp 2469    0x7ffff43576e9
+4   qFatal  qglobal.cpp 2652    0x7ffff4357ef4
+5   qt_assert   qglobal.cpp 2118    0x7ffff4357f3a
+6   QList<MessageWidget*>::first    qlist.h 282 0x4f66c5
+7   QList<MessageWidget*>::takeFirst    qlist.h 490 0x4f675e
+8   Import_Utils::importStackTrace  import_utils.cpp    803 0x4f5b92
+9   UMLScene::slotMenuSelection umlscene.cpp    3115    0x47e069
+10  UMLScene::setMenu   umlscene.cpp    2779    0x48253c
+11  UMLScene::contextMenuEvent  umlscene.cpp    2721    0x4825a2
+12  QGraphicsScene::event   qgraphicsscene.cpp  3412    0x7ffff51d7695
+13  QApplicationPrivate::notify_helper  qapplication.cpp    4565    0x7ffff4bf0d9c
+14  QApplication::notify    qapplication.cpp    4351    0x7ffff4bf731d
+15  KApplication::notify        311 0x7ffff64cf7ca
+16  QCoreApplication::notifyInternal    qcoreapplication.cpp    955 0x7ffff4463e6d
+17  sendEvent   qcoreapplication.h  231 0x7ffff51ef247
+18  QGraphicsView::contextMenuEvent qgraphicsview.cpp   2892    0x7ffff51ef247
+19  QWidget::event  qwidget.cpp 8567    0x7ffff4c43712
+20  QFrame::event   qframe.cpp  557 0x7ffff4fe1b6e
+21  QGraphicsView::viewportEvent    qgraphicsview.cpp   2866    0x7ffff51eecf9
+22  QCoreApplicationPrivate::sendThroughObjectEventFilters  qcoreapplication.cpp    1065    0x7ffff4463fd6
+23  QApplicationPrivate::notify_helper  qapplication.cpp    4561    0x7ffff4bf0d7c
+24  QApplication::notify    qapplication.cpp    4187    0x7ffff4bf80d8
+25  KApplication::notify        311 0x7ffff64cf7ca
+26  QCoreApplication::notifyInternal    qcoreapplication.cpp    955 0x7ffff4463e6d
+27  sendSpontaneousEvent    qcoreapplication.h  234 0x7ffff4c6b620
+28  QETWidget::translateMouseEvent  qapplication_x11.cpp    4541    0x7ffff4c6b620
+29  QApplication::x11ProcessEvent   qapplication_x11.cpp    3653    0x7ffff4c6a03c
+30  x11EventSourceDispatch  qguieventdispatcher_glib.cpp    146 0x7ffff4c90ef2
+31  g_main_context_dispatch /usr/lib64/libglib-2.0.so.0     0x7fffefe16316
+32  ??  /usr/lib64/libglib-2.0.so.0     0x7fffefe16668
+33  g_main_context_iteration    /usr/lib64/libglib-2.0.so.0     0x7fffefe1670c
+34  QEventDispatcherGlib::processEvents qeventdispatcher_glib.cpp   450 0x7ffff4490d4e
+35  QGuiEventDispatcherGlib::processEvents  qguieventdispatcher_glib.cpp    204 0x7ffff4c90fa6
+36  QEventLoop::processEvents   qeventloop.cpp  149 0x7ffff4462a3f
+37  QEventLoop::exec    qeventloop.cpp  204 0x7ffff4462d35
+38  QCoreApplication::exec  qcoreapplication.cpp    1227    0x7ffff44681bb
+39  QApplication::exec  qapplication.cpp    3823    0x7ffff4bef55c
+40  main    main.cpp    245 0x43e4e5

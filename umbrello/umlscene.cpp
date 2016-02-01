@@ -37,6 +37,7 @@
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
+#include "import_utils.h"
 #include "layoutgenerator.h"
 #include "layoutgrid.h"
 #include "listpopupmenu.h"
@@ -57,6 +58,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umldragdata.h"
+#include "umlfiledialog.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlobject.h"
@@ -3103,6 +3105,17 @@ void UMLScene::slotMenuSelection(QAction* action)
             }
         }
         break;
+
+    case ListPopupMenu::mt_Import_from_File:
+    {
+        QPointer<UMLFileDialog> dialog = new UMLFileDialog(QUrl(), QString(), UMLApp::app());
+        dialog->exec();
+        QUrl url = dialog->selectedUrl();
+        if (!url.isEmpty())
+            if (!Import_Utils::importStackTrace(url.toLocalFile(), this))
+                UMLApp::app()->slotStatusMsg(i18n("Failed to import stack trace."));
+        break;
+    }
 
     default:
         uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
