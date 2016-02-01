@@ -654,7 +654,7 @@ bool parseStraceTraceLine(const QString &s, QString &sequence, QString &package,
         return false;
     }
     // skip comments
-    if (cols[0].startsWith(QLatin1String("# "))) {
+    if (cols[0] == QLatin1String("#")) {
         return false;
     }
 
