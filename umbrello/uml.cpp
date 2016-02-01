@@ -712,11 +712,15 @@ void UMLApp::slotZoomIn()
  * Set the zoom factor of the current diagram.
  *
  * @param zoom  Zoom factor in percentage.
+ * @param withView also setup the currently displayed diagram
  */
-void UMLApp::setZoom(int zoom)
+void UMLApp::setZoom(int zoom, bool withView)
 {
-    currentView()->setZoom(zoom);
+    if (withView)
+        currentView()->setZoom(zoom);
+    bool oldState = m_pZoomSlider->blockSignals(true);
     m_pZoomSlider->setValue(zoom);
+    m_pZoomSlider->blockSignals(oldState);
     m_zoomValueLbl->setText(QString::number(zoom) + QLatin1Char('%'));
 }
 
@@ -756,7 +760,7 @@ void UMLApp::setupZoomMenu()
 {
     m_zoomSelect->clear();
 
-    int currentZoom = currentView()->currentZoom();
+    int currentZoom = currentView()->zoom();
 
     m_zoomSelect->addAction(createZoomAction(33, currentZoom));
     m_zoomSelect->addAction(createZoomAction(50, currentZoom));

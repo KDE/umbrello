@@ -357,7 +357,7 @@ private:
     QMenu* findMenu(const QString &name);
 
     QAction* createZoomAction(int zoom, int currentZoom);
-    void setZoom(int zoom);
+    void setZoom(int zoom, bool withView = true);
 
     void resetStatusMsg();
 
@@ -519,6 +519,7 @@ private:
 signals:
     void sigCutSuccessful();
 
+    friend class UMLView;
 };
 
 #endif // UML_H

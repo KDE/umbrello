@@ -40,9 +40,8 @@ public:
 
     UMLScene* umlScene() const;
 
-    int zoom() const ;
-    void setZoom(int zoom);
-    int currentZoom();
+    qreal zoom() const ;
+    void setZoom(qreal zoom);
 
     virtual bool showPropertiesDialog(QWidget *parent = 0);
 
@@ -53,18 +52,11 @@ public slots:
 
 protected:
     virtual void wheelEvent(QWheelEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
     virtual void showEvent(QShowEvent *se);
     virtual void hideEvent(QHideEvent *he);
-    virtual void closeEvent(QCloseEvent* ce);
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
-
-    void setCenter(const QPointF& centerPoint);
-    QPointF center();
-
-    QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
-    int m_nZoom;        ///< zoom level in percent, default 100
+    virtual void resizeEvent(QResizeEvent *event);
 };
 
 #endif // UMLVIEW_H

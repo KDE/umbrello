@@ -21,6 +21,7 @@ class UMLClassifier;
 class UMLPackage;
 class UMLOperation;
 class UMLEnum;
+class UMLScene;
 
 /**
  * Utilities for code import
@@ -85,6 +86,7 @@ namespace Import_Utils {
 
     bool isDatatype(const QString& name, UMLPackage *parentPkg = NULL);
 
+    bool importStackTrace(const QString &fileName, UMLScene *scene);
 } // end namespace Import_Utils
 
 #endif

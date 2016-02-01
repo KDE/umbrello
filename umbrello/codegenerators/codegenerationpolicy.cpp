@@ -325,13 +325,8 @@ void CodeGenerationPolicy::calculateIndentation ()
         break;
     }
 
-    if (Settings::optionState().codeGenerationState.indentationAmount > 999) {  //:TODO: fix this - no initialization
-         uDebug() << "too big indentation amount = " << Settings::optionState().codeGenerationState.indentationAmount;
-    }
-    else {
-        for (int i = 0; i < Settings::optionState().codeGenerationState.indentationAmount; ++i) {
-            m_indentation += indent;
-        }
+    for (int i = 0; i < Settings::optionState().codeGenerationState.indentationAmount; ++i) {
+        m_indentation += indent;
     }
 }
 
