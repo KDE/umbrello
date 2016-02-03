@@ -70,6 +70,8 @@ public:
 
     bool messageOverlap(qreal y, MessageWidget* messageWidget);
 
+    virtual void setLineColorCmd(const QColor &color);
+
     SeqLineWidget *sequentialLine() const;
 
     virtual void resizeWidget(qreal newW, qreal newH);
