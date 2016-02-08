@@ -1458,6 +1458,9 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
     case UMLObject::ot_Template:
         type = UMLListViewItem::lvt_Template;
         break;
+    case UMLObject::ot_Association:
+        type = UMLListViewItem::lvt_Association;
+        break;
     default:
         break;
     }
@@ -1608,6 +1611,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
             break;
         case UMLListViewItem::lvt_Actor:
             icon = Icon_Utils::it_Actor;
+            break;
+        case UMLListViewItem::lvt_Association:
+            icon = Icon_Utils::it_Association;
             break;
         case UMLListViewItem::lvt_UseCase:
             icon = Icon_Utils::it_UseCase;
