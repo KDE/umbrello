@@ -643,6 +643,20 @@ bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget)
 }
 
 /**
+ * Overridden from UMLWidget
+ * Set color of object widget and sequence line on sequence diagrams.
+ */
+void ObjectWidget::setLineColorCmd(const QColor &color)
+{
+    UMLWidget::setLineColorCmd(color);
+    if (m_pLine) {
+        QPen pen = m_pLine->pen();
+        pen.setColor(color);
+        m_pLine->setPen(pen);
+    }
+}
+
+/**
  * Return the SeqLineWidget.
  * Returns a non NULL pointer if this ObjectWidget is part of a
  * sequence diagram.
