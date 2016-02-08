@@ -30,9 +30,9 @@
 #include <QScrollBar>
 #include <QTimer>
 
-DEBUG_REGISTER(BirdView)
+DEBUG_REGISTER_DISABLED(BirdView)
 
-#define VERBOSE_DBG_OUT 1
+#define VERBOSE_DBG_OUT 0
 
 /**
  * @brief Constructor.
@@ -267,7 +267,6 @@ void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
 BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
   : QDockWidget(title, parent, flags)
 {
-    setFocusPolicy(Qt::StrongFocus);  // enable key press event
 }
 
 /**
@@ -279,12 +278,3 @@ void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
     emit sizeChanged(event->size());
 }
 
-/**
- * Event handler for key press events.
- * @param event   key press event
- */
-void BirdViewDockWidget::keyPressEvent(QKeyEvent *event)
-{
-    DEBUG(DBG_SRC) << event->key();  //:TODO: is not working
-    QDockWidget::keyPressEvent(event);
-}

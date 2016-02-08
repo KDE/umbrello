@@ -48,7 +48,6 @@ signals:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
 };
 
 /**
