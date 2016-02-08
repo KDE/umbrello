@@ -306,7 +306,7 @@ public slots:
     void slotZoomOut();
     void slotZoomIn();
 
-    void slotBirdViewChanged(const QPoint& delta);
+    void slotBirdViewChanged(const QPointF& newCenter);
 
     void setupZoomMenu();
 

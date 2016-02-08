@@ -3196,7 +3196,7 @@ void UMLApp::createBirdView(UMLView *view)
         delete m_birdView;
     }
     m_birdView = new BirdView(m_birdViewDock, view);
-    connect(m_birdView, SIGNAL(viewPositionChanged(QPoint)), this, SLOT(slotBirdViewChanged(QPoint)));
+    connect(m_birdView, SIGNAL(viewPositionChanged(QPointF)), this, SLOT(slotBirdViewChanged(QPointF)));
     connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
 }
 
@@ -3204,20 +3204,13 @@ void UMLApp::createBirdView(UMLView *view)
  * Slot for changes of the bird view's rectangle by moving.
  * @param delta   change value for a move
  */
-void UMLApp::slotBirdViewChanged(const QPoint& delta)
+void UMLApp::slotBirdViewChanged(const QPointF& delta)
 {
     m_birdView->setSlotsEnabled(false);
     UMLView* view = currentView();
-    QScrollBar* hScroll = view->horizontalScrollBar();
-    if (hScroll) {
-        int hvalue = hScroll->value() + delta.x();
-        hScroll->setValue(hvalue);
-    }
-    QScrollBar* vScroll = view->verticalScrollBar();
-    if (vScroll) {
-        int vvalue = vScroll->value() + delta.y();
-        vScroll->setValue(vvalue);
-    }
+    QPointF oldCenter = view->mapToScene(view->viewport()->rect().center());
+    QPointF newCenter = oldCenter + delta;
+    view->centerOn(newCenter);
     // DEBUG(DBG_SRC) << "view moved with: " << delta;
     m_birdView->setSlotsEnabled(true);
 }
