@@ -23,6 +23,7 @@
   <name xml:lang="sv">Umbrello</name>
   <name xml:lang="uk">Umbrello</name>
   <name xml:lang="x-test">xxUmbrelloxx</name>
+  <name xml:lang="zh-CN">Umbrello</name>
   <summary>UML Modeller</summary>
   <summary xml:lang="ca">Modelador UML</summary>
   <summary xml:lang="ca-valencia">Modelador UML</summary>
@@ -42,6 +43,7 @@
   <summary xml:lang="sv">UML-modellering</summary>
   <summary xml:lang="uk">Засіб моделювання UML</summary>
   <summary xml:lang="x-test">xxUML Modellerxx</summary>
+  <summary xml:lang="zh-CN">UML 建模工具</summary>
   <description>
     <p>
       Umbrello is a Unified Modelling Language (UML) modelling tool and code generator.
@@ -83,6 +85,7 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
+    <p xml:lang="zh-CN">功能：</p>
     <ul>
       <li>Supported formats: XMI</li>
       <li xml:lang="ca">Formats acceptats: XMI</li>
@@ -103,6 +106,7 @@
       <li xml:lang="sv">Format som stöds: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
+      <li xml:lang="zh-CN">支持格式：XMI</li>
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
