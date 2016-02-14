@@ -41,7 +41,9 @@ public:
 
     UMLObject* createEnumLiteral(const QString& name = QString());
 
-    UMLObject* addEnumLiteral(const QString &name, Uml::ID::Type id = Uml::ID::None);
+    UMLObject* addEnumLiteral(const QString &name,
+                              Uml::ID::Type id = Uml::ID::None,
+                              const QString& value = QString());
 
     bool addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log = 0);
     bool addEnumLiteral(UMLEnumLiteral* literal, int position);

@@ -413,7 +413,11 @@ void CppTree2Uml::parseEnumSpecifier(EnumSpecifierAST* ast)
     QList<EnumeratorAST*> l = ast->enumeratorList();
     for (int i = 0; i < l.size(); ++i) {
         QString enumLiteral = l.at(i)->id()->text();
-        Import_Utils::addEnumLiteral((UMLEnum*)o, enumLiteral);
+        QString enumLiteralValue = QString();
+        if (l.at(i)->expr()) {
+            enumLiteralValue = l.at(i)->expr()->text();
+        }
+        Import_Utils::addEnumLiteral((UMLEnum*)o, enumLiteral, QString(), enumLiteralValue);
     }
 }
 

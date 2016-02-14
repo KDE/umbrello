@@ -19,6 +19,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "enum.h"
+#include "enumliteral.h"
 #include "messagewidget.h"
 #include "model_utils.h"
 #include "object_factory.h"
@@ -526,9 +527,9 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
 /**
  * Add an enum literal to an UMLEnum.
  */
-void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &comment)
+void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &comment, const QString &value)
 {
-    UMLObject *el = enumType->addEnumLiteral(literal);
+    UMLObject *el = enumType->addEnumLiteral(literal, Uml::ID::None, value);
     el->setDoc(comment);
 }
 

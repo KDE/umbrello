@@ -71,7 +71,8 @@ namespace Import_Utils {
                                      const QString& name);
 
     void addEnumLiteral(UMLEnum *enumType, const QString &literal,
-                        const QString &comment = QString());
+                        const QString &comment = QString(),
+                        const QString &value = QString());
 
     void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
     void createGeneralization(UMLClassifier *child, const QString &parentName);

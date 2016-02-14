@@ -129,14 +129,14 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
  *            If omitted a new ID is assigned internally.
  * @return  Pointer to the UMLEnumliteral created.
  */
-UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id)
+UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const QString& value)
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != NULL) {
         uDebug() << name << " is already present";
         return el;
     }
-    UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
+    UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id, value);
     m_List.append(literal);
     UMLObject::emitModified();
     emit enumLiteralAdded(literal);
