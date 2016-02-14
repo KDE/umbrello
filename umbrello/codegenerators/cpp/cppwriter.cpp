@@ -27,6 +27,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
 #include "codegenerationpolicy.h"
+#include "enumliteral.h"
 
 // qt includes
 #include <QFile>
@@ -395,8 +396,11 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         uint i = 0;
         cpp << "enum " << className_ << " {" << m_endl;
         foreach (UMLClassifierListItem* lit, litList) {
+            UMLEnumLiteral *el = static_cast<UMLEnumLiteral *>(lit);
             QString enumLiteral = cleanName(lit->name());
             cpp << indent() << enumLiteral;
+            if (!el->value().isEmpty())
+                cpp << " = " << el->value();
             if (++i < (uint)litList.count())
                 cpp << ",";
             cpp << m_endl;
