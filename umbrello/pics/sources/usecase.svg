@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.38.1"
+   inkscape:version="0.48.4 r9939"
    width="128.00000pt"
    height="128.00000pt"
-   sodipodi:docbase="/home/bartkozoltan/Documents/work/umbrello/new pics"
    sodipodi:docname="usecase.svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xml="http://www.w3.org/XML/1998/namespace"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   version="1.1">
+  <metadata
+     id="metadata25">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
      id="defs3">
     <linearGradient
@@ -82,6 +95,16 @@
     <linearGradient
        xlink:href="#linearGradient868"
        id="linearGradient892" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient868"
+       id="linearGradient3778"
+       gradientTransform="scale(0.99503719,1.0049876)"
+       x1="6.0995498"
+       y1="24.610348"
+       x2="90.179276"
+       y2="-25.899509"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -90,16 +113,30 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.0000000"
+     inkscape:zoom="4"
      inkscape:cx="79.132812"
      inkscape:cy="69.358765"
-     inkscape:window-width="1022"
-     inkscape:window-height="701"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
+     inkscape:window-width="1680"
+     inkscape:window-height="977"
      gridtolerance="1.0000000px"
-     inkscape:window-x="0"
-     inkscape:window-y="0" />
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     showgrid="true"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0px"
+       originy="0px"
+       spacingx="1.0000000pt"
+       spacingy="1.0000000pt"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="5" />
+  </sodipodi:namedview>
   <path
      sodipodi:type="arc"
      style="fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:6.5509048;stroke-opacity:1.0000000;fill-opacity:1.0000000;stroke-dasharray:none;"
@@ -112,14 +149,14 @@
      transform="matrix(2.033142,0.000000,0.000000,1.146119,-49.35104,33.00004)" />
   <path
      sodipodi:type="arc"
-     style="fill:url(#linearGradient892);fill-opacity:0.75000000;fill-rule:evenodd;stroke-width:10.000000;"
+     style="fill:url(#linearGradient3778);fill-opacity:0.75;fill-rule:evenodd;stroke-width:10"
      id="path864"
-     sodipodi:cx="63.437500"
-     sodipodi:cy="39.375000"
-     sodipodi:rx="31.250000"
-     sodipodi:ry="31.562500"
-     d="M 94.687500 39.375000 A 31.250000 31.562500 0 1 0 32.187500,39.375000 A 31.250000 31.562500 0 1 0 94.687500 39.375000 z"
-     transform="matrix(1.866513,0.000000,0.000000,0.989918,-38.73914,38.52544)" />
+     sodipodi:cx="63.4375"
+     sodipodi:cy="39.375"
+     sodipodi:rx="31.25"
+     sodipodi:ry="31.5625"
+     d="m 94.6875,39.375 a 31.25,31.5625 0 1 1 -62.5,0 31.25,31.5625 0 1 1 62.5,0 z"
+     transform="matrix(-1.870513,0,0,0.98199721,198.20345,39.087321)" />
   <text
      xml:space="preserve"
      style="fill:black;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
