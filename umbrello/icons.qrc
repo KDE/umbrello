@@ -54,7 +54,6 @@
         <file>pics/cursor-datatype.png</file>
         <file>pics/cursor-deep-history.png</file>
         <file>pics/cursor-dependency.png</file>
-        <file>pics/cursor-end_of_life.png</file>
         <file>pics/cursor-end_state.png</file>
         <file>pics/cursor-entity.png</file>
         <file>pics/cursor-enum.png</file>
@@ -111,7 +110,6 @@
         <file>pics/dependency.png</file>
         <file>pics/distribute-horizontal.png</file>
         <file>pics/distribute-vertical.png</file>
-        <file>pics/end_of_life.png</file>
         <file>pics/end_state.png</file>
         <file>pics/entity.png</file>
         <file>pics/enum.png</file>
