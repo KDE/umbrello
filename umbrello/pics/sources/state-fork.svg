@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docbase="F:\pics"
    sodipodi:docname="state-fork.svg"
-   inkscape:version="0.40+cvs"
+   inkscape:version="0.48.4 r9939"
    sodipodi:version="0.32"
    version="1.0"
    x="0.00000000"
@@ -20,34 +20,43 @@
    id="svg1">
   <metadata
      id="metadata39">
-    <rdf:RDF
-       id="RDF40">
+    <rdf:RDF>
       <cc:Work
-         id="Work41"
          rdf:about="">
-        <dc:format
-           id="format42">image/svg+xml</dc:format>
+        <dc:format>image/svg+xml</dc:format>
         <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-           id="type43" />
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
      inkscape:current-layer="svg1"
-     inkscape:window-y="134"
-     inkscape:window-x="1483"
-     inkscape:cy="11.000000"
-     inkscape:cx="11.000000"
-     inkscape:zoom="23.500000"
-     inkscape:window-height="691"
-     inkscape:window-width="1035"
+     inkscape:window-y="-3"
+     inkscape:window-x="1677"
+     inkscape:cy="12.538435"
+     inkscape:cx="6.4344711"
+     inkscape:zoom="32"
+     inkscape:window-height="977"
+     inkscape:window-width="1680"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
-     id="base" />
+     id="base"
+     showgrid="true"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid5751" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="9.5851064,20"
+       id="guide5753" />
+  </sodipodi:namedview>
   <defs
      id="defs3">
     <marker
@@ -149,24 +158,51 @@
          transform="scale(1.1) rotate(180) translate(-5,0)" />
     </marker>
   </defs>
+  <path
+     inkscape:connector-curvature="0"
+     id="path15"
+     d="m 11.00565,3.3070085 c 0.008,15.3890215 0.008,15.3890215 0.008,15.3890215 l 0,0"
+     style="fill:none;stroke:#000000;stroke-width:2.0250001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
   <g
-     transform="translate(-383.7683,-518.9311)"
-     id="g241">
+     id="g5664"
+     transform="translate(0.34442774,0.09026895)">
     <path
-       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:2.0250001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
-       d="M 394.53323,522.08766 C 394.54111,537.47668 394.54111,537.47668 394.54111,537.47668 L 394.54111,537.47668"
-       id="path15" />
+       style="fill:none;stroke:#000000;stroke-width:0.60299999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none"
+       d="m 11.96857,5.92296 5.74416,0"
+       id="path558"
+       inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.60290909px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend)"
-       d="M 384.86403,529.65511 L 390.60819,529.65511"
-       id="path16" />
+       inkscape:connector-curvature="0"
+       id="path5044-4"
+       d="m 16.757322,4.8849812 0,1.974718 2.825781,-0.9565037 z"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.7274096px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+  <g
+     transform="translate(-10.952828,5.0793182)"
+     id="g5664-0">
     <path
-       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.60290909px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend)"
-       d="M 395.73687,534.45617 L 401.48103,534.45617"
-       id="path555" />
+       style="fill:none;stroke:#000000;stroke-width:0.60299999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none"
+       d="m 11.96857,5.92296 5.74416,0"
+       id="path558-0"
+       inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.60290909px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend)"
-       d="M 395.73687,524.85406 L 401.48103,524.85406"
-       id="path558" />
+       inkscape:connector-curvature="0"
+       id="path5044-4-4"
+       d="m 16.757322,4.8849812 0,1.974718 2.825781,-0.9565037 z"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.7274096px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+  <g
+     transform="translate(0.32504247,10.101396)"
+     id="g5664-9">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.60299999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none"
+       d="m 11.96857,5.92296 5.74416,0"
+       id="path558-4"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5044-4-0"
+       d="m 16.757322,4.8849812 0,1.974718 2.825781,-0.9565037 z"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.7274096px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>
