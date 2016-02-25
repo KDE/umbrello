@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:xml="http://www.w3.org/XML/1998/namespace"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    height="22.000000px"
@@ -16,20 +16,15 @@
    x="0.00000000"
    version="1.0"
    sodipodi:version="0.32"
-   inkscape:version="0.40+cvs"
-   sodipodi:docname="deep-history.svg"
-   sodipodi:docbase="F:\pics">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="deep-history.svg">
   <metadata
      id="metadata39">
-    <rdf:RDF
-       id="RDF40">
+    <rdf:RDF>
       <cc:Work
-         rdf:about=""
-         id="Work41">
-        <dc:format
-           id="format42">image/svg+xml</dc:format>
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
         <dc:type
-           id="type43"
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
       </cc:Work>
     </rdf:RDF>
@@ -43,41 +38,41 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1035"
      inkscape:window-height="691"
-     inkscape:zoom="23.500000"
-     inkscape:cx="11.000000"
-     inkscape:cy="11.000000"
+     inkscape:zoom="23.5"
+     inkscape:cx="11"
+     inkscape:cy="11"
      inkscape:window-x="1806"
-     inkscape:window-y="316"
-     inkscape:current-layer="svg1" />
+     inkscape:window-y="279"
+     inkscape:current-layer="svg1"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs3" />
   <g
-     transform="translate(-383.3264,-518.8539)"
-     id="g91">
+     id="g3760">
     <path
        id="path21"
-       style="fill:none;stroke:#d30000;stroke-width:1.2500000;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
-       d="M 402.82519,529.87519 C 402.82519,534.58139 399.02964,538.39651 394.34760,538.39651 C 389.66555,538.39651 385.87000,534.58139 385.87000,529.87519 C 385.87000,525.16900 389.66555,521.35388 394.34760,521.35388 C 399.02964,521.35388 402.82519,525.16900 402.82519,529.87519 z " />
+       style="fill:#ffffff;stroke:#d30000;stroke-width:1.25000000000000000;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1"
+       d="m 19.49879,11.02129 c 0,4.7062 -3.79555,8.52132 -8.47759,8.52132 -4.68205,0 -8.4776,-3.81512 -8.4776,-8.52132 0,-4.70619 3.79555,-8.52131 8.4776,-8.52131 4.68204,0 8.47759,3.81512 8.47759,8.52131 z"
+       inkscape:connector-curvature="0" />
     <text
-       sodipodi:linespacing="100%"
        xml:space="preserve"
        id="text111"
-       style="font-size:12.000000;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans;text-anchor:start;writing-mode:lr-tb"
-       y="535.10229"
-       x="387.91888"><tspan
+       style="font-size:12px;font-style:normal;font-weight:normal;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       y="16.248394"
+       x="4.5924845"><tspan
          id="tspan1"
          sodipodi:role="line"
-         y="535.10229"
-         x="387.91888">H</tspan></text>
+         y="16.248394"
+         x="4.5924845">H</tspan></text>
     <text
-       sodipodi:linespacing="100%"
        id="text2"
-       y="532.53491"
-       x="396.16739"
-       style="font-size:11.000000;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Arial;text-anchor:start;writing-mode:lr-tb"
+       y="13.681012"
+       x="12.840989"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial"
        xml:space="preserve"><tspan
-         y="532.53491"
-         x="396.16739"
+         y="13.681012"
+         x="12.840989"
          id="tspan3"
          sodipodi:role="line">*</tspan></text>
   </g>
