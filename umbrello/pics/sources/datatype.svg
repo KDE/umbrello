@@ -44,7 +44,7 @@
     <linearGradient
        id="linearGradient826">
       <stop
-         style="stop-color:#000;stop-opacity:1;"
+         style="stop-color:#ffff00;stop-opacity:1;"
          offset="0"
          id="stop827" />
       <stop
@@ -94,6 +94,15 @@
        y1="19.835472"
        x2="4.5188179"
        y2="8.4846544" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient826"
+       id="linearGradient4398"
+       x1="24.4375"
+       y1="18.416039"
+       x2="-1.25"
+       y2="1.0097876"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -103,8 +112,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="32"
-     inkscape:cx="0.30672764"
-     inkscape:cy="8.7202294"
+     inkscape:cx="12.94077"
+     inkscape:cy="8.7827294"
      inkscape:window-width="1680"
      inkscape:window-height="987"
      gridtolerance="1.0000000px"
@@ -154,15 +163,7 @@
      height="11.027967"
      width="21.12541"
      id="rect837"
-     style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.9741289" />
-  <rect
-     y="5.7332759"
-     x="1.0033896"
-     ry="0"
-     height="9.9959745"
-     width="19.996988"
-     id="rect825"
-     style="font-size:12px;fill:url(#linearGradient3006);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt" />
+     style="font-size:12px;fill:url(#linearGradient4398);fill-rule:evenodd;stroke:#ff0000;stroke-width:0.97412889999999996;fill-opacity:1" />
   <text
      sodipodi:linespacing="100%"
      transform="scale(1.2322429,0.81152831)"

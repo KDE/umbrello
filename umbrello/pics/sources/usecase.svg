@@ -66,7 +66,7 @@
     <linearGradient
        id="linearGradient826">
       <stop
-         style="stop-color:#000;stop-opacity:1;"
+         style="stop-color:#ffff00;stop-opacity:1;"
          offset="0"
          id="stop827" />
       <stop
@@ -105,6 +105,15 @@
        x2="90.179276"
        y2="-25.899509"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient826"
+       id="linearGradient3003"
+       x1="107.14994"
+       y1="62.602539"
+       x2="33.126579"
+       y2="-0.21816234"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -115,9 +124,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="4"
      inkscape:cx="79.132812"
-     inkscape:cy="69.358765"
+     inkscape:cy="69.608765"
      inkscape:window-width="1680"
-     inkscape:window-height="977"
+     inkscape:window-height="987"
      gridtolerance="1.0000000px"
      inkscape:window-x="-3"
      inkscape:window-y="-3"
@@ -139,7 +148,7 @@
   </sodipodi:namedview>
   <path
      sodipodi:type="arc"
-     style="fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:6.5509048;stroke-opacity:1.0000000;fill-opacity:1.0000000;stroke-dasharray:none;"
+     style="fill:url(#linearGradient3003);fill-rule:evenodd;stroke:#ff0000;stroke-width:6.55090479999999964;stroke-opacity:1;fill-opacity:1;stroke-dasharray:none"
      id="path863"
      sodipodi:cx="63.437500"
      sodipodi:cy="39.375000"
@@ -147,16 +156,6 @@
      sodipodi:ry="31.562500"
      d="M 94.687500 39.375000 A 31.250000 31.562500 0 1 0 32.187500,39.375000 A 31.250000 31.562500 0 1 0 94.687500 39.375000 z"
      transform="matrix(2.033142,0.000000,0.000000,1.146119,-49.35104,33.00004)" />
-  <path
-     sodipodi:type="arc"
-     style="fill:url(#linearGradient3778);fill-opacity:0.75;fill-rule:evenodd;stroke-width:10"
-     id="path864"
-     sodipodi:cx="63.4375"
-     sodipodi:cy="39.375"
-     sodipodi:rx="31.25"
-     sodipodi:ry="31.5625"
-     d="m 94.6875,39.375 a 31.25,31.5625 0 1 1 -62.5,0 31.25,31.5625 0 1 1 62.5,0 z"
-     transform="matrix(-1.870513,0,0,0.98199721,198.20345,39.087321)" />
   <text
      xml:space="preserve"
      style="fill:black;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"

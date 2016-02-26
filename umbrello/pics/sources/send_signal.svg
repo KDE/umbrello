@@ -78,10 +78,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient826"
        id="linearGradient2993"
-       x1="33.697754"
-       y1="16.342976"
-       x2="1.9627272"
-       y2="3.5266657"
+       x1="31.25"
+       y1="28.452179"
+       x2="6.7356977"
+       y2="0.87501526"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
@@ -93,7 +93,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="22.627417"
      inkscape:cx="25.208415"
-     inkscape:cy="9.1912019"
+     inkscape:cy="9.2353961"
      inkscape:window-width="1680"
      inkscape:window-height="987"
      gridtolerance="1.0000000px"
