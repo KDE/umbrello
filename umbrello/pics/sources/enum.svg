@@ -87,9 +87,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="-8.1199257"
-     inkscape:cy="8.9547285"
+     inkscape:zoom="32"
+     inkscape:cx="8.7883515"
+     inkscape:cy="15.486727"
      inkscape:window-width="1680"
      inkscape:window-height="977"
      gridtolerance="1.0000000px"
@@ -120,22 +120,40 @@
      y="0.67129415" />
   <text
      xml:space="preserve"
-     style="font-size:12;font-weight:bold;font-stretch:normal;stroke-width:1pt;font-family:Bitstream Vera Sans Mono;font-style:normal;text-anchor:start;writing-mode:lr;"
-     x="1.94527822"
-     y="15.4448805"
+     style="font-size:12px;font-style:normal;font-weight:bold;font-stretch:normal;line-height:133.00000429%;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+     x="1.9452782"
+     y="15.44488"
      id="text838"
-     transform="scale(0.671250,0.505970)"
+     transform="scale(0.67125,0.50597)"
      sodipodi:linespacing="133%"><tspan
-       x="1.94527817"
-       y="15.4448805"
+       x="1.9452782"
+       y="15.44488"
        sodipodi:role="line"
-       id="tspan854">- ABC</tspan><tspan
-       x="1.94527817"
-       y="31.4048810"
+       id="tspan856">- ABC</tspan><tspan
+       x="1.9452782"
+       y="31.404881"
        sodipodi:role="line"
-       id="tspan856">- DEF</tspan><tspan
-       x="1.94527817"
-       y="47.3648815"
+       id="tspan858" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+     x="1.1395139"
+     y="18.282351"
+     id="text838-8"
+     transform="scale(1.1518071,0.86820093)"><tspan
+       x="1.1395139"
+       y="18.282351"
        sodipodi:role="line"
-       id="tspan858">- IJK</tspan></text>
+       id="tspan858-3">- DEF</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+     x="0.87520033"
+     y="27.222227"
+     id="text838-8-3"
+     transform="scale(1.1518071,0.86820093)"><tspan
+       x="0.87520033"
+       y="27.222227"
+       sodipodi:role="line"
+       id="tspan858-3-7">- IJK</tspan></text>
 </svg>
