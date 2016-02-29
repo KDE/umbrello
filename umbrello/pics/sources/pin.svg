@@ -102,7 +102,8 @@
        y1="15.077421"
        x2="5.9184508"
        y2="5.4036961"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1350493,0,0,1.1350493,-1.3621019,-1.6373519)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -112,10 +113,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="24.189235"
-     inkscape:cx="0.91887781"
-     inkscape:cy="14.977628"
+     inkscape:cx="3.4508288"
+     inkscape:cy="15.760438"
      inkscape:window-width="1680"
-     inkscape:window-height="987"
+     inkscape:window-height="977"
      gridtolerance="1.0000000px"
      inkscape:window-x="-3"
      inkscape:window-y="-3"
@@ -141,10 +142,10 @@
        snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <rect
-     style="font-size:12px;fill:url(#linearGradient5471);fill-rule:evenodd;stroke:#ff0000;stroke-width:1.25000000000000000;stroke-dasharray:none;fill-opacity:1"
+     style="font-size:12px;fill:url(#linearGradient5471);fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.41881156;stroke-dasharray:none"
      id="rect632"
-     width="6.3357668"
-     height="6.3259778"
-     x="7.680572"
-     y="7.9870653" />
+     width="7.1914072"
+     height="7.1802964"
+     x="7.3557262"
+     y="7.4283609" />
 </svg>
