@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="64px"
-   height="64px"
+   width="22"
+   height="22"
    id="svg1891"
    sodipodi:version="0.32"
-   inkscape:version="0.44.1"
-   sodipodi:docbase="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/sources"
-   sodipodi:docname="child2category.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="child2category.svg"
+   version="1.1">
   <defs
      id="defs1893">
     <marker
        inkscape:stockid="CurveIn"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="CurveIn"
        style="overflow:visible">
       <path
          id="path7547"
-         d="M 4.6254930,-5.0456926 C 1.8654930,-5.0456926 -0.37450702,-2.8056926 -0.37450702,-0.045692580 C -0.37450702,2.7143074 1.8654930,4.9543074 4.6254930,4.9543074"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;marker-end:none;fill:none"
-         transform="scale(0.6)" />
+         d="m 4.625493,-5.0456926 c -2.76,0 -5.00000002,2.24 -5.00000002,5.00000002 0,2.75999998 2.24000002,4.99999998 5.00000002,4.99999998"
+         style="fill:none;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="scale(0.6,0.6)"
+         inkscape:connector-curvature="0" />
     </marker>
     <linearGradient
        inkscape:collect="always"
@@ -37,8 +39,8 @@
        id="linearGradient1089"
        spreadMethod="reflect"
        x1="23.537647"
-       y1="37.602750"
-       x2="3.7720042"
+       y1="37.602749"
+       x2="3.7720041"
        y2="28.123806"
        gradientTransform="matrix(1.701614,0,0,1.09521,0,-22.63705)"
        gradientUnits="userSpaceOnUse" />
@@ -56,13 +58,35 @@
     <linearGradient
        xlink:href="#linearGradient830"
        id="linearGradient829"
-       x1="21.635329"
-       y1="9.6104371"
+       x1="21.635328"
+       y1="9.6104374"
        x2="3.4203537"
-       y2="0.8751411"
+       y2="0.87514108"
        spreadMethod="reflect"
        gradientTransform="scale(1.846475,0.541572)"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3015"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="scale(1.846475,0.541572)"
+       spreadMethod="reflect"
+       x1="21.635328"
+       y1="9.6104374"
+       x2="3.4203537"
+       y2="0.87514108" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3017"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.701614,0,0,1.09521,0,-22.63705)"
+       spreadMethod="reflect"
+       x1="23.537647"
+       y1="37.602749"
+       x2="3.7720041"
+       y2="28.123806" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -71,17 +95,26 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.5"
-     inkscape:cx="32"
-     inkscape:cy="32"
+     inkscape:zoom="31.112698"
+     inkscape:cx="16.613723"
+     inkscape:cy="9.8771793"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
      inkscape:grid-bbox="true"
-     inkscape:window-width="902"
-     inkscape:window-height="583"
-     inkscape:window-x="44"
-     inkscape:window-y="68" />
+     inkscape:window-width="1680"
+     inkscape:window-height="977"
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3000"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata1896">
     <rdf:RDF>
@@ -96,72 +129,79 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,-42)">
     <g
-       id="g1196"
-       transform="matrix(0.609769,0,0,0.602267,7.500182,34.77151)">
-      <rect
-         style="font-size:12px;fill:yellow;fill-rule:evenodd;stroke:red;stroke-width:1.23962998"
-         id="rect837"
-         width="26.249929"
-         height="26.188568"
-         x="0.66534913"
-         y="0.71917963" />
-      <rect
-         style="font-size:12px;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt"
-         id="rect825"
-         width="24.991924"
-         height="7.3301492"
-         ry="0"
-         x="1.2116134"
-         y="1.367873" />
-      <text
-         xml:space="preserve"
-         style="font-size:12px;font-weight:normal;stroke-width:1pt;font-family:Bitstream Vera Sans"
-         x="2.5917132"
-         y="11.314754"
-         id="text838"
-         transform="scale(0.933669,0.722645)"><tspan
-           id="tspan839">ABC</tspan></text>
+       id="g3002"
+       transform="matrix(0.45703728,0,0,0.45703728,-2.327219,40.311062)">
+      <g
+         transform="matrix(0.609769,0,0,0.602267,7.500182,34.77151)"
+         id="g1196">
+        <rect
+           y="0.71917963"
+           x="0.66534913"
+           height="26.188568"
+           width="26.249929"
+           id="rect837"
+           style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.23962998" />
+        <rect
+           y="1.367873"
+           x="1.2116134"
+           ry="0"
+           height="7.3301492"
+           width="24.991924"
+           id="rect825"
+           style="font-size:12px;fill:url(#linearGradient3015);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt" />
+        <text
+           transform="scale(0.933669,0.722645)"
+           id="text838"
+           y="11.314754"
+           x="2.5917132"
+           style="font-size:12px;font-weight:normal;stroke-width:1pt;font-family:Bitstream Vera Sans"
+           xml:space="preserve"><tspan
+             id="tspan839">ABC</tspan></text>
+        <path
+           inkscape:connector-curvature="0"
+           id="path842"
+           d="m 1.1533278,9.3908034 25.5783242,0"
+           style="font-size:12px;fill:none;stroke:#ff0000;stroke-width:1.25" />
+        <rect
+           y="10.12609"
+           x="1.3145113"
+           ry="0"
+           height="16.085562"
+           width="24.991922"
+           id="rect847"
+           style="font-size:12px;fill:url(#linearGradient3017);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt" />
+      </g>
       <path
-         style="font-size:12px;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:red;stroke-width:1.25"
-         d="M 1.1533278,9.3908034 L 26.731652,9.3908034"
-         id="path842" />
-      <rect
-         style="font-size:12px;fill:url(#linearGradient1089);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt"
-         id="rect847"
-         width="24.991922"
-         height="16.085562"
-         ry="0"
-         x="1.3145113"
-         y="10.12609" />
-    </g>
-    <path
-       sodipodi:type="arc"
-       style="fill:yellow;fill-opacity:1;fill-rule:evenodd;stroke:red;stroke-width:6.55090475;stroke-dasharray:none;stroke-opacity:1"
-       id="path863"
-       sodipodi:cx="63.4375"
-       sodipodi:cy="39.375"
-       sodipodi:rx="31.25"
-       sodipodi:ry="31.5625"
-       d="M 94.6875 39.375 A 31.25 31.5625 0 1 1  32.1875,39.375 A 31.25 31.5625 0 1 1  94.6875 39.375 z"
-       transform="matrix(0.257743,0,0,0.228556,25.64943,3.009395)"
-       inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:red;stroke-width:0.40835997;stroke-linecap:butt;stroke-linejoin:round;marker-start:none;marker-mid:url(#CurveIn);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 16.166275,35.19736 C 16.166275,35.19736 37.832594,34.151521 39.810433,26.772533 C 41.78827,19.393548 41.78827,19.393548 41.78827,19.393548"
-       id="path6609" />
-    <text
-       xml:space="preserve"
-       style="font-size:6px;font-style:normal;font-weight:normal;fill:red;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="39.668945"
-       y="13.915039"
-       id="text7676"><tspan
-         sodipodi:role="line"
-         id="tspan7678"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/kde-devel/kde/src/KDE/kdesdk/umbrello/umbrello/pics/category.png"
+         transform="matrix(0.257743,0,0,0.228556,25.64943,3.009395)"
+         d="m 94.6875,39.375 c 0,17.431487 -13.991102,31.5625 -31.25,31.5625 -17.258898,0 -31.25,-14.131013 -31.25,-31.5625 0,-17.431487 13.991102,-31.5625 31.25,-31.5625 17.258898,0 31.25,14.131013 31.25,31.5625 z"
+         sodipodi:ry="31.5625"
+         sodipodi:rx="31.25"
+         sodipodi:cy="39.375"
+         sodipodi:cx="63.4375"
+         id="path863"
+         style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:6.55090475;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path6609"
+         d="m 16.166275,35.19736 c 0,0 21.666319,-1.045839 23.644158,-8.424827 1.977837,-7.378985 1.977837,-7.378985 1.977837,-7.378985"
+         style="fill:none;stroke:#ff0000;stroke-width:0.40835997;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:url(#CurveIn)" />
+      <text
+         id="text7676"
+         y="13.915039"
          x="39.668945"
-         y="13.915039">d</tspan></text>
+         style="font-size:6px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           y="13.915039"
+           x="39.668945"
+           id="tspan7678"
+           sodipodi:role="line">d</tspan></text>
+    </g>
   </g>
 </svg>
