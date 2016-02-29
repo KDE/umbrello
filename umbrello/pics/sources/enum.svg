@@ -13,8 +13,8 @@
    id="svg1"
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9939"
-   width="22pt"
-   height="22pt"
+   width="22"
+   height="22"
    sodipodi:docname="enum.svg"
    version="1.1">
   <metadata
@@ -55,8 +55,8 @@
     <linearGradient
        xlink:href="#linearGradient830"
        id="linearGradient829"
-       x1="1.5500000"
-       y1="0.52343750"
+       x1="1.55"
+       y1="0.5234375"
        x2="0.20422535"
        y2="-0.12195122"
        spreadMethod="reflect" />
@@ -64,9 +64,9 @@
        xlink:href="#linearGradient830"
        id="linearGradient834"
        x1="-0.31159419"
-       y1="0.19531250"
+       y1="0.1953125"
        x2="0.77536231"
-       y2="0.94531250" />
+       y2="0.9453125" />
     <linearGradient
        xlink:href="#linearGradient830"
        id="linearGradient836" />
@@ -78,7 +78,18 @@
        y1="20.341436"
        x2="-3.8749106"
        y2="2.0556519"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,-5.5)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient826"
+       id="linearGradient3848"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,-5.5)"
+       x1="33.586082"
+       y1="20.341436"
+       x2="-3.8749106"
+       y2="2.0556519" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -87,9 +98,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="32"
-     inkscape:cx="8.7883515"
-     inkscape:cy="15.486727"
+     inkscape:zoom="22.627417"
+     inkscape:cx="-2.0254479"
+     inkscape:cy="12.516452"
      inkscape:window-width="1680"
      inkscape:window-height="977"
      gridtolerance="1.0000000px"
@@ -109,51 +120,59 @@
        empcolor="#3f3fff"
        opacity="0.15"
        empopacity="0.38"
-       empspacing="5" />
+       empspacing="5"
+       units="pt"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
-  <rect
-     style="font-size:12;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.23957999999999990;fill-opacity:1;fill:url(#linearGradient3771)"
-     id="rect837"
-     width="26.26486117"
-     height="26.28001541"
-     x="0.61830062"
-     y="0.67129415" />
-  <text
-     xml:space="preserve"
-     style="font-size:12px;font-style:normal;font-weight:bold;font-stretch:normal;line-height:133.00000429%;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
-     x="1.9452782"
-     y="15.44488"
-     id="text838"
-     transform="scale(0.67125,0.50597)"
-     sodipodi:linespacing="133%"><tspan
-       x="1.9452782"
-       y="15.44488"
-       sodipodi:role="line"
-       id="tspan856">- ABC</tspan><tspan
-       x="1.9452782"
-       y="31.404881"
-       sodipodi:role="line"
-       id="tspan858" /></text>
-  <text
-     xml:space="preserve"
-     style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
-     x="1.1395139"
-     y="18.282351"
-     id="text838-8"
-     transform="scale(1.1518071,0.86820093)"><tspan
+  <g
+     id="g3838"
+     transform="matrix(0.79914984,0,0,0.79914984,-2.9914641e-4,4.3969989)">
+    <rect
+       y="-4.8287058"
+       x="0.61830062"
+       height="26.280016"
+       width="26.264862"
+       id="rect837"
+       style="font-size:12px;fill:url(#linearGradient3848);fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.23958004" />
+    <text
+       sodipodi:linespacing="133%"
+       transform="scale(1.1518071,0.86820092)"
+       id="text838"
+       y="2.6660259"
+       x="1.1336689"
+       style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;line-height:133.00000429%;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+       xml:space="preserve"><tspan
+         id="tspan856"
+         sodipodi:role="line"
+         y="2.6660259"
+         x="1.1336689">- ABC</tspan><tspan
+         id="tspan858"
+         sodipodi:role="line"
+         y="11.967193"
+         x="1.1336689" /></text>
+    <text
+       transform="scale(1.1518071,0.86820093)"
+       id="text838-8"
+       y="11.947412"
        x="1.1395139"
-       y="18.282351"
-       sodipodi:role="line"
-       id="tspan858-3">- DEF</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
-     x="0.87520033"
-     y="27.222227"
-     id="text838-8-3"
-     transform="scale(1.1518071,0.86820093)"><tspan
+       style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+       xml:space="preserve"><tspan
+         id="tspan858-3"
+         sodipodi:role="line"
+         y="11.947412"
+         x="1.1395139">- DEF</tspan></text>
+    <text
+       transform="scale(1.1518071,0.86820093)"
+       id="text838-8-3"
+       y="20.887287"
        x="0.87520033"
-       y="27.222227"
-       sodipodi:role="line"
-       id="tspan858-3-7">- IJK</tspan></text>
+       style="font-size:6.99335814px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:start;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+       xml:space="preserve"><tspan
+         id="tspan858-3-7"
+         sodipodi:role="line"
+         y="20.887287"
+         x="0.87520033">- IJK</tspan></text>
+  </g>
 </svg>
