@@ -75,7 +75,7 @@ public:
     void setTextColorCmd(const QColor &color);
 
     virtual void setLineColor(const QColor &color);
-    void setLineColorCmd(const QColor &color);
+    virtual void setLineColorCmd(const QColor &color);
 
     virtual void setLineWidth(uint width);
     void setLineWidthCmd(uint width);

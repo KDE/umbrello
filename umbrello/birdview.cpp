@@ -30,9 +30,9 @@
 #include <QScrollBar>
 #include <QTimer>
 
-DEBUG_REGISTER(BirdView)
+DEBUG_REGISTER_DISABLED(BirdView)
 
-#define VERBOSE_DBG_OUT 1
+#define VERBOSE_DBG_OUT 0
 
 /**
  * @brief Constructor.
@@ -56,7 +56,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     setBackgroundColor(m_protectFrame, QColor(255, 255, 220, 0));
 
     // draw window frame in the size of shown scene
-    setParent(m_birdView);  //m_protectFrame);
+    setParent(m_birdView);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setLineWidth(1);
     setMidLineWidth(2);
@@ -69,6 +69,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
     setSlotsEnabled(true);
     parent->setWidget(m_birdView);  // must be the last command
     connect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
+    slotViewChanged();
 }
 
 /**
@@ -136,79 +137,9 @@ void BirdView::slotViewChanged()
     if (!m_view) {
         return;
     }
-    int hvalue = 0;
-    int hmin = 0;
-    int hmax = 0;
-    int hpage = 0;
-    int hlen = 0;
-    QScrollBar* hScroll = m_view->horizontalScrollBar();
-    if (hScroll) {
-        hvalue = hScroll->value();
-        hmin = hScroll->minimum();
-        hmax = hScroll->maximum();
-        hpage = hScroll->pageStep();
-        hlen = abs(hmax - hmin) + hpage;
-#if VERBOSE_DBG_OUT
-        DEBUG(DBG_SRC) << "hvalue: " << hvalue << " / hlen: " << hlen
-                       << " / hmin: " << hmin << " / hmax: " << hmax
-                       << " / hpage: " << hpage;
-#endif
-    }
-
-    int vvalue = 0;
-    int vmin = 0;
-    int vmax = 0;
-    int vpage = 0;
-    int vlen = 0;
-    QScrollBar* vScroll = m_view->verticalScrollBar();
-    if (vScroll) {
-        vvalue = vScroll->value();
-        vmin = vScroll->minimum();
-        vmax = vScroll->maximum();
-        vpage = vScroll->pageStep();
-        vlen = abs(vmax - vmin) + vpage;
-#if VERBOSE_DBG_OUT
-        DEBUG(DBG_SRC) << "vvalue: " << vvalue << " / vlen: " << vlen
-                       << " / vmin: " << vmin << " / vmax: " << vmax
-                       << " / vpage: " << vpage;
-#endif
-    }
-
-    if ((vlen == 0) || (hlen == 0)) {
-        DEBUG(DBG_SRC) << "Geometry cannot be changed!";
-    }
-    else {
-        if (!((hmin == 0) && (hmax == 0)) |
-            !((vmin == 0) && (vmax == 0))) {
-            int width = m_protectFrame->width() * hpage / hlen;
-            int height = m_protectFrame->height() * vpage / vlen;
-            int x = m_protectFrame->width() * (hvalue - hmin) / hlen;
-            if (x > m_protectFrame->width() - width) {
-                x = m_protectFrame->width() - width;
-            }
-            if (x <= m_protectFrame->x()) {
-                x = m_protectFrame->x();
-            }
-            int y = m_protectFrame->height() * (vvalue - vmin) / vlen;
-            if (y > m_protectFrame->height() - height) {
-                y = m_protectFrame->height() - height;
-            }
-            if (y <= m_protectFrame->y()) {
-                y = m_protectFrame->y();
-            }
-            QRect rect = QRect(x, y, width, height);
-            setGeometry(rect);
-#if VERBOSE_DBG_OUT
-            DEBUG(DBG_SRC) << "protectFrame: " << m_protectFrame->rect() << " / rect: " << rect;
-#endif
-        }
-        else {
-            QWidget* container = (QWidget*)m_birdView->parent();
-            if (container) {
-                setGeometry(container->rect());
-            }
-        }
-    }
+    QRectF r = m_view->mapToScene(m_view->viewport()->rect()).boundingRect();
+    QRect v = m_birdView->mapFromScene(r).boundingRect();
+    setGeometry(v);
 }
 
 /**
@@ -229,82 +160,14 @@ void BirdView::mousePressEvent(QMouseEvent *event)
  */
 void BirdView::mouseMoveEvent(QMouseEvent *event)
 {
-    const QPoint delta = event->globalPos() - m_moveStartPos;
-    int newX = x() + delta.x();
-    int newY = y() + delta.y();
-
-//    QRect limit = m_protectFrame->frameRect();
-//    if (limit.contains(newX, newY) &&
-//        limit.contains(newX + width(), newY + height())) {
-
-    QRect frameRect = m_protectFrame->frameRect();
-    QRect limit = QRect(m_protectFrame->mapToGlobal(QPoint(0, 0)), frameRect.size());
-#if VERBOSE_DBG_OUT
-    DEBUG(DBG_SRC) << "mouse event pos=" << event->pos() << " / globalPos=" << event->globalPos();
-    DEBUG(DBG_SRC) << limit << " contains ";
-    DEBUG(DBG_SRC) << "   top    left  [ " << newX << ", " << newY << "]";
-    DEBUG(DBG_SRC) << "   bottom right [ " << newX + width() << ", " << newY + height() << "]";
-#endif
-    if (limit.contains(event->globalPos())) {
-        if (newX < 0) {
-            newX = 0;
-        }
-        if (newX > frameRect.width() - width()) {
-            newX = frameRect.width() - width();
-        }
-        if (newY < 0) {
-            newY = 0;
-        }
-        if (newY > frameRect.height() - height()) {
-            newY = frameRect.height() - height();
-        }
-#if VERBOSE_DBG_OUT
-    DEBUG(DBG_SRC) << "moving delta=" << delta;
-#endif
-        move(newX, newY);
-        m_moveStartPos = event->globalPos();
-        event->accept();
-        // calculate the scale value for the "real" view
-        int hmin = 0;
-        int hmax = 0;
-        int hpage = 0;
-        int hlen = 0;
-        QScrollBar* hScroll = m_view->horizontalScrollBar();
-        qreal scaleW = 1.0;
-        if (hScroll) {
-            hmin = hScroll->minimum();
-            hmax = hScroll->maximum();
-            hpage = hScroll->pageStep();
-            hlen = (abs(hmax - hmin) + hpage);
-            scaleW = hlen / m_protectFrame->width();
-        }
-        int vmin = 0;
-        int vmax = 0;
-        int vpage = 0;
-        int vlen = 0;
-        QScrollBar* vScroll = m_view->verticalScrollBar();
-        qreal scaleH = 1.0;
-        if (vScroll) {
-            vmin = vScroll->minimum();
-            vmax = vScroll->maximum();
-            vpage = vScroll->pageStep();
-            vlen = abs(vmax - vmin) + vpage;
-            scaleH = vlen / m_protectFrame->height();
-        }
-        qreal scale = scaleH;
-        if (scaleW > scaleH) {
-            scale = scaleW;
-        }
-#if VERBOSE_DBG_OUT
-            DEBUG(DBG_SRC) << "scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
-#endif
-        emit viewPositionChanged(delta * scale);
-    }
-#if VERBOSE_DBG_OUT
-    else {
-        DEBUG(DBG_SRC) << "not moving.";
-    }
-#endif
+    const QPoint delta = m_view->mapFromGlobal(event->globalPos()) - m_view->mapFromGlobal(m_moveStartPos);
+    QSizeF scale(m_view->viewport()->rect().width() / rect().width(), m_view->viewport()->rect().height() / rect().height());
+    QPoint scaledDelta(delta.x() * scale.width(), delta.y() * scale.height());
+    QPointF oldCenter = m_view->mapToScene(m_view->viewport()->rect().center());
+    QPointF newCenter = m_view->mapToScene(m_view->viewport()->rect().center() + scaledDelta);
+    emit viewPositionChanged(newCenter - oldCenter);
+    slotViewChanged();
+    m_moveStartPos = event->globalPos();
 }
 
 /**
@@ -404,7 +267,6 @@ void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
 BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
   : QDockWidget(title, parent, flags)
 {
-    setFocusPolicy(Qt::StrongFocus);  // enable key press event
 }
 
 /**
@@ -416,12 +278,3 @@ void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
     emit sizeChanged(event->size());
 }
 
-/**
- * Event handler for key press events.
- * @param event   key press event
- */
-void BirdViewDockWidget::keyPressEvent(QKeyEvent *event)
-{
-    DEBUG(DBG_SRC) << event->key();  //:TODO: is not working
-    QDockWidget::keyPressEvent(event);
-}

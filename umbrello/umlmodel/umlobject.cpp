@@ -1100,6 +1100,9 @@ QString UMLObject::toI18nString(ObjectType t)
     case  UMLObject::ot_Artifact:
         name = i18n("Artifact &name:");
         break;
+    case UMLObject::ot_Association:
+        name = i18n("Association &name:");
+        break;
     case UMLObject::ot_Class:
         name = i18n("Class &name:");
         break;

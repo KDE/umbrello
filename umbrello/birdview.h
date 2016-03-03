@@ -48,7 +48,6 @@ signals:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
 };
 
 /**
@@ -72,7 +71,7 @@ public:
     void setSlotsEnabled(bool enabled);
 
 signals:
-    void viewPositionChanged(QPoint delta);
+    void viewPositionChanged(QPointF delta);
 
 public slots:
     void slotViewChanged();

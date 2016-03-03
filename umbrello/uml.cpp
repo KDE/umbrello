@@ -497,11 +497,9 @@ void UMLApp::initActions()
     viewShowCmdHistory->setText(i18n("&Command history"));
     connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
 
-#ifdef ENABLE_BIRDVIEW
     viewShowBirdView = actionCollection()->add<KToggleAction>(QLatin1String("view_show_bird"));
     viewShowBirdView->setText(i18n("&Bird's eye view"));
     connect(viewShowBirdView, SIGNAL(triggered(bool)), this, SLOT(slotShowBirdView(bool)));
-#endif
 
     viewClearDiagram = actionCollection()->addAction(QLatin1String("view_clear_diagram"));
     viewClearDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Clear));
@@ -974,13 +972,11 @@ void UMLApp::initView()
     //m_propertyDock->setObjectName(QLatin1String("PropertyDock"));
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
-#ifdef ENABLE_BIRDVIEW
     // create the bird's eye view
     m_birdViewDock = new BirdViewDockWidget(i18n("&Bird's eye view"), this);
     m_birdViewDock->setObjectName(QLatin1String("BirdViewDock"));
     addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
     connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
-#endif
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);
@@ -3196,7 +3192,7 @@ void UMLApp::createBirdView(UMLView *view)
         delete m_birdView;
     }
     m_birdView = new BirdView(m_birdViewDock, view);
-    connect(m_birdView, SIGNAL(viewPositionChanged(QPoint)), this, SLOT(slotBirdViewChanged(QPoint)));
+    connect(m_birdView, SIGNAL(viewPositionChanged(QPointF)), this, SLOT(slotBirdViewChanged(QPointF)));
     connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
 }
 
@@ -3204,20 +3200,13 @@ void UMLApp::createBirdView(UMLView *view)
  * Slot for changes of the bird view's rectangle by moving.
  * @param delta   change value for a move
  */
-void UMLApp::slotBirdViewChanged(const QPoint& delta)
+void UMLApp::slotBirdViewChanged(const QPointF& delta)
 {
     m_birdView->setSlotsEnabled(false);
     UMLView* view = currentView();
-    QScrollBar* hScroll = view->horizontalScrollBar();
-    if (hScroll) {
-        int hvalue = hScroll->value() + delta.x();
-        hScroll->setValue(hvalue);
-    }
-    QScrollBar* vScroll = view->verticalScrollBar();
-    if (vScroll) {
-        int vvalue = vScroll->value() + delta.y();
-        vScroll->setValue(vvalue);
-    }
+    QPointF oldCenter = view->mapToScene(view->viewport()->rect().center());
+    QPointF newCenter = oldCenter + delta;
+    view->centerOn(newCenter);
     // DEBUG(DBG_SRC) << "view moved with: " << delta;
     m_birdView->setSlotsEnabled(true);
 }
@@ -3281,9 +3270,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
     }
     DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
 
-#ifdef ENABLE_BIRDVIEW
     createBirdView(view);
-#endif
 }
 
 /**

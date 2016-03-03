@@ -222,7 +222,6 @@ macro(add_unstable_feature name)
     endif()
 endmacro(add_unstable_feature)
 
-add_unstable_feature(BIRDVIEW) # bird view dock widget
 add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
 

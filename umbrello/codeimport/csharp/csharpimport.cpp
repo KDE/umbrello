@@ -628,8 +628,14 @@ bool CSharpImport::parseEnumDeclaration()
     UMLEnum *enumType = static_cast<UMLEnum*>(ns);
     skipStmt(QLatin1String("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QLatin1String("}")) {
-        Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
         QString next = advance();
+        if (next == QLatin1String("=")) {
+            next = advance();
+            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
+            next = advance();
+        } else {
+            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);
+        }
         if (next == QLatin1String("{") || next == QLatin1String("(")) {
             if (! skipToClosing(next[0]))
                 return false;

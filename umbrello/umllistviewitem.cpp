@@ -386,6 +386,10 @@ void UMLListViewItem::updateObject()
         icon = Model_Utils::convert_LVT_IT(m_type, m_object);
         break;
 
+    case UMLObject::ot_Association:
+        icon = Model_Utils::convert_LVT_IT(m_type, m_object);
+        break;
+
     default:
         icon = Model_Utils::convert_LVT_IT(m_type);
         break;
@@ -964,6 +968,8 @@ QString UMLListViewItem::toString(ListViewType type)
             return QLatin1String("lvt_Sequence_Diagram");
         case lvt_Actor:
             return QLatin1String("lvt_Actor");
+        case lvt_Association:
+            return QLatin1String("lvt_Association");
         case lvt_UseCase:
             return QLatin1String("lvt_UseCase");
         case lvt_Class:
