@@ -244,6 +244,7 @@ UMLApp::~UMLApp()
     delete m_printer;
     delete m_policyext;
     delete m_pUndoStack;
+    m_pUndoStack = 0;
     delete m_refactoringAssist;
     delete m_xhtmlGenerator;
     delete m_listView;
@@ -1396,7 +1397,8 @@ void UMLApp::slotFileSave()
     else {
         m_doc->saveDocument(m_doc->url());
     }
-    m_pUndoStack->setClean();
+    if (m_pUndoStack)
+        m_pUndoStack->setClean();
     resetStatusMsg();
 }
 
@@ -3505,7 +3507,8 @@ QString UMLApp::statusBarMsg()
  */
 void UMLApp::clearUndoStack()
 {
-    m_pUndoStack->clear();
+    if (m_pUndoStack)
+        m_pUndoStack->clear();
 }
 
 /**
@@ -3513,6 +3516,9 @@ void UMLApp::clearUndoStack()
  */
 void UMLApp::undo()
 {
+    if (!m_pUndoStack)
+        return;
+
     if (!isUndoEnabled())
         return;
 
@@ -3534,6 +3540,9 @@ void UMLApp::undo()
  */
 void UMLApp::redo()
 {
+    if (!m_pUndoStack)
+        return;
+
     if (!isUndoEnabled())
         return;
 
@@ -3555,6 +3564,9 @@ void UMLApp::redo()
  */
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
+    if (!m_pUndoStack)
+        return;
+
     if (cmd == NULL)
         return;
     if (isUndoEnabled()) {
@@ -3574,6 +3586,9 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
  */
 void UMLApp::beginMacro(const QString & text)
 {
+    if (!m_pUndoStack)
+        return;
+
     if (!isUndoEnabled()) {
         return;
     }
@@ -3590,6 +3605,9 @@ void UMLApp::beginMacro(const QString & text)
  */
 void UMLApp::endMacro()
 {
+    if (!m_pUndoStack)
+        return;
+
     if (!isUndoEnabled()) {
         return;
     }
