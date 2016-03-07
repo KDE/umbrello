@@ -917,6 +917,10 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         // ClassifierListPage::slot{Up, Down}Clicked()
         return;
     }
+
+    if (object->baseType() == UMLObject::ot_Association)
+        return;
+
     UMLListViewItem* newItem = findUMLObject(object);
 
     if (newItem) {

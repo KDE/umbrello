@@ -53,6 +53,8 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true)
 {
+    // Note: no virtual methods from derived classes available,
+    // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
     setSelected(false);
     scene->addItem(this);
