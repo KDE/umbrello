@@ -82,6 +82,9 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     m_associationType(Uml::AssociationType::Association),
     m_nameWidget(0)
 {
+    // propagate line color set by base class constructor
+    // which does not call the virtual methods from this class.
+    setLineColor(lineColor());
     // floating text widgets objects owned by this association
     m_role[RoleType::A].changeabilityWidget = 0;
     m_role[RoleType::B].changeabilityWidget = 0;

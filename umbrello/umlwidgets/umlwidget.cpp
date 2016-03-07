@@ -757,6 +757,10 @@ void UMLWidget::init()
     m_moved = false;
     m_resized = false;
 
+    // propagate line color set by base class constructor
+    // which does not call the virtual methods from this class.
+    setLineColor(lineColor());
+
     setZValue(2.0);  // default for most widgets
 }
 
