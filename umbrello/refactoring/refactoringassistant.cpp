@@ -421,12 +421,12 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
  */
 QAction* RefactoringAssistant::createAction(const QString& text, const char * method, const Icon_Utils::IconType icon)
 {
+    Q_UNUSED(method);
     QAction* action = new QAction(this);
     action->setText(text);
     if (icon != Icon_Utils::N_ICONTYPES) {
         action->setIcon(Icon_Utils::SmallIcon(icon));
     }
-    connect(action, SIGNAL(triggered()), this, method);
     return action;
 }
 
