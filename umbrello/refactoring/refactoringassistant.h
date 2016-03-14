@@ -48,7 +48,7 @@ public slots:
     void editProperties();
     void deleteItem();
 
-    void objectModified(const UMLObject *obj = 0);
+    void objectModified();
 
     void operationAdded(UMLClassifierListItem *listItem);
     void operationRemoved(UMLClassifierListItem *listItem);

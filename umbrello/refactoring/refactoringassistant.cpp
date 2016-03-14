@@ -195,11 +195,9 @@ void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item, const UMLObj
  * If no parameter is given the sender is used.
  * @param obj   the UML object
  */
-void RefactoringAssistant::objectModified(const UMLObject *obj)
+void RefactoringAssistant::objectModified()
 {
-    if (!obj) {
-        obj = dynamic_cast<const UMLObject*>(sender());
-    }
+    const UMLObject *obj = dynamic_cast<const UMLObject*>(sender());
     QTreeWidgetItem *item = findListViewItem(obj);
     if (!item) {
         return;
