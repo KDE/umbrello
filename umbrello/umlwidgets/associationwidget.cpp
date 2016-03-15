@@ -1500,6 +1500,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
         setRoleDocumentation(QString(), RoleType::B);
     }
     m_associationLine->reconstructSymbols();
+    m_associationLine->updatePenStyle();
 }
 
 /**
