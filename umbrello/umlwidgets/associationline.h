@@ -149,6 +149,7 @@ public:
     QBrush brush() const;
     QPen pen() const;
     void setPen(const QPen &pen);
+    void updatePenStyle();
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 

@@ -414,6 +414,14 @@ void AssociationLine::setPen(const QPen &pen)
     m_pen = pen;
     m_pen.setCapStyle(Qt::RoundCap);
     m_pen.setJoinStyle(Qt::RoundJoin);
+    updatePenStyle();
+}
+
+/**
+ * Update pen style depending on the association type of the related AssociationWidget instance.
+ */
+void AssociationLine::updatePenStyle()
+{
     Uml::AssociationType::Enum type = m_associationWidget->associationType();
     if (type == Uml::AssociationType::Dependency  ||
         type == Uml::AssociationType::Realization ||
