@@ -411,6 +411,7 @@ void AssociationLine::setPen(const QPen &pen)
     if (m_endSymbol)
         m_endSymbol->setPen(pen);
 
+    prepareGeometryChange();
     m_pen = pen;
     m_pen.setCapStyle(Qt::RoundCap);
     m_pen.setJoinStyle(Qt::RoundJoin);
