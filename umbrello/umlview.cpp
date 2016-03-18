@@ -171,8 +171,8 @@ void UMLView::showEvent(QShowEvent* se)
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->workToolBar();
     UMLScene *us = umlScene();
-    connect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
-    connect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+    connect(tb, &WorkToolBar::sigButtonChanged, us, &UMLScene::slotToolBarChanged);
+    connect(us, &UMLScene::sigResetToolBar, tb, &WorkToolBar::slotResetToolBar);
 
     umlScene()->showEvent(se);
     us->resetToolbar();
@@ -186,8 +186,8 @@ void UMLView::hideEvent(QHideEvent* he)
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->workToolBar();
     UMLScene *us = umlScene();
-    disconnect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
-    disconnect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+    disconnect(tb, &WorkToolBar::sigButtonChanged, us, &UMLScene::slotToolBarChanged);
+    disconnect(us, &UMLScene::sigResetToolBar, tb, &WorkToolBar::slotResetToolBar);
 
     us->hideEvent(he);
 }

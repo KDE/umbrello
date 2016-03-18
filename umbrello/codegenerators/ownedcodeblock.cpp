@@ -159,7 +159,7 @@ void OwnedCodeBlock::initFields(UMLObject * parent)
     // this code block and the parent UMLObject..when the parent
     // signals a change has been made, we automatically update
     // ourselves
-    connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
+    connect(m_parentObject, &UMLObject::modified, this, &OwnedCodeBlock::syncToParent);
 }
 
 void OwnedCodeBlock::syncToParent()

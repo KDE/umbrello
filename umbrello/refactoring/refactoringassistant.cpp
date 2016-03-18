@@ -53,10 +53,8 @@ RefactoringAssistant::RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj, QWid
 
     m_menu = new QMenu(this);
 
-    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-            this, SLOT(itemExecuted(QTreeWidgetItem*,int)));
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(showContextMenu(QPoint)));
+    connect(this, &RefactoringAssistant::itemDoubleClicked, this, &RefactoringAssistant::itemExecuted);
+    connect(this, &RefactoringAssistant::customContextMenuRequested, this, &RefactoringAssistant::showContextMenu);
 
     resize(300, 400);
     refactor(obj);
@@ -231,7 +229,7 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
         if (folder->text(1) == QLatin1String("operations")) {
             item = new QTreeWidgetItem(folder, QStringList(op->name()));
             m_umlObjectMap[item] = op;
-            connect(op, SIGNAL(modified()), this, SLOT(objectModified()));
+            connect(op, &UMLOperation::modified, this, &RefactoringAssistant::objectModified);
             setVisibilityIcon(item, op);
             DEBUG(DBG_SRC) << "operation = " << op->name() << " added!";  //:TODO:
             break;
@@ -250,7 +248,7 @@ void RefactoringAssistant::operationRemoved(UMLClassifierListItem *listItem)
     if (!item) {
         return;
     }
-    disconnect(op, SIGNAL(modified()), this, SLOT(objectModified()));
+    disconnect(op, &UMLOperation::modified, this, &RefactoringAssistant::objectModified);
     m_umlObjectMap.remove(item);
     delete item;
 }
@@ -278,7 +276,7 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
         if (folder->text(1) == QLatin1String("attributes")) {
             item = new QTreeWidgetItem(folder, QStringList(att->name()));
             m_umlObjectMap[item] = att;
-            connect(att, SIGNAL(modified()), this, SLOT(objectModified()));
+            connect(att, &UMLAttribute::modified, this, &RefactoringAssistant::objectModified);
             setVisibilityIcon(item, att);
             DEBUG(DBG_SRC) << "attribute = " << att->name() << " added!";  //:TODO:
             break;
@@ -299,7 +297,7 @@ void RefactoringAssistant::attributeRemoved(UMLClassifierListItem *listItem)
         uWarning() << "Attribute is not in tree!";
         return;
     }
-    disconnect(att, SIGNAL(modified()), this, SLOT(objectModified()));
+    disconnect(att, &UMLAttribute::modified, this, &RefactoringAssistant::objectModified);
     m_umlObjectMap.remove(item);
     delete item;
     DEBUG(DBG_SRC) << "attribute = " << att->name() << " deleted!";  //:TODO:
@@ -655,15 +653,11 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
     }
     m_alreadySeen << classifier;
 
-    connect(classifier, SIGNAL(modified()),
-            this, SLOT(objectModified()));
+    connect(classifier, &UMLClassifier::modified, this, &RefactoringAssistant::objectModified);
 
     // add attributes
-    connect(classifier, SIGNAL(attributeAdded(UMLClassifierListItem*)),
-            this, SLOT(attributeAdded(UMLClassifierListItem*)));
-    connect(classifier, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-            this, SLOT(attributeRemoved(UMLClassifierListItem*)));
-
+    connect(classifier, &UMLClassifier::attributeAdded, this, &RefactoringAssistant::attributeAdded);
+    connect(classifier, &UMLClassifier::attributeRemoved, this, &RefactoringAssistant::attributeRemoved);
     QStringList itemTextAt;
     itemTextAt << i18n("Attributes") << QLatin1String("attributes");
     QTreeWidgetItem *attsFolder = new QTreeWidgetItem(classifierItem, itemTextAt);
@@ -675,10 +669,8 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
     }
 
     // add operations
-    connect(classifier, SIGNAL(operationAdded(UMLClassifierListItem*)),
-            this, SLOT(operationAdded(UMLClassifierListItem*)));
-    connect(classifier, SIGNAL(operationRemoved(UMLClassifierListItem*)),
-            this, SLOT(operationRemoved(UMLClassifierListItem*)));
+    connect(classifier, &UMLClassifier::operationAdded, this, &RefactoringAssistant::operationAdded);
+    connect(classifier, &UMLClassifier::operationRemoved, this, &RefactoringAssistant::operationRemoved);
 
     QStringList itemTextOp;
     itemTextOp << i18n("Operations") << QLatin1String("operations");

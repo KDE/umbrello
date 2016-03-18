@@ -52,8 +52,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, boo
 
     setupPages(assoc);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ClassPropertiesDialog::okClicked, this, &ClassPropertiesDialog::slotOk);
+    connect(this, &ClassPropertiesDialog::applyClicked, this, &ClassPropertiesDialog::slotApply);
 }
 
 /**
@@ -75,8 +75,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
     setupFontPage(m_pWidget);
 
     setMinimumSize(340, 420);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ClassPropertiesDialog::okClicked, this, &ClassPropertiesDialog::slotOk);
+    connect(this, &ClassPropertiesDialog::applyClicked, this, &ClassPropertiesDialog::slotApply);
 }
 
 /**
@@ -116,8 +116,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
     }
     setupStylePage(m_pWidget);
     setupFontPage(m_pWidget);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ClassPropertiesDialog::okClicked, this, &ClassPropertiesDialog::slotOk);
+    connect(this, &ClassPropertiesDialog::applyClicked, this, &ClassPropertiesDialog::slotApply);
 }
 
 void ClassPropertiesDialog::init()

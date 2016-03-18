@@ -435,16 +435,14 @@ void ClassifierCodeDocument::init (UMLClassifier * c)
 
     // slots
     if (parentIsClass())  {
-        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)), this, SLOT(addAttributeClassField(UMLClassifierListItem*)));
-        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)), this, SLOT(removeAttributeClassField(UMLClassifierListItem*)));
+        connect(c, &UMLClassifier::attributeAdded, [this](UMLClassifierListItem *assoc) {addAttributeClassField(assoc);});
+        connect(c, &UMLClassifier::attributeRemoved, this, &ClassifierCodeDocument::removeAttributeClassField);
     }
-
-    connect(c, SIGNAL(sigAssociationEndAdded(UMLAssociation*)), this, SLOT(addAssociationClassField(UMLAssociation*)));
-    connect(c, SIGNAL(sigAssociationEndRemoved(UMLAssociation*)), this, SLOT(removeAssociationClassField(UMLAssociation*)));
-    connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)), this, SLOT(addOperation(UMLClassifierListItem*)));
-    connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)), this, SLOT(removeOperation(UMLClassifierListItem*)));
-    connect(c, SIGNAL(modified()), this, SLOT(syncToParent()));
-
+    connect(c, &UMLClassifier::sigAssociationEndAdded, [this](UMLAssociation *assoc){addAssociationClassField(assoc);});
+    connect(c, &UMLClassifier::sigAssociationEndRemoved, this, &ClassifierCodeDocument::removeAssociationClassField);
+    connect(c, &UMLClassifier::operationAdded, this, &ClassifierCodeDocument::addOperation);
+    connect(c, &UMLClassifier::operationRemoved, this, &ClassifierCodeDocument::removeOperation);
+    connect(c, &UMLClassifier::modified, this, &ClassifierCodeDocument::syncToParent);
 }
 
 /**

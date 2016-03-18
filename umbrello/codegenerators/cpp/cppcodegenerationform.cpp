@@ -71,9 +71,7 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
         new QListWidgetItem(i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
     m_optionDocToolTag->setFlags(flags);
 
-    connect(ui_generalOptionsListWidget,
-            SIGNAL(itemClicked(QListWidgetItem*)), this,
-            SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
+    connect(ui_generalOptionsListWidget, &QListWidget::itemClicked, this, &CPPCodeGenerationForm::generalOptionsListWidgetClicked);
 }
 
 /**

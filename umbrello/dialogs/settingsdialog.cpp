@@ -61,9 +61,9 @@ SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
     setupAutoLayoutPage();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
-    connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
+    connect(this, &SettingsDialog::okClicked, this, &SettingsDialog::slotOk);
+    connect(this, &SettingsDialog::applyClicked, this, &SettingsDialog::slotApply);
+    connect(this, &SettingsDialog::defaultClicked, this, &SettingsDialog::slotDefault);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -183,12 +183,12 @@ void SettingsDialog::setupUIPage()
     m_UiWidgets.useFillColorCB->setChecked(m_pOptionState->uiState.useFillColor);
 
     //connect button signals up
-    connect(m_UiWidgets.textColorCB, SIGNAL(toggled(bool)), this, SLOT(slotTextCBChecked(bool)));
-    connect(m_UiWidgets.lineColorCB, SIGNAL(toggled(bool)), this, SLOT(slotLineCBChecked(bool)));
-    connect(m_UiWidgets.fillColorCB, SIGNAL(toggled(bool)), this, SLOT(slotFillCBChecked(bool)));
-    connect(m_UiWidgets.gridColorCB, SIGNAL(toggled(bool)), this, SLOT(slotGridCBChecked(bool)));
-    connect(m_UiWidgets.bgColorCB, SIGNAL(toggled(bool)), this, SLOT(slotBgCBChecked(bool)));
-    connect(m_UiWidgets.lineWidthCB, SIGNAL(toggled(bool)), this, SLOT(slotLineWidthCBChecked(bool)));
+    connect(m_UiWidgets.textColorCB, &QCheckBox::toggled, this, &SettingsDialog::slotTextCBChecked);
+    connect(m_UiWidgets.lineColorCB, &QCheckBox::toggled, this, &SettingsDialog::slotLineCBChecked);
+    connect(m_UiWidgets.fillColorCB, &QCheckBox::toggled, this, &SettingsDialog::slotFillCBChecked);
+    connect(m_UiWidgets.gridColorCB, &QCheckBox::toggled, this, &SettingsDialog::slotGridCBChecked);
+    connect(m_UiWidgets.bgColorCB, &QCheckBox::toggled, this, &SettingsDialog::slotBgCBChecked);
+    connect(m_UiWidgets.lineWidthCB, &QCheckBox::toggled, this, &SettingsDialog::slotLineWidthCBChecked);
 
     //TODO Once the new scene is complete, so something better, it does not worth it for now
     if (m_UiWidgets.textColorB->color() == TEXT_COLOR) {
@@ -251,7 +251,7 @@ void SettingsDialog::setupCodeImportPage()
 void SettingsDialog::setupCodeGenPage()
 {
     m_pCodeGenPage = new CodeGenOptionsPage;
-    connect(m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()));
+    connect(m_pCodeGenPage, &CodeGenOptionsPage::languageChanged, this, &SettingsDialog::slotApply);
 
     pageCodeGen = createPage(i18n("Code Generation"), i18n("Code Generation Settings"),
                              Icon_Utils::it_Properties_CodeGeneration, m_pCodeGenPage);

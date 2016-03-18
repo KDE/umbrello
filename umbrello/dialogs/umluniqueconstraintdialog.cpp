@@ -113,9 +113,9 @@ void UMLUniqueConstraintDialog::setupDialog()
 #if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pAttributeListGB);
     m_pAddPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
-    connect(m_pAddPB, SIGNAL(clicked()), this, SLOT(slotAddAttribute()));
+    connect(m_pAddPB, &QPushButton::clicked, this, &UMLUniqueConstraintDialog::slotAddAttribute);
     m_pRemovePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
-    connect(m_pRemovePB, SIGNAL(clicked()), this, SLOT(slotDeleteAttribute()));
+    connect(m_pRemovePB, &QPushButton::clicked, this, &UMLUniqueConstraintDialog::slotDeleteAttribute);
 #else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pAttributeListGB);
     m_pAddPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
@@ -161,7 +161,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     slotResetWidgetState();
 
-    connect(m_pAttributeListLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotResetWidgetState()));
+    connect(m_pAttributeListLW, &QListWidget::itemClicked, this, &UMLUniqueConstraintDialog::slotResetWidgetState);
 }
 
 /**

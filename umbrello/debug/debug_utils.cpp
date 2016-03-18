@@ -55,7 +55,7 @@ Tracer::Tracer(QWidget *parent)
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotItemClicked(QTreeWidgetItem*,int)));
+    connect(this, &Tracer::itemClicked, this, &Tracer::slotItemClicked);
 }
 
 /**

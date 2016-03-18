@@ -54,10 +54,8 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
     setMinimumSize(310, 330);
     fillListBox();
 
-    connect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    connect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotRightButtonPressed(QPoint)));
+    connect(m_pAssocLW, &QListWidget::itemDoubleClicked, this, &ClassAssociationsPage::slotDoubleClick);
+    connect(m_pAssocLW, &QListWidget::customContextMenuRequested, this, &ClassAssociationsPage::slotRightButtonPressed);
 }
 
 /**
@@ -65,10 +63,9 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
  */
 ClassAssociationsPage::~ClassAssociationsPage()
 {
-    disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-               this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    disconnect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
-               this, SLOT(slotRightButtonPressed(QPoint)));
+    disconnect(m_pAssocLW, &QListWidget::itemDoubleClicked, this, &ClassAssociationsPage::slotDoubleClick);
+    disconnect(m_pAssocLW, &QListWidget::customContextMenuRequested, this, &ClassAssociationsPage::slotRightButtonPressed);
+
 }
 
 void ClassAssociationsPage::slotDoubleClick(QListWidgetItem * item)

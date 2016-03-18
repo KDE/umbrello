@@ -33,7 +33,6 @@ CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
     setupUi(mainWidget());
     initGUI();
     addCodeDocument(doc);
-    connect(this, SIGNAL(cancelClicked()), mainWidget(), SLOT(close()));
 }
 
 CodeViewerDialog::~CodeViewerDialog()
@@ -63,8 +62,8 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     uDebug() << "name=" << name << " / ext=" << ext;
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 
-    connect(ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));
-    connect(ui_showHiddenCodeCB, SIGNAL(stateChanged(int)), page, SLOT(changeShowHidden(int)));
+    connect(ui_highlightCheckBox, &QCheckBox::stateChanged, page, &CodeEditor::changeHighlighting);
+    connect(ui_showHiddenCodeCB, &QCheckBox::stateChanged, page, &CodeEditor::changeShowHidden);
 }
 
 /**

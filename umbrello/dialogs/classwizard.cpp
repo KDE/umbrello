@@ -59,7 +59,7 @@ ClassWizard::ClassWizard(UMLDoc* doc)
     setWindowTitle(i18n("Class Wizard"));
     setOption(QWizard::NoBackButtonOnStartPage, true);
     setOption(QWizard::HaveHelpButton, true);
-    connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
+    connect(this, &ClassWizard::helpRequested, this, &ClassWizard::showHelp);
 
     addPage(createGeneralPage());
     addPage(createAttributesPage());

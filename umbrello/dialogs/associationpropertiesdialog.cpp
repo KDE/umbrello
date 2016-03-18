@@ -47,8 +47,8 @@ AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, Assoc
     setCaption(i18n("Association Properties"));
     setupPages();
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &AssociationPropertiesDialog::okClicked, this, &AssociationPropertiesDialog::slotOk);
+    connect(this, &AssociationPropertiesDialog::applyClicked, this, &AssociationPropertiesDialog::slotApply);
 }
 
 /**

@@ -34,8 +34,7 @@ CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
   : QObject(parent),
     m_file(file)
 {
-    connect(this, SIGNAL(askQuestion(QString,int)),
-            this, SLOT(questionAsked(QString,int)));
+    connect(this, &CodeImpThread::askQuestion, this, &CodeImpThread::questionAsked);
 }
 
 /**

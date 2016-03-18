@@ -111,11 +111,8 @@ void AdvancedCodeGenerator::initFromParentDocument()
  */
 void AdvancedCodeGenerator::connectSlots()
 {
-    connect(m_document, SIGNAL(sigObjectCreated(UMLObject*)),
-            this, SLOT(checkAddUMLObject(UMLObject*)));
-    connect(m_document, SIGNAL(sigObjectRemoved(UMLObject*)),
-            this, SLOT(checkRemoveUMLObject(UMLObject*)));
+    connect(m_document, &UMLDoc::sigObjectCreated, this, &AdvancedCodeGenerator::checkAddUMLObject);
+    connect(m_document, &UMLDoc::sigObjectRemoved, this, &AdvancedCodeGenerator::checkRemoveUMLObject);
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
-    connect(commonPolicy, SIGNAL(modifiedCodeContent()),
-            this, SLOT(syncCodeToDocument()));
+    connect(commonPolicy, &CodeGenerationPolicy::modifiedCodeContent, this, &AdvancedCodeGenerator::syncCodeToDocument);
 }

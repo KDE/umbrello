@@ -55,7 +55,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
         scene->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);
-        connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
+        connect(m_pName, &FloatingTextWidget::destroyed, this, &SignalWidget::slotTextDestroyed);
     }
 }
 
@@ -199,7 +199,7 @@ void SignalWidget::setName(const QString &strName)
             umlScene()->setupNewWidget(m_pName);
             m_pName->setX(0);
             m_pName->setY(0);
-            connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
+            connect(m_pName, &FloatingTextWidget::destroyed, this, &SignalWidget::slotTextDestroyed);
         }
         else
             m_pName->setText(m_Text);
@@ -293,7 +293,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
                 m_pName = NULL;
             }
             else
-                connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
+                connect(m_pName, &FloatingTextWidget::destroyed, this, &SignalWidget::slotTextDestroyed);
         } else {
             uError() << "unknown tag " << tag;
         }

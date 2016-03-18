@@ -136,7 +136,7 @@ protected:
 
     bool deleteItem(UMLListViewItem *temp);
 
-    void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
+    void addChildObject(UMLClassifierListItem* child, UMLClassifier* parent);
 
     void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 

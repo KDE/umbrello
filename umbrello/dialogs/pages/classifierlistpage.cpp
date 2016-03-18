@@ -94,16 +94,16 @@ void ClassifierListPage::setupPage()
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
 
-    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
-    connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
+    connect(m_pItemListLB, &QListWidget::currentItemChanged, this, &ClassifierListPage::slotActivateItem);
+    connect(m_pItemListLB, &QListWidget::itemDoubleClicked, this, &ClassifierListPage::slotDoubleClick);
+    connect(m_pItemListLB, &QListWidget::customContextMenuRequested, this, &ClassifierListPage::slotRightButtonPressed);
 
-    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
+    connect(m_doc, &UMLDoc::sigObjectCreated, this, &ClassifierListPage::slotListItemCreated);
 
-    connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
-    connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
-    connect(m_pDownArrowB, SIGNAL(clicked()), this, SLOT(slotDownClicked()));
-    connect(m_pBottomArrowB, SIGNAL(clicked()), this, SLOT(slotBottomClicked()));
+    connect(m_pTopArrowB, &QToolButton::clicked, this, &ClassifierListPage::slotTopClicked);
+    connect(m_pUpArrowB, &QToolButton::clicked, this, &ClassifierListPage::slotUpClicked);
+    connect(m_pDownArrowB, &QToolButton::clicked, this, &ClassifierListPage::slotDownClicked);
+    connect(m_pBottomArrowB, &QToolButton::clicked, this, &ClassifierListPage::slotBottomClicked);
 }
 
 /**
@@ -208,11 +208,11 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
 #if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pItemListGB);
     m_pNewClassifierListItemButton = buttonBox->addButton(itemType, QDialogButtonBox::ActionRole);
-    connect(m_pNewClassifierListItemButton, SIGNAL(clicked()), this, SLOT(slotNewListItem()));
+    connect(m_pNewClassifierListItemButton, &QPushButton::clicked, this, &ClassifierListPage::slotNewListItem);
     m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
-    connect(m_pDeleteListItemButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
+    connect(m_pDeleteListItemButton, &QPushButton::clicked, this, &ClassifierListPage::slotDelete);
     m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
-    connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotProperties()));
+    connect(m_pPropertiesButton, &QPushButton::clicked, this, &ClassifierListPage::slotProperties);
 #else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
     m_pNewClassifierListItemButton = buttonBox->addButton(itemType, KDialogButtonBox::ActionRole, this,
@@ -266,7 +266,7 @@ void ClassifierListPage::reloadItemListBox()
     // to the ListItemModified slot in this class
     foreach (UMLClassifierListItem* listItem, itemList) {
         m_pItemListLB->addItem(listItem->toString(Uml::SignatureType::SigNoVis));
-        connect(listItem, SIGNAL(modified()), this, SLOT(slotListItemModified()));
+        connect(listItem, &UMLClassifierListItem::modified, this, &ClassifierListPage::slotListItemModified);
     }
 }
 
@@ -419,7 +419,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     if (index > -1) {
         m_pItemListLB->setCurrentItem(m_pItemListLB->item(index));
         slotActivateItem(m_pItemListLB->item(index));
-        connect(object, SIGNAL(modified()), this, SLOT(slotListItemModified()));
+        connect(object, &UMLObject::modified, this, &ClassifierListPage::slotListItemModified);
     }
 }
 

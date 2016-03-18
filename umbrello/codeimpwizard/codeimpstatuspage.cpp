@@ -70,11 +70,11 @@ CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
     ui_tableWidgetStatus->setColumnWidth(0, 200);
     ui_tableWidgetStatus->setColumnWidth(1, 200);
 
-    connect(ui_pushButtonStart, SIGNAL(clicked()), this, SLOT(importCode()));
+    connect(ui_pushButtonStart, &QPushButton::clicked, this, &CodeImpStatusPage::importCode);
     ui_pushButtonStop->setEnabled(false);
-    connect(ui_pushButtonStop, SIGNAL(clicked()), this, SLOT(importCodeStop()));
-    connect(ui_pushButtonClear, SIGNAL(clicked()), this, SLOT(loggerClear()));
-    connect(ui_pushButtonExport, SIGNAL(clicked()), this, SLOT(loggerExport()));
+    connect(ui_pushButtonStop, &QPushButton::clicked, this, &CodeImpStatusPage::importCodeStop);
+    connect(ui_pushButtonClear, &QPushButton::clicked, this, &CodeImpStatusPage::loggerClear);
+    connect(ui_pushButtonExport, &QPushButton::clicked, this, &CodeImpStatusPage::loggerExport);
 }
 
 /**
@@ -148,9 +148,8 @@ void CodeImpStatusPage::importCode()
 
 #ifdef ENABLE_IMPORT_THREAD
     m_thread = new QThread;
-    //connect(thread, SIGNAL(started()), this, SLOT(importCodeFile()));
-    connect(m_thread, SIGNAL(finished(bool)), this, SLOT(importCodeFile(bool)));
-    connect(m_thread, SIGNAL(terminated()), this, SLOT(importCodeStop()));
+    connect(m_thread, &QThread::finished, this, &CodeImpStatusPage::importCodeFile);
+    connect(m_thread, &QThread::terminated, this, &CodeImpStatusPage::importCodeStop);
 #endif
     importCodeFile();
 }
@@ -177,12 +176,12 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     m_file = m_files.at(m_index++);
     messageToLog(m_file.fileName(), i18n("importing file ..."));
     CodeImpThread* worker = new CodeImpThread(m_file);
-    connect(worker, SIGNAL(messageToWiz(QString,QString)), this, SLOT(updateStatus(QString,QString)));
-    connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
-    connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
+    connect(worker, &CodeImpThread::messageToWiz, this, &CodeImpStatusPage::updateStatus);
+    connect(worker, &CodeImpThread::messageToLog, this, &CodeImpStatusPage::messageToLog);
+    connect(worker, &CodeImpThread::messageToApp, this, &CodeImpStatusPage::messageToApp);
 #ifndef ENABLE_IMPORT_THREAD
-    connect(worker, SIGNAL(finished(bool)), this, SLOT(importNextFile(bool)));
-    connect(worker, SIGNAL(aborted()), this, SLOT(importCodeStop()));
+    connect(worker, &CodeImpThread::finished, this, &CodeImpStatusPage::importNextFile);
+    connect(worker, &CodeImpThread::aborted, this, &CodeImpStatusPage::importCodeStop);
     worker->run();
     worker->deleteLater();
 #else

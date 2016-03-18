@@ -58,7 +58,7 @@ ResolutionWidget::ResolutionWidget(QWidget *parent) :
         m_comboBox->addItem(key, QVariant(key.toFloat()));
     }
     setLayout(layout);
-    connect(m_comboBox, SIGNAL(editTextChanged(QString)), this, SLOT(slotTextChanged(QString)));
+    connect(m_comboBox, &KComboBox::editTextChanged, this, &ResolutionWidget::slotTextChanged);
 }
 
 /**

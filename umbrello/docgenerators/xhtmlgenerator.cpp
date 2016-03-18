@@ -102,7 +102,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
     docbookGenerator->generateDocbookForProjectInto(destDir);
 
     uDebug() << "Connecting...";
-    connect(docbookGenerator, SIGNAL(finished(bool)), this, SLOT(slotDocbookToXhtml(bool)));
+    connect(docbookGenerator, &DocbookGenerator::finished, this, &XhtmlGenerator::slotDocbookToXhtml);
     return true;
 }
 
@@ -134,9 +134,8 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
 #endif
         m_umlDoc->writeToStatusBar(i18n("Generating XHTML..."));
         m_d2xg  = new Docbook2XhtmlGeneratorJob(url, this);
-        connect(m_d2xg, SIGNAL(xhtmlGenerated(QString)),
-                this, SLOT(slotHtmlGenerated(QString)));
-        connect(m_d2xg, SIGNAL(finished()), this, SLOT(threadFinished()));
+        connect(m_d2xg, &Docbook2XhtmlGeneratorJob::xhtmlGenerated, this, &XhtmlGenerator::slotHtmlGenerated);
+        connect(m_d2xg, &Docbook2XhtmlGeneratorJob::finished, this, &XhtmlGenerator::threadFinished);
         uDebug() << "Threading";
         m_d2xg->start();
     }

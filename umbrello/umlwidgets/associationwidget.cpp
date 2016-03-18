@@ -252,20 +252,17 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             break;
         case UMLObject::ot_Attribute:
             klass = static_cast<UMLClassifier*>(obj->parent());
-            connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            connect(klass, &UMLClassifier::attributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             attr = static_cast<UMLAttribute*>(obj);
-            connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
+            connect(attr, &UMLAttribute::attributeChanged, this, &AssociationWidget::slotAttributeChanged);
             break;
         case UMLObject::ot_EntityAttribute:
             ent = static_cast<UMLEntity*>(obj->parent());
-            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            connect(ent, &UMLEntity::entityAttributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
         case UMLObject::ot_ForeignKeyConstraint:
             ent = static_cast<UMLEntity*>(obj->parent());
-            connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
-                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            connect(ent, &UMLEntity::entityConstraintRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
         default:
             uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
@@ -334,10 +331,10 @@ UMLOperation *AssociationWidget::operation()
 void AssociationWidget::setOperation(UMLOperation *op)
 {
     if (m_umlObject)
-        disconnect(m_umlObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
+        disconnect(m_umlObject, &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
     m_umlObject = op;
     if (m_umlObject)
-        connect(m_umlObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
+        connect(m_umlObject, &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
     if (m_nameWidget)
         m_nameWidget->setMessageText();
 }
@@ -1421,7 +1418,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
             assoc->nrof_parent_widgets = 0;
 
         assoc->nrof_parent_widgets++;
-        connect(assoc, SIGNAL(modified()), this, SLOT(syncToModel()));
+        connect(assoc, &UMLAssociation::modified, this, &AssociationWidget::syncToModel);
     }
 
 }

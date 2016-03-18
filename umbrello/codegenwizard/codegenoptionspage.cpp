@@ -62,13 +62,12 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
     ui_SelectIndentationTypeBox->setCurrentIndex(indentTypeToInteger(m_parentPolicy->getIndentationType()));
     ui_SelectIndentationNumber->setValue(m_parentPolicy->getIndentationAmount());
 
-    connect(this, SIGNAL(syncCodeDocumentsToParent()), gen, SLOT(syncCodeToDocument()));
-    connect(this, SIGNAL(languageChanged()), this, SLOT(updateCodeGenerationPolicyTab()));
-    connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()));
+    connect(this, &CodeGenOptionsPage::syncCodeDocumentsToParent, gen, &CodeGenerator::syncCodeToDocument);
+    connect(this, &CodeGenOptionsPage::languageChanged, this, &CodeGenOptionsPage::updateCodeGenerationPolicyTab);
+    connect(this, &CodeGenOptionsPage::languageChanged, this, &CodeGenOptionsPage::changeLanguage);
 
-    connect(ui_browseOutput, SIGNAL(clicked()), this, SLOT(browseClicked()));
-    connect(ui_browseHeadings, SIGNAL(clicked()), this, SLOT(browseClicked()));
-
+    connect(ui_browseOutput, &QPushButton::clicked, this, &CodeGenOptionsPage::browseClicked);
+    connect(ui_browseHeadings, &QPushButton::clicked, this, &CodeGenOptionsPage::browseClicked);
     setupActiveLanguageBox();
 
     //now insert the language-dependant page, should there be one
@@ -95,7 +94,7 @@ void CodeGenOptionsPage::setupActiveLanguageBox()
         indexCounter++;
     }
     ui_SelectLanguageBox->setCurrentIndex(UMLApp::app()->activeLanguage());
-    connect(ui_SelectLanguageBox, SIGNAL(activated(int)), this, SLOT(activeLanguageChanged(int)));
+    connect(ui_SelectLanguageBox,static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &CodeGenOptionsPage::activeLanguageChanged);
 }
 
 /**
@@ -198,8 +197,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
     }
 
     ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options"));
-
-    connect(this, SIGNAL(applyClicked()), m_pCodePolicyPage, SLOT(apply()));
+    connect(this, &CodeGenOptionsPage::applyClicked, m_pCodePolicyPage, &CodeGenerationPolicyPage::apply);
 }
 
 /**

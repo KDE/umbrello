@@ -150,7 +150,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     }
 
     m_GeneralWidgets.diagramKB->setCurrentIndex((int)optionState.generalState.diagram-1);
-    connect(m_GeneralWidgets.autosaveCB, SIGNAL(clicked()), this, SLOT(slotAutosaveCBClicked()));
+    connect(m_GeneralWidgets.autosaveCB, &QCheckBox::clicked, this, &GeneralOptionPage::slotAutosaveCBClicked);
 
     m_GeneralWidgets.defaultLanguageL = new QLabel(i18n("Default Language :"), m_GeneralWidgets.startupGB);
     startupLayout->addWidget(m_GeneralWidgets.defaultLanguageL, 2, 0);

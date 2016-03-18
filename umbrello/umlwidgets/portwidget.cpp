@@ -70,7 +70,7 @@ UMLWidget* PortWidget::ownerWidget()
 void PortWidget::connectOwnerMotion()
 {
     ComponentWidget *owner = static_cast<ComponentWidget*>(ownerWidget());
-    connect(owner, SIGNAL(sigCompMoved(qreal,qreal)), this, SLOT(slotOwnerMoved(qreal,qreal)));
+    connect(owner, &ComponentWidget::sigCompMoved, this, &PortWidget::slotOwnerMoved);
 }
 
 /**

@@ -106,7 +106,7 @@ void UMLAttributeDialog::setupDialog()
     mainLayout->addWidget(m_docWidget);
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
+    connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLAttributeDialog::slotNameChanged);
     slotNameChanged(m_pNameLE->text());
 }
 

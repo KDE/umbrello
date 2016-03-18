@@ -165,7 +165,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
         return false;
     }
 
-    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    connect(m_objectWidget, &ObjectWidget::sigWidgetMoved, this, &PreconditionWidget::slotWidgetMoved);
 
     calculateDimensions();
     return true;

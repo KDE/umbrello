@@ -45,7 +45,7 @@ StereotypesWindow::StereotypesWindow(QWidget *parent)
 #endif
     setWidget(m_stereotypesTree);
 
-    connect(m_stereotypesTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotStereotypesDoubleClicked(QModelIndex)));
+    connect(m_stereotypesTree, &QTableView::doubleClicked, this, &StereotypesWindow::slotStereotypesDoubleClicked);
 }
 
 StereotypesWindow::~StereotypesWindow()

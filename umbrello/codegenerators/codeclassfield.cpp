@@ -661,7 +661,7 @@ void CodeClassField::finishInitialization()
     m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);
     initAccessorMethods();
     updateContent();
-
-    connect(getParentObject(), SIGNAL(modified()), this, SIGNAL(modified())); // child objects will trigger off this signal
+    // child objects will trigger off this signal
+    connect(getParentObject(), &UMLObject::modified, this, &CodeClassField::modified);
 }
 

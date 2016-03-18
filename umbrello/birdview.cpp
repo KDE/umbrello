@@ -68,7 +68,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 
     setSlotsEnabled(true);
     parent->setWidget(m_birdView);  // must be the last command
-    connect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
+    connect(m_view, &UMLView::destroyed, this, &BirdView::slotDestroyed);
     slotViewChanged();
 }
 
@@ -77,7 +77,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
  */
 BirdView::~BirdView()
 {
-    disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
+    disconnect(m_view, &UMLView::destroyed, this, &BirdView::slotDestroyed);
     setParent(0);
     delete m_protectFrame;
     delete m_birdView;
@@ -233,16 +233,12 @@ void BirdView::setSlotsEnabled(bool enabled)
 {
     UMLView* view = UMLApp::app()->currentView();
     if (enabled) {
-        connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(slotViewChanged()));
-        connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(slotViewChanged()));
+        connect(view->verticalScrollBar(), &QScrollBar::valueChanged, this, &BirdView::slotViewChanged);
+        connect(view->horizontalScrollBar() ,&QScrollBar::valueChanged, this, &BirdView::slotViewChanged);
     }
     else {
-        disconnect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                   this, SLOT(slotViewChanged()));
-        disconnect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                   this, SLOT(slotViewChanged()));
+        disconnect(view->verticalScrollBar() ,&QScrollBar::valueChanged ,this, &BirdView::slotViewChanged);
+        disconnect(view->horizontalScrollBar() ,&QScrollBar::valueChanged ,this, &BirdView::slotViewChanged);
     }
 }
 

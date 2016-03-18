@@ -39,7 +39,7 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
     if (withSearchButton)
         m_buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Search"));
 
-    connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotClicked(QAbstractButton*)));
+    connect(m_buttonBox, &QDialogButtonBox::clicked, this, &SinglePageDialogBase::slotClicked);
     mainWidget();
 }
 #else
@@ -62,8 +62,8 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
     setModal(true);
     showButtonSeparator(true);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &SinglePageDialogBase::okClicked, this, &SinglePageDialogBase::slotOk);
+    connect(this, &SinglePageDialogBase::applyClicked, this, &SinglePageDialogBase::slotApply);
 }
 #endif
 

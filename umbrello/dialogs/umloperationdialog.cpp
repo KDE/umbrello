@@ -146,11 +146,11 @@ void UMLOperationDialog::setupDialog()
 #if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pParmsGB);
     QPushButton* newParam = buttonBox->addButton(i18n("Ne&w Parameter..."), QDialogButtonBox::ActionRole);
-    connect(newParam, SIGNAL(clicked()), this, SLOT(slotNewParameter()));
+    connect(newParam, &QPushButton::clicked, this, &UMLOperationDialog::slotNewParameter);
     m_pDeleteButton = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
-    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(slotDeleteParameter()));
+    connect(m_pDeleteButton, &QPushButton::clicked, this, &UMLOperationDialog::slotDeleteParameter);
     m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
-    connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotParameterProperties()));
+    connect(m_pPropertiesButton, &QPushButton::clicked, this, &UMLOperationDialog::slotParameterProperties);
 #else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pParmsGB);
     buttonBox->addButton(i18n("Ne&w Parameter..."), KDialogButtonBox::ActionRole,
@@ -191,18 +191,14 @@ void UMLOperationDialog::setupDialog()
     }
 
     // setup parm list box signals
-    connect(m_pUpButton, SIGNAL(clicked()), this, SLOT(slotParameterUp()));
-    connect(m_pDownButton, SIGNAL(clicked()), this, SLOT(slotParameterDown()));
-
-    connect(m_pParmsLW, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SLOT(slotParamsBoxClicked(QListWidgetItem*)));
-    connect(m_pParmsLW, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotParmRightButtonPressed(QPoint)));
-    connect(m_pParmsLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            this, SLOT(slotParmDoubleClick(QListWidgetItem*)));
+    connect(m_pUpButton, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterUp);
+    connect(m_pDownButton, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterDown);
+    connect(m_pParmsLW, &QListWidget::itemClicked, this, &UMLOperationDialog::slotParamsBoxClicked);
+    connect(m_pParmsLW, &QListWidget::customContextMenuRequested, this, &UMLOperationDialog::slotParmRightButtonPressed);
+    connect(m_pParmsLW, &QListWidget::itemDoubleClicked, this, &UMLOperationDialog::slotParmDoubleClick);
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
+    connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLOperationDialog::slotNameChanged);
     slotNameChanged(m_pNameLE->text());
 }
 
@@ -224,7 +220,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
     }
     if (m_menu) {
         m_menu->hide();
-        disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+        disconnect(m_menu, &ListPopupMenu::triggered, this, &UMLOperationDialog::slotMenuSelection);
         delete m_menu;
         m_menu = 0;
     }

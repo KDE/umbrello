@@ -840,11 +840,11 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     QString messageText = m_pFText->text();
     m_pFText->setVisible(messageText.length() > 1);
 
-    connect(m_pOw[Uml::RoleType::A], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
-    connect(m_pOw[Uml::RoleType::B], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    connect(m_pOw[Uml::RoleType::A],&ObjectWidget::sigWidgetMoved, this, &MessageWidget::slotWidgetMoved);
+    connect(m_pOw[Uml::RoleType::B], &ObjectWidget::sigWidgetMoved, this, &MessageWidget::slotWidgetMoved);
 
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()));
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()));
+    connect(this, &MessageWidget::sigMessageMoved, m_pOw[Uml::RoleType::A], &ObjectWidget::slotMessageMoved);
+    connect(this, &MessageWidget::sigMessageMoved, m_pOw[Uml::RoleType::B], &ObjectWidget::slotMessageMoved);
     m_pOw[Uml::RoleType::A]->messageAdded(this);
     if (!isSelf())
         m_pOw[Uml::RoleType::B]->messageAdded(this);
@@ -946,10 +946,10 @@ UMLOperation *MessageWidget::operation()
 void MessageWidget::setOperation(UMLOperation *op)
 {
     if (m_umlObject && m_pFText)
-        disconnect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+        disconnect(m_umlObject, &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
     m_umlObject = op;
     if (m_umlObject && m_pFText) {
-        connect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+        connect(m_umlObject, &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
         m_pFText->setMessageText();
     }
 }
@@ -1172,11 +1172,11 @@ void MessageWidget::calculateDimensionsFound()
 void MessageWidget::cleanup()
 {
     if (m_pOw[Uml::RoleType::A]) {
-        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()));
+        disconnect(this, &MessageWidget::sigMessageMoved, m_pOw[Uml::RoleType::A], &ObjectWidget::slotMessageMoved);
         m_pOw[Uml::RoleType::A]->messageRemoved(this);
     }
     if (m_pOw[Uml::RoleType::B]) {
-        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()));
+        disconnect(this, &MessageWidget::sigMessageMoved, m_pOw[Uml::RoleType::B], &ObjectWidget::slotMessageMoved);
         m_pOw[Uml::RoleType::B]->messageRemoved(this);
     }
 

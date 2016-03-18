@@ -42,7 +42,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();
-    connect(m_imageType, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotImageTypeChanged(QString)));
+    connect(m_imageType, &ImageTypeWidget::currentIndexChanged, this, &ExportAllViewsDialog::slotImageTypeChanged);
 
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly);
 }

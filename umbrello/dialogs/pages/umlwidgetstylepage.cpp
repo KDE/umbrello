@@ -137,9 +137,9 @@ void UMLWidgetStylePage::init()
     colorLayout->addWidget(m_pUseFillColorCB, ++row, 0);
 
     //connect button signals up
-    connect(m_pTextDefaultB, SIGNAL(clicked()), this, SLOT(slotTextButtonClicked())) ;
-    connect(m_pLineDefaultB, SIGNAL(clicked()), this, SLOT(slotLineButtonClicked())) ;
-    connect(m_pFillDefaultB, SIGNAL(clicked()), this, SLOT(slotFillButtonClicked()));
+    connect(m_pTextDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotTextButtonClicked);
+    connect(m_pLineDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotLineButtonClicked);
+    connect(m_pFillDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotFillButtonClicked);
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         m_BackgroundColorL = new QLabel(i18nc("background color", "&Background:"), m_pColorGB);
@@ -163,8 +163,8 @@ void UMLWidgetStylePage::init()
         colorLayout->addWidget(m_GridDotDefaultB, row, 2);
 
         //connect button signals up
-        connect(m_BackgroundDefaultB, SIGNAL(clicked()), this, SLOT(slotBackgroundButtonClicked()));
-        connect(m_GridDotDefaultB,    SIGNAL(clicked()), this, SLOT(slotGridDotButtonClicked()));
+        connect(m_BackgroundDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotBackgroundButtonClicked);
+        connect(m_GridDotDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotGridDotButtonClicked);
     }
 
     m_pStyleGB = new QGroupBox(i18nc("title of width group", "Width"), this);
@@ -189,7 +189,7 @@ void UMLWidgetStylePage::init()
     styleLayout->addWidget(m_lineWidthDefaultB, row, 2);
 
     //connect button signals up
-    connect(m_lineWidthDefaultB, SIGNAL(clicked()), this, SLOT(slotLineWidthButtonClicked()));
+    connect(m_lineWidthDefaultB, &QPushButton::clicked, this, &UMLWidgetStylePage::slotLineWidthButtonClicked);
 }
 
 /**

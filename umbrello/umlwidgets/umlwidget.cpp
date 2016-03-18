@@ -61,7 +61,7 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
     init();
     m_umlObject = o;
     if (m_umlObject) {
-        connect(m_umlObject, SIGNAL(modified()), this, SLOT(updateWidget()));
+        connect(m_umlObject, &UMLObject::modified, this, &UMLWidget::updateWidget);
         m_nId = m_umlObject->id();
     }
 }
@@ -739,10 +739,10 @@ void UMLWidget::init()
     m_ignoreSnapComponentSizeToGrid = false;
     m_doc = UMLApp::app()->document();
     m_nPosX = 0;
-    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
-    connect(m_scene, SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
-    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
-    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
+    connect(m_scene, &UMLScene::sigFillColorChanged, this, &UMLWidget::slotFillColorChanged);
+    connect(m_scene, &UMLScene::sigLineColorChanged, this, &UMLWidget::slotLineColorChanged);
+    connect(m_scene, &UMLScene::sigTextColorChanged, this, &UMLWidget::slotTextColorChanged);
+    connect(m_scene, &UMLScene::sigLineWidthChanged, this, &UMLWidget::slotLineWidthChanged);
 
     m_umlObject = 0;
 
@@ -1424,13 +1424,13 @@ void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
 void UMLWidget::setScene(UMLScene *scene)
 {
     //remove signals from old view - was probably 0 anyway
-    disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
-    disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
-    disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
+    disconnect(m_scene, &UMLScene::sigFillColorChanged, this, &UMLWidget::slotFillColorChanged);
+    disconnect(m_scene, &UMLScene::sigTextColorChanged, this, &UMLWidget::slotTextColorChanged);
+    disconnect(m_scene, &UMLScene::sigLineWidthChanged, this, &UMLWidget::slotLineWidthChanged);
     m_scene = scene;
-    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
-    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
-    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
+    connect(m_scene, &UMLScene::sigFillColorChanged, this, &UMLWidget::slotFillColorChanged);
+    connect(m_scene, &UMLScene::sigTextColorChanged, this, &UMLWidget::slotTextColorChanged);
+    connect(m_scene, &UMLScene::sigLineWidthChanged, this, &UMLWidget::slotLineWidthChanged);
 }
 
 /**

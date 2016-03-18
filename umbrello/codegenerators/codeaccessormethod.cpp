@@ -187,6 +187,6 @@ void CodeAccessorMethod::initFields(CodeClassField * parentClassField)
     m_accessorType = GET;
     setCanDelete(false);  // we cant delete these with the codeeditor, delete the UML operation instead.
 
-    connect(m_parentclassfield, SIGNAL(modified()), this, SLOT(syncToParent()));
+    connect(m_parentclassfield, &CodeClassField::modified, this, &CodeAccessorMethod::syncToParent);
 }
 

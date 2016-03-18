@@ -163,6 +163,6 @@ void CodeClassFieldDeclarationBlock::init (CodeClassField * parentCF)
 {
     m_parentclassfield = parentCF;
     setCanDelete(false);
-    connect(m_parentclassfield, SIGNAL(modified()), this, SLOT(syncToParent()));
+    connect(m_parentclassfield, &CodeClassField::modified, this, &CodeClassFieldDeclarationBlock::syncToParent);
 }
 

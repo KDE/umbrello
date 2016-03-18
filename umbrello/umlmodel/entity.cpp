@@ -43,8 +43,7 @@ UMLEntity::UMLEntity(const QString& name, Uml::ID::Type id)
     m_PrimaryKey(0)
 {
     m_BaseType = UMLObject::ot_Entity;
-    connect(this, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-            this, SLOT(slotEntityAttributeRemoved(UMLClassifierListItem*)));
+    connect(this, &UMLEntity::entityAttributeRemoved, this, &UMLEntity::slotEntityAttributeRemoved);
 }
 
 /**
@@ -308,7 +307,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
     m_List.append(literal);
     emit entityAttributeAdded(literal);
     UMLObject::emitModified();
-    connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(literal, &UMLEntityAttribute::modified, this, &UMLEntity::modified);
     return literal;
 }
 
@@ -327,7 +326,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
         m_List.append(att);
         emit entityAttributeAdded(att);
         UMLObject::emitModified();
-        connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(att, &UMLEntityAttribute::modified, this, &UMLEntity::modified);
         return true;
     } else if (log) {
         log->removeChangeByNewID(att->id());
@@ -358,7 +357,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
         }
         emit entityAttributeAdded(att);
         UMLObject::emitModified();
-        connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(att, &UMLEntityAttribute::modified, this, &UMLEntity::modified);
         return true;
     }
     return false;
@@ -583,7 +582,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 
     emit entityConstraintAdded(constr);
     UMLObject::emitModified();
-    connect(constr, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(constr, &UMLEntityConstraint::modified, this, &UMLEntity::modified);
 
     return true;
 }

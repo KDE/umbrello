@@ -213,7 +213,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     topLayout->addWidget(m_docWidget);
 
     if (m_pMultiCB) {
-        connect(m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
+        connect(m_pDrawActorCB, &QCheckBox::toggled, this, &ClassGeneralPage::slotActorToggled);
     }
 }
 

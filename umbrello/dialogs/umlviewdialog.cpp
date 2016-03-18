@@ -46,8 +46,8 @@ UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
     setCaption(i18n("Properties"));
     m_pScene = pScene;
     setupPages();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &UMLViewDialog::okClicked, this, &UMLViewDialog::slotOk);
+    connect(this, &UMLViewDialog::applyClicked, this, &UMLViewDialog::slotApply);
 }
 
 /**

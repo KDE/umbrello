@@ -45,10 +45,8 @@ void ToolBarState::init()
     m_currentWidget = 0;
     m_currentAssociation = 0;
 
-    connect(m_pUMLScene, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-            this, SLOT(slotAssociationRemoved(AssociationWidget*)));
-    connect(m_pUMLScene, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-            this, SLOT(slotWidgetRemoved(UMLWidget*)));
+    connect(m_pUMLScene, &UMLScene::sigAssociationRemoved, this, &ToolBarState::slotAssociationRemoved);
+    connect(m_pUMLScene, &UMLScene::sigWidgetRemoved, this, &ToolBarState::slotWidgetRemoved);
 }
 
 /**
@@ -58,10 +56,9 @@ void ToolBarState::init()
  */
 void ToolBarState::cleanBeforeChange()
 {
-    disconnect(m_pUMLScene, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-               this, SLOT(slotAssociationRemoved(AssociationWidget*)));
-    disconnect(m_pUMLScene, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-               this, SLOT(slotWidgetRemoved(UMLWidget*)));
+
+    disconnect(m_pUMLScene, &UMLScene::sigAssociationRemoved, this, &ToolBarState::slotAssociationRemoved);
+    disconnect(m_pUMLScene, &UMLScene::sigWidgetRemoved, this, &ToolBarState::slotWidgetRemoved);
 }
 
 /**

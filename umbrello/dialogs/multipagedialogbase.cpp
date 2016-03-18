@@ -68,9 +68,10 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         if (withDefaultButton) {
             QPushButton *defaultButton = new QPushButton(i18n("Default"));
             m_pageDialog->addActionButton(defaultButton);
-            connect(defaultButton, SIGNAL(clicked()), this, SLOT(slotDefaultClicked()));
+            connect(defaultButton, &QPushButton::clicked, this, &MultiPageDialogBase::slotDefaultClicked);
         }
-        connect(dlgButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+        //connect(dlgButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+        connect(dlgButtonBox, &QDialogButtonBox::clicked, this, &MultiPageDialogBase::slotButtonClicked);
     } else {
         m_pageWidget = new KPageWidget(this);
         m_pageWidget->setFaceType(KPageView::Tree);
@@ -100,9 +101,9 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
         m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
-        connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
-        connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
-        connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
+        connect(m_pageDialog, &KPageDialog::okClicked, this, &MultiPageDialogBase::slotOkClicked);
+        connect(m_pageDialog, &KPageDialog::applyClicked, this, &MultiPageDialogBase::slotApplyClicked);
+        connect(m_pageDialog, &KPageDialog::defaultClicked, this, &MultiPageDialogBase::slotDefaultClicked);
     } else {
         m_pageWidget = new KPageWidget(this);
         m_pageWidget->setFaceType(KPageView::Tree);

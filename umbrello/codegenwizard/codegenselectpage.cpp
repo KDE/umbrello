@@ -36,8 +36,8 @@ CodeGenSelectPage::CodeGenSelectPage(QWidget *parent)
 
     setupUi(this);
 
-    connect(ui_addButton, SIGNAL(clicked()), this, SLOT(selectClass()));
-    connect(ui_removeButton, SIGNAL(clicked()), this, SLOT(deselectClass()));
+    connect(ui_addButton, &QPushButton::clicked, this, &CodeGenSelectPage::selectClass);
+    connect(ui_removeButton, &QPushButton::clicked, this, &CodeGenSelectPage::deselectClass);
 }
 
 /**

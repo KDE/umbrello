@@ -75,9 +75,8 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
 
     m_pOpAS = new QCheckBox(i18n("Auto increment:"), m_pOpGB);
     mainLayout->addWidget(m_pOpAS, 0, 2);
-    connect(m_pOpAS, SIGNAL(toggled(bool)), this, SLOT(slotAutoIncrementChecked(bool)));
+    connect(m_pOpAS, &QCheckBox::toggled, this, &SelectOperationDialog::slotAutoIncrementChecked);
     m_pOpAS->setEnabled(enableAutoIncrement);
-
     m_pOpRB = new QLabel(i18n("Class operation:"), m_pOpGB);
     mainLayout->addWidget(m_pOpRB, 1, 0);
 
@@ -86,18 +85,18 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     m_pOpCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 #endif
     m_pOpCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    connect(m_pOpCB, SIGNAL(currentIndexChanged(int)), this, SLOT(slotIndexChanged(int)));
+    connect(m_pOpCB, static_cast<void (KComboBox::*)(int)> (&KComboBox::currentIndexChanged), this, &SelectOperationDialog::slotIndexChanged);
     mainLayout->addWidget(m_pOpCB, 1, 1, 1, 2);
 
     m_newOperationButton = new QPushButton(i18n("New Operation..."), m_pOpGB);
-    connect(m_newOperationButton, SIGNAL(clicked()), this, SLOT(slotNewOperation()));
+    connect(m_newOperationButton, &QPushButton::clicked, this, &SelectOperationDialog::slotNewOperation);
     mainLayout->addWidget(m_newOperationButton, 1, 3);
 
     m_pCustomRB = new QLabel(i18n("Custom operation:"), m_pOpGB);
     mainLayout->addWidget(m_pCustomRB, 2, 0);
 
     m_pOpLE = new KLineEdit(m_pOpGB);
-    connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
+    connect(m_pOpLE, &KLineEdit::textChanged, this, &SelectOperationDialog::slotTextChanged);
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
     enableButtonOk(false);

@@ -42,8 +42,8 @@ ObjectNodeDialog::ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget)
 {
     setCaption(i18n("Properties"));
     setupPages();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ObjectNodeDialog::okClicked, this, &ObjectNodeDialog::slotOk);
+    connect(this, &ObjectNodeDialog::applyClicked, this, &ObjectNodeDialog::slotApply);
 }
 
 /**
@@ -178,9 +178,9 @@ void ObjectNodeDialog::setupGeneralPage()
         showState();
     }
 
-    connect(m_GenPageWidgets.bufferRB, SIGNAL(clicked()), this, SLOT(slotHideState()));
-    connect(m_GenPageWidgets.dataRB, SIGNAL(clicked()), this, SLOT(slotHideState()));
-    connect(m_GenPageWidgets.flowRB, SIGNAL(clicked()), this, SLOT(slotShowState()));
+    connect(m_GenPageWidgets.bufferRB, &QRadioButton::clicked, this, &ObjectNodeDialog::slotHideState);
+    connect(m_GenPageWidgets.dataRB, &QRadioButton::clicked, this, &ObjectNodeDialog::slotHideState);
+    connect(m_GenPageWidgets.flowRB, &QRadioButton::clicked, this, &ObjectNodeDialog::slotShowState);
 
     ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->objectNodeType() ;
 

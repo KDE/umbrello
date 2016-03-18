@@ -53,10 +53,8 @@ PackageContentsPage::PackageContentsPage(QWidget *parent, UMLPackage *pkg)
     setMinimumSize(310, 330);
     fillListBox();
 
-    connect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    connect(m_contentLW, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotShowContextMenu(QPoint)));
+    connect(m_contentLW, &QListWidget::itemDoubleClicked, this, &PackageContentsPage::slotDoubleClick);
+    connect(m_contentLW, &QListWidget::customContextMenuRequested, this, &PackageContentsPage::slotShowContextMenu);
 }
 
 /**
@@ -64,10 +62,8 @@ PackageContentsPage::PackageContentsPage(QWidget *parent, UMLPackage *pkg)
  */
 PackageContentsPage::~PackageContentsPage()
 {
-    disconnect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-               this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    disconnect(m_contentLW, SIGNAL(customContextMenuRequested(QPoint)),
-               this, SLOT(slotShowContextMenu(QPoint)));
+    disconnect(m_contentLW, &QListWidget::itemDoubleClicked, this, &PackageContentsPage::slotDoubleClick);
+    disconnect(m_contentLW, &QListWidget::customContextMenuRequested, this, &PackageContentsPage::slotShowContextMenu);
 }
 
 void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)

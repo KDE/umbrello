@@ -107,11 +107,11 @@ void ActivityPage::setupPage()
 #if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pActivityGB);
     QPushButton* newActivity = buttonBox->addButton(i18n("New Activity..."), QDialogButtonBox::ActionRole);
-    connect(newActivity, SIGNAL(clicked()), this, SLOT(slotNewActivity()));
+    connect(newActivity, &QPushButton::clicked, this, &ActivityPage::slotNewActivity);
     m_pDeleteActivityButton = buttonBox->addButton(i18n("Delete"), QDialogButtonBox::ActionRole);
-    connect(m_pDeleteActivityButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
+    connect(m_pDeleteActivityButton, &QPushButton::clicked, this, &ActivityPage::slotDelete);
     m_pRenameButton = buttonBox->addButton(i18n("Rename"), QDialogButtonBox::ActionRole);
-    connect(m_pRenameButton, SIGNAL(clicked()), this, SLOT(slotRename()));
+    connect(m_pRenameButton, &QPushButton::clicked, this, &ActivityPage::slotRename);
 #else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
     buttonBox->addButton(i18n("New Activity..."), KDialogButtonBox::ActionRole,
@@ -134,16 +134,13 @@ void ActivityPage::setupPage()
     }
 
     //now setup the signals
-    connect(m_pActivityLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotClicked(QListWidgetItem*)));
-    connect(m_pActivityLW, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotRightButtonPressed(QPoint)));
-
-    connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
-    connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
-    connect(m_pDownArrowB, SIGNAL(clicked()), this, SLOT(slotDownClicked()));
-    connect(m_pBottomArrowB, SIGNAL(clicked()), this, SLOT(slotBottomClicked()));
-
-    connect(m_pActivityLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClicked(QListWidgetItem*)));
+    connect(m_pActivityLW, &QListWidget::itemClicked, this, &ActivityPage::slotClicked);
+    connect(m_pActivityLW, &QListWidget::customContextMenuRequested, this, &ActivityPage::slotRightButtonPressed);
+    connect(m_pTopArrowB, &QToolButton::clicked, this, &ActivityPage::slotTopClicked);
+    connect(m_pUpArrowB, &QToolButton::clicked, this, &ActivityPage::slotUpClicked);
+    connect(m_pDownArrowB, &QToolButton::clicked, this, &ActivityPage::slotDownClicked);
+    connect(m_pBottomArrowB, &QToolButton::clicked, this, &ActivityPage::slotBottomClicked);
+    connect(m_pActivityLW, &QListWidget::itemDoubleClicked, this, &ActivityPage::slotDoubleClicked);
 
     enableWidgets(false);
 }

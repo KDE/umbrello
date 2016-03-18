@@ -71,7 +71,7 @@ public:
         editor = KTextEditor::EditorChooser::editor();
 #endif
         logWindow = new QListWidget;
-        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
+        connect(logWindow, &QListWidget::itemDoubleClicked, this, &UMLAppPrivate::slotLogWindowItemDoubleClicked);
     }
 
     ~UMLAppPrivate()
@@ -117,7 +117,7 @@ public slots:
 
         viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));
         viewStereotypesWindow->setText(i18n("Stereotypes"));
-        connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
+        connect(viewStereotypesWindow, &KToggleAction::triggered, stereotypesWindow, &StereotypesWindow::setVisible);
     }
 
 };

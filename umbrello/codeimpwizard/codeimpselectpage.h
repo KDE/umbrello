@@ -72,7 +72,7 @@ private slots:
 
 signals:
     void applyClicked();
-    void languageChanged();
+    void sglanguageChanged();
     void syncCodeDocumentsToParent();
     void selectionChanged();
 };

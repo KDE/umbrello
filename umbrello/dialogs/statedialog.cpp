@@ -42,8 +42,8 @@ StateDialog::StateDialog(QWidget * parent, StateWidget * pWidget)
 {
     setCaption(i18n("Properties"));
     setupPages();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &StateDialog::okClicked, this, &StateDialog::slotOk);
+    connect(this, &StateDialog::applyClicked, this, &StateDialog::slotApply);
 }
 
 /**

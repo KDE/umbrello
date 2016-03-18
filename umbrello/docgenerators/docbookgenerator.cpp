@@ -105,8 +105,8 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     umlDoc->writeToStatusBar(i18n("Generating Docbook..."));
 
     docbookGeneratorJob = new DocbookGeneratorJob(this);
-    connect(docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
-    connect(docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
+    connect(docbookGeneratorJob, &DocbookGeneratorJob::docbookGenerated, this, &DocbookGenerator::slotDocbookGenerationFinished);
+    connect(docbookGeneratorJob, &DocbookGeneratorJob::finished, this, &DocbookGenerator::threadFinished);
     uDebug()<<"Threading";
     docbookGeneratorJob->start();
 }

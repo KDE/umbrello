@@ -44,7 +44,7 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
     setPage(OptionsPage, createOptionsPage());
     setPage(SelectionPage, createSelectionPage(classList));
     setPage(StatusPage, createStatusPage());
-    connect(m_OptionsPage, SIGNAL(languageChanged()), this, SLOT(slotLanguageChanged()));
+    connect(m_OptionsPage, &CodeGenOptionsPage::languageChanged, this, &CodeGenerationWizard::slotLanguageChanged);
 }
 
 /**

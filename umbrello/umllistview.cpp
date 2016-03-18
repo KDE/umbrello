@@ -133,10 +133,10 @@ UMLListView::UMLListView(QWidget *parent)
     }
 
     //setup slots/signals
-    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
-    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
-    connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+    connect(this, &UMLListView::itemCollapsed, this, &UMLListView::slotCollapsed);
+    connect(this, &UMLListView::itemExpanded, this, &UMLListView::slotExpanded);
+    connect(UMLApp::app(), &UMLApp::sigCutSuccessful, this, &UMLListView::slotCutSuccessful);
+    connect(this, &UMLListView::itemSelectionChanged, this, &UMLListView::slotItemSelectionChanged);
 }
 
 /**
@@ -959,7 +959,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
         UMLClassifierListItemList cListItems = c->getFilteredList(UMLObject::ot_UMLObject);
         foreach(UMLClassifierListItem *cli, cListItems)
-            childObjectAdded(cli, c);
+            addChildObject(cli, c);
     }
     if (m_doc->loading())
         return;
@@ -980,42 +980,30 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface: {
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
-        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(c, SIGNAL(templateAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(templateRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+        connect(c, &UMLClassifier::attributeAdded, this, &UMLListView::childObjectAdded);
+        connect(c, &UMLClassifier::attributeRemoved, this, &UMLListView::childObjectRemoved);
+        connect(c, &UMLClassifier::operationAdded, this, &UMLListView::childObjectAdded);
+        connect(c, &UMLClassifier::operationRemoved, this, &UMLListView::childObjectRemoved);
+        connect(c, &UMLClassifier::templateAdded, this, &UMLListView::childObjectAdded);
+        connect(c, &UMLClassifier::templateRemoved, this, &UMLListView::childObjectRemoved);
+        connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     }
     break;
     case UMLObject::ot_Enum: {
         UMLEnum *e = static_cast<UMLEnum*>(object);
-        connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(e, SIGNAL(enumLiteralRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        connect(e, &UMLEnum::enumLiteralAdded, this, &UMLListView::childObjectAdded);
+        connect(e, &UMLEnum::enumLiteralRemoved, this, &UMLListView::childObjectRemoved);
     }
-    connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+    connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     break;
     case UMLObject::ot_Entity: {
         UMLEntity *ent = static_cast<UMLEntity*>(object);
-        connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityConstraintAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        connect(ent, &UMLEntity::entityAttributeAdded, this, &UMLListView::childObjectAdded);
+        connect(ent, &UMLEntity::entityAttributeRemoved, this, &UMLListView::childObjectRemoved);
+        connect(ent, &UMLEntity::entityConstraintAdded, this, &UMLListView::childObjectAdded);
+        connect(ent, &UMLEntity::entityConstraintRemoved, this, &UMLListView::childObjectRemoved);
     }
-    connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+    connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     break;
     case UMLObject::ot_Datatype:
     case UMLObject::ot_Attribute:
@@ -1035,7 +1023,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Node:
     case UMLObject::ot_Folder:
     case UMLObject::ot_Category:
-        connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+        connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
         break;
     case UMLObject::ot_UMLObject:
     case UMLObject::ot_Association:
@@ -1070,7 +1058,7 @@ void UMLListView::slotObjectChanged()
 void UMLListView::childObjectAdded(UMLClassifierListItem* obj)
 {
     UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
-    childObjectAdded(obj, parent);
+    addChildObject(obj, parent);
 }
 
 /**
@@ -1079,7 +1067,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj)
  * @param child the child object
  * @param parent the parent object
  */
-void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent)
+void UMLListView::addChildObject(UMLClassifierListItem* child, UMLClassifier* parent)
 {
     if (m_bCreatingChildObject)
         return;
@@ -1151,11 +1139,11 @@ void UMLListView::setDocument(UMLDoc *doc)
     }
     m_doc = doc;
 
-    connect(m_doc, SIGNAL(sigDiagramCreated(Uml::ID::Type)), this, SLOT(slotDiagramCreated(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), this, SLOT(slotDiagramRemoved(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), this, SLOT(slotDiagramRenamed(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),   this, SLOT(slotObjectCreated(UMLObject*)));
-    connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject*)),   this, SLOT(slotObjectRemoved(UMLObject*)));
+    connect(m_doc, &UMLDoc::sigDiagramCreated, this, &UMLListView::slotDiagramCreated);
+    connect(m_doc, &UMLDoc::sigDiagramRemoved, this, &UMLListView::slotDiagramRemoved);
+    connect(m_doc, &UMLDoc::sigDiagramRenamed, this, &UMLListView::slotDiagramRenamed);
+    connect(m_doc, &UMLDoc::sigObjectCreated, this, &UMLListView::slotObjectCreated);
+    connect(m_doc, &UMLDoc::sigObjectRemoved, this, &UMLListView::slotObjectRemoved);
 }
 
 /**
@@ -1167,7 +1155,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object)
     if (m_doc->loading()) { //needed for class wizard
         return;
     }
-    disconnect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+    disconnect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     UMLListViewItem* item = findItem(object->id());
     delete item;
     UMLApp::app()->docWindow()->updateDocumentation(true);

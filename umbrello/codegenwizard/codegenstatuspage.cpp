@@ -55,9 +55,9 @@ CodeGenStatusPage::CodeGenStatusPage(QWidget *parent)
     ui_tableWidgetStatus->setColumnCount(3);
     ui_textEditLogger->setReadOnly(true);
 
-    connect(ui_pushButtonGenerate, SIGNAL(clicked()), this, SLOT(generateCode()));
-    connect(ui_pushButtonClear, SIGNAL(clicked()), this, SLOT(loggerClear()));
-    connect(ui_pushButtonExport, SIGNAL(clicked()), this, SLOT(loggerExport()));
+    connect(ui_pushButtonGenerate, &QPushButton::clicked, this, &CodeGenStatusPage::generateCode);
+    connect(ui_pushButtonClear, &QPushButton::clicked, this, &CodeGenStatusPage::loggerClear);
+    connect(ui_pushButtonExport, &QPushButton::clicked, this, &CodeGenStatusPage::loggerExport);
 }
 
 /**
@@ -114,10 +114,8 @@ void CodeGenStatusPage::generateCode()
     UMLDoc* doc = UMLApp::app()->document();
 
     if (codeGenerator) {
-        connect(codeGenerator, SIGNAL(codeGenerated(UMLClassifier*,bool)),
-                this, SLOT(classGenerated(UMLClassifier*,bool)));
-        connect(codeGenerator, SIGNAL(showGeneratedFile(QString)),
-                this, SLOT(showFileGenerated(QString)));
+        connect(codeGenerator, &CodeGenerator::codeGenerated,this, &CodeGenStatusPage::classGenerated);
+        connect(codeGenerator, &CodeGenerator::showGeneratedFile, this, &CodeGenStatusPage::showFileGenerated);
 
         UMLClassifierList cList;
 

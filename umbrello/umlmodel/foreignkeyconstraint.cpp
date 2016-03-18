@@ -60,7 +60,7 @@ void UMLForeignKeyConstraint::init()
      m_DeleteAction = uda_NoAction;
 
     // connecte signals and slots
-     connect(this, SIGNAL(sigReferencedEntityChanged()), this, SLOT(slotReferencedEntityChanged()));
+     connect(this, &UMLForeignKeyConstraint::sigReferencedEntityChanged, this, &UMLForeignKeyConstraint::slotReferencedEntityChanged);
 }
 
 /**

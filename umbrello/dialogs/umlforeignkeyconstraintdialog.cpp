@@ -63,8 +63,8 @@ UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UM
     setupGeneralPage();
     setupColumnPage();
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &UMLForeignKeyConstraintDialog::okClicked, this, &UMLForeignKeyConstraintDialog::slotOk);
+    connect(this, &UMLForeignKeyConstraintDialog::applyClicked, this, &UMLForeignKeyConstraintDialog::slotApply);
 }
 
 /**
@@ -276,7 +276,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     m_GeneralWidgets.updateActionCB->setCurrentIndex(m_pForeignKeyConstraint->getUpdateAction());
     m_GeneralWidgets.deleteActionCB->setCurrentIndex(m_pForeignKeyConstraint->getDeleteAction());
 
-    connect(m_GeneralWidgets.referencedEntityCB, SIGNAL(activated(int)), this, SLOT(slotReferencedEntityChanged(int)));
+    connect(m_GeneralWidgets.referencedEntityCB,static_cast<void (KComboBox::*)(int)> (&KComboBox::activated), this, &UMLForeignKeyConstraintDialog::slotReferencedEntityChanged);
 }
 
 /**
@@ -318,9 +318,9 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
 #if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
-    connect(m_ColumnWidgets.addPB, SIGNAL(clicked()), this, SLOT(slotAddPair()));
+    connect(m_ColumnWidgets.addPB, &QPushButton::clicked, this, &UMLForeignKeyConstraintDialog::slotAddPair);
     m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
-    connect(m_ColumnWidgets.removePB, SIGNAL(clicked()), this, SLOT(slotDeletePair()));
+    connect(m_ColumnWidgets.removePB, &QPushButton::clicked, this, &UMLForeignKeyConstraintDialog::slotDeletePair);
 #else
     KDialogButtonBox* buttonBox = new KDialogButtonBox(page);
     m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
@@ -371,7 +371,7 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
 
     slotResetWidgetState();
 
-    connect(m_ColumnWidgets.mappingTW, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotResetWidgetState()));
+    connect(m_ColumnWidgets.mappingTW, &QTreeWidget::itemClicked, this, &UMLForeignKeyConstraintDialog::slotResetWidgetState);
 }
 
 /**

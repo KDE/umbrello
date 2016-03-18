@@ -15,14 +15,14 @@ FindDialog::FindDialog(QWidget *parent) :
 {
     setCaption(i18n("Find"));
     setupUi(mainWidget());
-    connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    connect(ui_buttonGroup,static_cast<void (QButtonGroup::*)(int)> (&QButtonGroup::buttonClicked), this, &FindDialog::slotFilterButtonClicked);
     ui_treeView->setChecked(true);
     ui_categoryAll->setChecked(true);
 }
 
 FindDialog::~FindDialog()
 {
-    disconnect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    disconnect(ui_buttonGroup, static_cast<void (QButtonGroup::*)(int)> (&QButtonGroup::buttonClicked), this, &FindDialog::slotFilterButtonClicked);
 }
 
 /**

@@ -50,20 +50,19 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     setupUi(this);
 
     setupLanguageBox();
-    connect(ui_languageBox, SIGNAL(activated(int)), this, SLOT(languageChanged(int)));
-    connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()));
+    connect(ui_languageBox, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &CodeImpSelectPage::languageChanged);
+    connect(this, &CodeImpSelectPage::languageChanged, this, &CodeImpSelectPage::changeLanguage);
 
     setupTreeView();
-    connect(ui_treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(treeClicked(QModelIndex)));
-    connect(ui_treeView, SIGNAL(entered(QModelIndex)), this, SLOT(treeEntered(QModelIndex)));
+    connect(ui_treeView, &QTreeView::clicked, this, &CodeImpSelectPage::treeClicked);
+    connect(ui_treeView, &QTreeView::entered, this, &CodeImpSelectPage::treeEntered);
 
     setupFileExtEdit();
-    connect(ui_fileExtLineEdit, SIGNAL(editingFinished()), this, SLOT(fileExtChanged()));
+    connect(ui_fileExtLineEdit, &QLineEdit::editingFinished, this, &CodeImpSelectPage::fileExtChanged);
 
-    connect(ui_subdirCheckBox, SIGNAL(stateChanged(int)), this, SLOT(subdirStateChanged(int)));
-    connect(ui_selectAllButton, SIGNAL(clicked()), this, SLOT(selectAll()));
-    connect(ui_deselectAllButton, SIGNAL(clicked()), this, SLOT(deselectAll()));
-
+    connect(ui_subdirCheckBox, &QCheckBox::stateChanged, this, &CodeImpSelectPage::subdirStateChanged);
+    connect(ui_selectAllButton, &QPushButton::clicked, this, &CodeImpSelectPage::selectAll);
+    connect(ui_deselectAllButton, &QPushButton::clicked, this, &CodeImpSelectPage::deselectAll);
     setupToolTips();
     // update file extensions
     changeLanguage();
@@ -309,7 +308,7 @@ bool CodeImpSelectPage::validatePage()
 void CodeImpSelectPage::languageChanged(int id)
 {
     Q_UNUSED(id);
-    emit languageChanged();
+    emit sglanguageChanged();
 }
 
 /**

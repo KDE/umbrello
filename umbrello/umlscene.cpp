@@ -152,8 +152,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pImageExporter = new UMLViewImageExporter(this);
 
     // setup signals
-    connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
-            this, SLOT(slotCutSuccessful()));
+    connect(UMLApp::app(), &UMLApp::sigCutSuccessful, this, &UMLScene::slotCutSuccessful);
     // Create the ToolBarState factory. This class is not a singleton, because it
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
@@ -599,12 +598,9 @@ void UMLScene::setCreateObject(bool bCreate)
  */
 void UMLScene::showEvent(QShowEvent* /*se*/)
 {
-    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),
-            this, SLOT(slotObjectCreated(UMLObject*)));
-    connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-            UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
-    connect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-            UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+    connect(m_doc, &UMLDoc::sigObjectCreated, this, &UMLScene::slotObjectCreated);
+    connect(this, &UMLScene::sigAssociationRemoved, UMLApp::app()->docWindow(), &DocWindow::slotAssociationRemoved);
+    connect(this, &UMLScene::sigWidgetRemoved, UMLApp::app()->docWindow(), &DocWindow::slotWidgetRemoved);
 }
 
 /**
@@ -612,11 +608,10 @@ void UMLScene::showEvent(QShowEvent* /*se*/)
  */
 void UMLScene::hideEvent(QHideEvent* /*he*/)
 {
-    disconnect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotObjectCreated(UMLObject*)));
-    disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-               UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
-    disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-               UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+
+    disconnect(m_doc, &UMLDoc::sigObjectCreated, this, &UMLScene::slotObjectCreated);
+    disconnect(this, &UMLScene::sigAssociationRemoved, UMLApp::app()->docWindow(), &DocWindow::slotAssociationRemoved);
+    disconnect(this, &UMLScene::sigWidgetRemoved, UMLApp::app()->docWindow(), &DocWindow::slotWidgetRemoved);
 }
 
 /**
@@ -1187,9 +1182,9 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
 
     o->cleanup();
     o->setSelectedFlag(false);
-    disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
-    disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
-    disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
+    disconnect(this, &UMLScene::sigFillColorChanged, o, &UMLWidget::slotFillColorChanged);
+    disconnect(this, &UMLScene::sigLineColorChanged, o, &UMLWidget::slotLineColorChanged);
+    disconnect(this, &UMLScene::sigTextColorChanged, o, &UMLWidget::slotTextColorChanged);
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else {

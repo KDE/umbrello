@@ -37,7 +37,7 @@ AutoLayoutOptionPage::AutoLayoutOptionPage(QWidget* parent)
     m_autoDotPath->setChecked(Settings::optionState().autoLayoutState.autoDotPath);
     m_dotPath->setText(Settings::optionState().autoLayoutState.dotPath);
     m_showExportLayout->setChecked(Settings::optionState().autoLayoutState.showExportLayout);
-    connect(m_autoDotPath, SIGNAL(toggled(bool)), this, SLOT(slotAutoDotPathCBClicked(bool)));
+    connect(m_autoDotPath, &QCheckBox::toggled, this, &AutoLayoutOptionPage::slotAutoDotPathCBClicked);
 
     if (Settings::optionState().autoLayoutState.autoDotPath) {
         m_dotPath->setEnabled (false);

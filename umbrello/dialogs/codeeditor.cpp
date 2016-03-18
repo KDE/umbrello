@@ -770,7 +770,7 @@ KMenu * CodeEditor::createPopup()
             KAction* hideAct = new KAction(i18n("Hide"), this);
 #endif
             hideAct->setShortcut(Qt::Key_H);
-            connect(hideAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
+            connect(hideAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockView);
             menu->addAction(hideAct);
         }
         else {
@@ -780,7 +780,7 @@ KMenu * CodeEditor::createPopup()
             KAction* showAct = new KAction(i18n("Show"), this);
 #endif
             showAct->setShortcut(Qt::Key_S);
-            connect(showAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
+            connect(showAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockView);
             menu->addAction(showAct);
         }
 
@@ -793,7 +793,7 @@ KMenu * CodeEditor::createPopup()
                 KAction* hideCommAct = new KAction(i18n("Hide Comment"), this);
 #endif
                 hideCommAct->setShortcut(Qt::CTRL + Qt::Key_H);
-                connect(hideCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
+                connect(hideCommAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockCommentView);
                 menu->addAction(hideCommAct);
             }
             else {
@@ -803,7 +803,7 @@ KMenu * CodeEditor::createPopup()
                 KAction* showCommAct = new KAction(i18n("Show Comment"), this);
 #endif
                 showCommAct->setShortcut(Qt::CTRL + Qt::Key_S);
-                connect(showCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
+                connect(showCommAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockCommentView);
                 menu->addAction(showCommAct);
             }
         }
@@ -815,7 +815,7 @@ KMenu * CodeEditor::createPopup()
         KAction* insCodeBeforeAct = new KAction(i18n("Insert Code Block Before"), this);
 #endif
         insCodeBeforeAct->setShortcut(Qt::CTRL + Qt::Key_B);
-        connect(insCodeBeforeAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockBeforeSelected()));
+        connect(insCodeBeforeAct, &QAction::triggered, this, &CodeEditor::slotInsertCodeBlockBeforeSelected);
         menu->addAction(insCodeBeforeAct);
 
 #if QT_VERSION >= 0x050000
@@ -824,7 +824,7 @@ KMenu * CodeEditor::createPopup()
         KAction* insCodeAfterAct = new KAction(i18n("Insert Code Block After"), this);
 #endif
         insCodeAfterAct->setShortcut(Qt::CTRL + Qt::Key_A);
-        connect(insCodeAfterAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockAfterSelected()));
+        connect(insCodeAfterAct, &QAction::triggered, this, &CodeEditor::slotInsertCodeBlockAfterSelected);
         menu->addAction(insCodeAfterAct);
 
         menu->addSeparator();
@@ -835,7 +835,7 @@ KMenu * CodeEditor::createPopup()
         KAction* copyAct = new KAction(i18n("Copy"), this);
 #endif
         copyAct->setShortcut(Qt::CTRL + Qt::Key_C);
-        connect(copyAct, SIGNAL(triggered()), this, SLOT(slotCopyTextBlock()));
+        connect(copyAct, &QAction::triggered, this, &CodeEditor::slotCopyTextBlock);
         menu->addAction(copyAct);
 
 #if QT_VERSION >= 0x050000
@@ -844,7 +844,7 @@ KMenu * CodeEditor::createPopup()
         KAction* pasteAct = new KAction(i18n("Paste"), this);
 #endif
         pasteAct->setShortcut(Qt::CTRL + Qt::Key_V);
-        connect(pasteAct, SIGNAL(triggered()), this, SLOT(slotPasteTextBlock()));
+        connect(pasteAct, &QAction::triggered, this, &CodeEditor::slotPasteTextBlock);
         menu->addAction(pasteAct);
 
 #if QT_VERSION >= 0x050000
@@ -853,7 +853,7 @@ KMenu * CodeEditor::createPopup()
         KAction* cutAct = new KAction(i18n("Cut"), this);
 #endif
         cutAct->setShortcut(Qt::CTRL + Qt::Key_X);
-        connect(cutAct, SIGNAL(triggered()), this, SLOT(slotCutTextBlock()));
+        connect(cutAct, &QAction::triggered, this, &CodeEditor::slotCutTextBlock);
         menu->addAction(cutAct);
 
         // enable/disable based on conditions
@@ -992,7 +992,7 @@ void CodeEditor::init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc)
 
     // connect(this, SIGNAL(newLinePressed()), this, SLOT(newLinePressed()));
     // connect(this, SIGNAL(backspacePressed()), this, SLOT(backspacePressed()));
-    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
+    connect(this, &CodeEditor::cursorPositionChanged, this, &CodeEditor::slotCursorPositionChanged);
 
     // do this last
     loadFromDocument();

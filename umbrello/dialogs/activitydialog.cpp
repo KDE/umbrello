@@ -42,8 +42,8 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
     setCaption(i18n("Properties"));
     setupPages();
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ActivityDialog::okClicked, this, &ActivityDialog::slotOk);
+    connect(this, &ActivityDialog::applyClicked, this, &ActivityDialog::slotApply);
 }
 
 /**
@@ -186,11 +186,11 @@ void ActivityDialog::setupGeneralPage()
         showParameterActivity();
     }
 
-    connect(m_GenPageWidgets.ParamRB, SIGNAL(clicked()), this, SLOT(slotShowActivityParameter()));
-    connect(m_GenPageWidgets.NormalRB, SIGNAL(clicked()), this, SLOT(slotHideActivityParameter()));
-    connect(m_GenPageWidgets.InvokRB, SIGNAL(clicked()), this, SLOT(slotHideActivityParameter()));
+    connect(m_GenPageWidgets.ParamRB, &QRadioButton::clicked, this, &ActivityDialog::slotShowActivityParameter);
+    connect(m_GenPageWidgets.NormalRB, &QRadioButton::clicked, this, &ActivityDialog::slotHideActivityParameter);
+    connect(m_GenPageWidgets.InvokRB, &QRadioButton::clicked, this, &ActivityDialog::slotHideActivityParameter);
 
-    ActivityWidget::ActivityType newType = m_pActivityWidget->activityType() ;
+    ActivityWidget::ActivityType newType = m_pActivityWidget->activityType();
 
     m_GenPageWidgets.NormalRB->setChecked(newType == ActivityWidget::Normal);
 

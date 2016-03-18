@@ -75,6 +75,7 @@ signals:
 
 public slots:
     void slotViewChanged();
+    void slotDockSizeChanged(const QSize &size);
 
 protected:
     virtual void mousePressEvent(QMouseEvent *event);
@@ -83,7 +84,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
 private slots:
-    void slotDockSizeChanged(const QSize &size);
     void slotDestroyed(QObject *object);
 
 private:

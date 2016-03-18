@@ -336,7 +336,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
     }
     emit operationAdded(op);
     UMLObject::emitModified();
-    connect(op, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(op, &UMLOperation::modified, this, &UMLClassifier::modified);
     return true;
 }
 
@@ -381,7 +381,7 @@ int UMLClassifier::removeOperation(UMLOperation *op)
     }
     // disconnection needed.
     // note that we don't delete the operation, just remove it from the Classifier
-    disconnect(op, SIGNAL(modified()), this, SIGNAL(modified()));
+    disconnect(op, &UMLOperation::modified, this, &UMLClassifier::modified);
     emit operationRemoved(op);
     UMLObject::emitModified();
     return m_List.count();
@@ -819,7 +819,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id 
     m_List.append(a);
     emit attributeAdded(a);
     UMLObject::emitModified();
-    connect(a, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(a, &UMLAttribute::modified, this, &UMLClassifier::modified);
     return a;
 }
 
@@ -844,7 +844,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
     m_List.append(a);
     emit attributeAdded(a);
     UMLObject::emitModified();
-    connect(a, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(a, &UMLAttribute::modified, this, &UMLClassifier::modified);
     return a;
 }
 
@@ -874,7 +874,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
         }
         emit attributeAdded(att);
         UMLObject::emitModified();
-        connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(att, &UMLAttribute::modified, this, &UMLClassifier::modified);
         return true;
     } else if (log) {
         log->removeChangeByNewID(att->id());
@@ -1050,7 +1050,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
     m_List.append(templt);
     emit templateAdded(templt);
     UMLObject::emitModified();
-    connect(templt, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(templt, &UMLTemplate::modified, this, &UMLClassifier::modified);
     return templt;
 }
 
@@ -1070,7 +1070,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
         m_List.append(newTemplate);
         emit templateAdded(newTemplate);
         UMLObject::emitModified();
-        connect(newTemplate, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(newTemplate, &UMLTemplate::modified, this, &UMLClassifier::modified);
         return true;
     }
     else if (log) {
@@ -1104,7 +1104,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
         }
         emit templateAdded(templt);
         UMLObject::emitModified();
-        connect(templt, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(templt, &UMLTemplate::modified, this, &UMLClassifier::modified);
         return true;
     }
     //else
@@ -1126,7 +1126,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
     }
     emit templateRemoved(umltemplate);
     UMLObject::emitModified();
-    disconnect(umltemplate, SIGNAL(modified()), this, SIGNAL(modified()));
+    disconnect(umltemplate, &UMLTemplate::modified, this, &UMLClassifier::modified);
     return m_List.count();
 }
 

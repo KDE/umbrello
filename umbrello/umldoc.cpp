@@ -151,10 +151,10 @@ void UMLDoc::init()
 
     // Connect signals.
     UMLApp * pApp = UMLApp::app();
-    connect(this, SIGNAL(sigDiagramCreated(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigCurrentViewChanged()),          pApp, SLOT(slotCurrentViewChanged()));
+    connect(this, &UMLDoc::sigDiagramCreated, pApp, &UMLApp::slotUpdateViews);
+    connect(this, &UMLDoc::sigDiagramRemoved, pApp, &UMLApp::slotUpdateViews);
+    connect(this, &UMLDoc::sigDiagramRenamed, pApp, &UMLApp::slotUpdateViews);
+    connect(this, &UMLDoc::sigCurrentViewChanged, pApp, &UMLApp::slotCurrentViewChanged);
 }
 
 /**
@@ -176,12 +176,12 @@ void UMLDoc::createDatatypeFolder()
 UMLDoc::~UMLDoc()
 {
     UMLApp * pApp = UMLApp::app();
-    disconnect(this, SIGNAL(sigDiagramCreated(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    disconnect(this, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    disconnect(this, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
-    disconnect(this, SIGNAL(sigCurrentViewChanged()),          pApp, SLOT(slotCurrentViewChanged()));
+    disconnect(this, &UMLDoc::sigDiagramCreated, pApp, &UMLApp::slotUpdateViews);
+    disconnect(this, &UMLDoc::sigDiagramRemoved, pApp, &UMLApp::slotUpdateViews);
+    disconnect(this, &UMLDoc::sigDiagramRenamed, pApp, &UMLApp::slotUpdateViews);
+    disconnect(this, &UMLDoc::sigCurrentViewChanged, pApp, &UMLApp::slotCurrentViewChanged);
 
-    disconnect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    disconnect(m_pAutoSaveTimer, &QTimer::timeout, this, &UMLDoc::slotAutoSave);
     delete m_pAutoSaveTimer;
 
     m_root[Uml::ModelType::Logical]->removeObject(m_datatypeRoot);
@@ -217,7 +217,7 @@ void UMLDoc::addView(UMLView *view)
 
     UMLApp * pApp = UMLApp::app();
     if (pApp->listView()) {
-        connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
+        connect(this,&UMLDoc::sigObjectRemoved, view->umlScene(), &UMLScene::slotObjectRemoved);
     }
 
     if (!m_bLoading || pApp->currentView() == NULL) {
@@ -247,8 +247,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
     }
     DEBUG(DBG_SRC) << "<" << view->umlScene()->name() << ">";
     if (UMLApp::app()->listView()) {
-        disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
-                   view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
+        disconnect(this, &UMLDoc::sigObjectRemoved, view->umlScene(), &UMLScene::slotObjectRemoved);
     }
     view->hide();
     UMLFolder *f = view->umlScene()->folder();
@@ -952,7 +951,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 void UMLDoc::setupSignals()
 {
     WorkToolBar *tb = UMLApp::app()->workToolBar();
-    connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType::Enum)), tb, SLOT(slotCheckToolBar(Uml::DiagramType::Enum)));
+    connect(this, &UMLDoc::sigDiagramChanged, tb, &WorkToolBar::slotCheckToolBar);
 }
 
 /**
@@ -3180,14 +3179,14 @@ void UMLDoc::initSaveTimer()
 {
     if (m_pAutoSaveTimer) {
         m_pAutoSaveTimer->stop();
-        disconnect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+        disconnect(m_pAutoSaveTimer, &QTimer::timeout, this, &UMLDoc::slotAutoSave);
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
     }
     Settings::OptionState optionState = Settings::optionState();
     if (optionState.generalState.autosave) {
         m_pAutoSaveTimer = new QTimer(this);
-        connect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+        connect(m_pAutoSaveTimer, &QTimer::timeout, this, &UMLDoc::slotAutoSave);
         m_pAutoSaveTimer->setSingleShot(false);
         m_pAutoSaveTimer->start(optionState.generalState.autosavetime * 60000);
     }

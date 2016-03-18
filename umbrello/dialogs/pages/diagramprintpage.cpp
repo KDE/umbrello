@@ -87,13 +87,12 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
     m_nIdList.append(UMLApp::app()->currentView()->umlScene()->ID());
 
     m_ViewType = Uml::DiagramType::Class;
-    connect(m_pAllRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
-    connect(m_pCurrentRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
-    connect(m_pSelectRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
-    connect(m_pTypeRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
+    connect(m_pAllRB, &QRadioButton::clicked, this, &DiagramPrintPage::slotClicked);
+    connect(m_pCurrentRB, &QRadioButton::clicked, this, &DiagramPrintPage::slotClicked);
+    connect(m_pSelectRB, &QRadioButton::clicked, this, &DiagramPrintPage::slotClicked);
+    connect(m_pTypeRB, &QRadioButton::clicked, this, &DiagramPrintPage::slotClicked);
 
-    connect(m_pTypeCB, SIGNAL(activated(int)), this, SLOT(slotActivated(int)));
-
+    connect(m_pTypeCB, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &DiagramPrintPage::slotActivated);
     QStringList types;
     // diagramNo 1 is Uml::DiagramType::Class
     // digaramNo 9 is Uml::DiagramType::EntityRelationship

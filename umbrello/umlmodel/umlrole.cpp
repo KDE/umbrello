@@ -41,7 +41,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::RoleType::
     m_pSecondary = parentObj;
 
     // connect this up to parent
-    connect(this, SIGNAL(modified()), parent, SIGNAL(modified()));
+    connect(this, &UMLRole::modified, parent, &UMLAssociation::modified);
 }
 
 /**

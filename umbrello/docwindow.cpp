@@ -91,7 +91,7 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
     QCheckBox *box = new QCheckBox();
     box->setToolTip(i18n("Activate documentation edit after focus change."));
-    connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotFocusEnabledChanged(int)));
+    connect(box, &QCheckBox::stateChanged, this, &DocWindow::slotFocusEnabledChanged);
     statusLayout->addWidget(box, 0, 5, 1, 1);
     m_modifiedWidget = new ModifiedWidget(this);
     statusLayout->addWidget(m_modifiedWidget, 0, 6, 1, 1);
@@ -104,7 +104,7 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     docLayout->addWidget(m_docTE);
     docLayout->setMargin(0);
 
-    connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
+    connect(m_docTE, &KTextEdit::textChanged, this, &DocWindow::slotTextChanged);
 }
 
 /**

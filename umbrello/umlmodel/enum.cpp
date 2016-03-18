@@ -140,7 +140,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
     m_List.append(literal);
     UMLObject::emitModified();
     emit enumLiteralAdded(literal);
-    connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(literal, &UMLEnumLiteral::modified, this, &UMLEnum::modified);
     return literal;
 }
 
@@ -159,7 +159,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         m_List.append(literal);
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
-        connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(literal, &UMLEnumLiteral::modified, this, &UMLEnum::modified);
         return true;
     } else if (Log) {
         Log->removeChangeByNewID(literal->id());
@@ -190,7 +190,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
         }
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
-        connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
+        connect(literal, &UMLEnumLiteral::modified, this, &UMLEnum::modified);
         return true;
     }
     return false;

@@ -66,7 +66,7 @@ void UMLEnumLiteralDialog::setupDialog()
     mainLayout->addWidget(m_pValuesGB);
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
+    connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLEnumLiteralDialog::slotNameChanged);
     slotNameChanged(m_pNameLE->text());
 }
 

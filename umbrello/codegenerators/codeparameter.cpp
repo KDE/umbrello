@@ -283,6 +283,6 @@ void CodeParameter::initFields(ClassifierCodeDocument * doc, UMLObject * obj)
     m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
     m_comment->setText(getParentObject()->doc());
 
-    connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
+    connect(m_parentObject, &UMLObject::modified, this, &CodeParameter::syncToParent);
 }
 
