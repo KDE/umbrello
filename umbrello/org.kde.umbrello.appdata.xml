@@ -110,6 +110,7 @@
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
+      <li xml:lang="de">Verschiedene Diagramm-Typen werden unterstützt: Anwendungsfalldiagramm, Klassendiagramm, Sequenzdiagramm, Kommunikationsdiagramm, Zustandsdiagramm, Aktivitätsdiagramm, Komponentendiagramm, Verteilungsdiagramm, Entity-Relationship-Diagramm</li>
       <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, comunicación, estado, actividad, componente, despliegue y relación de entidades</li>
       <li xml:lang="fi">Tukee monenlaisia kaavioita: käyttötapauskaavio, luokkakaavio, sekvenssikaavio, kommunikointikaavio, tilakaavio, aktiviteettikaavio, komponenttikaavio, sijoittelukaavio, käsitekaavio</li>
