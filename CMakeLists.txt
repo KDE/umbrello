@@ -9,11 +9,20 @@ set(UMBRELLO_VERSION_MAJOR "2")
 set(UMBRELLO_VERSION_MINOR "19")
 set(UMBRELLO_VERSION_PATCH "99")
 
+option(BUILD_ICONS "Create icons from svg source" OFF)
+
+option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
+
+option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories (for debugging purpose)" OFF)
+
 option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
+
+# where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
+include(Macros)
 
 if(NOT BUILD_KF5)
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
     set(CMAKE_AUTOMOC ON)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -105,7 +114,7 @@ else()
 
     # we need some parts of the ECM CMake helpers
     find_package(ECM 1.1.0 REQUIRED NO_MODULE)
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+    list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
     include(KDEInstallDirs)
     include(KDECompilerSettings)
@@ -230,6 +239,8 @@ if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(doc)
     add_subdirectory(tools)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
+
+add_subdirectory(maintainer)
 
 # for automatic unit tests
 if(BUILD_UNITTESTS)

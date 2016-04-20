@@ -1,4 +1,3 @@
-add_subdirectory( pics )
 add_subdirectory( headings )
 
 ########### set variables #############
@@ -581,3 +580,5 @@ install( DIRECTORY
     layouts
     DESTINATION ${DATA_INSTALL_DIR}/umbrello
     PATTERN .svn EXCLUDE )
+
+add_subdirectory( pics )
