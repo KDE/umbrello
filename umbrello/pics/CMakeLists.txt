@@ -168,60 +168,166 @@ if(BUILD_CURSOR_ICONS)
     generate_cursor_icons("${CURSOR_ICONS}" 32)
 endif()
 
-
-install(FILES actor  aggregation
-        align-horizontal-left  align-horizontal-right
-        align-vertical-top  align-vertical-bottom
-        align-vertical-center  align-horizontal-center
-        distribute-vertical  distribute-horizontal
-        anchor  andline  arrow  association
-        choice-rhomb  choice-round  combined_fragment
-        component  region  composition  containment
-        CVglobal_meth  CVglobal_var  CVimplementation_meth
-        CVimplementation_signal  CVimplementation_slot  CVimplementation_var
-        CVnamespace  CVprivate_meth  CVprivate_signal
-        CVprivate_slot  CVprivate_var  CVprotected_meth
-        CVprotected_signal  CVprotected_slot  CVprotected_var
-        CVpublic_meth  CVpublic_signal  CVpublic_slot
-        CVpublic_var  CVstruct
-        deep-history  shallow-history
-        dependency  final_activity  end_state  generalisation
-        initial_state  interface  join  junction  datatype  enum
-        umbr-coll-message-synchronous  umbr-coll-message-asynchronous
-        umbr-message-synchronous  umbr-message-asynchronous
-        note pin object_node object
-        startlogo  template  text  refactor
-        class class-or-package uniassociation  usecase
-        category child2category category2parent branch
-        activity-fork  state-fork  package  artifact
-        box  node  port  entity  relationship
-        subsystem foreignkey_constraint unique_constraint
-        primarykey_constraint check_constraint
-        cursor-actor  umbr-message-found  accept_signal
-        accept_time_event  send_signal  cursor-andline
-        cursor-choice-rhomb  cursor-choice-round  cursor-combined_fragment
-        cursor-deep-history  cursor-join  cursor-junction
-        cursor-category cursor-child2category cursor-category2parent
-        cursor-shallow-history  cursor-state-fork  cursor-usecase
-        cursor-initial_state  cursor-package  cursor-aggregation
-        cursor-component  cursor-containment  cursor-interface
-        cursor-datatype  cursor-enum  cursor-text
-        cursor-anchor cursor-pin cursor-composition
-        cursor-umbr-coll-message-synchronous  cursor-umbr-coll-message-asynchronous
-        cursor-umbr-message-synchronous  cursor-umbr-message-asynchronous
-        cursor-class  cursor-artifact cursor-dependency  cursor-uniassociation
-        cursor-association  cursor-end_state  cursor-final_activity
-        cursor-node  cursor-box  cursor-activity-fork
-        cursor-note  cursor-branch  cursor-generalisation
-        cursor-object  cursor-entity  cursor-relationship
-        precondition  cursor-precondition  cursor-send_signal
-        cursor-accept_signal  cursor-accept_time_event  cursor-region
-        cursor-umbr-message-found  umbr-message-lost  cursor-umbr-message-lost
-        end_of_life  cursor-end_of_life  exception
-        cursor-exception cursor-object_node
-        cursor-PrePostCondition PrePostCondition
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics
+set(ALL_ICONS
+    accept_signal
+    accept_time_event
+    activity-fork
+    actor
+    aggregation
+    align-horizontal-center
+    align-horizontal-left
+    align-horizontal-right
+    align-vertical-bottom
+    align-vertical-center
+    align-vertical-top
+    anchor
+    andline
+    arrow
+    artifact
+    association
+    box
+    branch
+    category
+    category2parent
+    check_constraint
+    child2category
+    choice-rhomb
+    choice-round
+    class
+    class-or-package
+    combined_fragment
+    component
+    composition
+    containment
+    cursor-accept_signal
+    cursor-accept_time_event
+    cursor-activity-fork
+    cursor-actor
+    cursor-aggregation
+    cursor-anchor
+    cursor-andline
+    cursor-artifact
+    cursor-association
+    cursor-box
+    cursor-branch
+    cursor-category
+    cursor-category2parent
+    cursor-child2category
+    cursor-choice-rhomb
+    cursor-choice-round
+    cursor-class
+    cursor-combined_fragment
+    cursor-component
+    cursor-composition
+    cursor-containment
+    cursor-datatype
+    cursor-deep-history
+    cursor-dependency
+    cursor-end_of_life
+    cursor-end_state
+    cursor-entity
+    cursor-enum
+    cursor-exception
+    cursor-final_activity
+    cursor-generalisation
+    cursor-initial_state
+    cursor-interface
+    cursor-join
+    cursor-junction
+    cursor-node
+    cursor-note
+    cursor-object
+    cursor-object_node
+    cursor-package
+    cursor-pin
+    cursor-precondition
+    cursor-PrePostCondition
+    cursor-region
+    cursor-relationship
+    cursor-send_signal
+    cursor-shallow-history
+    cursor-state-fork
+    cursor-text
+    cursor-umbr-coll-message-asynchronous
+    cursor-umbr-coll-message-synchronous
+    cursor-umbr-message-asynchronous
+    cursor-umbr-message-found
+    cursor-umbr-message-lost
+    cursor-umbr-message-synchronous
+    cursor-uniassociation
+    cursor-usecase
+    CVglobal_meth
+    CVglobal_var
+    CVimplementation_meth
+    CVimplementation_signal
+    CVimplementation_slot
+    CVimplementation_var
+    CVnamespace
+    CVprivate_meth
+    CVprivate_signal
+    CVprivate_slot
+    CVprivate_var
+    CVprotected_meth
+    CVprotected_signal
+    CVprotected_slot
+    CVprotected_var
+    CVpublic_meth
+    CVpublic_signal
+    CVpublic_slot
+    CVpublic_var
+    CVstruct
+    datatype
+    deep-history
+    dependency
+    distribute-horizontal
+    distribute-vertical
+    end_of_life
+    end_state
+    entity
+    enum
+    exception
+    final_activity
+    foreignkey_constraint
+    generalisation
+    initial_state
+    interface
+    join
+    junction
+    node
+    note
+    object
+    object_node
+    package
+    pin
+    port
+    precondition
+    PrePostCondition
+    primarykey_constraint
+    refactor
+    region
+    relationship
+    send_signal
+    shallow-history
+    startlogo
+    state-fork
+    subsystem
+    template
+    text
+    umbr-coll-message-asynchronous
+    umbr-coll-message-synchronous
+    umbr-message-asynchronous
+    umbr-message-found
+    umbr-message-lost
+    umbr-message-synchronous
+    uniassociation
+    unique_constraint
+    usecase
 )
+
+foreach(i ${ALL_ICONS})
+    install(FILES ${i}.png DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics)
+endforeach()
+
 if(NOT BUILD_KF5)
     kde4_install_icons(${DATA_INSTALL_DIR}/umbrello/icons)
 else()
