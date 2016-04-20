@@ -55,24 +55,25 @@ set(ICONS
     datatype
     deep-history
     dependency
-    diag_activity
-    diagbase
-    diag_class
-    diag_collaboration
-    diag_component
-    diag_deployment
-    diag_entityrelationship
-    diag_sequence
-    diag_state
-    diag_usecase
+    #unused
+    #diag_activity
+    #diagbase
+    #diag_class
+    #diag_collaboration
+    #diag_component
+    #diag_deployment
+    #diag_entityrelationship
+    #diag_sequence
+    #diag_state
+    #diag_usecase
     distribute-horizontal
     distribute-vertical
     end_state
     entity
     enum
     foreignkey_constraint
-    generalise
-    initial
+    #generalise
+    #initial
     interface
     join
     junction
@@ -125,7 +126,6 @@ set(CURSOR_ICONS
     datatype
     deep-history
     dependency
-    end_of_life
     end_state
     entity
     enum
