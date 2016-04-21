@@ -6,8 +6,8 @@ set (KDE_APPLICATIONS_VERSION_MINOR "07")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
-set(UMBRELLO_VERSION_MINOR "19")
-set(UMBRELLO_VERSION_PATCH "99")
+MATH(EXPR UMBRELLO_VERSION_MINOR "15+${KDE_APPLICATIONS_VERSION_MINOR}")
+set(UMBRELLO_VERSION_PATCH ${KDE_APPLICATIONS_VERSION_MICRO})
 
 option(BUILD_ICONS "Create icons from svg source" OFF)
 
@@ -117,7 +117,7 @@ else()
     list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
     include(KDEInstallDirs)
-    include(KDECompilerSettings)
+    include(KDECompilerSettings NO_POLICY_SCOPE)
     include(KDECMakeSettings)
     include(FeatureSummary)
     include(ECMInstallIcons)
