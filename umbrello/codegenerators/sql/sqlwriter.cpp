@@ -613,7 +613,7 @@ void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemLis
         sql << "ALTER TABLE " << cleanName(m_pEntity->name())
             <<" ADD CONSTRAINT " << cleanName(chConstr->name())
             <<" CHECK (" << chConstr->getCheckCondition()
-            <<")";
+            <<");";
 
         sql << m_endl;
    }
