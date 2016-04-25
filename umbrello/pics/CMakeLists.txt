@@ -1,59 +1,184 @@
 
 add_subdirectory(global)
 
-install(FILES actor.png  aggregation.png
-        align-horizontal-left.png  align-horizontal-right.png
-        align-vertical-top.png  align-vertical-bottom.png
-        align-vertical-center.png  align-horizontal-center.png
-        distribute-vertical.png  distribute-horizontal.png
-        anchor.png  andline.png  arrow.png  association.png
-        choice-rhomb.png  choice-round.png  combined_fragment.png
-        component.png  region.png  composition.png  containment.png
-        CVglobal_meth.png  CVglobal_var.png  CVimplementation_meth.png
-        CVimplementation_signal.png  CVimplementation_slot.png  CVimplementation_var.png
-        CVnamespace.png  CVprivate_meth.png  CVprivate_signal.png
-        CVprivate_slot.png  CVprivate_var.png  CVprotected_meth.png
-        CVprotected_signal.png  CVprotected_slot.png  CVprotected_var.png
-        CVpublic_meth.png  CVpublic_signal.png  CVpublic_slot.png
-        CVpublic_var.png  CVstruct.png
-        deep-history.png  shallow-history.png
-        dependency.png  final_activity.png  end_state.png  generalisation.png
-        initial_state.png  interface.png  join.png  junction.png  datatype.png  enum.png
-        umbr-coll-message-synchronous.png  umbr-coll-message-asynchronous.png
-        umbr-message-synchronous.png  umbr-message-asynchronous.png
-        note.png pin.png object_node.png object.png
-        startlogo.png  template.png  text.png  refactor.png
-        class.png class-or-package.png uniassociation.png  usecase.png
-        category.png child2category.png category2parent.png branch.png
-        activity-fork.png  state-fork.png  package.png  artifact.png
-        box.png  node.png  port.png  entity.png  relationship.png
-        subsystem.png foreignkey_constraint.png unique_constraint.png
-        primarykey_constraint.png check_constraint.png
-        cursor-actor.png  umbr-message-found.png  accept_signal.png
-        accept_time_event.png  send_signal.png  cursor-andline.png
-        cursor-choice-rhomb.png  cursor-choice-round.png  cursor-combined_fragment.png
-        cursor-deep-history.png  cursor-join.png  cursor-junction.png
-        cursor-category.png cursor-child2category.png cursor-category2parent.png
-        cursor-shallow-history.png  cursor-state-fork.png  cursor-usecase.png
-        cursor-initial_state.png  cursor-package.png  cursor-aggregation.png
-        cursor-component.png  cursor-containment.png  cursor-interface.png
-        cursor-datatype.png  cursor-enum.png  cursor-text.png
-        cursor-anchor.png cursor-pin.png cursor-composition.png
-        cursor-umbr-coll-message-synchronous.png  cursor-umbr-coll-message-asynchronous.png
-        cursor-umbr-message-synchronous.png  cursor-umbr-message-asynchronous.png
-        cursor-class.png  cursor-artifact.png cursor-dependency.png  cursor-uniassociation.png
-        cursor-association.png  cursor-end_state.png  cursor-final_activity.png
-        cursor-node.png  cursor-box.png  cursor-activity-fork.png
-        cursor-note.png  cursor-branch.png  cursor-generalisation.png
-        cursor-object.png  cursor-entity.png  cursor-relationship.png
-        precondition.png  cursor-precondition.png  cursor-send_signal.png
-        cursor-accept_signal.png  cursor-accept_time_event.png  cursor-region.png
-        cursor-umbr-message-found.png  umbr-message-lost.png  cursor-umbr-message-lost.png
-        end_of_life.png  cursor-end_of_life.png  exception.png
-        cursor-exception.png cursor-object_node.png
-        cursor-PrePostCondition.png PrePostCondition.png
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics
+set(ICONS
+    accept_signal
+    accept_time_event
+    activity-fork
+    actor
+    aggregation
+    align-horizontal-center
+    align-horizontal-left
+    align-horizontal-right
+    align-vertical-bottom
+    align-vertical-center
+    align-vertical-top
+    anchor
+    andline
+    arrow
+    artifact
+    association
+    box
+    branch
+    category
+    category2parent
+    check_constraint
+    child2category
+    choice-rhomb
+    choice-round
+    class
+    class-or-package
+    combined_fragment
+    component
+    composition
+    containment
+    CVglobal_meth
+    CVglobal_var
+    CVimplementation_meth
+    CVimplementation_signal
+    CVimplementation_slot
+    CVimplementation_var
+    CVnamespace
+    CVprivate_meth
+    CVprivate_signal
+    CVprivate_slot
+    CVprivate_var
+    CVprotected_meth
+    CVprotected_signal
+    CVprotected_slot
+    CVprotected_var
+    CVpublic_meth
+    CVpublic_signal
+    CVpublic_slot
+    CVpublic_var
+    CVstruct
+    datatype
+    deep-history
+    dependency
+    #unused
+    #diag_activity
+    #diagbase
+    #diag_class
+    #diag_collaboration
+    #diag_component
+    #diag_deployment
+    #diag_entityrelationship
+    #diag_sequence
+    #diag_state
+    #diag_usecase
+    distribute-horizontal
+    distribute-vertical
+    end_state
+    entity
+    enum
+    foreignkey_constraint
+    #generalise
+    #initial
+    interface
+    join
+    junction
+    node
+    note
+    object
+    package
+    port
+    primarykey_constraint
+    realization
+    refactor
+    relationship
+    send_signal
+    shallow-history
+    state-fork
+    subsystem
+    template
+    text
+    umbr-coll-message-asynchronous
+    umbr-coll-message-synchronous
+    umbr-message-asynchronous
+    umbr-message-synchronous
+    uniassociation
+    unique_constraint
+    usecase
 )
+
+set(CURSOR_ICONS
+    accept_signal
+    accept_time_event
+    activity-fork
+    actor
+    aggregation
+    anchor
+    andline
+    artifact
+    association
+    box
+    branch
+    category2parent
+    category
+    child2category
+    choice-rhomb
+    choice-round
+    class
+    combined_fragment
+    component
+    composition
+    containment
+    datatype
+    deep-history
+    dependency
+    end_state
+    entity
+    enum
+    exception
+    final_activity
+    generalisation
+    initial_state
+    interface
+    join
+    junction
+    node
+    note
+    object_node
+    object
+    package
+    pin
+    precondition
+    PrePostCondition
+    region
+    relationship
+    send_signal
+    shallow-history
+    state-fork
+    text
+    umbr-coll-message-asynchronous
+    umbr-coll-message-synchronous
+    umbr-message-asynchronous
+    umbr-message-found
+    umbr-message-lost
+    umbr-message-synchronous
+    uniassociation
+    usecase
+)
+
+if(BUILD_ICONS)
+    generate_icons("${ICONS}" 22)
+    # for visual inspecting
+    #generate_icons("${ICONS}" 128)
+endif()
+
+foreach(i ${ICONS})
+    install(FILES ${i}.png DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics)
+endforeach()
+
+if(BUILD_CURSOR_ICONS)
+    generate_cursor_icons("${CURSOR_ICONS}" 32)
+endif()
+
+
+foreach(i ${CURSOR_ICONS})
+    install(FILES cursor-${i}.png DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics)
+endforeach()
+
 if(NOT BUILD_KF5)
     kde4_install_icons(${DATA_INSTALL_DIR}/umbrello/icons)
 else()

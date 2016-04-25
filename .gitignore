@@ -2,7 +2,6 @@
 CMakeCache.txt
 CMakeLists.txt.user
 CTestTestfile.cmake
-*.cmake
 CMakeFiles/
 CMakeTmp/
 Makefile
