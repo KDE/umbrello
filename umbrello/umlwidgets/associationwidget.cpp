@@ -2130,9 +2130,9 @@ void AssociationWidget::updatePointsException()
     p1.setX(xmil + (xfin - xmil)*1/2); p1.setY(ymil + (yfin - ymil)*1/3);
     p2.setX(xmil - (xmil - xdeb)*1/2); p2.setY(ymil - (ymil - ydeb)*1/3);
 
-    if (abs(p1.x() - p2.x()) <= 10)
+    if (fabs(p1.x() - p2.x()) <= 10)
         ESPACEX = 15;
-    if (abs(p1.y() - p2.y()) <= 10)
+    if (fabs(p1.y() - p2.y()) <= 10)
         ESPACEY = 15;
 
     m_associationLine->setEndPoints(QPointF(xdeb, ydeb), QPointF(xfin, yfin));
@@ -2700,8 +2700,8 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
         r = textWidth;
     // swap textCenter{X,Y} to convert from Qt coord.system.
     const QPointF origTextCenter(textCenterY, textCenterX);
-    const int relX = abs(origTextCenter.x() - midP.x());
-    const int relY = abs(origTextCenter.y() - midP.y());
+    const int relX = fabs(origTextCenter.x() - midP.x());
+    const int relY = fabs(origTextCenter.y() - midP.y());
     const double negativeWhenInsideCircle = relX * relX + relY * relY - r * r;
     if (negativeWhenInsideCircle <= 0.0) {
         return;
