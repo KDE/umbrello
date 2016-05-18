@@ -19,6 +19,7 @@
 #include "operation.h"
 #include "umldoc.h"
 
+#include <iostream>
 #include <QRegExp>
 #include <QTextStream>
 
@@ -1708,6 +1709,7 @@ static const char *reserved_words[] = {
     "mysql_thread_id",
     "mysql_unbuffered_query",
     "name",
+    "namespace",
     "natcasesort",
     "natsort",
     "ncurses_addch",
@@ -2178,6 +2180,7 @@ static const char *reserved_words[] = {
     "pdf_stringwidth",
     "pdf_stroke",
     "pdf_translate",
+    "PDO",
     "PEAR_EXTENSION_DIR",
     "PEAR_INSTALL_DIR",
     "pfpro_cleanup",
@@ -2832,6 +2835,7 @@ static const char *reserved_words[] = {
     "unset",
     "urldecode",
     "urlencode",
+    "use",
     "user",
     "user_error",
     "userlist",
@@ -3022,21 +3026,44 @@ void Php5Writer::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".php"));
+
+    QString name;
+    QString package = c->package(QLatin1String("\\"));
+    package = package.simplified();
+    package.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
+
     if (!str.isEmpty()) {
         str.replace(QRegExp(QLatin1String("%filename%")), fileName);
         str.replace(QRegExp(QLatin1String("%filepath%")), filephp.fileName());
         php<<str<<m_endl;
     } else {
         php << "<?php" << m_endl;
+        php << "namespace " << package << ";" << m_endl << m_endl;
     }
 
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     foreach(UMLPackage* conc, includes) {
+        //QString headerName = findFileName(conc, QLatin1String(".php"));
         QString headerName = findFileName(conc, QLatin1String(".php"));
         if (!headerName.isEmpty()) {
-            php << "require_once '" << headerName << "';" << m_endl;
+            //php << "require_once '" << headerName << "';" << m_endl;
+            headerName.replace(QLatin1String("/"), QLatin1String("\\"));
+            headerName.replace(QLatin1String(".php"), QLatin1String(""));
+
+            QList<QString> tipos;
+            tipos.append(QLatin1String("int"));
+            tipos.append(QLatin1String("bool"));
+            tipos.append(QLatin1String("array"));
+
+            if ( tipos.indexOf( headerName ) == -1 ) {
+
+                php << "use \\" << headerName << ";" << m_endl;
+
+            } else {
+                uWarning() << "não printou int";
+            }
         }
     }
     php << m_endl;
@@ -3450,6 +3477,3 @@ QStringList Php5Writer::reservedKeywords() const
 
     return keywords;
 }
-
-
-
