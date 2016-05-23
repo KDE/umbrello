@@ -462,8 +462,8 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    setCodeVerboseSectionComments(UmbrelloSettings::forceDoc());
-    setCodeVerboseDocumentComments(UmbrelloSettings::forceSections());
+    setCodeVerboseSectionComments(UmbrelloSettings::forceSections());
+    setCodeVerboseDocumentComments(UmbrelloSettings::forceDoc());
     setLineEndingType(UmbrelloSettings::lineEndingType());
     setIndentationType(UmbrelloSettings::indentationType());
     setIndentationAmount(UmbrelloSettings::indentationAmount());
