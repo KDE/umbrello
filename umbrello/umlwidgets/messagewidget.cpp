@@ -1035,7 +1035,6 @@ void MessageWidget::calculateDimensionsSynchronous()
     int x2 = m_pOw[Uml::RoleType::B]->centerX();
 
     int widgetWidth = 0;
-    int widgetHeight = 0;
     if(isSelf()) {
         widgetWidth = 50;
         x = x1 - 2;
@@ -1047,8 +1046,10 @@ void MessageWidget::calculateDimensionsSynchronous()
         widgetWidth = x1 - x2 + 8;
     }
 
-    if (height() < 20) {
-        widgetHeight = 20;
+    QSizeF minSize = minimumSize();
+    int widgetHeight = 0;
+    if (height() < minSize.height()) {
+        widgetHeight = minSize.height();
     } else {
         widgetHeight = height();
     }
@@ -1068,15 +1069,9 @@ void MessageWidget::calculateDimensionsAsynchronous()
     int x2 = m_pOw[Uml::RoleType::B]->centerX();
 
     int widgetWidth = 0;
-    int widgetHeight = 8;
     if(isSelf()) {
         widgetWidth = 50;
         x = x1;
-        if(height() < 20) {
-            widgetHeight = 20;
-        } else {
-            widgetHeight = height();
-        }
     } else if(x1 < x2) {
         x = x1;
         widgetWidth = x2 - x1;
@@ -1086,6 +1081,15 @@ void MessageWidget::calculateDimensionsAsynchronous()
     }
     x += 1;
     widgetWidth -= 2;
+
+    QSizeF minSize = minimumSize();
+    int widgetHeight = 0;
+    if (height() < minSize.height()) {
+        widgetHeight = minSize.height();
+    } else {
+        widgetHeight = height();
+    }
+
     setX(x);
     setSize(widgetWidth, widgetHeight);
 }
@@ -1105,7 +1109,6 @@ void MessageWidget::calculateDimensionsCreation()
         x2 += w2;
 
     int widgetWidth = 0;
-    int widgetHeight = 8;
     if (x1 < x2) {
         x = x1;
         widgetWidth = x2 - x1;
@@ -1115,6 +1118,9 @@ void MessageWidget::calculateDimensionsCreation()
     }
     x += 1;
     widgetWidth -= 2;
+
+    int widgetHeight = minimumSize().height();
+
     setPos(x, m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
     setSize(widgetWidth, widgetHeight);
 }
@@ -1130,7 +1136,6 @@ void MessageWidget::calculateDimensionsLost()
     int x2 = m_xclicked;
 
     int widgetWidth = 0;
-    int widgetHeight = 10;
     if(x1 < x2) {
         x = x1;
         widgetWidth = x2 - x1 + circleWidth/2;
@@ -1138,6 +1143,9 @@ void MessageWidget::calculateDimensionsLost()
         x = x2 - circleWidth/2;
         widgetWidth = x1 - x2 + circleWidth/2;
     }
+
+    int widgetHeight = minimumSize().height();
+
     setX(x);
     setSize(widgetWidth, widgetHeight);
 }
@@ -1153,7 +1161,6 @@ void MessageWidget::calculateDimensionsFound()
     int x2 = m_xclicked;
 
     int widgetWidth = 0;
-    int widgetHeight = 10;
     if(x1 < x2) {
         x = x1;
         widgetWidth = x2 - x1 + circleWidth/2;
@@ -1161,6 +1168,8 @@ void MessageWidget::calculateDimensionsFound()
         x = x2 - circleWidth/2;
         widgetWidth = x1 - x2 + circleWidth/2;
     }
+
+    int widgetHeight = minimumSize().height();
 
     setX(x);
     setSize(widgetWidth, widgetHeight);
