@@ -13,10 +13,10 @@
 #define UMLWIDGETLIST_H
 
 #include <QList>
-
+#include <QPointer>
 class UMLWidget;
 
-typedef QList<UMLWidget*> UMLWidgetList;
-typedef QListIterator<UMLWidget*> UMLWidgetListIt;
+typedef QList<QPointer<UMLWidget>> UMLWidgetList;
+typedef QListIterator<QPointer<UMLWidget>> UMLWidgetListIt;
 
 #endif
