@@ -20,6 +20,7 @@
 #include "template.h"
 #include "listpopupmenu.h"
 #include "umlattributelist.h"
+#include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "classifierlistitem.h"
 #include "documentationwidget.h"
@@ -96,12 +97,8 @@ void UMLOperationDialog::setupDialog()
                                     m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_operation->name());
 
-    m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB);
-    genLayout->addWidget(m_pRtypeL, 0, 2);
-
-    m_pRtypeCB = new KComboBox(true, m_pGenGB);
-    genLayout->addWidget(m_pRtypeCB, 0, 3);
-    m_pRtypeL->setBuddy(m_pRtypeCB);
+    m_datatypeWidget = new UMLDatatypeWidget(m_operation);
+    m_datatypeWidget->addToLayout(genLayout, 0, 2);
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
     m_stereotypeWidget->addToLayout(genLayout, 1);
@@ -176,13 +173,6 @@ void UMLOperationDialog::setupDialog()
     m_pPropertiesButton->setEnabled(false);
     m_pUpButton->setEnabled(false);
     m_pDownButton->setEnabled(false);
-
-    m_pRtypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_pRtypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    // add the return types
-    insertTypesSorted(m_operation->getTypeName());
 
     // fill in parm list box
     UMLAttributeList list = m_operation->getParmList();
@@ -425,7 +415,7 @@ bool UMLOperationDialog::apply()
 
     m_visibilityEnumWidget->apply();
 
-    QString typeName = m_pRtypeCB->currentText();
+    QString typeName = m_datatypeWidget->currentText();
     UMLTemplate *tmplParam = 0;
     if (classifier) {
         tmplParam = classifier->findTemplate(typeName);
@@ -456,47 +446,4 @@ bool UMLOperationDialog::apply()
     return true;
 }
 
-/**
- * Inserts @p type into the type-combobox.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add and selected
- */
-void UMLOperationDialog::insertTypesSorted(const QString& type)
-{
-    QStringList types;
-    // Add "void". We use this for denoting "no return type" independent
-    // of the programming language.
-    // For example, the Ada generator would interpret the return type
-    // "void" as an instruction to generate a procedure instead of a
-    // function.
-    types << QLatin1String("void");
-    // add template parameters
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
-    if (classifier) {
-        UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
-        foreach (UMLClassifierListItem* li, tmplParams) {
-            types << li->name();
-        }
-    }
-    // add the Classes and Interfaces (both are Concepts)
-    UMLClassifierList namesList(m_doc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-         types << obj->fullyQualifiedName();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pRtypeCB->clear();
-    m_pRtypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pRtypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pRtypeCB->setCurrentIndex(currentIndex);
-    }
-}
 

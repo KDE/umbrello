@@ -235,6 +235,7 @@ set(libdialogs_SRCS
     dialogs/widgets/imagetypewidget.cpp
     dialogs/widgets/resolutionwidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
+    dialogs/widgets/umldatatypewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp
     dialogs/widgets/umlstereotypewidget.cpp

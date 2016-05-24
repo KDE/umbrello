@@ -19,9 +19,8 @@ class QGroupBox;
 class QRadioButton;
 class QLabel;
 class UMLAttribute;
-class UMLStereotypeWidget;
-class KComboBox;
 class KLineEdit;
+class UMLDatatypeWidget;
 class UMLStereotypeWidget;
 class VisibilityEnumWidget;
 
@@ -37,12 +36,8 @@ public:
     ~UMLAttributeDialog();
 
 protected:
-
     void setupDialog();
-
     bool apply();
-
-    void insertTypesSorted(const QString& type = QString());
 
     /**
      *   The Attribute to represent
@@ -51,10 +46,10 @@ protected:
 
     //GUI Widgets
     QGroupBox * m_pValuesGB;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
-    KComboBox * m_pTypeCB;
+    QLabel * m_pNameL, * m_pInitialL;
     KLineEdit * m_pNameLE, * m_pInitialLE;
     QCheckBox* m_pStaticCB;
+    UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
     DocumentationWidget *m_docWidget;
