@@ -32,7 +32,6 @@
 #include <QCommandLineParser>
 #endif
 
-#include <unistd.h>
 #include <stdio.h>
 
 #if QT_VERSION >= 0x050000
