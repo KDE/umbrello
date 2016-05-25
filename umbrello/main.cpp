@@ -113,13 +113,13 @@ int main(int argc, char *argv[])
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."),
                          KAboutLicense::GPL,
-                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2014 Umbrello UML Modeller Authors"),
+                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2016 Umbrello UML Modeller Authors"),
                          QString(),
                          QStringLiteral("http://umbrello.kde.org"));
 #else
     KAboutData aboutData("umbrello", 0, ki18n("Umbrello UML Modeller"),
                           umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
-                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2015 Umbrello UML Modeller Authors"), KLocalizedString(),
+                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2016 Umbrello UML Modeller Authors"), KLocalizedString(),
                           "http://umbrello.kde.org/");
 #endif
     aboutData.addAuthor(ki18n("Paul Hensgen"), ki18n("Author of initial version."), StringLiteral("phensgen@users.sourceforge.net"));
