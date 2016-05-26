@@ -21,7 +21,7 @@
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "visibilityenumwidget.h"
-#include "umltypemodifiers.h"
+#include "umltypequalifiers.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "import_utils.h"
@@ -93,8 +93,8 @@ void UMLAttributeDialog::setupDialog()
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
     m_visibilityEnumWidget->addToLayout(mainLayout);
 
-    m_typeModifiersWidget = new UmlTypeModifiers(this);
-    m_typeModifiersWidget->addToLayout(mainLayout);
+    m_typeQualifiersWidget = new UmlTypeQualifiers(this);
+    m_typeQualifiersWidget->addToLayout(mainLayout);
 
     m_docWidget = new DocumentationWidget(m_pAttribute, this);
     mainLayout->addWidget(m_docWidget);

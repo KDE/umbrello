@@ -1,5 +1,5 @@
-#ifndef UMLTYPEMODIFIERS_H
-#define UMLTYPEMODIFIERS_H
+#ifndef UMLTYPEQUALIFIERS_H
+#define UMLTYPEQUALIFIERS_H
 
 #include "basictypes.h"
 
@@ -7,16 +7,16 @@
 #include <QMap>
 
 
-class UmlTypeModifiers : public QWidget
+class UmlTypeQualifiers : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UmlTypeModifiers(QWidget *parent = 0);
+    explicit UmlTypeQualifiers(QWidget *parent = 0);
 
     void addToLayout(QVBoxLayout *layout);
 
-    typedef QMap<Uml::TypeModifiers::Enum,QString> TextMap;
-    typedef QMap<Uml::TypeModifiers::Enum,QRadioButton*> ButtonMap;
+    typedef QMap<Uml::TypeQualifiers::Enum,QString> TextMap;
+    typedef QMap<Uml::TypeQualifiers::Enum,QRadioButton*> ButtonMap;
 
 private:
     void init(const QString &title);
@@ -27,4 +27,4 @@ private:
 
 };
 
-#endif // UMLTYPEMODIFIERS_H
+#endif // UMLTYPEQUALIFIERS_H

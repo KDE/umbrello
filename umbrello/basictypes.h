@@ -68,7 +68,7 @@ namespace Uml
         Enum fromInt(int item);
     }
 
-    namespace TypeModifiers {
+    namespace TypeQualifiers {
 
         enum Enum{
             Const,
