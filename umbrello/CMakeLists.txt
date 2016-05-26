@@ -240,7 +240,7 @@ set(libdialogs_SRCS
     dialogs/widgets/umlpackagewidget.cpp
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/visibilityenumwidget.cpp
-    dialogs/widgets/umltypemodifiers.cpp
+    dialogs/widgets/umltypequalifiers.cpp
 )
 
 ki18n_wrap_ui(  libdialogs_SRCS
