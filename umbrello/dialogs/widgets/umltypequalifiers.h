@@ -6,14 +6,16 @@
 #include <QtWidgets>
 #include <QMap>
 
+class UMLObject;
 
 class UmlTypeQualifiers : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UmlTypeQualifiers(QWidget *parent = 0);
+    explicit UmlTypeQualifiers(UMLObject *o, QWidget *parent = 0);
 
-    void addToLayout(QVBoxLayout *layout);
+    void addToLayout(QGridLayout *layout,int row);
+    void apply();
 
     typedef QMap<Uml::TypeQualifiers::Enum,QString> TextMap;
     typedef QMap<Uml::TypeQualifiers::Enum,QRadioButton*> ButtonMap;
@@ -22,8 +24,11 @@ private:
     void init(const QString &title);
 
     TextMap m_texts;
-    QGroupBox *m_box;
+    QHBoxLayout *m_box;
     ButtonMap m_buttons;
+    UMLObject *m_object;
+    Uml::RoleType::Enum m_role;
+    QLabel *m_label;
 
 };
 
