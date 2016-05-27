@@ -328,6 +328,7 @@ set(libcmds_SRCS
     cmds/cmd_removeDiagram.cpp
     cmds/cmd_setStereotype.cpp
     cmds/cmd_setVisibility.cpp
+    cmds/cmd_setQualifier.cpp
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_removeUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
