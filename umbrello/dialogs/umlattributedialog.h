@@ -50,6 +50,7 @@ protected:
     QLabel * m_pNameL, * m_pInitialL;
     KLineEdit * m_pNameLE, * m_pInitialLE;
     QCheckBox* m_pStaticCB;
+    QLabel *m_pStaticLb;
     UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
