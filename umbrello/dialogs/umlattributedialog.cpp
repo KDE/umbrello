@@ -85,16 +85,21 @@ void UMLAttributeDialog::setupDialog()
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAttribute);
     m_stereotypeWidget->addToLayout(valuesLayout, 3);
 
-    m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pValuesGB);
+    m_typeQualifiersWidget = new UmlTypeQualifiers(m_pAttribute, this);
+    m_typeQualifiersWidget->addToLayout(valuesLayout,4);
+
+    m_pStaticLb = new QLabel(i18n("Classifier &scope (\"static\")"));
+    valuesLayout->addWidget(m_pStaticLb,5,0);
+
+    m_pStaticCB = new QCheckBox(QString(), m_pValuesGB);
     m_pStaticCB->setChecked(m_pAttribute->isStatic());
-    valuesLayout->addWidget(m_pStaticCB, 4, 0);
+    m_pStaticLb->setBuddy(m_pStaticCB);
+    valuesLayout->addWidget(m_pStaticCB, 5, 1);
+
 
     mainLayout->addWidget(m_pValuesGB);
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
     m_visibilityEnumWidget->addToLayout(mainLayout);
-
-    m_typeQualifiersWidget = new UmlTypeQualifiers(this);
-    m_typeQualifiersWidget->addToLayout(mainLayout);
 
     m_docWidget = new DocumentationWidget(m_pAttribute, this);
     mainLayout->addWidget(m_docWidget);
