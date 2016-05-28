@@ -48,6 +48,7 @@ protected:
     void init();
     bool applyAttribute();
     bool applyOperation();
+    bool applyParameter();
     void insertTypesSortedAttribute(const QString &type);
     void insertTypesSortedEntityAttribute(const QString &type);
     void insertTypesSortedOperation(const QString &type);

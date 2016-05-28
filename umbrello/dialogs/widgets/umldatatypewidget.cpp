@@ -126,6 +126,8 @@ bool UMLDatatypeWidget::apply()
         return applyAttribute();
     else if (m_operation)
         return applyOperation();
+    else if (m_attribute)
+        return applyParameter();
     return false;
 }
 
@@ -188,6 +190,43 @@ bool UMLDatatypeWidget::applyOperation()
         m_operation->setType(tmplParam);
     else
         m_operation->setTypeName(typeName);
+    return true;
+}
+
+bool UMLDatatypeWidget::applyParameter()
+{
+    // set the type name
+    QString typeName = currentText();
+    UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    if (pConcept == NULL) {
+        uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
+    } else {
+        UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+        if (tmplParam) {
+            m_attribute->setType(tmplParam);
+            return true;
+        }
+    }
+    UMLDoc * uDoc = UMLApp::app()->document();
+    UMLClassifierList namesList(uDoc->concepts());
+    bool matchFound = false;
+
+    foreach (UMLClassifier* obj, namesList) {
+        if (obj->fullyQualifiedName() == typeName) {
+            m_attribute->setType(obj);
+            matchFound = true;
+            break;
+        }
+    }
+    if (!matchFound) {
+        // Nothing found: Create a new type on the fly.
+        // @todo There should be an extra dialog to decide whether to
+        // create a datatype or a class. For now, we create a class.
+        uDebug() << typeName << " not found."
+            << " Creating a new class for the type.";
+        UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
+        m_attribute->setType(newObj);
+    }
     return true;
 }
 

@@ -186,39 +186,7 @@ bool ParameterPropertiesDialog::apply()
         m_pAtt->setName(getName());         // set the name
         m_pAtt->setParmKind(getParmKind());  // set the direction
         m_stereotypeWidget->apply();
-
-        // set the type name
-        QString typeName = m_datatypeWidget->currentText();
-        UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
-        if (pConcept == NULL) {
-            uError() << "grandparent of " << m_pAtt->name() << " is not a UMLClassifier";
-        } else {
-            UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
-            if (tmplParam) {
-                m_pAtt->setType(tmplParam);
-                return true;
-            }
-        }
-        UMLClassifierList namesList(m_pUmldoc->concepts());
-        bool matchFound = false;
-
-        foreach (UMLClassifier* obj, namesList) {
-            if (obj->fullyQualifiedName() == typeName) {
-                m_pAtt->setType(obj);
-                matchFound = true;
-                break;
-            }
-        }
-        if (!matchFound) {
-            // Nothing found: Create a new type on the fly.
-            // @todo There should be an extra dialog to decide whether to
-            // create a datatype or a class. For now, we create a class.
-            uDebug() << typeName << " not found."
-                << " Creating a new class for the type.";
-            UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
-            m_pAtt->setType(newObj);
-        }
-
+        m_datatypeWidget->apply();
         m_docWidget->apply();
         m_pAtt->setInitialValue(getInitialValue()); // set the initial value
     }
