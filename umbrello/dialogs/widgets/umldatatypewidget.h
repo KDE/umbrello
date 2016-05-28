@@ -20,6 +20,7 @@ class UMLAttribute;
 class UMLEntityAttribute;
 class UMLClassifierListItem;
 class UMLOperation;
+class UMLTemplate;
 
 class UMLDatatypeWidget : public QWidget
 {
@@ -28,6 +29,7 @@ public:
     UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
     UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent=0);
     UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
+    UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent=0);
     ~UMLDatatypeWidget();
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
@@ -42,11 +44,13 @@ protected:
     UMLClassifierListItem *m_datatype;
     UMLEntityAttribute *m_entityAttribute;
     UMLOperation *m_operation;
+    UMLTemplate *m_template;
     void init();
     void insertTypesSortedAttribute(const QString &type);
     void insertTypesSortedEntityAttribute(const QString &type);
     void insertTypesSortedOperation(const QString &type);
     void insertTypesSortedParameter(const QString &type);
+    void insertTypesSortedTemplate(const QString &type);
 };
 
 #endif

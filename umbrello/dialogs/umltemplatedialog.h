@@ -19,6 +19,7 @@ class KLineEdit;
 class QGroupBox;
 class QLabel;
 class UMLTemplate;
+class UMLDatatypeWidget;
 class UMLStereotypeWidget;
 
 /**
@@ -47,9 +48,9 @@ protected:
 
     // GUI Widgets
     QGroupBox *m_pValuesGB;
-    QLabel *m_pTypeL, *m_pNameL;
-    KComboBox *m_pTypeCB;
+    QLabel *m_pNameL;
     KLineEdit *m_pNameLE;
+    UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
     DocumentationWidget *m_docWidget;
 

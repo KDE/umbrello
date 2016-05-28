@@ -33,7 +33,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
     m_attribute(attribute),
     m_datatype(0),
     m_entityAttribute(0),
-    m_operation(0)
+    m_operation(0),
+    m_template(0)
 {
     init();
 }
@@ -43,7 +44,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
     m_attribute(0),
     m_datatype(datatype),
     m_entityAttribute(0),
-    m_operation(0)
+    m_operation(0),
+    m_template(0)
 {
     init();
 }
@@ -53,7 +55,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidge
      m_attribute(0),
      m_datatype(0),
      m_entityAttribute(entityAttribute),
-     m_operation(0)
+     m_operation(0),
+     m_template(0)
 {
     init();
 }
@@ -63,7 +66,19 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
     m_attribute(0),
     m_datatype(0),
     m_entityAttribute(0),
-    m_operation(operation)
+    m_operation(operation),
+    m_template(0)
+{
+    init();
+}
+
+UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
+ :  QWidget(parent),
+    m_attribute(0),
+    m_datatype(0),
+    m_entityAttribute(0),
+    m_operation(0),
+    m_template(_template)
 {
     init();
 }
@@ -90,6 +105,8 @@ void UMLDatatypeWidget::init()
         insertTypesSortedParameter(m_attribute->getTypeName());
     else if (m_entityAttribute)
         insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
+    else if (m_template)
+        insertTypesSortedTemplate(m_template->getTypeName());
     else if (m_datatype)
         insertTypesSortedAttribute(m_datatype->getTypeName());
     setLayout(layout);
@@ -236,6 +253,39 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
     UMLClassifierList namesList(uDoc->concepts());
     foreach(UMLClassifier* obj, namesList) {
         types << obj->fullyQualifiedName();
+    }
+    // add the given parameter
+    if (!types.contains(type)) {
+        types << type;
+    }
+    types.sort();
+
+    m_comboBox->clear();
+    m_comboBox->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_comboBox->findText(type);
+    if (currentIndex > -1) {
+        m_comboBox->setCurrentIndex(currentIndex);
+    }
+}
+
+/**
+ * Inserts @p type into the type-combobox.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
+void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
+{
+    QStringList types;
+    // "class" is the nominal type of template parameter
+    types << QLatin1String("class");
+    // add the active data types to combo box
+    UMLDoc *pDoc = UMLApp::app()->document();
+    UMLClassifierList namesList(pDoc->concepts());
+    foreach (UMLClassifier* obj, namesList) {
+        types << obj->name();
     }
     // add the given parameter
     if (!types.contains(type)) {
