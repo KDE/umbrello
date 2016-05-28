@@ -14,6 +14,8 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "entityattribute.h"
+#include "import_utils.h"
+#include "object_factory.h"
 #include "operation.h"
 #include "template.h"
 #include "uml.h"
@@ -117,6 +119,61 @@ UMLDatatypeWidget::~UMLDatatypeWidget()
     delete m_comboBox;
     delete m_label;
 }
+
+bool UMLDatatypeWidget::apply()
+{
+    if (m_datatype)
+        return applyAttribute();
+    return false;
+}
+
+bool UMLDatatypeWidget::applyAttribute()
+{
+    QString typeName = currentText();
+    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+    if (tmplParam) {
+        m_datatype->setType(tmplParam);
+        return true;
+    }
+    UMLDoc * pDoc = UMLApp::app()->document();
+
+    UMLObject *obj = 0;
+    if (!typeName.isEmpty()) {
+        obj = pDoc->findUMLObject(typeName);
+    }
+
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    if (classifier == NULL) {
+        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+        // Import_Utils does not handle creating a new object with empty name
+        // string well. Use Object_Factory in those cases.
+        if (
+            (!typeName.isEmpty()) &&
+            ((pl == Uml::ProgrammingLanguage::Cpp) ||
+                (pl == Uml::ProgrammingLanguage::Java))
+        ) {
+            // Import_Utils::createUMLObject works better for C++ namespace
+            // and java package than Object_Factory::createUMLObject
+            Import_Utils::setRelatedClassifier(pConcept);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            Import_Utils::setRelatedClassifier(NULL);
+        } else {
+            // If it's obviously a pointer type (C++) then create a datatype.
+            // Else we don't know what it is so as a compromise create a class.
+            UMLObject::ObjectType ot =
+                (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
+                                                          : UMLObject::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, typeName);
+        }
+        if (obj == NULL)
+            return false;
+        classifier = static_cast<UMLClassifier*>(obj);
+    }
+    m_datatype->setType(classifier);
+    return true;
+}
+
 
 /**
  * Inserts @p type into the type-combobox as well as its completion object.

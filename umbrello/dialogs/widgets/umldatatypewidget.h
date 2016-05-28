@@ -46,6 +46,7 @@ protected:
     UMLOperation *m_operation;
     UMLTemplate *m_template;
     void init();
+    bool applyAttribute();
     void insertTypesSortedAttribute(const QString &type);
     void insertTypesSortedEntityAttribute(const QString &type);
     void insertTypesSortedOperation(const QString &type);

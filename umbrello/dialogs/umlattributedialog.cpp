@@ -70,7 +70,7 @@ void UMLAttributeDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_datatypeWidget = new UMLDatatypeWidget(m_pAttribute);
+    m_datatypeWidget = new UMLDatatypeWidget(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
     m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
@@ -136,47 +136,7 @@ bool UMLAttributeDialog::apply()
     m_stereotypeWidget->apply();
     m_pAttribute->setStatic(m_pStaticCB->isChecked());
 
-    QString typeName = m_datatypeWidget->currentText();
-    UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
-    if (tmplParam) {
-        m_pAttribute->setType(tmplParam);
-        return true;
-    }
-    UMLDoc * pDoc = UMLApp::app()->document();
-
-    UMLObject *obj = 0;
-    if (!typeName.isEmpty()) {
-        obj = pDoc->findUMLObject(typeName);
-    }
-
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
-    if (classifier == NULL) {
-        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-        // Import_Utils does not handle creating a new object with empty name
-        // string well. Use Object_Factory in those cases.
-        if (
-            (!typeName.isEmpty()) &&
-            ((pl == Uml::ProgrammingLanguage::Cpp) ||
-                (pl == Uml::ProgrammingLanguage::Java))
-        ) {
-            // Import_Utils::createUMLObject works better for C++ namespace
-            // and java package than Object_Factory::createUMLObject
-            Import_Utils::setRelatedClassifier(pConcept);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
-            Import_Utils::setRelatedClassifier(NULL);
-        } else {
-            // If it's obviously a pointer type (C++) then create a datatype.
-            // Else we don't know what it is so as a compromise create a class.
-            UMLObject::ObjectType ot =
-                (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
-                                                          : UMLObject::ot_Class);
-            obj = Object_Factory::createUMLObject(ot, typeName);
-        }
-        if (obj == NULL)
-            return false;
-        classifier = static_cast<UMLClassifier*>(obj);
-    }
-    m_pAttribute->setType(classifier);
+    m_datatypeWidget->apply();
     m_docWidget->apply();
 
     return true;
