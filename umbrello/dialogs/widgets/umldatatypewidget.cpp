@@ -13,6 +13,7 @@
 #include "classifierlistitem.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "entityattribute.h"
 #include "operation.h"
 #include "template.h"
 #include "uml.h"
@@ -21,6 +22,7 @@
 #include <KComboBox>
 #include <KLocalizedString>
 
+#include <QApplication>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -30,6 +32,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
   : QWidget(parent),
     m_attribute(attribute),
     m_datatype(0),
+    m_entityAttribute(0),
     m_operation(0)
 {
     init();
@@ -39,7 +42,18 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
   : QWidget(parent),
     m_attribute(0),
     m_datatype(datatype),
+    m_entityAttribute(0),
     m_operation(0)
+{
+    init();
+}
+
+UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
+   : QWidget(parent),
+     m_attribute(0),
+     m_datatype(0),
+     m_entityAttribute(entityAttribute),
+     m_operation(0)
 {
     init();
 }
@@ -48,6 +62,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
  :  QWidget(parent),
     m_attribute(0),
     m_datatype(0),
+    m_entityAttribute(0),
     m_operation(operation)
 {
     init();
@@ -73,6 +88,8 @@ void UMLDatatypeWidget::init()
         insertTypesSortedOperation(m_operation->getTypeName());
     else if (m_attribute)
         insertTypesSortedParameter(m_attribute->getTypeName());
+    else if (m_entityAttribute)
+        insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
     else if (m_datatype)
         insertTypesSortedAttribute(m_datatype->getTypeName());
     setLayout(layout);
@@ -113,6 +130,41 @@ void UMLDatatypeWidget::insertTypesSortedAttribute(const QString& type)
     m_comboBox->completionObject()->addItem(type);
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
+void UMLDatatypeWidget::insertTypesSortedEntityAttribute(const QString& type)
+{
+    QStringList types;
+    // add the data types
+    UMLDoc * pDoc = UMLApp::app()->document();
+    UMLClassifierList dataTypes = pDoc->datatypes();
+    if (dataTypes.count() == 0) {
+        // Switch to SQL as the active language if no datatypes are set.
+        UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::SQL);
+        pDoc->addDefaultDatatypes();
+        qApp->processEvents();
+        dataTypes = pDoc->datatypes();
+    }
+    foreach (UMLClassifier* dat, dataTypes) {
+        types << dat->name();
+    }
+    // add the given parameter
+    if (!types.contains(type)) {
+        types << type;
+    }
+    types.sort();
+
+    m_comboBox->clear();
+    m_comboBox->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_comboBox->findText(type);
+    if (currentIndex > -1) {
+        m_comboBox->setCurrentIndex(currentIndex);
+    }
+    m_comboBox->completionObject()->addItem(type);
+}
 
 /**
  * Inserts @p type into the type-combobox.
