@@ -16,14 +16,16 @@
 class KComboBox;
 class QGridLayout;
 class QLabel;
+class UMLAttribute;
 class UMLClassifierListItem;
 class UMLOperation;
 
 class UMLDatatypeWidget : public QWidget
 {
 public:
-    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
+    UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
     UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
+    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
     ~UMLDatatypeWidget();
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
@@ -34,11 +36,13 @@ public:
 protected:
     QLabel *m_label;
     KComboBox *m_comboBox;
+    UMLAttribute *m_attribute;
     UMLClassifierListItem *m_datatype;
     UMLOperation *m_operation;
     void init();
-    void insertTypesSortedOperation(const QString &type);
     void insertTypesSortedAttribute(const QString &type);
+    void insertTypesSortedOperation(const QString &type);
+    void insertTypesSortedParameter(const QString &type);
 };
 
 #endif

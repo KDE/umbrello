@@ -23,6 +23,7 @@ class QLabel;
 class QRadioButton;
 class UMLAttribute;
 class UMLDoc;
+class UMLDatatypeWidget;
 class UMLStereotypeWidget;
 
 /**
@@ -49,20 +50,18 @@ protected:
     QString getInitialValue();
     QString getTypeName();
     Uml::ParameterDirection::Enum getParmKind();
-
-    void insertTypesSorted(const QString& type = QString());
     virtual bool validate();
 
 private:
     QGroupBox * m_pParmGB;
     QGroupBox * m_pKindGB;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL;
-    KComboBox * m_pTypeCB;
+    QLabel * m_pNameL, * m_pInitialL;
     KLineEdit * m_pNameLE, * m_pInitialLE;
     DocumentationWidget * m_docWidget;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
+    UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
 };
 

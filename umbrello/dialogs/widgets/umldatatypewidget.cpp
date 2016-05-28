@@ -12,7 +12,9 @@
 
 #include "classifierlistitem.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
+#include "template.h"
 #include "uml.h"
 #include "umldoc.h"
 
@@ -24,18 +26,29 @@
 #include <QLabel>
 #include <QWidget>
 
-UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
+UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
   : QWidget(parent),
+    m_attribute(attribute),
     m_datatype(0),
-    m_operation(operation)
+    m_operation(0)
 {
     init();
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
-   : QWidget(parent),
-     m_datatype(datatype),
-     m_operation(0)
+  : QWidget(parent),
+    m_attribute(0),
+    m_datatype(datatype),
+    m_operation(0)
+{
+    init();
+}
+
+UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
+ :  QWidget(parent),
+    m_attribute(0),
+    m_datatype(0),
+    m_operation(operation)
 {
     init();
 }
@@ -58,7 +71,9 @@ void UMLDatatypeWidget::init()
     //now add the Concepts
     if (m_operation)
         insertTypesSortedOperation(m_operation->getTypeName());
-    else
+    else if (m_attribute)
+        insertTypesSortedParameter(m_attribute->getTypeName());
+    else if (m_datatype)
         insertTypesSortedAttribute(m_datatype->getTypeName());
     setLayout(layout);
 }
@@ -127,6 +142,48 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     UMLClassifierList namesList(uDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
          types << obj->fullyQualifiedName();
+    }
+    // add the given parameter
+    if (!types.contains(type)) {
+        types << type;
+    }
+    types.sort();
+
+    m_comboBox->clear();
+    m_comboBox->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_comboBox->findText(type);
+    if (currentIndex > -1) {
+        m_comboBox->setCurrentIndex(currentIndex);
+    }
+}
+
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
+void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
+{
+    QStringList types;
+    // add template parameters
+    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    if (pConcept == NULL) {
+        uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
+                 << " is not a UMLClassifier";
+    } else {
+        UMLTemplateList tmplParams(pConcept->getTemplateList());
+        foreach(UMLTemplate* t, tmplParams) {
+            types << t->name();
+        }
+    }
+    // now add the Concepts
+    UMLDoc * uDoc = UMLApp::app()->document();
+    UMLClassifierList namesList(uDoc->concepts());
+    foreach(UMLClassifier* obj, namesList) {
+        types << obj->fullyQualifiedName();
     }
     // add the given parameter
     if (!types.contains(type)) {

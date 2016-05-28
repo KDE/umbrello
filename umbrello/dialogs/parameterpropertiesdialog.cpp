@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "documentationwidget.h"
+#include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "umltemplatelist.h"
 #include "template.h"
@@ -70,12 +71,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     propLayout->setSpacing(10);
     propLayout->setMargin(margin);
 
-    m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
-    propLayout->addWidget(m_pTypeL, 0, 0);
-
-    m_pTypeCB = new KComboBox(m_pParmGB);
-    propLayout->addWidget(m_pTypeCB, 0, 1);
-    m_pTypeL->setBuddy(m_pTypeCB);
+    m_datatypeWidget = new UMLDatatypeWidget(m_pAtt);
+    m_datatypeWidget->addToLayout(propLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
@@ -120,20 +117,9 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     } else
         m_pIn->setChecked(true);
 
-    // manage types
-    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    m_pTypeCB->setEditable(true);
-#if QT_VERSION < 0x050000
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-//    m_pTypeCB->setCompleter(...);
-    if (attr) {
-        insertTypesSorted(attr->getTypeName());
-    }
-
     // set tab order
-    setTabOrder(m_pKindGB, m_pTypeCB);
-    setTabOrder(m_pTypeCB, m_pNameLE);
+    setTabOrder(m_pKindGB, m_datatypeWidget);
+    setTabOrder(m_datatypeWidget, m_pNameLE);
     setTabOrder(m_pNameLE, m_pInitialLE);
     setTabOrder(m_pInitialLE, m_stereotypeWidget);
     setTabOrder(m_stereotypeWidget, m_pIn);
@@ -160,48 +146,7 @@ QString ParameterPropertiesDialog::getInitialValue()
 
 QString ParameterPropertiesDialog::getTypeName()
 {
-    return m_pTypeCB->currentText();
-}
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add and selected
- */
-void ParameterPropertiesDialog::insertTypesSorted(const QString& type)
-{
-    QStringList types;
-    // add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
-    if (pConcept == NULL) {
-        uError() << "ParameterPropertiesDialog: grandparent of " << m_pAtt->name()
-                 << " is not a UMLClassifier";
-    } else {
-        UMLTemplateList tmplParams(pConcept->getTemplateList());
-        foreach(UMLTemplate* t, tmplParams) {
-            types << t->name();
-        }
-    }
-    // now add the Concepts
-    UMLClassifierList namesList(m_pUmldoc->concepts());
-    foreach(UMLClassifier* obj, namesList) {
-        types << obj->fullyQualifiedName();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pTypeCB->clear();
-    m_pTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pTypeCB->setCurrentIndex(currentIndex);
-    }
+    return m_datatypeWidget->currentText();
 }
 
 /**
@@ -243,7 +188,7 @@ bool ParameterPropertiesDialog::apply()
         m_stereotypeWidget->apply();
 
         // set the type name
-        QString typeName = m_pTypeCB->currentText();
+        QString typeName = m_datatypeWidget->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
         if (pConcept == NULL) {
             uError() << "grandparent of " << m_pAtt->name() << " is not a UMLClassifier";
