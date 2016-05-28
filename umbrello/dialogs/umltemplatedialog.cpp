@@ -86,7 +86,7 @@ void UMLTemplateDialog::setupDialog()
  */
 bool UMLTemplateDialog::apply()
 {
-    m_datatypeWidget()->apply();
+    m_datatypeWidget->apply();
 
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
