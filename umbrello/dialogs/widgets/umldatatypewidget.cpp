@@ -124,6 +124,8 @@ bool UMLDatatypeWidget::apply()
 {
     if (m_datatype)
         return applyAttribute();
+    else if (m_entityAttribute)
+        return applyEntityAttribute();
     else if (m_operation)
         return applyOperation();
     else if (m_attribute)
@@ -175,6 +177,34 @@ bool UMLDatatypeWidget::applyAttribute()
         classifier = static_cast<UMLClassifier*>(obj);
     }
     m_datatype->setType(classifier);
+    return true;
+}
+
+bool UMLDatatypeWidget::applyEntityAttribute()
+{
+    QString typeName = currentText();
+    UMLDoc *pDoc = UMLApp::app()->document();
+    UMLClassifierList dataTypes = pDoc->datatypes();
+    foreach (UMLClassifier* dat, dataTypes) {
+        if (typeName == dat->name()) {
+            m_entityAttribute->setType(dat);
+            return true;
+        }
+    }
+    UMLObject *obj = pDoc->findUMLObject(typeName);
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    if (classifier == NULL) {
+        // If it's obviously a pointer type (C++) then create a datatype.
+        // Else we don't know what it is so as a compromise create a class.
+        UMLObject::ObjectType ot =
+            (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
+                                                      : UMLObject::ot_Class);
+        obj = Object_Factory::createUMLObject(ot, typeName);
+        if (obj == NULL)
+            return false;
+        classifier = static_cast<UMLClassifier*>(obj);
+    }
+    m_entityAttribute->setType(classifier);
     return true;
 }
 

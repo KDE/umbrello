@@ -47,6 +47,7 @@ protected:
     UMLTemplate *m_template;
     void init();
     bool applyAttribute();
+    bool applyEntityAttribute();
     bool applyOperation();
     bool applyParameter();
     void insertTypesSortedAttribute(const QString &type);
