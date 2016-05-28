@@ -414,17 +414,7 @@ bool UMLOperationDialog::apply()
     m_operation->setName(name);
 
     m_visibilityEnumWidget->apply();
-
-    QString typeName = m_datatypeWidget->currentText();
-    UMLTemplate *tmplParam = 0;
-    if (classifier) {
-        tmplParam = classifier->findTemplate(typeName);
-    }
-    if (tmplParam)
-        m_operation->setType(tmplParam);
-    else
-        m_operation->setTypeName(typeName);
-
+    m_datatypeWidget->apply();
     m_stereotypeWidget->apply();
 
     bool isAbstract = m_pAbstractCB->isChecked();

@@ -124,6 +124,8 @@ bool UMLDatatypeWidget::apply()
 {
     if (m_datatype)
         return applyAttribute();
+    else if (m_operation)
+        return applyOperation();
     return false;
 }
 
@@ -174,6 +176,20 @@ bool UMLDatatypeWidget::applyAttribute()
     return true;
 }
 
+bool UMLDatatypeWidget::applyOperation()
+{
+    QString typeName = currentText();
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    UMLTemplate *tmplParam = 0;
+    if (classifier) {
+        tmplParam = classifier->findTemplate(typeName);
+    }
+    if (tmplParam)
+        m_operation->setType(tmplParam);
+    else
+        m_operation->setTypeName(typeName);
+    return true;
+}
 
 /**
  * Inserts @p type into the type-combobox as well as its completion object.
