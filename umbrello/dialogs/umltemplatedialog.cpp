@@ -86,18 +86,8 @@ void UMLTemplateDialog::setupDialog()
  */
 bool UMLTemplateDialog::apply()
 {
-    QString typeName = m_datatypeWidget->currentText();
-    UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(pDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-        if (typeName == obj->name()) {
-            m_pTemplate->setType(obj);
-        }
-    }
-    if (namesList.isEmpty()) { // not found.
-        // FIXME: This implementation is not good yet.
-        m_pTemplate->setTypeName(typeName);
-    }
+    m_datatypeWidget()->apply();
+
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),

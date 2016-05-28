@@ -130,6 +130,8 @@ bool UMLDatatypeWidget::apply()
         return applyOperation();
     else if (m_attribute)
         return applyParameter();
+    else if (m_template)
+        return applyTemplate();
     return false;
 }
 
@@ -256,6 +258,23 @@ bool UMLDatatypeWidget::applyParameter()
             << " Creating a new class for the type.";
         UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
         m_attribute->setType(newObj);
+    }
+    return true;
+}
+
+bool UMLDatatypeWidget::applyTemplate()
+{
+    QString typeName = currentText();
+    UMLDoc *pDoc = UMLApp::app()->document();
+    UMLClassifierList namesList(pDoc->concepts());
+    foreach (UMLClassifier* obj, namesList) {
+        if (typeName == obj->name()) {
+            m_template->setType(obj);
+        }
+    }
+    if (namesList.isEmpty()) { // not found.
+        // FIXME: This implementation is not good yet.
+        m_template->setTypeName(typeName);
     }
     return true;
 }

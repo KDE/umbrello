@@ -50,6 +50,7 @@ protected:
     bool applyEntityAttribute();
     bool applyOperation();
     bool applyParameter();
+    bool applyTemplate();
     void insertTypesSortedAttribute(const QString &type);
     void insertTypesSortedEntityAttribute(const QString &type);
     void insertTypesSortedOperation(const QString &type);
