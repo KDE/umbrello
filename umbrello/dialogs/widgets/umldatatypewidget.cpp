@@ -137,7 +137,7 @@ bool UMLDatatypeWidget::apply()
 
 bool UMLDatatypeWidget::applyAttribute()
 {
-    QString typeName = currentText();
+    QString typeName = m_comboBox->currentText();
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_datatype->parent());
     UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
     if (tmplParam) {
@@ -184,7 +184,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
 bool UMLDatatypeWidget::applyEntityAttribute()
 {
-    QString typeName = currentText();
+    QString typeName = m_comboBox->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes) {
@@ -212,7 +212,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 
 bool UMLDatatypeWidget::applyOperation()
 {
-    QString typeName = currentText();
+    QString typeName = m_comboBox->currentText();
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
     UMLTemplate *tmplParam = 0;
     if (classifier) {
@@ -228,7 +228,7 @@ bool UMLDatatypeWidget::applyOperation()
 bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
-    QString typeName = currentText();
+    QString typeName = m_comboBox->currentText();
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
     if (pConcept == NULL) {
         uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
@@ -264,7 +264,7 @@ bool UMLDatatypeWidget::applyParameter()
 
 bool UMLDatatypeWidget::applyTemplate()
 {
-    QString typeName = currentText();
+    QString typeName = m_comboBox->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
@@ -474,13 +474,4 @@ void UMLDatatypeWidget::addToLayout(QGridLayout *layout, int row, int startColum
 {
     layout->addWidget(m_label, row, startColumn);
     layout->addWidget(m_comboBox, row, startColumn + 1);
-}
-
-/**
- * Return currently selected text of the widget.
- * @return string
- */
-QString UMLDatatypeWidget::currentText() const
-{
-    return m_comboBox->currentText();
 }

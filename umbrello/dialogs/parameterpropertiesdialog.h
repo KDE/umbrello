@@ -48,7 +48,6 @@ public:
 protected:
     QString getName();
     QString getInitialValue();
-    QString getTypeName();
     Uml::ParameterDirection::Enum getParmKind();
     virtual bool validate();
 

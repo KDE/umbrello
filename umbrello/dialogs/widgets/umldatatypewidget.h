@@ -33,7 +33,6 @@ public:
     ~UMLDatatypeWidget();
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
-    QString currentText() const;
     bool apply();
     void reset();
 

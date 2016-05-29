@@ -144,11 +144,6 @@ QString ParameterPropertiesDialog::getInitialValue()
     return m_pInitialLE->text();
 }
 
-QString ParameterPropertiesDialog::getTypeName()
-{
-    return m_datatypeWidget->currentText();
-}
-
 /**
  * Return the kind of the parameter (in, out, or inout).
  * @return  The Uml::ParameterDirection::Enum corresponding to
