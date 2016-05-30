@@ -73,7 +73,10 @@ namespace Uml
         enum Enum{
             Const,
             Volatile,
-            Mutable
+            Mutable,
+            ConstVolatile,
+            None
+
         };
 
         QString toString(Enum item, bool mnemonic = false);
