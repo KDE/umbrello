@@ -1,10 +1,10 @@
-#include "umltypequalifiers.h"
+#include "umltypequalifierswidget.h"
 #include "umlobject.h"
 #include "uml.h"
 
 #include <KLocalizedString>
 
-UmlTypeQualifiers::UmlTypeQualifiers(UMLObject *o,QWidget *parent) : QWidget(parent)
+UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UMLObject *o,QWidget *parent) : QWidget(parent)
   , m_object(o)
   , m_role(Uml::RoleType::A)
 {
@@ -15,13 +15,13 @@ UmlTypeQualifiers::UmlTypeQualifiers(UMLObject *o,QWidget *parent) : QWidget(par
     init(i18n("Type Qualifiers:"));
 }
 
-void UmlTypeQualifiers::addToLayout(QGridLayout *layout, int row)
+void UmlTypeQualifiersWidget::addToLayout(QGridLayout *layout, int row)
 {
     layout->addWidget(m_label, row, 0);
     layout->addWidget(this, row, 1);
 }
 
-void UmlTypeQualifiers::apply()
+void UmlTypeQualifiersWidget::apply()
 {
     for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
         if (i.value()->isChecked()) {
@@ -31,7 +31,7 @@ void UmlTypeQualifiers::apply()
     }
 }
 
-void UmlTypeQualifiers::init(const QString &title)
+void UmlTypeQualifiersWidget::init(const QString &title)
 {
     m_box = new QHBoxLayout;
     m_box->setContentsMargins(0,0,0,0);

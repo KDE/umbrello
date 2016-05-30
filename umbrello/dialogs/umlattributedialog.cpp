@@ -21,7 +21,7 @@
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "visibilityenumwidget.h"
-#include "umltypequalifiers.h"
+#include "umltypequalifierswidget.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "import_utils.h"
@@ -85,7 +85,7 @@ void UMLAttributeDialog::setupDialog()
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAttribute);
     m_stereotypeWidget->addToLayout(valuesLayout, 3);
 
-    m_typeQualifiersWidget = new UmlTypeQualifiers(m_pAttribute, this);
+    m_typeQualifiersWidget = new UmlTypeQualifiersWidget(m_pAttribute, this);
     m_typeQualifiersWidget->addToLayout(valuesLayout,4);
 
     m_pStaticLb = new QLabel(i18n("Classifier &scope (\"static\")"));

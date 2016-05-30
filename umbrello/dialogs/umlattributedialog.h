@@ -23,7 +23,7 @@ class KLineEdit;
 class UMLDatatypeWidget;
 class UMLStereotypeWidget;
 class VisibilityEnumWidget;
-class UmlTypeQualifiers;
+class UmlTypeQualifiersWidget;
 
 /**
  * @author Paul Hensgen
@@ -55,7 +55,7 @@ protected:
     UMLStereotypeWidget *m_stereotypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
     DocumentationWidget *m_docWidget;
-    UmlTypeQualifiers *m_typeQualifiersWidget;
+    UmlTypeQualifiersWidget *m_typeQualifiersWidget;
 
 public slots:
     void slotNameChanged(const QString &);

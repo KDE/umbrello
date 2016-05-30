@@ -8,11 +8,11 @@
 
 class UMLObject;
 
-class UmlTypeQualifiers : public QWidget
+class UmlTypeQualifiersWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UmlTypeQualifiers(UMLObject *o, QWidget *parent = 0);
+    explicit UmlTypeQualifiersWidget(UMLObject *o, QWidget *parent = 0);
 
     void addToLayout(QGridLayout *layout,int row);
     void apply();
