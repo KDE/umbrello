@@ -137,6 +137,7 @@ bool UMLAttributeDialog::apply()
     }
     m_pAttribute->setName(name);
     m_visibilityEnumWidget->apply();
+    m_typeQualifiersWidget->apply();
 
     // Set the scope as the default in the option state
     Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
