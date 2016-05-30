@@ -1,5 +1,5 @@
-#ifndef UMLTYPEQUALIFIERS_H
-#define UMLTYPEQUALIFIERS_H
+#ifndef UMLTYPEQUALIFIERSWIDGET_H
+#define UMLTYPEQUALIFIERSWIDGET_H
 
 #include "basictypes.h"
 
@@ -32,4 +32,4 @@ private:
 
 };
 
-#endif // UMLTYPEQUALIFIERS_H
+#endif // UMLTYPEQUALIFIERSWIDGET_H
