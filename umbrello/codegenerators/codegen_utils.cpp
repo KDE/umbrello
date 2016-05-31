@@ -23,17 +23,25 @@ namespace Codegen_Utils {
 QStringList cppDatatypes()
 {
     QStringList l;
-    l.append(QLatin1String("int"));
     l.append(QLatin1String("char"));
-    l.append(QLatin1String("bool"));
+    l.append(QLatin1String("int"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("double"));
-    l.append(QLatin1String("short"));
-    l.append(QLatin1String("long"));
-    l.append(QLatin1String("unsigned int"));
-    l.append(QLatin1String("unsigned short"));
-    l.append(QLatin1String("unsigned long"));
+    l.append(QLatin1String("bool"));
     l.append(QLatin1String("string"));
+    l.append(QLatin1String("unsigned char"));
+    l.append(QLatin1String("signed char"));
+    l.append(QLatin1String("unsigned int"));
+    l.append(QLatin1String("signed int"));
+    l.append(QLatin1String("short int"));
+    l.append(QLatin1String("unsigned short int"));
+    l.append(QLatin1String("signed short int"));
+    l.append(QLatin1String("long int"));
+    l.append(QLatin1String("signed long int"));
+    l.append(QLatin1String("unsigned long int"));
+    l.append(QLatin1String("long double"));
+    l.append(QLatin1String("wchar_t"));
+
     return l;
 }
 
