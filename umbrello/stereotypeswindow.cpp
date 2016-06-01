@@ -12,7 +12,7 @@
 
 // app includes
 #include "stereotype.h"
-#include "stereotypesmodel.h"
+#include "models/stereotypesmodel.h"
 #include "uml.h"
 #include "umldoc.h"
 

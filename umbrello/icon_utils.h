@@ -244,6 +244,7 @@ namespace Icon_Utils {
     QString toString(IconType type);
 
     QPixmap iconSet(Uml::DiagramType::Enum dt);
+    QPixmap smallIcon(Uml::DiagramType::Enum dt);
 
 }  // namespace
 

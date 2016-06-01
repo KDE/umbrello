@@ -21,10 +21,11 @@
 
 //#include "umlview.h"
 #include <QList>
+#include <QPointer>
 
 class UMLView;
 
-typedef QList<UMLView*> UMLViewList;
-typedef QListIterator<UMLView*> UMLViewListIt;
+typedef QList<QPointer<UMLView>> UMLViewList;
+typedef QListIterator<QPointer<UMLView>> UMLViewListIt;
 
 #endif
