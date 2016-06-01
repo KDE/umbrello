@@ -276,6 +276,28 @@ bool UMLDatatypeWidget::applyTemplate()
 }
 
 /**
+ * Initialize types combo box from a list of types and a selected type.
+ * @param types list of types to add to combo box
+ * @param type selected type
+ */
+void UMLDatatypeWidget::initTypesBox(QStringList &types, const QString& type)
+{
+    if (!types.contains(type)) {
+        types << type;
+    }
+    types.sort();
+
+    m_comboBox->clear();
+    m_comboBox->insertItems(-1, types);
+
+    int currentIndex = m_comboBox->findText(type);
+    if (currentIndex > -1) {
+        m_comboBox->setCurrentIndex(currentIndex);
+    }
+    m_comboBox->completionObject()->addItem(type);
+}
+
+/**
  * Add classes and interfaces from document instance to the given string list.
  * @param types list to store the classes and interfaces
  */
@@ -319,19 +341,7 @@ void UMLDatatypeWidget::insertTypesSortedAttribute(const QString& type)
 {
     QStringList types;
     insertTypesFromConcepts(types);
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
-
-    int currentIndex = m_comboBox->findText(type);
-    if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
-    }
-    m_comboBox->completionObject()->addItem(type);
+    initTypesBox(types, type);
 }
 
 /**
@@ -341,21 +351,7 @@ void UMLDatatypeWidget::insertTypesSortedEntityAttribute(const QString& type)
 {
     QStringList types;
     insertTypesFromDatatypes(types);
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_comboBox->findText(type);
-    if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
-    }
-    m_comboBox->completionObject()->addItem(type);
+    initTypesBox(types, type);
 }
 
 /**
@@ -382,20 +378,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
         }
     }
     insertTypesFromConcepts(types);
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_comboBox->findText(type);
-    if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
-    }
+    initTypesBox(types, type);
 }
 
 /**
@@ -419,20 +402,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
         }
     }
     insertTypesFromConcepts(types);
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_comboBox->findText(type);
-    if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
-    }
+    initTypesBox(types, type);
 }
 
 /**
@@ -447,20 +417,7 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
     // "class" is the nominal type of template parameter
     types << QLatin1String("class");
     insertTypesFromConcepts(types, false);
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_comboBox->findText(type);
-    if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
-    }
+    initTypesBox(types, type);
 }
 
 /**

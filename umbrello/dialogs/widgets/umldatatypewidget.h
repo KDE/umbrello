@@ -52,6 +52,7 @@ protected:
     bool applyOperation();
     bool applyParameter();
     bool applyTemplate();
+    void initTypesBox(QStringList &types, const QString &type);
     void insertTypesFromConcepts(QStringList &types, bool fullName = true);
     void insertTypesFromDatatypes(QStringList &types);
     void insertTypesSortedAttribute(const QString &type);
