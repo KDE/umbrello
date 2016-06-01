@@ -791,10 +791,11 @@ bool importStackTrace(const QString &fileName, UMLScene *scene)
     MessageWidgetList messages;
 
     // for each line
+    int index = 1;
     foreach(const QString &line, lines) {
-        QString sequence, package, method;
+        QString stackframe, package, method;
 
-        if (!parseStraceTraceLine(line, sequence, package, method))
+        if (!parseStraceTraceLine(line, stackframe, package, method))
             continue;
 
         bool createObject = false;
@@ -828,7 +829,7 @@ bool importStackTrace(const QString &fileName, UMLScene *scene)
         messageWidget = new MessageWidget(scene, leftWidget, rightWidget, y,
                                           createObject ? Uml::SequenceMessage::Creation : Uml::SequenceMessage::Synchronous);
         messageWidget->setCustomOpText(method);
-        messageWidget->setSequenceNumber(sequence);
+        messageWidget->setSequenceNumber(QString::number(index++));
         messageWidget->calculateWidget();
         messageWidget->activate();
         messageWidget->setY(y);
