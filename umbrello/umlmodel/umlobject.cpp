@@ -446,24 +446,6 @@ void UMLObject::setDoc(const QString &d)
     //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
 }
 
-void UMLObject::setQualifiers(TypeQualifiers::Enum qualifier)
-{
-    if(m_qualifier != qualifier){
-        UMLApp::app()->executeCommand(new CmdSetQualifier(this, qualifier));
-    }
-}
-
-void UMLObject::setQualifiersCmd(TypeQualifiers::Enum qualifier)
-{
-    m_qualifier = qualifier;
-    emitModified();
-}
-
-TypeQualifiers::Enum UMLObject::qualifier() const
-{
-    return m_qualifier;
-}
-
 /**
  * Returns the visibility of the object.
  *
