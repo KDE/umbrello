@@ -438,6 +438,7 @@ set(umbrellobase_SRCS
     basictypes.cpp
     birdview.cpp
     cmdlineexportallviewsevent.cpp
+    diagramswindow.cpp
     docwindow.cpp
     dotgenerator.cpp
     icon_utils.cpp
@@ -451,7 +452,6 @@ set(umbrellobase_SRCS
     petalnode.cpp
     petaltree2uml.cpp
     stereotypeswindow.cpp
-    stereotypesmodel.cpp
     toolbarstatearrow.cpp
     toolbarstateassociation.cpp
     toolbarstate.cpp
@@ -473,6 +473,11 @@ set(umbrellobase_SRCS
     worktoolbar.cpp
 )
 
+set(umbrellomodels_SRCS
+    models/diagramsmodel.cpp
+    models/stereotypesmodel.cpp
+)
+
 kconfig_add_kcfg_files(umbrellobase_SRCS umbrellosettings.kcfgc)
 
 set(libumbrello_SRCS
@@ -492,6 +497,7 @@ set(libumbrello_SRCS
     ${libuml_SRCS}
     ${libumlwidgets_SRCS}
     ${umbrellobase_SRCS}
+    ${umbrellomodels_SRCS}
 )
 
 set(umbrello_SRCS

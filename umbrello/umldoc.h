@@ -48,6 +48,7 @@ class QDomElement;
 class QPrinter;
 
 class IDChangeLog;
+class DiagramsModel;
 class StereotypesModel;
 class UMLPackage;
 class UMLFolder;
@@ -234,6 +235,7 @@ public:
 
     void resolveTypes();
 
+    DiagramsModel *diagramsModel();
     StereotypesModel *stereotypesModel();
 
 private:
@@ -311,6 +313,7 @@ private:
      */
     bool m_bClosing;
 
+    DiagramsModel *m_diagramsModel;
     StereotypesModel *m_stereotypesModel;
 
 public slots:

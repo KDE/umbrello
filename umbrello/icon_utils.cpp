@@ -124,6 +124,39 @@ QPixmap iconSet(Uml::DiagramType::Enum dt)
 }
 
 /**
+ * Return the icon corresponding to the given Diagram_Type.
+ * @param dt   the diagram type
+ * @return     the wanted icon
+ */
+QPixmap smallIcon(Uml::DiagramType::Enum dt)
+{
+    switch (dt) {
+        case Uml::DiagramType::UseCase:
+            return SmallIcon(it_Diagram_Usecase);
+        case Uml::DiagramType::Collaboration:
+            return SmallIcon(it_Diagram_Collaboration);
+        case Uml::DiagramType::Class:
+            return SmallIcon(it_Diagram_Class);
+        case Uml::DiagramType::Sequence:
+            return SmallIcon(it_Diagram_Sequence);
+        case Uml::DiagramType::State:
+            return SmallIcon(it_Diagram_State);
+        case Uml::DiagramType::Activity:
+            return SmallIcon(it_Diagram_Activity);
+        case Uml::DiagramType::Component:
+            return SmallIcon(it_Diagram_Component);
+        case Uml::DiagramType::Deployment:
+            return SmallIcon(it_Diagram_Deployment);
+        case Uml::DiagramType::EntityRelationship:
+            return SmallIcon(it_Diagram_EntityRelationship);
+        default:
+            uDebug() << "Widget_Utils::smallIcon: unknown diagram type "
+                     << Uml::DiagramType::toString(dt);
+            return QPixmap();
+    }
+}
+
+/**
  * Conversion from icon type to its string name.
  * @param type   the identification of the icon
  * @return       the string representation of the type

@@ -931,6 +931,7 @@ void UMLApp::initView()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
+    m_d->createDiagramsWindow();
     m_d->createStereotypesWindow();
 
     // create the tree viewer
