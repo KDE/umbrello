@@ -46,6 +46,7 @@ DiagramsWindow::DiagramsWindow(QWidget *parent)
     setWidget(m_diagramsTree);
 
     connect(m_diagramsTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotDiagramsDoubleClicked(QModelIndex)));
+    connect(m_diagramsTree, SIGNAL(clicked(QModelIndex)), this, SLOT(slotDiagramsClicked(QModelIndex)));
 }
 
 DiagramsWindow::~DiagramsWindow()
@@ -67,5 +68,14 @@ void DiagramsWindow::slotDiagramsDoubleClicked(QModelIndex index)
     if (v.canConvert<UMLView*>()) {
         UMLView *view = v.value<UMLView*>();
         view->showPropertiesDialog(this);
+    }
+}
+
+void DiagramsWindow::slotDiagramsClicked(QModelIndex index)
+{
+    QVariant v = UMLApp::app()->document()->diagramsModel()->data(index, Qt::UserRole);
+    if (v.canConvert<UMLView*>()) {
+        UMLView *view = v.value<UMLView*>();
+        UMLApp::app()->setCurrentView(view, true);
     }
 }
