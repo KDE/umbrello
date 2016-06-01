@@ -80,6 +80,20 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
     UMLObject::copyInto(lhs);
 }
 
+void UMLClassifierListItem::setQualifier(Uml::TypeQualifiers::Enum qualifier)
+{
+    if(m_typeQualifier != qualifier){
+        m_typeQualifier = qualifier;
+        UMLObject::emitModified();
+    }
+
+}
+
+Uml::TypeQualifiers::Enum UMLClassifierListItem::qualifier() const
+{
+    return m_typeQualifier;
+}
+
 /**
  * Returns a string representation of the list item.
  *
