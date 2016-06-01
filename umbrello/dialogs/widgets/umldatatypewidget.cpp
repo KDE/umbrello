@@ -40,6 +40,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
 {
     init();
     insertTypesSortedParameter(m_attribute->getTypeName());
+    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
@@ -52,6 +53,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
 {
     init();
     insertTypesSortedAttribute(m_datatype->getTypeName());
+    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
@@ -64,6 +66,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidge
 {
     init();
     insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
+    m_parent = 0;
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
@@ -76,6 +79,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
 {
     init();
     insertTypesSortedOperation(m_operation->getTypeName());
+    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
@@ -88,6 +92,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
 {
     init();
     insertTypesSortedTemplate(m_template->getTypeName());
+    m_parent = 0;
 }
 
 void UMLDatatypeWidget::init()
@@ -132,8 +137,7 @@ bool UMLDatatypeWidget::apply()
 bool UMLDatatypeWidget::applyAttribute()
 {
     QString typeName = m_comboBox->currentText();
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_datatype->parent());
-    UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+    UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
         return true;
@@ -157,7 +161,7 @@ bool UMLDatatypeWidget::applyAttribute()
         ) {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
-            Import_Utils::setRelatedClassifier(pConcept);
+            Import_Utils::setRelatedClassifier(m_parent);
             obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
             Import_Utils::setRelatedClassifier(NULL);
         } else {
@@ -207,10 +211,9 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 bool UMLDatatypeWidget::applyOperation()
 {
     QString typeName = m_comboBox->currentText();
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
     UMLTemplate *tmplParam = 0;
-    if (classifier) {
-        tmplParam = classifier->findTemplate(typeName);
+    if (m_parent) {
+        tmplParam = m_parent->findTemplate(typeName);
     }
     if (tmplParam)
         m_operation->setType(tmplParam);
@@ -223,11 +226,10 @@ bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
     QString typeName = m_comboBox->currentText();
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
-    if (pConcept == NULL) {
+    if (m_parent == NULL) {
         uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
     } else {
-        UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
+        UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
         if (tmplParam) {
             m_attribute->setType(tmplParam);
             return true;

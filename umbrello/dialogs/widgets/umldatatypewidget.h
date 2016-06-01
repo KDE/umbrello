@@ -18,6 +18,7 @@ class QGridLayout;
 class QLabel;
 class UMLAttribute;
 class UMLEntityAttribute;
+class UMLClassifier;
 class UMLClassifierListItem;
 class UMLOperation;
 class UMLTemplate;
@@ -44,6 +45,7 @@ protected:
     UMLEntityAttribute *m_entityAttribute;
     UMLOperation *m_operation;
     UMLTemplate *m_template;
+    UMLClassifier *m_parent;
     void init();
     bool applyAttribute();
     bool applyEntityAttribute();
