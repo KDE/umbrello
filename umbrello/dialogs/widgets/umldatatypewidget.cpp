@@ -276,6 +276,19 @@ bool UMLDatatypeWidget::applyTemplate()
 }
 
 /**
+ * Add classes and interfaces from document instance to the given string list.
+ * @param types list to store the classes and interfaces
+ */
+void UMLDatatypeWidget::insertTypesFromConcepts(QStringList& types, bool fullName)
+{
+    UMLDoc * uDoc = UMLApp::app()->document();
+    UMLClassifierList namesList(uDoc->concepts());
+    foreach (UMLClassifier* obj, namesList) {
+         types << (fullName ? obj->fullyQualifiedName() : obj->name());
+    }
+}
+
+/**
  * Inserts @p type into the type-combobox as well as its completion object.
  * The combobox is cleared and all types together with the optional new one
  * sorted and then added again.
@@ -283,12 +296,8 @@ bool UMLDatatypeWidget::applyTemplate()
  */
 void UMLDatatypeWidget::insertTypesSortedAttribute(const QString& type)
 {
-    UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(uDoc->concepts());
     QStringList types;
-    foreach (UMLClassifier* obj, namesList) {
-         types << obj->fullyQualifiedName();
-    }
+    insertTypesFromConcepts(types);
     if (!types.contains(type)) {
         types << type;
     }
@@ -363,12 +372,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
             types << li->name();
         }
     }
-    // add the Classes and Interfaces (both are Concepts)
-    UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(uDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-         types << obj->fullyQualifiedName();
-    }
+    insertTypesFromConcepts(types);
     // add the given parameter
     if (!types.contains(type)) {
         types << type;
@@ -405,12 +409,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
             types << t->name();
         }
     }
-    // now add the Concepts
-    UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(uDoc->concepts());
-    foreach(UMLClassifier* obj, namesList) {
-        types << obj->fullyQualifiedName();
-    }
+    insertTypesFromConcepts(types);
     // add the given parameter
     if (!types.contains(type)) {
         types << type;
@@ -438,12 +437,7 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
     QStringList types;
     // "class" is the nominal type of template parameter
     types << QLatin1String("class");
-    // add the active data types to combo box
-    UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(pDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-        types << obj->name();
-    }
+    insertTypesFromConcepts(types, false);
     // add the given parameter
     if (!types.contains(type)) {
         types << type;
