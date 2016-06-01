@@ -4,7 +4,7 @@
 
 #include <KLocalizedString>
 
-UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UmlClassifierListItem *o,QWidget *parent) : QWidget(parent)
+UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UMLClassifierListItem *o,QWidget *parent) : QWidget(parent)
   , m_qualifier(o)
 {
     Q_ASSERT(o);
@@ -27,7 +27,7 @@ void UmlTypeQualifiersWidget::apply()
     for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
         if (i.value()->isChecked()) {
             if (m_qualifier)
-                m_qualifier->setQualifiers(i.key());
+                m_qualifier->setQualifier(i.key());
         }
     }
 }
