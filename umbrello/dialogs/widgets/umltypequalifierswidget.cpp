@@ -1,12 +1,11 @@
 #include "umltypequalifierswidget.h"
-#include "umlobject.h"
+#include "classifierlistitem.h"
 #include "uml.h"
 
 #include <KLocalizedString>
 
-UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UMLObject *o,QWidget *parent) : QWidget(parent)
-  , m_object(o)
-  , m_role(Uml::RoleType::A)
+UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UmlClassifierListItem *o,QWidget *parent) : QWidget(parent)
+  , m_qualifier(o)
 {
     Q_ASSERT(o);
     m_texts[Uml::TypeQualifiers::Const] = i18nc("const type", "&Const");
@@ -27,8 +26,8 @@ void UmlTypeQualifiersWidget::apply()
 {
     for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
         if (i.value()->isChecked()) {
-            if (m_object)
-                m_object->setQualifiers(i.key());
+            if (m_qualifier)
+                m_qualifier->setQualifiers(i.key());
         }
     }
 }

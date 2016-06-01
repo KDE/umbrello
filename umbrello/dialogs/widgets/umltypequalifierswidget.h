@@ -6,13 +6,13 @@
 #include <QtWidgets>
 #include <QMap>
 
-class UMLObject;
+class UmlClassifierListItem;
 
 class UmlTypeQualifiersWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UmlTypeQualifiersWidget(UMLObject *o, QWidget *parent = 0);
+    explicit UmlTypeQualifiersWidget(UmlClassifierListItem *o, QWidget *parent = 0);
 
     void addToLayout(QGridLayout *layout,int row);
     void apply();
@@ -26,8 +26,7 @@ private:
     TextMap m_texts;
     QHBoxLayout *m_box;
     ButtonMap m_buttons;
-    UMLObject *m_object;
-    Uml::RoleType::Enum m_role;
+    UmlClassifierListItem *m_qualifier;
     QLabel *m_label;
 
 };
