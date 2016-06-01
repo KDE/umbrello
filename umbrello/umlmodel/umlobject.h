@@ -176,6 +176,7 @@ protected:
     QString                m_name;         ///< objects name
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
+    Uml::TypeQualifiers::Enum m_typeQualifier; ///< object qualifier
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not
     bool                   m_bStatic;      ///< flag for instance scope
     bool                   m_bInPaste;     ///< caller sets this true when in paste operation
