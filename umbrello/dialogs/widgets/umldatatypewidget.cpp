@@ -39,6 +39,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
     m_template(0)
 {
     init();
+    insertTypesSortedParameter(m_attribute->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
@@ -50,6 +51,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
     m_template(0)
 {
     init();
+    insertTypesSortedAttribute(m_datatype->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
@@ -61,6 +63,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidge
      m_template(0)
 {
     init();
+    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
@@ -72,6 +75,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
     m_template(0)
 {
     init();
+    insertTypesSortedOperation(m_operation->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
@@ -83,6 +87,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
     m_template(_template)
 {
     init();
+    insertTypesSortedTemplate(m_template->getTypeName());
 }
 
 void UMLDatatypeWidget::init()
@@ -100,17 +105,6 @@ void UMLDatatypeWidget::init()
 #if QT_VERSION < 0x050000
     m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
 #endif
-    //now add the Concepts
-    if (m_operation)
-        insertTypesSortedOperation(m_operation->getTypeName());
-    else if (m_attribute)
-        insertTypesSortedParameter(m_attribute->getTypeName());
-    else if (m_entityAttribute)
-        insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
-    else if (m_template)
-        insertTypesSortedTemplate(m_template->getTypeName());
-    else if (m_datatype)
-        insertTypesSortedAttribute(m_datatype->getTypeName());
     setLayout(layout);
 }
 
