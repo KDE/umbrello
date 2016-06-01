@@ -30,6 +30,7 @@ public slots:
 
 protected slots:
     void slotDiagramsDoubleClicked(QModelIndex index);
+    void slotDiagramsClicked(QModelIndex index);
 
 protected:
     QTableView *m_diagramsTree;
