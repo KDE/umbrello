@@ -23,7 +23,6 @@
 #include "cmds/cmd_removeDiagram.h"
 #include "cmds/cmd_setStereotype.h"
 #include "cmds/cmd_setVisibility.h"
-#include "cmds/cmd_setQualifier.h"
 
 /************************************************************
  * Generic
