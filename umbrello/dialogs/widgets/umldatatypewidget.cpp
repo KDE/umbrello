@@ -289,6 +289,27 @@ void UMLDatatypeWidget::insertTypesFromConcepts(QStringList& types, bool fullNam
 }
 
 /**
+ * Add datatypes from document instance to the given string list.
+ * @param types list to store the datatypes
+ */
+void UMLDatatypeWidget::insertTypesFromDatatypes(QStringList& types)
+{
+    // add the data types
+    UMLDoc * pDoc = UMLApp::app()->document();
+    UMLClassifierList dataTypes = pDoc->datatypes();
+    if (dataTypes.count() == 0) {
+        // Switch to SQL as the active language if no datatypes are set.
+        UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::SQL);
+        pDoc->addDefaultDatatypes();
+        qApp->processEvents();
+        dataTypes = pDoc->datatypes();
+    }
+    foreach (UMLClassifier* dat, dataTypes) {
+        types << dat->name();
+    }
+}
+
+/**
  * Inserts @p type into the type-combobox as well as its completion object.
  * The combobox is cleared and all types together with the optional new one
  * sorted and then added again.
@@ -319,19 +340,7 @@ void UMLDatatypeWidget::insertTypesSortedAttribute(const QString& type)
 void UMLDatatypeWidget::insertTypesSortedEntityAttribute(const QString& type)
 {
     QStringList types;
-    // add the data types
-    UMLDoc * pDoc = UMLApp::app()->document();
-    UMLClassifierList dataTypes = pDoc->datatypes();
-    if (dataTypes.count() == 0) {
-        // Switch to SQL as the active language if no datatypes are set.
-        UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::SQL);
-        pDoc->addDefaultDatatypes();
-        qApp->processEvents();
-        dataTypes = pDoc->datatypes();
-    }
-    foreach (UMLClassifier* dat, dataTypes) {
-        types << dat->name();
-    }
+    insertTypesFromDatatypes(types);
     // add the given parameter
     if (!types.contains(type)) {
         types << type;

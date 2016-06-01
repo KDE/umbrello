@@ -53,6 +53,7 @@ protected:
     bool applyParameter();
     bool applyTemplate();
     void insertTypesFromConcepts(QStringList &types, bool fullName = true);
+    void insertTypesFromDatatypes(QStringList &types);
     void insertTypesSortedAttribute(const QString &type);
     void insertTypesSortedEntityAttribute(const QString &type);
     void insertTypesSortedOperation(const QString &type);
