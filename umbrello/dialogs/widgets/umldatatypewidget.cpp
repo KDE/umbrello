@@ -39,8 +39,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
     m_template(0)
 {
     init();
-    insertTypesSortedParameter(m_attribute->getTypeName());
     m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    insertTypesSortedParameter(m_attribute->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
@@ -52,8 +52,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
     m_template(0)
 {
     init();
-    insertTypesSortedAttribute(m_datatype->getTypeName());
     m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    insertTypesSortedAttribute(m_datatype->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
@@ -65,8 +65,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidge
      m_template(0)
 {
     init();
-    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
     m_parent = 0;
+    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
@@ -78,8 +78,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
     m_template(0)
 {
     init();
-    insertTypesSortedOperation(m_operation->getTypeName());
     m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    insertTypesSortedOperation(m_operation->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
@@ -91,8 +91,8 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
     m_template(_template)
 {
     init();
-    insertTypesSortedTemplate(m_template->getTypeName());
     m_parent = 0;
+    insertTypesSortedTemplate(m_template->getTypeName());
 }
 
 void UMLDatatypeWidget::init()
@@ -365,7 +365,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // function.
     types << QLatin1String("void");
     // add template parameters
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_parent);
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
         foreach (UMLClassifierListItem* li, tmplParams) {
@@ -399,7 +399,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_parent);
     if (pConcept == NULL) {
         uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
                  << " is not a UMLClassifier";
