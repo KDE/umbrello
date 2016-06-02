@@ -18,6 +18,7 @@
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "visibilityenumwidget.h"
 #include "dialog_utils.h"
@@ -69,12 +70,8 @@ void UMLAttributeDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeL, 0, 0);
-
-    m_pTypeCB = new KComboBox(true, m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeCB, 0, 1);
-    m_pTypeL->setBuddy(m_pTypeCB);
+    m_datatypeWidget = new UMLDatatypeWidget(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+    m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("attribute name", "&Name:"),
@@ -94,13 +91,6 @@ void UMLAttributeDialog::setupDialog()
     mainLayout->addWidget(m_pValuesGB);
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
     m_visibilityEnumWidget->addToLayout(mainLayout);
-
-    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    //now add the Concepts
-    insertTypesSorted(m_pAttribute->getTypeName());
 
     m_docWidget = new DocumentationWidget(m_pAttribute, this);
     mainLayout->addWidget(m_docWidget);
@@ -146,78 +136,8 @@ bool UMLAttributeDialog::apply()
     m_stereotypeWidget->apply();
     m_pAttribute->setStatic(m_pStaticCB->isChecked());
 
-    QString typeName = m_pTypeCB->currentText();
-    UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
-    if (tmplParam) {
-        m_pAttribute->setType(tmplParam);
-        return true;
-    }
-    UMLDoc * pDoc = UMLApp::app()->document();
-
-    UMLObject *obj = 0;
-    if (!typeName.isEmpty()) {
-        obj = pDoc->findUMLObject(typeName);
-    }
-
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
-    if (classifier == NULL) {
-        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-        // Import_Utils does not handle creating a new object with empty name
-        // string well. Use Object_Factory in those cases.
-        if (
-            (!typeName.isEmpty()) &&
-            ((pl == Uml::ProgrammingLanguage::Cpp) ||
-                (pl == Uml::ProgrammingLanguage::Java))
-        ) {
-            // Import_Utils::createUMLObject works better for C++ namespace
-            // and java package than Object_Factory::createUMLObject
-            Import_Utils::setRelatedClassifier(pConcept);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
-            Import_Utils::setRelatedClassifier(NULL);
-        } else {
-            // If it's obviously a pointer type (C++) then create a datatype.
-            // Else we don't know what it is so as a compromise create a class.
-            UMLObject::ObjectType ot =
-                (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
-                                                          : UMLObject::ot_Class);
-            obj = Object_Factory::createUMLObject(ot, typeName);
-        }
-        if (obj == NULL)
-            return false;
-        classifier = static_cast<UMLClassifier*>(obj);
-    }
-    m_pAttribute->setType(classifier);
+    m_datatypeWidget->apply();
     m_docWidget->apply();
 
     return true;
 }
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add
- */
-void UMLAttributeDialog::insertTypesSorted(const QString& type)
-{
-    UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(uDoc->concepts());
-    QStringList types;
-    foreach (UMLClassifier* obj, namesList) {
-         types << obj->fullyQualifiedName();
-    }
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pTypeCB->clear();
-    m_pTypeCB->insertItems(-1, types);
-
-    int currentIndex = m_pTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pTypeCB->setCurrentIndex(currentIndex);
-    }
-    m_pTypeCB->completionObject()->addItem(type);
-}
-

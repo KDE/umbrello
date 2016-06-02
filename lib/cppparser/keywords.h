@@ -33,6 +33,7 @@ INSERT("char", Token_char);
 INSERT("class", Token_class);
 INSERT("compl", Token_compl);
 INSERT("const", Token_const);
+INSERT("constexpr", Token_const_expr);
 INSERT("const_cast", Token_const_cast);
 INSERT("continue", Token_continue);
 INSERT("default", Token_default);

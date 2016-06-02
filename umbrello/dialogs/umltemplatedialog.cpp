@@ -18,6 +18,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "dialog_utils.h"
+#include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 
 // kde includes
@@ -62,12 +63,8 @@ void UMLTemplateDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeL, 0, 0);
-
-    m_pTypeCB = new KComboBox(m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeCB, 0, 1);
-    m_pTypeL->setBuddy(m_pTypeCB);
+    m_datatypeWidget = new UMLDatatypeWidget(m_pTemplate);
+    m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("template name", "&Name:"),
@@ -80,48 +77,7 @@ void UMLTemplateDialog::setupDialog()
     m_docWidget = new DocumentationWidget(m_pTemplate, this);
     mainLayout->addWidget(m_docWidget);
 
-    m_pTypeCB->setEditable(true);
-    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-//    m_pTypeCB->setCompleter(...);
-    insertTypesSorted(m_pTemplate->getTypeName());
-
     m_pNameLE->setFocus();
-}
-
-/**
- * Inserts @p type into the type-combobox.
- * The combobox is cleared and all types together with the optional new one
- * sorted and then added again.
- * @param type   a new type to add and selected
- */
-void UMLTemplateDialog::insertTypesSorted(const QString& type)
-{
-    QStringList types;
-    // "class" is the nominal type of template parameter
-    types << QLatin1String("class");
-    // add the active data types to combo box
-    UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(pDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-        types << obj->name();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pTypeCB->clear();
-    m_pTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pTypeCB->setCurrentIndex(currentIndex);
-    }
 }
 
 /**
@@ -130,18 +86,8 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
  */
 bool UMLTemplateDialog::apply()
 {
-    QString typeName = m_pTypeCB->currentText();
-    UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList(pDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
-        if (typeName == obj->name()) {
-            m_pTemplate->setType(obj);
-        }
-    }
-    if (namesList.isEmpty()) { // not found.
-        // FIXME: This implementation is not good yet.
-        m_pTemplate->setTypeName(typeName);
-    }
+    m_datatypeWidget->apply();
+
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),

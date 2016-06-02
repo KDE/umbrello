@@ -17,6 +17,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
+#include "operation.h"
 #include "debug_utils.h"
 #include "ast_utils.h"
 #include "codeimpthread.h"
@@ -271,6 +272,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 //:unused:    bool isInline = false;
     bool isConstructor = false;
 
+    bool isConstExpression = false;
+
     if (funSpec){
 //:unused:        QList<AST*> l = funSpec->nodeList();
 //:unused:        for (int i = 0; i < l.size(); ++i) {
@@ -286,6 +289,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
             QString text = l.at(i)->text();
             if (text == QLatin1String("friend")) isFriend = true;
             else if (text == QLatin1String("static")) isStatic = true;
+            else if (text == QLatin1String("constexpr"))
+                isConstExpression = true;
         }
     }
 
@@ -303,6 +308,9 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 
     QString returnType = typeOfDeclaration(typeSpec, d);
     UMLOperation *m = Import_Utils::makeOperation(c, id);
+    if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
+
     // if a class has no return type, it could be a constructor or
     // a destructor
     if (d && returnType.isEmpty() && id.indexOf(QLatin1Char('~')) == -1)
@@ -310,7 +318,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
-                              isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
+                               isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
     m_comment = QString();
 
 /* For reference, Kdevelop does some more:
@@ -522,6 +530,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
 //:unused:    bool isInline = false;
     bool isPure = decl->initializer() != 0;
     bool isConstructor = false;
+    bool isConstExpression = false;
 
     if (funSpec){
 //:unused:        QList<AST*> l = funSpec->nodeList();
@@ -538,6 +547,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
             QString text = l.at(i)->text();
             if (text == QLatin1String("friend")) isFriend = true;
             else if (text == QLatin1String("static")) isStatic = true;
+            else if (text == QLatin1String("constexpr"))
+                isConstExpression = true;
         }
     }
 
@@ -552,6 +563,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
 
     QString returnType = typeOfDeclaration(typeSpec, d);
     UMLOperation *m = Import_Utils::makeOperation(c, id);
+    if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
     // if a class has no return type, it could de a constructor or
     // a destructor
     if (d && returnType.isEmpty() && id.indexOf(QLatin1Char('~')) == -1)

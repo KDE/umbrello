@@ -17,6 +17,7 @@ class QCheckBox;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
+class UMLDatatypeWidget;
 class UMLEntityAttribute;
 class UMLStereotypeWidget;
 class KComboBox;
@@ -39,8 +40,6 @@ protected:
 
     virtual bool apply();
 
-    void insertTypesSorted(const QString& type = QString());
-
     void insertAttribute(const QString& type, int index = -1);
 
     /**
@@ -52,12 +51,12 @@ protected:
     QGroupBox * m_pAttsGB, * m_pValuesGB;
     QGroupBox * m_pScopeGB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pNoneRB;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pValuesL, * m_pAttributesL ;
-    KComboBox * m_pTypeCB;
+    QLabel * m_pNameL, * m_pInitialL, * m_pValuesL, * m_pAttributesL ;
     KComboBox * m_pAttributesCB;
     KLineEdit * m_pNameLE, * m_pInitialLE, * m_pValuesLE;
     QCheckBox* m_pAutoIncrementCB;
     QCheckBox* m_pNullCB;
+    UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
 
 public slots:

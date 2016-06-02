@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "codegenerator.h"
 #include "dialog_utils.h"
@@ -67,12 +68,8 @@ void UMLEntityAttributeDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeL, 0, 0);
-
-    m_pTypeCB = new KComboBox(true, m_pValuesGB);
-    valuesLayout->addWidget(m_pTypeCB, 0, 1);
-    m_pTypeL->setBuddy(m_pTypeCB);
+    m_datatypeWidget = new UMLDatatypeWidget(m_pEntityAttribute);
+    m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("name of entity attribute", "&Name:"),
@@ -108,7 +105,7 @@ void UMLEntityAttributeDialog::setupDialog()
     m_pAttributesCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 #endif
     valuesLayout->addWidget(m_pAttributesCB, 7, 1);
-    m_pTypeL->setBuddy(m_pAttributesCB);
+    m_pAttributesL->setBuddy(m_pAttributesCB);
 
     insertAttribute(m_pEntityAttribute->getAttributes());
     insertAttribute(QString::fromLatin1("binary"), m_pAttributesCB->count());
@@ -150,12 +147,6 @@ void UMLEntityAttributeDialog::setupDialog()
     else {
         m_pNoneRB->setChecked(true);
     }
-
-    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    insertTypesSorted(m_pEntityAttribute->getTypeName());
 
     m_pNameLE->setFocus();
     connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLEntityAttributeDialog::slotNameChanged);
@@ -211,66 +202,8 @@ bool UMLEntityAttributeDialog::apply()
         m_pEntityAttribute->setIndexType(UMLEntityAttribute::None);
     }
 
-    QString typeName = m_pTypeCB->currentText();
-    UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList dataTypes = pDoc->datatypes();
-    foreach (UMLClassifier* dat, dataTypes) {
-        if (typeName == dat->name()) {
-            m_pEntityAttribute->setType(dat);
-            return true;
-        }
-    }
-    UMLObject *obj = pDoc->findUMLObject(typeName);
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
-    if (classifier == NULL) {
-        // If it's obviously a pointer type (C++) then create a datatype.
-        // Else we don't know what it is so as a compromise create a class.
-        UMLObject::ObjectType ot =
-            (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
-                                                      : UMLObject::ot_Class);
-        obj = Object_Factory::createUMLObject(ot, typeName);
-        if (obj == NULL)
-            return false;
-        classifier = static_cast<UMLClassifier*>(obj);
-    }
-    m_pEntityAttribute->setType(classifier);
+    m_datatypeWidget->apply();
     return true;
-}
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- */
-void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
-{
-    QStringList types;
-    // add the data types
-    UMLDoc * pDoc = UMLApp::app()->document();
-    UMLClassifierList dataTypes = pDoc->datatypes();
-    if (dataTypes.count() == 0) {
-        // Switch to SQL as the active language if no datatypes are set.
-        UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::SQL);
-        pDoc->addDefaultDatatypes();
-        qApp->processEvents();
-        dataTypes = pDoc->datatypes();
-    }
-    foreach (UMLClassifier* dat, dataTypes) {
-        types << dat->name();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pTypeCB->clear();
-    m_pTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pTypeCB->setCurrentIndex(currentIndex);
-    }
-    m_pTypeCB->completionObject()->addItem(type);
 }
 
 /**

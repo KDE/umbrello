@@ -80,9 +80,9 @@ void TEST_cppwriter::test_defaultDatatypes()
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->defaultDatatypes();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], QLatin1String("int"));
-    QCOMPARE(list[5], QLatin1String("short"));
-    QCOMPARE(list.last(), QLatin1String("string"));
+    QCOMPARE(list[1], QLatin1String("int"));
+    QCOMPARE(list[10], QLatin1String("short int"));
+    QCOMPARE(list[5], QLatin1String("string"));
 }
 
 QTEST_MAIN(TEST_cppwriter)

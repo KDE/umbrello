@@ -29,6 +29,7 @@ class QToolButton;
 class KLineEdit;
 class UMLDoc;
 class UMLOperation;
+class UMLDatatypeWidget;
 class UMLStereotypeWidget;
 class VisibilityEnumWidget;
 
@@ -65,9 +66,8 @@ protected:
     QRadioButton*         m_pPrivateRB;
     QRadioButton*         m_pProtectedRB;
     QRadioButton*         m_pImplementationRB;
-    QLabel*               m_pRtypeL;
     QLabel*               m_pNameL;
-    KComboBox*            m_pRtypeCB;
+    UMLDatatypeWidget*    m_datatypeWidget;
     UMLStereotypeWidget*  m_stereotypeWidget;
     KLineEdit*            m_pNameLE;
     QCheckBox*            m_pAbstractCB;
