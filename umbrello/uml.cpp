@@ -342,7 +342,7 @@ void UMLApp::initActions()
 
     QAction* importProject = actionCollection()->addAction(QLatin1String("import_project"));
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
-    importProject->setText(i18n("Import &Project..."));
+    importProject->setText(i18n("Import from Directory..."));
     connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
 
     QAction* genWizard = actionCollection()->addAction(QLatin1String("generation_wizard"));
