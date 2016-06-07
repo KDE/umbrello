@@ -176,6 +176,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
     KApplication app;
 #endif
+    Q_INIT_RESOURCE(icons);
 
     QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {

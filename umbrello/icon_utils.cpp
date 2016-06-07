@@ -26,7 +26,11 @@
 
 #include <kiconloader.h>
 
+#include <QFile>
+
 namespace Icon_Utils {
+
+#define ICON_PREFIX QLatin1String(":/pics/")
 
 /**
  * Returns the pixmap for the given type as small icon.
@@ -35,7 +39,11 @@ namespace Icon_Utils {
  */
 QPixmap SmallIcon(IconType type)
 {
-    return SmallIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return SmallIcon(icon);
 }
 
 /**
@@ -45,7 +53,11 @@ QPixmap SmallIcon(IconType type)
  */
 QPixmap BarIcon(IconType type)
 {
-    return BarIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return BarIcon(icon);
 }
 
 /**
@@ -55,7 +67,11 @@ QPixmap BarIcon(IconType type)
  */
 QPixmap MainBarIcon(IconType type)
 {
-    return MainBarIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return MainBarIcon(icon);
 }
 
 /**
@@ -65,7 +81,11 @@ QPixmap MainBarIcon(IconType type)
  */
 QPixmap UserIcon(IconType type)
 {
-    return UserIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return UserIcon(icon);
 }
 
 /**
@@ -75,7 +95,11 @@ QPixmap UserIcon(IconType type)
  */
 QPixmap DesktopIcon(IconType type)
 {
-    return DesktopIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return DesktopIcon(icon);
 }
 
 /**
