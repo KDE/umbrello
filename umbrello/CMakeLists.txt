@@ -471,6 +471,7 @@ set(umbrellobase_SRCS
     umlviewimageexportermodel.cpp
     uniqueid.cpp
     worktoolbar.cpp
+    icons.qrc
 )
 
 set(umbrellomodels_SRCS
