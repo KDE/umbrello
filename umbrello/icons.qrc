@@ -127,15 +127,14 @@
         <file>pics/global/32-mimetypes-application-x-uml.png</file>
         <file>pics/global/48-apps-umbrello.png</file>
         <file>pics/global/64-apps-umbrello.png</file>
-        <file alias="pics/umbrello_diagram_activity.png">pics/hi16-actions-umbrello_diagram_activity.png</file>
-        <file alias="pics/umbrello_diagram_class.png">pics/hi16-actions-umbrello_diagram_class.png</file>
-        <file alias="pics/umbrello_diagram_collaboration.png">pics/hi16-actions-umbrello_diagram_collaboration.png</file>
-        <file alias="pics/umbrello_diagram_component.png">pics/hi16-actions-umbrello_diagram_component.png</file>
-        <file alias="pics/umbrello_diagram_deployment.png">pics/hi16-actions-umbrello_diagram_deployment.png</file>
-        <file alias="pics/umbrello_diagram_sequence.png">pics/hi16-actions-umbrello_diagram_sequence.png</file>
-        <file alias="pics/umbrello_diagram_state.png">pics/hi16-actions-umbrello_diagram_state.png</file>
-        <file alias="pics/umbrello_diagram_usecase.png">pics/hi16-actions-umbrello_diagram_usecase.png</file>
         <file alias="pics/umbrello_diagram_activity.png">pics/hi22-actions-umbrello_diagram_activity.png</file>
+        <file alias="pics/umbrello_diagram_class.png">pics/hi22-actions-umbrello_diagram_class.png</file>
+        <file alias="pics/umbrello_diagram_collaboration.png">pics/hi22-actions-umbrello_diagram_collaboration.png</file>
+        <file alias="pics/umbrello_diagram_component.png">pics/hi22-actions-umbrello_diagram_component.png</file>
+        <file alias="pics/umbrello_diagram_deployment.png">pics/hi22-actions-umbrello_diagram_deployment.png</file>
+        <file alias="pics/umbrello_diagram_sequence.png">pics/hi22-actions-umbrello_diagram_sequence.png</file>
+        <file alias="pics/umbrello_diagram_state.png">pics/hi22-actions-umbrello_diagram_state.png</file>
+        <file alias="pics/umbrello_diagram_usecase.png">pics/hi22-actions-umbrello_diagram_usecase.png</file>
         <file>pics/initial_state.png</file>
         <file>pics/interface.png</file>
         <file>pics/join.png</file>
