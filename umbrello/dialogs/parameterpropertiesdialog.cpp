@@ -83,7 +83,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, attr->getInitialValue());
 
-    m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
+    m_stereotypeWidget = new UMLStereotypeWidget();
+    m_stereotypeWidget->setUMLObject(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
 
     m_pKindGB =  new QGroupBox(i18n("Passing Direction"));

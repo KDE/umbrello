@@ -80,7 +80,8 @@ void UMLEntityAttributeDialog::setupDialog()
                                     m_pInitialL, i18n("&Default value:"),
                                     m_pInitialLE, m_pEntityAttribute->getInitialValue());
 
-    m_stereotypeWidget = new UMLStereotypeWidget(m_pEntityAttribute);
+    m_stereotypeWidget = new UMLStereotypeWidget();
+    m_stereotypeWidget->setUMLObject(m_pEntityAttribute);
     m_stereotypeWidget->addToLayout(valuesLayout, 3);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 4,

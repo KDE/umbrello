@@ -101,7 +101,8 @@ void UMLOperationDialog::setupDialog()
     m_datatypeWidget->setOPeration(m_operation);
     m_datatypeWidget->addToLayout(genLayout, 0, 2);
 
-    m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
+    m_stereotypeWidget = new UMLStereotypeWidget();
+    m_stereotypeWidget->setUMLObject(m_operation);
     m_stereotypeWidget->addToLayout(genLayout, 1);
 
     m_pAbstractCB = new QCheckBox(i18n("&Abstract operation"), m_pGenGB);

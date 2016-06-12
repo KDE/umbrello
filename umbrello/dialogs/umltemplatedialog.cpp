@@ -70,7 +70,8 @@ void UMLTemplateDialog::setupDialog()
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("template name", "&Name:"),
                                     m_pNameLE, m_pTemplate->name());
-    m_stereotypeWidget = new UMLStereotypeWidget(m_pTemplate);
+    m_stereotypeWidget = new UMLStereotypeWidget();
+    m_stereotypeWidget->setUMLObject(m_pTemplate);
     m_stereotypeWidget->addToLayout(valuesLayout, 2);
 
     mainLayout->addWidget(m_pValuesGB);
