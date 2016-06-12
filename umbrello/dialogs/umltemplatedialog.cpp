@@ -63,7 +63,8 @@ void UMLTemplateDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_datatypeWidget = new UMLDatatypeWidget(m_pTemplate);
+    m_datatypeWidget = new UMLDatatypeWidget();
+    m_datatypeWidget->setTemplate(m_pTemplate);
     m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,

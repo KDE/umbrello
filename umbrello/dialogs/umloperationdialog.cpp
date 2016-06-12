@@ -97,7 +97,8 @@ void UMLOperationDialog::setupDialog()
                                     m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_operation->name());
 
-    m_datatypeWidget = new UMLDatatypeWidget(m_operation);
+    m_datatypeWidget = new UMLDatatypeWidget();
+    m_datatypeWidget->setOPeration(m_operation);
     m_datatypeWidget->addToLayout(genLayout, 0, 2);
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
