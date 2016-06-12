@@ -30,69 +30,14 @@
 #include <QLabel>
 #include <QWidget>
 
-UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
-  : QWidget(parent),
-    m_attribute(attribute),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
+UMLDatatypeWidget::UMLDatatypeWidget(QWidget *parent) : QWidget(parent)
+  , m_attribute(nullptr)
+  , m_datatype(nullptr)
+  , m_operation(nullptr)
+  , m_entityAttribute(nullptr)
+  , m_template(nullptr)
 {
     init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
-    insertTypesSortedParameter(m_attribute->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
-  : QWidget(parent),
-    m_attribute(0),
-    m_datatype(datatype),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
-{
-    init();
-    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
-    insertTypesSortedAttribute(m_datatype->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
-   : QWidget(parent),
-     m_attribute(0),
-     m_datatype(0),
-     m_entityAttribute(entityAttribute),
-     m_operation(0),
-     m_template(0)
-{
-    init();
-    m_parent = 0;
-    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
- :  QWidget(parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(operation),
-    m_template(0)
-{
-    init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
-    insertTypesSortedOperation(m_operation->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
- :  QWidget(parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(_template)
-{
-    init();
-    m_parent = 0;
-    insertTypesSortedTemplate(m_template->getTypeName());
 }
 
 void UMLDatatypeWidget::init()
@@ -113,10 +58,50 @@ void UMLDatatypeWidget::init()
     setLayout(layout);
 }
 
+
+
 UMLDatatypeWidget::~UMLDatatypeWidget()
 {
     delete m_comboBox;
     delete m_label;
+}
+
+void UMLDatatypeWidget::setAttribute(UMLAttribute *attribute)
+{
+    m_attribute = attribute;
+    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    insertTypesSortedParameter(m_attribute->getTypeName());
+}
+
+void UMLDatatypeWidget::setClassifierItem(UMLClassifierListItem *datatype)
+{
+    m_datatype = datatype;
+    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    insertTypesSortedAttribute(m_datatype->getTypeName());
+
+}
+
+void UMLDatatypeWidget::setEntityAttribute(UMLEntityAttribute *entityAttribute)
+{
+    m_entityAttribute = entityAttribute;
+    m_parent = 0;
+    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
+}
+
+void UMLDatatypeWidget::setOPeration(UMLOperation *operation)
+{
+    m_operation = operation;
+    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    insertTypesSortedOperation(m_operation->getTypeName());
+
+}
+
+void UMLDatatypeWidget::setTemplate(UMLTemplate *_template)
+{
+    m_template = _template;
+    m_parent = 0;
+    insertTypesSortedTemplate(m_template->getTypeName());
+
 }
 
 bool UMLDatatypeWidget::apply()

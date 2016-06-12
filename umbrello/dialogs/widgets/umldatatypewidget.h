@@ -26,12 +26,14 @@ class UMLTemplate;
 class UMLDatatypeWidget : public QWidget
 {
 public:
-    UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
-    UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
-    UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent=0);
+    UMLDatatypeWidget(QWidget *parent = 0);
     ~UMLDatatypeWidget();
+
+    void setAttribute(UMLAttribute *attribute);
+    void setClassifierItem(UMLClassifierListItem *datatype);
+    void setEntityAttribute(UMLEntityAttribute *entityAttribute);
+    void setOPeration(UMLOperation *operation);
+    void setTemplate(UMLTemplate *_template);
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
     bool apply();
