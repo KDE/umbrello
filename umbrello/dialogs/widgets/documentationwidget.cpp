@@ -19,13 +19,10 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 
-DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
+DocumentationWidget::DocumentationWidget(QWidget *parent) :
     QWidget(parent),
-    m_object(o),
     m_widget(0)
 {
-    Q_ASSERT(o);
-    init(o->doc());
 }
 
 DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
@@ -52,6 +49,13 @@ void DocumentationWidget::apply()
         m_object->setDoc(m_editField->toPlainText());
     else if (m_widget)
         m_widget->setDocumentation(m_editField->toPlainText());
+}
+
+void DocumentationWidget::setUMLObject(UMLObject *o)
+{
+    Q_ASSERT(o);
+    m_object = o;
+    init(o->doc());
 }
 
 /**

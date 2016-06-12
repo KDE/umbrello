@@ -25,11 +25,12 @@ class DocumentationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DocumentationWidget(UMLObject *o, QWidget *parent = 0);
+    explicit DocumentationWidget(QWidget *parent = 0);
     explicit DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
     ~DocumentationWidget();
 
     void apply();
+    void setUMLObject(UMLObject *o);
 
 protected:
     QGroupBox *m_box;
