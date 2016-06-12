@@ -115,7 +115,8 @@ void UMLOperationDialog::setupDialog()
     m_pQueryCB->setChecked(m_operation->getConst());
     genLayout->addWidget(m_pQueryCB, 2, 2);
 
-    m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
+    m_visibilityEnumWidget = new VisibilityEnumWidget();
+    m_visibilityEnumWidget->setUMLObject(m_operation);
 
     m_docWidget = new DocumentationWidget(m_operation, this);
 

@@ -144,7 +144,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup scope
     if (t != UMLObject::ot_Stereotype) {
-        m_visibilityEnumWidget = new VisibilityEnumWidget(m_pObject, this);
+        m_visibilityEnumWidget = new VisibilityEnumWidget();
+        m_visibilityEnumWidget->setUMLObject(m_pObject);
         m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
