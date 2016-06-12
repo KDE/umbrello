@@ -30,10 +30,11 @@ public:
     typedef QMap<Uml::Visibility::Enum,QString> TextMap;
     typedef QMap<Uml::Visibility::Enum,QRadioButton*> ButtonMap;
 
-    explicit VisibilityEnumWidget(UMLObject *o, QWidget *parent=0);
+    explicit VisibilityEnumWidget(QWidget *parent=0);
     VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent=0);
     ~VisibilityEnumWidget();
 
+    void setUMLObject(UMLObject *o);
     void addToLayout(QVBoxLayout *layout);
     void apply();
 

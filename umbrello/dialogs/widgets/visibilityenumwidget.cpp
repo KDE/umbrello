@@ -20,20 +20,15 @@
 #include <QGroupBox>
 #include <QRadioButton>
 
-VisibilityEnumWidget::VisibilityEnumWidget(UMLObject *o, QWidget *parent)
+VisibilityEnumWidget::VisibilityEnumWidget(QWidget *parent)
     : QWidget(parent),
-      m_object(o),
       m_widget(0),
       m_role(Uml::RoleType::A)
 {
-    Q_ASSERT(o);
-
     m_texts[Uml::Visibility::Public] = i18nc("public visibility", "P&ublic");
     m_texts[Uml::Visibility::Protected] = i18nc("protected visibility", "Pro&tected");
     m_texts[Uml::Visibility::Private] = i18nc("private visibility", "P&rivate");
     m_texts[Uml::Visibility::Implementation] = i18n("Imple&mentation");
-    init(i18n("Visibility"));
-    m_buttons[m_object->visibility()]->setChecked(true);
 }
 
 VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent)
@@ -61,6 +56,13 @@ VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::
 VisibilityEnumWidget::~VisibilityEnumWidget()
 {
     // nothing here, parenting makes sure that all objects are destroyed
+}
+
+void VisibilityEnumWidget::setUMLObject(UMLObject *o)
+{
+    m_object = o;
+    init(i18n("Visibility"));
+    m_buttons[m_object->visibility()]->setChecked(true);
 }
 
 /**
