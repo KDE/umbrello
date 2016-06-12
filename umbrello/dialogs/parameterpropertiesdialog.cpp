@@ -104,7 +104,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     topLayout->addWidget(m_pKindGB);
 
-    m_docWidget = new DocumentationWidget(m_pAtt);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_pAtt);
     topLayout->addWidget(m_docWidget);
 
     // Check the proper Kind radiobutton.

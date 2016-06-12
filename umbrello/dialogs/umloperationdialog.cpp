@@ -118,7 +118,8 @@ void UMLOperationDialog::setupDialog()
     m_visibilityEnumWidget = new VisibilityEnumWidget();
     m_visibilityEnumWidget->setUMLObject(m_operation);
 
-    m_docWidget = new DocumentationWidget(m_operation, this);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_operation);
 
     m_pParmsGB = new QGroupBox(i18n("Parameters"), frame);
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);

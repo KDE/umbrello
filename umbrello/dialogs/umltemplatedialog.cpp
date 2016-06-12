@@ -76,7 +76,8 @@ void UMLTemplateDialog::setupDialog()
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_docWidget = new DocumentationWidget(m_pTemplate, this);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_pTemplate);
     mainLayout->addWidget(m_docWidget);
 
     m_pNameLE->setFocus();

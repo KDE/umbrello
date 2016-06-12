@@ -149,7 +149,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
-    m_docWidget = new DocumentationWidget(m_pObject, this);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_pObject);
     topLayout->addWidget(m_docWidget);
 }
 
