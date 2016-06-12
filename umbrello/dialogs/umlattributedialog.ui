@@ -1,21 +1,167 @@
-<ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
- <class>Form</class>
- <widget class="QWidget" name="Form" >
-  <property name="geometry" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UMLAttributeDialog</class>
+ <widget class="QWidget" name="UMLAttributeDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>464</width>
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="verticalSpacing">
+    <number>10</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>General Properties</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout"/>
+     </item>
+     <item>
+      <widget class="UMLDatatypeWidget" name="dataTypeWidget" native="true"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="tb_name"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Initial Value:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="tb_initialValue"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Type Qualifiers:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QRadioButton" name="rb_none">
+         <property name="text">
+          <string>&amp;None</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rb_const">
+         <property name="text">
+          <string>Const</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rb_volatile">
+         <property name="text">
+          <string>&amp;Volatile</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rb_mutable">
+         <property name="text">
+          <string>&amp;Mutable</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rb_constVolatile">
+         <property name="text">
+          <string>Const Vo&amp;latile</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="cb_classifierScopeStatic">
+     <property name="text">
+      <string>Classifier Scope(&quot;static&quot;)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="VisibilityEnumWidget" name="visibilityWidget" native="true"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="DocumentationWidget" name="documentationWidget" native="true"/>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>UMLDatatypeWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/umldatatypewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UMLStereotypeWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/umlstereotypewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VisibilityEnumWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/visibilityenumwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DocumentationWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/documentationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections/>
 </ui>
