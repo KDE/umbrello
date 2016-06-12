@@ -24,12 +24,14 @@ class QLabel;
 class UMLStereotypeWidget : public QWidget
 {
 public:
-    explicit UMLStereotypeWidget(UMLObject *object, QWidget *parent=0);
+    explicit UMLStereotypeWidget(QWidget *parent=0);
     ~UMLStereotypeWidget();
 
+    void setUMLObject(UMLObject *o);
     void setEditable(bool state);
     void addToLayout(QGridLayout *layout, int row);
     void apply();
+
 
 protected:
     QLabel *m_label;

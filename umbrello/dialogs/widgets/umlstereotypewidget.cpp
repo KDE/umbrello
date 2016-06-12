@@ -23,20 +23,23 @@
 #include <QLabel>
 #include <QWidget>
 
-Q_DECLARE_METATYPE(UMLStereotype*);
+Q_DECLARE_METATYPE(UMLStereotype*)
 
-UMLStereotypeWidget::UMLStereotypeWidget(UMLObject *object, QWidget *parent)
-    : QWidget(parent),
-      m_object(object)
-{
-    Q_ASSERT(m_object);
-    init();
+UMLStereotypeWidget::UMLStereotypeWidget(QWidget *parent)
+    : QWidget(parent)
+{    
 }
 
 UMLStereotypeWidget::~UMLStereotypeWidget()
 {
     delete m_comboBox;
     delete m_label;
+}
+
+void UMLStereotypeWidget::setUMLObject(UMLObject *o)
+{
+    m_object = o;
+    init();
 }
 
 /**
