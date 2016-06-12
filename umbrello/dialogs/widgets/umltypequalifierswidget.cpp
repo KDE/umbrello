@@ -4,7 +4,8 @@
 
 #include <KLocalizedString>
 
-UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UMLClassifierListItem *o,QWidget *parent) : QWidget(parent)
+UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(UMLClassifierListItem *o,QWidget *parent)
+  : QWidget(parent)
   , m_qualifier(o)
 {
     Q_ASSERT(o);
