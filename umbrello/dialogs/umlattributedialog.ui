@@ -20,7 +20,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>General Properties</string>
+      <string>Genera&amp;l Properties</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -40,7 +40,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Name:</string>
+          <string>Na&amp;me:</string>
          </property>
         </widget>
        </item>
@@ -54,65 +54,12 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Initial Value:</string>
+          <string>Initial &amp;Value:</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLineEdit" name="tb_initialValue"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Type Qualifiers:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QRadioButton" name="rb_none">
-         <property name="text">
-          <string>&amp;None</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rb_const">
-         <property name="text">
-          <string>Const</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rb_volatile">
-         <property name="text">
-          <string>&amp;Volatile</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rb_mutable">
-         <property name="text">
-          <string>&amp;Mutable</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rb_constVolatile">
-         <property name="text">
-          <string>Const Vo&amp;latile</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </item>
@@ -133,6 +80,11 @@
    </item>
    <item row="6" column="0">
     <widget class="DocumentationWidget" name="documentationWidget" native="true"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="UmlTypeQualifiersWidget" name="typeQualifiersWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout"/>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -159,6 +111,12 @@
    <class>DocumentationWidget</class>
    <extends>QWidget</extends>
    <header>widgets/documentationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UmlTypeQualifiersWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/umltypequalifierswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
