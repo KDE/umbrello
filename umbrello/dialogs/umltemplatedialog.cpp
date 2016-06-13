@@ -37,9 +37,11 @@
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
   : SinglePageDialogBase(pParent)
+  , ui(new Ui::UMLTemplateDialog)
 {
     m_pTemplate = pTemplate;
     setCaption(i18n("Template Properties"));
+    ui->setupUi(mainWidget());
     setupDialog();
 }
 
@@ -52,35 +54,10 @@ UMLTemplateDialog::~UMLTemplateDialog()
  */
 void UMLTemplateDialog::setupDialog()
 {
-    int margin = fontMetrics().height();
-
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
-
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
-    QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
-    valuesLayout->setSpacing(10);
-
-    m_datatypeWidget = new UMLDatatypeWidget();
-    m_datatypeWidget->setTemplate(m_pTemplate);
-    m_datatypeWidget->addToLayout(valuesLayout, 0);
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
-                                    m_pNameL, i18nc("template name", "&Name:"),
-                                    m_pNameLE, m_pTemplate->name());
-    m_stereotypeWidget = new UMLStereotypeWidget();
-    m_stereotypeWidget->setUMLObject(m_pTemplate);
-    m_stereotypeWidget->addToLayout(valuesLayout, 2);
-
-    mainLayout->addWidget(m_pValuesGB);
-
-    m_docWidget = new DocumentationWidget();
-    m_docWidget->setUMLObject(m_pTemplate);
-    mainLayout->addWidget(m_docWidget);
-
-    m_pNameLE->setFocus();
+    ui->dataTypeWidget->setTemplate(m_pTemplate);
+    ui->stereotypeWidget->setUMLObject(m_pTemplate);
+    ui->documentationWidget->setUMLObject(m_pTemplate);
+    ui->tb_name->setFocus();
 }
 
 /**
@@ -89,13 +66,13 @@ void UMLTemplateDialog::setupDialog()
  */
 bool UMLTemplateDialog::apply()
 {
-    m_datatypeWidget->apply();
+    ui->dataTypeWidget->apply();
 
-    QString name = m_pNameLE->text();
+    QString name = ui->tb_name->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
                            i18n("Template Name Invalid"), 0);
-        m_pNameLE->setText(m_pTemplate->name());
+        ui->tb_name->setText(m_pTemplate->name());
         return false;
     }
 
@@ -105,13 +82,13 @@ bool UMLTemplateDialog::apply()
         if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), 0);
-            m_pNameLE->setText(m_pTemplate->name());
+            ui->tb_name->setText(m_pTemplate->name());
             return false;
         }
     }
     m_pTemplate->setName(name);
-    m_stereotypeWidget->apply();
-    m_docWidget->apply();
+    ui->stereotypeWidget->apply();
+    ui->documentationWidget->apply();
 
     return true;
 }
