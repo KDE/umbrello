@@ -37,6 +37,9 @@ public:
     UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute);
     ~UMLAttributeDialog();
 
+private:
+    Ui::UMLAttributeDialog *ui;
+
 protected:
     void setupDialog();
     bool apply();
@@ -53,8 +56,6 @@ protected:
 public slots:
     void slotNameChanged(const QString &);
 
-private:
-    Ui::UMLAttributeDialog *ui;
 };
 
 #endif
