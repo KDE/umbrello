@@ -253,6 +253,7 @@ ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlattributedialog.ui
+     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlentityattributedialog.ui
 )
 
 set(librefactoring_SRCS
