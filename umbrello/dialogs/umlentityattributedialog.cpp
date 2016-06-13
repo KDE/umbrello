@@ -43,9 +43,11 @@
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
   : SinglePageDialogBase(pParent)
+  , ui(new Ui::UMLEntityAttributeDialog)
+  , m_pEntityAttribute(pEntityAttribute)
 {
     setCaption(i18n("Entity Attribute Properties"));
-    m_pEntityAttribute = pEntityAttribute;
+    ui->setupUi(mainWidget());
     setupDialog();
 }
 
@@ -58,71 +60,19 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
  */
 void UMLEntityAttributeDialog::setupDialog()
 {
-    int margin = fontMetrics().height();
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
-
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
-    QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
-    valuesLayout->setSpacing(10);
-
-    m_datatypeWidget = new UMLDatatypeWidget();
-    m_datatypeWidget->setEntityAttribute(m_pEntityAttribute);
-    m_datatypeWidget->addToLayout(valuesLayout, 0);
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
-                                    m_pNameL, i18nc("name of entity attribute", "&Name:"),
-                                    m_pNameLE, m_pEntityAttribute->name());
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
-                                    m_pInitialL, i18n("&Default value:"),
-                                    m_pInitialLE, m_pEntityAttribute->getInitialValue());
-
-    m_stereotypeWidget = new UMLStereotypeWidget();
-    m_stereotypeWidget->setUMLObject(m_pEntityAttribute);
-    m_stereotypeWidget->addToLayout(valuesLayout, 3);
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 4,
-                                    m_pValuesL, i18n("Length/Values:"),
-                                    m_pValuesLE, m_pEntityAttribute->getValues());
-
-    m_pAutoIncrementCB = new QCheckBox(i18n("&Auto increment"), m_pValuesGB);
-    m_pAutoIncrementCB->setChecked(m_pEntityAttribute->getAutoIncrement());
-    valuesLayout->addWidget(m_pAutoIncrementCB, 5, 0);
-
-    m_pNullCB = new QCheckBox(i18n("Allow &null"), m_pValuesGB);
-    m_pNullCB->setChecked(m_pEntityAttribute->getNull());
-    valuesLayout->addWidget(m_pNullCB, 6, 0);
+    ui->dataTypeWidget->setEntityAttribute(m_pEntityAttribute);
+    ui->stereotypeWidget->setUMLObject(m_pEntityAttribute);
+    ui->ck_autoIncrement->setChecked(m_pEntityAttribute->getAutoIncrement());
+    ui->ck_allowNull->setChecked(m_pEntityAttribute->getNull());
 
     // enable/disable isNull depending on the state of Auto Increment Check Box
-    slotAutoIncrementStateChanged(m_pAutoIncrementCB->isChecked());
-
-    m_pAttributesL = new QLabel(i18n("Attributes:"), m_pValuesGB);
-    valuesLayout->addWidget(m_pAttributesL, 7, 0);
-
-    m_pAttributesCB = new KComboBox(true, m_pValuesGB);
-#if QT_VERSION < 0x050000
-    m_pAttributesCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    valuesLayout->addWidget(m_pAttributesCB, 7, 1);
-    m_pAttributesL->setBuddy(m_pAttributesCB);
+    slotAutoIncrementStateChanged(ui->ck_autoIncrement->isChecked());
 
     insertAttribute(m_pEntityAttribute->getAttributes());
-    insertAttribute(QString::fromLatin1("binary"), m_pAttributesCB->count());
-    insertAttribute(QString::fromLatin1("unsigned"), m_pAttributesCB->count());
-    insertAttribute(QString::fromLatin1("unsigned zerofill"), m_pAttributesCB->count());
-
-    mainLayout->addWidget(m_pValuesGB);
-
-    m_pScopeGB = new QGroupBox(i18n("Indexing"), frame);
-    QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeGB);
-    scopeLayout->setMargin(margin);
-
-    m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeGB);
-    scopeLayout->addWidget(m_pNoneRB);
-
+    insertAttribute(QString::fromLatin1("binary"), ui->cb_attributesTypes->count());
+    insertAttribute(QString::fromLatin1("unsigned"), ui->cb_attributesTypes->count());
+    insertAttribute(QString::fromLatin1("unsigned zerofill"), ui->cb_attributesTypes->count());
+#if 0
     /*
     m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeGB);
     scopeLayout->addWidget(m_pPublicRB);
@@ -131,10 +81,6 @@ void UMLEntityAttributeDialog::setupDialog()
     scopeLayout->addWidget(m_pProtectedRB);
     */
 
-    m_pPrivateRB = new QRadioButton(i18n("&Indexed"), m_pScopeGB);
-    scopeLayout->addWidget(m_pPrivateRB);
-
-    mainLayout->addWidget(m_pScopeGB);
     UMLEntityAttribute::DBIndex_Type scope = m_pEntityAttribute->indexType();
 
     /*
@@ -154,6 +100,11 @@ void UMLEntityAttributeDialog::setupDialog()
     connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLEntityAttributeDialog::slotNameChanged);
     connect(m_pAutoIncrementCB, &QCheckBox::clicked, this, &UMLEntityAttributeDialog::slotAutoIncrementStateChanged);
     slotNameChanged(m_pNameLE->text());
+#endif
+    ui->tb_name->setFocus();
+    connect(ui->tb_name, &QLineEdit::textChanged, this, &UMLEntityAttributeDialog::slotNameChanged);
+    connect(ui->ck_autoIncrement, &QCheckBox::clicked, this, &UMLEntityAttributeDialog::slotAutoIncrementStateChanged);
+    slotNameChanged(ui->tb_name->text());
 }
 
 void UMLEntityAttributeDialog::slotNameChanged(const QString &_text)
@@ -167,11 +118,11 @@ void UMLEntityAttributeDialog::slotNameChanged(const QString &_text)
  */
 bool UMLEntityAttributeDialog::apply()
 {
-    QString name = m_pNameLE->text();
+    QString name = ui->tb_name->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
                            i18n("Entity Attribute Name Invalid"), 0);
-        m_pNameLE->setText(m_pEntityAttribute->name());
+        ui->tb_name->setText(m_pEntityAttribute->name());
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pEntityAttribute->parent());
@@ -179,17 +130,17 @@ bool UMLEntityAttributeDialog::apply()
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), 0);
-        m_pNameLE->setText(m_pEntityAttribute->name());
+        ui->tb_name->setText(m_pEntityAttribute->name());
         return false;
     }
     m_pEntityAttribute->setName(name);
-    m_pEntityAttribute->setInitialValue(m_pInitialLE->text());
-    m_stereotypeWidget->apply();
-    m_pEntityAttribute->setValues(m_pValuesLE->text());
-    m_pEntityAttribute->setAttributes(m_pAttributesCB->currentText());
-    m_pEntityAttribute->setAutoIncrement(m_pAutoIncrementCB->isChecked());
-    m_pEntityAttribute->setNull(m_pNullCB->isChecked());
-
+    m_pEntityAttribute->setInitialValue(ui->tb_defaultValue->text());
+    ui->stereotypeWidget->apply();
+    m_pEntityAttribute->setValues(ui->tb_lenghtValues->text());
+    m_pEntityAttribute->setAttributes(ui->cb_attributesTypes->currentText());
+    m_pEntityAttribute->setAutoIncrement(ui->ck_autoIncrement->isChecked());
+    m_pEntityAttribute->setNull(ui->ck_allowNull->isChecked());
+#if 0
     /*
     if (m_pPublicRB->isChecked()) {
         m_pEntityAttribute->setIndexType(UMLEntityAttribute::Primary);
@@ -203,8 +154,8 @@ bool UMLEntityAttributeDialog::apply()
     } else {
         m_pEntityAttribute->setIndexType(UMLEntityAttribute::None);
     }
-
-    m_datatypeWidget->apply();
+#endif
+    ui->dataTypeWidget->apply();
     return true;
 }
 
@@ -213,8 +164,7 @@ bool UMLEntityAttributeDialog::apply()
  */
 void UMLEntityAttributeDialog::insertAttribute(const QString& type, int index)
 {
-    m_pAttributesCB->insertItem(index, type);
-    m_pAttributesCB->completionObject()->addItem(type);
+    ui->cb_attributesTypes->insertItem(index, type);
 }
 
 /**
@@ -223,10 +173,10 @@ void UMLEntityAttributeDialog::insertAttribute(const QString& type, int index)
 void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
 {
     if (checked == true) {
-        m_pNullCB->setChecked(false);
-        m_pNullCB->setEnabled(false);
+        ui->ck_allowNull->setChecked(false);
+        ui->ck_allowNull->setEnabled(false);
     } else if (checked == false) {
-        m_pNullCB->setEnabled(true);
+        ui->ck_allowNull->setEnabled(true);
     }
 
 }

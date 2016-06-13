@@ -12,6 +12,7 @@
 #define UMLENTITYATTRIBUTEDIALOG_H
 
 #include "singlepagedialogbase.h"
+#include "ui_umlentityattributedialog.h"
 
 class QCheckBox;
 class QGroupBox;
@@ -34,6 +35,9 @@ public:
     UMLEntityAttributeDialog(QWidget* pParent, UMLEntityAttribute* pEntityAttribute);
     ~UMLEntityAttributeDialog();
 
+private:
+    Ui::UMLEntityAttributeDialog *ui;
+
 protected:
 
     void setupDialog();
@@ -46,18 +50,6 @@ protected:
      * The EntityAttribute to represent.
      */
     UMLEntityAttribute * m_pEntityAttribute;
-
-    //GUI Widgets
-    QGroupBox * m_pAttsGB, * m_pValuesGB;
-    QGroupBox * m_pScopeGB;
-    QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pNoneRB;
-    QLabel * m_pNameL, * m_pInitialL, * m_pValuesL, * m_pAttributesL ;
-    KComboBox * m_pAttributesCB;
-    KLineEdit * m_pNameLE, * m_pInitialLE, * m_pValuesLE;
-    QCheckBox* m_pAutoIncrementCB;
-    QCheckBox* m_pNullCB;
-    UMLDatatypeWidget *m_datatypeWidget;
-    UMLStereotypeWidget *m_stereotypeWidget;
 
 public slots:
     void slotAutoIncrementStateChanged(bool checked);
