@@ -94,6 +94,19 @@ Uml::TypeQualifiers::Enum UMLClassifierListItem::qualifier() const
     return m_typeQualifier;
 }
 
+void UMLClassifierListItem::setModifier(Uml::TypeModifiers::Enum modifier)
+{
+    if(m_typeModifier != modifier){
+        m_typeModifier = modifier;
+        UMLObject::emitModified();
+    }
+}
+
+Uml::TypeModifiers::Enum UMLClassifierListItem::modifier() const
+{
+    return m_typeModifier;
+}
+
 /**
  * Returns a string representation of the list item.
  *

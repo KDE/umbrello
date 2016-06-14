@@ -58,6 +58,10 @@ public:
     //virtual void setQualifierCmd(Uml::TypeQualifiers::Enum qualifier);
     virtual Uml::TypeQualifiers::Enum qualifier() const;
 
+    //TypeModifiers Methods
+    virtual void setModifier(Uml::TypeModifiers::Enum modifier);
+    virtual Uml::TypeModifiers::Enum modifier() const;
+
 };
 
 #endif
