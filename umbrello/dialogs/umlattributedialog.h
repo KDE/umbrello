@@ -12,19 +12,8 @@
 #define UMLATTRIBUTEDIALOG_H
 
 #include "singlepagedialogbase.h"
+#include "basictypes.h"
 #include "ui_umlattributedialog.h"
-
-class QCheckBox;
-class QGroupBox;
-class QRadioButton;
-class QLabel;
-class UMLAttribute;
-class KLineEdit;
-class UMLDatatypeWidget;
-class UMLStereotypeWidget;
-class VisibilityEnumWidget;
-class UmlTypeQualifiersWidget;
-class DocumentationWidget;
 
 /**
  * @author Paul Hensgen
@@ -39,6 +28,7 @@ public:
 
 private:
     Ui::UMLAttributeDialog *ui;
+    Uml::ProgrammingLanguage::Enum activeLanguage;
 
 protected:
     void setupDialog();
@@ -48,10 +38,6 @@ protected:
      *   The Attribute to represent
      */
     UMLAttribute * m_pAttribute;
-
-    //GUI Widgets
-    QLabel * m_pNameL, * m_pInitialL;
-    KLineEdit * m_pNameLE, * m_pInitialLE;
 
 public slots:
     void slotNameChanged(const QString &);

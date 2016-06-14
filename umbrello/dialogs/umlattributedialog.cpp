@@ -14,22 +14,14 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
-#include "documentationwidget.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "umldatatypewidget.h"
-#include "umlstereotypewidget.h"
-#include "visibilityenumwidget.h"
-#include "umltypequalifierswidget.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "import_utils.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <kcompletion.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -49,8 +41,8 @@ UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttrib
   , m_pAttribute(pAttribute)
 {
     setCaption(i18n("Attribute Properties"));
+    activeLanguage = UMLApp::app()->activeLanguage();
     ui->setupUi(mainWidget());
-
     setupDialog();
 }
 
@@ -64,8 +56,15 @@ UMLAttributeDialog::~UMLAttributeDialog()
 void UMLAttributeDialog::setupDialog()
 {
     ui->dataTypeWidget->setClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
-    ui->typeQualifiersWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
-    ui->typeModifierWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+    if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
+        ui->typeQualifiersWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+        ui->typeModifierWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+        ui->cb_classifierScopeStatic->setVisible(true);
+    }else{
+        ui->cb_classifierScopeStatic->setVisible(false);
+        ui->typeModifierWidget->setVisible(false);
+        ui->typeQualifiersWidget->setVisible(false);
+    }
     ui->stereotypeWidget->setUMLObject(m_pAttribute);
     ui->visibilityWidget->setUMLObject(m_pAttribute);
     ui->documentationWidget->setUMLObject(m_pAttribute);
@@ -105,11 +104,13 @@ bool UMLAttributeDialog::apply()
 
     m_pAttribute->setInitialValue(ui->tb_initialValue->text());
     ui->stereotypeWidget->apply();
-    m_pAttribute->setStatic(ui->cb_classifierScopeStatic->isChecked());
 
-    ui->dataTypeWidget->apply();
-    ui->typeQualifiersWidget->apply();
     ui->documentationWidget->apply();
+    if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
+        ui->dataTypeWidget->apply();
+        ui->typeQualifiersWidget->apply();
+        m_pAttribute->setStatic(ui->cb_classifierScopeStatic->isChecked());
+    }
 
     return true;
 }
