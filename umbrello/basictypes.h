@@ -84,6 +84,18 @@ namespace Uml
         Enum fromInt(int item);
     }
 
+    namespace TypeModifiers{
+        enum Enum{
+            Pointer,
+            Reference,
+            None
+        };
+
+        QString toString(Enum item, bool mnemonic = false);
+        Enum fromString(const QString& item);
+        Enum fromInte(int item);
+    }
+
     /**
      * Supported diagram types.
      */
