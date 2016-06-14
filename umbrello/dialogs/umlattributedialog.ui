@@ -14,19 +14,6 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="verticalSpacing">
-    <number>10</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Genera&amp;l Properties</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -38,9 +25,12 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
+        <widget class="UMLTypeModifierWidget" name="typeModifierWidget" native="true"/>
+       </item>
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Na&amp;me:</string>
+          <string>Name:</string>
          </property>
         </widget>
        </item>
@@ -54,7 +44,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Initial &amp;Value:</string>
+          <string>Initial Value:</string>
          </property>
         </widget>
        </item>
@@ -65,6 +55,21 @@
      </item>
     </layout>
    </item>
+   <item row="2" column="0">
+    <widget class="UmlTypeQualifiersWidget" name="typeQualifiersWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout"/>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Genera&amp;l Properties</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QCheckBox" name="cb_classifierScopeStatic">
      <property name="text">
@@ -72,19 +77,51 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="0">
+    <widget class="DocumentationWidget" name="documentationWidget" native="true"/>
+   </item>
    <item row="4" column="0">
-    <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true"/>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item row="5" column="0">
     <widget class="VisibilityEnumWidget" name="visibilityWidget" native="true"/>
    </item>
-   <item row="6" column="0">
-    <widget class="DocumentationWidget" name="documentationWidget" native="true"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="UmlTypeQualifiersWidget" name="typeQualifiersWidget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout"/>
-    </widget>
+   <item row="1" column="1">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
@@ -117,6 +154,12 @@
    <class>UmlTypeQualifiersWidget</class>
    <extends>QWidget</extends>
    <header>widgets/umltypequalifierswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UMLTypeModifierWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/umltypemodifierwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
