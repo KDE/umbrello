@@ -21,14 +21,16 @@
 #include <QRadioButton>
 
 VisibilityEnumWidget::VisibilityEnumWidget(QWidget *parent)
-    : QWidget(parent),
-      m_widget(0),
-      m_role(Uml::RoleType::A)
+    : QWidget(parent)
+    , m_widget(0)
+    , ui(new Ui::visibilityEnumWidget)
+    , m_role(Uml::RoleType::A)
 {
     m_texts[Uml::Visibility::Public] = i18nc("public visibility", "P&ublic");
     m_texts[Uml::Visibility::Protected] = i18nc("protected visibility", "Pro&tected");
     m_texts[Uml::Visibility::Private] = i18nc("private visibility", "P&rivate");
     m_texts[Uml::Visibility::Implementation] = i18n("Imple&mentation");
+    ui->setupUi(this);
 }
 
 VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent)
@@ -42,15 +44,13 @@ VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::
         m_texts[Uml::Visibility::Protected] = i18nc("scope for A is protected", "Protected");
         m_texts[Uml::Visibility::Private] = i18nc("scope for A is private", "Private");
         m_texts[Uml::Visibility::Implementation] = i18nc("scope for A is implementation", "Implementation");
-        init(i18n("Role A Visibility"));
     } else {
         m_texts[Uml::Visibility::Public] = i18nc("scope for B is public", "Public");
         m_texts[Uml::Visibility::Protected] = i18nc("scope for B is protected", "Protected");
         m_texts[Uml::Visibility::Private] = i18nc("scope for B is private", "Private");
         m_texts[Uml::Visibility::Implementation] = i18nc("scope for B is implementation", "Implementation");
-        init(i18n("Role B Visibility"));
     }
-    m_buttons[a->visibility(role)]->setChecked(true);
+    //m_buttons[a->visibility(role)]->setChecked(true);
 }
 
 VisibilityEnumWidget::~VisibilityEnumWidget()
@@ -61,17 +61,30 @@ VisibilityEnumWidget::~VisibilityEnumWidget()
 void VisibilityEnumWidget::setUMLObject(UMLObject *o)
 {
     m_object = o;
-    init(i18n("Visibility"));
-    m_buttons[m_object->visibility()]->setChecked(true);
+    switch (m_object->visibility()) {
+    case Uml::Visibility::Public:
+            ui->rb_public->setChecked(true);
+        break;
+    case Uml::Visibility::Protected:
+        ui->rb_protected->setChecked(true);
+        break;
+    case Uml::Visibility::Private:
+        ui->rb_protected->setChecked(true);
+        break;
+    case Uml::Visibility::Implementation:
+        ui->rb_implementation->setChecked(true);
+        break;
+    }
 }
 
 /**
  * Add this widget to a given layout.
  * @param layout The layout to which the widget should be added
  */
+//TODO: REMOVE THIS METHOD AFTER FIX CLASS GENERAL PAGE
 void VisibilityEnumWidget::addToLayout(QVBoxLayout *layout)
 {
-    layout->addWidget(m_box);
+    //layout->addWidget(m_box);
 }
 
 /**
@@ -79,34 +92,13 @@ void VisibilityEnumWidget::addToLayout(QVBoxLayout *layout)
  */
 void VisibilityEnumWidget::apply()
 {
-    for(ButtonMap::const_iterator i = m_buttons.constBegin(); i != m_buttons.constEnd(); ++i) {
-        if (i.value()->isChecked()) {
-            if (m_object)
-                m_object->setVisibility(i.key());
-            else
-                m_widget->setVisibility(i.key(), m_role);
-        }
-    }
+    if(ui->rb_public->isChecked())
+        m_object->setVisibility(Uml::Visibility::Public);
+    else if(ui->rb_protected->isChecked())
+        m_object->setVisibility(Uml::Visibility::Protected);
+    else if(ui->rb_private->isChecked())
+        m_object->setVisibility(Uml::Visibility::Private);
+    else
+        m_object->setVisibility(Uml::Visibility::Implementation);
 }
 
-void VisibilityEnumWidget::init(const QString &title)
-{
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-
-    m_box = new QGroupBox(title, this);
-    QHBoxLayout* boxlayout = new QHBoxLayout(m_box);
-    int margin = fontMetrics().height();
-    boxlayout->setMargin(margin);
-    QList<Uml::Visibility::Enum> orders;
-    orders << Uml::Visibility::Public << Uml::Visibility::Protected << Uml::Visibility::Private << Uml::Visibility::Implementation;
-
-    for(QList<Uml::Visibility::Enum>::const_iterator i = orders.constBegin(); i != orders.constEnd(); ++i) {
-        Uml::Visibility::Enum key = *i;
-        QRadioButton *button = new QRadioButton(m_texts[key], m_box);
-        m_buttons[key] = button;
-        boxlayout->addWidget(button);
-    }
-    layout->addWidget(m_box);
-    setLayout(layout);
-}
