@@ -65,6 +65,7 @@ void UMLAttributeDialog::setupDialog()
 {
     ui->dataTypeWidget->setClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
     ui->typeQualifiersWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+    ui->typeModifierWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
     ui->stereotypeWidget->setUMLObject(m_pAttribute);
     ui->visibilityWidget->setUMLObject(m_pAttribute);
     ui->documentationWidget->setUMLObject(m_pAttribute);
