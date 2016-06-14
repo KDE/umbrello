@@ -177,6 +177,7 @@ protected:
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
     Uml::TypeQualifiers::Enum m_typeQualifier; ///< object qualifier
+    Uml::TypeModifiers::Enum m_typeModifier; ///< object modifier
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not
     bool                   m_bStatic;      ///< flag for instance scope
     bool                   m_bInPaste;     ///< caller sets this true when in paste operation
