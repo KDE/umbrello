@@ -44,7 +44,8 @@
 #include "umlscene.h"
 #include "version.h"
 #include "worktoolbar.h"
-#include "stereotypesmodel.h"
+#include "models/diagramsmodel.h"
+#include "models/stereotypesmodel.h"
 
 // kde includes
 #include <kio/job.h>
@@ -115,6 +116,7 @@ UMLDoc::UMLDoc()
     m_bTypesAreResolved(true),
     m_pCurrentRoot(0),
     m_bClosing(false),
+    m_diagramsModel(new DiagramsModel),
     m_stereotypesModel(new StereotypesModel(&m_stereoList))
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
@@ -193,6 +195,7 @@ UMLDoc::~UMLDoc()
     delete m_pChangeLog;
     qDeleteAll(m_stereoList);
     delete m_stereotypesModel;
+    delete m_diagramsModel;
 }
 
 /**
@@ -214,6 +217,7 @@ void UMLDoc::addView(UMLView *view)
     }
     DEBUG(DBG_SRC) << view->umlScene()->name() << " to folder " << *f << " (" << f->name() << ")";
     f->addView(view);
+    m_diagramsModel->addDiagram(view);
 
     UMLApp * pApp = UMLApp::app();
     if (pApp->listView()) {
@@ -255,6 +259,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
         uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
         return;
     }
+    m_diagramsModel->removeDiagram(view);
     f->removeView(view);
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == view) {
@@ -2443,6 +2448,11 @@ void UMLDoc::resolveTypes()
     }
     m_bTypesAreResolved = true;
     qApp->processEvents();  // give UI events a chance
+}
+
+DiagramsModel *UMLDoc::diagramsModel()
+{
+    return m_diagramsModel;
 }
 
 StereotypesModel *UMLDoc::stereotypesModel()

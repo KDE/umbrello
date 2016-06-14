@@ -15,6 +15,7 @@
 #include "finddialog.h"
 #include "findresults.h"
 #include "uml.h"
+#include "diagramswindow.h"
 #include "stereotypeswindow.h"
 
 // kde includes
@@ -50,7 +51,9 @@ public:
     FindDialog findDialog;
     FindResults findResults;
     QListWidget *logWindow;         ///< Logging window.
+    KToggleAction *viewDiagramsWindow;
     KToggleAction *viewStereotypesWindow;
+    DiagramsWindow *diagramsWindow;
     StereotypesWindow *stereotypesWindow;
 
     KTextEditor::Editor *editor;
@@ -60,7 +63,9 @@ public:
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
+        viewDiagramsWindow(0),
         viewStereotypesWindow(0),
+        diagramsWindow(0),
         stereotypesWindow(0),
         view(0),
         document(0)
@@ -107,6 +112,17 @@ public slots:
         dialog->exec();
         delete dialog;
         delete document;
+    }
+
+    void createDiagramsWindow()
+    {
+        // create the tree viewer
+        diagramsWindow = new DiagramsWindow(parent);
+        parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
+
+        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
+        viewDiagramsWindow->setText(i18n("Diagrams"));
+        connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
     }
 
     void createStereotypesWindow()

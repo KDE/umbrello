@@ -26,7 +26,11 @@
 
 #include <kiconloader.h>
 
+#include <QFile>
+
 namespace Icon_Utils {
+
+#define ICON_PREFIX QLatin1String(":/pics/")
 
 /**
  * Returns the pixmap for the given type as small icon.
@@ -35,7 +39,11 @@ namespace Icon_Utils {
  */
 QPixmap SmallIcon(IconType type)
 {
-    return SmallIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return SmallIcon(icon);
 }
 
 /**
@@ -45,7 +53,11 @@ QPixmap SmallIcon(IconType type)
  */
 QPixmap BarIcon(IconType type)
 {
-    return BarIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return BarIcon(icon);
 }
 
 /**
@@ -55,7 +67,11 @@ QPixmap BarIcon(IconType type)
  */
 QPixmap MainBarIcon(IconType type)
 {
-    return MainBarIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return MainBarIcon(icon);
 }
 
 /**
@@ -65,7 +81,11 @@ QPixmap MainBarIcon(IconType type)
  */
 QPixmap UserIcon(IconType type)
 {
-    return UserIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return UserIcon(icon);
 }
 
 /**
@@ -75,7 +95,11 @@ QPixmap UserIcon(IconType type)
  */
 QPixmap DesktopIcon(IconType type)
 {
-    return DesktopIcon(toString(type));
+    QString icon = toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QPixmap(ICON_PREFIX + icon);
+    else
+        return DesktopIcon(icon);
 }
 
 /**
@@ -118,6 +142,39 @@ QPixmap iconSet(Uml::DiagramType::Enum dt)
             return DesktopIcon(it_Diagram_EntityRelationship);
         default:
             uDebug() << "Widget_Utils::iconSet: unknown diagram type "
+                     << Uml::DiagramType::toString(dt);
+            return QPixmap();
+    }
+}
+
+/**
+ * Return the icon corresponding to the given Diagram_Type.
+ * @param dt   the diagram type
+ * @return     the wanted icon
+ */
+QPixmap smallIcon(Uml::DiagramType::Enum dt)
+{
+    switch (dt) {
+        case Uml::DiagramType::UseCase:
+            return SmallIcon(it_Diagram_Usecase);
+        case Uml::DiagramType::Collaboration:
+            return SmallIcon(it_Diagram_Collaboration);
+        case Uml::DiagramType::Class:
+            return SmallIcon(it_Diagram_Class);
+        case Uml::DiagramType::Sequence:
+            return SmallIcon(it_Diagram_Sequence);
+        case Uml::DiagramType::State:
+            return SmallIcon(it_Diagram_State);
+        case Uml::DiagramType::Activity:
+            return SmallIcon(it_Diagram_Activity);
+        case Uml::DiagramType::Component:
+            return SmallIcon(it_Diagram_Component);
+        case Uml::DiagramType::Deployment:
+            return SmallIcon(it_Diagram_Deployment);
+        case Uml::DiagramType::EntityRelationship:
+            return SmallIcon(it_Diagram_EntityRelationship);
+        default:
+            uDebug() << "Widget_Utils::smallIcon: unknown diagram type "
                      << Uml::DiagramType::toString(dt);
             return QPixmap();
     }

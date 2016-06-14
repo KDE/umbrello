@@ -166,41 +166,7 @@ if(BUILD_ICONS)
     #generate_icons("${ICONS}" 128)
 endif()
 
-foreach(i ${ICONS})
-    install(FILES ${i}.png DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics)
-endforeach()
-
 if(BUILD_CURSOR_ICONS)
     generate_cursor_icons("${CURSOR_ICONS}" 32)
 endif()
 
-
-foreach(i ${CURSOR_ICONS})
-    install(FILES cursor-${i}.png DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics)
-endforeach()
-
-if(NOT BUILD_KF5)
-    kde4_install_icons(${DATA_INSTALL_DIR}/umbrello/icons)
-else()
-    ecm_install_icons(
-        ICONS   hi16-actions-umbrello_diagram_activity.png
-                hi16-actions-umbrello_diagram_class.png
-                hi16-actions-umbrello_diagram_collaboration.png
-                hi16-actions-umbrello_diagram_component.png
-                hi16-actions-umbrello_diagram_deployment.png
-                hi16-actions-umbrello_diagram_sequence.png
-                hi16-actions-umbrello_diagram_state.png
-                hi16-actions-umbrello_diagram_usecase.png
-                hi22-actions-umbrello_diagram_activity.png
-                hi22-actions-umbrello_diagram_class.png
-                hi22-actions-umbrello_diagram_collaboration.png
-                hi22-actions-umbrello_diagram_component.png
-                hi22-actions-umbrello_diagram_deployment.png
-                hi22-actions-umbrello_diagram_entityrelationship.png
-                hi22-actions-umbrello_diagram_sequence.png
-                hi22-actions-umbrello_diagram_state.png
-                hi22-actions-umbrello_diagram_usecase.png
-        THEME hicolor
-        DESTINATION ${ICON_INSTALL_DIR}
-    )
-endif()

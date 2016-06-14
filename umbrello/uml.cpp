@@ -341,8 +341,9 @@ void UMLApp::initActions()
 
     QAction* importProject = actionCollection()->addAction(QLatin1String("import_project"));
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
-    importProject->setText(i18n("Import &Project..."));
-    connect(importProject, &QAction::triggered, this, &UMLApp::slotImportProject);
+
+    importProject->setText(i18n("Import from Directory..."));
+    connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
 
     QAction* genWizard = actionCollection()->addAction(QLatin1String("generation_wizard"));
     genWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
@@ -929,6 +930,7 @@ void UMLApp::initView()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
+    m_d->createDiagramsWindow();
     m_d->createStereotypesWindow();
 
     // create the tree viewer

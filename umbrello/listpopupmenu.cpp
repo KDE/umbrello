@@ -774,7 +774,7 @@ void ListPopupMenu::insert(MenuType m)
         m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)..."));
         break;
     case mt_Import_Project:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import Project..."));
+        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory..."));
         break;
     case mt_Reset_Label_Positions:
         m_actions[m] = addAction(i18n("Reset Label Positions"));

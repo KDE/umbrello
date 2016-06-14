@@ -21,6 +21,8 @@ option(BUILD_KF5 "Build for KDE Frameworks 5" ON)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
 
+set(CMAKE_AUTORCC ON)
+
 if(NOT BUILD_KF5)
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
