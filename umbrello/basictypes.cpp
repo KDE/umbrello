@@ -153,7 +153,7 @@ Enum fromInt(int item)
 }
 
 }  // end namespace Visibility
-
+//-----------------------------------------------------------------------------
 namespace TypeQualifiers{
 
 /**
@@ -164,8 +164,6 @@ namespace TypeQualifiers{
 QString toString(Enum item)
 {
     switch (item) {
-    case None:
-        return QLatin1String("");
     case Const:
         return QLatin1String("const");
     case Volatile:
@@ -174,6 +172,9 @@ QString toString(Enum item)
         return QLatin1String("mutable");
     case ConstVolatile:
         return QLatin1String("const volatile");
+    case None:
+    default:
+        return QLatin1String("");
     }
 }
 
@@ -186,15 +187,16 @@ Enum fromString(const QString& item)
 {
     if(item == QLatin1String(""))
         return None;
-    if(item == QLatin1String("const"))
+    else if(item == QLatin1String("const"))
         return Const;
-    if(item == QLatin1String("volatile"))
+    else if(item == QLatin1String("volatile"))
         return Volatile;
-    if(item == QLatin1String("mutable"))
+    else if(item == QLatin1String("mutable"))
         return Mutable;
-    if(item == QLatin1String("const volatile"))
+    else if(item == QLatin1String("const volatile"))
         return ConstVolatile;
-
+    else
+        return None;
 }
 
 /**
@@ -220,12 +222,14 @@ namespace TypeModifiers{
 QString toString(Enum item)
 {
     switch (item) {
-    case None:
-        return QLatin1String("");
     case Pointer:
         return QLatin1String("*");
     case Reference:
         return QLatin1String("&");
+    case None:
+    default:
+        return QLatin1String("");
+
     }
 }
 
@@ -242,6 +246,8 @@ Enum fromString(const QString& item)
         return Pointer;
     if(item == QLatin1String("&"))
         return Reference;
+    else
+        return None;
 }
 
 /**
