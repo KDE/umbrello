@@ -71,27 +71,26 @@ namespace Uml
     namespace TypeQualifiers {
 
         enum Enum{
+            None,
             Const,
             Volatile,
             Mutable,
-            ConstVolatile,
-            None
-
+            ConstVolatile
         };
 
-        QString toString(Enum item, bool mnemonic = false);
+        QString toString(Enum item);
         Enum fromString(const QString& item);
         Enum fromInt(int item);
     }
 
     namespace TypeModifiers{
         enum Enum{
+            None,
             Pointer,
-            Reference,
-            None
+            Reference
         };
 
-        QString toString(Enum item, bool mnemonic = false);
+        QString toString(Enum item);
         Enum fromString(const QString& item);
         Enum fromInte(int item);
     }
