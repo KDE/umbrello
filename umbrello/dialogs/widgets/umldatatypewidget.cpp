@@ -123,11 +123,13 @@ bool UMLDatatypeWidget::applyAttribute()
 {
     QString typeName = m_comboBox->currentText();
     Uml::TypeQualifiers::Enum typeQualifier = m_datatype->qualifier();
-    Uml::TypeModifiers::Enum typeModifier = m_datatype->modifier();
+    Uml::TypeModifiers::Enum typeModifierEnum = m_datatype->modifier();
+    //Need to find a better way to do that
+    QString m = Uml::TypeModifiers::toString(typeModifierEnum);
+    QString q = Uml::TypeQualifiers::toString(typeQualifier);
+    QString finalString = q + typeName + m;
 
-    QString finalString = Uml::TypeQualifiers::toString(typeQualifier) + typeName + Uml::TypeModifiers::toString(typeModifier);
-    qDebug() << "Final String:" <<finalString;
-    UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
+    UMLTemplate *tmplParam = m_parent->findTemplate(finalString);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
         return true;
@@ -136,7 +138,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
     UMLObject *obj = nullptr;
     if (!typeName.isEmpty()) {
-        obj = pDoc->findUMLObject(typeName);
+        obj = pDoc->findUMLObject(finalString);
     }
 
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
@@ -144,23 +146,22 @@ bool UMLDatatypeWidget::applyAttribute()
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
         // string well. Use Object_Factory in those cases.
-        if (
-            (!typeName.isEmpty()) &&
-            ((pl == Uml::ProgrammingLanguage::Cpp) ||
-                (pl == Uml::ProgrammingLanguage::Java))
-        ) {
+        if (!typeName.isEmpty() && ((pl == Uml::ProgrammingLanguage::Cpp) || (pl == Uml::ProgrammingLanguage::Java)) )
+        {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(m_parent);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, finalString);
             Import_Utils::setRelatedClassifier(NULL);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
             // Else we don't know what it is so as a compromise create a class.
+            bool contains = false;
+            if(finalString.contains(QChar::fromLatin1('*')) || finalString.contains(QChar::fromLatin1('&')))
+                contains = true;
             UMLObject::ObjectType ot =
-                (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
-                                                          : UMLObject::ot_Class);
-            obj = Object_Factory::createUMLObject(ot, typeName);
+                (contains ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, finalString);
         }
         if (obj == NULL)
             return false;
