@@ -35,7 +35,7 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
+UMLAttributeDialog::UMLAttributeDialog(QWidget *pParent, UMLAttribute *pAttribute)
   : SinglePageDialogBase(pParent)
   , ui(new Ui::UMLAttributeDialog)
   , m_pAttribute(pAttribute)
@@ -104,13 +104,13 @@ bool UMLAttributeDialog::apply()
 
     m_pAttribute->setInitialValue(ui->tb_initialValue->text());
     ui->stereotypeWidget->apply();
-
     ui->documentationWidget->apply();
     if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
-        ui->dataTypeWidget->apply();
         ui->typeQualifiersWidget->apply();
+        ui->typeModifierWidget->apply();
         m_pAttribute->setStatic(ui->cb_classifierScopeStatic->isChecked());
     }
+    ui->dataTypeWidget->apply();
 
     return true;
 }
