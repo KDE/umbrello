@@ -122,6 +122,11 @@ bool UMLDatatypeWidget::apply()
 bool UMLDatatypeWidget::applyAttribute()
 {
     QString typeName = m_comboBox->currentText();
+    Uml::TypeQualifiers::Enum typeQualifier = m_datatype->qualifier();
+    Uml::TypeModifiers::Enum typeModifier = m_datatype->modifier();
+
+    QString finalString = Uml::TypeQualifiers::toString(typeQualifier) + typeName + Uml::TypeModifiers::toString(typeModifier);
+    qDebug() << "Final String:" <<finalString;
     UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
@@ -129,7 +134,7 @@ bool UMLDatatypeWidget::applyAttribute()
     }
     UMLDoc * pDoc = UMLApp::app()->document();
 
-    UMLObject *obj = 0;
+    UMLObject *obj = nullptr;
     if (!typeName.isEmpty()) {
         obj = pDoc->findUMLObject(typeName);
     }
