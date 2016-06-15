@@ -165,13 +165,13 @@ QString toString(Enum item)
 {
     switch (item) {
     case Const:
-        return QLatin1String("const");
+        return QLatin1String("const ");
     case Volatile:
-        return QLatin1String("volatile");
+        return QLatin1String("volatile ");
     case Mutable:
-        return QLatin1String("mutable");
+        return QLatin1String("mutable ");
     case ConstVolatile:
-        return QLatin1String("const volatile");
+        return QLatin1String("const volatile ");
     case None:
     default:
         return QLatin1String("");
