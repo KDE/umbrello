@@ -154,6 +154,108 @@ Enum fromInt(int item)
 
 }  // end namespace Visibility
 
+namespace TypeQualifiers{
+
+/**
+     * Convert Type Qualifiers item into QString representation.
+     * @param item       item to convert
+     * @return QString representation of TypeQualifier
+     */
+QString toString(Enum item)
+{
+    switch (item) {
+    case None:
+        return QLatin1String("");
+    case Const:
+        return QLatin1String("const");
+    case Volatile:
+        return QLatin1String("volatile");
+    case Mutable:
+        return QLatin1String("mutable");
+    case ConstVolatile:
+        return QLatin1String("const volatile");
+    }
+}
+
+/**
+     * Convert a string item into TypeQualifier representation.
+     * @param item   item to convert
+     * @return TypeQualifier enum
+     */
+Enum fromString(const QString& item)
+{
+    if(item == QLatin1String(""))
+        return None;
+    if(item == QLatin1String("const"))
+        return Const;
+    if(item == QLatin1String("volatile"))
+        return Volatile;
+    if(item == QLatin1String("mutable"))
+        return Mutable;
+    if(item == QLatin1String("const volatile"))
+        return ConstVolatile;
+
+}
+
+/**
+     * Convert a integer item into TypeQualifier representation.
+     * @param item   integer value to convert
+     * @return TypeQualifier enum
+     */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace TypeQualifier
+
+//-----------------------------------------------------------------------------
+namespace TypeModifiers{
+
+/**
+     * Convert Type Modifiers item into QString representation.
+     * @param item       item to convert
+     * @return QString representation of TypeQualifier
+     */
+QString toString(Enum item)
+{
+    switch (item) {
+    case None:
+        return QLatin1String("");
+    case Pointer:
+        return QLatin1String("*");
+    case Reference:
+        return QLatin1String("&");
+    }
+}
+
+/**
+     * Convert a string item into TypeModifier representation.
+     * @param item   item to convert
+     * @return TypeModifier enum
+     */
+Enum fromString(const QString& item)
+{
+    if(item == QLatin1String(""))
+        return None;
+    if(item == QLatin1String("*"))
+        return Pointer;
+    if(item == QLatin1String("&"))
+        return Reference;
+}
+
+/**
+     * Convert a integer item into TypeModifier representation.
+     * @param item   integer value to convert
+     * @return TypeModifier enum
+     */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace TypeModifiers
+
 //-----------------------------------------------------------------------------
 
 namespace DiagramType {
