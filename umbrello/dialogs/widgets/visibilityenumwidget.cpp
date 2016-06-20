@@ -78,10 +78,9 @@ void VisibilityEnumWidget::setUMLObject(UMLObject *o)
  * Add this widget to a given layout.
  * @param layout The layout to which the widget should be added
  */
-//TODO: REMOVE THIS METHOD AFTER FIX CLASS GENERAL PAGE
 void VisibilityEnumWidget::addToLayout(QVBoxLayout *layout)
 {
-    //layout->addWidget(m_box);
+    layout->addWidget(this);
 }
 
 /**
