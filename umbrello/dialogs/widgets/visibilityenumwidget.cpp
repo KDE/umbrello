@@ -26,11 +26,8 @@ VisibilityEnumWidget::VisibilityEnumWidget(QWidget *parent)
     , ui(new Ui::visibilityEnumWidget)
     , m_role(Uml::RoleType::A)
 {
-    m_texts[Uml::Visibility::Public] = i18nc("public visibility", "P&ublic");
-    m_texts[Uml::Visibility::Protected] = i18nc("protected visibility", "Pro&tected");
-    m_texts[Uml::Visibility::Private] = i18nc("private visibility", "P&rivate");
-    m_texts[Uml::Visibility::Implementation] = i18n("Imple&mentation");
     ui->setupUi(this);
+    initMaps();
 }
 
 VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent)
@@ -50,7 +47,7 @@ VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::
         m_texts[Uml::Visibility::Private] = i18nc("scope for B is private", "Private");
         m_texts[Uml::Visibility::Implementation] = i18nc("scope for B is implementation", "Implementation");
     }
-    //m_buttons[a->visibility(role)]->setChecked(true);
+    m_widgets[a->visibility(role)]->setChecked(true);
 }
 
 VisibilityEnumWidget::~VisibilityEnumWidget()
@@ -100,5 +97,19 @@ void VisibilityEnumWidget::apply()
         m_object->setVisibility(Uml::Visibility::Private);
     else
         m_object->setVisibility(Uml::Visibility::Implementation);
+}
+
+void VisibilityEnumWidget::initMaps()
+{
+    m_texts[Uml::Visibility::Public] = i18nc("public visibility", "P&ublic");
+    m_texts[Uml::Visibility::Protected] = i18nc("protected visibility", "Pro&tected");
+    m_texts[Uml::Visibility::Private] = i18nc("private visibility", "P&rivate");
+    m_texts[Uml::Visibility::Implementation] = i18n("Imple&mentation");
+
+    m_widgets[Uml::Visibility::Public]= ui->rb_public;
+    m_widgets[Uml::Visibility::Protected]= ui->rb_protected;
+    m_widgets[Uml::Visibility::Private]= ui->rb_private;
+    m_widgets[Uml::Visibility::Implementation]= ui->rb_implementation;
+
 }
 

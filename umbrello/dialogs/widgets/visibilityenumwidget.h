@@ -28,6 +28,7 @@ class VisibilityEnumWidget : public QWidget
     Q_OBJECT
 public:
     typedef QMap<Uml::Visibility::Enum,QString> TextMap;
+    typedef QMap<Uml::Visibility::Enum,QRadioButton*> WidgetsMap;
 
     explicit VisibilityEnumWidget(QWidget *parent=0);
     VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent=0);
@@ -39,9 +40,12 @@ public:
 
 private:
     Ui::visibilityEnumWidget *ui;
+    void initMaps();
+
 
 protected:
     TextMap m_texts;
+    WidgetsMap m_widgets;
     UMLObject *m_object;
     AssociationWidget *m_widget;
     Uml::RoleType::Enum m_role;
