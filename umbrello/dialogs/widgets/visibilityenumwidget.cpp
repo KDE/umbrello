@@ -41,11 +41,13 @@ VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::
         m_texts[Uml::Visibility::Protected] = i18nc("scope for A is protected", "Protected");
         m_texts[Uml::Visibility::Private] = i18nc("scope for A is private", "Private");
         m_texts[Uml::Visibility::Implementation] = i18nc("scope for A is implementation", "Implementation");
+        ui->groupBox->setTitle(i18n("Role A Visibility"));
     } else {
         m_texts[Uml::Visibility::Public] = i18nc("scope for B is public", "Public");
         m_texts[Uml::Visibility::Protected] = i18nc("scope for B is protected", "Protected");
         m_texts[Uml::Visibility::Private] = i18nc("scope for B is private", "Private");
         m_texts[Uml::Visibility::Implementation] = i18nc("scope for B is implementation", "Implementation");
+        ui->groupBox->setTitle(i18n("Role B Visibility"));
     }
     m_widgets[a->visibility(role)]->setChecked(true);
 }
