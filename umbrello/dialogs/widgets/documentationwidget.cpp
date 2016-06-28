@@ -19,16 +19,16 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 
-DocumentationWidget::DocumentationWidget(QWidget *parent) :
-    QWidget(parent),
-    m_widget(0)
+DocumentationWidget::DocumentationWidget(QWidget *parent)
+ : QWidget(parent),
+   m_widget(0)
 {
 }
 
-DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
-    QWidget(parent),
-    m_object(0),
-    m_widget(w)
+DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent)
+ : QWidget(parent),
+   m_object(0),
+   m_widget(w)
 {
     Q_ASSERT(w);
     init(w->documentation());
