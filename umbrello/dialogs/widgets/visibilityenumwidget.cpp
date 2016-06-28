@@ -21,10 +21,10 @@
 #include <QRadioButton>
 
 VisibilityEnumWidget::VisibilityEnumWidget(QWidget *parent)
-    : QWidget(parent)
-    , m_widget(0)
-    , ui(new Ui::visibilityEnumWidget)
-    , m_role(Uml::RoleType::A)
+    : QWidget(parent),
+      m_widget(0),
+      ui(new Ui::visibilityEnumWidget),
+      m_role(Uml::RoleType::A)
 {
     ui->setupUi(this);
     initMaps();
