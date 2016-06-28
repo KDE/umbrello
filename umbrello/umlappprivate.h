@@ -122,7 +122,7 @@ public slots:
 
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
         viewDiagramsWindow->setText(i18n("Diagrams"));
-        connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
+        connect(viewDiagramsWindow, &KToggleAction::triggered, diagramsWindow, &DiagramsWindow::setVisible);
     }
 
     void createStereotypesWindow()

@@ -45,8 +45,8 @@ DiagramsWindow::DiagramsWindow(QWidget *parent)
 #endif
     setWidget(m_diagramsTree);
 
-    connect(m_diagramsTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotDiagramsDoubleClicked(QModelIndex)));
-    connect(m_diagramsTree, SIGNAL(clicked(QModelIndex)), this, SLOT(slotDiagramsClicked(QModelIndex)));
+    connect(m_diagramsTree, &QTableView::doubleClicked, this, &DiagramsWindow::slotDiagramsDoubleClicked);
+    connect(m_diagramsTree, &QTableView::clicked, this, &DiagramsWindow::slotDiagramsClicked);
 }
 
 DiagramsWindow::~DiagramsWindow()

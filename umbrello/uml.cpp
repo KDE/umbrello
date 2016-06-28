@@ -343,7 +343,7 @@ void UMLApp::initActions()
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
 
     importProject->setText(i18n("Import from Directory..."));
-    connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
+    connect(importProject, &QAction::triggered, this, &UMLApp::slotImportProject);
 
     QAction* genWizard = actionCollection()->addAction(QLatin1String("generation_wizard"));
     genWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
