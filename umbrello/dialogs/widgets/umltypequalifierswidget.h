@@ -7,12 +7,12 @@
 
 class UMLClassifierListItem;
 
-class UmlTypeQualifiersWidget : public QWidget
+class UMLTypeQualifiersWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit UmlTypeQualifiersWidget(QWidget *parent = 0);
+    explicit UMLTypeQualifiersWidget(QWidget *parent = 0);
 
     void apply();
     void setUMLClassifierItem(UMLClassifierListItem *o);

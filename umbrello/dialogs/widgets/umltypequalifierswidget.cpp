@@ -5,7 +5,7 @@
 
 #include <KLocalizedString>
 
-UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(QWidget *parent)
+UMLTypeQualifiersWidget::UMLTypeQualifiersWidget(QWidget *parent)
   : QWidget(parent)
   ,ui(new Ui::UMLTypeQualifiersWidget)
 {
@@ -49,7 +49,7 @@ UmlTypeQualifiersWidget::UmlTypeQualifiersWidget(QWidget *parent)
     });
 }
 
-void UmlTypeQualifiersWidget::apply()
+void UMLTypeQualifiersWidget::apply()
 {
     if(ui->ck_const->isChecked() && ui->ck_volatile->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::ConstVolatile);
@@ -63,7 +63,7 @@ void UmlTypeQualifiersWidget::apply()
         m_qualifier->setQualifier(Uml::TypeQualifiers::Volatile);
 }
 
-void UmlTypeQualifiersWidget::setUMLClassifierItem(UMLClassifierListItem *o)
+void UMLTypeQualifiersWidget::setUMLClassifierItem(UMLClassifierListItem *o)
 {
     Q_ASSERT(o);
     m_qualifier = o;
