@@ -22,6 +22,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="UMLDatatypeWidget" name="dataTypeWidget" native="true">
           <property name="sizePolicy">
@@ -55,19 +58,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </item>
       <item row="1" column="0">
@@ -82,27 +72,14 @@
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </item>
       <item row="2" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QCheckBox" name="ck_abstract">
+         <widget class="QCheckBox" name="ck_queryConst">
           <property name="text">
-           <string>Abstract Operation</string>
+           <string>Query (&quot;const&quot;)</string>
           </property>
          </widget>
         </item>
@@ -114,9 +91,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="ck_queryConst">
+         <widget class="QCheckBox" name="ck_abstract">
           <property name="text">
-           <string>Query (&quot;const&quot;)</string>
+           <string>Abstract Operation</string>
           </property>
          </widget>
         </item>
@@ -237,15 +214,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>DocumentationWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/documentationwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>VisibilityEnumWidget</class>
    <extends>QWidget</extends>
    <header>widgets/visibilityenumwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DocumentationWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/documentationwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
