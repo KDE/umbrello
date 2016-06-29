@@ -76,7 +76,7 @@
       <widget class="VisibilityEnumWidget" name="visibilityWidget" native="true"/>
      </item>
      <item>
-      <widget class="UmlTypeQualifiersWidget" name="typeQualifiersWidget" native="true"/>
+      <widget class="UMLTypeQualifiersWidget" name="typeQualifiersWidget" native="true"/>
      </item>
     </layout>
    </item>
@@ -128,7 +128,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UmlTypeQualifiersWidget</class>
+   <class>UMLTypeQualifiersWidget</class>
    <extends>QWidget</extends>
    <header>widgets/umltypequalifierswidget.h</header>
    <container>1</container>
