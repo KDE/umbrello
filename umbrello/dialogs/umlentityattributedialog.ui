@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>386</height>
+    <width>255</width>
+    <height>329</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,40 +17,21 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="3">
-    <widget class="QLineEdit" name="defaultValueLE"/>
-   </item>
-   <item row="8" column="0" colspan="4">
-    <widget class="QCheckBox" name="allowNullCB">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Allow Null</string>
+      <string>Name:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="4">
-    <widget class="QLabel" name="label">
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>General Properties</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>Default Value:</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
-    <widget class="QLineEdit" name="nameLE"/>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Lenght/Values:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="4">
+   <item row="7" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Indexing</string>
@@ -69,52 +50,122 @@
       <item>
        <widget class="QRadioButton" name="indexedRB">
         <property name="text">
-         <string>Indexed</string>
+         <string>I&amp;ndexed</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Name:</string>
+   <item row="8" column="0" colspan="3">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Qualifiers</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QCheckBox" name="allowNullCB">
+        <property name="text">
+         <string>Allow Null</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="autoIncrementCB">
+        <property name="text">
+         <string>Auto Increment</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="nameLE">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Default Value:</string>
+   <item row="4" column="2">
+    <widget class="QLineEdit" name="lenghtValuesLE">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="UMLDatatypeWidget" name="dataTypeWidget" native="true"/>
+   <item row="0" column="0" colspan="3">
+    <widget class="QLabel" name="label">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>General Properties</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="1" column="0" colspan="3">
+    <widget class="UMLDatatypeWidget" name="dataTypeWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="defaultValueLE">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Lenght:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
       <string>Attributes:</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="2" colspan="2">
-    <widget class="QComboBox" name="attributeTypesCB"/>
-   </item>
-   <item row="7" column="0" colspan="4">
-    <widget class="QCheckBox" name="autoIncrementCB">
-     <property name="text">
-      <string>Auto Increment:</string>
+   <item row="5" column="2">
+    <widget class="QComboBox" name="attributeTypesCB">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true"/>
-   </item>
-   <item row="6" column="3">
-    <widget class="QLineEdit" name="lenghtValuesLE"/>
+   <item row="6" column="0" colspan="3">
+    <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
