@@ -44,8 +44,8 @@ protected:
     KComboBox *m_comboBox;
     UMLAttribute *m_attribute;
     UMLClassifierListItem *m_datatype;
-    UMLEntityAttribute *m_entityAttribute;
     UMLOperation *m_operation;
+    UMLEntityAttribute *m_entityAttribute;
     UMLTemplate *m_template;
     UMLClassifier *m_parent;
     void init();
