@@ -11,11 +11,9 @@
 #ifndef UMLDATATYPEWIDGET_H
 #define UMLDATATYPEWIDGET_H
 
+#include "ui_umldatatypewidget.h"
 #include <QWidget>
 
-class KComboBox;
-class QGridLayout;
-class QLabel;
 class UMLAttribute;
 class UMLEntityAttribute;
 class UMLClassifier;
@@ -39,16 +37,16 @@ public:
     bool apply();
     void reset();
 
+private:
+    Ui::UMLDataTypeWidget *ui;
+
 protected:
-    QLabel *m_label;
-    KComboBox *m_comboBox;
     UMLAttribute *m_attribute;
     UMLClassifierListItem *m_datatype;
     UMLOperation *m_operation;
     UMLEntityAttribute *m_entityAttribute;
     UMLTemplate *m_template;
     UMLClassifier *m_parent;
-    void init();
     bool applyAttribute();
     bool applyEntityAttribute();
     bool applyOperation();
@@ -62,6 +60,7 @@ protected:
     void insertTypesSortedOperation(const QString &type);
     void insertTypesSortedParameter(const QString &type);
     void insertTypesSortedTemplate(const QString &type);
+
 };
 
 #endif

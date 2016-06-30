@@ -21,49 +21,26 @@
 #include "uml.h"
 #include "umldoc.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
 
 #include <QApplication>
 #include <QGridLayout>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QWidget>
 
-UMLDatatypeWidget::UMLDatatypeWidget(QWidget *parent) : QWidget(parent)
-  , m_attribute(nullptr)
-  , m_datatype(nullptr)
-  , m_operation(nullptr)
-  , m_entityAttribute(nullptr)
-  , m_template(nullptr)
+UMLDatatypeWidget::UMLDatatypeWidget(QWidget *parent)
+    : QWidget(parent),
+      ui(new Ui::UMLDataTypeWidget),
+      m_attribute(nullptr),
+      m_datatype(nullptr),
+      m_operation(nullptr),
+      m_entityAttribute(nullptr),
+      m_template(nullptr)
 {
-    init();
+    ui->setupUi(this);
 }
-
-void UMLDatatypeWidget::init()
-{
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Type:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox);
-    m_label->setBuddy(m_comboBox);
-
-    m_comboBox->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    setLayout(layout);
-}
-
-
 
 UMLDatatypeWidget::~UMLDatatypeWidget()
 {
-    delete m_comboBox;
-    delete m_label;
 }
 
 void UMLDatatypeWidget::setAttribute(UMLAttribute *attribute)
@@ -121,7 +98,7 @@ bool UMLDatatypeWidget::apply()
 
 bool UMLDatatypeWidget::applyAttribute()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     Uml::TypeQualifiers::Enum typeQualifier = m_datatype->qualifier();
     Uml::TypeModifiers::Enum typeModifierEnum = m_datatype->modifier();
     //Need to find a better way to do that
@@ -173,7 +150,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
 bool UMLDatatypeWidget::applyEntityAttribute()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes) {
@@ -201,7 +178,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 
 bool UMLDatatypeWidget::applyOperation()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLTemplate *tmplParam = 0;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
@@ -216,7 +193,7 @@ bool UMLDatatypeWidget::applyOperation()
 bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     if (m_parent == NULL) {
         uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
     } else {
@@ -251,7 +228,7 @@ bool UMLDatatypeWidget::applyParameter()
 
 bool UMLDatatypeWidget::applyTemplate()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
@@ -278,14 +255,13 @@ void UMLDatatypeWidget::initTypesBox(QStringList &types, const QString& type)
     }
     types.sort();
 
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
+    ui->typesCB->clear();
+    ui->typesCB->insertItems(0, types);
 
-    int currentIndex = m_comboBox->findText(type);
+    int currentIndex = ui->typesCB->findText(type);
     if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
+        ui->typesCB->setCurrentIndex(currentIndex);
     }
-    m_comboBox->completionObject()->addItem(type);
 }
 
 /**
@@ -419,6 +395,5 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
  */
 void UMLDatatypeWidget::addToLayout(QGridLayout *layout, int row, int startColumn)
 {
-    layout->addWidget(m_label, row, startColumn);
-    layout->addWidget(m_comboBox, row, startColumn + 1);
+    layout->addWidget(this, row, startColumn);
 }
