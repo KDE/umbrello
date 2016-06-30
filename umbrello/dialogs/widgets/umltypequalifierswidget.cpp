@@ -11,55 +11,55 @@ UMLTypeQualifiersWidget::UMLTypeQualifiersWidget(QWidget *parent)
 {
     ui->setupUi(this);
     //Using some connects with lambda to control the widgets
-    connect(ui->rb_none, &QRadioButton::clicked, [=]{
-        if(ui->rb_none->isChecked()){
-            ui->rb_mutable->setEnabled(true);
-            ui->ck_const->setEnabled(true);
-            ui->ck_volatile->setEnabled(true);
+    connect(ui->noneRB, &QRadioButton::clicked, [=]{
+        if(ui->noneRB->isChecked()){
+            ui->mutableRB->setEnabled(true);
+            ui->constCB->setEnabled(true);
+            ui->volatileCB->setEnabled(true);
         }
     });
 
-    connect(ui->rb_mutable, &QRadioButton::clicked, [=]{
-        if(ui->rb_mutable->isChecked()){
-            ui->ck_const->setDisabled(true);
-            ui->ck_volatile->setDisabled(true);
+    connect(ui->mutableRB, &QRadioButton::clicked, [=]{
+        if(ui->mutableRB->isChecked()){
+            ui->constCB->setDisabled(true);
+            ui->volatileCB->setDisabled(true);
         }
     });
-    connect(ui->ck_const, &QCheckBox::clicked, [=]{
-        if(ui->ck_const->isChecked() || ui->ck_volatile->isChecked()){
-            ui->rb_mutable->setDisabled(true);
-            ui->rb_none->setDisabled(true);
-            ui->rb_none->setChecked(false);
+    connect(ui->constCB, &QCheckBox::clicked, [=]{
+        if(ui->constCB->isChecked() || ui->volatileCB->isChecked()){
+            ui->mutableRB->setDisabled(true);
+            ui->noneRB->setDisabled(true);
+            ui->noneRB->setChecked(false);
         }
         else{
-            ui->rb_mutable->setDisabled(false);
-            ui->rb_none->setDisabled(false);
+            ui->mutableRB->setDisabled(false);
+            ui->noneRB->setDisabled(false);
         }
     });
-    connect(ui->ck_volatile, &QCheckBox::clicked, [=]{
-       if(ui->ck_volatile->isChecked() || ui->ck_const->isChecked()){
-           ui->rb_mutable->setDisabled(true);
-           ui->rb_none->setDisabled(true);
-           ui->rb_none->setChecked(false);
+    connect(ui->volatileCB, &QCheckBox::clicked, [=]{
+       if(ui->volatileCB->isChecked() || ui->constCB->isChecked()){
+           ui->mutableRB->setDisabled(true);
+           ui->noneRB->setDisabled(true);
+           ui->noneRB->setChecked(false);
        }
        else{
-           ui->rb_mutable->setDisabled(false);
-           ui->rb_none->setDisabled(false);
+           ui->mutableRB->setDisabled(false);
+           ui->noneRB->setDisabled(false);
        }
     });
 }
 
 void UMLTypeQualifiersWidget::apply()
 {
-    if(ui->ck_const->isChecked() && ui->ck_volatile->isChecked())
+    if(ui->constCB->isChecked() && ui->volatileCB->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::ConstVolatile);
-    else if(ui->rb_none->isChecked())
+    else if(ui->noneRB->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::None);
-    else if(ui->ck_const->isChecked())
+    else if(ui->constCB->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::Const);
-    else if(ui->rb_mutable->isChecked())
+    else if(ui->mutableRB->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::Mutable);
-    else if(ui->ck_volatile->isChecked())
+    else if(ui->volatileCB->isChecked())
         m_qualifier->setQualifier(Uml::TypeQualifiers::Volatile);
 }
 

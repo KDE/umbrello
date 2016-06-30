@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>252</width>
+    <width>257</width>
     <height>97</height>
    </rect>
   </property>
@@ -21,28 +21,28 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QRadioButton" name="rb_public">
+       <widget class="QRadioButton" name="publicRB">
         <property name="text">
          <string>Pub&amp;lic</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QRadioButton" name="rb_private">
+       <widget class="QRadioButton" name="privateRB">
         <property name="text">
          <string>Pri&amp;vate</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QRadioButton" name="rb_protected">
+       <widget class="QRadioButton" name="protectedRB">
         <property name="text">
          <string>Protected</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QRadioButton" name="rb_implementation">
+       <widget class="QRadioButton" name="implementationRB">
         <property name="text">
          <string>I&amp;mplementation</string>
         </property>

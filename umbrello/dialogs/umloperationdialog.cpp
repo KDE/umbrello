@@ -84,33 +84,33 @@ void UMLOperationDialog::setupDialog()
     ui->stereotypeWidget->setUMLObject(m_operation);
     ui->visibilityWidget->setUMLObject(m_operation);
     ui->documentationWidget->setUMLObject(m_operation);
-    ui->list_parameters->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->parametersListLW->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // setup push buttons signals
-    connect(ui->pb_newParameter, &QPushButton::clicked, this, &UMLOperationDialog::slotNewParameter);
-    connect(ui->pb_delete, &QPushButton::clicked, this, &UMLOperationDialog::slotDeleteParameter);
-    connect(ui->pb_properties, &QPushButton::clicked, this, &UMLOperationDialog::slotParameterProperties);
+    connect(ui->newParameterPB, &QPushButton::clicked, this, &UMLOperationDialog::slotNewParameter);
+    connect(ui->deletePB, &QPushButton::clicked, this, &UMLOperationDialog::slotDeleteParameter);
+    connect(ui->propertiesPB, &QPushButton::clicked, this, &UMLOperationDialog::slotParameterProperties);
 
-    ui->pb_delete->setEnabled(false);
-    ui->pb_properties->setEnabled(false);
-    ui->pb_down->setEnabled(false);
-    ui->pb_up->setEnabled(false);
+    ui->deletePB->setEnabled(false);
+    ui->propertiesPB->setEnabled(false);
+    ui->downTB->setEnabled(false);
+    ui->upTB->setEnabled(false);
 
     // fill in parm list box
     UMLAttributeList list = m_operation->getParmList();
     foreach (UMLAttribute* pAtt, list) {
-        ui->list_parameters->addItem(pAtt->toString(Uml::SignatureType::SigNoVis));
+        ui->parametersListLW->addItem(pAtt->toString(Uml::SignatureType::SigNoVis));
     }
-    connect(ui->pb_up, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterUp);
-    connect(ui->pb_down, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterDown);
+    connect(ui->upTB, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterUp);
+    connect(ui->downTB, &QToolButton::clicked, this, &UMLOperationDialog::slotParameterDown);
 
-    connect(ui->list_parameters, &QListWidget::itemClicked, this, &UMLOperationDialog::slotParamsBoxClicked);
-    connect(ui->list_parameters, &QListWidget::customContextMenuRequested, this, &UMLOperationDialog::slotParmRightButtonPressed);
-    connect(ui->list_parameters, &QListWidget::itemDoubleClicked, this, &UMLOperationDialog::slotParmDoubleClick);
+    connect(ui->parametersListLW, &QListWidget::itemClicked, this, &UMLOperationDialog::slotParamsBoxClicked);
+    connect(ui->parametersListLW, &QListWidget::customContextMenuRequested, this, &UMLOperationDialog::slotParmRightButtonPressed);
+    connect(ui->parametersListLW, &QListWidget::itemDoubleClicked, this, &UMLOperationDialog::slotParmDoubleClick);
 
-    ui->tb_name->setFocus();
+    ui->nameLE->setFocus();
 
-    connect(ui->tb_name, &QLineEdit::textChanged, this, &UMLOperationDialog::slotNameChanged);
+    connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLOperationDialog::slotNameChanged);
 }
 
 void UMLOperationDialog::slotNameChanged(const QString &_text)
@@ -121,7 +121,7 @@ void UMLOperationDialog::slotNameChanged(const QString &_text)
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
 {
     ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
-    QListWidgetItem* item = ui->list_parameters->itemAt(p);
+    QListWidgetItem* item = ui->parametersListLW->itemAt(p);
     if (item) // pressed on an item
         type = ListPopupMenu::mt_Parameter_Selected;
     else // pressed into fresh air
@@ -134,7 +134,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         m_menu = 0;
     }
     ListPopupMenu popup(this, type);
-    QAction *triggered = popup.exec(ui->list_parameters->mapToGlobal(p));
+    QAction *triggered = popup.exec(ui->parametersListLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }
 
@@ -176,7 +176,7 @@ void UMLOperationDialog::slotNewParameter()
         if (!pAtt) {
             newAttribute->setID(UniqueID::gen());
             m_operation->addParm(newAttribute);
-            ui->list_parameters->addItem(newAttribute->toString(Uml::SignatureType::SigNoVis));
+            ui->parametersListLW->addItem(newAttribute->toString(Uml::SignatureType::SigNoVis));
             m_doc->setModified(true);
         } else {
             KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
@@ -191,26 +191,26 @@ void UMLOperationDialog::slotNewParameter()
 
 void UMLOperationDialog::slotDeleteParameter()
 {
-    UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->list_parameters->row(ui->list_parameters->currentItem()));
+    UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->parametersListLW->row(ui->parametersListLW->currentItem()));
 
     m_operation->removeParm(pOldAtt);
-    ui->list_parameters->takeItem(ui->list_parameters->currentRow());
+    ui->parametersListLW->takeItem(ui->parametersListLW->currentRow());
     m_doc->setModified(true);
 
-    ui->pb_delete->setEnabled(false);
-    ui->pb_properties->setEnabled(false);
-    ui->pb_up->setEnabled(false);
-    ui->pb_down->setEnabled(false);
+    ui->deletePB->setEnabled(false);
+    ui->propertiesPB->setEnabled(false);
+    ui->upTB->setEnabled(false);
+    ui->downTB->setEnabled(false);
 }
 
 void UMLOperationDialog::slotParameterProperties()
 {
     UMLAttribute* pAtt = 0, * pOldAtt = 0;
 
-    int position = ui->list_parameters->row(ui->list_parameters->currentItem());
+    int position = ui->parametersListLW->row(ui->parametersListLW->currentItem());
     pOldAtt = m_operation->getParmList().at(position);
     if (!pOldAtt) {
-        uDebug() << "THE impossible has occurred for:" << ui->list_parameters->currentItem()->text();
+        uDebug() << "THE impossible has occurred for:" << ui->parametersListLW->currentItem()->text();
         return;
     } // should never occur
 
@@ -235,7 +235,7 @@ void UMLOperationDialog::slotParameterProperties()
             pOldAtt->setName(oldAttName); // reset the name if there was a naming conflict
         }
 
-        QListWidgetItem* item = ui->list_parameters->currentItem();
+        QListWidgetItem* item = ui->parametersListLW->currentItem();
         item->setText(pOldAtt->toString(Uml::SignatureType::SigNoVis));
         m_doc->setModified(true);
     }
@@ -245,14 +245,14 @@ void UMLOperationDialog::slotParameterProperties()
 
 void UMLOperationDialog::slotParameterUp()
 {
-    int row = ui->list_parameters->currentRow();
-    QListWidgetItem* item = ui->list_parameters->currentItem();
+    int row = ui->parametersListLW->currentRow();
+    QListWidgetItem* item = ui->parametersListLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->list_parameters->row(item));
+        UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->parametersListLW->row(item));
 
         m_operation->moveParmLeft(pOldAtt);
-        ui->list_parameters->takeItem(row);
-        ui->list_parameters->insertItem(row - 1, item);
+        ui->parametersListLW->takeItem(row);
+        ui->parametersListLW->insertItem(row - 1, item);
 
         m_doc->setModified(true);
         slotParamsBoxClicked(item);
@@ -264,14 +264,14 @@ void UMLOperationDialog::slotParameterUp()
 
 void UMLOperationDialog::slotParameterDown()
 {
-    int row = ui->list_parameters->currentRow();
-    QListWidgetItem* item = ui->list_parameters->currentItem();
+    int row = ui->parametersListLW->currentRow();
+    QListWidgetItem* item = ui->parametersListLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->list_parameters->row(item));
+        UMLAttribute* pOldAtt = m_operation->getParmList().at(ui->parametersListLW->row(item));
 
         m_operation->moveParmRight(pOldAtt);
-        ui->list_parameters->takeItem(row);
-        ui->list_parameters->insertItem(row + 1, item);
+        ui->parametersListLW->takeItem(row);
+        ui->parametersListLW->insertItem(row + 1, item);
 
         m_doc->setModified(true);
         slotParamsBoxClicked(item);
@@ -287,18 +287,18 @@ void UMLOperationDialog::slotParameterDown()
 void UMLOperationDialog::slotParamsBoxClicked(QListWidgetItem* parameterItem)
 {
     if (parameterItem) {
-        ui->pb_delete->setEnabled(true);
-        ui->pb_properties->setEnabled(true);
-        int row = ui->list_parameters->row(parameterItem);
-        bool hasNext = (row < ui->list_parameters->count() - 1);
+        ui->deletePB->setEnabled(true);
+        ui->propertiesPB->setEnabled(true);
+        int row = ui->parametersListLW->row(parameterItem);
+        bool hasNext = (row < ui->parametersListLW->count() - 1);
         bool hasPrev = (row > 0);
-        ui->pb_up->setEnabled(hasPrev);
-        ui->pb_down->setEnabled(hasNext);
+        ui->upTB->setEnabled(hasPrev);
+        ui->downTB->setEnabled(hasNext);
     } else {
-        ui->pb_delete->setEnabled(false);
-        ui->pb_properties->setEnabled(false);
-        ui->pb_up->setEnabled(false);
-        ui->pb_down->setEnabled(false);
+        ui->deletePB->setEnabled(false);
+        ui->propertiesPB->setEnabled(false);
+        ui->upTB->setEnabled(false);
+        ui->downTB->setEnabled(false);
     }
 }
 
@@ -308,11 +308,11 @@ void UMLOperationDialog::slotParamsBoxClicked(QListWidgetItem* parameterItem)
  */
 bool UMLOperationDialog::apply()
 {
-    QString name = ui->tb_name->text();
+    QString name = ui->nameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
                            i18n("Operation Name Invalid"), 0);
-        ui->tb_name->setText(m_operation->name());
+        ui->nameLE->setText(m_operation->name());
         return false;
     }
 
@@ -332,7 +332,7 @@ bool UMLOperationDialog::apply()
     ui->dataTypeWidget->apply();
     ui->stereotypeWidget->apply();
 
-    bool isAbstract = ui->ck_abstract->isChecked();
+    bool isAbstract = ui->abstractCB->isChecked();
     m_operation->setAbstract(isAbstract);
     if (isAbstract) {
         /* If any operation is abstract then the owning class needs
@@ -344,8 +344,8 @@ bool UMLOperationDialog::apply()
             classifier->setAbstract(true);
         }
     }
-    m_operation->setStatic(ui->ck_classifierScope->isChecked());
-    m_operation->setConst(ui->ck_queryConst->isChecked());
+    m_operation->setStatic(ui->classifierScopeCB->isChecked());
+    m_operation->setConst(ui->queryConstCB->isChecked());
     ui->documentationWidget->apply();
 
     return true;

@@ -21,28 +21,28 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QRadioButton" name="rb_none">
+       <widget class="QRadioButton" name="noneRB">
         <property name="text">
          <string>None</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QRadioButton" name="rb_mutable">
+       <widget class="QRadioButton" name="mutableRB">
         <property name="text">
          <string>&amp;Mutable</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QCheckBox" name="ck_const">
+       <widget class="QCheckBox" name="constCB">
         <property name="text">
          <string>Const</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QCheckBox" name="ck_volatile">
+       <widget class="QCheckBox" name="volatileCB">
         <property name="text">
          <string>Volatile</string>
         </property>

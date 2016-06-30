@@ -57,7 +57,7 @@ void UMLTemplateDialog::setupDialog()
     ui->dataTypeWidget->setTemplate(m_pTemplate);
     ui->stereotypeWidget->setUMLObject(m_pTemplate);
     ui->documentationWidget->setUMLObject(m_pTemplate);
-    ui->tb_name->setFocus();
+    ui->nameLE->setFocus();
 }
 
 /**
@@ -68,11 +68,11 @@ bool UMLTemplateDialog::apply()
 {
     ui->dataTypeWidget->apply();
 
-    QString name = ui->tb_name->text();
+    QString name = ui->nameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
                            i18n("Template Name Invalid"), 0);
-        ui->tb_name->setText(m_pTemplate->name());
+        ui->nameLE->setText(m_pTemplate->name());
         return false;
     }
 
@@ -82,7 +82,7 @@ bool UMLTemplateDialog::apply()
         if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), 0);
-            ui->tb_name->setText(m_pTemplate->name());
+            ui->nameLE->setText(m_pTemplate->name());
             return false;
         }
     }

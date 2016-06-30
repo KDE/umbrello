@@ -62,16 +62,16 @@ void VisibilityEnumWidget::setUMLObject(UMLObject *o)
     m_object = o;
     switch (m_object->visibility()) {
     case Uml::Visibility::Public:
-            ui->rb_public->setChecked(true);
+            ui->publicRB->setChecked(true);
         break;
     case Uml::Visibility::Protected:
-        ui->rb_protected->setChecked(true);
+        ui->protectedRB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        ui->rb_protected->setChecked(true);
+        ui->protectedRB->setChecked(true);
         break;
     case Uml::Visibility::Implementation:
-        ui->rb_implementation->setChecked(true);
+        ui->implementationRB->setChecked(true);
         break;
     }
 }
@@ -90,11 +90,11 @@ void VisibilityEnumWidget::addToLayout(QVBoxLayout *layout)
  */
 void VisibilityEnumWidget::apply()
 {
-    if(ui->rb_public->isChecked())
+    if(ui->publicRB->isChecked())
         m_object->setVisibility(Uml::Visibility::Public);
-    else if(ui->rb_protected->isChecked())
+    else if(ui->protectedRB->isChecked())
         m_object->setVisibility(Uml::Visibility::Protected);
-    else if(ui->rb_private->isChecked())
+    else if(ui->privateRB->isChecked())
         m_object->setVisibility(Uml::Visibility::Private);
     else
         m_object->setVisibility(Uml::Visibility::Implementation);
@@ -107,10 +107,10 @@ void VisibilityEnumWidget::initMaps()
     m_texts[Uml::Visibility::Private] = i18nc("private visibility", "P&rivate");
     m_texts[Uml::Visibility::Implementation] = i18n("Imple&mentation");
 
-    m_widgets[Uml::Visibility::Public]= ui->rb_public;
-    m_widgets[Uml::Visibility::Protected]= ui->rb_protected;
-    m_widgets[Uml::Visibility::Private]= ui->rb_private;
-    m_widgets[Uml::Visibility::Implementation]= ui->rb_implementation;
+    m_widgets[Uml::Visibility::Public]= ui->publicRB;
+    m_widgets[Uml::Visibility::Protected]= ui->protectedRB;
+    m_widgets[Uml::Visibility::Private]= ui->privateRB;
+    m_widgets[Uml::Visibility::Implementation]= ui->implementationRB;
 
 }
 

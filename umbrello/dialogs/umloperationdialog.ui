@@ -49,7 +49,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="tb_name">
+         <widget class="QLineEdit" name="nameLE">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -77,21 +77,21 @@
       <item row="2" column="0">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QCheckBox" name="ck_queryConst">
+         <widget class="QCheckBox" name="queryConstCB">
           <property name="text">
            <string>Query (&quot;const&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="ck_classifierScope">
+         <widget class="QCheckBox" name="classifierScopeCB">
           <property name="text">
            <string>Classifier scope (&quot;static&quot;)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="ck_abstract">
+         <widget class="QCheckBox" name="abstractCB">
           <property name="text">
            <string>Abstract Operation</string>
           </property>
@@ -115,7 +115,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0" rowspan="2">
-       <widget class="QListWidget" name="list_parameters">
+       <widget class="QListWidget" name="parametersListLW">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -140,21 +140,21 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pb_newParameter">
+         <widget class="QPushButton" name="newParameterPB">
           <property name="text">
            <string>New Parameter</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pb_delete">
+         <widget class="QPushButton" name="deletePB">
           <property name="text">
            <string>Delete</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pb_properties">
+         <widget class="QPushButton" name="propertiesPB">
           <property name="text">
            <string>Properties</string>
           </property>
@@ -163,7 +163,7 @@
        </layout>
       </item>
       <item row="1" column="1">
-       <widget class="QToolButton" name="pb_down">
+       <widget class="QToolButton" name="downTB">
         <property name="text">
          <string/>
         </property>
@@ -173,7 +173,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QToolButton" name="pb_up">
+       <widget class="QToolButton" name="upTB">
         <property name="text">
          <string/>
         </property>

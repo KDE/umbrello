@@ -62,16 +62,16 @@ void UMLEntityAttributeDialog::setupDialog()
 {
     ui->dataTypeWidget->setEntityAttribute(m_pEntityAttribute);
     ui->stereotypeWidget->setUMLObject(m_pEntityAttribute);
-    ui->ck_autoIncrement->setChecked(m_pEntityAttribute->getAutoIncrement());
-    ui->ck_allowNull->setChecked(m_pEntityAttribute->getNull());
+    ui->autoIncrementCB->setChecked(m_pEntityAttribute->getAutoIncrement());
+    ui->allowNullCB->setChecked(m_pEntityAttribute->getNull());
 
     // enable/disable isNull depending on the state of Auto Increment Check Box
-    slotAutoIncrementStateChanged(ui->ck_autoIncrement->isChecked());
+    slotAutoIncrementStateChanged(ui->autoIncrementCB->isChecked());
 
     insertAttribute(m_pEntityAttribute->getAttributes());
-    insertAttribute(QString::fromLatin1("binary"), ui->cb_attributesTypes->count());
-    insertAttribute(QString::fromLatin1("unsigned"), ui->cb_attributesTypes->count());
-    insertAttribute(QString::fromLatin1("unsigned zerofill"), ui->cb_attributesTypes->count());
+    insertAttribute(QString::fromLatin1("binary"), ui->attributeTypesCB->count());
+    insertAttribute(QString::fromLatin1("unsigned"), ui->attributeTypesCB->count());
+    insertAttribute(QString::fromLatin1("unsigned zerofill"), ui->attributeTypesCB->count());
 #if 0
     /*
     m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeGB);
@@ -101,10 +101,10 @@ void UMLEntityAttributeDialog::setupDialog()
     connect(m_pAutoIncrementCB, &QCheckBox::clicked, this, &UMLEntityAttributeDialog::slotAutoIncrementStateChanged);
     slotNameChanged(m_pNameLE->text());
 #endif
-    ui->tb_name->setFocus();
-    connect(ui->tb_name, &QLineEdit::textChanged, this, &UMLEntityAttributeDialog::slotNameChanged);
-    connect(ui->ck_autoIncrement, &QCheckBox::clicked, this, &UMLEntityAttributeDialog::slotAutoIncrementStateChanged);
-    slotNameChanged(ui->tb_name->text());
+    ui->nameLE->setFocus();
+    connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLEntityAttributeDialog::slotNameChanged);
+    connect(ui->autoIncrementCB, &QCheckBox::clicked, this, &UMLEntityAttributeDialog::slotAutoIncrementStateChanged);
+    slotNameChanged(ui->nameLE->text());
 }
 
 void UMLEntityAttributeDialog::slotNameChanged(const QString &_text)
@@ -118,11 +118,11 @@ void UMLEntityAttributeDialog::slotNameChanged(const QString &_text)
  */
 bool UMLEntityAttributeDialog::apply()
 {
-    QString name = ui->tb_name->text();
+    QString name = ui->nameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
                            i18n("Entity Attribute Name Invalid"), 0);
-        ui->tb_name->setText(m_pEntityAttribute->name());
+        ui->nameLE->setText(m_pEntityAttribute->name());
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pEntityAttribute->parent());
@@ -130,16 +130,16 @@ bool UMLEntityAttributeDialog::apply()
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), 0);
-        ui->tb_name->setText(m_pEntityAttribute->name());
+        ui->nameLE->setText(m_pEntityAttribute->name());
         return false;
     }
     m_pEntityAttribute->setName(name);
-    m_pEntityAttribute->setInitialValue(ui->tb_defaultValue->text());
+    m_pEntityAttribute->setInitialValue(ui->defaultValueLE->text());
     ui->stereotypeWidget->apply();
-    m_pEntityAttribute->setValues(ui->tb_lenghtValues->text());
-    m_pEntityAttribute->setAttributes(ui->cb_attributesTypes->currentText());
-    m_pEntityAttribute->setAutoIncrement(ui->ck_autoIncrement->isChecked());
-    m_pEntityAttribute->setNull(ui->ck_allowNull->isChecked());
+    m_pEntityAttribute->setValues(ui->lenghtValuesLE->text());
+    m_pEntityAttribute->setAttributes(ui->attributeTypesCB->currentText());
+    m_pEntityAttribute->setAutoIncrement(ui->autoIncrementCB->isChecked());
+    m_pEntityAttribute->setNull(ui->allowNullCB->isChecked());
 #if 0
     /*
     if (m_pPublicRB->isChecked()) {
@@ -164,7 +164,7 @@ bool UMLEntityAttributeDialog::apply()
  */
 void UMLEntityAttributeDialog::insertAttribute(const QString& type, int index)
 {
-    ui->cb_attributesTypes->insertItem(index, type);
+    ui->attributeTypesCB->insertItem(index, type);
 }
 
 /**
@@ -173,10 +173,10 @@ void UMLEntityAttributeDialog::insertAttribute(const QString& type, int index)
 void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
 {
     if (checked == true) {
-        ui->ck_allowNull->setChecked(false);
-        ui->ck_allowNull->setEnabled(false);
+        ui->allowNullCB->setChecked(false);
+        ui->allowNullCB->setEnabled(false);
     } else if (checked == false) {
-        ui->ck_allowNull->setEnabled(true);
+        ui->allowNullCB->setEnabled(true);
     }
 
 }

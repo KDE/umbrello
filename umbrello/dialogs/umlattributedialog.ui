@@ -41,7 +41,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="tb_name"/>
+          <widget class="QLineEdit" name="nameLE"/>
          </item>
         </layout>
        </item>
@@ -62,7 +62,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="tb_initialValue"/>
+          <widget class="QLineEdit" name="initialValueLE"/>
          </item>
         </layout>
        </item>
@@ -81,7 +81,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="cb_classifierScopeStatic">
+    <widget class="QCheckBox" name="classifierScopeCB">
      <property name="text">
       <string>Classifier Scope(&quot;static&quot;)</string>
      </property>
