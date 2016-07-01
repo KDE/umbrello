@@ -22,17 +22,11 @@
 #include "uml.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <KIntSpinBox>
-#endif
 #include <KMessageBox>
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QFileDialog>
-#endif
 
 /**
  * Constructor.
@@ -322,11 +316,7 @@ void CodeGenOptionsPage::changeLanguage()
 void CodeGenOptionsPage::browseClicked()
 {
     QString button = sender()->objectName();
-#if QT_VERSION > 0x050000
     QString dir = QFileDialog::getExistingDirectory();
-#else
-    QString dir = KFileDialog::getExistingDirectory();
-#endif
     if (dir.isEmpty()) {
         return;
     }
