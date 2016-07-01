@@ -21,15 +21,10 @@
 #include "floatingtextwidget.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QPainter>
 #include <QToolTip>
 
@@ -84,15 +79,10 @@ void PortWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString newName;
-#if QT_VERSION >= 0x050000
             newName = QInputDialog::getText(Q_NULLPTR,
                                             i18n("Enter Port Name"), i18n("Enter the port name :"),
                                             QLineEdit::Normal,
                                             name(), &ok);
-#else
-            newName = KInputDialog::getText(i18n("Enter Port Name"), i18n("Enter the port name :"),
-                                            name(), &ok);
-#endif
             if (ok) {
                 setName(newName);
             }

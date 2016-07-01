@@ -26,14 +26,9 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>
@@ -169,22 +164,12 @@ void ObjectWidget::slotMenuSelection(QAction* action)
         {
             bool ok;
             QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(m_scene->activeView(),
                                                  i18n("Rename Object"),
                                                  i18n("Enter object name:"),
                                                  QLineEdit::Normal,
                                                  m_instanceName,
                                                  &ok);
-#else
-            QString name = KInputDialog::getText
-                   (i18n("Rename Object"),
-                    i18n("Enter object name:"),
-                    m_instanceName,
-                    &ok,
-                    m_scene->activeView(),
-                    validator);
-#endif
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();
