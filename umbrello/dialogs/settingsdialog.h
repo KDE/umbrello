@@ -26,18 +26,10 @@ class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
 class KColorButton;
-#if QT_VERSION < 0x050000
-class KFontChooser;
-class KIntSpinBox;
-#endif
 class QCheckBox;
-#if QT_VERSION >= 0x050000
 class QFontDialog;
-#endif
 class QGroupBox;
-#if QT_VERSION >= 0x050000
 class QSpinBox;
-#endif
 class UMLWidgetStylePage;
 
 /**
@@ -81,21 +73,13 @@ private:
         KColorButton * fillColorB;
         KColorButton * gridColorB;
         KColorButton * bgColorB;
-#if QT_VERSION >= 0x050000
         QSpinBox     * lineWidthB;
-#else
-        KIntSpinBox  * lineWidthB;
-#endif
         QCheckBox * useFillColorCB;
     }
     ;//end struct UIWidgets
 
     struct FontWidgets {
-#if QT_VERSION >= 0x050000
         QFontDialog *chooser;
-#else
-        KFontChooser *chooser;
-#endif
     };
 
     //private methods

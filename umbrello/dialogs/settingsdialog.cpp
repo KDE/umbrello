@@ -26,20 +26,12 @@
 
 // kde includes
 #include <KColorButton>
-#if QT_VERSION < 0x050000
-#include <kfontchooser.h>
-#include <KIntSpinBox>
-#endif
 
 // qt includes
 #include <QCheckBox>
-#if QT_VERSION >= 0x050000
 #include <QFontDialog>
-#endif
 #include <QGroupBox>
-#if QT_VERSION >= 0x050000
 #include <QSpinBox>
-#endif
 
 //TODO don't do that, but it's better than hardcoded in the functions body
 #define FILL_COLOR QColor(255, 255, 192) 
@@ -166,15 +158,12 @@ void SettingsDialog::setupUIPage()
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineWidthCB, 5, 0);
 
-#if QT_VERSION >= 0x050000
     m_UiWidgets.lineWidthB = new QSpinBox(m_UiWidgets.colorGB);
     m_UiWidgets.lineWidthB->setMinimum(0);
     m_UiWidgets.lineWidthB->setMaximum(10);
     m_UiWidgets.lineWidthB->setSingleStep(1);
     m_UiWidgets.lineWidthB->setValue(m_pOptionState->uiState.lineWidth);
-#else
-    m_UiWidgets.lineWidthB = new KIntSpinBox(0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB);
-#endif
+
     colorLayout->addWidget(m_UiWidgets.lineWidthB, 5, 1);
     
     m_UiWidgets.useFillColorCB = new QCheckBox(i18n("&Use fill color"), m_UiWidgets.colorGB);
@@ -267,14 +256,10 @@ void SettingsDialog::setupCodeViewerPage(Settings::CodeViewerState options)
 
 void SettingsDialog::setupFontPage()
 {
-#if QT_VERSION >= 0x050000
     m_FontWidgets.chooser = new QFontDialog();
     m_FontWidgets.chooser->setCurrentFont(m_pOptionState->uiState.font);
     m_FontWidgets.chooser->setOption(QFontDialog::NoButtons);
-#else
-    m_FontWidgets.chooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
-#endif
+
     pageFont = createPage(i18n("Font"), i18n("Font Settings"),
                           Icon_Utils::it_Properties_Font, m_FontWidgets.chooser);
 }
@@ -317,11 +302,7 @@ void SettingsDialog::slotDefault()
     }
     else if (current == pageFont)
     {
-#if QT_VERSION >= 0x050000
         m_FontWidgets.chooser->setCurrentFont(parentWidget()->font());
-#else
-        m_FontWidgets.chooser->setFont(parentWidget()->font());
-#endif
     }
     else if (current == pageUserInterface)
     {
@@ -360,11 +341,7 @@ void SettingsDialog::applyPage(KPageWidgetItem*item)
     }
     else if (item == pageFont)
     {
-#if QT_VERSION >= 0x050000
         m_pOptionState->uiState.font = m_FontWidgets.chooser->currentFont();
-#else
-        m_pOptionState->uiState.font = m_FontWidgets.chooser->font();
-#endif
     }
     else if (item == pageUserInterface)
     {

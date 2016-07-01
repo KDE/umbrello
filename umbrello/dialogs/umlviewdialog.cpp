@@ -23,16 +23,11 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kfontchooser.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QFontDialog>
-#endif
 #include <QFrame>
 #include <QHBoxLayout>
 
@@ -130,14 +125,9 @@ void UMLViewDialog::setupStylePage()
  */
 void UMLViewDialog::setupFontPage()
 {
-#if QT_VERSION >= 0x050000
     m_pChooser = new QFontDialog();
     m_pChooser->setCurrentFont(m_pScene->optionState().uiState.font);
     m_pChooser->setOption(QFontDialog::NoButtons);
-#else
-    m_pChooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont(m_pScene->optionState().uiState.font);
-#endif
     m_pageFontItem = createPage(i18n("Font"), i18n("Font Settings"),
                                 Icon_Utils::it_Properties_Font, m_pChooser);
 }
@@ -162,11 +152,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == m_pageFontItem)
     {
-#if QT_VERSION >= 0x050000
         QFont font = m_pChooser->currentFont();
-#else
-        QFont font = m_pChooser->font();
-#endif
         uDebug() << "setting font " << font.toString();
         m_pScene->setFont(font, true);
     }

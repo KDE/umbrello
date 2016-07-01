@@ -22,16 +22,11 @@
 class UMLScene;
 class WidgetBase;
 class KColorButton;
-#if QT_VERSION < 0x050000
-class KIntSpinBox;
-#endif
 class QLabel;
 class QPushButton;
 class QCheckBox;
 class QGroupBox;
-#if QT_VERSION >= 0x050000
 class QSpinBox;
-#endif
 
 class UMLWidgetStylePage : public QWidget
 {
@@ -83,11 +78,7 @@ protected:
     KColorButton * m_pFillColorB;
     KColorButton * m_BackgroundColorB;
     KColorButton * m_GridDotColorB;
-#if QT_VERSION >= 0x050000
     QSpinBox * m_lineWidthB;
-#else
-    KIntSpinBox * m_lineWidthB;
-#endif
 
 private:
     void init();

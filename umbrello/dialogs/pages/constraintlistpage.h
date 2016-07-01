@@ -18,13 +18,8 @@
 //qt  includes
 #include <QWidget>
 
-#if QT_VERSION < 0x050000
-class KAction;
-class KMenu;
-#else
 class QAction;
 class QMenu;
-#endif
 
 /**
  * A dialog page to display entity constraint properties.
@@ -44,17 +39,10 @@ public:
 
 private:
 
-#if QT_VERSION >= 0x050000
     QAction* newUniqueConstraintAction;
     QAction* newPrimaryKeyConstraintAction;
     QAction* newForeignKeyConstraintAction;
     QAction* newCheckConstraintAction;
-#else
-    KAction* newUniqueConstraintAction;
-    KAction* newPrimaryKeyConstraintAction;
-    KAction* newForeignKeyConstraintAction;
-    KAction* newCheckConstraintAction;
-#endif
     void setupActions();
 
 private slots:
@@ -68,12 +56,7 @@ private slots:
 protected:
 
     bool greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2);
-
-#if QT_VERSION >= 0x050000
     QMenu* buttonMenu;
-#else
-    KMenu* buttonMenu;
-#endif
 
 };
 

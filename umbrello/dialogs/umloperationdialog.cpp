@@ -32,9 +32,6 @@
 #include "visibilityenumwidget.h"
 
 //kde includes
-#if QT_VERSION < 0x050000
-#include <kdialogbuttonbox.h>
-#endif
 #include <klineedit.h>
 #include <kcombobox.h>
 #include <KLocalizedString>

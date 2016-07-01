@@ -24,21 +24,11 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
-#if QT_VERSION < 0x050000
-#include <kaction.h>
-#include <kdialogbuttonbox.h>
-#endif
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kmenu.h>
-#include <kpushbutton.h>
-#endif
 
 #include <QApplication>
 #include <QHBoxLayout>
-#if QT_VERSION >= 0x050000
 #include <QPushButton>
-#endif
 #include <QVBoxLayout>
 
 /**
@@ -55,11 +45,7 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 {
     setupActions();
 
-#if QT_VERSION >= 0x050000
     buttonMenu = new QMenu(this);
-#else
-    buttonMenu = new KMenu(this);
-#endif
     // add a button menu
     m_pNewClassifierListItemButton->setMenu(buttonMenu);
     buttonMenu->addAction(newPrimaryKeyConstraintAction);
@@ -80,31 +66,15 @@ ConstraintListPage::~ConstraintListPage()
 
 void ConstraintListPage::setupActions()
 {
-#if QT_VERSION >= 0x050000
     newUniqueConstraintAction = new QAction(i18n("Unique Constraint..."), this);
-#else
-    newUniqueConstraintAction = new KAction(i18n("Unique Constraint..."), this);
-#endif
     connect(newUniqueConstraintAction, &QAction::triggered, this, &ConstraintListPage::slotNewUniqueConstraint);
-#if QT_VERSION >= 0x050000
     newPrimaryKeyConstraintAction = new QAction(i18n("Primary Key Constraint..."), this);
-#else
-    newPrimaryKeyConstraintAction = new KAction(i18n("Primary Key Constraint..."), this);
-#endif
     connect(newPrimaryKeyConstraintAction, &QAction::triggered, this, &ConstraintListPage::slotNewPrimaryKeyConstraint);
 
-#if QT_VERSION >= 0x050000
     newForeignKeyConstraintAction = new QAction(i18n("Foreign Key Constraint..."), this);
-#else
-    newForeignKeyConstraintAction = new KAction(i18n("Foreign Key Constraint..."), this);
-#endif
     connect(newForeignKeyConstraintAction, &QAction::triggered, this, &ConstraintListPage::slotNewForeignKeyConstraint);
 
-#if QT_VERSION >= 0x050000
     newCheckConstraintAction = new QAction(i18n("Check Constraint..."), this);
-#else
-    newCheckConstraintAction = new KAction(i18n("Check Constraint..."), this);
-#endif
     connect(newCheckConstraintAction, &QAction::triggered, this, &ConstraintListPage::slotNewCheckConstraint);
 }
 

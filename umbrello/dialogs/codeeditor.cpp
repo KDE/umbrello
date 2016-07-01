@@ -36,10 +36,6 @@
 #include "umloperationdialog.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kaction.h>
-#include <kmenu.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
@@ -734,11 +730,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
  */
 void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
 {
-#if QT_VERSION >= 0x050000
     QMenu* menu = createPopup();
-#else
-    KMenu* menu = createPopup();
-#endif
     menu->exec(event->globalPos());
     delete menu;
 }
@@ -747,38 +739,21 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
  * Create the popup menu.
  * @return   the popup menu
  */
-#if QT_VERSION >= 0x050000
 QMenu * CodeEditor::createPopup()
-#else
-KMenu * CodeEditor::createPopup()
-#endif
 {
     DEBUG(DBG_SRC) << "called...";
-
-#if QT_VERSION >= 0x050000
     QMenu * menu = new QMenu(this);
-#else
-    KMenu * menu = new KMenu(this);
-#endif
 
     TextBlock * tb = m_selectedTextBlock;
     if (tb) {
         if (tb->getWriteOutText()) {
-#if QT_VERSION >= 0x050000
             QAction* hideAct = new QAction(i18n("Hide"), this);
-#else
-            KAction* hideAct = new KAction(i18n("Hide"), this);
-#endif
             hideAct->setShortcut(Qt::Key_H);
             connect(hideAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockView);
             menu->addAction(hideAct);
         }
         else {
-#if QT_VERSION >= 0x050000
             QAction* showAct = new QAction(i18n("Show"), this);
-#else
-            KAction* showAct = new KAction(i18n("Show"), this);
-#endif
             showAct->setShortcut(Qt::Key_S);
             connect(showAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockView);
             menu->addAction(showAct);
@@ -787,71 +762,42 @@ KMenu * CodeEditor::createPopup()
         CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
         if (cb) {
             if (cb->getComment()->getWriteOutText()) {
-#if QT_VERSION >= 0x050000
                 QAction* hideCommAct = new QAction(i18n("Hide Comment"), this);
-#else
-                KAction* hideCommAct = new KAction(i18n("Hide Comment"), this);
-#endif
                 hideCommAct->setShortcut(Qt::CTRL + Qt::Key_H);
                 connect(hideCommAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockCommentView);
                 menu->addAction(hideCommAct);
             }
             else {
-#if QT_VERSION >= 0x050000
                 QAction* showCommAct = new QAction(i18n("Show Comment"), this);
-#else
-                KAction* showCommAct = new KAction(i18n("Show Comment"), this);
-#endif
                 showCommAct->setShortcut(Qt::CTRL + Qt::Key_S);
                 connect(showCommAct, &QAction::triggered, this, &CodeEditor::slotChangeSelectedBlockCommentView);
                 menu->addAction(showCommAct);
             }
         }
         menu->addSeparator();
-
-#if QT_VERSION >= 0x050000
         QAction* insCodeBeforeAct = new QAction(i18n("Insert Code Block Before"), this);
-#else
-        KAction* insCodeBeforeAct = new KAction(i18n("Insert Code Block Before"), this);
-#endif
         insCodeBeforeAct->setShortcut(Qt::CTRL + Qt::Key_B);
         connect(insCodeBeforeAct, &QAction::triggered, this, &CodeEditor::slotInsertCodeBlockBeforeSelected);
         menu->addAction(insCodeBeforeAct);
 
-#if QT_VERSION >= 0x050000
         QAction* insCodeAfterAct = new QAction(i18n("Insert Code Block After"), this);
-#else
-        KAction* insCodeAfterAct = new KAction(i18n("Insert Code Block After"), this);
-#endif
         insCodeAfterAct->setShortcut(Qt::CTRL + Qt::Key_A);
         connect(insCodeAfterAct, &QAction::triggered, this, &CodeEditor::slotInsertCodeBlockAfterSelected);
         menu->addAction(insCodeAfterAct);
 
         menu->addSeparator();
 
-#if QT_VERSION >= 0x050000
         QAction* copyAct = new QAction(i18n("Copy"), this);
-#else
-        KAction* copyAct = new KAction(i18n("Copy"), this);
-#endif
         copyAct->setShortcut(Qt::CTRL + Qt::Key_C);
         connect(copyAct, &QAction::triggered, this, &CodeEditor::slotCopyTextBlock);
         menu->addAction(copyAct);
 
-#if QT_VERSION >= 0x050000
         QAction* pasteAct = new QAction(i18n("Paste"), this);
-#else
-        KAction* pasteAct = new KAction(i18n("Paste"), this);
-#endif
         pasteAct->setShortcut(Qt::CTRL + Qt::Key_V);
         connect(pasteAct, &QAction::triggered, this, &CodeEditor::slotPasteTextBlock);
         menu->addAction(pasteAct);
 
-#if QT_VERSION >= 0x050000
         QAction* cutAct = new QAction(i18n("Cut"), this);
-#else
-        KAction* cutAct = new KAction(i18n("Cut"), this);
-#endif
         cutAct->setShortcut(Qt::CTRL + Qt::Key_X);
         connect(cutAct, &QAction::triggered, this, &CodeEditor::slotCutTextBlock);
         menu->addAction(cutAct);
