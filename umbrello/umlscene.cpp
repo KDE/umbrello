@@ -73,11 +73,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <kinputdialog.h>
-#include <kio/netaccess.h>
-#endif
 #include <KMessageBox>
 #include <kcursor.h>
 #include <KLocalizedString>
@@ -90,9 +85,7 @@
 #include <QString>
 #include <QStringList>
 
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 
 // system includes
 #include <cmath>  // for ceil
@@ -2991,18 +2984,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_State:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter State Name"),
                                                  i18n("Enter the name of the new state:"),
                                                  QLineEdit::Normal,
                                                  i18n("new state"),
                                                  &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter State Name"),
-                                                 i18n("Enter the name of the new state:"),
-                                                 i18n("new state"), &ok, UMLApp::app());
-#endif
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
@@ -3035,18 +3022,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Activity:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter Activity Name"),
                                                  i18n("Enter the name of the new activity:"),
                                                  QLineEdit::Normal,
                                                  i18n("new activity"),
                                                  &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Activity Name"),
-                                                 i18n("Enter the name of the new activity:"),
-                                                 i18n("new activity"), &ok, UMLApp::app());
-#endif
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);
@@ -3082,18 +3063,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString newName = QInputDialog::getText(UMLApp::app(),
                                                     i18n("Enter Diagram Name"),
                                                     i18n("Enter the new name of the diagram:"),
                                                     QLineEdit::Normal,
                                                     name(),
                                                     &ok);
-#else
-            QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
-                                                    i18n("Enter the new name of the diagram:"),
-                                                    name(), &ok, UMLApp::app());
-#endif
             if (ok) {
                 setName(newName);
                 m_doc->signalDiagramRenamed(activeView());

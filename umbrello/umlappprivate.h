@@ -24,9 +24,6 @@
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
-#if QT_VERSION < 0x050000
-#include <ktexteditor/editorchooser.h>
-#endif
 #include <ktexteditor/view.h>
 
 // qt includes
@@ -70,11 +67,7 @@ public:
         view(0),
         document(0)
     {
-#if QT_VERSION >= 0x050000
         editor = KTextEditor::Editor::instance();
-#else
-        editor = KTextEditor::EditorChooser::editor();
-#endif
         logWindow = new QListWidget;
         connect(logWindow, &QListWidget::itemDoubleClicked, this, &UMLAppPrivate::slotLogWindowItemDoubleClicked);
     }
@@ -95,11 +88,7 @@ public slots:
 
         document = editor->createDocument(0);
         view = document->createView(parent);
-#if QT_VERSION >= 0x050000
         view->document()->openUrl(QUrl(columns[0]));
-#else
-        view->document()->openUrl(columns[0]);
-#endif
         view->document()->setReadWrite(false);
         view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
         KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);

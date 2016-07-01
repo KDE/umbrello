@@ -20,9 +20,6 @@
 
 // kde include files
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <KAction>
-#endif
 #include <KActionCollection>
 
 // qt include files
@@ -67,11 +64,7 @@ WorkToolBar::~WorkToolBar()
  */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
-#if QT_VERSION >= 0x050000
     QAction *action = m_actions[tbb];
-#else
-    KAction *action = m_actions[tbb];
-#endif
     addAction(action);
     action->setChecked(true);
     return action;
@@ -383,13 +376,8 @@ void WorkToolBar::loadPixmaps()
     for (uint i = 0; i < n_buttonInfos; ++i) {
         const ButtonInfo& info = buttonInfo[i];
         QString key = QLatin1String(ENUM_NAME(WorkToolBar, ToolBar_Buttons, info.tbb));
-#if QT_VERSION >= 0x050000
         QAction *action = collection->addAction(key, this, info.slotName);
         action->setIcon(Icon_Utils::BarIcon(info.icon));
-#else
-        KAction *action = collection->addAction(key, this, info.slotName);
-        action->setIcon(KIcon(Icon_Utils::BarIcon(info.icon)));
-#endif
         action->setText(info.btnName);
         m_actions[info.tbb] = action;
         m_cursors[info.tbb] = Icon_Utils::Cursor(info.icon);

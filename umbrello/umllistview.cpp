@@ -60,28 +60,17 @@
 #include "object_factory.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <ktabwidget.h>
-#endif
 
 // qt includes
 #include <QApplication>
 #include <QDrag>
 #include <QDropEvent>
 #include <QEvent>
-#if QT_VERSION >= 0x050000
 #include <QFileDialog>
-#endif
 #include <QFocusEvent>
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
@@ -491,40 +480,21 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 return;
             }
             // configure & show the file dialog
-#if QT_VERSION >= 0x050000
             const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
             QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QLatin1String("*.xml"));
-#else
-            const QString rootDir(m_doc->url().directory());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
-            fileDialog->setCaption(i18n("Externalize Folder"));
-            fileDialog->setOperationMode(KFileDialog::Other);
-#endif
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
             defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
             defaultFilename.append(QLatin1String(".xml"));  // default extension
-#if QT_VERSION >= 0x050000
             fileDialog->selectFile(defaultFilename);
             QList<QUrl> selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
                 selURL = fileDialog->selectedUrls();
             }
-#else
-            fileDialog->setSelection(defaultFilename);
-            KUrl selURL;
-            if (fileDialog->exec() == QDialog::Accepted) {
-                selURL = fileDialog->selectedUrl();
-            }
-#endif
             delete fileDialog;
             if (selURL.isEmpty())
                 return;
-#if QT_VERSION >= 0x050000
             QString path = selURL[0].toLocalFile();
-#else
-            QString path = selURL.toLocalFile();
-#endif
             QString fileName = path;
             if (fileName.startsWith(rootDir)) {
                 fileName.remove(rootDir);
@@ -581,17 +551,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_Model:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter Model Name"),
                                                  i18n("Enter the new name of the model:"),
                                                  QLineEdit::Normal,
                                                  m_doc->name(), &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Model Name"),
-                                                 i18n("Enter the new name of the model:"),
-                                                 m_doc->name(), &ok, UMLApp::app());
-#endif
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);

@@ -58,52 +58,27 @@
 #include "umlscene.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kaction.h>
-#endif
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
-#if QT_VERSION < 0x050000
-#include <kdeprintdialog.h>
-#include <kfiledialog.h>
-#endif
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kmenubar.h>
-#endif
 #include <KMessageBox>
 #include <ktip.h>
-#if QT_VERSION < 0x050000
-#include <ktabwidget.h>
-#endif
 #include <kactionmenu.h>
-#if QT_VERSION < 0x050000
-#include <kmenu.h>
-#endif
 #include <kxmlguifactory.h>
-#if QT_VERSION < 0x050000
-#include <kstatusbar.h>
-#include <kundostack.h>
-#endif
 
 // qt includes
 #include <QApplication>
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
-#if QT_VERSION >= 0x050000
 #include <QFileDialog>
-#endif
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
-#if QT_VERSION < 0x050000
-#include <QMenuItem>
-#endif
 #include <QPointer>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -112,16 +87,12 @@
 #include <QRegExp>
 #include <QScrollBar>
 #include <QSlider>
-#if QT_VERSION >= 0x050000
 #include <QStatusBar>
-#endif
 #include <QStackedWidget>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QToolButton>
-#if QT_VERSION >= 0x050000
 #include <QUndoStack>
-#endif
 #include <QUndoView>
 #include <QListWidget>
 
@@ -161,11 +132,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_codegen(0),
     m_commoncodegenpolicy(new CodeGenerationPolicy()),
     m_policyext(0),
-#if QT_VERSION >= 0x050000
     m_config(KSharedConfig::openConfig()),
-#else
-    m_config(KGlobal::config()),
-#endif
     m_view(0),
     m_doc(new UMLDoc()),
     m_listView(0),
@@ -179,11 +146,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_settingsDialog(0),
     m_imageExporterAll(new UMLViewImageExporterAll()),
     m_xhtmlGenerator(0),
-#if QT_VERSION >= 0x050000
     m_pUndoStack(new QUndoStack(this)),
-#else
-    m_pUndoStack(new KUndoStack(this)),
-#endif
     m_hasBegunMacro(false),
     m_printSettings(0),
     m_printer(new QPrinter())
@@ -279,11 +242,7 @@ void UMLApp::initActions()
 {
     QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     QAction* fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
-#if QT_VERSION >= 0x050000
     fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(QUrl)), actionCollection());
-#else
-    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(KUrl)), actionCollection());
-#endif
     QAction* fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
@@ -292,18 +251,14 @@ void UMLApp::initActions()
     KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
     KStandardAction::findPrev(this, SLOT(slotFindPrevious()), actionCollection());
     printPreview = KStandardAction::printPreview(this, SLOT(slotPrintPreview()), actionCollection());
-#if QT_VERSION >= 0x040600
     filePrint->setPriority(QAction::LowPriority);  // icon only
     printPreview->setPriority(QAction::LowPriority);  // icon only
-#endif
     QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
-#if QT_VERSION >= 0x040600
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
-#endif
 
     disconnect(m_pUndoStack, &QUndoStack::undoTextChanged, editUndo, 0);
     disconnect(m_pUndoStack, &QUndoStack::redoTextChanged, editRedo, 0);
@@ -592,22 +547,14 @@ void UMLApp::initActions()
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-#if QT_VERSION >= 0x050000
     QAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
-#else
-    KAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
-#endif
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, &QAction::triggered, this, &UMLApp::slotMoveTabLeft);
 
-#if QT_VERSION >= 0x050000
     QAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
-#else
-    KAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
-#endif
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -616,21 +563,13 @@ void UMLApp::initActions()
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-#if QT_VERSION >= 0x050000
     QAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
-#else
-    KAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
-#endif
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, &QAction::triggered, this, &UMLApp::slotChangeTabLeft);
 
-#if QT_VERSION >= 0x050000
     QAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
-#else
-    KAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
-#endif
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
@@ -834,11 +773,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(defaultZoomWdg);
 
     m_pZoomOutPB = new QPushButton(this);
-#if QT_VERSION >= 0x050000
     m_pZoomOutPB->setIcon(QIcon(QLatin1String("zoom-out")));
-#else
-    m_pZoomOutPB->setIcon(KIcon(QLatin1String("zoom-out")));
-#endif
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
@@ -856,11 +791,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(m_pZoomSlider);
 
     m_pZoomInPB = new QPushButton(this);
-#if QT_VERSION >= 0x050000
     m_pZoomInPB->setIcon(QIcon(QLatin1String("zoom-in")));
-#else
-    m_pZoomInPB->setIcon(KIcon(QLatin1String("zoom-in")));
-#endif
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);
@@ -888,19 +819,11 @@ void UMLApp::initView()
     m_viewStack = new QStackedWidget(this);
 
     // Prepare Tabbed Diagram Representation
-#if QT_VERSION >= 0x050000
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setMovable(true);
     connect(m_tabWidget, &QTabWidget::tabCloseRequested, this, &UMLApp::slotCloseDiagram);
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
     connect(m_tabWidget, &QTabWidget::customContextMenuRequested, this, &UMLApp::slotDiagramPopupMenu);
-#else
-    m_tabWidget = new KTabWidget(this);
-    m_tabWidget->setAutomaticResizeTabs(true);
-    connect(m_tabWidget, &KTabWidget::closeRequest, this, &UMLApp::slotCloseDiagram);
-    connect(m_tabWidget, &KTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
-    connect(m_tabWidget, &KTabWidget::contextMenu, m_doc, &UMLDoc::slotDiagramPopupMenu);
-#endif
     m_tabWidget->setTabsClosable(true);
 
     m_newSessionButton = new QToolButton(m_tabWidget);
@@ -997,11 +920,7 @@ void UMLApp::initView()
 /**
  * Opens a file specified by commandline option.
  */
-#if QT_VERSION >= 0x050000
 void UMLApp::openDocumentFile(const QUrl& url)
-#else
-void UMLApp::openDocumentFile(const KUrl& url)
-#endif
 {
     slotStatusMsg(i18n("Opening file..."));
 
@@ -1075,11 +994,7 @@ void UMLApp::saveOptions()
         UmbrelloSettings::setLastFile(QString());
     }
     else {
-#if QT_VERSION >= 0x050000
         UmbrelloSettings::setLastFile(m_doc->url().toDisplayString());
-#else
-        UmbrelloSettings::setLastFile(m_doc->url().prettyUrl());
-#endif
     }
 
     UmbrelloSettings::setImageMimeType(imageMimeType());
@@ -1159,12 +1074,7 @@ void UMLApp::saveOptions()
 
     UmbrelloSettings::setCreateArtifacts(optionState.codeImportState.createArtifacts);
     UmbrelloSettings::setResolveDependencies(optionState.codeImportState.resolveDependencies);
-
-#if QT_VERSION >= 0x050000
     UmbrelloSettings::self()->save();
-#else
-    UmbrelloSettings::self()->writeConfig();
-#endif
 }
 
 /**
@@ -1199,10 +1109,6 @@ void UMLApp::readOptions()
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
-#if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
-    Q_UNUSED(cfg);
-#else
     if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
         QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.toString());
@@ -1216,7 +1122,6 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
             m_doc->saveDocument(dest);
         }
     }
-#endif
 }
 
 /**
@@ -1228,10 +1133,6 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
-#if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
-    Q_UNUSED(cfg);
-#else
     QString filename = cfg.readPathEntry("filename", QString());
     QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
@@ -1256,7 +1157,6 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             enablePrint(false);
         }
     }
-#endif
 }
 
 /**
@@ -1311,23 +1211,14 @@ void UMLApp::slotFileOpen()
         // here saving wasn't successful
     } 
     else {
-#if QT_VERSION >= 0x050000
         QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File"), QUrl(),
-#else
-        KUrl url=KFileDialog::getOpenUrl(KUrl(),
-#endif
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
                  "*.mdl|Rose model files (*.mdl)\n"
                  "*.zargo|Compressed argo Files(*.zargo)\n"
-                 )
-#if QT_VERSION >= 0x050000
-            );
-#else
-            ,this, i18n("Open File"));
-#endif
+                 ));
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
@@ -1346,21 +1237,11 @@ void UMLApp::slotFileOpen()
 /**
  * Opens a file from the recent files menu.
  */
-#if QT_VERSION >= 0x050000
 void UMLApp::slotFileOpenRecent(const QUrl &url)
-#else
-void UMLApp::slotFileOpenRecent(const KUrl &url)
-#endif
 {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
-
-#if QT_VERSION >= 0x050000
     QUrl oldUrl = m_doc->url();
-#else
-    KUrl oldUrl = m_doc->url();
-#endif
-
     if (!m_doc->saveModified()) {
         // here saving wasn't successful
     }
@@ -1405,22 +1286,14 @@ bool UMLApp::slotFileSaveAs()
 {
     slotStatusMsg(i18n("Saving file with a new filename..."));
     bool cont = true;
-#if QT_VERSION >= 0x050000
     QUrl url;
-#else
-    KUrl url;
-#endif
     QString ext;
     while (cont) {
-#if QT_VERSION >= 0x050000
         url = QFileDialog::getSaveFileUrl(this, i18n("Save As"), QUrl(),
                                           i18n("*.xmi | XMI File (*.xmi);;"
                                                "*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
                                                "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;"
                                                "* | All Files (*)"));
-#else
-        url = KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
-#endif
         if (url.isEmpty()) {
             cont = false;
         }
@@ -1435,11 +1308,7 @@ bool UMLApp::slotFileSaveAs()
             //    ext = "xmi";
             //}
             if (url.isLocalFile()) {
-#if QT_VERSION >= 0x050000
                 QString file = url.toLocalFile();
-#else
-                QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
-#endif
                 if (QFile::exists(file)) {
                     int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.toLocalFile()), 
                                                                        i18n("Warning"), KGuiItem(i18n("Overwrite")));
@@ -1523,7 +1392,6 @@ bool UMLApp::slotPrintSettings()
         delete m_printSettings;
     }
     m_printSettings = new DiagramPrintPage(0, m_doc);
-#if QT_VERSION >= 0x050000
     QDialog* dlg = new QDialog();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(m_printSettings);
@@ -1538,13 +1406,6 @@ bool UMLApp::slotPrintSettings()
     bool result = dlg->exec() == QDialog::Accepted;
     // keep settings
     layout->removeWidget(m_printSettings);
-#else
-    QPointer<KDialog> dlg = new KDialog();
-    dlg->setMainWidget(m_printSettings);
-    bool result = dlg->exec() == QDialog::Accepted;
-    // keep settings
-    dlg->setMainWidget(0);
-#endif
     m_printSettings->setParent(0);
 
     delete dlg;
@@ -1588,14 +1449,8 @@ void UMLApp::slotFilePrint()
     if (!slotPrintSettings())
         return;
 
-#if QT_VERSION >= 0x050000
     QPointer<QPrintDialog> printDialog = new QPrintDialog(m_printer, this);
     printDialog->setWindowTitle(i18n("Print %1", m_doc->url().toDisplayString()));
-#else
-    QPointer<QPrintDialog> printDialog =
-                  KdePrint::createPrintDialog(m_printer, QList<QWidget*>() << m_printSettings, this);
-    printDialog->setWindowTitle(i18n("Print %1", m_doc->url().prettyUrl()));
-#endif
     if (printDialog->exec()) {
         m_doc->print(m_printer, m_printSettings);
     }
@@ -1630,20 +1485,12 @@ void UMLApp::slotFileQuit()
  */
 void UMLApp::slotFileExportDocbook()
 {
-#if QT_VERSION > 0x050000
     QString path = QFileDialog::getExistingDirectory();
-#else
-    QString path = KFileDialog::getExistingDirectory();
-#endif
     if (path.isEmpty()) {
         return;
     }
     DocbookGenerator* docbookGenerator = new DocbookGenerator;
-#if QT_VERSION > 0x050000
     docbookGenerator->generateDocbookForProjectInto(QUrl::fromLocalFile(path));
-#else
-    docbookGenerator->generateDocbookForProjectInto(path);
-#endif
     connect(docbookGenerator, &DocbookGenerator::finished, docbookGenerator, &DocbookGenerator::deleteLater);
 }
 
@@ -1655,11 +1502,7 @@ void UMLApp::slotFileExportDocbook()
  */
 void UMLApp::slotFileExportXhtml()
 {
-#if QT_VERSION > 0x050000
     QString path = QFileDialog::getExistingDirectory();
-#else
-    QString path = KFileDialog::getExistingDirectory();
-#endif
     if (path.isEmpty()) {
         return;
     }
@@ -1667,11 +1510,7 @@ void UMLApp::slotFileExportXhtml()
     if (!m_xhtmlGenerator) {
         m_xhtmlGenerator = new XhtmlGenerator;
     }
-#if QT_VERSION > 0x050000
     m_xhtmlGenerator->generateXhtmlForProjectInto(QUrl::fromLocalFile(path));
-#else
-    m_xhtmlGenerator->generateXhtmlForProjectInto(path);
-#endif
     connect(m_xhtmlGenerator, &XhtmlGenerator::finished, this, &UMLApp::slotXhtmlDocGenerationFinished);
 }
 
@@ -2101,11 +1940,7 @@ void UMLApp::slotApplyPrefs()
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
                     int tabIndex = m_tabWidget->addTab(view, scene->name());
-#if QT_VERSION >= 0x050000
                     m_tabWidget->setTabIcon(tabIndex, QIcon(Icon_Utils::iconSet(scene->type())));
-#else
-                    m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(scene->type())));
-#endif
                     m_tabWidget->setTabToolTip(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
@@ -2258,11 +2093,7 @@ void UMLApp::readOptionState()
 {
     Settings::OptionState& optionState = Settings::optionState();
 
-#if QT_VERSION >= 0x050000
     UmbrelloSettings::self()->load();
-#else
-    UmbrelloSettings::self()->readConfig();
-#endif
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
 #ifdef ENABLE_NEW_CODE_GENERATORS
@@ -2621,7 +2452,6 @@ void UMLApp::setLang_xmlschema()
     setActiveLanguage(Uml::ProgrammingLanguage::XMLSchema);
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Called when right clicking on tab widget.
  * @param point  the point where the right mouse button was clicked
@@ -2634,7 +2464,6 @@ void UMLApp::slotDiagramPopupMenu(const QPoint& point)
     QPoint globalPoint = m_tabWidget->mapToGlobal(point);
     m_doc->slotDiagramPopupMenu(view, globalPoint);
 }
-#endif
 
 /**
  * Set the language for which code will be generated.
@@ -2859,11 +2688,7 @@ void UMLApp::slotImportClass()
     QString f = filters.join(QLatin1String(" ")) + QLatin1String("|") +
                              Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
 
-#if QT_VERSION >= 0x050000
     QStringList files = QFileDialog::getOpenFileNames(this, i18n("Select file(s) to import:"), QString(), f);
-#else
-    QStringList files = KFileDialog::getOpenFileNames(KUrl(), f, this, i18n("Select file(s) to import:"));
-#endif
     if (!files.isEmpty()) {
         importFiles(&files);
     }
@@ -2892,11 +2717,7 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 void UMLApp::slotImportProject()
 {
     QStringList listFile;
-#if QT_VERSION >= 0x050000
     QString dir = QFileDialog::getExistingDirectory(this, i18n("Select directory to import:"));
-#else
-    QString dir = KFileDialog::getExistingDirectory(KUrl(),this, i18n("Select directory to import:"));
-#endif
     if (!dir.isEmpty()) {
         QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
         getFiles(listFile, dir, filter);
@@ -3000,7 +2821,6 @@ void UMLApp::slotDeleteDiagram()
     m_doc->removeDiagram(currentView()->umlScene()->ID());
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Close the current diagram. Clicked on tab close button.
  * @param index   widget's index to close
@@ -3016,23 +2836,6 @@ void UMLApp::slotCloseDiagram(int index)
         view->umlScene()->setIsOpen(false);
     }
 }
-#else
-/**
- * Close the current diagram. Clicked on tab close button.
- * @param tab   Widget's tab to close
- */
-void UMLApp::slotCloseDiagram(QWidget* tab)
-{
-    if (tab) {
-        UMLView* view = (UMLView*)tab;
-        if (view != currentView()) {
-            setCurrentView(view);
-        }
-        m_tabWidget->removeTab(m_tabWidget->indexOf(view));
-        view->umlScene()->setIsOpen(false);
-    }
-}
-#endif
 
 /**
  * Return the default code generation language as configured by KConfig.
@@ -3242,26 +3045,14 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
         int tabIndex = m_tabWidget->indexOf(view);
         if ((tabIndex < 0) && (view->umlScene()->isOpen())) {
             tabIndex = m_tabWidget->addTab(view, view->umlScene()->name());
-#if QT_VERSION >= 0x050000
             m_tabWidget->setTabIcon(tabIndex, QIcon(Icon_Utils::iconSet(view->umlScene()->type())));
-#else
-            m_tabWidget->setTabIcon(tabIndex, KIcon(Icon_Utils::iconSet(view->umlScene()->type())));
-#endif
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
         if (!updateTreeView)
-#if QT_VERSION >= 0x050000
             disconnect(m_tabWidget, &QTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
-#else
-            disconnect(m_tabWidget, &KTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
-#endif
         m_tabWidget->setCurrentIndex(tabIndex);
         if (!updateTreeView)
-#if QT_VERSION >= 0x050000
             connect(m_tabWidget, &QTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
-#else
-            connect(m_tabWidget, &KTabWidget::currentChanged, this, &UMLApp::slotTabChanged);
-#endif
     }
     else {
         if (m_viewStack->indexOf(view) < 0) {
@@ -3312,7 +3103,6 @@ QString UMLApp::imageMimeType() const
     return m_imageMimeType;
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Called when the tab has changed.
  * @param index   the index of the changed tab widget
@@ -3324,19 +3114,6 @@ void UMLApp::slotTabChanged(int index)
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
-#else
-/**
- * Called when the tab has changed.
- * @param tab   The changed tab widget
- */
-void UMLApp::slotTabChanged(QWidget* tab)
-{
-    UMLView* view = (UMLView*)tab;
-    if (view) {
-        m_doc->changeCurrentView(view->umlScene()->ID());
-    }
-}
-#endif
 
 /**
  * Make the tab on the left of the current one the active one.
@@ -3420,11 +3197,7 @@ void UMLApp::slotMoveTabLeft()
     else {
         to = m_tabWidget->count() - 1;
     }
-#if QT_VERSION >= 0x050000
     m_tabWidget->tabBar()->moveTab(from, to);
-#else
-    m_tabWidget->moveTab(from, to);
-#endif
 }
 
 /**
@@ -3442,11 +3215,7 @@ void UMLApp::slotMoveTabRight()
     else {
         to = 0;
     }
-#if QT_VERSION >= 0x050000
     m_tabWidget->tabBar()->moveTab(from, to);
-#else
-    m_tabWidget->moveTab(from, to);
-#endif
 }
 
 /**
@@ -3467,11 +3236,7 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 /**
  * Return the tab widget.
  */
-#if QT_VERSION >= 0x050000
 QTabWidget* UMLApp::tabWidget()
-#else
-KTabWidget* UMLApp::tabWidget()
-#endif
 {
     return m_tabWidget;
 }
