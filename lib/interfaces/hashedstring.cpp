@@ -179,12 +179,7 @@ void HashedStringSet::makeDataPrivate()
         m_data = new HashedStringSetData();
         return ;
     }
-#if QT_VERSION >= 0x050000
     m_data.detach();
-#else
-    if (m_data.count() != 1)
-        m_data = new HashedStringSetData(*m_data);
-#endif
 }
 
 bool HashedStringSet::operator[] (const HashedString& rhs) const
