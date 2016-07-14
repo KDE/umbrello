@@ -227,6 +227,7 @@ public slots:
     void slotEditPaste();
     void slotStatusMsg(const QString &text);
     void slotClassDiagram();
+    void slotObjectDiagram();
     void slotSequenceDiagram();
     void slotCollaborationDiagram();
     void slotUseCaseDiagram();

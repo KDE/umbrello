@@ -385,6 +385,12 @@ void UMLApp::initActions()
     connect(classDiagram, &QAction::triggered, this, &UMLApp::slotClassDiagram);
     newDiagram->addAction(classDiagram);
 
+    QAction* objectDiagram = actionCollection()->addAction(QLatin1String("new_object_diagram"));
+    //objectDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Class));
+    classDiagram->setText(i18n("&Object Diagram..."));
+    connect(objectDiagram, &QAction::triggered, this, &UMLApp::slotObjectDiagram);
+    newDiagram->addAction(objectDiagram);
+
     QAction* sequenceDiagram= actionCollection()->addAction(QLatin1String("new_sequence_diagram"));
     sequenceDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence));
     sequenceDiagram->setText(i18n("&Sequence Diagram..."));
@@ -1626,6 +1632,13 @@ void UMLApp::createDiagram(Uml::DiagramType::Enum type)
 void UMLApp::slotClassDiagram()
 {
     createDiagram(Uml::DiagramType::Class);
+}
+/*
+ * Create this view
+*/
+void UMLApp::slotObjectDiagram()
+{
+    createDiagram(Uml::DiagramType::Object);
 }
 
 /**
