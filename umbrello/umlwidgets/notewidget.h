@@ -63,7 +63,7 @@ public:
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    static NoteWidget *s_pCurrentNote;
+    static QPointer<NoteWidget> s_pCurrentNote;
 
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);
