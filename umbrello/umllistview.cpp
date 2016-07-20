@@ -1654,6 +1654,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     case UMLListViewItem::lvt_Activity_Diagram:
     case UMLListViewItem::lvt_Sequence_Diagram:
     case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_Object_Diagram:
         if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
@@ -2192,6 +2193,9 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_EntityRelationship_Diagram:
         return !m_doc->findView(Uml::DiagramType::EntityRelationship, name);
         break;
+    case UMLListViewItem::lvt_Object_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Object, name);
+    break;
 
     case UMLListViewItem::lvt_Actor:
     case UMLListViewItem::lvt_UseCase:

@@ -98,6 +98,7 @@ public:
         lvt_Properties_General,
         lvt_Properties_UserInterface,
         lvt_Association,
+        lvt_Object_Diagram,
         lvt_Unknown = -1
     };
 

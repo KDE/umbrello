@@ -1296,6 +1296,9 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
         case Uml::DiagramType::EntityRelationship:
             dname = i18n("entity relationship diagram");
             break;
+        case Uml::DiagramType::Object:
+            dname = i18n("object diagram");
+        break;
         default:
             uWarning() << "called with unknown diagram type";
             break;
@@ -3146,7 +3149,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     case Uml::DiagramType::EntityRelationship:
         type = UMLListViewItem::lvt_EntityRelationship_Diagram;
         break;
-
+    case Uml::DiagramType::Object:
+        type = UMLListViewItem::lvt_Object_Diagram;
+        break;
     default:
         uWarning() << "unknown diagram type " << view->umlScene()->type();
         return;

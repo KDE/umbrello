@@ -166,6 +166,10 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     case lvt_UseCase_Diagram:
         setIcon(Icon_Utils::it_Diagram_Usecase);
         break;
+        /*I'm using the Diagram Class Icon until my mentor returns to me what we will do about
+        a Object Diagram Icon - Lays Rodrigues/July 2016/GSoC */
+    case lvt_Object_Diagram:
+        setIcon(Icon_Utils::it_Diagram_Class);
     default:
         setIcon(Icon_Utils::it_Diagram);
     }
@@ -652,7 +656,8 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_State_Diagram:
     case lvt_Activity_Diagram:
     case lvt_Component_Diagram:
-    case lvt_Deployment_Diagram: {
+    case lvt_Deployment_Diagram:
+    case lvt_Object_Diagram:{
         UMLView *view = doc->findView(ID());
         if (view == 0) {
             cancelRenameWithMsg();
@@ -966,6 +971,8 @@ QString UMLListViewItem::toString(ListViewType type)
             return QLatin1String("lvt_Activity_Diagram");
         case lvt_Sequence_Diagram:
             return QLatin1String("lvt_Sequence_Diagram");
+        case lvt_Object_Diagram:
+            return QLatin1String("lvt_Object_Diagram");
         case lvt_Actor:
             return QLatin1String("lvt_Actor");
         case lvt_Association:
