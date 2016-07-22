@@ -2,6 +2,7 @@
 #define UMLTYPEMODIFIERWIDGET_H
 
 #include <QtWidgets>
+#include "ui_umltypemodifierwidget.h"
 
 #include "basictypes.h"
 
@@ -18,11 +19,10 @@ public:
     void setUMLClassifierItem(UMLClassifierListItem *o);
 
 private:
-    void init(const QString &title);
+    Ui::UMLTypeModifierWidget *ui;
     typedef QMap<Uml::TypeModifiers::Enum,QString> TextMap;
     TextMap m_texts;
     UMLClassifierListItem *m_typeModifier;
-    QComboBox *m_typeCB;
 
 };
 
