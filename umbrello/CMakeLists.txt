@@ -260,6 +260,7 @@ ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umldatatypewidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umltypequalifierswidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/visibilityenumwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/documentationwidget.ui
 )
 
 set(librefactoring_SRCS
