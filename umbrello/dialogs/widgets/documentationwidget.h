@@ -13,13 +13,10 @@
 
 #include <QWidget>
 
+#include "ui_documentationwidget.h"
+
 class UMLObject;
 class UMLWidget;
-
-class KTextEdit;
-
-class QGridLayout;
-class QGroupBox;
 
 class DocumentationWidget : public QWidget
 {
@@ -32,9 +29,10 @@ public:
     void apply();
     void setUMLObject(UMLObject *o);
 
+private:
+    Ui::DocumentationWidget *ui;
+
 protected:
-    QGroupBox *m_box;
-    KTextEdit *m_editField;
     UMLObject *m_object;
     UMLWidget *m_widget;
     void init(const QString &text);
