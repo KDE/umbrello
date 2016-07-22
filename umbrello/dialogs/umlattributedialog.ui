@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
-    <height>300</height>
+    <width>463</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,6 +72,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
       <widget class="VisibilityEnumWidget" name="visibilityWidget" native="true"/>
      </item>
@@ -83,7 +86,7 @@
    <item>
     <widget class="QCheckBox" name="classifierScopeCB">
      <property name="text">
-      <string>Classifier Scope(&quot;static&quot;)</string>
+      <string>Classifier Scope (&quot;static&quot;)</string>
      </property>
     </widget>
    </item>
