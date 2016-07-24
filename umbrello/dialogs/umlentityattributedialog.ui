@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>255</width>
-    <height>334</height>
+    <height>339</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,9 @@
      <property name="text">
       <string>Type:</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
     </widget>
    </item>
    <item row="1" column="1">
@@ -51,6 +54,9 @@
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Name:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -69,6 +75,9 @@
      <property name="text">
       <string>Default Value:</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
     </widget>
    </item>
    <item row="3" column="1">
@@ -85,6 +94,9 @@
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Lenght:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -103,6 +115,9 @@
      <property name="text">
       <string>Attributes:</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
     </widget>
    </item>
    <item row="5" column="1">
@@ -119,6 +134,9 @@
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Stereotype name:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
