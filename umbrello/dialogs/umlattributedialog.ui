@@ -89,14 +89,25 @@
     </widget>
    </item>
    <item>
-    <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Stereotype name:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="UMLStereotypeWidget" name="stereotypeWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="DocumentationWidget" name="documentationWidget" native="true"/>
