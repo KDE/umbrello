@@ -12,14 +12,10 @@
 #define UMLSTEREOTYPEWIDGET_H
 
 #include <QWidget>
+#include "ui_umlstereotypewidget.h"
 
 class UMLObject;
 class UMLStereotype;
-
-class KComboBox;
-
-class QGridLayout;
-class QLabel;
 
 class UMLStereotypeWidget : public QWidget
 {
@@ -32,13 +28,11 @@ public:
     void addToLayout(QGridLayout *layout, int row);
     void apply();
 
+private:
+    Ui::UMLStereotypeWidget *ui;
 
 protected:
-    QLabel *m_label;
-    KComboBox *m_comboBox;
     UMLObject *m_object;
-
-    void init();
     void insertItems(UMLStereotype *type);
 };
 

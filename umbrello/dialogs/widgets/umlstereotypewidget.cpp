@@ -15,31 +15,27 @@
 #include "uml.h"
 #include "umldoc.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
-
-#include <QGridLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QWidget>
 
 Q_DECLARE_METATYPE(UMLStereotype*)
 
 UMLStereotypeWidget::UMLStereotypeWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      ui(new Ui::UMLStereotypeWidget)
 {    
+    ui->setupUi(this);
+    ui->stereotypeCB->setDuplicatesEnabled(false);
 }
 
 UMLStereotypeWidget::~UMLStereotypeWidget()
 {
-    delete m_comboBox;
-    delete m_label;
 }
 
 void UMLStereotypeWidget::setUMLObject(UMLObject *o)
 {
+    Q_ASSERT(o);
     m_object = o;
-    init();
+    insertItems(m_object->umlStereotype());
 }
 
 /**
@@ -48,7 +44,7 @@ void UMLStereotypeWidget::setUMLObject(UMLObject *o)
  */
 void UMLStereotypeWidget::setEditable(bool state)
 {
-    m_comboBox->setEditable(state);
+    ui->stereotypeCB->setEditable(state);
 }
 
 /**
@@ -59,8 +55,7 @@ void UMLStereotypeWidget::setEditable(bool state)
  */
 void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
 {
-    layout->addWidget(m_label, row, 0);
-    layout->addWidget(m_comboBox, row, 1);
+    layout->addWidget(this, row, 0);
 }
 
 /**
@@ -68,45 +63,25 @@ void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
  */
 void UMLStereotypeWidget::apply()
 {
-    if (m_comboBox->currentText().isEmpty()) {
+    if (ui->stereotypeCB->currentText().isEmpty()) {
         m_object->setUMLStereotype(0);
         return;
     }
 
-    QVariant v = m_comboBox->itemData(m_comboBox->currentIndex());
+    QVariant v = ui->stereotypeCB->itemData(ui->stereotypeCB->currentIndex());
     if (v.canConvert<UMLStereotype*>()) {
         UMLStereotype *selected = v.value<UMLStereotype*>();
         if (m_object->umlStereotype()) {
-            if (m_object->umlStereotype()->name() != m_comboBox->currentText())
+            if (m_object->umlStereotype()->name() != ui->stereotypeCB->currentText())
                 m_object->setUMLStereotype(selected);
         }
         else
             m_object->setUMLStereotype(selected);
     } else {
-        UMLStereotype *stereotype = new UMLStereotype(m_comboBox->currentText());
+        UMLStereotype *stereotype = new UMLStereotype(ui->stereotypeCB->currentText());
         UMLApp::app()->document()->addStereotype(stereotype);
         m_object->setUMLStereotype(stereotype);
     }
-}
-
-/**
- * setup widgets
- */
-void UMLStereotypeWidget::init()
-{
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Stereotype name:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox, 2);
-
-    m_label->setBuddy(m_comboBox);
-
-    m_comboBox->setDuplicatesEnabled(false);  // only allow one of each type in box
-    insertItems(m_object->umlStereotype());
-    setLayout(layout);
 }
 
 /**
@@ -126,18 +101,18 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
         types[type->name()] = type;
     }
 
-    m_comboBox->clear();
-    m_comboBox->addItem(QLatin1String(""), QVariant(0));
+    ui->stereotypeCB->clear();
+    ui->stereotypeCB->addItem(QLatin1String(""), QVariant(0));
     foreach(const QString &key, types.keys()) { // krazy:exclude=foreach
-        m_comboBox->addItem(key, QVariant::fromValue((types[key])));
+        ui->stereotypeCB->addItem(key, QVariant::fromValue((types[key])));
     }
 
     // select the given parameter
     if (type) {
-        int currentIndex = m_comboBox->findText(type->name());
+        int currentIndex = ui->stereotypeCB->findText(type->name());
         if (currentIndex > -1) {
-            m_comboBox->setCurrentIndex(currentIndex);
+            ui->stereotypeCB->setCurrentIndex(currentIndex);
         }
-        m_comboBox->completionObject()->addItem(type->name());
+        //ui->stereotypeCB->completionObject()->addItem(type->name());
     }
 }
