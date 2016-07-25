@@ -30,7 +30,11 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QComboBox" name="stereotypeCB"/>
+    <widget class="QComboBox" name="stereotypeCB">
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
