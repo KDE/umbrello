@@ -65,6 +65,10 @@ void UMLAttributeDialog::setupDialog()
         ui->typeModifierWidget->setVisible(false);
         ui->typeQualifiersWidget->setVisible(false);
     }
+    ui->nameLE->setText(m_pAttribute->name());
+    ui->nameLE->setFocus();
+    connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLAttributeDialog::slotNameChanged);
+    slotNameChanged(ui->nameLE->text());
     ui->stereotypeWidget->setUMLObject(m_pAttribute);
     ui->visibilityWidget->setUMLObject(m_pAttribute);
     ui->documentationWidget->setUMLObject(m_pAttribute);
