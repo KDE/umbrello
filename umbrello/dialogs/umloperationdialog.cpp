@@ -83,6 +83,11 @@ void UMLOperationDialog::setupDialog()
     ui->documentationWidget->setUMLObject(m_operation);
     ui->parametersListLW->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    ui->nameLE->setText(m_operation->name());
+    ui->abstractCB->setChecked(m_operation->isAbstract());
+    ui->classifierScopeCB->setChecked(m_operation->isStatic());
+    ui->queryConstCB->setChecked(m_operation->getConst());
+
     // setup push buttons signals
     connect(ui->newParameterPB, &QPushButton::clicked, this, &UMLOperationDialog::slotNewParameter);
     connect(ui->deletePB, &QPushButton::clicked, this, &UMLOperationDialog::slotDeleteParameter);
