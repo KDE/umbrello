@@ -65,6 +65,10 @@ void UMLEntityAttributeDialog::setupDialog()
     ui->autoIncrementCB->setChecked(m_pEntityAttribute->getAutoIncrement());
     ui->allowNullCB->setChecked(m_pEntityAttribute->getNull());
 
+    ui->nameLE->setText(m_pEntityAttribute->name());
+    ui->defaultValueLE->setText(m_pEntityAttribute->getInitialValue());
+    ui->lenghtValuesLE->setText(m_pEntityAttribute->getValues());
+
     // enable/disable isNull depending on the state of Auto Increment Check Box
     slotAutoIncrementStateChanged(ui->autoIncrementCB->isChecked());
 
