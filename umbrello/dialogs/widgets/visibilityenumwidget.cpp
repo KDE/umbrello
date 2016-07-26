@@ -68,7 +68,7 @@ void VisibilityEnumWidget::setUMLObject(UMLObject *o)
         ui->protectedRB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        ui->protectedRB->setChecked(true);
+        ui->privateRB->setChecked(true);
         break;
     case Uml::Visibility::Implementation:
         ui->implementationRB->setChecked(true);
