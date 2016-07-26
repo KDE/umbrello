@@ -42,9 +42,9 @@
 #include <QVBoxLayout>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
-  : SinglePageDialogBase(pParent)
-  , ui(new Ui::UMLEntityAttributeDialog)
-  , m_pEntityAttribute(pEntityAttribute)
+    : SinglePageDialogBase(pParent)
+    , ui(new Ui::UMLEntityAttributeDialog)
+    , m_pEntityAttribute(pEntityAttribute)
 {
     setCaption(i18n("Entity Attribute Properties"));
     ui->setupUi(mainWidget());
@@ -76,6 +76,12 @@ void UMLEntityAttributeDialog::setupDialog()
     insertAttribute(QString::fromLatin1("binary"), ui->attributeTypesCB->count());
     insertAttribute(QString::fromLatin1("unsigned"), ui->attributeTypesCB->count());
     insertAttribute(QString::fromLatin1("unsigned zerofill"), ui->attributeTypesCB->count());
+
+    UMLEntityAttribute::DBIndex_Type scope = m_pEntityAttribute->indexType();
+    if(scope == UMLEntityAttribute::Index)
+        ui->indexedRB->setChecked(true);
+    else
+        ui->notIndexedRB->setChecked(true);
 #if 0
     /*
     m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeGB);
@@ -144,6 +150,11 @@ bool UMLEntityAttributeDialog::apply()
     m_pEntityAttribute->setAttributes(ui->attributeTypesCB->currentText());
     m_pEntityAttribute->setAutoIncrement(ui->autoIncrementCB->isChecked());
     m_pEntityAttribute->setNull(ui->allowNullCB->isChecked());
+    //This is correct? - Lays Rodrigues - July/2016
+    if(ui->indexedRB->isChecked())
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::Index);
+    else
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::None);
 #if 0
     /*
     if (m_pPublicRB->isChecked()) {
