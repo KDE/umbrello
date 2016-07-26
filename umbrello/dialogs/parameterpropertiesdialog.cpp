@@ -71,9 +71,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     propLayout->setSpacing(10);
     propLayout->setMargin(margin);
 
+    auto l = new QLabel(i18n("Type:"));
+    propLayout->addWidget(l,0,0);
+
     m_datatypeWidget = new UMLDatatypeWidget();
     m_datatypeWidget->setAttribute(m_pAtt);
-    m_datatypeWidget->addToLayout(propLayout, 0);
+    m_datatypeWidget->addToLayout(propLayout, 0, 1);
 
     Dialog_Utils::makeLabeledEditField(propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
