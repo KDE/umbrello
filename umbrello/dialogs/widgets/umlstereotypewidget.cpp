@@ -55,7 +55,7 @@ void UMLStereotypeWidget::setEditable(bool state)
  */
 void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
 {
-    layout->addWidget(this, row, 0);
+    layout->addWidget(this, row, 1);
 }
 
 /**
