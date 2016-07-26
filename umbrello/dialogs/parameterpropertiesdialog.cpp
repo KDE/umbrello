@@ -83,6 +83,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, attr->getInitialValue());
 
+    auto label = new QLabel(i18n("Stereotype name:"));
+    propLayout->addWidget(label,3,0);
     m_stereotypeWidget = new UMLStereotypeWidget();
     m_stereotypeWidget->setUMLObject(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);

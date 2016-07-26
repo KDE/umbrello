@@ -93,11 +93,13 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     if (t != UMLObject::ot_Stereotype) {
+        auto label = new QLabel(i18n("Stereotype name:"));
         m_stereotypeWidget = new UMLStereotypeWidget();
         m_stereotypeWidget->setUMLObject(m_pObject);
         if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
             m_stereotypeWidget->setEditable(false);
         }
+        m_pNameLayout->addWidget(label,1,0);
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
