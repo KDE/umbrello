@@ -58,6 +58,7 @@ void UMLTemplateDialog::setupDialog()
     ui->stereotypeWidget->setUMLObject(m_pTemplate);
     ui->documentationWidget->setUMLObject(m_pTemplate);
     ui->nameLE->setFocus();
+    ui->nameLE->setText(m_pTemplate->name());
 }
 
 /**
