@@ -78,6 +78,7 @@ UMLOperationDialog::~UMLOperationDialog()
  */
 void UMLOperationDialog::setupDialog()
 {
+    ui->dataTypeWidget->setOPeration(m_operation);
     ui->stereotypeWidget->setUMLObject(m_operation);
     ui->visibilityWidget->setUMLObject(m_operation);
     ui->documentationWidget->setUMLObject(m_operation);
