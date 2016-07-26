@@ -68,6 +68,7 @@ void UMLAttributeDialog::setupDialog()
     ui->nameLE->setText(m_pAttribute->name());
     ui->nameLE->setFocus();
     slotNameChanged(ui->nameLE->text());
+    ui->classifierScopeCB->setChecked(m_pAttribute->isStatic());
     ui->initialValueLE->setText(m_pAttribute->getInitialValue());
     connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLAttributeDialog::slotNameChanged);
     ui->stereotypeWidget->setUMLObject(m_pAttribute);
