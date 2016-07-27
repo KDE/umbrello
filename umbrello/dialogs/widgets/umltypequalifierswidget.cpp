@@ -52,15 +52,15 @@ UMLTypeQualifiersWidget::UMLTypeQualifiersWidget(QWidget *parent)
 void UMLTypeQualifiersWidget::apply()
 {
     if(ui->constCB->isChecked() && ui->volatileCB->isChecked())
-        m_qualifier->setQualifier(Uml::TypeQualifiers::ConstVolatile);
+        m_qualifier->setTypeQualifier(Uml::TypeQualifiers::ConstVolatile);
     else if(ui->noneRB->isChecked())
-        m_qualifier->setQualifier(Uml::TypeQualifiers::None);
+        m_qualifier->setTypeQualifier(Uml::TypeQualifiers::None);
     else if(ui->constCB->isChecked())
-        m_qualifier->setQualifier(Uml::TypeQualifiers::Const);
+        m_qualifier->setTypeQualifier(Uml::TypeQualifiers::Const);
     else if(ui->mutableRB->isChecked())
-        m_qualifier->setQualifier(Uml::TypeQualifiers::Mutable);
+        m_qualifier->setTypeQualifier(Uml::TypeQualifiers::Mutable);
     else if(ui->volatileCB->isChecked())
-        m_qualifier->setQualifier(Uml::TypeQualifiers::Volatile);
+        m_qualifier->setTypeQualifier(Uml::TypeQualifiers::Volatile);
 }
 
 void UMLTypeQualifiersWidget::setUMLClassifierItem(UMLClassifierListItem *o)
