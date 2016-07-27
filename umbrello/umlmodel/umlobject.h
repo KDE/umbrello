@@ -107,6 +107,14 @@ public:
     void setVisibilityCmd(Uml::Visibility::Enum visibility);
     Uml::Visibility::Enum visibility() const;
 
+    void setTypeQualifier(Uml::TypeQualifiers::Enum qualifier);
+    void setTypeQualifierCmd(Uml::TypeQualifiers::Enum qualifier);
+    Uml::TypeQualifiers::Enum qualifier() const;
+
+    void setTypeModifier(Uml::TypeModifiers::Enum modifier);
+    void setTypeModifierCmd(Uml::TypeModifiers::Enum modifier);
+    Uml::TypeModifiers::Enum modifier() const;
+
     void setStereotype(const QString &_name);
     void setStereotypeCmd(const QString &_name);
     QString stereotype(bool includeAdornments = false) const;

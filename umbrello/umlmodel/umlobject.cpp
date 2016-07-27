@@ -477,6 +477,38 @@ void UMLObject::setVisibilityCmd(Visibility::Enum visibility)
     emitModified();
 }
 
+void UMLObject::setTypeQualifier(TypeQualifiers::Enum qualifier)
+{
+    m_typeQualifier = qualifier;
+}
+
+void UMLObject::setTypeQualifierCmd(TypeQualifiers::Enum qualifier)
+{
+    m_typeQualifier = qualifier;
+    emitModified();
+}
+
+TypeQualifiers::Enum UMLObject::qualifier() const
+{
+    return m_typeQualifier;
+}
+
+void UMLObject::setTypeModifier(TypeModifiers::Enum modifier)
+{
+    m_typeModifier = modifier;
+}
+
+void UMLObject::setTypeModifierCmd(TypeModifiers::Enum modifier)
+{
+    m_typeModifier = modifier;
+    emitModified();
+}
+
+TypeModifiers::Enum UMLObject::modifier() const
+{
+    return m_typeModifier;
+}
+
 /**
  * Sets the class' UMLStereotype. Adjusts the reference counts
  * at the previously set stereotype and at the new stereotype.
