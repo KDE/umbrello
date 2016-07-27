@@ -24,7 +24,7 @@ void UMLTypeModifierWidget::apply()
     QString currData = ui->typeCB->currentText();
     Uml::TypeModifiers::Enum key = m_texts.key(currData);
     if(m_typeModifier)
-        m_typeModifier->setModifier(key);
+        m_typeModifier->setTypeModifier(key);
 }
 
 void UMLTypeModifierWidget::setUMLClassifierItem(UMLClassifierListItem *o)
