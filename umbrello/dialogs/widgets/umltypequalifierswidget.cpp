@@ -67,4 +67,22 @@ void UMLTypeQualifiersWidget::setUMLClassifierItem(UMLClassifierListItem *o)
 {
     Q_ASSERT(o);
     m_qualifier = o;
+    switch (m_qualifier->qualifier()) {
+    case Uml::TypeQualifiers::ConstVolatile:
+            ui->constCB->setChecked(true);
+            ui->volatileCB->setChecked(true);
+        break;
+    case Uml::TypeQualifiers::Const:
+        ui->constCB->setChecked(true);
+        break;
+    case Uml::TypeQualifiers::Mutable:
+        ui->mutableRB->setChecked(true);
+        break;
+    case Uml::TypeQualifiers::Volatile:
+        ui->volatileCB->setChecked(true);
+        break;
+    default:
+        ui->noneRB->setChecked(true);
+        break;
+    }
 }
