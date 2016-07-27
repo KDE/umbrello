@@ -234,12 +234,42 @@ bool UMLDatatypeWidget::applyTemplate()
     foreach (UMLClassifier* obj, namesList) {
         if (typeName == obj->name()) {
             m_template->setType(obj);
+            return true;
         }
     }
-    if (namesList.isEmpty()) { // not found.
-        // FIXME: This implementation is not good yet.
-        m_template->setTypeName(typeName);
+
+    UMLObject *obj = nullptr;
+    if (!typeName.isEmpty()) {
+        obj = pDoc->findUMLObject(typeName);
     }
+
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    if (classifier == NULL) {
+        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+        // Import_Utils does not handle creating a new object with empty name
+        // string well. Use Object_Factory in those cases.
+        if (!typeName.isEmpty() && ((pl == Uml::ProgrammingLanguage::Cpp) || (pl == Uml::ProgrammingLanguage::Java)) )
+        {
+            // Import_Utils::createUMLObject works better for C++ namespace
+            // and java package than Object_Factory::createUMLObject
+            Import_Utils::setRelatedClassifier(m_parent);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            Import_Utils::setRelatedClassifier(NULL);
+        } else {
+            // If it's obviously a pointer type (C++) then create a datatype.
+            // Else we don't know what it is so as a compromise create a class.
+            bool contains = false;
+            if(typeName.contains(QChar::fromLatin1('*')) || typeName.contains(QChar::fromLatin1('&')))
+                contains = true;
+            UMLObject::ObjectType ot =
+                (contains ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, typeName);
+        }
+        if (obj == NULL)
+            return false;
+        classifier = static_cast<UMLClassifier*>(obj);
+    }
+    m_template->setType(classifier);
     return true;
 }
 
