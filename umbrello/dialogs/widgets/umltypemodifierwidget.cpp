@@ -31,4 +31,14 @@ void UMLTypeModifierWidget::setUMLClassifierItem(UMLClassifierListItem *o)
 {
     Q_ASSERT(o);
     m_typeModifier = o;
+    switch (m_typeModifier->modifier()) {
+    case Uml::TypeModifiers::Pointer:
+        ui->typeCB->setCurrentIndex(1);
+        break;
+    case Uml::TypeModifiers::Reference:
+        ui->typeCB->setCurrentIndex(2);
+    default:
+        ui->typeCB->setCurrentIndex(0);
+        break;
+    }
 }
