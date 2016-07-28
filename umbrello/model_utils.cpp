@@ -1186,6 +1186,7 @@ Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt)
             break;
         case Uml::DiagramType::Collaboration:
         case Uml::DiagramType::Class:
+        case Uml::DiagramType::Object:
         case Uml::DiagramType::Sequence:
         case Uml::DiagramType::State:
         case Uml::DiagramType::Activity:
@@ -1279,6 +1280,10 @@ UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Class:
         type = UMLListViewItem::lvt_Class_Diagram;
+        break;
+
+    case Uml::DiagramType::Object:
+        type = UMLListViewItem::lvt_Object_Diagram;
         break;
 
     case Uml::DiagramType::Sequence:
@@ -1920,6 +1925,10 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
             bAccept = false;
         }
         break;
+    case Uml::DiagramType::Object:
+        if( scene->widgetOnDiagram(id) || (ot != UMLObject::ot_Class))
+                bAccept = false;
+        break;
     case Uml::DiagramType::Sequence:
     case Uml::DiagramType::Collaboration:
         if (ot != UMLObject::ot_Class &&
@@ -1983,6 +1992,7 @@ bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
     switch (diagramType) {
     case Uml::DiagramType::Activity:
     case Uml::DiagramType::Class:
+    case Uml::DiagramType::Object:
     case Uml::DiagramType::Collaboration:
     case Uml::DiagramType::Component:
     case Uml::DiagramType::Deployment:

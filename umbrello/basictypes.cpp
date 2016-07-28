@@ -273,6 +273,8 @@ QString toString(Enum item)
             return QLatin1String("Undefined");
         case Class:
             return QLatin1String("Class");
+        case Object:
+            return QLatin1String("Object");
         case UseCase:
             return QLatin1String("UseCase");
         case Sequence:

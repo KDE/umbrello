@@ -14,6 +14,7 @@
   <Menu name="views"><text>&amp;Diagram</text>
     <Menu name="new_view"><text>&amp;New</text>
       <Action name="new_class_diagram"/>
+      <Action name="new_object_diagram"/>
       <Action name="new_sequence_diagram"/>
       <Action name="new_collaboration_diagram"/>
       <Action name="new_use_case_diagram"/>

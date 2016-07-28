@@ -70,7 +70,7 @@ namespace Uml
 
     namespace TypeQualifiers {
 
-        enum Enum{
+        enum Enum {
             None,
             Const,
             Volatile,
@@ -83,8 +83,8 @@ namespace Uml
         Enum fromInt(int item);
     }
 
-    namespace TypeModifiers{
-        enum Enum{
+    namespace TypeModifiers {
+        enum Enum {
             None,
             Pointer,
             Reference

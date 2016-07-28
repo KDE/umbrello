@@ -31,21 +31,23 @@
  * @param parentWindow      The parent of the toolbar.
  */
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
-  : KToolBar(QLatin1String("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
+    : KToolBar(QLatin1String("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
 {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
     m_Type = Uml::DiagramType::Class; // first time in just want it to load arrow,
-                                      // needs anything but Uml::DiagramType::Undefined
+    // needs anything but Uml::DiagramType::Undefined
     setOrientation(Qt::Vertical);
-//     setVerticalStretchable(true);
+    //     setVerticalStretchable(true);
     // initialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::DiagramType::UseCase, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Collaboration, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Class, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Object, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Sequence, tbb_Arrow);
     m_map.insert(Uml::DiagramType::State, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Activity, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::EntityRelationship, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Undefined, tbb_Arrow);
 
     slotCheckToolBar(Uml::DiagramType::Undefined);
@@ -77,12 +79,14 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
-    if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase ||
-        m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
+    if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase || m_Type == Uml::DiagramType::Object ||
+            m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
         insertHotBtn(tbb_UniAssociation);
     }
-    insertHotBtn(tbb_Dependency);
-    insertHotBtn(tbb_Generalization);
+    if(m_Type != Uml::DiagramType::Object){
+        insertHotBtn(tbb_Dependency);
+        insertHotBtn(tbb_Generalization);
+    }
 }
 
 void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
@@ -123,6 +127,11 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         insertHotBtn(tbb_Composition);
         insertHotBtn(tbb_Aggregation);
         insertHotBtn(tbb_Containment);
+        break;
+
+    case Uml::DiagramType::Object:
+        insertHotBtn(tbb_Class);
+        insertBasicAssociations();
         break;
 
     case Uml::DiagramType::Sequence:

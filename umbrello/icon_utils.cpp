@@ -128,6 +128,8 @@ QPixmap iconSet(Uml::DiagramType::Enum dt)
             return DesktopIcon(it_Diagram_Collaboration);
         case Uml::DiagramType::Class:
             return DesktopIcon(it_Diagram_Class);
+        case Uml::DiagramType::Object:
+            return DesktopIcon(it_Diagram_Class);
         case Uml::DiagramType::Sequence:
             return DesktopIcon(it_Diagram_Sequence);
         case Uml::DiagramType::State:
@@ -160,6 +162,8 @@ QPixmap smallIcon(Uml::DiagramType::Enum dt)
         case Uml::DiagramType::Collaboration:
             return SmallIcon(it_Diagram_Collaboration);
         case Uml::DiagramType::Class:
+            return SmallIcon(it_Diagram_Class);
+        case Uml::DiagramType::Object:
             return SmallIcon(it_Diagram_Class);
         case Uml::DiagramType::Sequence:
             return SmallIcon(it_Diagram_Sequence);

@@ -2176,6 +2176,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 {
     if (widget == NULL ||
         (m_Type != Uml::DiagramType::Class &&
+         m_Type != Uml::DiagramType::Object &&
          m_Type != Uml::DiagramType::Component &&
          m_Type != Uml::DiagramType::Deployment
          && m_Type != Uml::DiagramType::EntityRelationship))
@@ -2753,6 +2754,10 @@ void UMLScene::setMenu(const QPoint& pos)
 
     case DiagramType::EntityRelationship:
         menu = ListPopupMenu::mt_On_EntityRelationship_Diagram;
+        break;
+
+    case DiagramType::Object:
+        menu = ListPopupMenu::mt_On_Object_Diagram;
         break;
 
     default:
@@ -3601,6 +3606,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
             break;
         case 408:
             m_Type = Uml::DiagramType::EntityRelationship;
+            break;
+        case 409:
+            m_Type = Uml::DiagramType::Object;
             break;
         default:
             m_Type = Uml::DiagramType::Undefined;

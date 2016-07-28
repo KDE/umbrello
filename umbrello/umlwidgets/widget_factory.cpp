@@ -137,7 +137,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Class:
         //see if we really want an object widget or class widget
-        if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component) {
+        if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component || diagramType == Uml::DiagramType::Object) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             ClassifierWidget *cw = new ClassifierWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component)

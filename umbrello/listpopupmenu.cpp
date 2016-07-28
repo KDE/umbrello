@@ -147,6 +147,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_Class_Diagram;
         break;
 
+    case UMLListViewItem::lvt_Object_Diagram:
+        mt = mt_Object_Diagram;
+        break;
+
     case UMLListViewItem::lvt_Collaboration_Diagram:
         mt = mt_Collaboration_Diagram;
         break;
@@ -1451,6 +1455,9 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package..."));
             insert(mt_FloatText, menu);
             break;
+         case mt_On_Object_Diagram:
+             insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+        break;
         case mt_On_State_Diagram:
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
@@ -1636,6 +1643,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_UseCase_Diagram:
     case mt_Sequence_Diagram:
     case mt_Class_Diagram:
+    case mt_Object_Diagram:
     case mt_Collaboration_Diagram:
     case mt_State_Diagram:
     case mt_Activity_Diagram:
@@ -1662,17 +1670,25 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Class Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
+        break;
+    case mt_On_Object_Diagram:
+        insertSubMenuNew(type);
+        addSeparator();
+        if (m_TriggerObjectType != tot_View) {
+            uError() << "Invalid Trigger Object Type Set for Object Diagram " << m_TriggerObjectType;
+            return;
+        }
         break;
 
     case mt_On_State_Diagram:
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for State Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1682,7 +1698,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Activity Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1692,7 +1708,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Component Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1702,7 +1718,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Deployment Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1712,7 +1728,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Entity Relationship Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1723,7 +1739,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Sequence or Collaboration Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
