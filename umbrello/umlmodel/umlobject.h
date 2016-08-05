@@ -56,6 +56,7 @@ public:
         ot_Datatype,
         ot_Enum,
         ot_Class,
+        ot_Object,
         ot_Association,
         ot_Attribute,
         ot_Operation,

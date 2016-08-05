@@ -1171,6 +1171,10 @@ QString UMLObject::toI18nString(ObjectType t)
     case  UMLObject::ot_UseCase:
         name = i18n("Use case &name:");
         break;
+    case UMLObject::ot_Object:
+        name = i18n("Object &name");
+        break;
+
     default:
         name = QLatin1String("<unknown> &name:");
         uWarning() << "unknown object type";

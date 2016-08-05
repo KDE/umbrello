@@ -80,6 +80,12 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         setShowStereotype(true);
         updateSignatureTypes();
     }
+
+    if (c && scene->type() == Uml::DiagramType::Object){
+        m_baseType = WidgetBase::wt_Object;
+        m_visualProperties = ShowVisibility | ShowAttributes;
+        updateSignatureTypes();
+    }
 }
 
 /**
@@ -1191,6 +1197,21 @@ void ClassifierWidget::changeToPackage()
 
     setVisualProperty(ShowAttributes, false);
     setVisualProperty(ShowStereotype, true);
+
+    updateGeometry();
+    update();
+}
+/**
+ * @brief ClassifierWidget::changeToObject
+ * Change this classifier from a class or interface to a Object
+ * This widget is also updated
+ */
+void ClassifierWidget::changeToObject(){
+    m_baseType = WidgetBase::wt_Object;
+    m_umlObject->setBaseType(UMLObject::ot_Object);
+    setVisualProperty(ShowAttributes, true);
+    setVisualProperty(ShowStereotype, false);
+    setVisualProperty(ShowOperations,false);
 
     updateGeometry();
     update();
