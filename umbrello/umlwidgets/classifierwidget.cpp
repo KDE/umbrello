@@ -779,9 +779,20 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         name = this->name();
     }
+    //if Object draw object name
+    QString instanceName;
+    if(m_baseType == WidgetBase::wt_Object){
+        instanceName = m_umlObject->instanceName();
+    }
+
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    if(m_baseType == WidgetBase::wt_Object){
+        const QString finalName = instanceName + QLatin1String(" : ") + name;
+        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
+    }else{
+        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    }
     bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
