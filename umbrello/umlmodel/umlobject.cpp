@@ -201,6 +201,26 @@ QString UMLObject::name() const
 {
     return m_name;
 }
+/**
+ * @brief UMLObject::setInstanceName
+ * Set object/instance name in case of a Object Diagram
+ */
+void UMLObject::setInstanceName(const QString &strName)
+{
+    if(instanceName() != strName)
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
+}
+
+void UMLObject::setInstanceNameCmd(const QString &strName)
+{
+    m_instanceName = strName;
+    emitModified();
+}
+
+QString UMLObject::instanceName() const
+{
+    return m_instanceName;
+}
 
 /**
  * Returns the fully qualified name, i.e. all package prefixes and then m_name.
