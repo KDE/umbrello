@@ -166,10 +166,8 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     case lvt_UseCase_Diagram:
         setIcon(Icon_Utils::it_Diagram_Usecase);
         break;
-        /*I'm using the Diagram Class Icon until my mentor returns to me what we will do about
-        a Object Diagram Icon - Lays Rodrigues/July 2016/GSoC */
     case lvt_Object_Diagram:
-        setIcon(Icon_Utils::it_Diagram_Class);
+        setIcon(Icon_Utils::it_Diagram_Object);
     default:
         setIcon(Icon_Utils::it_Diagram);
     }

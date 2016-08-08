@@ -386,7 +386,7 @@ void UMLApp::initActions()
     newDiagram->addAction(classDiagram);
 
     QAction* objectDiagram = actionCollection()->addAction(QLatin1String("new_object_diagram"));
-    //objectDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Class));
+    objectDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Object));
     objectDiagram->setText(i18n("&Object Diagram..."));
     connect(objectDiagram, &QAction::triggered, this, &UMLApp::slotObjectDiagram);
     newDiagram->addAction(objectDiagram);

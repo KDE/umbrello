@@ -1692,6 +1692,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Class_Diagram:
             icon = Icon_Utils::it_Diagram_Class;
             break;
+        case UMLListViewItem::lvt_Object_Diagram:
+            icon = Icon_Utils::it_Diagram_Object;
+            break;
         case UMLListViewItem::lvt_UseCase_Diagram:
             icon = Icon_Utils::it_Diagram_Usecase;
             break;

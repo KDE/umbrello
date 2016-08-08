@@ -129,7 +129,7 @@ QPixmap iconSet(Uml::DiagramType::Enum dt)
         case Uml::DiagramType::Class:
             return DesktopIcon(it_Diagram_Class);
         case Uml::DiagramType::Object:
-            return DesktopIcon(it_Diagram_Class);
+            return DesktopIcon(it_Diagram_Object);
         case Uml::DiagramType::Sequence:
             return DesktopIcon(it_Diagram_Sequence);
         case Uml::DiagramType::State:
@@ -164,7 +164,7 @@ QPixmap smallIcon(Uml::DiagramType::Enum dt)
         case Uml::DiagramType::Class:
             return SmallIcon(it_Diagram_Class);
         case Uml::DiagramType::Object:
-            return SmallIcon(it_Diagram_Class);
+            return SmallIcon(it_Diagram_Object);
         case Uml::DiagramType::Sequence:
             return SmallIcon(it_Diagram_Sequence);
         case Uml::DiagramType::State:
@@ -268,6 +268,8 @@ QString toString(IconType type)
             return QLatin1String("umbrello_diagram_activity");
         case it_Diagram_Class:
             return QLatin1String("umbrello_diagram_class");
+        case it_Diagram_Object:
+            return QLatin1String("umbrello_diagram_object");
         case it_Diagram_Component:
             return QLatin1String("umbrello_diagram_component");
         case it_Diagram_State:

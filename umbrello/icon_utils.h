@@ -120,6 +120,7 @@ namespace Icon_Utils {
         it_Diagram_Sequence,
         it_Diagram_State,
         it_Diagram_Usecase,
+        it_Diagram_Object,
         it_New,
         it_Delete,
         it_Add_Point,
