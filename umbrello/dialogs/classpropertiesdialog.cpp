@@ -105,6 +105,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         }
     } else if (w->baseType() == WidgetBase::wt_Node) {
         setupInstancePages();
+    } else if(w->baseType() == WidgetBase::wt_Instance){
+        setupAttributesPage();
     } else {
         setupPages();
     }

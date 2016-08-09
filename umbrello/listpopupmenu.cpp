@@ -406,6 +406,15 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         makeClassifierPopup(static_cast<ClassifierWidget*>(object));
         break;
 
+    case WidgetBase::wt_Instance:
+        insert(mt_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
+        insertStdItems(true, type);
+        insert(mt_Rename, i18n("Rename Class..."));
+        insert(mt_Rename_Object, i18n("Rename Object..."));
+        insert(mt_Change_Font);
+        insert(mt_Properties);
+        break;
+
     case WidgetBase::wt_Enum:
         insertSubMenuNew(mt_Enum);
         insertSubMenuColor(object->useFillColor());

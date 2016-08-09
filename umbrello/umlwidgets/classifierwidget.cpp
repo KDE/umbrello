@@ -82,7 +82,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     }
 
     if (c && scene->type() == Uml::DiagramType::Object){
-        m_baseType = WidgetBase::wt_Object;
+        m_baseType = WidgetBase::wt_Instance;
         m_visualProperties = ShowVisibility | ShowAttributes;
         updateSignatureTypes();
     }
@@ -781,13 +781,13 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
     //if Object draw object name
     QString instanceName;
-    if(m_baseType == WidgetBase::wt_Object){
+    if(m_baseType == WidgetBase::wt_Instance){
         instanceName = m_umlObject->instanceName();
     }
 
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    if(m_baseType == WidgetBase::wt_Object){
+    if(m_baseType == WidgetBase::wt_Instance){
         const QString finalName = instanceName + QLatin1String(" : ") + name;
         painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
     }else{
