@@ -201,6 +201,7 @@ set(libdialogs_SRCS
     dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
+    dialogs/umlinstanceattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
     dialogs/umlenumliteraldialog.cpp
@@ -254,6 +255,7 @@ ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlattributedialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlinstanceattributedialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlentityattributedialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umltemplatedialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umloperationdialog.ui
