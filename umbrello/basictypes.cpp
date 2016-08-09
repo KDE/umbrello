@@ -322,6 +322,8 @@ QString toStringI18n(Enum item)
            return i18n("Deployment Diagram");
        case EntityRelationship:
            return i18n("Entity Relationship Diagram");
+        case Object:
+            return i18n("Object Diagram");
        default:
            return i18n("No Diagram");
     }

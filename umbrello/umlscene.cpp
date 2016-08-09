@@ -658,6 +658,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         case UMLObject::ot_Entity:
         case UMLObject::ot_Datatype:
         case UMLObject::ot_Category:
+        case UMLObject::ot_Instance:
             createAutoAssociations(newWidget);
             // We need to invoke createAutoAttributeAssociations()
             // on all other widgets again because the newly created

@@ -64,6 +64,7 @@ bool isCloneable(WidgetBase::WidgetType type)
     case WidgetBase::wt_Port:
     case WidgetBase::wt_Node:
     case WidgetBase::wt_Artifact:
+    case WidgetBase::wt_Instance:
         return true;
     default:
         return false;
@@ -99,6 +100,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Class:
         case UMLObject::ot_Enum:
         case UMLObject::ot_Entity:
+        case UMLObject::ot_Instance:
             o = static_cast<UMLClassifier*>(obj)->findChildObjectById(id);
             if (o == NULL &&
                     (t == UMLObject::ot_Interface || t == UMLObject::ot_Class))
@@ -623,6 +625,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
         case UMLObject::ot_Operation:
         case UMLObject::ot_EnumLiteral:
         case UMLObject::ot_Template:
+        case UMLObject::ot_Instance:
             mt = Uml::ModelType::Logical;
             break;
         case UMLObject::ot_Actor:
@@ -1346,6 +1349,10 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
 
     case UMLObject::ot_Class:
         type = UMLListViewItem::lvt_Class;
+        break;
+
+    case UMLObject::ot_Instance:
+        type = UMLListViewItem::lvt_Instance;
         break;
 
     case UMLObject::ot_Package:

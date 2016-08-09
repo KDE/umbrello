@@ -135,6 +135,10 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             o = c;
             break;
         }
+        case UMLObject::ot_Instance:
+            o = new UMLClassifier(name, g_predefinedId);
+            o->setBaseType(UMLObject::ot_Instance);
+        break;
         case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
             break;

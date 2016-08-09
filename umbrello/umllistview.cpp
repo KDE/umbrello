@@ -859,6 +859,7 @@ bool UMLListView::mayHaveChildItems(UMLObject::ObjectType type)
     switch (type) {
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface:
+    case UMLObject::ot_Instance:
     case UMLObject::ot_Enum:
     case UMLObject::ot_Entity:  // CHECK: more?
         retval = true;
