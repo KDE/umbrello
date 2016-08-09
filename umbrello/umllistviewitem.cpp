@@ -168,6 +168,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         break;
     case lvt_Object_Diagram:
         setIcon(Icon_Utils::it_Diagram_Object);
+        break;
     default:
         setIcon(Icon_Utils::it_Diagram);
     }
