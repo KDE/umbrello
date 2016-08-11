@@ -407,7 +407,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         break;
 
     case WidgetBase::wt_Instance:
-        insert(mt_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
+        insert(mt_New_InstanceAttribute);
         insertStdItems(true, type);
         insert(mt_Rename, i18n("Rename Class..."));
         insert(mt_Rename_Object, i18n("Rename Object..."));
@@ -774,6 +774,7 @@ void ListPopupMenu::insert(MenuType m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
         break;
     case mt_New_Attribute:
+    case mt_New_InstanceAttribute:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
     case mt_New_Template:
@@ -1363,6 +1364,9 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
     case mt_Category:
         type = UMLObject::ot_Category;
         break;
+    case mt_InstanceAttribute:
+        type = UMLObject::ot_InstanceAttribute;
+        break;
     default:
         break;
     }
@@ -1831,6 +1835,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_UseCase:
     case mt_Attribute:
     case mt_EntityAttribute:
+    case mt_InstanceAttribute:
     case mt_Operation:
     case mt_Template:
         insertStdItems(false);
@@ -1869,6 +1874,10 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_New_Attribute:
         insert(mt_New_Attribute);
+        break;
+
+    case mt_New_InstanceAttribute:
+        insert(mt_New_InstanceAttribute);
         break;
 
     case mt_New_Template:
@@ -1924,6 +1933,12 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_Attribute_Selected:
         insert(mt_New_Attribute);
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
+    case mt_InstanceAttribute_Selected:
+        insert(mt_New_InstanceAttribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
