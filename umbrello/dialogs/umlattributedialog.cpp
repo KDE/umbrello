@@ -25,16 +25,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-// qt includes
-#include <QCheckBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLayout>
-#include <QRadioButton>
-#include <QVBoxLayout>
-
 UMLAttributeDialog::UMLAttributeDialog(QWidget *pParent, UMLAttribute *pAttribute)
   : SinglePageDialogBase(pParent)
   , ui(new Ui::UMLAttributeDialog)

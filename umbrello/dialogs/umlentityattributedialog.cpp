@@ -24,22 +24,8 @@
 #include "umlclassifierlist.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <kcompletion.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-
-// qt includes
-#include <QApplication>
-#include <QCheckBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLayout>
-#include <QRadioButton>
-#include <QVBoxLayout>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
     : SinglePageDialogBase(pParent)

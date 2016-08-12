@@ -32,24 +32,8 @@
 #include "visibilityenumwidget.h"
 
 //kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-
-//qt includes
-#include <QCheckBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLayout>
-#include <QListWidget>
-#include <QPointer>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QToolButton>
-#include <QVBoxLayout>
 
 /**
  * Constructor.

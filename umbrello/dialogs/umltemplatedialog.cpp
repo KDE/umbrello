@@ -22,18 +22,8 @@
 #include "umlstereotypewidget.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-
-// qt includes
-#include <QComboBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLayout>
-#include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
   : SinglePageDialogBase(pParent)
