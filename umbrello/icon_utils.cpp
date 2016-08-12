@@ -562,6 +562,8 @@ QString toString(IconType type)
             return QLatin1String("document-edit");
         case it_ClassOrPackage:
             return QLatin1String("class-or-package");
+        case it_Instance:
+            return QLatin1String("instance");
         default:
             return QString();
     }

@@ -2857,7 +2857,6 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Class:
-    case ListPopupMenu::mt_Object:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Class);
         break;
@@ -2905,6 +2904,11 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Datatype:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Datatype);
+        break;
+
+    case ListPopupMenu::mt_Instance:
+        m_bCreateObject = true;
+        Object_Factory::createUMLObject(UMLObject::ot_Instance);
         break;
 
     case ListPopupMenu::mt_Cut:

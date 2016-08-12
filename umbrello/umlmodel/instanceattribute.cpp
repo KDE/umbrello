@@ -84,7 +84,7 @@ bool UMLInstanceAttribute::load(QDomElement & element)
 }
 
 /**
- * Display the properties configuration dialog for the entityattribute.
+ * Display the properties configuration dialog for the instanceattribute.
  */
 bool UMLInstanceAttribute::showPropertiesDialog(QWidget* parent)
 {

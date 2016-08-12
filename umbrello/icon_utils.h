@@ -223,6 +223,7 @@ namespace Icon_Utils {
         it_Properties_AutoLayout,
         it_Document_Edit,
         it_ClassOrPackage,
+        it_Instance,
         N_ICONTYPES    // must remain last
     };
 
