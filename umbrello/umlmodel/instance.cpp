@@ -7,6 +7,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "debug_utils.h"
+#include "uniqueid.h"
 
 //kde includes
 #include <KLocalizedString>
@@ -67,19 +68,6 @@ UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type,
 void UMLInstance::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement instanceElement = UMLObject::save(QLatin1String("UML:Instance"), qDoc);
-    //save operations
-    UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_instanceAttribute);
-    UMLClassifierListItem* pinstanceAttribute = 0;
-    foreach (pinstanceAttribute, instanceAttributes) {
-        pinstanceAttribute->saveToXMI(qDoc, instanceElement);
-    }
-
-    UMLClassifierListItemList instanceConstraints = getFilteredList(UMLObject::ot_instanceConstraint);
-    foreach(UMLClassifierListItem* cli, instanceConstraints) {
-        cli->saveToXMI(qDoc, instanceElement);
-    }
-
-    qElement.appendChild(instanceElement);
 }
 
 /**
