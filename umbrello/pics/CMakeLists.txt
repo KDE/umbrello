@@ -99,6 +99,7 @@ set(ICONS
     uniassociation
     unique_constraint
     usecase
+    instance
 )
 
 set(CURSOR_ICONS
