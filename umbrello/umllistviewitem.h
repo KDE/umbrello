@@ -100,6 +100,7 @@ public:
         lvt_Association,
         lvt_Object_Diagram,
         lvt_Instance,
+        lvt_InstanteAttribute,
         lvt_Unknown = -1
     };
 

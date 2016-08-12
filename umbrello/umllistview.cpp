@@ -417,7 +417,9 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_EntityAttribute:
         addNewItem(currItem, UMLListViewItem::lvt_EntityAttribute);
         break;
-
+    case ListPopupMenu::mt_InstanceAttribute:
+        addNewItem(currItem, UMLListViewItem::lvt_InstanteAttribute);
+        break;
     case ListPopupMenu::mt_Operation:
         addNewItem(currItem, UMLListViewItem::lvt_Operation);
         break;

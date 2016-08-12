@@ -40,6 +40,7 @@
 #include "model_utils.h"
 #include "uniqueid.h"
 #include "cmds.h"
+#include "instance.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -136,9 +137,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         }
         case UMLObject::ot_Instance:
-            o = new UMLClassifier(name, g_predefinedId);
-            o->setBaseType(UMLObject::ot_Instance);
-        break;
+            o = new UMLInstance(name, g_predefinedId);
+            break;
         case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
             break;
@@ -311,6 +311,13 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
          }
          break;
         }
+    case UMLObject::ot_InstanceAttribute: {
+        UMLInstance *c = dynamic_cast<UMLInstance*>(parent);
+        if(c){
+            returnObject = c->createAttribute(name);
+        }
+        break;
+    }
     case UMLObject::ot_Operation: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c)

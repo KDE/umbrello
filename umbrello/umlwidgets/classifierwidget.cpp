@@ -1368,6 +1368,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
+    case ListPopupMenu::mt_InstanceAttribute:
         {
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             UMLClassifier *umlc = classifier();
@@ -1433,6 +1434,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_ChangeToPackage:
         changeToPackage();
         break;
+
     case ListPopupMenu::mt_ChangeToInstance:
         changeToInstance();
         break;

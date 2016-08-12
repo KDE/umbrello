@@ -86,6 +86,7 @@ public:
         mt_Interface,
         mt_Enum,
         mt_Entity,
+        mt_Instance,
         mt_Datatype,
         mt_Actor,
         mt_UseCase,

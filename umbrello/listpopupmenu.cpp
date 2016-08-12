@@ -259,6 +259,14 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_EntityAttribute;
         break;
 
+    case UMLListViewItem::lvt_Instance:
+        mt = mt_Instance;
+        break;
+
+    case UMLListViewItem::lvt_InstanteAttribute:
+        mt = mt_InstanceAttribute;
+        break;
+
     case UMLListViewItem::lvt_UniqueConstraint:
         mt = mt_UniqueConstraint;
         break;
@@ -407,10 +415,8 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         break;
 
     case WidgetBase::wt_Instance:
-        insert(mt_New_InstanceAttribute);
+        insert(mt_InstanceAttribute);
         insertStdItems(true, type);
-        insert(mt_Rename, i18n("Rename Class..."));
-        insert(mt_Rename_Object, i18n("Rename Object..."));
         insert(mt_Change_Font);
         insert(mt_Properties);
         break;
@@ -788,6 +794,9 @@ void ListPopupMenu::insert(MenuType m)
         break;
     case mt_Export_Image:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
+        break;
+    case mt_InstanceAttribute:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);

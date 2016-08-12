@@ -1797,6 +1797,9 @@ Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
         case UMLListViewItem::lvt_EntityRelationship_Diagram:
             dt = Uml::DiagramType::EntityRelationship;
             break;
+    case UMLListViewItem::lvt_Object_Diagram:
+            dt = Uml::DiagramType::Object;
+        break;
         default:
             break;
     }
@@ -1936,7 +1939,7 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
         }
         break;
     case Uml::DiagramType::Object:
-        if( scene->widgetOnDiagram(id) || (ot != UMLObject::ot_Class))
+        if( scene->widgetOnDiagram(id) || (ot != UMLObject::ot_Instance))
                 bAccept = false;
         break;
     case Uml::DiagramType::Sequence:
