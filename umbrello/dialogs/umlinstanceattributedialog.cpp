@@ -3,6 +3,7 @@
 #include "umlinstanceattributedialog.h"
 #include "ui_umlinstanceattributedialog.h"
 #include "classifier.h"
+#include "uml.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -13,7 +14,8 @@ UMLInstanceAttributeDialog::UMLInstanceAttributeDialog(QWidget *parent, UMLAttri
     ui(new Ui::UMLInstanceAttributeDialog),
     m_pAttribute(pAttribute)
 {
-    ui->setupUi(this);
+    setCaption(i18n("Object Attribute Properties"));
+    ui->setupUi(mainWidget());
     connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLInstanceAttributeDialog::slotNameChanged);
     connect(ui->valueLE, &QLineEdit::textChanged, this, &UMLInstanceAttributeDialog::slotNameChanged);
 }
