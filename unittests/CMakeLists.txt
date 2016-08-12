@@ -41,19 +41,6 @@ include_directories(
       ${SRC_PATH}/umlwidgets/
       ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-if(NOT BUILD_KF5)
-    set(LIBS
-        Qt4::QtCore
-        Qt4::QtGui
-        Qt4::QtXml
-        Qt4::QtTest
-        ${KDE4_KFILE_LIBS}
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        libumbrello
-    )
-else()
     set(LIBS
         Qt5::Xml
         Qt5::Test
@@ -63,7 +50,6 @@ else()
         ${LIBXSLT_LIBRARIES}
         libumbrello
     )
-endif()
 
 ecm_add_test(
     TEST_basictypes.cpp

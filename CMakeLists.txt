@@ -23,95 +23,6 @@ include(Macros)
 
 set(CMAKE_AUTORCC ON)
 
-if(NOT BUILD_KF5)
-    cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
-    set(CMAKE_AUTOMOC ON)
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest)
-
-    set(KDE4_BUILD_TESTS ON)  # for unit tests
-
-    # search packages used by KDE
-    find_package(KDE4 REQUIRED)
-    include(KDE4Defaults)
-    include(MacroLibrary)
-
-    # The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
-    # definitions like _GNU_SOURCE that are needed on each platform.
-    set(CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} -DQT_STRICT_ITERATORS)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-    add_definitions (
-        ${KDE4_DEFINITIONS}
-    )
-
-    include_directories(
-        ${KDE4_INCLUDES}
-    )
-
-    if(KDE4_BUILD_TESTS)
-        enable_testing()
-        set(BUILD_UNITTESTS 1)
-    endif()
-
-    macro(ki18n_wrap_ui)
-        kde4_add_ui_files(${ARGN})
-    endmacro(ki18n_wrap_ui)
-
-    macro(kconfig_add_kcfg_files)
-        kde4_add_kcfg_files(${ARGN})
-    endmacro(kconfig_add_kcfg_files)
-
-    macro(ecm_optional_add_subdirectory)
-        add_subdirectory(${ARGN})
-    endmacro(ecm_optional_add_subdirectory)
-
-    macro(ecm_add_test)
-        set(sources)
-        set(libs)
-        set(name_prefix)
-        set(test_name)
-        set(mode 0)
-        set(guimode "NOGUI")
-        foreach(a ${ARGN})
-            if(a STREQUAL "LINK_LIBRARIES")
-                set(mode 1)
-            elseif(a STREQUAL "NAME_PREFIX")
-                set(mode 2)
-            elseif(a STREQUAL "GUI")
-                set(guimode "GUI")
-                set(mode 3)
-            elseif(a STREQUAL "TEST_NAME")
-                set(mode 4)
-            elseif (mode EQUAL 0)
-                list(APPEND sources ${a})
-            elseif(mode EQUAL 1)
-                list(APPEND libs ${a})
-            elseif(mode EQUAL 2)
-                set(name_prefix ${a})
-            elseif(mode EQUAL 4)
-                set(test_name ${a})
-            endif()
-        endforeach(a)
-
-        set(targetname ${test_name})
-        if(name_prefix)
-            set(testname ${name_prefix}-${targetname})
-        else()
-            set(testname ${targetname})
-        endif()
-        kde4_add_unit_test(${targetname} TESTNAME ${testname} ${guimode} ${sources})
-        target_link_libraries(${targetname} ${libs})
-    endmacro(ecm_add_test)
-
-    macro(ecm_add_executable)
-        kde4_add_executable(${ARGN})
-    endmacro(ecm_add_executable)
-
-    macro_display_feature_log()
-    KDE4_NO_ENABLE_FINAL(umbrello)
-else()
     cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
     # we need some parts of the ECM CMake helpers
@@ -160,8 +71,6 @@ else()
     endmacro(ecm_add_executable)
 
     set(BUILD_UNITTESTS 1)
-endif()
-
 
 # use some compile flags
 add_definitions(
