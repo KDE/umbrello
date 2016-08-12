@@ -519,22 +519,6 @@ set(umbrello_SRCS
 
 set(LIB_BUILD_MODE STATIC)
 
-if(NOT BUILD_KF5)
-    kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
-    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello
-        Qt4::QtCore
-        Qt4::QtGui
-        Qt4::QtXml
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        ${KDE4_KTEXTEDITOR_LIBS}
-        ${KDE4_KFILE_LIBS}
-    )
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
-    kde4_add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
-else()
     add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
     set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
     target_link_libraries(libumbrello
@@ -565,7 +549,6 @@ else()
     )
     add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello libumbrello)
-endif()
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()
@@ -573,12 +556,6 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-if(NOT BUILD_KF5)
-    install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-    install( FILES
-        umbrelloui.rc
-        DESTINATION ${DATA_INSTALL_DIR}/umbrello )
-else()
     file(READ umbrello.desktop UMBRELLO_DESKTOP)
     string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
@@ -587,7 +564,6 @@ else()
     install( FILES
         umbrelloui.rc
         DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
-endif()
 
 install( FILES
     docgenerators/xmi2docbook.xsl

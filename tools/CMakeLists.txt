@@ -1,9 +1,4 @@
-
-if(NOT BUILD_KF5)
-    set(LIBS Qt4::QtXml Qt4::QtCore)
-else()
-    set(LIBS Qt5::Xml Qt5::Core)
-endif()
+set(LIBS Qt5::Xml Qt5::Core)
 
 set(po2xmi_SRCS po2xmi.cpp shared.cpp)
 
