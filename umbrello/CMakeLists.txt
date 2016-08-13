@@ -344,6 +344,7 @@ set(libcmds_SRCS
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_removeUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
+    cmds/generic/cmd_renameUMLObjectInstance.cpp
     cmds/widget/cmd_baseWidgetCommand.cpp
     cmds/widget/cmd_changeFont.cpp
     cmds/widget/cmd_changeTextColor.cpp
