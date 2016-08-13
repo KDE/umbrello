@@ -207,8 +207,8 @@ QString UMLObject::name() const
  */
 void UMLObject::setInstanceName(const QString &strName)
 {
-    if(instanceName() != strName)
-        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
+     if(instanceName() != strName)
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObjectInstance(this, strName));
 }
 
 void UMLObject::setInstanceNameCmd(const QString &strName)
@@ -1192,7 +1192,7 @@ QString UMLObject::toI18nString(ObjectType t)
         name = i18n("Use case &name:");
         break;
     case UMLObject::ot_Instance:
-        name = i18n("Object &name");
+        name = i18n("Class &name");
         break;
 
     default:
