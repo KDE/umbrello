@@ -772,6 +772,11 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlDoc()->renameUMLObject(umlObject());
         break;
 
+    case ListPopupMenu::mt_Rename_Object:
+        {   //Fix me
+            //Its equal from the objectwidget, but I wasnt able to implement it right...
+        }break;
+
     case ListPopupMenu::mt_Properties:
         if (wt == WidgetBase::wt_Actor     || wt == WidgetBase::wt_UseCase   ||
             wt == WidgetBase::wt_Package   || wt == WidgetBase::wt_Interface ||

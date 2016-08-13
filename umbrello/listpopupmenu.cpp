@@ -416,6 +416,8 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Instance:
         insert(mt_InstanceAttribute);
+        insert(mt_Rename, i18n("Rename Class..."));
+        insert(mt_Rename_Object, i18n("Rename Object..."));
         insertStdItems(true, type);
         insert(mt_Change_Font);
         insert(mt_Properties);
