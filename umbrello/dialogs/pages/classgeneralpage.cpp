@@ -51,6 +51,7 @@
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include <QLineEdit>
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
@@ -65,6 +66,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pAbstractCB(0),
     m_pDeconCB(0),
     m_pExecutableCB(0),
+    m_pObjectNameLE(0),
     m_docWidget(0),
     m_nameWidget(0),
     m_instanceNameWidget(0),
@@ -89,10 +91,17 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 0);
+    if( t == UMLObject::ot_Instance) {
+        auto label = new QLabel(i18n("Object name:"));
+        m_pObjectNameLE = new QLineEdit();
+        m_pNameLayout->addWidget(label ,0 ,0);
+        m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
+    }
 
-    if (t != UMLObject::ot_Stereotype) {
+    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 1);
+
+    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
         auto label = new QLabel(i18n("Stereotype name:"));
         m_stereotypeWidget = new UMLStereotypeWidget();
         m_stereotypeWidget->setUMLObject(m_pObject);
@@ -145,7 +154,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     // setup scope
-    if (t != UMLObject::ot_Stereotype) {
+    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
         m_visibilityEnumWidget = new VisibilityEnumWidget();
         m_visibilityEnumWidget->setUMLObject(m_pObject);
         m_visibilityEnumWidget->addToLayout(topLayout);
@@ -294,6 +303,10 @@ void ClassGeneralPage::apply()
 
         if (m_pAbstractCB) {
             m_pObject->setAbstract(m_pAbstractCB->isChecked());
+        }
+
+        if(m_pObjectNameLE){
+            m_pObject->setInstanceName(m_pObjectNameLE->text());
         }
 
         //make sure unique name

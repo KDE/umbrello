@@ -95,7 +95,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
     if (w->baseType() == WidgetBase::wt_Class
             || w->baseType() == WidgetBase::wt_Interface
             || w->baseType() == WidgetBase::wt_Enum
-            || w->baseType() == WidgetBase::wt_Package) {
+            || w->baseType() == WidgetBase::wt_Package
+            || w->baseType() == WidgetBase::wt_Instance) {
         setupPages(true);
     } else if (w->baseType() == WidgetBase::wt_Component) {
         if (w->isInstance()) {
@@ -210,8 +211,7 @@ void ClassPropertiesDialog::setupPages(bool assoc)
     if (m_pObject) {
         ot = m_pObject->baseType();
     }
-    // add extra pages for class
-    if (ot == UMLObject::ot_Class) {
+    if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Instance) {
         setupAttributesPage();
     }
     if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Interface) {
