@@ -79,7 +79,7 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
-    if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase || m_Type == Uml::DiagramType::Object ||
+    if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase ||
             m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
         insertHotBtn(tbb_UniAssociation);
     }
@@ -131,7 +131,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Object:
         insertHotBtn(tbb_Instance);
-        insertBasicAssociations();
+        insertHotBtn(tbb_Association);
         break;
 
     case Uml::DiagramType::Sequence:
