@@ -32,6 +32,8 @@
 #include "operation.h"
 #include "attribute.h"
 #include "entityattribute.h"
+#include "instance.h"
+#include "instanceattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
 #include "checkconstraint.h"
@@ -956,6 +958,12 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     }
     break;
+    case UMLObject::ot_Instance:{
+        UMLInstance *c = static_cast<UMLInstance*>(object);
+        connect(c, &UMLInstance::attributeAdded, this, &UMLListView::childObjectAdded);
+        connect(c, &UMLInstance::attributeRemoved, this, &UMLListView::childObjectRemoved);
+        connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
+    }
     case UMLObject::ot_Enum: {
         UMLEnum *e = static_cast<UMLEnum*>(object);
         connect(e, &UMLEnum::enumLiteralAdded, this, &UMLListView::childObjectAdded);
@@ -978,6 +986,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -2431,6 +2440,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_PrimaryKeyConstraint:
         case UMLListViewItem::lvt_ForeignKeyConstraint:
         case UMLListViewItem::lvt_CheckConstraint:
+        case UMLListViewItem::lvt_InstanteAttribute:
             item = findItem(nID);
             if (item == 0) {
                 DEBUG(DBG_SRC) << "item " << Uml::ID::toString(nID) << " (of type "

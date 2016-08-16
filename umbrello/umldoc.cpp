@@ -2141,7 +2141,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 seen_UMLObjects = true;
             } else if (tagEq(tag, QLatin1String("Package")) ||
                        tagEq(tag, QLatin1String("Class")) ||
-                       tagEq(tag, QLatin1String("Interface"))) {
+                       tagEq(tag, QLatin1String("Interface")) ||
+                       tagEq(tag, QLatin1String("Instance"))) {
                 // These tests are only for foreign XMI files that
                 // are missing the <Model> tag (e.g. NSUML)
                 QString stID = element.attribute(QLatin1String("stereotype"));

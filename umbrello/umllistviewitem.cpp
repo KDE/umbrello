@@ -371,6 +371,7 @@ void UMLListViewItem::updateObject()
 
     case UMLObject::ot_Attribute:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
         if (scope == Uml::Visibility::Public)
             icon = Icon_Utils::it_Public_Attribute;
         else if (scope == Uml::Visibility::Private)

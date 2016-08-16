@@ -1089,12 +1089,14 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     case UMLListViewItem::lvt_Package:
     case UMLListViewItem::lvt_Interface:
     case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Instance:
         return parentType == UMLListViewItem::lvt_Logical_View ||
                parentType == UMLListViewItem::lvt_Class ||
                parentType == UMLListViewItem::lvt_Package ||
                parentType == UMLListViewItem::lvt_Logical_Folder;
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_InstanteAttribute:
         return parentType == UMLListViewItem::lvt_Entity;
     case UMLListViewItem::lvt_Operation:
         return parentType == UMLListViewItem::lvt_Class ||
@@ -1110,6 +1112,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     case UMLListViewItem::lvt_State_Diagram:
     case UMLListViewItem::lvt_Activity_Diagram:
     case UMLListViewItem::lvt_Sequence_Diagram:
+    case UMLListViewItem::lvt_Object_Diagram:
         return parentType == UMLListViewItem::lvt_Logical_Folder ||
                parentType == UMLListViewItem::lvt_Logical_View;
     case UMLListViewItem::lvt_Logical_Folder:
@@ -1170,7 +1173,8 @@ bool typeIsDiagram(UMLListViewItem::ListViewType type)
             type == UMLListViewItem::lvt_UseCase_Diagram ||
             type == UMLListViewItem::lvt_Component_Diagram ||
             type == UMLListViewItem::lvt_Deployment_Diagram ||
-            type == UMLListViewItem::lvt_EntityRelationship_Diagram) {
+            type == UMLListViewItem::lvt_EntityRelationship_Diagram ||
+            type == UMLListViewItem::lvt_Object_Diagram ){
         return true;
     } else {
         return false;
