@@ -1333,6 +1333,8 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     else if (umlc && umlc->isInterface())
         conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
+    else if(umlObject()->baseType() == UMLObject::ot_Instance)
+        conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
     else
         conceptElement = qDoc.createElement(QLatin1String("classwidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
