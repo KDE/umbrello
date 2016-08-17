@@ -559,7 +559,8 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     }
 
     case lvt_Attribute:
-    case lvt_EntityAttribute: {
+    case lvt_EntityAttribute:
+    case lvt_InstanteAttribute: {
         if (m_object == 0) {
             cancelRenameWithMsg();
             return;
@@ -1049,6 +1050,10 @@ QString UMLListViewItem::toString(ListViewType type)
             return QLatin1String("lvt_Properties");
         case lvt_Unknown:
             return QLatin1String("lvt_Unknown");
+        case lvt_Instance:
+            return QLatin1String("lvt_Instance");
+        case lvt_InstanteAttribute:
+            return QLatin1String("lvt_InstanceAttribute");
         default:
             return QLatin1String("? ListViewType ?");
     }

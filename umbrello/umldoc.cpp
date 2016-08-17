@@ -931,7 +931,8 @@ bool UMLDoc::addUMLObject(UMLObject* object)
 {
     UMLObject::ObjectType ot = object->baseType();
     if (ot == UMLObject::ot_Attribute || ot == UMLObject::ot_Operation || ot == UMLObject::ot_EnumLiteral
-            || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype) {
+            || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype
+            || ot == UMLObject::ot_InstanceAttribute ) {
         DEBUG(DBG_SRC) << object->name() << ": not adding type " << ot;
         return false;
     }
@@ -1675,7 +1676,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                          << parent->baseType();
                 return;
             }
-            if (type == UMLObject::ot_Attribute) {
+            if (type == UMLObject::ot_Attribute || type == UMLObject::ot_InstanceAttribute) {
                 pClass->removeAttribute(static_cast<UMLAttribute*>(umlobject));
             } else if (type == UMLObject::ot_Template) {
                 pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));

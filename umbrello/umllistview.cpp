@@ -816,6 +816,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -2247,6 +2248,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Template:
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_InstanteAttribute:
     case UMLListViewItem::lvt_Operation:
     case UMLListViewItem::lvt_EnumLiteral:
     case UMLListViewItem::lvt_UniqueConstraint:

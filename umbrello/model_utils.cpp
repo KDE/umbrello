@@ -510,6 +510,8 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
             currentName = i18n("new_association");
         else if(type == UMLObject::ot_Category)
             currentName = i18n("new_category");
+        else if(type == UMLObject::ot_Instance)
+            currentName = i18n("new_object");
         else {
             currentName = i18n("new_object");
             uWarning() << "unknown object type in umldoc::uniqObjectName()";
@@ -596,7 +598,8 @@ bool isClassifierListitem(UMLObject::ObjectType type)
         type == UMLObject::ot_EnumLiteral ||
         type == UMLObject::ot_UniqueConstraint ||
         type == UMLObject::ot_ForeignKeyConstraint  ||
-        type == UMLObject::ot_CheckConstraint) {
+        type == UMLObject::ot_CheckConstraint ||
+        type == UMLObject::ot_InstanceAttribute ) {
         return true;
     } else {
         return false;
@@ -626,6 +629,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
         case UMLObject::ot_EnumLiteral:
         case UMLObject::ot_Template:
         case UMLObject::ot_Instance:
+        case UMLObject::ot_InstanceAttribute:
             mt = Uml::ModelType::Logical;
             break;
         case UMLObject::ot_Actor:
@@ -1033,7 +1037,8 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
         type == UMLListViewItem::lvt_ForeignKeyConstraint ||
         type == UMLListViewItem::lvt_PrimaryKeyConstraint ||
         type == UMLListViewItem::lvt_CheckConstraint  ||
-        type == UMLListViewItem::lvt_EnumLiteral) {
+        type == UMLListViewItem::lvt_EnumLiteral ||
+        type == UMLListViewItem::lvt_InstanteAttribute) {
         return true;
     } else {
         return false;
@@ -1355,10 +1360,6 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         type = UMLListViewItem::lvt_Class;
         break;
 
-    case UMLObject::ot_Instance:
-        type = UMLListViewItem::lvt_Instance;
-        break;
-
     case UMLObject::ot_Package:
         if (o->stereotype() == QLatin1String("subsystem"))
             type = UMLListViewItem::lvt_Subsystem;
@@ -1474,9 +1475,19 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
     case UMLObject::ot_Template:
         type = UMLListViewItem::lvt_Template;
         break;
+
     case UMLObject::ot_Association:
         type = UMLListViewItem::lvt_Association;
         break;
+
+    case UMLObject::ot_Instance:
+        type = UMLListViewItem::lvt_Instance;
+        break;
+
+    case UMLObject::ot_InstanceAttribute:
+        type = UMLListViewItem::lvt_InstanteAttribute;
+        break;
+
     default:
         break;
     }
@@ -1581,6 +1592,14 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 
     case UMLListViewItem::lvt_EnumLiteral:
         ot = UMLObject::ot_EnumLiteral;
+        break;
+
+    case UMLListViewItem::lvt_Instance:
+        ot = UMLObject::ot_Instance;
+        break;
+
+    case UMLListViewItem::lvt_InstanteAttribute:
+        ot = UMLObject::ot_InstanceAttribute;
         break;
 
     default:
@@ -1757,6 +1776,12 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Properties_UserInterface:
             icon = Icon_Utils::it_Properties_UserInterface;
             break;
+        case UMLListViewItem::lvt_Instance:
+            icon = Icon_Utils::it_Instance;
+        break;
+        case UMLListViewItem::lvt_InstanteAttribute:
+            icon = Icon_Utils::it_Private_Attribute;
+        break;
         default:
             break;
     }

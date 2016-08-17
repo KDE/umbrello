@@ -32,6 +32,8 @@
 #include "umltemplatedialog.h"
 #include "optionstate.h"
 #include "icon_utils.h"
+#include "instance.h"
+#include "instanceattribute.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -1250,6 +1252,16 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             }
             break;
         }
+    case UMLObject::ot_InstanceAttribute: {
+        UMLInstanceAttribute *ia = dynamic_cast<UMLInstanceAttribute*>(m_List.takeAt(index).data());
+        if(ia) {
+            emit attributeRemoved(ia);
+            UMLObject::emitModified();
+        } else {
+            index = -1;
+        }
+        break;
+    }
         default:
             index = -1;
             break;
@@ -1555,6 +1567,7 @@ bool UMLClassifier::load(QDomElement& element)
                         }
                         break;
                     case UMLObject::ot_Attribute:
+                    case UMLObject::ot_InstanceAttribute:
                         addAttribute(static_cast<UMLAttribute*>(child));
                         break;
                     default:

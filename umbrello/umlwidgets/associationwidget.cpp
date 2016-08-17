@@ -34,6 +34,8 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"
+#include "instance.h"
+#include "instanceattribute.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -257,6 +259,12 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             ent = static_cast<UMLEntity*>(obj->parent());
             connect(ent, &UMLEntity::entityConstraintRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
+        case UMLObject::ot_InstanceAttribute:
+            klass = static_cast<UMLInstance*>(obj->parent());
+            connect(klass, &UMLInstance::attributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
+            attr = static_cast<UMLInstanceAttribute*>(obj);
+            connect(attr, &UMLInstanceAttribute::attributeChanged, this, &AssociationWidget::slotAttributeChanged);
+        break;
         default:
             uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
             break;
@@ -571,7 +579,7 @@ UMLAttribute* AssociationWidget::attribute() const
     if (m_umlObject == NULL)
         return NULL;
     UMLObject::ObjectType ot = m_umlObject->baseType();
-    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
+    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute && ot != UMLObject::ot_InstanceAttribute)
         return NULL;
     return static_cast<UMLAttribute*>(m_umlObject);
 }
