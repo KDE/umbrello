@@ -96,10 +96,15 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_pObjectNameLE = new QLineEdit();
         m_pNameLayout->addWidget(label ,0 ,0);
         m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
-    }
 
-    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 1);
+        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_nameWidget->addToLayout(m_pNameLayout, 1);
+
+    }
+    else{
+        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_nameWidget->addToLayout(m_pNameLayout, 0);
+    }
 
     if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
         auto label = new QLabel(i18n("Stereotype name:"));
