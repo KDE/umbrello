@@ -643,7 +643,10 @@ int ClassifierWidget::displayedAttributes() const
 {
     if (!visualProperty(ShowAttributes))
         return 0;
-    return displayedMembers(UMLObject::ot_Attribute);
+    if(m_baseType == WidgetBase::wt_Instance)
+        return displayedMembers(UMLObject::ot_InstanceAttribute);
+    else
+        return displayedMembers(UMLObject::ot_Attribute);
 }
 
 /**
@@ -826,9 +829,15 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
         const int numAtts = displayedAttributes();
         if (numAtts > 0) {
-            drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
+            if (baseType() == WidgetBase::wt_Instance) {
+                drawMembers(painter, UMLObject::ot_InstanceAttribute, m_attributeSignature, textX,
+                            bodyOffsetY, fontHeight);
+                bodyOffsetY += fontHeight * numAtts;
+            } else {
+                drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
                         bodyOffsetY, fontHeight);
-            bodyOffsetY += fontHeight * numAtts;
+                bodyOffsetY += fontHeight * numAtts;
+            }
         }
         else
             bodyOffsetY += fontHeight / 2;
