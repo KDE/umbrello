@@ -96,7 +96,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_pObjectNameLE = new QLineEdit();
         m_pNameLayout->addWidget(label ,0 ,0);
         m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
-
+        if(!m_pObject->instanceName().isNull())
+            m_pObjectNameLE->setText(m_pObject->instanceName());
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
 
@@ -315,13 +316,17 @@ void ClassGeneralPage::apply()
         }
 
         //make sure unique name
-        UMLObject *o = m_pUmldoc->findUMLObject(name);
-        if (o && m_pObject != o) {
-             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                                i18n("Name is Not Unique"), 0);
-             m_nameWidget->reset();
+        if(m_pObject->baseType() != UMLObject::ot_Instance){
+            UMLObject *o = m_pUmldoc->findUMLObject(name);
+            if (o && m_pObject != o) {
+                KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                                   i18n("Name is Not Unique"), 0);
+                m_nameWidget->reset();
+            } else {
+                m_pObject->setName(name);
+            }
         } else {
-             m_pObject->setName(name);
+            m_pObject->setName(name);
         }
 
         if (t != UMLObject::ot_Stereotype) {

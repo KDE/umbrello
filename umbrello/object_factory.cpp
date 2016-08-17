@@ -257,7 +257,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                                i18n("Reserved Keyword"));
             continue;
         }
-        if (! doc->isUnique(name, parentPkg)) {
+        if (! doc->isUnique(name, parentPkg) && type != UMLObject::ot_Instance) {
             KMessageBox::error(0, i18n("That name is already being used."),
                                i18n("Not a Unique Name"));
             continue;
