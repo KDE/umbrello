@@ -2382,6 +2382,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_Actor:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Class:
+        case UMLListViewItem::lvt_Instance:
         case UMLListViewItem::lvt_Interface:
         case UMLListViewItem::lvt_Datatype:
         case UMLListViewItem::lvt_Enum:
@@ -2433,6 +2434,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             break;
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
+        case UMLListViewItem::lvt_InstanteAttribute:
         case UMLListViewItem::lvt_Template:
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_EnumLiteral:
@@ -2440,7 +2442,6 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_PrimaryKeyConstraint:
         case UMLListViewItem::lvt_ForeignKeyConstraint:
         case UMLListViewItem::lvt_CheckConstraint:
-        case UMLListViewItem::lvt_InstanteAttribute:
             item = findItem(nID);
             if (item == 0) {
                 DEBUG(DBG_SRC) << "item " << Uml::ID::toString(nID) << " (of type "

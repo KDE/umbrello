@@ -378,6 +378,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLActor();
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Class"))) {
         pObject = new UMLClassifier();
+    } else if(UMLDoc::tagEq(xmiTag, QLatin1String("Instance"))) {
+        pObject = new UMLInstance();
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Package"))) {
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();
