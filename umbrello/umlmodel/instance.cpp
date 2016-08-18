@@ -25,11 +25,11 @@ UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type,
     Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
-        currentName = uniqChildName(UMLObject::ot_Attribute);
+        currentName = uniqChildName(UMLObject::ot_InstanceAttribute);
     } else {
         currentName = name;
     }
-    UMLAttribute* newAttribute = new UMLAttribute(this, currentName, id, vis, type, init);
+    UMLInstanceAttribute* newAttribute = new UMLInstanceAttribute(this, currentName, id, vis, type, init);
 
     int button = QDialog::Accepted;
     bool goodName = false;
@@ -69,28 +69,12 @@ void UMLInstance::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement instanceElement = UMLObject::save(QLatin1String("UML:Instance"), qDoc);
     //save attributes
-    UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_Instance);
+    UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_InstanceAttribute);
     UMLClassifierListItem* pInstanceAttribute = 0;
     foreach (pInstanceAttribute, instanceAttributes) {
         pInstanceAttribute->saveToXMI(qDoc, instanceElement);
     }
     qElement.appendChild(instanceElement);
-}
-
-UMLClassifierListItemList UMLInstance::getFilteredList(UMLObject::ObjectType ot) const
-{
-    UMLClassifierListItemList resultList;
-    foreach(UMLObject *o, m_List){
-        uIgnoreZeroPointer(o);
-        if (!o || o->baseType() == UMLObject::ot_Association) {
-            continue;
-        }
-        UMLClassifierListItem *listItem = static_cast<UMLClassifierListItem*>(o);
-        if (ot == UMLObject::ot_UMLObject || listItem->baseType() == ot) {
-            resultList.append(listItem);
-        }
-    }
-    return resultList;
 }
 
 /**
@@ -106,7 +90,7 @@ bool UMLInstance::load(QDomElement &element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("UML:Instance"))) {   // for backward compatibility
+        if (UMLDoc::tagEq(tag, QLatin1String("InstanceAttribute"))) {   // for backward compatibility
             UMLInstanceAttribute* pInstanceAttribute = new UMLInstanceAttribute(this);
             if(!pInstanceAttribute->loadFromXMI(tempElement)) {
                 return false;

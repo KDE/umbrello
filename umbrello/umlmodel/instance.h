@@ -24,8 +24,6 @@ public:
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    virtual UMLClassifierListItemList getFilteredList(ObjectType ot) const;
-
 protected:
     bool load(QDomElement& element);
 };

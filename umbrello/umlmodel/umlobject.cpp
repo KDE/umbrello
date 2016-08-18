@@ -874,6 +874,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     }
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
     qElement.setAttribute(QLatin1String("name"), m_name);
+    if(m_BaseType == ot_Instance)
+        qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
@@ -972,6 +974,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
     m_name = element.attribute(QLatin1String("name"));
+    if(element.hasAttribute(QLatin1String("instancename")))
+        m_instanceName = element.attribute(QLatin1String("instancename"));
     QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == QLatin1String("-1")) {
         // Before version 1.4, Umbrello did not save the xmi.id of UMLRole objects.
