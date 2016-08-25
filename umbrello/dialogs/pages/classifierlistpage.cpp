@@ -371,7 +371,12 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         // now update screen
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            m_pCodeTE->setPlainText(dynamic_cast<UMLOperation*>(listItem)->getSourceCode());
+            UMLOperation* o = dynamic_cast<UMLOperation*>(listItem);
+            if (!o) {
+                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                return;
+            }
+            m_pCodeTE->setPlainText(o->getSourceCode());
         }
         enableWidgets(true);
         m_pOldListItem = listItem;
