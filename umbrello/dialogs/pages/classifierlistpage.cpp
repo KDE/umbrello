@@ -821,9 +821,15 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EntityAttribute: {
             UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
             if (!c) {
-                uError() << "Dynamic cast to UMLEntity failed for" << listitem->name();
+                uError() << "Dynamic cast to UMLEntity failed for" << m_pClassifier->name();
+                return false;
             }
-            return c->addEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem), position);
+            UMLEntityAttribute *a = dynamic_cast<UMLEntityAttribute*>(listitem);
+            if (!a) {
+                uError() << "Dynamic cast to UMLEntityAttribute failed for" << listitem->name();
+                return false;
+            }
+            return c->addEntityAttribute(a, position);
             break;
         }
     default: {
