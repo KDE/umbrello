@@ -812,10 +812,15 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EnumLiteral: {
             UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
             if (!c) {
-                uError() << "Dynamic cast to UMLEnum failed for" << listitem->name();
+                uError() << "Dynamic cast to UMLEnum failed for" << m_pClassifier->name();
                 return false;
             }
-            return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem), position);
+            UMLEnumLiteral *l = dynamic_cast<UMLEnumLiteral*>(listitem);
+            if (!l) {
+                uError() << "Dynamic cast to UMLEnumLiteral failed for" << listitem->name();
+                return false;
+            }
+            return c->addEnumLiteral(l, position);
             break;
         }
     case UMLObject::ot_EntityAttribute: {
