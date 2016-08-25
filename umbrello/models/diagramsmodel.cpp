@@ -23,6 +23,7 @@
 #include <QtDebug>
 
 DiagramsModel::DiagramsModel()
+  : m_count(0)
 {
 }
 
