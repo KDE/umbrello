@@ -692,13 +692,14 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
     log(keyword + QLatin1Char(' ') + name);
     UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
     pushScope(m_klass = static_cast<UMLClassifier*>(ns));
-    m_klass->setAbstract(m_isAbstract);
     m_klass->setStatic(m_isStatic);
     m_klass->setVisibilityCmd(m_currentAccess);
     // The UMLObject found by createUMLObject might originally have been created as a
     // placeholder with a type of class but if is really an interface, then we need to
     // change it.
     m_klass->setBaseType(ot);
+    // TODO: UMLClassifier::setBaseType() resets abstract flag
+    m_klass->setAbstract(m_isAbstract);
     m_isAbstract = m_isStatic = false;
     // if no modifier is specified in an interface, then it means public
     if (m_klass->isInterface()) {
