@@ -163,7 +163,6 @@ int main(int argc, char *argv[])
     args->process(app);
 
     aboutData.processCommandLine(args);
-    Q_INIT_RESOURCE(icons);
 #else
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
@@ -176,8 +175,8 @@ int main(int argc, char *argv[])
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
     KApplication app;
-    Q_INIT_RESOURCE_EXTERN(icons);
 #endif
+    Q_INIT_RESOURCE(icons);
 
     QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {
