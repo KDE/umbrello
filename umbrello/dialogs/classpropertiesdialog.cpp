@@ -106,8 +106,8 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         }
     } else if (w->baseType() == WidgetBase::wt_Node) {
         setupInstancePages();
-    } else if(w->baseType() == WidgetBase::wt_Instance){
-        setupAttributesPage();
+    } else if(w->baseType() == WidgetBase::wt_Instance) {
+        setupInstanceAttributesPage();
     } else {
         setupPages();
     }
@@ -211,7 +211,7 @@ void ClassPropertiesDialog::setupPages(bool assoc)
     if (m_pObject) {
         ot = m_pObject->baseType();
     }
-    if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Instance) {
+    if (ot == UMLObject::ot_Class) {
         setupAttributesPage();
     }
     if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Interface) {
@@ -229,6 +229,9 @@ void ClassPropertiesDialog::setupPages(bool assoc)
     }
     if (ot == UMLObject::ot_Package) {
         setupContentsPage();
+    }
+    if (ot == UMLObject::ot_Instance) {
+        setupInstanceAttributesPage();
     }
     if (assoc) {
         setupAssociationsPage();
@@ -357,5 +360,12 @@ void ClassPropertiesDialog::setupInstancePages()
     createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
                Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
     m_pAssocPage = 0;
+}
+
+void ClassPropertiesDialog::setupInstanceAttributesPage()
+{
+    m_pAttPage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_InstanceAttribute);
+    createPage(i18n("Attributes"), i18n("Attribute Settings"),
+               Icon_Utils::it_Properties_Attributes, m_pAttPage);
 }
 

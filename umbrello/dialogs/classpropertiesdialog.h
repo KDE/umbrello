@@ -62,6 +62,7 @@ protected:
     void setupContentsPage();
     void setupAssociationsPage();
     void setupInstancePages();
+    void setupInstanceAttributesPage();
 
 private:
     ClassGeneralPage*    m_pGenPage;
