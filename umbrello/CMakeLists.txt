@@ -471,7 +471,6 @@ set(umbrellobase_SRCS
     umlviewimageexportermodel.cpp
     uniqueid.cpp
     worktoolbar.cpp
-    icons.qrc
 )
 
 set(umbrellomodels_SRCS
@@ -508,6 +507,11 @@ set(umbrello_SRCS
 set(LIB_BUILD_MODE STATIC)
 
 if(NOT BUILD_KF5)
+    if(CMAKE_MAJOR_VERSION LESS 3)
+        qt4_add_resources(libumbrello_SRCS icons.qrc)
+    else()
+        list(APPEND libumbrello_SRCS icons.qrc)
+    endif()
     kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
     set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
     target_link_libraries(libumbrello
@@ -523,6 +527,11 @@ if(NOT BUILD_KF5)
     kde4_add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
+    if(CMAKE_MAJOR_VERSION LESS 3)
+        qt5_add_resources(libumbrello_SRCS icons.qrc)
+    else()
+        list(APPEND libumbrello_SRCS icons.qrc)
+    endif()
     add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
     set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
     target_link_libraries(libumbrello

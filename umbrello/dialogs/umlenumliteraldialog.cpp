@@ -15,6 +15,7 @@
 // app includes
 #include "enumliteral.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "dialog_utils.h"
 
 // kde includes
@@ -89,6 +90,10 @@ bool UMLEnumLiteralDialog::apply()
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pEnumLiteral->parent());
+    if (!pConcept) {
+        uError() << "Could not get parent of enum literal '" << m_pEnumLiteral->name() << "'";
+        return false;
+    }
     UMLObject *o = pConcept->findChildObject(name);
     if (o && o != m_pEnumLiteral) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),

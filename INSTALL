@@ -1,6 +1,5 @@
 General build instructions for KDE packages can be found at 
-  http://techbase.kde.org/Getting_Started/Build/KDE4
-but these pages are currently being rewritten.
+  https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source
 
 Specific build instructions for Umbrello can be found at 
   http://umbrello.kde.org/installation.php
@@ -11,4 +10,7 @@ In short, here is how to build current git master on Linux :
   mkdir build
   cd build
   cmake -DCMAKE_INSTALL_PREFIX=$HOME/umbrello -DCMAKE_BUILD_TYPE=Debug  ../
+
+When building/running on KF5, make sure that the "kio" package is installed.
+For details see https://bugs.kde.org/show_bug.cgi?id=361479#c3
 

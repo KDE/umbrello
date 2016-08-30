@@ -35,7 +35,7 @@
 #include <QInputDialog>
 #endif
 
-NoteWidget * NoteWidget::s_pCurrentNote;
+QPointer<NoteWidget> NoteWidget::s_pCurrentNote;
 
 /**
  * Constructs a NoteWidget.
