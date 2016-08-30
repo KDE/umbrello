@@ -55,7 +55,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_umlObject);
+    UMLComponent *umlcomp = dynamic_cast<UMLComponent*>(m_umlObject.data());
     if (umlcomp == NULL)
         return;
     setPenFromSettings(painter);
@@ -146,7 +146,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
         return;
     }
     UMLWidget::adjustAssocs(dx, dy);
-    UMLPackage *comp = static_cast<UMLPackage*>(m_umlObject);
+    UMLPackage *comp = dynamic_cast<UMLPackage*>(m_umlObject.data());
     foreach (UMLObject *o, comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
@@ -196,7 +196,7 @@ QSizeF ComponentWidget::minimumSize() const
 
     int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_umlObject);
+    UMLComponent *umlcomp = dynamic_cast<UMLComponent*>(m_umlObject.data());
     if (umlcomp && umlcomp->getExecutable()) {
         width  += 2;
         height += 2;

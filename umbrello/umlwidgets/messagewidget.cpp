@@ -936,7 +936,7 @@ UMLClassifier *MessageWidget::operationOwner()
  */
 UMLOperation *MessageWidget::operation()
 {
-    return static_cast<UMLOperation*>(m_umlObject);
+    return dynamic_cast<UMLOperation*>(m_umlObject.data());
 }
 
 /**
