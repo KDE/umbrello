@@ -335,6 +335,42 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     ListPopupMenu::MenuType menuType = ListPopupMenu::typeFromAction(action);
 
     switch (menuType) {
+    case ListPopupMenu::mt_Activity_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Activity_Diagram);
+        break;
+
+    case ListPopupMenu::mt_Class_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Class_Diagram);
+        break;
+
+    case ListPopupMenu::mt_Collaboration_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Collaboration_Diagram);
+        break;
+
+    case ListPopupMenu::mt_Component_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Component_Diagram);
+        break;
+
+    case ListPopupMenu::mt_Deployment_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Deployment_Diagram);
+        break;
+
+    case ListPopupMenu::mt_EntityRelationship_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_EntityRelationship_Diagram);
+        break;
+
+    case ListPopupMenu::mt_Sequence_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_Sequence_Diagram);
+        break;
+
+    case ListPopupMenu::mt_State_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_State_Diagram);
+        break;
+
+    case ListPopupMenu::mt_UseCase_Diagram:
+        addNewItem(currItem, UMLListViewItem::lvt_UseCase_Diagram);
+        break;
+
     case ListPopupMenu::mt_Class:
         addNewItem(currItem, UMLListViewItem::lvt_Class);
         break;
@@ -2150,6 +2186,18 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
     if (parent == 0) {
         uError() << "UMLListView::addNewItem - "
                  << UMLListViewItem::toString(type) << ": parentPkg is 0";
+        return;
+    }
+
+    if (Model_Utils::typeIsDiagram(type)) {
+        Uml::DiagramType::Enum diagramType = Model_Utils::convert_LVT_DT(type);
+        QString diagramName = m_doc->createDiagramName(diagramType);
+        if (diagramName.isEmpty()) {
+            // creation was cancelled by the user
+            return;
+        }
+        UMLFolder* parent = dynamic_cast<UMLFolder*>(parentItem->umlObject());
+        UMLApp::app()->executeCommand(new Uml::CmdCreateDiagram(m_doc, diagramType, diagramName, parent));
         return;
     }
 

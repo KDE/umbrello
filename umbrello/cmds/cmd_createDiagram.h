@@ -17,13 +17,14 @@
 
 class UMLDoc;
 class UMLView;
+class UMLFolder;
 
 namespace Uml
 {
     class CmdCreateDiagram : public QUndoCommand
     {
     public:
-        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name);
+        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name, UMLFolder *parent=0);
         ~CmdCreateDiagram();
 
         void redo();
@@ -35,6 +36,7 @@ namespace Uml
         UMLDoc*                 m_pUMLDoc;
         UMLView*                m_pUMLView;
         Uml::ID::Type           m_sceneId;
+        UMLFolder*              m_parent;
     };
 }
 
