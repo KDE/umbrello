@@ -401,6 +401,21 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     m_currentScope.pop_back();
 
+    // check is class is an interface
+    bool isInterface = true;
+    foreach(UMLOperation *op, klass->getOpList()) {
+        if (!op->isDestructorOperation() && op->isAbstract() == false)
+            isInterface = false;
+    }
+
+    foreach(UMLAttribute *attr, klass->getAttributeList()) {
+        if (!(attr->isStatic() && attr->getTypeName().contains(QLatin1String("const"))))
+            isInterface = false;
+    }
+
+    if (isInterface)
+        klass->setBaseType(UMLObject::ot_Interface);
+
     m_currentAccess = oldAccess;
     m_inSlots = oldInSlots;
     m_inSignals = oldInSignals;
