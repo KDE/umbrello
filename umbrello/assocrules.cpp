@@ -409,6 +409,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false },
     { Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false },
     { Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false },
+    { Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false },
     { Uml::AssociationType::Generalization,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     false,  false,  false,  false },
     { Uml::AssociationType::Generalization,   WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       false,  false,  false,  false },
     { Uml::AssociationType::Generalization,   WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false },
