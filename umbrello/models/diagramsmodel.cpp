@@ -15,6 +15,7 @@
 #include "umlview.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "folder.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -39,7 +40,7 @@ int DiagramsModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return 3;
+    return 4;
 }
 
 QVariant DiagramsModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -57,6 +58,8 @@ QVariant DiagramsModel::headerData(int section, Qt::Orientation orientation, int
     else if (section == 1)
         return QVariant(i18n("Type"));
     else if (section == 2)
+        return QVariant(i18n("Folder"));
+    else if (section == 3)
         return QVariant(i18n("Widgets/Associations"));
     else return QVariant();
 }
@@ -84,6 +87,8 @@ QVariant DiagramsModel::data(const QModelIndex & index, int role) const
         return v->umlScene()->name();
     else if (index.column() == 1)
         return Uml::DiagramType::toStringI18n(v->umlScene()->type());
+    else if (index.column() == 2)
+        return v->umlScene()->folder()->name();
     else
         return QVariant(QString::number(v->umlScene()->widgetList().size())
                         + QLatin1String("/")
