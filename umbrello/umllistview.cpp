@@ -45,6 +45,7 @@
 #include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
+#include "models/diagramsmodel.h"
 #include "optionstate.h"
 #include "uniqueid.h"
 #include "idchangelog.h"
@@ -1634,6 +1635,23 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 return 0;
             }
             srcPkg->removeObject(srcObj);
+        }
+    }
+    else if (Model_Utils::typeIsDiagram(srcType)) {
+        UMLView *v = m_doc->findView(srcId);
+        UMLFolder *newParentObj = dynamic_cast<UMLFolder*>(newParent->umlObject());
+        if (v) {
+            UMLFolder *srcPkg = v->umlScene()->folder();
+            if (srcPkg) {
+                if (srcPkg == newParentObj) {
+                    uError() << v->umlScene()->name() << ": Object is already in target package";
+                    return 0;
+                }
+                srcPkg->removeView(v);
+                newParentObj->addView(v);
+                v->umlScene()->setFolder(newParentObj);
+                UMLApp::app()->document()->diagramsModel()->emitDataChanged(v);
+            }
         }
     }
 

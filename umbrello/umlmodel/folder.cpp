@@ -94,7 +94,6 @@ void UMLFolder::addView(UMLView *view)
 void UMLFolder::removeView(UMLView *view)
 {
     m_diagrams.removeAll(view);
-    delete view;
 }
 
 /**
