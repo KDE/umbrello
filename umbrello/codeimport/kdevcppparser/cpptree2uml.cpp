@@ -573,6 +573,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
                                isStatic, isPure, isFriend, isConstructor, m_comment);
+    if  (isPure)
+        c->setAbstract(true);
     m_comment = QString();
 }
 
