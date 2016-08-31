@@ -442,6 +442,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { Uml::AssociationType::Realization,      WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false },
     { Uml::AssociationType::Realization,      WidgetBase::wt_Package,    WidgetBase::wt_Interface,   false,  false,  false,  false },
     { Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   false,  true  },
+    { Uml::AssociationType::Composition,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   false,  false },
     { Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   false,  false },
     { Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false },
     { Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false },
