@@ -330,7 +330,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Aggregation,              i18n("Aggregation"),             Icon_Utils::it_Aggregation,             SLOT(slotAggregation()) },
         { tbb_Relationship,             i18n("Relationship"),            Icon_Utils::it_Relationship,            SLOT(slotRelationship()) },
         { tbb_UniAssociation,           i18n("Directional Association"), Icon_Utils::it_Directional_Association, SLOT(slotUniAssociation()) },
-        { tbb_Generalization,           i18n("Implements"),              Icon_Utils::it_Implements,              SLOT(slotGeneralization()) },
+        { tbb_Generalization,           i18n("Generalization"),          Icon_Utils::it_Generalisation,          SLOT(slotGeneralization()) },
         { tbb_Composition,              i18n("Composition"),             Icon_Utils::it_Composition,             SLOT(slotComposition()) },
         { tbb_UseCase,                  i18n("Use Case"),                Icon_Utils::it_UseCase,                 SLOT(slotUseCase()) },
         { tbb_Class,                    i18nc("UML class", "Class"),     Icon_Utils::it_Class,                   SLOT(slotClass()) },
