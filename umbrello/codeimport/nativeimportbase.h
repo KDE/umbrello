@@ -83,6 +83,7 @@ protected:
     void skipStmt(const QString& until = QLatin1String(";"));
     bool skipToClosing(QChar opener);
 
+    QString lookAhead();
     virtual QString advance();
 
     void pushScope(UMLPackage *p);

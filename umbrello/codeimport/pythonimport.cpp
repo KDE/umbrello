@@ -291,6 +291,50 @@ bool PythonImport::parseStmt()
 
         return true;
     }
+
+    if (lookAhead() == QLatin1String("=")) {
+        QString variable = keyword;
+        advance();
+        QString value = advance();
+        Uml::Visibility::Enum visibility = Uml::Visibility::Public;
+        if (variable.startsWith(QLatin1String("__"))) {
+            visibility = Uml::Visibility::Private;
+            variable.remove(0, 2);
+        } else if (variable.startsWith(QLatin1String("_"))) {
+            visibility = Uml::Visibility::Protected;
+            variable.remove(0, 1);
+        }
+        QString type;
+        if (value == QLatin1String("[")) {
+            if (lookAhead() == QLatin1String("]")) {
+                advance();
+                type = QLatin1String("list");
+                value = QLatin1String("");
+            }
+        } else if (value == QLatin1String("{")) {
+            if (lookAhead() == QLatin1String("}")) {
+                advance();
+                type = QLatin1String("dict");
+                value = QLatin1String("");
+            }
+        } else if (value.startsWith(QLatin1String("\""))) {
+            type = QLatin1String("string");
+        } else if (value.contains(QLatin1String("."))) {
+            type = QLatin1String("float");
+        } else if (value == QLatin1String("True") || value == QLatin1String("False")) {
+            type = QLatin1String("bool");
+        } else if (!value.isEmpty()) {
+            type = QLatin1String("int");
+        }
+
+        UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
+                                                     type, m_comment, false);
+        UMLAttribute* a = dynamic_cast<UMLAttribute*>(o);
+        a->setInitialValue(value);
+        log(QLatin1String("attribute ") + variable);
+        return true;
+    }
+
     if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
             m_klass = dynamic_cast<UMLClassifier*>(popScope());
