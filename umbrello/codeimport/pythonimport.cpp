@@ -207,6 +207,11 @@ QString PythonImport::skipBody()
     return body;
 }
 
+/**
+ * Parse assignments in the form <identifier> '=' <value>
+ * Instance variables are identified by a prefixed 'self.'.
+ * @return success status of parsing
+ */
 bool PythonImport::parseAssignmentStmt(const QString keyword)
 {
     QString variable = keyword;
@@ -263,7 +268,7 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
 bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex];
+    QString keyword = m_source[m_srcIndex];
     if (keyword == QLatin1String("class")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
@@ -330,11 +335,34 @@ bool PythonImport::parseStmt()
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isStatic = false;
+        int srcIndex = m_srcIndex;
         op->setSourceCode(skipBody());
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
             op->setDoc(m_comment);
             m_comment = QString();
+        }
+
+        // parse instance variables from __init__ method
+        if (name == QLatin1String("__init__")) {
+            int indexSave = m_srcIndex;
+            m_srcIndex = srcIndex;
+            advance();
+            keyword = advance();
+            while (m_srcIndex < indexSave) {
+                if (lookAhead() == QLatin1String("=")) {
+                    parseAssignmentStmt(keyword);
+                    // skip ; inserted by lexer
+                    if (lookAhead() == QLatin1String(";")) {
+                        advance();
+                        keyword = advance();
+                    }
+                } else {
+                    skipStmt(QLatin1String(";"));
+                    keyword = advance();
+                }
+            }
+            m_srcIndex = indexSave;
         }
         log(QLatin1String("def ") + name);
 
