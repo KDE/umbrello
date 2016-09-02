@@ -10,9 +10,12 @@
 
 #include "documentationwidget.h"
 
+#include "codetextedit.h"
+#include "operation.h"
 #include "umlobject.h"
 #include "umlwidget.h"
 
+#include <KTabWidget>
 #include <KTextEdit>
 #include <KLocalizedString>
 
@@ -48,8 +51,13 @@ DocumentationWidget::~DocumentationWidget()
  */
 void DocumentationWidget::apply()
 {
-    if (m_object)
+    if (m_object) {
         m_object->setDoc(m_editField->toPlainText());
+        if (m_object->isUMLOperation()) {
+            UMLOperation *o = m_object->asUMLOperation();
+            o->setSourceCode(m_codeEditField->toPlainText());
+        }
+    }
     else if (m_widget)
         m_widget->setDocumentation(m_editField->toPlainText());
 }
@@ -68,9 +76,22 @@ void DocumentationWidget::init(const QString &text)
     m_editField->setWordWrapMode(QTextOption::WordWrap);
     m_editField->setText(text);
     setFocusProxy(m_editField);
-
     QHBoxLayout *layout = new QHBoxLayout(m_box);
-    layout->addWidget(m_editField);
+    if (m_object && m_object->isUMLOperation()) {
+        UMLOperation *o = m_object->asUMLOperation();
+        m_codeEditField = new CodeTextEdit();
+        m_codeEditField->setPlainText(o->getSourceCode());
+#if QT_VERSION >= 0x050000
+        QTabWidget* tabWidget = new QTabWidget();
+#else
+        KTabWidget* tabWidget = new KTabWidget();
+#endif
+        tabWidget->addTab(m_editField, i18n("Comment"));
+        tabWidget->addTab(m_codeEditField, i18n("Source Code"));
+        layout->addWidget(tabWidget);
+    } else {
+        layout->addWidget(m_editField);
+    }
     layout->setMargin(fontMetrics().height());
     l->addWidget(m_box);
     setLayout(l);
