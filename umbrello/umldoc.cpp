@@ -285,6 +285,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
             UMLApp::app()->setDiagramMenuItemsState(true);
         }
     }
+    delete view;
 }
 
 /**

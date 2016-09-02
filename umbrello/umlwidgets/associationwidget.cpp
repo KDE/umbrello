@@ -324,7 +324,7 @@ UMLClassifier *AssociationWidget::operationOwner()
  */
 UMLOperation *AssociationWidget::operation()
 {
-    return dynamic_cast<UMLOperation*>(m_umlObject);
+    return dynamic_cast<UMLOperation*>(m_umlObject.data());
 }
 
 /**
@@ -567,7 +567,7 @@ UMLAssociation* AssociationWidget::association() const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return NULL;
-    return static_cast<UMLAssociation*>(m_umlObject);
+    return dynamic_cast<UMLAssociation*>(m_umlObject.data());
 }
 
 /**
@@ -583,7 +583,7 @@ UMLAttribute* AssociationWidget::attribute() const
     UMLObject::ObjectType ot = m_umlObject->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
         return NULL;
-    return static_cast<UMLAttribute*>(m_umlObject);
+    return dynamic_cast<UMLAttribute*>(m_umlObject.data());
 }
 
 #if 0  //:TODO:
@@ -1039,7 +1039,7 @@ QString AssociationWidget::roleDocumentation(Uml::RoleType::Enum role) const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return QString();
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = dynamic_cast<UMLAssociation*>(m_umlObject.data());
     return umla->getRoleDoc(role);
 }
 
@@ -1157,7 +1157,7 @@ Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum ro
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = dynamic_cast<UMLAssociation*>(m_umlObject.data());
     return umla->changeability(role);
 }
 
@@ -1462,7 +1462,7 @@ Uml::AssociationType::Enum AssociationWidget::associationType() const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = dynamic_cast<UMLAssociation*>(m_umlObject.data());
     return umla->getAssocType();
 }
 
@@ -1511,7 +1511,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
 {
     if (m_role[role].umlWidget == NULL) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+            UMLAssociation *umla = dynamic_cast<UMLAssociation*>(m_umlObject.data());
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
@@ -1530,7 +1530,7 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
 {
     if (m_role[role].umlWidget == NULL) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+            UMLAssociation *umla = dynamic_cast<UMLAssociation*>(m_umlObject.data());
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";

@@ -208,13 +208,67 @@ QString PythonImport::skipBody()
 }
 
 /**
+ * Parse assignments in the form <identifier> '=' <value>
+ * Instance variables are identified by a prefixed 'self.'.
+ * @return success status of parsing
+ */
+bool PythonImport::parseAssignmentStmt(const QString keyword)
+{
+    QString variable = keyword;
+    advance();
+    QString value = advance();
+    bool isStatic = true;
+    if (variable.startsWith(QLatin1String("self."))) {
+        variable.remove(0,5);
+        isStatic = false;
+    }
+    Uml::Visibility::Enum visibility = Uml::Visibility::Public;
+    if (variable.startsWith(QLatin1String("__"))) {
+        visibility = Uml::Visibility::Private;
+        variable.remove(0, 2);
+    } else if (variable.startsWith(QLatin1String("_"))) {
+        visibility = Uml::Visibility::Protected;
+        variable.remove(0, 1);
+    }
+    QString type;
+    if (value == QLatin1String("[")) {
+        if (lookAhead() == QLatin1String("]")) {
+            advance();
+            type = QLatin1String("list");
+            value = QLatin1String("");
+        }
+    } else if (value == QLatin1String("{")) {
+        if (lookAhead() == QLatin1String("}")) {
+            advance();
+            type = QLatin1String("dict");
+            value = QLatin1String("");
+        }
+    } else if (value.startsWith(QLatin1String("\""))) {
+        type = QLatin1String("string");
+    } else if (value.contains(QLatin1String("."))) {
+        type = QLatin1String("float");
+    } else if (value == QLatin1String("True") || value == QLatin1String("False")) {
+        type = QLatin1String("bool");
+    } else if (!value.isEmpty()) {
+        type = QLatin1String("int");
+    }
+
+    UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
+                                                 type, m_comment, false);
+    UMLAttribute* a = dynamic_cast<UMLAttribute*>(o);
+    a->setInitialValue(value);
+    a->setStatic(isStatic);
+    return true;
+}
+
+/**
  * Implement abstract operation from NativeImportBase.
  * @return success status of operation
  */
 bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex];
+    QString keyword = m_source[m_srcIndex];
     if (keyword == QLatin1String("class")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
@@ -281,16 +335,47 @@ bool PythonImport::parseStmt()
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isStatic = false;
+        int srcIndex = m_srcIndex;
         op->setSourceCode(skipBody());
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
             op->setDoc(m_comment);
             m_comment = QString();
         }
+
+        // parse instance variables from __init__ method
+        if (name == QLatin1String("__init__")) {
+            int indexSave = m_srcIndex;
+            m_srcIndex = srcIndex;
+            advance();
+            keyword = advance();
+            while (m_srcIndex < indexSave) {
+                if (lookAhead() == QLatin1String("=")) {
+                    parseAssignmentStmt(keyword);
+                    // skip ; inserted by lexer
+                    if (lookAhead() == QLatin1String(";")) {
+                        advance();
+                        keyword = advance();
+                    }
+                } else {
+                    skipStmt(QLatin1String(";"));
+                    keyword = advance();
+                }
+            }
+            m_srcIndex = indexSave;
+        }
         log(QLatin1String("def ") + name);
 
         return true;
     }
+
+    // parse class variables
+    if (m_klass && lookAhead() == QLatin1String("=")) {
+        bool result = parseAssignmentStmt(keyword);
+        log(QLatin1String("class attribute ") + keyword);
+        return result;
+    }
+
     if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
             m_klass = dynamic_cast<UMLClassifier*>(popScope());

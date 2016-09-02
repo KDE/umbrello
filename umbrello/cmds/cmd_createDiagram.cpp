@@ -20,12 +20,13 @@
 namespace Uml
 {
 
-    CmdCreateDiagram::CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name)
+    CmdCreateDiagram::CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name, UMLFolder *parent)
       : QUndoCommand(),
         m_name(name),
         m_type(type),
         m_pUMLDoc(doc),
-        m_pUMLView(0)
+        m_pUMLView(0),
+        m_parent(parent)
     {
         QString msg = i18n("Create diagram %1: %2", DiagramType::toString(type), name);
         setText(msg);
@@ -41,7 +42,7 @@ namespace Uml
     {
         if (!m_pUMLDoc->findView(m_type, m_name, true)) {
             Uml::ModelType::Enum modelType = Model_Utils::convert_DT_MT(m_type);
-            UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
+            UMLFolder* folder = m_parent ? m_parent : m_pUMLDoc->rootFolder(modelType);
             m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name, m_sceneId);
         }
 
