@@ -21,7 +21,32 @@
 #include <QPointer>
 #include <QString>
 
+class UMLActor;
+class UMLArtifact;
+class UMLAssociation;
+class UMLAttribute;
+class UMLCanvasObject;
+class UMLCategory;
+class UMLCheckConstraint;
+class UMLClassifier;
+class UMLClassifierSet;
+class UMLComponent;
+class UMLEntity;
+class UMLEntityAttribute;
+class UMLEntityConstraint;
+class UMLEnum;
+class UMLEnumLiteral;
+class UMLFolder;
+class UMLForeignKeyConstraint;
+class UMLNode;
+class UMLOperation;
+class UMLPackage;
+class UMLPort;
+class UMLRole;
 class UMLStereotype;
+class UMLTemplate;
+class UMLUniqueConstraint;
+class UMLUseCase;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -155,6 +180,61 @@ public:
     QDomElement save(const QString &tag, QDomDocument & qDoc);
 
     friend QDebug operator<< (QDebug out, const UMLObject& obj);
+
+    bool isUMLActor() { return baseType() == ot_Actor; }
+    bool isUMLArtifact() { return baseType() == ot_Artifact; }
+    bool isUMLAssociation() { return baseType() == ot_Association; }
+    bool isUMLAttribute() { return baseType() == ot_Attribute; }
+    //bool isUMLCanvasObject() { return baseType() == ot_CanvasObject; }
+    bool isUMLCategory() { return baseType() == ot_Category; }
+    bool isUMLCheckConstraint() { return baseType() == ot_CheckConstraint; }
+    bool isUMLClassifier() { return baseType() == ot_Class; }
+    bool isUMLComponent() { return baseType() == ot_Component; }
+    bool isUMLEntity() { return baseType() == ot_Entity; }
+    bool isUMLEntityAttribute() { return baseType() == ot_EntityAttribute; }
+    bool isUMLEntityConstraint() { return baseType() == ot_EntityConstraint; }
+    bool isUMLEnum() { return baseType() == ot_Enum; }
+    bool isUMLEnumLiteral() { return baseType() == ot_EnumLiteral; }
+    bool isUMLFolder() { return baseType() == ot_Folder; }
+    bool isUMLForeignKeyConstraint() { return baseType() == ot_ForeignKeyConstraint; }
+    bool isUMLNode() { return baseType() == ot_Node; }
+    bool isUMLObject() { return baseType() == ot_UMLObject; }
+    bool isUMLOperation() { return baseType() == ot_Operation; }
+    bool isUMLPackage() { return baseType() == ot_Package; }
+    bool isUMLPort() { return baseType() == ot_Port; }
+    bool isUMLRole() { return baseType() == ot_Role; }
+    bool isUMLStereotype() { return baseType() == ot_Stereotype; }
+    bool isUMLTemplate() { return baseType() == ot_Template; }
+    bool isUMLUniqueConstraint() { return baseType() == ot_UniqueConstraint; }
+    bool isUMLUseCase() { return baseType() == ot_UseCase; }
+
+    UMLActor* asUMLActor();
+    UMLArtifact* asUMLArtifact();
+    UMLAssociation* asUMLAssociation();
+    UMLAttribute* asUMLAttribute();
+    UMLCanvasObject* asUMLCanvasObject();
+    UMLCategory* asUMLCategory();
+    UMLCheckConstraint* asUMLCheckConstraint();
+    UMLClassifier* asUMLClassifier();
+    UMLClassifierSet* asUMLClassifierSet();
+    UMLComponent* asUMLComponent();
+    UMLEntity* asUMLEntity();
+    UMLEntityAttribute* asUMLEntityAttribute();
+    UMLEntityConstraint* asUMLEntityConstraint();
+    UMLEnum* asUMLEnum();
+    UMLEnumLiteral* asUMLEnumLiteral();
+    UMLFolder* asUMLFolder();
+    UMLForeignKeyConstraint* asUMLForeignKeyConstraint();
+    UMLNode* asUMLNode();
+    UMLObject* asUMLObject();
+    UMLOperation* asUMLOperation();
+    UMLPackage* asUMLPackage();
+    UMLPort* asUMLPort();
+    UMLRole* asUMLRole();
+    UMLStereotype* asUMLStereotype();
+    UMLTemplate* asUMLTemplate();
+    UMLUniqueConstraint* asUMLUniqueConstraint();
+    UMLUseCase* asUMLUseCase();
 
 public slots:
     void emitModified();
