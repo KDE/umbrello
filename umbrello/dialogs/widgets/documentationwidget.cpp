@@ -15,12 +15,17 @@
 #include "umlobject.h"
 #include "umlwidget.h"
 
+#if QT_VERSION < 0x050000
 #include <KTabWidget>
+#endif
 #include <KTextEdit>
 #include <KLocalizedString>
 
 #include <QGroupBox>
 #include <QHBoxLayout>
+#if QT_VERSION >= 0x050000
+#include <QTabWidget>
+#endif
 
 DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     QWidget(parent),
