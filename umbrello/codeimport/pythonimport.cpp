@@ -217,6 +217,9 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
     QString variable = keyword;
     advance();
     QString value = advance();
+    if (value == QLatin1String("-"))
+        value.append(advance());
+
     bool isStatic = true;
     if (variable.startsWith(QLatin1String("self."))) {
         variable.remove(0,5);
@@ -245,11 +248,11 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
         }
     } else if (value.startsWith(QLatin1String("\""))) {
         type = QLatin1String("string");
-    } else if (value.contains(QLatin1String("."))) {
-        type = QLatin1String("float");
     } else if (value == QLatin1String("True") || value == QLatin1String("False")) {
         type = QLatin1String("bool");
-    } else if (!value.isEmpty()) {
+    } else if (value.contains(QRegExp(QLatin1String("-?\\d+\\.\\d*")))) {
+        type = QLatin1String("float");
+    } else if (value.contains(QRegExp(QLatin1String("-?\\d+")))) {
         type = QLatin1String("int");
     }
 
