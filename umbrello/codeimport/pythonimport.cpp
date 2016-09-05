@@ -254,6 +254,8 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
         type = QLatin1String("float");
     } else if (value.contains(QRegExp(QLatin1String("-?\\d+")))) {
         type = QLatin1String("int");
+    } else if (!value.isEmpty()) {
+        type = QLatin1String("object");
     }
 
     UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,

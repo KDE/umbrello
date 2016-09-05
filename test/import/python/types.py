@@ -12,6 +12,7 @@ class Types():
   class_variable_string="1234"
   class_variable_list=[]
   class_variable_dict={}
+  class_variable_object=bpy.types.render
 
   # We import instance variables only from __init__()
   def __init__():
@@ -25,7 +26,7 @@ class Types():
     self.instance_variable_string="1234"
     self.instance_variable_list=[]
     self.instance_variable_dict={}
-
+    self.instance_variable_object=bpy.types.render
 
   def test():
     pass
