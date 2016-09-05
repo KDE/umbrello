@@ -301,7 +301,7 @@ QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
  */
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
-    UMLOperation *op = dynamic_cast<UMLOperation*>(o);
+    UMLOperation *op = o->asUMLOperation();
     if (op == NULL) {
         uError() << "arg is not a UMLOperation";
         return;

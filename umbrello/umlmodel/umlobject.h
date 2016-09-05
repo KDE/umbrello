@@ -29,6 +29,7 @@ class UMLCanvasObject;
 class UMLCategory;
 class UMLCheckConstraint;
 class UMLClassifier;
+class UMLClassifierListItem;
 class UMLClassifierSet;
 class UMLComponent;
 class UMLEntity;
@@ -216,6 +217,7 @@ public:
     UMLCategory* asUMLCategory();
     UMLCheckConstraint* asUMLCheckConstraint();
     UMLClassifier* asUMLClassifier();
+    UMLClassifierListItem* asUMLClassifierListItem();
     UMLClassifierSet* asUMLClassifierSet();
     UMLComponent* asUMLComponent();
     UMLEntity* asUMLEntity();

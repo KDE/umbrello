@@ -209,7 +209,7 @@ bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) const
  */
 void UMLEntityAttribute::copyInto(UMLObject *lhs) const
 {
-    UMLEntityAttribute *target = static_cast<UMLEntityAttribute*>(lhs);
+    UMLEntityAttribute *target = lhs->asUMLEntityAttribute();
 
     // call the parent first.
     UMLClassifierListItem::copyInto(target);

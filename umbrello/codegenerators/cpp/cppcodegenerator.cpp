@@ -348,7 +348,7 @@ void CPPCodeGenerator::checkAddUMLObject(UMLObject * obj)
     if (isReservedKeyword(obj->name()))
         return;
 
-    UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier * c = obj->asUMLClassifier();
     if(c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
         CPPHeaderCodeDocument * hcodeDoc = newHeaderClassifierCodeDocument(c);
@@ -370,7 +370,7 @@ void CPPCodeGenerator::checkRemoveUMLObject(UMLObject * obj)
     if (!obj)
         return;
 
-    UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier * c = obj->asUMLClassifier();
     if(c) {
         // source
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);

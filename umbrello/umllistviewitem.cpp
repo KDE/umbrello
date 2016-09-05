@@ -115,7 +115,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         m_id = Uml::ID::None;
         updateFolder();
     } else {
-        UMLClassifierListItem *umlchild = dynamic_cast<UMLClassifierListItem*>(o);
+        UMLClassifierListItem *umlchild = o->asUMLClassifierListItem();
         if (umlchild)
             parent->addClassifierListItem(umlchild, this);
         updateObject();
@@ -206,12 +206,12 @@ QString UMLListViewItem::toolTip()
                 return obj->doc();
             case UMLObject::ot_Operation:
             {
-                UMLOperation *op = static_cast<UMLOperation*>(obj);
+                UMLOperation *op = obj->asUMLOperation();
                 return op->toString(Uml::SignatureType::ShowSig);
             }
             case UMLObject::ot_Attribute:
             {
-                UMLAttribute *at = static_cast<UMLAttribute*>(obj);
+                UMLAttribute *at = obj->asUMLAttribute();
                 return at->toString(Uml::SignatureType::ShowSig);
             }
             default:
@@ -342,7 +342,7 @@ void UMLListViewItem::updateObject()
     UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();
     if (Model_Utils::isClassifierListitem(ot)) {
-        UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_object);
+        UMLClassifierListItem *pNarrowed = m_object->asUMLClassifierListItem();
         modelObjText = pNarrowed->toString(Uml::SignatureType::SigNoVis);
     }
     setText(modelObjText);
@@ -509,7 +509,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             cancelRenameWithMsg();
             return;
         }
-        UMLOperation *op = static_cast<UMLOperation*>(m_object);
+        UMLOperation *op = m_object->asUMLOperation();
         UMLClassifier *parent = static_cast<UMLClassifier *>(op->parent());
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
@@ -572,7 +572,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 return;
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, nt.m_name));
-            UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_object);
+            UMLAttribute *pAtt = m_object->asUMLAttribute();
             pAtt->setType(nt.m_type);
             pAtt->setVisibility(vis);
             pAtt->setParmKind(nt.m_direction);
@@ -607,7 +607,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, name));
 
-            UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_object);
+            UMLEntityConstraint* uec = m_object->asUMLEntityConstraint();
             m_label = uec->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
@@ -633,7 +633,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 return;
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, nt.m_name));
-            UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_object);
+            UMLTemplate *tmpl = m_object->asUMLTemplate();
             tmpl->setType(nt.m_type);
             m_label = tmpl->toString(Uml::SignatureType::SigNoVis);
         } else {
@@ -701,7 +701,7 @@ void UMLListViewItem::cancelRenameWithMsg()
 #if 0
 int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) const
 {
-    UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
+    UMLListViewItem *ulvi = other->asUMLListViewItem();
     ListViewType ourType = type();
     ListViewType otherType = ulvi->type();
 
@@ -754,8 +754,8 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
 #endif
         return retval;
     }
-    UMLClassifierListItem *thisUmlItem = dynamic_cast<UMLClassifierListItem*>(m_object);
-    UMLClassifierListItem *otherUmlItem = dynamic_cast<UMLClassifierListItem*>(otherObj);
+    UMLClassifierListItem *thisUmlItem = m_object->asUMLClassifierListItem();
+    UMLClassifierListItem *otherUmlItem = otherObj->asUMLClassifierListItem();
     if (thisUmlItem == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
@@ -892,7 +892,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         if (m_type != lvt_View)
             itemElement.setAttribute(QLatin1String("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
-        extFolder = static_cast<UMLFolder*>(m_object);
+        extFolder = m_object->asUMLFolder();
         if (!extFolder->folderFile().isEmpty()) {
             itemElement.setAttribute(QLatin1String("open"), QLatin1String("0"));
             qElement.appendChild(itemElement);

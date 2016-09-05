@@ -88,7 +88,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
     // we need to create an index on the referenced attributes before we can create a foreign key constraint in MySQL
 
     foreach(UMLClassifierListItem* cli, constrList) {
-        UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(cli);
+        UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
 
         QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap = fkc->getEntityAttributePairs();
 

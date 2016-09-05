@@ -70,7 +70,7 @@ void UMLAttributeDialog::setupDialog()
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
-    m_datatypeWidget = new UMLDatatypeWidget(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+    m_datatypeWidget = new UMLDatatypeWidget(m_pAttribute->asUMLClassifierListItem());
     m_datatypeWidget->addToLayout(valuesLayout, 0);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 1,

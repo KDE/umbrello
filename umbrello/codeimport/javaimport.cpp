@@ -224,7 +224,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                                                                   name, parent);
-                    current = static_cast<UMLPackage*>(ns);
+                    current = ns->asUMLPackage();
                     parent = current;
                 } // for
                 if (isArray) {
@@ -285,7 +285,7 @@ bool JavaImport::parseStmt()
             log(keyword + QLatin1Char(' ') + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                             name, currentScope(), m_comment);
-            pushScope(static_cast<UMLPackage*>(ns));
+            pushScope(ns->asUMLPackage());
         }
         if (advance() != QLatin1String(";")) {
             uError() << "importJava: unexpected: " << m_source[m_srcIndex];
@@ -299,7 +299,7 @@ bool JavaImport::parseStmt()
                                                                             : UMLObject::ot_Interface);
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
-        m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = ns->asUMLClassifier();
         pushScope(m_klass);
         m_klass->setStatic(m_isStatic);
         m_klass->setVisibilityCmd(m_currentAccess);
@@ -349,7 +349,7 @@ bool JavaImport::parseStmt()
             // create a placeholder
             UMLObject *parent = resolveClass(baseName);
             if (parent) {
-                Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(parent));
+                Import_Utils::createGeneralization(m_klass, parent->asUMLClassifier());
             } else {
                 uDebug() << "importJava parentClass " << baseName
                     << " is not resolveable. Creating placeholder";
@@ -364,7 +364,7 @@ bool JavaImport::parseStmt()
                 // create a placeholder
                 UMLObject *interface = resolveClass(baseName);
                 if (interface) {
-                     Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
+                     Import_Utils::createGeneralization(m_klass, interface->asUMLClassifier());
                 } else {
                     uDebug() << "importJava implementing interface "<< baseName
                         <<" is not resolvable. Creating placeholder";
@@ -386,7 +386,7 @@ bool JavaImport::parseStmt()
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
-        UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+        UMLEnum *enumType = ns->asUMLEnum();
         skipStmt(QLatin1String("{"));
         while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("}")) {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
@@ -467,7 +467,7 @@ bool JavaImport::parseStmt()
     }
     if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
-            m_klass = dynamic_cast<UMLClassifier*>(popScope());
+            m_klass = popScope()->asUMLClassifier();
         }
         else
             uError() << "importJava: too many }";
@@ -599,13 +599,13 @@ bool JavaImport::parseStmt()
         if (type) {
             Import_Utils::insertAttribute(
                         m_klass, m_currentAccess, name,
-                        static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
+                        type->asUMLClassifier(), m_comment, m_isStatic);
         } else {
             Import_Utils::insertAttribute(
                         m_klass, m_currentAccess, name,
                         typeName, m_comment, m_isStatic);
         }
-        // UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        // UMLAttribute *attr = o->asUMLAttribute();
         if (nextToken != QLatin1String(",")) {
             // reset the modifiers
             m_isStatic = m_isAbstract = false;

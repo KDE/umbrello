@@ -55,7 +55,7 @@ StereotypesWindow::~StereotypesWindow()
 
 void StereotypesWindow::modified()
 {
-    UMLStereotype *o = static_cast<UMLStereotype*>(QObject::sender());
+    UMLStereotype *o = dynamic_cast<UMLStereotype*>(QObject::sender());
     if (!o)
         return;
     int index = UMLApp::app()->document()->stereotypes().indexOf(o);

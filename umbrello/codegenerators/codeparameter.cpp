@@ -147,7 +147,7 @@ UMLObject * CodeParameter::getParentObject()
 // this is kind of broken for UMLRoles.
 QString CodeParameter::ID()
 {
-    UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
+    UMLRole * role = m_parentObject->asUMLRole();
     if (role)
     {
         // cant use Role "ID" as that is used to distinquish if its
@@ -171,7 +171,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
+    UMLRole * role = m_parentObject->asUMLRole();
     if (role)
         blockElement.setAttribute(QLatin1String("role_id"), role->role());
     else
@@ -212,7 +212,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         // might ripple throughout the code and cause problems. Thus, since the
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
-        UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
+        UMLAssociation * assoc = obj->asUMLAssociation();
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;

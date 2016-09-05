@@ -245,16 +245,16 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
     const UMLObject::ObjectType ot = obj->baseType();
     switch (ot) {
         case UMLObject::ot_Association:
-            setUMLAssociation(dynamic_cast<UMLAssociation*>(obj));
+            setUMLAssociation(obj->asUMLAssociation());
             break;
         case UMLObject::ot_Operation:
-            setOperation(dynamic_cast<UMLOperation*>(obj));
+            setOperation(obj->asUMLOperation());
             break;
         case UMLObject::ot_Attribute:
             klass = static_cast<UMLClassifier*>(obj->parent());
             connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-            attr = static_cast<UMLAttribute*>(obj);
+            attr = obj->asUMLAttribute();
             connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;
         case UMLObject::ot_EntityAttribute:
@@ -311,7 +311,7 @@ UMLClassifier *AssociationWidget::operationOwner()
     if (!o) {
         return 0;
     }
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     if (!c) {
         uError() << "widgetForRole(" << role << ") is not a classifier";
     }
@@ -493,7 +493,7 @@ QString AssociationWidget::lwOperationText()
 UMLClassifier* AssociationWidget::lwClassifier()
 {
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     return c;
 }
 
@@ -727,7 +727,7 @@ bool AssociationWidget::activate()
         } else {
             const UMLObject::ObjectType ot = myObj->baseType();
             if (ot == UMLObject::ot_Association) {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                UMLAssociation * myAssoc = myObj->asUMLAssociation();
                 setUMLAssociation(myAssoc);
             } else {
                 setUMLObject(myObj);
@@ -4288,7 +4288,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             if (ot != UMLObject::ot_Association) {
                 setUMLObject(myObj);
             } else {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                UMLAssociation * myAssoc = myObj->asUMLAssociation();
                 setUMLAssociation(myAssoc);
                 if (type == QLatin1String("-1"))
                     aType = myAssoc->getAssocType();

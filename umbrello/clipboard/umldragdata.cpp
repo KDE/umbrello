@@ -846,7 +846,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
             uError() << "Bad parent for view.";
             return false;
         }
-        UMLFolder *f = static_cast<UMLFolder*>(po);
+        UMLFolder *f = po->asUMLFolder();
         UMLView* view = new UMLView(f);
         view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);

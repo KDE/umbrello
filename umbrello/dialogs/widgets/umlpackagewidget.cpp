@@ -52,7 +52,7 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
     UMLPackage* parentPackage = o->umlPackage();
 
     UMLPackage* folderLogicalView =
-            static_cast<UMLPackage*>(UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical));
+            UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical)->asUMLPackage();
     if (parentPackage == NULL ||
          parentPackage == folderLogicalView) {
         m_editField->setEditText(QString());

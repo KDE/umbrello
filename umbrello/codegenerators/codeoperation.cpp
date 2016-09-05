@@ -63,7 +63,7 @@ QList<CodeParameter*> CodeOperation::getParameterList ()
 
 UMLOperation * CodeOperation::getParentOperation()
 {
-    return dynamic_cast<UMLOperation*>(getParentObject());
+    return getParentObject()->asUMLOperation();
 }
 
 /**
@@ -119,7 +119,7 @@ void CodeOperation::setAttributesFromNode (QDomElement & element)
     QString idStr = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
-    UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+    UMLOperation * op = obj->asUMLOperation();
 
     if (op)
         init(op);

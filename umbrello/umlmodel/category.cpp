@@ -44,7 +44,7 @@ void UMLCategory::init()
  */
 void UMLCategory::copyInto(UMLObject *lhs) const
 {
-    UMLCategory *target = static_cast<UMLCategory*>(lhs);
+    UMLCategory *target = lhs->asUMLCategory();
 
     // call the parent first
     UMLCanvasObject::copyInto(target);

@@ -109,7 +109,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     foreach (entityattribute, list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
-        UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityattribute);
+        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
         if(casted && casted->indexType() == UMLEntityAttribute::Primary)
         {
             font.setUnderline(true);
@@ -159,7 +159,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
             UMLApp::app()->document()->setModified();
 
             if (sel == ListPopupMenu::mt_PrimaryKeyConstraint) {
-                UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
+                UMLUniqueConstraint* uc = obj->asUMLUniqueConstraint();
                 dynamic_cast<UMLEntity*>(m_umlObject.data())->setAsPrimaryKey(uc);
             }
         }

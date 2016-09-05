@@ -54,7 +54,7 @@ void UMLForeignKeyConstraint::init()
 
      // should be NULL actually
      // self referencing assigned to protect default behaviour
-     m_ReferencedEntity = static_cast<UMLEntity*>(parent());
+     m_ReferencedEntity = parent()->asUMLEntity();
 
      m_UpdateAction = uda_NoAction;
      m_DeleteAction = uda_NoAction;
@@ -90,7 +90,7 @@ UMLForeignKeyConstraint::~UMLForeignKeyConstraint()
  */
 void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 {
-    UMLForeignKeyConstraint *target = static_cast<UMLForeignKeyConstraint*>(lhs);
+    UMLForeignKeyConstraint *target = lhs->asUMLForeignKeyConstraint();
 
     // call the parent first.
     UMLEntityConstraint::copyInto(target);
@@ -108,7 +108,7 @@ void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLForeignKeyConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint(static_cast<UMLObject*>(parent()));
+    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint(parent()->asUMLObject());
     copyInto(clone);
     return clone;
 }
@@ -274,7 +274,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
     Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute(QLatin1String("referencedEntity")));
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
-    m_ReferencedEntity = static_cast<UMLEntity*>(obj);
+    m_ReferencedEntity = obj->asUMLEntity();
 
     if (m_ReferencedEntity == NULL) {
         // save for resolving later
@@ -299,9 +299,9 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
             Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
             Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 
-            UMLEntity* parentEntity = static_cast<UMLEntity*>(parent());
+            UMLEntity* parentEntity = parent()->asUMLEntity();
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
-            UMLEntityAttribute* key = static_cast<UMLEntityAttribute*>(keyObj);
+            UMLEntityAttribute* key = keyObj->asUMLEntityAttribute();
 
             if (keyObj == NULL) {
                 uWarning() << "unable to resolve foreign key referencing attribute " << xmiKey;
@@ -314,7 +314,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
                 if (valueObj == NULL) {
                     uWarning() << "unable to resolve foreign key referenced attribute" << xmiValue;
                 } else {
-                    m_AttributeMap[key] = static_cast<UMLEntityAttribute*>(valueObj);
+                    m_AttributeMap[key] = valueObj->asUMLEntityAttribute();
                 }
             }
 
@@ -382,7 +382,7 @@ bool UMLForeignKeyConstraint::resolveRef()
     //resolve the referenced entity
     if (!Uml::ID::toString(m_pReferencedEntityID).isEmpty()) {
         UMLObject* obj = doc->findObjectById(m_pReferencedEntityID);
-        m_ReferencedEntity = static_cast<UMLEntity*>(obj);
+        m_ReferencedEntity = obj->asUMLEntity();
         if (m_ReferencedEntity == NULL) {
             success = false;
         }
@@ -392,7 +392,7 @@ bool UMLForeignKeyConstraint::resolveRef()
     for (i = m_pEntityAttributeIDMap.begin(); i!= m_pEntityAttributeIDMap.end() ; ++i) {
        if (!Uml::ID::toString(i.value()).isEmpty()) {
            UMLObject* obj = doc->findObjectById(i.value());
-           m_AttributeMap[i.key()] = static_cast<UMLEntityAttribute*>(obj);
+           m_AttributeMap[i.key()] = obj->asUMLEntityAttribute();
            if (m_AttributeMap[i.key()] == NULL) {
                success = false;
            }

@@ -1193,6 +1193,7 @@ UMLCanvasObject* UMLObject::asUMLCanvasObject() { return dynamic_cast<UMLCanvasO
 UMLCategory* UMLObject::asUMLCategory() { return dynamic_cast<UMLCategory*>(this); }
 UMLCheckConstraint* UMLObject::asUMLCheckConstraint() { return dynamic_cast<UMLCheckConstraint*>(this); }
 UMLClassifier* UMLObject::asUMLClassifier() { return dynamic_cast<UMLClassifier*>(this); }
+UMLClassifierListItem *UMLObject::asUMLClassifierListItem() { return dynamic_cast<UMLClassifierListItem*>(this); }
 UMLComponent* UMLObject::asUMLComponent() { return dynamic_cast<UMLComponent*>(this); }
 UMLEntity* UMLObject::asUMLEntity() { return dynamic_cast<UMLEntity*>(this); }
 UMLEntityAttribute* UMLObject::asUMLEntityAttribute() { return dynamic_cast<UMLEntityAttribute*>(this); }

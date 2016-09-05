@@ -227,7 +227,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
     } else if (parameterlessOpNeedsParentheses) {
         s.append(QLatin1String("()"));
     }
-    UMLClassifier *ownParent = static_cast<UMLClassifier*>(parent());
+    UMLClassifier *ownParent = parent()->asUMLClassifier();
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
     if (retType) {
@@ -309,7 +309,7 @@ bool UMLOperation::operator==(const UMLOperation & rhs) const
  */
 void UMLOperation::copyInto(UMLObject *lhs) const
 {
-    UMLOperation *target = static_cast<UMLOperation*>(lhs);
+    UMLOperation *target = lhs->asUMLOperation();
 
     UMLClassifierListItem::copyInto(target);
 
@@ -322,7 +322,7 @@ void UMLOperation::copyInto(UMLObject *lhs) const
 UMLObject* UMLOperation::clone() const
 {
     //FIXME: The new operation should be slaved to the NEW parent not the old.
-    UMLOperation *clone = new UMLOperation(static_cast<UMLClassifier*>(parent()));
+    UMLOperation *clone = new UMLOperation(parent()->asUMLClassifier());
     copyInto(clone);
 
     return clone;

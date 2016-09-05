@@ -121,7 +121,7 @@ void CategoryWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
-    UMLCategory* catObj = static_cast<UMLCategory*>(umlObject());
+    UMLCategory* catObj = umlObject()->asUMLCategory();
     if (!catObj) {
         uWarning() << "No UMLCategory for this widget.";
         return;

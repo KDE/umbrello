@@ -112,7 +112,7 @@ void UMLRole::setObject(UMLObject *obj)
     // parent objects. In fact, there is probably good reason
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
-    if (obj && dynamic_cast<UMLRole*>(obj)) {
+    if (obj && obj->asUMLRole()) {
         uError() << "UMLRole(" << Uml::ID::toString(m_nId) << ") cannot setObject() to another UMLRole("
             << Uml::ID::toString(obj->id()) << ")";
         return;

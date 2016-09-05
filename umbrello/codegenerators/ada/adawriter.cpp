@@ -122,7 +122,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = NULL;
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
+    UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == NULL) {
         retval = className;
         if (c == NULL || !isOOClass(c))
@@ -309,7 +309,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
 
     if (c->baseType() == UMLObject::ot_Enum) {
-        UMLEnum *ue = static_cast<UMLEnum*>(c);
+        UMLEnum *ue = c->asUMLEnum();
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;

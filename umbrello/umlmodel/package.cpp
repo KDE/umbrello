@@ -59,7 +59,7 @@ UMLPackage::~UMLPackage()
  */
 void UMLPackage::copyInto(UMLObject *lhs) const
 {
-    UMLPackage *target = static_cast<UMLPackage*>(lhs);
+    UMLPackage *target = lhs->asUMLPackage();
 
     UMLCanvasObject::copyInto(target);
 
@@ -94,7 +94,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
     UMLObject *o = NULL;
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         o = oit.next();
-        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
+        UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c == NULL)
             continue;
         if (AId == c->id() || (BId == c->id())) {
@@ -103,7 +103,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
             else
                c->addAssociationEnd(assoc);
         }
-        UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
+        UMLPackage *pkg = c->asUMLPackage();
         if (pkg)
             pkg->addAssocToConcepts(assoc);
     }
@@ -118,11 +118,11 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
     UMLObject *o = 0;
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         o = oit.next();
-        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
+        UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c) {
             if (c->hasAssociation(assoc))
                 c->removeAssociationEnd(assoc);
-            UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
+            UMLPackage *pkg = c->asUMLPackage();
             if (pkg)
                 pkg->removeAssocFromConcepts(assoc);
         }
@@ -151,7 +151,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
         return false;
     }
     if (pObject->baseType() == UMLObject::ot_Association) {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(pObject);
+        UMLAssociation *assoc = pObject->asUMLAssociation();
         // Adding the UMLAssociation at the participating concepts is done
         // again later (in UMLAssociation::resolveRef()) if they are not yet
         // known right here.
@@ -201,7 +201,7 @@ void UMLPackage::removeObject(UMLObject *pObject)
 {
     if (pObject->baseType() == UMLObject::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        UMLAssociation *assoc = o->asUMLAssociation();
         removeAssocFromConcepts(assoc);
     }
     if (m_objects.indexOf(pObject) == -1)
@@ -221,7 +221,7 @@ void UMLPackage::removeAllObjects()
     UMLObject *o = NULL;
 
     while (!m_objects.isEmpty() && (o = m_objects.first()) != NULL)  {
-        UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
+        UMLPackage *pkg = o->asUMLPackage();
         if (pkg)
             pkg->removeAllObjects();
         removeObject(o);
@@ -286,9 +286,9 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Package || ot == ot_Folder) {
-            packages.append(static_cast<UMLPackage*>(o));
+            packages.append(o->asUMLPackage());
             if (includeNested) {
-               UMLPackage *inner = static_cast<UMLPackage*>(o);
+               UMLPackage *inner = o->asUMLPackage();
                inner->appendPackages(packages);
             }
          }
@@ -314,7 +314,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                 ot == ot_Datatype || ot == ot_Enum || ot == ot_Entity) {
             classifiers.append((UMLClassifier *)o);
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
-            UMLPackage *inner = static_cast<UMLPackage *>(o);
+            UMLPackage *inner = o->asUMLPackage ();
             inner->appendClassifiers(classifiers);
         }
     }
@@ -336,10 +336,10 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
-            UMLEntity *c = static_cast<UMLEntity*>(o);
+            UMLEntity *c = o->asUMLEntity();
             entities.append(c);
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
-            UMLPackage *inner = static_cast<UMLPackage *>(o);
+            UMLPackage *inner = o->asUMLPackage ();
             inner->appendEntities(entities);
         }
     }
@@ -361,10 +361,10 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
+            UMLClassifier *c = o->asUMLClassifier();
             classifiers.append(c);
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
-            UMLPackage *inner = static_cast<UMLPackage *>(o);
+            UMLPackage *inner = o->asUMLPackage ();
             inner->appendClassesAndInterfaces(classifiers);
         }
     }

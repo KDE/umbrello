@@ -132,7 +132,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
        foreach(UMLClassifierListItem* att, ual) {
-           m_pEntityAttributeList.append(static_cast<UMLEntityAttribute*>(att));
+           m_pEntityAttributeList.append(att->asUMLEntityAttribute());
            m_pAttributeCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
        }
     }

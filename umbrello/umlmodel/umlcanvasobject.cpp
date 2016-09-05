@@ -67,7 +67,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
-        UMLAssociation *a = static_cast<UMLAssociation*>(o);
+        UMLAssociation *a = o->asUMLAssociation();
         if (a->getAssocType() == assocType)
             list.append(a);
     }
@@ -137,18 +137,18 @@ void UMLCanvasObject::removeAllAssociationEnds()
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        UMLAssociation *assoc = o->asUMLAssociation();
         //umldoc->slotRemoveUMLObject(assoc);
         UMLObject* objA = assoc->getObject(Uml::RoleType::A);
         UMLObject* objB = assoc->getObject(Uml::RoleType::B);
-        UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
+        UMLCanvasObject *roleAObj = objA->asUMLCanvasObject();
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA) {
             DEBUG(DBG_SRC) << name() << ": objA " << objA->name() << " is not a UMLCanvasObject";
         } else
             DEBUG(DBG_SRC) << name() << "): objA is NULL";
-        UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
+        UMLCanvasObject *roleBObj = objB->asUMLCanvasObject();
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB) {
@@ -343,7 +343,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+        UMLAssociation *assoc = o->asUMLAssociation();
         assocs.append(assoc);
     }
     return assocs;

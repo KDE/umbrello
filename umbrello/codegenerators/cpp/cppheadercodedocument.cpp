@@ -160,7 +160,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                             // find the code operation by id
                                             QString id = element.attribute(QLatin1String("parent_id"),QLatin1String("-1"));
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
-                                            UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                                            UMLOperation * op = obj->asUMLOperation();
                                             if(op) {
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
                                                 block->updateMethodDeclaration();
@@ -481,7 +481,7 @@ void CPPHeaderCodeDocument::updateContent()
     if (!isInterface) {
         QString enumStatement;
         QString indent = UMLApp::app()->commonPolicy()->getIndentation();
-        UMLEnum* e = dynamic_cast<UMLEnum*>(c);
+        UMLEnum* e = c->asUMLEnum();
         if (e) {
             enumStatement.append(indent + QLatin1String("enum ") + cppClassName + QLatin1String(" {") + endLine);
 

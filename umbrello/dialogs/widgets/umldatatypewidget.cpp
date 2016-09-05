@@ -149,7 +149,7 @@ bool UMLDatatypeWidget::applyAttribute()
         obj = pDoc->findUMLObject(typeName);
     }
 
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier *classifier = obj->asUMLClassifier();
     if (classifier == NULL) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
@@ -174,7 +174,7 @@ bool UMLDatatypeWidget::applyAttribute()
         }
         if (obj == NULL)
             return false;
-        classifier = static_cast<UMLClassifier*>(obj);
+        classifier = obj->asUMLClassifier();
     }
     m_datatype->setType(classifier);
     return true;
@@ -192,7 +192,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
         }
     }
     UMLObject *obj = pDoc->findUMLObject(typeName);
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier *classifier = obj->asUMLClassifier();
     if (classifier == NULL) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
@@ -202,7 +202,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
         obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)
             return false;
-        classifier = static_cast<UMLClassifier*>(obj);
+        classifier = obj->asUMLClassifier();
     }
     m_entityAttribute->setType(classifier);
     return true;
@@ -370,7 +370,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // function.
     types << QLatin1String("void");
     // add template parameters
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_parent);
+    UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
         foreach (UMLClassifierListItem* li, tmplParams) {
@@ -391,7 +391,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_parent);
+    UMLClassifier *pConcept = m_parent->asUMLClassifier();
     if (pConcept == NULL) {
         uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
                  << " is not a UMLClassifier";

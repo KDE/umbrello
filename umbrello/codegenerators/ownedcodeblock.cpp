@@ -84,7 +84,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
+    UMLRole * role = m_parentObject->asUMLRole();
     if (role) {
         elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
@@ -125,7 +125,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
         // might ripple throughout the code and cause problems. Thus, since the
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
-        UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
+        UMLAssociation * assoc = obj->asUMLAssociation();
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;

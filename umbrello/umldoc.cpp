@@ -1097,7 +1097,7 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
 {
     //this is used only by code generator so we don't need to look at Datatypes
     UMLObject * obj = findUMLObject(name);
-    return dynamic_cast<UMLClassifier*>(obj);
+    return obj->asUMLClassifier();
 }
 
 /**
@@ -1176,7 +1176,7 @@ bool UMLDoc::isUnique(const QString &name)
 
     // item is in a package so do check only in that
     if (parentItem != 0 && Model_Utils::typeIsContainer(parentItem->type())) {
-        UMLPackage *parentPkg = static_cast<UMLPackage*>(parentItem->umlObject());
+        UMLPackage *parentPkg = parentItem->umlObject()->asUMLPackage();
         return isUnique(name, parentPkg);
     }
 
@@ -1842,39 +1842,39 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
     UMLObject::ObjectType type = umlobject->baseType();
 
     umlobject->setUMLStereotype(0);  // triggers possible cleanup of UMLStereotype
-    if (dynamic_cast<UMLClassifierListItem*>(umlobject))  {
+    if (umlobject->asUMLClassifierListItem())  {
         UMLClassifier* parent = dynamic_cast<UMLClassifier*>(umlobject->parent());
         if (parent == 0) {
             uError() << "parent of umlobject is NULL";
             return;
         }
         if (type == UMLObject::ot_Operation) {
-            parent->removeOperation(static_cast<UMLOperation*>(umlobject));
+            parent->removeOperation(umlobject->asUMLOperation());
             if (deleteObject)
-                delete static_cast<UMLOperation*>(umlobject);
+                delete umlobject->asUMLOperation();
         } else if (type == UMLObject::ot_EnumLiteral) {
-            UMLEnum *e = static_cast<UMLEnum*>(parent);
-            e->removeEnumLiteral(static_cast<UMLEnumLiteral*>(umlobject));
+            UMLEnum *e = parent->asUMLEnum();
+            e->removeEnumLiteral(umlobject->asUMLEnumLiteral());
         } else if (type == UMLObject::ot_EntityAttribute) {
-            UMLEntity *ent = static_cast<UMLEntity*>(parent);
-            ent->removeEntityAttribute(static_cast<UMLClassifierListItem*>(umlobject));
+            UMLEntity *ent = parent->asUMLEntity();
+            ent->removeEntityAttribute(umlobject->asUMLClassifierListItem());
         } else if (type == UMLObject::ot_UniqueConstraint || type == UMLObject::ot_ForeignKeyConstraint ||
                     type == UMLObject::ot_CheckConstraint) {
-            UMLEntity* ent = static_cast<UMLEntity*>(parent);
-            ent->removeConstraint(static_cast<UMLEntityConstraint*>(umlobject));
+            UMLEntity* ent = parent->asUMLEntity();
+            ent->removeConstraint(umlobject->asUMLEntityConstraint());
         } else {
-            UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
+            UMLClassifier* pClass = parent->asUMLClassifier();
             if (pClass == 0)  {
                 uError() << "parent of umlobject has unexpected type "
                          << parent->baseType();
                 return;
             }
             if (type == UMLObject::ot_Attribute) {
-                pClass->removeAttribute(static_cast<UMLAttribute*>(umlobject));
+                pClass->removeAttribute(umlobject->asUMLAttribute());
             } else if (type == UMLObject::ot_Template) {
-                pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
+                pClass->removeTemplate(umlobject->asUMLTemplate());
                 if (deleteObject)
-                    delete static_cast<UMLTemplate*>(umlobject);
+                    delete umlobject->asUMLTemplate();
             } else {
                 uError() << "umlobject has unexpected type " << type;
             }
@@ -1889,7 +1889,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
             UMLPackage* pkg = umlobject->umlPackage();
             if (pkg) {
                 // Remove associations that this object may participate in.
-                UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(umlobject);
+                UMLCanvasObject *c = umlobject->asUMLCanvasObject();
                 if (c) {
                     // In the current implementation, all associations live in the
                     // root folder.
@@ -1906,7 +1906,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                     foreach (UMLObject *obj, rootObjects) {
                         uIgnoreZeroPointer(obj);
                         if (obj->baseType() == UMLObject::ot_Association) {
-                            UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+                            UMLAssociation *assoc = obj->asUMLAssociation();
                             if (c->hasAssociation(assoc)) {
                                 assocsToRemove.append(assoc);
                             }
@@ -2614,7 +2614,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         pkg = pObject->umlPackage();
         if (ot == UMLObject::ot_Stereotype) {
-            UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
+            UMLStereotype *s = pObject->asUMLStereotype();
             UMLStereotype *exist = findStereotype(pObject->name());
             if (exist) {
                 if (exist->id() == pObject->id()) {
@@ -2878,7 +2878,7 @@ UMLClassifierList UMLDoc::datatypes()
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Datatype) {
-            datatypeList.append(static_cast<UMLClassifier*>(obj));
+            datatypeList.append(obj->asUMLClassifier());
         }
     }
     return datatypeList;
@@ -2988,7 +2988,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 
     //If it is a CONCEPT then change the ids of all its operations and attributes
     if (obj->baseType() == UMLObject::ot_Class) {
-        UMLClassifier *c = static_cast<UMLClassifier*>(obj);
+        UMLClassifier *c = obj->asUMLClassifier();
         UMLClassifierListItemList attributes = c->getFilteredList(UMLObject::ot_Attribute);
         foreach (UMLObject* listItem,  attributes) {
             result = assignNewID(listItem->id());

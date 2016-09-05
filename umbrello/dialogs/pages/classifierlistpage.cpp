@@ -337,7 +337,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     if (m_pOldListItem) {
         m_pOldListItem->setDoc(m_docTE->toPlainText());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* op = dynamic_cast<UMLOperation*>(m_pOldListItem);
+            UMLOperation* op = m_pOldListItem->asUMLOperation();
             op->setSourceCode(m_pCodeTE->toPlainText());
         }
     }
@@ -371,7 +371,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         // now update screen
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* o = dynamic_cast<UMLOperation*>(listItem);
+            UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
                 uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
                 return;
@@ -401,7 +401,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     if (!m_bSigWaiting) {
         return;
     }
-    UMLClassifierListItem *listItem = dynamic_cast<UMLClassifierListItem*>(object);
+    UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
     if (listItem == NULL)  {
         return;
     }
@@ -767,7 +767,7 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     if (selectedItem) {
         selectedItem->setDoc(m_docTE->toPlainText());
         if (m_itemType == UMLObject::ot_Operation) {
-            dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode(m_pCodeTE->toPlainText());
+            selectedItem->asUMLOperation()->setSourceCode(m_pCodeTE->toPlainText());
         }
     }
 }
@@ -791,7 +791,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
 {
     switch (m_itemType) {
     case UMLObject::ot_Attribute: {
-            UMLAttribute *att = dynamic_cast<UMLAttribute*>(listitem);
+            UMLAttribute *att = listitem->asUMLAttribute();
             if (!att) {
                 uError() << "Dynamic cast to UMLAttribute failed for" << listitem->name();
                 return false;
@@ -799,7 +799,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             return m_pClassifier->addAttribute(att, NULL, position);
         }
     case UMLObject::ot_Operation: {
-            UMLOperation *op = dynamic_cast<UMLOperation*>(listitem);
+            UMLOperation *op = listitem->asUMLOperation();
             if (!op) {
                 uError() << "Dynamic cast to UMLOperation failed for" << listitem->name();
                 return false;
@@ -807,7 +807,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             return m_pClassifier->addOperation(op, position);
         }
     case UMLObject::ot_Template: {
-            UMLTemplate* t = dynamic_cast<UMLTemplate*>(listitem);
+            UMLTemplate* t = listitem->asUMLTemplate();
             if (!t) {
                 uError() << "Dynamic cast to UMLTemplate failed for" << listitem->name();
                 return false;
@@ -815,12 +815,12 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             return m_pClassifier->addTemplate(t, position);
         }
     case UMLObject::ot_EnumLiteral: {
-            UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
+            UMLEnum* c = m_pClassifier->asUMLEnum();
             if (!c) {
                 uError() << "Dynamic cast to UMLEnum failed for" << m_pClassifier->name();
                 return false;
             }
-            UMLEnumLiteral *l = dynamic_cast<UMLEnumLiteral*>(listitem);
+            UMLEnumLiteral *l = listitem->asUMLEnumLiteral();
             if (!l) {
                 uError() << "Dynamic cast to UMLEnumLiteral failed for" << listitem->name();
                 return false;
@@ -829,12 +829,12 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             break;
         }
     case UMLObject::ot_EntityAttribute: {
-            UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
+            UMLEntity* c = m_pClassifier->asUMLEntity();
             if (!c) {
                 uError() << "Dynamic cast to UMLEntity failed for" << m_pClassifier->name();
                 return false;
             }
-            UMLEntityAttribute *a = dynamic_cast<UMLEntityAttribute*>(listitem);
+            UMLEntityAttribute *a = listitem->asUMLEntityAttribute();
             if (!a) {
                 uError() << "Dynamic cast to UMLEntityAttribute failed for" << listitem->name();
                 return false;

@@ -69,7 +69,7 @@ bool UMLEntity::operator==(const UMLEntity& rhs) const
  */
 void UMLEntity::copyInto(UMLObject *lhs) const
 {
-    UMLEntity *target = static_cast<UMLEntity*>(lhs);
+    UMLEntity *target = lhs->asUMLEntity();
 
     // call base class copy function
     UMLClassifier::copyInto(target);
@@ -413,7 +413,7 @@ bool UMLEntity::resolveRef()
     for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         UMLObject* obj = oit.next();
         if (obj->resolveRef()) {
-            UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
+            UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             switch (cli->baseType()) {
                 case UMLObject::ot_EntityAttribute:
                     emit entityAttributeAdded(cli);
@@ -623,12 +623,12 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli)
     // this function does some cleanjobs related to this entity when the attribute is
     // removed, like, removing the attribute from all constraints
 
-    UMLEntityAttribute* entAtt = static_cast<UMLEntityAttribute*>(cli);
+    UMLEntityAttribute* entAtt = cli->asUMLEntityAttribute();
     if (cli) {
        UMLClassifierListItemList ual = this->getFilteredList(UMLObject::ot_UniqueConstraint);
 
        foreach(UMLClassifierListItem* ucli,  ual) {
-           UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(ucli);
+           UMLUniqueConstraint* uuc = ucli->asUMLUniqueConstraint();
            if (uuc->hasEntityAttribute(entAtt)) {
                uuc->removeEntityAttribute(entAtt);
            }
@@ -693,7 +693,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
     for (UMLObjectListIt lit(m_List); lit.hasNext();) {
         UMLObject *listItem = lit.next();
         if (listItem->baseType() == UMLObject::ot_EntityAttribute) {
-            entityAttributeList.append(static_cast<UMLEntityAttribute*>(listItem));
+            entityAttributeList.append(listItem->asUMLEntityAttribute());
         }
     }
     return entityAttributeList;

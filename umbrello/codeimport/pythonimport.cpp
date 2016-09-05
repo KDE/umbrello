@@ -255,7 +255,7 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
 
     UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
                                                  type, m_comment, false);
-    UMLAttribute* a = dynamic_cast<UMLAttribute*>(o);
+    UMLAttribute* a = o->asUMLAttribute();
     a->setInitialValue(value);
     a->setStatic(isStatic);
     return true;
@@ -273,7 +273,7 @@ bool PythonImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
                                                       currentScope(), m_comment);
-        pushScope(m_klass = static_cast<UMLClassifier*>(ns));
+        pushScope(m_klass = ns->asUMLClassifier());
         m_comment.clear();
         if (advance() == QLatin1String("(")) {
             while (m_srcIndex < srcLength - 1 && advance() != QLatin1String(")")) {
@@ -378,7 +378,7 @@ bool PythonImport::parseStmt()
 
     if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
-            m_klass = dynamic_cast<UMLClassifier*>(popScope());
+            m_klass = popScope()->asUMLClassifier();
         }
         else
             uError() << "parsing: too many }";

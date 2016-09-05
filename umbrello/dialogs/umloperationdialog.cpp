@@ -300,7 +300,7 @@ void UMLOperationDialog::slotParameterProperties()
     } // should never occur
 
     QString oldAttName = pOldAtt->name();
-    UMLAttribute* tempAttribute = static_cast<UMLAttribute*>(pOldAtt->clone()); // create a clone of the parameter
+    UMLAttribute* tempAttribute = pOldAtt->clone()->asUMLAttribute(); // create a clone of the parameter
 
     // send the clone to the properties dialog box. it will fill in the new parameters.
     QPointer<ParameterPropertiesDialog> dlg = new ParameterPropertiesDialog(this, m_doc, tempAttribute);

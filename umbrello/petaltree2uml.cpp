@@ -269,7 +269,7 @@ public:
         return new UMLAttribute(m_classifier);
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
-        m_classifier->addAttribute(static_cast<UMLAttribute*>(item));
+        m_classifier->addAttribute(item->asUMLAttribute());
     }
 protected:
     UMLClassifier *m_classifier;
@@ -289,7 +289,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         if (item->id() == Uml::ID::None)
            item->setID(UniqueID::gen());
-        m_operation->addParm(static_cast<UMLAttribute*>(item));
+        m_operation->addParm(item->asUMLAttribute());
     }
 protected:
     UMLOperation *m_operation;
@@ -307,7 +307,7 @@ public:
         return new UMLOperation(m_classifier);
     }
     void insertAtParent(const PetalNode *node, UMLObject *item) {
-        UMLOperation *op = static_cast<UMLOperation*>(item);
+        UMLOperation *op = item->asUMLOperation();
         ParametersReader parmReader(op);
         parmReader.read(node, m_classifier->name());
         m_classifier->addOperation(op);
@@ -333,7 +333,7 @@ public:
      */
     void setTypeReferences(UMLObject *item,
                            const QString& quid, const QString& type) {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        UMLAssociation *assoc = item->asUMLAssociation();
         if (!quid.isEmpty()) {
             assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
@@ -342,7 +342,7 @@ public:
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        UMLAssociation *assoc = item->asUMLAssociation();
         assoc->setObject(m_classifier, Uml::RoleType::A);
         assoc->setUMLPackage(m_classifier->umlPackage());
         UMLApp::app()->document()->addAssociation(assoc);
@@ -368,7 +368,7 @@ public:
      */
     void setTypeReferences(UMLObject *item,
                            const QString& quid, const QString& type) {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        UMLAssociation *assoc = item->asUMLAssociation();
         if (!quid.isEmpty()) {
             assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
@@ -377,7 +377,7 @@ public:
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
+        UMLAssociation *assoc = item->asUMLAssociation();
         assoc->setObject(m_classifier, Uml::RoleType::A);
         assoc->setUMLPackage(m_classifier->umlPackage());
         UMLApp::app()->document()->addAssociation(assoc);
@@ -525,7 +525,7 @@ void handleAssocView(PetalNode *attr,
                 uError() << assocStr << " client widget " << clIdStr
                          << " is not on diagram (?)";
             } else {
-                // UMLAssociation *a = static_cast<UMLAssociation*>(o);
+                // UMLAssociation *a = o->asUMLAssociation();
                 AssociationWidget *aw = AssociationWidget::create
                                          (view->umlScene(), cliW, assocType,
                                           supW, umlAssoc);
@@ -591,7 +591,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             else
                 o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg);
             o->setID(id);
-            UMLPackage *localParent = static_cast<UMLPackage*>(o);
+            UMLPackage *localParent = o->asUMLPackage();
             for (int i = 0; i < atts.count(); ++i) {
                 umbrellify(atts[i].second.node, localParent);
             }
@@ -618,7 +618,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         } else {
             o = Object_Factory::createUMLObject(UMLObject::ot_Class, name, parentPkg, false);
             o->setID(id);
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
+            UMLClassifier *c = o->asUMLClassifier();
             // set stereotype
             if (!stereotype.isEmpty()) {
                 if (stereotype.toLower() == QLatin1String("interface")) {
@@ -725,7 +725,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             return false;
         }
         UMLDoc *umlDoc = UMLApp::app()->document();
-        UMLFolder *rootFolder = static_cast<UMLFolder*>(parentPkg);
+        UMLFolder *rootFolder = parentPkg->asUMLFolder();
         UMLView *view = umlDoc->createDiagram(rootFolder, dt, name, id);
         PetalNode *items = node->findAttribute(QLatin1String("items")).node;
         if (items == NULL) {
@@ -956,7 +956,7 @@ UMLPackage * petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)
     const Uml::ID::Type id = quid(root);
     UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg, false);
     o->setID(id);
-    parentPkg = static_cast<UMLPackage*>(o);
+    parentPkg = o->asUMLPackage();
     PetalNode::NameValueList atts = models->attributes();
     for (int i = 0; i < atts.count(); ++i) {
         if (!umbrellify(atts[i].second.node, parentPkg)) {

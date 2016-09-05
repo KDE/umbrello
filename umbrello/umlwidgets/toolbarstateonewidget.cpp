@@ -207,7 +207,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
                                                  &pressedOK, UMLApp::app());
 #endif
             if (pressedOK) {
-                UMLPackage* component = static_cast<UMLPackage*>(m_firstObject->umlObject());
+                UMLPackage* component = m_firstObject->umlObject()->asUMLPackage();
                 UMLObject *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component);
                 umlwidget = Widget_Factory::createWidget(m_pUMLScene, port);
             }

@@ -108,7 +108,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
         foreach (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);
             if (o->baseType() == UMLObject::ot_Folder) {
-                UMLFolder *f = static_cast<UMLFolder*>(o);
+                UMLFolder *f = o->asUMLFolder();
                 f->appendViews(viewList);
             }
         }
@@ -128,7 +128,7 @@ void UMLFolder::activateViews()
     foreach (UMLObject* o, m_objects) {
         uIgnoreZeroPointer(o);
         if (o->baseType() == UMLObject::ot_Folder) {
-            UMLFolder *f = static_cast<UMLFolder*>(o);
+            UMLFolder *f = o->asUMLFolder();
             f->activateViews();
         }
     }
@@ -165,7 +165,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
-        UMLFolder *f = static_cast<UMLFolder*>(o);
+        UMLFolder *f = o->asUMLFolder();
         v = f->findView(id);
         if (v) {
             break;
@@ -196,7 +196,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }
-            UMLFolder *f = static_cast<UMLFolder*>(o);
+            UMLFolder *f = o->asUMLFolder();
             v = f->findView(type, name, searchAllScopes);
             if (v) {
                 break;
@@ -226,7 +226,7 @@ void UMLFolder::removeAllViews()
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Folder)
             continue;
-        UMLFolder *f = static_cast<UMLFolder*>(o);
+        UMLFolder *f = o->asUMLFolder();
         f->removeAllViews();
     }
 

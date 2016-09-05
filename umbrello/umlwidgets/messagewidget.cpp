@@ -926,7 +926,7 @@ UMLClassifier *MessageWidget::operationOwner()
     UMLObject *pObject = m_pOw[Uml::RoleType::B]->umlObject();
     if (pObject == NULL)
         return NULL;
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
+    UMLClassifier *c = pObject->asUMLClassifier();
     return c;
 }
 
@@ -994,7 +994,7 @@ QString MessageWidget::lwOperationText()
 UMLClassifier *MessageWidget::lwClassifier()
 {
     UMLObject *o = m_pOw[Uml::RoleType::B]->umlObject();
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     return c;
 }
 

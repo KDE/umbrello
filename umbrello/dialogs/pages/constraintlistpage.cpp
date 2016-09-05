@@ -128,7 +128,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     ClassifierListPage::slotNewListItem();
 
     // set the last object created as Primary Key
-    UMLEntity* ent = static_cast<UMLEntity*>(m_pClassifier);
+    UMLEntity* ent = m_pClassifier->asUMLEntity();
 
     if (ent == NULL) {
         uError() << "Could not set Primary Key. Entity Value is Null";
@@ -137,7 +137,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
 
     if (m_pLastObjectCreated!=NULL) {
         m_bSigWaiting = true;
-        ent->setAsPrimaryKey(static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated));
+        ent->setAsPrimaryKey(m_pLastObjectCreated->asUMLUniqueConstraint());
         m_itemType = UMLObject::ot_EntityConstraint;
         reloadItemListBox();
     }

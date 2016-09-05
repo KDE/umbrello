@@ -160,7 +160,7 @@ bool UMLForeignKeyConstraintDialog::apply()
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
     UMLObject* uo = m_doc->findUMLObject(entityName, UMLObject::ot_Entity);
 
-    UMLEntity* ue = static_cast<UMLEntity*>(uo);
+    UMLEntity* ue = uo->asUMLEntity();
 
     if (ue == NULL) {
         uDebug() << " Could not find UML Entity with name " << entityName;
@@ -425,12 +425,12 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
     UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
                                          UMLObject::ot_Entity);
 
-    UMLEntity* ue = static_cast<UMLEntity*>(uo);
+    UMLEntity* ue = uo->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
         foreach(UMLClassifierListItem* att, ual) {
-            m_pReferencedAttributeList.append(static_cast<UMLEntityAttribute*>(att));
+            m_pReferencedAttributeList.append(att->asUMLEntityAttribute());
             m_ColumnWidgets.referencedColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }
     }
@@ -446,7 +446,7 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
         foreach(UMLClassifierListItem* att, ual) {
-            m_pLocalAttributeList.append(static_cast<UMLEntityAttribute*>(att));
+            m_pLocalAttributeList.append(att->asUMLEntityAttribute());
             m_ColumnWidgets.localColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }
     }

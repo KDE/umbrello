@@ -200,7 +200,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     if (includes.count()) {
 
         foreach (UMLPackage* p, includes) {
-            UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
+            UMLClassifier *cl = p->asUMLClassifier();
             if (cl)
                 p = cl->umlPackage();
             if (p != logicalView && m_seenIncludes.indexOf(p) == -1 && p != container) {

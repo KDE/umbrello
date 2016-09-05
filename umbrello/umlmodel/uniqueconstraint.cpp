@@ -72,7 +72,7 @@ UMLUniqueConstraint::~UMLUniqueConstraint()
  */
 void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
 {
-    UMLUniqueConstraint *target = static_cast<UMLUniqueConstraint*>(lhs);
+    UMLUniqueConstraint *target = lhs->asUMLUniqueConstraint();
 
     // call the parent first.
     UMLEntityConstraint::copyInto(target);
@@ -98,7 +98,7 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLUniqueConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLUniqueConstraint *clone = new UMLUniqueConstraint(static_cast<UMLObject*>(parent()));
+    UMLUniqueConstraint *clone = new UMLUniqueConstraint(parent()->asUMLObject());
     copyInto(clone);
     return clone;
 }
@@ -116,7 +116,7 @@ QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig)
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + QLatin1Char(':');
 
-        if (static_cast<UMLEntity*>(parent())->isPrimaryKey(this)) {
+        if (parent()->asUMLEntity()->isPrimaryKey(this)) {
            s += QLatin1String("Primary Key (");
         } else {
            s += QLatin1String("Unique (");
@@ -150,7 +150,7 @@ void UMLUniqueConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement uniqueConstraintElement = UMLObject::save(QLatin1String("UML:UniqueConstraint"), qDoc);
 
-    UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
+    UMLEntity* parentEnt = parent()->asUMLEntity();
     if (parentEnt->isPrimaryKey(this)) {
         uniqueConstraintElement.setAttribute(QLatin1String("isPrimary"), QLatin1String("1"));
     } else {
@@ -179,7 +179,7 @@ bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
 bool UMLUniqueConstraint::load(QDomElement & element)
 {
     int isPrimary = element.attribute(QLatin1String("isPrimary"), QLatin1String("0")).toInt();
-    UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
+    UMLEntity* parentEnt = parent()->asUMLEntity();
 
     if (isPrimary == 1) {
         parentEnt->setAsPrimaryKey(this);
@@ -198,7 +198,7 @@ bool UMLUniqueConstraint::load(QDomElement & element)
             QString attName = tempElement.attribute(QLatin1String("name"));
             UMLObject* obj = parentEnt->findChildObject(attName);
 
-            UMLEntityAttribute* entAtt = static_cast<UMLEntityAttribute*>(obj);
+            UMLEntityAttribute* entAtt = obj->asUMLEntityAttribute();
             if (entAtt == NULL)
                 continue;
 

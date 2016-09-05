@@ -405,11 +405,10 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_Category:
        {
 #if QT_VERSION >= 0x050000
-         QMenu* m = makeCategoryTypeMenu(
+         QMenu* m = makeCategoryTypeMenu(object->umlObject()->asUMLCategory());
 #else
-         KMenu* m = makeCategoryTypeMenu(
+         KMenu* m = makeCategoryTypeMenu(object->umlObject()->asUMLCategory());
 #endif
-                        static_cast<UMLCategory*>(object->umlObject()));
          m->setTitle(i18n("Category Type"));
          addMenu(m);
          insertSubMenuColor(object->useFillColor());
@@ -1138,7 +1137,7 @@ void ListPopupMenu::insertSubmodelAction()
         uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
         return;
     }
-    UMLFolder *f = dynamic_cast<UMLFolder*>(o);
+    UMLFolder *f = o->asUMLFolder();
     if (f == NULL) {
         uError() << o->name() << " is not a Folder";
         return;
@@ -1910,9 +1909,9 @@ void ListPopupMenu::setupMenu(MenuType type)
                 return;
             }
 #if QT_VERSION >= 0x050000
-            QMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
+            QMenu* menu = makeCategoryTypeMenu(m_TriggerObject.m_Object->asUMLCategory());
 #else
-            KMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
+            KMenu* menu = makeCategoryTypeMenu(m_TriggerObject.m_Object->asUMLCategory());
 #endif
             menu->setTitle(i18n("Category Type"));
             addMenu(menu);
