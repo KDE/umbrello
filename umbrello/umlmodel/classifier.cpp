@@ -1211,7 +1211,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Attribute: {
-            UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.takeAt(index).data());
+            UMLAttribute *retval = m_List.takeAt(index)->asUMLAttribute();
             if (retval) {
                 emit attributeRemoved(retval);
                 UMLObject::emitModified();
@@ -1221,7 +1221,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Template: {
-            UMLTemplate *templt = dynamic_cast<UMLTemplate*>(m_List.takeAt(index).data());
+            UMLTemplate *templt = m_List.takeAt(index)->asUMLTemplate();
             if (templt) {
                 emit templateRemoved(templt);
                 UMLObject::emitModified();
@@ -1231,7 +1231,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EnumLiteral: {
-            UMLEnumLiteral *el = dynamic_cast<UMLEnumLiteral*>(m_List.takeAt(index).data());
+            UMLEnumLiteral *el = m_List.takeAt(index)->asUMLEnumLiteral();
             if (el) {
                 UMLEnum *e = this->asUMLEnum();
                 e->signalEnumLiteralRemoved(el);
@@ -1242,7 +1242,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EntityAttribute: {
-            UMLEntityAttribute* el = dynamic_cast<UMLEntityAttribute*>(m_List.takeAt(index).data());
+            UMLEntityAttribute* el = m_List.takeAt(index)->asUMLEntityAttribute();
             if (el) {
                 UMLEntity *e = this->asUMLEntity();
                 e->signalEntityAttributeRemoved(el);
@@ -1274,7 +1274,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType)
  */
 UMLClassifier * UMLClassifier::originType() const
 {
-    return dynamic_cast<UMLClassifier*>(m_pSecondary.data());
+    return m_pSecondary->asUMLClassifier();
 }
 
 /**

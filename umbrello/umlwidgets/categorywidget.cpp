@@ -70,7 +70,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->setPen(textColor());
 
     QString letterType(QLatin1Char('D'));
-    switch(dynamic_cast<UMLCategory*>(m_umlObject.data())->getType()) {
+    switch(m_umlObject->asUMLCategory()->getType()) {
        case UMLCategory::ct_Disjoint_Specialisation:
            letterType = QLatin1Char('D');
            break;

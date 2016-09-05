@@ -138,7 +138,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_umlObject.data());
+    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral, list) {
@@ -189,7 +189,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
-        if (Object_Factory::createChildObject(dynamic_cast<UMLClassifier*>(m_umlObject.data()),
+        if (Object_Factory::createChildObject(m_umlObject->asUMLClassifier(),
                                               UMLObject::ot_EnumLiteral))  {
             /* I don't know why it works without these calls:
             updateComponentSize();
@@ -223,7 +223,7 @@ QSizeF EnumWidget::minimumSize() const
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
 
-    const int numberOfEnumLiterals = dynamic_cast<UMLEnum*>(m_umlObject.data())->enumLiterals();
+    const int numberOfEnumLiterals = m_umlObject->asUMLEnum()->enumLiterals();
 
     height = width = 0;
     //set the height of the enum
@@ -247,7 +247,7 @@ QSizeF EnumWidget::minimumSize() const
 
     width = w > width?w:width;
 
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_umlObject.data());
+    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem, list) {
