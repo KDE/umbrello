@@ -531,34 +531,6 @@ void UMLObject::setStereotypeCmd(const QString& name)
 }
 
 /**
- * Sets the UMLPackage in which this class is located.
- *
- * @param pPkg   Pointer to the class' UMLPackage.
- */
-bool UMLObject::setUMLPackage(UMLPackage* pPkg)
-{
-    if (pPkg == this) {
-        uDebug() << "setting parent to myself is not allowed";
-        return false;
-    }
-
-    if (pPkg == NULL) {
-        // Allow setting to NULL for stereotypes
-        m_pUMLPackage = pPkg;
-        return true;
-    }
-
-    if (pPkg->umlPackage() == this) {
-        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
-        return false;
-    }
-
-    m_pUMLPackage = pPkg;
-    emitModified();
-    return true;
-}
-
-/**
  * Returns the classes UMLStereotype object.
  *
  * @return   Returns the classes UMLStereotype object.
@@ -621,6 +593,34 @@ UMLPackageList UMLObject::packages(bool includeRoot) const
     if (!includeRoot)
         pkgList.removeFirst();
     return pkgList;
+}
+
+/**
+ * Sets the UMLPackage in which this class is located.
+ *
+ * @param pPkg   Pointer to the class' UMLPackage.
+ */
+bool UMLObject::setUMLPackage(UMLPackage *pPkg)
+{
+    if (pPkg == this) {
+        uDebug() << "setting parent to myself is not allowed";
+        return false;
+    }
+
+    if (pPkg == NULL) {
+        // Allow setting to NULL for stereotypes
+        setParent(pPkg);
+        return true;
+    }
+
+    if (pPkg->umlParent()->asUMLPackage() == this) {
+        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
+        return false;
+    }
+
+    setParent(pPkg);
+    emitModified();
+    return true;
 }
 
 /**

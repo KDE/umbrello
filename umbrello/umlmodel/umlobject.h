@@ -142,10 +142,10 @@ public:
     QString package(const QString& separator = QString(),
                     bool includeRoot = false);
 
+    UMLPackageList packages(bool includeRoot = false) const;
+
     bool setUMLPackage(UMLPackage* pPkg);
     UMLPackage* umlPackage();
-
-    UMLPackageList packages(bool includeRoot = false) const;
 
     virtual void setName(const QString &strName);
     void setNameCmd(const QString &strName) ;
