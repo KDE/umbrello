@@ -623,7 +623,7 @@ void RefactoringAssistant::createAttribute()
     UMLClassifier *c = findUMLObject(item)->asUMLClassifier();
     if (!c) {  // find parent
         QTreeWidgetItem *parent = item->parent();
-        c = findUMLObject(parent)->asUMLClassifier;
+        c = findUMLObject(parent)->asUMLClassifier();
         if (!c) {
             uWarning() << "No classifier - cannot create!";
             return;
