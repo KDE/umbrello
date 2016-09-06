@@ -216,19 +216,20 @@ QString UMLObject::fullyQualifiedName(const QString& separator,
         bool includeRoot /* = false */) const
 {
     QString fqn;
-    if (umlPackage() && umlPackage() != this) {
+    UMLPackage *parent = umlPackage();
+    if (parent && parent != this) {
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->document();
-            if ((umldoc->rootFolderType(umlPackage()) != Uml::ModelType::N_MODELTYPES) ||
-                    (umlPackage() == umldoc->datatypeFolder()))
+            if ((umldoc->rootFolderType(parent) != Uml::ModelType::N_MODELTYPES) ||
+                    (parent == umldoc->datatypeFolder()))
                 skipPackage = true;
         }
         if (!skipPackage) {
             QString tempSeparator = separator;
             if (tempSeparator.isEmpty())
                 tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
-            fqn = umlParent()->asUMLPackage()->fullyQualifiedName(tempSeparator, includeRoot);
+            fqn = parent->fullyQualifiedName(tempSeparator, includeRoot);
             fqn.append(tempSeparator);
         }
     }
