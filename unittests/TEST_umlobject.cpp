@@ -82,20 +82,23 @@ void TEST_UMLObject::test_equal()
 
 void TEST_UMLObject::test_fullyQualifiedName()
 {
-    UMLObject a("Test A");
-    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Test A"));
+    UMLObject* a = new UMLObject("Test A");
+    cleanupOnExit(a);
+    QCOMPARE(a->fullyQualifiedName(), QLatin1String("Test A"));
 
-    UMLPackage topParent("Top Parent");
-    UMLPackage parent("Test Parent");
-    parent.setUMLPackage(&topParent);
-    a.setUMLPackage(&parent);
-    QCOMPARE(a.umlPackage()->fullyQualifiedName(), a.package());
-    QCOMPARE(a.fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
-    QCOMPARE(a.fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
+    UMLPackage* topParent = new UMLPackage("Top Parent");
+    cleanupOnExit(topParent);
+    UMLPackage* parent = new UMLPackage("Test Parent");
+    cleanupOnExit(parent);
+    parent->setUMLPackage(topParent);
+    a->setUMLPackage(parent);
+    QCOMPARE(a->umlPackage()->fullyQualifiedName(), a->package());
+    QCOMPARE(a->fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
+    QCOMPARE(a->fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
 
     UMLFolder *f = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
-    parent.setUMLPackage(f);
-    QCOMPARE(a.fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
+    parent->setUMLPackage(f);
+    QCOMPARE(a->fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
 }
 
 void TEST_UMLObject::test_isAbstract()

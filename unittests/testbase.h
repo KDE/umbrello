@@ -42,6 +42,10 @@ public:
 protected slots:
     virtual void initTestCase();
     virtual void cleanupTestCase();
+    virtual void cleanupOnExit(QObject *p);
+
+protected:
+    QList<QPointer<QObject>> m_objectsToDelete;
 };
 
 /**
