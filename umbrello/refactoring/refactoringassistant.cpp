@@ -219,7 +219,7 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
 {
     UMLOperation *op = listItem->asUMLOperation();
     DEBUG(DBG_SRC) << "operation = " << op->name();  //:TODO:
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(op->parent());
+    UMLClassifier *parent = op->umlParent()->asUMLClassifier();
     if (!parent) {
         uWarning() << op->name() << " - Parent of operation is not a classifier!";
         return;
@@ -265,7 +265,7 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
 {
     UMLAttribute *att = listItem->asUMLAttribute();
     DEBUG(DBG_SRC) << "attribute = " << att->name();  //:TODO:
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(att->parent());
+    UMLClassifier *parent = att->umlParent()->asUMLClassifier();
     if (!parent) {
         uWarning() << att->name() << " - Parent of attribute is not a classifier!";
         return;
@@ -831,7 +831,7 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
         }
         UMLOperation* newOp = op->clone()->asUMLOperation();
 
-        UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(op->parent());
+        UMLClassifier *oldClassifier = op->umlParent()->asUMLClassifier();
         if (oldClassifier) {
             oldClassifier->removeOperation(op);
             DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
@@ -852,7 +852,7 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
         }
         UMLAttribute* newAtt = att->clone()->asUMLAttribute();
 
-        UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(att->parent());
+        UMLClassifier *oldClassifier = att->umlParent()->asUMLClassifier();
         if (oldClassifier) {
             oldClassifier->removeAttribute(att);
             DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer

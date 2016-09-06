@@ -44,7 +44,7 @@ DEBUG_REGISTER_DISABLED(UMLObject)
  * @param other object to created from
  */
 UMLObject::UMLObject(const UMLObject &other)
-  : QObject(other.parent())
+  : QObject(other.umlParent())
 {
     other.copyInto(this);
 }
@@ -73,7 +73,7 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
  *                 then a new ID will be assigned internally.
  */
 UMLObject::UMLObject(const QString& name, ID::Type id)
-  : QObject(UMLApp::app()->document()),
+  : QObject(0),
     m_nId(id),
     m_name(name)
 {
@@ -115,7 +115,6 @@ void UMLObject::init()
 {
     setObjectName(QLatin1String("UMLObject"));
     m_BaseType = ot_UMLObject;
-    m_pUMLPackage = 0;
     m_visibility = Uml::Visibility::Public;
     m_pStereotype = 0;
     m_Doc.clear();
@@ -217,19 +216,19 @@ QString UMLObject::fullyQualifiedName(const QString& separator,
         bool includeRoot /* = false */) const
 {
     QString fqn;
-    if (m_pUMLPackage && m_pUMLPackage != this) {
+    if (umlPackage() && umlPackage() != this) {
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->document();
-            if (umldoc->rootFolderType(m_pUMLPackage) != Uml::ModelType::N_MODELTYPES ||
-                    m_pUMLPackage == umldoc->datatypeFolder())
+            if (umldoc->rootFolderType(umlPackage()) != Uml::ModelType::N_MODELTYPES ||
+                    (umlPackage() == umldoc->datatypeFolder()));
                 skipPackage = true;
         }
         if (!skipPackage) {
             QString tempSeparator = separator;
             if (tempSeparator.isEmpty())
                 tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
-            fqn = m_pUMLPackage->fullyQualifiedName(tempSeparator, includeRoot);
+            fqn = umlParent()->asUMLPackage()->fullyQualifiedName(tempSeparator, includeRoot);
             fqn.append(tempSeparator);
         }
     }
@@ -256,7 +255,7 @@ bool UMLObject::operator==(const UMLObject & rhs) const
 
     // Packages create different namespaces, therefore they should be
     // part of the equality test.
-    if (m_pUMLPackage != rhs.m_pUMLPackage)
+    if (umlPackage() != rhs.umlPackage())
         return false;
 
     // Making the type part of an object's identity has its problems:
@@ -310,16 +309,16 @@ void UMLObject::copyInto(UMLObject *lhs) const
     lhs->m_bStatic = m_bStatic;
     lhs->m_BaseType = m_BaseType;
     lhs->m_visibility = m_visibility;
-    lhs->m_pUMLPackage = m_pUMLPackage;
+    lhs->setUMLPackage(umlPackage());
 
     // We don't want the same name existing twice.
-    lhs->m_name = Model_Utils::uniqObjectName(m_BaseType, m_pUMLPackage, m_name);
+    lhs->m_name = Model_Utils::uniqObjectName(m_BaseType, umlPackage(), m_name);
 
     // Create a new ID.
     lhs->m_nId = UniqueID::gen();
 
     // Hope that the parent from QObject is okay.
-    if (lhs->parent() != parent())
+    if (lhs->umlPackage() != umlPackage())
         uDebug() << "copyInto has a wrong parent";
 }
 
@@ -585,7 +584,7 @@ QString UMLObject::package(const QString& separator, bool includeRoot)
 UMLPackageList UMLObject::packages(bool includeRoot) const
 {
     UMLPackageList pkgList;
-    UMLPackage* pkg = m_pUMLPackage;
+    UMLPackage* pkg = umlPackage();
     while (pkg != NULL) {
         pkgList.prepend(pkg);
         pkg = pkg->umlPackage();
@@ -613,7 +612,7 @@ bool UMLObject::setUMLPackage(UMLPackage *pPkg)
         return true;
     }
 
-    if (pPkg->umlParent()->asUMLPackage() == this) {
+    if (pPkg->umlPackage() == this) {
         uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
         return false;
     }
@@ -626,11 +625,38 @@ bool UMLObject::setUMLPackage(UMLPackage *pPkg)
 /**
  * Returns the UMLPackage that this class is located in.
  *
+ * This method is a shortcut for calling umlParent()->asUMLPackage().
+ *
  * @return  Pointer to the UMLPackage of this class.
  */
-UMLPackage* UMLObject::umlPackage()
+UMLPackage* UMLObject::umlPackage() const
 {
-    return m_pUMLPackage;
+    return dynamic_cast<UMLPackage *>(parent());
+}
+
+/**
+ * Set UML model parent.
+ *
+ * @param parent object to set as parent
+ *
+ * @TODO prevent setting parent to myself
+ */
+void UMLObject::setUMLParent(UMLObject *parent)
+{
+    setParent(parent);
+}
+
+/**
+ * Return UML model parent.
+ *
+ * Model classes of type UMLClassifierListItem and below
+ * uses QObject::parent to hold the model parent
+ *
+ * @return parent of uml object
+ */
+UMLObject *UMLObject::umlParent() const
+{
+    return dynamic_cast<UMLObject *>(parent());
 }
 
 /**
@@ -751,7 +777,7 @@ bool UMLObject::resolveRef()
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains(QLatin1String("::"))) {
         // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
-        m_pSecondary = Import_Utils::createUMLObject(ot_UMLObject, m_SecondaryId, m_pUMLPackage);
+        m_pSecondary = Import_Utils::createUMLObject(ot_UMLObject, m_SecondaryId, umlPackage());
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
@@ -826,8 +852,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
         Uml::ID::Type nmSpc;
-        if (m_pUMLPackage)
-            nmSpc = m_pUMLPackage->id();
+        if (umlPackage())
+            nmSpc = umlPackage()->id();
         else
             nmSpc = UMLApp::app()->document()->modelID();
         qElement.setAttribute(QLatin1String("namespace"), Uml::ID::toString(nmSpc));
@@ -835,8 +861,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     if (! m_Doc.isEmpty())
         qElement.setAttribute(QLatin1String("comment"), m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
-    if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-        qElement.setAttribute(QLatin1String("package"), m_pUMLPackage->ID());
+    if (umlParent()->asUMLPackage())             //FIXME: uml13.dtd compliance
+        qElement.setAttribute(QLatin1String("package"), umlParent()->asUMLPackage()->ID());
 #endif
     QString visibility = Uml::Visibility::toString(m_visibility, false);
     qElement.setAttribute(QLatin1String("visibility"), visibility);
@@ -1063,11 +1089,11 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_Template && m_BaseType != ot_Stereotype &&
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
         m_BaseType != ot_ForeignKeyConstraint && m_BaseType != ot_CheckConstraint) {
-        if (m_pUMLPackage) {
-            m_pUMLPackage->addObject(this);
+        if (umlPackage()) {
+            umlPackage()->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {
-            // m_pUMLPackage is not set on the root folders.
-            uDebug() << m_name << ": m_pUMLPackage is not set";
+            // umlPackage() is not set on the root folders.
+            uDebug() << m_name << ": umlPackage() is not set";
         }
     }
     return load(element);

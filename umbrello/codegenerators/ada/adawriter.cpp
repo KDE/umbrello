@@ -458,7 +458,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     ada << cleanName(op->name()) << " ";
     if (! (op->isStatic() && atl.count() == 0))
         ada << "(";
-    UMLClassifier *parentClassifier = static_cast<UMLClassifier*>(op->umlPackage());
+    UMLClassifier *parentClassifier = op->umlParent()->asUMLClassifier();
     if (! op->isStatic()) {
         ada << "Self : access " << className(parentClassifier);
         if (atl.count())

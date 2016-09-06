@@ -362,8 +362,8 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     folderRoot.setAttribute(QLatin1String("name"), name());
     folderRoot.setAttribute(QLatin1String("filename"), m_folderFile);
     folderRoot.setAttribute(QLatin1String("mainModel"), umldoc->url().fileName());
-    folderRoot.setAttribute(QLatin1String("parentId"), Uml::ID::toString(m_pUMLPackage->id()));
-    folderRoot.setAttribute(QLatin1String("parent"), m_pUMLPackage->fullyQualifiedName(QLatin1String("::"), true));
+    folderRoot.setAttribute(QLatin1String("parentId"), Uml::ID::toString(umlPackage()->id()));
+    folderRoot.setAttribute(QLatin1String("parent"), umlPackage()->fullyQualifiedName(QLatin1String("::"), true));
     saveContents(folderDoc, folderRoot);
     folderDoc.appendChild(folderRoot);
     QTextStream stream(&file);

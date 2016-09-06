@@ -146,7 +146,10 @@ public:
     UMLPackageList packages(bool includeRoot = false) const;
 
     bool setUMLPackage(UMLPackage* pPkg);
-    UMLPackage* umlPackage();
+    UMLPackage* umlPackage() const;
+
+    void setUMLParent(UMLObject* parent);
+    UMLObject* umlParent() const;
 
     virtual void setName(const QString &strName);
     void setNameCmd(const QString &strName) ;
@@ -253,7 +256,6 @@ protected:
 
     Uml::ID::Type          m_nId;          ///< object's id
     QString                m_Doc;          ///< object's documentation
-    UMLPackage*            m_pUMLPackage;  ///< package the object belongs to if applicable
     QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
     ObjectType             m_BaseType;     ///< objects type

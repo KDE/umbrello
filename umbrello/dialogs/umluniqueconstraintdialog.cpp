@@ -127,7 +127,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     comboButtonHBoxLayout->addWidget(buttonBox);
 
     // We first insert all attributes to the combo box
-    UMLEntity* ue = static_cast<UMLEntity*>(m_pUniqueConstraint->parent());
+    UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
     uDebug() << ue;
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);

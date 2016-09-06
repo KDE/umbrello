@@ -54,7 +54,7 @@ void UMLForeignKeyConstraint::init()
 
      // should be NULL actually
      // self referencing assigned to protect default behaviour
-     m_ReferencedEntity = parent()->asUMLEntity();
+     m_ReferencedEntity = umlParent()->asUMLEntity();
 
      m_UpdateAction = uda_NoAction;
      m_DeleteAction = uda_NoAction;
@@ -108,7 +108,7 @@ void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLForeignKeyConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint(parent()->asUMLObject());
+    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint(umlParent());
     copyInto(clone);
     return clone;
 }
@@ -183,7 +183,7 @@ bool UMLForeignKeyConstraint::showPropertiesDialog(QWidget* parent)
  */
 bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr)
 {
-    UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
+    UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (pAttr == NULL || rAttr == NULL) {
         uError() << "null values passed to function";
@@ -299,7 +299,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
             Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
             Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 
-            UMLEntity* parentEntity = parent()->asUMLEntity();
+            UMLEntity* parentEntity = umlParent()->asUMLEntity();
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
             UMLEntityAttribute* key = keyObj->asUMLEntityAttribute();
 

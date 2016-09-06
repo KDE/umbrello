@@ -126,7 +126,7 @@ void UMLEnumLiteral::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLEnumLiteral::clone() const
 {
-    UMLEnumLiteral *clone = new UMLEnumLiteral((UMLObject *) parent());
+    UMLEnumLiteral *clone = new UMLEnumLiteral(umlParent());
     copyInto(clone);
 
     return clone;

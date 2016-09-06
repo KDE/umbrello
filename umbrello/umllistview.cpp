@@ -1816,7 +1816,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
 			    break;
 			}
 
-            UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
+            UMLClassifier *oldParentClassifier = srcObj->umlParent()->asUMLClassifier();
             UMLClassifier *newParentClassifier = newParentObj->asUMLClassifier();
             if (srcType == UMLListViewItem::lvt_Attribute) {
                 UMLAttribute *att = srcObj->asUMLAttribute();
@@ -2240,7 +2240,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         // the parent entity)
         if (type == UMLListViewItem::lvt_PrimaryKeyConstraint) {
             UMLUniqueConstraint* uuc = object->asUMLUniqueConstraint();
-            UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
+            UMLEntity* ent = uuc->umlParent()->asUMLEntity();
             if (ent) {
                 ent->setAsPrimaryKey(uuc);
             }

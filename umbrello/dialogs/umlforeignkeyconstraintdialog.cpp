@@ -441,7 +441,7 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     m_pLocalAttributeList.clear();
     m_ColumnWidgets.localColumnCB->clear();
     // fill the combo boxes
-    UMLEntity* ue = static_cast<UMLEntity*>(m_pForeignKeyConstraint->parent());
+    UMLEntity* ue = m_pForeignKeyConstraint->umlParent()->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);

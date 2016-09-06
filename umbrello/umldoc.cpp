@@ -1678,7 +1678,7 @@ void UMLDoc::renameUMLObject(UMLObject *o)
 void UMLDoc::renameChildUMLObject(UMLObject *o)
 {
     bool ok = false;
-    UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
+    UMLClassifier* p = o->umlParent()->asUMLClassifier();
     if (!p) {
         DEBUG(DBG_SRC) << "Cannot create object, no parent found.";
         return;
@@ -1807,7 +1807,7 @@ UMLFolder *UMLDoc::currentRoot()
     }
     UMLFolder *f = currentView->umlScene()->folder();
     while (f->umlPackage()) {
-        f = static_cast<UMLFolder*>(f->umlPackage());
+        f = f->umlParent()->asUMLFolder();
     }
     return f;
 }
@@ -1843,7 +1843,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
 
     umlobject->setUMLStereotype(0);  // triggers possible cleanup of UMLStereotype
     if (umlobject->asUMLClassifierListItem())  {
-        UMLClassifier* parent = dynamic_cast<UMLClassifier*>(umlobject->parent());
+        UMLClassifier* parent = umlobject->umlParent()->asUMLClassifier();
         if (parent == 0) {
             uError() << "parent of umlobject is NULL";
             return;

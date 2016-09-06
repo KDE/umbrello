@@ -226,7 +226,7 @@ void UMLEntityAttribute::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLEntityAttribute::clone() const
 {
-    UMLEntityAttribute* clone = new UMLEntityAttribute((UMLEntityAttribute*)parent());
+    UMLEntityAttribute* clone = new UMLEntityAttribute(umlParent()->asUMLEntityAttribute());
     copyInto(clone);
 
     return clone;

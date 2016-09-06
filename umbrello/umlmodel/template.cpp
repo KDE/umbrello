@@ -107,7 +107,7 @@ void UMLTemplate::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLTemplate::clone() const
 {
-    UMLTemplate *clone = new UMLTemplate((UMLTemplate*) parent());
+    UMLTemplate *clone = new UMLTemplate(umlParent()->asUMLTemplate());
     copyInto(clone);
 
     return clone;

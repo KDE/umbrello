@@ -510,7 +510,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             return;
         }
         UMLOperation *op = m_object->asUMLOperation();
-        UMLClassifier *parent = static_cast<UMLClassifier *>(op->parent());
+        UMLClassifier *parent = op->umlParent()->asUMLClassifier();
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
         if (st == Model_Utils::PS_OK) {
@@ -560,7 +560,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             cancelRenameWithMsg();
             return;
         }
-        UMLClassifier *parent = static_cast<UMLClassifier*>(m_object->parent());
+        UMLClassifier *parent = m_object->umlParent()->asUMLClassifier();
         Model_Utils::NameAndType nt;
         Uml::Visibility::Enum vis;
         Model_Utils::Parse_Status st;
@@ -595,7 +595,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             cancelRenameWithMsg();
             return;
         }
-        UMLEntity *parent = static_cast<UMLEntity*>(m_object->parent());
+        UMLEntity *parent = m_object->umlParent()->asUMLEntity();
         QString name;
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseConstraint(newText, name,  parent);
@@ -623,7 +623,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             cancelRenameWithMsg();
             return;
         }
-        UMLClassifier *parent = static_cast<UMLClassifier*>(m_object->parent());
+        UMLClassifier *parent = m_object->umlParent()->asUMLClassifier();
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
         if (st == Model_Utils::PS_OK) {
@@ -731,8 +731,8 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
 #endif
         return retval;
     }
-    UMLClassifier *ourParent = dynamic_cast<UMLClassifier*>(m_object->parent());
-    UMLClassifier *otherParent = dynamic_cast<UMLClassifier*>(otherObj->parent());
+    UMLClassifier *ourParent = m_object->umlParent()->asUMLClassifier();
+    UMLClassifier *otherParent = otherObj->umlParent()->asUMLClassifier();
     if (ourParent == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER

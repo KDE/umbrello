@@ -39,7 +39,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
     m_template(0)
 {
     init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    m_parent = m_attribute->umlParent()->umlParent()->asUMLClassifier();
     insertTypesSortedParameter(m_attribute->getTypeName());
 }
 
@@ -52,7 +52,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
     m_template(0)
 {
     init();
-    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    m_parent = m_datatype->umlParent()->asUMLClassifier();
     insertTypesSortedAttribute(m_datatype->getTypeName());
 }
 
@@ -78,7 +78,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
     m_template(0)
 {
     init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    m_parent = m_operation->umlParent()->asUMLClassifier();
     insertTypesSortedOperation(m_operation->getTypeName());
 }
 

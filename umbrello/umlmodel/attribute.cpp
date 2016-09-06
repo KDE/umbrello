@@ -140,11 +140,11 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         // Determine whether the type name needs to be scoped.
-        UMLObject *owningObject = parent()->asUMLObject();
+        UMLObject *owningObject = umlParent();
         if (owningObject->baseType() == UMLObject::ot_Operation) {
-            // The immediate parent() is the UMLOperation but we want
+            // The immediate parent is the UMLOperation but we want
             // the UMLClassifier:
-            owningObject = static_cast<UMLObject*>(owningObject->parent());
+            owningObject = owningObject->umlParent();
         }
         UMLClassifier *ownParent = owningObject->asUMLClassifier();
         if (ownParent == NULL) {
@@ -184,10 +184,10 @@ QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
     UMLOperation *op = NULL;
-    UMLObject *owningObject = parent()->asUMLObject();
+    UMLObject *owningObject = umlParent();
     if (owningObject->baseType() == UMLObject::ot_Operation) {
         op = owningObject->asUMLOperation();
-        owningObject = static_cast<UMLObject*>(owningObject->parent());
+        owningObject = owningObject->umlParent();
     }
     UMLClassifier *ownParent = owningObject->asUMLClassifier();
     if (ownParent == NULL) {
@@ -247,7 +247,7 @@ void UMLAttribute::copyInto(UMLObject *lhs) const
 UMLObject* UMLAttribute::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLAttribute *clone = new UMLAttribute(parent()->asUMLObject());
+    UMLAttribute *clone = new UMLAttribute(umlParent());
     copyInto(clone);
 
     return clone;

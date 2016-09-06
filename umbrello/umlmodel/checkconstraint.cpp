@@ -82,7 +82,7 @@ void UMLCheckConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLCheckConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLCheckConstraint *clone = new UMLCheckConstraint(parent()->asUMLObject());
+    UMLCheckConstraint *clone = new UMLCheckConstraint(umlParent());
     copyInto(clone);
     return clone;
 }

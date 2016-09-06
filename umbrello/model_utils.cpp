@@ -174,7 +174,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     if (currentObj) {
         UMLPackage *pkg = NULL;
         if (currentObj->asUMLClassifierListItem()) {
-            currentObj = static_cast<UMLObject*>(currentObj->parent());
+            currentObj = currentObj->umlParent();
         }
         pkg = currentObj->asUMLPackage();
         if (pkg == NULL || pkg->baseType() == UMLObject::ot_Association)
@@ -1429,7 +1429,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_UniqueConstraint: {
-         UMLEntity* ent = static_cast<UMLEntity*>(o->parent());
+         UMLEntity* ent = o->umlParent()->asUMLEntity();
          UMLUniqueConstraint* uc = o->asUMLUniqueConstraint();
          if (ent->isPrimaryKey(uc)) {
              type = UMLListViewItem::lvt_PrimaryKeyConstraint;

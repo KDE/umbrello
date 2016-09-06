@@ -516,7 +516,7 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
         return false;
     }
 
-    if (static_cast<UMLEntity*>(uconstr->parent()) != this) {
+    if (uconstr->umlParent()->asUMLEntity() != this) {
 
         uDebug() << "Parent of " << uconstr->name()
                  << " does not match with current entity";
@@ -524,7 +524,7 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
     }
 
     // check if this constraint already exists as a unique constraint for this entity
-    UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(findChildObjectById(uconstr->id()));
+    UMLUniqueConstraint* uuc = findChildObjectById(uconstr->id())->asUMLUniqueConstraint();
     if (uuc == NULL) {
         addConstraint(uconstr);
         uuc = uconstr;

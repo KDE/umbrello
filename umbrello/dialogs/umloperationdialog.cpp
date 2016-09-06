@@ -401,7 +401,7 @@ bool UMLOperationDialog::apply()
         return false;
     }
 
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    UMLClassifier *classifier = m_operation->umlParent()->asUMLClassifier();
     if(classifier != 0 &&
             classifier->checkOperationSignature(name, m_operation->getParmList(), m_operation))
     {

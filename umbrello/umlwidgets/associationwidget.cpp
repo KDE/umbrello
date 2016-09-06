@@ -251,19 +251,19 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             setOperation(obj->asUMLOperation());
             break;
         case UMLObject::ot_Attribute:
-            klass = static_cast<UMLClassifier*>(obj->parent());
+            klass = obj->umlParent()->asUMLClassifier();
             connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             attr = obj->asUMLAttribute();
             connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;
         case UMLObject::ot_EntityAttribute:
-            ent = static_cast<UMLEntity*>(obj->parent());
+            ent = obj->umlParent()->asUMLEntity();
             connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             break;
         case UMLObject::ot_ForeignKeyConstraint:
-            ent = static_cast<UMLEntity*>(obj->parent());
+            ent = obj->umlParent()->asUMLEntity();
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             break;
