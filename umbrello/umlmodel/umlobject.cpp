@@ -220,8 +220,8 @@ QString UMLObject::fullyQualifiedName(const QString& separator,
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->document();
-            if (umldoc->rootFolderType(umlPackage()) != Uml::ModelType::N_MODELTYPES ||
-                    (umlPackage() == umldoc->datatypeFolder()));
+            if ((umldoc->rootFolderType(umlPackage()) != Uml::ModelType::N_MODELTYPES) ||
+                    (umlPackage() == umldoc->datatypeFolder()))
                 skipPackage = true;
         }
         if (!skipPackage) {
