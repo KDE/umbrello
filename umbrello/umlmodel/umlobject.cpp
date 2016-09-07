@@ -256,7 +256,7 @@ bool UMLObject::operator==(const UMLObject & rhs) const
 
     // Packages create different namespaces, therefore they should be
     // part of the equality test.
-    if (umlPackage() != rhs.umlPackage())
+    if (umlParent() != rhs.umlParent())
         return false;
 
     // Making the type part of an object's identity has its problems:
@@ -310,7 +310,7 @@ void UMLObject::copyInto(UMLObject *lhs) const
     lhs->m_bStatic = m_bStatic;
     lhs->m_BaseType = m_BaseType;
     lhs->m_visibility = m_visibility;
-    lhs->setUMLPackage(umlPackage());
+    lhs->setUMLParent(umlParent());
 
     // We don't want the same name existing twice.
     lhs->m_name = Model_Utils::uniqObjectName(m_BaseType, umlPackage(), m_name);
@@ -319,7 +319,7 @@ void UMLObject::copyInto(UMLObject *lhs) const
     lhs->m_nId = UniqueID::gen();
 
     // Hope that the parent from QObject is okay.
-    if (lhs->umlPackage() != umlPackage())
+    if (lhs->umlParent() != umlParent())
         uDebug() << "copyInto has a wrong parent";
 }
 

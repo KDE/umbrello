@@ -21,7 +21,10 @@
 #include "TEST_umlobject.h"
 
 // app include
+#include "attribute.h"
+#include "classifier.h"
 #include "folder.h"
+#include "operation.h"
 #include "package.h"
 #include "stereotype.h"
 #include "uml.h"
@@ -44,6 +47,13 @@ void TEST_UMLObject::test_copyInto()
     b.setUMLPackage(&parent);
     b.copyInto(&a);
     QCOMPARE(a, b);
+    UMLClassifier c("Test Classifier");
+    UMLOperation op(&c, "Test Parent");
+    UMLAttribute at(&op, "Attribute");
+    UMLAttribute at2(&op,"Attribute 2");
+    at2.copyInto(&at);
+    QCOMPARE(at, at2);
+    QCOMPARE(at2.umlParent(), at.umlParent());
 }
 
 void TEST_UMLObject::test_clone()
