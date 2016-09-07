@@ -61,6 +61,8 @@ public:
     void setFolderFile(const QString& fileName);
     QString folderFile() const;
 
+    bool showPropertiesDialog(QWidget *parent);
+
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     friend QDebug operator<<(QDebug out, const UMLFolder& item);
