@@ -64,7 +64,7 @@ void StereotypesWindow::modified()
 
 void StereotypesWindow::slotStereotypesDoubleClicked(QModelIndex index)
 {
-    QVariant v = UMLApp::app()->document()->stereotypesModel()->data(index, Qt::UserRole);
+    QVariant v = m_stereotypesTree->model()->data(index, Qt::UserRole);
     if (v.canConvert<UMLStereotype*>()) {
         UMLStereotype *s = v.value<UMLStereotype*>();
         s->showPropertiesDialog(this);
