@@ -25,8 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-DiagramsWindow::DiagramsWindow(QWidget *parent)
-    : QDockWidget(i18n("&Diagrams"), parent)
+DiagramsWindow::DiagramsWindow(const QString &title, QWidget *parent)
+  : QDockWidget(title, parent)
 {
     setObjectName(QLatin1String("DiagramsWindow"));
 

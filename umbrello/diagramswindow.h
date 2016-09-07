@@ -20,7 +20,7 @@ class DiagramsWindow : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit DiagramsWindow(QWidget *parent = 0);
+    explicit DiagramsWindow(const QString &title, QWidget *parent = 0);
     ~DiagramsWindow();
 
 signals:

@@ -25,8 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-StereotypesWindow::StereotypesWindow(QWidget *parent)
-    : QDockWidget(i18n("&Stereotypes"), parent)
+StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
+  : QDockWidget(title, parent)
 {
     setObjectName(QLatin1String("StereotypesWindow"));
 

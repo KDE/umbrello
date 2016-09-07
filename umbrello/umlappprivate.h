@@ -120,11 +120,10 @@ public slots:
     void createDiagramsWindow()
     {
         // create the tree viewer
-        diagramsWindow = new DiagramsWindow(parent);
+        diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
 
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
-        viewDiagramsWindow->setText(i18n("Diagrams"));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
     }
 
@@ -141,11 +140,10 @@ public slots:
     void createStereotypesWindow()
     {
         // create the tree viewer
-        stereotypesWindow = new StereotypesWindow(parent);
+        stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
         viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));
-        viewStereotypesWindow->setText(i18n("Stereotypes"));
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
