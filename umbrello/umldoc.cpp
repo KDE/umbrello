@@ -45,6 +45,7 @@
 #include "version.h"
 #include "worktoolbar.h"
 #include "models/diagramsmodel.h"
+#include "models/objectsmodel.h"
 #include "models/stereotypesmodel.h"
 
 // kde includes
@@ -117,6 +118,7 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false),
     m_diagramsModel(new DiagramsModel),
+    m_objectsModel(new ObjectsModel),
     m_stereotypesModel(new StereotypesModel(&m_stereoList))
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
@@ -2455,6 +2457,11 @@ void UMLDoc::resolveTypes()
 DiagramsModel *UMLDoc::diagramsModel()
 {
     return m_diagramsModel;
+}
+
+ObjectsModel *UMLDoc::objectsModel()
+{
+    return m_objectsModel;
 }
 
 StereotypesModel *UMLDoc::stereotypesModel()

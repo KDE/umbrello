@@ -16,6 +16,7 @@
 #include "findresults.h"
 #include "uml.h"
 #include "diagramswindow.h"
+#include "objectswindow.h"
 #include "stereotypeswindow.h"
 
 // kde includes
@@ -52,8 +53,10 @@ public:
     FindResults findResults;
     QListWidget *logWindow;         ///< Logging window.
     KToggleAction *viewDiagramsWindow;
+    KToggleAction *viewObjectsWindow;
     KToggleAction *viewStereotypesWindow;
     DiagramsWindow *diagramsWindow;
+    ObjectsWindow *objectsWindow;
     StereotypesWindow *stereotypesWindow;
 
     KTextEditor::Editor *editor;
@@ -123,6 +126,16 @@ public slots:
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
         viewDiagramsWindow->setText(i18n("Diagrams"));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
+    }
+
+    void createObjectsWindow()
+    {
+        // create the object window
+        objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
+        parent->addDockWidget(Qt::RightDockWidgetArea, objectsWindow);
+
+        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_objects_window"));
+        connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
     }
 
     void createStereotypesWindow()

@@ -932,6 +932,9 @@ void UMLApp::initView()
     setCentralWidget(widget);
 
     m_d->createDiagramsWindow();
+#ifdef ENABLE_UML_OBJECTS_WINDOW
+    m_d->createObjectsWindow();
+#endif
     m_d->createStereotypesWindow();
 
     // create the tree viewer

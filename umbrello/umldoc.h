@@ -49,6 +49,7 @@ class QPrinter;
 
 class IDChangeLog;
 class DiagramsModel;
+class ObjectsModel;
 class StereotypesModel;
 class UMLPackage;
 class UMLFolder;
@@ -237,6 +238,7 @@ public:
 
     DiagramsModel *diagramsModel();
     StereotypesModel *stereotypesModel();
+    ObjectsModel *objectsModel();
 
 private:
     void initSaveTimer();
@@ -314,6 +316,7 @@ private:
     bool m_bClosing;
 
     DiagramsModel *m_diagramsModel;
+    ObjectsModel *m_objectsModel;
     StereotypesModel *m_stereotypesModel;
 
 public slots:

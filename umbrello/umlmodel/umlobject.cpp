@@ -19,6 +19,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
+#include "models/objectsmodel.h"
 #include "package.h"
 #include "folder.h"
 #include "stereotype.h"
@@ -47,6 +48,7 @@ UMLObject::UMLObject(const UMLObject &other)
   : QObject(other.umlParent())
 {
     other.copyInto(this);
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -64,6 +66,7 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
     init();
     if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -80,6 +83,7 @@ UMLObject::UMLObject(const QString& name, ID::Type id)
     init();
     if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -92,6 +96,7 @@ UMLObject::UMLObject(UMLObject * parent)
     m_name(QString())
 {
     init();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -106,6 +111,7 @@ UMLObject::~UMLObject()
         if (stereotype)
             stereotype->decrRefCount();
     }
+    UMLApp::app()->document()->objectsModel()->remove(this);
 }
 
 /**

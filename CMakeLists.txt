@@ -235,6 +235,7 @@ endmacro(add_unstable_feature)
 
 add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
+add_unstable_feature(UML_OBJECTS_WINDOW) # objects dock window
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)

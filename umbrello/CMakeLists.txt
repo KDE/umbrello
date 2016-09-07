@@ -439,6 +439,7 @@ set(umbrellobase_SRCS
     birdview.cpp
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
+    objectswindow.cpp
     docwindow.cpp
     dotgenerator.cpp
     icon_utils.cpp
@@ -475,6 +476,7 @@ set(umbrellobase_SRCS
 
 set(umbrellomodels_SRCS
     models/diagramsmodel.cpp
+    models/objectsmodel.cpp
     models/stereotypesmodel.cpp
 )
 
