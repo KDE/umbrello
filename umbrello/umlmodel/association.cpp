@@ -238,7 +238,7 @@ bool UMLAssociation::load(QDomElement & element)
         m_AssocType == Uml::AssociationType::Category2Parent) {
         QString general = element.attribute(QLatin1String("general"));
         if (!general.isEmpty()) {
-            UMLClassifier *owningClassifier = dynamic_cast<UMLClassifier*>(m_pUMLPackage);
+            UMLClassifier *owningClassifier = dynamic_cast<UMLClassifier*>(m_pUMLPackage.data());
             if (owningClassifier == NULL){
                 uWarning() << "Cannot load UML2 generalization: m_pUMLPackage is expected "
                            << "to be the owning classifier (=client)";
