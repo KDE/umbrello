@@ -25,8 +25,8 @@ class CodeImpThread;
 class ClassImport
 {
 public:
-    ClassImport(CodeImpThread* thread = 0) : m_thread(thread), m_enabled(true) {}
-    virtual ~ClassImport() {}
+    ClassImport(CodeImpThread* thread = 0);
+    virtual ~ClassImport();
 
     bool importFiles(const QStringList& fileNames);
     bool importFile(const QString& fileName);
