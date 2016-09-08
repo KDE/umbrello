@@ -775,7 +775,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
                 newParentId = oldParentId;
             }
 
-            newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
+            newParent = doc->findObjectById(newParentId)->asUMLPackage();
         }
 
         if (newParent == 0) {
