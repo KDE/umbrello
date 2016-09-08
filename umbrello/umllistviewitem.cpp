@@ -342,7 +342,7 @@ void UMLListViewItem::updateObject()
     UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();
     if (Model_Utils::isClassifierListitem(ot)) {
-        UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_object);
+        UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_object.data());
         modelObjText = pNarrowed->toString(Uml::SignatureType::SigNoVis);
     }
     setText(modelObjText);
@@ -509,7 +509,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             cancelRenameWithMsg();
             return;
         }
-        UMLOperation *op = static_cast<UMLOperation*>(m_object);
+        UMLOperation *op = static_cast<UMLOperation*>(m_object.data());
         UMLClassifier *parent = static_cast<UMLClassifier *>(op->parent());
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
@@ -572,7 +572,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 return;
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, nt.m_name));
-            UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_object);
+            UMLAttribute *pAtt = static_cast<UMLAttribute*>(m_object.data());
             pAtt->setType(nt.m_type);
             pAtt->setVisibility(vis);
             pAtt->setParmKind(nt.m_direction);
@@ -607,7 +607,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, name));
 
-            UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_object);
+            UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_object.data());
             m_label = uec->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
@@ -633,7 +633,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 return;
             }
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, nt.m_name));
-            UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_object);
+            UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_object.data());
             tmpl->setType(nt.m_type);
             m_label = tmpl->toString(Uml::SignatureType::SigNoVis);
         } else {
@@ -892,7 +892,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         if (m_type != lvt_View)
             itemElement.setAttribute(QLatin1String("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
-        extFolder = static_cast<UMLFolder*>(m_object);
+        extFolder = static_cast<UMLFolder*>(m_object.data());
         if (!extFolder->folderFile().isEmpty()) {
             itemElement.setAttribute(QLatin1String("open"), QLatin1String("0"));
             qElement.appendChild(itemElement);
