@@ -39,7 +39,7 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
     m_objectsTree->verticalHeader()->setDefaultSectionSize(20);
     m_objectsTree->verticalHeader()->setVisible(false);
 #if QT_VERSION >= 0x050000
-    m_diagramsTree->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    m_objectsTree->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #else
     m_objectsTree->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 #endif
