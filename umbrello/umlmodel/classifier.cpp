@@ -703,7 +703,7 @@ bool UMLClassifier::resolveRef()
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             if (!cli)
-                return false;
+                continue;
             switch (cli->baseType()) {
                 case UMLObject::ot_Attribute:
                     emit attributeAdded(cli);
