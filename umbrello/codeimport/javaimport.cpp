@@ -159,6 +159,12 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     baseClassName.remove(QLatin1Char('['));
     baseClassName.remove(QLatin1Char(']'));
 
+    // remove template class name so that the class itself can be resolved
+    int index = baseClassName.indexOf(QLatin1Char('<'));
+    if (index != -1) {
+        baseClassName = baseClassName.remove(index, baseClassName.size()-index);
+    }
+
     // java has a few implicit imports.  Most relevant for this is the
     // current package, which is in the same directory as the current file
     // being parsed
