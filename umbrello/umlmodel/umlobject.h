@@ -48,6 +48,7 @@ class UMLStereotype;
 class UMLTemplate;
 class UMLUniqueConstraint;
 class UMLUseCase;
+class UMLObjectPrivate;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -277,6 +278,8 @@ protected:
                                            ///< fully qualified target name of a reference.
                                            ///< In case the quidu is not found, the human readable name is
                                            ///< used which we store in m_SecondaryFallback.
+    UMLObjectPrivate *m_d;                 ///< private data
+    friend class ObjectsModel;
 };
 
 #endif

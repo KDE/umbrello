@@ -12,10 +12,13 @@
 
 // app includes
 #include "attribute.h"
+#include "classifier.h"
 #include "folder.h"
 #include "operation.h"
 #include "uml.h"
 #include "umldoc.h"
+
+#include "umlobjectprivate.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -61,7 +64,7 @@ int ObjectsModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return 4;
+    return 7;
 }
 
 QVariant ObjectsModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -82,6 +85,12 @@ QVariant ObjectsModel::headerData(int section, Qt::Orientation orientation, int 
         return QVariant(i18n("Folder"));
     else if (section == 3)
         return QVariant(i18n("ID"));
+    else if (section == 4)
+        return QVariant(i18n("Saved"));
+    else if (section == 5)
+        return QVariant(i18n("Parent"));
+    else if (section == 6)
+        return QVariant(i18n("Pointer"));
     else return QVariant();
 }
 
@@ -100,23 +109,55 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
         return QVariant();
 
     UMLObject *o  = m_allObjects.at(index.row());
-    if (index.column() == 0)
+
+    // each case needs to return
+    switch (index.column()) {
+    case 0:
         return o->name();
-    else if (index.column() == 1)
+    case 1:
         return o->baseTypeStr();
-    else if (index.column() == 2) {
-        QVariant v;
+    case 2:
         if (o->umlPackage())
-            v.setValue(o->umlPackage()->name());
+            return o->umlPackage()->name();
         else if (o->parent()) {
             UMLObject *p = dynamic_cast<UMLObject*>(o->parent());
             if (p)
-                v.setValue(p->name());
-        }
-        return v;
-    } else if (index.column() == 3)
+                return p->name();
+        } else
+            return QString();
+   case 3:
         return Uml::ID::toString(o->id());
-    return QVariant();
+   case 4:
+        return o->m_d->isSaved;
+   case 5:
+        if (o->umlPackage()) {
+            UMLFolder *f = o->umlPackage()->asUMLFolder();
+            if (f && f->containedObjects().contains(o))
+                return QLatin1String("package +");
+            else
+                return QLatin1String("package -");
+        } else if (o->umlParent()) {
+            if (o->isUMLAttribute()) {
+                UMLOperation *op = o->umlParent()->asUMLOperation();
+                if (op && op->getParmList().contains(o->asUMLAttribute()))
+                    return QLatin1String("parent +");
+                else
+                    return QLatin1String("parent -");
+            } else if (o->isUMLOperation()) {
+                UMLClassifier *c = o->umlParent()->asUMLClassifier();
+                if (c && c->getOpList().contains(o->asUMLOperation()))
+                    return QLatin1String("parent +");
+                else
+                    return QLatin1String("parent -");
+            }
+            return QLatin1String("not implemented");
+        } else
+            return QLatin1String("no parent");
+    case 6:
+        return QString::number((unsigned long) o, 16);
+    default:
+        return QVariant();
+    }
 }
 
 void ObjectsModel::emitDataChanged(const QModelIndex &index)

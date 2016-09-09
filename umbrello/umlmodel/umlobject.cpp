@@ -19,6 +19,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
+#include "umlobjectprivate.h"
 #include "models/objectsmodel.h"
 #include "package.h"
 #include "folder.h"
@@ -45,7 +46,8 @@ DEBUG_REGISTER_DISABLED(UMLObject)
  * @param other object to created from
  */
 UMLObject::UMLObject(const UMLObject &other)
-  : QObject(other.umlParent())
+  : QObject(other.umlParent()),
+    m_d(new UMLObjectPrivate)
 {
     other.copyInto(this);
     UMLApp::app()->document()->objectsModel()->add(this);
@@ -61,7 +63,8 @@ UMLObject::UMLObject(const UMLObject &other)
 UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
   : QObject(parent),
     m_nId(id),
-    m_name(name)
+    m_name(name),
+    m_d(new UMLObjectPrivate)
 {
     init();
     if (id == Uml::ID::None)
@@ -78,7 +81,8 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
 UMLObject::UMLObject(const QString& name, ID::Type id)
   : QObject(0),
     m_nId(id),
-    m_name(name)
+    m_name(name),
+    m_d(new UMLObjectPrivate)
 {
     init();
     if (id == Uml::ID::None)
@@ -93,7 +97,8 @@ UMLObject::UMLObject(const QString& name, ID::Type id)
 UMLObject::UMLObject(UMLObject * parent)
   : QObject(parent),
     m_nId(Uml::ID::None),
-    m_name(QString())
+    m_name(QString()),
+    m_d(new UMLObjectPrivate)
 {
     init();
     UMLApp::app()->document()->objectsModel()->add(this);
@@ -111,6 +116,7 @@ UMLObject::~UMLObject()
         if (stereotype)
             stereotype->decrRefCount();
     }
+    delete m_d;
     UMLApp::app()->document()->objectsModel()->remove(this);
 }
 
@@ -837,6 +843,7 @@ void UMLObject::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
 {
+    m_d->isSaved = true;
     /*
       Call as the first action of saveToXMI() in child class:
       This creates the QDomElement with which to work.
