@@ -368,7 +368,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations)
              (!withRealizations && a->getAssocType() == Uml::AssociationType::Realization) ||
                 a->getObjectId(Uml::RoleType::A) != id())
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+        UMLClassifier *c = a->getObject(Uml::RoleType::B)->asUMLClassifier();
         if (c)
             list.append(c);
         else
@@ -395,7 +395,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
              a->getAssocType() != Uml::AssociationType::Realization) ||
                 a->getObjectId(Uml::RoleType::B) != id())
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+        UMLClassifier *c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
         if (c)
             list.append(c);
         else

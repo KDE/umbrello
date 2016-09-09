@@ -203,7 +203,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
         int i = 0;
         for (; i < pCount; ++i) {
             Model_Utils::NameAndType_ListIt nt(params.begin() + i);
-            UMLClassifier *type = dynamic_cast<UMLClassifier*>((*nt).m_type);
+            UMLClassifier *type = (*nt).m_type->asUMLClassifier();
             UMLClassifier *testType = testParams.at(i)->getType();
             if (type == NULL && testType == NULL) { //no parameter type
                 continue;
@@ -1616,11 +1616,11 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
         // We also ignore classifiers which are the same as the current one
         // (e.g. id matches), we only want the "other" classifiers
         if (a->getObjectId(RoleType::A) == id() && !a->getRoleName(RoleType::B).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::B));
+            UMLClassifier *c = a->getObject(RoleType::B)->asUMLClassifier();
             if(c)
                 classifiers.append(c);
         } else if (a->getObjectId(RoleType::B) == id() && !a->getRoleName(RoleType::A).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::A));
+            UMLClassifier *c = a->getObject(RoleType::A)->asUMLClassifier();
             if(c)
                 classifiers.append(c);
         }

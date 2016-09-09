@@ -1239,9 +1239,9 @@ void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Ty
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+            current = a->getObject(Uml::RoleType::B)->asUMLClassifier();
         } else if (a->getObjectId(Uml::RoleType::B) == myId && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+            current = a->getObject(Uml::RoleType::A)->asUMLClassifier();
             isFirstClass = false;
         }
 

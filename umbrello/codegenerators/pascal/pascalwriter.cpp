@@ -127,7 +127,7 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append(QLatin1String("_Vector"));
         }
     }
-    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+    UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
     if (c == NULL)
         return;
     typeName = cleanName(c->name());

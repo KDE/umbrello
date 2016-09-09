@@ -145,7 +145,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         UMLAssociation *a,
                                         QString& typeName, QString& roleName)
 {
-    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+    UMLClassifier* assocEnd = a->getObject(Uml::RoleType::B)->asUMLClassifier();
     if (assocEnd == NULL)
         return;
     const Uml::AssociationType::Enum assocType = a->getAssocType();

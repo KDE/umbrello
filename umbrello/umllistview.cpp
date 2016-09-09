@@ -522,7 +522,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_Externalize_Folder:
         {
             UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-            UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->umlObject());
+            UMLFolder *modelFolder = current->umlObject()->asUMLFolder();
             if (modelFolder == 0) {
                 uError() << "modelFolder is 0";
                 return;
@@ -1639,7 +1639,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     }
     else if (Model_Utils::typeIsDiagram(srcType)) {
         UMLView *v = m_doc->findView(srcId);
-        UMLFolder *newParentObj = dynamic_cast<UMLFolder*>(newParent->umlObject());
+        UMLFolder *newParentObj = newParent->umlObject()->asUMLFolder();
         if (v) {
             UMLFolder *srcPkg = v->umlScene()->folder();
             if (srcPkg) {
@@ -2214,7 +2214,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             // creation was cancelled by the user
             return;
         }
-        UMLFolder* parent = dynamic_cast<UMLFolder*>(parentItem->umlObject());
+        UMLFolder* parent = parentItem->umlObject()->asUMLFolder();
         UMLApp::app()->executeCommand(new Uml::CmdCreateDiagram(m_doc, diagramType, diagramName, parent));
         return;
     }

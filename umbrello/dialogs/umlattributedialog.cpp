@@ -118,8 +118,8 @@ bool UMLAttributeDialog::apply()
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pAttribute->parent());
-    UMLObject *o = pConcept->findChildObject(name);
+    UMLClassifier * pConcept = m_pAttribute->umlParent()->asUMLClassifier();
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), 0);

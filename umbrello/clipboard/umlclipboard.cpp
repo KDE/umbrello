@@ -605,7 +605,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     if (!lvitem || !Model_Utils::typeIsClassifier(lvitem->type())) {
         return false;
     }
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(lvitem->umlObject());
+    UMLClassifier *parent = lvitem->umlObject()->asUMLClassifier();
 
     if (parent == NULL) {
         uError() << "parent is not a UMLClassifier";

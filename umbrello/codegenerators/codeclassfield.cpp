@@ -442,7 +442,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // design.
         Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
         {
-            UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
+            UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
                 uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
             if(role && m->getType() == type && role->role() == role_id)

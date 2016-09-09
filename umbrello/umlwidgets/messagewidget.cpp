@@ -812,11 +812,11 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
     updateResizability();
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::RoleType::B]->umlObject());
+    UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
-        op = dynamic_cast<UMLOperation*>(c->findChildObjectById(opId, true));
+        op = c->findChildObjectById(opId, true)->asUMLOperation();
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.

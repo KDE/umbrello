@@ -112,7 +112,7 @@ UMLObject::~UMLObject()
     // unref stereotype
     setUMLStereotype(0);
     if (m_pSecondary && m_pSecondary->baseType() == ot_Stereotype) {
-        UMLStereotype* stereotype = dynamic_cast<UMLStereotype*>(m_pSecondary.data());
+        UMLStereotype* stereotype = m_pSecondary->asUMLStereotype();
         if (stereotype)
             stereotype->decrRefCount();
     }
@@ -753,7 +753,7 @@ bool UMLObject::resolveRef()
             if (m_pSecondary->baseType() == ot_Stereotype) {
                 if (m_pStereotype)
                     m_pStereotype->decrRefCount();
-                m_pStereotype = dynamic_cast<UMLStereotype*>(m_pSecondary.data());
+                m_pStereotype = m_pSecondary->asUMLStereotype();
                 m_pStereotype->incrRefCount();
                 m_pSecondary = NULL;
             }

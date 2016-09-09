@@ -1488,7 +1488,7 @@ bool UMLScene::isSavedInSeparateFile()
     const UMLListViewItem::ListViewType lvt = parentItem->type();
     if (! Model_Utils::typeIsFolder(lvt))
         return false;
-    UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(parentItem->umlObject());
+    UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
     if (modelFolder == NULL) {
         uError() << msgPrefix
                  << "parent model object is not a UMLFolder (?)";

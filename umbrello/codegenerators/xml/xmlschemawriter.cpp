@@ -623,7 +623,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // between different classes are to be treated
             if (printRoleB)
             {
-                UMLClassifier *classifierB = dynamic_cast<UMLClassifier*>(a->getObjectB());
+                UMLClassifier *classifierB = a->getObjectB()->asUMLClassifier();;
                 if (classifierB) {
                         // ONLY write out IF there is a rolename given
                         // otherwise it is not meant to be declared
@@ -636,7 +636,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // print RoleA decl
             if (printRoleA)
             {
-                UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+                UMLClassifier *classifierA = a->getObject(Uml::RoleType::A)->asUMLClassifier();
                 if (classifierA) {
                     // ONLY write out IF there is a rolename given
                     // otherwise it is not meant to be declared

@@ -89,7 +89,7 @@ bool UMLEnumLiteralDialog::apply()
         m_pNameLE->setText(m_pEnumLiteral->name());
         return false;
     }
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pEnumLiteral->parent());
+    UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
     if (!pConcept) {
         uError() << "Could not get parent of enum literal '" << m_pEnumLiteral->name() << "'";
         return false;
