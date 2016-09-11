@@ -26,6 +26,8 @@
 // qt includes
 #include <QtDebug>
 
+Q_DECLARE_METATYPE(UMLObject*);
+
 ObjectsModel::ObjectsModel()
 {
 }

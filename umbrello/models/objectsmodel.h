@@ -17,8 +17,6 @@
 
 class UMLObject;
 
-Q_DECLARE_METATYPE(UMLObject*);
-
 class ObjectsModel : public QAbstractTableModel
 {
     Q_OBJECT

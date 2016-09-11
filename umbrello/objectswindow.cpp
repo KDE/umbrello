@@ -25,6 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
+Q_DECLARE_METATYPE(UMLObject*);
+
 ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
   : QDockWidget(title, parent)
 {
