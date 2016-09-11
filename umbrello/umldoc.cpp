@@ -79,6 +79,7 @@
 #if QT_VERSION >= 0x050000
 #include <QInputDialog>
 #endif
+#include <QListWidget>
 #if QT_VERSION >= 0x050000
 #include <QMimeDatabase>
 #endif
@@ -393,6 +394,7 @@ void UMLDoc::closeDocument()
     if (dw) {
         dw->reset();
     }
+    UMLApp::app()->logWindow()->clear();
 
     UMLListView *listView = UMLApp::app()->listView();
     if (listView) {
