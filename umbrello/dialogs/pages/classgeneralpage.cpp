@@ -102,7 +102,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     int row = 2;
     UMLClassifier *c = m_pObject->asUMLClassifier();
-    if (c->isReference() && c->originType()) {
+    if (c && c->isReference() && c->originType()) {
         QLabel *label = new QLabel(i18n("Reference:"), this);
         m_pNameLayout->addWidget(label, row, 0);
         QLabel *reference = new QLabel(c->originType()->name(), this);
