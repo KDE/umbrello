@@ -2145,6 +2145,8 @@ bool UMLListView::isExpandable(UMLListViewItem::ListViewType lvt)
 void UMLListView::slotExpanded(QTreeWidgetItem * item)
 {
     UMLListViewItem * myItem = dynamic_cast<UMLListViewItem*>(item);
+    if (!myItem)
+        return;
     if (isExpandable(myItem->type())) {
         myItem->updateFolder();
     }
