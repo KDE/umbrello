@@ -1885,8 +1885,9 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
         }
     } else {
         if (type == UMLObject::ot_Association) {
-            UMLAssociation *a = (UMLAssociation *)umlobject;
+            UMLAssociation *a = umlobject->asUMLAssociation();
             removeAssociation(a, false);  // don't call setModified here, it's done below
+            emit sigObjectRemoved(umlobject);
             if (deleteObject)
                 delete a;
         } else {
@@ -1921,13 +1922,13 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                     }
                 }
                 pkg->removeObject(umlobject);
+                emit sigObjectRemoved(umlobject);
                 if (deleteObject)
                     delete umlobject;
             } else {
                 uError() << umlobject->name() << ": parent package is not set !";
             }
         }
-        emit sigObjectRemoved(umlobject);
     }
     setModified(true);
 }
