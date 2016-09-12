@@ -2158,6 +2158,8 @@ void UMLListView::slotExpanded(QTreeWidgetItem * item)
 void UMLListView::slotCollapsed(QTreeWidgetItem * item)
 {
     UMLListViewItem * myItem = dynamic_cast<UMLListViewItem*>(item);
+    if (!myItem)
+        return;
     if (isExpandable(myItem->type())) {
         myItem->updateFolder();
     }
