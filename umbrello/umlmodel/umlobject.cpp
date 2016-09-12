@@ -116,8 +116,8 @@ UMLObject::~UMLObject()
         if (stereotype)
             stereotype->decrRefCount();
     }
-    delete m_d;
     UMLApp::app()->document()->objectsModel()->remove(this);
+    delete m_d;
 }
 
 /**

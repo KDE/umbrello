@@ -52,10 +52,10 @@ void TestBase::initTestCase()
 
 void TestBase::cleanupTestCase()
 {
-    delete UMLApp::app();
     foreach(QObject *p, m_objectsToDelete) {
         delete p;
     }
+    delete UMLApp::app();
 }
 
 void TestBase::cleanupOnExit(QObject *p)
