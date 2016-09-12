@@ -69,6 +69,7 @@ public:
         viewDiagramsWindow(0),
         viewStereotypesWindow(0),
         diagramsWindow(0),
+        objectsWindow(0),
         stereotypesWindow(0),
         view(0),
         document(0)
