@@ -199,6 +199,7 @@ UMLDoc::~UMLDoc()
     qDeleteAll(m_stereoList);
     delete m_stereotypesModel;
     delete m_diagramsModel;
+    delete m_objectsModel;
 }
 
 /**
