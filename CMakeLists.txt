@@ -109,6 +109,16 @@ if(NOT BUILD_KF5)
         kde4_add_executable(${ARGN})
     endmacro(ecm_add_executable)
 
+    macro(ecm_mark_nongui_executable)
+        foreach(_target ${ARGN})
+            set_target_properties(${_target}
+                                  PROPERTIES
+                                  WIN32_EXECUTABLE FALSE
+                                  MACOSX_BUNDLE FALSE
+                                 )
+        endforeach()
+    endmacro(ecm_mark_nongui_executable)
+
     macro_display_feature_log()
     KDE4_NO_ENABLE_FINAL(umbrello)
 else()
