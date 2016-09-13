@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-class TEST_basictypes : public QObject
+class TestBasicTypes : public QObject
 {
     Q_OBJECT
 private slots:

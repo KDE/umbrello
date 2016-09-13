@@ -18,15 +18,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TEST_PYTHONWRITER_H
-#define TEST_PYTHONWRITER_H
+#ifndef TESTPYTHONWRITER_H
+#define TESTPYTHONWRITER_H
 
 #include "testbase.h"
 
 /**
  * Unit test for class PythonWriter (pythonwriter.h).
  */
-class TEST_pythonwriter: public TestCodeGeneratorBase
+class TestPythonWriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
 private slots:
@@ -35,4 +35,4 @@ private slots:
     void test_reservedKeywords();
 };
 
-#endif // TEST_PYTHONWRITER_H
+#endif // TESTPYTHONWRITER_H

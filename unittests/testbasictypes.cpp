@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TEST_basictypes.h"
+#include "testbasictypes.h"
 
 // app includes
 #include "basictypes.h"
@@ -39,7 +39,7 @@ class B : public A
 {
 };
 
-void TEST_basictypes::test_dynamic_cast()
+void TestBasicTypes::test_dynamic_cast()
 {
     QScopedPointer<A> a1(new A);
     B* b1 = dynamic_cast<B*> (a1.data());
@@ -49,7 +49,7 @@ void TEST_basictypes::test_dynamic_cast()
     QVERIFY(b2);
 }
 
-void TEST_basictypes::test_QString_english()
+void TestBasicTypes::test_QString_english()
 {
     QLocale _default = QLocale();
     QLocale english(QLocale::English);
@@ -72,7 +72,7 @@ void TEST_basictypes::test_QString_english()
     QLocale::setDefault(_default);
 }
 
-void TEST_basictypes::test_QString_non_english()
+void TestBasicTypes::test_QString_non_english()
 {
     QLocale _default = QLocale();
     QLocale hungarian(QLocale::Hungarian);
@@ -95,7 +95,7 @@ void TEST_basictypes::test_QString_non_english()
     QLocale::setDefault(_default);
 }
 
-void TEST_basictypes::test_DomDocument_english()
+void TestBasicTypes::test_DomDocument_english()
 {
     QLocale _default = QLocale();
     QLocale locale(QLocale::English);
@@ -130,7 +130,7 @@ void TEST_basictypes::test_DomDocument_english()
     QLocale::setDefault(_default);
 }
 
-void TEST_basictypes::test_DomDocument_non_english()
+void TestBasicTypes::test_DomDocument_non_english()
 {
     QLocale _default = QLocale();
     QLocale locale(QLocale::Hungarian);
@@ -166,7 +166,7 @@ void TEST_basictypes::test_DomDocument_non_english()
     QLocale::setDefault(_default);
 }
 
-void TEST_basictypes::test_ModelType_toString()
+void TestBasicTypes::test_ModelType_toString()
 {
     Uml::ModelType::Enum model0 = Uml::ModelType::Logical;
     QCOMPARE(Uml::ModelType::toString(model0), QString("Logical"));
@@ -180,7 +180,7 @@ void TEST_basictypes::test_ModelType_toString()
     QCOMPARE(Uml::ModelType::toString(model4), QString("EntityRelationship"));
 }
 
-void TEST_basictypes::test_ModelType_fromString()
+void TestBasicTypes::test_ModelType_fromString()
 {
     QString modelStr;
     Uml::ModelType::Enum model;
@@ -202,7 +202,7 @@ void TEST_basictypes::test_ModelType_fromString()
     QVERIFY(model == Uml::ModelType::EntityRelationship);
 }
 
-void TEST_basictypes::test_ModelType_forLoop()
+void TestBasicTypes::test_ModelType_forLoop()
 {
     Uml::ModelType::Enum list[Uml::ModelType::N_MODELTYPES];
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -220,7 +220,7 @@ void TEST_basictypes::test_ModelType_forLoop()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_Visibility_toString()
+void TestBasicTypes::test_Visibility_toString()
 {
     Uml::Visibility::Enum visibility1 = Uml::Visibility::Public;
     QCOMPARE(Uml::Visibility::toString(visibility1), QString("public"));
@@ -236,7 +236,7 @@ void TEST_basictypes::test_Visibility_toString()
     QCOMPARE(Uml::Visibility::toString(visibility4, true), QString("~"));
 }
 
-void TEST_basictypes::test_Visibility_fromString()
+void TestBasicTypes::test_Visibility_fromString()
 {
     Uml::Visibility::Enum visibility;
     visibility = Uml::Visibility::fromString("public");
@@ -261,7 +261,7 @@ void TEST_basictypes::test_Visibility_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_DiagramType_toString()
+void TestBasicTypes::test_DiagramType_toString()
 {
     Uml::DiagramType::Enum diagram0(Uml::DiagramType::Undefined);
     QCOMPARE(Uml::DiagramType::toString(diagram0), QString("Undefined"));
@@ -285,7 +285,7 @@ void TEST_basictypes::test_DiagramType_toString()
     QCOMPARE(Uml::DiagramType::toString(diagram9), QString("EntityRelationship"));
 }
 
-void TEST_basictypes::test_DiagramType_fromString()
+void TestBasicTypes::test_DiagramType_fromString()
 {
     Uml::DiagramType::Enum diagram;
     diagram = Uml::DiagramType::fromString("Undefined");
@@ -310,7 +310,7 @@ void TEST_basictypes::test_DiagramType_fromString()
     QVERIFY(diagram == Uml::DiagramType::EntityRelationship);
 }
 
-void TEST_basictypes::test_DiagramType_forLoop()
+void TestBasicTypes::test_DiagramType_forLoop()
 {
     Uml::DiagramType::Enum list[Uml::DiagramType::N_DIAGRAMTYPES];
     for (int i = 0; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
@@ -333,7 +333,7 @@ void TEST_basictypes::test_DiagramType_forLoop()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_AssociationType_toString_fromString()
+void TestBasicTypes::test_AssociationType_toString_fromString()
 {
     for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Reserved; ++i) {
         Uml::AssociationType::Enum at = Uml::AssociationType::fromString(
@@ -345,7 +345,7 @@ void TEST_basictypes::test_AssociationType_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_SignatureType_toString_fromString()
+void TestBasicTypes::test_SignatureType_toString_fromString()
 {
     QVERIFY(Uml::SignatureType::NoSig ==
             Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSig)));
@@ -359,7 +359,7 @@ void TEST_basictypes::test_SignatureType_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_TextRole_toString_fromString()
+void TestBasicTypes::test_TextRole_toString_fromString()
 {
     for (int i = Uml::TextRole::Floating; i < Uml::TextRole::Reserved; ++i) {
         Uml::TextRole::Enum at = Uml::TextRole::fromString(
@@ -371,7 +371,7 @@ void TEST_basictypes::test_TextRole_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_Changeability_toString_fromString()
+void TestBasicTypes::test_Changeability_toString_fromString()
 {
     for (int i = 900; i < 903; ++i) {
         Uml::Changeability::Enum at = Uml::Changeability::fromString(
@@ -383,7 +383,7 @@ void TEST_basictypes::test_Changeability_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_SequenceMessage_toString_fromString()
+void TestBasicTypes::test_SequenceMessage_toString_fromString()
 {
     for (int i = 1000; i < 1004; ++i) {
         Uml::SequenceMessage::Enum at = Uml::SequenceMessage::fromString(
@@ -395,7 +395,7 @@ void TEST_basictypes::test_SequenceMessage_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_RoleType_toString_fromString()
+void TestBasicTypes::test_RoleType_toString_fromString()
 {
     for (int i = Uml::RoleType::A; i <= Uml::RoleType::B; ++i) {
         Uml::RoleType::Enum at = Uml::RoleType::fromString(
@@ -407,7 +407,7 @@ void TEST_basictypes::test_RoleType_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_ParameterDirection_toString_fromString()
+void TestBasicTypes::test_ParameterDirection_toString_fromString()
 {
     for (int i = Uml::ParameterDirection::In; i <= Uml::ParameterDirection::Out; ++i) {
         Uml::ParameterDirection::Enum at = Uml::ParameterDirection::fromString(
@@ -419,7 +419,7 @@ void TEST_basictypes::test_ParameterDirection_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
+void TestBasicTypes::test_ProgrammingLanguage_toString_fromString()
 {
     for (int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; ++i) {
         Uml::ProgrammingLanguage::Enum at = Uml::ProgrammingLanguage::fromString(
@@ -431,7 +431,7 @@ void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_Region_toString_fromString()
+void TestBasicTypes::test_Region_toString_fromString()
 {
     for (int i = Uml::Region::Error; i <= Uml::Region::SouthWest; ++i) {
         Uml::Region::Enum at = Uml::Region::fromString(
@@ -443,7 +443,7 @@ void TEST_basictypes::test_Region_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-void TEST_basictypes::test_Corner_toString_fromString()
+void TestBasicTypes::test_Corner_toString_fromString()
 {
     for (int i = Uml::Corner::TopLeft; i <= Uml::Corner::BottomLeft; i *= 2) {
         Uml::Corner::Enum at = Uml::Corner::fromString(
@@ -455,4 +455,4 @@ void TEST_basictypes::test_Corner_toString_fromString()
 
 //-----------------------------------------------------------------------------
 
-QTEST_MAIN(TEST_basictypes)
+QTEST_MAIN(TestBasicTypes)

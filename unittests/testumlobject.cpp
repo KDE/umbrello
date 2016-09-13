@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TEST_umlobject.h"
+#include "testumlobject.h"
 
 // app include
 #include "attribute.h"
@@ -38,7 +38,7 @@ const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------
 
-void TEST_UMLObject::test_copyInto()
+void TestUMLObject::test_copyInto()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
@@ -56,7 +56,7 @@ void TEST_UMLObject::test_copyInto()
     QCOMPARE(at2.umlParent(), at.umlParent());
 }
 
-void TEST_UMLObject::test_clone()
+void TestUMLObject::test_clone()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
@@ -65,7 +65,7 @@ void TEST_UMLObject::test_clone()
     QCOMPARE(a, b);
 }
 
-void TEST_UMLObject::test_doc()
+void TestUMLObject::test_doc()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
@@ -75,7 +75,7 @@ void TEST_UMLObject::test_doc()
     QCOMPARE(a.doc(), QLatin1String("new doc"));
 }
 
-void TEST_UMLObject::test_equal()
+void TestUMLObject::test_equal()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A", Uml::ID::Reserved);
@@ -90,7 +90,7 @@ void TEST_UMLObject::test_equal()
     QCOMPARE(c == d, false);
 }
 
-void TEST_UMLObject::test_fullyQualifiedName()
+void TestUMLObject::test_fullyQualifiedName()
 {
     UMLObject* a = new UMLObject("Test A");
     cleanupOnExit(a);
@@ -111,7 +111,7 @@ void TEST_UMLObject::test_fullyQualifiedName()
     QCOMPARE(a->fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
 }
 
-void TEST_UMLObject::test_isAbstract()
+void TestUMLObject::test_isAbstract()
 {
     UMLObject a("Test A");
     QCOMPARE(a.isAbstract(), false);
@@ -119,7 +119,7 @@ void TEST_UMLObject::test_isAbstract()
     QCOMPARE(a.isAbstract(), true);
 }
 
-void TEST_UMLObject::test_isStatic()
+void TestUMLObject::test_isStatic()
 {
     UMLObject a("Test A");
     QCOMPARE(a.isStatic(), false);
@@ -127,10 +127,10 @@ void TEST_UMLObject::test_isStatic()
     QCOMPARE(a.isStatic(), true);
 }
 
-class TestUMLObject : public UMLObject
+class LocalUMLObject : public UMLObject
 {
 public:
-    TestUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
+    LocalUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
       : UMLObject(name, id)
     {
     }
@@ -141,7 +141,7 @@ public:
     }
 };
 
-void TEST_UMLObject::test_resolveRef()
+void TestUMLObject::test_resolveRef()
 {
     UMLPackage parent("Test Parent");
     UMLStereotype *stereotype = UMLApp::app()->document()->createStereotype("test");
@@ -161,7 +161,7 @@ void TEST_UMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // unknown stereotype
-    TestUMLObject b("Test B");
+    LocalUMLObject b("Test B");
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
@@ -170,7 +170,7 @@ void TEST_UMLObject::test_resolveRef()
     QCOMPARE(b.secondary()->name(), QLatin1String("undef"));
 }
 
-void TEST_UMLObject::test_saveAndLoad()
+void TestUMLObject::test_saveAndLoad()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
@@ -184,7 +184,7 @@ void TEST_UMLObject::test_saveAndLoad()
     QCOMPARE(a, b);
 }
 
-void TEST_UMLObject::test_setBaseType()
+void TestUMLObject::test_setBaseType()
 {
     UMLObject a("Test A");
     QCOMPARE(a.baseType(), UMLObject::ot_UMLObject);
@@ -192,7 +192,7 @@ void TEST_UMLObject::test_setBaseType()
     QCOMPARE(a.baseType(), UMLObject::ot_Class);
 }
 
-void TEST_UMLObject::test_setSterotype()
+void TestUMLObject::test_setSterotype()
 {
     UMLObject a("Test A");
     QCOMPARE(a.stereotype(), QLatin1String(""));
@@ -200,7 +200,7 @@ void TEST_UMLObject::test_setSterotype()
     QCOMPARE(a.stereotype(), QLatin1String("test"));
 }
 
-void TEST_UMLObject::test_setUMLPackage()
+void TestUMLObject::test_setUMLPackage()
 {
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
@@ -210,7 +210,7 @@ void TEST_UMLObject::test_setUMLPackage()
 }
 
 
-void TEST_UMLObject::test_setVisibility()
+void TestUMLObject::test_setVisibility()
 {
     UMLObject a("Test A");
     QVERIFY(a.visibility() == Uml::Visibility::Public);
@@ -224,10 +224,10 @@ void TEST_UMLObject::test_setVisibility()
     QVERIFY(a.visibility() == Uml::Visibility::FromParent);
 }
 
-void TEST_UMLObject::test_toString()
+void TestUMLObject::test_toString()
 {
     QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QLatin1String("ot_Class"));
     QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
 }
 
-QTEST_MAIN(TEST_UMLObject)
+QTEST_MAIN(TestUMLObject)

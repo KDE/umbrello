@@ -1,5 +1,5 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -18,18 +18,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TEST_OPTIONSTATE_H
-#define TEST_OPTIONSTATE_H
+#ifndef TESTCPPWRITER_H
+#define TESTCPPWRITER_H
 
 #include "testbase.h"
 
-class TEST_optionstate : public TestBase
+/**
+ * Unit test for class CppWriter (cppwriter.h).
+ */
+class TestCppWriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
-
 private slots:
-    void test_create();
-    void test_saveAndLoad();
+    void test_language();
+    void test_writeClass();
+    void test_reservedKeywords();
+    void test_defaultDatatypes();
 };
 
-#endif // TEST_OPTIONSTATE_H
+#endif // TESTCPPWRITER_H

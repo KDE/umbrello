@@ -1,5 +1,5 @@
 /*
-    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
+    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -18,22 +18,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TEST_CPPWRITER_H
-#define TEST_CPPWRITER_H
+#ifndef TESTUMLOBJECT_H
+#define TESTUMLOBJECT_H
 
 #include "testbase.h"
 
-/**
- * Unit test for class CppWriter (cppwriter.h).
- */
-class TEST_cppwriter: public TestCodeGeneratorBase
+class TestUMLObject : public TestBase
 {
     Q_OBJECT
 private slots:
-    void test_language();
-    void test_writeClass();
-    void test_reservedKeywords();
-    void test_defaultDatatypes();
+    void test_copyInto();
+    void test_clone();
+    void test_doc();
+    void test_equal();
+    void test_fullyQualifiedName();
+    void test_isAbstract();
+    void test_isStatic();
+    void test_resolveRef();
+    void test_saveAndLoad();
+    void test_setBaseType();
+    void test_setSterotype();
+    void test_setUMLPackage();
+    void test_setVisibility();
+    void test_toString();
 };
 
-#endif // TEST_CPPWRITER_H
+#endif // TESTUMLOBJECT_H

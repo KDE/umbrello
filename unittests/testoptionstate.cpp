@@ -18,11 +18,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TEST_optionstate.h"
+#include "testoptionstate.h"
 
 #include "optionstate.h"
 
-void TEST_optionstate::test_create()
+void TestOptionState::test_create()
 {
     Settings::OptionState options;
     QCOMPARE(options.classState.showAtts, false);
@@ -35,7 +35,7 @@ void TEST_optionstate::test_create()
     QCOMPARE(optionsA->uiState.useFillColor, false);
 }
 
-void TEST_optionstate::test_saveAndLoad()
+void TestOptionState::test_saveAndLoad()
 {
     Settings::OptionState options;
     options.classState.showAtts = true;
@@ -53,4 +53,4 @@ void TEST_optionstate::test_saveAndLoad()
     QCOMPARE(optionsB.uiState.useFillColor, true);
 }
 
-QTEST_MAIN(TEST_optionstate)
+QTEST_MAIN(TestOptionState)

@@ -18,29 +18,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TEST_UMLOBJECT_H
-#define TEST_UMLOBJECT_H
+#ifndef TESTOPTIONSTATE_H
+#define TESTOPTIONSTATE_H
 
 #include "testbase.h"
 
-class TEST_UMLObject : public TestBase
+class TestOptionState : public TestBase
 {
     Q_OBJECT
+
 private slots:
-    void test_copyInto();
-    void test_clone();
-    void test_doc();
-    void test_equal();
-    void test_fullyQualifiedName();
-    void test_isAbstract();
-    void test_isStatic();
-    void test_resolveRef();
+    void test_create();
     void test_saveAndLoad();
-    void test_setBaseType();
-    void test_setSterotype();
-    void test_setUMLPackage();
-    void test_setVisibility();
-    void test_toString();
 };
 
-#endif // TEST_UMLOBJECT_H
+#endif // TESTOPTIONSTATE_H

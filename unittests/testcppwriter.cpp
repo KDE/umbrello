@@ -18,55 +18,71 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TEST_pythonwriter.h"
+#include "testcppwriter.h"
 
-// app includes
+// app include
 #include "classifier.h"
-#include "pythonwriter.h"
+#include "cppwriter.h"
 
 const bool IS_NOT_IMPL = false;
 
 //-----------------------------------------------------------------------------
 
-class PythonWriterTest : public PythonWriter
+class CppWriterTest : public CppWriter
 {
 public:
     QString findFileName(UMLPackage* concept, const QString &ext)
     {
-       return PythonWriter::findFileName(concept,ext);
+       return CppWriter::findFileName(concept,ext);
     }
 };
 
-void TEST_pythonwriter::test_language()
+void TestCppWriter::test_language()
 {
-    PythonWriter* py = new PythonWriter();
-    Uml::ProgrammingLanguage::Enum lang = py->language();
-    QVERIFY(lang == Uml::ProgrammingLanguage::Python);
+    CppWriter* cpp = new CppWriter();
+    Uml::ProgrammingLanguage::Enum lang = cpp->language();
+    QVERIFY(lang == Uml::ProgrammingLanguage::Cpp);
 }
 
-void TEST_pythonwriter::test_writeClass()
+void TestCppWriter::test_writeClass()
 {
-    PythonWriterTest* py = new PythonWriterTest();
+    CppWriterTest* cpp = new CppWriterTest();
     UMLClassifier* c = new UMLClassifier("Customer", "12345678");
     UMLAttribute* attr;
     attr = c->createAttribute("name_");
     attr = c->createAttribute("address_");
     c->addAttribute(attr);
+    UMLOperation* op;
+    op = c->createOperation("getName");
+    op = c->createOperation("getAddress");
+    c->addOperation(op);
 
-    py->writeClass(c);
+    cpp->writeClass(c);
     // does the just created file exist?
-    QFile file(temporaryPath() + py->findFileName(c, QLatin1String(".py")));
-    QCOMPARE(file.exists(), true);
+    QFile fileHeader(temporaryPath() + cpp->findFileName(c, QLatin1String(".h")));
+    QFile fileCPP(temporaryPath() + cpp->findFileName(c, QLatin1String(".cpp")));
+    QCOMPARE(fileHeader.exists(), true);
+    QCOMPARE(fileCPP.exists(), true);
 }
 
-void TEST_pythonwriter::test_reservedKeywords()
+void TestCppWriter::test_reservedKeywords()
 {
-    PythonWriter* py = new PythonWriter();
-    QStringList list = py->reservedKeywords();
+    CppWriter* cpp = new CppWriter();
+    QStringList list = cpp->reservedKeywords();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], QLatin1String("abs"));
-    QCOMPARE(list[11], QLatin1String("class"));
-    QCOMPARE(list.last(), QLatin1String("zip"));
+    QCOMPARE(list[0], QLatin1String("and"));
+    QCOMPARE(list[11], QLatin1String("case"));
+    QCOMPARE(list.last(), QLatin1String("xor_eq"));
 }
 
-QTEST_MAIN(TEST_pythonwriter)
+void TestCppWriter::test_defaultDatatypes()
+{
+    CppWriter* cpp = new CppWriter();
+    QStringList list = cpp->defaultDatatypes();
+    QCOMPARE(list.empty(), false);
+    QCOMPARE(list[1], QLatin1String("int"));
+    QCOMPARE(list[10], QLatin1String("short int"));
+    QCOMPARE(list[5], QLatin1String("string"));
+}
+
+QTEST_MAIN(TestCppWriter)
