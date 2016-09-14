@@ -114,7 +114,7 @@ ecm_add_executable(testumlroledialog ${testumlroledialog_SRCS})
 target_link_libraries(testumlroledialog ${LIBS})
 
 find_package(LLVM CONFIG)
-find_package(CLANG)
+find_package(CLANG QUIET)
 if(LLVM_FOUND)
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
