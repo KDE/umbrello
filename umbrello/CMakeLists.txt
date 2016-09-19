@@ -530,9 +530,9 @@ if(NOT BUILD_KF5)
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
     if(CMAKE_MAJOR_VERSION LESS 3)
-        qt5_add_resources(libumbrello_SRCS icons.qrc)
+        qt5_add_resources(libumbrello_SRCS icons.qrc ui.qrc)
     else()
-        list(APPEND libumbrello_SRCS icons.qrc)
+        list(APPEND libumbrello_SRCS icons.qrc ui.qrc)
     endif()
     add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
     set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
@@ -583,9 +583,6 @@ else()
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
     install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
     install( FILES org.kde.umbrello.appdata.xml  DESTINATION  ${CMAKE_INSTALL_METAINFODIR})
-    install( FILES
-        umbrelloui.rc
-        DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
 endif()
 
 install( FILES

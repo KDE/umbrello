@@ -163,6 +163,7 @@ int main(int argc, char *argv[])
     args->process(app);
 
     aboutData.processCommandLine(args);
+    Q_INIT_RESOURCE(ui);
 #else
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
