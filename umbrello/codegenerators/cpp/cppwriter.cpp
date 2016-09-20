@@ -952,7 +952,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
             m_indentLevel--;
             if (isStatic)
                 stream << className_ << "::";
-            if (isArrayType) {
+            if (isArrayType)
                 stream << "*" << fieldVarName << " = *" << varName << ";" << m_endl;
             else
                 stream << fieldVarName << " = " << fullVarName << ";" << m_endl;
