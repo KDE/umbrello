@@ -2254,6 +2254,9 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Now that we have determined the "other" UMLObject, seek it in
         // this view's UMLWidgets.
+        if (!other) {
+            continue;
+        }
         Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
