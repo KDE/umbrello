@@ -18,35 +18,35 @@
 #include <QUndoCommand>
 #include <QUndoStack>
 
-#include "cmds/cmd_createDiagram.h"
-#include "cmds/cmd_handleRename.h"
-#include "cmds/cmd_removeDiagram.h"
-#include "cmds/cmd_setStereotype.h"
-#include "cmds/cmd_setVisibility.h"
+#include "cmds/cmdcreatediagram.h"
+#include "cmds/cmdhandlerename.h"
+#include "cmds/cmdremovediagram.h"
+#include "cmds/cmdsetstereotype.h"
+#include "cmds/cmdsetvisibility.h"
 
 /************************************************************
  * Generic
  ************************************************************/
-#include "cmds/generic/cmd_createUMLObject.h"
-#include "cmds/generic/cmd_removeUMLObject.h"
-#include "cmds/generic/cmd_renameUMLObject.h"
+#include "cmds/generic/cmdcreateumlobject.h"
+#include "cmds/generic/cmdremoveumlobject.h"
+#include "cmds/generic/cmdrenameumlobject.h"
 
 /************************************************************
  * Widgets
  ************************************************************/
-#include "cmds/widget/cmd_changeFillColor.h"
-#include "cmds/widget/cmd_changeFont.h"
-#include "cmds/widget/cmd_changeLineColor.h"
-#include "cmds/widget/cmd_changeLineWidth.h"
-#include "cmds/widget/cmd_changeMultiplicity.h"
-#include "cmds/widget/cmd_changeTextColor.h"
-#include "cmds/widget/cmd_changeUseFillColor.h"
-#include "cmds/widget/cmd_changeVisualProperty.h"
-#include "cmds/widget/cmd_createWidget.h"
-#include "cmds/widget/cmd_moveWidget.h"
-#include "cmds/widget/cmd_removeWidget.h"
-#include "cmds/widget/cmd_resizeWidget.h"
-#include "cmds/widget/cmd_setName.h"
-#include "cmds/widget/cmd_setTxt.h"
+#include "cmds/widget/cmdchangefillcolor.h"
+#include "cmds/widget/cmdchangefont.h"
+#include "cmds/widget/cmdchangelinecolor.h"
+#include "cmds/widget/cmdchangelinewidth.h"
+#include "cmds/widget/cmdchangemultiplicity.h"
+#include "cmds/widget/cmdchangetextcolor.h"
+#include "cmds/widget/cmdchangeusefillcolor.h"
+#include "cmds/widget/cmdchangevisualproperty.h"
+#include "cmds/widget/cmdcreatewidget.h"
+#include "cmds/widget/cmdmovewidget.h"
+#include "cmds/widget/cmdremovewidget.h"
+#include "cmds/widget/cmdresizewidget.h"
+#include "cmds/widget/cmdsetname.h"
+#include "cmds/widget/cmdsettxt.h"
 
 #endif

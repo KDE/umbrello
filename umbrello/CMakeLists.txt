@@ -321,30 +321,30 @@ set(libclipboard_SRCS
 )
 
 set(libcmds_SRCS
-    cmds/cmd_baseObjectCommand.cpp
-    cmds/cmd_createDiagram.cpp
-    cmds/cmd_handleRename.cpp
-    cmds/cmd_removeDiagram.cpp
-    cmds/cmd_setStereotype.cpp
-    cmds/cmd_setVisibility.cpp
-    cmds/generic/cmd_createUMLObject.cpp
-    cmds/generic/cmd_removeUMLObject.cpp
-    cmds/generic/cmd_renameUMLObject.cpp
-    cmds/widget/cmd_baseWidgetCommand.cpp
-    cmds/widget/cmd_changeFont.cpp
-    cmds/widget/cmd_changeTextColor.cpp
-    cmds/widget/cmd_changeLineColor.cpp
-    cmds/widget/cmd_changeLineWidth.cpp
-    cmds/widget/cmd_changeFillColor.cpp
-    cmds/widget/cmd_changeUseFillColor.cpp
-    cmds/widget/cmd_changeMultiplicity.cpp
-    cmds/widget/cmd_changeVisualProperty.cpp
-    cmds/widget/cmd_createWidget.cpp
-    cmds/widget/cmd_moveWidget.cpp
-    cmds/widget/cmd_resizeWidget.cpp
-    cmds/widget/cmd_removeWidget.cpp
-    cmds/widget/cmd_setName.cpp
-    cmds/widget/cmd_setTxt.cpp
+    cmds/cmdbaseobjectcommand.cpp
+    cmds/cmdcreatediagram.cpp
+    cmds/cmdhandlerename.cpp
+    cmds/cmdremovediagram.cpp
+    cmds/cmdsetstereotype.cpp
+    cmds/cmdsetvisibility.cpp
+    cmds/generic/cmdcreateumlobject.cpp
+    cmds/generic/cmdremoveumlobject.cpp
+    cmds/generic/cmdrenameumlobject.cpp
+    cmds/widget/cmdbasewidgetcommand.cpp
+    cmds/widget/cmdchangefont.cpp
+    cmds/widget/cmdchangetextcolor.cpp
+    cmds/widget/cmdchangelinecolor.cpp
+    cmds/widget/cmdchangelinewidth.cpp
+    cmds/widget/cmdchangefillcolor.cpp
+    cmds/widget/cmdchangeusefillcolor.cpp
+    cmds/widget/cmdchangemultiplicity.cpp
+    cmds/widget/cmdchangevisualproperty.cpp
+    cmds/widget/cmdcreatewidget.cpp
+    cmds/widget/cmdmovewidget.cpp
+    cmds/widget/cmdresizewidget.cpp
+    cmds/widget/cmdremovewidget.cpp
+    cmds/widget/cmdsetname.cpp
+    cmds/widget/cmdsettxt.cpp
 )
 
 set(libumlwidgets_SRCS
