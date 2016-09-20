@@ -754,7 +754,7 @@ QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
     //IMPORTANT: The zoom value is added to the action.
     QAction* action = new QAction(this);
     action->setCheckable(true);
-    action->setText(QLatin1String(" &") + QString::number(zoom) + QLatin1Char('%'));
+    action->setText(QString(QLatin1String(" &%1%")).arg(zoom));
     action->setData(zoom);
     if (zoom == currentZoom) {
         action->setChecked(true);
