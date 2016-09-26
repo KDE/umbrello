@@ -49,9 +49,6 @@ ResolutionWidget::ResolutionWidget(QWidget *parent) :
     layout->addWidget(postLabel);
 
     m_comboBox->setDuplicatesEnabled(false);  // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     m_comboBox->clear();
     m_comboBox->addItem(QLatin1String("default"), QVariant(0.0));
     foreach(const QString &key, resolutions()) {

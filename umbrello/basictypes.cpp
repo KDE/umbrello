@@ -23,14 +23,9 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <KGlobalSettings>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QFontDatabase>
-#endif
 #include <QRegExp>
 
 namespace Uml
@@ -153,6 +148,114 @@ Enum fromInt(int item)
 }
 
 }  // end namespace Visibility
+//-----------------------------------------------------------------------------
+namespace TypeQualifiers{
+
+/**
+     * Convert Type Qualifiers item into QString representation.
+     * @param item       item to convert
+     * @return QString representation of TypeQualifier
+     */
+QString toString(Enum item)
+{
+    switch (item) {
+    case Const:
+        return QLatin1String("const ");
+    case Volatile:
+        return QLatin1String("volatile ");
+    case Mutable:
+        return QLatin1String("mutable ");
+    case ConstVolatile:
+        return QLatin1String("const volatile ");
+    case None:
+    default:
+        return QLatin1String("");
+    }
+}
+
+/**
+     * Convert a string item into TypeQualifier representation.
+     * @param item   item to convert
+     * @return TypeQualifier enum
+     */
+Enum fromString(const QString& item)
+{
+    if(item == QLatin1String(""))
+        return None;
+    else if(item == QLatin1String("const"))
+        return Const;
+    else if(item == QLatin1String("volatile"))
+        return Volatile;
+    else if(item == QLatin1String("mutable"))
+        return Mutable;
+    else if(item == QLatin1String("const volatile"))
+        return ConstVolatile;
+    else
+        return None;
+}
+
+/**
+     * Convert a integer item into TypeQualifier representation.
+     * @param item   integer value to convert
+     * @return TypeQualifier enum
+     */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace TypeQualifier
+
+//-----------------------------------------------------------------------------
+namespace TypeModifiers{
+
+/**
+     * Convert Type Modifiers item into QString representation.
+     * @param item       item to convert
+     * @return QString representation of TypeQualifier
+     */
+QString toString(Enum item)
+{
+    switch (item) {
+    case Pointer:
+        return QLatin1String("*");
+    case Reference:
+        return QLatin1String("&");
+    case None:
+    default:
+        return QLatin1String("");
+
+    }
+}
+
+/**
+     * Convert a string item into TypeModifier representation.
+     * @param item   item to convert
+     * @return TypeModifier enum
+     */
+Enum fromString(const QString& item)
+{
+    if(item == QLatin1String(""))
+        return None;
+    if(item == QLatin1String("*"))
+        return Pointer;
+    if(item == QLatin1String("&"))
+        return Reference;
+    else
+        return None;
+}
+
+/**
+     * Convert a integer item into TypeModifier representation.
+     * @param item   integer value to convert
+     * @return TypeModifier enum
+     */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace TypeModifiers
 
 //-----------------------------------------------------------------------------
 
@@ -170,6 +273,8 @@ QString toString(Enum item)
             return QLatin1String("Undefined");
         case Class:
             return QLatin1String("Class");
+        case Object:
+            return QLatin1String("Object");
         case UseCase:
             return QLatin1String("UseCase");
         case Sequence:
@@ -217,6 +322,8 @@ QString toStringI18n(Enum item)
            return i18n("Deployment Diagram");
        case EntityRelationship:
            return i18n("Entity Relationship Diagram");
+        case Object:
+            return i18n("Object Diagram");
        default:
            return i18n("No Diagram");
     }
@@ -1157,11 +1264,7 @@ ID::Type fromString(const QString &id)
 
 QFont systemFont()
 {
-#if QT_VERSION >= 0x050000
     return QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-#else
-    return KGlobalSettings::generalFont();
-#endif
 }
 
 }  // end namespace Uml

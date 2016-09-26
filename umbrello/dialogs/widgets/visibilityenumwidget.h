@@ -12,7 +12,7 @@
 #define VISIBILITYENUMWIDGET_H
 
 #include "basictypes.h"
-
+#include "ui_visibilityenumwidget.h"
 #include <QMap>
 #include <QWidget>
 
@@ -28,24 +28,27 @@ class VisibilityEnumWidget : public QWidget
     Q_OBJECT
 public:
     typedef QMap<Uml::Visibility::Enum,QString> TextMap;
-    typedef QMap<Uml::Visibility::Enum,QRadioButton*> ButtonMap;
+    typedef QMap<Uml::Visibility::Enum,QRadioButton*> WidgetsMap;
 
-    explicit VisibilityEnumWidget(UMLObject *o, QWidget *parent=0);
+    explicit VisibilityEnumWidget(QWidget *parent=0);
     VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent=0);
     ~VisibilityEnumWidget();
 
+    void setUMLObject(UMLObject *o);
     void addToLayout(QVBoxLayout *layout);
     void apply();
 
+private:
+    Ui::visibilityEnumWidget *ui;
+    void initMaps();
+
+
 protected:
     TextMap m_texts;
-    QGroupBox *m_box;
-    ButtonMap m_buttons;
+    WidgetsMap m_widgets;
     UMLObject *m_object;
     AssociationWidget *m_widget;
     Uml::RoleType::Enum m_role;
-
-    void init(const QString &title);
 };
 
 #endif // VISIBILITYENUMWIDGET_H

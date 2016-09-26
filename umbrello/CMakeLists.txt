@@ -201,6 +201,7 @@ set(libdialogs_SRCS
     dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
+    dialogs/umlinstanceattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
     dialogs/umlenumliteraldialog.cpp
@@ -240,6 +241,8 @@ set(libdialogs_SRCS
     dialogs/widgets/umlpackagewidget.cpp
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/visibilityenumwidget.cpp
+    dialogs/widgets/umltypequalifierswidget.cpp
+    dialogs/widgets/umltypemodifierwidget.cpp
 )
 
 ki18n_wrap_ui(  libdialogs_SRCS
@@ -251,6 +254,17 @@ ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/codeimportoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/umlrolepropertiesbase.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlattributedialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlinstanceattributedialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlentityattributedialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umltemplatedialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umloperationdialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umldatatypewidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umltypequalifierswidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/visibilityenumwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/documentationwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umltypemodifierwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/widgets/umlstereotypewidget.ui
 )
 
 set(librefactoring_SRCS
@@ -330,6 +344,7 @@ set(libcmds_SRCS
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_removeUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
+    cmds/generic/cmd_renameUMLObjectInstance.cpp
     cmds/widget/cmd_baseWidgetCommand.cpp
     cmds/widget/cmd_changeFont.cpp
     cmds/widget/cmd_changeTextColor.cpp
@@ -431,6 +446,8 @@ set(libuml_SRCS
     umlmodel/umlrole.cpp
     umlmodel/usecase.cpp
     umlmodel/uniqueconstraint.cpp
+    umlmodel/instance.cpp
+    umlmodel/instanceattribute.cpp
 )
 
 set(umbrellobase_SRCS
@@ -506,63 +523,36 @@ set(umbrello_SRCS
 
 set(LIB_BUILD_MODE STATIC)
 
-if(NOT BUILD_KF5)
-    if(CMAKE_MAJOR_VERSION LESS 3)
-        qt4_add_resources(libumbrello_SRCS icons.qrc)
-    else()
-        list(APPEND libumbrello_SRCS icons.qrc)
-    endif()
-    kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
-    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello
-        Qt4::QtCore
-        Qt4::QtGui
-        Qt4::QtXml
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        ${KDE4_KTEXTEDITOR_LIBS}
-        ${KDE4_KFILE_LIBS}
-    )
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
-    kde4_add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
-else()
-    if(CMAKE_MAJOR_VERSION LESS 3)
-        qt5_add_resources(libumbrello_SRCS icons.qrc)
-    else()
-        list(APPEND libumbrello_SRCS icons.qrc)
-    endif()
-    add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
-    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello
-        Qt5::Widgets
-        Qt5::Xml
-        Qt5::PrintSupport
-        Qt5::Svg
-        KF5::Archive
-        KF5::Completion
-        KF5::CoreAddons
-        KF5::I18n
-        KF5::IconThemes
-        KF5::KIOCore
-        KF5::TextEditor
-        KF5::WidgetsAddons
-        KF5::XmlGui
-        ${LIBXSLT_LIBRARIES}
-        ${LIBXML2_LIBRARIES}
-    )
-    ecm_add_app_icon(umbrello_SRCS
-        ICONS
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi16-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi22-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi32-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi48-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi64-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi128-apps-umbrello.png
-    )
-    add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello libumbrello)
-endif()
+add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
+set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
+target_link_libraries(libumbrello
+    Qt5::Widgets
+    Qt5::Xml
+    Qt5::PrintSupport
+    Qt5::Svg
+    KF5::Archive
+    KF5::Completion
+    KF5::CoreAddons
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::TextEditor
+    KF5::WidgetsAddons
+    KF5::XmlGui
+    ${LIBXSLT_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
+)
+ecm_add_app_icon(umbrello_SRCS
+    ICONS
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi16-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi22-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi32-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi48-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi64-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi128-apps-umbrello.png
+)
+add_executable(umbrello ${umbrello_SRCS})
+target_link_libraries(umbrello libumbrello)
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()
@@ -570,12 +560,6 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-if(NOT BUILD_KF5)
-    install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-    install( FILES
-        umbrelloui.rc
-        DESTINATION ${DATA_INSTALL_DIR}/umbrello )
-else()
     file(READ umbrello.desktop UMBRELLO_DESKTOP)
     string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
@@ -584,7 +568,6 @@ else()
     install( FILES
         umbrelloui.rc
         DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
-endif()
 
 install( FILES
     docgenerators/xmi2docbook.xsl

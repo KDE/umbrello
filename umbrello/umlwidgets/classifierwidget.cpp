@@ -80,6 +80,12 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         setShowStereotype(true);
         updateSignatureTypes();
     }
+
+    if (c && scene->type() == Uml::DiagramType::Object){
+        m_baseType = WidgetBase::wt_Instance;
+        m_visualProperties =  ShowAttributes;
+        updateSignatureTypes();
+    }
 }
 
 /**
@@ -637,7 +643,10 @@ int ClassifierWidget::displayedAttributes() const
 {
     if (!visualProperty(ShowAttributes))
         return 0;
-    return displayedMembers(UMLObject::ot_Attribute);
+    if(m_baseType == WidgetBase::wt_Instance)
+        return displayedMembers(UMLObject::ot_InstanceAttribute);
+    else
+        return displayedMembers(UMLObject::ot_Attribute);
 }
 
 /**
@@ -773,9 +782,20 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         name = this->name();
     }
+    //if Object draw object name
+    QString instanceName;
+    if(m_baseType == WidgetBase::wt_Instance){
+        instanceName = m_umlObject->instanceName();
+    }
+
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    if(m_baseType == WidgetBase::wt_Instance){
+        const QString finalName = instanceName + QLatin1String(" : ") + name;
+        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
+    }else{
+        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    }
     bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
@@ -809,9 +829,15 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
         const int numAtts = displayedAttributes();
         if (numAtts > 0) {
-            drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
+            if (baseType() == WidgetBase::wt_Instance) {
+                drawMembers(painter, UMLObject::ot_InstanceAttribute, m_attributeSignature, textX,
+                            bodyOffsetY, fontHeight);
+                bodyOffsetY += fontHeight * numAtts;
+            } else {
+                drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
                         bodyOffsetY, fontHeight);
-            bodyOffsetY += fontHeight * numAtts;
+                bodyOffsetY += fontHeight * numAtts;
+            }
         }
         else
             bodyOffsetY += fontHeight / 2;
@@ -1195,6 +1221,21 @@ void ClassifierWidget::changeToPackage()
     updateGeometry();
     update();
 }
+/**
+ * @brief ClassifierWidget::changeToInstance
+ * Change this classifier from a class or interface to a Instance
+ * This widget is also updated
+ */
+void ClassifierWidget::changeToInstance(){
+    m_baseType = WidgetBase::wt_Instance;
+    m_umlObject->setBaseType(UMLObject::ot_Instance);
+    setVisualProperty(ShowAttributes, true);
+    setVisualProperty(ShowStereotype, false);
+    setVisualProperty(ShowOperations,false);
+
+    updateGeometry();
+    update();
+}
 
 /**
  * Extends base method to adjust also the association of a class
@@ -1301,6 +1342,8 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     else if (umlc && umlc->isInterface())
         conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
+    else if(umlObject()->baseType() == UMLObject::ot_Instance)
+        conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
     else
         conceptElement = qDoc.createElement(QLatin1String("classwidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
@@ -1336,6 +1379,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
+    case ListPopupMenu::mt_InstanceAttribute:
         {
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             UMLClassifier *umlc = classifier();
@@ -1400,6 +1444,10 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ChangeToPackage:
         changeToPackage();
+        break;
+
+    case ListPopupMenu::mt_ChangeToInstance:
+        changeToInstance();
         break;
 
     default:

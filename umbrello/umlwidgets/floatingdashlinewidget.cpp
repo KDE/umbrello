@@ -12,9 +12,6 @@
 #include "combinedfragmentwidget.h"
 
 //kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 //app includes
@@ -24,9 +21,7 @@
 #include "listpopupmenu.h"
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
@@ -109,14 +104,10 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
-#if QT_VERSION >= 0x050000
             name = QInputDialog::getText(Q_NULLPTR,
                                          i18n("Enter alternative Name"), i18n("Enter the alternative:"),
                                          QLineEdit::Normal,
                                          m_Text, &ok);
-#else
-            name = KInputDialog::getText(i18n("Enter alternative Name"), i18n("Enter the alternative:"), m_Text, &ok);
-#endif
             if (ok && name.length() > 0)
                 m_Text = name;
         }

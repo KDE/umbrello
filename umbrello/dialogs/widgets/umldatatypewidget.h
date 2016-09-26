@@ -11,11 +11,9 @@
 #ifndef UMLDATATYPEWIDGET_H
 #define UMLDATATYPEWIDGET_H
 
+#include "ui_umldatatypewidget.h"
 #include <QWidget>
 
-class KComboBox;
-class QGridLayout;
-class QLabel;
 class UMLAttribute;
 class UMLEntityAttribute;
 class UMLClassifier;
@@ -26,27 +24,29 @@ class UMLTemplate;
 class UMLDatatypeWidget : public QWidget
 {
 public:
-    UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
-    UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
-    UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent=0);
+    UMLDatatypeWidget(QWidget *parent = 0);
     ~UMLDatatypeWidget();
+
+    void setAttribute(UMLAttribute *attribute);
+    void setClassifierItem(UMLClassifierListItem *datatype);
+    void setEntityAttribute(UMLEntityAttribute *entityAttribute);
+    void setOPeration(UMLOperation *operation);
+    void setTemplate(UMLTemplate *_template);
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
     bool apply();
     void reset();
 
+private:
+    Ui::UMLDataTypeWidget *ui;
+
 protected:
-    QLabel *m_label;
-    KComboBox *m_comboBox;
     UMLAttribute *m_attribute;
     UMLClassifierListItem *m_datatype;
-    UMLEntityAttribute *m_entityAttribute;
     UMLOperation *m_operation;
+    UMLEntityAttribute *m_entityAttribute;
     UMLTemplate *m_template;
     UMLClassifier *m_parent;
-    void init();
     bool applyAttribute();
     bool applyEntityAttribute();
     bool applyOperation();
@@ -60,6 +60,7 @@ protected:
     void insertTypesSortedOperation(const QString &type);
     void insertTypesSortedParameter(const QString &type);
     void insertTypesSortedTemplate(const QString &type);
+
 };
 
 #endif

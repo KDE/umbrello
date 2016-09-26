@@ -21,15 +21,10 @@
 #include "idchangelog.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)
@@ -261,17 +256,11 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString text = name();
-#if QT_VERSION >= 0x050000
             text = QInputDialog::getText(Q_NULLPTR,
                                          i18n("Enter Precondition Name"),
                                          i18n("Enter the precondition :"),
                                          QLineEdit::Normal,
                                          text, &ok);
-#else
-            text = KInputDialog::getText(i18n("Enter Precondition Name"),
-                                          i18n("Enter the precondition :"),
-                                          text, &ok);
-#endif
             if (ok && !text.isEmpty()) {
                 setName(text);
             }

@@ -52,7 +52,6 @@ public:
      * by the classes inheriting from UMLClassifierListItem.
      */
     virtual UMLObject* clone() const = 0;
-
 };
 
 #endif

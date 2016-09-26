@@ -71,8 +71,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     propLayout->setSpacing(10);
     propLayout->setMargin(margin);
 
-    m_datatypeWidget = new UMLDatatypeWidget(m_pAtt);
-    m_datatypeWidget->addToLayout(propLayout, 0);
+    auto l = new QLabel(i18n("Type:"));
+    propLayout->addWidget(l,0,0);
+
+    m_datatypeWidget = new UMLDatatypeWidget();
+    m_datatypeWidget->setAttribute(m_pAtt);
+    m_datatypeWidget->addToLayout(propLayout, 0, 1);
 
     Dialog_Utils::makeLabeledEditField(propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
@@ -82,7 +86,10 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, attr->getInitialValue());
 
-    m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
+    auto label = new QLabel(i18n("Stereotype name:"));
+    propLayout->addWidget(label,3,0);
+    m_stereotypeWidget = new UMLStereotypeWidget();
+    m_stereotypeWidget->setUMLObject(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
 
     m_pKindGB =  new QGroupBox(i18n("Passing Direction"));
@@ -102,7 +109,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     topLayout->addWidget(m_pKindGB);
 
-    m_docWidget = new DocumentationWidget(m_pAtt);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_pAtt);
     topLayout->addWidget(m_docWidget);
 
     // Check the proper Kind radiobutton.

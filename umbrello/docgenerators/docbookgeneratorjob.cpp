@@ -26,18 +26,12 @@
 #include <libxslt/xsltutils.h>
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kstandarddirs.h>
-#include <ktemporaryfile.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
 #include <QTextStream>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #include <QTemporaryFile>
-#endif
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -55,11 +49,7 @@ void DocbookGeneratorJob::run()
     QString xmi;
     QTextStream xmiStream(&xmi, QIODevice::WriteOnly);
 
-#if QT_VERSION >= 0x050000
     QTemporaryFile file; // we need this tmp file if we are writing to a remote file
-#else
-    KTemporaryFile file; // we need this tmp file if we are writing to a remote file
-#endif
     file.setAutoRemove(false);
 
     // lets open the file for writing
@@ -77,11 +67,7 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = NULL;
 
-#if QT_VERSION >= 0x050000
     QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("xmi2docbook.xsl")));
-#else
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi2docbook.xsl")));
-#endif
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
@@ -89,11 +75,7 @@ void DocbookGeneratorJob::run()
     doc = xmlParseFile((const char*)(file.fileName().toUtf8()));
     res = xsltApplyStylesheet(cur, doc, params);
 
-#if QT_VERSION >= 0x050000
     QTemporaryFile tmpDocBook;
-#else
-    KTemporaryFile tmpDocBook;
-#endif
     tmpDocBook.setAutoRemove(false);
     tmpDocBook.open();
 

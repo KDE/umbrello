@@ -88,6 +88,7 @@ public:
     void changeToClass();
     void changeToInterface();
     void changeToPackage();
+    void changeToInstance();
 
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);

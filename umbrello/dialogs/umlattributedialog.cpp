@@ -14,39 +14,25 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
-#include "documentationwidget.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "umldatatypewidget.h"
-#include "umlstereotypewidget.h"
-#include "visibilityenumwidget.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
 #include "import_utils.h"
 
 // kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <kcompletion.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 
-// qt includes
-#include <QCheckBox>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLayout>
-#include <QRadioButton>
-#include <QVBoxLayout>
-
-UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
+UMLAttributeDialog::UMLAttributeDialog(QWidget *pParent, UMLAttribute *pAttribute)
   : SinglePageDialogBase(pParent)
+  , ui(new Ui::UMLAttributeDialog)
+  , m_pAttribute(pAttribute)
 {
     setCaption(i18n("Attribute Properties"));
-    m_pAttribute = pAttribute;
+    activeLanguage = UMLApp::app()->activeLanguage();
+    ui->setupUi(mainWidget());
     setupDialog();
 }
 
@@ -59,45 +45,25 @@ UMLAttributeDialog::~UMLAttributeDialog()
  */
 void UMLAttributeDialog::setupDialog()
 {
-    int margin = fontMetrics().height();
-
-    QFrame * frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
-
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
-    QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
-    valuesLayout->setSpacing(10);
-
-    m_datatypeWidget = new UMLDatatypeWidget(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
-    m_datatypeWidget->addToLayout(valuesLayout, 0);
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
-                                    m_pNameL, i18nc("attribute name", "&Name:"),
-                                    m_pNameLE, m_pAttribute->name());
-
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
-                                    m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, m_pAttribute->getInitialValue());
-
-    m_stereotypeWidget = new UMLStereotypeWidget(m_pAttribute);
-    m_stereotypeWidget->addToLayout(valuesLayout, 3);
-
-    m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pValuesGB);
-    m_pStaticCB->setChecked(m_pAttribute->isStatic());
-    valuesLayout->addWidget(m_pStaticCB, 4, 0);
-
-    mainLayout->addWidget(m_pValuesGB);
-    m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
-    m_visibilityEnumWidget->addToLayout(mainLayout);
-
-    m_docWidget = new DocumentationWidget(m_pAttribute, this);
-    mainLayout->addWidget(m_docWidget);
-
-    m_pNameLE->setFocus();
-    connect(m_pNameLE, &KLineEdit::textChanged, this, &UMLAttributeDialog::slotNameChanged);
-    slotNameChanged(m_pNameLE->text());
+    ui->dataTypeWidget->setClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+    if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
+        ui->typeQualifiersWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+        ui->typeModifierWidget->setUMLClassifierItem(dynamic_cast<UMLClassifierListItem*>(m_pAttribute));
+        ui->classifierScopeCB->setVisible(true);
+    }else{
+        ui->classifierScopeCB->setVisible(false);
+        ui->typeModifierWidget->setVisible(false);
+        ui->typeQualifiersWidget->setVisible(false);
+    }
+    ui->nameLE->setText(m_pAttribute->name());
+    ui->nameLE->setFocus();
+    slotNameChanged(ui->nameLE->text());
+    ui->classifierScopeCB->setChecked(m_pAttribute->isStatic());
+    ui->initialValueLE->setText(m_pAttribute->getInitialValue());
+    connect(ui->nameLE, &QLineEdit::textChanged, this, &UMLAttributeDialog::slotNameChanged);
+    ui->stereotypeWidget->setUMLObject(m_pAttribute);
+    ui->visibilityWidget->setUMLObject(m_pAttribute);
+    ui->documentationWidget->setUMLObject(m_pAttribute);
 }
 
 void UMLAttributeDialog::slotNameChanged(const QString &_text)
@@ -111,11 +77,11 @@ void UMLAttributeDialog::slotNameChanged(const QString &_text)
  */
 bool UMLAttributeDialog::apply()
 {
-    QString name = m_pNameLE->text();
+    QString name = ui->nameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
                            i18n("Attribute Name Invalid"), 0);
-        m_pNameLE->setText(m_pAttribute->name());
+        ui->nameLE->setText(m_pAttribute->name());
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pAttribute->parent());
@@ -123,21 +89,24 @@ bool UMLAttributeDialog::apply()
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), 0);
-        m_pNameLE->setText(m_pAttribute->name());
+        ui->nameLE->setText(m_pAttribute->name());
         return false;
     }
     m_pAttribute->setName(name);
-    m_visibilityEnumWidget->apply();
+    ui->visibilityWidget->apply();
 
     // Set the scope as the default in the option state
     Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
 
-    m_pAttribute->setInitialValue(m_pInitialLE->text());
-    m_stereotypeWidget->apply();
-    m_pAttribute->setStatic(m_pStaticCB->isChecked());
-
-    m_datatypeWidget->apply();
-    m_docWidget->apply();
+    m_pAttribute->setInitialValue(ui->initialValueLE->text());
+    ui->stereotypeWidget->apply();
+    ui->documentationWidget->apply();
+    if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
+        ui->typeQualifiersWidget->apply();
+        ui->typeModifierWidget->apply();
+        m_pAttribute->setStatic(ui->classifierScopeCB->isChecked());
+    }
+    ui->dataTypeWidget->apply();
 
     return true;
 }

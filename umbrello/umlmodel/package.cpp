@@ -23,16 +23,11 @@
 #include "model_utils.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 
 using namespace Uml;
 
@@ -167,7 +162,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
     else {
       QString name = pObject->name();
       QString oldName = name;
-      while (findObject(name) != NULL) {
+      while (findObject(name) != NULL && pObject->baseType() != UMLObject::ot_Instance) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = Dialog_Utils::askName(i18nc("object name", "Name"),

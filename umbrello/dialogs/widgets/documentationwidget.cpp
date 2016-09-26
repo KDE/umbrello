@@ -19,28 +19,27 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 
-DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
-    QWidget(parent),
-    m_object(o),
-    m_widget(0)
+DocumentationWidget::DocumentationWidget(QWidget *parent)
+ : QWidget(parent),
+   ui(new Ui::DocumentationWidget),
+   m_widget(0)
 {
-    Q_ASSERT(o);
-    init(o->doc());
+    ui->setupUi(this);
 }
 
-DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
-    QWidget(parent),
-    m_object(0),
-    m_widget(w)
+DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent)
+ : QWidget(parent),
+   ui(new Ui::DocumentationWidget),
+   m_object(0),
+   m_widget(w)
 {
+    ui->setupUi(this);
     Q_ASSERT(w);
     init(w->documentation());
 }
 
 DocumentationWidget::~DocumentationWidget()
 {
-    delete m_editField;
-    delete m_box;
 }
 
 /**
@@ -49,9 +48,16 @@ DocumentationWidget::~DocumentationWidget()
 void DocumentationWidget::apply()
 {
     if (m_object)
-        m_object->setDoc(m_editField->toPlainText());
+        m_object->setDoc(ui->docTE->toPlainText());
     else if (m_widget)
-        m_widget->setDocumentation(m_editField->toPlainText());
+        m_widget->setDocumentation(ui->docTE->toPlainText());
+}
+
+void DocumentationWidget::setUMLObject(UMLObject *o)
+{
+    Q_ASSERT(o);
+    m_object = o;
+    init(o->doc());
 }
 
 /**
@@ -60,18 +66,8 @@ void DocumentationWidget::apply()
  */
 void DocumentationWidget::init(const QString &text)
 {
-    QHBoxLayout *l = new QHBoxLayout;
-    m_box = new QGroupBox;
-    m_box->setTitle(i18n("Documentation"));
-    m_editField = new KTextEdit(m_box);
-    m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_editField->setWordWrapMode(QTextOption::WordWrap);
-    m_editField->setText(text);
-    setFocusProxy(m_editField);
-
-    QHBoxLayout *layout = new QHBoxLayout(m_box);
-    layout->addWidget(m_editField);
-    layout->setMargin(fontMetrics().height());
-    l->addWidget(m_box);
-    setLayout(l);
+    ui->docTE->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+    ui->docTE->setWordWrapMode(QTextOption::WordWrap);
+    ui->docTE->setPlainText(text);
+    setFocusProxy(ui->docTE);
 }

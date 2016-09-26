@@ -34,21 +34,16 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"
+#include "instance.h"
+#include "instanceattribute.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kcolordialog.h>
-#include <kfontdialog.h>
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
-#endif
 #include <QPainterPath>
 #include <QPointer>
 #include <QRegExpValidator>
@@ -264,6 +259,12 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             ent = static_cast<UMLEntity*>(obj->parent());
             connect(ent, &UMLEntity::entityConstraintRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
+        case UMLObject::ot_InstanceAttribute:
+            klass = static_cast<UMLInstance*>(obj->parent());
+            connect(klass, &UMLInstance::attributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
+            attr = static_cast<UMLInstanceAttribute*>(obj);
+            connect(attr, &UMLInstanceAttribute::attributeChanged, this, &AssociationWidget::slotAttributeChanged);
+        break;
         default:
             uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
             break;
@@ -578,7 +579,7 @@ UMLAttribute* AssociationWidget::attribute() const
     if (m_umlObject == NULL)
         return NULL;
     UMLObject::ObjectType ot = m_umlObject->baseType();
-    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
+    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute && ot != UMLObject::ot_InstanceAttribute)
         return NULL;
     return static_cast<UMLAttribute*>(m_umlObject);
 }
@@ -3045,17 +3046,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].multiplicityWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
         newText = QInputDialog::getText(m_scene->activeView(),
                                         i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
                                         QLineEdit::Normal,
                                         oldText, NULL);
-#else
-        newText = KInputDialog::getText(i18n("Multiplicity"),
-                                        i18n("Enter multiplicity:"),
-                                        oldText, NULL, m_scene->activeView(), &v);
-#endif
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
@@ -3071,17 +3066,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_nameWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
         newText = QInputDialog::getText(m_scene->activeView(),
                                         i18n("Association Name"),
                                         i18n("Enter association name:"),
                                         QLineEdit::Normal,
                                         oldText, NULL);
-#else
-        newText = KInputDialog::getText(i18n("Association Name"),
-                                        i18n("Enter association name:"),
-                                        oldText, NULL, m_scene->activeView(), &v);
-#endif
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
@@ -3099,17 +3088,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].roleWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
         newText = QInputDialog::getText(m_scene->activeView(),
                                         i18n("Role Name"),
                                         i18n("Enter role name:"),
                                         QLineEdit::Normal,
                                         oldText, NULL);
-#else
-        newText = KInputDialog::getText(i18n("Role Name"),
-                                        i18n("Enter role name:"),
-                                        oldText, NULL, m_scene->activeView(), &v);
-#endif
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
@@ -3122,27 +3105,17 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-#if QT_VERSION >= 0x050000
             bool ok = false;
             QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
             if (ok)
-#else
-            QFont fnt = font();
-            if (KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()))
-#endif
                 lwSetFont(fnt);
         }
         break;
 
     case ListPopupMenu::mt_Line_Color:
         {
-#if QT_VERSION >= 0x050000
             QColor newColor = QColorDialog::getColor(lineColor());
             if (newColor != lineColor()) {
-#else
-            QColor newColor;
-            if (KColorDialog::getColor(newColor)) {
-#endif
                 m_scene->selectionSetLineColor(newColor);
                 umlDoc()->setModified(true);
             }

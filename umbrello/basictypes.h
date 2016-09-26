@@ -68,6 +68,33 @@ namespace Uml
         Enum fromInt(int item);
     }
 
+    namespace TypeQualifiers {
+
+        enum Enum {
+            None,
+            Const,
+            Volatile,
+            Mutable,
+            ConstVolatile
+        };
+
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
+
+    namespace TypeModifiers {
+        enum Enum {
+            None,
+            Pointer,
+            Reference
+        };
+
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInte(int item);
+    }
+
     /**
      * Supported diagram types.
      */
@@ -86,6 +113,7 @@ namespace Uml
             Component,
             Deployment,
             EntityRelationship,
+            Object,
             N_DIAGRAMTYPES   // must remain last
         };
         QString toString(Enum item);

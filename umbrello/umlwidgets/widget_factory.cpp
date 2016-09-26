@@ -33,6 +33,7 @@
 #include "entitywidget.h"
 #include "enum.h"
 #include "enumwidget.h"
+#include "instance.h"
 #include "floatingdashlinewidget.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
@@ -137,7 +138,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Class:
         //see if we really want an object widget or class widget
-        if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component) {
+        if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component ) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             ClassifierWidget *cw = new ClassifierWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component)
@@ -151,6 +152,10 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = ow;
         }
         break;
+    case UMLObject::ot_Instance:
+        newWidget = new ClassifierWidget(scene, static_cast<UMLInstance*>(o));
+        break;
+
     case UMLObject::ot_Category:
         newWidget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
         break;
@@ -287,7 +292,11 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
         } else if (tag == QLatin1String("objectwidget") || tag == QLatin1String("UML:ObjectWidget")) {
             widget = new ObjectWidget(scene, o);
-        } else {
+        } else if(tag == QLatin1String("instancewidget") || tag == QLatin1String("UML:InstanceWidget")) {
+            if (validateObjType(UMLObject::ot_Instance, o, id))
+                widget = new ClassifierWidget(scene, static_cast<UMLInstance*>(o));
+        }
+        else {
             uWarning() << "Trying to create an unknown widget:" << tag;
         }
     }

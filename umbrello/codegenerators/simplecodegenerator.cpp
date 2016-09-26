@@ -26,9 +26,6 @@
 #include "uml.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -183,22 +180,14 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::Ok:  //overwrite file
-#else
-        case QDialog::Accepted:
-#endif
             if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::No: //generate similar name
-#else
-        case KDialog::No:
-#endif
             suffix = 1;
             while (1) {
                 filename = name + QLatin1String("__") + QString::number(suffix) + ext;
@@ -212,11 +201,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
                 m_applyToAllRemaining = false;
             }
             break;
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::Cancel: //don't output anything
-#else
-        case QDialog::Rejected:
-#endif
             if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {

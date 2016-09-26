@@ -15,14 +15,9 @@
 #include "umllistviewitem.h"
 #include "umlobject.h"
 #include "widgetbase.h"
-#if QT_VERSION < 0x050000
-#include <kmenu.h>
-#endif
 
 #include <QHash>
-#if QT_VERSION >= 0x050000
 #include <QMenu>
-#endif
 
 class AssociationLine;
 class ClassifierWidget;
@@ -41,11 +36,7 @@ class UMLView;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-#if QT_VERSION >= 0x050000
 class ListPopupMenu : public QMenu
-#else
-class ListPopupMenu : public KMenu
-#endif
 {
     Q_OBJECT
     Q_ENUMS(MenuType)
@@ -63,6 +54,7 @@ public:
         mt_UseCase_Diagram,
         mt_Sequence_Diagram,
         mt_Class_Diagram,
+        mt_Object_Diagram,
         mt_Collaboration_Diagram,
         mt_State_Diagram,
         mt_Activity_Diagram,
@@ -72,6 +64,7 @@ public:
         mt_On_UseCase_Diagram,
         mt_On_Sequence_Diagram,
         mt_On_Class_Diagram,
+        mt_On_Object_Diagram,
         mt_On_Collaboration_Diagram,
         mt_On_State_Diagram,
         mt_On_Activity_Diagram,
@@ -93,11 +86,13 @@ public:
         mt_Interface,
         mt_Enum,
         mt_Entity,
+        mt_Instance,
         mt_Datatype,
         mt_Actor,
         mt_UseCase,
         mt_Attribute,
         mt_EntityAttribute,
+        mt_InstanceAttribute,
         mt_EnumLiteral,
         mt_UniqueConstraint,
         mt_PrimaryKeyConstraint,
@@ -125,6 +120,7 @@ public:
         mt_New_Parameter,
         mt_New_Operation,
         mt_New_Attribute,
+        mt_New_InstanceAttribute,
         mt_New_Template,
         mt_New_EnumLiteral,
         mt_New_EntityAttribute,
@@ -135,6 +131,7 @@ public:
         mt_Parameter_Selected,
         mt_Operation_Selected,
         mt_Attribute_Selected,
+        mt_InstanceAttribute_Selected,
         mt_Template_Selected,
         mt_EnumLiteral_Selected,
         mt_EntityAttribute_Selected,
@@ -173,6 +170,7 @@ public:
         mt_ChangeToClass,
         mt_ChangeToInterface,
         mt_ChangeToPackage,
+        mt_ChangeToInstance,
         mt_Rename_Object,
         mt_Select_Operation,
         mt_Anchor,
@@ -316,15 +314,9 @@ private:
     void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
 
     void insert(MenuType m);
-#if QT_VERSION >= 0x050000
     void insert(const MenuType m, QMenu* menu);
     void insert(const MenuType m, QMenu* menu, const QIcon & icon, const QString & text);
     void insert(const MenuType m, QMenu* menu, const QString & text, const bool checkable = false);
-#else
-    void insert(const MenuType m, KMenu* menu);
-    void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
-    void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);
-#endif
     void insert(const MenuType m, const QIcon & icon, const QString & text);
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
@@ -341,11 +333,7 @@ private:
     void makeClassifierPopup(ClassifierWidget *c);
     void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
     void makeClassifierShowPopup(ClassifierWidget *c);
-#if QT_VERSION >= 0x050000
     QMenu* makeCategoryTypeMenu(UMLCategory* category);
-#else
-    KMenu* makeCategoryTypeMenu(UMLCategory* category);
-#endif
 
     void insertSubMenuNew(MenuType type);
     void insertSubMenuAlign();

@@ -64,9 +64,6 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
-#if QT_VERSION < 0x050000
-    mainLayout->setSpacing(spacingHint());
-#endif
     mainLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(mainLayout, 0,
@@ -81,9 +78,6 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     mainLayout->addWidget(m_pOpRB, 1, 0);
 
     m_pOpCB = new KComboBox(m_pOpGB);
-#if QT_VERSION < 0x050000
-    m_pOpCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     m_pOpCB->setDuplicatesEnabled(false); // only allow one of each type in box
     connect(m_pOpCB, static_cast<void (KComboBox::*)(int)> (&KComboBox::currentIndexChanged), this, &SelectOperationDialog::slotIndexChanged);
     mainLayout->addWidget(m_pOpCB, 1, 1, 1, 2);

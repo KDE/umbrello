@@ -21,102 +21,64 @@
 #include "uml.h"
 #include "umldoc.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
 
 #include <QApplication>
 #include <QGridLayout>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QWidget>
 
-UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
-  : QWidget(parent),
-    m_attribute(attribute),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
+UMLDatatypeWidget::UMLDatatypeWidget(QWidget *parent)
+    : QWidget(parent),
+      ui(new Ui::UMLDataTypeWidget),
+      m_attribute(nullptr),
+      m_datatype(nullptr),
+      m_operation(nullptr),
+      m_entityAttribute(nullptr),
+      m_template(nullptr)
 {
-    init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
-    insertTypesSortedParameter(m_attribute->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
-  : QWidget(parent),
-    m_attribute(0),
-    m_datatype(datatype),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
-{
-    init();
-    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
-    insertTypesSortedAttribute(m_datatype->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
-   : QWidget(parent),
-     m_attribute(0),
-     m_datatype(0),
-     m_entityAttribute(entityAttribute),
-     m_operation(0),
-     m_template(0)
-{
-    init();
-    m_parent = 0;
-    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
- :  QWidget(parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(operation),
-    m_template(0)
-{
-    init();
-    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
-    insertTypesSortedOperation(m_operation->getTypeName());
-}
-
-UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
- :  QWidget(parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(_template)
-{
-    init();
-    m_parent = 0;
-    insertTypesSortedTemplate(m_template->getTypeName());
-}
-
-void UMLDatatypeWidget::init()
-{
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Type:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox);
-    m_label->setBuddy(m_comboBox);
-
-    m_comboBox->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    setLayout(layout);
+    ui->setupUi(this);
 }
 
 UMLDatatypeWidget::~UMLDatatypeWidget()
 {
-    delete m_comboBox;
-    delete m_label;
+}
+
+void UMLDatatypeWidget::setAttribute(UMLAttribute *attribute)
+{
+    m_attribute = attribute;
+    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    insertTypesSortedParameter(m_attribute->getTypeName());
+}
+
+void UMLDatatypeWidget::setClassifierItem(UMLClassifierListItem *datatype)
+{
+    m_datatype = datatype;
+    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    insertTypesSortedAttribute(m_datatype->getTypeName());
+
+}
+
+void UMLDatatypeWidget::setEntityAttribute(UMLEntityAttribute *entityAttribute)
+{
+    m_entityAttribute = entityAttribute;
+    m_parent = 0;
+    insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
+}
+
+void UMLDatatypeWidget::setOPeration(UMLOperation *operation)
+{
+    m_operation = operation;
+    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    insertTypesSortedOperation(m_operation->getTypeName());
+
+}
+
+void UMLDatatypeWidget::setTemplate(UMLTemplate *_template)
+{
+    m_template = _template;
+    m_parent = 0;
+    insertTypesSortedTemplate(m_template->getTypeName());
+
 }
 
 bool UMLDatatypeWidget::apply()
@@ -136,17 +98,24 @@ bool UMLDatatypeWidget::apply()
 
 bool UMLDatatypeWidget::applyAttribute()
 {
-    QString typeName = m_comboBox->currentText();
-    UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
+    QString typeName = ui->typesCB->currentText();
+    Uml::TypeQualifiers::Enum typeQualifier = m_datatype->qualifier();
+    Uml::TypeModifiers::Enum typeModifierEnum = m_datatype->modifier();
+    //Need to find a better way to do that
+    QString m = Uml::TypeModifiers::toString(typeModifierEnum);
+    QString q = Uml::TypeQualifiers::toString(typeQualifier);
+    QString finalString = q + typeName + m;
+
+    UMLTemplate *tmplParam = m_parent->findTemplate(finalString);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
         return true;
     }
     UMLDoc * pDoc = UMLApp::app()->document();
 
-    UMLObject *obj = 0;
+    UMLObject *obj = nullptr;
     if (!typeName.isEmpty()) {
-        obj = pDoc->findUMLObject(typeName);
+        obj = pDoc->findUMLObject(finalString);
     }
 
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
@@ -154,23 +123,22 @@ bool UMLDatatypeWidget::applyAttribute()
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
         // string well. Use Object_Factory in those cases.
-        if (
-            (!typeName.isEmpty()) &&
-            ((pl == Uml::ProgrammingLanguage::Cpp) ||
-                (pl == Uml::ProgrammingLanguage::Java))
-        ) {
+        if (!typeName.isEmpty() && ((pl == Uml::ProgrammingLanguage::Cpp) || (pl == Uml::ProgrammingLanguage::Java)) )
+        {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(m_parent);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, finalString);
             Import_Utils::setRelatedClassifier(NULL);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
             // Else we don't know what it is so as a compromise create a class.
+            bool contains = false;
+            if(finalString.contains(QChar::fromLatin1('*')) || finalString.contains(QChar::fromLatin1('&')))
+                contains = true;
             UMLObject::ObjectType ot =
-                (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
-                                                          : UMLObject::ot_Class);
-            obj = Object_Factory::createUMLObject(ot, typeName);
+                (contains ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, finalString);
         }
         if (obj == NULL)
             return false;
@@ -182,7 +150,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
 bool UMLDatatypeWidget::applyEntityAttribute()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes) {
@@ -210,7 +178,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 
 bool UMLDatatypeWidget::applyOperation()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLTemplate *tmplParam = 0;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
@@ -225,7 +193,7 @@ bool UMLDatatypeWidget::applyOperation()
 bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     if (m_parent == NULL) {
         uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
     } else {
@@ -260,18 +228,48 @@ bool UMLDatatypeWidget::applyParameter()
 
 bool UMLDatatypeWidget::applyTemplate()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = ui->typesCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
         if (typeName == obj->name()) {
             m_template->setType(obj);
+            return true;
         }
     }
-    if (namesList.isEmpty()) { // not found.
-        // FIXME: This implementation is not good yet.
-        m_template->setTypeName(typeName);
+
+    UMLObject *obj = nullptr;
+    if (!typeName.isEmpty()) {
+        obj = pDoc->findUMLObject(typeName);
     }
+
+    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    if (classifier == NULL) {
+        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+        // Import_Utils does not handle creating a new object with empty name
+        // string well. Use Object_Factory in those cases.
+        if (!typeName.isEmpty() && ((pl == Uml::ProgrammingLanguage::Cpp) || (pl == Uml::ProgrammingLanguage::Java)) )
+        {
+            // Import_Utils::createUMLObject works better for C++ namespace
+            // and java package than Object_Factory::createUMLObject
+            Import_Utils::setRelatedClassifier(m_parent);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            Import_Utils::setRelatedClassifier(NULL);
+        } else {
+            // If it's obviously a pointer type (C++) then create a datatype.
+            // Else we don't know what it is so as a compromise create a class.
+            bool contains = false;
+            if(typeName.contains(QChar::fromLatin1('*')) || typeName.contains(QChar::fromLatin1('&')))
+                contains = true;
+            UMLObject::ObjectType ot =
+                (contains ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+            obj = Object_Factory::createUMLObject(ot, typeName);
+        }
+        if (obj == NULL)
+            return false;
+        classifier = static_cast<UMLClassifier*>(obj);
+    }
+    m_template->setType(classifier);
     return true;
 }
 
@@ -287,14 +285,13 @@ void UMLDatatypeWidget::initTypesBox(QStringList &types, const QString& type)
     }
     types.sort();
 
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
+    ui->typesCB->clear();
+    ui->typesCB->insertItems(0, types);
 
-    int currentIndex = m_comboBox->findText(type);
+    int currentIndex = ui->typesCB->findText(type);
     if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
+        ui->typesCB->setCurrentIndex(currentIndex);
     }
-    m_comboBox->completionObject()->addItem(type);
 }
 
 /**
@@ -428,6 +425,5 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
  */
 void UMLDatatypeWidget::addToLayout(QGridLayout *layout, int row, int startColumn)
 {
-    layout->addWidget(m_label, row, startColumn);
-    layout->addWidget(m_comboBox, row, startColumn + 1);
+    layout->addWidget(this, row, startColumn);
 }

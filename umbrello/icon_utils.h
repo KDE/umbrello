@@ -23,16 +23,9 @@
 // app includes
 #include "basictypes.h"
 
-// kde includes
-#if QT_VERSION < 0x050000
-#include <kicon.h>
-#endif
-
 // qt includes
 #include <QCursor>
-#if QT_VERSION >= 0x050000
 #include <QIcon>
-#endif
 #include <QPixmap>
 
 /**
@@ -127,6 +120,7 @@ namespace Icon_Utils {
         it_Diagram_Sequence,
         it_Diagram_State,
         it_Diagram_Usecase,
+        it_Diagram_Object,
         it_New,
         it_Delete,
         it_Add_Point,
@@ -229,6 +223,7 @@ namespace Icon_Utils {
         it_Properties_AutoLayout,
         it_Document_Edit,
         it_ClassOrPackage,
+        it_Instance,
         N_ICONTYPES    // must remain last
     };
 

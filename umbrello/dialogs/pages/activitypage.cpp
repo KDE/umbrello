@@ -15,19 +15,13 @@
 #include "statewidget.h"
 #include "uml.h"
 
-#if QT_VERSION < 0x050000
-#include <kdialogbuttonbox.h>
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
-#if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
 #include <QInputDialog>
-#endif
 #include <QLayout>
 #include <QPushButton>
 #include <QStringList>
@@ -104,7 +98,6 @@ void ActivityPage::setupPage()
     m_pBottomArrowB->setToolTip(i18n("Move selected item to the bottom"));
     buttonLayout->addWidget(m_pBottomArrowB);
 
-#if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pActivityGB);
     QPushButton* newActivity = buttonBox->addButton(i18n("New Activity..."), QDialogButtonBox::ActionRole);
     connect(newActivity, &QPushButton::clicked, this, &ActivityPage::slotNewActivity);
@@ -112,15 +105,6 @@ void ActivityPage::setupPage()
     connect(m_pDeleteActivityButton, &QPushButton::clicked, this, &ActivityPage::slotDelete);
     m_pRenameButton = buttonBox->addButton(i18n("Rename"), QDialogButtonBox::ActionRole);
     connect(m_pRenameButton, &QPushButton::clicked, this, &ActivityPage::slotRename);
-#else
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
-    buttonBox->addButton(i18n("New Activity..."), KDialogButtonBox::ActionRole,
-                          this, SLOT(slotNewActivity()));
-    m_pDeleteActivityButton = buttonBox->addButton(i18n("Delete"), KDialogButtonBox::ActionRole,
-                              this, SLOT(slotDelete()));
-    m_pRenameButton = buttonBox->addButton(i18n("Rename"), KDialogButtonBox::ActionRole,
-                                           this, SLOT(slotRename()));
-#endif
     listVBoxLayout->addWidget(buttonBox);
 
     mainLayout->addWidget(m_pActivityGB);
@@ -185,16 +169,11 @@ void ActivityPage::slotMenuSelection(QAction* action)
 void ActivityPage::slotNewActivity()
 {
     bool ok = false;
-#if QT_VERSION >= 0x050000
     QString name = QInputDialog::getText(UMLApp::app(),
                                          i18n("New Activity"),
                                          i18n("Enter the name of the new activity:"),
                                          QLineEdit::Normal,
                                          i18n("new activity"), &ok);
-#else
-    QString name = KInputDialog::getText(i18n("New Activity"),
-        i18n("Enter the name of the new activity:"), i18n("new activity"), &ok, UMLApp::app());
-#endif
     if (ok && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
@@ -216,15 +195,11 @@ void ActivityPage::slotRename()
     bool ok = false;
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-#if QT_VERSION >= 0x050000
     name = QInputDialog::getText(UMLApp::app(),
                                  i18n("Rename Activity"),
                                  i18n("Enter the new name of the activity:"),
                                  QLineEdit::Normal,
                                  name, &ok);
-#else
-    name = KInputDialog::getText(i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok, UMLApp::app());
-#endif
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);

@@ -24,11 +24,7 @@
 #include <QWidget>
 
 // KDE forwards
-#if QT_VERSION >= 0x050000
 class KComboBox;
-#else
-class KFileFilterCombo;
-#endif
 
 // Qt forwards
 class QHBoxLayout;
@@ -43,11 +39,7 @@ public:
 
 private:
     QLabel *m_label;
-#if QT_VERSION >= 0x050000
     KComboBox* m_comboBox;  ///< The image type selected.
-#else
-    KFileFilterCombo* m_comboBox;  ///< The image type selected.
-#endif
 
 signals:
     void currentIndexChanged(const QString &index);

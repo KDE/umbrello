@@ -20,9 +20,6 @@
 
 // kde include files
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <KAction>
-#endif
 #include <KActionCollection>
 
 // qt include files
@@ -34,21 +31,23 @@
  * @param parentWindow      The parent of the toolbar.
  */
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
-  : KToolBar(QLatin1String("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
+    : KToolBar(QLatin1String("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
 {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
     m_Type = Uml::DiagramType::Class; // first time in just want it to load arrow,
-                                      // needs anything but Uml::DiagramType::Undefined
+    // needs anything but Uml::DiagramType::Undefined
     setOrientation(Qt::Vertical);
-//     setVerticalStretchable(true);
+    //     setVerticalStretchable(true);
     // initialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::DiagramType::UseCase, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Collaboration, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Class, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Object, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Sequence, tbb_Arrow);
     m_map.insert(Uml::DiagramType::State, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Activity, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::EntityRelationship, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Undefined, tbb_Arrow);
 
     slotCheckToolBar(Uml::DiagramType::Undefined);
@@ -67,11 +66,7 @@ WorkToolBar::~WorkToolBar()
  */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
-#if QT_VERSION >= 0x050000
     QAction *action = m_actions[tbb];
-#else
-    KAction *action = m_actions[tbb];
-#endif
     addAction(action);
     action->setChecked(true);
     return action;
@@ -85,11 +80,13 @@ void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
     if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase ||
-        m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
+            m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
         insertHotBtn(tbb_UniAssociation);
     }
-    insertHotBtn(tbb_Dependency);
-    insertHotBtn(tbb_Generalization);
+    if(m_Type != Uml::DiagramType::Object){
+        insertHotBtn(tbb_Dependency);
+        insertHotBtn(tbb_Generalization);
+    }
 }
 
 void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
@@ -130,6 +127,11 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         insertHotBtn(tbb_Composition);
         insertHotBtn(tbb_Aggregation);
         insertHotBtn(tbb_Containment);
+        break;
+
+    case Uml::DiagramType::Object:
+        insertHotBtn(tbb_Instance);
+        insertHotBtn(tbb_Association);
         break;
 
     case Uml::DiagramType::Sequence:
@@ -374,7 +376,8 @@ void WorkToolBar::loadPixmaps()
         { tbb_PrePostCondition,         i18n("Pre/Post condition"),      Icon_Utils::it_Condition_PrePost,       SLOT(slotPrePostCondition()) },
         { tbb_Category,                 i18n("Category"),                Icon_Utils::it_Category,                SLOT(slotCategory())  },
         { tbb_Category2Parent,          i18n("Category to Parent"),      Icon_Utils::it_Category_Parent,         SLOT(slotCategory2Parent()) },
-        { tbb_Child2Category,           i18n("Child to Category"),       Icon_Utils::it_Category_Child,          SLOT(slotChild2Category()) }
+        { tbb_Child2Category,           i18n("Child to Category"),       Icon_Utils::it_Category_Child,          SLOT(slotChild2Category()) },
+        {tbb_Instance,                      i18nc("UML object", "Object"),  Icon_Utils::it_Instance,                    SLOT(slotInstance()) }
     };
 
     const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
@@ -383,13 +386,8 @@ void WorkToolBar::loadPixmaps()
     for (uint i = 0; i < n_buttonInfos; ++i) {
         const ButtonInfo& info = buttonInfo[i];
         QString key = QLatin1String(ENUM_NAME(WorkToolBar, ToolBar_Buttons, info.tbb));
-#if QT_VERSION >= 0x050000
         QAction *action = collection->addAction(key, this, info.slotName);
         action->setIcon(Icon_Utils::BarIcon(info.icon));
-#else
-        KAction *action = collection->addAction(key, this, info.slotName);
-        action->setIcon(KIcon(Icon_Utils::BarIcon(info.icon)));
-#endif
         action->setText(info.btnName);
         m_actions[info.tbb] = action;
         m_cursors[info.tbb] = Icon_Utils::Cursor(info.icon);
@@ -465,7 +463,7 @@ void WorkToolBar::slotPrePostCondition()         { buttonChanged(tbb_PrePostCond
 void WorkToolBar::slotCategory()                 { buttonChanged(tbb_Category);                 }
 void WorkToolBar::slotCategory2Parent()          { buttonChanged(tbb_Category2Parent);          }
 void WorkToolBar::slotChild2Category()           { buttonChanged(tbb_Child2Category);           }
-
+void WorkToolBar::slotInstance()                    { buttonChanged(tbb_Instance);                  }
 /**
  * Setup actions after reading shortcuts from settings
  */

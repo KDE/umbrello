@@ -16,7 +16,6 @@
 
 DEBUG_REGISTER(SinglePageDialogBase)
 
-#if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -42,30 +41,6 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
     connect(m_buttonBox, &QDialogButtonBox::clicked, this, &SinglePageDialogBase::slotClicked);
     mainWidget();
 }
-#else
-
-/**
- * Constructor
- */
-SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
-  : KDialog(parent)
-{
-    if (withApplyButton)
-        setButtons(Help | Ok | Cancel | Apply);
-    else
-        setButtons(Help | Ok | Cancel);
-
-    if (withSearchButton)
-        setButtonText(Ok, i18n("Search"));
-
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-
-    connect(this, &SinglePageDialogBase::okClicked, this, &SinglePageDialogBase::slotOk);
-    connect(this, &SinglePageDialogBase::applyClicked, this, &SinglePageDialogBase::slotApply);
-}
-#endif
 
 SinglePageDialogBase::~SinglePageDialogBase()
 {
@@ -85,7 +60,7 @@ bool SinglePageDialogBase::apply()
     return true;
 }
 
-#if QT_VERSION >= 0x050000
+
 void SinglePageDialogBase::setCaption(const QString &caption)
 {
     setWindowTitle(caption);
@@ -150,7 +125,6 @@ QWidget *SinglePageDialogBase::mainWidget()
 
     return m_mainWidget;
 }
-#endif
 
 /**
  * Used when the Apply button is clicked. Calls apply().
@@ -173,7 +147,7 @@ void SinglePageDialogBase::slotOk()
     }
 }
 
-#if QT_VERSION >= 0x050000
+
 /**
  * Used when the Cancel button is clicked.
  */
@@ -203,7 +177,7 @@ void SinglePageDialogBase::enableButtonOk(bool enable)
 {
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }
-#endif
+
 
 /**
  * Return state of dialog input validation.

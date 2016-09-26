@@ -12,6 +12,7 @@
 #define UMLTEMPLATEDIALOG_H
 
 #include "singlepagedialogbase.h"
+#include "ui_umltemplatedialog.h"
 
 class DocumentationWidget;
 class KComboBox;
@@ -34,6 +35,8 @@ class UMLTemplateDialog : public SinglePageDialogBase
 public:
     UMLTemplateDialog(QWidget* pParent, UMLTemplate* pAttribute);
     ~UMLTemplateDialog();
+private:
+    Ui::UMLTemplateDialog *ui;
 
 protected:
 
@@ -45,14 +48,6 @@ protected:
      *   The Attribute to represent
      */
     UMLTemplate* m_pTemplate;
-
-    // GUI Widgets
-    QGroupBox *m_pValuesGB;
-    QLabel *m_pNameL;
-    KLineEdit *m_pNameLE;
-    UMLDatatypeWidget *m_datatypeWidget;
-    UMLStereotypeWidget *m_stereotypeWidget;
-    DocumentationWidget *m_docWidget;
 
 protected:
 

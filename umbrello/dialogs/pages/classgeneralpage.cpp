@@ -51,6 +51,7 @@
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include <QLineEdit>
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
@@ -65,6 +66,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pAbstractCB(0),
     m_pDeconCB(0),
     m_pExecutableCB(0),
+    m_pObjectNameLE(0),
     m_docWidget(0),
     m_nameWidget(0),
     m_instanceNameWidget(0),
@@ -89,14 +91,30 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 0);
+    if( t == UMLObject::ot_Instance) {
+        auto label = new QLabel(i18n("Object name:"));
+        m_pObjectNameLE = new QLineEdit();
+        m_pNameLayout->addWidget(label ,0 ,0);
+        m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
+        if(!m_pObject->instanceName().isNull())
+            m_pObjectNameLE->setText(m_pObject->instanceName());
+        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_nameWidget->addToLayout(m_pNameLayout, 1);
 
-    if (t != UMLObject::ot_Stereotype) {
-        m_stereotypeWidget = new UMLStereotypeWidget(m_pObject);
+    }
+    else{
+        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_nameWidget->addToLayout(m_pNameLayout, 0);
+    }
+
+    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
+        auto label = new QLabel(i18n("Stereotype name:"));
+        m_stereotypeWidget = new UMLStereotypeWidget();
+        m_stereotypeWidget->setUMLObject(m_pObject);
         if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
             m_stereotypeWidget->setEditable(false);
         }
+        m_pNameLayout->addWidget(label,1,0);
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
@@ -142,12 +160,14 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     // setup scope
-    if (t != UMLObject::ot_Stereotype) {
-        m_visibilityEnumWidget = new VisibilityEnumWidget(m_pObject, this);
+    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
+        m_visibilityEnumWidget = new VisibilityEnumWidget();
+        m_visibilityEnumWidget->setUMLObject(m_pObject);
         m_visibilityEnumWidget->addToLayout(topLayout);
     }
 
-    m_docWidget = new DocumentationWidget(m_pObject, this);
+    m_docWidget = new DocumentationWidget();
+    m_docWidget->setUMLObject(m_pObject);
     topLayout->addWidget(m_docWidget);
 }
 
@@ -252,7 +272,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_nameWidget->addToLayout(m_pNameLayout, 0);
 
     if (widget->umlObject()) {
-        m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());
+        m_stereotypeWidget = new UMLStereotypeWidget();
+        m_stereotypeWidget->setUMLObject(widget->umlObject());
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
@@ -290,14 +311,22 @@ void ClassGeneralPage::apply()
             m_pObject->setAbstract(m_pAbstractCB->isChecked());
         }
 
+        if(m_pObjectNameLE){
+            m_pObject->setInstanceName(m_pObjectNameLE->text());
+        }
+
         //make sure unique name
-        UMLObject *o = m_pUmldoc->findUMLObject(name);
-        if (o && m_pObject != o) {
-             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                                i18n("Name is Not Unique"), 0);
-             m_nameWidget->reset();
+        if(m_pObject->baseType() != UMLObject::ot_Instance){
+            UMLObject *o = m_pUmldoc->findUMLObject(name);
+            if (o && m_pObject != o) {
+                KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                                   i18n("Name is Not Unique"), 0);
+                m_nameWidget->reset();
+            } else {
+                m_pObject->setName(name);
+            }
         } else {
-             m_pObject->setName(name);
+            m_pObject->setName(name);
         }
 
         if (t != UMLObject::ot_Stereotype) {

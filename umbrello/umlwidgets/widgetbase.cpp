@@ -19,17 +19,11 @@
 #include "umlobject.h"
 #include "umlscene.h"
 
-#if QT_VERSION < 0x050000
-#include <kcolordialog.h>
-#include <kfontdialog.h>
-#endif
 #include <KLocalizedString>
 
 #include <QAction>
-#if QT_VERSION >= 0x050000
 #include <QColorDialog>
 #include <QFontDialog>
-#endif
 #include <QPointer>
 
 /**
@@ -778,13 +772,18 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlDoc()->renameUMLObject(umlObject());
         break;
 
+    case ListPopupMenu::mt_Rename_Object:
+        {   //Fix me
+            //Its equal from the objectwidget, but I wasnt able to implement it right...
+        }break;
+
     case ListPopupMenu::mt_Properties:
         if (wt == WidgetBase::wt_Actor     || wt == WidgetBase::wt_UseCase   ||
             wt == WidgetBase::wt_Package   || wt == WidgetBase::wt_Interface ||
             wt == WidgetBase::wt_Datatype  || wt == WidgetBase::wt_Node      ||
             wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact  ||
             wt == WidgetBase::wt_Enum      || wt == WidgetBase::wt_Entity    ||
-            wt == WidgetBase::wt_Port      ||
+            wt == WidgetBase::wt_Port      || wt == WidgetBase::wt_Instance ||
             (wt == WidgetBase::wt_Class && umlScene()->type() == Uml::DiagramType::Class)) {
 
             showPropertiesDialog();
@@ -798,13 +797,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
-#if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(lineColor());
         if (newColor != lineColor()) {
-#else
-        newColor = lineColor();
-        if (KColorDialog::getColor(newColor)) {
-#endif
             if (sel == ListPopupMenu::mt_Line_Color_Selection) {
                 umlScene()->selectionSetLineColor(newColor);
             } else {
@@ -817,13 +811,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Fill_Color:
     case ListPopupMenu::mt_Fill_Color_Selection:
-#if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(fillColor());
         if (newColor != fillColor()) {
-#else
-        newColor = fillColor();
-        if (KColorDialog::getColor(newColor)) {
-#endif
             if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
                 umlScene()->selectionSetFillColor(newColor);
             } else {
@@ -916,14 +905,9 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
-#if QT_VERSION >= 0x050000
         bool ok = false;
         QFont newFont = QFontDialog::getFont(&ok, font());
         if (ok) {
-#else
-        QFont newFont = font();
-        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
-#endif
             if (sel == ListPopupMenu::mt_Change_Font_Selection) {
                 m_scene->selectionSetFont(newFont);
             } else {
@@ -1110,6 +1094,9 @@ QString WidgetBase::toI18nString(WidgetType wt)
         break;
     case wt_UseCase:
         name = i18n("UseCase");
+        break;
+    case wt_Instance:
+        name = i18n("Instance");
         break;
     default:
         name = QLatin1String("<unknown> &name:");

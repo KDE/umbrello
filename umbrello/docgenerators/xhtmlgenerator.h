@@ -14,14 +14,8 @@
 
 #include "basictypes.h"
 
-#if QT_VERSION < 0x050000
-#include <kurl.h>
-#endif
-
 #include <QObject>
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#endif
 
 class UMLDoc;
 
@@ -47,11 +41,8 @@ public:
     virtual ~XhtmlGenerator();
 
     bool generateXhtmlForProject();
-#if QT_VERSION >= 0x050000
     bool generateXhtmlForProjectInto(const QUrl& destDir);
-#else
-    bool generateXhtmlForProjectInto(const KUrl& destDir);
-#endif
+
 signals:
 
     void finished(bool status);
@@ -70,11 +61,7 @@ private:
     bool m_pStatus;
     bool m_pThreadFinished;
 
-#if QT_VERSION >= 0x050000
     QUrl m_destDir;  ///< Destination directory where the final documentation will be written.
-#else
-    KUrl m_destDir;  ///< Destination directory where the final documentation will be written.
-#endif
     UMLDoc* m_umlDoc;
 };
 

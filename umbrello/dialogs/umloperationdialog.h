@@ -13,6 +13,7 @@
 
 //kde includes
 #include "singlepagedialogbase.h"
+#include "ui_umloperationdialog.h"
 
 class DocumentationWidget;
 class KComboBox;
@@ -44,6 +45,8 @@ public:
 
     UMLOperationDialog(QWidget * parent, UMLOperation * pOperation);
     ~UMLOperationDialog();
+private:
+    Ui::UMLOperationDialog *ui;
 
 protected:
 
@@ -56,29 +59,6 @@ protected:
     UMLOperation*     m_operation;  ///< The operation to represent.
     UMLDoc*           m_doc;        ///< The UMLDocument where all objects live.
     ListPopupMenu*    m_menu;       ///< Menu used in parameter list box.
-
-    //GUI widgets
-    QGroupBox*            m_pParmsGB;
-    QGroupBox*            m_pGenGB;
-    QListWidget*          m_pParmsLW;
-    QGroupBox*            m_pScopeGB;
-    QRadioButton*         m_pPublicRB;
-    QRadioButton*         m_pPrivateRB;
-    QRadioButton*         m_pProtectedRB;
-    QRadioButton*         m_pImplementationRB;
-    QLabel*               m_pNameL;
-    UMLDatatypeWidget*    m_datatypeWidget;
-    UMLStereotypeWidget*  m_stereotypeWidget;
-    KLineEdit*            m_pNameLE;
-    QCheckBox*            m_pAbstractCB;
-    QCheckBox*            m_pStaticCB;
-    QCheckBox*            m_pQueryCB;
-    QPushButton*          m_pDeleteButton;
-    QPushButton*          m_pPropertiesButton;
-    QToolButton*          m_pUpButton;
-    QToolButton*          m_pDownButton;
-    DocumentationWidget*  m_docWidget;
-    VisibilityEnumWidget* m_visibilityEnumWidget;
 
 public slots:
     void slotParmRightButtonPressed(const QPoint &p);

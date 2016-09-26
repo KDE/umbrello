@@ -32,6 +32,8 @@
 #include "operation.h"
 #include "attribute.h"
 #include "entityattribute.h"
+#include "instance.h"
+#include "instanceattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
 #include "checkconstraint.h"
@@ -60,28 +62,17 @@
 #include "object_factory.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <ktabwidget.h>
-#endif
 
 // qt includes
 #include <QApplication>
 #include <QDrag>
 #include <QDropEvent>
 #include <QEvent>
-#if QT_VERSION >= 0x050000
 #include <QFileDialog>
-#endif
 #include <QFocusEvent>
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
@@ -428,7 +419,9 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_EntityAttribute:
         addNewItem(currItem, UMLListViewItem::lvt_EntityAttribute);
         break;
-
+    case ListPopupMenu::mt_InstanceAttribute:
+        addNewItem(currItem, UMLListViewItem::lvt_InstanteAttribute);
+        break;
     case ListPopupMenu::mt_Operation:
         addNewItem(currItem, UMLListViewItem::lvt_Operation);
         break;
@@ -491,40 +484,21 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 return;
             }
             // configure & show the file dialog
-#if QT_VERSION >= 0x050000
             const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
             QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QLatin1String("*.xml"));
-#else
-            const QString rootDir(m_doc->url().directory());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
-            fileDialog->setCaption(i18n("Externalize Folder"));
-            fileDialog->setOperationMode(KFileDialog::Other);
-#endif
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
             defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
             defaultFilename.append(QLatin1String(".xml"));  // default extension
-#if QT_VERSION >= 0x050000
             fileDialog->selectFile(defaultFilename);
             QList<QUrl> selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
                 selURL = fileDialog->selectedUrls();
             }
-#else
-            fileDialog->setSelection(defaultFilename);
-            KUrl selURL;
-            if (fileDialog->exec() == QDialog::Accepted) {
-                selURL = fileDialog->selectedUrl();
-            }
-#endif
             delete fileDialog;
             if (selURL.isEmpty())
                 return;
-#if QT_VERSION >= 0x050000
             QString path = selURL[0].toLocalFile();
-#else
-            QString path = selURL.toLocalFile();
-#endif
             QString fileName = path;
             if (fileName.startsWith(rootDir)) {
                 fileName.remove(rootDir);
@@ -581,17 +555,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_Model:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter Model Name"),
                                                  i18n("Enter the new name of the model:"),
                                                  QLineEdit::Normal,
                                                  m_doc->name(), &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Model Name"),
-                                                 i18n("Enter the new name of the model:"),
-                                                 m_doc->name(), &ok, UMLApp::app());
-#endif
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);
@@ -848,6 +816,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -895,6 +864,7 @@ bool UMLListView::mayHaveChildItems(UMLObject::ObjectType type)
     switch (type) {
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface:
+    case UMLObject::ot_Instance:
     case UMLObject::ot_Enum:
     case UMLObject::ot_Entity:  // CHECK: more?
         retval = true;
@@ -989,6 +959,12 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     }
     break;
+    case UMLObject::ot_Instance:{
+        UMLInstance *c = static_cast<UMLInstance*>(object);
+        connect(c, &UMLInstance::attributeAdded, this, &UMLListView::childObjectAdded);
+        connect(c, &UMLInstance::attributeRemoved, this, &UMLListView::childObjectRemoved);
+        connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
+    }
     case UMLObject::ot_Enum: {
         UMLEnum *e = static_cast<UMLEnum*>(object);
         connect(e, &UMLEnum::enumLiteralAdded, this, &UMLListView::childObjectAdded);
@@ -1011,6 +987,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -1690,6 +1667,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     case UMLListViewItem::lvt_Activity_Diagram:
     case UMLListViewItem::lvt_Sequence_Diagram:
     case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_Object_Diagram:
         if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
@@ -2228,6 +2206,9 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_EntityRelationship_Diagram:
         return !m_doc->findView(Uml::DiagramType::EntityRelationship, name);
         break;
+    case UMLListViewItem::lvt_Object_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Object, name);
+    break;
 
     case UMLListViewItem::lvt_Actor:
     case UMLListViewItem::lvt_UseCase:
@@ -2267,6 +2248,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Template:
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_InstanteAttribute:
     case UMLListViewItem::lvt_Operation:
     case UMLListViewItem::lvt_EnumLiteral:
     case UMLListViewItem::lvt_UniqueConstraint:
@@ -2402,6 +2384,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_Actor:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Class:
+        case UMLListViewItem::lvt_Instance:
         case UMLListViewItem::lvt_Interface:
         case UMLListViewItem::lvt_Datatype:
         case UMLListViewItem::lvt_Enum:
@@ -2453,6 +2436,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             break;
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
+        case UMLListViewItem::lvt_InstanteAttribute:
         case UMLListViewItem::lvt_Template:
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_EnumLiteral:

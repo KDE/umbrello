@@ -73,11 +73,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <kinputdialog.h>
-#include <kio/netaccess.h>
-#endif
 #include <KMessageBox>
 #include <kcursor.h>
 #include <KLocalizedString>
@@ -90,9 +85,7 @@
 #include <QString>
 #include <QStringList>
 
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 
 // system includes
 #include <cmath>  // for ceil
@@ -665,6 +658,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         case UMLObject::ot_Entity:
         case UMLObject::ot_Datatype:
         case UMLObject::ot_Category:
+        case UMLObject::ot_Instance:
             createAutoAssociations(newWidget);
             // We need to invoke createAutoAttributeAssociations()
             // on all other widgets again because the newly created
@@ -2183,6 +2177,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 {
     if (widget == NULL ||
         (m_Type != Uml::DiagramType::Class &&
+         m_Type != Uml::DiagramType::Object &&
          m_Type != Uml::DiagramType::Component &&
          m_Type != Uml::DiagramType::Deployment
          && m_Type != Uml::DiagramType::EntityRelationship))
@@ -2762,6 +2757,10 @@ void UMLScene::setMenu(const QPoint& pos)
         menu = ListPopupMenu::mt_On_EntityRelationship_Diagram;
         break;
 
+    case DiagramType::Object:
+        menu = ListPopupMenu::mt_On_Object_Diagram;
+        break;
+
     default:
         uWarning() << "unknown diagram type " << type();
         menu = ListPopupMenu::mt_Undefined;
@@ -2858,7 +2857,6 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Class:
-    case ListPopupMenu::mt_Object:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Class);
         break;
@@ -2906,6 +2904,11 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Datatype:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Datatype);
+        break;
+
+    case ListPopupMenu::mt_Instance:
+        m_bCreateObject = true;
+        Object_Factory::createUMLObject(UMLObject::ot_Instance);
         break;
 
     case ListPopupMenu::mt_Cut:
@@ -2991,18 +2994,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_State:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter State Name"),
                                                  i18n("Enter the name of the new state:"),
                                                  QLineEdit::Normal,
                                                  i18n("new state"),
                                                  &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter State Name"),
-                                                 i18n("Enter the name of the new state:"),
-                                                 i18n("new state"), &ok, UMLApp::app());
-#endif
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
@@ -3035,18 +3032,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Activity:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),
                                                  i18n("Enter Activity Name"),
                                                  i18n("Enter the name of the new activity:"),
                                                  QLineEdit::Normal,
                                                  i18n("new activity"),
                                                  &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Activity Name"),
-                                                 i18n("Enter the name of the new activity:"),
-                                                 i18n("new activity"), &ok, UMLApp::app());
-#endif
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);
@@ -3082,18 +3073,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
-#if QT_VERSION >= 0x050000
             QString newName = QInputDialog::getText(UMLApp::app(),
                                                     i18n("Enter Diagram Name"),
                                                     i18n("Enter the new name of the diagram:"),
                                                     QLineEdit::Normal,
                                                     name(),
                                                     &ok);
-#else
-            QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
-                                                    i18n("Enter the new name of the diagram:"),
-                                                    name(), &ok, UMLApp::app());
-#endif
             if (ok) {
                 setName(newName);
                 m_doc->signalDiagramRenamed(activeView());
@@ -3626,6 +3611,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
             break;
         case 408:
             m_Type = Uml::DiagramType::EntityRelationship;
+            break;
+        case 409:
+            m_Type = Uml::DiagramType::Object;
             break;
         default:
             m_Type = Uml::DiagramType::Undefined;

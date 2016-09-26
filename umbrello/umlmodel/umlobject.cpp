@@ -201,6 +201,26 @@ QString UMLObject::name() const
 {
     return m_name;
 }
+/**
+ * @brief UMLObject::setInstanceName
+ * Set object/instance name in case of a Object Diagram
+ */
+void UMLObject::setInstanceName(const QString &strName)
+{
+     if(instanceName() != strName)
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObjectInstance(this, strName));
+}
+
+void UMLObject::setInstanceNameCmd(const QString &strName)
+{
+    m_instanceName = strName;
+    emitModified();
+}
+
+QString UMLObject::instanceName() const
+{
+    return m_instanceName;
+}
 
 /**
  * Returns the fully qualified name, i.e. all package prefixes and then m_name.
@@ -475,6 +495,38 @@ void UMLObject::setVisibilityCmd(Visibility::Enum visibility)
 {
     m_visibility = visibility;
     emitModified();
+}
+
+void UMLObject::setTypeQualifier(TypeQualifiers::Enum qualifier)
+{
+    m_typeQualifier = qualifier;
+}
+
+void UMLObject::setTypeQualifierCmd(TypeQualifiers::Enum qualifier)
+{
+    m_typeQualifier = qualifier;
+    emitModified();
+}
+
+TypeQualifiers::Enum UMLObject::qualifier() const
+{
+    return m_typeQualifier;
+}
+
+void UMLObject::setTypeModifier(TypeModifiers::Enum modifier)
+{
+    m_typeModifier = modifier;
+}
+
+void UMLObject::setTypeModifierCmd(TypeModifiers::Enum modifier)
+{
+    m_typeModifier = modifier;
+    emitModified();
+}
+
+TypeModifiers::Enum UMLObject::modifier() const
+{
+    return m_typeModifier;
 }
 
 /**
@@ -822,6 +874,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     }
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
     qElement.setAttribute(QLatin1String("name"), m_name);
+    if(m_BaseType == ot_Instance)
+        qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
@@ -920,6 +974,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
     m_name = element.attribute(QLatin1String("name"));
+    if(element.hasAttribute(QLatin1String("instancename")))
+        m_instanceName = element.attribute(QLatin1String("instancename"));
     QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == QLatin1String("-1")) {
         // Before version 1.4, Umbrello did not save the xmi.id of UMLRole objects.
@@ -1062,7 +1118,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_EnumLiteral && m_BaseType != ot_EntityAttribute &&
         m_BaseType != ot_Template && m_BaseType != ot_Stereotype &&
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
-        m_BaseType != ot_ForeignKeyConstraint && m_BaseType != ot_CheckConstraint) {
+        m_BaseType != ot_ForeignKeyConstraint && m_BaseType != ot_CheckConstraint &&
+        m_BaseType != ot_InstanceAttribute ) {
         if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {
@@ -1139,6 +1196,10 @@ QString UMLObject::toI18nString(ObjectType t)
     case  UMLObject::ot_UseCase:
         name = i18n("Use case &name:");
         break;
+    case UMLObject::ot_Instance:
+        name = i18n("Class &name");
+        break;
+
     default:
         name = QLatin1String("<unknown> &name:");
         uWarning() << "unknown object type";

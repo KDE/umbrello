@@ -17,15 +17,8 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
-// kde includes
-#if QT_VERSION < 0x050000
-#include <kapplication.h>
-#endif
-
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QApplication>
-#endif
 #include <QCloseEvent>
 #include <QStringList>
 
@@ -79,10 +72,5 @@ void CmdLineExportAllViewsEvent::exportAllViews()
             uError() << *it;
         }
     }
-
-#if QT_VERSION >= 0x050000
     qApp->quit();
-#else
-    kapp->quit();
-#endif
 }

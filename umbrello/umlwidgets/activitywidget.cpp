@@ -23,14 +23,9 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
 #include <QPointer>
 /**
  * Creates a Activity widget.
@@ -374,17 +369,11 @@ void ActivityWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString n = name();
-#if QT_VERSION >= 0x050000
             n = QInputDialog::getText(Q_NULLPTR,
                                       i18n("Enter Activity Name"),
                                       i18n("Enter the name of the new activity:"),
                                       QLineEdit::Normal,
                                       n, &ok);
-#else
-            n = KInputDialog::getText(i18n("Enter Activity Name"),
-                                      i18n("Enter the name of the new activity:"),
-                                      n, &ok);
-#endif
             if (ok && !n.isEmpty()) {
                 setName(n);
             }

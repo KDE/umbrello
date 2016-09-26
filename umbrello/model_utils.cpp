@@ -64,6 +64,7 @@ bool isCloneable(WidgetBase::WidgetType type)
     case WidgetBase::wt_Port:
     case WidgetBase::wt_Node:
     case WidgetBase::wt_Artifact:
+    case WidgetBase::wt_Instance:
         return true;
     default:
         return false;
@@ -99,6 +100,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Class:
         case UMLObject::ot_Enum:
         case UMLObject::ot_Entity:
+        case UMLObject::ot_Instance:
             o = static_cast<UMLClassifier*>(obj)->findChildObjectById(id);
             if (o == NULL &&
                     (t == UMLObject::ot_Interface || t == UMLObject::ot_Class))
@@ -508,6 +510,8 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
             currentName = i18n("new_association");
         else if(type == UMLObject::ot_Category)
             currentName = i18n("new_category");
+        else if(type == UMLObject::ot_Instance)
+            currentName = i18n("new_object");
         else {
             currentName = i18n("new_object");
             uWarning() << "unknown object type in umldoc::uniqObjectName()";
@@ -594,7 +598,8 @@ bool isClassifierListitem(UMLObject::ObjectType type)
         type == UMLObject::ot_EnumLiteral ||
         type == UMLObject::ot_UniqueConstraint ||
         type == UMLObject::ot_ForeignKeyConstraint  ||
-        type == UMLObject::ot_CheckConstraint) {
+        type == UMLObject::ot_CheckConstraint ||
+        type == UMLObject::ot_InstanceAttribute ) {
         return true;
     } else {
         return false;
@@ -623,6 +628,8 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
         case UMLObject::ot_Operation:
         case UMLObject::ot_EnumLiteral:
         case UMLObject::ot_Template:
+        case UMLObject::ot_Instance:
+        case UMLObject::ot_InstanceAttribute:
             mt = Uml::ModelType::Logical;
             break;
         case UMLObject::ot_Actor:
@@ -1030,7 +1037,8 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
         type == UMLListViewItem::lvt_ForeignKeyConstraint ||
         type == UMLListViewItem::lvt_PrimaryKeyConstraint ||
         type == UMLListViewItem::lvt_CheckConstraint  ||
-        type == UMLListViewItem::lvt_EnumLiteral) {
+        type == UMLListViewItem::lvt_EnumLiteral ||
+        type == UMLListViewItem::lvt_InstanteAttribute) {
         return true;
     } else {
         return false;
@@ -1086,12 +1094,14 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     case UMLListViewItem::lvt_Package:
     case UMLListViewItem::lvt_Interface:
     case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Instance:
         return parentType == UMLListViewItem::lvt_Logical_View ||
                parentType == UMLListViewItem::lvt_Class ||
                parentType == UMLListViewItem::lvt_Package ||
                parentType == UMLListViewItem::lvt_Logical_Folder;
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_InstanteAttribute:
         return parentType == UMLListViewItem::lvt_Entity;
     case UMLListViewItem::lvt_Operation:
         return parentType == UMLListViewItem::lvt_Class ||
@@ -1107,6 +1117,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     case UMLListViewItem::lvt_State_Diagram:
     case UMLListViewItem::lvt_Activity_Diagram:
     case UMLListViewItem::lvt_Sequence_Diagram:
+    case UMLListViewItem::lvt_Object_Diagram:
         return parentType == UMLListViewItem::lvt_Logical_Folder ||
                parentType == UMLListViewItem::lvt_Logical_View;
     case UMLListViewItem::lvt_Logical_Folder:
@@ -1167,7 +1178,8 @@ bool typeIsDiagram(UMLListViewItem::ListViewType type)
             type == UMLListViewItem::lvt_UseCase_Diagram ||
             type == UMLListViewItem::lvt_Component_Diagram ||
             type == UMLListViewItem::lvt_Deployment_Diagram ||
-            type == UMLListViewItem::lvt_EntityRelationship_Diagram) {
+            type == UMLListViewItem::lvt_EntityRelationship_Diagram ||
+            type == UMLListViewItem::lvt_Object_Diagram ){
         return true;
     } else {
         return false;
@@ -1186,6 +1198,7 @@ Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt)
             break;
         case Uml::DiagramType::Collaboration:
         case Uml::DiagramType::Class:
+        case Uml::DiagramType::Object:
         case Uml::DiagramType::Sequence:
         case Uml::DiagramType::State:
         case Uml::DiagramType::Activity:
@@ -1279,6 +1292,10 @@ UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Class:
         type = UMLListViewItem::lvt_Class_Diagram;
+        break;
+
+    case Uml::DiagramType::Object:
+        type = UMLListViewItem::lvt_Object_Diagram;
         break;
 
     case Uml::DiagramType::Sequence:
@@ -1458,9 +1475,19 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
     case UMLObject::ot_Template:
         type = UMLListViewItem::lvt_Template;
         break;
+
     case UMLObject::ot_Association:
         type = UMLListViewItem::lvt_Association;
         break;
+
+    case UMLObject::ot_Instance:
+        type = UMLListViewItem::lvt_Instance;
+        break;
+
+    case UMLObject::ot_InstanceAttribute:
+        type = UMLListViewItem::lvt_InstanteAttribute;
+        break;
+
     default:
         break;
     }
@@ -1565,6 +1592,14 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 
     case UMLListViewItem::lvt_EnumLiteral:
         ot = UMLObject::ot_EnumLiteral;
+        break;
+
+    case UMLListViewItem::lvt_Instance:
+        ot = UMLObject::ot_Instance;
+        break;
+
+    case UMLListViewItem::lvt_InstanteAttribute:
+        ot = UMLObject::ot_InstanceAttribute;
         break;
 
     default:
@@ -1687,6 +1722,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Class_Diagram:
             icon = Icon_Utils::it_Diagram_Class;
             break;
+        case UMLListViewItem::lvt_Object_Diagram:
+            icon = Icon_Utils::it_Diagram_Object;
+            break;
         case UMLListViewItem::lvt_UseCase_Diagram:
             icon = Icon_Utils::it_Diagram_Usecase;
             break;
@@ -1738,6 +1776,12 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Properties_UserInterface:
             icon = Icon_Utils::it_Properties_UserInterface;
             break;
+        case UMLListViewItem::lvt_Instance:
+            icon = Icon_Utils::it_Instance;
+        break;
+        case UMLListViewItem::lvt_InstanteAttribute:
+            icon = Icon_Utils::it_Private_Attribute;
+        break;
         default:
             break;
     }
@@ -1782,6 +1826,9 @@ Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
         case UMLListViewItem::lvt_EntityRelationship_Diagram:
             dt = Uml::DiagramType::EntityRelationship;
             break;
+    case UMLListViewItem::lvt_Object_Diagram:
+            dt = Uml::DiagramType::Object;
+        break;
         default:
             break;
     }
@@ -1920,6 +1967,10 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
             bAccept = false;
         }
         break;
+    case Uml::DiagramType::Object:
+        if( scene->widgetOnDiagram(id) || (ot != UMLObject::ot_Instance))
+                bAccept = false;
+        break;
     case Uml::DiagramType::Sequence:
     case Uml::DiagramType::Collaboration:
         if (ot != UMLObject::ot_Class &&
@@ -1983,6 +2034,7 @@ bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
     switch (diagramType) {
     case Uml::DiagramType::Activity:
     case Uml::DiagramType::Class:
+    case Uml::DiagramType::Object:
     case Uml::DiagramType::Collaboration:
     case Uml::DiagramType::Component:
     case Uml::DiagramType::Deployment:

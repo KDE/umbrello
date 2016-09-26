@@ -35,9 +35,6 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 using namespace Uml;
 
@@ -99,21 +96,51 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
     UMLObject::ObjectType ot;
 
     switch(getButton()) {
-        case WorkToolBar::tbb_Actor:        ot = UMLObject::ot_Actor;          break;
-        case WorkToolBar::tbb_UseCase:      ot = UMLObject::ot_UseCase;        break;
-        case WorkToolBar::tbb_Class:        ot = UMLObject::ot_Class;          break;
-        case WorkToolBar::tbb_Object:       ot = UMLObject::ot_Class;          break;  // Object is a class.
-        case WorkToolBar::tbb_Package:      ot = UMLObject::ot_Package;        break;
-        case WorkToolBar::tbb_Component:    ot = UMLObject::ot_Component;      break;
-        case WorkToolBar::tbb_Node:         ot = UMLObject::ot_Node;           break;
-        case WorkToolBar::tbb_Artifact:     ot = UMLObject::ot_Artifact;       break;
-        case WorkToolBar::tbb_Interface:    ot = UMLObject::ot_Interface;      break;
-        case WorkToolBar::tbb_Enum:         ot = UMLObject::ot_Enum;           break;
-        case WorkToolBar::tbb_Entity:       ot = UMLObject::ot_Entity;         break;
-        case WorkToolBar::tbb_Datatype:     ot = UMLObject::ot_Datatype;       break;
-        case WorkToolBar::tbb_Category:     ot = UMLObject::ot_Category;       break;
-
-        default:                            ot = UMLObject::ot_UMLObject;      break;
+    case WorkToolBar::tbb_Actor:
+        ot = UMLObject::ot_Actor;
+        break;
+    case WorkToolBar::tbb_UseCase:
+        ot = UMLObject::ot_UseCase;
+        break;
+    case WorkToolBar::tbb_Class:
+        ot = UMLObject::ot_Class;
+        break;
+    case WorkToolBar::tbb_Object:
+        ot = UMLObject::ot_Class;
+        break;  // Object is a class.
+    case WorkToolBar::tbb_Package:
+        ot = UMLObject::ot_Package;
+        break;
+    case WorkToolBar::tbb_Component:
+        ot = UMLObject::ot_Component;
+        break;
+    case WorkToolBar::tbb_Node:
+        ot = UMLObject::ot_Node;
+        break;
+    case WorkToolBar::tbb_Artifact:
+        ot = UMLObject::ot_Artifact;
+        break;
+    case WorkToolBar::tbb_Interface:
+        ot = UMLObject::ot_Interface;
+        break;
+    case WorkToolBar::tbb_Enum:
+        ot = UMLObject::ot_Enum;
+        break;
+    case WorkToolBar::tbb_Entity:
+        ot = UMLObject::ot_Entity;
+        break;
+    case WorkToolBar::tbb_Datatype:
+        ot = UMLObject::ot_Datatype;
+        break;
+    case WorkToolBar::tbb_Category:
+        ot = UMLObject::ot_Category;
+        break;
+    case WorkToolBar::tbb_Instance:
+        ot = UMLObject::ot_Instance;
+        break;
+    default:
+        ot = UMLObject::ot_UMLObject;
+        break;
     }
 
     return ot;

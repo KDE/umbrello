@@ -49,24 +49,10 @@
 
 // kde includes
 #include <kio/job.h>
-#if QT_VERSION < 0x050000
-#include <kio/netaccess.h>
-#include <kinputdialog.h>
-#endif
-#if QT_VERSION >= 0x050000
 #include <KJobWidgets>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kmimetype.h>
-#endif
 #include <ktar.h>
-#if QT_VERSION < 0x050000
-#include <ktempdir.h>
-#include <ktabwidget.h>
-#include <ktemporaryfile.h>
-#endif
 
 // qt includes
 #include <QApplication>
@@ -75,19 +61,13 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
-#if QT_VERSION >= 0x050000
 #include <QInputDialog>
-#endif
-#if QT_VERSION >= 0x050000
 #include <QMimeDatabase>
-#endif
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
-#if QT_VERSION >= 0x050000
 #include <QTemporaryDir>
 #include <QTemporaryFile>
-#endif
 #include <QTextStream>
 #include <QTimer>
 
@@ -103,11 +83,7 @@ UMLDoc::UMLDoc()
     m_modelID("m1"),
     m_count(0),
     m_modified(false),
-#if QT_VERSION >= 0x050000
     m_doc_url(QUrl()),
-#else
-    m_doc_url(KUrl()),
-#endif
     m_pChangeLog(0),
     m_bLoading(false),
     m_Doc(QString()),
@@ -291,11 +267,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
  *
  * @param url   The KUrl to set.
  */
-#if QT_VERSION >= 0x050000
 void UMLDoc::setUrl(const QUrl &url)
-#else
-void UMLDoc::setUrl(const KUrl &url)
-#endif
 {
     m_doc_url = url;
 }
@@ -305,11 +277,7 @@ void UMLDoc::setUrl(const KUrl &url)
  *
  * @return  The KUrl of this UMLDoc.
  */
-#if QT_VERSION >= 0x050000
 const QUrl& UMLDoc::url() const
-#else
-const KUrl& UMLDoc::url() const
-#endif
 {
     return m_doc_url;
 }
@@ -319,11 +287,7 @@ const KUrl& UMLDoc::url() const
  */
 void UMLDoc::setUrlUntitled()
 {
-#if QT_VERSION >= 0x050000
     m_doc_url.setUrl(m_doc_url.toString(QUrl::RemoveFilename) + i18n("Untitled"));
-#else
-    m_doc_url.setFileName(i18n("Untitled"));
-#endif
 }
 
 /**
@@ -467,11 +431,7 @@ bool UMLDoc::newDocument()
  * @param format   The format (optional.)
  * @return  True if operation successful.
  */
-#if QT_VERSION >= 0x050000
 bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
-#else
-bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
-#endif
 {
     Q_UNUSED(format);
     if (url.fileName().length() == 0) {
@@ -486,7 +446,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // as it sets m_bLoading to false after it was temporarily
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
-#if QT_VERSION >= 0x050000
     QTemporaryFile tmpfile;
     tmpfile.open();
     QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
@@ -506,19 +465,6 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         newDocument();
         return false;
     }
-#else
-    QString tmpfile;
-    KIO::NetAccess::download(url, tmpfile, UMLApp::app());
-
-    QFile file(tmpfile);
-    if (!file.exists()) {
-        KMessageBox::error(0, i18n("The file %1 does not exist.", url.pathOrUrl()), i18n("Load Error"));
-        setUrlUntitled();
-        m_bLoading = false;
-        newDocument();
-        return false;
-    }
-#endif
     // status of XMI loading
     bool status = false;
 
@@ -532,18 +478,9 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     }
 
     if (mimetype.isEmpty() == false) {
-#if QT_VERSION >= 0x050000
         KTar archive(tmpfile.fileName(), mimetype);
-#else
-        KTar archive(tmpfile, mimetype);
-#endif
         if (archive.open(QIODevice::ReadOnly) == false) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.toString()), i18n("Load Error"));
-#else
-            KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.pathOrUrl()), i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
-#endif
             setUrlUntitled();
             m_bLoading = false;
             newDocument();
@@ -563,12 +500,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             // only check files, we do not go in subdirectories
             if (rootDir->entry(*it)->isFile() == true) {
                 // we found a file, check the mimetype
-#if QT_VERSION >= 0x050000
                 QMimeDatabase db;
                 entryMimeType = db.mimeTypeForFile(*it, QMimeDatabase::MatchExtension).name();
-#else
-                entryMimeType = KMimeType::findByPath(*it, 0, true)->name();
-#endif
                 if (entryMimeType == QLatin1String("application/x-uml")) {
                     foundXMI = true;
                     break;
@@ -578,25 +511,15 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
         // if we found an XMI file, we have to extract it to a temporary file
         if (foundXMI == true) {
-#if QT_VERSION >= 0x050000
             QTemporaryDir tmp_dir;
-#else
-            KTempDir tmp_dir;
-#endif
             KArchiveEntry * entry;
             KArchiveFile * fileEntry;
 
             // try to cast the file entry in the archive to an archive entry
             entry = const_cast<KArchiveEntry*>(rootDir->entry(*it));
             if (entry == 0) {
-#if QT_VERSION >= 0x050000
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                    i18n("Load Error"));
-#else
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
-                                   i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
-#endif
                 setUrlUntitled();
                 m_bLoading = false;
                 newDocument();
@@ -607,14 +530,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             // extract the file
             fileEntry = dynamic_cast<KArchiveFile*>(entry);
             if (fileEntry == 0) {
-#if QT_VERSION >= 0x050000
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                    i18n("Load Error"));
-#else
-                KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
-                                   i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
-#endif
                 setUrlUntitled();
                 m_bLoading = false;
                 newDocument();
@@ -622,26 +539,13 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             }
 
             // now we can extract the file to the temporary directory
-#if QT_VERSION >= 0x050000
             fileEntry->copyTo(tmp_dir.path() + QLatin1Char('/'));
 
             // now open the extracted file for reading
             QFile xmi_file(tmp_dir.path() + QLatin1Char('/') + *it);
-#else
-            fileEntry->copyTo(tmp_dir.name());
-
-            // now open the extracted file for reading
-            QFile xmi_file(tmp_dir.name() + *it);
-#endif
             if(!xmi_file.open(QIODevice::ReadOnly)) {
-#if QT_VERSION >= 0x050000
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.toString()),
                                    i18n("Load Error"));
-#else
-                KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.pathOrUrl()),
-                                   i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
-#endif
                 setUrlUntitled();
                 m_bLoading = false;
                 newDocument();
@@ -653,14 +557,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             // close the extracted file and the temporary directory
             xmi_file.close();
         } else {
-#if QT_VERSION >= 0x050000
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.toString()),
                                    i18n("Load Error"));
-#else
-            KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
-                               i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
-#endif
             setUrlUntitled();
             m_bLoading = false;
             newDocument();
@@ -671,14 +569,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     } else {
         // no, it seems to be an ordinary file
         if (!file.open(QIODevice::ReadOnly)) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem loading file: %1", url.toString()),
                                i18n("Load Error"));
-#else
-            KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
-                               i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
-#endif
             setUrlUntitled();
             m_bLoading = false;
             newDocument();
@@ -708,19 +600,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
     if (file.isOpen())
         file.close();
-#if QT_VERSION < 0x050000
-    KIO::NetAccess::removeTempFile(tmpfile);
-#endif
     m_bLoading = false;
     m_bTypesAreResolved = true;
     if (!status) {
-#if QT_VERSION >= 0x050000
         KMessageBox::error(0, i18n("There was a problem loading file: %1", url.toString()),
                            i18n("Load Error"));
-#else
-        KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
-                           i18n("Load Error"));
-#endif
         newDocument();
         return false;
     }
@@ -742,22 +626,14 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
  * @param format   The format (optional.)
  * @return  True if operation successful.
  */
-#if QT_VERSION >= 0x050000
 bool UMLDoc::saveDocument(const QUrl& url, const char * format)
-#else
-bool UMLDoc::saveDocument(const KUrl& url, const char * format)
-#endif
 {
     Q_UNUSED(format);
     m_doc_url = url;
     bool uploaded = true;
 
     // first, we have to find out which format to use
-#if QT_VERSION >= 0x050000
     QString strFileName = url.path();
-#else
-    QString strFileName = url.path(KUrl::RemoveTrailingSlash);
-#endif
     QFileInfo fileInfo(strFileName);
     QString fileExt = fileInfo.completeSuffix();
     QString fileFormat = QLatin1String("xmi");
@@ -775,11 +651,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
     if (fileFormat == QLatin1String("tgz") || fileFormat == QLatin1String("bz2")) {
         KTar * archive;
-#if QT_VERSION >= 0x050000
         QTemporaryFile tmp_tgz_file;
-#else
-        KTemporaryFile tmp_tgz_file;
-#endif
         tmp_tgz_file.setAutoRemove(false);
         tmp_tgz_file.open();
 
@@ -800,29 +672,17 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
             delete archive;
             return false;
         }
 
         // we have to create a temporary xmi file
         // we will add this file later to the archive
-#if QT_VERSION >= 0x050000
         QTemporaryFile tmp_xmi_file;
-#else
-        KTemporaryFile tmp_xmi_file;
-#endif
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
             delete archive;
             return false;
         }
@@ -839,11 +699,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
         if (!archive->close()) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
             delete archive;
             return false;
         }
@@ -852,14 +708,10 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now we have to check, if we have to upload the file
         if (!url.isLocalFile()) {
-#if QT_VERSION >= 0x050000
             KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmp_tgz_file.fileName()), m_doc_url);
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
-#else
-            uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
-#endif
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -870,12 +722,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
     }
     else {
         // save as normal uncompressed XMI
-
-#if QT_VERSION >= 0x050000
         QTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
-#else
-        KTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
-#endif
         tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file
@@ -887,63 +734,38 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
-#if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-            KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
             return false;
         }
         saveToXMI(tmpfile); // save the xmi stuff to it
 
         // if it is a remote file, we have to upload the tmp file
         if (!url.isLocalFile()) {
-#if QT_VERSION >= 0x050000
             KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), m_doc_url);
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
-#else
-            uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
-#endif
         }
         else {
             // now remove the original file
 #ifdef Q_OS_WIN
             tmpfile.setAutoRemove(true);
-#if QT_VERSION >= 0x050000
             KIO::FileCopyJob* fcj = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
 #else
-            KIO::FileCopyJob* fcj = KIO::file_copy(tmpfile.fileName(), url, -1, KIO::Overwrite);
-#endif
-#else
-#if QT_VERSION >= 0x050000
             KIO::FileCopyJob* fcj = KIO::file_move(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
-#else
-            KIO::FileCopyJob* fcj = KIO::file_move(tmpfile.fileName(), url, -1, KIO::Overwrite);
 #endif
-#endif
-#if QT_VERSION >= 0x050000
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
                 DEBUG(DBG_SRC) << "UMLDoc::saveDocument moving with error = " << tmpfile.fileName() << " to " << url;
                 KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-            if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
-                KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
                 setUrlUntitled();
                 return false;
             }
         }
     }
     if (!uploaded) {
-#if QT_VERSION >= 0x050000
         KMessageBox::error(0, i18n("There was a problem uploading: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
-#else
-        KMessageBox::error(0, i18n("There was a problem uploading file: %1", url.pathOrUrl()), i18n("Save Error"));
-#endif
         setUrlUntitled();
     }
     setModified(false);
@@ -1109,7 +931,8 @@ bool UMLDoc::addUMLObject(UMLObject* object)
 {
     UMLObject::ObjectType ot = object->baseType();
     if (ot == UMLObject::ot_Attribute || ot == UMLObject::ot_Operation || ot == UMLObject::ot_EnumLiteral
-            || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype) {
+            || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype
+            || ot == UMLObject::ot_InstanceAttribute ) {
         DEBUG(DBG_SRC) << object->name() << ": not adding type " << ot;
         return false;
     }
@@ -1474,6 +1297,9 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
         case Uml::DiagramType::EntityRelationship:
             dname = i18n("entity relationship diagram");
             break;
+        case Uml::DiagramType::Object:
+            dname = i18n("object diagram");
+        break;
         default:
             uWarning() << "called with unknown diagram type";
             break;
@@ -1527,15 +1353,10 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
 
     while (true) {
         if (askForName)  {
-#if QT_VERSION >= 0x050000
             name = QInputDialog::getText(UMLApp::app(),
                                          i18nc("diagram name", "Name"), i18n("Enter name:"),
                                          QLineEdit::Normal,
                                          defaultName, &ok);
-#else
-            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"),
-                                         defaultName, &ok, (QWidget*)UMLApp::app());
-#endif
         }
         if (!ok)  {
             break;
@@ -1606,14 +1427,10 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
 
     QString oldName= view->umlScene()->name();
     while (true) {
-#if QT_VERSION >= 0x050000
         QString name = QInputDialog::getText(UMLApp::app(),
                                              i18nc("renaming diagram", "Name"), i18n("Enter name:"),
                                              QLineEdit::Normal,
                                              oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
         if (!ok) {
             break;
         }
@@ -1643,14 +1460,10 @@ void UMLDoc::renameUMLObject(UMLObject *o)
     bool ok = false;
     QString oldName= o->name();
     while (true) {
-#if QT_VERSION >= 0x050000
         QString name = QInputDialog::getText(UMLApp::app(),
                                              i18nc("renaming uml object", "Name"), i18n("Enter name:"),
                                              QLineEdit::Normal,
                                              oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
         if (!ok)  {
             break;
         }
@@ -1684,14 +1497,10 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 
     QString oldName= o->name();
     while (true) {
-#if QT_VERSION >= 0x050000
         QString name = QInputDialog::getText(UMLApp::app(),
                                              i18nc("renaming child uml object", "Name"), i18n("Enter name:"),
                                              QLineEdit::Normal,
                                              oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming child uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
         if (!ok) {
             break;
         }
@@ -1867,7 +1676,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                          << parent->baseType();
                 return;
             }
-            if (type == UMLObject::ot_Attribute) {
+            if (type == UMLObject::ot_Attribute || type == UMLObject::ot_InstanceAttribute) {
                 pClass->removeAttribute(static_cast<UMLAttribute*>(umlobject));
             } else if (type == UMLObject::ot_Template) {
                 pClass->removeTemplate(static_cast<UMLTemplate*>(umlobject));
@@ -2333,7 +2142,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 seen_UMLObjects = true;
             } else if (tagEq(tag, QLatin1String("Package")) ||
                        tagEq(tag, QLatin1String("Class")) ||
-                       tagEq(tag, QLatin1String("Interface"))) {
+                       tagEq(tag, QLatin1String("Interface")) ||
+                       tagEq(tag, QLatin1String("Instance"))) {
                 // These tests are only for foreign XMI files that
                 // are missing the <Model> tag (e.g. NSUML)
                 QString stID = element.attribute(QLatin1String("stereotype"));
@@ -3211,15 +3021,9 @@ void UMLDoc::slotAutoSave()
     if (!m_modified) {
         return;
     }
-#if QT_VERSION >= 0x050000
     QUrl tempUrl = m_doc_url;
-#else
-    KUrl tempUrl = m_doc_url;
-#endif
     if (tempUrl.fileName() == i18n("Untitled")) {
-#if QT_VERSION >= 0x050000
         tempUrl.setScheme(QLatin1String("file"));
-#endif
         tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);
         setUrlUntitled();
@@ -3227,21 +3031,13 @@ void UMLDoc::slotAutoSave()
         UMLApp::app()->setModified(m_modified);
     } else {
         // 2004-05-17 Achim Spangler
-#if QT_VERSION >= 0x050000
         QUrl orgDocUrl = m_doc_url;
-#else
-        KUrl orgDocUrl = m_doc_url;
-#endif
         QString orgFileName = m_doc_url.fileName();
         // don't overwrite manually saved file with autosave content
         QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = Settings::optionState();
         fileName.replace(QLatin1String(".xmi"), optionState.generalState.autosavesuffix);
-#if QT_VERSION >= 0x050000
         tempUrl.setUrl(tempUrl.toString(QUrl::RemoveFilename) + fileName);
-#else
-        tempUrl.setFileName(fileName);
-#endif
         // End Achim Spangler
 
         saveDocument(tempUrl);
@@ -3355,7 +3151,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     case Uml::DiagramType::EntityRelationship:
         type = UMLListViewItem::lvt_EntityRelationship_Diagram;
         break;
-
+    case Uml::DiagramType::Object:
+        type = UMLListViewItem::lvt_Object_Diagram;
+        break;
     default:
         uWarning() << "unknown diagram type " << view->umlScene()->type();
         return;

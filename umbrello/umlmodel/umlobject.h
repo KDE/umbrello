@@ -56,6 +56,7 @@ public:
         ot_Datatype,
         ot_Enum,
         ot_Class,
+        ot_Instance,
         ot_Association,
         ot_Attribute,
         ot_Operation,
@@ -74,7 +75,8 @@ public:
         ot_ForeignKeyConstraint,
         ot_CheckConstraint,
         ot_Category,
-        ot_Port
+        ot_Port,
+        ot_InstanceAttribute
     };
 
     static QString toString(ObjectType ot);
@@ -107,6 +109,14 @@ public:
     void setVisibilityCmd(Uml::Visibility::Enum visibility);
     Uml::Visibility::Enum visibility() const;
 
+    void setTypeQualifier(Uml::TypeQualifiers::Enum qualifier);
+    void setTypeQualifierCmd(Uml::TypeQualifiers::Enum qualifier);
+    Uml::TypeQualifiers::Enum qualifier() const;
+
+    void setTypeModifier(Uml::TypeModifiers::Enum modifier);
+    void setTypeModifierCmd(Uml::TypeModifiers::Enum modifier);
+    Uml::TypeModifiers::Enum modifier() const;
+
     void setStereotype(const QString &_name);
     void setStereotypeCmd(const QString &_name);
     QString stereotype(bool includeAdornments = false) const;
@@ -125,6 +135,10 @@ public:
     virtual void setName(const QString &strName);
     void setNameCmd(const QString &strName) ;
     QString name() const;
+
+    virtual void setInstanceName(const QString &strName);
+    void setInstanceNameCmd(const QString &strName);
+    QString instanceName() const;
 
     virtual QString fullyQualifiedName(const QString& separator = QString(),
                                        bool includeRoot = false) const;
@@ -174,8 +188,11 @@ protected:
     UMLPackage*            m_pUMLPackage;  ///< package the object belongs to if applicable
     QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
+    QString m_instanceName; ///< objects instance
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
+    Uml::TypeQualifiers::Enum m_typeQualifier; ///< object qualifier
+    Uml::TypeModifiers::Enum m_typeModifier; ///< object modifier
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not
     bool                   m_bStatic;      ///< flag for instance scope
     bool                   m_bInPaste;     ///< caller sets this true when in paste operation

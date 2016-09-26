@@ -30,6 +30,7 @@
 #include "cmds/generic/cmd_createUMLObject.h"
 #include "cmds/generic/cmd_removeUMLObject.h"
 #include "cmds/generic/cmd_renameUMLObject.h"
+#include "cmds/generic/cmd_renameUMLObjectInstance.h"
 
 /************************************************************
  * Widgets

@@ -27,18 +27,11 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kstandarddirs.h>
-#include <ktemporaryfile.h>
-#include <KUrl>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QUrl>
-#endif
 
 #include <QTextStream>
 
@@ -50,13 +43,8 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param parent     Parent object for QThread constructor
  */
 
-#if QT_VERSION >= 0x050000
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent)
     :QThread(parent), m_docbookUrl(docBookUrl)
-#else
-Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
-    :QThread(parent), m_docbookUrl(docBookUrl)
-#endif
 {
 }
 
@@ -72,11 +60,7 @@ void Docbook2XhtmlGeneratorJob::run()
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
-#if QT_VERSION >= 0x050000
   QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
-#else
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
-#endif
   uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
@@ -84,22 +68,14 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "XSLT is'" << xslt << "'";
   xsltFile.close();
 
-#if QT_VERSION >= 0x050000
   QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#else
-  QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#endif
   uDebug() << "Local xsl is'" << localXsl << "'";
   if (!localXsl.isEmpty())
   {
     localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
     xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
   }
-#if QT_VERSION >= 0x050000
   QTemporaryFile tmpXsl;
-#else
-  KTemporaryFile tmpXsl;
-#endif
   tmpXsl.setAutoRemove(false);
   tmpXsl.open();
   QTextStream str (&tmpXsl);
@@ -115,11 +91,7 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 
-#if QT_VERSION >= 0x050000
   QTemporaryFile tmpXhtml;
-#else
-  KTemporaryFile tmpXhtml;
-#endif
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
