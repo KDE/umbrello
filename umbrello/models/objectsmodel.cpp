@@ -160,7 +160,7 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
         } else
             return QLatin1String("no parent");
     case 6:
-        return QString::number((unsigned long) o, 16);
+        return QString::number((quintptr)o, 16);
     default:
         return QVariant();
     }
