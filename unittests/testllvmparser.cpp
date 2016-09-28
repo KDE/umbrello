@@ -69,7 +69,8 @@ public:
 
     virtual void HandleTranslationUnit(clang::ASTContext &Context)
     {
-        Visitor.TraverseDecl(Context.getTranslationUnitDecl());
+        if (!Visitor.TraverseDecl(Context.getTranslationUnitDecl()))
+            llvm::errs() << "could not parse file";
     }
 
 private:
