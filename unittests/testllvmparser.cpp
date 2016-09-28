@@ -83,6 +83,7 @@ public:
     virtual std::unique_ptr<clang::ASTConsumer>
     CreateASTConsumer(clang::CompilerInstance &Compiler, llvm::StringRef InFile)
     {
+        Q_UNUSED(InFile);
         return std::unique_ptr<clang::ASTConsumer>(
             new FindNamedClassConsumer(&Compiler.getASTContext()));
     }
