@@ -67,6 +67,7 @@ public:
       : parent(_parent),
         findDialog(_parent),
         viewDiagramsWindow(0),
+        viewObjectsWindow(0),
         viewStereotypesWindow(0),
         diagramsWindow(0),
         objectsWindow(0),
