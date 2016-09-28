@@ -119,8 +119,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     int row = 2;
-    UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
-    if (c->isReference() && c->originType()) {
+    UMLClassifier *c = m_pObject->asUMLClassifier();
+    if (c && c->isReference() && c->originType()) {
         QLabel *label = new QLabel(i18n("Reference:"), this);
         m_pNameLayout->addWidget(label, row, 0);
         QLabel *reference = new QLabel(c->originType()->name(), this);
@@ -149,13 +149,13 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     if (t == UMLObject::ot_Component) {
         m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
-        m_pExecutableCB->setChecked((static_cast<UMLComponent*>(o))->getExecutable());
+        m_pExecutableCB->setChecked((o->asUMLComponent())->getExecutable());
         m_pNameLayout->addWidget(m_pExecutableCB, row, 0);
         ++row;
     }
 
     if (t == UMLObject::ot_Artifact) {
-        m_artifactTypeWidget = new UMLArtifactTypeWidget(static_cast<UMLArtifact*>(o));
+        m_artifactTypeWidget = new UMLArtifactTypeWidget(o->asUMLArtifact());
         m_artifactTypeWidget->addToLayout(topLayout);
     }
 
@@ -335,7 +335,7 @@ void ClassGeneralPage::apply()
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {
-            (static_cast<UMLComponent*>(m_pObject))->setExecutable(m_pExecutableCB->isChecked());
+            (m_pObject->asUMLComponent())->setExecutable(m_pExecutableCB->isChecked());
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Artifact) {

@@ -3,7 +3,7 @@ project(umbrello)
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "16")
 set (KDE_APPLICATIONS_VERSION_MINOR "08")
-set (KDE_APPLICATIONS_VERSION_MICRO "0")
+set (KDE_APPLICATIONS_VERSION_MICRO "1")
 
 set(UMBRELLO_VERSION_MAJOR "2")
 MATH(EXPR UMBRELLO_VERSION_MINOR "12+${KDE_APPLICATIONS_VERSION_MINOR}")
@@ -142,6 +142,7 @@ endmacro(add_unstable_feature)
 
 add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
+add_unstable_feature(UML_OBJECTS_WINDOW) # objects dock window
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)

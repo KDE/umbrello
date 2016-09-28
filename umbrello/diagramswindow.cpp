@@ -25,8 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-DiagramsWindow::DiagramsWindow(QWidget *parent)
-    : QDockWidget(i18n("&Diagrams"), parent)
+DiagramsWindow::DiagramsWindow(const QString &title, QWidget *parent)
+  : QDockWidget(title, parent)
 {
     setObjectName(QLatin1String("DiagramsWindow"));
 
@@ -60,7 +60,7 @@ void DiagramsWindow::modified()
 
 void DiagramsWindow::slotDiagramsDoubleClicked(QModelIndex index)
 {
-    QVariant v = UMLApp::app()->document()->diagramsModel()->data(index, Qt::UserRole);
+    QVariant v = m_diagramsTree->model()->data(index, Qt::UserRole);
     if (v.canConvert<UMLView*>()) {
         UMLView *view = v.value<UMLView*>();
         view->showPropertiesDialog(this);
@@ -69,7 +69,7 @@ void DiagramsWindow::slotDiagramsDoubleClicked(QModelIndex index)
 
 void DiagramsWindow::slotDiagramsClicked(QModelIndex index)
 {
-    QVariant v = UMLApp::app()->document()->diagramsModel()->data(index, Qt::UserRole);
+    QVariant v = m_diagramsTree->model()->data(index, Qt::UserRole);
     if (v.canConvert<UMLView*>()) {
         UMLView *view = v.value<UMLView*>();
         UMLApp::app()->setCurrentView(view, true);

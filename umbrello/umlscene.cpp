@@ -1477,7 +1477,7 @@ bool UMLScene::isSavedInSeparateFile()
     const UMLListViewItem::ListViewType lvt = parentItem->type();
     if (! Model_Utils::typeIsFolder(lvt))
         return false;
-    UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(parentItem->umlObject());
+    UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
     if (modelFolder == NULL) {
         uError() << msgPrefix
                  << "parent model object is not a UMLFolder (?)";
@@ -2212,7 +2212,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == NULL)
         return;
-    UMLCanvasObject *umlObj = dynamic_cast<UMLCanvasObject*>(tmpUmlObj);
+    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == NULL)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
@@ -2233,9 +2233,9 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             continue;
         }
         if (roleAObj->id() == myID) {
-            other = static_cast<UMLCanvasObject*>(roleBObj);
+            other = roleBObj->asUMLCanvasObject();
         } else if (roleBObj->id() == myID) {
-            other = static_cast<UMLCanvasObject*>(roleAObj);
+            other = roleAObj->asUMLCanvasObject();
         } else {
             DEBUG(DBG_SRC) << "Cannot find own object "
                            << Uml::ID::toString(myID) << " in UMLAssoc "
@@ -2244,6 +2244,9 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Now that we have determined the "other" UMLObject, seek it in
         // this view's UMLWidgets.
+        if (!other) {
+            continue;
+        }
         Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
@@ -2307,7 +2310,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (t == UMLObject::ot_Package || t == UMLObject::ot_Class ||
         t == UMLObject::ot_Interface || t == UMLObject::ot_Component) {
         // for each of the object's containedObjects
-        UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
+        UMLPackage *umlPkg = umlObj->asUMLPackage();
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             uIgnoreZeroPointer(obj);
@@ -2394,17 +2397,17 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
         return;
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->baseType() == UMLObject::ot_Datatype) {
-        UMLClassifier *dt = static_cast<UMLClassifier*>(tmpUmlObj);
+        UMLClassifier *dt = tmpUmlObj->asUMLClassifier();
         while (dt->originType() != NULL) {
             tmpUmlObj = dt->originType();
             if (tmpUmlObj->baseType() != UMLObject::ot_Datatype)
                 break;
-            dt = static_cast<UMLClassifier*>(tmpUmlObj);
+            dt = tmpUmlObj->asUMLClassifier();
         }
     }
     if (tmpUmlObj->baseType() != UMLObject::ot_Class)
         return;
-    UMLClassifier * klass = static_cast<UMLClassifier*>(tmpUmlObj);
+    UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
     // for each of the UMLClassifier's UMLAttributes
     UMLAttributeList attrList = klass->getAttributeList();
     foreach(UMLAttribute* attr, attrList) {
@@ -2460,7 +2463,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     }
     // if the attribute type is a Datatype then
     if (type->baseType() == UMLObject::ot_Datatype) {
-        UMLClassifier *dt = static_cast<UMLClassifier*>(type);
+        UMLClassifier *dt = type->asUMLClassifier();
         // if the Datatype is a reference (pointer) type
         if (dt->isReference()) {
             //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
@@ -2509,22 +2512,22 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
     if (tmpUmlObj == NULL)
         return;
     // check if the underlying model object is really a UMLEntity
-    UMLCanvasObject *umlObj = dynamic_cast<UMLCanvasObject*>(tmpUmlObj);
+    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == NULL)
         return;
     // finished checking whether this widget has a UMLCanvas Object
 
     if (tmpUmlObj->baseType() != UMLObject::ot_Entity)
         return;
-    UMLEntity *entity = static_cast<UMLEntity*>(tmpUmlObj);
+    UMLEntity *entity = tmpUmlObj->asUMLEntity();
 
     // for each of the UMLEntity's UMLForeignKeyConstraints
     UMLClassifierListItemList constrList = entity->getFilteredList(UMLObject::ot_ForeignKeyConstraint);
 
     foreach(UMLClassifierListItem* cli, constrList) {
-        UMLEntityConstraint *eConstr = static_cast<UMLEntityConstraint*>(cli);
+        UMLEntityConstraint *eConstr = cli->asUMLEntityConstraint();
 
-        UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(eConstr);
+        UMLForeignKeyConstraint* fkc = eConstr->asUMLForeignKeyConstraint();
         if (fkc == NULL) {
             return;
         }
@@ -3830,10 +3833,10 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             UMLWidget *widget = NULL;
             switch (ot) {
             case UMLObject::ot_Class:
-                widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(this, o->asUMLClassifier());
                 break;
             case UMLObject::ot_Association: {
-                UMLAssociation *umla = static_cast<UMLAssociation*>(o);
+                UMLAssociation *umla = o->asUMLAssociation();
                 Uml::AssociationType::Enum at = umla->getAssocType();
                 UMLObject* objA = umla->getObject(Uml::RoleType::A);
                 UMLObject* objB = umla->getObject(Uml::RoleType::B);
@@ -3854,7 +3857,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 break;
             }
             case UMLObject::ot_Role: {
-                //UMLRole *robj = static_cast<UMLRole*>(o);
+                //UMLRole *robj = o->asUMLRole();
                 //UMLAssociation *umla = robj->getParentAssociation();
                 // @todo properly display role names.
                 //       For now, in order to get the role names displayed

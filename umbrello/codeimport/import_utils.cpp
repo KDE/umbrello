@@ -247,7 +247,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     components.pop_front();
                     o = umldoc->findUMLObject(scopeName, UMLObject::ot_UMLObject, parentPkg);
                     if (o) {
-                        parentPkg = static_cast<UMLPackage*>(o);
+                        parentPkg = o->asUMLPackage();
                         continue;
                     }
                     o = Object_Factory::createUMLObject(UMLObject::ot_Class, scopeName, parentPkg);
@@ -255,7 +255,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
                     if (item)
                         item->updateObject();
-                    parentPkg = static_cast<UMLPackage*>(o);
+                    parentPkg = o->asUMLPackage();
                     Model_Utils::treeViewSetCurrentItem(o);
                 }
                 // All scope qualified datatypes live in the global scope.
@@ -275,8 +275,8 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
-            UMLClassifier *dt = static_cast<UMLClassifier*>(o);
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
+            UMLClassifier *dt = o->asUMLClassifier();
+            UMLClassifier *c = origType->asUMLClassifier();
             if (c)
                 dt->setOriginType(c);
             else
@@ -287,7 +287,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             /*
             if (isPointer) {
                 UMLObject *pointerDecl = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);
-                UMLClassifier *dt = static_cast<UMLClassifier*>(pointerDecl);
+                UMLClassifier *dt = pointerDecl->asUMLClassifier();
                 dt->setOriginType(classifier);
                 dt->setIsReference();
                 classifier = dt;
@@ -412,7 +412,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
         bPutAtGlobalScope = false;
     }
     return insertAttribute (owner, scope, name,
-                            static_cast<UMLClassifier*>(attrType),
+                            attrType->asUMLClassifier(),
                             comment, isStatic);
 }
 
@@ -510,7 +510,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
                                  const QString& type,
                                  const QString& name)
 {
-    UMLClassifier *owner = static_cast<UMLClassifier*>(method->parent());
+    UMLClassifier *owner = method->umlParent()->asUMLClassifier();
     UMLObject *typeObj = owner->findTemplate(type);
     if (typeObj == NULL) {
         bPutAtGlobalScope = true;
@@ -575,7 +575,7 @@ UMLObject *createArtifact(const QString& name,
     if (o)
         return o;
     o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
-    UMLArtifact *a = static_cast<UMLArtifact*>(o);
+    UMLArtifact *a = o->asUMLArtifact();
     a->setDrawAsType(UMLArtifact::file);
     a->setDoc(comment);
     DEBUG(DBG_SRC) << name << comment;
@@ -593,7 +593,7 @@ UMLObject *createArtifact(const QString& name,
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
     UMLObject *parentObj = createUMLObject(UMLObject::ot_Class, parentName);
-    UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
+    UMLClassifier *parent = parentObj->asUMLClassifier();
     createGeneralization(child, parent);
 }
 

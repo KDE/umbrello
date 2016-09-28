@@ -52,68 +52,81 @@ include_directories(
     )
 
 ecm_add_test(
-    TEST_basictypes.cpp
+    testbasictypes.cpp
     LINK_LIBRARIES ${LIBS}
-    TEST_NAME TEST_basictypes
+    TEST_NAME testbasictypes
 )
 
 ecm_add_test(
-    TEST_umlobject.cpp
+    testumlobject.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
-    TEST_NAME TEST_umlobject
+    TEST_NAME testumlobject
 )
 
 #ecm_add_test(
-#    TEST_classifier.cpp
+#    testclassifier.cpp
 #    testbase.cpp
 #    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME TEST_classifier
+#    TEST_NAME testclassifier
 #)
 
 ecm_add_test(
-    TEST_cppwriter.cpp
+    testcppwriter.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
-    TEST_NAME TEST_cppwriter
+    TEST_NAME testcppwriter
 )
 
 ecm_add_test(
-    TEST_pythonwriter.cpp
+    testpythonwriter.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
-    TEST_NAME TEST_pythonwriter
+    TEST_NAME testpythonwriter
 )
 
 ecm_add_test(
-    TEST_optionstate.cpp
+    testoptionstate.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
-    TEST_NAME TEST_optionstate
+    TEST_NAME testoptionstate
 )
 
-set(TEST_umlroledialog_SRCS
-    TEST_umlroledialog.cpp
+set(testumlroledialog_SRCS
+    testumlroledialog.cpp
 )
 
-ecm_add_executable(TEST_umlroledialog ${TEST_umlroledialog_SRCS})
-target_link_libraries(TEST_umlroledialog ${LIBS})
+ecm_add_executable(testumlroledialog ${testumlroledialog_SRCS})
+target_link_libraries(testumlroledialog ${LIBS})
 
 find_package(LLVM CONFIG)
+find_package(CLANG QUIET)
 if(LLVM_FOUND)
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
+    message(STATUS "Found CLANG ${CLANG_PACKAGE_VERSION}")
+
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
+    if(CLANG_FOUND)
+        include_directories(${CLANG_INCLUDE_DIRS})
+        add_definitions(${CLANG_DEFINITIONS})
+    endif()
+
     # Now build our tools
-    add_executable(test-llvm TEST_llvm.cpp)
+    add_executable(testllvm testllvm.cpp)
 
     # Find the libraries that correspond to the LLVM components
     # that we wish to use
     llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
 
     # Link against LLVM libraries
-    target_link_libraries(test-llvm ${llvm_libs} clangFrontend clangTooling)
+    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling)
+
+    add_executable(testllvmparser testllvmparser.cpp)
+    llvm_map_components_to_libnames(llvm_libs support)
+    target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic ${LIBS})
+    ecm_mark_nongui_executable(testllvm testllvmparser)
 endif()

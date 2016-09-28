@@ -92,7 +92,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Folder:
         case UMLObject::ot_Package:
         case UMLObject::ot_Component:
-            o = static_cast<UMLPackage*>(obj)->findObjectById(id);
+            o = obj->asUMLPackage()->findObjectById(id);
             if (o)
                 return o;
             break;
@@ -101,7 +101,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Enum:
         case UMLObject::ot_Entity:
         case UMLObject::ot_Instance:
-            o = static_cast<UMLClassifier*>(obj)->findChildObjectById(id);
+            o = obj->asUMLClassifier()->findChildObjectById(id);
             if (o == NULL &&
                     (t == UMLObject::ot_Interface || t == UMLObject::ot_Class))
                 o = ((UMLPackage*)obj)->findObjectById(id);
@@ -110,7 +110,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
             break;
         case UMLObject::ot_Association:
             {
-                UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+                UMLAssociation *assoc = obj->asUMLAssociation();
                 UMLRole *rA = assoc->getUMLRole(Uml::RoleType::A);
                 if (rA->id() == id)
                     return rA;
@@ -175,10 +175,10 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     }
     if (currentObj) {
         UMLPackage *pkg = NULL;
-        if (dynamic_cast<UMLClassifierListItem*>(currentObj)) {
-            currentObj = static_cast<UMLObject*>(currentObj->parent());
+        if (currentObj->asUMLClassifierListItem()) {
+            currentObj = currentObj->umlParent();
         }
-        pkg = dynamic_cast<UMLPackage*>(currentObj);
+        pkg = currentObj->asUMLPackage();
         if (pkg == NULL || pkg->baseType() == UMLObject::ot_Association)
             pkg = currentObj->umlPackage();
         // Remember packages that we've seen - for avoiding cycles.
@@ -204,7 +204,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             seenPkgs.append(pkg);
 
             // exclude non package type
-            // dynamic_cast<UMLPackage*>(pg) fails for unknown reason
+            // pg->asUMLPackage() fails for unknown reason
             // see https://bugs.kde.org/show_bug.cgi?id=341709
             UMLObject::ObjectType foundType = pkg->baseType();
             if (foundType != UMLObject::ot_Package &&
@@ -255,7 +255,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                              << " is not a package (?)";
                     continue;
                 }
-                UMLPackage *pkg = static_cast<UMLPackage*>(obj);
+                UMLPackage *pkg = obj->asUMLPackage();
                 return findUMLObject(pkg->containedObjects(),
                                       nameWithoutFirstPrefix, type);
             }
@@ -291,7 +291,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                      << " is not a package (?)";
             continue;
         }
-        UMLPackage *pkg = static_cast<UMLPackage*>(obj);
+        UMLPackage *pkg = obj->asUMLPackage();
         return findUMLObject(pkg->containedObjects(),
                               nameWithoutFirstPrefix, type);
     }
@@ -336,7 +336,7 @@ UMLPackage* rootPackage(UMLObject* obj)
         return NULL;
     UMLPackage* root = obj->umlPackage();
     if (root == NULL) {
-        root = dynamic_cast<UMLPackage*>(obj);
+        root = obj->asUMLPackage();
     } else {
         while (root->umlPackage() != NULL) {
             root = root->umlPackage();
@@ -422,7 +422,7 @@ UMLPackage* treeViewGetPackageFromCurrent()
         UMLListViewItem::ListViewType lvt = parentItem->type();
         if (Model_Utils::typeIsContainer(lvt)) {
             UMLObject *o = parentItem->umlObject();
-            return static_cast<UMLPackage*>(o);
+            return o->asUMLPackage();
         }
 
         // selected item is not a container, try to find the
@@ -654,7 +654,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
             break;
         case UMLObject::ot_Association:
             {
-                UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
+                UMLAssociation *assoc = o->asUMLAssociation();
                 UMLDoc *umldoc = UMLApp::app()->document();
                 for (int r = Uml::RoleType::A; r <= Uml::RoleType::B; ++r) {
                     UMLObject *roleObj = assoc->getObject(Uml::RoleType::fromInt(r));
@@ -1370,7 +1370,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
     case UMLObject::ot_Folder:
         {
             UMLDoc *umldoc = UMLApp::app()->document();
-            UMLFolder *f = static_cast<UMLFolder*>(o);
+            UMLFolder *f = o->asUMLFolder();
             do {
                 const Uml::ModelType::Enum mt = umldoc->rootFolderType(f);
                 if (mt != Uml::ModelType::N_MODELTYPES) {
@@ -1395,7 +1395,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
                     }
                     return type;
                 }
-            } while ((f = static_cast<UMLFolder*>(f->umlPackage())) != NULL);
+            } while ((f = f->umlPackage()->asUMLFolder()) != NULL);
             uError() << "convert_OT_LVT(" << o->name()
                 << "): internal error - object is not properly nested in folder";
         }
@@ -1446,8 +1446,8 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_UniqueConstraint: {
-         UMLEntity* ent = static_cast<UMLEntity*>(o->parent());
-         UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(o);
+         UMLEntity* ent = o->umlParent()->asUMLEntity();
+         UMLUniqueConstraint* uc = o->asUMLUniqueConstraint();
          if (ent->isPrimaryKey(uc)) {
              type = UMLListViewItem::lvt_PrimaryKeyConstraint;
          } else {

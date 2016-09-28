@@ -265,7 +265,7 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
                 if (!op) {
                     // The op does not yet exist. Create a new one.
                     UMLObject *o = c->createOperation(od.m_name, 0, &od.m_args);
-                    op = static_cast<UMLOperation*>(o);
+                    op = o->asUMLOperation();
                 }
                 if (od.m_pReturnType) {
                     op->setType(od.m_pReturnType);
@@ -773,7 +773,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
             }
             UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, UMLObject::ot_Operation);
             if (umlObj) {
-                UMLOperation* newOperation = static_cast<UMLOperation*>(umlObj);
+                UMLOperation* newOperation = umlObj->asUMLOperation();
                 m_linkWidget->setOperation(newOperation);
             }
         }

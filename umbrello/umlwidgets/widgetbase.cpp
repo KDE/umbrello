@@ -892,7 +892,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
 
     case ListPopupMenu::mt_ViewCode: {
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlObject());
+        UMLClassifier *c = umlObject()->asUMLClassifier();
         if (c) {
             UMLApp::app()->viewCodeDocument(c);
         }
@@ -932,8 +932,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Refactoring:
         //check if we are operating on a classifier, or some other kind of UMLObject
-        if (dynamic_cast<UMLClassifier*>(umlObject())) {
-            UMLApp::app()->refactor(static_cast<UMLClassifier*>(umlObject()));
+        if (umlObject()->asUMLClassifier()) {
+            UMLApp::app()->refactor(umlObject()->asUMLClassifier());
         }
         break;
 

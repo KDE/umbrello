@@ -49,7 +49,7 @@ void AdvancedCodeGenerator::checkAddUMLObject(UMLObject * obj)
         return;
     }
 
-    UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier * c = obj->asUMLClassifier();
     if (c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
         addCodeDocument(cDoc);
@@ -65,7 +65,7 @@ void AdvancedCodeGenerator::checkRemoveUMLObject(UMLObject * obj)
         return;
     }
 
-    UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier * c = obj->asUMLClassifier();
     if (c) {
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);
         if (cDoc) {

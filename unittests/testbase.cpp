@@ -46,7 +46,15 @@ void TestBase::initTestCase()
 
 void TestBase::cleanupTestCase()
 {
+    foreach(QObject *p, m_objectsToDelete) {
+        delete p;
+    }
     delete UMLApp::app();
+}
+
+void TestBase::cleanupOnExit(QObject *p)
+{
+    m_objectsToDelete.append(p);
 }
 
 void TestCodeGeneratorBase::initTestCase()

@@ -168,9 +168,9 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                 UMLObject *typedefObj =
                  Import_Utils::createUMLObject(UMLObject::ot_Datatype, id,
                                                m_currentNamespace[m_nsCnt]);
-                UMLClassifier *dt = static_cast<UMLClassifier*>(typedefObj);
+                UMLClassifier *dt = typedefObj->asUMLClassifier();
                 dt->setIsReference();
-                dt->setOriginType(static_cast<UMLClassifier*>(inner));
+                dt->setOriginType(inner->asUMLClassifier());
             } else {
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
                                                m_currentNamespace[m_nsCnt],
@@ -377,7 +377,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
                                           m_currentNamespace[m_nsCnt],
                                           ast->comment(), QString(), true);
 
-    UMLClassifier *klass = static_cast<UMLClassifier*>(o);
+    UMLClassifier *klass = o->asUMLClassifier();
     flushTemplateParams(klass);
     if (ast->baseClause())
         parseBaseClause(ast->baseClause(), klass);
@@ -400,6 +400,21 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     --m_clsCnt;
 
     m_currentScope.pop_back();
+
+    // check is class is an interface
+    bool isInterface = true;
+    foreach(UMLOperation *op, klass->getOpList()) {
+        if (!op->isDestructorOperation() && op->isAbstract() == false)
+            isInterface = false;
+    }
+
+    foreach(UMLAttribute *attr, klass->getAttributeList()) {
+        if (!(attr->isStatic() && attr->getTypeName().contains(QLatin1String("const"))))
+            isInterface = false;
+    }
+
+    if (isInterface)
+        klass->setBaseType(UMLObject::ot_Interface);
 
     m_currentAccess = oldAccess;
     m_inSlots = oldInSlots;
@@ -454,7 +469,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
         m_thread->emitAskQuestion("Soll nach CppTree2Uml::parseElaboratedTypeSpecifier weiter gemacht werden?");
     }
 #endif
-    flushTemplateParams(static_cast<UMLClassifier*>(o));
+    flushTemplateParams(o->asUMLClassifier());
 }
 
 void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
@@ -573,6 +588,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
                                isStatic, isPure, isFriend, isConstructor, m_comment);
+    if  (isPure)
+        c->setAbstract(true);
     m_comment = QString();
 }
 
@@ -615,6 +632,11 @@ QString CppTree2Uml::typeOfDeclaration(TypeSpecifierAST* typeSpec, DeclaratorAST
         text += ptrOpList.at(i)->text();
     }
 
+    QList<AST*> arrays = declarator->arrayDimensionList();
+    for(int i = 0; i < arrays.size(); ++i) {
+        text += arrays.at(i)->text().replace(QLatin1String(" "), QLatin1String(""));
+    }
+
     return text;
 }
 
@@ -636,7 +658,7 @@ void CppTree2Uml::parseBaseClause(BaseClauseAST * baseClause, UMLClassifier* kla
                                                      m_currentNamespace[m_nsCnt],
                                                      baseSpecifier->comment());
         Import_Utils::putAtGlobalScope(false);
-        Import_Utils::createGeneralization(klass, static_cast<UMLClassifier*>(c));
+        Import_Utils::createGeneralization(klass, c->asUMLClassifier());
     }
 }
 

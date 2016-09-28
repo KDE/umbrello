@@ -27,6 +27,8 @@ public:
 protected:
     void initVars();
 
+    bool parseAssignmentStmt(const QString keyword);
+
     bool parseStmt();
 
     void fillSource(const QString& line);

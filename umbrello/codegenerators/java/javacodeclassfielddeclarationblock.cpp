@@ -89,7 +89,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
         body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
-        UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
+        UMLRole * role = cf->getParentObject()->asUMLRole();
 
         // Check for dynamic casting failure
         if (role == NULL)

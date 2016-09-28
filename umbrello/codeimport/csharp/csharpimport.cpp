@@ -210,7 +210,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                                     name, parent);
-                    current = static_cast<UMLPackage*>(ns);
+                    current = ns->asUMLPackage();
                     parent = current;
                 } // for
                 if (isArray) {
@@ -347,7 +347,7 @@ bool CSharpImport::parseStmt()
 
     if (keyword == QLatin1String("}")) {
         if (scopeIndex())
-            m_klass = dynamic_cast<UMLClassifier*>(popScope());
+            m_klass = popScope()->asUMLClassifier();
         else
             uError() << "too many }";
         return true;
@@ -465,13 +465,13 @@ bool CSharpImport::parseStmt()
         if (type) {
             Import_Utils::insertAttribute(
                         m_klass, m_currentAccess, name,
-                        static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
+                        type->asUMLClassifier(), m_comment, m_isStatic);
         } else {
             Import_Utils::insertAttribute(
                         m_klass, m_currentAccess, name,
                         typeName, m_comment, m_isStatic);
         }
-        // UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        // UMLAttribute *attr = o->asUMLAttribute();
         if (nextToken != QLatin1String(",")) {
             // reset the modifiers
             m_isStatic = m_isAbstract = false;
@@ -625,7 +625,7 @@ bool CSharpImport::parseEnumDeclaration()
     log(QLatin1String("enum ") + name);
     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
-    UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+    UMLEnum *enumType = ns->asUMLEnum();
     skipStmt(QLatin1String("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QLatin1String("}")) {
         QString next = advance();
@@ -691,7 +691,7 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
                                                                         : UMLObject::ot_Interface);
     log(keyword + QLatin1Char(' ') + name);
     UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
-    pushScope(m_klass = static_cast<UMLClassifier*>(ns));
+    pushScope(m_klass = ns->asUMLClassifier());
     m_klass->setStatic(m_isStatic);
     m_klass->setVisibilityCmd(m_currentAccess);
     // The UMLObject found by createUMLObject might originally have been created as a
@@ -744,7 +744,7 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
             // create a placeholder
             UMLObject *interface = resolveClass(baseName);
             if (interface) {
-                Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
+                Import_Utils::createGeneralization(m_klass, interface->asUMLClassifier());
             } else {
                 uDebug() << "implementing interface " << baseName
                          << " is not resolvable. Creating placeholder";

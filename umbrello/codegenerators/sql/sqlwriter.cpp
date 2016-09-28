@@ -188,7 +188,7 @@ SQLWriter::~SQLWriter()
  */
 void SQLWriter::writeClass(UMLClassifier *c)
 {
-    UMLEntity* e = dynamic_cast<UMLEntity*>(c);
+    UMLEntity* e = c->asUMLEntity();
 
     if (!e) {
         uError() << "Invalid cast from" << c->baseTypeStr() << "'" << c->name() << "' to UMLEntity*";
@@ -424,7 +424,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach(UMLClassifierListItem* cli, constrList) {
-       UMLUniqueConstraint* uuc = dynamic_cast<UMLUniqueConstraint*>(cli);
+       UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
        if (!uuc) {
            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLUniqueConstraint*";
            return;
@@ -471,7 +471,7 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
 void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach(UMLClassifierListItem* cli, constrList) {
-       UMLForeignKeyConstraint* fkc = dynamic_cast<UMLForeignKeyConstraint*>(cli);
+       UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
        if (!fkc) {
            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLForeignKeyConstraint*";
            return;
@@ -598,7 +598,7 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
 void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     foreach(UMLClassifierListItem* cli, constrList) {
-        UMLCheckConstraint* chConstr = dynamic_cast<UMLCheckConstraint*>(cli);
+        UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
         if (!chConstr) {
             uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLCheckConstraint*";
             return;

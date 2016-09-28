@@ -464,7 +464,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QChar::fromLatin1(')');
         }
         else {
-            UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
+            UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QChar::fromLatin1(')');
         }
         bgcolor = state().umlObjectColor;
@@ -527,7 +527,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QString::fromLatin1(") accessor method");
         }
         else {
-            UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
+            UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QString::fromLatin1(") accessor method");
         }
     }
@@ -578,7 +578,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     QColor paperColor = state().nonEditBlockColor;
     if (test) {
         parentObj = test->getParentObject();
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(parentObj);
+        UMLClassifier *c = parentObj->asUMLClassifier();
         if (c) {
             QString typeStr;
             if (c->isInterface())
@@ -639,13 +639,13 @@ void CodeEditor::removeParagraph(int para)
  */
 bool CodeEditor::textBlockIsClickable(UMLObject * obj)
 {
-    if (dynamic_cast<UMLAttribute*>(obj))
+    if (obj->asUMLAttribute())
         return true;
-    else if (dynamic_cast<UMLClassifier*>(obj))
+    else if (obj->asUMLClassifier())
         return true;
-    else if (dynamic_cast<UMLRole*>(obj))
+    else if (obj->asUMLRole())
         return true;
-    else if (dynamic_cast<UMLOperation*>(obj))
+    else if (obj->asUMLOperation())
         return true;
 
     return false;

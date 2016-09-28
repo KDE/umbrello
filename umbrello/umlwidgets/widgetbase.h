@@ -19,6 +19,7 @@
 #include <QGraphicsObject>
 #include <QObject>
 #include <QPainter>
+#include <QPointer>
 
 // forward declarations
 class QAction;
@@ -158,7 +159,7 @@ protected:
 
     WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;
-    UMLObject  *m_umlObject;
+    QPointer<UMLObject> m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
     QString     m_Text;
     QRectF      m_rect;  ///< widget size

@@ -67,7 +67,7 @@ UMLCheckConstraint::~UMLCheckConstraint()
  */
 void UMLCheckConstraint::copyInto(UMLObject *lhs) const
 {
-    UMLCheckConstraint *target = static_cast<UMLCheckConstraint*>(lhs);
+    UMLCheckConstraint *target = lhs->asUMLCheckConstraint();
 
     // call the parent first.
     UMLEntityConstraint::copyInto(target);
@@ -82,7 +82,7 @@ void UMLCheckConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLCheckConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLCheckConstraint *clone = new UMLCheckConstraint(static_cast<UMLObject*>(parent()));
+    UMLCheckConstraint *clone = new UMLCheckConstraint(umlParent());
     copyInto(clone);
     return clone;
 }

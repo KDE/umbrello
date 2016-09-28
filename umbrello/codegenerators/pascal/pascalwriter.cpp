@@ -89,7 +89,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = NULL;
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
+    UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == NULL) {
         retval = className;
         if (c == NULL || !isOOClass(c))
@@ -127,7 +127,7 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append(QLatin1String("_Vector"));
         }
     }
-    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+    UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
     if (c == NULL)
         return;
     typeName = cleanName(c->name());
@@ -200,7 +200,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     pas << "type" << m_endl;
     m_indentLevel++;
     if (c->baseType() == UMLObject::ot_Enum) {
-        UMLEnum *ue = static_cast<UMLEnum*>(c);
+        UMLEnum *ue = c->asUMLEnum();
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;

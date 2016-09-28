@@ -240,29 +240,29 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
     const UMLObject::ObjectType ot = obj->baseType();
     switch (ot) {
         case UMLObject::ot_Association:
-            setUMLAssociation(dynamic_cast<UMLAssociation*>(obj));
+            setUMLAssociation(obj->asUMLAssociation());
             break;
         case UMLObject::ot_Operation:
-            setOperation(dynamic_cast<UMLOperation*>(obj));
+            setOperation(obj->asUMLOperation());
             break;
         case UMLObject::ot_Attribute:
-            klass = static_cast<UMLClassifier*>(obj->parent());
+            klass = obj->umlParent()->asUMLClassifier();
             connect(klass, &UMLClassifier::attributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
-            attr = static_cast<UMLAttribute*>(obj);
+            attr = obj->asUMLAttribute();
             connect(attr, &UMLAttribute::attributeChanged, this, &AssociationWidget::slotAttributeChanged);
             break;
         case UMLObject::ot_EntityAttribute:
-            ent = static_cast<UMLEntity*>(obj->parent());
+            ent = obj->umlParent()->asUMLEntity();
             connect(ent, &UMLEntity::entityAttributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
         case UMLObject::ot_ForeignKeyConstraint:
-            ent = static_cast<UMLEntity*>(obj->parent());
+            ent = obj->umlParent()->asUMLEntity();
             connect(ent, &UMLEntity::entityConstraintRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
             break;
         case UMLObject::ot_InstanceAttribute:
-            klass = static_cast<UMLInstance*>(obj->parent());
+            klass = obj->umlParent()->asUMLInstance();
             connect(klass, &UMLInstance::attributeRemoved, this, &AssociationWidget::slotClassifierListItemRemoved);
-            attr = static_cast<UMLInstanceAttribute*>(obj);
+            attr = obj->asUMLInstanceAttribute();
             connect(attr, &UMLInstanceAttribute::attributeChanged, this, &AssociationWidget::slotAttributeChanged);
         break;
         default:
@@ -309,7 +309,7 @@ UMLClassifier *AssociationWidget::operationOwner()
     if (!o) {
         return 0;
     }
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     if (!c) {
         uError() << "widgetForRole(" << role << ") is not a classifier";
     }
@@ -322,7 +322,7 @@ UMLClassifier *AssociationWidget::operationOwner()
  */
 UMLOperation *AssociationWidget::operation()
 {
-    return dynamic_cast<UMLOperation*>(m_umlObject);
+    return m_umlObject->asUMLOperation();
 }
 
 /**
@@ -332,10 +332,10 @@ UMLOperation *AssociationWidget::operation()
 void AssociationWidget::setOperation(UMLOperation *op)
 {
     if (m_umlObject)
-        disconnect(m_umlObject, &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
+        disconnect(m_umlObject.data(), &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
     m_umlObject = op;
     if (m_umlObject)
-        connect(m_umlObject, &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
+        connect(m_umlObject.data(), &UMLObject::modified, m_nameWidget, &FloatingTextWidget::setMessageText);
     if (m_nameWidget)
         m_nameWidget->setMessageText();
 }
@@ -491,7 +491,7 @@ QString AssociationWidget::lwOperationText()
 UMLClassifier* AssociationWidget::lwClassifier()
 {
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     return c;
 }
 
@@ -565,7 +565,7 @@ UMLAssociation* AssociationWidget::association() const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return NULL;
-    return static_cast<UMLAssociation*>(m_umlObject);
+    return m_umlObject->asUMLAssociation();
 }
 
 /**
@@ -581,7 +581,7 @@ UMLAttribute* AssociationWidget::attribute() const
     UMLObject::ObjectType ot = m_umlObject->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute && ot != UMLObject::ot_InstanceAttribute)
         return NULL;
-    return static_cast<UMLAttribute*>(m_umlObject);
+    return m_umlObject->asUMLAttribute();
 }
 
 #if 0  //:TODO:
@@ -725,7 +725,7 @@ bool AssociationWidget::activate()
         } else {
             const UMLObject::ObjectType ot = myObj->baseType();
             if (ot == UMLObject::ot_Association) {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                UMLAssociation * myAssoc = myObj->asUMLAssociation();
                 setUMLAssociation(myAssoc);
             } else {
                 setUMLObject(myObj);
@@ -1037,7 +1037,7 @@ QString AssociationWidget::roleDocumentation(Uml::RoleType::Enum role) const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return QString();
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getRoleDoc(role);
 }
 
@@ -1155,7 +1155,7 @@ Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum ro
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->changeability(role);
 }
 
@@ -1460,7 +1460,7 @@ Uml::AssociationType::Enum AssociationWidget::associationType() const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+    UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getAssocType();
 }
 
@@ -1509,7 +1509,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
 {
     if (m_role[role].umlWidget == NULL) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+            UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
@@ -1528,7 +1528,7 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
 {
     if (m_role[role].umlWidget == NULL) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+            UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
@@ -4258,7 +4258,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             if (ot != UMLObject::ot_Association) {
                 setUMLObject(myObj);
             } else {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
+                UMLAssociation * myAssoc = myObj->asUMLAssociation();
                 setUMLAssociation(myAssoc);
                 if (type == QLatin1String("-1"))
                     aType = myAssoc->getAssocType();

@@ -205,7 +205,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
         int i = 0;
         for (; i < pCount; ++i) {
             Model_Utils::NameAndType_ListIt nt(params.begin() + i);
-            UMLClassifier *type = dynamic_cast<UMLClassifier*>((*nt).m_type);
+            UMLClassifier *type = (*nt).m_type->asUMLClassifier();
             UMLClassifier *testType = testParams.at(i)->getType();
             if (type == NULL && testType == NULL) { //no parameter type
                 continue;
@@ -454,7 +454,7 @@ UMLAttributeList UMLClassifier::getAttributeList() const
     foreach (UMLObject* listItem, m_List) {
         uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Attribute) {
-            attributeList.append(static_cast<UMLAttribute*>(listItem));
+            attributeList.append(listItem->asUMLAttribute());
         }
     }
     return attributeList;
@@ -543,7 +543,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
         uIgnoreZeroPointer(obj);
         if (obj->baseType() != UMLObject::ot_Operation)
             continue;
-        UMLOperation *op = static_cast<UMLOperation*>(obj);
+        UMLOperation *op = obj->asUMLOperation();
         if (caseSensitive) {
             if (obj->name() == n)
                 list.append(op);
@@ -604,7 +604,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
         if (a->getObjectId(RoleType::A) != myID)
         {
             UMLObject* obj = a->getObject(RoleType::A);
-            UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+            UMLClassifier *concept = obj->asUMLClassifier();
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
                         && (inheritingConcepts.indexOf(concept) == -1))
@@ -641,7 +641,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
         if (a->getObjectId(RoleType::A) == myID)
         {
             UMLObject* obj = a->getObject(RoleType::B);
-            UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
+            UMLClassifier *concept = obj->asUMLClassifier();
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
                         && (parentConcepts.indexOf(concept) == -1))
@@ -666,7 +666,7 @@ bool UMLClassifier::operator==(const UMLClassifier & rhs) const
  */
 void UMLClassifier::copyInto(UMLObject *lhs) const
 {
-    UMLClassifier *target = static_cast<UMLClassifier*>(lhs);
+    UMLClassifier *target = lhs->asUMLClassifier();
     UMLCanvasObject::copyInto(target);
     target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
@@ -703,7 +703,9 @@ bool UMLClassifier::resolveRef()
          {  ....  }
          ****/
         if (obj->resolveRef()) {
-            UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
+            UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
+            if (!cli)
+                continue;
             switch (cli->baseType()) {
                 case UMLObject::ot_Attribute:
                     emit attributeAdded(cli);
@@ -814,7 +816,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id 
     foreach (UMLObject* obj, m_List) {
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Attribute && obj->name() == name)
-            return static_cast<UMLAttribute*>(obj);
+            return obj->asUMLAttribute();
     }
     Uml::Visibility::Enum scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
@@ -965,7 +967,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
     foreach (UMLObject* li, m_List) {
         uIgnoreZeroPointer(li);
         if (li->baseType() == ot_Operation) {
-            ops.append(static_cast<UMLOperation*>(li));
+            ops.append(li->asUMLOperation());
         }
     }
     if (includeInherited) {
@@ -1026,7 +1028,7 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType o
         if (!o || o->baseType() == UMLObject::ot_Association) {
             continue;
         }
-        UMLClassifierListItem *listItem = static_cast<UMLClassifierListItem*>(o);
+        UMLClassifierListItem *listItem = o->asUMLClassifierListItem();
         if (ot == UMLObject::ot_UMLObject || listItem->baseType() == ot) {
             resultList.append(listItem);
         }
@@ -1172,7 +1174,7 @@ UMLTemplateList UMLClassifier::getTemplateList() const
     foreach (UMLObject* listItem, m_List) {
         uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Template) {
-            templateList.append(static_cast<UMLTemplate*>(listItem));
+            templateList.append(listItem->asUMLTemplate());
         }
     }
     return templateList;
@@ -1205,13 +1207,13 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
     }
     switch (item->baseType()) {
         case UMLObject::ot_Operation: {
-            if (removeOperation(dynamic_cast<UMLOperation*>(item)) < 0) {
+            if (removeOperation(item->asUMLOperation()) < 0) {
                 index = -1;
             }
             break;
         }
         case UMLObject::ot_Attribute: {
-            UMLAttribute *retval = dynamic_cast<UMLAttribute*>(m_List.takeAt(index).data());
+            UMLAttribute *retval = m_List.takeAt(index)->asUMLAttribute();
             if (retval) {
                 emit attributeRemoved(retval);
                 UMLObject::emitModified();
@@ -1221,7 +1223,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Template: {
-            UMLTemplate *templt = dynamic_cast<UMLTemplate*>(m_List.takeAt(index).data());
+            UMLTemplate *templt = m_List.takeAt(index)->asUMLTemplate();
             if (templt) {
                 emit templateRemoved(templt);
                 UMLObject::emitModified();
@@ -1231,9 +1233,9 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EnumLiteral: {
-            UMLEnumLiteral *el = dynamic_cast<UMLEnumLiteral*>(m_List.takeAt(index).data());
+            UMLEnumLiteral *el = m_List.takeAt(index)->asUMLEnumLiteral();
             if (el) {
-                UMLEnum *e = static_cast<UMLEnum*>(this);
+                UMLEnum *e = this->asUMLEnum();
                 e->signalEnumLiteralRemoved(el);
                 UMLObject::emitModified();
             } else {
@@ -1242,9 +1244,9 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EntityAttribute: {
-            UMLEntityAttribute* el = dynamic_cast<UMLEntityAttribute*>(m_List.takeAt(index).data());
+            UMLEntityAttribute* el = m_List.takeAt(index)->asUMLEntityAttribute();
             if (el) {
-                UMLEntity *e = static_cast<UMLEntity*>(this);
+                UMLEntity *e = this->asUMLEntity();
                 e->signalEntityAttributeRemoved(el);
                 UMLObject::emitModified();
             } else {
@@ -1284,7 +1286,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType)
  */
 UMLClassifier * UMLClassifier::originType() const
 {
-    return dynamic_cast<UMLClassifier*>(m_pSecondary.data());
+    return m_pSecondary->asUMLClassifier();
 }
 
 /**
@@ -1557,10 +1559,10 @@ bool UMLClassifier::load(QDomElement& element)
             if (child->loadFromXMI(element)) {
                 switch (child->baseType()) {
                     case UMLObject::ot_Template:
-                        addTemplate(static_cast<UMLTemplate*>(child));
+                        addTemplate(child->asUMLTemplate());
                         break;
                     case UMLObject::ot_Operation:
-                        if (! addOperation(static_cast<UMLOperation*>(child))) {
+                        if (! addOperation(child->asUMLOperation())) {
                             uError() << "error from addOperation(op)";
                             delete child;
                             totalSuccess = false;
@@ -1568,7 +1570,7 @@ bool UMLClassifier::load(QDomElement& element)
                         break;
                     case UMLObject::ot_Attribute:
                     case UMLObject::ot_InstanceAttribute:
-                        addAttribute(static_cast<UMLAttribute*>(child));
+                        addAttribute(child->asUMLAttribute());
                         break;
                     default:
                         break;
@@ -1627,11 +1629,11 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
         // We also ignore classifiers which are the same as the current one
         // (e.g. id matches), we only want the "other" classifiers
         if (a->getObjectId(RoleType::A) == id() && !a->getRoleName(RoleType::B).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::B));
+            UMLClassifier *c = a->getObject(RoleType::B)->asUMLClassifier();
             if(c)
                 classifiers.append(c);
         } else if (a->getObjectId(RoleType::B) == id() && !a->getRoleName(RoleType::A).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::A));
+            UMLClassifier *c = a->getObject(RoleType::A)->asUMLClassifier();
             if(c)
                 classifiers.append(c);
         }

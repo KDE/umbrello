@@ -24,9 +24,15 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
+#if QT_VERSION < 0x050000
+#include <kinputdialog.h>
+#endif
 
 // qt includes
 #include <QFile>
+#if QT_VERSION >= 0x050000
+#include <QInputDialog>
+#endif
 
 /**
  * Sets up a Folder.
@@ -94,7 +100,6 @@ void UMLFolder::addView(UMLView *view)
 void UMLFolder::removeView(UMLView *view)
 {
     m_diagrams.removeAll(view);
-    delete view;
 }
 
 /**
@@ -109,7 +114,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
         foreach (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);
             if (o->baseType() == UMLObject::ot_Folder) {
-                UMLFolder *f = static_cast<UMLFolder*>(o);
+                UMLFolder *f = o->asUMLFolder();
                 f->appendViews(viewList);
             }
         }
@@ -129,7 +134,7 @@ void UMLFolder::activateViews()
     foreach (UMLObject* o, m_objects) {
         uIgnoreZeroPointer(o);
         if (o->baseType() == UMLObject::ot_Folder) {
-            UMLFolder *f = static_cast<UMLFolder*>(o);
+            UMLFolder *f = o->asUMLFolder();
             f->activateViews();
         }
     }
@@ -166,7 +171,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
-        UMLFolder *f = static_cast<UMLFolder*>(o);
+        UMLFolder *f = o->asUMLFolder();
         v = f->findView(id);
         if (v) {
             break;
@@ -197,7 +202,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }
-            UMLFolder *f = static_cast<UMLFolder*>(o);
+            UMLFolder *f = o->asUMLFolder();
             v = f->findView(type, name, searchAllScopes);
             if (v) {
                 break;
@@ -227,7 +232,7 @@ void UMLFolder::removeAllViews()
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Folder)
             continue;
-        UMLFolder *f = static_cast<UMLFolder*>(o);
+        UMLFolder *f = o->asUMLFolder();
         f->removeAllViews();
     }
 
@@ -359,8 +364,8 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     folderRoot.setAttribute(QLatin1String("name"), name());
     folderRoot.setAttribute(QLatin1String("filename"), m_folderFile);
     folderRoot.setAttribute(QLatin1String("mainModel"), umldoc->url().fileName());
-    folderRoot.setAttribute(QLatin1String("parentId"), Uml::ID::toString(m_pUMLPackage->id()));
-    folderRoot.setAttribute(QLatin1String("parent"), m_pUMLPackage->fullyQualifiedName(QLatin1String("::"), true));
+    folderRoot.setAttribute(QLatin1String("parentId"), Uml::ID::toString(umlPackage()->id()));
+    folderRoot.setAttribute(QLatin1String("parent"), umlPackage()->fullyQualifiedName(QLatin1String("::"), true));
     saveContents(folderDoc, folderRoot);
     folderDoc.appendChild(folderRoot);
     QTextStream stream(&file);
@@ -535,6 +540,23 @@ bool UMLFolder::load(QDomElement& element)
         }
     }
     return totalSuccess;
+}
+
+bool UMLFolder::showPropertiesDialog(QWidget *parent)
+{
+    bool ok;
+#if QT_VERSION >= 0x050000
+    QString folderName = QInputDialog::getText(parent,
+                                               i18n("Folder"), i18n("Enter name:"),
+                                               QLineEdit::Normal,
+                                               name(), &ok);
+#else
+    QString folderName = KInputDialog::getText(i18n("Folder"), i18n("Enter name:"), name(), &ok, parent);
+#endif
+    if (ok) {
+        setName(folderName);
+    }
+    return ok;
 }
 
 /**

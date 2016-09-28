@@ -140,13 +140,13 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         // Determine whether the type name needs to be scoped.
-        UMLObject *owningObject = static_cast<UMLObject*>(parent());
+        UMLObject *owningObject = umlParent();
         if (owningObject->baseType() == UMLObject::ot_Operation) {
-            // The immediate parent() is the UMLOperation but we want
+            // The immediate parent is the UMLOperation but we want
             // the UMLClassifier:
-            owningObject = static_cast<UMLObject*>(owningObject->parent());
+            owningObject = owningObject->umlParent();
         }
-        UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
+        UMLClassifier *ownParent = owningObject->asUMLClassifier();
         if (ownParent == NULL) {
             uError() << "parent " << owningObject->name()
                 << " is not a UMLClassifier";
@@ -184,12 +184,12 @@ QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
     UMLOperation *op = NULL;
-    UMLObject *owningObject = static_cast<UMLObject*>(parent());
+    UMLObject *owningObject = umlParent();
     if (owningObject->baseType() == UMLObject::ot_Operation) {
-        op = static_cast<UMLOperation*>(owningObject);
-        owningObject = static_cast<UMLObject*>(owningObject->parent());
+        op = owningObject->asUMLOperation();
+        owningObject = owningObject->umlParent();
     }
-    UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
+    UMLClassifier *ownParent = owningObject->asUMLClassifier();
     if (ownParent == NULL) {
         uError() << name() << ": parent " << owningObject->name()
             << " is not a UMLClassifier";
@@ -230,7 +230,7 @@ bool UMLAttribute::operator==(const UMLAttribute &rhs) const
  */
 void UMLAttribute::copyInto(UMLObject *lhs) const
 {
-    UMLAttribute *target = static_cast<UMLAttribute*>(lhs);
+    UMLAttribute *target = lhs->asUMLAttribute();
     // call the parent first.
     UMLClassifierListItem::copyInto(target);
 
@@ -247,7 +247,7 @@ void UMLAttribute::copyInto(UMLObject *lhs) const
 UMLObject* UMLAttribute::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLAttribute *clone = new UMLAttribute(static_cast<UMLObject*>(parent()));
+    UMLAttribute *clone = new UMLAttribute(umlParent());
     copyInto(clone);
 
     return clone;
@@ -388,7 +388,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
                 if (obj != NULL) {
                     //We want to list only the params that already exist in this document
                     //If the param doesnt't already exist, we couldn't draw an association anyway
-                    UMLClassifier* tmpClassifier = static_cast<UMLClassifier*>(obj);
+                    UMLClassifier* tmpClassifier = obj->asUMLClassifier();
                     if (templateParamList.indexOf(tmpClassifier) == -1) {
                         templateParamList.append(tmpClassifier);
                     }

@@ -34,7 +34,7 @@ UMLClassifier *LinkWidget::operationOwner()
     UMLOperation *op = operation();
     if (op == NULL)
         return NULL;
-    return static_cast<UMLClassifier*>(op->parent());
+    return op->umlParent()->asUMLClassifier();
 }
 
 /**

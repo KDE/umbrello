@@ -82,8 +82,8 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
         body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
-        UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->object()->baseType() == UMLObject::ot_Interface)
+        UMLRole * role = cf->getParentObject()->asUMLRole();
+        if (role && role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instantiate an interface
         } else {

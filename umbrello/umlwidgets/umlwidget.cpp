@@ -61,7 +61,7 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
     init();
     m_umlObject = o;
     if (m_umlObject) {
-        connect(m_umlObject, &UMLObject::modified, this, &UMLWidget::updateWidget);
+        connect(m_umlObject.data(), &UMLObject::modified, this, &UMLWidget::updateWidget);
         m_nId = m_umlObject->id();
     }
 }

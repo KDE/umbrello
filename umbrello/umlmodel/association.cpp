@@ -151,7 +151,7 @@ bool UMLAssociation::resolveRef()
         if (isRealization(objA, objB)) {
             m_AssocType = Uml::AssociationType::Realization;
         }
-        m_pUMLPackage->addAssocToConcepts(this);
+        umlPackage()->addAssocToConcepts(this);
         return true;
     }
     return false;
@@ -238,7 +238,7 @@ bool UMLAssociation::load(QDomElement & element)
         m_AssocType == Uml::AssociationType::Category2Parent) {
         QString general = element.attribute(QLatin1String("general"));
         if (!general.isEmpty()) {
-            UMLClassifier *owningClassifier = dynamic_cast<UMLClassifier*>(m_pUMLPackage);
+            UMLClassifier *owningClassifier = umlParent()->asUMLClassifier();
             if (owningClassifier == NULL){
                 uWarning() << "Cannot load UML2 generalization: m_pUMLPackage is expected "
                            << "to be the owning classifier (=client)";
@@ -247,8 +247,8 @@ bool UMLAssociation::load(QDomElement & element)
             m_pRole[RoleType::A]->setObject(owningClassifier);
             m_pRole[RoleType::B]->setSecondaryId(general);     // defer resolution to resolveRef()
             owningClassifier->addAssociationEnd(this);
-            m_pUMLPackage = m_pUMLPackage->umlPackage();       // reparent
-            m_pUMLPackage->addObject(this);
+            setUMLPackage(umlPackage()->umlPackage());       // reparent
+            umlPackage()->addObject(this);
             return true;
         }
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
@@ -268,9 +268,9 @@ bool UMLAssociation::load(QDomElement & element)
                 m_pRole[role]->setSecondaryId(roleIdStr);  // defer to resolveRef()
             } else {
                 m_pRole[role]->setObject(obj[r]);
-                if (m_pUMLPackage == NULL) {
+                if (umlPackage() == NULL) {
                     Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
-                    m_pUMLPackage = doc->rootFolder(mt);
+                    setUMLPackage(doc->rootFolder(mt));
                     DEBUG(DBG_SRC) << "assoctype " << m_AssocType
                         << ": setting model type " << Uml::ModelType::toString(mt);
                 }
@@ -378,9 +378,9 @@ bool UMLAssociation::load(QDomElement & element)
         if (! getUMLRole(RoleType::B)->loadFromXMI(tempElement))
             return false;
 
-        if (m_pUMLPackage == NULL) {
+        if (umlPackage() == NULL) {
             Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(getObject(RoleType::B)->baseType());
-            m_pUMLPackage = doc->rootFolder(mt);
+            setUMLPackage(doc->rootFolder(mt));
             DEBUG(DBG_SRC) << "setting model type " << Uml::ModelType::toString(mt);
         }
 
@@ -738,7 +738,7 @@ void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, 
     m_bOldLoadMode = false;
     nrof_parent_widgets = -1;
     if (!UMLApp::app()->document()->loading()) {
-        m_pUMLPackage = UMLApp::app()->document()->currentRoot();
+        setUMLPackage(UMLApp::app()->document()->currentRoot());
     }
     m_pRole[RoleType::A] = new UMLRole (this, roleAObj, RoleType::A);
     m_pRole[RoleType::B] = new UMLRole (this, roleBObj, RoleType::B);

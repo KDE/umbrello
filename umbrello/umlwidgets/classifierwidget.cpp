@@ -143,7 +143,7 @@ ClassifierWidget::~ClassifierWidget()
  */
 UMLClassifier *ClassifierWidget::classifier() const
 {
-    return dynamic_cast<UMLClassifier*>(m_umlObject);
+    return m_umlObject->asUMLClassifier();
 }
 
 /**

@@ -223,7 +223,7 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                         name, currentScope(), m_comment);
-        pushScope(static_cast<UMLPackage*>(ns));
+        pushScope(ns->asUMLPackage());
         currentScope()->setStereotype(QLatin1String("CORBAModule"));
         if (advance() != QLatin1String("{")) {
             uError() << "importIDL: unexpected: " << m_source[m_srcIndex];
@@ -235,7 +235,7 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, currentScope(), m_comment);
-        m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = ns->asUMLClassifier();
         m_klass->setStereotype(QLatin1String("CORBAInterface"));
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
@@ -261,7 +261,7 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, currentScope(), m_comment);
-        m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = ns->asUMLClassifier();
         pushScope(m_klass);
         if (keyword == QLatin1String("struct"))
             m_klass->setStereotype(QLatin1String("CORBAStruct"));
@@ -286,7 +286,7 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
-        UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+        UMLEnum *enumType = ns->asUMLEnum();
         m_srcIndex++;  // skip name
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
@@ -323,7 +323,7 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, currentScope(), m_comment);
-        m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = ns->asUMLClassifier();
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         if (advance() == QLatin1String(";"))   // forward declaration
@@ -368,7 +368,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == QLatin1String("}")) {
         if (scopeIndex())
-            m_klass = dynamic_cast<UMLClassifier*>(popScope());
+            m_klass = popScope()->asUMLClassifier();
         else
             uError() << "importIDL: too many }";
         m_srcIndex++;  // skip ';'
@@ -431,7 +431,7 @@ bool IDLImport::parseStmt()
             nextToken = advance();
         }
         UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
-        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        UMLAttribute *attr = o->asUMLAttribute();
         if (m_isReadonly) {
             attr->setStereotype(QLatin1String("readonly"));
             m_isReadonly = false;

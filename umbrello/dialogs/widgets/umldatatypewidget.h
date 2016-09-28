@@ -30,7 +30,7 @@ public:
     void setAttribute(UMLAttribute *attribute);
     void setClassifierItem(UMLClassifierListItem *datatype);
     void setEntityAttribute(UMLEntityAttribute *entityAttribute);
-    void setOPeration(UMLOperation *operation);
+    void setOperation(UMLOperation *operation);
     void setTemplate(UMLTemplate *_template);
 
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);

@@ -453,6 +453,7 @@ QStringList PythonWriter::defaultDatatypes()
     l.append(QLatin1String("tuple"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("int"));
+    l.append(QLatin1String("list"));
     l.append(QLatin1String("long"));
     l.append(QLatin1String("dict"));
     l.append(QLatin1String("object"));

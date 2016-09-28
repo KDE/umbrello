@@ -812,11 +812,11 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
     updateResizability();
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::RoleType::B]->umlObject());
+    UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
-        op = dynamic_cast<UMLOperation*>(c->findChildObjectById(opId, true));
+        op = c->findChildObjectById(opId, true)->asUMLOperation();
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
             // Just setting it empty for the sake of sanity.
@@ -926,7 +926,7 @@ UMLClassifier *MessageWidget::operationOwner()
     UMLObject *pObject = m_pOw[Uml::RoleType::B]->umlObject();
     if (pObject == NULL)
         return NULL;
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
+    UMLClassifier *c = pObject->asUMLClassifier();
     return c;
 }
 
@@ -936,7 +936,7 @@ UMLClassifier *MessageWidget::operationOwner()
  */
 UMLOperation *MessageWidget::operation()
 {
-    return static_cast<UMLOperation*>(m_umlObject);
+    return m_umlObject->asUMLOperation();
 }
 
 /**
@@ -946,10 +946,10 @@ UMLOperation *MessageWidget::operation()
 void MessageWidget::setOperation(UMLOperation *op)
 {
     if (m_umlObject && m_pFText)
-        disconnect(m_umlObject, &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
+        disconnect(m_umlObject.data(), &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
     m_umlObject = op;
     if (m_umlObject && m_pFText) {
-        connect(m_umlObject, &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
+        connect(m_umlObject.data(), &UMLObject::modified, m_pFText, &FloatingTextWidget::setMessageText);
         m_pFText->setMessageText();
     }
 }
@@ -994,7 +994,7 @@ QString MessageWidget::lwOperationText()
 UMLClassifier *MessageWidget::lwClassifier()
 {
     UMLObject *o = m_pOw[Uml::RoleType::B]->umlObject();
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
+    UMLClassifier *c = o->asUMLClassifier();
     return c;
 }
 

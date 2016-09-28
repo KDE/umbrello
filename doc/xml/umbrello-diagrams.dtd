@@ -121,7 +121,9 @@
           changeabilityB CDATA #IMPLIED
           roleBdoc CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
-          documentation CDATA #IMPLIED         
+          documentation CDATA #IMPLIED
+          font CDATA #IMPLIED
+          seqnum CDATA #IMPLIED
 >
 <!ELEMENT linepath ANY >
 <!ATTLIST linepath

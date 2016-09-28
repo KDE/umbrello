@@ -67,7 +67,7 @@ bool UMLTemplateDialog::apply()
         return false;
     }
 
-    UMLClassifier * pClass = dynamic_cast<UMLClassifier *>(m_pTemplate->parent());
+    UMLClassifier * pClass = m_pTemplate->umlParent()->asUMLClassifier();
     if (pClass) {
         UMLObject *o = pClass->findChildObject(name);
         if (o && o != m_pTemplate) {

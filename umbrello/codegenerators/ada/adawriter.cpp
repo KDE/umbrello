@@ -122,7 +122,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = NULL;
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
+    UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == NULL) {
         retval = className;
         if (c == NULL || !isOOClass(c))
@@ -145,7 +145,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         UMLAssociation *a,
                                         QString& typeName, QString& roleName)
 {
-    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+    UMLClassifier* assocEnd = a->getObject(Uml::RoleType::B)->asUMLClassifier();
     if (assocEnd == NULL)
         return;
     const Uml::AssociationType::Enum assocType = a->getAssocType();
@@ -309,7 +309,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
 
     if (c->baseType() == UMLObject::ot_Enum) {
-        UMLEnum *ue = static_cast<UMLEnum*>(c);
+        UMLEnum *ue = c->asUMLEnum();
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;
@@ -458,7 +458,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     ada << cleanName(op->name()) << " ";
     if (! (op->isStatic() && atl.count() == 0))
         ada << "(";
-    UMLClassifier *parentClassifier = static_cast<UMLClassifier*>(op->umlPackage());
+    UMLClassifier *parentClassifier = op->umlParent()->asUMLClassifier();
     if (! op->isStatic()) {
         ada << "Self : access " << className(parentClassifier);
         if (atl.count())

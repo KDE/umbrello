@@ -38,8 +38,7 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
                                              const QString& name, Uml::ID::Type id)
   : UMLObject(parent, name, id)
 {
-    UMLObject *parentObj = const_cast<UMLObject*>(parent);
-    UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+    UMLClassifier *pc = parent->asUMLClassifier();
     if (pc)
         UMLObject::setUMLPackage(pc);
 }
@@ -57,8 +56,7 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
   : UMLObject(parent)
 {
-    UMLObject *parentObj = const_cast<UMLObject*>(parent);
-    UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
+    UMLClassifier *pc = parent->asUMLClassifier();
     if (pc)
         UMLObject::setUMLPackage(pc);
 }
@@ -99,7 +97,7 @@ QString UMLClassifierListItem::toString(Uml::SignatureType::Enum sig)
  */
 UMLClassifier * UMLClassifierListItem::getType() const
 {
-    return dynamic_cast<UMLClassifier*>(m_pSecondary.data());
+    return m_pSecondary->asUMLClassifier();
 }
 
 /**
@@ -112,7 +110,7 @@ QString UMLClassifierListItem::getTypeName() const
     if (m_pSecondary == NULL)
         return m_SecondaryId;
     const UMLPackage *typePkg = m_pSecondary->umlPackage();
-    if (typePkg != NULL && typePkg != m_pUMLPackage)
+    if (typePkg != NULL && typePkg != umlPackage())
         return m_pSecondary->fullyQualifiedName();
     return m_pSecondary->name();
 }

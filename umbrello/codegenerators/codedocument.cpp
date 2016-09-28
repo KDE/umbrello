@@ -397,11 +397,11 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
             // suspecting pre-1.5.3 file format where the package name was
             // saved instead of the package ID.
             UMLObject *o = umldoc->findUMLObject(pkgStr);
-            m_package = dynamic_cast<UMLPackage*>(o);
+            m_package = o->asUMLPackage();
         }
         if (m_package == NULL) {
             UMLObject *o = umldoc->findObjectById(Uml::ID::fromString(pkgStr));
-            m_package = dynamic_cast<UMLPackage*>(o);
+            m_package = o->asUMLPackage();
         }
     }
     const QString trueStr = QLatin1String("true");

@@ -605,7 +605,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     if (!lvitem || !Model_Utils::typeIsClassifier(lvitem->type())) {
         return false;
     }
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(lvitem->umlObject());
+    UMLClassifier *parent = lvitem->umlObject()->asUMLClassifier();
 
     if (parent == NULL) {
         uError() << "parent is not a UMLClassifier";
@@ -637,7 +637,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                     QString newName = parent->uniqChildName(UMLObject::ot_Attribute, obj->name());
                     obj->setName(newName);
                 }
-                UMLAttribute *att = static_cast<UMLAttribute*>(obj);
+                UMLAttribute *att = obj->asUMLAttribute();
                 if (parent->addAttribute(att, idchanges)) {
                     result = true;
                 } else {
@@ -648,7 +648,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
             }
         case UMLObject::ot_Operation :
             {
-                UMLOperation *op = static_cast<UMLOperation*>(obj);
+                UMLOperation *op = obj->asUMLOperation();
                 UMLOperation *exist = parent->checkOperationSignature(op->name(), op->getParmList());
                 if (exist) {
                     QString newName = parent->uniqChildName(UMLObject::ot_Operation, obj->name());
@@ -664,7 +664,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
             }
         case UMLObject::ot_Template:
             {
-                UMLTemplate* tp = static_cast<UMLTemplate*>(obj);
+                UMLTemplate* tp = obj->asUMLTemplate();
                 UMLTemplate* exist = parent->findTemplate(tp->name());
                 if (exist) {
                     QString newName = parent->uniqChildName(UMLObject::ot_Template, obj->name());
@@ -680,7 +680,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
             }
         case UMLObject::ot_EnumLiteral:
            {
-               UMLEnum* enumParent = dynamic_cast<UMLEnum*>(parent);
+               UMLEnum* enumParent = parent->asUMLEnum();
                // if parent is not a UMLEnum, bail out immediately;
                if (!enumParent) {
                    result = false;
@@ -693,7 +693,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                    QString newName = enumParent->uniqChildName(UMLObject::ot_EnumLiteral, obj->name());
                    obj->setName(newName);
                }
-               UMLEnumLiteral* enl = static_cast<UMLEnumLiteral*>(obj);
+               UMLEnumLiteral* enl = obj->asUMLEnumLiteral();
 
                if (enumParent->addEnumLiteral(enl, idchanges)) {
                    result = true;
@@ -705,7 +705,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
            }
         case UMLObject::ot_EntityAttribute :
             {
-                UMLEntity* entityParent = dynamic_cast<UMLEntity*>(parent);
+                UMLEntity* entityParent = parent->asUMLEntity();
                 // if parent is not a UMLEntity, bail out immediately;
                 if (!entityParent) {
                     result = false;
@@ -717,7 +717,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                     QString newName = entityParent->uniqChildName(UMLObject::ot_EntityAttribute, obj->name());
                     obj->setName(newName);
                 }
-                UMLEntityAttribute *att = static_cast<UMLEntityAttribute*>(obj);
+                UMLEntityAttribute *att = obj->asUMLEntityAttribute();
 
                 if (entityParent->addEntityAttribute(att, idchanges)) {
                     result = true;

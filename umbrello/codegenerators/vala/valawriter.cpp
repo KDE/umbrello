@@ -237,7 +237,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
         foreach (UMLPackage* p, includes) {
-            UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
+            UMLClassifier *cl = p->asUMLClassifier();
             if (cl) {
                 p = cl->umlPackage();
             }

@@ -28,13 +28,13 @@
 #include <QWidget>
 
 UMLDatatypeWidget::UMLDatatypeWidget(QWidget *parent)
-    : QWidget(parent),
-      ui(new Ui::UMLDataTypeWidget),
-      m_attribute(nullptr),
-      m_datatype(nullptr),
-      m_operation(nullptr),
-      m_entityAttribute(nullptr),
-      m_template(nullptr)
+  : QWidget(parent),
+    ui(new Ui::UMLDataTypeWidget),
+    m_attribute(nullptr),
+    m_datatype(nullptr),
+    m_operation(nullptr),
+    m_entityAttribute(nullptr),
+    m_template(nullptr)
 {
     ui->setupUi(this);
 }
@@ -46,16 +46,15 @@ UMLDatatypeWidget::~UMLDatatypeWidget()
 void UMLDatatypeWidget::setAttribute(UMLAttribute *attribute)
 {
     m_attribute = attribute;
-    m_parent = dynamic_cast<UMLClassifier*>(m_attribute->parent()->parent());
+    m_parent = m_attribute->umlParent()->umlParent()->asUMLClassifier();
     insertTypesSortedParameter(m_attribute->getTypeName());
 }
 
 void UMLDatatypeWidget::setClassifierItem(UMLClassifierListItem *datatype)
 {
     m_datatype = datatype;
-    m_parent = dynamic_cast<UMLClassifier *>(m_datatype->parent());
+    m_parent = m_datatype->umlParent()->asUMLClassifier();
     insertTypesSortedAttribute(m_datatype->getTypeName());
-
 }
 
 void UMLDatatypeWidget::setEntityAttribute(UMLEntityAttribute *entityAttribute)
@@ -65,12 +64,11 @@ void UMLDatatypeWidget::setEntityAttribute(UMLEntityAttribute *entityAttribute)
     insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
 }
 
-void UMLDatatypeWidget::setOPeration(UMLOperation *operation)
+void UMLDatatypeWidget::setOperation(UMLOperation *operation)
 {
     m_operation = operation;
-    m_parent = dynamic_cast<UMLClassifier*>(m_operation->parent());
+    m_parent = m_operation->umlParent()->asUMLClassifier();
     insertTypesSortedOperation(m_operation->getTypeName());
-
 }
 
 void UMLDatatypeWidget::setTemplate(UMLTemplate *_template)
@@ -78,7 +76,6 @@ void UMLDatatypeWidget::setTemplate(UMLTemplate *_template)
     m_template = _template;
     m_parent = 0;
     insertTypesSortedTemplate(m_template->getTypeName());
-
 }
 
 bool UMLDatatypeWidget::apply()
@@ -118,7 +115,7 @@ bool UMLDatatypeWidget::applyAttribute()
         obj = pDoc->findUMLObject(finalString);
     }
 
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier *classifier = obj->asUMLClassifier();
     if (classifier == NULL) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
@@ -142,7 +139,7 @@ bool UMLDatatypeWidget::applyAttribute()
         }
         if (obj == NULL)
             return false;
-        classifier = static_cast<UMLClassifier*>(obj);
+        classifier = obj->asUMLClassifier();
     }
     m_datatype->setType(classifier);
     return true;
@@ -160,7 +157,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
         }
     }
     UMLObject *obj = pDoc->findUMLObject(typeName);
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier *classifier = obj->asUMLClassifier();
     if (classifier == NULL) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
@@ -170,7 +167,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
         obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)
             return false;
-        classifier = static_cast<UMLClassifier*>(obj);
+        classifier = obj->asUMLClassifier();
     }
     m_entityAttribute->setType(classifier);
     return true;
@@ -243,7 +240,7 @@ bool UMLDatatypeWidget::applyTemplate()
         obj = pDoc->findUMLObject(typeName);
     }
 
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
+    UMLClassifier *classifier = obj->asUMLClassifier();
     if (classifier == NULL) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
@@ -267,7 +264,7 @@ bool UMLDatatypeWidget::applyTemplate()
         }
         if (obj == NULL)
             return false;
-        classifier = static_cast<UMLClassifier*>(obj);
+        classifier = obj->asUMLClassifier();
     }
     m_template->setType(classifier);
     return true;
@@ -367,7 +364,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // function.
     types << QLatin1String("void");
     // add template parameters
-    UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_parent);
+    UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
         foreach (UMLClassifierListItem* li, tmplParams) {
@@ -388,7 +385,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_parent);
+    UMLClassifier *pConcept = m_parent->asUMLClassifier();
     if (pConcept == NULL) {
         uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
                  << " is not a UMLClassifier";

@@ -21,7 +21,36 @@
 #include <QPointer>
 #include <QString>
 
+class UMLActor;
+class UMLArtifact;
+class UMLAssociation;
+class UMLAttribute;
+class UMLCanvasObject;
+class UMLCategory;
+class UMLCheckConstraint;
+class UMLClassifier;
+class UMLClassifierListItem;
+class UMLClassifierSet;
+class UMLComponent;
+class UMLEntity;
+class UMLEntityAttribute;
+class UMLEntityConstraint;
+class UMLEnum;
+class UMLEnumLiteral;
+class UMLFolder;
+class UMLForeignKeyConstraint;
+class UMLInstance;
+class UMLInstanceAttribute;
+class UMLNode;
+class UMLOperation;
+class UMLPackage;
+class UMLPort;
+class UMLRole;
 class UMLStereotype;
+class UMLTemplate;
+class UMLUniqueConstraint;
+class UMLUseCase;
+class UMLObjectPrivate;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are
@@ -127,10 +156,13 @@ public:
     QString package(const QString& separator = QString(),
                     bool includeRoot = false);
 
-    bool setUMLPackage(UMLPackage* pPkg);
-    UMLPackage* umlPackage();
-
     UMLPackageList packages(bool includeRoot = false) const;
+
+    bool setUMLPackage(UMLPackage* pPkg);
+    UMLPackage* umlPackage() const;
+
+    void setUMLParent(UMLObject* parent);
+    UMLObject* umlParent() const;
 
     virtual void setName(const QString &strName);
     void setNameCmd(const QString &strName) ;
@@ -170,6 +202,66 @@ public:
 
     friend QDebug operator<< (QDebug out, const UMLObject& obj);
 
+    bool isUMLActor() { return baseType() == ot_Actor; }
+    bool isUMLArtifact() { return baseType() == ot_Artifact; }
+    bool isUMLAssociation() { return baseType() == ot_Association; }
+    bool isUMLAttribute() { return baseType() == ot_Attribute; }
+    //bool isUMLCanvasObject() { return baseType() == ot_CanvasObject; }
+    bool isUMLCategory() { return baseType() == ot_Category; }
+    bool isUMLCheckConstraint() { return baseType() == ot_CheckConstraint; }
+    bool isUMLClassifier() { return baseType() == ot_Class; }
+    bool isUMLComponent() { return baseType() == ot_Component; }
+    bool isUMLEntity() { return baseType() == ot_Entity; }
+    bool isUMLEntityAttribute() { return baseType() == ot_EntityAttribute; }
+    bool isUMLEntityConstraint() { return baseType() == ot_EntityConstraint; }
+    bool isUMLEnum() { return baseType() == ot_Enum; }
+    bool isUMLEnumLiteral() { return baseType() == ot_EnumLiteral; }
+    bool isUMLFolder() { return baseType() == ot_Folder; }
+    bool isUMLForeignKeyConstraint() { return baseType() == ot_ForeignKeyConstraint; }
+    bool isUMLInstance() { return baseType() == ot_Instance; }
+    bool isUMLInstanceAttribute() { return baseType() == ot_InstanceAttribute; }
+    bool isUMLNode() { return baseType() == ot_Node; }
+    bool isUMLObject() { return baseType() == ot_UMLObject; }
+    bool isUMLOperation() { return baseType() == ot_Operation; }
+    bool isUMLPackage() { return baseType() == ot_Package; }
+    bool isUMLPort() { return baseType() == ot_Port; }
+    bool isUMLRole() { return baseType() == ot_Role; }
+    bool isUMLStereotype() { return baseType() == ot_Stereotype; }
+    bool isUMLTemplate() { return baseType() == ot_Template; }
+    bool isUMLUniqueConstraint() { return baseType() == ot_UniqueConstraint; }
+    bool isUMLUseCase() { return baseType() == ot_UseCase; }
+
+    UMLActor* asUMLActor();
+    UMLArtifact* asUMLArtifact();
+    UMLAssociation* asUMLAssociation();
+    UMLAttribute* asUMLAttribute();
+    UMLCanvasObject* asUMLCanvasObject();
+    UMLCategory* asUMLCategory();
+    UMLCheckConstraint* asUMLCheckConstraint();
+    UMLClassifier* asUMLClassifier();
+    UMLClassifierListItem* asUMLClassifierListItem();
+    UMLClassifierSet* asUMLClassifierSet();
+    UMLComponent* asUMLComponent();
+    UMLEntity* asUMLEntity();
+    UMLEntityAttribute* asUMLEntityAttribute();
+    UMLEntityConstraint* asUMLEntityConstraint();
+    UMLEnum* asUMLEnum();
+    UMLEnumLiteral* asUMLEnumLiteral();
+    UMLFolder* asUMLFolder();
+    UMLForeignKeyConstraint* asUMLForeignKeyConstraint();
+    UMLInstance* asUMLInstance();
+    UMLInstanceAttribute* asUMLInstanceAttribute();
+    UMLNode* asUMLNode();
+    UMLObject* asUMLObject();
+    UMLOperation* asUMLOperation();
+    UMLPackage* asUMLPackage();
+    UMLPort* asUMLPort();
+    UMLRole* asUMLRole();
+    UMLStereotype* asUMLStereotype();
+    UMLTemplate* asUMLTemplate();
+    UMLUniqueConstraint* asUMLUniqueConstraint();
+    UMLUseCase* asUMLUseCase();
+
 public slots:
     void emitModified();
 
@@ -185,7 +277,6 @@ protected:
 
     Uml::ID::Type          m_nId;          ///< object's id
     QString                m_Doc;          ///< object's documentation
-    UMLPackage*            m_pUMLPackage;  ///< package the object belongs to if applicable
     QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
     QString m_instanceName; ///< objects instance
@@ -210,6 +301,8 @@ protected:
                                            ///< fully qualified target name of a reference.
                                            ///< In case the quidu is not found, the human readable name is
                                            ///< used which we store in m_SecondaryFallback.
+    UMLObjectPrivate *m_d;                 ///< private data
+    friend class ObjectsModel;
 };
 
 #endif

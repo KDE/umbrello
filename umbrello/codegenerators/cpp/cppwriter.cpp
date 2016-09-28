@@ -526,6 +526,11 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
 
             QString staticValue = at->isStatic() ? QLatin1String("static ") : QString();
             QString typeName = fixTypeName(at->getTypeName());
+            int i = typeName.indexOf(QLatin1Char('['));
+            if (i > -1) {
+                varName += typeName.mid(i);
+                typeName = typeName.left(i);
+            }
             if (!documentation.isEmpty())
                 writeComment(documentation, indent(), stream);
             stream << indent() << staticValue << typeName << " " << varName << ";" << m_endl;
@@ -921,6 +926,16 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     QString className = fixTypeName(fieldClassName);
     QString fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
     QString indnt = indent();
+    QString varName = QLatin1String("new_var");
+    QString fullVarName = varName;
+
+    int i = className.indexOf(QLatin1Char('['));
+    bool isArrayType = false;
+    if (i > -1) {
+        fullVarName += className.mid(i);
+        className = className.left(i);
+        isArrayType = true;
+    }
 
     // set method
     if (change == Uml::Changeability::Changeable) {
@@ -928,7 +943,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         stream << indnt << "void ";
         if (!isHeaderMethod)
             stream << className_ << "::";
-        stream << "set" << fldName << " (" << className << " new_var)";
+        stream << "set" << fldName << " (" << className << " " << fullVarName << ")";
 
         if (writeMethodBody) {
             stream << indnt << " {" << m_endl;
@@ -937,11 +952,17 @@ void CppWriter::writeSingleAttributeAccessorMethods(
             m_indentLevel--;
             if (isStatic)
                 stream << className_ << "::";
-            stream << fieldVarName << " = new_var;" << m_endl;
+            if (isArrayType)
+                stream << "*" << fieldVarName << " = *" << varName << ";" << m_endl;
+            else
+                stream << fieldVarName << " = " << fullVarName << ";" << m_endl;
             stream << indnt << "}" << m_endl;
         } else
             stream << ";" << m_endl;
     }
+
+    if (i)
+        className += QLatin1String("*");
 
     // get method
     writeDocumentation(QLatin1String("Get the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QLatin1String("return the value of ") + fieldVarName, stream);
@@ -1185,6 +1206,13 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
+            QString atNameType = atName;
+
+            int i = typeName.indexOf(QLatin1Char('['));
+            if (i > -1) {
+                atNameType += typeName.mid(i);
+                typeName = typeName.left(i);
+            }
             str += typeName + QLatin1Char(' ') + atName;
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
@@ -1239,9 +1267,9 @@ void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Ty
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+            current = a->getObject(Uml::RoleType::B)->asUMLClassifier();
         } else if (a->getObjectId(Uml::RoleType::B) == myId && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
+            current = a->getObject(Uml::RoleType::A)->asUMLClassifier();
             isFirstClass = false;
         }
 

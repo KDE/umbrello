@@ -15,4 +15,4 @@ target_link_libraries(xmi2pot ${LIBS})
 
 install(TARGETS xmi2pot  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
-
+ecm_mark_nongui_executable(po2xmi xmi2pot)

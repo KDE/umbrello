@@ -25,8 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <QtDebug>
 
-StereotypesWindow::StereotypesWindow(QWidget *parent)
-    : QDockWidget(i18n("&Stereotypes"), parent)
+StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
+  : QDockWidget(title, parent)
 {
     setObjectName(QLatin1String("StereotypesWindow"));
 
@@ -51,7 +51,7 @@ StereotypesWindow::~StereotypesWindow()
 
 void StereotypesWindow::modified()
 {
-    UMLStereotype *o = static_cast<UMLStereotype*>(QObject::sender());
+    UMLStereotype *o = dynamic_cast<UMLStereotype*>(QObject::sender());
     if (!o)
         return;
     int index = UMLApp::app()->document()->stereotypes().indexOf(o);
@@ -60,7 +60,7 @@ void StereotypesWindow::modified()
 
 void StereotypesWindow::slotStereotypesDoubleClicked(QModelIndex index)
 {
-    QVariant v = UMLApp::app()->document()->stereotypesModel()->data(index, Qt::UserRole);
+    QVariant v = m_stereotypesTree->model()->data(index, Qt::UserRole);
     if (v.canConvert<UMLStereotype*>()) {
         UMLStereotype *s = v.value<UMLStereotype*>();
         s->showPropertiesDialog(this);

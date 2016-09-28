@@ -53,7 +53,7 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     }
 
     if (umlObject()) {
-        UMLArtifact *umlart = static_cast<UMLArtifact*>(m_umlObject);
+        UMLArtifact *umlart = m_umlObject->asUMLArtifact();
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
@@ -97,7 +97,7 @@ QSizeF ArtifactWidget::minimumSize() const
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_umlObject);
+    UMLArtifact *umlart = m_umlObject->asUMLArtifact();
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
         return calculateNormalSize();
     } else {

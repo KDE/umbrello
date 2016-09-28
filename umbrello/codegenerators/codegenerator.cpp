@@ -227,7 +227,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 
         UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Operation) {
-            UMLOperation *op = static_cast<UMLOperation*>(obj);
+            UMLOperation *op = obj->asUMLOperation();
             op->setSourceCode(value);
         }
         else {
@@ -630,7 +630,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
                 UMLObject *objA = a->getObject(Uml::RoleType::A);
                 UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c) {
-                    temp = static_cast<UMLPackage*>(objB);
+                    temp = objB->asUMLPackage();
                 }
             }
             break;
@@ -641,7 +641,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
                 UMLObject *objA = a->getObject(Uml::RoleType::A);
                 UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c && objB->baseType() != UMLObject::ot_Datatype) {
-                    temp = static_cast<UMLPackage*>(objB);
+                    temp = objB->asUMLPackage();
                 }
             }
             break;

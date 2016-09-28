@@ -179,6 +179,17 @@ int NativeImportBase::scopeIndex()
 }
 
 /**
+ * Get the next lexeme without advancing.
+ * @return  the next lexeme or an empty string
+ */
+QString NativeImportBase::lookAhead()
+{
+    if (m_srcIndex < m_source.count() - 1)
+        return m_source[m_srcIndex+1];
+    return QString();
+}
+
+/**
  * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
  * Comments encountered during advancement are accumulated in `m_comment'.
  * If m_srcIndex hits the end of m_source then QString() is returned.

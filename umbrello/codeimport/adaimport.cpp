@@ -261,7 +261,7 @@ bool AdaImport::parseStmt()
                 umldoc->addAssociation(assoc);
                 skipStmt();
             } else {
-                pushScope(static_cast<UMLPackage*>(ns));
+                pushScope(ns->asUMLPackage());
             }
         } else if (m_source[m_srcIndex] == QLatin1String("renames")) {
             m_renaming[name] = advance();
@@ -328,7 +328,7 @@ bool AdaImport::parseStmt()
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
-            UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+            UMLEnum *enumType = ns->asUMLEnum();
             while ((next = advance()) != QLatin1String(")")) {
                 Import_Utils::addEnumLiteral(enumType, next, m_comment);
                 m_comment.clear();
@@ -363,10 +363,10 @@ bool AdaImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (t == UMLObject::ot_Interface) {
                 while ((next = advance()) == QLatin1String("and")) {
-                    UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
+                    UMLClassifier *klass = ns->asUMLClassifier();
                     QString base = expand(advance());
                     UMLObject *p = Import_Utils::createUMLObject(UMLObject::ot_Interface, base, currentScope());
-                    UMLClassifier *parent = static_cast<UMLClassifier*>(p);
+                    UMLClassifier *parent = p->asUMLClassifier();
                     Import_Utils::createGeneralization(klass, parent);
                 }
             } else {
@@ -380,7 +380,7 @@ bool AdaImport::parseStmt()
                 ns->setStereotype(QLatin1String("record"));
             }
             if (next == QLatin1String("record"))
-                m_klass = static_cast<UMLClassifier*>(ns);
+                m_klass = ns->asUMLClassifier();
             else
                 skipStmt();
             return true;
@@ -401,12 +401,12 @@ bool AdaImport::parseStmt()
                 t = (known ? known->baseType() : UMLObject::ot_Datatype);
             }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
-            UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
+            UMLClassifier *parent = ns->asUMLClassifier();
             ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (isExtension) {
                 next = advance();
                 if (next == QLatin1String("null") || next == QLatin1String("record")) {
-                    UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
+                    UMLClassifier *klass = ns->asUMLClassifier();
                     Import_Utils::createGeneralization(klass, parent);
                     if (next == QLatin1String("record")) {
                         // Set the m_klass for attributes.
@@ -417,7 +417,7 @@ bool AdaImport::parseStmt()
                         QStringList::Iterator end(baseInterfaces.end());
                         for (QStringList::Iterator bi(baseInterfaces.begin()); bi != end; ++bi) {
                              ns = Import_Utils::createUMLObject(t, *bi, currentScope());
-                             parent = static_cast<UMLClassifier*>(ns);
+                             parent = ns->asUMLClassifier();
                              Import_Utils::createGeneralization(klass, parent);
                         }
                     }
@@ -525,7 +525,7 @@ bool AdaImport::parseStmt()
                     skipStmt(QLatin1String(")"));
                     break;
                 }
-                klass = static_cast<UMLClassifier*>(type);
+                klass = type->asUMLClassifier();
                 op = Import_Utils::makeOperation(klass, name);
                 // The controlling parameter is suppressed.
                 parNameCount--;
@@ -621,7 +621,7 @@ bool AdaImport::parseStmt()
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                  typeName, m_comment);
     if (o) {
-        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        UMLAttribute *attr = o->asUMLAttribute();
         attr->setInitialValue(initialValue);
     }
     skipStmt();

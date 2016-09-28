@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
     args->process(app);
 
     aboutData.processCommandLine(args);
+    Q_INIT_RESOURCE(ui);
     Q_INIT_RESOURCE(icons);
 
     QPointer<UMLApp> uml;

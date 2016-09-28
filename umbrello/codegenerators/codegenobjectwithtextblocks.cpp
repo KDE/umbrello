@@ -465,7 +465,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 // find the code operation by id
                 QString id = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
                 UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
-                UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
+                UMLOperation * op = obj->asUMLOperation();
                 if (op) {
                     CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
                     block->loadFromXMI(element);

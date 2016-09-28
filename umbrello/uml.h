@@ -360,7 +360,7 @@ private:
      * It is kept empty so you can create your view according to your
      * application's needs by changing the view class.
      */
-    UMLView* m_view;
+    QPointer<UMLView> m_view;
 
     /**
      * Doc represents your actual document and is created only once.

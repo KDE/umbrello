@@ -19,6 +19,8 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
+#include "umlobjectprivate.h"
+#include "models/objectsmodel.h"
 #include "package.h"
 #include "folder.h"
 #include "stereotype.h"
@@ -44,9 +46,11 @@ DEBUG_REGISTER_DISABLED(UMLObject)
  * @param other object to created from
  */
 UMLObject::UMLObject(const UMLObject &other)
-  : QObject(other.parent())
+  : QObject(other.umlParent()),
+    m_d(new UMLObjectPrivate)
 {
     other.copyInto(this);
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -59,11 +63,13 @@ UMLObject::UMLObject(const UMLObject &other)
 UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
   : QObject(parent),
     m_nId(id),
-    m_name(name)
+    m_name(name),
+    m_d(new UMLObjectPrivate)
 {
     init();
     if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -73,13 +79,15 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
  *                 then a new ID will be assigned internally.
  */
 UMLObject::UMLObject(const QString& name, ID::Type id)
-  : QObject(UMLApp::app()->document()),
+  : QObject(0),
     m_nId(id),
-    m_name(name)
+    m_name(name),
+    m_d(new UMLObjectPrivate)
 {
     init();
     if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -89,9 +97,11 @@ UMLObject::UMLObject(const QString& name, ID::Type id)
 UMLObject::UMLObject(UMLObject * parent)
   : QObject(parent),
     m_nId(Uml::ID::None),
-    m_name(QString())
+    m_name(QString()),
+    m_d(new UMLObjectPrivate)
 {
     init();
+    UMLApp::app()->document()->objectsModel()->add(this);
 }
 
 /**
@@ -102,10 +112,12 @@ UMLObject::~UMLObject()
     // unref stereotype
     setUMLStereotype(0);
     if (m_pSecondary && m_pSecondary->baseType() == ot_Stereotype) {
-        UMLStereotype* stereotype = dynamic_cast<UMLStereotype*>(m_pSecondary.data());
+        UMLStereotype* stereotype = m_pSecondary->asUMLStereotype();
         if (stereotype)
             stereotype->decrRefCount();
     }
+    UMLApp::app()->document()->objectsModel()->remove(this);
+    delete m_d;
 }
 
 /**
@@ -115,7 +127,6 @@ void UMLObject::init()
 {
     setObjectName(QLatin1String("UMLObject"));
     m_BaseType = ot_UMLObject;
-    m_pUMLPackage = 0;
     m_visibility = Uml::Visibility::Public;
     m_pStereotype = 0;
     m_Doc.clear();
@@ -237,19 +248,20 @@ QString UMLObject::fullyQualifiedName(const QString& separator,
         bool includeRoot /* = false */) const
 {
     QString fqn;
-    if (m_pUMLPackage && m_pUMLPackage != this) {
+    UMLPackage *parent = umlPackage();
+    if (parent && parent != this) {
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->document();
-            if (umldoc->rootFolderType(m_pUMLPackage) != Uml::ModelType::N_MODELTYPES ||
-                    m_pUMLPackage == umldoc->datatypeFolder())
+            if ((umldoc->rootFolderType(parent) != Uml::ModelType::N_MODELTYPES) ||
+                    (parent == umldoc->datatypeFolder()))
                 skipPackage = true;
         }
         if (!skipPackage) {
             QString tempSeparator = separator;
             if (tempSeparator.isEmpty())
                 tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
-            fqn = m_pUMLPackage->fullyQualifiedName(tempSeparator, includeRoot);
+            fqn = parent->fullyQualifiedName(tempSeparator, includeRoot);
             fqn.append(tempSeparator);
         }
     }
@@ -276,7 +288,7 @@ bool UMLObject::operator==(const UMLObject & rhs) const
 
     // Packages create different namespaces, therefore they should be
     // part of the equality test.
-    if (m_pUMLPackage != rhs.m_pUMLPackage)
+    if (umlParent() != rhs.umlParent())
         return false;
 
     // Making the type part of an object's identity has its problems:
@@ -330,16 +342,16 @@ void UMLObject::copyInto(UMLObject *lhs) const
     lhs->m_bStatic = m_bStatic;
     lhs->m_BaseType = m_BaseType;
     lhs->m_visibility = m_visibility;
-    lhs->m_pUMLPackage = m_pUMLPackage;
+    lhs->setUMLParent(umlParent());
 
     // We don't want the same name existing twice.
-    lhs->m_name = Model_Utils::uniqObjectName(m_BaseType, m_pUMLPackage, m_name);
+    lhs->m_name = Model_Utils::uniqObjectName(m_BaseType, umlPackage(), m_name);
 
     // Create a new ID.
     lhs->m_nId = UniqueID::gen();
 
     // Hope that the parent from QObject is okay.
-    if (lhs->parent() != parent())
+    if (lhs->umlParent() != umlParent())
         uDebug() << "copyInto has a wrong parent";
 }
 
@@ -583,34 +595,6 @@ void UMLObject::setStereotypeCmd(const QString& name)
 }
 
 /**
- * Sets the UMLPackage in which this class is located.
- *
- * @param pPkg   Pointer to the class' UMLPackage.
- */
-bool UMLObject::setUMLPackage(UMLPackage* pPkg)
-{
-    if (pPkg == this) {
-        uDebug() << "setting parent to myself is not allowed";
-        return false;
-    }
-
-    if (pPkg == NULL) {
-        // Allow setting to NULL for stereotypes
-        m_pUMLPackage = pPkg;
-        return true;
-    }
-
-    if (pPkg->umlPackage() == this) {
-        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
-        return false;
-    }
-
-    m_pUMLPackage = pPkg;
-    emitModified();
-    return true;
-}
-
-/**
  * Returns the classes UMLStereotype object.
  *
  * @return   Returns the classes UMLStereotype object.
@@ -665,7 +649,7 @@ QString UMLObject::package(const QString& separator, bool includeRoot)
 UMLPackageList UMLObject::packages(bool includeRoot) const
 {
     UMLPackageList pkgList;
-    UMLPackage* pkg = m_pUMLPackage;
+    UMLPackage* pkg = umlPackage();
     while (pkg != NULL) {
         pkgList.prepend(pkg);
         pkg = pkg->umlPackage();
@@ -676,13 +660,68 @@ UMLPackageList UMLObject::packages(bool includeRoot) const
 }
 
 /**
+ * Sets the UMLPackage in which this class is located.
+ *
+ * @param pPkg   Pointer to the class' UMLPackage.
+ */
+bool UMLObject::setUMLPackage(UMLPackage *pPkg)
+{
+    if (pPkg == this) {
+        uDebug() << "setting parent to myself is not allowed";
+        return false;
+    }
+
+    if (pPkg == NULL) {
+        // Allow setting to NULL for stereotypes
+        setParent(pPkg);
+        return true;
+    }
+
+    if (pPkg->umlPackage() == this) {
+        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
+        return false;
+    }
+
+    setParent(pPkg);
+    emitModified();
+    return true;
+}
+
+/**
  * Returns the UMLPackage that this class is located in.
+ *
+ * This method is a shortcut for calling umlParent()->asUMLPackage().
  *
  * @return  Pointer to the UMLPackage of this class.
  */
-UMLPackage* UMLObject::umlPackage()
+UMLPackage* UMLObject::umlPackage() const
 {
-    return m_pUMLPackage;
+    return dynamic_cast<UMLPackage *>(parent());
+}
+
+/**
+ * Set UML model parent.
+ *
+ * @param parent object to set as parent
+ *
+ * @TODO prevent setting parent to myself
+ */
+void UMLObject::setUMLParent(UMLObject *parent)
+{
+    setParent(parent);
+}
+
+/**
+ * Return UML model parent.
+ *
+ * Model classes of type UMLClassifierListItem and below
+ * uses QObject::parent to hold the model parent
+ *
+ * @return parent of uml object
+ */
+UMLObject *UMLObject::umlParent() const
+{
+    return dynamic_cast<UMLObject *>(parent());
 }
 
 /**
@@ -766,7 +805,7 @@ bool UMLObject::resolveRef()
             if (m_pSecondary->baseType() == ot_Stereotype) {
                 if (m_pStereotype)
                     m_pStereotype->decrRefCount();
-                m_pStereotype = dynamic_cast<UMLStereotype*>(m_pSecondary.data());
+                m_pStereotype = m_pSecondary->asUMLStereotype();
                 m_pStereotype->incrRefCount();
                 m_pSecondary = NULL;
             }
@@ -803,7 +842,7 @@ bool UMLObject::resolveRef()
     // of on-the-fly scope creation:
     if (m_SecondaryId.contains(QLatin1String("::"))) {
         // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
-        m_pSecondary = Import_Utils::createUMLObject(ot_UMLObject, m_SecondaryId, m_pUMLPackage);
+        m_pSecondary = Import_Utils::createUMLObject(ot_UMLObject, m_SecondaryId, umlPackage());
         if (m_pSecondary) {
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
@@ -856,6 +895,7 @@ void UMLObject::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
 {
+    m_d->isSaved = true;
     /*
       Call as the first action of saveToXMI() in child class:
       This creates the QDomElement with which to work.
@@ -880,8 +920,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
         Uml::ID::Type nmSpc;
-        if (m_pUMLPackage)
-            nmSpc = m_pUMLPackage->id();
+        if (umlPackage())
+            nmSpc = umlPackage()->id();
         else
             nmSpc = UMLApp::app()->document()->modelID();
         qElement.setAttribute(QLatin1String("namespace"), Uml::ID::toString(nmSpc));
@@ -889,8 +929,8 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     if (! m_Doc.isEmpty())
         qElement.setAttribute(QLatin1String("comment"), m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
-    if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-        qElement.setAttribute(QLatin1String("package"), m_pUMLPackage->ID());
+    if (umlParent()->asUMLPackage())             //FIXME: uml13.dtd compliance
+        qElement.setAttribute(QLatin1String("package"), umlParent()->asUMLPackage()->ID());
 #endif
     QString visibility = Uml::Visibility::toString(m_visibility, false);
     qElement.setAttribute(QLatin1String("visibility"), visibility);
@@ -1120,11 +1160,11 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
         m_BaseType != ot_ForeignKeyConstraint && m_BaseType != ot_CheckConstraint &&
         m_BaseType != ot_InstanceAttribute ) {
-        if (m_pUMLPackage) {
-            m_pUMLPackage->addObject(this);
+        if (umlPackage()) {
+            umlPackage()->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {
-            // m_pUMLPackage is not set on the root folders.
-            uDebug() << m_name << ": m_pUMLPackage is not set";
+            // umlPackage() is not set on the root folders.
+            uDebug() << m_name << ": umlPackage() is not set";
         }
     }
     return load(element);
@@ -1218,4 +1258,63 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
         << ", type= " << UMLObject::toString(obj.m_BaseType);
     return out.space();
 }
+
+//only required for getting types
+#include "actor.h"
+#include "artifact.h"
+#include "association.h"
+#include "attribute.h"
+#include "umlcanvasobject.h"
+#include "category.h"
+#include "checkconstraint.h"
+#include "classifier.h"
+#include "component.h"
+#include "entity.h"
+#include "entityattribute.h"
+#include "entityconstraint.h"
+#include "enum.h"
+#include "enumliteral.h"
+#include "folder.h"
+#include "foreignkeyconstraint.h"
+#include "instance.h"
+#include "instanceattribute.h"
+#include "node.h"
+#include "operation.h"
+#include "package.h"
+#include "port.h"
+#include "umlrole.h"
+#include "stereotype.h"
+#include "template.h"
+#include "uniqueconstraint.h"
+#include "usecase.h"
+
+UMLActor* UMLObject::asUMLActor() {return dynamic_cast<UMLActor*>(this); }
+UMLArtifact* UMLObject::asUMLArtifact() { return dynamic_cast<UMLArtifact*>(this); }
+UMLAssociation* UMLObject::asUMLAssociation() { return dynamic_cast<UMLAssociation*>(this); }
+UMLAttribute* UMLObject::asUMLAttribute() { return dynamic_cast<UMLAttribute*>(this); }
+UMLCanvasObject* UMLObject::asUMLCanvasObject() { return dynamic_cast<UMLCanvasObject*>(this); }
+UMLCategory* UMLObject::asUMLCategory() { return dynamic_cast<UMLCategory*>(this); }
+UMLCheckConstraint* UMLObject::asUMLCheckConstraint() { return dynamic_cast<UMLCheckConstraint*>(this); }
+UMLClassifier* UMLObject::asUMLClassifier() { return dynamic_cast<UMLClassifier*>(this); }
+UMLClassifierListItem *UMLObject::asUMLClassifierListItem() { return dynamic_cast<UMLClassifierListItem*>(this); }
+UMLComponent* UMLObject::asUMLComponent() { return dynamic_cast<UMLComponent*>(this); }
+UMLEntity* UMLObject::asUMLEntity() { return dynamic_cast<UMLEntity*>(this); }
+UMLEntityAttribute* UMLObject::asUMLEntityAttribute() { return dynamic_cast<UMLEntityAttribute*>(this); }
+UMLEntityConstraint* UMLObject::asUMLEntityConstraint() { return dynamic_cast<UMLEntityConstraint*>(this); }
+UMLEnum* UMLObject::asUMLEnum() { return dynamic_cast<UMLEnum*>(this); }
+UMLEnumLiteral* UMLObject::asUMLEnumLiteral() { return dynamic_cast<UMLEnumLiteral*>(this); }
+UMLFolder* UMLObject::asUMLFolder() { return dynamic_cast<UMLFolder*>(this); }
+UMLForeignKeyConstraint* UMLObject::asUMLForeignKeyConstraint() { return dynamic_cast<UMLForeignKeyConstraint*>(this); }
+UMLInstance *UMLObject::asUMLInstance() { return dynamic_cast<UMLInstance*>(this); }
+UMLInstanceAttribute *UMLObject::asUMLInstanceAttribute() {  return dynamic_cast<UMLInstanceAttribute*>(this); }
+UMLNode* UMLObject::asUMLNode() { return dynamic_cast<UMLNode*>(this); }
+UMLObject* UMLObject::asUMLObject() { return dynamic_cast<UMLObject*>(this); }
+UMLOperation* UMLObject::asUMLOperation() { return dynamic_cast<UMLOperation*>(this); }
+UMLPackage* UMLObject::asUMLPackage() { return dynamic_cast<UMLPackage*>(this); }
+UMLPort* UMLObject::asUMLPort() { return dynamic_cast<UMLPort*>(this); }
+UMLRole* UMLObject::asUMLRole() { return dynamic_cast<UMLRole*>(this); }
+UMLStereotype* UMLObject::asUMLStereotype() { return dynamic_cast<UMLStereotype*>(this); }
+UMLTemplate* UMLObject::asUMLTemplate() { return dynamic_cast<UMLTemplate*>(this); }
+UMLUniqueConstraint* UMLObject::asUMLUniqueConstraint() { return dynamic_cast<UMLUniqueConstraint*>(this); }
+UMLUseCase* UMLObject::asUMLUseCase() { return dynamic_cast<UMLUseCase*>(this); }
 

@@ -335,31 +335,31 @@ set(libclipboard_SRCS
 )
 
 set(libcmds_SRCS
-    cmds/cmd_baseObjectCommand.cpp
-    cmds/cmd_createDiagram.cpp
-    cmds/cmd_handleRename.cpp
-    cmds/cmd_removeDiagram.cpp
-    cmds/cmd_setStereotype.cpp
-    cmds/cmd_setVisibility.cpp
-    cmds/generic/cmd_createUMLObject.cpp
-    cmds/generic/cmd_removeUMLObject.cpp
-    cmds/generic/cmd_renameUMLObject.cpp
-    cmds/generic/cmd_renameUMLObjectInstance.cpp
-    cmds/widget/cmd_baseWidgetCommand.cpp
-    cmds/widget/cmd_changeFont.cpp
-    cmds/widget/cmd_changeTextColor.cpp
-    cmds/widget/cmd_changeLineColor.cpp
-    cmds/widget/cmd_changeLineWidth.cpp
-    cmds/widget/cmd_changeFillColor.cpp
-    cmds/widget/cmd_changeUseFillColor.cpp
-    cmds/widget/cmd_changeMultiplicity.cpp
-    cmds/widget/cmd_changeVisualProperty.cpp
-    cmds/widget/cmd_createWidget.cpp
-    cmds/widget/cmd_moveWidget.cpp
-    cmds/widget/cmd_resizeWidget.cpp
-    cmds/widget/cmd_removeWidget.cpp
-    cmds/widget/cmd_setName.cpp
-    cmds/widget/cmd_setTxt.cpp
+    cmds/cmdbaseobjectcommand.cpp
+    cmds/cmdcreatediagram.cpp
+    cmds/cmdhandlerename.cpp
+    cmds/cmdremovediagram.cpp
+    cmds/cmdsetstereotype.cpp
+    cmds/cmdsetvisibility.cpp
+    cmds/generic/cmdcreateumlobject.cpp
+    cmds/generic/cmdremoveumlobject.cpp
+    cmds/generic/cmdrenameumlobject.cpp
+    cmds/generic/cmdrenameumlobjectinstance.cpp
+    cmds/widget/cmdbasewidgetcommand.cpp
+    cmds/widget/cmdchangefont.cpp
+    cmds/widget/cmdchangetextcolor.cpp
+    cmds/widget/cmdchangelinecolor.cpp
+    cmds/widget/cmdchangelinewidth.cpp
+    cmds/widget/cmdchangefillcolor.cpp
+    cmds/widget/cmdchangeusefillcolor.cpp
+    cmds/widget/cmdchangemultiplicity.cpp
+    cmds/widget/cmdchangevisualproperty.cpp
+    cmds/widget/cmdcreatewidget.cpp
+    cmds/widget/cmdmovewidget.cpp
+    cmds/widget/cmdresizewidget.cpp
+    cmds/widget/cmdremovewidget.cpp
+    cmds/widget/cmdsetname.cpp
+    cmds/widget/cmdsettxt.cpp
 )
 
 set(libumlwidgets_SRCS
@@ -456,6 +456,7 @@ set(umbrellobase_SRCS
     birdview.cpp
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
+    objectswindow.cpp
     docwindow.cpp
     dotgenerator.cpp
     icon_utils.cpp
@@ -492,6 +493,7 @@ set(umbrellobase_SRCS
 
 set(umbrellomodels_SRCS
     models/diagramsmodel.cpp
+    models/objectsmodel.cpp
     models/stereotypesmodel.cpp
 )
 
@@ -522,7 +524,11 @@ set(umbrello_SRCS
 )
 
 set(LIB_BUILD_MODE STATIC)
-
+if(CMAKE_MAJOR_VERSION LESS 3)
+    qt5_add_resources(libumbrello_SRCS icons.qrc ui.qrc)
+else()
+    list(APPEND libumbrello_SRCS icons.qrc ui.qrc)
+endif()
 add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
 set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
 target_link_libraries(libumbrello
@@ -560,14 +566,11 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-    file(READ umbrello.desktop UMBRELLO_DESKTOP)
-    string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
-    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
-    install( FILES org.kde.umbrello.appdata.xml  DESTINATION  ${CMAKE_INSTALL_METAINFODIR})
-    install( FILES
-        umbrelloui.rc
-        DESTINATION ${KXMLGUI_INSTALL_DIR}/umbrello )
+file(READ umbrello.desktop UMBRELLO_DESKTOP)
+string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
+install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
+install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 
 install( FILES
     docgenerators/xmi2docbook.xsl

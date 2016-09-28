@@ -215,9 +215,9 @@ void RefactoringAssistant::objectModified()
  */
 void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
 {
-    UMLOperation *op = static_cast<UMLOperation*>(listItem);
+    UMLOperation *op = listItem->asUMLOperation();
     DEBUG(DBG_SRC) << "operation = " << op->name();  //:TODO:
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(op->parent());
+    UMLClassifier *parent = op->umlParent()->asUMLClassifier();
     if (!parent) {
         uWarning() << op->name() << " - Parent of operation is not a classifier!";
         return;
@@ -245,7 +245,7 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
  */
 void RefactoringAssistant::operationRemoved(UMLClassifierListItem *listItem)
 {
-    UMLOperation *op = static_cast<UMLOperation*>(listItem);
+    UMLOperation *op = listItem->asUMLOperation();
     QTreeWidgetItem *item = findListViewItem(op);
     if (!item) {
         return;
@@ -261,9 +261,9 @@ void RefactoringAssistant::operationRemoved(UMLClassifierListItem *listItem)
  */
 void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
 {
-    UMLAttribute *att = static_cast<UMLAttribute*>(listItem);
+    UMLAttribute *att = listItem->asUMLAttribute();
     DEBUG(DBG_SRC) << "attribute = " << att->name();  //:TODO:
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(att->parent());
+    UMLClassifier *parent = att->umlParent()->asUMLClassifier();
     if (!parent) {
         uWarning() << att->name() << " - Parent of attribute is not a classifier!";
         return;
@@ -292,7 +292,7 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
  */
 void RefactoringAssistant::attributeRemoved(UMLClassifierListItem *listItem)
 {
-    UMLAttribute *att = static_cast<UMLAttribute*>(listItem);
+    UMLAttribute *att = listItem->asUMLAttribute();
     DEBUG(DBG_SRC) << "attribute = " << att->name();  //:TODO:
     QTreeWidgetItem *item = findListViewItem(att);
     if (!item) {
@@ -335,10 +335,10 @@ void RefactoringAssistant::editProperties(UMLObject *obj)
         delete dialog;
     }
     else if (t == UMLObject::ot_Operation) {
-        dia = new UMLOperationDialog(this, static_cast<UMLOperation*>(obj));
+        dia = new UMLOperationDialog(this, obj->asUMLOperation());
     }
     else if (t == UMLObject::ot_Attribute) {
-        dia = new UMLAttributeDialog(this, static_cast<UMLAttribute*>(obj));
+        dia = new UMLAttributeDialog(this, obj->asUMLAttribute());
     }
     else {
         uWarning() << "Called for unknown type " << typeid(*obj).name();
@@ -379,12 +379,12 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
         QTreeWidgetItem *opNode = item->parent();
         if (opNode) {
             QTreeWidgetItem *parent = opNode->parent();
-            UMLClassifier* c = static_cast<UMLClassifier*>(findUMLObject(parent));
+            UMLClassifier* c = findUMLObject(parent)->asUMLClassifier();
             if (!c) {
                 uWarning() << "No classifier - cannot delete!";
                 return;
             }
-            UMLOperation* op = static_cast<UMLOperation*>(obj);
+            UMLOperation* op = obj->asUMLOperation();
             c->removeOperation(op);
         }
     }
@@ -392,12 +392,12 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
         QTreeWidgetItem *attrNode = item->parent();
         if (attrNode) {
             QTreeWidgetItem *parent = attrNode->parent();
-            UMLClassifier* c = static_cast<UMLClassifier*>(findUMLObject(parent));
+            UMLClassifier* c = findUMLObject(parent)->asUMLClassifier();
             if (!c) {
                 uWarning() << "No classifier - cannot delete!";
                 return;
             }
-            UMLAttribute* attr = static_cast<UMLAttribute*>(obj);
+            UMLAttribute* attr = obj->asUMLAttribute();
             c->removeAttribute(attr);
         }
     }
@@ -484,14 +484,14 @@ void RefactoringAssistant::addBaseClassifier()
         return;
     }
     UMLObject *obj = findUMLObject(item);
-    if (!dynamic_cast<UMLClassifier*>(obj)) {
+    if (!obj->asUMLClassifier()) {
         uWarning() << "Called for a non-classifier object.";
         return;
     }
 
     //classes have classes and interfaces interfaces as super/derived classifiers
     UMLObject::ObjectType t = obj->baseType();
-    UMLClassifier *super = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
+    UMLClassifier *super = Object_Factory::createUMLObject(t)->asUMLClassifier();
     if (!super) {
         return;
     }
@@ -529,14 +529,14 @@ void RefactoringAssistant::addDerivedClassifier()
         return;
     }
     UMLObject *obj = findUMLObject(item);
-    if (!dynamic_cast<UMLClassifier*>(obj)) {
+    if (!obj->asUMLClassifier()) {
         uWarning() << "Called for a non-classifier object.";
         return;
     }
 
     //classes have classes and interfaces have interfaces as super/derived classifiers
     UMLObject::ObjectType t = obj->baseType();
-    UMLClassifier *derived = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
+    UMLClassifier *derived = Object_Factory::createUMLObject(t)->asUMLClassifier();
     if (!derived) {
         return;
     }
@@ -572,7 +572,7 @@ void RefactoringAssistant::addInterfaceImplementation()
     return;
     //  QTreeWidgetItem *item = selectedListViewItem();
     //  UMLObject *obj = findUMLObject(item);
-    //  if(!dynamic_cast<UMLClassifier*>(obj))
+    //  if(!obj->asUMLClassifier())
     //          return;
     //  UMLObject *n = Object_Factory::createUMLObject(UMLObject::ot_Interface));
     //  if (!n) {
@@ -592,10 +592,10 @@ void RefactoringAssistant::createOperation()
         uWarning() << "Called with no item selected.";
         return;
     }
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(findUMLObject(item));
+    UMLClassifier *c = findUMLObject(item)->asUMLClassifier();
     if (!c) {  // find parent
         QTreeWidgetItem *parent = item->parent();
-        c = dynamic_cast<UMLClassifier*>(findUMLObject(parent));
+        c = findUMLObject(parent)->asUMLClassifier();
         if (!c) {
             uWarning() << "No classifier - cannot create!";
             return;
@@ -614,10 +614,10 @@ void RefactoringAssistant::createAttribute()
         uWarning() << "Called with no item selected.";
         return;
     }
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(findUMLObject(item));
+    UMLClassifier *c = findUMLObject(item)->asUMLClassifier();
     if (!c) {  // find parent
         QTreeWidgetItem *parent = item->parent();
-        c = dynamic_cast<UMLClassifier*>(findUMLObject(parent));
+        c = findUMLObject(parent)->asUMLClassifier();
         if (!c) {
             uWarning() << "No classifier - cannot create!";
             return;
@@ -795,12 +795,12 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
     }
     QTreeWidgetItem* parentItem = afterme->parent();
     UMLObject::ObjectType t = movingObject->baseType();
-    newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem));
+    newClassifier = findUMLObject(parentItem)->asUMLClassifier();
     if (!newClassifier) {
         const QString parentText = parentItem->text(1);
         if ((parentText == QLatin1String("operations") && t == UMLObject::ot_Operation) ||
             (parentText == QLatin1String("attributes") && t == UMLObject::ot_Attribute)) {
-            newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem->parent()));
+            newClassifier = findUMLObject(parentItem->parent())->asUMLClassifier();
         }
         if (!newClassifier) {
             uWarning() << "New parent of object is not a Classifier - Drop had already been accepted - check!";
@@ -809,7 +809,7 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
     }
     if (t == UMLObject::ot_Operation) {
         DEBUG(DBG_SRC) << "Moving operation";
-        UMLOperation *op = static_cast<UMLOperation*>(movingObject);
+        UMLOperation *op = movingObject->asUMLOperation();
         if (newClassifier->checkOperationSignature(op->name(), op->getParmList())) {
             QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->name())
                           +
@@ -817,9 +817,9 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
             KMessageBox::error(this, msg, i18n("Operation Name Invalid"), 0);
             return;
         }
-        UMLOperation* newOp = static_cast<UMLOperation*>(op->clone());
+        UMLOperation* newOp = op->clone()->asUMLOperation();
 
-        UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(op->parent());
+        UMLClassifier *oldClassifier = op->umlParent()->asUMLClassifier();
         if (oldClassifier) {
             oldClassifier->removeOperation(op);
             DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
@@ -830,7 +830,7 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
     }
     else if (t == UMLObject::ot_Attribute) {
         DEBUG(DBG_SRC) << "Moving attribute";
-        UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
+        UMLAttribute *att = movingObject->asUMLAttribute();
         if (newClassifier->getAttributeList().contains(att)) {
             QString msg = i18n("An attribute with that name already exists in %1.\n", newClassifier->name())
                           +
@@ -838,9 +838,9 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
             KMessageBox::error(this, msg, i18n("Attribute Name Invalid"), 0);
             return;
         }
-        UMLAttribute* newAtt = static_cast<UMLAttribute*>(att->clone());
+        UMLAttribute* newAtt = att->clone()->asUMLAttribute();
 
-        UMLClassifier *oldClassifier = dynamic_cast<UMLClassifier*>(att->parent());
+        UMLClassifier *oldClassifier = att->umlParent()->asUMLClassifier();
         if (oldClassifier) {
             oldClassifier->removeAttribute(att);
             DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer

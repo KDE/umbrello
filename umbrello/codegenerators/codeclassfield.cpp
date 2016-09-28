@@ -73,7 +73,7 @@ CodeClassField::~CodeClassField ()
  */
 void CodeClassField::setParentUMLObject (UMLObject * obj)
 {
-    UMLRole *role = dynamic_cast<UMLRole*>(obj);
+    UMLRole *role = obj->asUMLRole();
     if(role) {
         UMLAssociation * parentAssoc = role->parentAssociation();
         Uml::AssociationType::Enum atype = parentAssoc->getAssocType();
@@ -113,7 +113,7 @@ QString CodeClassField::getListObjectType()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+        UMLRole * role = getParentObject()->asUMLRole();
         if (role)
             return getUMLObjectName(role->object());
     }
@@ -330,7 +330,7 @@ int CodeClassField::minimumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+        UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
             uError() << "no valid parent object";
             return -1;
@@ -358,7 +358,7 @@ int CodeClassField::maximumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+        UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
             uError() << "no valid parent object";
             return -1;
@@ -442,7 +442,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // design.
         Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
         {
-            UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
+            UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
                 uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
             if(role && m->getType() == type && role->role() == role_id)
@@ -527,7 +527,9 @@ void CodeClassField::updateContent()
             method->setWriteOutText(m_writeOutMethods);
         return;
     }
-    UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+    UMLRole * role = getParentObject()->asUMLRole();
+    if (!role)
+        return;
     Uml::Changeability::Enum changeType = role->changeability();
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
@@ -620,7 +622,7 @@ bool CodeClassField::fieldIsSingleValue ()
     if(parentIsAttribute())
         return true;
 
-    UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
+    UMLRole * role = getParentObject()->asUMLRole();
     if(!role)
         return true; // it is really an attribute
 

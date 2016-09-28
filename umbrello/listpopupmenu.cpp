@@ -400,7 +400,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Category:
        {
-         QMenu* m = makeCategoryTypeMenu(static_cast<UMLCategory*>(object->umlObject()));
+         QMenu* m = makeCategoryTypeMenu(object->umlObject()->asUMLCategory());
          m->setTitle(i18n("Category Type"));
          addMenu(m);
          insertSubMenuColor(object->useFillColor());
@@ -830,10 +830,8 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
         break;
     case mt_Component_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_component_diagram"));
-            //don't keep a local copy of pointer which resides somewhere else (in this case - in actionCollection())
-            //m_actions[m] = act;
-            menu->addAction(act);
+            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_component_diagram"));
+            insert(mt_Component_Diagram, menu, action->icon(), action->text());
         }
         break;
     case mt_Node:
@@ -841,9 +839,8 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
         break;
     case mt_Deployment_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_deployment_diagram"));
-            //m_actions[m] = act;
-            menu->addAction(act);
+            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_deployment_diagram"));
+            insert(mt_Deployment_Diagram, menu, action->icon(), action->text());
         }
         break;
     case mt_Deployment_Folder:
@@ -857,9 +854,8 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
         break;
     case mt_EntityRelationship_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_entityrelationship_diagram"));
-            //m_actions[m] = act;
-            menu->addAction(act);
+            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_entityrelationship_diagram"));
+            insert(mt_EntityRelationship_Diagram, menu, action->icon(), action->text());
         }
         break;
     case mt_Category:
@@ -873,9 +869,8 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
         break;
     case mt_UseCase_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_use_case_diagram"));
-            //m_actions[m] = act;
-            menu->addAction(act);
+            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_use_case_diagram"));
+            insert(mt_UseCase_Diagram, menu, action->icon(), action->text());
         }
         break;
     case mt_FloatText:
@@ -993,11 +988,16 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
     insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
     insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
     if (folderAndDiagrams) {
-        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_class_diagram")));
-        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_sequence_diagram")));
-        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_collaboration_diagram")));
-        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_state_diagram")));
-        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_activity_diagram")));
+        QAction *action = UMLApp::app()->actionCollection()->action(QLatin1String("new_class_diagram"));
+        insert(mt_Class_Diagram, menu, action->icon(), action->text());
+        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_sequence_diagram"));
+        insert(mt_Sequence_Diagram, menu, action->icon(), action->text());
+        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_collaboration_diagram"));
+        insert(mt_Collaboration_Diagram, menu, action->icon(), action->text());
+        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_state_diagram"));
+        insert(mt_State_Diagram, menu, action->icon(), action->text());
+        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_activity_diagram"));
+        insert(mt_Activity_Diagram, menu, action->icon(), action->text());
     }
     addMenu(menu);
 }
@@ -1118,7 +1118,7 @@ void ListPopupMenu::insertSubmodelAction()
         uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
         return;
     }
-    UMLFolder *f = dynamic_cast<UMLFolder*>(o);
+    UMLFolder *f = o->asUMLFolder();
     if (f == NULL) {
         uError() << o->name() << " is not a Folder";
         return;
@@ -1859,7 +1859,7 @@ void ListPopupMenu::setupMenu(MenuType type)
                 uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
                 return;
             }
-            QMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
+            QMenu* menu = makeCategoryTypeMenu(m_TriggerObject.m_Object->asUMLCategory());
             menu->setTitle(i18n("Category Type"));
             addMenu(menu);
             insertStdItems(false);

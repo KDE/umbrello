@@ -16,6 +16,7 @@
 #include "findresults.h"
 #include "uml.h"
 #include "diagramswindow.h"
+#include "objectswindow.h"
 #include "stereotypeswindow.h"
 
 // kde includes
@@ -49,8 +50,10 @@ public:
     FindResults findResults;
     QListWidget *logWindow;         ///< Logging window.
     KToggleAction *viewDiagramsWindow;
+    KToggleAction *viewObjectsWindow;
     KToggleAction *viewStereotypesWindow;
     DiagramsWindow *diagramsWindow;
+    ObjectsWindow *objectsWindow;
     StereotypesWindow *stereotypesWindow;
 
     KTextEditor::Editor *editor;
@@ -63,6 +66,7 @@ public:
         viewDiagramsWindow(0),
         viewStereotypesWindow(0),
         diagramsWindow(0),
+        objectsWindow(0),
         stereotypesWindow(0),
         view(0),
         document(0)
@@ -106,7 +110,7 @@ public slots:
     void createDiagramsWindow()
     {
         // create the tree viewer
-        diagramsWindow = new DiagramsWindow(parent);
+        diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
 
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
@@ -114,10 +118,20 @@ public slots:
         connect(viewDiagramsWindow, &KToggleAction::triggered, diagramsWindow, &DiagramsWindow::setVisible);
     }
 
+    void createObjectsWindow()
+    {
+        // create the object window
+        objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
+        parent->addDockWidget(Qt::RightDockWidgetArea, objectsWindow);
+
+        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_objects_window"));
+        connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
+    }
+
     void createStereotypesWindow()
     {
         // create the tree viewer
-        stereotypesWindow = new StereotypesWindow(parent);
+        stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
         viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));

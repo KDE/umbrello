@@ -66,7 +66,7 @@ QString CPPCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = dynamic_cast<UMLAttribute*>(getParentObject());
+        UMLAttribute * at = getParentObject()->asUMLAttribute();
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {

@@ -152,7 +152,7 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
     m_pUMLObject = object;
     m_docTE->setText(m_pUMLObject->doc());
     if (m_pUMLObject->baseType() == UMLObject::ot_Folder) {
-        UMLFolder *folder = dynamic_cast<UMLFolder*>(m_pUMLObject);
+        UMLFolder *folder = m_pUMLObject->asUMLFolder();
         updateLabel(folder->localName());
     }
     else

@@ -58,6 +58,16 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
     return classImporter;
 }
 
+ClassImport::ClassImport(CodeImpThread* thread)
+  : m_thread(thread),
+    m_enabled(true)
+{
+}
+
+ClassImport::~ClassImport()
+{
+}
+
 /**
  * Do initializations before importing a single file.
  * This is called by importFile() before calling parseFile().

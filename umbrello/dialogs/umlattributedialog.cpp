@@ -84,8 +84,8 @@ bool UMLAttributeDialog::apply()
         ui->nameLE->setText(m_pAttribute->name());
         return false;
     }
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pAttribute->parent());
-    UMLObject *o = pConcept->findChildObject(name);
+    UMLClassifier * pConcept = m_pAttribute->umlParent()->asUMLClassifier();
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), 0);
@@ -100,13 +100,13 @@ bool UMLAttributeDialog::apply()
 
     m_pAttribute->setInitialValue(ui->initialValueLE->text());
     ui->stereotypeWidget->apply();
-    ui->documentationWidget->apply();
+    m_pAttribute->setStatic(ui->classifierScopeCB->isChecked());
     if(activeLanguage == Uml::ProgrammingLanguage::Cpp){
         ui->typeQualifiersWidget->apply();
         ui->typeModifierWidget->apply();
-        m_pAttribute->setStatic(ui->classifierScopeCB->isChecked());
     }
     ui->dataTypeWidget->apply();
+    ui->documentationWidget->apply();
 
     return true;
 }

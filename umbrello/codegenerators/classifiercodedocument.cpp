@@ -129,7 +129,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
     {
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
-            UMLRole * role = dynamic_cast<UMLRole*>((*it)->getParentObject());
+            UMLRole * role = (*it)->getParentObject()->asUMLRole();
             if (!role) {
                 uError() << "invalid parent object type";
                 return false;
@@ -301,7 +301,7 @@ QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
  */
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
-    UMLOperation *op = dynamic_cast<UMLOperation*>(o);
+    UMLOperation *op = o->asUMLOperation();
     if (op == NULL) {
         uError() << "arg is not a UMLOperation";
         return;
@@ -657,7 +657,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
                 return cf;
         } else { // association(role)-based
             const Uml::RoleType::Enum r = Uml::RoleType::fromInt(role_id);
-            UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
+            UMLRole * role = cf->getParentObject()->asUMLRole();
             if(role && Uml::ID::fromString(cf->ID()) == id && role->role() == r)
                 return cf;
         }

@@ -1,0 +1,48 @@
+/***************************************************************************
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   copyright (C) 2002-2014                                               *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
+ ***************************************************************************/
+
+ /* Created by Bouchikhi Mohamed-Amine */
+
+#include "cmdchangemultiplicity.h"
+
+// app includes
+#include "umlrole.h"
+
+// kde includes
+#include <KLocalizedString>
+
+namespace Uml
+{
+    CmdChangeMultiplicity::CmdChangeMultiplicity(UMLRole *role, const QString &multi)
+      : m_umlRole(role), m_newMulti(multi)
+    {
+        setText(i18n("Change multiplicity : %1 to %2", role->name(), multi));
+        m_oldMulti = m_umlRole->multiplicity();
+    }
+
+    void CmdChangeMultiplicity::undo()
+    {
+        if (!m_oldMulti.isEmpty()) {
+            m_umlRole->setMultiplicity(m_oldMulti);
+        }
+        else {
+            m_umlRole->setMultiplicity(QString());
+        }
+    }
+
+    void CmdChangeMultiplicity::redo()
+    {
+        m_umlRole->setMultiplicity(m_newMulti);
+    }
+}
+
+/* line to add the commande in the undo/redo list :
+UMLApp::app()->executeCommand(new CmdChangeMulti(UMLRole role, QString newMulti));
+*/

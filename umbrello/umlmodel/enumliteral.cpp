@@ -110,7 +110,7 @@ bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) const
  */
 void UMLEnumLiteral::copyInto(UMLObject *lhs) const
 {
-    UMLEnumLiteral *target = static_cast<UMLEnumLiteral*>(lhs);
+    UMLEnumLiteral *target = lhs->asUMLEnumLiteral();
     UMLClassifierListItem::copyInto(lhs);
 
     target->m_Value = m_Value;
@@ -121,7 +121,7 @@ void UMLEnumLiteral::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLEnumLiteral::clone() const
 {
-    UMLEnumLiteral *clone = new UMLEnumLiteral((UMLObject *) parent());
+    UMLEnumLiteral *clone = new UMLEnumLiteral(umlParent());
     copyInto(clone);
 
     return clone;

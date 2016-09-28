@@ -775,7 +775,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
                 newParentId = oldParentId;
             }
 
-            newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
+            newParent = doc->findObjectById(newParentId)->asUMLPackage();
         }
 
         if (newParent == 0) {
@@ -846,7 +846,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
             uError() << "Bad parent for view.";
             return false;
         }
-        UMLFolder *f = static_cast<UMLFolder*>(po);
+        UMLFolder *f = po->asUMLFolder();
         UMLView* view = new UMLView(f);
         view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);

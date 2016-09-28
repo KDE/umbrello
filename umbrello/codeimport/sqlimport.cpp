@@ -652,7 +652,7 @@ bool SQLImport::parseCreateTable(QString &token)
     UMLFolder *folder = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Entity,
                    tableName, folder, m_comment);
-    UMLEntity *entity = dynamic_cast<UMLEntity*>(o);
+    UMLEntity *entity = o->asUMLEntity();
     m_comment.clear();
     if (token.toLower() == QLatin1String("as")) {
         skipStmt(QLatin1String(";"));
@@ -720,7 +720,7 @@ bool SQLImport::parseAlterTable(QString &token)
                 if (!o) {
                     // report error
                 }
-                UMLEntity *entity = dynamic_cast<UMLEntity*>(o);
+                UMLEntity *entity = o->asUMLEntity();
                 if (!addPrimaryKey(entity, constraintName, fieldNames)) {
                     ; // reporter error
                 }
@@ -731,7 +731,7 @@ bool SQLImport::parseAlterTable(QString &token)
                 if (!o) {
                     // report error
                 }
-                UMLEntity *entity = dynamic_cast<UMLEntity*>(o);
+                UMLEntity *entity = o->asUMLEntity();
                 if (!addUniqueConstraint(entity, constraintName, fieldNames)) {
                     ; // report error
                 }
@@ -760,7 +760,7 @@ bool SQLImport::parseAlterTable(QString &token)
                 if (!o) {
                     // report error
                 }
-                UMLEntity *entity = dynamic_cast<UMLEntity*>(o);
+                UMLEntity *entity = o->asUMLEntity();
                 if (!addForeignConstraint(entity, constraintName, localFieldNames, referencedTableName, referencedFieldNames)) {
                     ; // report error
                 }
@@ -845,7 +845,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
     if (type.at(0).toLower() == QLatin1String("enum")) {
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
-        UMLEnum *enumType = dynamic_cast<UMLEnum*>(datatype);
+        UMLEnum *enumType = datatype->asUMLEnum();
         if (enumType) {
             for (int i = 2; i < type.size(); i++) {
                 Import_Utils::addEnumLiteral(enumType, type.at(i));
@@ -962,7 +962,7 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
 
     UMLFolder *root = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
     UMLObject *o = UMLApp::app()->document()->findUMLObject(referencedTable, UMLObject::ot_Entity, root);
-    UMLEntity *entityB = dynamic_cast<UMLEntity*>(o);
+    UMLEntity *entityB = o->asUMLEntity();
     if (!entityB)
         return false;
 
