@@ -53,7 +53,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     ui->nameLE->setText(m_pEntityAttribute->name());
     ui->defaultValueLE->setText(m_pEntityAttribute->getInitialValue());
-    ui->lenghtValuesLE->setText(m_pEntityAttribute->getValues());
+    ui->lengthValuesLE->setText(m_pEntityAttribute->getValues());
 
     // enable/disable isNull depending on the state of Auto Increment Check Box
     slotAutoIncrementStateChanged(ui->autoIncrementCB->isChecked());
@@ -132,7 +132,7 @@ bool UMLEntityAttributeDialog::apply()
     m_pEntityAttribute->setName(name);
     m_pEntityAttribute->setInitialValue(ui->defaultValueLE->text());
     ui->stereotypeWidget->apply();
-    m_pEntityAttribute->setValues(ui->lenghtValuesLE->text());
+    m_pEntityAttribute->setValues(ui->lengthValuesLE->text());
     m_pEntityAttribute->setAttributes(ui->attributeTypesCB->currentText());
     m_pEntityAttribute->setAutoIncrement(ui->autoIncrementCB->isChecked());
     m_pEntityAttribute->setNull(ui->allowNullCB->isChecked());
