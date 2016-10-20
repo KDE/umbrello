@@ -17,6 +17,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
+#include "datatype.h"
 #include "operation.h"
 #include "debug_utils.h"
 #include "ast_utils.h"
@@ -168,7 +169,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                 UMLObject *typedefObj =
                  Import_Utils::createUMLObject(UMLObject::ot_Datatype, id,
                                                m_currentNamespace[m_nsCnt]);
-                UMLClassifier *dt = typedefObj->asUMLClassifier();
+                UMLDatatype *dt = typedefObj->asUMLDatatype();
                 dt->setIsReference();
                 dt->setOriginType(inner->asUMLClassifier());
             } else {

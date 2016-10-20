@@ -2888,7 +2888,7 @@ UMLClassifierList UMLDoc::datatypes()
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
-        if (obj->baseType() == UMLObject::ot_Datatype) {
+        if (obj->isUMLDatatype()) {
             datatypeList.append(obj->asUMLClassifier());
         }
     }

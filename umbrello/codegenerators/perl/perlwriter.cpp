@@ -290,7 +290,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   QString SV = QChar(QLatin1Char('$'));
   QString HV = QChar(QLatin1Char('%'));
   foreach (UMLPackage* conc, includes) {
-    if (conc->baseType() == UMLObject::ot_Datatype)
+    if (conc->isUMLDatatype())
         continue;
     QString neatName = cleanName(conc->name());
     if (neatName != AV && neatName != SV && neatName != HV) {

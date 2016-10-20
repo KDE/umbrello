@@ -83,7 +83,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     foreach (UMLPackage* con, imports) {
-        if (con->baseType() == UMLObject::ot_Datatype)
+        if (con->isUMLDatatype())
             continue;
         QString pkg = con->package();
         if (!pkg.isEmpty() && pkg != c->package())

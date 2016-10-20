@@ -351,7 +351,7 @@ void DClassifierCodeDocument::updateContent()
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!packageMap.contains(con) && con->baseType() != UMLObject::ot_Datatype)
+        if (!packageMap.contains(con) && !con->isUMLDatatype())
         {
             packageMap.insert(con, con->package());
 

@@ -16,6 +16,7 @@
 #include "documentationwidget.h"
 #include "dialog_utils.h"
 #include "classifier.h"
+#include "datatype.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -101,13 +102,15 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     int row = 2;
-    UMLClassifier *c = m_pObject->asUMLClassifier();
-    if (c && c->isReference() && c->originType()) {
-        QLabel *label = new QLabel(i18n("Reference:"), this);
-        m_pNameLayout->addWidget(label, row, 0);
-        QLabel *reference = new QLabel(c->originType()->name(), this);
-        m_pNameLayout->addWidget(reference, row, 1);
-        ++row;
+    if (m_pObject->isUMLDatatype()) {
+        UMLDatatype *d = m_pObject->asUMLDatatype();
+        if (d && d->isReference() && d->originType()) {
+            QLabel *label = new QLabel(i18n("Reference:"), this);
+            m_pNameLayout->addWidget(label, row, 0);
+            QLabel *reference = new QLabel(d->originType()->name(), this);
+            m_pNameLayout->addWidget(reference, row, 1);
+            ++row;
+        }
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum) {

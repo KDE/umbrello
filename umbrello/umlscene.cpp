@@ -25,6 +25,7 @@
 #include "classoptionspage.h"
 #include "cmds.h"
 #include "componentwidget.h"
+#include "datatype.h"
 #include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
@@ -2406,13 +2407,13 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     if (tmpUmlObj == NULL)
         return;
     // if the underlying model object is really a UMLClassifier then
-    if (tmpUmlObj->baseType() == UMLObject::ot_Datatype) {
-        UMLClassifier *dt = tmpUmlObj->asUMLClassifier();
+    if (tmpUmlObj->isUMLDatatype()) {
+        UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
         while (dt->originType() != NULL) {
             tmpUmlObj = dt->originType();
-            if (tmpUmlObj->baseType() != UMLObject::ot_Datatype)
+            if (!tmpUmlObj->isUMLDatatype())
                 break;
-            dt = tmpUmlObj->asUMLClassifier();
+            dt = tmpUmlObj->asUMLDatatype();
         }
     }
     if (tmpUmlObj->baseType() != UMLObject::ot_Class)
@@ -2472,8 +2473,8 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         }
     }
     // if the attribute type is a Datatype then
-    if (type->baseType() == UMLObject::ot_Datatype) {
-        UMLClassifier *dt = type->asUMLClassifier();
+    if (type->isUMLDatatype()) {
+        UMLDatatype *dt = type->asUMLDatatype();
         // if the Datatype is a reference (pointer) type
         if (dt->isReference()) {
             //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;

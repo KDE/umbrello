@@ -264,7 +264,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         findObjectsRelated(c, imports);
         if (imports.count()) {
             foreach (UMLPackage* con, imports) {
-                if (con->baseType() == UMLObject::ot_Datatype)
+                if (con->isUMLDatatype())
                     continue;
                 QString pkgDep = packageName(con);
                 if (pkgDep != pkg)
@@ -292,7 +292,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                         ada << indent() << "type " << formalName << " is new " << typeName
                             << " with private;  -- CHECK: codegen error"
                             << m_endl;
-                    } else if (typeObj->baseType() == UMLObject::ot_Datatype) {
+                    } else if (typeObj->isUMLDatatype()) {
                         ada << indent() << formalName << " : " << typeName << ";"
                             << m_endl;
                     } else {

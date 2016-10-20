@@ -149,7 +149,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
     if (includes.count()) {
         foreach (UMLPackage* conc, includes) {
-            if (conc->baseType() == UMLObject::ot_Datatype)
+            if (conc->isUMLDatatype())
                 continue;
             QString incName = findFileName(conc, QLatin1String(".idl"));
             if (!incName.isEmpty())

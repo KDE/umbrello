@@ -64,7 +64,6 @@ UMLClassifier::UMLClassifier(const QString & name, Uml::ID::Type id)
 {
     m_BaseType = UMLObject::ot_Class;  // default value
     m_pClassAssoc = NULL;
-    m_isRef = false;
 }
 
 /**
@@ -117,14 +116,6 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
 bool UMLClassifier::isInterface() const
 {
     return (m_BaseType == ot_Interface);
-}
-
-/**
- * Returns true if this classifier represents a datatype.
- */
-bool UMLClassifier::isDatatype() const
-{
-    return (m_BaseType == ot_Datatype);
 }
 
 /**
@@ -1260,42 +1251,6 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
 }
 
 /**
- * Set the origin type (in case of e.g. typedef)
- * @param origType   the origin type to set
- */
-void UMLClassifier::setOriginType(UMLClassifier *origType)
-{
-    m_pSecondary = origType;
-}
-
-/**
- * Get the origin type (in case of e.g. typedef)
- * @return   the origin type
- */
-UMLClassifier * UMLClassifier::originType() const
-{
-    return m_pSecondary->asUMLClassifier();
-}
-
-/**
- * Set the m_isRef flag (true when dealing with a pointer type)
- * @param isRef   the flag to set
- */
-void UMLClassifier::setIsReference(bool isRef)
-{
-    m_isRef = isRef;
-}
-
-/**
- * Get the m_isRef flag.
- * @return   true if is reference, otherwise false
- */
-bool UMLClassifier::isReference() const
-{
-    return m_isRef;
-}
-
-/**
  * Return true if this classifier has associations.
  * @return   true if classifier has associations
  */
@@ -1415,9 +1370,6 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         case UMLObject::ot_Interface:
             tag = QLatin1String("UML:Interface");
             break;
-        case UMLObject::ot_Datatype:
-            tag = QLatin1String("UML:DataType");
-            break;
         case UMLObject::ot_Package:
             UMLPackage::saveToXMI(qDoc, qElement);
             return;
@@ -1427,9 +1379,6 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             return;
     }
     QDomElement classifierElement = UMLObject::save(tag, qDoc);
-    if (m_BaseType == UMLObject::ot_Datatype && m_pSecondary != NULL)
-        classifierElement.setAttribute(QLatin1String("elementReference"),
-                                        Uml::ID::toString(m_pSecondary->id()));
 
     //save templates
     UMLClassifierListItemList list = getFilteredList(UMLObject::ot_Template);
@@ -1514,18 +1463,13 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 /**
  * Auxiliary to loadFromXMI:
  * The loading of operations is implemented here.
- * Calls loadSpecialized() for any other tag.
- * Child classes can override the loadSpecialized method
+ * Calls loadFromXMI() for any other tag.
+ * Child classes can override the loadFromXMI() method
  * to load its additional tags.
  */
 bool UMLClassifier::load(QDomElement& element)
 {
     UMLClassifierListItem *child = NULL;
-    m_SecondaryId = element.attribute(QLatin1String("elementReference"));
-    if (!m_SecondaryId.isEmpty()) {
-        // @todo We do not currently support composition.
-        m_isRef = true;
-    }
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {

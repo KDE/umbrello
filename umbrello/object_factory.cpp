@@ -22,6 +22,7 @@
 #include "cmds.h"
 #include "codegenerator.h"
 #include "component.h"
+#include "datatype.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "entity.h"
@@ -135,8 +136,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         }
         case UMLObject::ot_Datatype: {
-            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(UMLObject::ot_Datatype);
+            UMLDatatype *c = new UMLDatatype(name, g_predefinedId);
             o = c;
             break;
         }
@@ -401,8 +401,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             || UMLDoc::tagEq(xmiTag, QLatin1String("Datatype"))   // for bkwd compat.
             || UMLDoc::tagEq(xmiTag, QLatin1String("Primitive"))
             || UMLDoc::tagEq(xmiTag, QLatin1String("PrimitiveType"))) {
-        UMLClassifier *c = new UMLClassifier();
-        c->setBaseType(UMLObject::ot_Datatype);
+        UMLDatatype *c = new UMLDatatype();
         pObject = c;
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Enumeration")) ||
                UMLDoc::tagEq(xmiTag, QLatin1String("Enum"))) {   // for bkwd compat.
