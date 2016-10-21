@@ -163,7 +163,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                         typeId == m_currentNamespace[m_nsCnt]->name())
                     inner = m_currentNamespace[m_nsCnt];
                 else
-                    inner = Import_Utils::createUMLObject(UMLObject::ot_Class, typeId,
+                    inner = Import_Utils::createUMLObject(UMLObject::ot_Class, type,
                                                           m_currentNamespace[m_nsCnt]);
                 UMLObject *typedefObj =
                  Import_Utils::createUMLObject(UMLObject::ot_Datatype, id,
