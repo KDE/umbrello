@@ -17,6 +17,7 @@
 #include "association.h"
 #include "classifier.h"
 #include "codegen_utils.h"
+#include "datatype.h"
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -450,6 +451,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 
     // PUBLIC attribs/methods
     cpp << "public:" << m_endl << m_endl; // print visibility decl.
+    writeDataTypes(c, Uml::Visibility::Public, cpp);
     // for public: constructors are first ops we print out
     if (!c->isInterface())
         writeConstructorDecls(cpp);
@@ -460,6 +462,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     // PROTECTED attribs/methods
     //
     cpp << "protected" << ":" << m_endl << m_endl; // print visibility decl.
+    writeDataTypes(c, Uml::Visibility::Protected, cpp);
     writeHeaderFieldDecl(c, Uml::Visibility::Protected, cpp);
     writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, cpp);
     writeOperations(c, true, Uml::Visibility::Protected, cpp);
@@ -467,6 +470,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     // PRIVATE attribs/methods
     //
     cpp << "private" << ":" << m_endl << m_endl; // print visibility decl.
+    writeDataTypes(c, Uml::Visibility::Private, cpp);
     writeHeaderFieldDecl(c, Uml::Visibility::Private, cpp);
     writeHeaderAccessorMethodDecl(c, Uml::Visibility::Private, cpp);
     writeOperations(c, true, Uml::Visibility::Private, cpp);
@@ -1108,6 +1112,26 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
     // empty destructor
     stream << indent() << className_ << "::~" << className_ << " () { }" << m_endl;
     writeBlankLine(stream);
+}
+
+/**
+ * Write all datatypes for a given class.
+ * @param c                the class for which we are generating code
+ * @param permitScope      what type of method to write (by Scope)
+ * @param cpp              the stream associated with the output file
+ */
+void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
+{
+    foreach (UMLObject* o, c->containedObjects()) {
+        if (o->visibility() != permitScope)
+            continue;
+        if (!o->isUMLDatatype())
+            continue;
+        UMLDatatype *d = o->asUMLDatatype();
+        if (d && d->isReference() && d->originType()) {
+            stream << indent() << "typedef " << d->originType()->name() << " " << d->name() << ";" << m_endl;
+        }
+    }
 }
 
 /**
