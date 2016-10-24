@@ -159,6 +159,10 @@ public:
     void setName(const QString& name);
     QString name() const;
 
+    void setResolution(qreal resolution);
+    qreal resolution() const;
+    qreal dpiScale() const;
+
     Uml::ID::Type modelID() const;
 
     static bool tagEq (const QString& tag, const QString& pattern);
@@ -318,6 +322,12 @@ private:
     DiagramsModel *m_diagramsModel;
     ObjectsModel *m_objectsModel;
     StereotypesModel *m_stereotypesModel;
+
+    /**
+     * Holds widgets coordinates resolution.
+     * Unit is dpi.
+     */
+    qreal m_resolution;
 
 public slots:
     void slotRemoveUMLObject(UMLObject*o);

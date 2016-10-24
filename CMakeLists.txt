@@ -246,6 +246,7 @@ endmacro(add_unstable_feature)
 add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
 add_unstable_feature(UML_OBJECTS_WINDOW) # objects dock window
+add_unstable_feature(XMIRESOLUTION) # see https://bugs.kde.org/show_bug.cgi?id=90103
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)

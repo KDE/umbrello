@@ -72,7 +72,7 @@ protected:
 
     void save(QDomDocument& qDoc, QDomElement& qElement);
 
-    bool loadDiagramsFromXMI(QDomNode& diagrams);
+    bool loadDiagramsFromXMI(QDomNode& node);
 
     bool loadFolderFile(const QString& path);
 
