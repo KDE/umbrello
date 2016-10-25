@@ -12,35 +12,36 @@
 #include "object_factory.h"
 
 // app includes
-#include "debug_utils.h"
-#include "umlobject.h"
-#include "umlpackagelist.h"
-#include "package.h"
-#include "folder.h"
-#include "classifier.h"
+#include "actor.h"
+#include "artifact.h"
+#include "association.h"
 #include "attribute.h"
-#include "operation.h"
+#include "category.h"
+#include "checkconstraint.h"
+#include "classifier.h"
+#include "cmds.h"
+#include "codegenerator.h"
+#include "component.h"
+#include "datatype.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "entity.h"
-#include "actor.h"
-#include "usecase.h"
-#include "component.h"
-#include "port.h"
-#include "node.h"
-#include "artifact.h"
-#include "stereotype.h"
-#include "category.h"
-#include "association.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "uniqueconstraint.h"
+#include "folder.h"
 #include "foreignkeyconstraint.h"
-#include "checkconstraint.h"
-#include "codegenerator.h"
-#include "model_utils.h"
-#include "uniqueid.h"
-#include "cmds.h"
 #include "instance.h"
+#include "model_utils.h"
+#include "node.h"
+#include "package.h"
+#include "port.h"
+#include "operation.h"
+#include "stereotype.h"
+#include "usecase.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlpackagelist.h"
+#include "uniqueconstraint.h"
+#include "uniqueid.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -131,8 +132,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         }
         case UMLObject::ot_Datatype: {
-            UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(UMLObject::ot_Datatype);
+            UMLDatatype *c = new UMLDatatype(name, g_predefinedId);
             o = c;
             break;
         }
@@ -405,8 +405,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             || UMLDoc::tagEq(xmiTag, QLatin1String("Datatype"))   // for bkwd compat.
             || UMLDoc::tagEq(xmiTag, QLatin1String("Primitive"))
             || UMLDoc::tagEq(xmiTag, QLatin1String("PrimitiveType"))) {
-        UMLClassifier *c = new UMLClassifier();
-        c->setBaseType(UMLObject::ot_Datatype);
+        UMLDatatype *c = new UMLDatatype();
         pObject = c;
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Enumeration")) ||
                UMLDoc::tagEq(xmiTag, QLatin1String("Enum"))) {   // for bkwd compat.

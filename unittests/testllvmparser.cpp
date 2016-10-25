@@ -69,7 +69,8 @@ public:
 
     virtual void HandleTranslationUnit(clang::ASTContext &Context)
     {
-        Visitor.TraverseDecl(Context.getTranslationUnitDecl());
+        if (!Visitor.TraverseDecl(Context.getTranslationUnitDecl()))
+            llvm::errs() << "could not parse file";
     }
 
 private:
@@ -82,6 +83,7 @@ public:
     virtual std::unique_ptr<clang::ASTConsumer>
     CreateASTConsumer(clang::CompilerInstance &Compiler, llvm::StringRef InFile)
     {
+        Q_UNUSED(InFile);
         return std::unique_ptr<clang::ASTConsumer>(
             new FindNamedClassConsumer(&Compiler.getASTContext()));
     }

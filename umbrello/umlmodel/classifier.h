@@ -132,14 +132,6 @@ public:
 
     bool isInterface() const;
 
-    bool isDatatype() const;
-
-    void setOriginType(UMLClassifier *origType);
-    UMLClassifier * originType() const;
-
-    void setIsReference(bool isRef = true);
-    bool isReference() const;
-
     bool hasAbstractOps();
     bool hasAssociations();
     bool hasAttributes();
@@ -177,8 +169,6 @@ signals:
 private:
 
     UMLAssociation *m_pClassAssoc;
-
-    bool m_isRef;
 
     /**
      * Utility method called by "get*ChildClassfierList()" methods. It basically

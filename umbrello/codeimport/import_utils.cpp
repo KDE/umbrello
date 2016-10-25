@@ -16,6 +16,7 @@
 #include "artifact.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "datatype.h"
 #include "debug_utils.h"
 #include "folder.h"
 #include "enum.h"
@@ -275,9 +276,9 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
-            UMLClassifier *dt = o->asUMLClassifier();
+            UMLDatatype *dt = o ? o->asUMLDatatype() : NULL;
             UMLClassifier *c = origType->asUMLClassifier();
-            if (c)
+            if (dt && c)
                 dt->setOriginType(c);
             else
                 uError() << "createUMLObject(" << name << "): "
@@ -328,7 +329,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
-        if (p == NULL || p->baseType() == UMLObject::ot_Datatype)
+        if (p == NULL || p->isUMLDatatype())
             continue;
         const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);

@@ -3279,7 +3279,7 @@
       <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="zKeUCT61MFDV" name="client"/>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
-      <diagrams>
+      <diagrams resolution="88">
        <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="class diagram" font="Noto Sans,9,-1,0,50,0,0,0,0,0" canvasheight="1724" canvaswidth="2995.23" localid="-1" snapcsgrid="0" showgrid="0" showops="0" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="0" fillcolor="#ffffc0" zoom="94" xmi.id="TGcjrcWrBVaN" documentation="" showscope="1" snapgrid="0" showatts="1" type="1">
         <widgets>
          <classwidget linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" showoperations="0" textcolor="#000000" usesdiagramusefillcolor="0" showpubliconly="0" showpackage="1" x="73" showattsigs="601" showstereotype="1" y="1107" showattributes="1" font="Noto Sans,9,-1,0,50,0,0,0,0,0" localid="SGEsI1ooVpGH" width="83" isinstance="0" usefillcolor="0" fillcolor="#ffffc0" xmi.id="LlxwhUsIdhSb" showscope="1" height="19" showopsigs="601"/>

@@ -640,7 +640,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             {
                 UMLObject *objA = a->getObject(Uml::RoleType::A);
                 UMLObject *objB = a->getObject(Uml::RoleType::B);
-                if (objA == c && objB->baseType() != UMLObject::ot_Datatype) {
+                if (objA == c && !objB->isUMLDatatype()) {
                     temp = objB->asUMLPackage();
                 }
             }
@@ -661,14 +661,14 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         temp = 0;
         //check return value
         temp = (UMLClassifier*) op->getType();
-        if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
+        if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
             cList.append(temp);
         }
         //check parameters
         UMLAttributeList atl = op->getParmList();
         foreach(UMLAttribute *at, atl) {
             temp = (UMLClassifier*)at->getType();
-            if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
+            if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
                 cList.append(temp);
             }
         }
@@ -680,7 +680,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         foreach (UMLAttribute *at, atl) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
-            if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
+            if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
                 cList.append(temp);
             }
         }

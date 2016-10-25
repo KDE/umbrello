@@ -186,7 +186,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         pas << "uses" << m_endl;
         bool first = true;
         foreach (UMLPackage* con, imports) {
-            if (con->baseType() != UMLObject::ot_Datatype) {
+            if (!con->isUMLDatatype()) {
                 if (first)
                     first = false;
                 else

@@ -129,6 +129,7 @@ private:
 
     void writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream);
     void writeInitAttributeDecl(UMLClassifier * c, QTextStream &stream);
+    void writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream);
 
     QString umlObjectName(UMLObject *obj);
 

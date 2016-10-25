@@ -1,7 +1,7 @@
 
 <!-- 
 ========= umbrello specific ========= 
-    XMI_FILE_VERSION 1.6.3
+    XMI_FILE_VERSION 1.6.11
 =====================================  
 -->
 <!ENTITY % ids
@@ -15,6 +15,7 @@
 
 <!ELEMENT diagrams ANY >
 <!ATTLIST diagrams
+          resolution CDATA #IMPLIED
 >
 <!ELEMENT diagram ANY >
 <!ATTLIST diagram

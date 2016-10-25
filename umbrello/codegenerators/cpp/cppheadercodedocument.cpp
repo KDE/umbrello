@@ -419,7 +419,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     CodeGenerator::findObjectsRelated(c, includes);
     foreach(UMLPackage* con, includes) {
-        if (con->baseType() != UMLObject::ot_Datatype && !packageMap.contains(con)) {
+        if (!con->isUMLDatatype() && !packageMap.contains(con)) {
             packageMap.insert(con, con->package());
             if(con != getParentClassifier())
                 includeStatement.append(QLatin1String("#include \"") + CodeGenerator::cleanName(con->name().toLower()) + QLatin1String(".h\"") + endLine);

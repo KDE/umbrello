@@ -14,6 +14,8 @@
 // application includes
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlwidget.h"
 
 // qt includes
@@ -309,11 +311,12 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     if(startElement.isNull() || startElement.tagName() != QLatin1String("startpoint")) {
         return false;
     }
+    qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
     qreal nX = toDoubleFromAnyLocale(x);
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
     qreal nY = toDoubleFromAnyLocale(y);
-    QPointF startPoint(nX, nY);
+    QPointF startPoint(nX * dpiScale, nY * dpiScale);
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
@@ -324,8 +327,8 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     nX = toDoubleFromAnyLocale(x);
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
     nY = toDoubleFromAnyLocale(y);
-    QPointF endPoint(nX, nY);
-    setEndPoints(startPoint, endPoint);
+    QPointF endPoint(nX * dpiScale, nY * dpiScale);
+    setEndPoints(startPoint * dpiScale, endPoint * dpiScale);
     QPointF point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
@@ -336,7 +339,7 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
             y = element.attribute(QLatin1String("y"), QLatin1String("0"));
             point.setX(toDoubleFromAnyLocale(x));
             point.setY(toDoubleFromAnyLocale(y));
-            insertPoint(i++, point);
+            insertPoint(i++, point * dpiScale);
         }
         node = element.nextSibling();
         element = node.toElement();
@@ -351,21 +354,26 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
  */
 void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-    QPointF point = m_associationWidget->mapToScene(startPoint());
     QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
     lineElement.setAttribute(QLatin1String("layout"), toString(m_layout));
     QDomElement startElement = qDoc.createElement(QLatin1String("startpoint"));
+
+    qreal dpiScale = UMLApp::app()->document()->dpiScale();
+    QPointF point = m_associationWidget->mapToScene(startPoint());
+    point /= dpiScale;
     startElement.setAttribute(QLatin1String("startx"), QString::number(point.x()));
     startElement.setAttribute(QLatin1String("starty"), QString::number(point.y()));
     lineElement.appendChild(startElement);
     QDomElement endElement = qDoc.createElement(QLatin1String("endpoint"));
     point = m_associationWidget->mapToScene(endPoint());
+    point /= dpiScale;
     endElement.setAttribute(QLatin1String("endx"), QString::number(point.x()));
     endElement.setAttribute(QLatin1String("endy"), QString::number(point.y()));
     lineElement.appendChild(endElement);
     for(int i = 1; i < count()-1; ++i) {
         QDomElement pointElement = qDoc.createElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
+        point /= dpiScale;
         pointElement.setAttribute(QLatin1String("x"), QString::number(point.x()));
         pointElement.setAttribute(QLatin1String("y"), QString::number(point.y()));
         lineElement.appendChild(pointElement);

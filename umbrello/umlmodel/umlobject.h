@@ -32,6 +32,7 @@ class UMLClassifier;
 class UMLClassifierListItem;
 class UMLClassifierSet;
 class UMLComponent;
+class UMLDatatype;
 class UMLEntity;
 class UMLEntityAttribute;
 class UMLEntityConstraint;
@@ -211,6 +212,7 @@ public:
     bool isUMLCheckConstraint() { return baseType() == ot_CheckConstraint; }
     bool isUMLClassifier() { return baseType() == ot_Class; }
     bool isUMLComponent() { return baseType() == ot_Component; }
+    bool isUMLDatatype() { return baseType() == ot_Datatype; }
     bool isUMLEntity() { return baseType() == ot_Entity; }
     bool isUMLEntityAttribute() { return baseType() == ot_EntityAttribute; }
     bool isUMLEntityConstraint() { return baseType() == ot_EntityConstraint; }
@@ -242,6 +244,7 @@ public:
     UMLClassifierListItem* asUMLClassifierListItem();
     UMLClassifierSet* asUMLClassifierSet();
     UMLComponent* asUMLComponent();
+    UMLDatatype* asUMLDatatype();
     UMLEntity* asUMLEntity();
     UMLEntityAttribute* asUMLEntityAttribute();
     UMLEntityConstraint* asUMLEntityConstraint();

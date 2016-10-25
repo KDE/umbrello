@@ -59,6 +59,7 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QDateTime>
+#include <QDesktopWidget>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -96,7 +97,8 @@ UMLDoc::UMLDoc()
     m_bClosing(false),
     m_diagramsModel(new DiagramsModel),
     m_objectsModel(new ObjectsModel),
-    m_stereotypesModel(new StereotypesModel(&m_stereoList))
+    m_stereotypesModel(new StereotypesModel(&m_stereoList)),
+    m_resolution(0.0)
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
         m_root[i] = 0;
@@ -406,7 +408,7 @@ bool UMLDoc::newDocument()
     closeDocument();
     UMLApp::app()->setCurrentView(0);
     setUrlUntitled();
-
+    setResolution(qApp->desktop()->logicalDpiX());
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
     Uml::DiagramType::Enum dt = optionState.generalState.diagram;
@@ -447,6 +449,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
 
     m_doc_url = url;
     closeDocument();
+    setResolution(0.0);
     // IMPORTANT: set m_bLoading to true
     // _AFTER_ the call of UMLDoc::closeDocument()
     // as it sets m_bLoading to false after it was temporarily
@@ -1775,6 +1778,41 @@ QString UMLDoc::name() const
 }
 
 /**
+ * Set coordinates resolution for current document.
+
+ * @param document resolution in DPI
+ */
+void UMLDoc::setResolution(qreal resolution)
+{
+    m_resolution = resolution;
+}
+
+/**
+ * Returns coordinates resolution for current document.
+
+ * @return document resolution in DPI
+ */
+qreal UMLDoc::resolution() const
+{
+    return m_resolution;
+}
+
+/**
+ * Returns scale factor for recalculation of document coordinates.
+
+ * @return scale factor
+ */
+qreal UMLDoc::dpiScale() const
+{
+#ifdef ENABLE_XMIRESOLUTION
+    if (resolution() != 0.0)
+        return (qreal)qApp->desktop()->logicalDpiX() / resolution();
+    else
+#endif
+        return 1.0;
+}
+
+/**
  * Return the m_modelID (currently this a fixed value:
  * Umbrello supports only a single document.)
  */
@@ -2510,6 +2548,18 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
                 return;
             }
             diagramNode = diagramNode.firstChild();
+        } else {
+            qreal resolution = 0.0;
+            QString res = node.toElement().attribute(QLatin1String("resolution"), QLatin1String(""));
+            if (!res.isEmpty()) {
+               resolution = res.toDouble();
+            }
+            if (resolution != 0.0) {
+               UMLApp::app()->document()->setResolution(resolution);
+            } else {
+               // see UMLFolder::loadDiagramsFromXMI()
+               UMLApp::app()->document()->setResolution(0.0);
+            }
         }
         if (!loadDiagramsFromXMI(diagramNode)) {
             uWarning() << "failed load on diagrams";
@@ -2697,7 +2747,7 @@ UMLClassifierList UMLDoc::datatypes()
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
-        if (obj->baseType() == UMLObject::ot_Datatype) {
+        if (obj->isUMLDatatype()) {
             datatypeList.append(obj->asUMLClassifier());
         }
     }

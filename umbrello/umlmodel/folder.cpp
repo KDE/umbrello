@@ -290,6 +290,8 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
     // Save diagrams to `extension'.
     if (m_diagrams.count()) {
         QDomElement diagramsElement = qDoc.createElement(QLatin1String("diagrams"));
+        if (UMLApp::app()->document()->resolution() != 0.0)
+            diagramsElement.setAttribute(QLatin1String("resolution"), UMLApp::app()->document()->resolution());
 
         foreach (UMLView* pView, m_diagrams) {
             pView->umlScene()->saveToXMI(qDoc, diagramsElement);
@@ -378,8 +380,25 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  * Auxiliary to load():
  * Load the diagrams from the "diagrams" in the <XMI.extension>
  */
-bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
+bool UMLFolder::loadDiagramsFromXMI(QDomNode& node)
 {
+    qreal resolution = 0.0;
+    QString res = node.toElement().attribute(QLatin1String("resolution"), QLatin1String(""));
+    if (!res.isEmpty()) {
+       resolution = res.toDouble();
+    }
+    if (resolution != 0.0) {
+       UMLApp::app()->document()->setResolution(resolution);
+    } else {
+       /* FIXME how to get dpi ?
+        * 1. from user -> will open a dialog box for any old file
+        * 2. after loading from user changeable document settings
+        * 3. estimated from contained widgets
+        */
+       UMLApp::app()->document()->setResolution(0.0);
+    }
+
+    QDomNode diagrams = node.firstChild();
     const Settings::OptionState optionState = Settings::optionState();
     UMLDoc *umldoc = UMLApp::app()->document();
     bool totalSuccess = true;
@@ -486,8 +505,7 @@ bool UMLFolder::load(QDomElement& element)
                 QDomElement el = xtnode.toElement();
                 const QString xtag = el.tagName();
                 if (xtag == QLatin1String("diagrams")) {
-                    QDomNode diagramNode = xtnode.firstChild();
-                    if (!loadDiagramsFromXMI(diagramNode))
+                    if (!loadDiagramsFromXMI(xtnode))
                         totalSuccess = false;
                 } else if (xtag == QLatin1String("external_file")) {
                     const QString rootDir(umldoc->url().adjusted(QUrl::RemoveFilename).path());

@@ -1269,6 +1269,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "checkconstraint.h"
 #include "classifier.h"
 #include "component.h"
+#include "datatype.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "entityconstraint.h"
@@ -1298,6 +1299,7 @@ UMLCheckConstraint* UMLObject::asUMLCheckConstraint() { return dynamic_cast<UMLC
 UMLClassifier* UMLObject::asUMLClassifier() { return dynamic_cast<UMLClassifier*>(this); }
 UMLClassifierListItem *UMLObject::asUMLClassifierListItem() { return dynamic_cast<UMLClassifierListItem*>(this); }
 UMLComponent* UMLObject::asUMLComponent() { return dynamic_cast<UMLComponent*>(this); }
+UMLDatatype *UMLObject::asUMLDatatype() { return dynamic_cast<UMLDatatype*>(this); }
 UMLEntity* UMLObject::asUMLEntity() { return dynamic_cast<UMLEntity*>(this); }
 UMLEntityAttribute* UMLObject::asUMLEntityAttribute() { return dynamic_cast<UMLEntityAttribute*>(this); }
 UMLEntityConstraint* UMLObject::asUMLEntityConstraint() { return dynamic_cast<UMLEntityConstraint*>(this); }
