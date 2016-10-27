@@ -102,7 +102,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
 
     case Uml::AssociationType::State:
         {
-            StateWidget *pState = dynamic_cast<StateWidget*>(widget);
+            StateWidget *pState = widget->asStateWidget();
             return (pState == NULL || pState->stateType() != StateWidget::End);
         }
         break;
@@ -110,7 +110,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Activity:
     case Uml::AssociationType::Exception:
         {
-            ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
+            ActivityWidget *pActivity = widget->asActivityWidget();
             return (pActivity == NULL || pActivity->activityType() != ActivityWidget::End);
         }
         break;
@@ -224,18 +224,18 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
                 return false;
             }
         }
-        if (widgetB->baseType() == WidgetBase::wt_Class) {
+        if (widgetB->isClassWidget()) {
             return widgetB->umlObject()->isAbstract();
-        } else if (widgetB->baseType() == WidgetBase::wt_Interface ||
-                   widgetB->baseType() == WidgetBase::wt_Package) {
+        } else if (widgetB->isInterfaceWidget() ||
+                   widgetB->isPackageWidget()) {
             return true;
         }
         break;
 
     case Uml::AssociationType::State:
         {
-            StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
-            StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
+            StateWidget *stateA = widgetA->asStateWidget();
+            StateWidget *stateB = widgetB->asStateWidget();
             if (stateA && stateB) {
                 if (stateB->stateType() == StateWidget::Initial)
                     return false;
@@ -251,8 +251,8 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
     case Uml::AssociationType::Exception:
         {
 
-            ActivityWidget *actA = dynamic_cast<ActivityWidget*>(widgetA);
-            ActivityWidget *actB = dynamic_cast<ActivityWidget*>(widgetB);
+            ActivityWidget *actA = widgetA->asActivityWidget();
+            ActivityWidget *actB = widgetB->asActivityWidget();
 
             bool isSignal = false;
             bool isObjectNode = false;
@@ -277,7 +277,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
-                dynamic_cast<ForkJoinWidget*>(widgetA) == NULL && !isSignal &&!isObjectNode) {
+                widgetA->asForkJoinWidget() == NULL && !isSignal &&!isObjectNode) {
                 return false;
             }
             // only Forks and Branches can have more than one "outgoing" transition

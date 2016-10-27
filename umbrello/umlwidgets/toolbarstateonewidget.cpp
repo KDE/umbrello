@@ -139,10 +139,10 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-               (currentWidget()->baseType() != WidgetBase::wt_Object &&
-                currentWidget()->baseType() != WidgetBase::wt_Activity &&
-                currentWidget()->baseType() != WidgetBase::wt_Component &&
-                currentWidget()->baseType() != WidgetBase::wt_Region)) {
+               (!currentWidget()->isObjectWidget() &&
+                !currentWidget()->isActivityWidget() &&
+                !currentWidget()->isComponentWidget() &&
+                !currentWidget()->isRegionWidget())) {
         return;
     }
 
@@ -191,10 +191,10 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     }
 
     if (widgetType() == WidgetBase::wt_Pin) {
-        if (m_firstObject->baseType() == WidgetBase::wt_Activity) {
+        if (m_firstObject->isActivityWidget()) {
             umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
-        } else if (m_firstObject->baseType() == WidgetBase::wt_Component) {
+        } else if (m_firstObject->isComponentWidget()) {
             bool pressedOK = false;
 #if QT_VERSION >= 0x050000
             QString name = QInputDialog::getText(UMLApp::app(),

@@ -71,10 +71,8 @@ namespace Uml
      */
     void CmdBaseWidgetCommand::addWidgetToScene(UMLWidget* umlWidget)
     {
-        if (umlWidget->baseType() == WidgetBase::wt_Message) {
-            scene()->messageList().append(
-                dynamic_cast<MessageWidget*>(umlWidget)
-            );
+        if (umlWidget->isMessageWidget()) {
+            scene()->messageList().append(umlWidget->asMessageWidget());
         } else {
             scene()->widgetList().append(umlWidget);
         }

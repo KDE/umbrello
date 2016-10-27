@@ -270,7 +270,7 @@ bool ToolBarStateOther::newWidget()
         break;
     case WorkToolBar::tbb_Seq_Combined_Fragment:
         {
-            dynamic_cast<CombinedFragmentWidget*>(umlWidget)->askNameForWidgetType(
+            umlWidget->asCombinedFragmentWidget()->askNameForWidgetType(
                 umlWidget, i18n("Enter Combined Fragment Name"),
                 i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
         }
@@ -291,12 +291,12 @@ bool ToolBarStateOther::newWidget()
         break;
     case WorkToolBar::tbb_Object_Node:
         {
-            dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
+            umlWidget->asObjectNodeWidget()->askForObjectNodeType(umlWidget);
         }
         break;
     case WorkToolBar::tbb_PrePostCondition:
         {
-            dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(umlWidget);
+            umlWidget->asNoteWidget()->askForNoteType(umlWidget);
         }
         break;
     default:

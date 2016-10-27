@@ -672,16 +672,16 @@ bool AssociationWidget::operator==(const AssociationWidget& other) const
     if (widgetIDForRole(RoleType::B) != other.widgetIDForRole(RoleType::B))
         return false;
 
-    if (widgetForRole(RoleType::A)->baseType() == WidgetBase::wt_Object &&
-            other.widgetForRole(RoleType::A)->baseType() == WidgetBase::wt_Object) {
+    if (widgetForRole(RoleType::A)->isObjectWidget() &&
+            other.widgetForRole(RoleType::A)->isObjectWidget()) {
         ObjectWidget *ownA = static_cast<ObjectWidget*>(widgetForRole(RoleType::A));
         ObjectWidget *otherA = static_cast<ObjectWidget*>(other.widgetForRole(RoleType::A));
         if (ownA->localID() != otherA->localID())
             return false;
     }
 
-    if (widgetForRole(RoleType::B)->baseType() == WidgetBase::wt_Object &&
-            other.widgetForRole(RoleType::B)->baseType() == WidgetBase::wt_Object) {
+    if (widgetForRole(RoleType::B)->isObjectWidget() &&
+            other.widgetForRole(RoleType::B)->isObjectWidget()) {
         ObjectWidget *ownB = static_cast<ObjectWidget*>(widgetForRole(RoleType::B));
         ObjectWidget *otherB = static_cast<ObjectWidget*>(other.widgetForRole(RoleType::B));
         if (ownB->localID() != otherB->localID())
@@ -1517,7 +1517,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
         uError() << "umlWidget is NULL";
         return Uml::ID::None;
     }
-    if (m_role[role].umlWidget->baseType() == WidgetBase::wt_Object)
+    if (m_role[role].umlWidget->isObjectWidget())
         return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
     Uml::ID::Type id = m_role[role].umlWidget->id();
     return id;
@@ -1536,7 +1536,7 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
         uError() << "umlWidget is NULL";
         return Uml::ID::None;
     }
-    if (m_role[role].umlWidget->baseType() == WidgetBase::wt_Object)
+    if (m_role[role].umlWidget->isObjectWidget())
         return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
     Uml::ID::Type id = m_role[role].umlWidget->localID();
     return id;

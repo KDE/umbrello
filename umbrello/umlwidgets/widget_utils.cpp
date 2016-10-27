@@ -43,7 +43,7 @@ namespace Widget_Utils
                           const MessageWidgetList* messages /* = 0 */)
     {
         foreach (UMLWidget* obj, widgets) {
-            if (obj->baseType() == WidgetBase::wt_Object) {
+            if (obj->isObjectWidget()) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
                     return obj;
             } else if (obj->id() == id) {

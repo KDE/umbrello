@@ -310,7 +310,7 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 #endif
     if (pressedOK) {
         QString type = result.join(QString());
-        dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
+        targetWidget->asCombinedFragmentWidget()->setCombinedFragmentType(type);
         if (type == QLatin1String("Reference"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
         else if (type == QLatin1String(QLatin1String("Loop")))

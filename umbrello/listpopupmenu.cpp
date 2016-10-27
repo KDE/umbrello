@@ -364,9 +364,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, 
     setActionEnabled(mt_Cut, bCutState);
     setActionEnabled(mt_Copy, bCutState);
     bool pasteAvailable = false;
-    if (object->baseType() == WidgetBase::wt_Note &&
+    if (object->isNoteWidget() &&
             UMLApp::app()->listView()->startedCopy()) {
-        NoteWidget::s_pCurrentNote = static_cast<NoteWidget*>(object);
+        NoteWidget::s_pCurrentNote = object->asNoteWidget();
         pasteAvailable = true;
     }
     setActionEnabled(mt_Paste, pasteAvailable);
@@ -1038,8 +1038,8 @@ void ListPopupMenu::insertAssociationItem(MenuType mt)
     }
 
     if (m_TriggerObjectType == tot_Widget
-        && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
-        AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+        && m_TriggerObject.m_Widget->isAssociationWidget()) {
+        AssociationWidget *w = m_TriggerObject.m_Widget->asAssociationWidget();
         if (w->isPointAddable())
             insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
         if (w->isPointRemovable())

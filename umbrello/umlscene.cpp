@@ -551,11 +551,11 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
     if (setPosition) {
-        if (w->baseType() == WidgetBase::wt_Pin ||
-            w->baseType() == WidgetBase::wt_Port) {
-            PinPortBase *pw = static_cast<PinPortBase*>(w);
+        if (w->isPinWidget() ||
+            w->isPortWidget()) {
+            PinPortBase *pw = w->asPinPortBase();
             pw->attachToOwner();
-        } else if (w->baseType() != WidgetBase::wt_Object) {
+        } else if (!w->isObjectWidget()) {
             // ObjectWidget's position is handled by the widget
             w->setX(m_Pos.x());
             w->setY(m_Pos.y());
@@ -778,7 +778,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         bool breakFlag = false;
         UMLWidget* w = 0;
         foreach(w,  m_WidgetList) {
-            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(e->scenePos())) {
+            if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
                 breakFlag = true;
                 break;
             }
@@ -894,7 +894,7 @@ void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
     foreach(UMLWidget* obj, m_WidgetList) {
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+        ObjectWidget *ow = obj->asObjectWidget();
         if (ow == NULL)
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
@@ -919,7 +919,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
+        ObjectWidget *ow = obj->asObjectWidget();
         if (ow == NULL)
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
@@ -1369,7 +1369,7 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
     UMLApp::app()->beginMacro(i18n("Change visual property"));
 
     foreach(UMLWidget *temp, selectedWidgets()) {
-        ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
+        ClassifierWidget *cw = temp->asClassifierWidget();
         cw->setVisualProperty(property, value);
     }
 
@@ -1392,8 +1392,8 @@ void UMLScene::deleteSelection()
     foreach(UMLWidget* widget, selectedWidgets()) {
         //  Don't delete text widget that are connect to associations as these will
         //  be cleaned up by the associations.
-        if (widget->baseType() == WidgetBase::wt_Text &&
-                static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
+        if (widget->isTextWidget() &&
+                widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             widget->setSelectedFlag(false);
             widget->hide();
         } else {
@@ -1568,7 +1568,7 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 
     // Select messages that fall within the selection rectangle
     foreach(MessageWidget* temp, m_MessageList) {
-        selectWidget(dynamic_cast<UMLWidget*>(temp), &rect);
+        selectWidget(temp->asUMLWidget(), &rect);
     }
 
     // Select associations of selected widgets
@@ -1609,8 +1609,8 @@ void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
 
     //if it is text that is part of an association then select the association
     //and the objects that are connected to it.
-    if (widget->baseType() == WidgetBase::wt_Text) {
-        FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(widget);
+    if (widget->isTextWidget()) {
+        FloatingTextWidget *ft = widget->asFloatingTextWidget();
         Uml::TextRole::Enum t = ft->textRole();
         LinkWidget *lw = ft->link();
         MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
@@ -1621,8 +1621,8 @@ void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
             if (a)
                 selectWidgetsOfAssoc(a);
         }
-    } else if (widget->baseType() == WidgetBase::wt_Message) {
-        MessageWidget *mw = static_cast<MessageWidget*>(widget);
+    } else if (widget->isMessageWidget()) {
+        MessageWidget *mw = widget->asMessageWidget();
         makeSelected(mw);
     }
     if (widget->isVisible()) {
@@ -1725,7 +1725,7 @@ void UMLScene::activate()
     //Activate Regular widgets then activate  messages
     foreach(UMLWidget* obj, m_WidgetList) {
         //If this UMLWidget is already activated or is a MessageWidget then skip it
-        if (obj->isActivated() || obj->baseType() == WidgetBase::wt_Message) {
+        if (obj->isActivated() || obj->isMessageWidget()) {
             continue;
         }
 
@@ -1778,7 +1778,7 @@ int UMLScene::selectedCount(bool filterText) const
         return selectedWidgets().count();
     int counter = 0;
     foreach(UMLWidget* temp, selectedWidgets()) {
-        if (temp->baseType() == WidgetBase::wt_Text) {
+        if (temp->isTextWidget()) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
                 counter++;
@@ -1802,8 +1802,8 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
     UMLWidgetList widgetList;
 
     foreach(UMLWidget* widgt, selectedWidgets()) {
-        if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
-            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
+        if (filterText && widgt->isTextWidget()) {
+            FloatingTextWidget *ft = widgt->asFloatingTextWidget();
             if (ft->textRole() == Uml::TextRole::Floating)
                 widgetList.append(widgt);
         } else {
@@ -1839,7 +1839,7 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
     if (xIsOutOfRange || yIsOutOfRange) {
         QString name = pWidget->name();
         if (name.isEmpty()) {
-            FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(pWidget);
+            FloatingTextWidget *ft = pWidget->asFloatingTextWidget();
             if (ft)
                 name = ft->displayText();
         }
@@ -2114,8 +2114,8 @@ void UMLScene::removeAllWidgets()
     foreach(UMLWidget* temp, m_WidgetList) {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
-        if (!(temp->baseType() == WidgetBase::wt_Text &&
-              ((FloatingTextWidget *)temp)->textRole() != TextRole::Floating)) {
+        if (!(temp->isTextWidget() &&
+              temp->asFloatingTextWidget()->textRole() != TextRole::Floating)) {
             removeWidgetCmd(temp);
         }
     }
@@ -3527,9 +3527,9 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // We DON'T want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if ((widget->baseType() != WidgetBase::wt_Text &&
-             widget->baseType() != WidgetBase::wt_FloatingDashLine) ||
-             static_cast<FloatingTextWidget*>(widget)->link() == NULL)
+        if ((!widget->isTextWidget() &&
+             !widget->isFloatingDashLineWidget()) ||
+             widget->asFloatingTextWidget()->link() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);

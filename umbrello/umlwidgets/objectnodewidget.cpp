@@ -330,7 +330,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
 #endif
 
     if (pressedOK) {
-        dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
+        targetWidget->asObjectNodeWidget()->setObjectNodeType(type);
         if (type == QLatin1String("Data store"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the data store node"), i18n("Enter the name of the data store node"), i18n("data store name"));
         if (type == QLatin1String("Central buffer"))

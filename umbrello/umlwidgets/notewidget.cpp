@@ -202,7 +202,7 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 #endif
 
     if (pressedOK) {
-        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
+        targetWidget->asNoteWidget()->setNoteType(type);
     } else {
         targetWidget->cleanup();
         delete targetWidget;
