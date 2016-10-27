@@ -541,7 +541,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget) {
-            if (pasteToDiagramCopiedFrom && widget->baseType() == WidgetBase::wt_Object) {
+            if (pasteToDiagramCopiedFrom && widget->isObjectWidget()) {
                 delete widget;
                 widgetNode = widgetNode.nextSibling();
                 widgetElement = widgetNode.toElement();
@@ -571,8 +571,8 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             // UMLObject can be distinguished from the first widget
             widget->setLocalID(doc->assignNewID(widget->localID()));
 
-            if (widget->baseType() == WidgetBase::wt_Message) {
-                MessageWidget *w = static_cast<MessageWidget*>(widget);
+            if (widget->isMessageWidget()) {
+                MessageWidget *w = widget->asMessageWidget();
                 if (w && w->floatingTextWidget()) {
                     w->floatingTextWidget()->setLocalID(doc->assignNewID(w->floatingTextWidget()->localID()));
                     w->floatingTextWidget()->setID(doc->assignNewID(w->floatingTextWidget()->id()));
@@ -598,7 +598,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     // preconditions
     if (!pasteToDiagramCopiedFrom) {
         foreach (UMLWidget* widget, widgets) {
-            if (widget->baseType() == WidgetBase::wt_Object) {
+            if (widget->isObjectWidget()) {
                 executeCreateWidgetCommand(widget);
             }
         }
@@ -606,17 +606,17 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Now add all remaining widgets
     foreach (UMLWidget* widget, widgets) {
-        if (!pasteToDiagramCopiedFrom && widget->baseType() == WidgetBase::wt_Message) {
-            MessageWidget* message = dynamic_cast<MessageWidget*>(widget);
+        if (!pasteToDiagramCopiedFrom && widget->isMessageWidget()) {
+            MessageWidget* message = widget->asMessageWidget();
             message->resolveObjectWidget(log);
         }
 
-        if (widget->baseType() == WidgetBase::wt_Precondition) {
-            PreconditionWidget* precondition = dynamic_cast<PreconditionWidget*>(widget);
+        if (widget->isPreconditionWidget()) {
+            PreconditionWidget* precondition = widget->asPreconditionWidget();
             precondition->resolveObjectWidget(log);
         }
 
-        if (widget->baseType() != WidgetBase::wt_Object) {
+        if (!widget->isObjectWidget()) {
             executeCreateWidgetCommand(widget);
         }
     }

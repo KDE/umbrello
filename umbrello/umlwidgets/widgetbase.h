@@ -23,6 +23,37 @@
 
 // forward declarations
 class QAction;
+class ActivityWidget;
+class ActorWidget;
+class ArtifactWidget;
+class AssociationWidget;
+class BoxWidget;
+class CategoryWidget;
+class ClassifierWidget;
+class CombinedFragmentWidget;
+class ComponentWidget;
+class DatatypeWidget;
+class EntityWidget;
+class EnumWidget;
+class FloatingDashLineWidget;
+class FloatingTextWidget;
+class ForkJoinWidget;
+//class InterfaceWidget;
+class MessageWidget;
+class NodeWidget;
+class NoteWidget;
+class ObjectNodeWidget;
+class ObjectWidget;
+class PackageWidget;
+class PinWidget;
+class PortWidget;
+class PinPortBase;
+class PreconditionWidget;
+class RegionWidget;
+class SignalWidget;
+class StateWidget;
+//class TextWidget;
+class UseCaseWidget;
 class UMLDoc;
 class UMLObject;
 class UMLScene;
@@ -149,6 +180,69 @@ public:
     virtual UMLWidget* onWidget(const QPointF &p);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
+    bool isActivityWidget()         { return baseType() == wt_Activity; }
+    bool isActorWidget()            { return baseType() == wt_Actor; }
+    bool isArtifactWidget()         { return baseType() == wt_Artifact; }
+    bool isAssociationWidget()      { return baseType() == wt_Association; }
+    bool isBoxWidget()              { return baseType() == wt_Box; }
+    bool isCategoryWidget()         { return baseType() == wt_Category; }
+    bool isClassWidget()            { return baseType() == wt_Class; }
+    bool isCombinedFragmentWidget() { return baseType() == wt_CombinedFragment; }
+    bool isComponentWidget()        { return baseType() == wt_Component; }
+    bool isDatatypeWidget()         { return baseType() == wt_Datatype; }
+    bool isEntityWidget()           { return baseType() == wt_Entity; }
+    bool isEnumWidget()             { return baseType() == wt_Enum; }
+    bool isFloatingDashLineWidget() { return baseType() == wt_FloatingDashLine; }
+    bool isForkJoinWidget()         { return baseType() == wt_ForkJoin; }
+    bool isInterfaceWidget()        { return baseType() == wt_Interface; }
+    bool isMessageWidget()          { return baseType() == wt_Message; }
+    bool isNodeWidget()             { return baseType() == wt_Node; }
+    bool isNoteWidget()             { return baseType() == wt_Note; }
+    bool isObjectNodeWidget()       { return baseType() == wt_ObjectNode; }
+    bool isObjectWidget()           { return baseType() == wt_Object; }
+    bool isPackageWidget()          { return baseType() == wt_Package; }
+    bool isPinWidget()              { return baseType() == wt_Pin; }
+    bool isPortWidget()             { return baseType() == wt_Port; }
+    bool isPreconditionWidget()     { return baseType() == wt_Precondition; }
+    bool isRegionWidget()           { return baseType() == wt_Region; }
+    bool isSignalWidget()           { return baseType() == wt_Signal; }
+    bool isStateWidget()            { return baseType() == wt_State; }
+    bool isTextWidget()             { return baseType() == wt_Text; }
+    bool isUseCaseWidget()          { return baseType() == wt_UseCase; }
+
+    ActivityWidget* asActivityWidget();
+    ActorWidget* asActorWidget();
+    ArtifactWidget* asArtifactWidget();
+    AssociationWidget* asAssociationWidget();
+    BoxWidget* asBoxWidget();
+    CategoryWidget* asCategoryWidget();
+    ClassifierWidget* asClassifierWidget();
+    CombinedFragmentWidget* asCombinedFragmentWidget();
+    ComponentWidget* asComponentWidget();
+    DatatypeWidget* asDatatypeWidget();
+    EntityWidget* asEntityWidget();
+    EnumWidget* asEnumWidget();
+    FloatingDashLineWidget* asFloatingDashLineWidget();
+    ForkJoinWidget* asForkJoinWidget();
+    //InterfaceWidget* asInterfaceWidget();
+    MessageWidget* asMessageWidget();
+    NodeWidget* asNodeWidget();
+    NoteWidget* asNoteWidget();
+    ObjectNodeWidget* asObjectNodeWidget();
+    ObjectWidget* asObjectWidget();
+    PackageWidget* asPackageWidget();
+    PinWidget* asPinWidget();
+    PinPortBase* asPinPortBase();
+    PortWidget* asPortWidget();
+    PreconditionWidget* asPreconditionWidget();
+    RegionWidget* asRegionWidget();
+    SignalWidget* asSignalWidget();
+    StateWidget* asStateWidget();
+    FloatingTextWidget* asFloatingTextWidget();
+//    TextWidget* asTextWidget();
+    UseCaseWidget* asUseCaseWidget();
+    UMLWidget* asUMLWidget();
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction *trigger);

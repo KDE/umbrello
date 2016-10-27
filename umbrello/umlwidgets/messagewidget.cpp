@@ -790,7 +790,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
             DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
             return false;
         }
-        m_pOw[Uml::RoleType::A] = dynamic_cast<ObjectWidget*>(pWA);
+        m_pOw[Uml::RoleType::A] = pWA->asObjectWidget();
         if (m_pOw[Uml::RoleType::A] == NULL) {
             DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
                 << " is not an ObjectWidget";
@@ -803,7 +803,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
             DEBUG(DBG_SRC) << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
             return false;
         }
-        m_pOw[Uml::RoleType::B] = dynamic_cast<ObjectWidget*>(pWB);
+        m_pOw[Uml::RoleType::B] = pWB->asObjectWidget();
         if (m_pOw[Uml::RoleType::B] == NULL) {
             DEBUG(DBG_SRC) << "role B widget " << Uml::ID::toString(m_widgetBId)
                 << " is not an ObjectWidget";

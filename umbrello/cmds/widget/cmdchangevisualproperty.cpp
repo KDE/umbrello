@@ -40,7 +40,7 @@ namespace Uml
 
     void CmdChangeVisualProperty::redo()
     {
-        ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
+        ClassifierWidget* classifier = widget()->asClassifierWidget();
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_newValue);
         else
@@ -49,7 +49,7 @@ namespace Uml
 
     void CmdChangeVisualProperty::undo()
     {
-        ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
+        ClassifierWidget* classifier = widget()->asClassifierWidget();
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_oldValue);
         else

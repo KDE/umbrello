@@ -145,7 +145,7 @@ void ToolBarStateMessages::mouseReleaseWidget()
     //TODO When an association between UMLObjects of invalid types is made, an error message
     //is shown. Shouldn't also a message be used here?
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-                currentWidget()->baseType() != WidgetBase::wt_Object) {
+                !currentWidget()->isObjectWidget()) {
         cleanMessage();
         return;
     }

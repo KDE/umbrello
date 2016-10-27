@@ -1996,7 +1996,7 @@ bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
             break;
         case WidgetBase::wt_Text:
             {
-                FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(w);
+                FloatingTextWidget *ft = w->asFloatingTextWidget();
                 if (ft && ft->textRole() != Uml::TextRole::Floating) {
                     bAccept = false;
                 }

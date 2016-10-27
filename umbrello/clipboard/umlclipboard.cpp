@@ -236,8 +236,8 @@ void UMLClipboard::addRelatedWidgets()
     UMLWidget *pWA =0, *pWB = 0;
 
     foreach (UMLWidget* widget, m_WidgetList) {
-        if (widget->baseType() == WidgetBase::wt_Message) {
-            MessageWidget * pMessage = static_cast<MessageWidget *>(widget);
+        if (widget->isMessageWidget()) {
+            MessageWidget * pMessage = widget->asMessageWidget();
             pWA = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::A);
             pWB = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::B);
             if (!relatedWidgets.contains(pWA))
