@@ -364,7 +364,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         uDebug() << type << params;
 #endif
         QString id = fixID(Uml::ID::toString(widget->localID()));
-        if (widget->baseType() != WidgetBase::wt_Text)
+        if (!widget->isTextWidget())
             out << "\"" << id << "\""
                 << " [" << params.join(QLatin1String(",")) << "];\n";
     }

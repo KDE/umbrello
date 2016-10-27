@@ -1075,7 +1075,7 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
     UMLWidget *onW = scene->widgetAt(newPos);
-    if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
+    if (onW && !onW->isBoxWidget()) {  // boxes are transparent
         const qreal pX = newPos.x();
         const qreal pY = newPos.y();
         const qreal wX = onW->x();

@@ -112,7 +112,7 @@ void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget)
 void ToolBarStateAssociation::mouseReleaseAssociation()
 {
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-            !m_firstWidget || m_firstWidget->baseType() != WidgetBase::wt_Class) {
+            !m_firstWidget || !m_firstWidget->isClassWidget()) {
         cleanAssociation();
         return;
     }

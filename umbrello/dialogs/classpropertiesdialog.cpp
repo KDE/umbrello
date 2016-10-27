@@ -92,19 +92,19 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
     m_pWidget = w;
     m_pObject = w->umlObject();
 
-    if (w->baseType() == WidgetBase::wt_Class
-            || w->baseType() == WidgetBase::wt_Interface
-            || w->baseType() == WidgetBase::wt_Enum
-            || w->baseType() == WidgetBase::wt_Package
+    if (w->isClassWidget()
+            || w->isInterfaceWidget()
+            || w->isEnumWidget()
+            || w->isPackageWidget()
             || w->baseType() == WidgetBase::wt_Instance) {
         setupPages(true);
-    } else if (w->baseType() == WidgetBase::wt_Component) {
+    } else if (w->isComponentWidget()) {
         if (w->isInstance()) {
             setupInstancePages();
         } else {
             setupPages();
         }
-    } else if (w->baseType() == WidgetBase::wt_Node) {
+    } else if (w->isNodeWidget()) {
         setupInstancePages();
     } else if(w->baseType() == WidgetBase::wt_Instance) {
         setupInstanceAttributesPage();
@@ -113,8 +113,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
     }
 
     // now setup the options page for classes
-    if (w->baseType() == WidgetBase::wt_Class ||
-        w->baseType() == WidgetBase::wt_Interface) {
+    if (w->isClassWidget() || w->isInterfaceWidget()) {
         setupDisplayPage();
     }
     setupStylePage(m_pWidget);
