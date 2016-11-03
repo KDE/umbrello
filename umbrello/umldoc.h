@@ -234,6 +234,8 @@ public:
     void writeToStatusBar(const QString &text);
 
     void resolveTypes();
+    bool loadDiagrams();
+    void addDiagramToLoad(UMLFolder *folder, QDomNode node);
 
     DiagramsModel *diagramsModel();
     StereotypesModel *stereotypesModel();
@@ -315,6 +317,12 @@ private:
 
     DiagramsModel *m_diagramsModel;
     StereotypesModel *m_stereotypesModel;
+
+    /**
+     * Holds diagram xml nodes on loading
+     */
+    typedef QMap<UMLFolder*, QList<QDomNode>> DiagramsMap;
+    DiagramsMap m_diagramsToLoad;
 
 public slots:
     void slotRemoveUMLObject(UMLObject*o);

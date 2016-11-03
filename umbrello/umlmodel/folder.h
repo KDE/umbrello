@@ -70,7 +70,7 @@ protected:
 
     void save(QDomDocument& qDoc, QDomElement& qElement);
 
-    bool loadDiagramsFromXMI(QDomNode& diagrams);
+    bool loadDiagramsFromXMI(QDomNode& node);
 
     bool loadFolderFile(const QString& path);
 
@@ -87,6 +87,8 @@ private:
      */
     QString m_folderFile;
     UMLViewList m_diagrams;
+
+    friend class UMLDoc;
 };
 
 #endif

@@ -2504,29 +2504,11 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 // The existing item was created by the slot event triggered
                 // by the loading of the corresponding model object from the
                 // XMI file.
-                // This early creation is done in order to support the loading
-                // of foreign XMI files that do not have the umbrello specific
-                // <listview> tag.
-                // However, now that we encountered the real <listview> info,
-                // we need to delete the existing item: Its parent is always
-                // one of the default predefined folders, but the actual
-                // listview item might be located in a user created folder.
-                // Thanks to Achim Spangler for spotting the problem.
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
-                DEBUG(DBG_SRC) << item->text(0) << " parent "
+                DEBUG(DBG_SRC) << "Loaded <listview> entry does not match uml model"
+                               << item->text(0) << " parent "
                                << parent->text(0) << " (" << parent << ") != "
                                << itmParent->text(0) << " (" << itmParent << ")";
-                if (item == m_datatypeFolder && itmParent == m_lv[Uml::ModelType::Logical]) {
-                    DEBUG(DBG_SRC) << "Reparenting the Datatypes folder is prohibited";
-                } else {
-                    UMLListViewItem *newItem = moveObject(nID, lvType, parent);
-                    item = newItem;
-                    if (item) {
-                        DEBUG(DBG_SRC) << "Attempted reparenting of " << item->text(0)
-                                       << "(current parent: " << (itmParent ? itmParent->text(0) : QLatin1String("0"))
-                                       << ", new parent: " << parent->text(0) << ")";
-                    }
-                }
             }
             break;
         case UMLListViewItem::lvt_Attribute:
