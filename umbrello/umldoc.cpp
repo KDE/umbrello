@@ -2450,6 +2450,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     }
 
     resolveTypes();
+    loadDiagrams();
+
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
     if (UMLApp::app()->generator() == 0) {
         UMLApp::app()->setGenerator(UMLApp::app()->defaultLanguage());
@@ -2494,6 +2496,42 @@ void UMLDoc::resolveTypes()
     }
     m_bTypesAreResolved = true;
     qApp->processEvents();  // give UI events a chance
+}
+
+/**
+ * Load all diagrams collected from the xmi file.
+ *
+ * Loading diagrams is implemented as additional pass to avoid unresolved
+ * uml objects which are defined later in the xmi file.
+ */
+bool UMLDoc::loadDiagrams()
+{
+    bool result = true;
+    DiagramsMap::const_iterator i;
+    for (i = m_diagramsToLoad.constBegin(); i != m_diagramsToLoad.constEnd(); i++) {
+        UMLFolder *f = i.key();
+        foreach(QDomNode node, i.value())
+            if (!f->loadDiagramsFromXMI(node))
+                result = false;
+    }
+
+    m_diagramsToLoad.clear();
+    return result;
+}
+
+/**
+ * Add a xml node containing a diagram to the list of diagrams to load.
+ * Helper function for @ref loadDiagrams().
+ *
+ * @param folder pointer to UMFolder instance the diagrams belongs to
+ * @param node xml document node containing the diagram
+ */
+void UMLDoc::addDiagramToLoad(UMLFolder *folder, QDomNode node)
+{
+    if (m_diagramsToLoad.contains(folder))
+        m_diagramsToLoad[folder].append(node);
+    else
+        m_diagramsToLoad[folder] = QList<QDomNode>() << node;
 }
 
 DiagramsModel *UMLDoc::diagramsModel()

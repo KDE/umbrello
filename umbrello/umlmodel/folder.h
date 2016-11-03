@@ -89,6 +89,8 @@ private:
      */
     QString m_folderFile;
     UMLViewList m_diagrams;
+
+    friend class UMLDoc;
 };
 
 #endif

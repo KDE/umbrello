@@ -509,8 +509,7 @@ bool UMLFolder::load(QDomElement& element)
                 QDomElement el = xtnode.toElement();
                 const QString xtag = el.tagName();
                 if (xtag == QLatin1String("diagrams")) {
-                    if (!loadDiagramsFromXMI(xtnode))
-                        totalSuccess = false;
+                    umldoc->addDiagramToLoad(this, xtnode);
                 } else if (xtag == QLatin1String("external_file")) {
 #if QT_VERSION >= 0x050000
                     const QString rootDir(umldoc->url().adjusted(QUrl::RemoveFilename).path());
@@ -557,6 +556,16 @@ bool UMLFolder::load(QDomElement& element)
                 uWarning() << "Unknown type of umlobject to create: " << type;
                 continue;
             }
+        }
+        // check for invalid namespaces
+        QString ns = tempElement.attribute(QLatin1String("namespace"));
+        Uml::ID::Type id = Uml::ID::fromString(ns);
+        if (id != this->id()) {
+            uError() << "namespace" << ns << "not present; ignoring object with id" << idStr;
+            delete pObject;
+            pObject = 0;
+            totalSuccess = false;
+            continue;
         }
         pObject->setUMLPackage(this);
         if (!pObject->loadFromXMI(tempElement)) {
