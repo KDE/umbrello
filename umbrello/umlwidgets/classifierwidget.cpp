@@ -75,7 +75,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     setShowAttSigs(ops.classState.showAttSig);
 
     if (c && c->isInterface()) {
-        m_baseType = WidgetBase::wt_Interface;
+        setBaseType(WidgetBase::wt_Interface);
         m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
         setShowStereotype(true);
         updateSignatureTypes();
@@ -1152,7 +1152,7 @@ void ClassifierWidget::toggleDrawAsCircle()
  */
 void ClassifierWidget::changeToClass()
 {
-    m_baseType = WidgetBase::wt_Class;
+    setBaseType(WidgetBase::wt_Class);
     m_umlObject->setBaseType(UMLObject::ot_Class);
     setVisualPropertyCmd(DrawAsCircle, false);
     const Settings::OptionState& ops = m_scene->optionState();
@@ -1170,7 +1170,7 @@ void ClassifierWidget::changeToClass()
  */
 void ClassifierWidget::changeToInterface()
 {
-    m_baseType = WidgetBase::wt_Interface;
+    setBaseType(WidgetBase::wt_Interface);
     m_umlObject->setBaseType(UMLObject::ot_Interface);
 
     setVisualProperty(ShowAttributes, false);
@@ -1186,7 +1186,7 @@ void ClassifierWidget::changeToInterface()
  */
 void ClassifierWidget::changeToPackage()
 {
-    m_baseType = WidgetBase::wt_Package;
+    setBaseType(WidgetBase::wt_Package);
     m_umlObject->setBaseType(UMLObject::ot_Package);
 
     setVisualProperty(ShowAttributes, false);

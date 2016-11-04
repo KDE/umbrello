@@ -138,7 +138,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     if (this == &other)
         return true;
 
-    if (m_baseType != other.m_baseType) {
+    if (baseType() != other.baseType()) {
         return false;
     }
 
@@ -654,7 +654,7 @@ void UMLWidget::resizeWidget(qreal newW, qreal newH)
 void UMLWidget::updateWidget()
 {
     updateGeometry();
-    switch (m_baseType) {
+    switch (baseType()) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
         break;
@@ -981,7 +981,7 @@ void UMLWidget::setFillColorCmd(const QColor &color)
  */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
-    if (widgetHasUMLObject(m_baseType) && m_umlObject == NULL) {
+    if (widgetHasUMLObject(baseType()) && m_umlObject == NULL) {
         m_umlObject = m_doc->findObjectById(m_nId);
         if (m_umlObject == NULL) {
             uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
@@ -1324,7 +1324,7 @@ void UMLWidget::setSelectedFlag(bool _select)
 void UMLWidget::setSelected(bool _select)
 {
     WidgetBase::setSelected(_select);
-    const WidgetBase::WidgetType wt = m_baseType;
+    const WidgetBase::WidgetType wt = baseType();
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
