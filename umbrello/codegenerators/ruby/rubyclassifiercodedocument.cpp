@@ -353,7 +353,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
-    Q_ASSERT(c != NULL);
+    Q_ASSERT(c != 0);
     if (c) {
         UMLOperationList list = c->getOpList();
         hasOperationMethods = ! list.isEmpty();

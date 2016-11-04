@@ -218,10 +218,10 @@ Uml::ID::Type UMLWidget::localID() const
 UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
 {
     if (id == m_nLocalID ||
-        (m_umlObject != NULL && id == m_umlObject->id()) ||
+        (m_umlObject != 0 && id == m_umlObject->id()) ||
         id == m_nId)
         return this;
-    return NULL;
+    return 0;
 }
 
 /**
@@ -981,9 +981,9 @@ void UMLWidget::setFillColorCmd(const QColor &color)
  */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
-    if (widgetHasUMLObject(m_baseType) && m_umlObject == NULL) {
+    if (widgetHasUMLObject(m_baseType) && m_umlObject == 0) {
         m_umlObject = m_doc->findObjectById(m_nId);
-        if (m_umlObject == NULL) {
+        if (m_umlObject == 0) {
             uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
             return false;
         }

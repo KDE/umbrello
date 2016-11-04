@@ -302,7 +302,7 @@ QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
-    if (op == NULL) {
+    if (op == 0) {
         uError() << "arg is not a UMLOperation";
         return;
     }
@@ -670,7 +670,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
              << Uml::ID::toString(id) << " (role id:" << role_id
              << ") Do you have a corrupt classifier code document?";
 
-    return (CodeClassField*) NULL; // not found
+    return (CodeClassField*) 0; // not found
 }
 
 /**
@@ -785,7 +785,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
                 return m;
     }
     // if we get here, we failed.
-    return (TextBlock*) NULL;
+    return (TextBlock*) 0;
 }
 
 

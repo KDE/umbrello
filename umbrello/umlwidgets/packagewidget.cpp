@@ -74,7 +74,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     const int fontHeight  = fm.lineSpacing();
 
     painter->drawRect(0, 0, 50, fontHeight);
-    if (m_umlObject != NULL
+    if (m_umlObject != 0
          && m_umlObject->stereotype() == QLatin1String("subsystem")) {
 
         const int fHalf = fontHeight / 2;
@@ -91,7 +91,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setFont(font);
 
     int lines = 1;
-    if (m_umlObject != NULL) {
+    if (m_umlObject != 0) {
         QString stereotype = m_umlObject->stereotype();
         if (!stereotype.isEmpty()) {
             painter->drawText(0, fontHeight + PACKAGE_MARGIN,

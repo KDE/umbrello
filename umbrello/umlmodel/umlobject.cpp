@@ -534,7 +534,7 @@ void UMLObject::setStereotype(const QString &name)
 void UMLObject::setStereotypeCmd(const QString& name)
 {
     if (name.isEmpty()) {
-        setUMLStereotype(NULL);
+        setUMLStereotype(0);
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
@@ -557,7 +557,7 @@ UMLStereotype * UMLObject::umlStereotype()
  */
 QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 {
-    if (m_pStereotype == NULL)
+    if (m_pStereotype == 0)
         return QString();
     return m_pStereotype->name(includeAdornments);
 }
@@ -598,7 +598,7 @@ UMLPackageList UMLObject::packages(bool includeRoot) const
 {
     UMLPackageList pkgList;
     UMLPackage* pkg = umlPackage();
-    while (pkg != NULL) {
+    while (pkg != 0) {
         pkgList.prepend(pkg);
         pkg = pkg->umlPackage();
     }
@@ -619,7 +619,7 @@ bool UMLObject::setUMLPackage(UMLPackage *pPkg)
         return false;
     }
 
-    if (pPkg == NULL) {
+    if (pPkg == 0) {
         // Allow setting to NULL for stereotypes
         setParent(pPkg);
         return true;
@@ -749,13 +749,13 @@ bool UMLObject::resolveRef()
     // the type is the xmi.id of a UMLClassifier.
     if (! m_SecondaryId.isEmpty()) {
         m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
-        if (m_pSecondary != NULL) {
+        if (m_pSecondary != 0) {
             if (m_pSecondary->baseType() == ot_Stereotype) {
                 if (m_pStereotype)
                     m_pStereotype->decrRefCount();
                 m_pStereotype = m_pSecondary->asUMLStereotype();
                 m_pStereotype->incrRefCount();
-                m_pSecondary = NULL;
+                m_pSecondary = 0;
             }
             m_SecondaryId = QString();
             maybeSignalObjectCreated();
@@ -821,8 +821,8 @@ bool UMLObject::resolveRef()
         if (Model_Utils::isCommonDataType(m_SecondaryId))
             ot = ot_Datatype;
     }
-    m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, NULL);
-    if (m_pSecondary == NULL)
+    m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, 0);
+    if (m_pSecondary == 0)
         return false;
     m_SecondaryId = QString();
     maybeSignalObjectCreated();
@@ -880,7 +880,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
 #endif
     QString visibility = Uml::Visibility::toString(m_visibility, false);
     qElement.setAttribute(QLatin1String("visibility"), visibility);
-    if (m_pStereotype != NULL)
+    if (m_pStereotype != 0)
         qElement.setAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
     if (m_bStatic)
         qElement.setAttribute(QLatin1String("ownerScope"), QLatin1String("classifier"));

@@ -57,7 +57,7 @@ namespace Widget_Utils
                     return obj;
             }
         }
-        return NULL;
+        return 0;
     }
 
     /**

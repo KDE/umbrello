@@ -407,7 +407,7 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId
                                      const QString &type)
 {
     foreach (UMLAssociation * a, list) {
-        UMLClassifier  *classifier = NULL;
+        UMLClassifier  *classifier = 0;
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->doc());
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!

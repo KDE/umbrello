@@ -41,12 +41,12 @@ static const char description[] =
 
 int main(int argc, char *argv[])
 {
-  xsltStylesheetPtr cur = NULL;
+  xsltStylesheetPtr cur = 0;
   xmlDocPtr doc, res;
 
   const char *params[16 + 1];
   int nbparams = 0;
-  params[nbparams] = NULL;
+  params[nbparams] = 0;
 
   KAboutData aboutData("umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
                         umbrelloVersion(), ki18n(description), KAboutData::License_GPL,

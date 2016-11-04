@@ -118,7 +118,7 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
     // and that attribute should have an index on it :/
 
     // get the first attribute of list with auto increment
-    UMLEntityAttribute* autoIncrementEntAtt = NULL;
+    UMLEntityAttribute* autoIncrementEntAtt = 0;
     foreach(UMLEntityAttribute* ea, entAttList) {
        if (ea->getAutoIncrement()) {
            autoIncrementEntAtt = ea;
@@ -126,7 +126,7 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
        }
     }
 
-    if (autoIncrementEntAtt == NULL) {
+    if (autoIncrementEntAtt == 0) {
         return;
     }
 

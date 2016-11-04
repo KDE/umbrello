@@ -199,7 +199,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     // in case the path does not fit into the package hierachy 
     // we cannot check the imports 
     if (dirsInPackageCount >= file.size())
-        return NULL; 
+        return 0; 
 
     for (int count=0; count < dirsInPackageCount; ++count) {
         // pop off one by one the directories, until only the source root remains
@@ -224,7 +224,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 // we need to set the package for the class that will be resolved
                 // start at the root package
                 UMLPackage *parent = 0;
-                UMLPackage *current = NULL;
+                UMLPackage *current = 0;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
@@ -243,7 +243,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
             } // if file exists
         } // if import matches
     } //foreach import
-    return NULL; // no match
+    return 0; // no match
 }
 
 /**
@@ -506,7 +506,7 @@ bool JavaImport::parseStmt()
     QString typeName = m_source[m_srcIndex];
     typeName = joinTypename(typeName);
     // At this point we need a class.
-    if (m_klass == NULL) {
+    if (m_klass == 0) {
         uError() << "importJava: no class set for " << typeName;
         return false;
     }

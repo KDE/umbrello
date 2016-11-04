@@ -75,15 +75,15 @@ public:
     UMLAttributeList getAttributeListStatic(Uml::Visibility::Enum scope) const;
 
     UMLOperation* createOperation(const QString &name = QString(),
-                                  bool *isExistingOp = NULL,
-                                  Model_Utils::NameAndType_List *params = NULL);
+                                  bool *isExistingOp = 0,
+                                  Model_Utils::NameAndType_List *params = 0);
 
     bool addOperation(UMLOperation* op, int position = -1);
     bool addOperation(UMLOperation* op, IDChangeLog* log);
 
     UMLOperation * checkOperationSignature(const QString& name,
                                            UMLAttributeList opParams,
-                                           UMLOperation *exemptOp = NULL);
+                                           UMLOperation *exemptOp = 0);
 
     int removeOperation(UMLOperation *op);
 

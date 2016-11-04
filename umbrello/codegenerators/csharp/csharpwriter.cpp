@@ -191,7 +191,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 
     UMLPackage *container = c->umlPackage();
     if (container == logicalView)
-        container = NULL;
+        container = 0;
 
     UMLPackageList includes;
     findObjectsRelated(c, includes);
@@ -662,7 +662,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
             continue;
 
         UMLObject *o = a->getObject(Uml::RoleType::B);
-        if (o == NULL) {
+        if (o == 0) {
             uError() << "composition role B object is NULL";
             continue;
         }

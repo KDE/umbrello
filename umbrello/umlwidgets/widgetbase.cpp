@@ -533,7 +533,7 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     if (lineColor != QLatin1String("none")) {
         setLineColor(QColor(lineColor));
         m_usesDiagramLineColor = false;
-    } else if (m_baseType != WidgetBase::wt_Box && m_scene != NULL) {
+    } else if (m_baseType != WidgetBase::wt_Box && m_scene != 0) {
         setLineColor(m_scene->lineColor());
         m_usesDiagramLineColor = true;
     }
@@ -664,8 +664,8 @@ QRectF WidgetBase::boundingRect() const
 UMLWidget* WidgetBase::onWidget(const QPointF &p)
 {
     UMLWidget *uw = this->asUMLWidget();
-    if (uw == NULL)
-        return NULL;
+    if (uw == 0)
+        return 0;
     const qreal w = m_rect.width();
     const qreal h = m_rect.height();
     const qreal left = x();  // don't use m_rect.x() for this, it is always 0
@@ -678,7 +678,7 @@ UMLWidget* WidgetBase::onWidget(const QPointF &p)
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
         // uDebug() << "returning NULL";
-        return NULL;
+        return 0;
     }
     // uDebug() << "returning this";
     return uw;

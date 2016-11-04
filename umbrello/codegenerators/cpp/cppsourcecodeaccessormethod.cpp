@@ -48,7 +48,7 @@ void CPPSourceCodeAccessorMethod::updateContent()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
 
     // Check for dynamic casting failure!
-    if(cppfield == NULL)
+    if(cppfield == 0)
     {
         uError() << "cppfield: invalid dynamic cast";
         return;
@@ -58,7 +58,7 @@ void CPPSourceCodeAccessorMethod::updateContent()
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // Check for dynamic casting failure!
-    if(policy == NULL)
+    if(policy == 0)
     {
         uError() << "policy: invalid dynamic cast";
         return;
@@ -101,7 +101,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // Check for dynamic casting failure!
-    if (policy == NULL)
+    if (policy == 0)
     {
         uError() << "policy: invalid dynamic cast";
         return;
@@ -110,7 +110,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
 
     // Check for dynamic casting failure!
-    if (cppfield == NULL)
+    if (cppfield == 0)
     {
         uError() << "cppfield: invalid dynamic cast";
         return;

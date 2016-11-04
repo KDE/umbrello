@@ -284,7 +284,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     methodName(QLatin1String("readAttributes"));
     if (initialArgs.count() == 0) {
         uError() << loc() << "initialArgs is empty";
-        return NULL;
+        return 0;
     }
     PetalNode::NodeType nt;
     QString type = shift(initialArgs);
@@ -294,7 +294,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         nt = PetalNode::nt_list;
     else {
         uError() << loc() << "unknown node type " << type;
-        return NULL;
+        return 0;
     }
     PetalNode *node = new PetalNode(nt);
     bool seenClosing = checkClosing(initialArgs);
@@ -314,7 +314,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
             uError() << loc() << "unexpected line " << line;
             delete node;
-            return NULL;
+            return 0;
         }
         PetalNode::StringOrNode value;
         if (nt == PetalNode::nt_object) {
@@ -355,9 +355,9 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
-                if (value.node == NULL) {
+                if (value.node == 0) {
                     delete node;
-                    return NULL;
+                    return 0;
                 }
             }
             PetalNode::NameValue attr(name, value);
@@ -396,7 +396,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  */
 UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
-    if (parentPkg == NULL) {
+    if (parentPkg == 0) {
         QString fName = file.fileName();
         int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
         if (lastSlash > 0) {
@@ -406,7 +406,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;
-    PetalNode *root = NULL;
+    PetalNode *root = 0;
     uint nClosures_sav = nClosures;
     uint linum_sav = linum;
     nClosures = 0;
@@ -494,8 +494,8 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     file.close();
     nClosures = nClosures_sav;
     linum = linum_sav;
-    if (root == NULL)
-        return NULL;
+    if (root == 0)
+        return 0;
 
     if (parentPkg) {
         UMLPackage *child = petalTree2Uml(root, parentPkg);
@@ -506,7 +506,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     if (root->name() != QLatin1String("Design")) {
         uError() << "expecting root name Design";
         delete root;
-        return NULL;
+        return 0;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
     UMLDoc *umldoc = UMLApp::app()->document();

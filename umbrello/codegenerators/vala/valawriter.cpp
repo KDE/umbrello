@@ -228,7 +228,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //write includes and namespace
     UMLPackage *container = c->umlPackage();
     if (container == logicalView) {
-        container = NULL;
+        container = 0;
     }
 
     UMLPackageList includes;
@@ -720,7 +720,7 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
         }
 
         UMLObject *o = a->getObject(Uml::RoleType::B);
-        if (o == NULL) {
+        if (o == 0) {
             uError() << "composition role B object is NULL";
             continue;
         }

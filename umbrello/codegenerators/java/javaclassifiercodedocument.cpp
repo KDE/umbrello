@@ -117,9 +117,9 @@ void JavaClassifierCodeDocument::init ()
 bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op)
 {
     if (!op->getParentOperation()->isLifeOperation())
-        return operationsBlock == NULL ? false : operationsBlock->addTextBlock(op);
+        return operationsBlock == 0 ? false : operationsBlock->addTextBlock(op);
     else
-        return constructorBlock == NULL ? false : constructorBlock->addTextBlock(op);
+        return constructorBlock == 0 ? false : constructorBlock->addTextBlock(op);
 }
 
 // Sigh. NOT optimal. The only reason that we need to have this
@@ -273,7 +273,7 @@ void JavaClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    Q_ASSERT(c != NULL);
+    Q_ASSERT(c != 0);
     CodeGenerationPolicy * commonPolicy = UMLApp::app()->commonPolicy();
     CodeGenPolicyExt * pe = UMLApp::app()->policyExt();
     JavaCodeGenerationPolicy * policy = dynamic_cast<JavaCodeGenerationPolicy*>(pe);

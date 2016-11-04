@@ -351,7 +351,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     UMLClassifierListItemList itemList = getItemList();
     int itemIndex;
 
-    if (item == NULL) {
+    if (item == 0) {
         if (m_pItemListLB->count() == 0) {
             enableWidgets(false);
             m_pOldListItem = 0;
@@ -402,7 +402,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
         return;
     }
     UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
-    if (listItem == NULL)  {
+    if (listItem == 0)  {
         return;
     }
 
@@ -553,7 +553,7 @@ void ClassifierListPage::slotTopClicked()
     //shouldn't occur, but just in case
     if(count <= 1 || index <= 0)
         return;
-    m_pOldListItem = NULL;
+    m_pOldListItem = 0;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
@@ -587,7 +587,7 @@ void ClassifierListPage::slotUpClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index <= 0)
         return;
-    m_pOldListItem = NULL;
+    m_pOldListItem = 0;
 
     //swap the text around in the ListBox
     QString aboveString = m_pItemListLB->item(index - 1)->text();
@@ -624,7 +624,7 @@ void ClassifierListPage::slotDownClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index >= count - 1 || index == -1)
         return;
-    m_pOldListItem = NULL;
+    m_pOldListItem = 0;
 
     //swap the text around in the ListBox
     QString belowString = m_pItemListLB->item(index + 1)->text();
@@ -660,7 +660,7 @@ void ClassifierListPage::slotBottomClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index >= count - 1 || index == -1)
         return;
-    m_pOldListItem = NULL;
+    m_pOldListItem = 0;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
@@ -724,7 +724,7 @@ void ClassifierListPage::slotDelete()
         m_doc->removeUMLObject(selectedItem);
         m_pOldListItem = 0;
 
-        slotActivateItem(NULL);
+        slotActivateItem(0);
     }
 }
 
@@ -796,7 +796,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
                 uError() << "Dynamic cast to UMLAttribute failed for" << listitem->name();
                 return false;
             }
-            return m_pClassifier->addAttribute(att, NULL, position);
+            return m_pClassifier->addAttribute(att, 0, position);
         }
     case UMLObject::ot_Operation: {
             UMLOperation *op = listitem->asUMLOperation();

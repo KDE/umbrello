@@ -87,12 +87,12 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
-        umlPkg = NULL;
+        umlPkg = 0;
 
     UMLClassifier *c = p->asUMLClassifier();
-    if (umlPkg == NULL) {
+    if (umlPkg == 0) {
         retval = className;
-        if (c == NULL || !isOOClass(c))
+        if (c == 0 || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(QLatin1String("."));
@@ -128,7 +128,7 @@ void PascalWriter::computeAssocTypeAndRole
         }
     }
     UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
-    if (c == NULL)
+    if (c == 0)
         return;
     typeName = cleanName(c->name());
     if (! a->getMultiplicity(Uml::RoleType::A).isEmpty())

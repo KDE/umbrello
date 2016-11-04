@@ -31,7 +31,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
     CPPCodeClassField * jcf = dynamic_cast<CPPCodeClassField*>(cf);
 
     // Check for dynamic casting failure!
-    if (jcf == NULL)
+    if (jcf == 0)
     {
         uError() << "jcf: invalid dynamic cast";
         return;

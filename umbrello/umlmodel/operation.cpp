@@ -99,7 +99,7 @@ void UMLOperation::setType(UMLObject* type)
  */
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
-    if (a == NULL) {
+    if (a == 0) {
         uDebug() << "called on NULL attribute";
         return;
     }
@@ -123,7 +123,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
  */
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
-    if (a == NULL) {
+    if (a == 0) {
         uDebug() << "called on NULL attribute";
         return;
     }
@@ -151,7 +151,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
  */
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
-    if (a == NULL) {
+    if (a == 0) {
         uDebug() << "called on NULL attribute";
         return;
     }
@@ -570,7 +570,7 @@ bool UMLOperation::load(QDomElement & element)
                     }
                 }
                 // Use deferred xmi.id resolution.
-                m_pSecondary = NULL;
+                m_pSecondary = 0;
             } else {
                 UMLAttribute * pAtt = new UMLAttribute(this);
                 if(!pAtt->loadFromXMI(attElement)) {

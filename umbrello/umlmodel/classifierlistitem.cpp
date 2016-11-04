@@ -107,10 +107,10 @@ UMLClassifier * UMLClassifierListItem::getType() const
  */
 QString UMLClassifierListItem::getTypeName() const
 {
-    if (m_pSecondary == NULL)
+    if (m_pSecondary == 0)
         return m_SecondaryId;
     const UMLPackage *typePkg = m_pSecondary->umlPackage();
-    if (typePkg != NULL && typePkg != umlPackage())
+    if (typePkg != 0 && typePkg != umlPackage())
         return m_pSecondary->fullyQualifiedName();
     return m_pSecondary->name();
 }
@@ -137,13 +137,13 @@ void UMLClassifierListItem::setType(UMLObject *type)
 void UMLClassifierListItem::setTypeName(const QString &type)
 {
     if (type.isEmpty() || type == QLatin1String("void")) {
-        m_pSecondary = NULL;
+        m_pSecondary = 0;
         m_SecondaryId.clear();
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
     m_pSecondary = pDoc->findUMLObject(type);
-    if (m_pSecondary == NULL) {
+    if (m_pSecondary == 0) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains(QLatin1Char('*'))) {
             m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);

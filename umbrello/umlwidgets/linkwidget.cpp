@@ -32,8 +32,8 @@ LinkWidget::~LinkWidget()
 UMLClassifier *LinkWidget::operationOwner()
 {
     UMLOperation *op = operation();
-    if (op == NULL)
-        return NULL;
+    if (op == 0)
+        return 0;
     return op->umlParent()->asUMLClassifier();
 }
 
@@ -47,9 +47,9 @@ UMLClassifier *LinkWidget::operationOwner()
 QString LinkWidget::operationText(UMLScene *scene)
 {
     UMLOperation *op = operation();
-    if (op == NULL)
+    if (op == 0)
         return customOpText();
-    if (scene == NULL)
+    if (scene == 0)
         scene = UMLApp::app()->currentView()->umlScene();
     Uml::SignatureType::Enum sigType;
     if (scene && scene->showOpSig())

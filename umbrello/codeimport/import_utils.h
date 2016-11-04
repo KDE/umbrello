@@ -31,12 +31,12 @@ class UMLScene;
 namespace Import_Utils {
 
     UMLObject *createArtifact(const QString& name,
-                              UMLPackage *parentPkg = NULL,
+                              UMLPackage *parentPkg = 0,
                               const QString &comment = QString());
 
     UMLObject* createUMLObject(UMLObject::ObjectType type,
                                const QString& name,
-                               UMLPackage *parentPkg = NULL,
+                               UMLPackage *parentPkg = 0,
                                const QString& comment = QString(),
                                const QString& stereotype = QString(),
                                bool searchInParentPackageOnly = false);
@@ -85,7 +85,7 @@ namespace Import_Utils {
 
     bool newUMLObjectWasCreated();
 
-    bool isDatatype(const QString& name, UMLPackage *parentPkg = NULL);
+    bool isDatatype(const QString& name, UMLPackage *parentPkg = 0);
 
     bool importStackTrace(const QString &fileName, UMLScene *scene);
 } // end namespace Import_Utils

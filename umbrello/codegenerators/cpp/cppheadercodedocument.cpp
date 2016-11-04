@@ -276,7 +276,7 @@ void CPPHeaderCodeDocument::resetTextBlocks()
  */
 bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
 {
-    if (op == NULL) {
+    if (op == 0) {
         uDebug() << "CodeOperation is null!";
         return false;;
     }
@@ -286,26 +286,26 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return (m_pubOperationsBlock == NULL ? false : m_pubOperationsBlock->addTextBlock(op));
+            return (m_pubOperationsBlock == 0 ? false : m_pubOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return (m_protOperationsBlock == NULL ? false : m_protOperationsBlock->addTextBlock(op));
+            return (m_protOperationsBlock == 0 ? false : m_protOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return (m_privOperationsBlock == NULL ? false : m_privOperationsBlock->addTextBlock(op));
+            return (m_privOperationsBlock == 0 ? false : m_privOperationsBlock->addTextBlock(op));
             break;
         }
     } else {
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return (m_pubConstructorBlock == NULL ? false : m_pubConstructorBlock->addTextBlock(op));
+            return (m_pubConstructorBlock == 0 ? false : m_pubConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return (m_protConstructorBlock == NULL ? false : m_protConstructorBlock->addTextBlock(op));
+            return (m_protConstructorBlock == 0 ? false : m_protConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return (m_privConstructorBlock == NULL ? false : m_privConstructorBlock->addTextBlock(op));
+            return (m_privConstructorBlock == 0 ? false : m_privConstructorBlock->addTextBlock(op));
             break;
         }
     }
@@ -337,7 +337,7 @@ void CPPHeaderCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    Q_ASSERT(c != NULL);
+    Q_ASSERT(c != 0);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 

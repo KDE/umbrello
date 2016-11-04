@@ -49,7 +49,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
     m_oldY(0)
 {
     m_signalType = signalType;
-    m_pName = NULL;
+    m_pName = 0;
     if (signalType == SignalWidget::Time) {
         m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, QString());
         scene->setupNewWidget(m_pName);
@@ -245,7 +245,7 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();
     int diffY = m_oldY - y();
-    if (m_pName!=NULL) {
+    if (m_pName!=0) {
         m_pName->setX(m_pName->x() - diffX);
         m_pName->setY(m_pName->y() - diffY);
     }
@@ -269,7 +269,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
 
         if (textId != Uml::ID::None) {
             UMLWidget *flotext = m_scene -> findWidget(textId);
-            if (flotext != NULL) {
+            if (flotext != 0) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
                 m_pName = static_cast<FloatingTextWidget*>(flotext);
@@ -290,7 +290,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
             if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
-                m_pName = NULL;
+                m_pName = 0;
             }
             else
                 connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));

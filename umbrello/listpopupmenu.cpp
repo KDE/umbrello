@@ -459,7 +459,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         {
             PinPortBase *pW = static_cast<PinPortBase*>(object);
             FloatingTextWidget *ft = pW->floatingTextWidget();
-            if (ft == NULL)
+            if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
         insert(mt_Properties);
@@ -607,7 +607,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
             insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
             PinPortBase *pW = static_cast<PinPortBase*>(object);
             FloatingTextWidget *ft = pW->floatingTextWidget();
-            if (ft == NULL)
+            if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
         insert(mt_Delete);
@@ -817,7 +817,7 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
 void ListPopupMenu::insert(const MenuType m, KMenu* menu)
 #endif
 {
-    Q_ASSERT(menu != NULL);
+    Q_ASSERT(menu != 0);
     switch (m) {
     case mt_Subsystem:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem"));
@@ -1133,12 +1133,12 @@ void ListPopupMenu::insertSubmodelAction()
         return;
     }
     UMLObject *o = Model_Utils::treeViewGetCurrentObject();
-    if (o == NULL) {
+    if (o == 0) {
         uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
         return;
     }
     UMLFolder *f = o->asUMLFolder();
-    if (f == NULL) {
+    if (f == 0) {
         uError() << o->name() << " is not a Folder";
         return;
     }
@@ -2163,7 +2163,7 @@ KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
  */
 QAction* ListPopupMenu::getAction(MenuType idx)
 {
-    return m_actions.value(idx, NULL);
+    return m_actions.value(idx, 0);
 }
 
 // /**

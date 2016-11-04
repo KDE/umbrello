@@ -35,7 +35,7 @@ Plugin::Plugin(QObject *parent,
         Configurable(),
         _ref(0),
         _instanceName(name),
-        _config(NULL)
+        _config(0)
 {
 }
 

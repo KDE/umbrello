@@ -94,7 +94,7 @@ void PackageContentsPage::fillListBox()
     m_contentLW->clear();
     UMLObjectList contents = m_package->containedObjects();
     UMLObjectListIt objList_it(contents);
-    UMLObject* umlo = NULL;
+    UMLObject* umlo = 0;
     while (objList_it.hasNext()) {
         umlo = objList_it.next();
         uIgnoreZeroPointer(umlo);

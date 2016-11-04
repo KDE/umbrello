@@ -410,7 +410,7 @@ bool IDLImport::parseStmt()
         return false;
     }
     // At this point we most definitely need a class.
-    if (m_klass == NULL) {
+    if (m_klass == 0) {
         uError() << "importIDL: no class set for " << name;
         return false;
     }

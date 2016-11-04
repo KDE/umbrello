@@ -661,7 +661,7 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
         return;
     }
     m_pAssocWidget = assocwidget;
-    UMLAssociation *umlassoc = NULL;
+    UMLAssociation *umlassoc = 0;
     if (assocwidget)
         umlassoc = assocwidget->association();
     classifier()->setClassAssoc(umlassoc);
@@ -1053,19 +1053,19 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
  *
  * @param p Point to be checked.
  *
- * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ * @return 'this' if UMLWidget::onWidget(p) returns non 0;
  *         m_pInterfaceName if m_pName is non NULL and
- *         m_pInterfaceName->onWidget(p) returns non NULL; else NULL.
+ *         m_pInterfaceName->onWidget(p) returns non 0; else NULL.
  */
 UMLWidget* ClassifierWidget::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != NULL)
+    if (UMLWidget::onWidget(p) != 0)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName) {
         uDebug() << "floatingtext: " << m_pInterfaceName->text();
         return m_pInterfaceName->onWidget(p);
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -1077,7 +1077,7 @@ UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName && m_pInterfaceName->widgetWithID(id))
         return m_pInterfaceName;
-    return NULL;
+    return 0;
 }
 
 void ClassifierWidget::setDocumentation(const QString &doc)
@@ -1264,7 +1264,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext")) {
-            if (m_pInterfaceName == NULL) {
+            if (m_pInterfaceName == 0) {
                 m_pInterfaceName = new FloatingTextWidget(m_scene,
                                                           Uml::TextRole::Floating,
                                                           name(), Uml::ID::Reserved);
@@ -1273,7 +1273,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
             if (!m_pInterfaceName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pInterfaceName;
-                m_pInterfaceName = NULL;
+                m_pInterfaceName = 0;
             } else {
                 m_pInterfaceName->activate();
                 m_pInterfaceName->update();

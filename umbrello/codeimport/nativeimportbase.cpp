@@ -475,7 +475,7 @@ bool NativeImportBase::parseFile(const QString& filename)
                          QLatin1String(" / lines: ") + QString::number(lineCount));
     file.close();
     // Parse the QStringList m_source.
-    m_klass = NULL;
+    m_klass = 0;
     m_currentAccess = Uml::Visibility::Public;
     m_scope.clear();
     pushScope(0); // index 0 is reserverd for the global scope

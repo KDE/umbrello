@@ -33,7 +33,7 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const
     // Suffering from const; we shall not modify our object.
     UMLObjectList *tmp = new UMLObjectList(*this);
 
-    UMLObject *item = NULL;
+    UMLObject *item = 0;
     for (UMLObjectListIt oit(*tmp); oit.hasNext() ;)
     {
         item = oit.next();

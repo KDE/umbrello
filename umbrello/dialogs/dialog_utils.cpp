@@ -64,7 +64,7 @@ KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
  *
  * @param targetWidget          By-reference pointer to the widget to request the name for.
  *                              The widget may be deallocated, and the pointer returned
- *                              set to NULL, if the user presses Cancel in the dialog.
+ *                              set to 0, if the user presses Cancel in the dialog.
  * @param dialogTitle           Title of the dialog.
  * @param dialogPrompt          Prompt of the dialog.
  * @param defaultName           Default value of the name field.
@@ -88,7 +88,7 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
     }
     else {
         delete targetWidget;
-        targetWidget = NULL;
+        targetWidget = 0;
     }
 }
 

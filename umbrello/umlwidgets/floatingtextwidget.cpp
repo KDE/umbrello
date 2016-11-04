@@ -641,13 +641,13 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
  *
  * @param p Point to be checked.
  *
- * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ * @return 'this' if UMLWidget::onWidget(p) returns non 0;
  *         else NULL.
  */
 UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
 {
     WidgetBase *pw = dynamic_cast<WidgetBase*>(parentItem());
-    if (pw == NULL) {
+    if (pw == 0) {
         return WidgetBase::onWidget(p);
     }
     const WidgetBase::WidgetType t = pw->baseType();
@@ -676,7 +676,7 @@ UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
         // uDebug() << "floatingtext: " << m_Text;
         return this;
     }
-    return NULL;
+    return 0;
 }
 
 /**

@@ -130,8 +130,8 @@ void MessageWidget::init()
     m_yclicked = -1;
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
-    m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
-    m_pFText = NULL;
+    m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = 0;
+    m_pFText = 0;
 }
 
 /**
@@ -605,17 +605,17 @@ UMLWidget* MessageWidget::onWidget(const QPointF& p)
     // Synchronous message:
     // Consists of top arrow (call) and bottom arrow (return.)
     if (p.x() < x() || p.x() > x() + width())
-        return NULL;
+        return 0;
     const int tolerance = 5;  // pixels
     const int pY = p.y();
     const int topArrowY = y() + 3;
     const int bottomArrowY = y() + height() - 3;
     if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
-        return NULL;
+        return 0;
     if (height() <= 2 * tolerance)
         return this;
     if (pY > topArrowY + tolerance && pY < bottomArrowY - tolerance)
-        return NULL;
+        return 0;
     return this;
 }
 
@@ -624,7 +624,7 @@ UMLWidget* MessageWidget::onWidget(const QPointF& p)
  */
 void MessageWidget::setTextPosition()
 {
-    if (m_pFText == NULL) {
+    if (m_pFText == 0) {
         DEBUG(DBG_SRC) << "m_pFText is NULL";
         return;
     }
@@ -649,7 +649,7 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
     if (textX < minTextX || tr == Uml::TextRole::Seq_Message_Self) {
         result = minTextX;
     } else {
-        ObjectWidget *objectAtRight = NULL;
+        ObjectWidget *objectAtRight = 0;
         if (m_pOw[Uml::RoleType::B]->x() > m_pOw[Uml::RoleType::A]->x())
             objectAtRight = m_pOw[Uml::RoleType::B];
         else
@@ -784,27 +784,27 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 {
     m_scene->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
-    if (m_pOw[Uml::RoleType::A] == NULL) {
+    if (m_pOw[Uml::RoleType::A] == 0) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
-        if (pWA == NULL) {
+        if (pWA == 0) {
             DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::A] = pWA->asObjectWidget();
-        if (m_pOw[Uml::RoleType::A] == NULL) {
+        if (m_pOw[Uml::RoleType::A] == 0) {
             DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
     }
-    if (m_pOw[Uml::RoleType::B] == NULL) {
+    if (m_pOw[Uml::RoleType::B] == 0) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
-        if (pWB == NULL) {
+        if (pWB == 0) {
             DEBUG(DBG_SRC) << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::B] = pWB->asObjectWidget();
-        if (m_pOw[Uml::RoleType::B] == NULL) {
+        if (m_pOw[Uml::RoleType::B] == 0) {
             DEBUG(DBG_SRC) << "role B widget " << Uml::ID::toString(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
@@ -813,7 +813,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     updateResizability();
 
     UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
-    UMLOperation *op = NULL;
+    UMLOperation *op = 0;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
         op = c->findChildObjectById(opId, true)->asUMLOperation();
@@ -876,7 +876,7 @@ void MessageWidget::resolveObjectWidget(IDChangeLog* log) {
  */
 void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
-    if (ft == NULL)
+    if (ft == 0)
         return;
     ft->setSequenceNumber(m_SequenceNumber);
     ft->setText(operationText(m_scene));
@@ -924,8 +924,8 @@ void MessageWidget::lwSetFont (QFont font)
 UMLClassifier *MessageWidget::operationOwner()
 {
     UMLObject *pObject = m_pOw[Uml::RoleType::B]->umlObject();
-    if (pObject == NULL)
-        return NULL;
+    if (pObject == 0)
+        return 0;
     UMLClassifier *c = pObject->asUMLClassifier();
     return c;
 }
@@ -980,7 +980,7 @@ void MessageWidget::setCustomOpText(const QString &opText)
 QString MessageWidget::lwOperationText()
 {
     UMLOperation *pOperation = operation();
-    if (pOperation != NULL) {
+    if (pOperation != 0) {
         return pOperation->toString(Uml::SignatureType::SigNoVis);
     } else {
         return customOpText();
@@ -1192,7 +1192,7 @@ void MessageWidget::cleanup()
     UMLWidget::cleanup();
     if (m_pFText) {
         m_scene->removeWidgetCmd(m_pFText);
-        m_pFText = NULL;
+        m_pFText = 0;
     }
 }
 
@@ -1321,7 +1321,7 @@ void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
     DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET!";
-    if (m_pFText != NULL) {
+    if (m_pFText != 0) {
         DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET - on floating text widget!";
 //        QAction* action = m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
 //        m_pFText->slotMenuSelection(action);
@@ -1401,7 +1401,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
             if(! m_pFText->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
-                m_pFText = NULL;
+                m_pFText = 0;
             }
             else
                 m_pFText->setSequenceNumber(m_SequenceNumber);

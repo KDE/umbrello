@@ -1289,7 +1289,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Type myId, QTextStream &stream)
 {
     foreach (UMLAssociation *a, list) {
-        UMLClassifier *current = NULL;
+        UMLClassifier *current = 0;
         bool isFirstClass = true;
 
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!

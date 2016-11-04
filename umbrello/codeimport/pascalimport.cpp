@@ -217,7 +217,7 @@ bool PascalImport::parseStmt()
     }
     if (keyword == QLatin1String("end")) {
         if (m_klass) {
-            m_klass = NULL;
+            m_klass = 0;
         } else if (scopeIndex()) {
             popScope();
             m_currentAccess = Uml::Visibility::Public;
@@ -229,7 +229,7 @@ bool PascalImport::parseStmt()
     }
     if (keyword == QLatin1String("function") || keyword == QLatin1String("procedure") ||
         keyword == QLatin1String("constructor") || keyword == QLatin1String("destructor")) {
-        if (m_klass == NULL) {
+        if (m_klass == 0) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
             // stereotype <<utility>> for the unit, http://bugs.kde.org/89167
@@ -311,7 +311,7 @@ bool PascalImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (m_klass == NULL) {
+    if (m_klass == 0) {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != QLatin1String("=")) {
@@ -360,7 +360,7 @@ bool PascalImport::parseStmt()
                 advance();
                 do {
                     QString base = advance();
-                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, base, NULL);
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, base, 0);
                     UMLClassifier *parent = ns->asUMLClassifier();
                     m_comment.clear();
                     Import_Utils::createGeneralization(klass, parent);
@@ -403,7 +403,7 @@ bool PascalImport::parseStmt()
         return false;
     }
     // At this point we need a class because we're expecting its member attributes.
-    if (m_klass == NULL) {
+    if (m_klass == 0) {
         uDebug() << "importPascal: skipping " << m_source[m_srcIndex];
         skipStmt();
         return true;

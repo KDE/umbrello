@@ -123,7 +123,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if (findChildObject(name) != NULL) {
+        } else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -176,7 +176,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name)
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if (findChildObject(name) != NULL) {
+        } else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -186,7 +186,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name)
 
     if (button != QDialog::Accepted) {
         delete newUniqueConstraint;
-        return NULL;
+        return 0;
     }
 
     addConstraint(newUniqueConstraint);
@@ -226,7 +226,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if (findChildObject(name) != NULL) {
+        } else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -235,7 +235,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
     }
 
     if (button != QDialog::Accepted) {
-        return NULL;
+        return 0;
     }
 
     addConstraint(newForeignKeyConstraint);
@@ -275,7 +275,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if (findChildObject(name) != NULL) {
+        } else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -284,7 +284,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
     }
 
     if (button != QDialog::Accepted) {
-        return NULL;
+        return 0;
     }
 
     addConstraint(newCheckConstraint);
@@ -322,7 +322,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = 0*/)
 {
     QString name = (QString)att->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         att->setParent(this);
         m_List.append(att);
         emit entityAttributeAdded(att);
@@ -349,7 +349,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
 {
     Q_ASSERT(att);
     QString name = (QString)att->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         att->setParent(this);
         if (position >= 0 && position <= (int)m_List.count())  {
             m_List.insert(position, att);
@@ -510,7 +510,7 @@ bool UMLEntity::load(QDomElement& element)
  */
 bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 {
-    if (uconstr == NULL) {
+    if (uconstr == 0) {
         uDebug() << "NULL value passed. To unset a Primary Key use "
                  << "unsetPrimaryKey()";
         return false;
@@ -525,7 +525,7 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 
     // check if this constraint already exists as a unique constraint for this entity
     UMLUniqueConstraint* uuc = findChildObjectById(uconstr->id())->asUMLUniqueConstraint();
-    if (uuc == NULL) {
+    if (uuc == 0) {
         addConstraint(uconstr);
         uuc = uconstr;
     }
@@ -534,7 +534,7 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 
     m_PrimaryKey = uuc;
 
-    if (oldPrimaryKey != NULL)
+    if (oldPrimaryKey != 0)
         oldPrimaryKey->emitModified();
 
     uuc->emitModified();
@@ -573,7 +573,7 @@ bool UMLEntity::hasPrimaryKey() const
  */
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 {
-    if (findChildObjectById(constr->id()) != NULL) {
+    if (findChildObjectById(constr->id()) != 0) {
         uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
                  << " already exists ";
         return false;
@@ -596,7 +596,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
  */
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
 {
-     if (findChildObjectById(constr->id()) == NULL) {
+     if (findChildObjectById(constr->id()) == 0) {
         uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
                  << " does not exist ";
         return false;
@@ -710,7 +710,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
  */
 UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = NULL;
+    UMLClassifierListItem* pObject = 0;
     if (UMLDoc::tagEq(xmiTag, QLatin1String("EntityAttribute"))) {
         pObject = new UMLEntityAttribute(this);
     }

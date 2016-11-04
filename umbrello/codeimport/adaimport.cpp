@@ -242,7 +242,7 @@ bool AdaImport::parseStmt()
         QStringList parentPkgs = name.toLower().split(QLatin1Char('.'));
         parentPkgs.pop_back();  // exclude the current package
         parseStems(parentPkgs);
-        UMLObject *ns = NULL;
+        UMLObject *ns = 0;
         if (advance() == QLatin1String("is")) {
             ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                currentScope(), m_comment);
@@ -284,7 +284,7 @@ bool AdaImport::parseStmt()
         QString base = expand(advance());
         base.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
         UMLObject *type = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
-        if (type == NULL) {
+        if (type == 0) {
             type = Import_Utils::createUMLObject(UMLObject::ot_Datatype, base, currentScope());
         }
         UMLObject *subtype = Import_Utils::createUMLObject(type->baseType(), name,
@@ -400,7 +400,7 @@ bool AdaImport::parseStmt()
                 UMLObject *known = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
                 t = (known ? known->baseType() : UMLObject::ot_Datatype);
             }
-            UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
+            UMLObject *ns = Import_Utils::createUMLObject(t, base, 0);
             UMLClassifier *parent = ns->asUMLClassifier();
             ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (isExtension) {
@@ -439,7 +439,7 @@ bool AdaImport::parseStmt()
                 uError() << "end: expecting \"record\" at "
                           << m_source[m_srcIndex];
             }
-            m_klass = NULL;
+            m_klass = 0;
         } else if (scopeIndex()) {
             if (advance() != QLatin1String(";")) {
                 QString scopeName = currentScope()->fullyQualifiedName();
@@ -472,8 +472,8 @@ bool AdaImport::parseStmt()
             skipStmt();
             return true;
         }
-        UMLClassifier *klass = NULL;
-        UMLOperation *op = NULL;
+        UMLClassifier *klass = 0;
+        UMLOperation *op = 0;
         const uint MAX_PARNAMES = 16;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
             QString parName[MAX_PARNAMES];
@@ -514,7 +514,7 @@ bool AdaImport::parseStmt()
             }
             typeName.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
             typeName = expand(typeName);
-            if (op == NULL) {
+            if (op == 0) {
                 // In Ada, the first parameter indicates the class.
                 UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, currentScope());
                 UMLObject::ObjectType t = type->baseType();
@@ -555,7 +555,7 @@ bool AdaImport::parseStmt()
         bool isAbstract = false;
         if (advance() == QLatin1String("is") && advance() == QLatin1String("abstract"))
             isAbstract = true;
-        if (klass != NULL && op != NULL)
+        if (klass != 0 && op != 0)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        false, isAbstract, false, false, m_comment);
         skipStmt();
@@ -595,7 +595,7 @@ bool AdaImport::parseStmt()
         return true;
     }
     // At this point we're only interested in attribute declarations.
-    if (m_klass == NULL || keyword == QLatin1String("null")) {
+    if (m_klass == 0 || keyword == QLatin1String("null")) {
         skipStmt();
         return true;
     }

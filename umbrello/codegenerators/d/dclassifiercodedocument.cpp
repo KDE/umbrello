@@ -280,7 +280,7 @@ void DClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    Q_ASSERT(c != NULL);
+    Q_ASSERT(c != 0);
     CodeGenerationPolicy * commonPolicy = UMLApp::app()->commonPolicy();
     CodeGenPolicyExt * pe = UMLApp::app()->policyExt();
     DCodeGenerationPolicy * policy = dynamic_cast<DCodeGenerationPolicy*>(pe);

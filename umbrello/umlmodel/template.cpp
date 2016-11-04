@@ -54,7 +54,7 @@ UMLTemplate::~UMLTemplate()
 QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
 {
     Q_UNUSED(sig);
-    if (m_pSecondary == NULL || m_pSecondary->name() == QLatin1String("class")) {
+    if (m_pSecondary == 0 || m_pSecondary->name() == QLatin1String("class")) {
         return name();
     } else {
         return name() + QLatin1String(" : ") + m_pSecondary->name();
@@ -71,7 +71,7 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
  */
 QString UMLTemplate::getTypeName() const
 {
-    if (m_pSecondary == NULL)
+    if (m_pSecondary == 0)
         return QLatin1String("class");
     return m_pSecondary->name();
 }
