@@ -318,8 +318,9 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
  */
 void PinPortBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement element = qDoc.createElement(m_baseType == wt_Pin ? QLatin1String("pinwidget")
+    QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
                                                                   : QLatin1String("portwidget"));
+    Q_ASSERT(ownerWidget() != NULL);
     element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
