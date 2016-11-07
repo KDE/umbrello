@@ -193,9 +193,9 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
 {
     Settings::OptionState optionState = Settings::optionState();
     if (!optionState.generalState.newcodegen) {
-        return NULL;
+        return 0;
     }
-    ClassifierCodeDocument *retval = NULL;
+    ClassifierCodeDocument *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPSourceCodeDocument(c);
@@ -221,7 +221,7 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
 
 CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
 {
-    CodeOperation *retval = NULL;
+    CodeOperation *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             {
@@ -264,7 +264,7 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
 
 CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at)
 {
-    CodeClassField *retval = NULL;
+    CodeClassField *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPCodeClassField(ccd, at);
@@ -288,7 +288,7 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
 
 CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role)
 {
-    CodeClassField *retval = NULL;
+    CodeClassField *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPCodeClassField(ccd, role);
@@ -314,7 +314,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                                            CodeClassField *cf,
                                            CodeAccessorMethod::AccessorType type)
 {
-    CodeAccessorMethod *retval = NULL;
+    CodeAccessorMethod *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             {
@@ -363,7 +363,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
 CodeClassFieldDeclarationBlock * newDeclarationCodeBlock(ClassifierCodeDocument *cd,
                                                          CodeClassField * cf)
 {
-    CodeClassFieldDeclarationBlock *retval = NULL;
+    CodeClassFieldDeclarationBlock *retval = 0;
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::ProgrammingLanguage::Cpp:
             {
@@ -452,11 +452,11 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage::Enum pl)
               return new RubyCodeGenerationPolicy();
               break;
           default:
-              return NULL;
+              return 0;
         }
     }
 
-    return NULL;
+    return 0;
 }
 
 }  // end namespace CodeGenFactory

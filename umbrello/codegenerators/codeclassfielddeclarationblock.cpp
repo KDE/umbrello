@@ -140,7 +140,7 @@ void CodeClassFieldDeclarationBlock::syncToParent ()
     if (!(getParentClassField()->parentIsAttribute()))
     {
         UMLRole * parent = getParentObject()->asUMLRole();
-        if (parent == NULL)
+        if (parent == 0)
             return;
         if (parent->name().isEmpty())
         {

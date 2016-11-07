@@ -326,7 +326,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Load UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    if (NoteWidget::s_pCurrentNote == NULL) {
+    if (NoteWidget::s_pCurrentNote == 0) {
         if (!UMLDragData::decodeObjects(objectsNode, objects, true)) {
             return false;
         }
@@ -839,10 +839,10 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
         QString type = diagramElement.attribute(QLatin1String("type"), QLatin1String("0"));
         Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
         UMLListViewItem *parent = listView->findFolderForDiagram(dt);
-        if (parent == NULL)
+        if (parent == 0)
             return false;
         UMLObject *po = parent->umlObject();
-        if (po == NULL || po->baseType() != UMLObject::ot_Folder) {
+        if (po == 0 || po->baseType() != UMLObject::ot_Folder) {
             uError() << "Bad parent for view.";
             return false;
         }

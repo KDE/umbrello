@@ -53,7 +53,7 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
 
     UMLPackage* folderLogicalView =
             UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical)->asUMLPackage();
-    if (parentPackage == NULL ||
+    if (parentPackage == 0 ||
          parentPackage == folderLogicalView) {
         m_editField->setEditText(QString());
     }
@@ -86,10 +86,10 @@ void UMLPackageWidget::addToLayout(QGridLayout *layout, int row)
 void UMLPackageWidget::apply()
 {
     QString packageName = m_editField->currentText().trimmed();
-    UMLObject* newPackage = NULL;
+    UMLObject* newPackage = 0;
 
     if (!packageName.isEmpty()) {
-        if ((newPackage = UMLApp::app()->document()->findUMLObject(packageName, UMLObject::ot_Package)) == NULL) {
+        if ((newPackage = UMLApp::app()->document()->findUMLObject(packageName, UMLObject::ot_Package)) == 0) {
             newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
         }
     } else {

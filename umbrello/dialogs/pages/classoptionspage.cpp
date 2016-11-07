@@ -378,16 +378,16 @@ void ClassOptionsPage::applyScene()
  */
 void ClassOptionsPage::init()
 {
-    m_scene = NULL;
-    m_options = NULL;
-    m_pWidget = NULL;
-    m_showStereotypeCB = NULL;
-    m_showAttsCB = NULL;
-    m_showAttSigCB = NULL;
-    m_showAttribAssocsCB = NULL;
-    m_showDocumentationCB = NULL;
-    m_showPublicOnlyCB = NULL;
-    m_drawAsCircleCB = NULL;
+    m_scene = 0;
+    m_options = 0;
+    m_pWidget = 0;
+    m_showStereotypeCB = 0;
+    m_showAttsCB = 0;
+    m_showAttSigCB = 0;
+    m_showAttribAssocsCB = 0;
+    m_showDocumentationCB = 0;
+    m_showPublicOnlyCB = 0;
+    m_drawAsCircleCB = 0;
 }
 
 /**

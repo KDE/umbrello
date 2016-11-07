@@ -112,7 +112,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 
     if (!ok) {
         delete newEnumLiteral;
-        return NULL;
+        return 0;
     }
 
     addEnumLiteral(newEnumLiteral);
@@ -132,7 +132,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const QString& value)
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
-    if (el != NULL) {
+    if (el != 0) {
         uDebug() << name << " is already present";
         return el;
     }
@@ -154,7 +154,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 {
     QString name = (QString)literal->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         literal->setParent(this);
         m_List.append(literal);
         UMLObject::emitModified();
@@ -181,7 +181,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 {
     Q_ASSERT(literal);
     QString name = (QString)literal->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         literal->setParent(this);
         if (position >= 0 && position <= (int)m_List.count())  {
             m_List.insert(position, literal);
@@ -292,7 +292,7 @@ bool UMLEnum::load(QDomElement& element)
  */
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = NULL;
+    UMLClassifierListItem* pObject = 0;
     if (UMLDoc::tagEq(xmiTag, QLatin1String("EnumerationLiteral")) ||
                UMLDoc::tagEq(xmiTag, QLatin1String("EnumLiteral"))) {
         pObject = new UMLEnumLiteral(this);

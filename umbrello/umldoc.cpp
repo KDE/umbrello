@@ -206,7 +206,7 @@ void UMLDoc::addView(UMLView *view)
         connect(this,&UMLDoc::sigObjectRemoved, view->umlScene(), &UMLScene::slotObjectRemoved);
     }
 
-    if (!m_bLoading || pApp->currentView() == NULL) {
+    if (!m_bLoading || pApp->currentView() == 0) {
         pApp->setCurrentView(view);
     }
     if (!m_bLoading) {
@@ -1650,7 +1650,7 @@ void UMLDoc::setCurrentRoot(Uml::ModelType::Enum rootType)
  */
 void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
 {
-    if (umlobject == NULL) {
+    if (umlobject == 0) {
         uError() << "called with NULL parameter";
         return;
     }
@@ -1711,7 +1711,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                     // In the current implementation, all associations live in the
                     // root folder.
                     UMLPackage* rootPkg = Model_Utils::rootPackage(c);
-                    if (rootPkg == NULL) {
+                    if (rootPkg == 0) {
                         uError() << umlobject->name() << ": root package is not set !";
                         return;
                     }

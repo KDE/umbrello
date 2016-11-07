@@ -204,7 +204,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
                 // we need to set the package for the class that will be resolved
                 // start at the root package
                 UMLPackage *parent = 0;
-                UMLPackage *current = NULL;
+                UMLPackage *current = 0;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
@@ -223,7 +223,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
             } // if file exists
         } // if import matches
     } //foreach import
-    return NULL; // no match
+    return 0; // no match
 }
 
 /**
@@ -366,7 +366,7 @@ bool CSharpImport::parseStmt()
     QString typeName = m_source[m_srcIndex];
     typeName = joinTypename(typeName);
     // At this point we need a class.
-    if (m_klass == NULL) {
+    if (m_klass == 0) {
         uError() << "no class set for " << typeName;
         return false;
     }

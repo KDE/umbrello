@@ -72,7 +72,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     int y = pos.y();
     Uml::DiagramType::Enum diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
-    UMLWidget *newWidget = NULL;
+    UMLWidget *newWidget = 0;
     switch (type) {
     case UMLObject::ot_Actor:
         if (diagramType == Uml::DiagramType::Sequence) {
@@ -173,12 +173,12 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
-    if (o == NULL) {
+    if (o == 0) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
                  << expected;
         QString artificialName = QLatin1String("LOST_") + Uml::ID::toString(id);
-        o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
-        if (o == NULL)
+        o = Object_Factory::createUMLObject(expected, artificialName, 0, false);
+        if (o == 0)
             return false;
         o->setID(id);
         UMLPackage *parentPkg = o->umlPackage();
@@ -200,7 +200,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLScene *scene)
 {
-    UMLWidget *widget = NULL;
+    UMLWidget *widget = 0;
 
         // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information
@@ -221,7 +221,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == QLatin1String("forkjoin")) {
         widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::ID::Reserved);
     } else if (tag == QLatin1String("preconditionwidget")) {
-        widget = new PreconditionWidget(scene, NULL, Uml::ID::Reserved);
+        widget = new PreconditionWidget(scene, 0, Uml::ID::Reserved);
     } else if (tag == QLatin1String("combinedFragmentwidget")) {
         widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::ID::Reserved);
     } else if (tag == QLatin1String("signalwidget")) {
@@ -233,7 +233,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == QLatin1String("regionwidget")) {
         widget = new RegionWidget(scene, Uml::ID::Reserved);
     } else if (tag == QLatin1String("pinwidget")) {
-        PinPortBase *pw = new PinWidget(scene, NULL, Uml::ID::Reserved);
+        PinPortBase *pw = new PinWidget(scene, 0, Uml::ID::Reserved);
         pw->attachToOwner();
         widget = pw;
     }
@@ -245,7 +245,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
-        if (o == NULL) {
+        if (o == 0) {
             uDebug() << "makeWidgetFromXMI: cannot find object with id "
                 << Uml::ID::toString(id);
         }

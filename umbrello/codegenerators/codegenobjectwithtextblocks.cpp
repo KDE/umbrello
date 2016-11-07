@@ -143,7 +143,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 {
     // what??!? no tag, then CANT be here
     if (tag.isEmpty())
-        return (CodeGenObjectWithTextBlocks*) NULL;
+        return (CodeGenObjectWithTextBlocks*) 0;
 
     if (!findTextBlockByTag(tag)) {
         // may be hiding in child hierarchical codeblock
@@ -162,7 +162,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 
     // shouldn't happen unless the textblock doesn't exist in this object
     // or its children at all
-    return (CodeGenObjectWithTextBlocks*) NULL;
+    return (CodeGenObjectWithTextBlocks*) 0;
 }
 
 /**
@@ -187,7 +187,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (c
             codeBlock->getComment()->setWriteOutText(false);
         if (!addTextBlock(codeBlock)) {
             delete codeBlock;
-            return (HierarchicalCodeBlock*) NULL;
+            return (HierarchicalCodeBlock*) 0;
         }
     }
 
@@ -219,7 +219,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (c
             codeBlock->getComment()->setWriteOutText(false);
         if (!addTextBlock(codeBlock)) {
             delete codeBlock;
-            return (CodeBlockWithComments*) NULL;
+            return (CodeBlockWithComments*) 0;
         }
     }
     codeBlock->setOverallIndentationLevel (indentLevel);
@@ -324,7 +324,7 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks()
 {
     /**************  @todo I had to deactivate this code:
     TextBlock *tb;
-    for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
+    for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != 0; ++it)
         delete tb;
      **************  else crash happens on loading an XMI file
      *************/

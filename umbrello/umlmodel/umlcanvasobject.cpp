@@ -61,7 +61,7 @@ UMLCanvasObject::~UMLCanvasObject()
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType)
 {
     UMLAssociationList list;
-    UMLObject *o = NULL;
+    UMLObject *o = 0;
     for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
@@ -243,7 +243,7 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    UMLObject *obj = NULL;
+    UMLObject *obj = 0;
     for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
@@ -256,7 +256,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
             return obj;
         }
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -269,7 +269,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors)
 {
     Q_UNUSED(considerAncestors);
-    UMLObject *o = NULL;
+    UMLObject *o = 0;
     for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
@@ -322,7 +322,7 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
 int UMLCanvasObject::associations()
 {
     int count = 0;
-    UMLObject *obj = NULL;
+    UMLObject *obj = 0;
     for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
@@ -340,7 +340,7 @@ int UMLCanvasObject::associations()
 UMLAssociationList UMLCanvasObject::getAssociations()
 {
     UMLAssociationList assocs;
-    UMLObject *o = NULL;
+    UMLObject *o = 0;
     for (UMLObjectListIt oit(m_List); oit.hasNext() ;) {
         o = oit.next();
         uIgnoreZeroPointer(o);

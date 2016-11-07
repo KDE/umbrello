@@ -671,7 +671,7 @@ void CodeEditor::slotChangeSelectedBlockView()
 void CodeEditor::slotChangeSelectedBlockCommentView()
 {
     TextBlock * tb = m_selectedTextBlock;
-    CodeBlockWithComments * cb = NULL;
+    CodeBlockWithComments * cb = 0;
     if (tb && (cb = dynamic_cast<CodeBlockWithComments*>(tb))) {
         CodeComment* codcom = cb->getComment();
         if (codcom) {

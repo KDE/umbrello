@@ -767,7 +767,7 @@ QStringList JavaWriter::defaultDatatypes()
  */
 bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
 {
-    if (op1 == NULL || op2 == NULL)
+    if (op1 == 0 || op2 == 0)
         return false;
     if (op1 == op2)
         return true;

@@ -29,7 +29,7 @@
 using namespace Umbrello;
 
 // static data
-PluginLoader *PluginLoader::_instance = NULL;
+PluginLoader *PluginLoader::_instance = 0;
 
 PluginLoader::PluginLoader() :
         _plugins(),
@@ -55,9 +55,9 @@ PluginLoader::instance()
 Plugin *
 PluginLoader::loadPlugin(const QString &name)
 {
-    KLibrary *lib = NULL;
-    KLibFactory *factory = NULL;
-    Plugin *plugin = NULL;
+    KLibrary *lib = 0;
+    KLibFactory *factory = 0;
+    Plugin *plugin = 0;
     PluginMap::iterator it;
     bool success = true;
 
@@ -130,7 +130,7 @@ PluginLoader::findPlugin(const QString &name)
     PluginMap::iterator it = _plugins.find(name);
     if(it != _plugins.end())
         return it.value();
-    return NULL;
+    return 0;
 }
 
 void

@@ -43,7 +43,7 @@ UMLAttribute::UMLAttribute(UMLObject *parent,
     m_visibility = s;
     m_ParmKind = Uml::ParameterDirection::In;
     /* CHECK: Do we need this:
-    if (type == NULL) {
+    if (type == 0) {
         type = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef");
     }
      */
@@ -147,7 +147,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
             owningObject = owningObject->umlParent();
         }
         UMLClassifier *ownParent = owningObject->asUMLClassifier();
-        if (ownParent == NULL) {
+        if (ownParent == 0) {
             uError() << "parent " << owningObject->name()
                 << " is not a UMLClassifier";
             return QString();
@@ -183,14 +183,14 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
 QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
-    UMLOperation *op = NULL;
+    UMLOperation *op = 0;
     UMLObject *owningObject = umlParent();
     if (owningObject->baseType() == UMLObject::ot_Operation) {
         op = owningObject->asUMLOperation();
         owningObject = owningObject->umlParent();
     }
     UMLClassifier *ownParent = owningObject->asUMLClassifier();
-    if (ownParent == NULL) {
+    if (ownParent == 0) {
         uError() << name() << ": parent " << owningObject->name()
             << " is not a UMLClassifier";
         return QString();
@@ -259,8 +259,8 @@ UMLObject* UMLAttribute::clone() const
 void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement attributeElement = UMLObject::save(QLatin1String("UML:Attribute"), qDoc);
-    if (m_pSecondary == NULL) {
-        uDebug() << name() << ": m_pSecondary is NULL, m_SecondaryId is '"
+    if (m_pSecondary == 0) {
+        uDebug() << name() << ": m_pSecondary is 0, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
         attributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
@@ -382,10 +382,10 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
             if (!param.isEmpty()) {
                 UMLDoc *pDoc = UMLApp::app()->document();
                 UMLObject* obj = pDoc->findUMLObject(param);
-                if (obj == NULL) {
+                if (obj == 0) {
                     obj = pDoc->findUMLObject(param.remove(QLatin1Char(' ')));
                 }
-                if (obj != NULL) {
+                if (obj != 0) {
                     //We want to list only the params that already exist in this document
                     //If the param doesnt't already exist, we couldn't draw an association anyway
                     UMLClassifier* tmpClassifier = obj->asUMLClassifier();

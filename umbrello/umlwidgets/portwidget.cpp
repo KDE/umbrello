@@ -52,7 +52,7 @@ PortWidget::~PortWidget()
  */
 UMLWidget* PortWidget::ownerWidget()
 {
-    if (m_pOw == NULL) {
+    if (m_pOw == 0) {
         const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
         m_pOw = m_scene->widgetOnDiagram(compWidgetId);
     }
@@ -64,6 +64,7 @@ UMLWidget* PortWidget::ownerWidget()
  */
 void PortWidget::connectOwnerMotion()
 {
+    Q_ASSERT(ownerWidget()->baseType() == WidgetBase::wt_Component);
     ComponentWidget *owner = static_cast<ComponentWidget*>(ownerWidget());
     connect(owner, &ComponentWidget::sigCompMoved, this, &PortWidget::slotOwnerMoved);
 }

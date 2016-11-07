@@ -310,7 +310,7 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     } else {
         targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = NULL;
+        targetWidget = 0;
     }
 }
 

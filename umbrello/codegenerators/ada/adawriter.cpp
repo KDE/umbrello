@@ -120,12 +120,12 @@ QString AdaWriter::packageName(UMLPackage *p)
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
-        umlPkg = NULL;
+        umlPkg = 0;
 
     UMLClassifier *c = p->asUMLClassifier();
-    if (umlPkg == NULL) {
+    if (umlPkg == 0) {
         retval = className;
-        if (c == NULL || !isOOClass(c))
+        if (c == 0 || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(QLatin1String("."));
@@ -146,7 +146,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         QString& typeName, QString& roleName)
 {
     UMLClassifier* assocEnd = a->getObject(Uml::RoleType::B)->asUMLClassifier();
-    if (assocEnd == NULL)
+    if (assocEnd == 0)
         return;
     const Uml::AssociationType::Enum assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
@@ -177,7 +177,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
 void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
-    UMLClassifier *firstSuperClass = NULL;
+    UMLClassifier *firstSuperClass = 0;
     if (!superclasses.isEmpty()) {
         foreach (UMLClassifier* super, superclasses) {
             if (!super->isInterface()) {
@@ -185,7 +185,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
                 break;
             }
         }
-        if (firstSuperClass == NULL)
+        if (firstSuperClass == 0)
             firstSuperClass = superclasses.first();
     }
     const QString name = className(c);
@@ -230,7 +230,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QFile *file = NULL;
+    QFile *file = 0;
     bool isNewFile = false;
     PackageFileMap::iterator it = m_pkgsGenerated.find(pkg);
     if (it != m_pkgsGenerated.end()) {
@@ -287,7 +287,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 } else {
                     // Check whether it's a data type.
                     UMLClassifier *typeObj = t->getType();
-                    if (typeObj == NULL) {
+                    if (typeObj == 0) {
                         uError() << "template_param " << typeName << ": typeObj is NULL";
                         ada << indent() << "type " << formalName << " is new " << typeName
                             << " with private;  -- CHECK: codegen error"

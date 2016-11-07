@@ -44,7 +44,7 @@ public:
 
     Uml::RoleType::Enum role() const;
 
-    UMLObject* clone() const { return NULL; }
+    UMLObject* clone() const { return 0; }
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 

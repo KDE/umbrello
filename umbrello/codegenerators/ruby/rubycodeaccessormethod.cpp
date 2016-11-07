@@ -81,7 +81,7 @@ void RubyCodeAccessorMethod::updateContent()
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(parentField);
 
     // Check for dynamic casting failure!
-    if (rubyfield == NULL)
+    if (rubyfield == 0)
     {
         uError() << "rubyfield: invalid dynamic cast";
         return;
@@ -146,7 +146,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
 
     // Check for dynamic casting failure!
-    if (rubyfield == NULL)
+    if (rubyfield == 0)
     {
         uError() << "rubyfield: invalid dynamic cast";
         return;

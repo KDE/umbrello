@@ -67,7 +67,7 @@ bool bNewUMLObjectWasCreated = false;
  * Related classifier for creation of dependencies on template
  * parameters in createUMLObject().
  */
-UMLClassifier * gRelatedClassifier = NULL;
+UMLClassifier * gRelatedClassifier = 0;
 
 /**
  * On encountering a scoped typename string where the scopes
@@ -188,9 +188,9 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
-    if (parentPkg == NULL) {
+    if (parentPkg == 0) {
         // DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
-        //     << "): parentPkg is NULL, assuming Logical View";
+        //     << "): parentPkg is 0, assuming Logical View";
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Artifact) {
         DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
@@ -213,7 +213,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             bPutAtGlobalScope = false;
         }
     }
-    if (o == NULL) {
+    if (o == 0) {
         // Strip possible adornments and look again.
         const bool isConst = name.contains(QRegExp(QLatin1String("^const ")));
         name.remove(QRegExp(QLatin1String("^const\\s+")));
@@ -224,7 +224,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         typeName.remove(QRegExp(QLatin1String("[^\\w:\\. ].*$")));
         typeName = typeName.simplified();
         UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
-        if (origType == NULL) {
+        if (origType == 0) {
             // Still not found. Create the stripped down type.
             if (bPutAtGlobalScope)
                 parentPkg = logicalView;
@@ -276,7 +276,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
-            UMLDatatype *dt = o ? o->asUMLDatatype() : NULL;
+            UMLDatatype *dt = o ? o->asUMLDatatype() : 0;
             UMLClassifier *c = origType->asUMLClassifier();
             if (dt && c)
                 dt->setOriginType(c);
@@ -315,7 +315,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (!stereotype.isEmpty()) {
         o->setStereotype(stereotype);
     }
-    if (gRelatedClassifier == NULL || gRelatedClassifier == o)
+    if (gRelatedClassifier == 0 || gRelatedClassifier == o)
         return o;
     QRegExp templateInstantiation(QLatin1String("^[\\w:\\.]+\\s*<(.*)>"));
     int pos = templateInstantiation.indexIn(name);
@@ -329,7 +329,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
-        if (p == NULL || p->isUMLDatatype())
+        if (p == 0 || p->isUMLDatatype())
             continue;
         const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
@@ -339,7 +339,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
         umldoc->addAssociation(assoc);
     }
-    if (o == NULL) {
+    if (o == 0) {
         uError() << "is NULL!";
     }
     return o;
@@ -377,7 +377,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
         DEBUG(DBG_SRC) << "insertAttribute: Don not know what to do with "
                  << owner->name() << " (object type " << UMLObject::toString(ot) << ")";
-        return NULL;
+        return 0;
     }
     UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);
     if (o) {
@@ -405,11 +405,11 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
                            bool isStatic /* =false */)
 {
     UMLObject *attrType = owner->findTemplate(type);
-    if (attrType == NULL) {
+    if (attrType == 0) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
         attrType = createUMLObject(UMLObject::ot_UMLObject, type, owner);
-        gRelatedClassifier = NULL;
+        gRelatedClassifier = 0;
         bPutAtGlobalScope = false;
     }
     return insertAttribute (owner, scope, name,
@@ -448,11 +448,11 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
             op->setType(klass);
         } else {
             UMLObject *typeObj = klass->findTemplate(type);
-            if (typeObj == NULL) {
+            if (typeObj == 0) {
                 bPutAtGlobalScope = true;
                 gRelatedClassifier = klass;
                 typeObj = createUMLObject(UMLObject::ot_UMLObject, type, klass);
-                gRelatedClassifier = NULL;
+                gRelatedClassifier = 0;
                 bPutAtGlobalScope = false;
                 op->setType(typeObj);
             }
@@ -513,11 +513,11 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
 {
     UMLClassifier *owner = method->umlParent()->asUMLClassifier();
     UMLObject *typeObj = owner->findTemplate(type);
-    if (typeObj == NULL) {
+    if (typeObj == 0) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
         typeObj = createUMLObject(UMLObject::ot_UMLObject, type, owner);
-        gRelatedClassifier = NULL;
+        gRelatedClassifier = 0;
         bPutAtGlobalScope = false;
     }
     UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
@@ -630,7 +630,7 @@ bool isDatatype(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_Datatype, parentPkg);
-    return (o!=NULL);
+    return (o != 0);
 }
 
 /**

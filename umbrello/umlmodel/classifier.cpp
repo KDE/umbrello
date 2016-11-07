@@ -65,7 +65,7 @@ UMLClassifier::UMLClassifier(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id)
 {
     m_BaseType = UMLObject::ot_Class;  // default value
-    m_pClassAssoc = NULL;
+    m_pClassAssoc = 0;
 }
 
 /**
@@ -138,7 +138,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
 {
     UMLOperationList list = findOperations(name);
     if (list.count() == 0) {
-        return NULL;
+        return 0;
     }
     const int inputParmCount = opParams.count();
 
@@ -165,7 +165,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
         }
     }
     // we did not find an exact match, so the signature is unique (acceptable)
-    return NULL;
+    return 0;
 }
 
 /**
@@ -181,7 +181,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
 {
     UMLOperationList list = findOperations(name);
     if (list.count() == 0) {
-        return NULL;
+        return 0;
     }
     // if there are operation(s) with the same name then compare the parameter list
     const int inputParmCount = params.count();
@@ -198,9 +198,9 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
             Model_Utils::NameAndType_ListIt nt(params.begin() + i);
             UMLClassifier *type = (*nt).m_type->asUMLClassifier();
             UMLClassifier *testType = testParams.at(i)->getType();
-            if (type == NULL && testType == NULL) { //no parameter type
+            if (type == 0 && testType == 0) { //no parameter type
                 continue;
-            } else if (type == NULL) {  //template parameter
+            } else if (type == 0) {  //template parameter
                 if (testType->name() != QLatin1String("class"))
                     break;
             } else if (type != testType)
@@ -217,7 +217,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
  * The new operation is initialized with name, id, etc.
  * If a method with the given profile already exists in the classifier,
  * no new method is created and the existing operation is returned.
- * If no name is provided, or if the params are NULL, an Operation
+ * If no name is provided, or if the params are 0, an Operation
  * Dialog is shown to ask the user for a name and parameters.
  * The operation's signature is checked for validity within the parent
  * classifier.
@@ -235,8 +235,8 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
  */
 UMLOperation* UMLClassifier::createOperation(
         const QString &name /*=QString()*/,
-        bool *isExistingOp  /*=NULL*/,
-        Model_Utils::NameAndType_List *params  /*=NULL*/)
+        bool *isExistingOp  /*=0*/,
+        Model_Utils::NameAndType_List *params  /*=0*/)
 {
     bool nameNotSet = (name.isNull() || name.isEmpty());
     if (! nameNotSet) {
@@ -244,8 +244,8 @@ UMLOperation* UMLClassifier::createOperation(
         if (params)
             parList = *params;
         UMLOperation* existingOp = findOperation(name, parList);
-        if (existingOp != NULL) {
-            if (isExistingOp != NULL)
+        if (existingOp != 0) {
+            if (isExistingOp != 0)
                 *isExistingOp = true;
             return existingOp;
         }
@@ -272,7 +272,7 @@ UMLOperation* UMLClassifier::createOperation(
             if(operationDialog->exec() != QDialog::Accepted) {
                 delete op;
                 delete operationDialog;
-                return NULL;
+                return 0;
             } else if (checkOperationSignature(op->name(), op->getParmList())) {
                 KMessageBox::information(0,
                                          i18n("An operation with the same name and signature already exists. You cannot add it again."));
@@ -286,7 +286,7 @@ UMLOperation* UMLClassifier::createOperation(
     // operation name is ok, formally add it to the classifier
     if (! addOperation(op)) {
         delete op;
-        return NULL;
+        return 0;
     }
 
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -364,7 +364,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, IDChangeLog* log)
  */
 int UMLClassifier::removeOperation(UMLOperation *op)
 {
-    if (op == NULL) {
+    if (op == 0) {
         uDebug() << "called on NULL op";
         return -1;
     }
@@ -404,7 +404,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         }
-        else if (findChildObject(name) != NULL) {
+        else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         }
         else {
@@ -414,7 +414,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
     }
 
     if (button != QDialog::Accepted) {
-        return NULL;
+        return 0;
     }
 
     addTemplate(newTemplate);
@@ -566,7 +566,7 @@ UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id, bool considerAnc
             }
         }
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -774,7 +774,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        } else if (findChildObject(name) != NULL) {
+        } else if (findChildObject(name) != 0) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
@@ -784,7 +784,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 
     if (button != QDialog::Accepted) {
         delete newAttribute;
-        return NULL;
+        return 0;
     }
 
     addAttribute(newAttribute);
@@ -859,7 +859,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
                                  int position /* = -1 */)
 {
     Q_ASSERT(att);
-    if (findChildObject(att->name()) == NULL) {
+    if (findChildObject(att->name()) == 0) {
         att->setParent(this);
         if (position >= 0 && position < (int)m_List.count()) {
             m_List.insert(position, att);
@@ -1060,7 +1060,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/)
 {
     QString name = newTemplate->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         newTemplate->setParent(this);
         m_List.append(newTemplate);
         emit templateAdded(newTemplate);
@@ -1089,7 +1089,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
 {
     Q_ASSERT(templt);
     QString name = templt->name();
-    if (findChildObject(name) == NULL) {
+    if (findChildObject(name) == 0) {
         templt->setParent(this);
         if (position >= 0 && position <= (int)m_List.count()) {
             m_List.insert(position, templt);
@@ -1457,14 +1457,14 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = NULL;
+    UMLClassifierListItem* pObject = 0;
     if (UMLDoc::tagEq(xmiTag, QLatin1String("Operation")) ||
         UMLDoc::tagEq(xmiTag, QLatin1String("ownedOperation"))) {
         pObject = new UMLOperation(this);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Attribute")) ||
                UMLDoc::tagEq(xmiTag, QLatin1String("ownedAttribute"))) {
         if (baseType() != UMLObject::ot_Class)
-            return NULL;
+            return 0;
         pObject = new UMLAttribute(this);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("TemplateParameter"))) {
         pObject = new UMLTemplate(this);
@@ -1481,7 +1481,7 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
  */
 bool UMLClassifier::load(QDomElement& element)
 {
-    UMLClassifierListItem *child = NULL;
+    UMLClassifierListItem *child = 0;
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
@@ -1499,7 +1499,7 @@ bool UMLClassifier::load(QDomElement& element)
             // Not evaluating the return value from load()
             // because we want a best effort.
 
-        } else if ((child = makeChildObject(tag)) != NULL) {
+        } else if ((child = makeChildObject(tag)) != 0) {
             if (child->loadFromXMI(element)) {
                 switch (child->baseType()) {
                     case UMLObject::ot_Template:
@@ -1526,7 +1526,7 @@ bool UMLClassifier::load(QDomElement& element)
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
             UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stereotype);
-            if (pObject == NULL) {
+            if (pObject == 0) {
                 // Not setting totalSuccess to false
                 // because we want a best effort.
                 continue;

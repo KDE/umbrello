@@ -368,7 +368,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QStri
         uError() << "HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?";
 
     // if we get here, we failed.
-    return (TextBlock*) NULL;
+    return (TextBlock*) 0;
 }
 
 void HierarchicalCodeBlock::initAttributes()

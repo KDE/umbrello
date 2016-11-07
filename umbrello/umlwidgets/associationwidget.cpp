@@ -131,7 +131,7 @@ AssociationWidget* AssociationWidget::create(UMLScene *scene)
 AssociationWidget* AssociationWidget::create
                                     (UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType::Enum assocType, UMLWidget* pWidgetB,
-                                     UMLObject *umlobject /* = NULL */)
+                                     UMLObject *umlobject /* = 0 */)
 {
     AssociationWidget* instance = new AssociationWidget(scene);
     if (umlobject) {
@@ -141,7 +141,7 @@ AssociationWidget* AssociationWidget::create
         if (Uml::AssociationType::hasUMLRepresentation(assocType)) {
             UMLObject* umlRoleA = pWidgetA->umlObject();
             UMLObject* umlRoleB = pWidgetB->umlObject();
-            if (umlRoleA != NULL && umlRoleB != NULL) {
+            if (umlRoleA != 0 && umlRoleB != 0) {
                 bool swap;
 
                 // This is not correct. We could very easily have more than one
@@ -152,7 +152,7 @@ AssociationWidget* AssociationWidget::create
                 // output is shown, in case there is a collision with code elsewhere.
                 UMLDoc *doc = UMLApp::app()->document();
                 UMLAssociation *myAssoc = doc->findAssociation(assocType, umlRoleA, umlRoleB, &swap);
-                if (myAssoc != NULL) {
+                if (myAssoc != 0) {
                     switch (assocType) {
                         case Uml::AssociationType::Generalization:
                         case Uml::AssociationType::Dependency:
@@ -171,11 +171,11 @@ AssociationWidget* AssociationWidget::create
                                      << umlRoleB->name() << "as an already existing assoc (swap="
                                      << swap << ")";
                             // now, just create a new association anyways
-                            myAssoc = NULL;
+                            myAssoc = 0;
                             break;
                     }
                 }
-                if (myAssoc == NULL) {
+                if (myAssoc == 0) {
                     myAssoc = new UMLAssociation(assocType, umlRoleA, umlRoleB);
                     // CHECK: myAssoc is not yet inserted at any parent UMLPackage -
                     // need to check carefully that all callers do this, lest it be
@@ -232,11 +232,11 @@ AssociationWidget::~AssociationWidget()
 void AssociationWidget::setUMLObject(UMLObject *obj)
 {
     WidgetBase::setUMLObject(obj);
-    if (obj == NULL)
+    if (obj == 0)
         return;
-    UMLClassifier *klass = NULL;
-    UMLAttribute *attr = NULL;
-    UMLEntity *ent = NULL;
+    UMLClassifier *klass = 0;
+    UMLAttribute *attr = 0;
+    UMLEntity *ent = 0;
     const UMLObject::ObjectType ot = obj->baseType();
     switch (ot) {
         case UMLObject::ot_Association:
@@ -397,7 +397,7 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (isCollaboration()) {
         ft->setSequenceNumber(m_SequenceNumber);
-        if (m_umlObject != NULL) {
+        if (m_umlObject != 0) {
             ft->setText(operationText(m_scene));
         } else {
             ft->setText(name());
@@ -563,8 +563,8 @@ void AssociationWidget::calculateNameTextSegment()
  */
 UMLAssociation* AssociationWidget::association() const
 {
-    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
-        return NULL;
+    if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
+        return 0;
     return m_umlObject->asUMLAssociation();
 }
 
@@ -576,11 +576,11 @@ UMLAssociation* AssociationWidget::association() const
  */
 UMLAttribute* AssociationWidget::attribute() const
 {
-    if (m_umlObject == NULL)
-        return NULL;
+    if (m_umlObject == 0)
+        return 0;
     UMLObject::ObjectType ot = m_umlObject->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute && ot != UMLObject::ot_InstanceAttribute)
-        return NULL;
+        return 0;
     return m_umlObject->asUMLAttribute();
 }
 
@@ -596,7 +596,7 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
         m_nameWidget = new FloatingTextWidget(m_scene);
         *m_nameWidget = *(other.m_nameWidget);
     } else {
-        m_nameWidget = NULL;
+        m_nameWidget = 0;
     }
 
     for (unsigned r = (unsigned)A; r <= (unsigned)B; ++r) {
@@ -609,21 +609,21 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
             lhs.multiplicityWidget = new FloatingTextWidget(m_scene);
             *(lhs.multiplicityWidget) = *(rhs.multiplicityWidget);
         } else {
-            lhs.multiplicityWidget = NULL;
+            lhs.multiplicityWidget = 0;
         }
 
         if (rhs.roleWidget) {
             lhs.roleWidget = new FloatingTextWidget(m_scene);
             *(lhs.roleWidget) = *(rhs.roleWidget);
         } else {
-            lhs.roleWidget = NULL;
+            lhs.roleWidget = 0;
         }
 
         if (rhs.changeabilityWidget) {
             lhs.changeabilityWidget = new FloatingTextWidget(m_scene);
             *(lhs.changeabilityWidget) = *(rhs.changeabilityWidget);
         } else {
-            lhs.changeabilityWidget = NULL;
+            lhs.changeabilityWidget = 0;
         }
 
         lhs.umlWidget = rhs.umlWidget;
@@ -649,7 +649,7 @@ bool AssociationWidget::operator==(const AssociationWidget& other) const
         return true;
 
     // if no model representation exists, then the widgets are not equal
-    if (association() == NULL && other.association() == NULL)
+    if (association() == 0 && other.association() == 0)
         return false;
 
     if (!m_umlObject || !other.m_umlObject ) {
@@ -716,10 +716,10 @@ AssociationLine* AssociationWidget::associationLine() const
  */
 bool AssociationWidget::activate()
 {
-    if (m_umlObject == NULL &&
+    if (m_umlObject == 0 &&
         AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = umlDoc()->findObjectById(m_nId);
-        if (myObj == NULL) {
+        if (myObj == 0) {
             uError() << "cannot find UMLObject " << Uml::ID::toString(m_nId);
             return false;
         } else {
@@ -739,9 +739,9 @@ bool AssociationWidget::activate()
 
     Uml::AssociationType::Enum type = associationType();
 
-    if (m_role[RoleType::A].umlWidget == NULL)
+    if (m_role[RoleType::A].umlWidget == 0)
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(RoleType::A)), RoleType::A);
-    if (m_role[RoleType::B].umlWidget == NULL)
+    if (m_role[RoleType::B].umlWidget == 0)
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(RoleType::B)), RoleType::B);
 
     if (!m_role[RoleType::A].umlWidget || !m_role[RoleType::B].umlWidget) {
@@ -754,7 +754,7 @@ bool AssociationWidget::activate()
     if (AssocRules::allowRole(type)) {
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
             WidgetRole& robj = m_role[r];
-            if (robj.roleWidget == NULL)
+            if (robj.roleWidget == 0)
                 continue;
             robj.roleWidget->setLink(this);
             TextRole::Enum tr = (r == RoleType::A ? TextRole::RoleAName : TextRole::RoleBName);
@@ -772,7 +772,7 @@ bool AssociationWidget::activate()
         }
     }
 
-    if (m_nameWidget != NULL) {
+    if (m_nameWidget != 0) {
         m_nameWidget->setLink(this);
         m_nameWidget->setTextRole(calculateNameType(TextRole::Name));
 
@@ -789,7 +789,7 @@ bool AssociationWidget::activate()
         WidgetRole& robj = m_role[r];
 
         FloatingTextWidget* pMulti = robj.multiplicityWidget;
-        if (pMulti != NULL &&
+        if (pMulti != 0 &&
                 AssocRules::allowMultiplicity(type, robj.umlWidget->baseType())) {
             pMulti->setLink(this);
             TextRole::Enum tr = (r == RoleType::A ? TextRole::MultiA : TextRole::MultiB);
@@ -802,7 +802,7 @@ bool AssociationWidget::activate()
         }
 
         FloatingTextWidget* pChangeWidget = robj.changeabilityWidget;
-        if (pChangeWidget != NULL) {
+        if (pChangeWidget != 0) {
             pChangeWidget->setLink(this);
             TextRole::Enum tr = (r == RoleType::A ? TextRole::ChangeA : TextRole::ChangeB);
             pChangeWidget->setTextRole(tr);
@@ -906,7 +906,7 @@ FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole::Enum tr) 
         default:
             break;
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -916,7 +916,7 @@ FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole::Enum tr) 
  */
 QString AssociationWidget::name() const
 {
-    if (m_nameWidget == NULL)
+    if (m_nameWidget == 0)
         return QString();
     return m_nameWidget->text();
 }
@@ -947,7 +947,7 @@ void AssociationWidget::setName(const QString &strName)
         if (! FloatingTextWidget::isTextValid(strName)) {
             //m_nameWidget->hide();
             m_scene->removeWidget(m_nameWidget);
-            m_nameWidget = NULL;
+            m_nameWidget = 0;
             return;
         }
     }
@@ -982,7 +982,7 @@ void AssociationWidget::setStereotype(const QString &stereo) {
  */
 QString AssociationWidget::roleName(Uml::RoleType::Enum role) const
 {
-    if (m_role[role].roleWidget == NULL)
+    if (m_role[role].roleWidget == 0)
         return QString();
     return m_role[role].roleWidget->text();
 }
@@ -1035,7 +1035,7 @@ void AssociationWidget::setRoleDocumentation(const QString &doc, Uml::RoleType::
  */
 QString AssociationWidget::roleDocumentation(Uml::RoleType::Enum role) const
 {
-    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return QString();
     UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getRoleDoc(role);
@@ -1062,12 +1062,12 @@ void AssociationWidget::setFloatingText(Uml::TextRole::Enum role,
         if (ft) {
             // Remove preexisting FloatingTextWidget
             m_scene->removeWidget(ft);  // physically deletes ft
-            ft = NULL;
+            ft = 0;
         }
         return;
     }
 
-    if (ft == NULL) {
+    if (ft == 0) {
         ft = new FloatingTextWidget(m_scene, role, text);
         ft->setParentItem(this);
         ft->setLink(this);
@@ -1091,7 +1091,7 @@ void AssociationWidget::setFloatingText(Uml::TextRole::Enum role,
  */
 QString AssociationWidget::multiplicity(Uml::RoleType::Enum role) const
 {
-    if (m_role[role].multiplicityWidget == NULL)
+    if (m_role[role].multiplicityWidget == 0)
         return QString();
     return m_role[role].multiplicityWidget->text();
 }
@@ -1153,7 +1153,7 @@ void AssociationWidget::setVisibility(Visibility::Enum value, Uml::RoleType::Enu
  */
 Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum role) const
 {
-    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
     UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->changeability(role);
@@ -1408,7 +1408,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
             //umla->deleteLater();
         }
 
-        m_umlObject = NULL;
+        m_umlObject = 0;
     }
 
     if (assoc) {
@@ -1458,7 +1458,7 @@ bool AssociationWidget::isSelf() const
  */
 Uml::AssociationType::Enum AssociationWidget::associationType() const
 {
-    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
     UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getAssocType();
@@ -1507,7 +1507,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
  */
 Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
 {
-    if (m_role[role].umlWidget == NULL) {
+    if (m_role[role].umlWidget == 0) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
             UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
@@ -1526,7 +1526,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
  */
 Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) const
 {
-    if (m_role[role].umlWidget == NULL) {
+    if (m_role[role].umlWidget == 0) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
             UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
@@ -1827,9 +1827,9 @@ void AssociationWidget::syncToModel()
 {
     UMLAssociation *uml = association();
 
-    if (uml == NULL) {
+    if (uml == 0) {
         UMLAttribute *attr = attribute();
-        if (attr == NULL)
+        if (attr == 0)
             return;
         setVisibility(attr->visibility(), RoleType::B);
         setRoleName(attr->name(), RoleType::B);
@@ -1861,7 +1861,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 {
     UMLAssociation *umlassoc = association();
     UMLAttribute *umlattr = attribute();
-    if (umlassoc == NULL && umlattr == NULL)
+    if (umlassoc == 0 && umlattr == 0)
         return;
 
     // block emit modified signal, or we get a horrible loop
@@ -2789,7 +2789,7 @@ void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
         return;
     }
     FloatingTextWidget *ft = textWidgetByRole(role);
-    if (ft == NULL)
+    if (ft == 0)
         return;
     QPointF pos = calculateTextPosition(role);
     ft->setX(pos.x());
@@ -2822,7 +2822,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole::Enum role, cons
         return;
     }
     FloatingTextWidget *ft = textWidgetByRole(role);
-    if (ft == NULL)
+    if (ft == 0)
         return;
     qreal ftX = ft->x();
     qreal ftY = ft->y();
@@ -2862,7 +2862,7 @@ void AssociationWidget::removeAssocClassLine()
  */
 void AssociationWidget::createAssocClassLine()
 {
-    if (m_pAssocClassLine == NULL) {
+    if (m_pAssocClassLine == 0) {
         m_pAssocClassLine = new QGraphicsLineItem(this);
     }
     QPen pen(lineColor(), lineWidth(), Qt::DashLine);
@@ -2907,7 +2907,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
  */
 void AssociationWidget::computeAssocClassLine()
 {
-    if (m_associationClass == NULL || m_pAssocClassLine == NULL) {
+    if (m_associationClass == 0 || m_pAssocClassLine == 0) {
         return;
     }
     if (m_nLinePathSegmentIndex < 0) {
@@ -3050,13 +3050,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);
+                                        oldText, 0);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
                 m_scene->removeWidget(m_role[r].multiplicityWidget);
-                m_role[r].multiplicityWidget = NULL;
+                m_role[r].multiplicityWidget = 0;
             }
         }
         break;
@@ -3070,13 +3070,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Association Name"),
                                         i18n("Enter association name:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);
+                                        oldText, 0);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else if (m_nameWidget) {
                 m_scene->removeWidget(m_nameWidget);
-                m_nameWidget = NULL;
+                m_nameWidget = 0;
             }
         }
         break;
@@ -3092,13 +3092,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
                                         i18n("Role Name"),
                                         i18n("Enter role name:"),
                                         QLineEdit::Normal,
-                                        oldText, NULL);
+                                        oldText, 0);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
                 m_scene->removeWidget(m_role[r].roleWidget);
-                m_role[r].roleWidget = NULL;
+                m_role[r].roleWidget = 0;
             }
         }
         break;
@@ -3347,7 +3347,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  */
 int AssociationWidget::getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == NULL)) {
+    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
         return 0;
     }
     int widgetCount = 0;
@@ -3510,7 +3510,7 @@ void AssociationWidget::updateAssociations(int totalCount,
                                            Uml::Region::Enum region,
                                            Uml::RoleType::Enum role)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == NULL)) {
+    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
         return;
     }
     AssociationWidgetList list = m_scene->associationList();
@@ -3586,7 +3586,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
                                               Uml::Region::Enum region,
                                               Uml::RoleType::Enum role)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == NULL)) {
+    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
         return;
     }
     // If the association is to self and the line ends are on the same region then
@@ -3775,11 +3775,11 @@ void AssociationWidget::setSelected(bool _select /* = true */)
  *
  * @param p Point to be checked.
  *
- * @return m_nameWidget if m_nameWidget is non NULL and m_nameWidget->onWidget(p) returns non NULL;
+ * @return m_nameWidget if m_nameWidget is non NULL and m_nameWidget->onWidget(p) returns non 0;
  *         m_role[0].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
- *         its onWidget(p) returns non NULL;
+ *         its onWidget(p) returns non 0;
  *         m_role[1].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
- *         its onWidget(p) returns non NULL;
+ *         its onWidget(p) returns non 0;
  *         else NULL.
  */
 UMLWidget* AssociationWidget::onWidget(const QPointF &p)
@@ -3796,7 +3796,7 @@ UMLWidget* AssociationWidget::onWidget(const QPointF &p)
         if (r.roleWidget && r.roleWidget->onWidget(p))
             return r.roleWidget;
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -3898,6 +3898,13 @@ void AssociationWidget::moveEntireAssoc(qreal x, qreal y)
 {
     //TODO: ADD SUPPORT FOR ASSOC. ON SEQ. DIAGRAMS WHEN NOTES BACK IN.
     moveMidPointsBy(x, y);
+    // multi select
+    if (umlScene()->selectedCount() > 1) {
+        QPointF d(x, y);
+        QPointF s = m_associationLine->startPoint() + d;
+        QPointF e = m_associationLine->endPoint() + d;
+        m_associationLine->setEndPoints(s, e);
+    }
     calculateEndingPoints();
     calculateNameTextSegment();
     resetTextPositions();
@@ -3943,7 +3950,7 @@ void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj
 void AssociationWidget::slotAttributeChanged()
 {
     UMLAttribute *attr = attribute();
-    if (attr == NULL) {
+    if (attr == 0) {
         uError() << "attribute() returns NULL";
         return;
     }
@@ -4075,7 +4082,7 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
         assocElement.setAttribute(QLatin1String("visibilityB"), visibility(RoleType::B));
         assocElement.setAttribute(QLatin1String("changeabilityA"), changeability(RoleType::A));
         assocElement.setAttribute(QLatin1String("changeabilityB"), changeability(RoleType::B));
-        if (m_umlObject == NULL) {
+        if (m_umlObject == 0) {
             assocElement.setAttribute(QLatin1String("roleAdoc"), roleDocumentation(RoleType::A));
             assocElement.setAttribute(QLatin1String("roleBdoc"), roleDocumentation(RoleType::B));
             assocElement.setAttribute(QLatin1String("documentation"), documentation());

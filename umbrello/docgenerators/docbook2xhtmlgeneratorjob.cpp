@@ -51,12 +51,12 @@ Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* 
 void Docbook2XhtmlGeneratorJob::run()
 {
   UMLDoc* umlDoc = UMLApp::app()->document();
-  xsltStylesheetPtr cur = NULL;
+  xsltStylesheetPtr cur = 0;
   xmlDocPtr doc, res;
 
   const char *params[16 + 1];
   int nbparams = 0;
-  params[nbparams] = NULL;
+  params[nbparams] = 0;
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 

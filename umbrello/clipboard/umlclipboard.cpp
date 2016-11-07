@@ -80,14 +80,14 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
     if (fromView) {
         m_type = clip4;
         UMLView *view = UMLApp::app()->currentView();
-        if (view == NULL) {
+        if (view == 0) {
             uError() << "UMLApp::app()->currentView() is NULL";
-            return NULL;
+            return 0;
         }
         UMLScene *scene = view->umlScene();
-        if (scene == NULL) {
+        if (scene == 0) {
             uError() << "currentView umlScene() is NULL";
-            return NULL;
+            return 0;
         }
         m_WidgetList = scene->selectedWidgetsExt();
         //if there is no selected widget then there is no copy action
@@ -128,7 +128,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         if (m_type == clip2) {
             foreach (UMLView* view, m_ViewList) {
                 UMLScene *scene = view->umlScene();
-                if (scene == NULL) {
+                if (scene == 0) {
                     uError() << "currentView umlScene() is NULL";
                     continue;
                 }
@@ -467,7 +467,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     }
 
     if (NoteWidget::s_pCurrentNote) {
-        NoteWidget::s_pCurrentNote = NULL;
+        NoteWidget::s_pCurrentNote = 0;
     } else {
         foreach (UMLView* pView, views) {
             if (!doc->addUMLView(pView)) {
@@ -607,7 +607,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
     UMLClassifier *parent = lvitem->umlObject()->asUMLClassifier();
 
-    if (parent == NULL) {
+    if (parent == 0) {
         uError() << "parent is not a UMLClassifier";
         return false;
     }

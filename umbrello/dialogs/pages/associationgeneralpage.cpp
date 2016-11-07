@@ -111,7 +111,7 @@ void AssociationGeneralPage::constructWidget()
     if (umlAssoc) {
         // stereotype checkbox
         m_pStereoChkB = new QCheckBox(i18n("Stereotype"), nameAndTypeGB);
-        m_pStereoChkB->setChecked(umlAssoc->umlStereotype() != NULL);
+        m_pStereoChkB->setChecked(umlAssoc->umlStereotype() != 0);
         connect(m_pStereoChkB, &QCheckBox::stateChanged, this, &AssociationGeneralPage::slotStereoCheckboxChanged);
         m_pNameAndTypeLayout->addWidget(m_pStereoChkB, 0, 2);
     }
@@ -188,7 +188,7 @@ void AssociationGeneralPage::constructWidget()
 
 void AssociationGeneralPage::slotStereoCheckboxChanged(int state)
 {
-    QWidget *nameInputWidget = NULL;
+    QWidget *nameInputWidget = 0;
     if (state) {
         m_pAssocNameLE->hide();
         m_pNameAndTypeLayout->removeWidget(m_pAssocNameLE);

@@ -185,25 +185,25 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 {
     UMLEntity *owningParent = umlParent()->asUMLEntity();
 
-    if (pAttr == NULL || rAttr == NULL) {
+    if (pAttr == 0 || rAttr == 0) {
         uError() << "null values passed to function";
         return false;
     }
     // check for sanity of pAttr (parent entity attribute)
-    if (owningParent == NULL) {
+    if (owningParent == 0) {
         uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
-    if (owningParent->findChildObjectById(pAttr->id()) == NULL) {
+    if (owningParent->findChildObjectById(pAttr->id()) == 0) {
         uError() << " parent " << owningParent->name()
                  << " does not contain attribute " << pAttr->name();
         return false;
     }
 
     //check for sanity of rAttr (referenced entity attribute)
-    if (m_ReferencedEntity != NULL) {
-       if (m_ReferencedEntity->findChildObjectById(rAttr->id()) == NULL) {
+    if (m_ReferencedEntity != 0) {
+       if (m_ReferencedEntity->findChildObjectById(rAttr->id()) == 0) {
         uError() << " parent " << m_ReferencedEntity->name()
                  << " does not contain attribute " << rAttr->name();
         return false;
@@ -276,7 +276,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = obj->asUMLEntity();
 
-    if (m_ReferencedEntity == NULL) {
+    if (m_ReferencedEntity == 0) {
         // save for resolving later
         m_pReferencedEntityID = referencedEntityId;
     }
@@ -303,15 +303,15 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
             UMLEntityAttribute* key = keyObj->asUMLEntityAttribute();
 
-            if (keyObj == NULL) {
+            if (keyObj == 0) {
                 uWarning() << "unable to resolve foreign key referencing attribute " << xmiKey;
-            } else if (m_ReferencedEntity == NULL) {
+            } else if (m_ReferencedEntity == 0) {
                 // if referenced entity is null, then we won't find its attributes even
                 // save for resolving later
                 m_pEntityAttributeIDMap.insert(key, valueId);
             } else {
                 UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
-                if (valueObj == NULL) {
+                if (valueObj == 0) {
                     uWarning() << "unable to resolve foreign key referenced attribute" << xmiValue;
                 } else {
                     m_AttributeMap[key] = valueObj->asUMLEntityAttribute();
@@ -383,7 +383,7 @@ bool UMLForeignKeyConstraint::resolveRef()
     if (!Uml::ID::toString(m_pReferencedEntityID).isEmpty()) {
         UMLObject* obj = doc->findObjectById(m_pReferencedEntityID);
         m_ReferencedEntity = obj->asUMLEntity();
-        if (m_ReferencedEntity == NULL) {
+        if (m_ReferencedEntity == 0) {
             success = false;
         }
     }
@@ -393,7 +393,7 @@ bool UMLForeignKeyConstraint::resolveRef()
        if (!Uml::ID::toString(i.value()).isEmpty()) {
            UMLObject* obj = doc->findObjectById(i.value());
            m_AttributeMap[i.key()] = obj->asUMLEntityAttribute();
-           if (m_AttributeMap[i.key()] == NULL) {
+           if (m_AttributeMap[i.key()] == 0) {
                success = false;
            }
        }

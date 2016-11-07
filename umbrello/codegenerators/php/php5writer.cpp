@@ -3094,7 +3094,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
             UMLObject *o = a->getObject(Uml::RoleType::A);
-            if (o == NULL) {
+            if (o == 0) {
                 uError() << "aggregation role A object is NULL" << endl;
                 continue;
             }
@@ -3112,7 +3112,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         foreach (UMLAssociation* a, compositions) {
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::RoleType::A);
-            if (o == NULL) {
+            if (o == 0) {
                 uError() << "composition role A object is NULL";
                 continue;
             }

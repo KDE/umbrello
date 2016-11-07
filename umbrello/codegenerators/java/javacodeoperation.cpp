@@ -111,7 +111,7 @@ int JavaCodeOperation::lastEditableLine()
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 
     // Check for dynamic casting failure
-    if (doc == NULL)
+    if (doc == 0)
     {
         uError() << "doc: invalid dynamic cast";
         return -1;

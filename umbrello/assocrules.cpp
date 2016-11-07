@@ -103,7 +103,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::State:
         {
             StateWidget *pState = widget->asStateWidget();
-            return (pState == NULL || pState->stateType() != StateWidget::End);
+            return (pState == 0 || pState->stateType() != StateWidget::End);
         }
         break;
 
@@ -111,7 +111,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Exception:
         {
             ActivityWidget *pActivity = widget->asActivityWidget();
-            return (pActivity == NULL || pActivity->activityType() != ActivityWidget::End);
+            return (pActivity == 0 || pActivity->activityType() != ActivityWidget::End);
         }
         break;
 
@@ -277,11 +277,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
-                widgetA->asForkJoinWidget() == NULL && !isSignal &&!isObjectNode) {
+                widgetA->asForkJoinWidget() == 0 && !isSignal &&!isObjectNode) {
                 return false;
             }
             // only Forks and Branches can have more than one "outgoing" transition
-            if (actA != NULL && actTypeA != ActivityWidget::Branch) {
+            if (actA != 0 && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc, list) {
                     if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {

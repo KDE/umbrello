@@ -116,7 +116,7 @@ bool UMLDatatypeWidget::applyAttribute()
     }
 
     UMLClassifier *classifier = obj->asUMLClassifier();
-    if (classifier == NULL) {
+    if (classifier == 0) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
         // string well. Use Object_Factory in those cases.
@@ -125,8 +125,8 @@ bool UMLDatatypeWidget::applyAttribute()
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(m_parent);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, finalString);
-            Import_Utils::setRelatedClassifier(NULL);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
+            Import_Utils::setRelatedClassifier(0);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
             // Else we don't know what it is so as a compromise create a class.
@@ -137,7 +137,7 @@ bool UMLDatatypeWidget::applyAttribute()
                 (contains ? UMLObject::ot_Datatype : UMLObject::ot_Class);
             obj = Object_Factory::createUMLObject(ot, finalString);
         }
-        if (obj == NULL)
+        if (obj == 0)
             return false;
         classifier = obj->asUMLClassifier();
     }
@@ -158,14 +158,14 @@ bool UMLDatatypeWidget::applyEntityAttribute()
     }
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = obj->asUMLClassifier();
-    if (classifier == NULL) {
+    if (classifier == 0) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
         UMLObject::ObjectType ot =
             (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
                                                       : UMLObject::ot_Class);
         obj = Object_Factory::createUMLObject(ot, typeName);
-        if (obj == NULL)
+        if (obj == 0)
             return false;
         classifier = obj->asUMLClassifier();
     }
@@ -191,7 +191,7 @@ bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
     QString typeName = ui->typesCB->currentText();
-    if (m_parent == NULL) {
+    if (m_parent == 0) {
         uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
     } else {
         UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
@@ -386,7 +386,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
     QStringList types;
     // add template parameters
     UMLClassifier *pConcept = m_parent->asUMLClassifier();
-    if (pConcept == NULL) {
+    if (pConcept == 0) {
         uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
                  << " is not a UMLClassifier";
     } else {

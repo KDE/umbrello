@@ -885,10 +885,10 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         ObjectWidget *ow = obj->asObjectWidget();
-        if (ow == NULL)
+        if (ow == 0)
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
-        if (pLine == NULL) {
+        if (pLine == 0) {
             uError() << "SeqLineWidget of " << ow->name()
             << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
             continue;
@@ -910,10 +910,10 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = obj->asObjectWidget();
-        if (ow == NULL)
+        if (ow == 0)
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
-        if (pLine == NULL) {
+        if (pLine == 0) {
             uError() << "SeqLineWidget of " << ow->name()
                      << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
             continue;
@@ -947,7 +947,7 @@ UMLWidget* UMLScene::widgetAt(const QPointF& p)
     UMLWidget  *retWid = 0;
     foreach (UMLWidget* wid, m_WidgetList) {
         UMLWidget* w = wid->onWidget(p);
-        if (w == NULL)
+        if (w == 0)
             continue;
         const qreal s = (w->width() + w->height()) / 2.0;
         if (s < relativeSize) {
@@ -1464,13 +1464,13 @@ bool UMLScene::isSavedInSeparateFile()
     const QString msgPrefix(QLatin1String("UMLScene::isSavedInSeparateFile(") + name() + QLatin1String("): "));
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
-    if (lvItem == NULL) {
+    if (lvItem == 0) {
         uError() << msgPrefix
                  << "listView->findUMLObject(this) returns false";
         return false;
     }
     UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>(lvItem->parent());
-    if (parentItem == NULL) {
+    if (parentItem == 0) {
         uError() << msgPrefix
                  << "parent item in listview is not a UMLListViewItem (?)";
         return false;
@@ -1479,7 +1479,7 @@ bool UMLScene::isSavedInSeparateFile()
     if (! Model_Utils::typeIsFolder(lvt))
         return false;
     UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
-    if (modelFolder == NULL) {
+    if (modelFolder == 0) {
         uError() << msgPrefix
                  << "parent model object is not a UMLFolder (?)";
         return false;
@@ -2012,7 +2012,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
         return;
     if (a->associationType() == Uml::AssociationType::Containment) {
         UMLObject *objToBeMoved = a->widgetForRole(Uml::RoleType::B)->umlObject();
-        if (objToBeMoved != NULL) {
+        if (objToBeMoved != 0) {
             UMLListView *lv = UMLApp::app()->listView();
             lv->moveObject(objToBeMoved->id(),
                            Model_Utils::convert_OT_LVT(objToBeMoved),
@@ -2124,20 +2124,20 @@ void UMLScene::removeAllWidgets()
  */
 void UMLScene::updateContainment(UMLCanvasObject *self)
 {
-    if (self == NULL)
+    if (self == 0)
         return;
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
-    UMLWidget *selfWidget = NULL, *newParentWidget = NULL;
+    UMLWidget *selfWidget = 0, *newParentWidget = 0;
     UMLPackage *newParent = self->umlPackage();
     foreach(UMLWidget* w, m_WidgetList) {
         UMLObject *o = w->umlObject();
         if (o == self)
             selfWidget = w;
-        else if (newParent != NULL && o == newParent)
+        else if (newParent != 0 && o == newParent)
             newParentWidget = w;
     }
-    if (selfWidget == NULL)
+    if (selfWidget == 0)
         return;
     // Remove possibly obsoleted containment association.
     foreach(AssociationWidget* a, m_AssociationList) {
@@ -2160,7 +2160,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
         // containing object.
         break;
     }
-    if (newParentWidget == NULL)
+    if (newParentWidget == 0)
         return;
     // Create the new containment association.
     AssociationWidget *a = AssociationWidget::create
@@ -2176,7 +2176,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
  */
 void UMLScene::createAutoAssociations(UMLWidget * widget)
 {
-    if (widget == NULL ||
+    if (widget == 0 ||
         (m_Type != Uml::DiagramType::Class &&
          m_Type != Uml::DiagramType::Object &&
          m_Type != Uml::DiagramType::Component &&
@@ -2211,24 +2211,24 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     //   end if
     // end if
     UMLObject *tmpUmlObj = widget->umlObject();
-    if (tmpUmlObj == NULL)
+    if (tmpUmlObj == 0)
         return;
     UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
-    if (umlObj == NULL)
+    if (umlObj == 0)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 
     Uml::ID::Type myID = umlObj->id();
     foreach(UMLAssociation* assoc, umlAssocs) {
-        UMLCanvasObject *other = NULL;
+        UMLCanvasObject *other = 0;
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
-        if (roleAObj == NULL) {
+        if (roleAObj == 0) {
             DEBUG(DBG_SRC) << "roleA object is NULL at UMLAssoc "
                            << Uml::ID::toString(assoc->id());
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(Uml::RoleType::B);
-        if (roleBObj == NULL) {
+        if (roleBObj == 0) {
             DEBUG(DBG_SRC) << "roleB object is NULL at UMLAssoc "
                            << Uml::ID::toString(assoc->id());
             continue;
@@ -2335,7 +2335,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     }
     // if the UMLCanvasObject has a parentPackage then
     UMLPackage *parent = umlObj->umlPackage();
-    if (parent == NULL)
+    if (parent == 0)
         return;
     // if the parentPackage has a widget representation on this view then
     Uml::ID::Type pkgID = parent->id();
@@ -2364,7 +2364,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
  */
 void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
 {
-    if (widget == NULL || m_Type != Uml::DiagramType::Class || !m_Options.classState.showAttribAssocs)
+    if (widget == 0 || m_Type != Uml::DiagramType::Class || !m_Options.classState.showAttribAssocs)
         return;
 
     // Pseudocode:
@@ -2394,12 +2394,12 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     //
     // Implementation:
     UMLObject *tmpUmlObj = widget->umlObject();
-    if (tmpUmlObj == NULL)
+    if (tmpUmlObj == 0)
         return;
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->isUMLDatatype()) {
         UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
-        while (dt->originType() != NULL) {
+        while (dt->originType() != 0) {
             tmpUmlObj = dt->originType();
             if (!tmpUmlObj->isUMLDatatype())
                 break;
@@ -2433,7 +2433,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
 void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
                                               UMLWidget *widget /*, UMLClassifier * klass*/)
 {
-    if (type == NULL) {
+    if (type == 0) {
         // DEBUG(DBG_SRC) << klass->getName() << ": type is NULL for "
         //                << "attribute " << attr->getName();
         return;
@@ -2443,7 +2443,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     // if the attribute type has a widget representation on this view
     if (w) {
         AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-        if (a == NULL &&
+        if (a == 0 &&
             // if the current diagram type permits compositions
             AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
@@ -2473,7 +2473,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
             // if the referenced type has a widget representation on this view
             if (w) {
                 AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-                if (a == NULL &&
+                if (a == 0 &&
                         // if the current diagram type permits aggregations
                         AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
@@ -2495,7 +2495,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
 
 void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
 {
-    if (widget == NULL || m_Type != Uml::DiagramType::EntityRelationship)
+    if (widget == 0 || m_Type != Uml::DiagramType::EntityRelationship)
         return;
 
     // Pseudocode:
@@ -2510,11 +2510,11 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
     //       end if
 
     UMLObject *tmpUmlObj = widget->umlObject();
-    if (tmpUmlObj == NULL)
+    if (tmpUmlObj == 0)
         return;
     // check if the underlying model object is really a UMLEntity
     UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
-    if (umlObj == NULL)
+    if (umlObj == 0)
         return;
     // finished checking whether this widget has a UMLCanvas Object
 
@@ -2529,12 +2529,12 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
         UMLEntityConstraint *eConstr = cli->asUMLEntityConstraint();
 
         UMLForeignKeyConstraint* fkc = eConstr->asUMLForeignKeyConstraint();
-        if (fkc == NULL) {
+        if (fkc == 0) {
             return;
         }
 
         UMLEntity* refEntity = fkc->getReferencedEntity();
-        if (refEntity == NULL) {
+        if (refEntity == 0) {
             return;
         }
 
@@ -2544,17 +2544,17 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
 
 void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKeyConstraint* fkConstraint, UMLWidget* widget)
 {
-    if (refEntity == NULL) {
+    if (refEntity == 0) {
         return;
     }
 
     Uml::AssociationType::Enum assocType = Uml::AssociationType::Relationship;
     UMLWidget *w = findWidget(refEntity->id());
-    AssociationWidget *aw = NULL;
+    AssociationWidget *aw = 0;
 
     if (w) {
         aw = findAssocWidget(w, widget, fkConstraint->name());
-        if (aw == NULL &&
+        if (aw == 0 &&
             // if the current diagram type permits relationships
             AssocRules::allowAssociation(assocType, w, widget)) {
 
@@ -2604,7 +2604,7 @@ void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
  */
 void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px, qreal& py, qreal& qx, qreal& qy)
 {
-    if (ft == NULL || !ft->isVisible())
+    if (ft == 0 || !ft->isVisible())
         return;
 
     qreal x = ft->x();
@@ -3513,7 +3513,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // section when each owning association is dumped. -b.t.
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
-             widget->asFloatingTextWidget()->link() == NULL)
+             widget->asFloatingTextWidget()->link() == 0)
             widget->saveToXMI(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);
@@ -3676,7 +3676,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
             m_WidgetList.append(widget);
             widget->clipSize();
             // In the interest of best-effort loading, in case of a
-            // (widget == NULL) we still go on.
+            // (widget == 0) we still go on.
             // The individual widget's loadFromXMI method should
             // already have generated an error message to tell the
             // user that something went wrong.
@@ -3702,8 +3702,8 @@ UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
     QString idstr  = widgetElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
 
-    if (widget == NULL)
-        return NULL;
+    if (widget == 0)
+        return 0;
     if (!widget->loadFromXMI(widgetElement)) {
         widget->cleanup();
         delete widget;
@@ -3826,12 +3826,12 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         }
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLObject *o = m_doc->findObjectById(id);
-        if (o == NULL) {
+        if (o == 0) {
             uError() << "Cannot find object for id " << idStr;
         } else {
             UMLObject::ObjectType ot = o->baseType();
             DEBUG(DBG_SRC) << "Create widget for model object of type " << UMLObject::toString(ot);
-            UMLWidget *widget = NULL;
+            UMLWidget *widget = 0;
             switch (ot) {
             case UMLObject::ot_Class:
                 widget = new ClassifierWidget(this, o->asUMLClassifier());
@@ -3841,13 +3841,13 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 Uml::AssociationType::Enum at = umla->getAssocType();
                 UMLObject* objA = umla->getObject(Uml::RoleType::A);
                 UMLObject* objB = umla->getObject(Uml::RoleType::B);
-                if (objA == NULL || objB == NULL) {
+                if (objA == 0 || objB == 0) {
                     uError() << "intern err 1";
                     return false;
                 }
                 UMLWidget *wA = findWidget(objA->id());
                 UMLWidget *wB = findWidget(objB->id());
-                if (wA != NULL && wB != NULL) {
+                if (wA != 0 && wB != 0) {
                     AssociationWidget *aw =
                         AssociationWidget::create(this, wA, at, wB, umla);
                     aw->syncToModel();
@@ -3891,7 +3891,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
     if (idStr.isEmpty())
         return false;
     m_nID = Uml::ID::fromString(idStr);
-    UMLListViewItem *ulvi = NULL;
+    UMLListViewItem *ulvi = 0;
     for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment())
             continue;
@@ -4064,7 +4064,7 @@ void UMLScene::alignVerticalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
-    UMLWidget* widgetPrev = NULL;
+    UMLWidget* widgetPrev = 0;
     foreach(UMLWidget *widget, widgetList) {
         if (i == 1) {
             widgetPrev = widget;
@@ -4095,7 +4095,7 @@ void UMLScene::alignHorizontalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
-    UMLWidget* widgetPrev = NULL;
+    UMLWidget* widgetPrev = 0;
     foreach(UMLWidget *widget,  widgetList) {
         if (i == 1) {
             widgetPrev = widget;

@@ -86,11 +86,11 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
         return;
     Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
-    UMLObject *o = NULL;
+    UMLObject *o = 0;
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         o = oit.next();
         UMLCanvasObject *c = o->asUMLCanvasObject();
-        if (c == NULL)
+        if (c == 0)
             continue;
         if (AId == c->id() || (BId == c->id())) {
             if (c->hasAssociation(assoc))
@@ -132,7 +132,7 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
  */
 bool UMLPackage::addObject(UMLObject *pObject)
 {
-    if (pObject == NULL) {
+    if (pObject == 0) {
         uError() << "is called with a NULL object";
         return false;
     }
@@ -162,7 +162,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
     else {
       QString name = pObject->name();
       QString oldName = name;
-      while (findObject(name) != NULL && pObject->baseType() != UMLObject::ot_Instance) {
+      while (findObject(name) != 0 && pObject->baseType() != UMLObject::ot_Instance) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = Dialog_Utils::askName(i18nc("object name", "Name"),
@@ -213,9 +213,9 @@ void UMLPackage::removeObject(UMLObject *pObject)
 void UMLPackage::removeAllObjects()
 {
     UMLCanvasObject::removeAllChildObjects();
-    UMLObject *o = NULL;
+    UMLObject *o = 0;
 
-    while (!m_objects.isEmpty() && (o = m_objects.first()) != NULL)  {
+    while (!m_objects.isEmpty() && (o = m_objects.first()) != 0)  {
         UMLPackage *pkg = o->asUMLPackage();
         if (pkg)
             pkg->removeAllObjects();
@@ -252,7 +252,7 @@ UMLObject * UMLPackage::findObject(const QString &name)
             return obj;
         }
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -396,7 +396,7 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement packageElement = UMLObject::save(QLatin1String("UML:Package"), qDoc);
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
-    UMLObject *obj = NULL;
+    UMLObject *obj = 0;
     // save classifiers etc.
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();

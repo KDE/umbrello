@@ -72,7 +72,7 @@ public:
     void setOldLoadMode(bool value = true);
     bool getOldLoadMode() const;
 
-    virtual UMLObject* clone() const { return NULL; }
+    virtual UMLObject* clone() const { return 0; }
 
     virtual bool resolveRef();
 

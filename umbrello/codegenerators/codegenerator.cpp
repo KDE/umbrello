@@ -114,7 +114,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(const QString &tag)
         return doc;
     }
     else {
-        return NULL;
+        return 0;
     }
 }
 

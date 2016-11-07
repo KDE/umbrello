@@ -200,7 +200,7 @@ bool UMLUniqueConstraint::load(QDomElement & element)
             UMLObject* obj = parentEnt->findChildObject(attName);
 
             UMLEntityAttribute* entAtt = obj->asUMLEntityAttribute();
-            if (entAtt == NULL)
+            if (entAtt == 0)
                 continue;
 
             m_EntityAttributeList.append(entAtt);
@@ -250,12 +250,12 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
         return false;
 
     }
-    if (owningParent == NULL) {
+    if (owningParent == 0) {
         uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
-    if (owningParent->findChildObjectById(attr->id()) == NULL) {
+    if (owningParent->findChildObjectById(attr->id()) == 0) {
         uError()
             << " parent " << owningParent->name()
             << " does not contain attribute " << attr->name();
@@ -278,7 +278,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
 {
     UMLEntity *owningParent = umlParent()->asUMLEntity();
 
-    if (owningParent == NULL) {
+    if (owningParent == 0) {
         uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
@@ -287,7 +287,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
      * The attribute may already be removed from the Entity when this function
      * is called. So checking this is not right
      *
-     * if (owningParent->findChildObjectById(attr->ID()) == NULL) {
+     * if (owningParent->findChildObjectById(attr->ID()) == 0) {
      *    uError()
      *        << " parent " << owningParent->getName()
      *        << " does not contain attribute " << attr->getName();

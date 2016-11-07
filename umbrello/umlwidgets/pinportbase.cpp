@@ -55,7 +55,7 @@ void PinPortBase::init(UMLWidget *owner)
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
     m_pOw = owner;
-    m_pName = NULL;
+    m_pName = 0;
     m_motionConnected = false;
     const int edgeLength = 15;  // old: (m_baseType == wt_Pin ? 10 : 15);
     const QSizeF FixedSize(edgeLength, edgeLength);
@@ -114,7 +114,7 @@ void PinPortBase::moveWidgetBy(qreal diffX, qreal diffY)
     qreal newX = x() + diffX;
     qreal newY = y() + diffY;
     uDebug() << "PinPortBase::moveWidgetBy " << diffX << "," << diffY;
-    if (owner == NULL) {
+    if (owner == 0) {
         uError() << "PinPortBase::moveWidgetBy: ownerWidget() returns NULL";
         setX(newX);
         setY(newY);
@@ -155,7 +155,7 @@ void PinPortBase::moveWidgetBy(qreal diffX, qreal diffY)
 void PinPortBase::attachToOwner() {
     UMLWidget *owner = ownerWidget();
     const QPointF scenePos = m_scene->pos();
-    if (owner == NULL) {
+    if (owner == 0) {
         uError() << "PinPortBase::attachToOwner: ownerWidget() returns NULL";
         setX(scenePos.x());
         setY(scenePos.y());
@@ -230,7 +230,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
         if (m_pName) {
             action->setChecked(true);
             delete m_pName;
-            m_pName = NULL;
+            m_pName = 0;
             setToolTip(name());
         } else {
             action->setChecked(false);
@@ -239,7 +239,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
             m_pName->setText(name());  // to get geometry update
             m_pName->activate();
             UMLWidget* owner = ownerWidget();
-            if (owner == NULL) {
+            if (owner == 0) {
                 uError() << "PinPortBase::slotMenuSelection: ownerWidget() returns NULL";
                 setX(x());
                 setY(y());
@@ -285,19 +285,19 @@ void PinPortBase::setFloatingTextWidget(FloatingTextWidget *ft) {
  *
  * @param p Point to be checked.
  *
- * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
- *         m_pName if m_pName is non NULL and m_pName->onWidget(p) returns non NULL;
+ * @return 'this' if UMLWidget::onWidget(p) returns non 0;
+ *         m_pName if m_pName is non NULL and m_pName->onWidget(p) returns non 0;
  *         else NULL.
  */
 UMLWidget* PinPortBase::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != NULL)
+    if (UMLWidget::onWidget(p) != 0)
         return this;
     if (m_pName) {
         uDebug() << "floatingtext: " << m_pName->text();
         return m_pName->onWidget(p);
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -309,7 +309,7 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
         return this;
     if (m_pName && m_pName->widgetWithID(id))
         return m_pName;
-    return NULL;
+    return 0;
 }
 
 
@@ -318,8 +318,9 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
  */
 void PinPortBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement element = qDoc.createElement(m_baseType == wt_Pin ? QLatin1String("pinwidget")
+    QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
                                                                   : QLatin1String("portwidget"));
+    Q_ASSERT(ownerWidget() != NULL);
     element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
@@ -339,7 +340,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
-    if (owner == NULL) {
+    if (owner == 0) {
         DEBUG(DBG_SRC) << "owner object " << Uml::ID::toString(aId) << " not found";
         return false;
     }
@@ -356,7 +357,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
             if (!m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
-                m_pName = NULL;
+                m_pName = 0;
             } else {
                 m_pName->setParentItem(this);
                 m_pName->activate();

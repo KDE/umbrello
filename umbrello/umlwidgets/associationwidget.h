@@ -55,7 +55,7 @@ public:
     static AssociationWidget* create
                      (UMLScene *scene, UMLWidget* WidgetA,
                       Uml::AssociationType::Enum assocType, UMLWidget* WidgetB,
-                      UMLObject *umlobject = NULL);
+                      UMLObject *umlobject = 0);
 
     virtual ~AssociationWidget();
 

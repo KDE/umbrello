@@ -430,7 +430,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // argh. this wont work because "accessorType' doesn't inherit from QObject.
         if(m_methodMap->contains(type))
                 return ((*m_methodMap)[type]);
-        CodeAccessorMethod * obj = NULL;
+        CodeAccessorMethod * obj = 0;
     */
     if(role_id > 1 || role_id < 0)
     {
@@ -451,7 +451,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
 
     }
 
-    return (CodeAccessorMethod *) NULL;
+    return (CodeAccessorMethod *) 0;
 }
 
 void CodeClassField::initAccessorMethods()
@@ -642,7 +642,7 @@ void CodeClassField::initFields(bool inConstructor)
 {
     m_writeOutMethods = false;
     m_listClassName.clear();
-    m_declCodeBlock = NULL;
+    m_declCodeBlock = 0;
 
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
 

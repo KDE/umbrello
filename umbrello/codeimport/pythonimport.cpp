@@ -302,7 +302,7 @@ bool PythonImport::parseStmt()
         return true;
     }
     if (keyword == QLatin1String("def")) {
-        if (m_klass == NULL) {
+        if (m_klass == 0) {
             // skip functions outside of a class
             skipBody();
             return true;

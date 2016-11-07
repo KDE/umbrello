@@ -75,14 +75,14 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     setShowAttSigs(ops.classState.showAttSig);
 
     if (c && c->isInterface()) {
-        m_baseType = WidgetBase::wt_Interface;
+        setBaseType(WidgetBase::wt_Interface);
         m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
         setShowStereotype(true);
         updateSignatureTypes();
     }
 
     if (c && scene->type() == Uml::DiagramType::Object){
-        m_baseType = WidgetBase::wt_Instance;
+        setBaseType(WidgetBase::wt_Instance);
         m_visualProperties =  ShowAttributes;
         updateSignatureTypes();
     }
@@ -643,7 +643,7 @@ int ClassifierWidget::displayedAttributes() const
 {
     if (!visualProperty(ShowAttributes))
         return 0;
-    if(m_baseType == WidgetBase::wt_Instance)
+    if(baseType() == WidgetBase::wt_Instance)
         return displayedMembers(UMLObject::ot_InstanceAttribute);
     else
         return displayedMembers(UMLObject::ot_Attribute);
@@ -670,7 +670,7 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
         return;
     }
     m_pAssocWidget = assocwidget;
-    UMLAssociation *umlassoc = NULL;
+    UMLAssociation *umlassoc = 0;
     if (assocwidget)
         umlassoc = assocwidget->association();
     classifier()->setClassAssoc(umlassoc);
@@ -784,13 +784,13 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
     //if Object draw object name
     QString instanceName;
-    if(m_baseType == WidgetBase::wt_Instance){
+    if(baseType() == WidgetBase::wt_Instance){
         instanceName = m_umlObject->instanceName();
     }
 
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    if(m_baseType == WidgetBase::wt_Instance){
+    if(baseType() == WidgetBase::wt_Instance){
         const QString finalName = instanceName + QLatin1String(" : ") + name;
         painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
     }else{
@@ -1079,19 +1079,19 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
  *
  * @param p Point to be checked.
  *
- * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ * @return 'this' if UMLWidget::onWidget(p) returns non 0;
  *         m_pInterfaceName if m_pName is non NULL and
- *         m_pInterfaceName->onWidget(p) returns non NULL; else NULL.
+ *         m_pInterfaceName->onWidget(p) returns non 0; else NULL.
  */
 UMLWidget* ClassifierWidget::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != NULL)
+    if (UMLWidget::onWidget(p) != 0)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName) {
         uDebug() << "floatingtext: " << m_pInterfaceName->text();
         return m_pInterfaceName->onWidget(p);
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -1103,7 +1103,7 @@ UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName && m_pInterfaceName->widgetWithID(id))
         return m_pInterfaceName;
-    return NULL;
+    return 0;
 }
 
 void ClassifierWidget::setDocumentation(const QString &doc)
@@ -1178,7 +1178,7 @@ void ClassifierWidget::toggleDrawAsCircle()
  */
 void ClassifierWidget::changeToClass()
 {
-    m_baseType = WidgetBase::wt_Class;
+    setBaseType(WidgetBase::wt_Class);
     m_umlObject->setBaseType(UMLObject::ot_Class);
     setVisualPropertyCmd(DrawAsCircle, false);
     const Settings::OptionState& ops = m_scene->optionState();
@@ -1196,7 +1196,7 @@ void ClassifierWidget::changeToClass()
  */
 void ClassifierWidget::changeToInterface()
 {
-    m_baseType = WidgetBase::wt_Interface;
+    setBaseType(WidgetBase::wt_Interface);
     m_umlObject->setBaseType(UMLObject::ot_Interface);
 
     setVisualProperty(ShowAttributes, false);
@@ -1212,7 +1212,7 @@ void ClassifierWidget::changeToInterface()
  */
 void ClassifierWidget::changeToPackage()
 {
-    m_baseType = WidgetBase::wt_Package;
+    setBaseType(WidgetBase::wt_Package);
     m_umlObject->setBaseType(UMLObject::ot_Package);
 
     setVisualProperty(ShowAttributes, false);
@@ -1226,8 +1226,9 @@ void ClassifierWidget::changeToPackage()
  * Change this classifier from a class or interface to a Instance
  * This widget is also updated
  */
-void ClassifierWidget::changeToInstance(){
-    m_baseType = WidgetBase::wt_Instance;
+void ClassifierWidget::changeToInstance()
+{
+    setBaseType(WidgetBase::wt_Instance);
     m_umlObject->setBaseType(UMLObject::ot_Instance);
     setVisualProperty(ShowAttributes, true);
     setVisualProperty(ShowStereotype, false);
@@ -1305,7 +1306,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext")) {
-            if (m_pInterfaceName == NULL) {
+            if (m_pInterfaceName == 0) {
                 m_pInterfaceName = new FloatingTextWidget(m_scene,
                                                           Uml::TextRole::Floating,
                                                           name(), Uml::ID::Reserved);
@@ -1314,7 +1315,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
             if (!m_pInterfaceName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pInterfaceName;
-                m_pInterfaceName = NULL;
+                m_pInterfaceName = 0;
             } else {
                 m_pInterfaceName->activate();
                 m_pInterfaceName->update();

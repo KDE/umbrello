@@ -115,7 +115,7 @@ QMenu* UMLApp::findMenu(const QString& name)
         return dynamic_cast<QMenu*>(widget);
     }
     DEBUG(DBG_SRC) << "factory()->container(" << name << ") returns NULL";
-    return NULL;
+    return 0;
 }
 
 DEBUG_REGISTER(UMLApp)
@@ -172,14 +172,14 @@ UMLApp::UMLApp(QWidget* parent)
     m_langSelect = findMenu(QLatin1String("active_lang_menu"));
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
-    if (m_langSelect == NULL) {
+    if (m_langSelect == 0) {
         m_langSelect = new QMenu(QLatin1String("active_lang_menu"), this);
     }
 
     m_zoomSelect = findMenu(QLatin1String("zoom_menu"));
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
-    if (m_zoomSelect == NULL) {
+    if (m_zoomSelect == 0) {
         m_zoomSelect = new QMenu(QLatin1String("zoom_menu"), this);
     }
 
@@ -2231,7 +2231,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
                 delete dialog;
-                dialog = NULL;
+                dialog = 0;
             } else {
                 // shouldn't happen..
                 KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
@@ -2295,9 +2295,9 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
     if (pl == Uml::ProgrammingLanguage::Reserved) {
         if (m_codegen) {
             delete m_codegen;
-            m_codegen = NULL;
+            m_codegen = 0;
         }
-        return NULL;
+        return 0;
     }
     if (m_codegen) {
         // Do not return a possible preexisting code generator:
@@ -2305,7 +2305,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
         // Some languages depend on a new generator instance being created
         // for each run.
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
-        m_codegen = NULL;
+        m_codegen = 0;
     }
     m_activeLanguage = pl;
     m_codegen = CodeGenFactory::createObject(pl);
@@ -2871,7 +2871,7 @@ void UMLApp::initGenerator()
 {
     if (m_codegen) {
         delete m_codegen;
-        m_codegen = NULL;
+        m_codegen = 0;
     }
     Uml::ProgrammingLanguage::Enum defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
@@ -2928,7 +2928,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == NULL || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
+    if (m_view == 0 || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
@@ -3050,7 +3050,7 @@ void UMLApp::slotBirdViewChanged(const QPointF& delta)
 void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
-    if (view == NULL) {
+    if (view == 0) {
         DEBUG(DBG_SRC) << "view is NULL";
         docWindow()->reset();
         return;
@@ -3148,12 +3148,12 @@ void UMLApp::slotChangeTabLeft()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* prevView = NULL;
+    UMLView* prevView = 0;
     if (viewIndex != 0) {
         prevView = views.begin()[viewIndex -1 ];
     }
 
-    if ((currView = prevView) != NULL) {
+    if ((currView = prevView) != 0) {
         setCurrentView(currView);
     }
     else {
@@ -3178,7 +3178,7 @@ void UMLApp::slotChangeTabRight()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* nextView = NULL;
+    UMLView* nextView = 0;
     if (viewIndex < views.count()-1) {
         nextView = views.begin()[viewIndex + 1];
         setCurrentView(nextView);
@@ -3333,7 +3333,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     if (!m_pUndoStack)
         return;
 
-    if (cmd == NULL)
+    if (cmd == 0)
         return;
     if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);

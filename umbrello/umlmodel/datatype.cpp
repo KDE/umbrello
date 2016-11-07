@@ -94,7 +94,7 @@ void UMLDatatype::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement classifierElement = UMLObject::save(QLatin1String("UML:DataType"), qDoc);
 
-    if (m_pSecondary != NULL)
+    if (m_pSecondary != 0)
         classifierElement.setAttribute(QLatin1String("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
     qElement.appendChild(classifierElement);

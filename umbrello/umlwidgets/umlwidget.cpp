@@ -138,7 +138,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     if (this == &other)
         return true;
 
-    if (m_baseType != other.m_baseType) {
+    if (baseType() != other.baseType()) {
         return false;
     }
 
@@ -218,10 +218,10 @@ Uml::ID::Type UMLWidget::localID() const
 UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
 {
     if (id == m_nLocalID ||
-        (m_umlObject != NULL && id == m_umlObject->id()) ||
+        (m_umlObject != 0 && id == m_umlObject->id()) ||
         id == m_nId)
         return this;
-    return NULL;
+    return 0;
 }
 
 /**
@@ -506,6 +506,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
         widget->moveWidgetBy(diffX, diffY);
+        widget->adjustUnselectedAssocs(delta.x(), delta.y());
         widget->slotSnapToGrid();
     }
 
@@ -654,7 +655,7 @@ void UMLWidget::resizeWidget(qreal newW, qreal newH)
 void UMLWidget::updateWidget()
 {
     updateGeometry();
-    switch (m_baseType) {
+    switch (baseType()) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
         break;
@@ -981,9 +982,9 @@ void UMLWidget::setFillColorCmd(const QColor &color)
  */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
-    if (widgetHasUMLObject(m_baseType) && m_umlObject == NULL) {
+    if (widgetHasUMLObject(baseType()) && m_umlObject == 0) {
         m_umlObject = m_doc->findObjectById(m_nId);
-        if (m_umlObject == NULL) {
+        if (m_umlObject == 0) {
             uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
             return false;
         }
@@ -1324,7 +1325,7 @@ void UMLWidget::setSelectedFlag(bool _select)
 void UMLWidget::setSelected(bool _select)
 {
     WidgetBase::setSelected(_select);
-    const WidgetBase::WidgetType wt = m_baseType;
+    const WidgetBase::WidgetType wt = baseType();
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {

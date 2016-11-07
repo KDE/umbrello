@@ -72,7 +72,8 @@ class WidgetBase : public QGraphicsObject
 public:
     enum WidgetType
     {
-        wt_UMLWidget = 300,         // does not have UMLObject representation
+        wt_MIN = 299,               // lower bounds check value
+        wt_UMLWidget,               // does not have UMLObject representation
         wt_Actor,                   // has UMLObject representation
         wt_UseCase,                 // has UMLObject representation
         wt_Class,                   // has UMLObject representation
@@ -101,8 +102,9 @@ public:
         wt_ObjectNode,
         wt_Region,
         wt_Category,                // has UMLObject representation
-        wt_Port,                     // has UMLObject representation
-        wt_Instance                  //has UMLObject Represantion == wt_Object
+        wt_Port,                    // has UMLObject representation
+        wt_Instance,                // has UMLObject Represantion == wt_Object
+        wt_MAX                      // upper bounds check value
     };
 
     static QString toString(WidgetType wt);
@@ -118,6 +120,7 @@ public:
     void setID(Uml::ID::Type id);
 
     WidgetType baseType() const;
+    void setBaseType(const WidgetType& baseType);
     QLatin1String baseTypeStr() const;
 
     virtual void setSelected(bool select);
@@ -251,7 +254,9 @@ public Q_SLOTS:
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+private:
     WidgetType  m_baseType;  ///< Type of widget.
+protected:
     UMLScene   *m_scene;
     QPointer<UMLObject> m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.

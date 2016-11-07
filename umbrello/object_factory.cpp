@@ -95,11 +95,11 @@ bool assignUniqueIdOnCreation()
 UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg, bool undoable /* = true */)
 {
-    if (parentPkg == NULL) {
+    if (parentPkg == 0) {
         uError() << name << ": parentPkg is NULL";
-        return NULL;
+        return 0;
     }
-    QPointer<UMLObject> o = NULL;
+    QPointer<UMLObject> o = 0;
     switch (type) {
         case UMLObject::ot_Actor:
             o = new UMLActor(name, g_predefinedId);
@@ -153,7 +153,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         default:
             uWarning() << "error unknown type: " << UMLObject::toString(type);
-            return NULL;
+            return 0;
     }
 
     if (!undoable) {
@@ -200,7 +200,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();
-    if (parentPkg == NULL) {
+    if (parentPkg == 0) {
         if (type == UMLObject::ot_Datatype) {
             parentPkg = doc->datatypeFolder();
         } else {
@@ -213,7 +213,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     }
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
-        if (o == NULL) {
+        if (o == 0) {
             o = createNewUMLObject(type, n, parentPkg);
             return o;
         }
@@ -252,7 +252,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             continue;
         }
         CodeGenerator *codegen = UMLApp::app()->generator();
-        if (codegen != NULL && codegen->isReservedKeyword(name)) {
+        if (codegen != 0 && codegen->isReservedKeyword(name)) {
             KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
                                i18n("Reserved Keyword"));
             continue;
@@ -296,7 +296,7 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  */
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type, const QString& name)
 {
-    UMLObject* returnObject = NULL;
+    UMLObject* returnObject = 0;
     switch (type) {
     case UMLObject::ot_Attribute: {
         UMLClassifier *c = parent->asUMLClassifier();
@@ -387,7 +387,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             if (stereo && stereo->name() == QLatin1String("folder"))
                 pObject = new UMLFolder();
         }
-        if (pObject == NULL)
+        if (pObject == 0)
             pObject = new UMLPackage();
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Component"))) {
         pObject = new UMLComponent();

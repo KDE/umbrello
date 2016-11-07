@@ -60,12 +60,12 @@ void DocbookGeneratorJob::run()
 
     umlDoc->saveToXMI(file); // save the xmi stuff to it
 
-    xsltStylesheetPtr cur = NULL;
+    xsltStylesheetPtr cur = 0;
     xmlDocPtr doc, res;
 
     const char *params[16 + 1];
     int nbparams = 0;
-    params[nbparams] = NULL;
+    params[nbparams] = 0;
 
     QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("xmi2docbook.xsl")));
 
