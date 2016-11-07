@@ -3928,6 +3928,13 @@ void AssociationWidget::moveEntireAssoc(qreal x, qreal y)
 {
     //TODO: ADD SUPPORT FOR ASSOC. ON SEQ. DIAGRAMS WHEN NOTES BACK IN.
     moveMidPointsBy(x, y);
+    // multi select
+    if (umlScene()->selectedCount() > 1) {
+        QPointF d(x, y);
+        QPointF s = m_associationLine->startPoint() + d;
+        QPointF e = m_associationLine->endPoint() + d;
+        m_associationLine->setEndPoints(s, e);
+    }
     calculateEndingPoints();
     calculateNameTextSegment();
     resetTextPositions();
