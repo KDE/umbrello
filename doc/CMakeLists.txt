@@ -1,6 +1,2 @@
 ########### install files ###############
-file(READ "index.docbook" index_file)
-string(REPLACE "4.2" "4.5" index_file "${index_file}")
-string(REPLACE "kdex.dtd" "kdedbx45.dtd" index_file "${index_file}")
-file(WRITE "index-kf5.docbook" "${index_file}")
-kdoctools_create_handbook(index-kf5.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en SUBDIR umbrello)
+kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en SUBDIR umbrello)
