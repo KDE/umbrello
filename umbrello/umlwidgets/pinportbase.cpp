@@ -70,6 +70,26 @@ UMLWidget* PinPortBase::ownerWidget()
 }
 
 /**
+ * Returns whether this widget is owned by given widget.
+ *
+ * @param o Owning widget
+ */
+bool PinPortBase::hasOwner(const UMLWidget* const o) const
+{
+    return m_pOw == o;
+}
+
+/**
+ * Set owner widget.
+ *
+ * @param ownerWidget Owning widget
+ */
+void PinPortBase::setOwnerWidget(UMLWidget* const ownerWidget)
+{
+    m_pOw = ownerWidget;
+}
+
+/**
  * Overrides method from UMLWidget in order to set a tooltip.
  * The tooltip is set to the name().
  * The reason for using a tooltip for the name is that the size of this
@@ -190,6 +210,17 @@ void PinPortBase::attachToOwner() {
     } else {
         connectOwnerMotion();
         m_motionConnected = true;
+    }
+}
+
+/**
+ * Remove link to owning widget.
+ */
+void PinPortBase::detachFromOwner()
+{
+    if (ownerWidget() != 0)
+    {
+        setOwnerWidget(0);
     }
 }
 
@@ -320,7 +351,7 @@ void PinPortBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
                                                                   : QLatin1String("portwidget"));
-    Q_ASSERT(ownerWidget() != NULL);
+    Q_ASSERT(ownerWidget() != 0);
     element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
