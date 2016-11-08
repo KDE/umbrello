@@ -10,4 +10,105 @@
 
 #include "umlappprivate.h"
 
-// Empty file is required for signal/slot support provided by automoc4.
+#include "debug_utils.h"
+
+/**
+ * Find welcome.html file for displaying in the welcome window.
+ *
+ * @return path to welcome file or empty if not found
+ */
+QString UMLAppPrivate::findWelcomeFile()
+{
+    QStringList dirList;
+    // from build dir
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc"));
+
+    // determine path from installation
+#if QT_VERSION > 0x050000
+    QString name = QLocale().name();
+    QStringList lang = name.split(QLatin1Char('_'));
+    QStringList langList;
+    langList.append(lang[0]);
+    if (lang.size() > 1)
+        langList.append(name);
+
+    // from custom install
+    foreach(const QString &lang, langList) {
+        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
+    }
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+
+    QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    // from real installation
+    foreach(const QString &location, locations) {
+        foreach(const QString &lang, langList) {
+            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello")).arg(location).arg(lang));
+        }
+        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello")).arg(location));
+    }
+#else
+    KLocale *local = KGlobal::locale();
+    QString lang = local->language();
+    // from custom install
+    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+
+    // /usr/share/doc/kde
+    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello"));
+#endif
+    foreach(const QString &dir, dirList) {
+        QString filePath = dir + QLatin1String("/welcome.html");
+        QFileInfo fi(filePath);
+        if (fi.exists()) {
+            uDebug() << "searching for" << filePath << "found";
+            return filePath;
+        } else
+            uDebug() << "searching for" << filePath;
+    }
+    return QString();
+}
+
+/**
+ * Read welcome file for displaying in the welcome window.
+ *
+ * This method also patches out some unrelated stuff from
+ * the html file intended or being displayed with khelpcenter.
+ *
+ * @return html content of welcome file
+ */
+QString UMLAppPrivate::readWelcomeFile(const QString &file)
+{
+    QFile f(file);
+    if (!f.open(QIODevice::ReadOnly))
+        return QString();
+    QTextStream in(&f);
+    QString html = in.readAll();
+
+    html.replace(QLatin1String("<FILENAME filename=\"index.html\">"),QLatin1String(""));
+    html.replace(QLatin1String("</FILENAME>"),QLatin1String(""));
+//#define WITH_HEADER
+#ifndef WITH_HEADER
+    html.replace(QLatin1String("<div id=\"header\""),QLatin1String("<div id=\"header\" hidden"));
+    html.replace(QLatin1String("<div class=\"navCenter\""),QLatin1String("<div id=\"navCenter\" hidden"));
+#else
+    // replace help:/ urls in html file to be able to find css files and images from kde help system
+#if QT_VERSION >= 0x050000
+    QString path;
+    QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    foreach(const QString &l, locations) {
+        QString a = QString(QLatin1String("%1/doc/HTML/en/")).arg(l);
+        QFileInfo fi(a);
+        if (fi.exists()) {
+            path = a;
+            break;
+        }
+    }
+#else
+    QString path = KStandardDirs::installPath("html") +  QLatin1String("en/");
+#endif
+    QUrl url(QUrl::fromLocalFile(path));
+    QByteArray a = url.toEncoded();
+    html.replace(QLatin1String("help:/"), QString::fromLocal8Bit(a));
+#endif
+    return html;
+}

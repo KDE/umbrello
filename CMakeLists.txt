@@ -28,7 +28,7 @@ if(NOT BUILD_KF5)
 
     set(CMAKE_AUTOMOC ON)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest)
+    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest QtWebKit)
 
     set(KDE4_BUILD_TESTS ON)  # for unit tests
 
@@ -148,6 +148,7 @@ else()
         Test
         Widgets
         Xml
+        WebKitWidgets
     )
 
     # search packages used by KDE

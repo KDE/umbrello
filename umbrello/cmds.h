@@ -11,9 +11,6 @@
 #ifndef CMDS_H
 #define CMDS_H
 
-#if QT_VERSION < 0x050000
-#include <kundostack.h>
-#endif
 
 #include <QUndoCommand>
 #include <QUndoStack>
@@ -48,5 +45,9 @@
 #include "cmds/widget/cmdresizewidget.h"
 #include "cmds/widget/cmdsetname.h"
 #include "cmds/widget/cmdsettxt.h"
+
+#if QT_VERSION < 0x050000
+#include <kundostack.h>
+#endif
 
 #endif

@@ -15,6 +15,8 @@ if(UNIX)
     add_definitions(-D_GLIBCXX_PERMIT_BACKWARD_HASH)
 endif()
 
+add_definitions(-DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
+
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
@@ -516,6 +518,7 @@ if(NOT BUILD_KF5)
         Qt4::QtCore
         Qt4::QtGui
         Qt4::QtXml
+        Qt4::QtWebKit
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         ${KDE4_KTEXTEDITOR_LIBS}
@@ -537,6 +540,7 @@ else()
         Qt5::Xml
         Qt5::PrintSupport
         Qt5::Svg
+        Qt5::WebKitWidgets
         KF5::Archive
         KF5::Completion
         KF5::CoreAddons

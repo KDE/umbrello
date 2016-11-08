@@ -12,15 +12,20 @@
 #define UMLAPPPRIVATE_H
 
 // app includes
+#include "cmds.h"
 #include "finddialog.h"
 #include "findresults.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "diagramswindow.h"
 #include "objectswindow.h"
 #include "stereotypeswindow.h"
 
 // kde includes
 #include <KActionCollection>
+#if QT_VERSION < 0x050000
+#include <KStandardDirs>
+#endif
 #include <KToggleAction>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
@@ -31,12 +36,15 @@
 #include <ktexteditor/view.h>
 
 // qt includes
+#include <QDesktopServices>
 #include <QFile>
 #include <QFileInfo>
 #include <QListWidget>
 #include <QObject>
+#include <QWebView>
 
 class QWidget;
+
 
 /**
  * Class UMLAppPrivate holds private class members/methods
@@ -55,9 +63,11 @@ public:
     KToggleAction *viewDiagramsWindow;
     KToggleAction *viewObjectsWindow;
     KToggleAction *viewStereotypesWindow;
+    KToggleAction *viewWelcomeWindow;
     DiagramsWindow *diagramsWindow;
     ObjectsWindow *objectsWindow;
     StereotypesWindow *stereotypesWindow;
+    QDockWidget *welcomeWindow;
 
     KTextEditor::Editor *editor;
     KTextEditor::View *view;
@@ -69,9 +79,11 @@ public:
         viewDiagramsWindow(0),
         viewObjectsWindow(0),
         viewStereotypesWindow(0),
+        viewWelcomeWindow(0),
         diagramsWindow(0),
         objectsWindow(0),
         stereotypesWindow(0),
+        welcomeWindow(0),
         view(0),
         document(0)
     {
@@ -149,6 +161,54 @@ public slots:
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
+    void createWelcomeWindow()
+    {
+        QString file = findWelcomeFile();
+        if (file.isEmpty())
+            return;
+        QString html = readWelcomeFile(file);
+        // qDebug() << html;
+        welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
+        welcomeWindow->setObjectName(QLatin1String("WelcomeDock"));
+        QWebView *view = new QWebView;
+        view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+        view->setContextMenuPolicy(Qt::NoContextMenu);
+        connect(view, SIGNAL(linkClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
+        view->setHtml(html);
+        view->show();
+        welcomeWindow->setWidget(view);
+        parent->addDockWidget(Qt::LeftDockWidgetArea, welcomeWindow);
+
+        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_welcome_window"));
+        connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
+    }
+
+    void slotWelcomeWindowLinkClicked(const QUrl &url)
+    {
+        //qDebug() << url;
+        if (url.scheme() == QLatin1String("mailto") || url.scheme().startsWith(QLatin1String("http"))) {
+            QDesktopServices::openUrl(url);
+            return;
+        }
+        QStringList list = url.toString().split(QLatin1Char('-'));
+        list.removeLast();
+        QString key;
+        foreach(const QString s, list) {
+            QString a = s;
+            a[0] = a[0].toUpper();
+            key.append(a);
+        }
+        Uml::DiagramType::Enum type = Uml::DiagramType::fromString(key);
+        if (type == Uml::DiagramType::Undefined)
+            return;
+        QString diagramName = UMLApp::app()->document()->createDiagramName(type);
+        if (!diagramName.isEmpty())
+            UMLApp::app()->executeCommand(new Uml::CmdCreateDiagram(UMLApp::app()->document(), type, diagramName));
+    }
+
+private:
+    QString findWelcomeFile();
+    QString readWelcomeFile(const QString &file);
 };
 
 #endif

@@ -936,6 +936,7 @@ void UMLApp::initView()
     m_d->createObjectsWindow();
 #endif
     m_d->createStereotypesWindow();
+    m_d->createWelcomeWindow();
 
     // create the tree viewer
     m_listDock = new QDockWidget(i18n("&Tree View"), this);

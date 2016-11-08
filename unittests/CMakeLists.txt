@@ -48,6 +48,7 @@ if(NOT BUILD_KF5)
         Qt4::QtGui
         Qt4::QtXml
         Qt4::QtTest
+        Qt4::QtWebKit
         ${KDE4_KFILE_LIBS}
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
@@ -58,6 +59,7 @@ else()
         Qt5::Xml
         Qt5::Test
         Qt5::Widgets
+        Qt5::WebKitWidgets
         KF5::I18n
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
