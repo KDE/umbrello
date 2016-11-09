@@ -47,6 +47,7 @@ set(CMAKE_AUTORCC ON)
         Test
         Widgets
         Xml
+        WebKitWidgets
     )
 
     # search packages used by KDE

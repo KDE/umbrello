@@ -5,20 +5,17 @@ add_subdirectory( headings )
 # Some definitions for experimental code or debugging
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 add_definitions(-DQT_NO_CAST_FROM_ASCII)
-#add_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
-#add_definitions(-DWANT_LVTOOLTIP)                # umllistiew
+# TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
 #add_definitions(-DTRY_BUGFIX_120682)             # model_utils
-#add_definitions(-DQ_CC_MSVC)                     # preprocesslexer
-#add_definitions(-DDEBUG_CPPTREE2UML)             # cpptree2uml
-#add_definitions(-DDEBUG_PRINTING)                # umlview
 #add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
                                                   # umlobject, umldoc, classifierlistpage
-
 if(UNIX)
     add_definitions(-D_GLIBCXX_PERMIT_BACKWARD_HASH)
 endif()
+
+add_definitions(-DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
 
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
@@ -537,6 +534,7 @@ target_link_libraries(libumbrello
     Qt5::Xml
     Qt5::PrintSupport
     Qt5::Svg
+    Qt5::WebKitWidgets
     KF5::Archive
     KF5::Completion
     KF5::CoreAddons

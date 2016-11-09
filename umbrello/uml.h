@@ -475,6 +475,7 @@ private:
 signals:
     void sigCutSuccessful();
 
+    friend class UMLAppPrivate;
     friend class UMLView;
 };
 
