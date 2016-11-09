@@ -1037,6 +1037,8 @@ void UMLScene::checkMessages(ObjectWidget * w)
 UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
+        if (!obj)
+            continue;
         UMLWidget* w = obj->widgetWithID(id);
         if (w)
             return w;
@@ -1062,6 +1064,8 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
+        if (!obj)
+            continue;
         UMLWidget* w = obj->widgetWithID(id);
         if (w) {
             return w;
