@@ -145,7 +145,7 @@ public slots:
     {
         // create the object window
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
-        parent->addDockWidget(Qt::RightDockWidgetArea, objectsWindow);
+        parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
 
         viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_objects_window"));
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
@@ -177,7 +177,7 @@ public slots:
         view->setHtml(html);
         view->show();
         welcomeWindow->setWidget(view);
-        parent->addDockWidget(Qt::LeftDockWidgetArea, welcomeWindow);
+        parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
         viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_welcome_window"));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));

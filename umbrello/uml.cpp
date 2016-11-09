@@ -931,13 +931,6 @@ void UMLApp::initView()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
-    m_d->createDiagramsWindow();
-#ifdef ENABLE_UML_OBJECTS_WINDOW
-    m_d->createObjectsWindow();
-#endif
-    m_d->createStereotypesWindow();
-    m_d->createWelcomeWindow();
-
     // create the tree viewer
     m_listDock = new QDockWidget(i18n("&Tree View"), this);
     m_listDock->setObjectName(QLatin1String("TreeViewDock"));
@@ -948,12 +941,6 @@ void UMLApp::initView()
     m_listView->init();
     m_listDock->setWidget(m_listView);
     connect(m_listDock, SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
-
-    m_debugDock = new QDockWidget(i18n("&Debug"), this);
-    m_debugDock->setObjectName(QLatin1String("DebugDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
-    m_debugDock->setWidget(Tracer::instance());
-    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget(i18n("Doc&umentation"), this);
@@ -976,6 +963,19 @@ void UMLApp::initView()
     m_cmdHistoryDock->setWidget(m_pQUndoView);
     connect(m_cmdHistoryDock, SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
+    m_d->createDiagramsWindow();
+#ifdef ENABLE_UML_OBJECTS_WINDOW
+    m_d->createObjectsWindow();
+#endif
+    m_d->createStereotypesWindow();
+    m_d->createWelcomeWindow();
+
+    m_debugDock = new QDockWidget(i18n("&Debug"), this);
+    m_debugDock->setObjectName(QLatin1String("DebugDock"));
+    addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
+    m_debugDock->setWidget(Tracer::instance());
+    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
+
     // create the log viewer
     m_logDock = new QDockWidget(i18n("&Log"), this);
     m_logDock->setObjectName(QLatin1String("LogDock"));
@@ -997,6 +997,15 @@ void UMLApp::initView()
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
+    tabifyDockWidget(m_logDock, m_debugDock);
+    tabifyDockWidget(m_listDock, m_d->stereotypesWindow);
+    tabifyDockWidget(m_d->stereotypesWindow, m_d->diagramsWindow);
+#ifdef ENABLE_UML_OBJECTS_WINDOW
+    tabifyDockWidget(m_d->diagramsWindow, m_d->objectsWindow);
+#endif
+    tabifyDockWidget(m_d->welcomeWindow, m_birdViewDock);
+    m_listDock->raise();
+    m_d->welcomeWindow->raise();
 }
 
 /**
