@@ -1,0 +1,117 @@
+#!/bin/sh
+#
+# unpack windows rpm's from opensuse download server, upload files to kde.org and file a related release ticket
+#
+# Author: Ralf Habacker <ralf.habacker@freenet.de>
+#
+# syntax: release-windows-packages <mode>
+#
+# where mode is:
+#
+# clean      - clean working area
+# fetch      - fetch file lists from opensuse download server
+# download   - download rpm packages
+# unpack     - unpack rpm files
+# repack     - repackage source tar ball to 7z
+# upload     - upload files to ftp:/upload.kde.org
+# ticket     - file a tar ball move request
+# all        - performs all above mentioned steps
+#
+ARCH=openSUSE_13.2
+VERSION=2.20.3
+BASEURL64=http://download.opensuse.org/repositories/windows:/mingw:/win64/${ARCH}
+BASEURL32=http://download.opensuse.org/repositories/windows:/mingw:/win32/${ARCH}
+
+PHABURL=https://phabricator.kde.org
+apitoken=cli-uxo23l4q5qrzoyscbz5kp4zcngqp
+options='projectPHIDs[]=PHID-PROJ-3qa4tomwgrmcmp4ym2ow'
+
+if ! test -d "work"; then
+    mkdir work
+fi
+
+case $1 in
+clean)
+        rm -rf work/*
+        ;;
+
+fetch)
+        curl -o work/test64-noarch.txt ${BASEURL64}/noarch/
+        curl -o work/test32-noarch.txt ${BASEURL32}/noarch/
+        curl -o work/test32-src.txt ${BASEURL32}/src/
+        ;;
+
+download)
+        u1=$(grep umbrello-installer-$VERSION work/test64-noarch.txt | gawk 'BEGIN {FS="\""}; { print URL "/" $6}' URL=${BASEURL64}/noarch/)
+        u2=$(grep umbrello-portable-$VERSION work/test64-noarch.txt | gawk 'BEGIN {FS="\""}; { print URL "/" $6}' URL=${BASEURL64}/noarch/)
+        u3=$(grep umbrello-installer-$VERSION work/test32-noarch.txt | gawk 'BEGIN {FS="\""}; { print URL "/" $6}' URL=${BASEURL32}/noarch/)
+        u4=$(grep umbrello-portable-$VERSION work/test32-noarch.txt | gawk 'BEGIN {FS="\""}; { print URL "/" $6}' URL=${BASEURL32}/noarch/)
+        u5=$(grep umbrello-$VERSION work/test32-src.txt | gawk 'BEGIN {FS="\""}; { print URL "/" $6}' URL=${BASEURL32}/src/)
+        urls="$u1 $u2 $u3 $u4 $u5"
+        # download files
+        for i in $(echo $urls); do
+                filename=$(basename $i)
+                files="$files $filename"
+                wget -c -O work/$filename $i
+        done
+        ;;
+
+unpack)
+        files=$(cd work; ls *.rpm)
+        mkdir -p work/tmp
+        # unpack rpms
+        rm -rf work/tmp
+        mkdir -p work/tmp
+        for i in $(echo $files); do
+                (cd work/tmp; rpm2cpio ../$i | cpio -idmv)
+        done
+        # move binary packages
+        rm -rf work/out
+        mkdir -p work/out
+        find work/tmp/ -name '*.exe' -exec mv {} work/out \;
+        find work/tmp/ -name '*.7z' -exec mv {} work/out \;
+        ;;
+
+repack)
+        # repackage source package
+        srcfile=$(find work/tmp -name '*.xz')
+        outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
+        (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
+        # create sha256sums
+        (cd work/out; sha256sum  *.7z *.exe > umbrello.sha256sum)
+        ;;
+
+upload)
+        # upload
+        for i in $(find work/out -name '*.7z' -o -name '*.exe'); do
+                curl -T $i  ftp://upload.kde.org/incoming/
+        done
+        ;;
+
+ticket)
+        description="Please move the umbrello related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/umbrello/$VERSION' location and please update the symbolic link 'stable/umbrello/latest' to 'stable/umbrello/$VERSION'"
+        sums=$(cat work/out/umbrello.sha256sum | sort -n | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /umbrello-[0-9]/ { print "src   " $0 }')
+        description=$(echo -e "$description\n\n$sums")
+        curl $PHABURL/api/maniphest.createtask \
+        -d api.token=$apitoken \
+        -d "title=tarball move request for stable/umbrello/$VERSION" \
+        -d "description=$description" \
+        -d "$options"
+        ;;
+all)
+        $0 clean
+        $0 fetch
+        $0 download
+        $0 unpack
+        $0 repack
+        $0 upload
+        $0 ticket
+        ;;
+
+*)
+        echo "Make sure to setup VERSION inside $0 and run"
+        echo "$0 all"
+        ;;
+esac
+
+exit 0
