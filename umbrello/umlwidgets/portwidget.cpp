@@ -57,11 +57,11 @@ PortWidget::~PortWidget()
  */
 UMLWidget* PortWidget::ownerWidget()
 {
-    if (m_pOw == 0) {
-        const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-        m_pOw = m_scene->widgetOnDiagram(compWidgetId);
+    if (PinPortBase::ownerWidget() == 0) {
+        const Uml::ID::Type compWidgetId = umlObject()->umlPackage()->id();
+        setOwnerWidget(m_scene->widgetOnDiagram(compWidgetId));
     }
-    return m_pOw;
+    return PinPortBase::ownerWidget();
 }
 
 /**

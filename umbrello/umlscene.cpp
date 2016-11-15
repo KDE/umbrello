@@ -1185,6 +1185,8 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
 
     removeAssociations(o);
 
+    removeOwnedWidgets(o);
+
     WidgetBase::WidgetType t = o->baseType();
     if (type() == DiagramType::Sequence && t == WidgetBase::wt_Object) {
         checkMessages(static_cast<ObjectWidget*>(o));
@@ -1202,6 +1204,25 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
     o->deleteLater();
     m_doc->setModified(true);
+}
+
+/**
+ * Remove all widgets that have given widget as owner.
+ *
+ * @param o The owner widget that will be removed.
+ */
+void UMLScene::removeOwnedWidgets(UMLWidget* o)
+{
+    foreach (UMLWidget* wid, m_WidgetList) {
+        if (wid->isPinWidget() ||
+            wid->isPortWidget()) {
+            PinPortBase* pw = wid->asPinPortBase();
+            if (pw->hasOwner(o)) {
+                pw->detachFromOwner();
+                removeWidgetCmd(pw);
+            }
+        }
+    }
 }
 
 /**
@@ -1382,6 +1403,24 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
 }
 
 /**
+ * Unselect child widgets when their owner is already selected.
+ */
+void UMLScene::unselectChildrenOfSelectedWidgets()
+{
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        if (widget->isPinWidget() ||
+            widget->isPortWidget()) {
+            PinPortBase* pw = widget->asPinPortBase();
+            foreach(UMLWidget* potentialParentWidget, selectedWidgets()) {
+                if (pw->hasOwner(potentialParentWidget)) {
+                    pw->setSelectedFlag(false);
+                }
+            }
+        }
+    }
+}
+
+/**
  * Delete the selected widgets list and the widgets in it.
  */
 void UMLScene::deleteSelection()
@@ -1393,6 +1432,8 @@ void UMLScene::deleteSelection()
     if (selectionCount > 1) {
         UMLApp::app()->beginMacro(i18n("Delete widgets"));
     }
+
+    unselectChildrenOfSelectedWidgets();
 
     foreach(UMLWidget* widget, selectedWidgets()) {
         //  Don't delete text widget that are connect to associations as these will

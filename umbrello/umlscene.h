@@ -175,6 +175,9 @@ public:
 
     void removeWidget(UMLWidget *o);
     void removeWidgetCmd(UMLWidget *o);
+private:
+    void removeOwnedWidgets(UMLWidget* o);
+public:
 
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
@@ -190,6 +193,9 @@ public:
     void selectionSetFillColor(const QColor &color);
     void selectionSetVisualProperty(ClassifierWidget::VisualProperty property, bool value);
 
+private:
+    void unselectChildrenOfSelectedWidgets();
+public:
     void deleteSelection();
     void resizeSelection();
 

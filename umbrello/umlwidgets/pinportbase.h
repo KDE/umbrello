@@ -33,11 +33,14 @@ public:
 
     virtual UMLWidget* ownerWidget();
     virtual void connectOwnerMotion() = 0;
+    bool hasOwner(const UMLWidget* const o) const;
+    void setOwnerWidget(UMLWidget* const ownerWidget);
 
     void setName(const QString &strName);
     void updateWidget();
     void moveWidgetBy(qreal diffX, qreal diffY);
     void attachToOwner();
+    void detachFromOwner();
  
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
@@ -55,9 +58,11 @@ public slots:
 protected:
     void init(UMLWidget *owner = 0);
 
-    UMLWidget* m_pOw;
     FloatingTextWidget *m_pName;
     bool m_motionConnected;
+
+private:
+    UMLWidget* m_pOw;
 };
 
 #endif
