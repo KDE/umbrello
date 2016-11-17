@@ -86,6 +86,9 @@
     <Action name="view_show_undo"/>
     <Action name="view_show_bird"/>
     <Action name="view_show_stereotypes"/>
+    <Action name="view_show_diagrams"/>
+    <Action name="view_show_objects"/>
+    <Action name="view_show_welcome"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="true" newline="true">
