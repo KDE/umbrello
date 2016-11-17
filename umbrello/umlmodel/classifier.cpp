@@ -660,6 +660,10 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
     m_List.copyInto(&(target->m_List));
+    foreach(UMLObject *o, target->m_List) {
+        uIgnoreZeroPointer(o);
+        o->setUMLParent(target);
+    }
 }
 
 /**
