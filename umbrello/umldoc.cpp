@@ -1117,10 +1117,8 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
  */
 bool UMLDoc::addUMLObject(UMLObject* object)
 {
-    UMLObject::ObjectType ot = object->baseType();
-    if (ot == UMLObject::ot_Attribute || ot == UMLObject::ot_Operation || ot == UMLObject::ot_EnumLiteral
-            || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype) {
-        DEBUG(DBG_SRC) << object->name() << ": not adding type " << ot;
+    if (object->isUMLStereotype()) {
+        DEBUG(DBG_SRC) << object->name() << ": not adding type " << object->baseTypeStr();
         return false;
     }
     UMLPackage *pkg = object->umlPackage();
@@ -1131,6 +1129,13 @@ bool UMLDoc::addUMLObject(UMLObject* object)
         object->setUMLPackage(pkg);
     }
 
+    // FIXME restore stereotype
+    UMLClassifierListItem *c = object->asUMLClassifierListItem();
+    if (c) {
+        if (!pkg->subordinates().contains(c))
+            pkg->subordinates().append(c);
+        return true;
+    }
     return pkg->addObject(object);
 }
 

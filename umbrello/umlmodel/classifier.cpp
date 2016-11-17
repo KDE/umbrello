@@ -889,12 +889,10 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
         uDebug() << "cannot find att given in list";
         return -1;
     }
+    // note that we don't delete the attribute, just remove it from the Classifier
+    disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
     emit attributeRemoved(att);
     UMLObject::emitModified();
-    // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
-    // for us by QObject. -b.t.
-    // disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
-    delete att;
     return m_List.count();
 }
 
