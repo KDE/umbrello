@@ -76,6 +76,9 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
 {
     // Call the parent.
     UMLObject::copyInto(lhs);
+    UMLClassifierListItem *o = lhs->asUMLClassifierListItem();
+    if (o)
+        o->setType(getType());
 }
 
 /**
