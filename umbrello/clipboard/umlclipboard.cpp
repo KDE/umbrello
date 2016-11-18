@@ -267,7 +267,7 @@ void UMLClipboard::addRelatedWidgets()
  *
  * @param UMLWidgetList& widgets
  */
-void UMLClipboard::fillObjectListForWidgets(UMLWidgetList& widgets)
+void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
 {
     // The order of the packages in the clip matters. So we collect
     // the packages and add them from the root package to the deeper levels

@@ -461,9 +461,15 @@ AssociationWidgetList& UMLScene::associationList()
 /**
  * Returns a reference to the widget list.
  */
-UMLWidgetList& UMLScene::widgetList()
+const UMLWidgetList& UMLScene::widgetList() const
 {
     return m_WidgetList;
+}
+
+void UMLScene::addWidget(UMLWidget* widget)
+{
+    Q_ASSERT(0 != widget);
+    m_WidgetList.append(widget);
 }
 
 /**
@@ -572,7 +578,7 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
     m_doc->setModified();
 
     if (m_doc->loading()) {  // do not emit signals while loading
-        m_WidgetList.append(w);
+        addWidget(w);
         // w->activate();  // will be done by UMLDoc::activateAllViews() after loading
     } else {
         UMLApp::app()->executeCommand(new CmdCreateWidget(w));
@@ -1901,7 +1907,7 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
         }
     }
 
-    m_WidgetList.append(pWidget);
+    addWidget(pWidget);
 }
 
 /**
@@ -3735,7 +3741,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
     while (!widgetElement.isNull()) {
         widget = loadWidgetFromXMI(widgetElement);
         if (widget) {
-            m_WidgetList.append(widget);
+            addWidget(widget);
             widget->clipSize();
             // In the interest of best-effort loading, in case of a
             // (widget == 0) we still go on.
@@ -3793,7 +3799,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             m_MessageList.append(message);
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
-                m_WidgetList.append(ft);
+                addWidget(ft);
             else if (message->sequenceMessageType() != SequenceMessage::Creation)
                 DEBUG(DBG_SRC) << "floating text is NULL for message " << Uml::ID::toString(message->id());
         }
@@ -3937,7 +3943,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
-                m_WidgetList.append(widget);
+                addWidget(widget);
             }
         }
     }

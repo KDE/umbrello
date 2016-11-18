@@ -149,7 +149,8 @@ public:
     void setOptionState(const Settings::OptionState& options);
 
     AssociationWidgetList& associationList();
-    UMLWidgetList& widgetList();
+    const UMLWidgetList& widgetList() const;
+    void addWidget(UMLWidget* widget);
     MessageWidgetList& messageList();
 
     bool isOpen() const;
@@ -327,7 +328,9 @@ protected:
     Settings::OptionState  m_Options;  ///< Options used by view.
 
     MessageWidgetList      m_MessageList;      ///< All the message widgets on the diagram.
+private:
     UMLWidgetList          m_WidgetList;       ///< All the UMLWidgets on the diagram.
+protected:
     AssociationWidgetList  m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.

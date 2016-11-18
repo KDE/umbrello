@@ -70,7 +70,7 @@ private:
 private:
     void addRelatedWidgets();
 
-    void fillObjectListForWidgets(UMLWidgetList& widgets);
+    void fillObjectListForWidgets(const UMLWidgetList& widgets);
 
     bool fillSelectionLists(UMLListViewItemList& selectedItems);
 
