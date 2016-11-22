@@ -21,7 +21,7 @@ QString UMLAppPrivate::findWelcomeFile()
 {
     QStringList dirList;
     // from build dir
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc/apphelp"));
 
     // determine path from installation
 #if QT_VERSION > 0x050000
@@ -34,27 +34,27 @@ QString UMLAppPrivate::findWelcomeFile()
 
     // from custom install
     foreach(const QString &lang, langList) {
-        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
+        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
     }
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     // from real installation
     foreach(const QString &location, locations) {
         foreach(const QString &lang, langList) {
-            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello")).arg(location).arg(lang));
+            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello/apphelp")).arg(location).arg(lang));
         }
-        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello")).arg(location));
+        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
     }
 #else
     KLocale *local = KGlobal::locale();
     QString lang = local->language();
     // from custom install
-    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     // /usr/share/doc/kde
-    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello"));
+    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello/apphelp"));
 #endif
     foreach(const QString &dir, dirList) {
         QString filePath = dir + QLatin1String("/welcome.html");
