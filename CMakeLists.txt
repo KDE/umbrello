@@ -221,11 +221,12 @@ include_directories(
 )
 
 #
-# Unstable features should not be enabled in stable branches.
+# Unstable features should not be enabled in stable branches
 # This macro limits unstable feature to development branches
 # by only adding -DENABLE_<name> to the compile command when
-# the patch level is between 50 and 79. On cmake
-# configure time a related status note is displayed.
+# the patch level is >= 70 which includes releases from master
+# beta and rc releases. On cmake configure time a related status
+# note is displayed.
 #
 # syntax:  add_unstable_feature(<name>)
 #
@@ -236,10 +237,12 @@ include_directories(
 #  #endif
 #
 macro(add_unstable_feature name)
-    if(UMBRELLO_VERSION_PATCH GREATER 49 AND UMBRELLO_VERSION_PATCH LESS 80)
+    if(UMBRELLO_VERSION_PATCH GREATER 69)
         add_definitions(-DENABLE_${name})
+        set(ENABLE_${name} 1)
         message(STATUS "Enable unstable feature ${name} - use '#ifdef ENABLE_${name}' in related code")
     else()
+        set(ENABLE_${name} 0)
         message(STATUS "Disable unstable feature ${name}")
     endif()
 endmacro(add_unstable_feature)

@@ -74,7 +74,7 @@ namespace Uml
         if (umlWidget->isMessageWidget()) {
             scene()->messageList().append(umlWidget->asMessageWidget());
         } else {
-            scene()->widgetList().append(umlWidget);
+            scene()->addWidget(umlWidget);
         }
 
         umlWidget->activate();

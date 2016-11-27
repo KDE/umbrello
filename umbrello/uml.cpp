@@ -1003,9 +1003,11 @@ void UMLApp::initView()
 #ifdef ENABLE_UML_OBJECTS_WINDOW
     tabifyDockWidget(m_d->diagramsWindow, m_d->objectsWindow);
 #endif
-    tabifyDockWidget(m_d->welcomeWindow, m_birdViewDock);
+    if (m_d->welcomeWindow) {
+        tabifyDockWidget(m_d->welcomeWindow, m_birdViewDock);
+        m_d->welcomeWindow->raise();
+    }
     m_listDock->raise();
-    m_d->welcomeWindow->raise();
 }
 
 /**

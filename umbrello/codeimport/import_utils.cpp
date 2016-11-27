@@ -782,7 +782,7 @@ bool importStackTrace(const QString &fileName, UMLScene *scene)
     ObjectWidget *leftWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, left);
     leftWidget->activate();
     // required to be savable
-    scene->widgetList().append(leftWidget);
+    scene->addWidget(leftWidget);
     objectsMap[name] = leftWidget;
 
     ObjectWidget *rightWidget = 0;
@@ -821,7 +821,7 @@ bool importStackTrace(const QString &fileName, UMLScene *scene)
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);
             rightWidget->activate();
             objectsMap[package] = rightWidget;
-            scene->widgetList().append(rightWidget);
+            scene->addWidget(rightWidget);
             mostRightWidget = rightWidget;
         }
 
