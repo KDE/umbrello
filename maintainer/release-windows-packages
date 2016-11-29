@@ -21,7 +21,7 @@
 # ticket     - file a tar ball move request
 # all        - performs all above mentioned steps
 #
-ARCH=openSUSE_13.2
+ARCH=openSUSE_42.2
 VERSION=2.20.80
 BASEURL64=http://download.opensuse.org/repositories/windows:/mingw:/win64/${ARCH}
 BASEURL32=http://download.opensuse.org/repositories/windows:/mingw:/win32/${ARCH}
