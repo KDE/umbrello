@@ -2164,6 +2164,7 @@ void UMLScene::removeAllWidgets()
 {
     // Remove widgets.
     foreach(UMLWidget* temp, m_WidgetList) {
+        uIgnoreZeroPointer(temp);
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->isTextWidget() &&
@@ -2379,6 +2380,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             // if the containedObject has a widget representation on this view then
             Uml::ID::Type id = obj->id();
             foreach(UMLWidget *w, m_WidgetList) {
+                uIgnoreZeroPointer(w);
                 if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
@@ -2404,6 +2406,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
     foreach(pWidget, m_WidgetList) {
+        uIgnoreZeroPointer(pWidget);
         if (pWidget->id() == pkgID) {
             breakFlag = true;
             break;
@@ -2636,6 +2639,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
 {
     foreach(UMLWidget* w,  m_WidgetList) {
+        uIgnoreZeroPointer(w);
         if (w != widget) {
             createAutoAttributeAssociations(w);
 
@@ -3249,6 +3253,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
     if (!changeAllWidgets)
         return;
     foreach(UMLWidget* w, m_WidgetList) {
+        uIgnoreZeroPointer(w);
         w->setFont(font);
     }
 }
@@ -3259,6 +3264,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(UMLWidget* pWidget, m_WidgetList) {
+        uIgnoreZeroPointer(pWidget);
         WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
@@ -3516,6 +3522,7 @@ void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
     foreach(UMLWidget *obj, m_WidgetList) {
+        uIgnoreZeroPointer(obj);
         obj->updateGeometry();
     }
 }
@@ -3532,6 +3539,7 @@ void UMLScene::updateComponentSizes()
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
+        uIgnoreZeroPointer(obj);
         obj->forceUpdateFontMetrics(painter);
     }
 }
@@ -3577,6 +3585,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     //now save all the widgets
     QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, m_WidgetList) {
+        uIgnoreZeroPointer(widget);
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
