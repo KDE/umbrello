@@ -36,11 +36,11 @@ DEBUG_REGISTER_DISABLED(PinWidget)
  * Creates a Pin widget.
  *
  * @param scene   The parent of the widget.
- * @param a       The widget to which this pin is attached.
+ * @param owner   The widget to which this pin is attached.
  * @param id      The ID to assign (-1 will prompt a new ID).
  */
-PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
-  : PinPortBase(scene, WidgetBase::wt_Pin, a, id)
+PinWidget::PinWidget(UMLScene* scene, UMLWidget* owner, Uml::ID::Type id)
+  : PinPortBase(scene, WidgetBase::wt_Pin, owner, id)
 {
     // setParent(a);
     // m_nY = y() < getMinY() ? getMinY() : y();
@@ -57,15 +57,6 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
  */
 PinWidget::~PinWidget()
 {
-}
-
-/**
- * Implement abstract function from PinPortWidget.
- */
-void PinWidget::connectOwnerMotion()
-{
-    ActivityWidget *owner = static_cast<ActivityWidget*>(ownerWidget());
-    connect(owner, SIGNAL(sigActMoved(qreal,qreal)), this, SLOT(slotOwnerMoved(qreal,qreal)));
 }
 
 /**

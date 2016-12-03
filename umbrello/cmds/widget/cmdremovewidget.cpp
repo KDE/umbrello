@@ -28,6 +28,13 @@ namespace Uml
     {
         setText(i18n("Remove widget : %1", widget->name()));
 
+        foreach(QGraphicsItem* item, widget->childItems()) {
+            UMLWidget* child = dynamic_cast<UMLWidget*>(item);
+            QDomDocument doc;
+            m_children.append(doc.createElement(QLatin1String("child")));
+            child->saveToXMI(doc, m_children.back());
+        }
+
         QDomDocument doc;
         m_element = doc.createElement(QLatin1String("widget"));
         widget->saveToXMI(doc, m_element);
@@ -61,7 +68,16 @@ namespace Uml
 
         UMLScene* umlScene = scene();
         UMLWidget* widget = umlScene->loadWidgetFromXMI(widgetElement);
+        if (widget) {
+            addWidgetToScene(widget);
+        }
 
-        addWidgetToScene(widget);
+        foreach(QDomElement childElement, m_children) {
+            widgetElement = childElement.firstChild().toElement();
+            widget = umlScene->loadWidgetFromXMI(widgetElement);
+            if (0 != widget) {
+                addWidgetToScene(widget);
+            }
+        }
     }
 }

@@ -43,6 +43,8 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d)
   : PinPortBase(scene, WidgetBase::wt_Port, d)
 {
     setToolTip(d->name());
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    setParentItem(scene->widgetOnDiagram(compWidgetId));
 }
 
 /**
@@ -55,23 +57,9 @@ PortWidget::~PortWidget()
 /**
  * Override function from PinPortWidget.
  */
-UMLWidget* PortWidget::ownerWidget()
+UMLWidget* PortWidget::ownerWidget() const
 {
-    if (PinPortBase::ownerWidget() == 0) {
-        const Uml::ID::Type compWidgetId = umlObject()->umlPackage()->id();
-        setOwnerWidget(m_scene->widgetOnDiagram(compWidgetId));
-    }
     return PinPortBase::ownerWidget();
-}
-
-/**
- * Implement abstract function from PinPortWidget.
- */
-void PortWidget::connectOwnerMotion()
-{
-    Q_ASSERT(ownerWidget()->baseType() == WidgetBase::wt_Component);
-    ComponentWidget *owner = static_cast<ComponentWidget*>(ownerWidget());
-    connect(owner, SIGNAL(sigCompMoved(qreal,qreal)), this, SLOT(slotOwnerMoved(qreal,qreal)));
 }
 
 /**

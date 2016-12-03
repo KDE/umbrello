@@ -557,16 +557,13 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
-    if (setPosition) {
-        if (w->isPinWidget() ||
-            w->isPortWidget()) {
-            PinPortBase *pw = w->asPinPortBase();
-            pw->attachToOwner();
-        } else if (!w->isObjectWidget()) {
-            // ObjectWidget's position is handled by the widget
-            w->setX(m_Pos.x());
-            w->setY(m_Pos.y());
-        }
+    if (setPosition &&
+        (!w->isPinWidget()) &&
+        (!w->isPortWidget()) &&
+        (!w->isObjectWidget())) {
+        // ObjectWidget's position is handled by the widget
+        w->setX(m_Pos.x());
+        w->setY(m_Pos.y());
     }
     w->setVisible(true);
     w->activate();
@@ -960,29 +957,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    qreal relativeSize = 99990.0;  // start with an arbitrary large number
-    UMLWidget  *retWid = 0;
-    foreach (UMLWidget* wid, m_WidgetList) {
-        UMLWidget* w = wid->onWidget(p);
-        if (w == 0)
-            continue;
-        const qreal s = (w->width() + w->height()) / 2.0;
-        if (s < relativeSize) {
-            relativeSize = s;
-            retWid = w;
-        }
-    }
-    foreach (AssociationWidget* assoc, m_AssociationList) {
-        UMLWidget* w = assoc->onWidget(p);
-        if (w) {
-            const qreal s = (w->width() + w->height()) / 2.0;
-            if (s < relativeSize) {
-                relativeSize = s;
-                retWid = w;
-            }
-        }
-    }
-    return retWid;
+    return dynamic_cast<UMLWidget*>(itemAt(p));
 }
 
 /**
@@ -1219,14 +1194,11 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
  */
 void UMLScene::removeOwnedWidgets(UMLWidget* o)
 {
-    foreach (UMLWidget* wid, m_WidgetList) {
-        if (wid->isPinWidget() ||
-            wid->isPortWidget()) {
-            PinPortBase* pw = wid->asPinPortBase();
-            if (pw->hasOwner(o)) {
-                pw->detachFromOwner();
-                removeWidgetCmd(pw);
-            }
+    foreach(QGraphicsItem* item, o->childItems()) {
+        UMLWidget* widget = dynamic_cast<UMLWidget*>(item);
+        if (widget->isPinWidget() ||
+            widget->isPortWidget()) {
+            removeWidgetCmd(widget);
         }
     }
 }
@@ -1416,10 +1388,9 @@ void UMLScene::unselectChildrenOfSelectedWidgets()
     foreach(UMLWidget* widget, selectedWidgets()) {
         if (widget->isPinWidget() ||
             widget->isPortWidget()) {
-            PinPortBase* pw = widget->asPinPortBase();
             foreach(UMLWidget* potentialParentWidget, selectedWidgets()) {
-                if (pw->hasOwner(potentialParentWidget)) {
-                    pw->setSelectedFlag(false);
+                if (widget->parentItem() == potentialParentWidget) {
+                    widget->setSelectedFlag(false);
                 }
             }
         }
