@@ -18,9 +18,6 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
-// kde includes
-#include <KLocalizedString>
-
 namespace Uml
 {
     CmdBaseWidgetCommand::CmdBaseWidgetCommand(UMLWidget* widget)
