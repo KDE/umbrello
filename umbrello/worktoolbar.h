@@ -103,6 +103,7 @@ public:
         tbb_End_Activity,
         tbb_Final_Activity,
         tbb_Pin,
+        tbb_Port,
         tbb_Branch,
         tbb_Fork,
         tbb_DeepHistory,
@@ -215,6 +216,7 @@ public slots:
     void slotException();
     void slotPrePostCondition();
     void slotPin();
+    void slotPort();
     void slotObject_Node();
     void slotCategory();
     void slotCategory2Parent();

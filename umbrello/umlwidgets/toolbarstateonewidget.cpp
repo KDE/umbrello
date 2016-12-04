@@ -16,6 +16,7 @@
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
+#include "model_utils.h"
 #include "objectwidget.h"
 #include "pinwidget.h"
 #include "portwidget.h"
@@ -23,6 +24,7 @@
 #include "regionwidget.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "port.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 #include "object_factory.h"
@@ -134,7 +136,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     if (type == WidgetBase::wt_Precondition) {
         m_firstObject = 0;
     }
-    if (type == WidgetBase::wt_Pin) {
+    if (type == WidgetBase::wt_Pin || type == WidgetBase::wt_Port) {
         m_firstObject = 0;
     }
 
@@ -146,7 +148,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
         return;
     }
 
-    if (!m_firstObject && type == WidgetBase::wt_Pin) {
+    if (!m_firstObject && (type == WidgetBase::wt_Pin || type == WidgetBase::wt_Port)) {
         setWidget(currentWidget());
         return ;
     }
@@ -190,27 +192,17 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
             // Create the widget. Some setup functions can remove the widget.
     }
 
-    if (widgetType() == WidgetBase::wt_Pin) {
-        if (m_firstObject->isActivityWidget()) {
+    if (widgetType() == WidgetBase::wt_Pin && m_firstObject->isActivityWidget()) {
+        QString name = i18n("new pin");
+        if (Dialog_Utils::askName(i18n("Enter Pin Name"), i18n("Enter the Pin"), name)) {
             umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
-            // Create the widget. Some setup functions can remove the widget.
-        } else if (m_firstObject->isComponentWidget()) {
-            bool pressedOK = false;
-#if QT_VERSION >= 0x050000
-            QString name = QInputDialog::getText(UMLApp::app(),
-                                                 i18n("Enter Port Name"), i18n("Enter the port"),
-                                                 QLineEdit::Normal,
-                                                 i18n("new port"),
-                                                 &pressedOK);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Port Name"), i18n("Enter the port"), i18n("new port"),
-                                                 &pressedOK, UMLApp::app());
-#endif
-            if (pressedOK) {
-                UMLPackage* component = m_firstObject->umlObject()->asUMLPackage();
-                UMLObject *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component);
-                umlwidget = Widget_Factory::createWidget(m_pUMLScene, port);
-            }
+        }
+    } else if (widgetType() == WidgetBase::wt_Port && m_firstObject->isComponentWidget()) {
+        UMLPackage* component = m_firstObject->umlObject()->asUMLPackage();
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
+        if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
+            UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
+            umlwidget = Widget_Factory::createWidget(m_pUMLScene, port);
         }
     }
 
@@ -233,6 +225,10 @@ WidgetBase::WidgetType ToolBarStateOneWidget::widgetType()
 
     if (getButton() == WorkToolBar::tbb_Pin) {
         return WidgetBase::wt_Pin;
+    }
+
+    if (getButton() == WorkToolBar::tbb_Port) {
+        return WidgetBase::wt_Port;
     }
     // Shouldn't happen
     Q_ASSERT(0);
