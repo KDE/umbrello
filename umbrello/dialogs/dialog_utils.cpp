@@ -72,18 +72,8 @@ KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName)
 {
-    bool pressedOK = false;
-
-#if QT_VERSION >= 0x050000
-    QString name = QInputDialog::getText(UMLApp::app(),
-                                         dialogTitle, dialogPrompt,
-                                         QLineEdit::Normal,
-                                         defaultName, &pressedOK);
-#else
-    QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
-#endif
-
-    if (pressedOK) {
+    QString name = defaultName;
+    if (askName(dialogTitle, dialogPrompt, name)) {
         targetWidget->setName(name);
     }
     else {
