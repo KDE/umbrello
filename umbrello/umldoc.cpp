@@ -19,6 +19,7 @@
 #include "folder.h"
 #include "codegenerator.h"
 #include "classifier.h"
+#include "dialog_utils.h"
 #include "enum.h"
 #include "entity.h"
 #include "docwindow.h"
@@ -1536,36 +1537,19 @@ bool UMLDoc::closing() const
  */
 QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /*= true */)
 {
-    bool ok = true;
     QString defaultName = uniqueViewName(type);
     QString name = defaultName;
 
     while (true) {
-        if (askForName)  {
-#if QT_VERSION >= 0x050000
-            name = QInputDialog::getText(UMLApp::app(),
-                                         i18nc("diagram name", "Name"), i18n("Enter name:"),
-                                         QLineEdit::Normal,
-                                         defaultName, &ok);
-#else
-            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"),
-                                         defaultName, &ok, (QWidget*)UMLApp::app());
-#endif
-        }
-        if (!ok)  {
+        if (askForName && !Dialog_Utils::askName(i18nc("diagram name", "Name"), i18n("Enter name:"), name))
             break;
-        }
 
         if (name.length() == 0)  {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-        }
-        else {
-            if (findView(type, name)) {
+        } else if (findView(type, name)) {
                 KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
-            }
-            else {
-                return name;
-            }
+        } else {
+            return name;
         }
     } // end while
     return QString();
