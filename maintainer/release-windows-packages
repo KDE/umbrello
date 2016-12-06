@@ -49,6 +49,11 @@ download)
         # we only need once source package
         #src64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep src)
         #osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw64-umbrello $REPO x86_64 $src64pkg
+        # fetch debug packages
+        #debug32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep debug)
+        #osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $debug32pkg
+        #debug64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep debug)
+        #osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello $REPO x86_64 $debug64pkg
         ;;
 
 unpack)
