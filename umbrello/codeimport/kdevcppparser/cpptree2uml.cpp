@@ -170,8 +170,13 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                  Import_Utils::createUMLObject(UMLObject::ot_Datatype, id,
                                                m_currentNamespace[m_nsCnt]);
                 UMLDatatype *dt = typedefObj->asUMLDatatype();
-                dt->setIsReference();
-                dt->setOriginType(inner->asUMLClassifier());
+                if (dt) {
+                    dt->setIsReference();
+                    dt->setOriginType(inner->asUMLClassifier());
+                }
+                else {
+                    uError() << "Could not create datatype from" << id;
+                }
             } else {
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
                                                m_currentNamespace[m_nsCnt],
