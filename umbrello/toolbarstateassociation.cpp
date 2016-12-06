@@ -181,8 +181,8 @@ void ToolBarStateAssociation::setFirstWidget()
     }
     //set up position
     QPoint pos;
-    pos.setX(widget->x() + (widget->width() / 2));
-    pos.setY(widget->y() + (widget->height() / 2));
+    pos.setX(widget->scenePos().x() + (widget->width() / 2));
+    pos.setY(widget->scenePos().y() + (widget->height() / 2));
     //TODO why is this needed?
     m_pUMLScene->setPos(pos);
 

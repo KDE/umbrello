@@ -3579,8 +3579,8 @@ void AssociationWidget::updateAssociations(int totalCount,
         if (! pointIsAuthoritative) {
             // If the point is not authoritative then we use the other
             // widget's center.
-            refpoint.setX(otherWidget->x() + otherWidget->width() / 2);
-            refpoint.setY(otherWidget->y() + otherWidget->height() / 2);
+            refpoint.setX(otherWidget->scenePos().x() + otherWidget->width() / 2);
+            refpoint.setY(otherWidget->scenePos().y() + otherWidget->height() / 2);
         }
         qreal intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
         if (intercept < 0) {
@@ -3624,8 +3624,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     if (isSelf() &&
             m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
         UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
-        qreal x = pWidget->x();
-        qreal y = pWidget->y();
+        qreal x = pWidget->scenePos().x();
+        qreal y = pWidget->scenePos().y();
         qreal wh = pWidget->height();
         qreal ww = pWidget->width();
         int size = m_associationLine->count();
@@ -3662,8 +3662,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
-    qreal x = pWidget->x();
-    qreal y = pWidget->y();
+    qreal x = pWidget->scenePos().x();
+    qreal y = pWidget->scenePos().y();
     qreal ww = pWidget->width();
     qreal wh = pWidget->height();
     const bool angular = Settings::optionState().generalState.angularlines;
