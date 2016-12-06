@@ -21,12 +21,11 @@
 # ticket     - file a tar ball move request
 # all        - performs all above mentioned steps
 #
-ARCH=openSUSE_42.2
-VERSION=2.20.80
-BASEURL64=http://download.opensuse.org/repositories/windows:/mingw:/win64/${ARCH}
-BASEURL32=http://download.opensuse.org/repositories/windows:/mingw:/win32/${ARCH}
+REPO=openSUSE_42.2
+VERSION=2.20.90
 
 PHABURL=https://phabricator.kde.org
+oscoptions="-A https://api.opensuse.org"
 apitoken=cli-uxo23l4q5qrzoyscbz5kp4zcngqp
 options='projectPHIDs[]=PHID-PROJ-3qa4tomwgrmcmp4ym2ow'
 
@@ -42,11 +41,14 @@ clean)
 download)
         cd work
         rm -rf binaries
-        osc getbinaries windows\:mingw:\win32 mingw32-umbrello-installer $ARCH x86_64
-        osc getbinaries windows\:mingw:\win64 mingw64-umbrello-installer $ARCH x86_64
-        osc getbinaries windows\:mingw:\win32 mingw32-umbrello $ARCH x86_64 --sources
+        osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello-installer $REPO x86_64
+        osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello-installer $REPO x86_64
+        # fetch source package
+        src32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep src)
+        osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $src32pkg
         # we only need once source package
-        #osc getbinaries windows\:mingw:\win64 mingw64-umbrello openSUSE_13.2 x86_64 --sources
+        #src64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep src)
+        #osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw64-umbrello $REPO x86_64 $src64pkg
         ;;
 
 unpack)
