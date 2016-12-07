@@ -1607,14 +1607,12 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-        }
-        else if (!findView(type, name)) {
+        } else if (!findView(type, name)) {
             view->umlScene()->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
             break;
-        }
-        else {
+        } else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
     }
@@ -1633,13 +1631,12 @@ void UMLDoc::renameUMLObject(UMLObject *o)
         bool ok = Dialog_Utils::askName(i18nc("renaming uml object", "Name"),
                                         i18n("Enter name:"),
                                         name);
-        if (!ok)  {
+        if (!ok) {
             break;
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        }
-        else if (isUnique(name)) {
+        } else if (isUnique(name)) {
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
             setModified(true);
             break;
@@ -1673,18 +1670,15 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        }
-        else {
-            if (p->findChildObject(name) == 0
+        } else if (p->findChildObject(name) == 0
                     || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(0,
                             i18n("The name you entered was not unique.\nIs this what you wanted?"),
                             i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes)) {
                 UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
                 setModified(true);
                 break;
-            } else {
-                KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-            }
+        } else {
+            KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         }
     }
 }
