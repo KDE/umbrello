@@ -331,7 +331,12 @@ private:
 
     void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
-    void insertContainerItems(bool folderAndDiagrams);
+    void insertContainerItems(bool folderAndDiagrams, bool packages=true);
+#if QT_VERSION >= 0x050000
+    void insertContainerItems(QMenu* menu, bool folderAndDiagrams, bool packages);
+#else
+    void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
+#endif
     void insertAssociationItem(MenuType mt);
     void insertAssociationTextItem(const QString &label, MenuType mt);
     void insertSubMenuLayout(AssociationLine *associationLine);
