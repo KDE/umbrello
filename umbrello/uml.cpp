@@ -2848,9 +2848,8 @@ void UMLApp::slotUpdateViews()
 void UMLApp::importFiles(QStringList* fileList)
 {
     if (!fileList->isEmpty()) {
-        bool saveState = listView()->parentWidget()->isVisible();
-        listView()->parentWidget()->setVisible(false);
-        logWindow()->parentWidget()->setVisible(true);
+        listView()->setUpdatesEnabled(false);
+        logWindow()->setUpdatesEnabled(false);
         logWindow()->clear();
 
         const QString& firstFile = fileList->first();
@@ -2862,7 +2861,8 @@ void UMLApp::importFiles(QStringList* fileList)
         // Allowing undo of the whole class importing. I think it eats a lot of memory.
         // Setting the modification, but without allowing undo.
         m_doc->setModified(true);
-        listView()->parentWidget()->setVisible(saveState);
+        listView()->setUpdatesEnabled(true);
+        logWindow()->setUpdatesEnabled(true);
     }
 }
 
