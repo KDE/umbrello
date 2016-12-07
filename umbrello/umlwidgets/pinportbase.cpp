@@ -19,7 +19,9 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "floatingtextwidget.h"
-#include <debug_utils.h>
+#include "debug_utils.h"
+#include "umlwidgets/childwidgetplacementpin.h"
+#include "umlwidgets/childwidgetplacementport.h"
 
 // qt includes
 #include <QPainter>
@@ -29,13 +31,15 @@
 #include <cmath>
 
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o)
-  : UMLWidget(scene, type, o)
+  : UMLWidget(scene, type, o),
+    m_childPlacement(createPlacement(type))
 {
     init();
 }
 
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id)
-  : UMLWidget(scene, type, id)
+  : UMLWidget(scene, type, id),
+    m_childPlacement(createPlacement(type))
 {
     init(owner);
 }
@@ -45,6 +49,19 @@ PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml
  */
 PinPortBase::~PinPortBase()
 {
+}
+
+ChildWidgetPlacement* PinPortBase::createPlacement(WidgetBase::WidgetType type)
+{
+    if (type == wt_Pin) {
+        return new ChildWidgetPlacementPin(this);
+    }
+    else if (type == wt_Port) {
+        return new ChildWidgetPlacementPort(this);
+    }
+    else {
+        return 0;
+    }
 }
 
 /**
@@ -63,8 +80,7 @@ void PinPortBase::init(UMLWidget *owner)
     setMaximumSize(fixedSize);
     setSize(fixedSize);
 
-    m_connectedSide = Top;
-    setPos(0, - height() ); // place above parent
+    m_childPlacement->setInitialPosition();
 }
 
 UMLWidget* PinPortBase::ownerWidget() const
@@ -101,60 +117,6 @@ void PinPortBase::setName(const QString &strName)
     }
 }
 
-bool PinPortBase::isAboveParent() const
-{
-    return m_connectedSide == Top;
-}
-
-bool PinPortBase::isBelowParent() const
-{
-    return m_connectedSide == Bottom;
-}
-
-bool PinPortBase::isLeftOfParent() const
-{
-    return m_connectedSide == Left;
-}
-
-bool PinPortBase::isRightOfParent() const
-{
-    return m_connectedSide == Right;
-}
-
-qreal PinPortBase::getNewXOnJumpToTopOrBottom() const
-{
-    return isLeftOfParent() ? 0 : ownerWidget()->width() - width();
-}
-
-void PinPortBase::jumpToTopOfParent()
-{
-    setPos(QPointF(getNewXOnJumpToTopOrBottom(), - height()));
-    m_connectedSide = Top;
-}
-
-void PinPortBase::jumpToBottomOfParent()
-{
-    setPos(QPointF(getNewXOnJumpToTopOrBottom(), ownerWidget()->height()));
-    m_connectedSide = Bottom;
-}
-
-qreal PinPortBase::getNewYOnJumpToSide() const
-{
-    return isAboveParent() ? 0 : ownerWidget()->height() - height();
-}
-
-void PinPortBase::jumpToLeftOfParent()
-{
-    setPos(QPointF(-width(), getNewYOnJumpToSide()));
-    m_connectedSide = Left;
-}
-
-void PinPortBase::jumpToRightOfParent()
-{
-    setPos(QPointF(ownerWidget()->width(), getNewYOnJumpToSide()));
-    m_connectedSide = Right;
-}
-
 /**
  * Overridden from UMLWidget.
  * Moves the widget to a new position using the difference between the
@@ -167,55 +129,7 @@ void PinPortBase::jumpToRightOfParent()
  */
 void PinPortBase::moveWidgetBy(qreal diffX, qreal diffY)
 {
-    const qreal newX = x() + diffX;
-    const qreal newY = y() + diffY;
-    UMLWidget* owner = ownerWidget();
-    if (isAboveParent() || isBelowParent()) {
-        if (newX < 0.0) {
-            if (- diffX > width()) {
-                jumpToLeftOfParent();
-            }
-            else {
-                setX(0);
-            }
-        }
-        else if (newX > owner->width() - width()) {
-            if (diffX > width()) {
-                jumpToRightOfParent();
-            }
-            else {
-                setX(owner->width() - width());
-            }
-        }
-        else {
-            setX(newX);
-        }
-    }
-    else if (isLeftOfParent() || isRightOfParent()) {
-        if (newY < 0.0) {
-            if (- diffY > height()) {
-                jumpToTopOfParent();
-            }
-            else {
-                setY(0);
-            }
-        }
-        else if (newY > owner->height() - height()) {
-            if (diffY > height()) {
-                jumpToBottomOfParent();
-            }
-            else {
-                setY(owner->height() - height());
-            }
-        }
-        else {
-            setY(newY);
-        }
-    }
-    else {
-        // error: client is not attached to parent
-        jumpToTopOfParent();
-    }
+    m_childPlacement->setNewPositionWhenMoved(diffX, diffY);
 }
 
 /**
@@ -224,13 +138,7 @@ void PinPortBase::moveWidgetBy(qreal diffX, qreal diffY)
  */
 void PinPortBase::notifyParentResize()
 {
-    UMLWidget* owner = ownerWidget();
-    if (isRightOfParent()) {
-        setPos(owner->width(), qMin(y(), owner->height() - height()));
-    }
-    else if (isBelowParent()) {
-        setPos(qMin(x(), owner->width() - width()), owner->height());
-    }
+    m_childPlacement->setNewPositionOnParentResize();
 }
 
 /**

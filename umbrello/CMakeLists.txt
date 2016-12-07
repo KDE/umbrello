@@ -352,6 +352,9 @@ set(libumlwidgets_SRCS
     umlwidgets/associationwidget.cpp
     umlwidgets/boxwidget.cpp
     umlwidgets/categorywidget.cpp
+    umlwidgets/childwidgetplacement.cpp
+    umlwidgets/childwidgetplacementpin.cpp
+    umlwidgets/childwidgetplacementport.cpp
     umlwidgets/classifierwidget.cpp
     umlwidgets/combinedfragmentwidget.cpp
     umlwidgets/componentwidget.cpp
