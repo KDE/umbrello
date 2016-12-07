@@ -505,9 +505,11 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
-        widget->moveWidgetBy(diffX, diffY);
-        widget->adjustUnselectedAssocs(delta.x(), delta.y());
-        widget->slotSnapToGrid();
+        if ((widget->parentItem() == 0) || (!widget->parentItem()->isSelected())) {
+            widget->moveWidgetBy(diffX, diffY);
+            widget->adjustUnselectedAssocs(delta.x(), delta.y());
+            widget->slotSnapToGrid();
+        }
     }
 
     // Move any selected associations.
@@ -648,6 +650,15 @@ void UMLWidget::resizeWidget(qreal newW, qreal newH)
 {
     setSize(newW, newH);
 }
+
+/**
+ * Notify child widget about parent resizes.
+ * Child widgets can override this function to move when their parent is resized.
+ */
+void UMLWidget::notifyParentResize()
+{
+}
+
 
 /**
  * When a widget changes this slot captures that signal.
@@ -1539,7 +1550,12 @@ void UMLWidget::setSize(qreal width, qreal height)
             height = (numY + 1) * m_scene->snapY();
     }
 
-    setRect(rect().x(), rect().y(), width, height);
+    const QRectF newRect(rect().x(), rect().y(), width, height);
+    setRect(newRect);
+    foreach(QGraphicsItem* child, childItems()) {
+        UMLWidget* umlChild = static_cast<UMLWidget*>(child);
+        umlChild->notifyParentResize();
+    }
 }
 
 /**

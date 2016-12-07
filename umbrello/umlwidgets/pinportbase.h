@@ -26,18 +26,18 @@ class PinPortBase : public UMLWidget
     Q_OBJECT
 public:
     PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o);
-    PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *a, Uml::ID::Type id = Uml::ID::None);
+    PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id);
     virtual ~PinPortBase();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual QRectF boundingRect() const;
 
-    virtual UMLWidget* ownerWidget();
-    virtual void connectOwnerMotion() = 0;
+    virtual UMLWidget* ownerWidget() const;
 
-    void setName(const QString &strName);
     void updateWidget();
+    void setName(const QString &strName);
     void moveWidgetBy(qreal diffX, qreal diffY);
-    void attachToOwner();
+    virtual void notifyParentResize();
  
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
@@ -49,15 +49,35 @@ public:
     bool loadFromXMI(QDomElement& qElement);
 
 public slots:
-    void slotOwnerMoved(qreal diffX, qreal diffY);
     virtual void slotMenuSelection(QAction* action);
 
 protected:
     void init(UMLWidget *owner = 0);
 
-    UMLWidget* m_pOw;
+private:
+    enum ConnectedSide {
+        Top,
+        Right,
+        Bottom,
+        Left
+    };
+
+    bool isAboveParent() const;
+    bool isBelowParent() const;
+    bool isLeftOfParent() const;
+    bool isRightOfParent() const;
+    qreal getNewXOnJumpToTopOrBottom() const;
+    void jumpToTopOfParent();
+    void jumpToBottomOfParent();
+    qreal getNewYOnJumpToSide() const;
+    void jumpToLeftOfParent();
+    void jumpToRightOfParent();
+
+protected:
     FloatingTextWidget *m_pName;
-    bool m_motionConnected;
+
+private:
+    ConnectedSide m_connectedSide;
 };
 
 #endif

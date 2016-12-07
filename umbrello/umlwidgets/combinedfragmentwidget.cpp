@@ -24,7 +24,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPainter>
 #include <QString>
 
@@ -231,7 +230,7 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
-        m_scene->widgetList().append(m_dashLines.back());
+        m_scene->addWidget(m_dashLines.back());
     }
 }
 
@@ -358,7 +357,7 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
                 return false;
             }
             else {
-                m_scene->widgetList().append(fdlwidget);
+                m_scene->addWidget(fdlwidget);
                 fdlwidget->clipSize();
             }
         } else {
@@ -424,24 +423,20 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
-
             if (m_CombinedFragment == Alt) {
-                name = QInputDialog::getText(Q_NULLPTR,
-                                             i18n("Enter first alternative"), i18n("Enter first alternative :"),
-                                             QLineEdit::Normal,
-                                             m_Text, &ok);
+                ok = Dialog_Utils::askName(i18n("Enter first alternative"),
+                                           i18n("Enter first alternative :"),
+                                           name);
             }
             else if (m_CombinedFragment == Ref) {
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
+                ok = Dialog_Utils::askName(i18n("Enter referenced diagram name"),
+                                           i18n("Enter referenced diagram name :"),
+                                           name);
             }
             else if (m_CombinedFragment == Loop) {
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
+                ok = Dialog_Utils::askName(i18n("Enter the guard of the loop"),
+                                           i18n("Enter the guard of the loop:"),
+                                           name);
             }
             if (ok && name.length() > 0)
                 m_Text = name;

@@ -14,6 +14,7 @@
 // app includes
 #include "activitydialog.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "uml.h"
@@ -25,7 +26,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPointer>
 /**
  * Creates a Activity widget.
@@ -367,13 +367,10 @@ void ActivityWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString n = name();
-            n = QInputDialog::getText(Q_NULLPTR,
-                                      i18n("Enter Activity Name"),
-                                      i18n("Enter the name of the new activity:"),
-                                      QLineEdit::Normal,
-                                      n, &ok);
+            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
+                                            i18n("Enter the name of the new activity:"),
+                                            n);
             if (ok && !n.isEmpty()) {
                 setName(n);
             }

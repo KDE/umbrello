@@ -31,8 +31,7 @@ public:
     PortWidget(UMLScene *scene, UMLPort *d);
     virtual ~PortWidget();
 
-    UMLWidget* ownerWidget();
-    void connectOwnerMotion();
+    UMLWidget* ownerWidget() const;
 
 public slots:
     void slotMenuSelection(QAction* action);

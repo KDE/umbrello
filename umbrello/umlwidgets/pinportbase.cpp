@@ -19,6 +19,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "floatingtextwidget.h"
+#include <debug_utils.h>
 
 // qt includes
 #include <QPainter>
@@ -28,15 +29,15 @@
 #include <cmath>
 
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o)
-    : UMLWidget(scene, type, o)
+  : UMLWidget(scene, type, o)
 {
     init();
 }
 
-PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *a, Uml::ID::Type id)
-    : UMLWidget(scene, type, id)
+PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id)
+  : UMLWidget(scene, type, id)
 {
-    init(a);
+    init(owner);
 }
 
 /**
@@ -54,19 +55,21 @@ void PinPortBase::init(UMLWidget *owner)
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
-    m_pOw = owner;
+    setParentItem(owner);
     m_pName = 0;
-    m_motionConnected = false;
     const int edgeLength = 15;  // old: (m_baseType == wt_Pin ? 10 : 15);
-    const QSizeF FixedSize(edgeLength, edgeLength);
-    setMinimumSize(FixedSize);
-    setMaximumSize(FixedSize);
-    setSize(FixedSize);
+    const QSizeF fixedSize(edgeLength, edgeLength);
+    setMinimumSize(fixedSize);
+    setMaximumSize(fixedSize);
+    setSize(fixedSize);
+
+    m_connectedSide = Top;
+    setPos(0, - height() ); // place above parent
 }
 
-UMLWidget* PinPortBase::ownerWidget()
+UMLWidget* PinPortBase::ownerWidget() const
 {
-    return m_pOw;
+    return dynamic_cast<UMLWidget*>(parentItem());
 }
 
 /**
@@ -98,6 +101,60 @@ void PinPortBase::setName(const QString &strName)
     }
 }
 
+bool PinPortBase::isAboveParent() const
+{
+    return m_connectedSide == Top;
+}
+
+bool PinPortBase::isBelowParent() const
+{
+    return m_connectedSide == Bottom;
+}
+
+bool PinPortBase::isLeftOfParent() const
+{
+    return m_connectedSide == Left;
+}
+
+bool PinPortBase::isRightOfParent() const
+{
+    return m_connectedSide == Right;
+}
+
+qreal PinPortBase::getNewXOnJumpToTopOrBottom() const
+{
+    return isLeftOfParent() ? 0 : ownerWidget()->width() - width();
+}
+
+void PinPortBase::jumpToTopOfParent()
+{
+    setPos(QPointF(getNewXOnJumpToTopOrBottom(), - height()));
+    m_connectedSide = Top;
+}
+
+void PinPortBase::jumpToBottomOfParent()
+{
+    setPos(QPointF(getNewXOnJumpToTopOrBottom(), ownerWidget()->height()));
+    m_connectedSide = Bottom;
+}
+
+qreal PinPortBase::getNewYOnJumpToSide() const
+{
+    return isAboveParent() ? 0 : ownerWidget()->height() - height();
+}
+
+void PinPortBase::jumpToLeftOfParent()
+{
+    setPos(QPointF(-width(), getNewYOnJumpToSide()));
+    m_connectedSide = Left;
+}
+
+void PinPortBase::jumpToRightOfParent()
+{
+    setPos(QPointF(ownerWidget()->width(), getNewYOnJumpToSide()));
+    m_connectedSide = Right;
+}
+
 /**
  * Overridden from UMLWidget.
  * Moves the widget to a new position using the difference between the
@@ -110,86 +167,69 @@ void PinPortBase::setName(const QString &strName)
  */
 void PinPortBase::moveWidgetBy(qreal diffX, qreal diffY)
 {
+    const qreal newX = x() + diffX;
+    const qreal newY = y() + diffY;
     UMLWidget* owner = ownerWidget();
-    qreal newX = x() + diffX;
-    qreal newY = y() + diffY;
-    uDebug() << "PinPortBase::moveWidgetBy " << diffX << "," << diffY;
-    if (owner == 0) {
-        uError() << "PinPortBase::moveWidgetBy: ownerWidget() returns NULL";
-        setX(newX);
-        setY(newY);
-        return;
+    if (isAboveParent() || isBelowParent()) {
+        if (newX < 0.0) {
+            if (- diffX > width()) {
+                jumpToLeftOfParent();
+            }
+            else {
+                setX(0);
+            }
+        }
+        else if (newX > owner->width() - width()) {
+            if (diffX > width()) {
+                jumpToRightOfParent();
+            }
+            else {
+                setX(owner->width() - width());
+            }
+        }
+        else {
+            setX(newX);
+        }
     }
-    const qreal deltaTop    = fabs(y() + height() - owner->y());
-    const qreal deltaBottom = fabs(owner->y() + owner->height() - y());
-    const qreal deltaLeft   = fabs(x() + width() - owner->x());
-    const qreal deltaRight  = fabs(owner->x() + owner->width() - x());
-    bool didAnyMovement = false;
-    if (deltaTop < 1.0 || deltaBottom < 1.0) {
-        if (newX < owner->x() - width())
-            newX = owner->x() - width();
-        else if (newX > owner->x() + owner->width())
-            newX = owner->x() + owner->width();
-        setX(newX);
-        didAnyMovement = true;
+    else if (isLeftOfParent() || isRightOfParent()) {
+        if (newY < 0.0) {
+            if (- diffY > height()) {
+                jumpToTopOfParent();
+            }
+            else {
+                setY(0);
+            }
+        }
+        else if (newY > owner->height() - height()) {
+            if (diffY > height()) {
+                jumpToBottomOfParent();
+            }
+            else {
+                setY(owner->height() - height());
+            }
+        }
+        else {
+            setY(newY);
+        }
     }
-    if (deltaLeft < 1.0 || deltaRight < 1.0) {
-        if (newY < owner->y() - height())
-            newY = owner->y() - height();
-        else if (newY > owner->y() + owner->height())
-            newY = owner->y() + owner->height();
-        setY(newY);
-        didAnyMovement = true;
-    }
-    if (!didAnyMovement) {
-        uDebug() << "constraint failed for (" << diffX << ", " << diffY << ")";
-        setX(newX);
-        setY(newY);
+    else {
+        // error: client is not attached to parent
+        jumpToTopOfParent();
     }
 }
 
 /**
- * Align this widget's position such that it is attached at one of the
- * sides of its owner's widget.
+ * Receive notification when parent is resized.
+ * We need to track parent resize to always stay attached to it.
  */
-void PinPortBase::attachToOwner() {
-    UMLWidget *owner = ownerWidget();
-    const QPointF scenePos = m_scene->pos();
-    if (owner == 0) {
-        uError() << "PinPortBase::attachToOwner: ownerWidget() returns NULL";
-        setX(scenePos.x());
-        setY(scenePos.y());
-        return;
+void PinPortBase::notifyParentResize()
+{
+    UMLWidget* owner = ownerWidget();
+    if (isRightOfParent()) {
+        setPos(owner->width(), qMin(y(), owner->height() - height()));
     }
-    bool xIsWithinOwner = false;
-    if (scenePos.x() < owner->x() - width()) {
-        setX(owner->x() - width());
-    } else if (scenePos.x() <= owner->x() + owner->width()) {
-        setX(scenePos.x());
-        xIsWithinOwner = true;
-    } else {
-        setX(owner->x() + owner->width());
-    }
-    if (scenePos.y() < owner->y() - height()) {
-        setY(owner->y() - height());
-    } else if (scenePos.y() <= owner->y() + owner->height()) {
-        if (xIsWithinOwner) {
-            if (scenePos.y() <= owner->y() + owner->height() / 2.0)
-                setY(owner->y() - height());
-            else
-                setY(owner->y() + owner->height());
-        } else {
-            setY(scenePos.y());
-        }
-    } else {
-        setY(owner->y() + owner->height());
-    }
-
-    if (m_motionConnected) {
-        uDebug() << "connectOwnerMotion was already done";
-    } else {
-        connectOwnerMotion();
-        m_motionConnected = true;
+    else if (isBelowParent()) {
+        setPos(qMin(x(), owner->width() - width()), owner->height());
     }
 }
 
@@ -205,18 +245,14 @@ void PinPortBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         painter->setBrush(m_scene->backgroundColor());
     }
 
-    int w = width();
-    int h = height();
-
-    painter->drawRect(0, 0, w, h);
+    painter->drawRect(0, 0, width(), height());
 
     UMLWidget::paint(painter, option, widget);
 }
 
-void PinPortBase::slotOwnerMoved(qreal diffX, qreal diffY)
+QRectF PinPortBase::boundingRect() const
 {
-    setX(x() + diffX);
-    setY(y() + diffY);
+    return QRectF(0, 0, width(), height());
 }
 
 /**
@@ -224,6 +260,7 @@ void PinPortBase::slotOwnerMoved(qreal diffX, qreal diffY)
  */
 void PinPortBase::slotMenuSelection(QAction* action)
 {
+    uDebug() << "PinPortBase::slotMenuSelection";
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_NameAsTooltip:
@@ -320,7 +357,7 @@ void PinPortBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
                                                                   : QLatin1String("portwidget"));
-    Q_ASSERT(ownerWidget() != NULL);
+    Q_ASSERT(ownerWidget() != 0);
     element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
@@ -344,7 +381,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
         DEBUG(DBG_SRC) << "owner object " << Uml::ID::toString(aId) << " not found";
         return false;
     }
-    m_pOw = owner;
+    setParentItem(owner);
 
     // Optional child element: floatingtext
     QDomNode node = qElement.firstChild();
@@ -366,13 +403,6 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
         } else {
             uError() << "unknown tag " << tag;
         }
-    }
-
-    if (m_motionConnected) {
-        uDebug() << "connectOwnerMotion was already done";
-    } else {
-        connectOwnerMotion();
-        m_motionConnected = true;
     }
     return true;
 }

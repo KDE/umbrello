@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -24,7 +25,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)
@@ -254,13 +254,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString text = name();
-            text = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter Precondition Name"),
-                                         i18n("Enter the precondition :"),
-                                         QLineEdit::Normal,
-                                         text, &ok);
+            bool ok = Dialog_Utils::askName(i18n("Enter Precondition Name"),
+                                            i18n("Enter the precondition :"),
+                                            text);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }

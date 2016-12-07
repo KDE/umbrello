@@ -149,7 +149,8 @@ public:
     void setOptionState(const Settings::OptionState& options);
 
     AssociationWidgetList& associationList();
-    UMLWidgetList& widgetList();
+    const UMLWidgetList& widgetList() const;
+    void addWidget(UMLWidget* widget);
     MessageWidgetList& messageList();
 
     bool isOpen() const;
@@ -175,6 +176,9 @@ public:
 
     void removeWidget(UMLWidget *o);
     void removeWidgetCmd(UMLWidget *o);
+private:
+    void removeOwnedWidgets(UMLWidget* o);
+public:
 
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
@@ -190,6 +194,9 @@ public:
     void selectionSetFillColor(const QColor &color);
     void selectionSetVisualProperty(ClassifierWidget::VisualProperty property, bool value);
 
+private:
+    void unselectChildrenOfSelectedWidgets();
+public:
     void deleteSelection();
     void resizeSelection();
 
@@ -321,7 +328,9 @@ protected:
     Settings::OptionState  m_Options;  ///< Options used by view.
 
     MessageWidgetList      m_MessageList;      ///< All the message widgets on the diagram.
+private:
     UMLWidgetList          m_WidgetList;       ///< All the UMLWidgets on the diagram.
+protected:
     AssociationWidgetList  m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
@@ -352,6 +361,11 @@ protected:
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     virtual void drawBackground(QPainter *painter, const QRectF &rect);
+
+    inline QGraphicsItem *itemAt(const QPointF &position) const {
+        QList<QGraphicsItem *> itemsAtPoint = items(position);
+        return itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
+    }
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     QPointF m_Pos;

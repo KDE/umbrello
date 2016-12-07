@@ -100,9 +100,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Port:
         {
-            PinPortBase *pw = new PortWidget(scene, o->asUMLPort());
-            pw->attachToOwner();
-            newWidget = pw;
+            newWidget = new PortWidget(scene, o->asUMLPort());
         }
         break;
     case UMLObject::ot_Node:
@@ -164,8 +162,12 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     }
 
     if (newWidget) {
-        newWidget->setX(pos.x());
-        newWidget->setY(y);
+        uDebug() << "Widget_Factory::createWidget(" << newWidget->baseType() << ")";
+        if (newWidget->baseType() != WidgetBase::wt_Pin &&
+            newWidget->baseType() != WidgetBase::wt_Port) {
+            newWidget->setX(pos.x());
+            newWidget->setY(y);
+        }
     }
 
     return newWidget;
@@ -233,9 +235,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == QLatin1String("regionwidget")) {
         widget = new RegionWidget(scene, Uml::ID::Reserved);
     } else if (tag == QLatin1String("pinwidget")) {
-        PinPortBase *pw = new PinWidget(scene, 0, Uml::ID::Reserved);
-        pw->attachToOwner();
-        widget = pw;
+        widget = new PinWidget(scene, 0, Uml::ID::Reserved);
     }
     else
     {

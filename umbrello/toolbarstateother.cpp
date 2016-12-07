@@ -32,6 +32,7 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "umlscene.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>

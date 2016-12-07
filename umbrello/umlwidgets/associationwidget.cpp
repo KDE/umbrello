@@ -20,6 +20,7 @@
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
@@ -43,10 +44,8 @@
 // qt includes
 #include <QColorDialog>
 #include <QFontDialog>
-#include <QInputDialog>
 #include <QPainterPath>
 #include <QPointer>
-#include <QRegExpValidator>
 #include <QApplication>
 
 // system includes
@@ -2995,7 +2994,7 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
 void AssociationWidget::slotMenuSelection(QAction* action)
 {
     QString oldText, newText;
-    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
+    bool ok = false;
     Uml::AssociationType::Enum atype = associationType();
     Uml::RoleType::Enum r = RoleType::B;
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
@@ -3046,12 +3045,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].multiplicityWidget->text();
         else
             oldText = QString();
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Multiplicity"),
-                                        i18n("Enter multiplicity:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-        if (newText != oldText) {
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Multiplicity"),
+                                   i18n("Enter multiplicity:"),
+                                   newText);
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
@@ -3066,12 +3064,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_nameWidget->text();
         else
             oldText = QString();
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Association Name"),
-                                        i18n("Enter association name:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-        if (newText != oldText) {
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Association Name"),
+                                   i18n("Enter association name:"),
+                                   newText);
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else if (m_nameWidget) {
@@ -3088,12 +3085,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].roleWidget->text();
         else
             oldText = QString();
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Role Name"),
-                                        i18n("Enter role name:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-        if (newText != oldText) {
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Role Name"),
+                                   i18n("Enter role name:"),
+                                   newText);
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
@@ -3549,8 +3545,8 @@ void AssociationWidget::updateAssociations(int totalCount,
         if (! pointIsAuthoritative) {
             // If the point is not authoritative then we use the other
             // widget's center.
-            refpoint.setX(otherWidget->x() + otherWidget->width() / 2);
-            refpoint.setY(otherWidget->y() + otherWidget->height() / 2);
+            refpoint.setX(otherWidget->scenePos().x() + otherWidget->width() / 2);
+            refpoint.setY(otherWidget->scenePos().y() + otherWidget->height() / 2);
         }
         qreal intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
         if (intercept < 0) {
@@ -3594,8 +3590,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     if (isSelf() &&
             m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
         UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
-        qreal x = pWidget->x();
-        qreal y = pWidget->y();
+        qreal x = pWidget->scenePos().x();
+        qreal y = pWidget->scenePos().y();
         qreal wh = pWidget->height();
         qreal ww = pWidget->width();
         int size = m_associationLine->count();
@@ -3632,8 +3628,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
-    qreal x = pWidget->x();
-    qreal y = pWidget->y();
+    qreal x = pWidget->scenePos().x();
+    qreal y = pWidget->scenePos().y();
     qreal ww = pWidget->width();
     qreal wh = pWidget->height();
     const bool angular = Settings::optionState().generalState.angularlines;

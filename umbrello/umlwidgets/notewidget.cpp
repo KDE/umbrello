@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "notedialog.h"
@@ -27,7 +28,6 @@
 // qt includes
 #include <QPainter>
 #include <QColorDialog>
-#include <QInputDialog>
 
 QPointer<NoteWidget> NoteWidget::s_pCurrentNote;
 

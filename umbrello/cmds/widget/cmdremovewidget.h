@@ -29,7 +29,8 @@ namespace Uml
         void undo();
 
     private:
-        QDomElement   m_element;
+        QDomElement m_element;
+        QList<QDomElement> m_children;
     };
 }
 

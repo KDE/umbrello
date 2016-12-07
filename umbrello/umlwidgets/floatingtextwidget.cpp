@@ -18,6 +18,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "linkwidget.h"
 #include "classifierwidget.h"
 #include "listpopupmenu.h"
@@ -35,7 +36,6 @@
 
 // qt includes
 #include <QFontDialog>
-#include <QInputDialog>
 #include <QPointer>
 #include <QRegExp>
 #include <QPainter>
@@ -201,11 +201,10 @@ void FloatingTextWidget::setTextcmd(const QString &t)
  */
 void FloatingTextWidget::showChangeTextDialog()
 {
-    bool ok = false;
-    QString newText = QInputDialog::getText(m_scene->activeView(),
-                                            i18n("Change Text"), i18n("Enter new text:"),
-                                            QLineEdit::Normal,
-                                            text(), &ok);
+    QString newText = text();
+    bool ok = Dialog_Utils::askName(i18n("Change Text"),
+                                    i18n("Enter new text:"),
+                                    newText);
     if (ok && newText != text() && isTextValid(newText)) {
         setText(newText);
         setVisible(!text().isEmpty());
@@ -389,7 +388,6 @@ Uml::TextRole::Enum FloatingTextWidget::textRole() const
  */
 void FloatingTextWidget::handleRename()
 {
-    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
     QString t;
     if (m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
         t = i18n("Enter role name:");
@@ -407,11 +405,8 @@ void FloatingTextWidget::handleRename()
     } else {
         t = i18n("ERROR");
     }
-    bool ok = false;
-    QString newText = QInputDialog::getText(m_scene->activeView(),
-                                            i18n("Rename"), t,
-                                            QLineEdit::Normal,
-                                            text(), &ok);
+    QString newText = text();
+    bool ok = Dialog_Utils::askName(i18n("Rename"), t, newText);
     if (!ok || newText == text()) {
         return;
     }
@@ -761,12 +756,10 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
             }
             UMLClassifier* c = m_linkWidget->operationOwner();
             if (c == 0) {
-                bool ok = false;
-                QString opText = QInputDialog::getText(m_scene->activeView(),
-                                                       i18nc("operation name", "Name"),
-                                                       i18n("Enter operation name:"),
-                                                       QLineEdit::Normal,
-                                                       text(), &ok);
+                QString opText = text();
+                bool ok = Dialog_Utils::askName(i18nc("operation name", "Name"),
+                                                i18n("Enter operation name:"),
+                                                opText);
                 if (ok)
                     m_linkWidget->setCustomOpText(opText);
                 return;

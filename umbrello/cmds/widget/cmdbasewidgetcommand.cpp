@@ -18,9 +18,6 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
-// kde includes
-#include <KLocalizedString>
-
 namespace Uml
 {
     CmdBaseWidgetCommand::CmdBaseWidgetCommand(UMLWidget* widget)
@@ -74,7 +71,7 @@ namespace Uml
         if (umlWidget->isMessageWidget()) {
             scene()->messageList().append(umlWidget->asMessageWidget());
         } else {
-            scene()->widgetList().append(umlWidget);
+            scene()->addWidget(umlWidget);
         }
 
         umlWidget->activate();

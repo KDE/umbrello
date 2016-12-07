@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "optionstate.h"
@@ -24,15 +25,9 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
 #include <QFile>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 
 /**
  * Sets up a Folder.
@@ -571,15 +566,11 @@ bool UMLFolder::load(QDomElement& element)
 
 bool UMLFolder::showPropertiesDialog(QWidget *parent)
 {
-    bool ok;
-#if QT_VERSION >= 0x050000
-    QString folderName = QInputDialog::getText(parent,
-                                               i18n("Folder"), i18n("Enter name:"),
-                                               QLineEdit::Normal,
-                                               name(), &ok);
-#else
-    QString folderName = KInputDialog::getText(i18n("Folder"), i18n("Enter name:"), name(), &ok, parent);
-#endif
+    Q_UNUSED(parent);
+    QString folderName = this->name();
+    bool ok = Dialog_Utils::askName(i18n("Folder"),
+                                    i18n("Enter name:"),
+                                    folderName);
     if (ok) {
         setName(folderName);
     }

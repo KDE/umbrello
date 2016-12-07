@@ -127,6 +127,7 @@ public:
     void setSize(const QSizeF& size);
 
     virtual void resizeWidget(qreal newW, qreal newH);
+    virtual void notifyParentResize();
 
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);

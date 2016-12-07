@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "umlscene.h"
@@ -22,7 +23,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PinWidget)
@@ -31,11 +31,11 @@ DEBUG_REGISTER_DISABLED(PinWidget)
  * Creates a Pin widget.
  *
  * @param scene   The parent of the widget.
- * @param a       The widget to which this pin is attached.
+ * @param owner   The widget to which this pin is attached.
  * @param id      The ID to assign (-1 will prompt a new ID).
  */
-PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
-  : PinPortBase(scene, WidgetBase::wt_Pin, a, id)
+PinWidget::PinWidget(UMLScene* scene, UMLWidget* owner, Uml::ID::Type id)
+  : PinPortBase(scene, WidgetBase::wt_Pin, owner, id)
 {
     // setParent(a);
     // m_nY = y() < getMinY() ? getMinY() : y();
@@ -55,15 +55,6 @@ PinWidget::~PinWidget()
 }
 
 /**
- * Implement abstract function from PinPortWidget.
- */
-void PinWidget::connectOwnerMotion()
-{
-    ActivityWidget *owner = static_cast<ActivityWidget*>(ownerWidget());
-    connect(owner, &ActivityWidget::sigActMoved, this, &PinWidget::slotOwnerMoved);
-}
-
-/**
  * Captures any popup menu signals for menus it created.
  */
 void PinWidget::slotMenuSelection(QAction* action)
@@ -72,13 +63,10 @@ void PinWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString name = m_Text;
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter Pin Name"),
-                                         i18n("Enter the pin name :"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
+            bool ok = Dialog_Utils::askName(i18n("Enter Pin Name"),
+                                            i18n("Enter the pin name :"),
+                                            name);
             if (ok) {
                 setName(name);
             }

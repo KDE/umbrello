@@ -13,14 +13,12 @@
 
 // local includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "umldoc.h"
 #include "uml.h"
 
 // kde includes
 #include <KLocalizedString>
-
-// qt includes
-#include <QInputDialog>
 
 /**
  * Sets up a stereotype.
@@ -109,11 +107,11 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 {
-    bool ok;
-    QString stereoTypeName = QInputDialog::getText(parent,
-                                                   i18n("Stereotype"), i18n("Enter name:"),
-                                                   QLineEdit::Normal,
-                                                   name(), &ok);
+    Q_UNUSED(parent);
+    QString stereoTypeName = name();
+    bool ok = Dialog_Utils::askName(i18n("Stereotype"),
+                                    i18n("Enter name:"),
+                                    stereoTypeName);
     if (ok) {
         setName(stereoTypeName);
     }

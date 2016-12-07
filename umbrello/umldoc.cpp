@@ -19,6 +19,7 @@
 #include "folder.h"
 #include "codegenerator.h"
 #include "classifier.h"
+#include "dialog_utils.h"
 #include "enum.h"
 #include "entity.h"
 #include "docwindow.h"
@@ -63,7 +64,6 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
-#include <QInputDialog>
 #include <QListWidget>
 #include <QMimeDatabase>
 #include <QPainter>
@@ -953,6 +953,13 @@ bool UMLDoc::addUMLObject(UMLObject* object)
         object->setUMLPackage(pkg);
     }
 
+    // FIXME restore stereotype
+    UMLClassifierListItem *c = object->asUMLClassifierListItem();
+    if (c) {
+        if (!pkg->subordinates().contains(c))
+            pkg->subordinates().append(c);
+        return true;
+    }
     return pkg->addObject(object);
 }
 
@@ -1356,31 +1363,19 @@ bool UMLDoc::closing() const
  */
 QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /*= true */)
 {
-    bool ok = true;
     QString defaultName = uniqueViewName(type);
     QString name = defaultName;
 
     while (true) {
-        if (askForName)  {
-            name = QInputDialog::getText(UMLApp::app(),
-                                         i18nc("diagram name", "Name"), i18n("Enter name:"),
-                                         QLineEdit::Normal,
-                                         defaultName, &ok);
-        }
-        if (!ok)  {
+        if (askForName && !Dialog_Utils::askName(i18nc("diagram name", "Name"), i18n("Enter name:"), name))
             break;
-        }
 
         if (name.length() == 0)  {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-        }
-        else {
-            if (findView(type, name)) {
+        } else if (findView(type, name)) {
                 KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
-            }
-            else {
-                return name;
-            }
+        } else {
+            return name;
         }
     } // end while
     return QString();
@@ -1429,30 +1424,25 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, c
  */
 void UMLDoc::renameDiagram(Uml::ID::Type id)
 {
-    bool ok = false;
-
     UMLView *view = findView(id);
     Uml::DiagramType::Enum type = view->umlScene()->type();
 
-    QString oldName= view->umlScene()->name();
+    QString name = view->umlScene()->name();
     while (true) {
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming diagram", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
+        bool ok = Dialog_Utils::askName(i18nc("renaming diagram", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             break;
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-        }
-        else if (!findView(type, name)) {
+        } else if (!findView(type, name)) {
             view->umlScene()->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
             break;
-        }
-        else {
+        } else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
     }
@@ -1466,20 +1456,17 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
  */
 void UMLDoc::renameUMLObject(UMLObject *o)
 {
-    bool ok = false;
-    QString oldName= o->name();
+    QString name = o->name();
     while (true) {
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming uml object", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
-        if (!ok)  {
+        bool ok = Dialog_Utils::askName(i18nc("renaming uml object", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
+        if (!ok) {
             break;
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        }
-        else if (isUnique(name)) {
+        } else if (isUnique(name)) {
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
             setModified(true);
             break;
@@ -1497,36 +1484,31 @@ void UMLDoc::renameUMLObject(UMLObject *o)
  */
 void UMLDoc::renameChildUMLObject(UMLObject *o)
 {
-    bool ok = false;
     UMLClassifier* p = o->umlParent()->asUMLClassifier();
     if (!p) {
         DEBUG(DBG_SRC) << "Cannot create object, no parent found.";
         return;
     }
 
-    QString oldName= o->name();
+    QString name = o->name();
     while (true) {
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming child uml object", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
+        bool ok = Dialog_Utils::askName(i18nc("renaming child uml object", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             break;
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
-        }
-        else {
-            if (p->findChildObject(name) == 0
+        } else if (p->findChildObject(name) == 0
                     || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(0,
                             i18n("The name you entered was not unique.\nIs this what you wanted?"),
                             i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes)) {
                 UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
                 setModified(true);
                 break;
-            } else {
-                KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
-            }
+        } else {
+            KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         }
     }
 }

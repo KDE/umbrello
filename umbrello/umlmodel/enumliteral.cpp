@@ -14,9 +14,6 @@
 // kde includes
 #include <KLocalizedString>
 
-// qt includes
-#include <QInputDialog>
-
 /**
  * Sets up an enum literal.
  * @param parent    The parent of this UMLEnumLiteral.

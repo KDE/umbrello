@@ -33,7 +33,6 @@ public:
     PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinWidget();
 
-    void connectOwnerMotion();
     // int getMinY();
 
 public slots:

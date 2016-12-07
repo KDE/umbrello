@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "statedialog.h"
@@ -26,7 +27,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPointer>
 
 /**
@@ -480,11 +480,10 @@ void StateWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        nameNew = QInputDialog::getText(Q_NULLPTR,
-                                        i18n("Enter State Name"),
-                                        i18n("Enter the name of the new state:"),
-                                        QLineEdit::Normal,
-                                        name(), &ok);
+        nameNew = name();
+        ok = Dialog_Utils::askName(i18n("Enter State Name"),
+                                   i18n("Enter the name of the new state:"),
+                                   nameNew);
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }
@@ -495,11 +494,10 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-        nameNew = QInputDialog::getText(Q_NULLPTR,
-                                        i18n("Enter Activity"),
-                                        i18n("Enter the name of the new activity:"),
-                                        QLineEdit::Normal,
-                                        i18n("new activity"), &ok);
+        nameNew = i18n("new activity");
+        ok = Dialog_Utils::askName(i18n("Enter Activity"),
+                                   i18n("Enter the name of the new activity:"),
+                                   nameNew);
         if (ok && nameNew.length() > 0) {
             addActivity(nameNew);
         }

@@ -126,8 +126,7 @@ public slots:
         diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
 
-        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_diagrams_window"));
-        viewDiagramsWindow->setText(i18n("Diagrams"));
+        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_diagrams"));
         connect(viewDiagramsWindow, &KToggleAction::triggered, diagramsWindow, &DiagramsWindow::setVisible);
     }
 
@@ -137,7 +136,7 @@ public slots:
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
 
-        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_objects_window"));
+        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_objects"));
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
     }
 
@@ -147,8 +146,7 @@ public slots:
         stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
-        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_stereotypes_window"));
-        viewStereotypesWindow->setText(i18n("Stereotypes"));
+        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_stereotypes"));
         connect(viewStereotypesWindow, &KToggleAction::triggered, stereotypesWindow, &StereotypesWindow::setVisible);
     }
 
@@ -170,7 +168,7 @@ public slots:
         welcomeWindow->setWidget(view);
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
-        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_welcome_window"));
+        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_welcome"));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
     }
 

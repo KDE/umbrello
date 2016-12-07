@@ -15,6 +15,7 @@
 #include "port.h"
 #include "package.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "componentwidget.h"
@@ -24,7 +25,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPainter>
 #include <QToolTip>
 
@@ -38,6 +38,8 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d)
   : PinPortBase(scene, WidgetBase::wt_Port, d)
 {
     setToolTip(d->name());
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    setParentItem(scene->widgetOnDiagram(compWidgetId));
 }
 
 /**
@@ -50,23 +52,9 @@ PortWidget::~PortWidget()
 /**
  * Override function from PinPortWidget.
  */
-UMLWidget* PortWidget::ownerWidget()
+UMLWidget* PortWidget::ownerWidget() const
 {
-    if (m_pOw == 0) {
-        const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-        m_pOw = m_scene->widgetOnDiagram(compWidgetId);
-    }
-    return m_pOw;
-}
-
-/**
- * Implement abstract function from PinPortWidget.
- */
-void PortWidget::connectOwnerMotion()
-{
-    Q_ASSERT(ownerWidget()->baseType() == WidgetBase::wt_Component);
-    ComponentWidget *owner = static_cast<ComponentWidget*>(ownerWidget());
-    connect(owner, &ComponentWidget::sigCompMoved, this, &PortWidget::slotOwnerMoved);
+    return PinPortBase::ownerWidget();
 }
 
 /**
@@ -78,12 +66,10 @@ void PortWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
-            QString newName;
-            newName = QInputDialog::getText(Q_NULLPTR,
-                                            i18n("Enter Port Name"), i18n("Enter the port name :"),
-                                            QLineEdit::Normal,
-                                            name(), &ok);
+            QString newName = name();
+            bool ok = Dialog_Utils::askName(i18n("Enter Port Name"),
+                                            i18n("Enter the port name :"),
+                                            newName);
             if (ok) {
                 setName(newName);
             }

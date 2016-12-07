@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "package.h"
 #include "folder.h"
 #include "component.h"
@@ -73,7 +74,6 @@
 #include <QEvent>
 #include <QFileDialog>
 #include <QFocusEvent>
-#include <QInputDialog>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
@@ -591,12 +591,10 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
     case ListPopupMenu::mt_Model:
         {
-            bool ok = false;
-            QString name = QInputDialog::getText(UMLApp::app(),
-                                                 i18n("Enter Model Name"),
-                                                 i18n("Enter the new name of the model:"),
-                                                 QLineEdit::Normal,
-                                                 m_doc->name(), &ok);
+            QString name = m_doc->name();
+            bool ok = Dialog_Utils::askName(i18n("Enter Model Name"),
+                                            i18n("Enter the new name of the model:"),
+                                            name);
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);

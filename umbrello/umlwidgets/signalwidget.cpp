@@ -14,6 +14,7 @@
 // app includes
 #include "basictypes.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"
@@ -28,7 +29,6 @@
 
 // qt includes
 #include <QEvent>
-#include <QInputDialog>
 #include <QPolygon>
 
 /**
@@ -323,13 +323,10 @@ void SignalWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString name = m_Text;
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter signal name"),
-                                         i18n("Enter the signal name :"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
+            bool ok = Dialog_Utils::askName(i18n("Enter signal name"),
+                                            i18n("Enter the signal name :"),
+                                            name);
             if (ok && name.length() > 0) {
                 setName(name);
             }

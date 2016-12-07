@@ -24,7 +24,6 @@
 #include <kcombobox.h>
 
 // qt includes
-#include <QInputDialog>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -67,14 +66,8 @@ KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName)
 {
-    bool pressedOK = false;
-
-    QString name = QInputDialog::getText(UMLApp::app(),
-                                         dialogTitle, dialogPrompt,
-                                         QLineEdit::Normal,
-                                         defaultName, &pressedOK);
-
-    if (pressedOK) {
+    QString name = defaultName;
+    if (askName(dialogTitle, dialogPrompt, name)) {
         targetWidget->setName(name);
     }
     else {

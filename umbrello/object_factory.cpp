@@ -24,6 +24,7 @@
 #include "component.h"
 #include "datatype.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "enum.h"
 #include "entity.h"
 #include "folder.h"
@@ -51,7 +52,6 @@
 
 // qt includes
 #include <QApplication>
-#include <QInputDialog>
 #include <QRegExp>
 #include <QStringList>
 
@@ -237,12 +237,10 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         bValidNameEntered = true;
     }
 
-    bool ok = false;
     while (bValidNameEntered == false) {
-        name = QInputDialog::getText(UMLApp::app(),
-                                     i18nc("UMLObject name", "Name"), i18n("Enter name:"),
-                                     QLineEdit::Normal,
-                                     name, &ok);
+        bool ok = Dialog_Utils::askName(i18nc("UMLObject name", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             return 0;
         }

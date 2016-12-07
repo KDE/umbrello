@@ -11,6 +11,7 @@
 #include "activitypage.h"
 
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "statewidget.h"
 #include "uml.h"
@@ -21,7 +22,6 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QDialogButtonBox>
-#include <QInputDialog>
 #include <QLayout>
 #include <QPushButton>
 #include <QStringList>
@@ -168,12 +168,10 @@ void ActivityPage::slotMenuSelection(QAction* action)
 
 void ActivityPage::slotNewActivity()
 {
-    bool ok = false;
-    QString name = QInputDialog::getText(UMLApp::app(),
-                                         i18n("New Activity"),
-                                         i18n("Enter the name of the new activity:"),
-                                         QLineEdit::Normal,
-                                         i18n("new activity"), &ok);
+    QString name = i18n("new activity");
+    bool ok = Dialog_Utils::askName(i18n("New Activity"),
+                                    i18n("Enter the name of the new activity:"),
+                                    name);
     if (ok && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
@@ -192,14 +190,11 @@ void ActivityPage::slotDelete()
 
 void ActivityPage::slotRename()
 {
-    bool ok = false;
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-    name = QInputDialog::getText(UMLApp::app(),
-                                 i18n("Rename Activity"),
-                                 i18n("Enter the new name of the activity:"),
-                                 QLineEdit::Normal,
-                                 name, &ok);
+    bool ok = Dialog_Utils::askName(i18n("Rename Activity"),
+                                    i18n("Enter the new name of the activity:"),
+                                    name);
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);

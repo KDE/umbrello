@@ -29,6 +29,7 @@
 #include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -85,8 +86,6 @@
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
-
-#include <QInputDialog>
 
 // system includes
 #include <cmath>  // for ceil
@@ -453,9 +452,15 @@ AssociationWidgetList& UMLScene::associationList()
 /**
  * Returns a reference to the widget list.
  */
-UMLWidgetList& UMLScene::widgetList()
+const UMLWidgetList& UMLScene::widgetList() const
 {
     return m_WidgetList;
+}
+
+void UMLScene::addWidget(UMLWidget* widget)
+{
+    Q_ASSERT(0 != widget);
+    m_WidgetList.append(widget);
 }
 
 /**
@@ -543,16 +548,13 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
-    if (setPosition) {
-        if (w->isPinWidget() ||
-            w->isPortWidget()) {
-            PinPortBase *pw = w->asPinPortBase();
-            pw->attachToOwner();
-        } else if (!w->isObjectWidget()) {
-            // ObjectWidget's position is handled by the widget
-            w->setX(m_Pos.x());
-            w->setY(m_Pos.y());
-        }
+    if (setPosition &&
+        (!w->isPinWidget()) &&
+        (!w->isPortWidget()) &&
+        (!w->isObjectWidget())) {
+        // ObjectWidget's position is handled by the widget
+        w->setX(m_Pos.x());
+        w->setY(m_Pos.y());
     }
     w->setVisible(true);
     w->activate();
@@ -564,7 +566,7 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
     m_doc->setModified();
 
     if (m_doc->loading()) {  // do not emit signals while loading
-        m_WidgetList.append(w);
+        addWidget(w);
         // w->activate();  // will be done by UMLDoc::activateAllViews() after loading
     } else {
         UMLApp::app()->executeCommand(new CmdCreateWidget(w));
@@ -943,29 +945,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    qreal relativeSize = 99990.0;  // start with an arbitrary large number
-    UMLWidget  *retWid = 0;
-    foreach (UMLWidget* wid, m_WidgetList) {
-        UMLWidget* w = wid->onWidget(p);
-        if (w == 0)
-            continue;
-        const qreal s = (w->width() + w->height()) / 2.0;
-        if (s < relativeSize) {
-            relativeSize = s;
-            retWid = w;
-        }
-    }
-    foreach (AssociationWidget* assoc, m_AssociationList) {
-        UMLWidget* w = assoc->onWidget(p);
-        if (w) {
-            const qreal s = (w->width() + w->height()) / 2.0;
-            if (s < relativeSize) {
-                relativeSize = s;
-                retWid = w;
-            }
-        }
-    }
-    return retWid;
+    return dynamic_cast<UMLWidget*>(itemAt(p));
 }
 
 /**
@@ -1174,6 +1154,8 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
 
     removeAssociations(o);
 
+    removeOwnedWidgets(o);
+
     WidgetBase::WidgetType t = o->baseType();
     if (type() == DiagramType::Sequence && t == WidgetBase::wt_Object) {
         checkMessages(static_cast<ObjectWidget*>(o));
@@ -1191,6 +1173,22 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
     o->deleteLater();
     m_doc->setModified(true);
+}
+
+/**
+ * Remove all widgets that have given widget as owner.
+ *
+ * @param o The owner widget that will be removed.
+ */
+void UMLScene::removeOwnedWidgets(UMLWidget* o)
+{
+    foreach(QGraphicsItem* item, o->childItems()) {
+        UMLWidget* widget = dynamic_cast<UMLWidget*>(item);
+        if (widget->isPinWidget() ||
+            widget->isPortWidget()) {
+            removeWidgetCmd(widget);
+        }
+    }
 }
 
 /**
@@ -1371,6 +1369,23 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
 }
 
 /**
+ * Unselect child widgets when their owner is already selected.
+ */
+void UMLScene::unselectChildrenOfSelectedWidgets()
+{
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        if (widget->isPinWidget() ||
+            widget->isPortWidget()) {
+            foreach(UMLWidget* potentialParentWidget, selectedWidgets()) {
+                if (widget->parentItem() == potentialParentWidget) {
+                    widget->setSelectedFlag(false);
+                }
+            }
+        }
+    }
+}
+
+/**
  * Delete the selected widgets list and the widgets in it.
  */
 void UMLScene::deleteSelection()
@@ -1382,6 +1397,8 @@ void UMLScene::deleteSelection()
     if (selectionCount > 1) {
         UMLApp::app()->beginMacro(i18n("Delete widgets"));
     }
+
+    unselectChildrenOfSelectedWidgets();
 
     foreach(UMLWidget* widget, selectedWidgets()) {
         //  Don't delete text widget that are connect to associations as these will
@@ -1849,7 +1866,7 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
         }
     }
 
-    m_WidgetList.append(pWidget);
+    addWidget(pWidget);
 }
 
 /**
@@ -2106,6 +2123,7 @@ void UMLScene::removeAllWidgets()
 {
     // Remove widgets.
     foreach(UMLWidget* temp, m_WidgetList) {
+        uIgnoreZeroPointer(temp);
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->isTextWidget() &&
@@ -2322,6 +2340,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             // if the containedObject has a widget representation on this view then
             Uml::ID::Type id = obj->id();
             foreach(UMLWidget *w, m_WidgetList) {
+                uIgnoreZeroPointer(w);
                 if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
@@ -2347,6 +2366,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
     foreach(pWidget, m_WidgetList) {
+        uIgnoreZeroPointer(pWidget);
         if (pWidget->id() == pkgID) {
             breakFlag = true;
             break;
@@ -2579,6 +2599,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
 {
     foreach(UMLWidget* w,  m_WidgetList) {
+        uIgnoreZeroPointer(w);
         if (w != widget) {
             createAutoAttributeAssociations(w);
 
@@ -3001,13 +3022,10 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_State:
         {
-            bool ok = false;
-            QString name = QInputDialog::getText(UMLApp::app(),
-                                                 i18n("Enter State Name"),
-                                                 i18n("Enter the name of the new state:"),
-                                                 QLineEdit::Normal,
-                                                 i18n("new state"),
-                                                 &ok);
+            QString name = i18n("new state");
+            bool ok = Dialog_Utils::askName(i18n("Enter State Name"),
+                                            i18n("Enter the name of the new state:"),
+                                            name);
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
@@ -3039,13 +3057,10 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Activity:
         {
-            bool ok = false;
-            QString name = QInputDialog::getText(UMLApp::app(),
-                                                 i18n("Enter Activity Name"),
-                                                 i18n("Enter the name of the new activity:"),
-                                                 QLineEdit::Normal,
-                                                 i18n("new activity"),
-                                                 &ok);
+            QString name = i18n("new activity");
+            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
+                                            i18n("Enter the name of the new activity:"),
+                                            name);
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);
@@ -3080,13 +3095,10 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
-            QString newName = QInputDialog::getText(UMLApp::app(),
-                                                    i18n("Enter Diagram Name"),
-                                                    i18n("Enter the new name of the diagram:"),
-                                                    QLineEdit::Normal,
-                                                    name(),
-                                                    &ok);
+            QString newName = name();
+            bool ok = Dialog_Utils::askName(i18n("Enter Diagram Name"),
+                                            i18n("Enter the new name of the diagram:"),
+                                            newName);
             if (ok) {
                 setName(newName);
                 m_doc->signalDiagramRenamed(activeView());
@@ -3182,6 +3194,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
     if (!changeAllWidgets)
         return;
     foreach(UMLWidget* w, m_WidgetList) {
+        uIgnoreZeroPointer(w);
         w->setFont(font);
     }
 }
@@ -3192,6 +3205,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(UMLWidget* pWidget, m_WidgetList) {
+        uIgnoreZeroPointer(pWidget);
         WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
@@ -3449,6 +3463,7 @@ void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
     foreach(UMLWidget *obj, m_WidgetList) {
+        uIgnoreZeroPointer(obj);
         obj->updateGeometry();
     }
 }
@@ -3465,6 +3480,7 @@ void UMLScene::updateComponentSizes()
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
+        uIgnoreZeroPointer(obj);
         obj->forceUpdateFontMetrics(painter);
     }
 }
@@ -3510,6 +3526,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     //now save all the widgets
     QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, m_WidgetList) {
+        uIgnoreZeroPointer(widget);
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
@@ -3677,7 +3694,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
     while (!widgetElement.isNull()) {
         widget = loadWidgetFromXMI(widgetElement);
         if (widget) {
-            m_WidgetList.append(widget);
+            addWidget(widget);
             widget->clipSize();
             // In the interest of best-effort loading, in case of a
             // (widget == 0) we still go on.
@@ -3735,7 +3752,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             m_MessageList.append(message);
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
-                m_WidgetList.append(ft);
+                addWidget(ft);
             else if (message->sequenceMessageType() != SequenceMessage::Creation)
                 DEBUG(DBG_SRC) << "floating text is NULL for message " << Uml::ID::toString(message->id());
         }
@@ -3879,7 +3896,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
-                m_WidgetList.append(widget);
+                addWidget(widget);
             }
         }
     }

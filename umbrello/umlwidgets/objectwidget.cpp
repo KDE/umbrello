@@ -14,6 +14,7 @@
 // local includes
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
@@ -28,7 +29,6 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QInputDialog>
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>
@@ -162,14 +162,10 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
         {
-            bool ok;
-            QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
-            QString name = QInputDialog::getText(m_scene->activeView(),
-                                                 i18n("Rename Object"),
-                                                 i18n("Enter object name:"),
-                                                 QLineEdit::Normal,
-                                                 m_instanceName,
-                                                 &ok);
+            QString name = m_instanceName;
+            bool ok = Dialog_Utils::askName(i18n("Rename Object"),
+                                            i18n("Enter object name:"),
+                                            name);
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();
@@ -177,7 +173,6 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                 update();
                 UMLApp::app()->document()->setModified(true);
             }
-            delete validator;
             break;
         }
     case ListPopupMenu::mt_Properties:

@@ -26,9 +26,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-// qt includes
-#include <QInputDialog>
-
 using namespace Uml;
 
 /**

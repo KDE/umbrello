@@ -16,12 +16,12 @@
 
 //app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "umlview.h"
 #include "widget_utils.h"
 #include "listpopupmenu.h"
 
 // qt includes
-#include <QInputDialog>
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
@@ -102,12 +102,10 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString name = m_Text;
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter alternative Name"), i18n("Enter the alternative:"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
+            bool ok = Dialog_Utils::askName(i18n("Enter alternative Name"),
+                                            i18n("Enter the alternative:"),
+                                            name);
             if (ok && name.length() > 0)
                 m_Text = name;
         }
