@@ -3050,7 +3050,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         ok = Dialog_Utils::askName(i18n("Multiplicity"),
                                    i18n("Enter multiplicity:"),
                                    newText);
-        if (newText != oldText) {
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
@@ -3069,7 +3069,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         ok = Dialog_Utils::askName(i18n("Association Name"),
                                    i18n("Enter association name:"),
                                    newText);
-        if (newText != oldText) {
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else if (m_nameWidget) {
@@ -3090,7 +3090,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         ok = Dialog_Utils::askName(i18n("Role Name"),
                                    i18n("Enter role name:"),
                                    newText);
-        if (newText != oldText) {
+        if (ok && newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
