@@ -18,6 +18,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "linkwidget.h"
 #include "classifierwidget.h"
 #include "listpopupmenu.h"
@@ -33,14 +34,12 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kfontdialog.h>
-#include <kinputdialog.h>
 #endif
 #include <KLocalizedString>
 
 // qt includes
 #if QT_VERSION >= 0x050000
 #include <QFontDialog>
-#include <QInputDialog>
 #endif
 #include <QPointer>
 #include <QRegExp>

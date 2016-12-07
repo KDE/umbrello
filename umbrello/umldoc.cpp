@@ -53,7 +53,6 @@
 #include <kio/job.h>
 #if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
-#include <kinputdialog.h>
 #endif
 #if QT_VERSION >= 0x050000
 #include <KJobWidgets>
@@ -78,9 +77,6 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QListWidget>
 #if QT_VERSION >= 0x050000
 #include <QMimeDatabase>

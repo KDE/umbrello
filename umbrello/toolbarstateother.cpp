@@ -32,12 +32,10 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "umlscene.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 using namespace Uml;
 

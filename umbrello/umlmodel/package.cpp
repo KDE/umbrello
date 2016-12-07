@@ -23,16 +23,10 @@
 #include "model_utils.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 
 using namespace Uml;
 

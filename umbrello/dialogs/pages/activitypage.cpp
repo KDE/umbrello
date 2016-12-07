@@ -11,13 +11,13 @@
 #include "activitypage.h"
 
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "statewidget.h"
 #include "uml.h"
 
 #if QT_VERSION < 0x050000
 #include <kdialogbuttonbox.h>
-#include <kinputdialog.h>
 #endif
 #include <KLocalizedString>
 
@@ -26,7 +26,6 @@
 #include <QGroupBox>
 #if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
-#include <QInputDialog>
 #endif
 #include <QLayout>
 #include <QPushButton>

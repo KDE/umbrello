@@ -13,6 +13,12 @@
 
 #include <QString>
 
+#if QT_VERSION < 0x050000
+#include <kinputdialog.h>
+#else
+#include <QInputDialog>
+#endif
+
 class QGridLayout;
 class QLabel;
 class UMLWidget;

@@ -15,21 +15,16 @@
 #include "port.h"
 #include "package.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "componentwidget.h"
 #include "floatingtextwidget.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPainter>
 #include <QToolTip>
 

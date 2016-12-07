@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -21,15 +22,9 @@
 #include "idchangelog.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)

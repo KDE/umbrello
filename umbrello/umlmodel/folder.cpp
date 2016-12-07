@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "optionstate.h"
@@ -24,15 +25,9 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
 #include <QFile>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 
 /**
  * Sets up a Folder.

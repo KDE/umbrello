@@ -18,18 +18,12 @@
 #include "umlwidget.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <klineedit.h>
 #include <kcombobox.h>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>

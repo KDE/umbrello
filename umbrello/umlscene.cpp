@@ -29,6 +29,7 @@
 #include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -76,7 +77,6 @@
 //kde include files
 #if QT_VERSION < 0x050000
 #include <kfiledialog.h>
-#include <kinputdialog.h>
 #include <kio/netaccess.h>
 #endif
 #include <KMessageBox>
@@ -90,10 +90,6 @@
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
-
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 
 // system includes
 #include <cmath>  // for ceil

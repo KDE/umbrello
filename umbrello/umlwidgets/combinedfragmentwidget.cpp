@@ -22,14 +22,8 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPainter>
 #include <QString>
 

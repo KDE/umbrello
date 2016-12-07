@@ -24,6 +24,7 @@
 #include "component.h"
 #include "datatype.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "enum.h"
 #include "entity.h"
 #include "folder.h"
@@ -43,9 +44,6 @@
 #include "uniqueid.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -53,9 +51,6 @@
 
 // qt includes
 #include <QApplication>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QRegExp>
 #include <QStringList>
 

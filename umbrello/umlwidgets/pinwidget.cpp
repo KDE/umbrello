@@ -13,21 +13,16 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "umlscene.h"
 #include "activitywidget.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PinWidget)

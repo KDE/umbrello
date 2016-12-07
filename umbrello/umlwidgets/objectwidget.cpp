@@ -14,6 +14,7 @@
 // local includes
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
@@ -26,14 +27,8 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>

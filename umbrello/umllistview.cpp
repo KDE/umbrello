@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "package.h"
 #include "folder.h"
 #include "component.h"
@@ -63,7 +64,6 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kfiledialog.h>
-#include <kinputdialog.h>
 #endif
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -80,9 +80,6 @@
 #include <QFileDialog>
 #endif
 #include <QFocusEvent>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>

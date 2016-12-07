@@ -30,18 +30,13 @@
 #include "object_factory.h"
 #include "package.h"
 #include "widget_factory.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 
 // using namespace Uml;
 

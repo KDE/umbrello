@@ -14,6 +14,7 @@
 // app includes
 #include "basictypes.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"
@@ -25,15 +26,9 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kinputdialog.h>
-#endif
 
 // qt includes
 #include <QEvent>
-#if QT_VERSION >= 0x050000
-#include <QInputDialog>
-#endif
 #include <QPolygon>
 
 /**
