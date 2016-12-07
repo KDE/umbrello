@@ -1594,21 +1594,14 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, c
  */
 void UMLDoc::renameDiagram(Uml::ID::Type id)
 {
-    bool ok = false;
-
     UMLView *view = findView(id);
     Uml::DiagramType::Enum type = view->umlScene()->type();
 
-    QString oldName= view->umlScene()->name();
+    QString name = view->umlScene()->name();
     while (true) {
-#if QT_VERSION >= 0x050000
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming diagram", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
+        bool ok = Dialog_Utils::askName(i18nc("renaming diagram", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             break;
         }
@@ -1635,17 +1628,11 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
  */
 void UMLDoc::renameUMLObject(UMLObject *o)
 {
-    bool ok = false;
-    QString oldName= o->name();
+    QString name = o->name();
     while (true) {
-#if QT_VERSION >= 0x050000
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming uml object", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
+        bool ok = Dialog_Utils::askName(i18nc("renaming uml object", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok)  {
             break;
         }
@@ -1670,23 +1657,17 @@ void UMLDoc::renameUMLObject(UMLObject *o)
  */
 void UMLDoc::renameChildUMLObject(UMLObject *o)
 {
-    bool ok = false;
     UMLClassifier* p = o->umlParent()->asUMLClassifier();
     if (!p) {
         DEBUG(DBG_SRC) << "Cannot create object, no parent found.";
         return;
     }
 
-    QString oldName= o->name();
+    QString name = o->name();
     while (true) {
-#if QT_VERSION >= 0x050000
-        QString name = QInputDialog::getText(UMLApp::app(),
-                                             i18nc("renaming child uml object", "Name"), i18n("Enter name:"),
-                                             QLineEdit::Normal,
-                                             oldName, &ok);
-#else
-        QString name = KInputDialog::getText(i18nc("renaming child uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
-#endif
+        bool ok = Dialog_Utils::askName(i18nc("renaming child uml object", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             break;
         }

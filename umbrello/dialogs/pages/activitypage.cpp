@@ -186,17 +186,10 @@ void ActivityPage::slotMenuSelection(QAction* action)
 
 void ActivityPage::slotNewActivity()
 {
-    bool ok = false;
-#if QT_VERSION >= 0x050000
-    QString name = QInputDialog::getText(UMLApp::app(),
-                                         i18n("New Activity"),
-                                         i18n("Enter the name of the new activity:"),
-                                         QLineEdit::Normal,
-                                         i18n("new activity"), &ok);
-#else
-    QString name = KInputDialog::getText(i18n("New Activity"),
-        i18n("Enter the name of the new activity:"), i18n("new activity"), &ok, UMLApp::app());
-#endif
+    QString name = i18n("new activity");
+    bool ok = Dialog_Utils::askName(i18n("New Activity"),
+                                    i18n("Enter the name of the new activity:"),
+                                    name);
     if (ok && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
@@ -215,18 +208,11 @@ void ActivityPage::slotDelete()
 
 void ActivityPage::slotRename()
 {
-    bool ok = false;
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-#if QT_VERSION >= 0x050000
-    name = QInputDialog::getText(UMLApp::app(),
-                                 i18n("Rename Activity"),
-                                 i18n("Enter the new name of the activity:"),
-                                 QLineEdit::Normal,
-                                 name, &ok);
-#else
-    name = KInputDialog::getText(i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok, UMLApp::app());
-#endif
+    bool ok = Dialog_Utils::askName(i18n("Rename Activity"),
+                                    i18n("Enter the new name of the activity:"),
+                                    name);
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);

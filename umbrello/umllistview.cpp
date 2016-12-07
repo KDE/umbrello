@@ -614,18 +614,10 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
     case ListPopupMenu::mt_Model:
         {
-            bool ok = false;
-#if QT_VERSION >= 0x050000
-            QString name = QInputDialog::getText(UMLApp::app(),
-                                                 i18n("Enter Model Name"),
-                                                 i18n("Enter the new name of the model:"),
-                                                 QLineEdit::Normal,
-                                                 m_doc->name(), &ok);
-#else
-            QString name = KInputDialog::getText(i18n("Enter Model Name"),
-                                                 i18n("Enter the new name of the model:"),
-                                                 m_doc->name(), &ok, UMLApp::app());
-#endif
+            QString name = m_doc->name();
+            bool ok = Dialog_Utils::askName(i18n("Enter Model Name"),
+                                            i18n("Enter the new name of the model:"),
+                                            name);
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);

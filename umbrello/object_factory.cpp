@@ -233,16 +233,10 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         bValidNameEntered = true;
     }
 
-    bool ok = false;
     while (bValidNameEntered == false) {
-#if QT_VERSION >= 0x050000
-        name = QInputDialog::getText(UMLApp::app(),
-                                     i18nc("UMLObject name", "Name"), i18n("Enter name:"),
-                                     QLineEdit::Normal,
-                                     name, &ok);
-#else
-        name = KInputDialog::getText(i18nc("UMLObject name", "Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
-#endif
+        bool ok = Dialog_Utils::askName(i18nc("UMLObject name", "Name"),
+                                        i18n("Enter name:"),
+                                        name);
         if (!ok) {
             return 0;
         }

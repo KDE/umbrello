@@ -480,17 +480,10 @@ void StateWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-#if QT_VERSION >= 0x050000
-        nameNew = QInputDialog::getText(Q_NULLPTR,
-                                        i18n("Enter State Name"),
-                                        i18n("Enter the name of the new state:"),
-                                        QLineEdit::Normal,
-                                        name(), &ok);
-#else
-        nameNew = KInputDialog::getText(i18n("Enter State Name"),
-                                         i18n("Enter the name of the new state:"),
-                                         name(), &ok);
-#endif
+        nameNew = name();
+        ok = Dialog_Utils::askName(i18n("Enter State Name"),
+                                   i18n("Enter the name of the new state:"),
+                                   nameNew);
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }
@@ -501,17 +494,10 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-#if QT_VERSION >= 0x050000
-        nameNew = QInputDialog::getText(Q_NULLPTR,
-                                        i18n("Enter Activity"),
-                                        i18n("Enter the name of the new activity:"),
-                                        QLineEdit::Normal,
-                                        i18n("new activity"), &ok);
-#else
-        nameNew = KInputDialog::getText(i18n("Enter Activity"),
-                                         i18n("Enter the name of the new activity:"),
-                                         i18n("new activity"), &ok);
-#endif
+        nameNew = i18n("new activity");
+        ok = Dialog_Utils::askName(i18n("Enter Activity"),
+                                   i18n("Enter the name of the new activity:"),
+                                   nameNew);
         if (ok && nameNew.length() > 0) {
             addActivity(nameNew);
         }

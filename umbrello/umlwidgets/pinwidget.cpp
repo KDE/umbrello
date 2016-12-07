@@ -63,19 +63,10 @@ void PinWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString name = m_Text;
-#if QT_VERSION >= 0x050000
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter Pin Name"),
-                                         i18n("Enter the pin name :"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
-#else
-            name = KInputDialog::getText(i18n("Enter Pin Name"),
-                                         i18n("Enter the pin name :"),
-                                         m_Text, &ok);
-#endif
+            bool ok = Dialog_Utils::askName(i18n("Enter Pin Name"),
+                                            i18n("Enter the pin name :"),
+                                            name);
             if (ok) {
                 setName(name);
             }

@@ -367,19 +367,10 @@ void ActivityWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString n = name();
-#if QT_VERSION >= 0x050000
-            n = QInputDialog::getText(Q_NULLPTR,
-                                      i18n("Enter Activity Name"),
-                                      i18n("Enter the name of the new activity:"),
-                                      QLineEdit::Normal,
-                                      n, &ok);
-#else
-            n = KInputDialog::getText(i18n("Enter Activity Name"),
-                                      i18n("Enter the name of the new activity:"),
-                                      n, &ok);
-#endif
+            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
+                                            i18n("Enter the name of the new activity:"),
+                                            n);
             if (ok && !n.isEmpty()) {
                 setName(n);
             }

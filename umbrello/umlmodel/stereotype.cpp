@@ -108,15 +108,11 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 {
-    bool ok;
-#if QT_VERSION >= 0x050000
-    QString stereoTypeName = QInputDialog::getText(parent,
-                                                   i18n("Stereotype"), i18n("Enter name:"),
-                                                   QLineEdit::Normal,
-                                                   name(), &ok);
-#else
-    QString stereoTypeName = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), name(), &ok, parent);
-#endif
+    Q_UNUSED(parent);
+    QString stereoTypeName = name();
+    bool ok = Dialog_Utils::askName(i18n("Stereotype"),
+                                    i18n("Enter name:"),
+                                    stereoTypeName);
     if (ok) {
         setName(stereoTypeName);
     }

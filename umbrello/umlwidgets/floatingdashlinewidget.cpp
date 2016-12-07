@@ -102,16 +102,10 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString name = m_Text;
-#if QT_VERSION >= 0x050000
-            name = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter alternative Name"), i18n("Enter the alternative:"),
-                                         QLineEdit::Normal,
-                                         m_Text, &ok);
-#else
-            name = KInputDialog::getText(i18n("Enter alternative Name"), i18n("Enter the alternative:"), m_Text, &ok);
-#endif
+            bool ok = Dialog_Utils::askName(i18n("Enter alternative Name"),
+                                            i18n("Enter the alternative:"),
+                                            name);
             if (ok && name.length() > 0)
                 m_Text = name;
         }

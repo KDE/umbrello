@@ -254,19 +254,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString text = name();
-#if QT_VERSION >= 0x050000
-            text = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter Precondition Name"),
-                                         i18n("Enter the precondition :"),
-                                         QLineEdit::Normal,
-                                         text, &ok);
-#else
-            text = KInputDialog::getText(i18n("Enter Precondition Name"),
-                                          i18n("Enter the precondition :"),
-                                          text, &ok);
-#endif
+            bool ok = Dialog_Utils::askName(i18n("Enter Precondition Name"),
+                                            i18n("Enter the precondition :"),
+                                            text);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }

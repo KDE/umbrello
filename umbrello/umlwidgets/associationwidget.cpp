@@ -2995,7 +2995,7 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
 void AssociationWidget::slotMenuSelection(QAction* action)
 {
     QString oldText, newText;
-    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
+    bool ok = false;
     Uml::AssociationType::Enum atype = associationType();
     Uml::RoleType::Enum r = RoleType::B;
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
@@ -3046,17 +3046,10 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].multiplicityWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Multiplicity"),
-                                        i18n("Enter multiplicity:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-#else
-        newText = KInputDialog::getText(i18n("Multiplicity"),
-                                        i18n("Enter multiplicity:"),
-                                        oldText, 0, m_scene->activeView(), &v);
-#endif
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Multiplicity"),
+                                   i18n("Enter multiplicity:"),
+                                   newText);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
@@ -3072,17 +3065,10 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_nameWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Association Name"),
-                                        i18n("Enter association name:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-#else
-        newText = KInputDialog::getText(i18n("Association Name"),
-                                        i18n("Enter association name:"),
-                                        oldText, 0, m_scene->activeView(), &v);
-#endif
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Association Name"),
+                                   i18n("Enter association name:"),
+                                   newText);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
@@ -3100,17 +3086,10 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = m_role[r].roleWidget->text();
         else
             oldText = QString();
-#if QT_VERSION >= 0x050000
-        newText = QInputDialog::getText(m_scene->activeView(),
-                                        i18n("Role Name"),
-                                        i18n("Enter role name:"),
-                                        QLineEdit::Normal,
-                                        oldText, 0);
-#else
-        newText = KInputDialog::getText(i18n("Role Name"),
-                                        i18n("Enter role name:"),
-                                        oldText, 0, m_scene->activeView(), &v);
-#endif
+        newText = oldText;
+        ok = Dialog_Utils::askName(i18n("Role Name"),
+                                   i18n("Enter role name:"),
+                                   newText);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);

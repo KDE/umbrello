@@ -230,19 +230,10 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
-            bool ok = false;
             QString text = name();
-#if QT_VERSION >= 0x050000
-            text = QInputDialog::getText(Q_NULLPTR,
-                                         i18n("Enter Object Node Name"),
-                                         i18n("Enter the name of the object node :"),
-                                         QLineEdit::Normal,
-                                         name(), &ok);
-#else
-            text = KInputDialog::getText(i18n("Enter Object Node Name"),
-                                          i18n("Enter the name of the object node :"),
-                                          name(), &ok);
-#endif
+            bool ok = Dialog_Utils::askName(i18n("Enter Object Node Name"),
+                                            i18n("Enter the name of the object node :"),
+                                            text);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }
@@ -346,16 +337,10 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
  */
 void ObjectNodeWidget::askStateForWidget()
 {
-    bool pressedOK = false;
-#if QT_VERSION >= 0x050000
-    QString state = QInputDialog::getText(UMLApp::app(),
-                                          i18n("Enter Object Flow State"), i18n("Enter State (keep '-' if there is no state for the object) "),
-                                          QLineEdit::Normal,
-                                          i18n("-"), &pressedOK);
-#else
-    QString state = KInputDialog::getText(i18n("Enter Object Flow State"), i18n("Enter State (keep '-' if there is no state for the object) "), i18n("-"), &pressedOK, UMLApp::app());
-#endif
-
+    QString state = i18n("-");
+    bool pressedOK = Dialog_Utils::askName(i18n("Enter Object Flow State"),
+                                           i18n("Enter State (keep '-' if there is no state for the object) "),
+                                           state);
     if (pressedOK) {
         setState(state);
     } else {

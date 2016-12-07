@@ -162,24 +162,10 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
         {
-            bool ok;
-            QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
-#if QT_VERSION >= 0x050000
-            QString name = QInputDialog::getText(m_scene->activeView(),
-                                                 i18n("Rename Object"),
-                                                 i18n("Enter object name:"),
-                                                 QLineEdit::Normal,
-                                                 m_instanceName,
-                                                 &ok);
-#else
-            QString name = KInputDialog::getText
-                   (i18n("Rename Object"),
-                    i18n("Enter object name:"),
-                    m_instanceName,
-                    &ok,
-                    m_scene->activeView(),
-                    validator);
-#endif
+            QString name = m_instanceName;
+            bool ok = Dialog_Utils::askName(i18n("Rename Object"),
+                                            i18n("Enter object name:"),
+                                            name);
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();
@@ -187,7 +173,6 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                 update();
                 UMLApp::app()->document()->setModified(true);
             }
-            delete validator;
             break;
         }
     case ListPopupMenu::mt_Properties:
