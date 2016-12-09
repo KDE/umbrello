@@ -295,6 +295,7 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
 #if QT_VERSION >= 0x050000
     QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
+    fileNames << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("kde4/apps/umbrello/layouts/%1*.desktop").arg(diagramType));
 #else
     KStandardDirs dirs;
     QStringList fileNames = dirs.findAllResources("data", QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
