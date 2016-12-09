@@ -566,7 +566,7 @@ else()
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/128-apps-umbrello.png
     )
     add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello libumbrello)
+    target_link_libraries(umbrello libumbrello KF5::WindowSystem)
 endif()
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
