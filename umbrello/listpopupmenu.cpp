@@ -1339,6 +1339,10 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
     insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
     insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
+    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+    insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
+    insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
+    insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
     addMenu(menu);
 
     makeClassifierShowPopup(c);
@@ -1440,11 +1444,20 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
     case mt_Class:
         type = UMLObject::ot_Class;
         break;
+    case mt_Datatype:
+        type = UMLObject::ot_Datatype;
+        break;
     case mt_Attribute:
         type = UMLObject::ot_Attribute;
         break;
+    case mt_Interface:
+        type = UMLObject::ot_Interface;
+        break;
     case mt_Template:
         type = UMLObject::ot_Template;
+        break;
+    case mt_Enum:
+        type = UMLObject::ot_Enum;
         break;
     case mt_EnumLiteral:
         type = UMLObject::ot_EnumLiteral;
