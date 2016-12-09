@@ -419,7 +419,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
        }
     case WidgetBase::wt_Class:
     case WidgetBase::wt_Interface:
-        makeClassifierPopup(static_cast<ClassifierWidget*>(object));
+        makeClassifierPopup(dynamic_cast<ClassifierWidget*>(object));
         break;
 
     case WidgetBase::wt_Enum:
