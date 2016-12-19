@@ -23,26 +23,18 @@ ChildWidgetPlacementPort::~ChildWidgetPlacementPort()
 
 void ChildWidgetPlacementPort::setInitialPosition()
 {
-    m_connectedSide = Top;
-    setPos( - width() / 2, - height() / 2); // place on top left corner
+    m_connectedSide = TopLeft;
+    setPos(minX(), minY());
 }
 
 void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
 {
-    qreal newX = x() + diffX;
-    qreal newY = y() + diffY;
-
-    UMLWidget* owner = ownerWidget();
-    const qreal minX = - width() / 2;
-    const qreal maxX = owner->width() - width() / 2;
-    const qreal minY = - height() / 2;
-    const qreal maxY = owner->height() - height() / 2;
-
     bool setXToMin = false, setXToMax = false;
-    trimToRange(newX, minX, maxX, setXToMin, setXToMax);
+    qreal newX = trimToRange(x() + diffX, minX(), maxX(), setXToMin, setXToMax);
 
     bool setYToMin = false, setYToMax = false;
-    trimToRange(newY, minY, maxY, setYToMin, setYToMax);
+    qreal newY = trimToRange(y() + diffY, minY(), maxY(), setYToMin, setYToMax);
+
     switch (m_connectedSide)
     {
         case Top:
@@ -54,7 +46,7 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
                 m_connectedSide = TopRight;
             }
             else {
-                newY = minY;
+                newY = minY();
             }
         }
         break;
@@ -68,7 +60,7 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
                 m_connectedSide = BottomRight;
             }
             else {
-                newY = maxY;
+                newY = maxY();
             }
         }
         break;
@@ -82,7 +74,7 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
                 m_connectedSide = BottomLeft;
             }
             else {
-                newX = minX;
+                newX = minX();
             }
         }
         break;
@@ -96,59 +88,59 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
                 m_connectedSide = BottomRight;
             }
             else {
-                newX = maxX;
+                newX = maxX();
             }
         }
         break;
 
         case TopLeft:
         {
-            if (newX > minX) {
+            if (newX > minX()) {
                 m_connectedSide = Top;
-                newY = minY;
+                newY = minY();
             }
-            else if (newY > minY) {
+            else if (newY > minY()) {
                 m_connectedSide = Left;
-                newX = minX;
+                newX = minX();
             }
         }
         break;
 
         case TopRight:
         {
-            if (newX < maxX) {
+            if (newX < maxX()) {
                 m_connectedSide = Top;
-                newY = minY;
+                newY = minY();
             }
-            else if (newY > minY) {
+            else if (newY > minY()) {
                 m_connectedSide = Right;
-                newX = maxX;
+                newX = maxX();
             }
         }
         break;
 
         case BottomRight:
         {
-            if (newX < maxX) {
+            if (newX < maxX()) {
                 m_connectedSide = Bottom;
-                newY = maxY;
+                newY = maxY();
             }
-            else if (newY < maxY) {
+            else if (newY < maxY()) {
                 m_connectedSide = Right;
-                newX = maxX;
+                newX = maxX();
             }
         }
         break;
 
         case BottomLeft:
         {
-            if (newX > minX) {
+            if (newX > minX()) {
                 m_connectedSide = Bottom;
-                newY = maxY;
+                newY = maxY();
             }
-            else if (newY < maxY) {
+            else if (newY < maxY()) {
                 m_connectedSide = Left;
-                newX = minX;
+                newX = minX();
             }
         }
         break;
@@ -158,33 +150,90 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
 
 void ChildWidgetPlacementPort::setNewPositionOnParentResize()
 {
-    UMLWidget* owner = ownerWidget();
-    const qreal maxX = owner->width() - width() / 2;
-    const qreal maxY = owner->height() - height() / 2;
+    switch (m_connectedSide)
+    {
+        case Right:
+        {
+            setPos(maxX(), qMin(y(), maxY()));
+        }
+        break;
 
-    if (m_connectedSide == Right) {
-        setPos(maxX, qMin(y(), maxY));
-    }
-    else if (m_connectedSide == Bottom) {
-        setPos(qMin(x(), maxX), maxY);
-    }
-    else if (m_connectedSide == BottomRight) {
-        setPos(maxX, maxY);
+        case Bottom:
+        {
+            setPos(qMin(x(), maxX()), maxY());
+        }
+        break;
+
+        case TopRight:
+        {
+            setPos(maxX(), minY());
+        }
+        break;
+
+        case BottomRight:
+        {
+            setPos(maxX(), maxY());
+        }
+        break;
+
+        case BottomLeft:
+        {
+            setPos(minX(), maxY());
+        }
+        break;
+
+        default:
+            ; // nothing to do
     }
 }
 
 /**
  * Returns value bound between min and max, and flags whether value has been set.
  */
-void ChildWidgetPlacementPort::trimToRange(qreal& value, qreal min, qreal max, bool& setToMin, bool& setToMax) const
+qreal ChildWidgetPlacementPort::trimToRange(qreal value, qreal min, qreal max, bool& setToMin, bool& setToMax) const
 {
     if (value < min) {
         setToMin = true;
-        value = min;
+        return min;
     }
     else if (value > max) {
         setToMax = true;
-        value = max;
+        return max;
     }
+    return value;
+}
+
+/**
+ * Returns minimum allowed x value.
+ */
+qreal ChildWidgetPlacementPort::minX() const
+{
+    return - width() / 2;
+}
+
+/**
+ * Returns maximum allowed x value.
+ */
+qreal ChildWidgetPlacementPort::maxX() const
+{
+    UMLWidget* owner = ownerWidget();
+    return owner->width() - width() / 2;
+}
+
+/**
+ * Returns minimum allowed y value.
+ */
+qreal ChildWidgetPlacementPort::minY() const
+{
+    return - height() / 2;
+}
+
+/**
+ * Returns maximum allowed y value.
+ */
+qreal ChildWidgetPlacementPort::maxY() const
+{
+    UMLWidget* owner = ownerWidget();
+    return owner->height() - height() / 2;
 }
 

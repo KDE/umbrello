@@ -29,7 +29,11 @@ public:
     virtual void setNewPositionOnParentResize();
 
 private:
-    void trimToRange(qreal& value, qreal min, qreal max, bool& setToMin, bool& setToMax) const;
+    qreal trimToRange(qreal value, qreal min, qreal max, bool& setToMin, bool& setToMax) const;
+    qreal minX() const;
+    qreal maxX() const;
+    qreal minY() const;
+    qreal maxY() const;
 };
 
 #endif /* ! CHILDWIDGETPLACEMENTPORT_H */
