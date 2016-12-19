@@ -312,7 +312,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (! strippedComment.isEmpty()) {
         o->setDoc(strippedComment);
     }
-    if (!stereotype.isEmpty()) {
+    if (o && !stereotype.isEmpty()) {
         o->setStereotype(stereotype);
     }
     if (gRelatedClassifier == 0 || gRelatedClassifier == o)
