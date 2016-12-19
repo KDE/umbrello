@@ -283,7 +283,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             else
                 uError() << "createUMLObject(" << name << "): "
                     << "origType " << typeName << " is not a UMLClassifier";
-            if (isRef || isPointer)
+            if (dt && (isRef || isPointer))
                 dt->setIsReference();
             /*
             if (isPointer) {
