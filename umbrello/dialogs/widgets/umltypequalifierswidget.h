@@ -2,8 +2,10 @@
 #define UMLTYPEQUALIFIERSWIDGET_H
 
 #include "ui_umltypequalifierswidget.h"
-#include <QtWidgets>
+
+// Qt includes
 #include <QMap>
+#include <QWidget>
 
 class UMLClassifierListItem;
 

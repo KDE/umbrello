@@ -1,10 +1,13 @@
 #ifndef UMLTYPEMODIFIERWIDGET_H
 #define UMLTYPEMODIFIERWIDGET_H
 
-#include <QtWidgets>
 #include "ui_umltypemodifierwidget.h"
 
+// app includes
 #include "basictypes.h"
+
+// Qt includes
+#include <QWidget>
 
 class UMLClassifierListItem;
 
