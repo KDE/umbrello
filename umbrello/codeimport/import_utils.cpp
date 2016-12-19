@@ -283,7 +283,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             else
                 uError() << "createUMLObject(" << name << "): "
                     << "origType " << typeName << " is not a UMLClassifier";
-            if (isRef || isPointer)
+            if (dt && (isRef || isPointer))
                 dt->setIsReference();
             /*
             if (isPointer) {
@@ -312,7 +312,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (! strippedComment.isEmpty()) {
         o->setDoc(strippedComment);
     }
-    if (!stereotype.isEmpty()) {
+    if (o && !stereotype.isEmpty()) {
         o->setStereotype(stereotype);
     }
     if (gRelatedClassifier == 0 || gRelatedClassifier == o)
