@@ -53,8 +53,8 @@ namespace Uml
             // widget back from the saved XMI state.
             QDomElement widgetElement = m_element.firstChild().toElement();
             umlWidget = scene()->loadWidgetFromXMI(widgetElement);
-
-            addWidgetToScene(umlWidget);
+            if (umlWidget)
+                addWidgetToScene(umlWidget);
         }
     }
 
