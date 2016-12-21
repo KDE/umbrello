@@ -1192,8 +1192,9 @@ void UMLScene::removeOwnedWidgets(UMLWidget* o)
 {
     foreach(QGraphicsItem* item, o->childItems()) {
         UMLWidget* widget = dynamic_cast<UMLWidget*>(item);
-        if (widget->isPinWidget() ||
-            widget->isPortWidget()) {
+        if ((widget != 0) &&
+            (widget->isPinWidget() ||
+             widget->isPortWidget())) {
             removeWidgetCmd(widget);
         }
     }
