@@ -419,9 +419,12 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
        }
     case WidgetBase::wt_Class:
     case WidgetBase::wt_Interface:
-        makeClassifierPopup(dynamic_cast<ClassifierWidget*>(object));
+        {
+            ClassifierWidget* classifier = object->asClassifierWidget();
+            if (classifier)
+                makeClassifierPopup(classifier);
+        }
         break;
-
     case WidgetBase::wt_Enum:
         insertSubMenuNew(mt_Enum);
         insertSubMenuColor(object->useFillColor());
