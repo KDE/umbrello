@@ -367,6 +367,9 @@ set(libumlwidgets_SRCS
     umlwidgets/associationwidget.cpp
     umlwidgets/boxwidget.cpp
     umlwidgets/categorywidget.cpp
+    umlwidgets/childwidgetplacement.cpp
+    umlwidgets/childwidgetplacementpin.cpp
+    umlwidgets/childwidgetplacementport.cpp
     umlwidgets/classifierwidget.cpp
     umlwidgets/combinedfragmentwidget.cpp
     umlwidgets/componentwidget.cpp
@@ -557,7 +560,7 @@ ecm_add_app_icon(umbrello_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi128-apps-umbrello.png
 )
 add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello libumbrello)
+target_link_libraries(umbrello libumbrello KF5::WindowSystem)
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()

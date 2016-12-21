@@ -100,7 +100,7 @@ QString UMLClassifierListItem::toString(Uml::SignatureType::Enum sig)
  */
 UMLClassifier * UMLClassifierListItem::getType() const
 {
-    return m_pSecondary->asUMLClassifier();
+    return m_pSecondary ? m_pSecondary->asUMLClassifier() : 0;
 }
 
 /**

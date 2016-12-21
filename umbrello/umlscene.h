@@ -362,10 +362,12 @@ protected:
 
     virtual void drawBackground(QPainter *painter, const QRectF &rect);
 
+#if !(QT_DEPRECATED_SINCE(5, 0))
     inline QGraphicsItem *itemAt(const QPointF &position) const {
         QList<QGraphicsItem *> itemsAtPoint = items(position);
         return itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
     }
+#endif
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     QPointF m_Pos;

@@ -2487,7 +2487,8 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 DEBUG(DBG_SRC) << "Loaded <listview> entry does not match uml model"
                                << item->text(0) << " parent "
                                << parent->text(0) << " (" << parent << ") != "
-                               << itmParent->text(0) << " (" << itmParent << ")";
+                               << (itmParent ? itmParent->text(0) : QLatin1String(""))
+                               << " (" << itmParent << ")";
             }
             break;
         case UMLListViewItem::lvt_Attribute:

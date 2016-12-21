@@ -62,6 +62,7 @@ set(CMAKE_AUTORCC ON)
         KIO
         TextEditor
         WidgetsAddons
+        WindowSystem
         XmlGui
     )
 

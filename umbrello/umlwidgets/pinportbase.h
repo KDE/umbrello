@@ -13,7 +13,10 @@
 
 #include "umlwidget.h"
 
+#include <QScopedPointer>
+
 class FloatingTextWidget;
+class ChildWidgetPlacement;
 
 /**
  * @short Abstract base class for PinWidget and PortWidget
@@ -55,29 +58,13 @@ protected:
     void init(UMLWidget *owner = 0);
 
 private:
-    enum ConnectedSide {
-        Top,
-        Right,
-        Bottom,
-        Left
-    };
-
-    bool isAboveParent() const;
-    bool isBelowParent() const;
-    bool isLeftOfParent() const;
-    bool isRightOfParent() const;
-    qreal getNewXOnJumpToTopOrBottom() const;
-    void jumpToTopOfParent();
-    void jumpToBottomOfParent();
-    qreal getNewYOnJumpToSide() const;
-    void jumpToLeftOfParent();
-    void jumpToRightOfParent();
+    ChildWidgetPlacement* createPlacement(WidgetBase::WidgetType type);
 
 protected:
     FloatingTextWidget *m_pName;
 
 private:
-    ConnectedSide m_connectedSide;
+    QScopedPointer<ChildWidgetPlacement> m_childPlacement;
 };
 
 #endif

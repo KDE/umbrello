@@ -1395,6 +1395,27 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
             }
             break;
         }
+
+    case ListPopupMenu::mt_Class:
+    case ListPopupMenu::mt_Datatype:
+    case ListPopupMenu::mt_Enum:
+    case ListPopupMenu::mt_Interface:
+        {
+            UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
+            UMLClassifier *umlc = classifier();
+            if (!umlc) {
+                uError() << "Internal error - classifier() returns NULL";
+                return;
+            }
+            umlScene()->setCreateObject(true);
+            if (Object_Factory::createUMLObject(ot, QString(), umlc)) {
+                updateGeometry();
+                update();
+                UMLApp::app()->document()->setModified();
+            }
+            break;
+        }
+
     case ListPopupMenu::mt_Show_Operations:
         toggleVisualProperty(ShowOperations);
         break;

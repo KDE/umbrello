@@ -411,7 +411,11 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
        }
     case WidgetBase::wt_Class:
     case WidgetBase::wt_Interface:
-        makeClassifierPopup(static_cast<ClassifierWidget*>(object));
+        {
+            ClassifierWidget* classifier = object->asClassifierWidget();
+            if (classifier)
+                makeClassifierPopup(classifier);
+        }
         break;
 
     case WidgetBase::wt_Instance:
@@ -975,18 +979,41 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
  *
  * @param folderAndDiagrams Set this true if folders and diagram
  *                          types shall be included as choices.
+ * @param packages          Set this true if packages
+ *                          shall be included as choices.
  */
-void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
+void ListPopupMenu::insertContainerItems(bool folderAndDiagrams, bool packages)
 {
     QMenu* menu = new QMenu(i18nc("new container menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
+    insertContainerItems(menu, folderAndDiagrams, packages);
+    addMenu(menu);
+}
+
+/**
+ * Shortcut for inserting standard model items (Class, Interface,
+ * Datatype, Enum, Package) as well as diagram choices.
+ *
+ * @param menu              Menu to add the menu entries
+ * @param folderAndDiagrams Set this true if folders and diagram
+ *                          types shall be included as choices.
+ * @param packages          Set this true if packages
+ *                          shall be included as choices.
+ */
+#if QT_VERSION >= 0x050000
+void ListPopupMenu::insertContainerItems(QMenu* menu, bool folderAndDiagrams, bool packages)
+#else
+void ListPopupMenu::insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages)
+#endif
+{
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
     insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class"));
     insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface"));
     insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype"));
     insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
-    insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
+    if (packages)
+        insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
     if (folderAndDiagrams) {
         QAction *action = UMLApp::app()->actionCollection()->action(QLatin1String("new_class_diagram"));
         insert(mt_Class_Diagram, menu, action->icon(), action->text());
@@ -999,7 +1026,6 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
         action = UMLApp::app()->actionCollection()->action(QLatin1String("new_activity_diagram"));
         insert(mt_Activity_Diagram, menu, action->icon(), action->text());
     }
-    addMenu(menu);
 }
 
 /**
@@ -1264,6 +1290,10 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
     insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
     insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
+    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+    insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
+    insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
+    insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
     addMenu(menu);
 
     makeClassifierShowPopup(c);
@@ -1357,11 +1387,20 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
     case mt_Class:
         type = UMLObject::ot_Class;
         break;
+    case mt_Datatype:
+        type = UMLObject::ot_Datatype;
+        break;
     case mt_Attribute:
         type = UMLObject::ot_Attribute;
         break;
+    case mt_Interface:
+        type = UMLObject::ot_Interface;
+        break;
     case mt_Template:
         type = UMLObject::ot_Template;
+        break;
+    case mt_Enum:
+        type = UMLObject::ot_Enum;
         break;
     case mt_EnumLiteral:
         type = UMLObject::ot_EnumLiteral;
@@ -1528,10 +1567,12 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute"));
             insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
             insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template"));
+            insertContainerItems(menu, false, false);
             break;
         case mt_Interface:
             insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
             insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Interface), i18n("Template"));
+            insertContainerItems(menu, false, false);
             break;
         case mt_Entity:
             insert(mt_EntityAttribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
