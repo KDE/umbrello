@@ -1123,6 +1123,7 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
 void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {
     foreach (UMLObject* o, c->containedObjects()) {
+        uIgnoreZeroPointer(o);
         if (o->visibility() != permitScope)
             continue;
         if (!o->isUMLDatatype())
