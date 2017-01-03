@@ -6,20 +6,11 @@
 #
 # requirements:
 #
-#  osc       - opensuse command line client
+#  osc  - opensuse build service command line client
 #
 # syntax: release-windows-packages <mode>
 #
-# where mode is:
-#
-# clean      - clean working area
-# fetch      - fetch file lists from opensuse download server
-# download   - download rpm packages
-# unpack     - unpack rpm files
-# repack     - repackage source tar ball to 7z
-# upload     - upload files to ftp:/upload.kde.org
-# ticket     - file a tar ball move request
-# all        - performs all above mentioned steps
+# run ./release-windows-packages to see all modes
 #
 REPO=openSUSE_42.2
 VERSION=2.20.90
@@ -34,11 +25,11 @@ if ! test -d "work"; then
 fi
 
 case $1 in
-clean)
+clean) ## clean working area
         rm -rf work/*
         ;;
 
-download)
+download) ## download rpm packages
         cd work
         rm -rf binaries
         osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello-installer $REPO x86_64
@@ -50,15 +41,15 @@ download)
         #src64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep src)
         #osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw64-umbrello $REPO x86_64 $src64pkg
         # fetch debug packages
-        #debug32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep debug)
-        #osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $debug32pkg
-        #debug64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep debug)
-        #osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello $REPO x86_64 $debug64pkg
+        debug32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep debug)
+        osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $debug32pkg
+        debug64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep debug)
+        osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello $REPO x86_64 $debug64pkg
         ;;
 
-unpack)
+unpack) ## unpack rpm files
         cd work
-        files=$(find binaries -name *installer* -o -name *portable* -o -name *src* | grep "$VERSION")
+        files=$(find binaries -name *installer* -o -name *portable* -o -name *src* -o -name *debug* | grep "$VERSION")
         if test -d tmp; then
                 rm -rf tmp
         fi
@@ -66,44 +57,71 @@ unpack)
         for i in $(echo $files); do
                 (cd tmp; rpm2cpio ../$i | cpio -idmv)
         done
-        # move binary packages
-        rm -rf out
-        mkdir -p out
-        find tmp/ -name '*.exe' -exec mv {} out \;
-        find tmp/ -name '*.7z' -exec mv {} out \;
         ;;
 
-repack)
+movepackage) ## move windows binary packages into upload folder
+        cd work
+        rm -rf out
+        mkdir -p out
+        find tmp/ -type f -name '*.exe' -exec cp {} out \;
+        find tmp/ -type f -name '*.7z' -exec cp {} out \;
+        ;;
+
+packdebug) ## package debug package
+        cd work
+        rm -rf out/*debug*.7z
+        arch=mingw32
+        version=$(find binaries/ -name *$arch*debug* | sed 's,.*debug-,,g;s,\.noarch.*,,g')
+        dir=tmp/usr/i686-w64-mingw32/sys-root/mingw
+        outfile=$PWD/out/umbrello-i686-w64-mingw32-$version-debug.7z
+        (cd $dir; 7z a -r -mx=9 $outfile *.debug *.sym)
+
+        arch=mingw64
+        version=$(find binaries/ -name *$arch*debug* | sed 's,.*debug-,,g;s,\.noarch.*,,g')
+        dir=tmp/usr/x86_64-w64-mingw32/sys-root/mingw
+        outfile=$PWD/out/umbrello-x86_64-w64-mingw32-$version-debug.7z
+        (cd $dir; 7z a -r -mx=9 $outfile *.debug *.sym)
+        ;;
+
+repacksource) ## repackage source tar ball to 7z
         # repackage source package
         srcfile=$(find work/tmp -name '*.xz')
         outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
         (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
-        # create sha256sums
-        (cd work/out; sha256sum  *.7z *.exe > umbrello.sha256sum)
         ;;
 
-upload)
-        # upload
+createsha) ## create sha256sums
+        (cd work/out; find -type f -name '*.7z' -o -name '*.exe' | sed 's,\./,,g' | sort | xargs sha256sum > umbrello.sha256sum)
+        ;;
+
+upload) ## upload files to staging area
         for i in $(find work/out -name '*.7z' -o -name '*.exe'); do
-                curl -T $i  ftp://upload.kde.org/incoming/
+            curl -T $i  ftp://upload.kde.org/incoming/
         done
         ;;
 
-ticket)
+createdescription) ## create ticket description
         description="Please move the umbrello related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/umbrello/$VERSION' location and please update the symbolic link 'stable/umbrello/latest' to 'stable/umbrello/$VERSION'"
-        sums=$(cat work/out/umbrello.sha256sum | sort -n | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /umbrello-[0-9]/ { print "src   " $0 }')
-        description=$(echo -e "$description\n\n$sums")
+        sums=$(cat work/out/umbrello.sha256sum | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /umbrello-[0-9]/ { print "src   " $0 }')
+        echo -e "$description\n\n$sums"
+        ;;
+
+ticket) ## submit phabricator ticket
+        description=$($0 createdescription)
         curl $PHABURL/api/maniphest.createtask \
         -d api.token=$apitoken \
         -d "title=tarball move request for stable/umbrello/$VERSION" \
         -d "description=$description" \
         -d "$options"
         ;;
-all)
+
+all) ## run all required targets
         $0 clean
         $0 download
         $0 unpack
-        $0 repack
+        $0 movepackage
+        $0 repacksource
+        $0 createsha
         $0 upload
         $0 ticket
         ;;
@@ -111,6 +129,10 @@ all)
 *)
         echo "Make sure to setup VERSION inside $0 and run"
         echo "$0 all"
+        echo
+        echo "or run single targets"
+        echo
+        gawk '$0 ~ /^[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0
         ;;
 esac
 

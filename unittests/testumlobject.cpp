@@ -230,4 +230,15 @@ void TestUMLObject::test_toString()
     QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
 }
 
+void TestUMLObject::test_dynamic_cast()
+{
+    QScopedPointer<UMLObject> a1(new UMLClassifier);
+    UMLClassifier *b = a1->asUMLClassifier();
+    QVERIFY(b);
+    UMLObject *a2 = 0;
+    b = a2->asUMLClassifier();
+    QVERIFY(!b);
+}
+
+
 QTEST_MAIN(TestUMLObject)

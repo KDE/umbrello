@@ -1,5 +1,5 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    Copyright 2016  Ralf Habacker  <ralf.habacker@freenet.de>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -18,30 +18,28 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TESTUMLOBJECT_H
-#define TESTUMLOBJECT_H
+#include <qglobal.h>
+#if QT_VERSION >= 0x050000
+#include <QApplication>
+#else
+#include <KAboutData>
+#include <KApplication>
+#include <KCmdLineArgs>
+#endif
 
-#include "testbase.h"
-
-class TestUMLObject : public TestBase
+int main(int argc, char **argv)
 {
-    Q_OBJECT
-private slots:
-    void test_copyInto();
-    void test_clone();
-    void test_doc();
-    void test_equal();
-    void test_fullyQualifiedName();
-    void test_isAbstract();
-    void test_isStatic();
-    void test_resolveRef();
-    void test_saveAndLoad();
-    void test_setBaseType();
-    void test_setSterotype();
-    void test_setUMLPackage();
-    void test_setVisibility();
-    void test_toString();
-    void test_dynamic_cast();
-};
-
-#endif // TESTUMLOBJECT_H
+#if QT_VERSION >= 0x050000
+    QApplication app(argc, argv);
+    // enable crash handler
+#else
+    KAboutData aboutData("testcrashhandler", 0, KLocalizedString(),
+                         "0.0.0", KLocalizedString(), KAboutData::License_GPL,
+                         KLocalizedString(), KLocalizedString(),
+                         "");
+    KCmdLineArgs::init(argc, argv, &aboutData);
+    KApplication app;
+#endif
+    int *a = 0;
+    *a = 1;
+}
