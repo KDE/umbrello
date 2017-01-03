@@ -41,6 +41,19 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLObject)
 
+#ifdef Q_OS_WIN
+#define checkPointer(p) \
+    asm goto ("test %0,%0; jne %l[next]" \
+              : /* No outputs. */ \
+              : "r"(p) \
+              : \
+              : next); \
+         return 0; \
+       next:
+#else
+#define checkPointer(p)
+#endif
+
 /**
  * Creates a UMLObject.
  * @param other object to created from
@@ -669,6 +682,7 @@ void UMLObject::setUMLParent(UMLObject *parent)
  */
 UMLObject *UMLObject::umlParent() const
 {
+    checkPointer(this);
     return dynamic_cast<UMLObject *>(parent());
 }
 
@@ -1226,32 +1240,33 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "uniqueconstraint.h"
 #include "usecase.h"
 
-UMLActor* UMLObject::asUMLActor() {return dynamic_cast<UMLActor*>(this); }
-UMLArtifact* UMLObject::asUMLArtifact() { return dynamic_cast<UMLArtifact*>(this); }
-UMLAssociation* UMLObject::asUMLAssociation() { return dynamic_cast<UMLAssociation*>(this); }
-UMLAttribute* UMLObject::asUMLAttribute() { return dynamic_cast<UMLAttribute*>(this); }
-UMLCanvasObject* UMLObject::asUMLCanvasObject() { return dynamic_cast<UMLCanvasObject*>(this); }
-UMLCategory* UMLObject::asUMLCategory() { return dynamic_cast<UMLCategory*>(this); }
-UMLCheckConstraint* UMLObject::asUMLCheckConstraint() { return dynamic_cast<UMLCheckConstraint*>(this); }
-UMLClassifier* UMLObject::asUMLClassifier() { return dynamic_cast<UMLClassifier*>(this); }
-UMLClassifierListItem *UMLObject::asUMLClassifierListItem() { return dynamic_cast<UMLClassifierListItem*>(this); }
-UMLComponent* UMLObject::asUMLComponent() { return dynamic_cast<UMLComponent*>(this); }
-UMLDatatype *UMLObject::asUMLDatatype() { return dynamic_cast<UMLDatatype*>(this); }
-UMLEntity* UMLObject::asUMLEntity() { return dynamic_cast<UMLEntity*>(this); }
-UMLEntityAttribute* UMLObject::asUMLEntityAttribute() { return dynamic_cast<UMLEntityAttribute*>(this); }
-UMLEntityConstraint* UMLObject::asUMLEntityConstraint() { return dynamic_cast<UMLEntityConstraint*>(this); }
-UMLEnum* UMLObject::asUMLEnum() { return dynamic_cast<UMLEnum*>(this); }
-UMLEnumLiteral* UMLObject::asUMLEnumLiteral() { return dynamic_cast<UMLEnumLiteral*>(this); }
-UMLFolder* UMLObject::asUMLFolder() { return dynamic_cast<UMLFolder*>(this); }
-UMLForeignKeyConstraint* UMLObject::asUMLForeignKeyConstraint() { return dynamic_cast<UMLForeignKeyConstraint*>(this); }
-UMLNode* UMLObject::asUMLNode() { return dynamic_cast<UMLNode*>(this); }
-UMLObject* UMLObject::asUMLObject() { return dynamic_cast<UMLObject*>(this); }
-UMLOperation* UMLObject::asUMLOperation() { return dynamic_cast<UMLOperation*>(this); }
-UMLPackage* UMLObject::asUMLPackage() { return dynamic_cast<UMLPackage*>(this); }
-UMLPort* UMLObject::asUMLPort() { return dynamic_cast<UMLPort*>(this); }
-UMLRole* UMLObject::asUMLRole() { return dynamic_cast<UMLRole*>(this); }
-UMLStereotype* UMLObject::asUMLStereotype() { return dynamic_cast<UMLStereotype*>(this); }
-UMLTemplate* UMLObject::asUMLTemplate() { return dynamic_cast<UMLTemplate*>(this); }
-UMLUniqueConstraint* UMLObject::asUMLUniqueConstraint() { return dynamic_cast<UMLUniqueConstraint*>(this); }
-UMLUseCase* UMLObject::asUMLUseCase() { return dynamic_cast<UMLUseCase*>(this); }
+
+UMLActor* UMLObject::asUMLActor() { checkPointer(this); return dynamic_cast<UMLActor*>(this); }
+UMLArtifact* UMLObject::asUMLArtifact() { checkPointer(this); return dynamic_cast<UMLArtifact*>(this); }
+UMLAssociation* UMLObject::asUMLAssociation() { checkPointer(this); return dynamic_cast<UMLAssociation*>(this); }
+UMLAttribute* UMLObject::asUMLAttribute() { checkPointer(this); return dynamic_cast<UMLAttribute*>(this); }
+UMLCanvasObject* UMLObject::asUMLCanvasObject() { checkPointer(this); return dynamic_cast<UMLCanvasObject*>(this); }
+UMLCategory* UMLObject::asUMLCategory() { checkPointer(this); return dynamic_cast<UMLCategory*>(this); }
+UMLCheckConstraint* UMLObject::asUMLCheckConstraint() { checkPointer(this); return dynamic_cast<UMLCheckConstraint*>(this); }
+UMLClassifier* UMLObject::asUMLClassifier() { checkPointer(this); return dynamic_cast<UMLClassifier*>(this); }
+UMLClassifierListItem *UMLObject::asUMLClassifierListItem() { checkPointer(this); return dynamic_cast<UMLClassifierListItem*>(this); }
+UMLComponent* UMLObject::asUMLComponent() { checkPointer(this); return dynamic_cast<UMLComponent*>(this); }
+UMLDatatype *UMLObject::asUMLDatatype() { checkPointer(this); return dynamic_cast<UMLDatatype*>(this); }
+UMLEntity* UMLObject::asUMLEntity() { checkPointer(this); return dynamic_cast<UMLEntity*>(this); }
+UMLEntityAttribute* UMLObject::asUMLEntityAttribute() { checkPointer(this); return dynamic_cast<UMLEntityAttribute*>(this); }
+UMLEntityConstraint* UMLObject::asUMLEntityConstraint() { checkPointer(this); return dynamic_cast<UMLEntityConstraint*>(this); }
+UMLEnum* UMLObject::asUMLEnum() { checkPointer(this); return dynamic_cast<UMLEnum*>(this); }
+UMLEnumLiteral* UMLObject::asUMLEnumLiteral() { checkPointer(this); return dynamic_cast<UMLEnumLiteral*>(this); }
+UMLFolder* UMLObject::asUMLFolder() { checkPointer(this); return dynamic_cast<UMLFolder*>(this); }
+UMLForeignKeyConstraint* UMLObject::asUMLForeignKeyConstraint() { checkPointer(this); return dynamic_cast<UMLForeignKeyConstraint*>(this); }
+UMLNode* UMLObject::asUMLNode() { checkPointer(this); return dynamic_cast<UMLNode*>(this); }
+UMLObject* UMLObject::asUMLObject() { checkPointer(this); return dynamic_cast<UMLObject*>(this); }
+UMLOperation* UMLObject::asUMLOperation() { checkPointer(this); return dynamic_cast<UMLOperation*>(this); }
+UMLPackage* UMLObject::asUMLPackage() { checkPointer(this); return dynamic_cast<UMLPackage*>(this); }
+UMLPort* UMLObject::asUMLPort() { checkPointer(this); return dynamic_cast<UMLPort*>(this); }
+UMLRole* UMLObject::asUMLRole() { checkPointer(this); return dynamic_cast<UMLRole*>(this); }
+UMLStereotype* UMLObject::asUMLStereotype() { checkPointer(this); return dynamic_cast<UMLStereotype*>(this); }
+UMLTemplate* UMLObject::asUMLTemplate() { checkPointer(this); return dynamic_cast<UMLTemplate*>(this); }
+UMLUniqueConstraint* UMLObject::asUMLUniqueConstraint() { checkPointer(this); return dynamic_cast<UMLUniqueConstraint*>(this); }
+UMLUseCase* UMLObject::asUMLUseCase() { checkPointer(this); return dynamic_cast<UMLUseCase*>(this); }
 

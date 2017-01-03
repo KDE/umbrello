@@ -41,6 +41,7 @@ private slots:
     void test_setUMLPackage();
     void test_setVisibility();
     void test_toString();
+    void test_dynamic_cast();
 };
 
 #endif // TESTUMLOBJECT_H

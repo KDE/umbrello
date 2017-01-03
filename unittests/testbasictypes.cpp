@@ -39,6 +39,16 @@ class B : public A
 {
 };
 
+B* asB(A* p)
+{
+    return dynamic_cast<B*>(p);
+}
+
+A* getPointer()
+{
+    return 0;
+}
+
 void TestBasicTypes::test_dynamic_cast()
 {
     QScopedPointer<A> a1(new A);
@@ -47,6 +57,13 @@ void TestBasicTypes::test_dynamic_cast()
     QScopedPointer<A> a2(new B);
     B* b2 = dynamic_cast<B*> (a2.data());
     QVERIFY(b2);
+    QScopedPointer<A> a3((B*)0);
+    B* b3 = dynamic_cast<B*> (a3.data());
+    QVERIFY(!b3);
+    B* b4 = dynamic_cast<B*> (getPointer());
+    QVERIFY(!b4);
+    B* b5 = asB(getPointer());
+    QVERIFY(!b5);
 }
 
 void TestBasicTypes::test_QString_english()
