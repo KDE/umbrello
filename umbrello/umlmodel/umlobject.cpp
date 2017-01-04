@@ -41,7 +41,6 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLObject)
 
-#ifdef Q_OS_WIN
 #define checkPointer(p) \
     asm goto ("test %0,%0; jne %l[next]" \
               : /* No outputs. */ \
@@ -50,9 +49,6 @@ DEBUG_REGISTER_DISABLED(UMLObject)
               : next); \
          return 0; \
        next:
-#else
-#define checkPointer(p)
-#endif
 
 /**
  * Creates a UMLObject.
