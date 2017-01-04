@@ -510,7 +510,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             return;
         }
         UMLOperation *op = m_object->asUMLOperation();
-        UMLClassifier *parent = op->umlParent()->asUMLClassifier();
+        UMLClassifier *parent = op ? op->umlParent()->asUMLClassifier() : 0;
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
         if (st == Model_Utils::PS_OK) {
@@ -566,7 +566,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseAttribute(newText, nt, parent, &vis);
         if (st == Model_Utils::PS_OK) {
-            UMLObject *exists = parent->findChildObject(newText);
+            UMLObject *exists = parent ? parent->findChildObject(newText) : 0;
             if (exists) {
                 cancelRenameWithMsg();
                 return;
@@ -627,7 +627,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
         if (st == Model_Utils::PS_OK) {
-            UMLObject *exists = parent->findChildObject(newText);
+            UMLObject *exists = parent ? parent->findChildObject(newText) : 0;
             if (exists) {
                 cancelRenameWithMsg();
                 return;

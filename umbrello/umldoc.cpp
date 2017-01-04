@@ -1819,7 +1819,7 @@ UMLFolder *UMLDoc::currentRoot()
         return 0;
     }
     UMLFolder *f = currentView->umlScene()->folder();
-    while (f->umlPackage()) {
+    while (f && f->umlPackage()) {
         f = f->umlParent()->asUMLFolder();
     }
     return f;

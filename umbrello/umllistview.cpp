@@ -2244,7 +2244,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         // the parent entity)
         if (type == UMLListViewItem::lvt_PrimaryKeyConstraint) {
             UMLUniqueConstraint* uuc = object->asUMLUniqueConstraint();
-            UMLEntity* ent = uuc->umlParent()->asUMLEntity();
+            UMLEntity* ent = uuc ? uuc->umlParent()->asUMLEntity() : 0;
             if (ent) {
                 ent->setAsPrimaryKey(uuc);
             }
