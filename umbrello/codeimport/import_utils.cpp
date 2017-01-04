@@ -512,7 +512,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
                                  const QString& name)
 {
     UMLClassifier *owner = method->umlParent()->asUMLClassifier();
-    UMLObject *typeObj = owner->findTemplate(type);
+    UMLObject *typeObj = owner ? owner->findTemplate(type) : 0;
     if (typeObj == 0) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;

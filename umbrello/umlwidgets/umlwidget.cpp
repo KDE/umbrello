@@ -586,6 +586,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     } else {
         m_inMoveArea = false;
     }
+    m_startMove = false;
 }
 
 /**

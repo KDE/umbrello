@@ -358,6 +358,8 @@ bool UMLOperation::isConstructorOperation()
         return true;
 
     UMLClassifier * c = umlParent()->asUMLClassifier();
+    if (!c)
+        return false;
     QString cName = c->name();
     QString opName = name();
     // It's a constructor operation if the operation name
@@ -375,7 +377,8 @@ bool UMLOperation::isDestructorOperation()
     if (stereotype() == QLatin1String("destructor"))
         return true;
     UMLClassifier * c = umlParent()->asUMLClassifier();
-
+    if (!c)
+        return false;
     QString cName = c->name();
     QString opName = name();
     // Special support for C++ syntax:
