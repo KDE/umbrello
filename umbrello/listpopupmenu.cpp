@@ -1053,6 +1053,7 @@ void ListPopupMenu::insertAssociationItem(MenuType mt)
     insert(mt_Delete);
 
     switch(mt) {
+    case mt_AttributeAssociation:
     case mt_FullAssociation:
         insert(mt_Rename_Name, i18n("Change Association Name..."));
         insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
