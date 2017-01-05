@@ -88,6 +88,7 @@ bool ClassImport::importFiles(const QStringList& fileNames)
     uint processedFilesCount = 0;
     bool result = true;
     umldoc->setLoading(true);
+    umldoc->setImporting(true);
     foreach (const QString& fileName, fileNames) {
         umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
                                  fileName, processedFilesCount, fileNames.size()));
@@ -96,6 +97,7 @@ bool ClassImport::importFiles(const QStringList& fileNames)
         processedFilesCount++;
     }
     umldoc->setLoading(false);
+    umldoc->setImporting(false);
     umldoc->writeToStatusBar(result ? i18nc("ready to status bar", "Ready.") : i18nc("failed to status bar", "Failed."));
     return result;
 }
