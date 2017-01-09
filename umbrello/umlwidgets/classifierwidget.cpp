@@ -547,7 +547,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             foreach (UMLClassifierListItem *a, list) {
                 if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                     continue;
-                const int attWidth = fm.size(0, a->toString(m_attributeSignature)).width();
+                const int attWidth = fm.size(0, a->toString(m_attributeSignature, visualProperty(ShowStereotype))).width();
                 if (attWidth > width)
                     width = attWidth;
             }
@@ -566,7 +566,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             foreach (UMLOperation* op,  list) {
                       if (visualProperty(ShowPublicOnly) && op->visibility() != Uml::Visibility::Public)
                     continue;
-                const QString displayedOp = op->toString(m_operationSignature);
+                const QString displayedOp = op->toString(m_operationSignature, visualProperty(ShowStereotype));
                 UMLWidget::FontType oft;
                 oft = (op->isAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
                 const int w = UMLWidget::getFontMetrics(oft).size(0, displayedOp).width();
@@ -627,7 +627,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
     int height = count * fm.lineSpacing() + (MARGIN*2);
 
     foreach (UMLTemplate *t, list) {
-        int textWidth = fm.size(0, t->toString()).width();
+        int textWidth = fm.size(0, t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype))).width();
         if (textWidth > width)
             width = textWidth;
     }
@@ -749,7 +749,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         const int x = width() - templatesBoxSize.width() + MARGIN;
         int y = MARGIN;
         foreach (UMLTemplate *t, tlist) {
-            QString text = t->toString();
+            QString text = t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype));
             painter->drawText(x, y, fm.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
@@ -1060,7 +1060,7 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
     foreach (UMLClassifierListItem *obj, list) {
           if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
-        QString text = obj->toString(sigType);
+        QString text = obj->toString(sigType, visualProperty(ShowStereotype));
         f.setItalic(obj->isAbstract());
         f.setUnderline(obj->isStatic());
         painter->setFont(f);

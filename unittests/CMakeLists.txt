@@ -100,6 +100,9 @@ set(testumlroledialog_SRCS
 ecm_add_executable(testumlroledialog ${testumlroledialog_SRCS})
 target_link_libraries(testumlroledialog ${LIBS})
 
+ecm_add_executable(testcrashhandler testcrashhandler.cpp)
+target_link_libraries(testcrashhandler ${LIBS})
+
 find_package(LLVM CONFIG)
 find_package(CLANG QUIET)
 if(LLVM_FOUND)

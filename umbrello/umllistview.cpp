@@ -1164,7 +1164,7 @@ void UMLListView::setDocument(UMLDoc *doc)
  */
 void UMLListView::slotObjectRemoved(UMLObject* object)
 {
-    if (m_doc->loading()) { //needed for class wizard
+    if (m_doc->loading() && !m_doc->importing()) { //needed for class wizard but not when importing
         return;
     }
     disconnect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
@@ -2208,7 +2208,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         // the parent entity)
         if (type == UMLListViewItem::lvt_PrimaryKeyConstraint) {
             UMLUniqueConstraint* uuc = object->asUMLUniqueConstraint();
-            UMLEntity* ent = uuc->umlParent()->asUMLEntity();
+            UMLEntity* ent = uuc ? uuc->umlParent()->asUMLEntity() : 0;
             if (ent) {
                 ent->setAsPrimaryKey(uuc);
             }

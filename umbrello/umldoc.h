@@ -210,6 +210,9 @@ public:
     bool loading() const;
     void setLoading(bool state = true);
 
+    bool importing() const;
+    void setImporting(bool state = true);
+
     bool closing() const;
 
     void addDefaultDatatypes();
@@ -272,6 +275,11 @@ private:
      * true if the we're loading a new document
      */
     bool m_bLoading;
+
+    /**
+     * true if the we're importing
+     */
+    bool m_importing;
 
     /**
      * Documentation for the project.

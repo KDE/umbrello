@@ -23,6 +23,8 @@ class UMLOperation;
 class UMLEnum;
 class UMLScene;
 
+class QMimeData;
+
 /**
  * Utilities for code import
  * @author Oliver Kellogg
@@ -87,7 +89,6 @@ namespace Import_Utils {
 
     bool isDatatype(const QString& name, UMLPackage *parentPkg = 0);
 
-    bool importStackTrace(const QString &fileName, UMLScene *scene);
 } // end namespace Import_Utils
 
 #endif

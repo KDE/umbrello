@@ -156,6 +156,8 @@ public slots:
         if (file.isEmpty())
             return;
         QString html = readWelcomeFile(file);
+        if (html.isEmpty())
+            return;
         // qDebug() << html;
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
         welcomeWindow->setObjectName(QLatin1String("WelcomeDock"));

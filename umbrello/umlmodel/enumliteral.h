@@ -41,7 +41,7 @@ public:
     QString value() const;
     void setValue(const QString &v);
 
-    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 

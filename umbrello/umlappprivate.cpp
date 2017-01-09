@@ -12,6 +12,8 @@
 
 #include "debug_utils.h"
 
+#include <KFilterDev>
+
 /**
  * Find welcome.html file for displaying in the welcome window.
  *
@@ -21,7 +23,7 @@ QString UMLAppPrivate::findWelcomeFile()
 {
     QStringList dirList;
     // from build dir
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc/apphelp"));
 
     // determine path from installation
 #if QT_VERSION > 0x050000
@@ -34,30 +36,30 @@ QString UMLAppPrivate::findWelcomeFile()
 
     // from custom install
     foreach(const QString &lang, langList) {
-        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
+        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
     }
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     // from real installation
     foreach(const QString &location, locations) {
         foreach(const QString &lang, langList) {
-            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello")).arg(location).arg(lang));
+            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello/apphelp")).arg(location).arg(lang));
         }
-        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello")).arg(location));
+        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
     }
 #else
     KLocale *local = KGlobal::locale();
     QString lang = local->language();
     // from custom install
-    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello")).arg(lang));
-    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello"));
+    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     // /usr/share/doc/kde
-    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello"));
+    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello/apphelp"));
 #endif
     foreach(const QString &dir, dirList) {
-        QString filePath = dir + QLatin1String("/welcome.html");
+        QString filePath = dir + QLatin1String("/index.cache.bz2");
         QFileInfo fi(filePath);
         if (fi.exists()) {
             uDebug() << "searching for" << filePath << "found";
@@ -78,11 +80,28 @@ QString UMLAppPrivate::findWelcomeFile()
  */
 QString UMLAppPrivate::readWelcomeFile(const QString &file)
 {
-    QFile f(file);
-    if (!f.open(QIODevice::ReadOnly))
+    QString html;
+    if (file.endsWith(QLatin1String(".cache.bz2"))) {
+        QIODevice *d =  KFilterDev::deviceForFile(file);
+        if (!d->open(QIODevice::ReadOnly)) {
+            uError() << "could not open archive " << file;
+            return QString();
+        }
+        QByteArray data = d->readAll();
+        html = QString::fromUtf8(data);
+        d->close();
+    } else {
+        QFile f(file);
+        if (!f.open(QIODevice::ReadOnly))
+            return QString();
+        QTextStream in(&f);
+        html = in.readAll();
+    }
+
+    if (html.isEmpty()) {
+        uError() << "Empty welcome page loaded" << file;
         return QString();
-    QTextStream in(&f);
-    QString html = in.readAll();
+    }
 
     html.replace(QLatin1String("<FILENAME filename=\"index.html\">"),QLatin1String(""));
     html.replace(QLatin1String("</FILENAME>"),QLatin1String(""));

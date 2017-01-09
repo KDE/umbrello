@@ -1891,6 +1891,9 @@ bool UMLApp::canDecode(const QMimeData* mimeData)
             //(the only valid clip types)
             return true;
         }
+        else if (!qstrnicmp(f,"text/plain", 10)) {
+            return true;
+        }
     }
     return false;
 }

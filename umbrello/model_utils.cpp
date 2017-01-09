@@ -866,7 +866,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         QString retType = pat.cap(1);
         retType = retType.trimmed();
         if (retType != QLatin1String("void")) {
-            UMLObject *pRetType = owningScope->findTemplate(retType);
+            UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : 0;
             if (pRetType == 0) {
                 pRetType = pDoc->findUMLObject(retType, UMLObject::ot_UMLObject, owningScope);
                 if (pRetType == 0)

@@ -92,12 +92,8 @@ bool UMLAttributeDialog::apply()
         ui->nameLE->setText(m_pAttribute->name());
         return false;
     }
-    m_pAttribute->setName(name);
+    m_pAttribute->blockSignals(true);
     ui->visibilityWidget->apply();
-
-    // Set the scope as the default in the option state
-    Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
-
     m_pAttribute->setInitialValue(ui->initialValueLE->text());
     ui->stereotypeWidget->apply();
     m_pAttribute->setStatic(ui->classifierScopeCB->isChecked());
@@ -107,6 +103,11 @@ bool UMLAttributeDialog::apply()
     }
     ui->dataTypeWidget->apply();
     ui->documentationWidget->apply();
+    m_pAttribute->blockSignals(false);
+    // trigger signals
+    m_pAttribute->setName(name);
 
+    // Set the scope as the default in the option state
+    Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
     return true;
 }

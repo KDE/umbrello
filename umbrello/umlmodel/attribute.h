@@ -50,7 +50,7 @@ public:
     QString getInitialValue() const;
     void setInitialValue(const QString &iv);
 
-    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;

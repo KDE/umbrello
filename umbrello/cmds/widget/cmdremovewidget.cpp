@@ -30,9 +30,11 @@ namespace Uml
 
         foreach(QGraphicsItem* item, widget->childItems()) {
             UMLWidget* child = dynamic_cast<UMLWidget*>(item);
-            QDomDocument doc;
-            m_children.append(doc.createElement(QLatin1String("child")));
-            child->saveToXMI(doc, m_children.back());
+            if (child != 0) {
+                QDomDocument doc;
+                m_children.append(doc.createElement(QLatin1String("child")));
+                child->saveToXMI(doc, m_children.back());
+            }
         }
 
         QDomDocument doc;

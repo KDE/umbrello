@@ -196,7 +196,7 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
  * @param sig       what type of operation string to show
  * @return          the string representation of the operation
  */
-QString UMLOperation::toString(Uml::SignatureType::Enum sig)
+QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
     QString s;
 
@@ -211,6 +211,11 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
     if (sig == Uml::SignatureType::NoSig || sig == Uml::SignatureType::NoSigNoVis) {
         if (parameterlessOpNeedsParentheses)
             s.append(QLatin1String("()"));
+        if (withStereotype) {
+            QString st = stereotype(true);
+            if (!st.isEmpty())
+                s += QLatin1Char(' ') + st;
+        }
         return s;
     }
     int last = m_List.count();
@@ -219,7 +224,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
         int i = 0;
         foreach (UMLAttribute *param, m_List) {
             i++;
-            s.append(param->toString(Uml::SignatureType::SigNoVis));
+            s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
                 s.append(QLatin1String(", "));
         }
@@ -245,6 +250,11 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
         } else {
             s += returnType;
         }
+    }
+    if (withStereotype) {
+        QString st = stereotype(true);
+        if (!st.isEmpty())
+            s += QLatin1Char(' ') + st;
     }
     return s;
 }
@@ -358,6 +368,8 @@ bool UMLOperation::isConstructorOperation()
         return true;
 
     UMLClassifier * c = umlParent()->asUMLClassifier();
+    if (!c)
+        return false;
     QString cName = c->name();
     QString opName = name();
     // It's a constructor operation if the operation name
@@ -375,7 +387,8 @@ bool UMLOperation::isDestructorOperation()
     if (stereotype() == QLatin1String("destructor"))
         return true;
     UMLClassifier * c = umlParent()->asUMLClassifier();
-
+    if (!c)
+        return false;
     QString cName = c->name();
     QString opName = name();
     // Special support for C++ syntax:

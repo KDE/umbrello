@@ -1354,7 +1354,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
             bool found = false;
             //make sure that an attribute with the same name doesn't already exist
             foreach (UMLAttribute *at, atl) {
-                uIgnoreZeroPointer(a);
+                uIgnoreZeroPointer(at);
                 if (at->name() == roleNameB) {
                     found = true;
                     break;

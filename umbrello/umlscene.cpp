@@ -26,6 +26,7 @@
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatype.h"
+#include "diagram_utils.h"
 #include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
@@ -1184,8 +1185,9 @@ void UMLScene::removeOwnedWidgets(UMLWidget* o)
 {
     foreach(QGraphicsItem* item, o->childItems()) {
         UMLWidget* widget = dynamic_cast<UMLWidget*>(item);
-        if (widget->isPinWidget() ||
-            widget->isPortWidget()) {
+        if ((widget != 0) &&
+            (widget->isPinWidget() ||
+             widget->isPortWidget())) {
             removeWidgetCmd(widget);
         }
     }
@@ -2423,7 +2425,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->isUMLDatatype()) {
         UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
-        while (dt->originType() != 0) {
+        while (dt && dt->originType() != 0) {
             tmpUmlObj = dt->originType();
             if (!tmpUmlObj->isUMLDatatype())
                 break;
@@ -2490,7 +2492,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     if (type->isUMLDatatype()) {
         UMLDatatype *dt = type->asUMLDatatype();
         // if the Datatype is a reference (pointer) type
-        if (dt->isReference()) {
+        if (dt && dt->isReference()) {
             //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
             UMLClassifier *c = dt->originType();
             UMLWidget *w = c ? findWidget(c->id()) : 0;
@@ -3112,7 +3114,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         dialog->exec();
         QUrl url = dialog->selectedUrl();
         if (!url.isEmpty())
-            if (!Import_Utils::importStackTrace(url.toLocalFile(), this))
+            if (!Diagram_Utils::importSequences(url.toLocalFile(), this))
                 UMLApp::app()->slotStatusMsg(i18n("Failed to import stack trace."));
         break;
     }

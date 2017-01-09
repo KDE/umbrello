@@ -413,11 +413,15 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::B));
+            classifier = a->getObject(Uml::RoleType::B)->asUMLClassifier();
+            if (classifier == 0)
+                continue;
             writeUse(classifier);
         } else if (a->getObjectId(Uml::RoleType::B) == myId
                    && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::A));
+            classifier = a->getObject(Uml::RoleType::A)->asUMLClassifier();
+            if (classifier == 0)
+                continue;
             if (classifier->package().isEmpty())
                 writeCode(QLatin1String("namespace eval ") + cleanName(classifier->name()) +
                           QLatin1String(" {}"));

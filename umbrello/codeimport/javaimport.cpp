@@ -18,6 +18,7 @@
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
+#include "object_factory.h"
 #include "operation.h"
 #include "package.h"
 #include "uml.h"
@@ -393,6 +394,22 @@ bool JavaImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
+        // handle type mismatch
+        if (ns && enumType == 0) {
+            QString comment = ns->doc();
+            QString stereotype = ns->stereotype();
+            Uml::Visibility::Enum visibility = ns->visibility();
+            UMLApp::app()->document()->removeUMLObject(ns, true);
+            ns = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope(), false);
+            ns->setDoc(comment);
+            ns->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+            ns->setVisibilityCmd(visibility);
+            // add to parents child list
+            if (!currentScope()->containedObjects().contains(ns))
+                currentScope()->containedObjects().append(ns);
+            enumType = ns->asUMLEnum();
+        }
+
         skipStmt(QLatin1String("{"));
         while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("}")) {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);

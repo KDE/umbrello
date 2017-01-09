@@ -523,7 +523,8 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
     }
 
     // check if this constraint already exists as a unique constraint for this entity
-    UMLUniqueConstraint* uuc = findChildObjectById(uconstr->id())->asUMLUniqueConstraint();
+    UMLObject *o = findChildObjectById(uconstr->id());
+    UMLUniqueConstraint* uuc = o ? o->asUMLUniqueConstraint() : 0;
     if (uuc == 0) {
         addConstraint(uconstr);
         uuc = uconstr;

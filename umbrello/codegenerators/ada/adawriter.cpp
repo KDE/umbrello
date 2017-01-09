@@ -712,7 +712,7 @@ void AdaWriter::finalizeRun()
                 if (forceSections() || atl.count()) {
                     ada << indent() << "-- Attributes:" << m_endl;
                     foreach (UMLAttribute* at, atl) {
-                        if (at->isStatic())
+                        if (!at || at->isStatic())
                             continue;
                         ada << indent() << cleanName(at->name()) << " : "
                         << at->getTypeName();

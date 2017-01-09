@@ -76,10 +76,11 @@ void UMLEnumLiteral::setValue(const QString &v)
  * @param sig   If true will show the attribute type and value.
  * @return  Returns a string representation of the UMLEnumLiteral.
  */
-QString UMLEnumLiteral::toString(Uml::SignatureType::Enum sig)
+QString UMLEnumLiteral::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
     QString s;
     Q_UNUSED(sig);
+    Q_UNUSED(withStereotype);
 
     s = name();
     if (m_Value.length() > 0)

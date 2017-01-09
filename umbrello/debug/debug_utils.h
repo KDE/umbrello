@@ -118,6 +118,25 @@ private:
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 
+/**
+  Check a pointer and return 0 if it is zero.
+
+  This macros is implemented as asm code to prevent
+  removing by gcc optimizer for example in class methods
+  where 'this' pointer is attributed as "nonnull".
+
+  @param p pointer to check
+  @return returns 0 is pointer is zero
+*/
+#define uCheckPointerAndReturnIfZero(p) \
+    asm goto ("test %0,%0; jne %l[next]" \
+              : /* No outputs. */ \
+              : "r"(p) \
+              : \
+              : next); \
+         return 0; \
+       next:
+
 
 /**
  * In a Q_OBJECT class define any enum as Q_ENUMS.

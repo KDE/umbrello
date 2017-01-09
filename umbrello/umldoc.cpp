@@ -89,6 +89,7 @@ UMLDoc::UMLDoc()
     m_doc_url(QUrl()),
     m_pChangeLog(0),
     m_bLoading(false),
+    m_importing(false),
     m_Doc(QString()),
     m_pAutoSaveTimer(0),
     m_nViewID(Uml::ID::None),
@@ -1346,6 +1347,23 @@ void UMLDoc::setLoading(bool state /* = true */)
 }
 
 /**
+ * Returns true when importing file(s).
+ * @return the value of the flag
+ */
+bool UMLDoc::importing() const
+{
+    return m_importing;
+}
+/**
+ * Sets importing boolean flag to the value given.
+ * @param state   value to set
+ */
+void UMLDoc::setImporting(bool state /* = true */)
+{
+    m_importing = state;
+}
+
+/**
  * Returns the m_bClosing flag.
  * @return the value of the flag
  */
@@ -1604,7 +1622,7 @@ UMLFolder *UMLDoc::currentRoot()
         return 0;
     }
     UMLFolder *f = currentView->umlScene()->folder();
-    while (f->umlPackage()) {
+    while (f && f->umlPackage()) {
         f = f->umlParent()->asUMLFolder();
     }
     return f;
