@@ -1520,7 +1520,7 @@ void UMLDoc::setLoading(bool state /* = true */)
 }
 
 /**
- * Returns true when loading a document file.
+ * Returns true when importing file(s).
  * @return the value of the flag
  */
 bool UMLDoc::importing() const
