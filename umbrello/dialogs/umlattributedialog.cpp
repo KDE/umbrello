@@ -126,18 +126,18 @@ bool UMLAttributeDialog::apply()
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
-    m_pAttribute->setName(name);
+    m_pAttribute->blockSignals(true);
     m_visibilityEnumWidget->apply();
-
-    // Set the scope as the default in the option state
-    Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
-
     m_pAttribute->setInitialValue(m_pInitialLE->text());
     m_stereotypeWidget->apply();
     m_pAttribute->setStatic(m_pStaticCB->isChecked());
-
     m_datatypeWidget->apply();
     m_docWidget->apply();
+    m_pAttribute->blockSignals(false);
+    // trigger signals
+    m_pAttribute->setName(name);
 
+    // Set the scope as the default in the option state
+    Settings::optionState().classState.defaultAttributeScope = m_pAttribute->visibility();
     return true;
 }

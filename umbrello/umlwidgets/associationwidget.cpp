@@ -1111,10 +1111,7 @@ Visibility::Enum AssociationWidget::visibility(Uml::RoleType::Enum role) const
  */
 void AssociationWidget::setVisibility(Visibility::Enum value, Uml::RoleType::Enum role)
 {
-    if (value == visibility(role)) {
-        return;
-    }
-    if (m_umlObject) {
+    if (value != visibility(role) && m_umlObject) {
         // update our model object
         const UMLObject::ObjectType ot = m_umlObject->baseType();
         if (ot == UMLObject::ot_Association) {
