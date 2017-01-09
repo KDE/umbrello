@@ -26,6 +26,7 @@
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatype.h"
+#include "diagram_utils.h"
 #include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
@@ -3112,7 +3113,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         dialog->exec();
         QUrl url = dialog->selectedUrl();
         if (!url.isEmpty())
-            if (!Import_Utils::importStackTrace(url.toLocalFile(), this))
+            if (!Diagram_Utils::importSequences(url.toLocalFile(), this))
                 UMLApp::app()->slotStatusMsg(i18n("Failed to import stack trace."));
         break;
     }

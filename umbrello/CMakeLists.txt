@@ -440,6 +440,7 @@ set(umbrellobase_SRCS
     birdview.cpp
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
+    diagram_utils.cpp
     objectswindow.cpp
     docwindow.cpp
     dotgenerator.cpp

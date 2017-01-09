@@ -13,9 +13,9 @@
 
 // local includes
 #include "debug_utils.h"
+#include "diagram_utils.h"
 #include "umldragdata.h"
 #include "idchangelog.h"
-#include "import_utils.h"
 #include "associationwidget.h"
 #include "attribute.h"
 #include "classifier.h"
@@ -199,7 +199,7 @@ bool UMLClipboard::paste(const QMimeData* data)
     if (codingType == 6
             && UMLApp::app()->currentView()
             && UMLApp::app()->currentView()->umlScene()->type() == Uml::DiagramType::Sequence) {
-        return Import_Utils::importStackTrace(data, UMLApp::app()->currentView()->umlScene());
+        return Diagram_Utils::importSequences(data, UMLApp::app()->currentView()->umlScene());
     }
     QString mimeType = QLatin1String("application/x-uml-clip") + QString::number(codingType);
     uDebug() << "Pasting mimeType=" << mimeType << "data=" << data->data(mimeType);
