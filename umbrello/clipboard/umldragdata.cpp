@@ -878,6 +878,9 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     if (mimeData->hasFormat(QLatin1String("application/x-uml-clip5"))) {
         result = 5;
     }
+    if (mimeData->hasFormat(QLatin1String("text/plain"))) {
+        result = 6;
+    }
     return result;
 }
 
