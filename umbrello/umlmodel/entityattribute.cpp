@@ -166,8 +166,9 @@ void UMLEntityAttribute::setNull(const bool nullIn)
  * @param sig   If true will show the entityattribute type and initial value.
  * @return  Returns a string representation of the UMLEntityAttribute.
  */
-QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig)
+QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
+    Q_UNUSED(withStereotype);
     QString s;
     //FIXME
 

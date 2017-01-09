@@ -40,7 +40,7 @@ public:
 
     virtual ~UMLTemplate();
 
-    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
 
     virtual QString getTypeName() const;
 

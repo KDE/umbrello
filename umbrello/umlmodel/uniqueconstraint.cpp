@@ -109,7 +109,7 @@ UMLObject* UMLUniqueConstraint::clone() const
  * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig)
+QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
      QString s;
 
