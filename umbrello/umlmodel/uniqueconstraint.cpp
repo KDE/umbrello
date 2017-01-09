@@ -111,7 +111,8 @@ UMLObject* UMLUniqueConstraint::clone() const
  */
 QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
-     QString s;
+    Q_UNUSED(withStereotype);
+    QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + QLatin1Char(':');
