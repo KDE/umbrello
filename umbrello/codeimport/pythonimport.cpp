@@ -313,8 +313,15 @@ bool PythonImport::parseStmt()
             m_comment = QString();
         }
 
-        const QString& name = advance();
-        // operation
+        QString name = advance();
+        Uml::Visibility::Enum visibility = Uml::Visibility::Public;
+        if (name.startsWith(QLatin1String("__"))) {
+            name = name.mid(2);
+            visibility = Uml::Visibility::Private;
+        } else if (name.startsWith(QLatin1String("_"))) {
+            name = name.mid(1);
+            visibility = Uml::Visibility::Protected;
+        }
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != QLatin1String("(")) {
             uError() << "importPython def " << name << ": expecting \"(\"";
@@ -336,7 +343,7 @@ bool PythonImport::parseStmt()
             if (advance() != QLatin1String(","))
                 break;
         }
-        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, QLatin1String("string"),
+        Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isStatic = false;

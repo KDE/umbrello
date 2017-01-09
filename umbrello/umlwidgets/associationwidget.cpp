@@ -446,26 +446,6 @@ void AssociationWidget::showPropertiesDialog()
     UMLApp::app()->docWindow()->updateDocumentation();
     QPointer<AssociationPropertiesDialog> dlg = new AssociationPropertiesDialog(static_cast<QWidget*>(m_scene->activeView()), this);
     if (dlg->exec()) {
-        //rules built into these functions to stop updating incorrect values
-        setName(name());
-
-        setRoleName(roleName(RoleType::A), RoleType::A);
-        setRoleName(roleName(RoleType::B), RoleType::B);
-
-        setDocumentation(documentation());
-
-        setRoleDocumentation(roleDocumentation(RoleType::A), RoleType::A);
-        setRoleDocumentation(roleDocumentation(RoleType::B), RoleType::B);
-
-        setMultiplicity(multiplicity(RoleType::A), RoleType::A);
-        setMultiplicity(multiplicity(RoleType::B), RoleType::B);
-
-        setVisibility(visibility(RoleType::A), RoleType::A);
-        setVisibility(visibility(RoleType::B), RoleType::B);
-
-        setChangeability(changeability(RoleType::A), RoleType::A);
-        setChangeability(changeability(RoleType::B), RoleType::B);
-
         UMLApp::app()->docWindow()->showDocumentation(this, true);
     }
     delete dlg;
@@ -1129,16 +1109,21 @@ Visibility::Enum AssociationWidget::visibility(Uml::RoleType::Enum role) const
  */
 void AssociationWidget::setVisibility(Visibility::Enum value, Uml::RoleType::Enum role)
 {
-    if (value == visibility(role)) {
-        return;
-    }
-    if (m_umlObject) {
+    if (value != visibility(role) && m_umlObject) {
         // update our model object
         const UMLObject::ObjectType ot = m_umlObject->baseType();
-        if (ot == UMLObject::ot_Association)
-            association()->setVisibility(value, role);
-        else if (ot == UMLObject::ot_Attribute)
-            attribute()->setVisibility(value);
+        if (ot == UMLObject::ot_Association) {
+            UMLAssociation *a = association();
+            a->blockSignals(true);
+            a->setVisibility(value, role);
+            a->blockSignals(false);
+        }
+        else if (ot == UMLObject::ot_Attribute) {
+            UMLAttribute *a = attribute();
+            a->blockSignals(true);
+            a->setVisibility(value);
+            a->blockSignals(false);
+        }
     }
     m_role[role].visibility = value;
     // update role pre-text attribute as appropriate

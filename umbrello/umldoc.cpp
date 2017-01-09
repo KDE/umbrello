@@ -110,6 +110,7 @@ UMLDoc::UMLDoc()
 #endif
     m_pChangeLog(0),
     m_bLoading(false),
+    m_importing(false),
     m_Doc(QString()),
     m_pAutoSaveTimer(0),
     m_nViewID(Uml::ID::None),
@@ -1513,6 +1514,23 @@ bool UMLDoc::loading() const
 void UMLDoc::setLoading(bool state /* = true */)
 {
     m_bLoading = state;
+}
+
+/**
+ * Returns true when importing file(s).
+ * @return the value of the flag
+ */
+bool UMLDoc::importing() const
+{
+    return m_importing;
+}
+/**
+ * Sets importing boolean flag to the value given.
+ * @param state   value to set
+ */
+void UMLDoc::setImporting(bool state /* = true */)
+{
+    m_importing = state;
 }
 
 /**

@@ -51,14 +51,22 @@ UMLTemplate::~UMLTemplate()
 {
 }
 
-QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
+QString UMLTemplate::toString(Uml::SignatureType::Enum sig, bool withStereotype)
 {
     Q_UNUSED(sig);
+    QString s;
+
     if (m_pSecondary == 0 || m_pSecondary->name() == QLatin1String("class")) {
-        return name();
+        s = name();
     } else {
-        return name() + QLatin1String(" : ") + m_pSecondary->name();
+        s = name() + QLatin1String(" : ") + m_pSecondary->name();
     }
+    if (withStereotype) {
+        QString st = stereotype(true);
+        if (!st.isEmpty())
+            s += QLatin1String(" ") + st;
+    }
+    return s;
 }
 
 /**

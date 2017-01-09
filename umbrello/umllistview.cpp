@@ -1190,7 +1190,7 @@ void UMLListView::setDocument(UMLDoc *doc)
  */
 void UMLListView::slotObjectRemoved(UMLObject* object)
 {
-    if (m_doc->loading()) { //needed for class wizard
+    if (m_doc->loading() && !m_doc->importing()) { //needed for class wizard but not when importing
         return;
     }
     disconnect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
