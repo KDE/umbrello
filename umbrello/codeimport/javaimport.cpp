@@ -307,6 +307,14 @@ bool JavaImport::parseStmt()
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
+        // The name is already used but is package
+        if (ns && ns->isUMLPackage() && !m_klass) {
+            ns = Object_Factory::createNewUMLObject(ot, name, ns->asUMLPackage());
+            ns->setDoc(m_comment);
+            m_klass = ns->asUMLClassifier();
+            m_klass->setUMLPackage(currentScope());
+            currentScope()->containedObjects().append(m_klass);
+        }
         pushScope(m_klass);
         m_klass->setStatic(m_isStatic);
         m_klass->setVisibilityCmd(m_currentAccess);
