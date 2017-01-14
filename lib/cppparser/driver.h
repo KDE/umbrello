@@ -21,7 +21,6 @@
 
 #include "ast.h"
 
-#include "debug_utils.h"
 #include "macro.h"
 #include <qpair.h>
 #include <QStringList>
@@ -110,7 +109,6 @@ public:
 
     TranslationUnitAST* operator -> () const
     {
-        uCheckPointerAndReturnIfZero(this);
         return (TranslationUnitAST*)m_translationUnit.data();
     }
 
