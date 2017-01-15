@@ -13,6 +13,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "assocrules.h"
 #include "debug_utils.h"
 #include "messagewidget.h"
 #include "floatingdashlinewidget.h"
