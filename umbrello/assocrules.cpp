@@ -48,7 +48,7 @@ AssocRules::~AssocRules()
  * Returns whether an association is going to be allowed for the given
  * values. This method is used to test if you can start an association.
  */
-bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget)
+bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget, bool allowBidirectonal)
 {
     WidgetBase::WidgetType widgetType = widget->baseType();
     bool bValid = false;
@@ -59,7 +59,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
         if (assocType != rule.assoc_type)
             continue;
         if (widgetType == rule.widgetA_type ||
-            (widgetType == rule.widgetB_type && rule.bidirectional)) {
+            ((allowBidirectonal && widgetType == rule.widgetB_type && rule.bidirectional))) {
             bValid =  true;
             break;
         }

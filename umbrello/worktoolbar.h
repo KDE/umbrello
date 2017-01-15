@@ -13,6 +13,7 @@
 
 #include "basictypes.h"
 
+#include <KAction>
 #include <ktoolbar.h>
 
 #include <QCursor>
@@ -20,7 +21,6 @@
 #include <QPixmap>
 
 class QMainWindow;
-class KAction;
 
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
@@ -119,6 +119,8 @@ public:
         tbb_Category2Parent,
         tbb_Child2Category
     };
+
+    KAction* button(ToolBar_Buttons tbb) { return m_actions[tbb]; }
 
 private:
 

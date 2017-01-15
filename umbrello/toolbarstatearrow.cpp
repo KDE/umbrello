@@ -13,6 +13,8 @@
 
 // app includes
 #include "associationwidget.h"
+#include "assocrules.h"
+#include "uml.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -62,6 +64,19 @@ void ToolBarStateArrow::mousePressAssociation()
 void ToolBarStateArrow::mousePressWidget()
 {
     currentWidget()->mousePressEvent(m_pMouseEvent);
+    QMap<Uml::AssociationType::Enum,WorkToolBar::ToolBar_Buttons> associations;
+    associations[Uml::AssociationType::Association] = WorkToolBar::tbb_Association;
+    associations[Uml::AssociationType::UniAssociation] = WorkToolBar::tbb_UniAssociation;
+    associations[Uml::AssociationType::Dependency] = WorkToolBar::tbb_Dependency;
+    associations[Uml::AssociationType::Aggregation] = WorkToolBar::tbb_Aggregation;
+    associations[Uml::AssociationType::Composition] = WorkToolBar::tbb_Composition;
+    associations[Uml::AssociationType::Containment] = WorkToolBar::tbb_Containment;
+    associations[Uml::AssociationType::Generalization] = WorkToolBar::tbb_Generalization;
+
+    foreach(Uml::AssociationType::Enum key, associations.keys()) {
+        bool allowed = AssocRules::allowAssociation(key, currentWidget());
+        UMLApp::app()->workToolBar()->button(associations[key])->setEnabled(allowed);
+    }
 }
 
 /**
@@ -71,6 +86,18 @@ void ToolBarStateArrow::mousePressWidget()
  */
 void ToolBarStateArrow::mousePressEmpty()
 {
+    QMap<Uml::AssociationType::Enum,WorkToolBar::ToolBar_Buttons> associations;
+    associations[Uml::AssociationType::Association] = WorkToolBar::tbb_Association;
+    associations[Uml::AssociationType::UniAssociation] = WorkToolBar::tbb_UniAssociation;
+    associations[Uml::AssociationType::Dependency] = WorkToolBar::tbb_Dependency;
+    associations[Uml::AssociationType::Aggregation] = WorkToolBar::tbb_Aggregation;
+    associations[Uml::AssociationType::Composition] = WorkToolBar::tbb_Composition;
+    associations[Uml::AssociationType::Containment] = WorkToolBar::tbb_Containment;
+    associations[Uml::AssociationType::Generalization] = WorkToolBar::tbb_Generalization;
+
+    foreach(Uml::AssociationType::Enum key, associations.keys())
+        UMLApp::app()->workToolBar()->button(associations[key])->setEnabled(true);
+
     if (!m_pMouseEvent)
         return;
 
