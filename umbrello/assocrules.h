@@ -41,8 +41,9 @@ public:
 
     static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
+    typedef enum {All} Language;
+
 private:
-    enum class Language {All} ;
     class Assoc_Rule {  ///< Structure to help determine association rules.
     public:
         bool isValid() const;

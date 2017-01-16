@@ -390,8 +390,6 @@ Uml::AssociationType::Enum AssocRules::isGeneralisationOrRealisation(UMLWidget* 
     return Uml::AssociationType::Generalization;
 }
 
-using AssocRules::Language;
-
 AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     // Language  Association                       widgetA                    widgetB                     role    multi   bidir.  self
     //----+---------------------------------------+--------------------------+---------------------------+-------+-------+-------+--------
@@ -529,7 +527,7 @@ int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Ru
 
 bool AssocRules::Assoc_Rule::isValid() const
 {
-    if (language == Any)
+    if (language == All)
         return true;
     else
         return false;
