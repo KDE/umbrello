@@ -42,8 +42,11 @@ public:
     static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
 private:
-
-    struct Assoc_Rule {  ///< Structure to help determine association rules.
+    enum class Language {All} ;
+    class Assoc_Rule {  ///< Structure to help determine association rules.
+    public:
+        bool isValid() const;
+        Language language;                 ///< language rule applies to
         Uml::AssociationType::Enum assoc_type;   ///< association type
         WidgetBase::WidgetType widgetA_type;    ///< type of role A widget
         WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
