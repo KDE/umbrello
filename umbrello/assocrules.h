@@ -29,7 +29,7 @@ public:
     AssocRules();
     ~AssocRules();
 
-    static bool allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget, bool allowBidirectonal = true);
+    static bool allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget);
     static bool allowAssociation(Uml::AssociationType::Enum assocType,
                                   UMLWidget * widgetA, UMLWidget * widgetB);
 
