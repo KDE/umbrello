@@ -340,7 +340,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param multi    True if multiple items are selected.
  * @param uniqueType The type of widget shared by all selected widgets
  */
-ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType)
 #if QT_VERSION >= 0x050000
     : QMenu(parent),
 #else
@@ -348,28 +348,29 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, 
 #endif
     m_isListView(false)
 {
-    m_TriggerObject.m_Widget = object;
+    m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
 
-    if (!object)
+    if (!widget)
         return;
 
     if (multi) {
         insertMultiSelectionMenu(uniqueType);
     } else {
-        insertSingleSelectionMenu(object);
+        insertSingleSelectionMenu(widget);
     }
 
     bool bCutState = UMLApp::app()->isCutCopyState();
     setActionEnabled(mt_Cut, bCutState);
     setActionEnabled(mt_Copy, bCutState);
     bool pasteAvailable = false;
-    if (object->isNoteWidget() &&
+    if (widget->isNoteWidget() &&
             UMLApp::app()->listView()->startedCopy()) {
-        NoteWidget::s_pCurrentNote = object->asNoteWidget();
+        NoteWidget::s_pCurrentNote = widget->asNoteWidget();
         pasteAvailable = true;
     }
     setActionEnabled(mt_Paste, pasteAvailable);
+    setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
 
