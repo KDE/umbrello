@@ -167,6 +167,9 @@ public:
     virtual QFont font() const;
     virtual void setFont(const QFont& font);
 
+    bool autoResize();
+    void setAutoResize(bool state);
+
     virtual void showPropertiesDialog();
 
     virtual bool loadFromXMI(QDomElement &qElement);
@@ -287,6 +290,7 @@ protected:
     bool m_usesDiagramFillColor;
     bool m_usesDiagramUseFillColor;
     bool m_usesDiagramLineWidth;
+    bool m_autoResize;
 };
 
 #endif

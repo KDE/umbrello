@@ -229,6 +229,7 @@ public:
         mt_SnapToGrid,
         mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
+        mt_AutoResize,
         mt_Resize,
         mt_Activity_Selected,
         mt_New_Activity,

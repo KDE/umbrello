@@ -89,6 +89,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
     setupMenu(type);
+    setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
 
@@ -981,7 +982,10 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
         insert(mt_Clone);
     insert(mt_Delete);
     if (!m_isListView)
+    {
         insert(mt_Resize, i18n("Resize"));
+        insert(mt_AutoResize, i18n("Auto resize"), CHECKABLE);
+    }
 }
 
 /**

@@ -569,6 +569,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             m_moved = false;
         } else {
             UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
+            m_autoResize = false;
             m_resized = false;
         }
 
@@ -795,6 +796,11 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     switch (sel) {
     case ListPopupMenu::mt_Resize:
         umlScene()->resizeSelection();
+        break;
+
+    case ListPopupMenu::mt_AutoResize:
+        setAutoResize(trigger->isChecked());
+        updateGeometry();
         break;
 
     default:
@@ -1575,6 +1581,8 @@ void UMLWidget::updateGeometry()
     if (m_doc->loading()) {
         return;
     }
+    if (!m_autoResize)
+        return;
     qreal oldW = width();
     qreal oldH = height();
     QSizeF size = calculateSize();

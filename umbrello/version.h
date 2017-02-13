@@ -30,9 +30,9 @@ inline QByteArray umbrelloVersion()
 
 // Update this version when changing the XMI file format
 #if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
-#define XMI_FILE_VERSION "1.6.11"
+#define XMI_FILE_VERSION "1.6.12"
 #else
-#define XMI_FILE_VERSION "1.6.10"
+#define XMI_FILE_VERSION "1.6.11"
 #endif
 
 #endif
