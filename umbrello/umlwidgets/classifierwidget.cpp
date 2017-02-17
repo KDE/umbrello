@@ -45,7 +45,8 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
-    m_pAssocWidget(0), m_pInterfaceName(0)
+    m_pAssocWidget(0),
+    m_pInterfaceName(0)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);

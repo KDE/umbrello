@@ -23,9 +23,9 @@
 #include <KMessageBox>
 
 UMLInstance::UMLInstance(const QString &name, Uml::ID::Type id)
-    : UMLClassifier(name, id)
+  : UMLClassifier(name, id)
 {
-      m_BaseType = UMLObject::ot_Instance;
+    m_BaseType = UMLObject::ot_Instance;
 }
 
 
