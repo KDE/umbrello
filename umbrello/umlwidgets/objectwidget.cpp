@@ -160,21 +160,6 @@ void ObjectWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
-    case ListPopupMenu::mt_Rename_Object:
-        {
-            QString name = m_instanceName;
-            bool ok = Dialog_Utils::askName(i18n("Rename Object"),
-                                            i18n("Enter object name:"),
-                                            name);
-            if (ok) {
-                m_instanceName = name;
-                updateGeometry();
-                moveEvent(0);
-                update();
-                UMLApp::app()->document()->setModified(true);
-            }
-            break;
-        }
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         updateGeometry();

@@ -16,6 +16,7 @@
 #include "classpropertiesdialog.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "idchangelog.h"
@@ -802,6 +803,21 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         setAutoResize(trigger->isChecked());
         updateGeometry();
         break;
+
+    case ListPopupMenu::mt_Rename_Object: {
+        QString name = m_instanceName;
+        bool ok = Dialog_Utils::askName(i18n("Rename Object"),
+                                        i18n("Enter object name:"),
+                                        name);
+        if (ok) {
+            m_instanceName = name;
+            updateGeometry();
+            moveEvent(0);
+            update();
+            UMLApp::app()->document()->setModified(true);
+        }
+        break;
+    }
 
     default:
         WidgetBase::slotMenuSelection(trigger);
