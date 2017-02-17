@@ -65,6 +65,7 @@ set(ICONS
     #diag_entityrelationship
     #diag_sequence
     #diag_state
+    diag_object
     #diag_usecase
     distribute-horizontal
     distribute-vertical
