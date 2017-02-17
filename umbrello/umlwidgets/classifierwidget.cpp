@@ -551,7 +551,8 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (numAtts > 0) {
             height += fontHeight * numAtts;
             // calculate width of the attributes
-            UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
+            UMLClassifierListItemList list = umlc->getFilteredList(
+                        m_umlObject->isUMLInstance() ? UMLObject::ot_InstanceAttribute : UMLObject::ot_Attribute);
             foreach (UMLClassifierListItem *a, list) {
                 if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                     continue;
