@@ -443,7 +443,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_Instance:
         insert(mt_InstanceAttribute);
         insert(mt_Rename, i18n("Rename Class..."));
-        insert(mt_Rename_Object, i18n("Rename Object..."));
+        insert(mt_Rename_Object);
         insertStdItems(true, type);
         insert(mt_Change_Font);
         insert(mt_Properties);
@@ -508,7 +508,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
             }
             insertStdItems(true, type);
             insert(mt_Rename, i18n("Rename Class..."));
-            insert(mt_Rename_Object, i18n("Rename Object..."));
+            insert(mt_Rename_Object);
             insert(mt_Change_Font);
             insert(mt_Properties);
         }
@@ -759,6 +759,9 @@ void ListPopupMenu::insert(MenuType m)
         break;
     case mt_Rename:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
+        break;
+    case mt_Rename_Object:
+        insert(m, i18n("Rename Object..."));
         break;
     case mt_Show:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
