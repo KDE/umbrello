@@ -118,7 +118,8 @@ public:
         tbb_PrePostCondition,
         tbb_Category,
         tbb_Category2Parent,
-        tbb_Child2Category
+        tbb_Child2Category,
+        tbb_Instance
     };
 
 private:
@@ -221,6 +222,7 @@ public slots:
     void slotCategory();
     void slotCategory2Parent();
     void slotChild2Category();
+    void slotInstance();
 };
 
 #endif

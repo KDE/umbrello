@@ -40,6 +40,8 @@ class UMLEnum;
 class UMLEnumLiteral;
 class UMLFolder;
 class UMLForeignKeyConstraint;
+class UMLInstance;
+class UMLInstanceAttribute;
 class UMLNode;
 class UMLOperation;
 class UMLPackage;
@@ -84,6 +86,7 @@ public:
         ot_Datatype,
         ot_Enum,
         ot_Class,
+        ot_Instance,
         ot_Association,
         ot_Attribute,
         ot_Operation,
@@ -102,7 +105,8 @@ public:
         ot_ForeignKeyConstraint,
         ot_CheckConstraint,
         ot_Category,
-        ot_Port
+        ot_Port,
+        ot_InstanceAttribute
     };
 
     static QString toString(ObjectType ot);
@@ -157,6 +161,10 @@ public:
     void setNameCmd(const QString &strName) ;
     QString name() const;
 
+    virtual void setInstanceName(const QString &strName);
+    void setInstanceNameCmd(const QString &strName);
+    QString instanceName() const;
+
     virtual QString fullyQualifiedName(const QString& separator = QString(),
                                        bool includeRoot = false) const;
 
@@ -204,6 +212,8 @@ public:
     bool isUMLEnumLiteral() { return baseType() == ot_EnumLiteral; }
     bool isUMLFolder() { return baseType() == ot_Folder; }
     bool isUMLForeignKeyConstraint() { return baseType() == ot_ForeignKeyConstraint; }
+    bool isUMLInstance() { return baseType() == ot_Instance; }
+    bool isUMLInstanceAttribute() { return baseType() == ot_InstanceAttribute; }
     bool isUMLNode() { return baseType() == ot_Node; }
     bool isUMLObject() { return baseType() == ot_UMLObject; }
     bool isUMLOperation() { return baseType() == ot_Operation; }
@@ -234,6 +244,8 @@ public:
     UMLEnumLiteral* asUMLEnumLiteral();
     UMLFolder* asUMLFolder();
     UMLForeignKeyConstraint* asUMLForeignKeyConstraint();
+    UMLInstance* asUMLInstance();
+    UMLInstanceAttribute* asUMLInstanceAttribute();
     UMLNode* asUMLNode();
     UMLObject* asUMLObject();
     UMLOperation* asUMLOperation();
@@ -262,6 +274,7 @@ protected:
     QString                m_Doc;          ///< object's documentation
     QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
+    QString m_instanceName; ///< objects instance
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not

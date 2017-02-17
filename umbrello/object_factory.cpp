@@ -29,6 +29,7 @@
 #include "entity.h"
 #include "folder.h"
 #include "foreignkeyconstraint.h"
+#include "instance.h"
 #include "model_utils.h"
 #include "node.h"
 #include "package.h"
@@ -135,6 +136,9 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             o = c;
             break;
         }
+        case UMLObject::ot_Instance:
+            o = new UMLInstance(name, g_predefinedId);
+            break;
         case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
             break;
@@ -251,7 +255,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                                i18n("Reserved Keyword"));
             continue;
         }
-        if (! doc->isUnique(name, parentPkg)) {
+        if (! doc->isUnique(name, parentPkg) && type != UMLObject::ot_Instance) {
             KMessageBox::error(0, i18n("That name is already being used."),
                                i18n("Not a Unique Name"));
             continue;
@@ -305,6 +309,13 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
          }
          break;
         }
+    case UMLObject::ot_InstanceAttribute: {
+        UMLInstance *c = parent->asUMLInstance();
+        if(c){
+            returnObject = c->createAttribute(name);
+        }
+        break;
+    }
     case UMLObject::ot_Operation: {
             UMLClassifier *c = parent->asUMLClassifier();
             if (c)
@@ -365,6 +376,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLActor();
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Class"))) {
         pObject = new UMLClassifier();
+    } else if(UMLDoc::tagEq(xmiTag, QLatin1String("Instance"))) {
+        pObject = new UMLInstance();
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Package"))) {
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();

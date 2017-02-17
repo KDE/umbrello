@@ -198,6 +198,7 @@ set(libdialogs_SRCS
     dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
+    dialogs/umlinstanceattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
     dialogs/umlenumliteraldialog.cpp
@@ -248,6 +249,7 @@ ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/codeimportoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/umlrolepropertiesbase.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlinstanceattributedialog.ui
 )
 
 set(librefactoring_SRCS
@@ -327,6 +329,7 @@ set(libcmds_SRCS
     cmds/generic/cmdcreateumlobject.cpp
     cmds/generic/cmdremoveumlobject.cpp
     cmds/generic/cmdrenameumlobject.cpp
+    cmds/generic/cmdrenameumlobjectinstance.cpp
     cmds/widget/cmdbasewidgetcommand.cpp
     cmds/widget/cmdchangefont.cpp
     cmds/widget/cmdchangetextcolor.cpp
@@ -432,6 +435,8 @@ set(libuml_SRCS
     umlmodel/umlrole.cpp
     umlmodel/usecase.cpp
     umlmodel/uniqueconstraint.cpp
+    umlmodel/instance.cpp
+    umlmodel/instanceattribute.cpp
 )
 
 set(umbrellobase_SRCS

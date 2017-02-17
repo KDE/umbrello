@@ -86,6 +86,7 @@ namespace Uml
             Component,
             Deployment,
             EntityRelationship,
+            Object,
             N_DIAGRAMTYPES   // must remain last
         };
         QString toString(Enum item);

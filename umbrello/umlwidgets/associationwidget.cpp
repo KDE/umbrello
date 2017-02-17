@@ -35,6 +35,8 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"
+#include "instance.h"
+#include "instanceattribute.h"
 
 // kde includes
 #if QT_VERSION < 0x050000
@@ -264,6 +266,12 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             ent = obj->umlParent()->asUMLEntity();
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            break;
+        case UMLObject::ot_InstanceAttribute:
+            klass = obj->umlParent()->asUMLInstance();
+            connect(klass, SIGNAL(attributeRemoved()), this, SLOT(slotClassifierListItemRemoved()));
+            attr = obj->asUMLInstanceAttribute();
+            connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;
         default:
             uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
@@ -559,7 +567,7 @@ UMLAttribute* AssociationWidget::attribute() const
     if (m_umlObject == 0)
         return 0;
     UMLObject::ObjectType ot = m_umlObject->baseType();
-    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
+    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute && ot != UMLObject::ot_InstanceAttribute)
         return 0;
     return m_umlObject->asUMLAttribute();
 }

@@ -103,6 +103,7 @@ public:
         wt_Region,
         wt_Category,                // has UMLObject representation
         wt_Port,                    // has UMLObject representation
+        wt_Instance,                // has UMLObject representation == wt_Object
         wt_MAX                      // upper bounds check value
     };
 

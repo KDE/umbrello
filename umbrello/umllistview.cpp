@@ -33,6 +33,8 @@
 #include "operation.h"
 #include "attribute.h"
 #include "entityattribute.h"
+#include "instance.h"
+#include "instanceattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
 #include "checkconstraint.h"
@@ -462,7 +464,9 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_EntityAttribute:
         addNewItem(currItem, UMLListViewItem::lvt_EntityAttribute);
         break;
-
+    case ListPopupMenu::mt_InstanceAttribute:
+        addNewItem(currItem, UMLListViewItem::lvt_InstanteAttribute);
+        break;
     case ListPopupMenu::mt_Operation:
         addNewItem(currItem, UMLListViewItem::lvt_Operation);
         break;
@@ -874,6 +878,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -921,6 +926,7 @@ bool UMLListView::mayHaveChildItems(UMLObject::ObjectType type)
     switch (type) {
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface:
+    case UMLObject::ot_Instance:
     case UMLObject::ot_Enum:
     case UMLObject::ot_Entity:  // CHECK: more?
         retval = true;
@@ -1021,6 +1027,12 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     }
     break;
+    case UMLObject::ot_Instance:{
+        UMLInstance *c = object->asUMLInstance();
+        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)), this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)), this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+        connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+    }
     case UMLObject::ot_Enum: {
         UMLEnum *e = object->asUMLEnum();
         connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
@@ -1049,6 +1061,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Template:
     case UMLObject::ot_EnumLiteral:
     case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_InstanceAttribute:
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
@@ -1745,6 +1758,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     case UMLListViewItem::lvt_Activity_Diagram:
     case UMLListViewItem::lvt_Sequence_Diagram:
     case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_Object_Diagram:
         if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
@@ -2300,6 +2314,10 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
         return !m_doc->findView(Uml::DiagramType::EntityRelationship, name);
         break;
 
+    case UMLListViewItem::lvt_Object_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Object, name);
+    break;
+
     case UMLListViewItem::lvt_Actor:
     case UMLListViewItem::lvt_UseCase:
     case UMLListViewItem::lvt_Node:
@@ -2338,6 +2356,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Template:
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_InstanteAttribute:
     case UMLListViewItem::lvt_Operation:
     case UMLListViewItem::lvt_EnumLiteral:
     case UMLListViewItem::lvt_UniqueConstraint:
@@ -2478,6 +2497,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_Actor:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Class:
+        case UMLListViewItem::lvt_Instance:
         case UMLListViewItem::lvt_Interface:
         case UMLListViewItem::lvt_Datatype:
         case UMLListViewItem::lvt_Enum:
@@ -2512,6 +2532,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             break;
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
+        case UMLListViewItem::lvt_InstanteAttribute:
         case UMLListViewItem::lvt_Template:
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_EnumLiteral:

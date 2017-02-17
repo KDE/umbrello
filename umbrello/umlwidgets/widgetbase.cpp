@@ -812,13 +812,18 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlDoc()->renameUMLObject(umlObject());
         break;
 
+    case ListPopupMenu::mt_Rename_Object:
+        {   //Fix me
+            //Its equal from the objectwidget, but I wasnt able to implement it right...
+        }break;
+
     case ListPopupMenu::mt_Properties:
         if (wt == WidgetBase::wt_Actor     || wt == WidgetBase::wt_UseCase   ||
             wt == WidgetBase::wt_Package   || wt == WidgetBase::wt_Interface ||
             wt == WidgetBase::wt_Datatype  || wt == WidgetBase::wt_Node      ||
             wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact  ||
             wt == WidgetBase::wt_Enum      || wt == WidgetBase::wt_Entity    ||
-            wt == WidgetBase::wt_Port      ||
+            wt == WidgetBase::wt_Port      || wt == WidgetBase::wt_Instance ||
             (wt == WidgetBase::wt_Class && umlScene()->type() == Uml::DiagramType::Class)) {
 
             showPropertiesDialog();
@@ -1144,6 +1149,9 @@ QString WidgetBase::toI18nString(WidgetType wt)
         break;
     case wt_UseCase:
         name = i18n("UseCase");
+        break;
+    case wt_Instance:
+        name = i18n("Instance");
         break;
     default:
         name = QLatin1String("<unknown> &name:");

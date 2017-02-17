@@ -170,6 +170,8 @@ QString toString(Enum item)
             return QLatin1String("Undefined");
         case Class:
             return QLatin1String("Class");
+        case Object:
+            return QLatin1String("Object");
         case UseCase:
             return QLatin1String("UseCase");
         case Sequence:
@@ -217,6 +219,8 @@ QString toStringI18n(Enum item)
            return i18n("Deployment Diagram");
        case EntityRelationship:
            return i18n("Entity Relationship Diagram");
+        case Object:
+            return i18n("Object Diagram");
        default:
            return i18n("No Diagram");
     }

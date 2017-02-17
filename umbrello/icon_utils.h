@@ -127,6 +127,7 @@ namespace Icon_Utils {
         it_Diagram_Sequence,
         it_Diagram_State,
         it_Diagram_Usecase,
+        it_Diagram_Object,
         it_New,
         it_Delete,
         it_Add_Point,
@@ -229,6 +230,7 @@ namespace Icon_Utils {
         it_Properties_AutoLayout,
         it_Document_Edit,
         it_ClassOrPackage,
+        it_Instance,
         N_ICONTYPES    // must remain last
     };
 

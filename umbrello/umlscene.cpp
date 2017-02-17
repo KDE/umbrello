@@ -671,6 +671,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         case UMLObject::ot_Entity:
         case UMLObject::ot_Datatype:
         case UMLObject::ot_Category:
+        case UMLObject::ot_Instance:
             createAutoAssociations(newWidget);
             // We need to invoke createAutoAttributeAssociations()
             // on all other widgets again because the newly created
@@ -2210,6 +2211,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 {
     if (widget == 0 ||
         (m_Type != Uml::DiagramType::Class &&
+         m_Type != Uml::DiagramType::Object &&
          m_Type != Uml::DiagramType::Component &&
          m_Type != Uml::DiagramType::Deployment
          && m_Type != Uml::DiagramType::EntityRelationship))
@@ -2795,6 +2797,10 @@ void UMLScene::setMenu(const QPoint& pos)
         menu = ListPopupMenu::mt_On_EntityRelationship_Diagram;
         break;
 
+    case DiagramType::Object:
+        menu = ListPopupMenu::mt_On_Object_Diagram;
+        break;
+
     default:
         uWarning() << "unknown diagram type " << type();
         menu = ListPopupMenu::mt_Undefined;
@@ -2939,6 +2945,11 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Datatype:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Datatype);
+        break;
+
+    case ListPopupMenu::mt_Instance:
+        m_bCreateObject = true;
+        Object_Factory::createUMLObject(UMLObject::ot_Instance);
         break;
 
     case ListPopupMenu::mt_Cut:
@@ -3637,6 +3648,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
             break;
         case 408:
             m_Type = Uml::DiagramType::EntityRelationship;
+            break;
+        case 409:
+            m_Type = Uml::DiagramType::Object;
             break;
         default:
             m_Type = Uml::DiagramType::Undefined;

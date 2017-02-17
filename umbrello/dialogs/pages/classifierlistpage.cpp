@@ -140,6 +140,10 @@ void ClassifierListPage::setupListGroup(int margin)
         typeName = i18n("Constraints");
         newItemType = i18n("N&ew Constraint...");
         break;
+    case UMLObject::ot_InstanceAttribute:
+        typeName = i18n("Instance Attribute");
+        newItemType = i18n("N&ew Instance Attribute...");
+        break;
     default:
         uWarning() << "unknown listItem type in ClassifierListPage";
         break;
@@ -456,6 +460,8 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
             type = ListPopupMenu::mt_EnumLiteral_Selected;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
             type = ListPopupMenu::mt_EntityAttribute_Selected;
+        } else if(m_itemType == UMLObject::ot_InstanceAttribute){
+            type = ListPopupMenu::mt_InstanceAttribute_Selected;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
@@ -470,6 +476,8 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
             type = ListPopupMenu::mt_New_EnumLiteral;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
             type = ListPopupMenu::mt_New_EntityAttribute;
+        } else if( m_itemType == UMLObject::ot_InstanceAttribute) {
+            type = ListPopupMenu::mt_New_InstanceAttribute;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
@@ -492,6 +500,7 @@ void ClassifierListPage::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_New_Template:
     case ListPopupMenu::mt_New_EnumLiteral:
     case ListPopupMenu::mt_New_EntityAttribute:
+    case ListPopupMenu::mt_New_InstanceAttribute:
         slotNewListItem();
         break;
 

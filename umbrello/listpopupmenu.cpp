@@ -160,6 +160,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_Class_Diagram;
         break;
 
+    case UMLListViewItem::lvt_Object_Diagram:
+        mt = mt_Object_Diagram;
+        break;
+
     case UMLListViewItem::lvt_Collaboration_Diagram:
         mt = mt_Collaboration_Diagram;
         break;
@@ -266,6 +270,14 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
 
     case UMLListViewItem::lvt_EntityAttribute:
         mt = mt_EntityAttribute;
+        break;
+
+    case UMLListViewItem::lvt_Instance:
+        mt = mt_Instance;
+        break;
+
+    case UMLListViewItem::lvt_InstanteAttribute:
+        mt = mt_InstanceAttribute;
         break;
 
     case UMLListViewItem::lvt_UniqueConstraint:
@@ -427,6 +439,16 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
                 makeClassifierPopup(classifier);
         }
         break;
+
+    case WidgetBase::wt_Instance:
+        insert(mt_InstanceAttribute);
+        insert(mt_Rename, i18n("Rename Class..."));
+        insert(mt_Rename_Object, i18n("Rename Object..."));
+        insertStdItems(true, type);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
+        break;
+
     case WidgetBase::wt_Enum:
         insertSubMenuNew(mt_Enum);
         insertSubMenuColor(object->useFillColor());
@@ -790,6 +812,7 @@ void ListPopupMenu::insert(MenuType m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
         break;
     case mt_New_Attribute:
+    case mt_New_InstanceAttribute:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
     case mt_New_Template:
@@ -803,6 +826,9 @@ void ListPopupMenu::insert(MenuType m)
         break;
     case mt_Export_Image:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
+        break;
+    case mt_InstanceAttribute:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
@@ -1480,6 +1506,9 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
     case mt_Category:
         type = UMLObject::ot_Category;
         break;
+    case mt_InstanceAttribute:
+        type = UMLObject::ot_InstanceAttribute;
+        break;
     default:
         break;
     }
@@ -1585,6 +1614,9 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package..."));
             insert(mt_FloatText, menu);
             break;
+         case mt_On_Object_Diagram:
+            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+        break;
         case mt_On_State_Diagram:
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
@@ -1772,6 +1804,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_UseCase_Diagram:
     case mt_Sequence_Diagram:
     case mt_Class_Diagram:
+    case mt_Object_Diagram:
     case mt_Collaboration_Diagram:
     case mt_State_Diagram:
     case mt_Activity_Diagram:
@@ -1798,10 +1831,19 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
+            uError() << "Invalid Trigger Object Type Set for Class Diagram " << m_TriggerObjectType;
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
+        break;
+    case mt_On_Object_Diagram:
+        insertSubMenuNew(type);
+        addSeparator();
+        if (m_TriggerObjectType != tot_View) {
+            uError() << "Invalid Trigger Object Type Set for Object Diagram " << m_TriggerObjectType;
+            return;
+        }
         break;
 
     case mt_On_State_Diagram:
@@ -1809,6 +1851,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for State Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1848,7 +1891,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Entity Relationship Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1859,7 +1902,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type Set for Sequence or Collaboration Diagram " << m_TriggerObjectType;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);
@@ -1942,6 +1985,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_UseCase:
     case mt_Attribute:
     case mt_EntityAttribute:
+    case mt_InstanceAttribute:
     case mt_Operation:
     case mt_Template:
         insertStdItems(false);
@@ -1984,6 +2028,10 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_New_Attribute:
         insert(mt_New_Attribute);
+        break;
+
+    case mt_New_InstanceAttribute:
+        insert(mt_New_InstanceAttribute);
         break;
 
     case mt_New_Template:
@@ -2039,6 +2087,12 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_Attribute_Selected:
         insert(mt_New_Attribute);
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
+    case mt_InstanceAttribute_Selected:
+        insert(mt_New_InstanceAttribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;

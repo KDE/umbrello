@@ -33,6 +33,7 @@
 #include "entitywidget.h"
 #include "enum.h"
 #include "enumwidget.h"
+#include "instance.h"
 #include "floatingdashlinewidget.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
@@ -149,6 +150,10 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = ow;
         }
         break;
+    case UMLObject::ot_Instance:
+        newWidget = new ClassifierWidget(scene, o->asUMLInstance());
+        break;
+
     case UMLObject::ot_Category:
         newWidget = new CategoryWidget(scene, o->asUMLCategory());
         break;
@@ -287,7 +292,11 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new CategoryWidget(scene, o->asUMLCategory());
         } else if (tag == QLatin1String("objectwidget") || tag == QLatin1String("UML:ObjectWidget")) {
             widget = new ObjectWidget(scene, o);
-        } else {
+        } else if(tag == QLatin1String("instancewidget") || tag == QLatin1String("UML:InstanceWidget")) {
+            if (validateObjType(UMLObject::ot_Instance, o, id))
+                widget = new ClassifierWidget(scene, o->asUMLInstance());
+        }
+        else {
             uWarning() << "Trying to create an unknown widget:" << tag;
         }
     }
