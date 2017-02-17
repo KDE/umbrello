@@ -1472,6 +1472,9 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
         case Uml::DiagramType::Collaboration:
             dname = i18n("communication diagram");
             break;
+        case Uml::DiagramType::Object:
+            dname = i18n("object diagram");
+            break;
         case Uml::DiagramType::State:
             dname = i18n("state diagram");
             break;
