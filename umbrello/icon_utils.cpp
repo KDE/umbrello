@@ -111,7 +111,11 @@ QPixmap DesktopIcon(IconType type)
 QCursor Cursor(IconType type)
 {
     // TODO: generate from a 32x32 cursor template and place requested icon into
-    return QCursor(UserIcon(QLatin1String("cursor-") + toString(type)), 9, 9);
+    QString icon = QLatin1String("cursor-") + toString(type);
+    if (QFile::exists(ICON_PREFIX + icon + QLatin1String(".png")))
+        return QCursor(QPixmap(ICON_PREFIX + icon), 9, 9);
+    else
+        return QCursor(UserIcon(icon), 9, 9);
 }
 
 /**
