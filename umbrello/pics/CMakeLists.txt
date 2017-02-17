@@ -75,6 +75,7 @@ set(ICONS
     foreignkey_constraint
     #generalise
     #initial
+    instance
     interface
     join
     junction
@@ -134,6 +135,7 @@ set(CURSOR_ICONS
     final_activity
     generalisation
     initial_state
+    instance
     interface
     join
     junction
