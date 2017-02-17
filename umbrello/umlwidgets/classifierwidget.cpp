@@ -512,11 +512,18 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // consider name
     height += fontHeight;
     // ... width
-    QString displayedName;
+    QString name;
     if (visualProperty(ShowPackage))
-        displayedName = m_umlObject->fullyQualifiedName();
+        name = m_umlObject->fullyQualifiedName();
     else
-        displayedName = m_umlObject->name();
+        name = m_umlObject->name();
+
+    QString displayedName;
+    if (m_umlObject->isUMLInstance())
+        displayedName = m_umlObject->instanceName() + QLatin1String(" : ") + name;
+    else
+        displayedName = name;
+
     const UMLWidget::FontType nft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0, displayedName).width();
     if (nameWidth > width)
@@ -783,20 +790,16 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         name = this->name();
     }
-    //if Object draw object name
-    QString instanceName;
-    if(baseType() == WidgetBase::wt_Instance){
-        instanceName = m_umlObject->instanceName();
-    }
+
+    QString displayedName;
+    if (m_umlObject->isUMLInstance())
+        displayedName = m_umlObject->instanceName() + QLatin1String(" : ") + name;
+    else
+        displayedName = name;
 
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    if(baseType() == WidgetBase::wt_Instance) {
-        const QString finalName = instanceName + QLatin1String(" : ") + name;
-        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
-    } else {
-        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
-    }
+    painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, displayedName);
     bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
