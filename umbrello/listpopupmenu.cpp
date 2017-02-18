@@ -493,25 +493,23 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         break;
 
     case WidgetBase::wt_Object:
-        {
-            //Used for sequence diagram and collaboration diagram widgets
-            insertSubMenuColor(object->useFillColor());
-            if (object->umlScene() &&
-                object->umlScene()->type() == Uml::DiagramType::Sequence) {
-                addSeparator();
-                MenuType tabUp = mt_Up;
-                insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
-                insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
-                if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
-                    setActionEnabled(tabUp, false);
-                }
+        //Used for sequence diagram and collaboration diagram widgets
+        insertSubMenuColor(object->useFillColor());
+        if (object->umlScene() &&
+            object->umlScene()->type() == Uml::DiagramType::Sequence) {
+            addSeparator();
+            MenuType tabUp = mt_Up;
+            insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
+            insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
+            if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
+                setActionEnabled(tabUp, false);
             }
-            insertStdItems(true, type);
-            insert(mt_Rename, i18n("Rename Class..."));
-            insert(mt_Rename_Object);
-            insert(mt_Change_Font);
-            insert(mt_Properties);
         }
+        insertStdItems(true, type);
+        insert(mt_Rename, i18n("Rename Class..."));
+        insert(mt_Rename_Object);
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Message:
