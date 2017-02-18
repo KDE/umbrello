@@ -739,7 +739,7 @@ void ListPopupMenu::insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType)
     addSeparator();
     insert(mt_Clone);
     insert(mt_Delete);
-    insert(mt_Resize, i18n("Resize"));
+    insert(mt_Resize);
 
     addSeparator();
     insert(mt_Change_Font_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
@@ -762,6 +762,9 @@ void ListPopupMenu::insert(MenuType m)
         break;
     case mt_Rename_Object:
         insert(m, i18n("Rename Object..."));
+        break;
+    case mt_Resize:
+        insert(m, i18n("Resize"));
         break;
     case mt_Show:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
@@ -1012,7 +1015,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Delete);
     if (!m_isListView)
     {
-        insert(mt_Resize, i18n("Resize"));
+        insert(mt_Resize);
         insert(mt_AutoResize, i18n("Auto resize"), CHECKABLE);
     }
 }
