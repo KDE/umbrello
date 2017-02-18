@@ -1206,7 +1206,7 @@ QString UMLObject::toI18nString(ObjectType t)
         name = i18n("Use case &name:");
         break;
     case UMLObject::ot_Instance:
-        name = i18n("Class &name");
+        name = i18n("Class &name:");
         break;
 
     default:
