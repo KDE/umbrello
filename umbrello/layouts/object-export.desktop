@@ -1,0 +1,68 @@
+[Desktop Entry]
+Type=Service
+Name=Export Layout
+Name[bs]=Izvozni raspored
+Name[ca]=Exporta la disposició
+Name[ca@valencia]=Exporta la disposició
+Name[cs]=Exportovat rozložení
+Name[da]=Eksportér layout
+Name[de]=Layout exportieren
+Name[el]=Εξαγωγή διάταξης
+Name[en_GB]=Export Layout
+Name[es]=Exportar disposición
+Name[et]=Paigutuse eksport
+Name[fi]=Vientiasettelu
+Name[fr]=Disposition de l'exportation
+Name[gl]=Exportar a disposición
+Name[hu]=Exportálás elrendezés
+Name[it]=Disposizione di esportazione
+Name[kk]=Экспорттың орналасуы
+Name[ko]=레이아웃 내보내기
+Name[lt]=Eksportuoti išdėstymą
+Name[mr]=रचना निर्यात करा
+Name[nb]=Eksporter utforming
+Name[nl]=Indeling exporteren
+Name[pa]=ਲੇਆਉਟ ਐਕਸਪੋਰਟ
+Name[pl]=Eksportuj układ
+Name[pt]=Exportar a Disposição
+Name[pt_BR]=Exportar layout
+Name[ru]=Шаблон экспорта
+Name[sk]=Exportovať rozloženie
+Name[sl]=Izvozi postavitev
+Name[sr]=Извези распоред
+Name[sr@ijekavian]=Извези распоред
+Name[sr@ijekavianlatin]=Izvezi raspored
+Name[sr@latin]=Izvezi raspored
+Name[sv]=Exportera layout
+Name[tr]=Düzeni Dışarıya Aktar
+Name[uk]=Компонування експортованих даних
+Name[x-test]=xxExport Layoutxx
+Name[zh_CN]=导出布局
+Name[zh_TW]=匯出佈局
+Comment=Export Layout for Object Diagrams
+Comment[de]=Layout für Objektdiagramme exportieren
+Comment[en_GB]=Export Layout for Object Diagrams
+Comment[x-test]=xxExport Layout for Object Diagramsxx
+
+[X-UMBRELLO-Dot-Nodes]
+type::instance=shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::association=arrowhead=none
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::anchor=weight=0.001
+ranking::type::association=weight=0.001
+ranking::type::default=weight=0.001
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50
