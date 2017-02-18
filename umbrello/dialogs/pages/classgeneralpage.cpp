@@ -101,11 +101,10 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
             m_pObjectNameLE->setText(m_pObject->instanceName());
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
-
     }
-    else{
-    m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 0);
+    else {
+        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_nameWidget->addToLayout(m_pNameLayout, 0);
     }
 
     if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
