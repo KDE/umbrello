@@ -2015,13 +2015,13 @@ void UMLDoc::saveToXMI1(QIODevice& file)
     QDateTime now = QDateTime::currentDateTime();
     root.setAttribute(QLatin1String("timestamp"), now.toString(Qt::ISODate));
     root.setAttribute(QLatin1String("verified"), QLatin1String("false"));
-    root.setAttribute(QLatin1String("xmlns:UML"), QLatin1String("http://schema.omg.org/spec/UML/1.3"));
+    root.setAttribute(QLatin1String("xmlns:UML"), QLatin1String("http://schema.omg.org/spec/UML/1.4"));
     doc.appendChild(root);
 
     QDomElement header = doc.createElement(QLatin1String("XMI.header"));
     QDomElement meta = doc.createElement(QLatin1String("XMI.metamodel"));
     meta.setAttribute(QLatin1String("xmi.name"), QLatin1String("UML"));
-    meta.setAttribute(QLatin1String("xmi.version"), QLatin1String("1.3"));
+    meta.setAttribute(QLatin1String("xmi.version"), QLatin1String("1.4"));
     meta.setAttribute(QLatin1String("href"), QLatin1String("UML.xml"));
     header.appendChild(meta);
 
