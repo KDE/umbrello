@@ -430,11 +430,13 @@ void UMLApp::initActions()
     connect(classDiagram, SIGNAL(triggered(bool)), this, SLOT(slotClassDiagram()));
     newDiagram->addAction(classDiagram);
 
+#ifdef ENABLE_OBJECT_DIAGRAM
     QAction* objectDiagram = actionCollection()->addAction(QLatin1String("new_object_diagram"));
     objectDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Object));
     objectDiagram->setText(i18n("&Object Diagram..."));
     connect(objectDiagram, SIGNAL(triggered()), this, SLOT(slotObjectDiagram()));
     newDiagram->addAction(objectDiagram);
+#endif
 
     QAction* sequenceDiagram= actionCollection()->addAction(QLatin1String("new_sequence_diagram"));
     sequenceDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence));

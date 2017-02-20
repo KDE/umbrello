@@ -1,5 +1,13 @@
 add_subdirectory( headings )
 
+if(ENABLE_OBJECT_DIAGRAM)
+    set(ACTION_NEW_OBJECT_DIAGRAM "<Action name=\"new_object_diagram\"/>")
+endif()
+configure_file(umbrelloui.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc @ONLY)
+if(BUILD_KF5)
+    configure_file(ui.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc @ONLY)
+endif()
+
 ########### set variables #############
 
 # Some definitions for experimental code or debugging
@@ -538,7 +546,7 @@ if(NOT BUILD_KF5)
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
     if(CMAKE_MAJOR_VERSION LESS 3)
-        qt5_add_resources(libumbrello_SRCS icons.qrc ui.qrc)
+        qt5_add_resources(libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
     else()
         list(APPEND libumbrello_SRCS icons.qrc ui.qrc)
     endif()
@@ -584,7 +592,7 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 if(NOT BUILD_KF5)
     install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
     install( FILES
-        umbrelloui.rc
+        ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc
         DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 else()
     file(READ umbrello.desktop UMBRELLO_DESKTOP)

@@ -14,7 +14,7 @@
   <Menu name="views"><text>&amp;Diagram</text>
     <Menu name="new_view"><text>&amp;New</text>
       <Action name="new_class_diagram"/>
-      <Action name="new_object_diagram"/>
+      @ACTION_NEW_OBJECT_DIAGRAM@
       <Action name="new_sequence_diagram"/>
       <Action name="new_collaboration_diagram"/>
       <Action name="new_use_case_diagram"/>
@@ -41,7 +41,7 @@
       <Action name="align_vertical_middle" />
       <Action name="align_horizontal_middle" />
       <Action name="align_vertical_distribute" />
-      <Action name="align_horizontal_distribute" /> 
+      <Action name="align_horizontal_distribute" />
     </Menu>
     <Separator/>
     <Action name="view_snap_to_grid"/>
