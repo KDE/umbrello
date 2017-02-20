@@ -181,10 +181,10 @@ public:
 
     void clipSize();
 
-    bool loadFromXMI(QDomElement& qElement, const UMLWidgetList& widgets,
+    bool loadFromXMI1(QDomElement& qElement, const UMLWidgetList& widgets,
                      const MessageWidgetList* messages);
-    virtual bool loadFromXMI(QDomElement& qElement);
-    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI1(QDomElement& qElement);
+    virtual void SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
 
     void cleanup();
 

@@ -31,7 +31,7 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
+void XMLElementCodeBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("xmlelementblock"));
 
@@ -43,7 +43,7 @@ void XMLElementCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 /**
  * load params from the appropriate XMI element node.
  */
-void XMLElementCodeBlock::loadFromXMI (QDomElement & root)
+void XMLElementCodeBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

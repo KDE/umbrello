@@ -160,10 +160,10 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
 /**
  * Saves to the "componentwidget" XMI element.
  */
-void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void ComponentWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("componentwidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::SaveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

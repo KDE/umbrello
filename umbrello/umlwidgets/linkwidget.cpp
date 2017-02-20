@@ -104,7 +104,7 @@ QString LinkWidget::sequenceNumber() const
 /**
  * Load data from XMI.
  */
-bool LinkWidget::loadFromXMI(QDomElement &qElement)
+bool LinkWidget::loadFromXMI1(QDomElement &qElement)
 {
     m_SequenceNumber = qElement.attribute(QLatin1String("seqnum"));
     return true;
@@ -113,7 +113,7 @@ bool LinkWidget::loadFromXMI(QDomElement &qElement)
 /**
  * Save data to XMI.
  */
-void LinkWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+void LinkWidget::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     Q_UNUSED(qDoc);
 

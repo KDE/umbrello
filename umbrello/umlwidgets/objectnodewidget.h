@@ -57,8 +57,8 @@ public:
     void askStateForWidget();
     void askForObjectNodeType(UMLWidget* &targetWidget);
 
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI1(QDomElement& qElement);
 
 protected:
     QSizeF minimumSize() const;

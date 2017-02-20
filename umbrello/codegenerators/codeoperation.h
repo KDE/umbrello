@@ -38,9 +38,9 @@ public:
 
     UMLOperation * getParentOperation();
 
-    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
+    virtual void SaveToXMI1 (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI (QDomElement & root);
+    virtual void loadFromXMI1 (QDomElement & root);
 
     static QString findTag (UMLOperation * op) ;
 

@@ -131,7 +131,7 @@ bool Import_Argo::loadFromXMIFile(const KZip &zipFile, const QString &fileName)
     if(!xmiFile.open(QIODevice::ReadOnly)) {
         return false;
     }
-    return UMLApp::app()->document()->loadFromXMI(xmiFile, 0);
+    return UMLApp::app()->document()->loadFromXMI1(xmiFile, 0);
 }
 
 bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)

@@ -80,8 +80,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI1(QDomElement& qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

@@ -4067,12 +4067,12 @@ void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 /**
  * Saves this widget to the "assocwidget" XMI element.
  */
-void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationWidget::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement assocElement = qDoc.createElement(QLatin1String("assocwidget"));
 
-    WidgetBase::saveToXMI(qDoc, assocElement);
-    LinkWidget::saveToXMI(qDoc, assocElement);
+    WidgetBase::SaveToXMI1(qDoc, assocElement);
+    LinkWidget::SaveToXMI1(qDoc, assocElement);
     if (m_umlObject) {
         assocElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_umlObject->id()));
     }
@@ -4094,34 +4094,34 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     assocElement.setAttribute(QLatin1String("indexb"), m_role[RoleType::B].m_nIndex);
     assocElement.setAttribute(QLatin1String("totalcounta"), m_role[RoleType::A].m_nTotalCount);
     assocElement.setAttribute(QLatin1String("totalcountb"), m_role[RoleType::B].m_nTotalCount);
-    m_associationLine->saveToXMI(qDoc, assocElement);
+    m_associationLine->SaveToXMI1(qDoc, assocElement);
 
     if (m_nameWidget) {
-        m_nameWidget->saveToXMI(qDoc, assocElement);
+        m_nameWidget->SaveToXMI1(qDoc, assocElement);
     }
 
     if (multiplicityWidget(RoleType::A)) {
-        multiplicityWidget(RoleType::A)->saveToXMI(qDoc, assocElement);
+        multiplicityWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (multiplicityWidget(RoleType::B)) {
-        multiplicityWidget(RoleType::B)->saveToXMI(qDoc, assocElement);
+        multiplicityWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (roleWidget(RoleType::A)) {
-        roleWidget(RoleType::A)->saveToXMI(qDoc, assocElement);
+        roleWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (roleWidget(RoleType::B)) {
-        roleWidget(RoleType::B)->saveToXMI(qDoc, assocElement);
+        roleWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (changeabilityWidget(RoleType::A)) {
-        changeabilityWidget(RoleType::A)->saveToXMI(qDoc, assocElement);
+        changeabilityWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (changeabilityWidget(RoleType::B)) {
-        changeabilityWidget(RoleType::B)->saveToXMI(qDoc, assocElement);
+        changeabilityWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
     }
 
     if (m_associationClass) {
@@ -4135,19 +4135,19 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 
 /**
  * Uses the supplied widgetList for resolving
- * the role A and role B widgets. (The other loadFromXMI() queries
+ * the role A and role B widgets. (The other loadFromXMI1() queries
  * the UMLView for these widgets.)
  * Required for clipboard operations.
  */
-bool AssociationWidget::loadFromXMI(QDomElement& qElement,
+bool AssociationWidget::loadFromXMI1(QDomElement& qElement,
                                     const UMLWidgetList& widgets,
                                     const MessageWidgetList* messages)
 {
-    if (!WidgetBase::loadFromXMI(qElement)) {
+    if (!WidgetBase::loadFromXMI1(qElement)) {
         return false;
     }
 
-    if (!LinkWidget::loadFromXMI(qElement)) {
+    if (!LinkWidget::loadFromXMI1(qElement)) {
         return false;
     }
 
@@ -4303,7 +4303,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     while (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("linepath")) {
-            if (!m_associationLine->loadFromXMI(element)) {
+            if (!m_associationLine->loadFromXMI1(element)) {
                 return false;
             }
         } else if (tag == QLatin1String("floatingtext") ||
@@ -4313,7 +4313,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                 return false;
             Uml::TextRole::Enum role = Uml::TextRole::fromInt(r.toInt());
             FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, QString(), Uml::ID::Reserved);
-            if (! ft->loadFromXMI(element)) {
+            if (! ft->loadFromXMI1(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete ft;
                 node = element.nextSibling();
@@ -4389,13 +4389,13 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
  * Queries the UMLView for resolving the role A and role B widgets.
  * ....
  */
-bool AssociationWidget::loadFromXMI(QDomElement& qElement)
+bool AssociationWidget::loadFromXMI1(QDomElement& qElement)
 {
     UMLScene *scene = umlScene();
     if (scene) {
         const UMLWidgetList& widgetList = scene->widgetList();
         const MessageWidgetList& messageList = scene->messageList();
-        return loadFromXMI(qElement, widgetList, &messageList);
+        return loadFromXMI1(qElement, widgetList, &messageList);
     }
     else {
         DEBUG(DBG_SRC) << "This isn't on UMLScene yet, so can neither fetch"

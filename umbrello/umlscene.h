@@ -276,8 +276,8 @@ public:
 
     // Load/Save interface:
 
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI1(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);

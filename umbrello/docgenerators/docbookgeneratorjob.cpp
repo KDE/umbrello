@@ -68,7 +68,7 @@ void DocbookGeneratorJob::run()
         return;
     }
 
-    umlDoc->saveToXMI(file); // save the xmi stuff to it
+    umlDoc->SaveToXMI1(file); // save the xmi stuff to it
 
     xsltStylesheetPtr cur = 0;
     xmlDocPtr doc, res;

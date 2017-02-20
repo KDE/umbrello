@@ -106,10 +106,10 @@ QSizeF CategoryWidget::minimumSize() const
 /**
  * Saves this Category to file.
  */
-void CategoryWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void CategoryWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement categoryElement = qDoc.createElement(QLatin1String("categorywidget"));
-    UMLWidget::saveToXMI(qDoc, categoryElement);
+    UMLWidget::SaveToXMI1(qDoc, categoryElement);
     qElement.appendChild(categoryElement);
 }
 

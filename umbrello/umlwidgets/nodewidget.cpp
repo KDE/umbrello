@@ -147,10 +147,10 @@ QSizeF NodeWidget::minimumSize() const
  * Saves to the "nodewidget" XMI element.
  * Note: For loading we use the method inherited from UMLWidget.
  */
-void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void NodeWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("nodewidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::SaveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

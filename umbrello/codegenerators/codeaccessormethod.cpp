@@ -99,7 +99,7 @@ void CodeAccessorMethod::forceRelease()
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeAccessorMethod::loadFromXMI(QDomElement & root)
+void CodeAccessorMethod::loadFromXMI1(QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -107,7 +107,7 @@ void CodeAccessorMethod::loadFromXMI(QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeAccessorMethod::saveToXMI(QDomDocument & doc, QDomElement & root)
+void CodeAccessorMethod::SaveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codeaccessormethod"));
 

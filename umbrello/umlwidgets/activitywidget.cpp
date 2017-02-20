@@ -309,9 +309,9 @@ void ActivityWidget::moveWidgetBy(qreal diffX, qreal diffY)
 /**
  * Loads the widget from the "activitywidget" XMI element.
  */
-bool ActivityWidget::loadFromXMI(QDomElement& qElement)
+bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement))
+    if(!UMLWidget::loadFromXMI1(qElement))
         return false;
     setName(qElement.attribute(QLatin1String("activityname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
@@ -327,10 +327,10 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void ActivityWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement activityElement = qDoc.createElement(QLatin1String("activitywidget"));
-    UMLWidget::saveToXMI(qDoc, activityElement);
+    UMLWidget::SaveToXMI1(qDoc, activityElement);
     activityElement.setAttribute(QLatin1String("activityname"), name());
     activityElement.setAttribute(QLatin1String("documentation"), documentation());
     activityElement.setAttribute(QLatin1String("precondition"), preconditionText());

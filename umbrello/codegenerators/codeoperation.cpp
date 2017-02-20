@@ -69,7 +69,7 @@ UMLOperation * CodeOperation::getParentOperation()
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CodeOperation::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codeoperation"));
     // set attributes
@@ -80,7 +80,7 @@ void CodeOperation::saveToXMI (QDomDocument & doc, QDomElement & root)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeOperation::loadFromXMI (QDomElement & root)
+void CodeOperation::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

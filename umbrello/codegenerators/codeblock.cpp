@@ -61,7 +61,7 @@ CodeBlock::ContentType CodeBlock::contentType() const
  * @param doc    the xmi document
  * @param root   the starting point to append
  */
-void CodeBlock::saveToXMI(QDomDocument & doc, QDomElement & root)
+void CodeBlock::SaveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codeblock"));
     // set attributes
@@ -88,7 +88,7 @@ void CodeBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockEleme
  * Load params from the appropriate XMI element node.
  * @param root   the starting point to load from
  */
-void CodeBlock::loadFromXMI(QDomElement & root)
+void CodeBlock::loadFromXMI1(QDomElement & root)
 {
     setAttributesFromNode(root);
 }

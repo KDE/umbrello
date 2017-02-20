@@ -37,7 +37,7 @@ public:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void adjustAssocs(qreal dx, qreal dy);
 
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 signals:
     /**

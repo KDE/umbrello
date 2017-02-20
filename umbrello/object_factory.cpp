@@ -364,7 +364,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
 
 /**
  * Make a new UMLObject according to the given XMI tag.
- * Used by loadFromXMI and clipboard paste.
+ * Used by loadFromXMI1 and clipboard paste.
  */
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)

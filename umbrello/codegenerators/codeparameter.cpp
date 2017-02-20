@@ -181,7 +181,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
 
     // a comment which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI(doc, commElement); // comment
+    getComment()->SaveToXMI1(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
 
@@ -250,7 +250,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getComment()->loadFromXMI(celem);
+            getComment()->loadFromXMI1(celem);
             gotComment = true;
             break;
         }
@@ -259,7 +259,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment)
-        uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
+        uWarning()<<" loadFromXMI1 : Warning: unable to initialize CodeComment in codeparam:"<<this;
 }
 
 /**

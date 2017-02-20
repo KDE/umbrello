@@ -81,18 +81,18 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 /**
  * Loads from a "datatypewidget" XMI element.
  */
-bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
+bool DatatypeWidget::loadFromXMI1(QDomElement & qElement)
 {
-    return UMLWidget::loadFromXMI(qElement);
+    return UMLWidget::loadFromXMI1(qElement);
 }
 
 /**
  * Saves to the "datatypewidget" XMI element.
  */
-void DatatypeWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void DatatypeWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("datatypewidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::SaveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

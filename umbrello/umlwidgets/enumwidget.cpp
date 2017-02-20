@@ -155,9 +155,9 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 /**
  * Loads from an "enumwidget" XMI element.
  */
-bool EnumWidget::loadFromXMI(QDomElement & qElement)
+bool EnumWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
     QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
@@ -170,10 +170,10 @@ bool EnumWidget::loadFromXMI(QDomElement & qElement)
 /**
  * Saves to the "enumwidget" XMI element.
  */
-void EnumWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void EnumWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("enumwidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::SaveToXMI1(qDoc, conceptElement);
 
     conceptElement.setAttribute(QLatin1String("showpackage"), m_showPackage);
     qElement.appendChild(conceptElement);

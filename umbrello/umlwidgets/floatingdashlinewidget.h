@@ -51,8 +51,8 @@ public:
     qreal getYMin() const;
     qreal getDiffY() const;
 
-    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-    bool loadFromXMI(QDomElement & qElement);
+    void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    bool loadFromXMI1(QDomElement & qElement);
 
 private:
     /**

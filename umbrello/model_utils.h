@@ -64,7 +64,7 @@ QString uniqObjectName(UMLObject::ObjectType type,
                        QString prefix = QString());
 
 QString getXmiId(QDomElement element);
-bool isCommonXMIAttribute(const QString &tag);
+bool isCommonXMI1Attribute(const QString &tag);
 bool isCommonDataType(QString type);
 bool isClassifierListitem(UMLObject::ObjectType ot);
 

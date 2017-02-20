@@ -79,13 +79,13 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
- * Reimplemented from WidgetBase::saveToXMI to save the widget to
+ * Reimplemented from WidgetBase::SaveToXMI1 to save the widget to
  * the "artifactwidget" XMI element.
  */
-void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void ArtifactWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("artifactwidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::SaveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

@@ -67,13 +67,13 @@ public:
      * @param doc    the xmi document
      * @param root   the starting point to append
      */
-    virtual void saveToXMI(QDomDocument & doc, QDomElement & root) = 0;
+    virtual void SaveToXMI1(QDomDocument & doc, QDomElement & root) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
      * @param root   the starting point in the xmi document to load from
      */
-    virtual void loadFromXMI(QDomElement & root) = 0;
+    virtual void loadFromXMI1(QDomElement & root) = 0;
 
     bool canDelete() const;
 

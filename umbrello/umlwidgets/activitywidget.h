@@ -66,8 +66,8 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
-    virtual bool loadFromXMI(QDomElement & qElement);
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
     void constrain(qreal& width, qreal& height);
 

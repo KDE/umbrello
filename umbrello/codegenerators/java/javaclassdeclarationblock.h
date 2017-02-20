@@ -35,12 +35,12 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
+    virtual void SaveToXMI1 (QDomDocument & doc, QDomElement & root);
 
     /**
      * load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI (QDomElement & root);
+    virtual void loadFromXMI1 (QDomElement & root);
 
     /**
      * Update the start/end text of this codeblock.

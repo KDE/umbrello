@@ -70,10 +70,10 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void UseCaseWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement usecaseElement = qDoc.createElement(QLatin1String("usecasewidget"));
-    UMLWidget::saveToXMI(qDoc, usecaseElement);
+    UMLWidget::SaveToXMI1(qDoc, usecaseElement);
     qElement.appendChild(usecaseElement);
 }
 

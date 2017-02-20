@@ -226,7 +226,7 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock()
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassField::loadFromXMI (QDomElement & root)
+void CodeClassField::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -247,12 +247,12 @@ void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfEl
                                                                                : QLatin1String("false"));
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
-    m_declCodeBlock->saveToXMI(doc, cfElem);
+    m_declCodeBlock->SaveToXMI1(doc, cfElem);
 
     // now record the tags on our accessormethods
     Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
-        method->saveToXMI(doc, cfElem);
+        method->SaveToXMI1(doc, cfElem);
     }
 }
 
@@ -286,14 +286,14 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
     while (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("ccfdeclarationcodeblock")) {
-            m_declCodeBlock->loadFromXMI(element);
+            m_declCodeBlock->loadFromXMI1(element);
         } else
             if (tag == QLatin1String("codeaccessormethod")) {
                 int type = element.attribute(QLatin1String("accessType"), QLatin1String("0")).toInt();
                 int role_id = element.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
                 CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
                 if (method)
-                    method->loadFromXMI(element);
+                    method->loadFromXMI1(element);
                 else
                     uError()<<"Cannot load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
 
@@ -301,7 +301,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
                 if (tag == QLatin1String("header")) {
                     // this is treated in parent.. skip over here
                 } else
-                    uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
+                    uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI1 got child element with unknown tag:"<<tag<<" ignoring node.";
 
         node = element.nextSibling();
         element = node.toElement();
@@ -311,7 +311,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassField::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CodeClassField::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codeclassfield"));
 

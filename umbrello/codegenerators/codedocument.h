@@ -64,8 +64,8 @@ public:
 
     virtual QString toString ();
 
-    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
-    virtual void loadFromXMI (QDomElement & root);
+    virtual void SaveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI1 (QDomElement & root);
 
     virtual CodeBlock * newCodeBlock ();
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ();

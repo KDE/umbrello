@@ -514,7 +514,7 @@ void WidgetBase::showPropertiesDialog()
  * @param qDoc A QDomDocument object representing the xml document.
  * @param qElement A QDomElement representing xml element data.
  */
-void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void WidgetBase::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 
@@ -555,7 +555,7 @@ void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  *
  * @todo Add support to load older version.
  */
-bool WidgetBase::loadFromXMI(QDomElement& qElement)
+bool WidgetBase::loadFromXMI1(QDomElement& qElement)
 {
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in

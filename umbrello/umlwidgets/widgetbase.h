@@ -173,8 +173,8 @@ public:
 
     virtual void showPropertiesDialog();
 
-    virtual bool loadFromXMI(QDomElement &qElement);
-    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI1(QDomElement &qElement);
+    virtual void SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
 
     WidgetBase& operator=(const WidgetBase& other);
 

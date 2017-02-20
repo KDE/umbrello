@@ -28,7 +28,7 @@ DClassDeclarationBlock::~DClassDeclarationBlock ()
 {
 }
 
-void DClassDeclarationBlock::loadFromXMI (QDomElement & root)
+void DClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -38,7 +38,7 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
     HierarchicalCodeBlock::setAttributesFromObject(obj);
 }
 
-void DClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
+void DClassDeclarationBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("dclassdeclarationblock"));
 

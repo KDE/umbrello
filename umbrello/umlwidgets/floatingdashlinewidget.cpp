@@ -159,10 +159,10 @@ qreal FloatingDashLineWidget::getDiffY() const
 /**
  * Creates the "floatingdashline" XMI element.
  */
-void FloatingDashLineWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingDashLineWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement textElement = qDoc.createElement(QLatin1String("floatingdashlinewidget"));
-    UMLWidget::saveToXMI(qDoc, textElement);
+    UMLWidget::SaveToXMI1(qDoc, textElement);
     textElement.setAttribute(QLatin1String("text"), m_Text);
     textElement.setAttribute(QLatin1String("y"), y());
     textElement.setAttribute(QLatin1String("minY"), m_yMin);
@@ -174,9 +174,9 @@ void FloatingDashLineWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qEleme
 /**
  * Loads the "floatingdashline" XMI element.
  */
-bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
+bool FloatingDashLineWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement)) {
+    if(!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
     DEBUG(DBG_SRC) << "load.......";

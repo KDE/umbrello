@@ -542,7 +542,7 @@ QString getXmiId(QDomElement element)
  * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
  * "isActive" | "ownerScope"
  */
-bool isCommonXMIAttribute(const QString &tag)
+bool isCommonXMI1Attribute(const QString &tag)
 {
     bool retval = (UMLDoc::tagEq(tag, QLatin1String("name")) ||
                    UMLDoc::tagEq(tag, QLatin1String("visibility")) ||

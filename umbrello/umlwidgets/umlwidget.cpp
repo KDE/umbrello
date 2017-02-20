@@ -1852,13 +1852,13 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void UMLWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     /*
       Call after required actions in child class.
       Type must be set in the child class.
     */
-    WidgetBase::saveToXMI(qDoc, qElement);
+    WidgetBase::SaveToXMI1(qDoc, qElement);
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
@@ -1878,12 +1878,12 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 }
 
-bool UMLWidget::loadFromXMI(QDomElement & qElement)
+bool UMLWidget::loadFromXMI1(QDomElement & qElement)
 {
     QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nId = Uml::ID::fromString(id);
 
-    WidgetBase::loadFromXMI(qElement);
+    WidgetBase::loadFromXMI1(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));

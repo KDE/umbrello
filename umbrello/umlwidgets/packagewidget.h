@@ -35,7 +35,7 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     QSizeF minimumSize() const;
