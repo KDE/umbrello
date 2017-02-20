@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!ENTITY % UmbrelloDiagrams SYSTEM "umbrello-diagrams.dtd" >
 %UmbrelloDiagrams;
+
+<!ENTITY % UmbrelloMisc SYSTEM "umbrello-misc.dtd" >
+%UmbrelloMisc;
+
 <!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
 
 <!ENTITY % UML14 SYSTEM "01-02-16.dtd" >
