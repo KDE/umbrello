@@ -10,7 +10,7 @@ p=$(realpath $0)
 d=$(dirname $p)
 r=$(realpath $d/..)
 
-version=$(grep XMI.exporterVersion $1 | grep -o '[0-9].[0-9].[0-9]')
+version=$(grep XMI.exporterVersion $1 | grep -o '[0-9].[0-9].[0-9]\+')
 echo "xmi-version: $version"
 
 xmllint --dtdvalid $r/doc/xml/uml-1.4-umbrello.dtd --noout $1 2>&1 | grep -v "<!ELEMENT XMI.extensions ANY>" | grep -v "Redefinition of element XMI.extensions"
