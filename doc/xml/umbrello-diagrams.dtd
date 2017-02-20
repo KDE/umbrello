@@ -1,25 +1,41 @@
 
-<!-- 
-========= umbrello specific ========= 
-    XMI_FILE_VERSION 1.6.11
-=====================================  
--->
-<!ENTITY % ids
-           'xmi.id CDATA #IMPLIED localid CDATA #IMPLIED'>
+<!--   umbrello specific diagram elements -->
 
-<!ENTITY % coordinates
-          'height CDATA #IMPLIED
-          width CDATA #IMPLIED
+<!--     TODO: analyse element hierachy   -->
+
+<!ENTITY % WidgetBaseAtts '
+          textcolor CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          font CDATA #IMPLIED
+'>
+<!ENTITY % UMLWidgetAtts '
+          %WidgetBaseAtts;
+          xmi.id CDATA #IMPLIED
           x CDATA #IMPLIED
-          y CDATA #IMPLIED'>
-
+          y CDATA #IMPLIED
+          width CDATA #IMPLIED
+          height CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          instancename CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          localid CDATA #IMPLIED
+'>
+<!ENTITY % LinkWidgetAtts '
+          seqnum CDATA #IMPLIED
+'>
 <!ELEMENT diagrams ANY >
 <!ATTLIST diagrams
           resolution CDATA #IMPLIED
 >
 <!ELEMENT diagram ANY >
 <!ATTLIST diagram
-          %ids;
+          xmi.id CDATA #IMPLIED
+          localid CDATA #IMPLIED
           showopsig CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           snapx CDATA #IMPLIED
@@ -55,42 +71,22 @@
 >
 <!ELEMENT classwidget ANY >
 <!ATTLIST classwidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
+          %UMLWidgetAtts;
           showoperations CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
           showpubliconly CDATA #IMPLIED
           showpackage CDATA #IMPLIED
           showattsigs CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
           showattributes CDATA #IMPLIED
-          font CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           showscope CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
           drawascircle CDATA #IMPLIED
 >
 <!ELEMENT notewidget ANY >
 <!ATTLIST notewidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
+          %UMLWidgetAtts;
           noteType CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
           text CDATA #IMPLIED
 >
 <!ELEMENT messages ANY >
@@ -101,21 +97,15 @@
 >
 <!ELEMENT assocwidget ANY >
 <!ATTLIST assocwidget
-          %ids;
+          %WidgetBaseAtts;
+          %LinkWidgetAtts;
           indexa CDATA #IMPLIED
           indexb CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
           widgetaid CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
           totalcounta CDATA #IMPLIED
           widgetbid CDATA #IMPLIED
           totalcountb CDATA #IMPLIED
           type CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
           visibilityA CDATA #IMPLIED
           visibilityB CDATA #IMPLIED
           changeabilityA CDATA #IMPLIED
@@ -123,8 +113,6 @@
           roleBdoc CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
           documentation CDATA #IMPLIED
-          font CDATA #IMPLIED
-          seqnum CDATA #IMPLIED
 >
 <!ELEMENT linepath ANY >
 <!ATTLIST linepath
@@ -146,40 +134,18 @@
 >
 <!ELEMENT floatingtext ANY >
 <!ATTLIST floatingtext
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          text CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
+          %LinkWidgetAtts;
           pretext CDATA #IMPLIED
           role CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
           posttext CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           roleBdoc CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
           documentation CDATA #IMPLIED
 >
 <!ELEMENT datatypewidget ANY >
 <!ATTLIST datatypewidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
 >
 <!ELEMENT point ANY >
 <!ATTLIST point
@@ -188,177 +154,74 @@
 >
 <!ELEMENT enumwidget ANY >
 <!ATTLIST enumwidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           showpackage CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
 >
 <!ELEMENT boxwidget ANY >
 <!ATTLIST boxwidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
 >
 <!ELEMENT interfacewidget ANY >
 <!ATTLIST interfacewidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
+          %UMLWidgetAtts;
           showoperations CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
           showpubliconly CDATA #IMPLIED
           showpackage CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
           drawascircle CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           showscope CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
 >
 <!ELEMENT statewidget ANY >
 <!ATTLIST statewidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
           statename CDATA #IMPLIED
           statetype CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           documentation CDATA #IMPLIED
           drawvertical CDATA #IMPLIED
 >
+
 <!ELEMENT objectwidget ANY >
 <!ATTLIST objectwidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           decon CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
           multipleinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           drawasactor CDATA #IMPLIED
 >
 <!ELEMENT messagewidget ANY >
 <!ATTLIST messagewidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           widgetbid CDATA #IMPLIED
           textid CDATA #IMPLIED
           operation CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
           seqnum CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
           widgetaid CDATA #IMPLIED
-          font CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           sequencemessagetype CDATA #IMPLIED
           xclicked CDATA #IMPLIED
           yclicked CDATA #IMPLIED          
 >
-<!ELEMENT actorwidget ANY >
-<!ATTLIST actorwidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
+<!ELEMENT notewidget ANY >
+<!ATTLIST notewidget
+          %UMLWidgetAtts;
+          noteType CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT objectnodewidget ANY >
+<!ATTLIST objectnodewidget
+          %UMLWidgetAtts;
 >
 <!ELEMENT usecasewidget ANY >
 <!ATTLIST usecasewidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
 >
 <!ELEMENT packagewidget ANY >
 <!ATTLIST packagewidget
-          %ids;
-          %coordinates;
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
+          %UMLWidgetAtts;
           xclicked CDATA #IMPLIED
           yclicked CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
 >
 <!ELEMENT activitywidget ANY >
 <!ATTLIST activitywidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           activityname CDATA #IMPLIED
           postcondition CDATA #IMPLIED
           documentation CDATA #IMPLIED
@@ -369,72 +232,29 @@
 >
 <!ELEMENT signalwidget ANY >
 <!ATTLIST signalwidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           signaltype CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           signalname CDATA #IMPLIED
           documentation CDATA #IMPLIED
           textid CDATA #IMPLIED
 >
 <!ELEMENT regionwidget ANY >
 <!ATTLIST regionwidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           regionname CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
           documentation CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
 >
 <!ELEMENT pinwidget ANY >
 <!ATTLIST pinwidget
-          %ids;
-          %coordinates;
-          showstereotype CDATA #IMPLIED
+          %UMLWidgetAtts;
           widgetaid CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
-          linecolor CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          font CDATA #IMPLIED
 >
 <!ELEMENT objectnodewidget ANY >
 <!ATTLIST objectnodewidget
-          %ids;
-          %coordinates;
-          linecolor CDATA #IMPLIED
-          usesdiagramfillcolor CDATA #IMPLIED
-          linewidth CDATA #IMPLIED
-          textcolor CDATA #IMPLIED
-          usesdiagramusefillcolor CDATA #IMPLIED
+          %UMLWidgetAtts;
           objectnodetype CDATA #IMPLIED
-          showstereotype CDATA #IMPLIED
-          font CDATA #IMPLIED
           objectnodestate CDATA #IMPLIED
-          isinstance CDATA #IMPLIED
-          usefillcolor CDATA #IMPLIED
-          fillcolor CDATA #IMPLIED
           objectnodename CDATA #IMPLIED
           documentation CDATA #IMPLIED
 >
+
