@@ -1,13 +1,6 @@
 
 <!-- umbrello specific miscellaneous elements -->
 
-<!ELEMENT Artifact ANY >
-<!ATTLIST Artifact
-          drawas CDATA #IMPLIED
->
-<!ELEMENT Activities ANY >
-<!ATTLIST Activities
->
 <!ELEMENT docsettings ANY >
 <!ATTLIST docsettings
           viewid CDATA #IMPLIED
