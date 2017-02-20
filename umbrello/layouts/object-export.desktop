@@ -40,6 +40,11 @@ Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Object Diagrams
+Comment[en_GB]=Export Layout for Object Diagrams
+Comment[nl]=Indeling voor objectdiagrammen exporteren
+Comment[sv]=Exportera layout av objektdiagram
+Comment[uk]=Компонування для експортування діаграм об’єктів
+Comment[x-test]=xxExport Layout for Object Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::instance=shape=box
