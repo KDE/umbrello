@@ -3509,7 +3509,7 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 /**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
-void UMLScene::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     resizeSceneToItems();
     QDomElement viewElement = qDoc.createElement(QLatin1String("diagram"));
@@ -3518,7 +3518,7 @@ void UMLScene::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute(QLatin1String("type"), m_Type);
     viewElement.setAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
-    m_Options.SaveToXMI1(viewElement);
+    m_Options.saveToXMI1(viewElement);
     //misc
     viewElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
     viewElement.setAttribute(QLatin1String("showgrid"), m_layoutGrid->isVisible());
@@ -3547,13 +3547,13 @@ void UMLScene::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
              widget->asFloatingTextWidget()->link() == 0)
-            widget->SaveToXMI1(qDoc, widgetElement);
+            widget->saveToXMI1(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);
     //now save the message widgets
     QDomElement messageElement = qDoc.createElement(QLatin1String("messages"));
     foreach(UMLWidget* widget, m_MessageList) {
-        widget->SaveToXMI1(qDoc, messageElement);
+        widget->saveToXMI1(qDoc, messageElement);
     }
     viewElement.appendChild(messageElement);
     //now save the associations
@@ -3561,8 +3561,8 @@ void UMLScene::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     if (m_AssociationList.count()) {
         // We guard against (m_AssociationList.count() == 0) because
         // this code could be reached as follows:
-        //  ^  UMLScene::SaveToXMI1()
-        //  ^  UMLDoc::SaveToXMI1()
+        //  ^  UMLScene::saveToXMI1()
+        //  ^  UMLDoc::saveToXMI1()
         //  ^  UMLDoc::addToUndoStack()
         //  ^  UMLDoc::setModified()
         //  ^  UMLDoc::createDiagram()
@@ -3572,7 +3572,7 @@ void UMLScene::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         //
         AssociationWidget * assoc = 0;
         foreach(assoc, m_AssociationList) {
-            assoc->SaveToXMI1(qDoc, assocElement);
+            assoc->saveToXMI1(qDoc, assocElement);
         }
     }
     viewElement.appendChild(assocElement);

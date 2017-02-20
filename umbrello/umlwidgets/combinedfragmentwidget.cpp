@@ -321,17 +321,17 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void CombinedFragmentWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement combinedFragmentElement = qDoc.createElement(QLatin1String("combinedFragmentwidget"));
-    UMLWidget::SaveToXMI1(qDoc, combinedFragmentElement);
+    UMLWidget::saveToXMI1(qDoc, combinedFragmentElement);
     combinedFragmentElement.setAttribute(QLatin1String("combinedFragmentname"), m_Text);
     combinedFragmentElement.setAttribute(QLatin1String("documentation"), m_Doc);
     combinedFragmentElement.setAttribute(QLatin1String("CombinedFragmenttype"), m_CombinedFragment);
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> SaveToXMI1(qDoc, combinedFragmentElement);
+        (*it)-> saveToXMI1(qDoc, combinedFragmentElement);
     }
 
     qElement.appendChild(combinedFragmentElement);

@@ -65,7 +65,7 @@ UMLObject* UMLCategory::clone() const
 /**
  * Creates the <UML:Category> XMI element.
  */
-void UMLCategory::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLCategory::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
      QDomElement categoryElement = UMLObject::save1(QLatin1String("UML:Category"), qDoc);
      categoryElement.setAttribute(QLatin1String("categoryType"), (int)m_CategoryType);

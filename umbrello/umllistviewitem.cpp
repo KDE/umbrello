@@ -874,7 +874,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
 /**
  * Saves the listview item to a "listitem" tag.
  */
-void UMLListViewItem::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLListViewItem::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement itemElement = qDoc.createElement(QLatin1String("listitem"));
     Uml::ID::Type id = ID();
@@ -909,7 +909,7 @@ void UMLListViewItem::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement folderRoot;
     for (int i=0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
-        childItem->SaveToXMI1(qDoc, itemElement);
+        childItem->saveToXMI1(qDoc, itemElement);
     }
     qElement.appendChild(itemElement);
 }

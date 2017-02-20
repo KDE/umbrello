@@ -161,7 +161,7 @@ bool UMLAssociation::resolveRef()
  * Creates the <UML:Generalization> or <UML:Association> XMI element
  * including its role objects.
  */
-void UMLAssociation::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLAssociation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Generalization"), qDoc);
@@ -202,8 +202,8 @@ void UMLAssociation::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 
     QDomElement associationElement = UMLObject::save1(QLatin1String("UML:Association"), qDoc);
     QDomElement connElement = qDoc.createElement(QLatin1String("UML:Association.connection"));
-    getUMLRole(RoleType::A)->SaveToXMI1 (qDoc, connElement);
-    getUMLRole(RoleType::B)->SaveToXMI1 (qDoc, connElement);
+    getUMLRole(RoleType::A)->saveToXMI1 (qDoc, connElement);
+    getUMLRole(RoleType::B)->saveToXMI1 (qDoc, connElement);
     associationElement.appendChild (connElement);
     qElement.appendChild(associationElement);
 }

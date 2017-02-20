@@ -1852,13 +1852,13 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     /*
       Call after required actions in child class.
       Type must be set in the child class.
     */
-    WidgetBase::SaveToXMI1(qDoc, qElement);
+    WidgetBase::saveToXMI1(qDoc, qElement);
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();

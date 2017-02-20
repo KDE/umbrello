@@ -414,10 +414,10 @@ void StateWidget::showPropertiesDialog()
 /**
  * Creates the "statewidget" XMI element.
  */
-void StateWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement stateElement = qDoc.createElement(QLatin1String("statewidget"));
-    UMLWidget::SaveToXMI1(qDoc, stateElement);
+    UMLWidget::saveToXMI1(qDoc, stateElement);
     stateElement.setAttribute(QLatin1String("statename"), m_Text);
     stateElement.setAttribute(QLatin1String("documentation"), m_Doc);
     stateElement.setAttribute(QLatin1String("statetype"), m_stateType);

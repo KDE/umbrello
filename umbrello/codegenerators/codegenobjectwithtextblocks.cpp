@@ -360,7 +360,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
     foreach (TextBlock* block, *tbList) {
-        block->SaveToXMI1(doc, tblockElement);
+        block->saveToXMI1(doc, tblockElement);
     }
     root.appendChild(tblockElement);
 }

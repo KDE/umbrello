@@ -48,7 +48,7 @@ public:
     FloatingTextWidget *floatingTextWidget();
     void setFloatingTextWidget(FloatingTextWidget *ft);
 
-    void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI1(QDomElement& qElement);
 
 public slots:

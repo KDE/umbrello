@@ -98,13 +98,13 @@ bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::SaveToXMI1 to save widget info
+ * Reimplemented from UMLWidget::saveToXMI1 to save widget info
  * into XMI element - 'forkjoin'.
  */
-void ForkJoinWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ForkJoinWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement(QLatin1String("forkjoin"));
-    UMLWidget::SaveToXMI1(qDoc, fjElement);
+    UMLWidget::saveToXMI1(qDoc, fjElement);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;

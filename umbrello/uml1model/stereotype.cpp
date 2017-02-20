@@ -95,7 +95,7 @@ UMLObject* UMLStereotype::clone() const
 /**
  * Saves to the <UML:StereoType> XMI element.
  */
-void UMLStereotype::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLStereotype::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
     QDomElement stereotypeElement = UMLObject::save1(QLatin1String("UML:Stereotype"), qDoc);

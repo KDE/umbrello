@@ -144,7 +144,7 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig, bool wit
 /**
  * Creates the <UML:ForeignKeyConstraint> XMI element.
  */
-void UMLForeignKeyConstraint::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLForeignKeyConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement foreignKeyConstraintElement = UMLObject::save1(QLatin1String("UML:ForeignKeyConstraint"), qDoc);
 

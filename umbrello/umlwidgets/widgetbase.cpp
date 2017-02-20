@@ -514,7 +514,7 @@ void WidgetBase::showPropertiesDialog()
  * @param qDoc A QDomDocument object representing the xml document.
  * @param qElement A QDomElement representing xml element data.
  */
-void WidgetBase::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 

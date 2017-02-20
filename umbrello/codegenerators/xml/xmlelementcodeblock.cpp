@@ -31,7 +31,7 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void XMLElementCodeBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("xmlelementblock"));
 

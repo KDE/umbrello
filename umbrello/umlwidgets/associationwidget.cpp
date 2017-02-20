@@ -4067,12 +4067,12 @@ void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 /**
  * Saves this widget to the "assocwidget" XMI element.
  */
-void AssociationWidget::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement assocElement = qDoc.createElement(QLatin1String("assocwidget"));
 
-    WidgetBase::SaveToXMI1(qDoc, assocElement);
-    LinkWidget::SaveToXMI1(qDoc, assocElement);
+    WidgetBase::saveToXMI1(qDoc, assocElement);
+    LinkWidget::saveToXMI1(qDoc, assocElement);
     if (m_umlObject) {
         assocElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_umlObject->id()));
     }
@@ -4094,34 +4094,34 @@ void AssociationWidget::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
     assocElement.setAttribute(QLatin1String("indexb"), m_role[RoleType::B].m_nIndex);
     assocElement.setAttribute(QLatin1String("totalcounta"), m_role[RoleType::A].m_nTotalCount);
     assocElement.setAttribute(QLatin1String("totalcountb"), m_role[RoleType::B].m_nTotalCount);
-    m_associationLine->SaveToXMI1(qDoc, assocElement);
+    m_associationLine->saveToXMI1(qDoc, assocElement);
 
     if (m_nameWidget) {
-        m_nameWidget->SaveToXMI1(qDoc, assocElement);
+        m_nameWidget->saveToXMI1(qDoc, assocElement);
     }
 
     if (multiplicityWidget(RoleType::A)) {
-        multiplicityWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
+        multiplicityWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
     }
 
     if (multiplicityWidget(RoleType::B)) {
-        multiplicityWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
+        multiplicityWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
     }
 
     if (roleWidget(RoleType::A)) {
-        roleWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
+        roleWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
     }
 
     if (roleWidget(RoleType::B)) {
-        roleWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
+        roleWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
     }
 
     if (changeabilityWidget(RoleType::A)) {
-        changeabilityWidget(RoleType::A)->SaveToXMI1(qDoc, assocElement);
+        changeabilityWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
     }
 
     if (changeabilityWidget(RoleType::B)) {
-        changeabilityWidget(RoleType::B)->SaveToXMI1(qDoc, assocElement);
+        changeabilityWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
     }
 
     if (m_associationClass) {

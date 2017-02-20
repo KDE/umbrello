@@ -352,7 +352,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
  * Saves association line information into XMI element named "linepath".
  * @note Stored as linepath for backwared compatibility
  */
-void AssociationLine::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationLine::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
     lineElement.setAttribute(QLatin1String("layout"), toString(m_layout));

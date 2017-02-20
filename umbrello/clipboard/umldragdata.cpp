@@ -128,7 +128,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->SaveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(domDoc, objectsTag);
     }
 
     setData(QLatin1String("application/x-uml-clip1"), domDoc.toString().toUtf8());
@@ -150,14 +150,14 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->SaveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(domDoc, objectsTag);
     }
 
     QDomElement viewsTag = domDoc.createElement(QLatin1String("umlviews"));
     xmiclip.appendChild(viewsTag);
 
     foreach(UMLView* view, diagrams) {
-        view->umlScene()->SaveToXMI1(domDoc, viewsTag);
+        view->umlScene()->saveToXMI1(domDoc, viewsTag);
     }
 
     setData(QLatin1String("application/x-uml-clip2"), domDoc.toString().toUtf8());
@@ -177,7 +177,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     xmiclip.appendChild(itemsTag);
 
     foreach(UMLListViewItem* item, umlListViewItems) {
-        item->SaveToXMI1(domDoc, itemsTag);
+        item->saveToXMI1(domDoc, itemsTag);
     }
 
     setData(QLatin1String("application/x-uml-clip3"), domDoc.toString().toUtf8());
@@ -201,21 +201,21 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     xmiclip.appendChild(objectsTag);
 
     foreach (UMLObject* obj, objects) {
-        obj->SaveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(domDoc, objectsTag);
     }
 
     QDomElement widgetsTag = domDoc.createElement(QLatin1String("widgets"));
     xmiclip.appendChild(widgetsTag);
 
     foreach (UMLWidget* widget, widgets) {
-        widget->SaveToXMI1(domDoc, widgetsTag);
+        widget->saveToXMI1(domDoc, widgetsTag);
     }
 
     QDomElement associationWidgetsTag = domDoc.createElement(QLatin1String("associations"));
     xmiclip.appendChild(associationWidgetsTag);
 
     foreach (AssociationWidget* association, associations) {
-        association->SaveToXMI1(domDoc, associationWidgetsTag);
+        association->saveToXMI1(domDoc, associationWidgetsTag);
     }
 
     setData(QLatin1String("application/x-uml-clip4"), domDoc.toString().toUtf8());
@@ -243,7 +243,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
     xmiclip.appendChild(objectsTag);
 
     foreach (UMLObject* obj, objects) {
-        obj->SaveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(domDoc, objectsTag);
     }
 
     setData(QLatin1String("application/x-uml-clip5"), domDoc.toString().toUtf8());

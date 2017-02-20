@@ -67,7 +67,7 @@ QString UMLInstanceAttribute::getAttributes() const
 /**
  * Creates the <UML:InstanceAttribute> XMI element.
  */
-void UMLInstanceAttribute::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void UMLInstanceAttribute::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement instanceAttributeElement = UMLObject::save1(QLatin1String("UML:InstanceAttribute"), qDoc);
     if (m_pSecondary == NULL) {

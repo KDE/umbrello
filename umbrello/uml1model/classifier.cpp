@@ -1374,7 +1374,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
  * Saves possible template parameters, generalizations, attributes,
  * operations, and contained objects to the given QDomElement.
  */
-void UMLClassifier::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLClassifier::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QString tag;
     switch (m_BaseType) {
@@ -1385,7 +1385,7 @@ void UMLClassifier::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
             tag = QLatin1String("UML:Interface");
             break;
         case UMLObject::ot_Package:
-            UMLPackage::SaveToXMI1(qDoc, qElement);
+            UMLPackage::saveToXMI1(qDoc, qElement);
             return;
             break;
         default:
@@ -1399,7 +1399,7 @@ void UMLClassifier::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     if (list.count()) {
         QDomElement tmplElement = qDoc.createElement(QLatin1String("UML:ModelElement.templateParameter"));
         foreach (UMLClassifierListItem *tmpl, list) {
-            tmpl->SaveToXMI1(qDoc, tmplElement);
+            tmpl->saveToXMI1(qDoc, tmplElement);
         }
         classifierElement.appendChild(tmplElement);
     }
@@ -1426,13 +1426,13 @@ void UMLClassifier::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement featureElement = qDoc.createElement(QLatin1String("UML:Classifier.feature"));
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
     foreach (UMLClassifierListItem *pAtt, attList) {
-        pAtt->SaveToXMI1(qDoc, featureElement);
+        pAtt->saveToXMI1(qDoc, featureElement);
     }
 
     // save operations
     UMLOperationList opList = getOpList();
     foreach (UMLOperation *pOp, opList) {
-        pOp->SaveToXMI1(qDoc, featureElement);
+        pOp->saveToXMI1(qDoc, featureElement);
     }
     if (featureElement.hasChildNodes()) {
         classifierElement.appendChild(featureElement);
@@ -1443,7 +1443,7 @@ void UMLClassifier::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
         foreach (UMLObject* obj, m_objects) {
             uIgnoreZeroPointer(obj);
-            obj->SaveToXMI1 (qDoc, ownedElement);
+            obj->saveToXMI1 (qDoc, ownedElement);
         }
         classifierElement.appendChild(ownedElement);
     }

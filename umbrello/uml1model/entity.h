@@ -72,7 +72,7 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
     UMLClassifierListItemList getFilteredList(UMLObject::ObjectType ot) const;
 

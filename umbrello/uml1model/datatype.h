@@ -36,7 +36,7 @@ public:
     bool isReference() const;
 
     virtual bool loadFromXMI1(QDomElement & element);
-    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     bool m_isRef;

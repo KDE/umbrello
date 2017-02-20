@@ -67,7 +67,7 @@ public:
      * @param doc    the xmi document
      * @param root   the starting point to append
      */
-    virtual void SaveToXMI1(QDomDocument & doc, QDomElement & root) = 0;
+    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root) = 0;
 
     /**
      * Load params from the appropriate XMI element node.

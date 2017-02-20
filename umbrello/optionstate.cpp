@@ -20,7 +20,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void ClassState::SaveToXMI1(QDomElement &element)
+    void ClassState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("showattribassocs"), showAttribAssocs);
         element.setAttribute(QLatin1String("showatts"),         showAtts);
@@ -73,7 +73,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void UIState::SaveToXMI1(QDomElement &element)
+    void UIState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
         element.setAttribute(QLatin1String("fillcolor"),        fillColor.name());
@@ -126,7 +126,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void CodeImportState::SaveToXMI1(QDomElement &element)
+    void CodeImportState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
         element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
@@ -166,10 +166,10 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void OptionState::SaveToXMI1(QDomElement& element)
+    void OptionState::saveToXMI1(QDomElement& element)
     {
-        uiState.SaveToXMI1(element);
-        classState.SaveToXMI1(element);
+        uiState.saveToXMI1(element);
+        classState.saveToXMI1(element);
     }
 
     /**

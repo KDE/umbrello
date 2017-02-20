@@ -63,7 +63,7 @@ public:
 
     bool showPropertiesDialog(QWidget *parent);
 
-    void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
     friend QDebug operator<<(QDebug out, const UMLFolder& item);
 

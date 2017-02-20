@@ -52,7 +52,7 @@ CodeComment * CodeBlockWithComments::getComment () const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeBlockWithComments::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codeblockwithcomments"));
 
@@ -74,7 +74,7 @@ void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->SaveToXMI1(doc, commElement); // comment
+    getComment()->saveToXMI1(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
 

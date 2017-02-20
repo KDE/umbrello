@@ -32,7 +32,7 @@ namespace Uml
 
         QDomDocument doc;
         m_element = doc.createElement(QLatin1String("widget"));
-        widget->SaveToXMI1(doc, m_element);
+        widget->saveToXMI1(doc, m_element);
     }
 
     /**

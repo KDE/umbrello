@@ -79,10 +79,10 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void ActorWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActorWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement actorElement = qDoc.createElement(QLatin1String("actorwidget"));
-    UMLWidget::SaveToXMI1(qDoc, actorElement);
+    UMLWidget::saveToXMI1(qDoc, actorElement);
     qElement.appendChild(actorElement);
 }
 

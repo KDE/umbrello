@@ -53,7 +53,7 @@ UMLObject* UMLComponent::clone() const
  * Creates the UML:Component element including its operations,
  * attributes and templates
  */
-void UMLComponent::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLComponent::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement componentElement = UMLObject::save1(QLatin1String("UML:Component"), qDoc);
     componentElement.setAttribute(QLatin1String("executable"), m_executable);
@@ -63,7 +63,7 @@ void UMLComponent::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
         for (UMLObjectListIt objectsIt(m_objects); objectsIt.hasNext();) {
             UMLObject* obj = objectsIt.next();
             uIgnoreZeroPointer(obj);
-            obj->SaveToXMI1 (qDoc, ownedElement);
+            obj->saveToXMI1 (qDoc, ownedElement);
         }
         componentElement.appendChild(ownedElement);
     }

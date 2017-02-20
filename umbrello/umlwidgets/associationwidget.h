@@ -184,7 +184,7 @@ public:
     bool loadFromXMI1(QDomElement& qElement, const UMLWidgetList& widgets,
                      const MessageWidgetList* messages);
     virtual bool loadFromXMI1(QDomElement& qElement);
-    virtual void SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
 
     void cleanup();
 

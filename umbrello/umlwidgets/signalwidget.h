@@ -56,7 +56,7 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
     virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

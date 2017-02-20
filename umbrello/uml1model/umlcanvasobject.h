@@ -83,7 +83,7 @@ public:
 
     virtual bool resolveRef();
 
-    // The abstract method UMLObject::SaveToXMI1() is implemented
+    // The abstract method UMLObject::saveToXMI1() is implemented
     // in the classes inheriting from UMLCanvasObject.
 
 protected:

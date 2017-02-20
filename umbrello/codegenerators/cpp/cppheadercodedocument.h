@@ -47,7 +47,7 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    //virtual void SaveToXMI1(QDomDocument & doc, QDomElement & root);
+    //virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
 
 protected:
 

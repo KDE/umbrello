@@ -45,7 +45,7 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 /**
  * Save the XMI representation of this object
  */
-void CPPHeaderClassDeclarationBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CPPHeaderClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("cppheaderclassdeclarationblock"));
 

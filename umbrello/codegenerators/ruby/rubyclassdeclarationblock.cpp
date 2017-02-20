@@ -29,7 +29,7 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void RubyClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("rubyclassdeclarationblock"));
 

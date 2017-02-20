@@ -39,7 +39,7 @@ public:
 
     void setOverallIndentationLevel (int level);
 
-    virtual void SaveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root);
 
     virtual void loadFromXMI1 (QDomElement & root);
 

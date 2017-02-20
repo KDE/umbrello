@@ -391,7 +391,7 @@ bool UMLPackage::resolveRef()
 /**
  * Creates the <UML:Package> XMI element.
  */
-void UMLPackage::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement packageElement = UMLObject::save1(QLatin1String("UML:Package"), qDoc);
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
@@ -400,12 +400,12 @@ void UMLPackage::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        obj->SaveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (qDoc, ownedElement);
     }
     // save associations
     for (UMLObjectListIt ait(m_List); ait.hasNext();) {
         obj = ait.next();
-        obj->SaveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (qDoc, ownedElement);
     }
 
     packageElement.appendChild(ownedElement);

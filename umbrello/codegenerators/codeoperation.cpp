@@ -69,7 +69,7 @@ UMLOperation * CodeOperation::getParentOperation()
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeOperation::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codeoperation"));
     // set attributes

@@ -124,7 +124,7 @@ UMLObject* UMLTemplate::clone() const
 /**
  * Writes the <UML:TemplateParameter> XMI element.
  */
-void UMLTemplate::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLTemplate::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
     QDomElement attributeElement = UMLObject::save1(QLatin1String("UML:TemplateParameter"), qDoc);

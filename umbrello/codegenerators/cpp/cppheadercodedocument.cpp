@@ -316,7 +316,7 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
  * @return      bool    status of save
  */
 /*
-void CPPHeaderCodeDocument::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CPPHeaderCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
         QDomElement docElement = doc.createElement(QString());
 

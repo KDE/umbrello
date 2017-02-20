@@ -159,7 +159,7 @@ Uml::RoleType::Enum UMLRole::role() const
 /**
  * Creates the <UML:AssociationEnd> XMI element.
  */
-void UMLRole::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLRole::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement roleElement = UMLObject::save1(QLatin1String("UML:AssociationEnd"), qDoc);
     if (m_pSecondary)

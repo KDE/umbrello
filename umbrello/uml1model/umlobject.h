@@ -60,7 +60,7 @@ class UMLObjectPrivate;
  *
  * @ref clone needs to be implemented by each child class.
  *
- * @ref SaveToXMI1 saves the XMI attributes of each specific model class.
+ * @ref saveToXMI1 saves the XMI attributes of each specific model class.
  * It needs to be implemented by each child class.
  * For creating the QDomElement and saving the common XMI parts,
  * it can use the save() method.
@@ -175,7 +175,7 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI1(QDomElement & element);
 
     bool loadStereotype(QDomElement & element);

@@ -54,7 +54,7 @@ public:
 
     QStringList defaultDatatypes();
 
-    virtual void SaveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root);
 
     virtual QStringList reservedKeywords() const;
 

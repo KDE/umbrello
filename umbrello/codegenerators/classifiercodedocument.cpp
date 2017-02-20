@@ -710,7 +710,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
 /**
  * Save the XMI representation of this object.
  */
-void ClassifierCodeDocument::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void ClassifierCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
 #if 0
     // avoid the creation of primitive data type
@@ -760,7 +760,7 @@ void ClassifierCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElemen
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)
-        (*it)->SaveToXMI1(doc, fieldsElement);
+        (*it)->saveToXMI1(doc, fieldsElement);
     docElement.appendChild(fieldsElement);
 }
 

@@ -261,15 +261,15 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
 /**
  * Saves the widget to the "pinwidget" or "portwidget" XMI element.
  */
-void PinPortBase::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PinPortBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
                                                                   : QLatin1String("portwidget"));
     Q_ASSERT(ownerWidget() != 0);
     element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
-    UMLWidget::SaveToXMI1(qDoc, element);
+    UMLWidget::saveToXMI1(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
-        m_pName->SaveToXMI1(qDoc, element);
+        m_pName->saveToXMI1(qDoc, element);
     }
     qElement.appendChild(element);
 }

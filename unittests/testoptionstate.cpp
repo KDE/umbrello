@@ -44,7 +44,7 @@ void TestOptionState::test_saveAndLoad()
 
     QDomDocument doc;
     QDomElement element = doc.createElement(QLatin1String("test"));
-    options.SaveToXMI1(element);
+    options.saveToXMI1(element);
 
     Settings::OptionState optionsB;
     QCOMPARE(optionsB.loadFromXMI1(element), true);

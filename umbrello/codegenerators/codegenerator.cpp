@@ -242,7 +242,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 /**
  * Save the XMI representation of this object
  */
-void CodeGenerator::SaveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
     QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
@@ -270,7 +270,7 @@ void CodeGenerator::SaveToXMI1(QDomDocument & doc, QDomElement & root)
         CodeDocumentList::const_iterator it = docList->begin();
         CodeDocumentList::const_iterator end = docList->end();
         for (; it != end; ++it) {
-            (*it)->SaveToXMI1(doc, docElement);
+            (*it)->saveToXMI1(doc, docElement);
         }
     }
     root.appendChild(docElement);

@@ -107,7 +107,7 @@ void CodeAccessorMethod::loadFromXMI1(QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeAccessorMethod::SaveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeAccessorMethod::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codeaccessormethod"));
 

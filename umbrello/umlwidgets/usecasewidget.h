@@ -49,7 +49,7 @@ public:
 
     // For loading we can use the loadFromXMI1() inherited from
     // UMLWidget.
-    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     QSizeF minimumSize() const;

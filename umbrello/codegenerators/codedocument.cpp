@@ -373,7 +373,7 @@ void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docEle
     // set the a header
     // which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getHeader()->SaveToXMI1(doc, commElement); // comment
+    getHeader()->saveToXMI1(doc, commElement); // comment
     docElement.appendChild(commElement);
 
     // doc codePolicy?
@@ -434,7 +434,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
  * @param doc   the xmi document
  * @param root  the starting point to append
  */
-void CodeDocument::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
     setAttributesOnNode(doc, docElement);

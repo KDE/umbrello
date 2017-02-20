@@ -180,7 +180,7 @@ private:
 
 protected:
 
-    void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual bool load1(QDomElement& element);
 

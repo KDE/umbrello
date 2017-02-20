@@ -73,7 +73,7 @@ public:
     {
     }
 
-    void SaveToXMI1(QDomElement& element);
+    void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
     bool   useFillColor;
@@ -104,7 +104,7 @@ public:
     {
     }
 
-    void SaveToXMI1(QDomElement& element);
+    void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
     bool showVisibility;
@@ -243,7 +243,7 @@ public:
     {
     }
 
-    void SaveToXMI1(QDomElement& element);
+    void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
     bool createArtifacts;
@@ -258,7 +258,7 @@ public:
     {
     }
 
-    void SaveToXMI1(QDomElement& element);
+    void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
     bool autoDotPath;  ///< determine path to dot executable automatically
@@ -270,7 +270,7 @@ class OptionState {
 public:
     OptionState();
 
-    void SaveToXMI1(QDomElement& element);
+    void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
     static OptionState &instance();

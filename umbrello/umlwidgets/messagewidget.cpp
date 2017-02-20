@@ -1331,11 +1331,11 @@ void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void MessageWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
-    UMLWidget::SaveToXMI1(qDoc, messageElement);
-    LinkWidget::SaveToXMI1(qDoc, messageElement);
+    UMLWidget::saveToXMI1(qDoc, messageElement);
+    LinkWidget::saveToXMI1(qDoc, messageElement);
     if (m_pOw[Uml::RoleType::A])
         messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
@@ -1354,7 +1354,7 @@ void MessageWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
         messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->SaveToXMI1(qDoc, messageElement);
+        m_pFText->saveToXMI1(qDoc, messageElement);
     }
 
     qElement.appendChild(messageElement);

@@ -115,7 +115,7 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLCheckConstraint::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLCheckConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement checkConstraintElement = UMLObject::save1(QLatin1String("UML:CheckConstraint"), qDoc);
 

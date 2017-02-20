@@ -61,7 +61,7 @@ public:
     virtual void showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
     static QPointer<NoteWidget> s_pCurrentNote;
 

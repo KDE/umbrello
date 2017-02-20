@@ -327,10 +327,10 @@ bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActivityWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement activityElement = qDoc.createElement(QLatin1String("activitywidget"));
-    UMLWidget::SaveToXMI1(qDoc, activityElement);
+    UMLWidget::saveToXMI1(qDoc, activityElement);
     activityElement.setAttribute(QLatin1String("activityname"), name());
     activityElement.setAttribute(QLatin1String("documentation"), documentation());
     activityElement.setAttribute(QLatin1String("precondition"), preconditionText());

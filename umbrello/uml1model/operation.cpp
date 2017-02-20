@@ -458,7 +458,7 @@ QString UMLOperation::getSourceCode() const
 /**
  * Saves to the <UML:Operation> XMI element.
  */
-void UMLOperation::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement operationElement = UMLObject::save1(QLatin1String("UML:Operation"), qDoc);
     operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));

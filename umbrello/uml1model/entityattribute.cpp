@@ -236,7 +236,7 @@ UMLObject* UMLEntityAttribute::clone() const
 /**
  * Creates the <UML:EntityAttribute> XMI element.
  */
-void UMLEntityAttribute::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLEntityAttribute::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement entityattributeElement = UMLObject::save1(QLatin1String("UML:EntityAttribute"), qDoc);
     if (m_pSecondary == 0) {

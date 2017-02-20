@@ -2382,10 +2382,10 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 /**
  *
  */
-void UMLListView::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLListView::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement listElement = qDoc.createElement(QLatin1String("listview"));
-    m_rv->SaveToXMI1(qDoc, listElement);
+    m_rv->saveToXMI1(qDoc, listElement);
     qElement.appendChild(listElement);
 }
 

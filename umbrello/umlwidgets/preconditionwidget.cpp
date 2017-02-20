@@ -273,10 +273,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
 /**
  * Saves the widget to the "preconditionwidget" XMI element.
  */
-void PreconditionWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PreconditionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement preconditionElement = qDoc.createElement(QLatin1String("preconditionwidget"));
-    UMLWidget::SaveToXMI1(qDoc, preconditionElement);
+    UMLWidget::saveToXMI1(qDoc, preconditionElement);
 
     preconditionElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
     preconditionElement.setAttribute(QLatin1String("preconditionname"), name());

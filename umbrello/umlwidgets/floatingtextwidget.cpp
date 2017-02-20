@@ -709,16 +709,16 @@ bool FloatingTextWidget::loadFromXMI1(QDomElement & qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::SaveToXMI1 to save the widget
+ * Reimplemented from UMLWidget::saveToXMI1 to save the widget
  * data into XMI 'floatingtext' element.
  */
-void FloatingTextWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingTextWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     if (isEmpty())
         return;
 
     QDomElement textElement = qDoc.createElement(QLatin1String("floatingtext"));
-    UMLWidget::SaveToXMI1(qDoc, textElement);
+    UMLWidget::saveToXMI1(qDoc, textElement);
     textElement.setAttribute(QLatin1String("text"), m_Text);
     textElement.setAttribute(QLatin1String("pretext"), m_preText);
     textElement.setAttribute(QLatin1String("posttext"), m_postText);

@@ -208,7 +208,7 @@ void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement &
 /**
  * Save the XMI representation of this object
  */
-void JavaANTCodeDocument::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaANTCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
 

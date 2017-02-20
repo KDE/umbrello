@@ -851,13 +851,13 @@ bool UMLObject::resolveRef()
     return true;
 }
 
-void UMLObject::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void UMLObject::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     Q_UNUSED(qDoc); Q_UNUSED(qElement);
 }
 
 /**
- * Auxiliary to SaveToXMI1.
+ * Auxiliary to saveToXMI1.
  * Create a QDomElement with the given tag, and save the XMI attributes
  * that are common to all child classes to the newly created element.
  * This method does not need to be overridden by child classes.
@@ -866,7 +866,7 @@ QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
 {
     m_d->isSaved = true;
     /*
-      Call as the first action of SaveToXMI1() in child class:
+      Call as the first action of saveToXMI1() in child class:
       This creates the QDomElement with which to work.
     */
     QDomElement qElement = qDoc.createElement(tag);

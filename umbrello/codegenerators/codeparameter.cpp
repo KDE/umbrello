@@ -181,7 +181,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
 
     // a comment which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->SaveToXMI1(doc, commElement); // comment
+    getComment()->saveToXMI1(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
 

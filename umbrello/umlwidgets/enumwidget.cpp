@@ -170,10 +170,10 @@ bool EnumWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "enumwidget" XMI element.
  */
-void EnumWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void EnumWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("enumwidget"));
-    UMLWidget::SaveToXMI1(qDoc, conceptElement);
+    UMLWidget::saveToXMI1(qDoc, conceptElement);
 
     conceptElement.setAttribute(QLatin1String("showpackage"), m_showPackage);
     qElement.appendChild(conceptElement);

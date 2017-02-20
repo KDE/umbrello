@@ -181,7 +181,7 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
  * @param doc    the document
  * @param root   the root element
  */
-void CPPCodeGenerator::SaveToXMI1(QDomDocument & doc, QDomElement & root)
+void CPPCodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
     docElement.setAttribute(QLatin1String("language"), QLatin1String("C++"));
@@ -190,12 +190,12 @@ void CPPCodeGenerator::SaveToXMI1(QDomDocument & doc, QDomElement & root)
     CodeDocumentList::ConstIterator it  = docList->begin();
     CodeDocumentList::ConstIterator end  = docList->end();
     for (; it != end; ++it)
-        (*it)->SaveToXMI1(doc, docElement);
+        (*it)->saveToXMI1(doc, docElement);
 
     CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
     CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
     for (; it2 != end2; ++it2)
-        (*it2)->SaveToXMI1(doc, docElement);
+        (*it2)->saveToXMI1(doc, docElement);
 
     root.appendChild(docElement);
 }

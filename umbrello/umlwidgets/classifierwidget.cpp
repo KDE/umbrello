@@ -1335,13 +1335,13 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "classwidget" or "interfacewidget" XML element.
  */
-void ClassifierWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement;
     UMLClassifier *umlc = classifier();
     if (umlObject() && umlObject()->baseType() == UMLObject::ot_Package) {
         conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
-        UMLWidget::SaveToXMI1(qDoc, conceptElement);
+        UMLWidget::saveToXMI1(qDoc, conceptElement);
         qElement.appendChild(conceptElement);
         return;
     }
@@ -1351,7 +1351,7 @@ void ClassifierWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
     else
         conceptElement = qDoc.createElement(QLatin1String("classwidget"));
-    UMLWidget::SaveToXMI1(qDoc, conceptElement);
+    UMLWidget::saveToXMI1(qDoc, conceptElement);
     conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
     conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
     conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
@@ -1365,7 +1365,7 @@ void ClassifierWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     if (umlc && (umlc->isInterface() || umlc->isAbstract())) {
         conceptElement.setAttribute(QLatin1String("drawascircle"), visualProperty(DrawAsCircle));
         if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
-            m_pInterfaceName->SaveToXMI1(qDoc, conceptElement);
+            m_pInterfaceName->saveToXMI1(qDoc, conceptElement);
         }
     }
     qElement.appendChild(conceptElement);

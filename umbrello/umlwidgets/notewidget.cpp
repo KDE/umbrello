@@ -229,10 +229,10 @@ bool NoteWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "notewidget" XMI element.
  */
-void NoteWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void NoteWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement noteElement = qDoc.createElement(QLatin1String("notewidget"));
-    UMLWidget::SaveToXMI1(qDoc, noteElement);
+    UMLWidget::saveToXMI1(qDoc, noteElement);
     noteElement.setAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
         noteElement.setAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));

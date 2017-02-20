@@ -247,12 +247,12 @@ void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfEl
                                                                                : QLatin1String("false"));
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
-    m_declCodeBlock->SaveToXMI1(doc, cfElem);
+    m_declCodeBlock->saveToXMI1(doc, cfElem);
 
     // now record the tags on our accessormethods
     Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
-        method->SaveToXMI1(doc, cfElem);
+        method->saveToXMI1(doc, cfElem);
     }
 }
 
@@ -311,7 +311,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassField::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeClassField::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codeclassfield"));
 

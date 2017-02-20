@@ -67,7 +67,7 @@ public:
 
     QString getUniqueID(CodeDocument * codeDoc);
 
-    virtual void SaveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
 
     CodeDocument * findCodeDocumentByID(const QString &id);
 

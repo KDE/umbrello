@@ -834,7 +834,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             delete archive;
             return false;
         }
-        SaveToXMI1(tmp_xmi_file); // save XMI to this file...
+        saveToXMI1(tmp_xmi_file); // save XMI to this file...
 
         // now add this file to the archive, but without the extension
         QString tmpQString = url.fileName();
@@ -887,11 +887,11 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file
-        // -> if something goes wrong during SaveToXMI1, the
+        // -> if something goes wrong during saveToXMI1, the
         //     original content is preserved
         //     (e.g. if umbrello dies in the middle of the document model parsing
-        //      for SaveToXMI1 due to some problems)
-        /// @todo insert some checks in SaveToXMI1 to detect a failed save attempt
+        //      for saveToXMI1 due to some problems)
+        /// @todo insert some checks in saveToXMI1 to detect a failed save attempt
 
         // lets open the file for writing
         if (!tmpfile.open()) {
@@ -902,7 +902,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
             return false;
         }
-        SaveToXMI1(tmpfile); // save the xmi stuff to it
+        saveToXMI1(tmpfile); // save the xmi stuff to it
 
         // if it is a remote file, we have to upload the tmp file
         if (!url.isLocalFile()) {
@@ -1996,12 +1996,12 @@ Uml::ID::Type UMLDoc::modelID() const
 
 /**
  * This method is called for saving the given model as a XMI file.
- * It is virtual and calls the corresponding SaveToXMI1() functions
+ * It is virtual and calls the corresponding saveToXMI1() functions
  * of the derived classes.
  *
  * @param file   The file to be saved to.
  */
-void UMLDoc::SaveToXMI1(QIODevice& file)
+void UMLDoc::saveToXMI1(QIODevice& file)
 {
     QDomDocument doc;
 
@@ -2094,12 +2094,12 @@ void UMLDoc::SaveToXMI1(QIODevice& file)
     foreach (UMLStereotype *s, m_stereoList) {
         QString stName = s->name();
         if (!stereoNames.contains(stName)) {
-            s->SaveToXMI1(doc, ownedNS);
+            s->saveToXMI1(doc, ownedNS);
             stereoNames.append(stName);
         }
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        m_root[i]->SaveToXMI1(doc, ownedNS);
+        m_root[i]->saveToXMI1(doc, ownedNS);
     }
 
     objectsElement.appendChild(ownedNS);
@@ -2124,13 +2124,13 @@ void UMLDoc::SaveToXMI1(QIODevice& file)
     extensions.appendChild(docElement);
 
     //  save listview
-    UMLApp::app()->listView()->SaveToXMI1(doc, extensions);
+    UMLApp::app()->listView()->saveToXMI1(doc, extensions);
 
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
         QDomElement codeGenElement = doc.createElement(QLatin1String("codegeneration"));
-        codegen->SaveToXMI1(doc, codeGenElement);
+        codegen->saveToXMI1(doc, codeGenElement);
         extensions.appendChild(codeGenElement);
     }
 

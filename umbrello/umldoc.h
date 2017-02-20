@@ -167,7 +167,7 @@ public:
 
     static bool tagEq (const QString& tag, const QString& pattern);
 
-    virtual void SaveToXMI1(QIODevice& file);
+    virtual void saveToXMI1(QIODevice& file);
 
     short encoding(QIODevice & file);
 

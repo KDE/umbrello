@@ -660,10 +660,10 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
 /**
  * Saves to the "objectwidget" XMI element.
  */
-void ObjectWidget::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement objectElement = qDoc.createElement(QLatin1String("objectwidget"));
-    UMLWidget::SaveToXMI1(qDoc, objectElement);
+    UMLWidget::saveToXMI1(qDoc, objectElement);
     objectElement.setAttribute(QLatin1String("drawasactor"), m_drawAsActor);
     objectElement.setAttribute(QLatin1String("multipleinstance"), m_multipleInstance);
     objectElement.setAttribute(QLatin1String("decon"), m_showDestruction);

@@ -150,7 +150,7 @@ public:
 
     UMLListViewItem* childItem(int i);
 
-    void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI1(QDomElement& qElement);
 
     bool isOpen() { return isExpanded(); }

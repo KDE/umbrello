@@ -113,7 +113,7 @@ bool LinkWidget::loadFromXMI1(QDomElement &qElement)
 /**
  * Save data to XMI.
  */
-void LinkWidget::SaveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void LinkWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     Q_UNUSED(qDoc);
 

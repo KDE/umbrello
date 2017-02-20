@@ -148,7 +148,7 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLUniqueConstraint::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLUniqueConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement uniqueConstraintElement = UMLObject::save1(QLatin1String("UML:UniqueConstraint"), qDoc);
 
@@ -160,7 +160,7 @@ void UMLUniqueConstraint::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement
     }
 
     foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
-        att->SaveToXMI1(qDoc, uniqueConstraintElement);
+        att->saveToXMI1(qDoc, uniqueConstraintElement);
     }
 
     qElement.appendChild(uniqueConstraintElement);

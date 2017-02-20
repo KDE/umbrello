@@ -50,7 +50,7 @@ UMLObject* UMLArtifact::clone() const
  * @param qDoc       the xml document
  * @param qElement   the xml element
  */
-void UMLArtifact::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement) 
+void UMLArtifact::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement) 
 {
     QDomElement artifactElement = UMLObject::save1(QLatin1String("UML:Artifact"), qDoc);
     artifactElement.setAttribute(QLatin1String("drawas"), m_drawAsType);

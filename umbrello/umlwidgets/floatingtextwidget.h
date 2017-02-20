@@ -80,7 +80,7 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
     virtual bool loadFromXMI1(QDomElement& qElement);
 
 public Q_SLOTS:

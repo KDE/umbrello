@@ -262,7 +262,7 @@ QString UMLFolder::folderFile() const
 }
 
 /**
- * Auxiliary to SaveToXMI1(): Save the contained objects and diagrams.
+ * Auxiliary to saveToXMI1(): Save the contained objects and diagrams.
  * Can be used regardless of whether saving to the main model file
  * or to an external folder file (see m_folderFile.)
  */
@@ -274,12 +274,12 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        obj->SaveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (qDoc, ownedElement);
     }
     // Save asscociations if any.
     for (UMLObjectListIt ait(m_List); ait.hasNext();) {
         obj = ait.next();
-        obj->SaveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (qDoc, ownedElement);
     }
     qElement.appendChild(ownedElement);
     // Save diagrams to `extension'.
@@ -289,7 +289,7 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
             diagramsElement.setAttribute(QLatin1String("resolution"), UMLApp::app()->document()->resolution());
 
         foreach (UMLView* pView, m_diagrams) {
-            pView->umlScene()->SaveToXMI1(qDoc, diagramsElement);
+            pView->umlScene()->saveToXMI1(qDoc, diagramsElement);
         }
         QDomElement extension = qDoc.createElement(QLatin1String("XMI.extension"));
         extension.setAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
@@ -299,7 +299,7 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
 }
 
 /**
- * Auxiliary to SaveToXMI1(): Creates a <UML:Model> element when saving
+ * Auxiliary to saveToXMI1(): Creates a <UML:Model> element when saving
  * a predefined modelview, or a <UML:Package> element when saving a
  * user created folder. Invokes saveContents() with the newly created
  * element.
@@ -322,7 +322,7 @@ void UMLFolder::save1(QDomDocument& qDoc, QDomElement& qElement)
  * UML:Model is created for the predefined fixed folders,
  * UML:Package with stereotype "folder" is created for all else.
  */
-void UMLFolder::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLFolder::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     if (m_folderFile.isEmpty()) {
         save1(qDoc, qElement);

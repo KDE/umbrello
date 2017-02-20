@@ -299,16 +299,16 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void SignalWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement signalElement = qDoc.createElement(QLatin1String("signalwidget"));
-    UMLWidget::SaveToXMI1(qDoc, signalElement);
+    UMLWidget::saveToXMI1(qDoc, signalElement);
     signalElement.setAttribute(QLatin1String("signalname"), m_Text);
     signalElement.setAttribute(QLatin1String("documentation"), m_Doc);
     signalElement.setAttribute(QLatin1String("signaltype"), m_signalType);
     if (m_pName && !m_pName->text().isEmpty()) {
         signalElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
-        m_pName -> SaveToXMI1(qDoc, signalElement);
+        m_pName -> saveToXMI1(qDoc, signalElement);
     }
     qElement.appendChild(signalElement);
 }

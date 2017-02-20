@@ -59,7 +59,7 @@ public:
 
     QString name(bool includeAdornments=false) const;
 
-    void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual bool showPropertiesDialog(QWidget* parent);
 

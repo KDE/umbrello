@@ -52,7 +52,7 @@ UMLObject* UMLNode::clone() const
 /**
  * Creates the <UML:Node> XMI element.
  */
-void UMLNode::SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLNode::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement nodeElement = UMLObject::save1(QLatin1String("UML:Node"), qDoc);
     qElement.appendChild(nodeElement);

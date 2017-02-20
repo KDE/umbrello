@@ -63,7 +63,7 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void SaveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     virtual bool load1(QDomElement& element);

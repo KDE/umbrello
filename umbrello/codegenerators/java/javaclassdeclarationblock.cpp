@@ -30,7 +30,7 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::SaveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("javaclassdeclarationblock"));
     setAttributesOnNode(doc, blockElement);

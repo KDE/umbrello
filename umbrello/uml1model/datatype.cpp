@@ -90,7 +90,7 @@ bool UMLDatatype::loadFromXMI1(QDomElement & element)
  * @param qDoc       the xml document
  * @param qElement   the xml element
  */
-void UMLDatatype::SaveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLDatatype::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement classifierElement = UMLObject::save1(QLatin1String("UML:DataType"), qDoc);
 
