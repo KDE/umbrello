@@ -7,6 +7,11 @@
 
 <!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
 
+<!-- umbrello specific read only -->
+<!ENTITY % UML.EnumerationLiteral.umbrello '
+    UML:EnumerationLiteral
+'>
+
 <!ENTITY % UML14 SYSTEM "01-02-16.dtd" >
 %UML14;
 

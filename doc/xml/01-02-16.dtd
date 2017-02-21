@@ -810,7 +810,7 @@
 <!-- ========= UML:Enumeration ========= -->
 <!ELEMENT UML:Enumeration.literal (UML:EnumerationLiteral)*>
 <!ENTITY % UML.EnumerationFeatures '%UML.DataTypeFeatures; |
-   UML:EnumerationLiteral |
+   %UML.EnumerationLiteral.umbrello; |
    UML:Enumeration.literal'>
 <!ENTITY % UML.EnumerationAtts '%UML.DataTypeAtts;'>
 <!ELEMENT UML:Enumeration (%UML.EnumerationFeatures;)*>

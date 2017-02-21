@@ -241,10 +241,12 @@ void UMLEnum::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement enumElement = UMLObject::save1(QLatin1String("UML:Enumeration"), qDoc);
     // save enum literals
+    QDomElement literalElement = qDoc.createElement(QLatin1String("UML:Enumeration.literal"));
     UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (UMLClassifierListItem* pEnumLiteral, enumLiterals) {
-        pEnumLiteral->saveToXMI1(qDoc, enumElement);
+        pEnumLiteral->saveToXMI1(qDoc, literalElement);
     }
+    enumElement.appendChild(literalElement);
     qElement.appendChild(enumElement);
 }
 
@@ -269,7 +271,7 @@ bool UMLEnum::load1(QDomElement& element)
                 return false;
             }
             m_List.append(pEnumLiteral);
-        } else if (UMLDoc::tagEq(tag, QLatin1String("Enumeration.literal"))) {  // Embarcadero's Describe
+        } else if (UMLDoc::tagEq(tag, QLatin1String("Enumeration.literal"))) {  // UML 1.4
             if (! load1(tempElement))
                 return false;
         } else if (tag == QLatin1String("stereotype")) {
