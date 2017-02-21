@@ -12,6 +12,11 @@
     UML:EnumerationLiteral
 '>
 
+<!-- UML 1.4 and 2.x do not specify enumeration literal values -->
+<!ENTITY % UML.EnumerationLiteralAtts.umbrello '
+    value CDATA #IMPLIED
+'>
+
 <!ENTITY % UML14 SYSTEM "01-02-16.dtd" >
 %UML14;
 

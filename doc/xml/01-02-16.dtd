@@ -824,6 +824,7 @@
    enumeration IDREFS #IMPLIED
    isRoot (true|false) #IMPLIED
    isLeaf (true|false) #IMPLIED
+   %UML.EnumerationLiteralAtts.umbrello;
    isAbstract (true|false) #IMPLIED'>
 <!ELEMENT UML:EnumerationLiteral (%UML.EnumerationLiteralFeatures;)*>
 <!ATTLIST UML:EnumerationLiteral %UML.EnumerationLiteralAtts;>
