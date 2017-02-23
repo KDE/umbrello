@@ -1265,7 +1265,26 @@ bool UMLWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 QSizeF UMLWidget::calculateSize(bool withExtensions /* = true */) const
 {
     Q_UNUSED(withExtensions)
-    return QSizeF(width(), height());
+    const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+    if (m_umlObject) {
+        qreal width = 0, height = defaultMargin;
+        if (!m_umlObject->stereotype().isEmpty()) {
+            height += fontHeight;
+            const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+            const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
+            if (stereoWidth > width)
+                width = stereoWidth;
+        }
+        height += fontHeight;
+        const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+        const int nameWidth = bfm.size(0, m_umlObject->name()).width();
+        if (nameWidth > width)
+            width = nameWidth;
+        return QSizeF(width + 2*defaultMargin, height);
+    }
+    else
+        return QSizeF(width(), height());
 }
 
 /**
