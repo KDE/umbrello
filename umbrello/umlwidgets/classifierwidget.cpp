@@ -26,14 +26,11 @@
 #include "umldoc.h"
 #include "umlview.h"
 
-#define PACKAGE_MARGIN 5
-
 // qt includes
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(ClassifierWidget)
 
-const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
 const int ClassifierWidget::SOCKET_INCREMENT = 10;
 
@@ -506,7 +503,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (stereoWidth > width)
             width = stereoWidth;
     } else if (showNameOnly) {
-        height += MARGIN;
+        height += defaultMargin;
     }
 
     // consider name
@@ -533,7 +530,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // consider documentation
     if (visualProperty(ShowDocumentation)) {
         if (!documentation().isEmpty()) {
-            QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*MARGIN, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*defaultMargin, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
             height += brect.height();
             if (!visualProperty(ShowOperations) && !visualProperty(ShowAttributes)) {
                 if (brect.width() >= width)
@@ -595,17 +592,17 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             width += templatesBoxSize.width() / 2;
         }
         if (templatesBoxSize.height() != 0) {
-            height += templatesBoxSize.height() - MARGIN;
+            height += templatesBoxSize.height() - defaultMargin;
         }
     }
 
     // allow for height margin
     if (showNameOnly) {
-        height += MARGIN;
+        height += defaultMargin;
     }
 
     // allow for width margin
-    width += MARGIN * 2;
+    width += defaultMargin * 2;
 
     return QSizeF(width, height);
 }
@@ -633,7 +630,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
     const QFontMetrics fm(font);
 
     int width = 0;
-    int height = count * fm.lineSpacing() + (MARGIN*2);
+    int height = count * fm.lineSpacing() + (defaultMargin*2);
 
     foreach (UMLTemplate *t, list) {
         int textWidth = fm.size(0, t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype))).width();
@@ -641,7 +638,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
             width = textWidth;
     }
 
-    width += (MARGIN*2);
+    width += (defaultMargin*2);
     return QSize(width, height);
 }
 
@@ -728,13 +725,13 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     int bodyOffsetY = 0;
     if (templatesBoxSize.height() > 0)
-        bodyOffsetY += templatesBoxSize.height() - MARGIN;
+        bodyOffsetY += templatesBoxSize.height() - defaultMargin;
     int w = width();
     if (templatesBoxSize.width() > 0)
         w -= templatesBoxSize.width() / 2;
     int h = height();
     if (templatesBoxSize.height() > 0)
-        h -= templatesBoxSize.height() - MARGIN;
+        h -= templatesBoxSize.height() - defaultMargin;
     painter->drawRect(0, bodyOffsetY, w, h);
 
     QFont font = UMLWidget::font();
@@ -755,8 +752,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(QPen(textColor()));
         font.setBold(false);
         painter->setFont(font);
-        const int x = width() - templatesBoxSize.width() + MARGIN;
-        int y = MARGIN;
+        const int x = width() - templatesBoxSize.width() + defaultMargin;
+        int y = defaultMargin;
         foreach (UMLTemplate *t, tlist) {
             QString text = t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype));
             painter->drawText(x, y, fm.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
@@ -764,8 +761,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         }
     }
 
-    const int textX = MARGIN;
-    const int textWidth = w - MARGIN * 2;
+    const int textX = defaultMargin;
+    const int textWidth = w - defaultMargin * 2;
 
     painter->setPen(QPen(textColor()));
 
@@ -814,9 +811,9 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(textColor());
 
         if (!documentation().isEmpty()) {
-            QRect brect = fm.boundingRect(QRect(0, 0, w-2*MARGIN, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
-            if (brect.width() > width() + 2*MARGIN)
-                brect.setWidth(width()-2*MARGIN);
+            QRect brect = fm.boundingRect(QRect(0, 0, w-2*defaultMargin, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            if (brect.width() > width() + 2*defaultMargin)
+                brect.setWidth(width()-2*defaultMargin);
             brect.adjust(textX, bodyOffsetY, textX, bodyOffsetY);
             painter->drawText(brect, Qt::AlignCenter | Qt::TextWordWrap, documentation());
             bodyOffsetY += brect.height();
@@ -882,7 +879,7 @@ QPainterPath ClassifierWidget::shape() const
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     qreal mainY = 0.0;
     if (templatesBoxSize.height() > 0) {
-        mainY += templatesBoxSize.height() - MARGIN;
+        mainY += templatesBoxSize.height() - defaultMargin;
         path.addRect(QRectF(mainSize.width() - templatesBoxSize.width() / 2, 0.0,
                             templatesBoxSize.width(), templatesBoxSize.height()));
     }
@@ -1004,12 +1001,12 @@ void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphi
     int lines = 1;
     QString stereotype = m_umlObject->stereotype();
     if (!stereotype.isEmpty()) {
-        painter->drawText(0, fontHeight + PACKAGE_MARGIN,
+        painter->drawText(0, fontHeight + defaultMargin,
                    w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
         lines = 2;
     }
 
-    painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
+    painter->drawText(0, (fontHeight*lines) + defaultMargin,
                w, fontHeight, Qt::AlignCenter, name());
 }
 
@@ -1029,11 +1026,11 @@ QSize ClassifierWidget::calculateAsPackageSize() const
     }
     if (tempWidth > width)
         width = tempWidth;
-    width += PACKAGE_MARGIN * 2;
+    width += defaultMargin * 2;
     if (width < 70)
         width = 70;  // minumin width of 70
 
-    int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
+    int height = (lines*fontHeight) + fontHeight + (defaultMargin * 2);
 
     return QSize(width, height);
 }

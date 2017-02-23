@@ -44,7 +44,7 @@ public:
 
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
-    static const qreal defaultMargin;
+    static const int defaultMargin;
 
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = 0);
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);

@@ -46,7 +46,7 @@ DEBUG_REGISTER_DISABLED(UMLWidget)
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
-const qreal UMLWidget::defaultMargin = 5;
+const int UMLWidget::defaultMargin = 5;
 
 /**
  * Creates a UMLWidget object.
