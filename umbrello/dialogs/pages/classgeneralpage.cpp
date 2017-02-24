@@ -93,7 +93,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     if( t == UMLObject::ot_Instance) {
         Q_ASSERT(m_pObject->asUMLInstance());
-        m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pObject->asUMLInstance()->instanceName());
+        QString name = UMLObject::toI18nString(t);
+        m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->asUMLInstance()->instanceName());
         m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
         QString className = UMLObject::toI18nString(UMLObject::ot_Class);
         m_nameWidget = new UMLObjectNameWidget(className, m_pObject->name());
@@ -201,10 +202,12 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pWidget->instanceName());
+    QString name = UMLObject::toI18nString(UMLObject::ot_Instance);
+    m_instanceNameWidget = new UMLObjectNameWidget(name , m_pWidget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
+    QString className = UMLObject::toI18nString(UMLObject::ot_Class);
+    m_nameWidget = new UMLObjectNameWidget(className, m_pWidget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 1);
 
     UMLView *view = UMLApp::app()->currentView();
@@ -271,7 +274,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
-    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
+    m_instanceNameWidget = new UMLObjectNameWidget(
+                UMLObject::toI18nString(UMLObject::ot_Instance), widget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
 
     m_docWidget = new DocumentationWidget(widget, this);
