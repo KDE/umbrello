@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_RENAME_UMLOBJECTINSTANCE_H
-#define CMD_RENAME_UMLOBJECTINSTANCE_H
+#ifndef CMD_RENAME_UMLINSTANCE_H
+#define CMD_RENAME_UMLNSTANCE_H
 
 #include <QUndoCommand>
 
@@ -17,11 +17,11 @@ class UMLInstance;
 
 namespace Uml
 {
-    class CmdRenameUMLObjectInstance : public QUndoCommand
+    class CmdRenameUMLInstance : public QUndoCommand
     {
         public:
-            CmdRenameUMLObjectInstance(UMLInstance *o, const QString& name);
-            ~CmdRenameUMLObjectInstance();
+            CmdRenameUMLInstance(UMLInstance *o, const QString& name);
+            ~CmdRenameUMLInstance();
 
             void redo();
             void undo();

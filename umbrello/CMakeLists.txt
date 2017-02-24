@@ -337,7 +337,7 @@ set(libcmds_SRCS
     cmds/generic/cmdcreateumlobject.cpp
     cmds/generic/cmdremoveumlobject.cpp
     cmds/generic/cmdrenameumlobject.cpp
-    cmds/generic/cmdrenameumlobjectinstance.cpp
+    cmds/generic/cmdrenameumlinstance.cpp
     cmds/widget/cmdbasewidgetcommand.cpp
     cmds/widget/cmdchangefont.cpp
     cmds/widget/cmdchangetextcolor.cpp

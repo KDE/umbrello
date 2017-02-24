@@ -11,7 +11,7 @@
 #include "instance.h"
 
 //local includes
-#include "cmds/generic/cmdrenameumlobjectinstance.h"
+#include "cmds/generic/cmdrenameumlinstance.h"
 #include "instanceattribute.h"
 #include "umlinstanceattributedialog.h"
 #include "umldoc.h"
@@ -40,7 +40,7 @@ QString UMLInstance::instanceName() const
 void UMLInstance::setInstanceName(const QString &strName)
 {
      if(instanceName() != strName)
-        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObjectInstance(this, strName));
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLInstance(this, strName));
 }
 
 void UMLInstance::setInstanceNameCmd(const QString &strName)

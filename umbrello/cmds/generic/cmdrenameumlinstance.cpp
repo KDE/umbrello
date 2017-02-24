@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmdrenameumlobjectinstance.h"
+#include "cmdrenameumlinstance.h"
 
 // app includes
 #include "instance.h"
@@ -19,23 +19,23 @@
 namespace Uml
 {
 
-    CmdRenameUMLObjectInstance::CmdRenameUMLObjectInstance(UMLInstance* o, const QString& name)
+    CmdRenameUMLInstance::CmdRenameUMLInstance(UMLInstance* o, const QString& name)
       : m_obj(o), m_name(name)
     {
         setText(i18n("Rename object : %1 to %2", o->instanceName(), name));
         m_oldname = o->instanceName();
     }
 
-    CmdRenameUMLObjectInstance::~CmdRenameUMLObjectInstance()
+    CmdRenameUMLInstance::~CmdRenameUMLInstance()
     {
     }
 
-    void CmdRenameUMLObjectInstance::redo()
+    void CmdRenameUMLInstance::redo()
     {
         m_obj->setInstanceNameCmd(m_name);
     }
 
-    void CmdRenameUMLObjectInstance::undo()
+    void CmdRenameUMLInstance::undo()
     {
         m_obj->setInstanceName(m_oldname);
     }
