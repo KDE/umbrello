@@ -87,7 +87,6 @@ private:
     QLabel * m_pInstanceL, * m_pStereoTypeL;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     QCheckBox * m_pExecutableCB;
-    QLineEdit *m_pObjectNameLE;
     DocumentationWidget *m_docWidget;
     UMLObjectNameWidget *m_nameWidget;
     UMLObjectNameWidget *m_instanceNameWidget;

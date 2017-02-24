@@ -68,7 +68,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pAbstractCB(0),
     m_pDeconCB(0),
     m_pExecutableCB(0),
-    m_pObjectNameLE(0),
     m_docWidget(0),
     m_nameWidget(0),
     m_instanceNameWidget(0),
@@ -88,23 +87,20 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     UMLObject::ObjectType t = m_pObject->baseType();
-    QString name = UMLObject::toI18nString(t);
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
     if( t == UMLObject::ot_Instance) {
-        auto label = new QLabel(i18n("Object name:"));
-        // TODO we have m_instanceNameWidget for this
-        m_pObjectNameLE = new QLineEdit();
-        m_pNameLayout->addWidget(label ,0 ,0);
-        m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
-        if(m_pObject->asUMLInstance())
-            m_pObjectNameLE->setText(m_pObject->asUMLInstance()->instanceName());
-        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        Q_ASSERT(m_pObject->asUMLInstance());
+        m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pObject->asUMLInstance()->instanceName());
+        m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
+        QString className = UMLObject::toI18nString(UMLObject::ot_Class);
+        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
     }
     else {
+        QString name = UMLObject::toI18nString(t);
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 0);
     }
@@ -309,8 +305,8 @@ void ClassGeneralPage::apply()
             m_pObject->setAbstract(m_pAbstractCB->isChecked());
         }
 
-        if(m_pObjectNameLE && m_pObject->asUMLInstance()) {
-            m_pObject->asUMLInstance()->setInstanceName(m_pObjectNameLE->text());
+        if(m_instanceNameWidget && m_pObject->isUMLInstance()) {
+            m_pObject->asUMLInstance()->setInstanceName(m_instanceNameWidget->text());
         }
 
         //make sure unique name
