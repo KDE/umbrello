@@ -201,11 +201,11 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 0);
-
     m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pWidget->instanceName());
-    m_instanceNameWidget->addToLayout(m_pNameLayout, 1);
+    m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
+
+    m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 1);
 
     UMLView *view = UMLApp::app()->currentView();
 
