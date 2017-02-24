@@ -3546,7 +3546,7 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         // section when each owning association is dumped. -b.t.
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
-             widget->asFloatingTextWidget()->link() == 0)
+             (widget->asFloatingTextWidget() && widget->asFloatingTextWidget()->link() == 0))
             widget->saveToXMI1(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);
