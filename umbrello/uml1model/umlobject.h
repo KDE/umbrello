@@ -161,10 +161,6 @@ public:
     void setNameCmd(const QString &strName) ;
     QString name() const;
 
-    virtual void setInstanceName(const QString &strName);
-    void setInstanceNameCmd(const QString &strName);
-    QString instanceName() const;
-
     virtual QString fullyQualifiedName(const QString& separator = QString(),
                                        bool includeRoot = false) const;
 
@@ -274,7 +270,6 @@ protected:
     QString                m_Doc;          ///< object's documentation
     QPointer<UMLStereotype> m_pStereotype;  ///< stereotype of the object if applicable
     QString                m_name;         ///< objects name
-    QString m_instanceName; ///< objects instance
     ObjectType             m_BaseType;     ///< objects type
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not

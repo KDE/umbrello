@@ -17,6 +17,7 @@
 #include "dialog_utils.h"
 #include "classifier.h"
 #include "datatype.h"
+#include "instance.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -94,11 +95,12 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     if( t == UMLObject::ot_Instance) {
         auto label = new QLabel(i18n("Object name:"));
+        // TODO we have m_instanceNameWidget for this
         m_pObjectNameLE = new QLineEdit();
         m_pNameLayout->addWidget(label ,0 ,0);
         m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
-        if(!m_pObject->instanceName().isNull())
-            m_pObjectNameLE->setText(m_pObject->instanceName());
+        if(m_pObject->asUMLInstance())
+            m_pObjectNameLE->setText(m_pObject->asUMLInstance()->instanceName());
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
     }
@@ -307,8 +309,8 @@ void ClassGeneralPage::apply()
             m_pObject->setAbstract(m_pAbstractCB->isChecked());
         }
 
-        if(m_pObjectNameLE) {
-            m_pObject->setInstanceName(m_pObjectNameLE->text());
+        if(m_pObjectNameLE && m_pObject->asUMLInstance()) {
+            m_pObject->asUMLInstance()->setInstanceName(m_pObjectNameLE->text());
         }
 
         //make sure unique name

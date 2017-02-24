@@ -13,21 +13,21 @@
 
 #include <QUndoCommand>
 
-class UMLObject;
+class UMLInstance;
 
 namespace Uml
 {
     class CmdRenameUMLObjectInstance : public QUndoCommand
     {
         public:
-            CmdRenameUMLObjectInstance(UMLObject* o, const QString& name);
+            CmdRenameUMLObjectInstance(UMLInstance *o, const QString& name);
             ~CmdRenameUMLObjectInstance();
 
             void redo();
             void undo();
 
         private:
-            UMLObject*  m_obj;
+            UMLInstance*  m_obj;
             QString     m_name;
             QString     m_oldname;
     };

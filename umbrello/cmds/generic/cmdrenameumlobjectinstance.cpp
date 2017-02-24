@@ -11,7 +11,7 @@
 #include "cmdrenameumlobjectinstance.h"
 
 // app includes
-#include "umlobject.h"
+#include "instance.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -19,7 +19,7 @@
 namespace Uml
 {
 
-    CmdRenameUMLObjectInstance::CmdRenameUMLObjectInstance(UMLObject* o, const QString& name)
+    CmdRenameUMLObjectInstance::CmdRenameUMLObjectInstance(UMLInstance* o, const QString& name)
       : m_obj(o), m_name(name)
     {
         setText(i18n("Rename object : %1 to %2", o->instanceName(), name));

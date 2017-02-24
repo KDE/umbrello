@@ -18,6 +18,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "instance.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "operation.h"
@@ -517,7 +518,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
 
     QString displayedName;
     if (m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->instanceName() + QLatin1String(" : ") + name;
+        displayedName = m_umlObject->asUMLInstance()->instanceName() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 
@@ -791,7 +792,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     QString displayedName;
     if (m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->instanceName() + QLatin1String(" : ") + name;
+        displayedName = m_umlObject->asUMLInstance()->instanceName() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 

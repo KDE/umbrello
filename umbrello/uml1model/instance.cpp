@@ -11,13 +11,13 @@
 #include "instance.h"
 
 //local includes
+#include "cmds/generic/cmdrenameumlobjectinstance.h"
 #include "instanceattribute.h"
 #include "umlinstanceattributedialog.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "debug_utils.h"
 #include "uniqueid.h"
-
 //kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -28,6 +28,26 @@ UMLInstance::UMLInstance(const QString &name, Uml::ID::Type id)
     m_BaseType = UMLObject::ot_Instance;
 }
 
+QString UMLInstance::instanceName() const
+{
+    return m_instanceName;
+}
+
+/**
+ * @brief UMLObject::setInstanceName
+ * Set object/instance name in case of a Object Diagram
+ */
+void UMLInstance::setInstanceName(const QString &strName)
+{
+     if(instanceName() != strName)
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObjectInstance(this, strName));
+}
+
+void UMLInstance::setInstanceNameCmd(const QString &strName)
+{
+    m_instanceName = strName;
+    emitModified();
+}
 
 UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type, Uml::Visibility::Enum vis, const QString &init)
 {
@@ -77,6 +97,7 @@ UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type,
 void UMLInstance::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement instanceElement = UMLObject::save1(QLatin1String("UML:Instance"), qDoc);
+    instanceElement.setAttribute(QLatin1String("instancename"), m_instanceName);
     //save attributes
     UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_InstanceAttribute);
     UMLClassifierListItem* pInstanceAttribute = 0;
@@ -91,6 +112,7 @@ void UMLInstance::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
  */
 bool UMLInstance::load1(QDomElement &element)
 {
+    m_instanceName = element.attribute(QLatin1String("instancename"));
     QDomNode node = element.firstChild();
     while(!node.isNull()) {
         if (node.isComment()) {
