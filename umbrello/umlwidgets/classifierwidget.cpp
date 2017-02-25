@@ -695,6 +695,7 @@ AssociationWidget *ClassifierWidget::classAssociationWidget() const
 /**
  * Overrides standard method.
  * Auxiliary to reimplementations in the derived classes.
+ * @NOTE keep fetching attributes in sync with calculateSize()
  */
 void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -787,7 +788,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     if (visualProperty(ShowPackage)) {
         name = m_umlObject->fullyQualifiedName();
     } else {
-        name = this->name();
+        name = m_umlObject->name();
     }
 
     QString displayedName;
