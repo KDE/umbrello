@@ -1030,6 +1030,7 @@ bool typeIsContainer(UMLListViewItem::ListViewType type)
 bool typeIsClassifierList(UMLListViewItem::ListViewType type)
 {
     if (type == UMLListViewItem::lvt_Attribute ||
+        type == UMLListViewItem::lvt_Instance ||
         type == UMLListViewItem::lvt_Operation ||
         type == UMLListViewItem::lvt_Template ||
         type == UMLListViewItem::lvt_EntityAttribute ||
