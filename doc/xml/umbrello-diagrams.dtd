@@ -191,17 +191,21 @@
           %UMLWidgetAtts;
           drawvertical CDATA #IMPLIED
 >
+<!ELEMENT instancewidget ANY >
+<!ATTLIST instancewidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT interfacewidget ANY >
+<!ATTLIST interfacewidget
+          %UMLWidgetAtts;
+          %ClassifierWidgetAtts;
+>
 <!ELEMENT preconditionwidget ANY >
 <!ATTLIST preconditionwidget
           %UMLWidgetAtts;
           documentation CDATA #IMPLIED
           preconditionname CDATA #IMPLIED
           widgetaid CDATA #IMPLIED
->
-<!ELEMENT interfacewidget ANY >
-<!ATTLIST interfacewidget
-          %UMLWidgetAtts;
-          %ClassifierWidgetAtts;
 >
 <!ELEMENT messagewidget ANY >
 <!ATTLIST messagewidget
