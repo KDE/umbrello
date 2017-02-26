@@ -853,7 +853,8 @@ QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
     qElement.setAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
     if (m_BaseType != ot_Association &&
         m_BaseType != ot_Role &&
-        m_BaseType != ot_Attribute) {
+        m_BaseType != ot_Attribute &&
+        m_BaseType != ot_Instance) {
         qElement.setAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
         qElement.setAttribute(QLatin1String("isRoot"), QLatin1String("false"));
         if (m_bAbstract)
