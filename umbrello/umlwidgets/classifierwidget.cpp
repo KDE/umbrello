@@ -1274,31 +1274,33 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
+    bool loadShowAttributes = true;
+    if (umlObject() && (umlObject()->isUMLPackage() || umlObject()->isUMLInstance())) {
+        loadShowAttributes = false;
+    }
+    if (loadShowAttributes) {
+        QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
+        QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
+        QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
+        QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
+        QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
+        QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
+        QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
+        QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
+        setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
+        setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
+        setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
+        setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
+        setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
+        setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
+        m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
+        m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
+    }
 
-    QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
-    QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
-    QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
-    QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
-    QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
-    QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
-    QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
-    QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
 #ifdef ENABLE_WIDGET_SHOW_DOC
     QString showDocumentation = qElement.attribute(QLatin1String("showdocumentation"), QLatin1String("0"));
-#endif
-
-    setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
-    setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
-    setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
-    setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
-    setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
-    setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
-#ifdef ENABLE_WIDGET_SHOW_DOC
     setVisualPropertyCmd(ShowDocumentation, (bool)showDocumentation.toInt());
 #endif
-
-    m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
-    m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
 
     if (!getDrawAsCircle())
         return true;
