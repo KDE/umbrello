@@ -1337,27 +1337,29 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
 void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement;
+    bool saveShowAttributes = true;
     UMLClassifier *umlc = classifier();
     if (umlObject() && umlObject()->baseType() == UMLObject::ot_Package) {
         conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
-        UMLWidget::saveToXMI1(qDoc, conceptElement);
-        qElement.appendChild(conceptElement);
-        return;
-    }
-    else if (umlc && umlc->isInterface())
-        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
-    else if(umlObject()->baseType() == UMLObject::ot_Instance)
+        saveShowAttributes = false;
+    } else if(umlObject()->baseType() == UMLObject::ot_Instance) {
         conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
-    else
+        saveShowAttributes = false;
+    } else if (umlc && umlc->isInterface()) {
+        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
+    } else {
         conceptElement = qDoc.createElement(QLatin1String("classwidget"));
+    }
     UMLWidget::saveToXMI1(qDoc, conceptElement);
-    conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
-    conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
-    conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
-    conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
-    conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
-    conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
-    conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
+    if (saveShowAttributes) {
+        conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
+        conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
+        conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
+        conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
+        conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
+        conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
+        conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
+    }
 #ifdef ENABLE_WIDGET_SHOW_DOC
     conceptElement.setAttribute(QLatin1String("showdocumentation"),visualProperty(ShowDocumentation));
 #endif
