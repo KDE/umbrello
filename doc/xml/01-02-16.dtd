@@ -47,7 +47,7 @@
 <!-- _______________________________________________________________ -->
 
 <!ENTITY % XMI.element.att
-               'xmi.id CDATA #IMPLIED xmi.label CDATA #IMPLIED xmi.uuid
+               'xmi.id ID #IMPLIED xmi.label CDATA #IMPLIED xmi.uuid
                 CDATA #IMPLIED '>
 
 <!-- _______________________________________________________________ -->
@@ -59,7 +59,7 @@
 <!-- _______________________________________________________________ -->
 
 <!ENTITY % XMI.link.att
-               'href CDATA #IMPLIED xmi.idref CDATA #IMPLIED xml:link
+               'href CDATA #IMPLIED xmi.idref IDREF #IMPLIED xml:link
                 CDATA #IMPLIED xlink:inline (true|false) #IMPLIED
                 xlink:actuate (show|user) #IMPLIED xlink:content-role
                 CDATA #IMPLIED xlink:title CDATA #IMPLIED xlink:show
@@ -325,13 +325,13 @@
    name CDATA #IMPLIED
    visibility %UML.VisibilityKind; #IMPLIED
    isSpecification (true|false) #IMPLIED
-   namespace CDATA #IMPLIED
+   namespace IDREFS #IMPLIED
    clientDependency IDREFS #IMPLIED
    constraint IDREFS #IMPLIED
    targetFlow IDREFS #IMPLIED
    sourceFlow IDREFS #IMPLIED
-   comment CDATA #IMPLIED
-   stereotype CDATA #IMPLIED'>
+   comment IDREFS #IMPLIED
+   stereotype IDREFS #IMPLIED'>
 <!ELEMENT UML:ModelElement (%UML.ModelElementFeatures;)*>
 <!ATTLIST UML:ModelElement %UML.ModelElementAtts;>
 
@@ -451,7 +451,7 @@
    changeability %UML.ChangeableKind; #IMPLIED
    targetScope %UML.ScopeKind; #IMPLIED
    ordering %UML.OrderingKind; #IMPLIED
-   type CDATA #IMPLIED'>
+   type IDREFS #IMPLIED'>
 <!ELEMENT UML:StructuralFeature (%UML.StructuralFeatureFeatures;)*>
 <!ATTLIST UML:StructuralFeature %UML.StructuralFeatureAtts;>
 
@@ -490,7 +490,7 @@
    changeability %UML.ChangeableKind; #IMPLIED
    association IDREFS #IMPLIED
    participant IDREFS #IMPLIED
-   type CDATA #IMPLIED
+   type IDREFS #IMPLIED
    multiplicity CDATA #IMPLIED
    specification IDREFS #IMPLIED'>
 <!ELEMENT UML:AssociationEnd (%UML.AssociationEndFeatures;)*>
@@ -598,7 +598,7 @@
    kind %UML.ParameterDirectionKind; #IMPLIED
    behavioralFeature IDREFS #IMPLIED
    value CDATA #IMPLIED
-   type CDATA #IMPLIED'>
+   type IDREFS #IMPLIED'>
 <!ELEMENT UML:Parameter (%UML.ParameterFeatures;)*>
 <!ATTLIST UML:Parameter %UML.ParameterAtts;>
 
@@ -625,8 +625,8 @@
    UML:Generalization.powertype'>
 <!ENTITY % UML.GeneralizationAtts '%UML.RelationshipAtts;
    discriminator CDATA #IMPLIED
-   child CDATA #IMPLIED
-   parent CDATA #IMPLIED
+   child IDREFS #IMPLIED
+   parent IDREFS #IMPLIED
    powertype IDREFS #IMPLIED'>
 <!ELEMENT UML:Generalization (%UML.GeneralizationFeatures;)*>
 <!ATTLIST UML:Generalization %UML.GeneralizationAtts;>
@@ -650,8 +650,8 @@
    UML:Dependency.client |
    UML:Dependency.supplier'>
 <!ENTITY % UML.DependencyAtts '%UML.RelationshipAtts;
-   client CDATA #IMPLIED
-   supplier CDATA #IMPLIED'>
+   client IDREFS #IMPLIED
+   supplier IDREFS #IMPLIED'>
 <!ELEMENT UML:Dependency (%UML.DependencyFeatures;)*>
 <!ATTLIST UML:Dependency %UML.DependencyAtts;>
 
@@ -795,8 +795,8 @@
    isLeaf (true|false) #IMPLIED
    isAbstract (true|false) #IMPLIED
    name CDATA #IMPLIED
-   namespace CDATA #IMPLIED
-   type CDATA #IMPLIED
+   namespace IDREFS #IMPLIED
+   type IDREFS #IMPLIED
    visibility %UML.VisibilityKind; #IMPLIED'>
 <!ELEMENT UML:TemplateParameter (%UML.TemplateParameterFeatures;)*>
 <!ATTLIST UML:TemplateParameter %UML.TemplateParameterAtts;>
