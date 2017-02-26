@@ -149,7 +149,9 @@ void UMLDoc::init()
     };
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         const QString rootName = QString::fromLatin1(nativeRootName[i]);
-        m_root[i] = new UMLFolder(rootName, Uml::ID::fromString(rootName));
+        QString id = rootName;
+        id.replace(QLatin1Char(' '), QLatin1Char('_'));
+        m_root[i] = new UMLFolder(rootName, Uml::ID::fromString(id));
         m_root[i]->setLocalName(localizedRootName[i]);
     }
     createDatatypeFolder();
