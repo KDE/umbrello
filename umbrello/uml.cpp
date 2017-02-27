@@ -235,6 +235,15 @@ UMLApp::~UMLApp()
 {
     disconnect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
     disconnect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
+#if QT_VERSION >= 0x050000
+    disconnect(m_tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(slotCloseDiagram(int)));
+    disconnect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabChanged(int)));
+    disconnect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotDiagramPopupMenu(QPoint)));
+#else
+    disconnect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), this, SLOT(slotCloseDiagram(QWidget*)));
+    disconnect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotTabChanged(QWidget*)));
+    disconnect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint)));
+#endif
 
     delete m_birdView;
     delete m_clipTimer;
