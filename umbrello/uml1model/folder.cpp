@@ -154,7 +154,7 @@ void UMLFolder::activateViews()
 UMLView *UMLFolder::findView(Uml::ID::Type id)
 {
     foreach (UMLView* v, m_diagrams) {
-        if (v->umlScene()->ID() == id) {
+        if (v && v->umlScene() && v->umlScene()->ID() == id) {
             return v;
         }
     }
