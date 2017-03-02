@@ -94,10 +94,10 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     if( t == UMLObject::ot_Instance) {
         Q_ASSERT(m_pObject->asUMLInstance());
         QString name = UMLObject::toI18nString(t);
-        m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->asUMLInstance()->instanceName());
+        m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
         QString className = UMLObject::toI18nString(UMLObject::ot_Class);
-        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->name());
+        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->asUMLInstance()->classifier()->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
     }
     else {
@@ -310,7 +310,8 @@ void ClassGeneralPage::apply()
         }
 
         if(m_instanceNameWidget && m_pObject->isUMLInstance()) {
-            m_pObject->asUMLInstance()->setInstanceName(m_instanceNameWidget->text());
+            m_pObject->asUMLInstance()->setName(m_instanceNameWidget->text());
+            m_pObject->asUMLInstance()->setClassifierName(m_nameWidget->text());
         }
 
         //make sure unique name
@@ -323,8 +324,6 @@ void ClassGeneralPage::apply()
             } else {
                  m_pObject->setName(name);
             }
-        } else {
-            m_pObject->setName(name);
         }
 
         if (t != UMLObject::ot_Stereotype) {

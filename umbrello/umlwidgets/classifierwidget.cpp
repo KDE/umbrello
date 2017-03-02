@@ -511,14 +511,22 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     height += fontHeight;
     // ... width
     QString name;
-    if (visualProperty(ShowPackage))
-        name = m_umlObject->fullyQualifiedName();
+    UMLObject *o;
+    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
+        o = m_umlObject->asUMLInstance()->classifier();
     else
-        name = m_umlObject->name();
+        o = m_umlObject;
+    if (!o)
+        name = m_Text;
+    else
+    if (visualProperty(ShowPackage))
+        name = o->fullyQualifiedName();
+    else
+        name = o->name();
 
     QString displayedName;
     if (m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->asUMLInstance()->instanceName() + QLatin1String(" : ") + name;
+        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 
@@ -785,15 +793,21 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     // draw name
     QString name;
-    if (visualProperty(ShowPackage)) {
-        name = m_umlObject->fullyQualifiedName();
-    } else {
-        name = m_umlObject->name();
-    }
+    UMLObject *o;
+    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
+        o = m_umlObject->asUMLInstance()->classifier();
+    else
+        o = m_umlObject;
+    if (!o)
+        name = m_Text;
+    else if (visualProperty(ShowPackage))
+        name = o->fullyQualifiedName();
+    else
+        name = o->name();
 
     QString displayedName;
     if (m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->asUMLInstance()->instanceName() + QLatin1String(" : ") + name;
+        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 

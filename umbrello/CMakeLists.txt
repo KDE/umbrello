@@ -334,10 +334,10 @@ set(libcmds_SRCS
     cmds/cmdremovediagram.cpp
     cmds/cmdsetstereotype.cpp
     cmds/cmdsetvisibility.cpp
+    cmds/generic/cmdrenameumlinstancetype.cpp
     cmds/generic/cmdcreateumlobject.cpp
     cmds/generic/cmdremoveumlobject.cpp
     cmds/generic/cmdrenameumlobject.cpp
-    cmds/generic/cmdrenameumlinstance.cpp
     cmds/widget/cmdbasewidgetcommand.cpp
     cmds/widget/cmdchangefont.cpp
     cmds/widget/cmdchangetextcolor.cpp

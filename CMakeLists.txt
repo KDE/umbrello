@@ -255,8 +255,6 @@ add_unstable_feature(XMIRESOLUTION) # see https://bugs.kde.org/show_bug.cgi?id=9
 
 # Current object diagram implementation does not follow UML 1.4 standard
 # because of using umbrello specific XMI tag (UML:InstanceAttribute).
-# Additional UMLInstance is the classifier and do not references a classifier
-# which creates non sharable and incomplete classifiers.
 add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=123633
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)

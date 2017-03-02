@@ -4,32 +4,36 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2016                                              *
+ *   copyright (C) 2017                                                    *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_RENAME_UMLINSTANCE_H
-#define CMD_RENAME_UMLNSTANCE_H
+#ifndef CMD_RENAME_UMLINSTANCE_TYPE_H
+#define CMD_RENAME_UMLINSTANCE_TYPE_H
 
+#include <QPointer>
 #include <QUndoCommand>
 
+#include <KLocalizedString>
+
 class UMLInstance;
+class UMLClassifier;
 
 namespace Uml
 {
-    class CmdRenameUMLInstance : public QUndoCommand
+    class CmdRenameUMLInstanceType : public QUndoCommand
     {
-        public:
-            CmdRenameUMLInstance(UMLInstance *o, const QString& name);
-            ~CmdRenameUMLInstance();
+    public:
+        CmdRenameUMLInstanceType(UMLInstance* o, UMLClassifier *type);
+        ~CmdRenameUMLInstanceType();
 
-            void redo();
-            void undo();
+        void redo();
+        void undo();
 
-        private:
-            UMLInstance*  m_obj;
-            QString     m_name;
-            QString     m_oldname;
+    private:
+        QPointer<UMLInstance>  m_obj;
+        QPointer<UMLClassifier> m_type;
+        QPointer<UMLClassifier> m_oldType;
     };
 }
 

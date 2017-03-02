@@ -268,8 +268,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             break;
         case UMLObject::ot_InstanceAttribute:
-            klass = obj->umlParent()->asUMLInstance();
-            connect(klass, SIGNAL(attributeRemoved()), this, SLOT(slotClassifierListItemRemoved()));
+            connect(obj->umlParent(), SIGNAL(attributeRemoved()), this, SLOT(slotClassifierListItemRemoved()));
             attr = obj->asUMLInstanceAttribute();
             connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;

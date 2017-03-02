@@ -4,13 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2016                                               *
+ *   copyright (C) 2017                                                    *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmdrenameumlinstance.h"
+#include "cmdrenameumlinstancetype.h"
 
-// app includes
+//app includes
 #include "instance.h"
 
 // kde includes
@@ -18,26 +18,25 @@
 
 namespace Uml
 {
-
-    CmdRenameUMLInstance::CmdRenameUMLInstance(UMLInstance* o, const QString& name)
-      : m_obj(o), m_name(name)
+    CmdRenameUMLInstanceType::CmdRenameUMLInstanceType(UMLInstance* o, UMLClassifier *type)
+      : m_obj(o),
+        m_type(type)
     {
-        setText(i18n("Rename object : %1 to %2", o->instanceName(), name));
-        m_oldname = o->instanceName();
+        setText(i18n("Rename type: %1 to %2", o->classifier()->name(), type->name()));
+        m_oldType = o->classifier();
     }
 
-    CmdRenameUMLInstance::~CmdRenameUMLInstance()
+    CmdRenameUMLInstanceType::~CmdRenameUMLInstanceType()
     {
     }
 
-    void CmdRenameUMLInstance::redo()
+    void CmdRenameUMLInstanceType::redo()
     {
-        m_obj->setInstanceNameCmd(m_name);
+        m_obj->setClassifierCmd(m_type);
     }
 
-    void CmdRenameUMLInstance::undo()
+    void CmdRenameUMLInstanceType::undo()
     {
-        m_obj->setInstanceName(m_oldname);
+        m_obj->setClassifierCmd(m_oldType);
     }
-
 }

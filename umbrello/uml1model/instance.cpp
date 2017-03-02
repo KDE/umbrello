@@ -10,43 +10,93 @@
 
 #include "instance.h"
 
-//local includes
-#include "cmds/generic/cmdrenameumlinstance.h"
-#include "instanceattribute.h"
-#include "umlinstanceattributedialog.h"
-#include "umldoc.h"
-#include "uml.h"
+//app includes
+#include "cmds.h"
+#include "classifier.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
+#include "instanceattribute.h"
+#include "object_factory.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlinstanceattributedialog.h"
 #include "uniqueid.h"
+
 //kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
 
+/**
+ * Construct UMLInstance
+ * @param name Name of referenced classifier
+ * @param id The unique id to assign
+ */
 UMLInstance::UMLInstance(const QString &name, Uml::ID::Type id)
-  : UMLClassifier(name, id)
+  : UMLClassifier(QString(), id)
 {
     m_BaseType = UMLObject::ot_Instance;
-}
-
-QString UMLInstance::instanceName() const
-{
-    return m_instanceName;
+    if (UMLApp::app()->document()->loading())
+        return;
+    UMLClassifier *c = Object_Factory::createUMLObject(UMLObject::ot_Class, name)->asUMLClassifier();
+    Q_ASSERT(c);
+    m_classifier = c;
 }
 
 /**
- * @brief UMLObject::setInstanceName
- * Set object/instance name in case of a Object Diagram
+ * Set undoable type name
+ * This method is used from property dialogs.
+ * @param name type name to set
  */
-void UMLInstance::setInstanceName(const QString &strName)
+void UMLInstance::setClassifierName(const QString &name)
 {
-     if(instanceName() != strName)
-        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLInstance(this, strName));
+    if (m_classifier->name() == name || m_classifier->fullyQualifiedName() == name)
+        return;
+    UMLClassifier *c = Object_Factory::createUMLObject(UMLObject::ot_Class, name)->asUMLClassifier();
+    Q_ASSERT(c);
+    UMLApp::app()->executeCommand(new Uml::CmdRenameUMLInstanceType(this, c));
+    m_classifier = c;
+    emitModified();
 }
 
-void UMLInstance::setInstanceNameCmd(const QString &strName)
+/**
+ * return type name
+ * @return type name
+ */
+QString UMLInstance::classifierName()
 {
-    m_instanceName = strName;
+    return m_classifier->name();
+}
+
+/**
+ * Set undoable classifier
+ * @param classifier
+ */
+void UMLInstance::setClassifier(UMLClassifier *classifier)
+{
+    if (m_classifier == classifier)
+        return;
+
+    UMLApp::app()->executeCommand(new Uml::CmdRenameUMLInstanceType(this, classifier));
+    m_classifier = classifier;
     emitModified();
+}
+
+/**
+ * Set classifier
+ * @param classifier
+ */
+void UMLInstance::setClassifierCmd(UMLClassifier *classifier)
+{
+    if (m_classifier == classifier)
+        return;
+
+    m_classifier = classifier;
+    emitModified();
+}
+
+UMLClassifier *UMLInstance::classifier()
+{
+    return m_classifier;
 }
 
 UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type, Uml::Visibility::Enum vis, const QString &init)
@@ -97,7 +147,7 @@ UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type,
 void UMLInstance::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement instanceElement = UMLObject::save1(QLatin1String("UML:Instance"), qDoc);
-    instanceElement.setAttribute(QLatin1String("instancename"), m_instanceName);
+    instanceElement.setAttribute(QLatin1String("classifier"), Uml::ID::toString(m_classifier->id()));
     //save attributes
     UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_InstanceAttribute);
     UMLClassifierListItem* pInstanceAttribute = 0;
@@ -112,7 +162,7 @@ void UMLInstance::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
  */
 bool UMLInstance::load1(QDomElement &element)
 {
-    m_instanceName = element.attribute(QLatin1String("instancename"));
+    m_SecondaryId = element.attribute(QLatin1String("classifier"));
     QDomNode node = element.firstChild();
     while(!node.isNull()) {
         if (node.isComment()) {
@@ -131,4 +181,35 @@ bool UMLInstance::load1(QDomElement &element)
         node = node.nextSibling();
     }//end while
     return true;
+}
+
+/**
+ * Resolve forwared declaration of referenced classifier hold in m_pSecondaryId
+ * after loading object from xmi file.
+ * @return true - resolve was successful
+ * @return false - resolve was not successful
+ */
+bool UMLInstance::resolveRef()
+{
+    if (!UMLClassifier::resolveRef())
+        return false;
+    if (!m_pSecondary)
+        return false;
+    UMLClassifier *c = m_pSecondary->asUMLClassifier();
+    Q_ASSERT(c);
+    m_classifier = c;
+    m_pSecondary = 0;
+    return true;
+}
+
+/**
+ * Display the properties configuration dialog.
+ * @param parent Parent widget
+ * @return true - configuration has been applied
+ * @return false - configuration has not been applied
+ */
+bool UMLInstance::showPropertiesDialog(QWidget* parent)
+{
+    ClassPropertiesDialog dialog(parent, this);
+    return dialog.exec();
 }

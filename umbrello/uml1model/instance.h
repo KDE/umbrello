@@ -28,9 +28,12 @@ class UMLInstance : public UMLClassifier
 public:
     explicit UMLInstance(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None);
 
-    QString instanceName() const;
-    virtual void setInstanceName(const QString &strName);
-    void setInstanceNameCmd(const QString &strName);
+    void setClassifierName(const QString &name);
+    QString classifierName();
+
+    void setClassifier(UMLClassifier *classifier);
+    void setClassifierCmd(UMLClassifier *classifier);
+    UMLClassifier *classifier();
 
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                   UMLObject *type = 0, Uml::Visibility::Enum vis = Uml::Visibility::Private,
@@ -38,9 +41,13 @@ public:
 
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
+
 protected:
     bool load1(QDomElement& element);
-    QString m_instanceName; ///< objects instance
+    virtual bool resolveRef();
+    bool showPropertiesDialog(QWidget *parent);
+
+    QPointer<UMLClassifier> m_classifier;
 };
 
 #endif // UMLINSTANCE_H
