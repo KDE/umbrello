@@ -61,6 +61,7 @@
         <file>pics/cursor-final_activity.png</file>
         <file>pics/cursor-generalisation.png</file>
         <file>pics/cursor-initial_state.png</file>
+        <file>pics/cursor-instance.png</file>
         <file>pics/cursor-interface.png</file>
         <file>pics/cursor-join.png</file>
         <file>pics/cursor-junction.png</file>
@@ -130,10 +131,12 @@
         <file alias="pics/umbrello_diagram_collaboration.png">pics/hi22-actions-umbrello_diagram_collaboration.png</file>
         <file alias="pics/umbrello_diagram_component.png">pics/hi22-actions-umbrello_diagram_component.png</file>
         <file alias="pics/umbrello_diagram_deployment.png">pics/hi22-actions-umbrello_diagram_deployment.png</file>
+        <file alias="pics/umbrello_diagram_object.png">pics/diag_object.png</file>
         <file alias="pics/umbrello_diagram_sequence.png">pics/hi22-actions-umbrello_diagram_sequence.png</file>
         <file alias="pics/umbrello_diagram_state.png">pics/hi22-actions-umbrello_diagram_state.png</file>
         <file alias="pics/umbrello_diagram_usecase.png">pics/hi22-actions-umbrello_diagram_usecase.png</file>
         <file>pics/initial_state.png</file>
+        <file>pics/instance.png</file>
         <file>pics/interface.png</file>
         <file>pics/join.png</file>
         <file>pics/junction.png</file>

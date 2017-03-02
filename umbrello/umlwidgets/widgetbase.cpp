@@ -45,7 +45,8 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_useFillColor(true),
     m_usesDiagramTextColor(true),
     m_usesDiagramLineColor(true),
-    m_usesDiagramLineWidth(true)
+    m_usesDiagramLineWidth(true),
+    m_autoResize(true)
 {
     Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
     // Note: no virtual methods from derived classes available,
@@ -471,6 +472,24 @@ void WidgetBase::setFont(const QFont& font)
 }
 
 /**
+ * Return state of auto resize property
+ * @return the auto resize state
+ */
+bool WidgetBase::autoResize()
+{
+    return m_autoResize;
+}
+
+/**
+ * set auto resize state
+ * @param state
+ */
+void WidgetBase::setAutoResize(bool state)
+{
+    m_autoResize = state;
+}
+
+/**
  * A virtual method for the widget to display a property dialog box.
  * Subclasses should reimplment this appropriately.
  */
@@ -489,7 +508,7 @@ void WidgetBase::showPropertiesDialog()
  * @param qDoc A QDomDocument object representing the xml document.
  * @param qElement A QDomElement representing xml element data.
  */
-void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 
@@ -515,6 +534,7 @@ void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
         qElement.setAttribute(QLatin1String("fillcolor"), m_fillColor.name());
     }
     qElement.setAttribute(QLatin1String("font"), m_font.toString());
+    qElement.setAttribute(QLatin1String("autoresize"), m_autoResize ? 1 : 0);
 }
 
 /**
@@ -529,7 +549,7 @@ void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  *
  * @todo Add support to load older version.
  */
-bool WidgetBase::loadFromXMI(QDomElement& qElement)
+bool WidgetBase::loadFromXMI1(QDomElement& qElement)
 {
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
@@ -589,6 +609,8 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
         uWarning() << "Using default font " << m_font.toString()
                    << " for widget with xmi.id " << Uml::ID::toString(m_nId);
     }
+    QString autoResize = qElement.attribute(QLatin1String("autoresize"), QLatin1String("1"));
+    m_autoResize = (bool)autoResize.toInt();
 
     return true;
 }

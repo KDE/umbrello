@@ -58,10 +58,10 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  * Saves the widget to the "boxwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void BoxWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement boxElement = qDoc.createElement(QLatin1String("boxwidget"));
-    UMLWidget::saveToXMI(qDoc, boxElement);
+    UMLWidget::saveToXMI1(qDoc, boxElement);
     qElement.appendChild(boxElement);
 }
 

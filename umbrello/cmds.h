@@ -26,8 +26,8 @@
  ************************************************************/
 #include "cmds/generic/cmdcreateumlobject.h"
 #include "cmds/generic/cmdremoveumlobject.h"
+#include "cmds/generic/cmdrenameumlinstancetype.h"
 #include "cmds/generic/cmdrenameumlobject.h"
-#include "cmds/generic/cmdrenameumlobjectinstance.h"  
 
 /************************************************************
  * Widgets

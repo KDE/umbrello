@@ -76,12 +76,12 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
- * Reimplemented from UMLWidget::loadFromXMI to load widget
+ * Reimplemented from UMLWidget::loadFromXMI1 to load widget
  * info from XMI element - 'forkjoin'.
  */
-bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
+bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
 
@@ -98,13 +98,13 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI to save widget info
+ * Reimplemented from UMLWidget::saveToXMI1 to save widget info
  * into XMI element - 'forkjoin'.
  */
-void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void ForkJoinWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement(QLatin1String("forkjoin"));
-    UMLWidget::saveToXMI(qDoc, fjElement);
+    UMLWidget::saveToXMI1(qDoc, fjElement);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;

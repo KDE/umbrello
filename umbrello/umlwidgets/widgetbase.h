@@ -103,7 +103,7 @@ public:
         wt_Region,
         wt_Category,                // has UMLObject representation
         wt_Port,                    // has UMLObject representation
-        wt_Instance,                // has UMLObject Represantion == wt_Object
+        wt_Instance,                // has UMLObject representation == wt_Object
         wt_MAX                      // upper bounds check value
     };
 
@@ -168,10 +168,13 @@ public:
     virtual QFont font() const;
     virtual void setFont(const QFont& font);
 
+    bool autoResize();
+    void setAutoResize(bool state);
+
     virtual void showPropertiesDialog();
 
-    virtual bool loadFromXMI(QDomElement &qElement);
-    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI1(QDomElement &qElement);
+    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
 
     WidgetBase& operator=(const WidgetBase& other);
 
@@ -288,6 +291,7 @@ protected:
     bool m_usesDiagramFillColor;
     bool m_usesDiagramUseFillColor;
     bool m_usesDiagramLineWidth;
+    bool m_autoResize;
 };
 
 #endif

@@ -680,9 +680,9 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 /**
  * Loads the "floatingtext" XMI element.
  */
-bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
+bool FloatingTextWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement))
+    if(!UMLWidget::loadFromXMI1(qElement))
         return false;
 
     m_unconstrainedPositionX = x();
@@ -704,16 +704,16 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI to save the widget
+ * Reimplemented from UMLWidget::saveToXMI1 to save the widget
  * data into XMI 'floatingtext' element.
  */
-void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingTextWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     if (isEmpty())
         return;
 
     QDomElement textElement = qDoc.createElement(QLatin1String("floatingtext"));
-    UMLWidget::saveToXMI(qDoc, textElement);
+    UMLWidget::saveToXMI1(qDoc, textElement);
     textElement.setAttribute(QLatin1String("text"), m_Text);
     textElement.setAttribute(QLatin1String("pretext"), m_preText);
     textElement.setAttribute(QLatin1String("posttext"), m_postText);

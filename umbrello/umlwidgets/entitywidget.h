@@ -35,8 +35,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    // UMLWidget::loadFromXMI is used to load this widget.
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    // UMLWidget::loadFromXMI1 is used to load this widget.
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

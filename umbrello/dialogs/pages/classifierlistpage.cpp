@@ -443,7 +443,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
             type = ListPopupMenu::mt_EntityAttribute_Selected;
         } else if(m_itemType == UMLObject::ot_InstanceAttribute){
             type = ListPopupMenu::mt_InstanceAttribute_Selected;
-        }  else {
+        } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air

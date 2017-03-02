@@ -345,7 +345,7 @@ void CodeDocument::resetTextBlocks()
  * Load params from the appropriate XMI element node.
  * @param root   the starting point for loading
  */
-void CodeDocument::loadFromXMI (QDomElement & root)
+void CodeDocument::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -373,7 +373,7 @@ void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docEle
     // set the a header
     // which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getHeader()->saveToXMI(doc, commElement); // comment
+    getHeader()->saveToXMI1(doc, commElement); // comment
     docElement.appendChild(commElement);
 
     // doc codePolicy?
@@ -418,7 +418,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getHeader()->loadFromXMI(celem);
+            getHeader()->loadFromXMI1(celem);
             break;
         }
         node = element.nextSibling();
@@ -434,7 +434,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
  * @param doc   the xmi document
  * @param root  the starting point to append
  */
-void CodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
     setAttributesOnNode(doc, docElement);

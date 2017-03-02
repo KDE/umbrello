@@ -360,7 +360,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
     foreach (TextBlock* block, *tbList) {
-        block->saveToXMI(doc, tblockElement);
+        block->saveToXMI1(doc, tblockElement);
     }
     root.appendChild(tblockElement);
 }
@@ -412,7 +412,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             if (name == QLatin1String("codecomment")) {
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
-                block->loadFromXMI(element);
+                block->loadFromXMI1(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeComment to :" << this;
                     delete block;
@@ -433,7 +433,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("codeblock")) {
                 CodeBlock * block = newCodeBlock();
-                block->loadFromXMI(element);
+                block->loadFromXMI1(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeBlock to :" << this;
                     delete block;
@@ -442,7 +442,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("codeblockwithcomments")) {
                 CodeBlockWithComments * block = newCodeBlockWithComments();
-                block->loadFromXMI(element);
+                block->loadFromXMI1(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeBlockwithcomments to:" << this;
                     delete block;
@@ -454,7 +454,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("hierarchicalcodeblock")) {
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
-                block->loadFromXMI(element);
+                block->loadFromXMI1(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add hierarchicalcodeBlock to:" << this;
                     delete block;
@@ -468,7 +468,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 UMLOperation * op = obj->asUMLOperation();
                 if (op) {
                     CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
-                    block->loadFromXMI(element);
+                    block->loadFromXMI1(element);
                     if (addTextBlock(block))
                         loadCheckForChildrenOK = true;
                     else {

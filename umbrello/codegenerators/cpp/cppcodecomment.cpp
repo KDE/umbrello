@@ -25,7 +25,7 @@ CPPCodeComment::~CPPCodeComment ()
 {
 }
 
-void CPPCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CPPCodeComment::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("cppcodecomment"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may

@@ -267,10 +267,10 @@ void ObjectNodeWidget::showPropertiesDialog()
 /**
  * Saves the widget to the "objectnodewidget" XMI element.
  */
-void ObjectNodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectNodeWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement objectNodeElement = qDoc.createElement(QLatin1String("objectnodewidget"));
-    UMLWidget::saveToXMI(qDoc, objectNodeElement);
+    UMLWidget::saveToXMI1(qDoc, objectNodeElement);
     objectNodeElement.setAttribute(QLatin1String("objectnodename"), m_Text);
     objectNodeElement.setAttribute(QLatin1String("documentation"), m_Doc);
     objectNodeElement.setAttribute(QLatin1String("objectnodetype"), m_objectNodeType);
@@ -281,9 +281,9 @@ void ObjectNodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads the widget from the "objectnodewidget" XMI element.
  */
-bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
+bool ObjectNodeWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement) )
+    if(!UMLWidget::loadFromXMI1(qElement) )
         return false;
     m_Text = qElement.attribute(QLatin1String("objectnodename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));

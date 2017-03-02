@@ -29,7 +29,7 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
+void RubyClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("rubyclassdeclarationblock"));
 
@@ -41,7 +41,7 @@ void RubyClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & roo
 /**
  * load params from the appropriate XMI element node.
  */
-void RubyClassDeclarationBlock::loadFromXMI (QDomElement & root)
+void RubyClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

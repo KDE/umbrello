@@ -76,8 +76,8 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI1(QDomElement& qElement);
 
 public slots:
     void slotMenuSelection(QAction* action);

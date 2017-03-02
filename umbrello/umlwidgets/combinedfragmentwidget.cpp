@@ -316,17 +316,17 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void CombinedFragmentWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement combinedFragmentElement = qDoc.createElement(QLatin1String("combinedFragmentwidget"));
-    UMLWidget::saveToXMI(qDoc, combinedFragmentElement);
+    UMLWidget::saveToXMI1(qDoc, combinedFragmentElement);
     combinedFragmentElement.setAttribute(QLatin1String("combinedFragmentname"), m_Text);
     combinedFragmentElement.setAttribute(QLatin1String("documentation"), m_Doc);
     combinedFragmentElement.setAttribute(QLatin1String("CombinedFragmenttype"), m_CombinedFragment);
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI(qDoc, combinedFragmentElement);
+        (*it)-> saveToXMI1(qDoc, combinedFragmentElement);
     }
 
     qElement.appendChild(combinedFragmentElement);
@@ -335,9 +335,9 @@ void CombinedFragmentWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qEleme
 /**
  * Loads the widget from the "CombinedFragmentwidget" XMI element.
  */
-bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
+bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement))
+    if (!UMLWidget::loadFromXMI1(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("combinedFragmentname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -351,7 +351,7 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
         if (tag == QLatin1String("floatingdashlinewidget")) {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
-            if (!fdlwidget->loadFromXMI(element)) {
+            if (!fdlwidget->loadFromXMI1(element)) {
               // Most likely cause: The FloatingTextWidget is empty.
                 delete m_dashLines.back();
                 return false;

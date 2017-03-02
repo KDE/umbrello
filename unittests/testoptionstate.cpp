@@ -44,10 +44,10 @@ void TestOptionState::test_saveAndLoad()
 
     QDomDocument doc;
     QDomElement element = doc.createElement(QLatin1String("test"));
-    options.saveToXMI(element);
+    options.saveToXMI1(element);
 
     Settings::OptionState optionsB;
-    QCOMPARE(optionsB.loadFromXMI(element), true);
+    QCOMPARE(optionsB.loadFromXMI1(element), true);
     QCOMPARE(optionsB.classState.showAtts, true);
     QCOMPARE(optionsB.classState.showOps, true);
     QCOMPARE(optionsB.uiState.useFillColor, true);

@@ -198,6 +198,9 @@ UMLApp::~UMLApp()
 {
     disconnect(m_pZoomInPB, &QPushButton::clicked, this, &UMLApp::slotZoomIn);
     disconnect(m_pZoomSlider, &QSlider::valueChanged, this, &UMLApp::slotZoomSliderMoved);
+    disconnect(m_tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(slotCloseDiagram(int)));
+    disconnect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabChanged(int)));
+    disconnect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotDiagramPopupMenu(QPoint)));
 
     delete m_birdView;
     delete m_clipTimer;
@@ -385,11 +388,13 @@ void UMLApp::initActions()
     connect(classDiagram, &QAction::triggered, this, &UMLApp::slotClassDiagram);
     newDiagram->addAction(classDiagram);
 
+#ifdef ENABLE_OBJECT_DIAGRAM
     QAction* objectDiagram = actionCollection()->addAction(QLatin1String("new_object_diagram"));
     objectDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Object));
     objectDiagram->setText(i18n("&Object Diagram..."));
     connect(objectDiagram, &QAction::triggered, this, &UMLApp::slotObjectDiagram);
     newDiagram->addAction(objectDiagram);
+#endif
 
     QAction* sequenceDiagram= actionCollection()->addAction(QLatin1String("new_sequence_diagram"));
     sequenceDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence));
@@ -1648,9 +1653,10 @@ void UMLApp::slotClassDiagram()
 {
     createDiagram(Uml::DiagramType::Class);
 }
-/*
- * Create this view
-*/
+
+/**
+ * Create this view.
+ */
 void UMLApp::slotObjectDiagram()
 {
     createDiagram(Uml::DiagramType::Object);

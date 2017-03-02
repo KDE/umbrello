@@ -128,10 +128,10 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 /**
  * Saves to the "entitywidget" XMI element.
  */
-void EntityWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void EntityWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("entitywidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

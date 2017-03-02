@@ -16,7 +16,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void ClassState::saveToXMI(QDomElement &element)
+    void ClassState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("showattribassocs"), showAttribAssocs);
         element.setAttribute(QLatin1String("showatts"),         showAtts);
@@ -38,7 +38,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool ClassState::loadFromXMI(QDomElement &element)
+    bool ClassState::loadFromXMI1(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("showattribassocs"), QLatin1String("0"));
         showAttribAssocs = (bool)temp.toInt();
@@ -69,7 +69,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void UIState::saveToXMI(QDomElement &element)
+    void UIState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
         element.setAttribute(QLatin1String("fillcolor"),        fillColor.name());
@@ -87,7 +87,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool UIState::loadFromXMI(QDomElement &element)
+    bool UIState::loadFromXMI1(QDomElement &element)
     {
         QString backgroundColor = element.attribute(QLatin1String("backgroundcolor"));
         if (!backgroundColor.isEmpty())
@@ -122,7 +122,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void CodeImportState::saveToXMI(QDomElement &element)
+    void CodeImportState::saveToXMI1(QDomElement &element)
     {
         element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
         element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
@@ -134,7 +134,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool CodeImportState::loadFromXMI(QDomElement &element)
+    bool CodeImportState::loadFromXMI1(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("createartifacts"), QLatin1String("0"));
         createArtifacts = (bool)temp.toInt();
@@ -162,10 +162,10 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void OptionState::saveToXMI(QDomElement& element)
+    void OptionState::saveToXMI1(QDomElement& element)
     {
-        uiState.saveToXMI(element);
-        classState.saveToXMI(element);
+        uiState.saveToXMI1(element);
+        classState.saveToXMI1(element);
     }
 
     /**
@@ -174,10 +174,10 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool OptionState::loadFromXMI(QDomElement& element)
+    bool OptionState::loadFromXMI1(QDomElement& element)
     {
-        uiState.loadFromXMI(element);
-        classState.loadFromXMI(element);
+        uiState.loadFromXMI1(element);
+        classState.loadFromXMI1(element);
 
         return true;
     }

@@ -65,6 +65,7 @@ set(ICONS
     #diag_entityrelationship
     #diag_sequence
     #diag_state
+    diag_object
     #diag_usecase
     distribute-horizontal
     distribute-vertical
@@ -74,6 +75,7 @@ set(ICONS
     foreignkey_constraint
     #generalise
     #initial
+    instance
     interface
     join
     junction
@@ -134,6 +136,7 @@ set(CURSOR_ICONS
     final_activity
     generalisation
     initial_state
+    instance
     interface
     join
     junction

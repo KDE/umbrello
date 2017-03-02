@@ -542,7 +542,7 @@ QString getXmiId(QDomElement element)
  * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
  * "isActive" | "ownerScope"
  */
-bool isCommonXMIAttribute(const QString &tag)
+bool isCommonXMI1Attribute(const QString &tag)
 {
     bool retval = (UMLDoc::tagEq(tag, QLatin1String("name")) ||
                    UMLDoc::tagEq(tag, QLatin1String("visibility")) ||
@@ -1030,6 +1030,7 @@ bool typeIsContainer(UMLListViewItem::ListViewType type)
 bool typeIsClassifierList(UMLListViewItem::ListViewType type)
 {
     if (type == UMLListViewItem::lvt_Attribute ||
+        type == UMLListViewItem::lvt_Instance ||
         type == UMLListViewItem::lvt_Operation ||
         type == UMLListViewItem::lvt_Template ||
         type == UMLListViewItem::lvt_EntityAttribute ||

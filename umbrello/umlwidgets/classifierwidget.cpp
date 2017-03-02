@@ -18,6 +18,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "instance.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "operation.h"
@@ -26,14 +27,11 @@
 #include "umldoc.h"
 #include "umlview.h"
 
-#define PACKAGE_MARGIN 5
-
 // qt includes
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(ClassifierWidget)
 
-const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
 const int ClassifierWidget::SOCKET_INCREMENT = 10;
 
@@ -45,7 +43,8 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
-    m_pAssocWidget(0), m_pInterfaceName(0)
+    m_pAssocWidget(0),
+    m_pInterfaceName(0)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
@@ -81,7 +80,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         updateSignatureTypes();
     }
 
-    if (c && scene->type() == Uml::DiagramType::Object){
+    if (c && scene->type() == Uml::DiagramType::Object) {
         setBaseType(WidgetBase::wt_Instance);
         m_visualProperties =  ShowAttributes;
         updateSignatureTypes();
@@ -505,17 +504,32 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (stereoWidth > width)
             width = stereoWidth;
     } else if (showNameOnly) {
-        height += MARGIN;
+        height += defaultMargin;
     }
 
     // consider name
     height += fontHeight;
     // ... width
-    QString displayedName;
-    if (visualProperty(ShowPackage))
-        displayedName = m_umlObject->fullyQualifiedName();
+    QString name;
+    UMLObject *o;
+    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
+        o = m_umlObject->asUMLInstance()->classifier();
     else
-        displayedName = m_umlObject->name();
+        o = m_umlObject;
+    if (!o)
+        name = m_Text;
+    else
+    if (visualProperty(ShowPackage))
+        name = o->fullyQualifiedName();
+    else
+        name = o->name();
+
+    QString displayedName;
+    if (m_umlObject->isUMLInstance())
+        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
+    else
+        displayedName = name;
+
     const UMLWidget::FontType nft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0, displayedName).width();
     if (nameWidth > width)
@@ -525,7 +539,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // consider documentation
     if (visualProperty(ShowDocumentation)) {
         if (!documentation().isEmpty()) {
-            QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*MARGIN, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            QRect brect = fm.boundingRect(QRect(0, 0, this->width()-2*defaultMargin, this->height()-height), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
             height += brect.height();
             if (!visualProperty(ShowOperations) && !visualProperty(ShowAttributes)) {
                 if (brect.width() >= width)
@@ -543,7 +557,8 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (numAtts > 0) {
             height += fontHeight * numAtts;
             // calculate width of the attributes
-            UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
+            UMLClassifierListItemList list = umlc->getFilteredList(
+                        m_umlObject->isUMLInstance() ? UMLObject::ot_InstanceAttribute : UMLObject::ot_Attribute);
             foreach (UMLClassifierListItem *a, list) {
                 if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                     continue;
@@ -586,17 +601,17 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             width += templatesBoxSize.width() / 2;
         }
         if (templatesBoxSize.height() != 0) {
-            height += templatesBoxSize.height() - MARGIN;
+            height += templatesBoxSize.height() - defaultMargin;
         }
     }
 
     // allow for height margin
     if (showNameOnly) {
-        height += MARGIN;
+        height += defaultMargin;
     }
 
     // allow for width margin
-    width += MARGIN * 2;
+    width += defaultMargin * 2;
 
     return QSizeF(width, height);
 }
@@ -624,7 +639,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
     const QFontMetrics fm(font);
 
     int width = 0;
-    int height = count * fm.lineSpacing() + (MARGIN*2);
+    int height = count * fm.lineSpacing() + (defaultMargin*2);
 
     foreach (UMLTemplate *t, list) {
         int textWidth = fm.size(0, t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype))).width();
@@ -632,7 +647,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
             width = textWidth;
     }
 
-    width += (MARGIN*2);
+    width += (defaultMargin*2);
     return QSize(width, height);
 }
 
@@ -688,6 +703,7 @@ AssociationWidget *ClassifierWidget::classAssociationWidget() const
 /**
  * Overrides standard method.
  * Auxiliary to reimplementations in the derived classes.
+ * @NOTE keep fetching attributes in sync with calculateSize()
  */
 void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -719,13 +735,13 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     int bodyOffsetY = 0;
     if (templatesBoxSize.height() > 0)
-        bodyOffsetY += templatesBoxSize.height() - MARGIN;
+        bodyOffsetY += templatesBoxSize.height() - defaultMargin;
     int w = width();
     if (templatesBoxSize.width() > 0)
         w -= templatesBoxSize.width() / 2;
     int h = height();
     if (templatesBoxSize.height() > 0)
-        h -= templatesBoxSize.height() - MARGIN;
+        h -= templatesBoxSize.height() - defaultMargin;
     painter->drawRect(0, bodyOffsetY, w, h);
 
     QFont font = UMLWidget::font();
@@ -746,8 +762,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(QPen(textColor()));
         font.setBold(false);
         painter->setFont(font);
-        const int x = width() - templatesBoxSize.width() + MARGIN;
-        int y = MARGIN;
+        const int x = width() - templatesBoxSize.width() + defaultMargin;
+        int y = defaultMargin;
         foreach (UMLTemplate *t, tlist) {
             QString text = t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype));
             painter->drawText(x, y, fm.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
@@ -755,8 +771,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         }
     }
 
-    const int textX = MARGIN;
-    const int textWidth = w - MARGIN * 2;
+    const int textX = defaultMargin;
+    const int textWidth = w - defaultMargin * 2;
 
     painter->setPen(QPen(textColor()));
 
@@ -777,25 +793,27 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     // draw name
     QString name;
-    if (visualProperty(ShowPackage)) {
-        name = m_umlObject->fullyQualifiedName();
-    } else {
-        name = this->name();
-    }
-    //if Object draw object name
-    QString instanceName;
-    if(baseType() == WidgetBase::wt_Instance){
-        instanceName = m_umlObject->instanceName();
-    }
+    UMLObject *o;
+    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
+        o = m_umlObject->asUMLInstance()->classifier();
+    else
+        o = m_umlObject;
+    if (!o)
+        name = m_Text;
+    else if (visualProperty(ShowPackage))
+        name = o->fullyQualifiedName();
+    else
+        name = o->name();
+
+    QString displayedName;
+    if (m_umlObject->isUMLInstance())
+        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
+    else
+        displayedName = name;
 
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    if(baseType() == WidgetBase::wt_Instance){
-        const QString finalName = instanceName + QLatin1String(" : ") + name;
-        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, finalName);
-    }else{
-        painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
-    }
+    painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, displayedName);
     bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
@@ -809,9 +827,9 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(textColor());
 
         if (!documentation().isEmpty()) {
-            QRect brect = fm.boundingRect(QRect(0, 0, w-2*MARGIN, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
-            if (brect.width() > width() + 2*MARGIN)
-                brect.setWidth(width()-2*MARGIN);
+            QRect brect = fm.boundingRect(QRect(0, 0, w-2*defaultMargin, h-bodyOffsetY), Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, documentation());
+            if (brect.width() > width() + 2*defaultMargin)
+                brect.setWidth(width()-2*defaultMargin);
             brect.adjust(textX, bodyOffsetY, textX, bodyOffsetY);
             painter->drawText(brect, Qt::AlignCenter | Qt::TextWordWrap, documentation());
             bodyOffsetY += brect.height();
@@ -832,12 +850,11 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             if (baseType() == WidgetBase::wt_Instance) {
                 drawMembers(painter, UMLObject::ot_InstanceAttribute, m_attributeSignature, textX,
                             bodyOffsetY, fontHeight);
-                bodyOffsetY += fontHeight * numAtts;
             } else {
                 drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
-                        bodyOffsetY, fontHeight);
-                bodyOffsetY += fontHeight * numAtts;
+                            bodyOffsetY, fontHeight);
             }
+            bodyOffsetY += fontHeight * numAtts;
         }
         else
             bodyOffsetY += fontHeight / 2;
@@ -878,7 +895,7 @@ QPainterPath ClassifierWidget::shape() const
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     qreal mainY = 0.0;
     if (templatesBoxSize.height() > 0) {
-        mainY += templatesBoxSize.height() - MARGIN;
+        mainY += templatesBoxSize.height() - defaultMargin;
         path.addRect(QRectF(mainSize.width() - templatesBoxSize.width() / 2, 0.0,
                             templatesBoxSize.width(), templatesBoxSize.height()));
     }
@@ -1000,12 +1017,12 @@ void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphi
     int lines = 1;
     QString stereotype = m_umlObject->stereotype();
     if (!stereotype.isEmpty()) {
-        painter->drawText(0, fontHeight + PACKAGE_MARGIN,
+        painter->drawText(0, fontHeight + defaultMargin,
                    w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
         lines = 2;
     }
 
-    painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
+    painter->drawText(0, (fontHeight*lines) + defaultMargin,
                w, fontHeight, Qt::AlignCenter, name());
 }
 
@@ -1025,11 +1042,11 @@ QSize ClassifierWidget::calculateAsPackageSize() const
     }
     if (tempWidth > width)
         width = tempWidth;
-    width += PACKAGE_MARGIN * 2;
+    width += defaultMargin * 2;
     if (width < 70)
         width = 70;  // minumin width of 70
 
-    int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
+    int height = (lines*fontHeight) + fontHeight + (defaultMargin * 2);
 
     return QSize(width, height);
 }
@@ -1266,36 +1283,38 @@ void ClassifierWidget::changeToInstance()
 /**
  * Loads the "classwidget" or "interfacewidget" XML element.
  */
-bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
+bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
+    bool loadShowAttributes = true;
+    if (umlObject() && (umlObject()->isUMLPackage() || umlObject()->isUMLInstance())) {
+        loadShowAttributes = false;
+    }
+    if (loadShowAttributes) {
+        QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
+        QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
+        QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
+        QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
+        QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
+        QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
+        QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
+        QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
+        setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
+        setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
+        setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
+        setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
+        setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
+        setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
+        m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
+        m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
+    }
 
-    QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
-    QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
-    QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
-    QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
-    QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
-    QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
-    QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
-    QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
 #ifdef ENABLE_WIDGET_SHOW_DOC
     QString showDocumentation = qElement.attribute(QLatin1String("showdocumentation"), QLatin1String("0"));
-#endif
-
-    setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
-    setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
-    setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
-    setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
-    setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
-    setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
-#ifdef ENABLE_WIDGET_SHOW_DOC
     setVisualPropertyCmd(ShowDocumentation, (bool)showDocumentation.toInt());
 #endif
-
-    m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
-    m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
 
     if (!getDrawAsCircle())
         return true;
@@ -1312,7 +1331,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
                                                           name(), Uml::ID::Reserved);
                 m_pInterfaceName->setParentItem(this);
             }
-            if (!m_pInterfaceName->loadFromXMI(element)) {
+            if (!m_pInterfaceName->loadFromXMI1(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pInterfaceName;
                 m_pInterfaceName = 0;
@@ -1331,37 +1350,39 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 /**
  * Creates the "classwidget" or "interfacewidget" XML element.
  */
-void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement;
+    bool saveShowAttributes = true;
     UMLClassifier *umlc = classifier();
     if (umlObject() && umlObject()->baseType() == UMLObject::ot_Package) {
         conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
-        UMLWidget::saveToXMI(qDoc, conceptElement);
-        qElement.appendChild(conceptElement);
-        return;
-    }
-    else if (umlc && umlc->isInterface())
-        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
-    else if(umlObject()->baseType() == UMLObject::ot_Instance)
+        saveShowAttributes = false;
+    } else if(umlObject()->baseType() == UMLObject::ot_Instance) {
         conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
-    else
+        saveShowAttributes = false;
+    } else if (umlc && umlc->isInterface()) {
+        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
+    } else {
         conceptElement = qDoc.createElement(QLatin1String("classwidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
-    conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
-    conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
-    conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
-    conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
-    conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
-    conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
+    }
+    UMLWidget::saveToXMI1(qDoc, conceptElement);
+    if (saveShowAttributes) {
+        conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
+        conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
+        conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
+        conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
+        conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
+        conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
+        conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
+    }
 #ifdef ENABLE_WIDGET_SHOW_DOC
     conceptElement.setAttribute(QLatin1String("showdocumentation"),visualProperty(ShowDocumentation));
 #endif
     if (umlc && (umlc->isInterface() || umlc->isAbstract())) {
         conceptElement.setAttribute(QLatin1String("drawascircle"), visualProperty(DrawAsCircle));
         if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
-            m_pInterfaceName->saveToXMI(qDoc, conceptElement);
+            m_pInterfaceName->saveToXMI1(qDoc, conceptElement);
         }
     }
     qElement.appendChild(conceptElement);

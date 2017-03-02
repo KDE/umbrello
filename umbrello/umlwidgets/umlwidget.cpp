@@ -16,6 +16,7 @@
 #include "classpropertiesdialog.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "idchangelog.h"
@@ -45,7 +46,7 @@ DEBUG_REGISTER_DISABLED(UMLWidget)
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
-const qreal UMLWidget::defaultMargin = 5;
+const int UMLWidget::defaultMargin = 5;
 
 /**
  * Creates a UMLWidget object.
@@ -569,6 +570,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             m_moved = false;
         } else {
             UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
+            m_autoResize = false;
             m_resized = false;
         }
 
@@ -796,6 +798,26 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Resize:
         umlScene()->resizeSelection();
         break;
+
+    case ListPopupMenu::mt_AutoResize:
+        setAutoResize(trigger->isChecked());
+        updateGeometry();
+        break;
+
+    case ListPopupMenu::mt_Rename_Object: {
+        QString name = m_instanceName;
+        bool ok = Dialog_Utils::askName(i18n("Rename Object"),
+                                        i18n("Enter object name:"),
+                                        name);
+        if (ok) {
+            m_instanceName = name;
+            updateGeometry();
+            moveEvent(0);
+            update();
+            UMLApp::app()->document()->setModified(true);
+        }
+        break;
+    }
 
     default:
         WidgetBase::slotMenuSelection(trigger);
@@ -1243,7 +1265,26 @@ bool UMLWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 QSizeF UMLWidget::calculateSize(bool withExtensions /* = true */) const
 {
     Q_UNUSED(withExtensions)
-    return QSizeF(width(), height());
+    const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+    if (m_umlObject) {
+        qreal width = 0, height = defaultMargin;
+        if (!m_umlObject->stereotype().isEmpty()) {
+            height += fontHeight;
+            const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+            const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
+            if (stereoWidth > width)
+                width = stereoWidth;
+        }
+        height += fontHeight;
+        const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+        const int nameWidth = bfm.size(0, m_umlObject->name()).width();
+        if (nameWidth > width)
+            width = nameWidth;
+        return QSizeF(width + 2*defaultMargin, height);
+    }
+    else
+        return QSizeF(width(), height());
 }
 
 /**
@@ -1575,6 +1616,8 @@ void UMLWidget::updateGeometry()
     if (m_doc->loading()) {
         return;
     }
+    if (!m_autoResize)
+        return;
     qreal oldW = width();
     qreal oldH = height();
     QSizeF size = calculateSize();
@@ -1828,13 +1871,13 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     /*
       Call after required actions in child class.
       Type must be set in the child class.
     */
-    WidgetBase::saveToXMI(qDoc, qElement);
+    WidgetBase::saveToXMI1(qDoc, qElement);
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
@@ -1854,12 +1897,12 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 }
 
-bool UMLWidget::loadFromXMI(QDomElement & qElement)
+bool UMLWidget::loadFromXMI1(QDomElement & qElement)
 {
     QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nId = Uml::ID::fromString(id);
 
-    WidgetBase::loadFromXMI(qElement);
+    WidgetBase::loadFromXMI1(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));

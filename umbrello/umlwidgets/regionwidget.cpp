@@ -83,10 +83,10 @@ QSizeF RegionWidget::minimumSize() const
 /**
  * Saves region widget to XMI element.
  */
-void RegionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void RegionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement regionElement = qDoc.createElement(QLatin1String("regionwidget"));
-    UMLWidget::saveToXMI(qDoc, regionElement);
+    UMLWidget::saveToXMI1(qDoc, regionElement);
     regionElement.setAttribute(QLatin1String("regionname"), name());
     regionElement.setAttribute(QLatin1String("documentation"), documentation());
 
@@ -96,9 +96,9 @@ void RegionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads region widget from XMI element.
  */
-bool RegionWidget::loadFromXMI(QDomElement& qElement)
+bool RegionWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
     setName(qElement.attribute(QLatin1String("regionname")));

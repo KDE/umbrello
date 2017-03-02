@@ -24,7 +24,7 @@ DCodeComment::~DCodeComment ()
 {
 }
 
-void DCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
+void DCodeComment::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("dcodecomment"));
 

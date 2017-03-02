@@ -17,6 +17,7 @@
 #include "dialog_utils.h"
 #include "classifier.h"
 #include "datatype.h"
+#include "instance.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -67,7 +68,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pAbstractCB(0),
     m_pDeconCB(0),
     m_pExecutableCB(0),
-    m_pObjectNameLE(0),
     m_docWidget(0),
     m_nameWidget(0),
     m_instanceNameWidget(0),
@@ -87,35 +87,31 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     UMLObject::ObjectType t = m_pObject->baseType();
-    QString name = UMLObject::toI18nString(t);
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
     if( t == UMLObject::ot_Instance) {
-        auto label = new QLabel(i18n("Object name:"));
-        m_pObjectNameLE = new QLineEdit();
-        m_pNameLayout->addWidget(label ,0 ,0);
-        m_pNameLayout->addWidget(m_pObjectNameLE, 0,1);
-        if(!m_pObject->instanceName().isNull())
-            m_pObjectNameLE->setText(m_pObject->instanceName());
-        m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        Q_ASSERT(m_pObject->asUMLInstance());
+        QString name = UMLObject::toI18nString(t);
+        m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
+        m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
+        QString className = UMLObject::toI18nString(UMLObject::ot_Class);
+        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->asUMLInstance()->classifier()->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
-
     }
-    else{
+    else {
+        QString name = UMLObject::toI18nString(t);
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 0);
     }
 
     if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
-        auto label = new QLabel(i18n("Stereotype name:"));
         m_stereotypeWidget = new UMLStereotypeWidget();
         m_stereotypeWidget->setUMLObject(m_pObject);
         if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
             m_stereotypeWidget->setEditable(false);
         }
-        m_pNameLayout->addWidget(label,1,0);
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
@@ -209,11 +205,13 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    m_nameWidget = new UMLObjectNameWidget(i18n("Class name:"), m_pWidget->name());
-    m_nameWidget->addToLayout(m_pNameLayout, 0);
+    QString name = UMLObject::toI18nString(UMLObject::ot_Instance);
+    m_instanceNameWidget = new UMLObjectNameWidget(name , m_pWidget->instanceName());
+    m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
 
-    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), m_pWidget->instanceName());
-    m_instanceNameWidget->addToLayout(m_pNameLayout, 1);
+    QString className = UMLObject::toI18nString(UMLObject::ot_Class);
+    m_nameWidget = new UMLObjectNameWidget(className, m_pWidget->name());
+    m_nameWidget->addToLayout(m_pNameLayout, 1);
 
     UMLView *view = UMLApp::app()->currentView();
 
@@ -280,7 +278,8 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
     }
 
-    m_instanceNameWidget = new UMLObjectNameWidget(i18n("Instance name:"), widget->instanceName());
+    m_instanceNameWidget = new UMLObjectNameWidget(
+                UMLObject::toI18nString(UMLObject::ot_Instance), widget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 2);
 
     m_docWidget = new DocumentationWidget(widget, this);
@@ -314,22 +313,21 @@ void ClassGeneralPage::apply()
             m_pObject->setAbstract(m_pAbstractCB->isChecked());
         }
 
-        if(m_pObjectNameLE){
-            m_pObject->setInstanceName(m_pObjectNameLE->text());
+        if(m_instanceNameWidget && m_pObject->isUMLInstance()) {
+            m_pObject->asUMLInstance()->setName(m_instanceNameWidget->text());
+            m_pObject->asUMLInstance()->setClassifierName(m_nameWidget->text());
         }
 
         //make sure unique name
-        if(m_pObject->baseType() != UMLObject::ot_Instance){
+        if(m_pObject->baseType() != UMLObject::ot_Instance) {
             UMLObject *o = m_pUmldoc->findUMLObject(name);
             if (o && m_pObject != o) {
-                KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                                   i18n("Name is Not Unique"), 0);
-                m_nameWidget->reset();
+                 KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                                    i18n("Name is Not Unique"), 0);
+                 m_nameWidget->reset();
             } else {
-                m_pObject->setName(name);
+                 m_pObject->setName(name);
             }
-        } else {
-            m_pObject->setName(name);
         }
 
         if (t != UMLObject::ot_Stereotype) {

@@ -77,7 +77,7 @@ void CodeClassFieldDeclarationBlock::forceRelease()
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassFieldDeclarationBlock::saveToXMI(QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::saveToXMI1(QDomDocument & doc, QDomElement & elem)
 {
     QDomElement docElement = doc.createElement(QLatin1String("ccfdeclarationcodeblock"));
     setAttributesOnNode(doc, docElement);
@@ -87,7 +87,7 @@ void CodeClassFieldDeclarationBlock::saveToXMI(QDomDocument & doc, QDomElement &
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassFieldDeclarationBlock::loadFromXMI (QDomElement & root)
+void CodeClassFieldDeclarationBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

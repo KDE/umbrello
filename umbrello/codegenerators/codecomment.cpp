@@ -28,7 +28,7 @@ CodeComment::~CodeComment()
 /**
  * Save the XMI representation of this object.
  */
-void CodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CodeComment::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codecomment"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
@@ -39,7 +39,7 @@ void CodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeComment::loadFromXMI(QDomElement & root)
+void CodeComment::loadFromXMI1(QDomElement & root)
 {
     setAttributesFromNode(root);
 }

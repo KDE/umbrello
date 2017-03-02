@@ -2343,17 +2343,17 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 /**
  *
  */
-void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void UMLListView::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement listElement = qDoc.createElement(QLatin1String("listview"));
-    m_rv->saveToXMI(qDoc, listElement);
+    m_rv->saveToXMI1(qDoc, listElement);
     qElement.appendChild(listElement);
 }
 
 /**
  *
  */
-bool UMLListView::loadFromXMI(QDomElement & element)
+bool UMLListView::loadFromXMI1(QDomElement & element)
 {
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();

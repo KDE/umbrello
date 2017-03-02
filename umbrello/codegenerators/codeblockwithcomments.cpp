@@ -52,7 +52,7 @@ CodeComment * CodeBlockWithComments::getComment () const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CodeBlockWithComments::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("codeblockwithcomments"));
 
@@ -74,7 +74,7 @@ void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
     QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI(doc, commElement); // comment
+    getComment()->saveToXMI1(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
 
@@ -94,7 +94,7 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeBlockWithComments::loadFromXMI (QDomElement & root)
+void CodeBlockWithComments::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -118,7 +118,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getComment()->loadFromXMI(celem);
+            getComment()->loadFromXMI1(celem);
             gotComment = true;
             break;
         }
@@ -127,7 +127,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment) {
-        uWarning() << " loadFromXMI : Warning: unable to initialize CodeComment in block:" << getTag();
+        uWarning() << " loadFromXMI1 : Warning: unable to initialize CodeComment in block:" << getTag();
     }
 }
 

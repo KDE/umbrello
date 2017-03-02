@@ -177,10 +177,10 @@ void TestUMLObject::test_saveAndLoad()
     a.setUMLPackage(&parent);
     a.setStereotypeCmd("test");
     QDomDocument doc;
-    QDomElement save = a.save("test", doc);
+    QDomElement save = a.save1("test", doc);
     UMLObject b;
     b.setUMLPackage(&parent);
-    QCOMPARE(b.loadFromXMI(save), true);
+    QCOMPARE(b.loadFromXMI1(save), true);
     QCOMPARE(a, b);
 }
 

@@ -32,7 +32,7 @@ JavaCodeDocumentation::~JavaCodeDocumentation()
 /**
  * Save the XMI representation of this object
  */
-void JavaCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
+void JavaCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("javacodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may

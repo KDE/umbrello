@@ -30,7 +30,7 @@ CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ()
 /**
  * load params from the appropriate XMI element node.
  */
-void CPPHeaderClassDeclarationBlock::loadFromXMI (QDomElement & root)
+void CPPHeaderClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -45,7 +45,7 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 /**
  * Save the XMI representation of this object
  */
-void CPPHeaderClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CPPHeaderClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("cppheaderclassdeclarationblock"));
 

@@ -150,6 +150,10 @@ add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
 add_unstable_feature(UML_OBJECTS_WINDOW) # objects dock window
 add_unstable_feature(XMIRESOLUTION) # see https://bugs.kde.org/show_bug.cgi?id=90103
 
+# Current object diagram implementation does not follow UML 1.4 standard
+# because of using umbrello specific XMI tag (UML:InstanceAttribute).
+add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=123633
+
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)

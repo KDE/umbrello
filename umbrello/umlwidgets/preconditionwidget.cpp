@@ -273,10 +273,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
 /**
  * Saves the widget to the "preconditionwidget" XMI element.
  */
-void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void PreconditionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement preconditionElement = qDoc.createElement(QLatin1String("preconditionwidget"));
-    UMLWidget::saveToXMI(qDoc, preconditionElement);
+    UMLWidget::saveToXMI1(qDoc, preconditionElement);
 
     preconditionElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
     preconditionElement.setAttribute(QLatin1String("preconditionname"), name());
@@ -287,9 +287,9 @@ void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads the widget from the "preconditionwidget" XMI element.
  */
-bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
+bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement))
+    if(!UMLWidget::loadFromXMI1(qElement))
         return false;
     QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     setName(qElement.attribute(QLatin1String("preconditionname")));
@@ -307,7 +307,7 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 /**
  * Load the object widget from m_widgetAId
  *
- * This method is called in loadFromXMI() when loading an XMI file, and called
+ * This method is called in loadFromXMI1() when loading an XMI file, and called
  * from activate() when activating a widget after pasting.
  */
 void PreconditionWidget::loadObjectWidget()

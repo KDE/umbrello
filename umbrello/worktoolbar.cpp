@@ -378,7 +378,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Category,                 i18n("Category"),                Icon_Utils::it_Category,                SLOT(slotCategory())  },
         { tbb_Category2Parent,          i18n("Category to Parent"),      Icon_Utils::it_Category_Parent,         SLOT(slotCategory2Parent()) },
         { tbb_Child2Category,           i18n("Child to Category"),       Icon_Utils::it_Category_Child,          SLOT(slotChild2Category()) },
-        {tbb_Instance,                      i18nc("UML object", "Object"),  Icon_Utils::it_Instance,                    SLOT(slotInstance()) }
+        { tbb_Instance,                 i18n("Instance"),                Icon_Utils::it_Instance,                SLOT(slotInstance()) }
     };
 
     const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
@@ -465,7 +465,7 @@ void WorkToolBar::slotPrePostCondition()         { buttonChanged(tbb_PrePostCond
 void WorkToolBar::slotCategory()                 { buttonChanged(tbb_Category);                 }
 void WorkToolBar::slotCategory2Parent()          { buttonChanged(tbb_Category2Parent);          }
 void WorkToolBar::slotChild2Category()           { buttonChanged(tbb_Child2Category);           }
-void WorkToolBar::slotInstance()                    { buttonChanged(tbb_Instance);                  }
+void WorkToolBar::slotInstance()                 { buttonChanged(tbb_Instance);                 }
 /**
  * Setup actions after reading shortcuts from settings
  */

@@ -102,7 +102,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
                 if(name == QLatin1String("codecomment")) {
                     CodeComment * block = new CPPCodeDocumentation(this);
-                    block->loadFromXMI(element);
+                    block->loadFromXMI1(element);
                     if(!addTextBlock(block))
                     {
                         uError()<<"Unable to add codeComment to :"<<this;
@@ -125,7 +125,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else
                         if(name == QLatin1String("codeblock")) {
                             CodeBlock * block = newCodeBlock();
-                            block->loadFromXMI(element);
+                            block->loadFromXMI1(element);
                             if(!addTextBlock(block))
                             {
                                 uError()<<"Unable to add codeBlock to :"<<this;
@@ -135,7 +135,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                         } else
                             if(name == QLatin1String("codeblockwithcomments")) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
-                                block->loadFromXMI(element);
+                                block->loadFromXMI1(element);
                                 if(!addTextBlock(block))
                                 {
                                     uError()<<"Unable to add codeBlockwithcomments to:"<<this;
@@ -148,7 +148,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                 } else
                                     if(name == QLatin1String("hierarchicalcodeblock")) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                                        block->loadFromXMI(element);
+                                        block->loadFromXMI1(element);
                                         if(!addTextBlock(block))
                                         {
                                             uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
@@ -165,7 +165,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
                                                 block->updateMethodDeclaration();
                                                 block->updateContent();
-                                                block->loadFromXMI(element);
+                                                block->loadFromXMI1(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
@@ -180,7 +180,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                             if(name == QLatin1String("cppheaderclassdeclarationblock"))
                                             {
                                                 CPPHeaderClassDeclarationBlock * block = getClassDecl();
-                                                block->loadFromXMI(element);
+                                                block->loadFromXMI1(element);
                                                 // normally this would be populated by the following syncToparent
                                                 // call, but we cant wait for it, so lets just do it now.
                                                 m_namespaceBlock = getHierarchicalCodeBlock(QLatin1String("namespace"), QLatin1String("Namespace"), 0);
@@ -316,7 +316,7 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
  * @return      bool    status of save
  */
 /*
-void CPPHeaderCodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
+void CPPHeaderCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
         QDomElement docElement = doc.createElement(QString());
 

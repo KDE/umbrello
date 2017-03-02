@@ -33,13 +33,13 @@ namespace Uml
             if (child != 0) {
                 QDomDocument doc;
                 m_children.append(doc.createElement(QLatin1String("child")));
-                child->saveToXMI(doc, m_children.back());
+                child->saveToXMI1(doc, m_children.back());
             }
         }
 
         QDomDocument doc;
         m_element = doc.createElement(QLatin1String("widget"));
-        widget->saveToXMI(doc, m_element);
+        widget->saveToXMI1(doc, m_element);
     }
 
     /**

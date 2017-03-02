@@ -160,21 +160,6 @@ void ObjectWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
-    case ListPopupMenu::mt_Rename_Object:
-        {
-            QString name = m_instanceName;
-            bool ok = Dialog_Utils::askName(i18n("Rename Object"),
-                                            i18n("Enter object name:"),
-                                            name);
-            if (ok) {
-                m_instanceName = name;
-                updateGeometry();
-                moveEvent(0);
-                update();
-                UMLApp::app()->document()->setModified(true);
-            }
-            break;
-        }
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         updateGeometry();
@@ -675,10 +660,10 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
 /**
  * Saves to the "objectwidget" XMI element.
  */
-void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement objectElement = qDoc.createElement(QLatin1String("objectwidget"));
-    UMLWidget::saveToXMI(qDoc, objectElement);
+    UMLWidget::saveToXMI1(qDoc, objectElement);
     objectElement.setAttribute(QLatin1String("drawasactor"), m_drawAsActor);
     objectElement.setAttribute(QLatin1String("multipleinstance"), m_multipleInstance);
     objectElement.setAttribute(QLatin1String("decon"), m_showDestruction);
@@ -688,9 +673,9 @@ void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads from a "objectwidget" XMI element.
  */
-bool ObjectWidget::loadFromXMI(QDomElement& qElement)
+bool ObjectWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement))
+    if(!UMLWidget::loadFromXMI1(qElement))
         return false;
     QString draw = qElement.attribute(QLatin1String("drawasactor"), QLatin1String("0"));
     QString multi = qElement.attribute(QLatin1String("multipleinstance"), QLatin1String("0"));

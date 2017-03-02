@@ -35,8 +35,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    bool loadFromXMI1(QDomElement& qElement);
+    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 public Q_SLOTS:
 

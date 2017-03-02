@@ -143,7 +143,6 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
         ot = UMLObject::ot_UMLObject;
         break;
     }
-
     return ot;
 }
 

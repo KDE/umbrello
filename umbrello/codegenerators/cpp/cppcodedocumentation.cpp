@@ -33,7 +33,7 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
 /**
  * Save the XMI representation of this object
  */
-void CPPCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
+void CPPCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("cppcodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may

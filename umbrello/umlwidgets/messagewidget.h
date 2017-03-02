@@ -135,8 +135,8 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI1(QDomElement & qElement);
 
     void setxclicked(int xclick);
     void setyclicked(int yclick);
@@ -193,7 +193,7 @@ private:
     int m_yclicked;
 
     /**
-     * The following variables are used by loadFromXMI() as an intermediate
+     * The following variables are used by loadFromXMI1() as an intermediate
      * store. activate() resolves the IDs, i.e. after activate() the variables
      * m_pOw[] and m_pFText can be used.
      */

@@ -141,9 +141,9 @@ QSizeF PackageWidget::minimumSize() const
 /**
  * Saves to the "packagewidget" XMI element.
  */
-void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+void PackageWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI1(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }

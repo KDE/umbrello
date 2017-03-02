@@ -237,7 +237,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list)
 /**
  * Save the XMI representation of this object
  */
-void HierarchicalCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
+void HierarchicalCodeBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("hierarchicalcodeblock"));
     setAttributesOnNode(doc, blockElement);
@@ -266,7 +266,7 @@ void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement
 /**
  * load params from the appropriate XMI element node.
  */
-void HierarchicalCodeBlock::loadFromXMI (QDomElement & root)
+void HierarchicalCodeBlock::loadFromXMI1 (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

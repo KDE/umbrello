@@ -36,7 +36,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     // Note: For loading from XMI, the inherited parent method is used.
-    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     QSizeF minimumSize() const;

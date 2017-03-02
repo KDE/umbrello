@@ -81,6 +81,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
     setupMenu(type);
+    setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
 
@@ -340,32 +341,33 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param multi    True if multiple items are selected.
  * @param uniqueType The type of widget shared by all selected widgets
  */
-ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType)
     : QMenu(parent),
     m_isListView(false)
 {
-    m_TriggerObject.m_Widget = object;
+    m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
 
-    if (!object)
+    if (!widget)
         return;
 
     if (multi) {
         insertMultiSelectionMenu(uniqueType);
     } else {
-        insertSingleSelectionMenu(object);
+        insertSingleSelectionMenu(widget);
     }
 
     bool bCutState = UMLApp::app()->isCutCopyState();
     setActionEnabled(mt_Cut, bCutState);
     setActionEnabled(mt_Copy, bCutState);
     bool pasteAvailable = false;
-    if (object->isNoteWidget() &&
+    if (widget->isNoteWidget() &&
             UMLApp::app()->listView()->startedCopy()) {
-        NoteWidget::s_pCurrentNote = object->asNoteWidget();
+        NoteWidget::s_pCurrentNote = widget->asNoteWidget();
         pasteAvailable = true;
     }
     setActionEnabled(mt_Paste, pasteAvailable);
+    setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
 
@@ -420,8 +422,8 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Instance:
         insert(mt_InstanceAttribute);
+        insert(mt_Rename_Object);
         insert(mt_Rename, i18n("Rename Class..."));
-        insert(mt_Rename_Object, i18n("Rename Object..."));
         insertStdItems(true, type);
         insert(mt_Change_Font);
         insert(mt_Properties);
@@ -471,25 +473,23 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         break;
 
     case WidgetBase::wt_Object:
-        {
-            //Used for sequence diagram and collaboration diagram widgets
-            insertSubMenuColor(object->useFillColor());
-            if (object->umlScene() &&
-                object->umlScene()->type() == Uml::DiagramType::Sequence) {
-                addSeparator();
-                MenuType tabUp = mt_Up;
-                insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
-                insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
-                if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
-                    setActionEnabled(tabUp, false);
-                }
+        //Used for sequence diagram and collaboration diagram widgets
+        insertSubMenuColor(object->useFillColor());
+        if (object->umlScene() &&
+            object->umlScene()->type() == Uml::DiagramType::Sequence) {
+            addSeparator();
+            MenuType tabUp = mt_Up;
+            insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
+            insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
+            if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
+                setActionEnabled(tabUp, false);
             }
-            insertStdItems(true, type);
-            insert(mt_Rename, i18n("Rename Class..."));
-            insert(mt_Rename_Object, i18n("Rename Object..."));
-            insert(mt_Change_Font);
-            insert(mt_Properties);
         }
+        insertStdItems(true, type);
+        insert(mt_Rename_Object);
+        insert(mt_Rename, i18n("Rename Class..."));
+        insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Message:
@@ -713,7 +713,7 @@ void ListPopupMenu::insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType)
     addSeparator();
     insert(mt_Clone);
     insert(mt_Delete);
-    insert(mt_Resize, i18n("Resize"));
+    insert(mt_Resize);
 
     addSeparator();
     insert(mt_Change_Font_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
@@ -733,6 +733,12 @@ void ListPopupMenu::insert(MenuType m)
         break;
     case mt_Rename:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
+        break;
+    case mt_Rename_Object:
+        insert(m, i18n("Rename Object..."));
+        break;
+    case mt_Resize:
+        insert(m, i18n("Resize"));
         break;
     case mt_Show:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
@@ -970,7 +976,10 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
         insert(mt_Clone);
     insert(mt_Delete);
     if (!m_isListView)
-        insert(mt_Resize, i18n("Resize"));
+    {
+        insert(mt_Resize);
+        insert(mt_AutoResize, i18n("Auto resize"), CHECKABLE);
+    }
 }
 
 /**
@@ -1520,7 +1529,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_FloatText, menu);
             break;
          case mt_On_Object_Diagram:
-             insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+            insert(mt_Instance, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Instance), i18nc("new instance menu item", "Instance..."));
         break;
         case mt_On_State_Diagram:
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
@@ -1723,89 +1732,19 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_On_UseCase_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_Class_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Class Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
     case mt_On_Object_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Object Diagram " << m_TriggerObjectType;
-            return;
-        }
-        break;
-
     case mt_On_State_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for State Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_Activity_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Activity Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_Component_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Component Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_Deployment_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Deployment Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_EntityRelationship_Diagram:
-        insertSubMenuNew(type);
-        addSeparator();
-        if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Entity Relationship Diagram " << m_TriggerObjectType;
-            return;
-        }
-        setupDiagramMenu(m_TriggerObject.m_View);
-        break;
-
     case mt_On_Sequence_Diagram:
     case mt_On_Collaboration_Diagram:
         insertSubMenuNew(type);
         addSeparator();
         if (m_TriggerObjectType != tot_View) {
-            uError() << "Invalid Trigger Object Type Set for Sequence or Collaboration Diagram " << m_TriggerObjectType;
+            uError() << "Invalid Trigger Object Type" << m_TriggerObjectType << "for diagram type" << type;
             return;
         }
         setupDiagramMenu(m_TriggerObject.m_View);

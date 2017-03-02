@@ -47,9 +47,9 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    // For loading we can use the loadFromXMI() inherited from
+    // For loading we can use the loadFromXMI1() inherited from
     // UMLWidget.
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     QSizeF minimumSize() const;

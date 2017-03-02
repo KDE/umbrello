@@ -227,6 +227,7 @@ public:
         mt_SnapToGrid,
         mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
+        mt_AutoResize,
         mt_Resize,
         mt_Activity_Selected,
         mt_New_Activity,
@@ -290,7 +291,7 @@ public:
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
     ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
-    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false,
+    ListPopupMenu(QWidget* parent, WidgetBase* widget, bool multi = false,
         WidgetBase::WidgetType uniqueType = WidgetBase::wt_UMLWidget);
 
     virtual ~ListPopupMenu();

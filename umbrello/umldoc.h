@@ -155,17 +155,17 @@ public:
 
     static bool tagEq (const QString& tag, const QString& pattern);
 
-    virtual void saveToXMI(QIODevice& file);
+    virtual void saveToXMI1(QIODevice& file);
 
     short encoding(QIODevice & file);
 
-    virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
+    virtual bool loadFromXMI1(QIODevice& file, short encode = ENC_UNKNOWN);
 
-    bool validateXMIHeader(QDomNode& headerNode);
+    bool validateXMI1Header(QDomNode& headerNode);
 
-    bool loadUMLObjectsFromXMI(QDomElement & element);
-    void loadExtensionsFromXMI(QDomNode & node);
-    bool loadDiagramsFromXMI(QDomNode & node);
+    bool loadUMLObjectsFromXMI1(QDomElement & element);
+    void loadExtensionsFromXMI1(QDomNode & node);
+    bool loadDiagramsFromXMI1(QDomNode & node);
 
     void signalDiagramRenamed(UMLView * view);
     void signalUMLObjectCreated(UMLObject * o);
@@ -230,7 +230,7 @@ public:
     void writeToStatusBar(const QString &text);
 
     void resolveTypes();
-    bool loadDiagrams();
+    bool loadDiagrams1();
     void addDiagramToLoad(UMLFolder *folder, QDomNode node);
 
     DiagramsModel *diagramsModel();

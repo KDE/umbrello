@@ -27,8 +27,8 @@ public:
     explicit CodeComment(CodeDocument * doc, const QString & comment = QString());
     virtual ~CodeComment();
 
-    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
-    virtual void loadFromXMI(QDomElement & root);
+    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI1(QDomElement & root);
 
 protected:
 

@@ -1331,11 +1331,11 @@ void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void MessageWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
-    UMLWidget::saveToXMI(qDoc, messageElement);
-    LinkWidget::saveToXMI(qDoc, messageElement);
+    UMLWidget::saveToXMI1(qDoc, messageElement);
+    LinkWidget::saveToXMI1(qDoc, messageElement);
     if (m_pOw[Uml::RoleType::A])
         messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
@@ -1354,7 +1354,7 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
         messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->saveToXMI(qDoc, messageElement);
+        m_pFText->saveToXMI1(qDoc, messageElement);
     }
 
     qElement.appendChild(messageElement);
@@ -1363,12 +1363,12 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Loads from the "messagewidget" XMI element.
  */
-bool MessageWidget::loadFromXMI(QDomElement& qElement)
+bool MessageWidget::loadFromXMI1(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
-    if (!LinkWidget::loadFromXMI(qElement)) {
+    if (!LinkWidget::loadFromXMI1(qElement)) {
         return false;
     }
     QString textid = qElement.attribute(QLatin1String("textid"), QLatin1String("-1"));
@@ -1398,7 +1398,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
             m_scene->addFloatingTextWidget(m_pFText);
-            if(! m_pFText->loadFromXMI(element)) {
+            if(! m_pFText->loadFromXMI1(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
                 m_pFText = 0;

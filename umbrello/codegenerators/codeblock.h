@@ -37,8 +37,8 @@ public:
 
     static QString enumToString(const ContentType& val);
 
-    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
-    virtual void loadFromXMI(QDomElement & root);
+    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI1(QDomElement & root);
 
     virtual void setAttributesFromObject(TextBlock * obj);
 

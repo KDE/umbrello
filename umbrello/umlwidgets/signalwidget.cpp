@@ -249,9 +249,9 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 /**
  * Loads a "signalwidget" XMI element.
  */
-bool SignalWidget::loadFromXMI(QDomElement & qElement)
+bool SignalWidget::loadFromXMI1(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI(qElement))
+    if(!UMLWidget::loadFromXMI1(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("signalname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -282,7 +282,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
-            if(! m_pName->loadFromXMI(element)) {
+            if(! m_pName->loadFromXMI1(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = 0;
@@ -299,16 +299,16 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+void SignalWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement signalElement = qDoc.createElement(QLatin1String("signalwidget"));
-    UMLWidget::saveToXMI(qDoc, signalElement);
+    UMLWidget::saveToXMI1(qDoc, signalElement);
     signalElement.setAttribute(QLatin1String("signalname"), m_Text);
     signalElement.setAttribute(QLatin1String("documentation"), m_Doc);
     signalElement.setAttribute(QLatin1String("signaltype"), m_signalType);
     if (m_pName && !m_pName->text().isEmpty()) {
         signalElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
-        m_pName -> saveToXMI(qDoc, signalElement);
+        m_pName -> saveToXMI1(qDoc, signalElement);
     }
     qElement.appendChild(signalElement);
 }

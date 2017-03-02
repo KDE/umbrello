@@ -30,7 +30,7 @@ RubyCodeDocumentation::~RubyCodeDocumentation()
 {
 }
 
-void RubyCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
+void RubyCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement(QLatin1String("rubycodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
