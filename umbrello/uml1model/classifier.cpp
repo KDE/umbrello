@@ -425,17 +425,6 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 }
 
 /**
- * Returns the number of attributes for the class.
- *
- * @return  The number of attributes for the class.
- */
-int UMLClassifier::attributes()
-{
-    UMLClassifierListItemList atts = getFilteredList(UMLObject::ot_Attribute);
-    return atts.count();
-}
-
-/**
  * Returns the attributes for the specified scope.
  * @return   List of true attributes for the class.
  */

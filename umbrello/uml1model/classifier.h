@@ -68,8 +68,6 @@ public:
 
     int removeAttribute(UMLAttribute *att);
 
-    int attributes() ;
-
     UMLAttributeList getAttributeList() const;
     UMLAttributeList getAttributeList(Uml::Visibility::Enum scope) const;
     UMLAttributeList getAttributeListStatic(Uml::Visibility::Enum scope) const;
