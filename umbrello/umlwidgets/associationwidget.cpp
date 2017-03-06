@@ -952,10 +952,19 @@ void AssociationWidget::setStereotype(const QString &stereo) {
     UMLAssociation *umlassoc = association();
     if (umlassoc) {
         umlassoc->setStereotype(stereo);
-        if (m_nameWidget) {
-            m_nameWidget->setText(umlassoc->stereotype(true));
+        if (!m_nameWidget) {
+            QString text = umlassoc->stereotype(true);
+            // Don't construct the FloatingTextWidget if the string is empty.
+            if (! FloatingTextWidget::isTextValid(text))
+                return;
+
+            m_nameWidget = new FloatingTextWidget(m_scene, calculateNameType(Uml::TextRole::Name), text);
+            m_nameWidget->setParentItem(this);
+            m_nameWidget->setLink(this);
+            m_nameWidget->activate();
+            setTextPosition(calculateNameType(Uml::TextRole::Name));
         } else {
-            uDebug() << "not setting " << stereo << " because m_nameWidget is NULL";
+            m_nameWidget->setText(umlassoc->stereotype(true));
         }
     } else {
         uDebug() << "not setting " << stereo << " because association is NULL";
