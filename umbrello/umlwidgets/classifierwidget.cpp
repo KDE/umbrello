@@ -911,7 +911,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
 {
     const int w = width();
 
-    if (m_Assocs.size() > 1) {
+    if (associationWidgetList().size() > 1) {
         painter->drawEllipse(w/2 - CIRCLE_SIZE/2, SOCKET_INCREMENT / 2, CIRCLE_SIZE, CIRCLE_SIZE);
         // Draw socket for required interface.
         const qreal angleSpan = 180;   // 360.0 / (m_Assocs.size() + 1.0);
@@ -920,7 +920,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
         const QPointF center(x() + w/2, y() + arcDiameter/2);
         const qreal cX = center.x();
         const qreal cY = center.y();
-        foreach (AssociationWidget *aw, m_Assocs) {
+        foreach (AssociationWidget *aw, associationWidgetList()) {
             const Uml::AssociationType::Enum aType = aw->associationType();
             if (aType == Uml::AssociationType::UniAssociation ||
                    aType == Uml::AssociationType::Association)  // provider
@@ -981,7 +981,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
 QSize ClassifierWidget::calculateAsCircleSize() const
 {
     int circleSize = CIRCLE_SIZE;
-    if (m_Assocs.size() > 1)
+    if (associationWidgetList().size() > 1)
         circleSize += SOCKET_INCREMENT;
     return QSize(circleSize, circleSize);
 }
