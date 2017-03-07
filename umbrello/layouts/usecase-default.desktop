@@ -73,9 +73,9 @@ Comment[zh_CN]=用例默认布局
 Comment[zh_TW]=Usecase 預設佈局
 
 [X-UMBRELLO-Dot-Nodes]
-type::usecase shape=ellipse
-type::actor shape=circle
-type::note shape=box
+type::usecase=shape=ellipse
+type::actor=shape=circle
+type::note=shape=box
 type::default=shape=box
 
 # for dot output
