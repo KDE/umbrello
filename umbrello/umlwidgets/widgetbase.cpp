@@ -59,7 +59,6 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
     setSelected(false);
-    scene->addItem(this);
 
     // TODO 310283
     setFlags(ItemIsSelectable);

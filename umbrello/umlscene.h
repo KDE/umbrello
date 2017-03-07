@@ -148,10 +148,11 @@ public:
     Settings::OptionState& optionState();
     void setOptionState(const Settings::OptionState& options);
 
-    AssociationWidgetList& associationList();
-    const UMLWidgetList& widgetList() const;
-    void addWidget(UMLWidget* widget);
-    MessageWidgetList& messageList();
+    const AssociationWidgetList associationList() const;
+    const MessageWidgetList messageList() const;
+    const UMLWidgetList widgetList() const;
+    void addWidgetCmd(UMLWidget* widget);
+    void addWidgetCmd(AssociationWidget *widget);
 
     bool isOpen() const;
     void setIsOpen(bool isOpen);
@@ -223,7 +224,7 @@ public:
     void endPartialWidgetPaste();
     void beginPartialWidgetPaste();
 
-    void removeAssoc(AssociationWidget* pAssoc);
+    void removeWidgetCmd(AssociationWidget* pAssoc);
     void removeAssociations(UMLWidget* pWidget);
     void selectAssociations(bool bSelect);
 
@@ -326,12 +327,6 @@ protected:
     QString                m_Name;     ///< The name of the diagram.
     QString          m_Documentation;  ///< The documentation of the diagram.
     Settings::OptionState  m_Options;  ///< Options used by view.
-
-    MessageWidgetList      m_MessageList;      ///< All the message widgets on the diagram.
-private:
-    UMLWidgetList          m_WidgetList;       ///< All the UMLWidgets on the diagram.
-protected:
-    AssociationWidgetList  m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.

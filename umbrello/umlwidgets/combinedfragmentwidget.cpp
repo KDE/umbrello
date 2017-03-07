@@ -230,7 +230,7 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
-        m_scene->addWidget(m_dashLines.back());
+        m_scene->addWidgetCmd(m_dashLines.back());
     }
 }
 
@@ -362,7 +362,7 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
                 return false;
             }
             else {
-                m_scene->addWidget(fdlwidget);
+                m_scene->addWidgetCmd(fdlwidget);
                 fdlwidget->clipSize();
             }
         } else {

@@ -68,12 +68,7 @@ namespace Uml
      */
     void CmdBaseWidgetCommand::addWidgetToScene(UMLWidget* umlWidget)
     {
-        if (umlWidget->isMessageWidget()) {
-            scene()->messageList().append(umlWidget->asMessageWidget());
-        } else {
-            scene()->addWidget(umlWidget);
-        }
-
+        scene()->addWidgetCmd(umlWidget);
         umlWidget->activate();
     }
 }

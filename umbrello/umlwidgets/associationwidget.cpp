@@ -3037,7 +3037,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         else if (association())
             m_scene->removeAssocInViewAndDoc(this);
         else
-            m_scene->removeAssoc(this);
+            m_scene->removeWidgetCmd(this);
         break;
 
     case ListPopupMenu::mt_Rename_MultiA:
@@ -3948,7 +3948,7 @@ void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj
         return;
     }
     m_umlObject = 0;
-    m_scene->removeAssoc(this);
+    m_scene->removeWidgetCmd(this);
 }
 
 /**

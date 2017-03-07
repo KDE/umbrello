@@ -204,7 +204,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
     ObjectWidget *leftWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, left);
     leftWidget->activate();
     // required to be savable
-    scene->addWidget(leftWidget);
+    scene->addWidgetCmd(leftWidget);
     objectsMap[name] = leftWidget;
 
     ObjectWidget *rightWidget = 0;
@@ -251,7 +251,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);
             rightWidget->activate();
             objectsMap[package] = rightWidget;
-            scene->addWidget(rightWidget);
+            scene->addWidgetCmd(rightWidget);
             mostRightWidget = rightWidget;
         }
 
@@ -265,7 +265,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
         messageWidget->activate();
         messageWidget->setY(y);
         // to make it savable
-        scene->messageList().append(messageWidget);
+        scene->addWidgetCmd(messageWidget);
         messages.insert(0, messageWidget);
 
         leftWidget = rightWidget;
