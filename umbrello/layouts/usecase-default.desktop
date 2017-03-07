@@ -92,6 +92,7 @@ visual::type::realisation=arrowtail=normal,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
 ranking::type::association=weight=1.0
+ranking::type::dependency=weight=1.0
 ranking::type::uniassociation=weight=0.1
 ranking::type::anchor=weight=1.0
 ranking::type::default=constraint=false
