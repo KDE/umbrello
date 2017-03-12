@@ -603,25 +603,26 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
  *
  * @param ns uml object instance with incorrect class
  * @param currentScope parent uml object
- * @return newly created UMLEnum instance
+ * @return newly created UMLEnum instance or zero in case of error
  */
 UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
 {
     if (ns) {
         QString comment = ns->doc();
+        QString name = ns->name();
         QString stereotype = ns->stereotype();
         Uml::Visibility::Enum visibility = ns->visibility();
         UMLApp::app()->document()->removeUMLObject(ns, true);
         if (currentScope == 0)
             currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
-        ns = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, ns->name(), currentScope, false);
-        ns->setDoc(comment);
-        ns->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
-        ns->setVisibilityCmd(visibility);
+        UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
+        o->setDoc(comment);
+        o->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+        o->setVisibilityCmd(visibility);
         // add to parents child list
-        if (!currentScope->containedObjects().contains(ns))
-            currentScope->containedObjects().append(ns);
-        return ns->asUMLEnum();
+        if (!currentScope->containedObjects().contains(o))
+            currentScope->containedObjects().append(o);
+        return o->asUMLEnum();
     }
     return 0;
 }
