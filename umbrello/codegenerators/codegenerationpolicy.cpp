@@ -222,10 +222,10 @@ void CodeGenerationPolicy::setLineEndingType (NewLineType type)
 {
     Settings::optionState().codeGenerationState.lineEndingType = type;
     switch (Settings::optionState().codeGenerationState.lineEndingType) {
-    case MAC:
+    case DOS:
         m_lineEndingChars = QString(QLatin1String("\r\n"));
         break;
-    case DOS:
+    case MAC:
         m_lineEndingChars = QString(QLatin1String("\r"));
         break;
     case UNIX:
