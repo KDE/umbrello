@@ -588,6 +588,35 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
 }
 
 /**
+ * Remap UMLObject instance in case it does not have the correct type.
+ *
+ * @param ns uml object instance with incorrect class
+ * @param currentScope parent uml object
+ * @return newly created UMLEnum instance or zero in case of error
+ */
+UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
+{
+    if (ns) {
+        QString comment = ns->doc();
+        QString name = ns->name();
+        QString stereotype = ns->stereotype();
+        Uml::Visibility::Enum visibility = ns->visibility();
+        UMLApp::app()->document()->removeUMLObject(ns, true);
+        if (currentScope == 0)
+            currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+        UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
+        o->setDoc(comment);
+        o->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+        o->setVisibilityCmd(visibility);
+        // add to parents child list
+        if (!currentScope->containedObjects().contains(o))
+            currentScope->containedObjects().append(o);
+        return o->asUMLEnum();
+    }
+    return 0;
+}
+
+/**
  * Return the list of paths set by previous calls to addIncludePath()
  * and the environment variable UMBRELLO_INCPATH.
  * This list can be used for finding included (or Ada with'ed or...)

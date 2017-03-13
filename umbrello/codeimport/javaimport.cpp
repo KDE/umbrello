@@ -307,6 +307,14 @@ bool JavaImport::parseStmt()
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
+        // The name is already used but is package
+        if (ns && ns->isUMLPackage() && !m_klass) {
+            ns = Object_Factory::createNewUMLObject(ot, name, ns->asUMLPackage());
+            ns->setDoc(m_comment);
+            m_klass = ns->asUMLClassifier();
+            m_klass->setUMLPackage(currentScope());
+            currentScope()->containedObjects().append(m_klass);
+        }
         pushScope(m_klass);
         m_klass->setStatic(m_isStatic);
         m_klass->setVisibilityCmd(m_currentAccess);
@@ -394,25 +402,12 @@ bool JavaImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
-        // handle type mismatch
-        if (ns && enumType == 0) {
-            QString comment = ns->doc();
-            QString stereotype = ns->stereotype();
-            Uml::Visibility::Enum visibility = ns->visibility();
-            UMLApp::app()->document()->removeUMLObject(ns, true);
-            ns = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope(), false);
-            ns->setDoc(comment);
-            ns->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
-            ns->setVisibilityCmd(visibility);
-            // add to parents child list
-            if (!currentScope()->containedObjects().contains(ns))
-                currentScope()->containedObjects().append(ns);
-            enumType = ns->asUMLEnum();
-        }
-
+        if (enumType == 0)
+            enumType = Import_Utils::remapUMLEnum(ns, currentScope());
         skipStmt(QLatin1String("{"));
         while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("}")) {
-            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+            if (enumType != 0)
+                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
             QString next = advance();
             if (next == QLatin1String("{") || next == QLatin1String("(")) {
                 if (! skipToClosing(next[0]))

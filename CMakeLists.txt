@@ -23,6 +23,10 @@ include(Macros)
 
 set(CMAKE_AUTORCC ON)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
+endif()
+
 if(NOT BUILD_KF5)
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 

@@ -208,8 +208,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         return true;  // doesn't matter what's already connected to widget
         break;
 
-    case Uml::AssociationType::Composition:   // can't have mutual composition
-    case Uml::AssociationType::Containment:   // can't have mutual containment
+    case Uml::AssociationType::Composition:
+    case Uml::AssociationType::Containment:
+        return true;
+        break;
+
     case Uml::AssociationType::Generalization://can have many sub/super types but can't sup/sub each
         foreach (AssociationWidget * assoc, list) {
             if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||

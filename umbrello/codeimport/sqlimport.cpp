@@ -853,6 +853,8 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = datatype->asUMLEnum();
+        if (enumType == 0)
+            enumType = Import_Utils::remapUMLEnum(datatype, enumType);
         if (enumType) {
             for (int i = 2; i < type.size(); i++) {
                 Import_Utils::addEnumLiteral(enumType, type.at(i));

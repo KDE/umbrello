@@ -324,8 +324,11 @@ bool PascalImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
+            if (enumType == 0)
+                enumType = Import_Utils::remapUMLEnum(ns, enumType);
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+                if (enumType != 0)
+                    Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
                 if (advance() != QLatin1String(","))
                     break;
             }

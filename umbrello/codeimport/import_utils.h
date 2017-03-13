@@ -79,6 +79,8 @@ namespace Import_Utils {
     void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
     void createGeneralization(UMLClassifier *child, const QString &parentName);
 
+    UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope);
+
     QString formatComment(const QString &comment);
 
     QStringList includePathList();
