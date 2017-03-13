@@ -605,13 +605,18 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
         if (currentScope == 0)
             currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
         UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
-        o->setDoc(comment);
-        o->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
-        o->setVisibilityCmd(visibility);
+        if (!o)
+            return 0;
+        UMLEnum *e = o->asUMLEnum();
+        if (!e)
+            return 0;
+        e->setDoc(comment);
+        e->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+        e->setVisibilityCmd(visibility);
         // add to parents child list
-        if (!currentScope->containedObjects().contains(o))
-            currentScope->containedObjects().append(o);
-        return o->asUMLEnum();
+        if (!currentScope->containedObjects().contains(e))
+            currentScope->containedObjects().append(e);
+        return e;
     }
     return 0;
 }
