@@ -438,7 +438,7 @@ bool IDLImport::parseStmt()
             m_srcIndex++;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
-                                  false, false, false, false, m_comment);
+                                  false, false, false, false, false, m_comment);
         if (m_isOneway) {
             op->setStereotype(QLatin1String("oneway"));
             m_isOneway = false;

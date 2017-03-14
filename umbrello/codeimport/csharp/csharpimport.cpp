@@ -415,7 +415,7 @@ bool CSharpImport::parseStmt()
         }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
-                                   false /*isConstructor*/, m_comment);
+                                   false /*isConstructor*/, false, m_comment);
         m_isAbstract = m_isStatic = false;
         // reset the default visibility
         m_currentAccess = m_defaultCurrentAccess;

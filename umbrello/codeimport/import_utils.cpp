@@ -422,13 +422,14 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
   * @param isAbstract     boolean switch to decide if method is abstract
   * @param isFriend       true boolean switch to decide if methods is a friend function
   * @param isConstructor  boolean switch to decide if methods is a constructor
+  * @param isDestructor   boolean switch to decide if methods is a destructor
   * @param comment        The Documentation for this method
   */
 void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   Uml::Visibility::Enum scope, const QString& type,
                   bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
-                  const QString& comment)
+                  bool isDestructor, const QString& comment)
 {
     op->setVisibilityCmd(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
@@ -457,6 +458,8 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
     // if the operation is a constructor, add it as a stereotype
     if (isConstructor)
         op->setStereotype(QLatin1String("constructor"));
+    if (isDestructor)
+        op->setStereotype(QLatin1String("destructor"));
 
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {

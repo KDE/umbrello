@@ -345,7 +345,7 @@ bool PythonImport::parseStmt()
         }
         Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
-                                   false /*isConstructor*/, m_comment);
+                                   false /*isConstructor*/, false, m_comment);
         m_isStatic = false;
         int srcIndex = m_srcIndex;
         op->setSourceCode(skipBody());

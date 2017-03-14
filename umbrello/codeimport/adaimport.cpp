@@ -560,7 +560,7 @@ bool AdaImport::parseStmt()
             isAbstract = true;
         if (klass != 0 && op != 0)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
-                                       false, isAbstract, false, false, m_comment);
+                                       false, isAbstract, false, false, false, m_comment);
         skipStmt();
         return true;
     }

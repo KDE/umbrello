@@ -65,7 +65,7 @@ namespace Import_Utils {
     void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                       Uml::Visibility::Enum scope, const QString& type,
                       bool isStatic, bool isAbstract,
-                      bool isFriend = false, bool isConstructor = false,
+                      bool isFriend = false, bool isConstructor = false, bool isDestructor = false,
                       const QString& comment = QString());
 
     UMLAttribute* addMethodParameter(UMLOperation *method,
