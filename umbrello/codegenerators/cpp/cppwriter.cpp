@@ -346,7 +346,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     }
 
     writeBlankLine(cpp);
-    cpp << "#include <" << policyExt()->getStringClassNameInclude() << ">" << m_endl;
+    cpp << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
     if (c->hasVectorFields())
     {
         cpp << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;

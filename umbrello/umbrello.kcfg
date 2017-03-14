@@ -464,12 +464,12 @@
        <entry name="stringClassName" type="String">
          <label>String Class Name</label>
          <whatsthis>The name of the string class</whatsthis>
-         <default>string</default>
+         <default>std::string</default>
        </entry>
        <entry name="stringClassNameInclude" type="String">
          <label>String Class Name Include</label>
          <whatsthis>The name of the string class to be included</whatsthis>
-         <default>string</default>
+         <default>&lt;string&gt;</default>
        </entry>
        <entry name="stringIncludeIsGlobal" type="Bool">
          <label>String Include is Global</label>
