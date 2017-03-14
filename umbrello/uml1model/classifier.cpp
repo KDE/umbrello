@@ -1301,7 +1301,7 @@ bool UMLClassifier::hasAccessorMethods()
  */
 bool UMLClassifier::hasOperationMethods()
 {
-    return getOpList().last() ? true : false;
+    return getOpList().count() > 0 ? true : false;
 }
 
 /**
