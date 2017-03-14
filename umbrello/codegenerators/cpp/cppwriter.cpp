@@ -969,7 +969,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
             stream << ";" << m_endl;
     }
 
-    if (i)
+    if (i > -1)
         className += QLatin1String("*");
 
     // get method
