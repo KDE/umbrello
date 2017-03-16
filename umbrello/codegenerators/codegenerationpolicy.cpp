@@ -483,7 +483,7 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     if (path.isEmpty()) {
 #if QT_VERSION >= 0x050000
         path =  QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                          QLatin1String("umbrello/headings"),
+                                          QLatin1String("umbrello5/headings"),
                                           QStandardPaths::LocateDirectory).first();
 #else
         KStandardDirs stddirs;

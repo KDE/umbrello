@@ -125,6 +125,7 @@ if(NOT BUILD_KF5)
 
     macro_display_feature_log()
     KDE4_NO_ENABLE_FINAL(umbrello)
+    set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello)
 else()
     cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
@@ -176,6 +177,7 @@ else()
     endmacro(ecm_add_executable)
 
     set(BUILD_UNITTESTS 1)
+    set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello5)
 endif()
 
 

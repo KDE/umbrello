@@ -294,7 +294,7 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
 #if QT_VERSION >= 0x050000
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QLatin1String("umbrello/layouts"), QStandardPaths::LocateDirectory);
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/layouts"), QStandardPaths::LocateDirectory);
     QStringList fileNames;
     foreach(const QString& dir, dirs) {
         const QStringList entries = QDir(dir).entryList(QStringList() << QString::fromLatin1("%1*.desktop").arg(diagramType));

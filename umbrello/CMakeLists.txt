@@ -581,6 +581,7 @@ else()
     )
     add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello libumbrello KF5::WindowSystem)
+    set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 endif()
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
@@ -593,13 +594,13 @@ if(NOT BUILD_KF5)
     install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
     install( FILES
         ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc
-        DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+        DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 else()
     file(READ umbrello.desktop UMBRELLO_DESKTOP)
     string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
-    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
-    install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
+    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello5.desktop)
+    install(FILES org.kde.umbrello5.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 endif()
 
 install( FILES
@@ -607,11 +608,11 @@ install( FILES
     docgenerators/docbook2xhtml.xsl
     docgenerators/xmi.css
     docgenerators/common.ent
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 
 install( DIRECTORY
     layouts
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello
+    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR}
     PATTERN .svn EXCLUDE )
 
 add_subdirectory( pics )
