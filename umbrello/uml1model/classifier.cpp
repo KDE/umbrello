@@ -1011,6 +1011,8 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType o
             continue;
         }
         UMLClassifierListItem *listItem = o->asUMLClassifierListItem();
+        if (!listItem)
+            continue;
         if (ot == UMLObject::ot_UMLObject || listItem->baseType() == ot) {
             resultList.append(listItem);
         }
