@@ -414,6 +414,8 @@ bool UMLEntity::resolveRef()
         UMLObject* obj = oit.next();
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
+            if (!cli)
+                return success;
             switch (cli->baseType()) {
                 case UMLObject::ot_EntityAttribute:
                     emit entityAttributeAdded(cli);
