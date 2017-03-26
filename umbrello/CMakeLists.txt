@@ -600,7 +600,10 @@ else()
     string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
     install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello5.desktop)
-    install(FILES org.kde.umbrello5.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
+    file(READ org.kde.umbrello.appdata.xml UMBRELLO_APPDATA)
+    string(REPLACE "<binary>umbrello</binary>" "<binary>umbrello5</binary>" UMBRELLO_APPDATA_OUT "${UMBRELLO_APPDATA}")
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml "${UMBRELLO_APPDATA_OUT}")
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 endif()
 
 install( FILES
