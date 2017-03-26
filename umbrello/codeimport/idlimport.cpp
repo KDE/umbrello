@@ -287,9 +287,12 @@ bool IDLImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
+        if (enumType == 0)
+            enumType = Import_Utils::remapUMLEnum(ns, enumType);
         m_srcIndex++;  // skip name
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
-            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+            if (enumType != 0)
+                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
             if (advance() != QLatin1String(","))
                 break;
         }
@@ -416,7 +419,7 @@ bool IDLImport::parseStmt()
             m_srcIndex++;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
-                                  false, false, false, false, m_comment);
+                                  false, false, false, false, false, m_comment);
         if (m_isOneway) {
             op->setStereotype(QLatin1String("oneway"));
             m_isOneway = false;

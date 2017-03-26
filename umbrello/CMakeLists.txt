@@ -581,18 +581,21 @@ file(READ umbrello.desktop UMBRELLO_DESKTOP)
 string(REPLACE "-caption" "-qwindowtitle" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP}")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
 install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
-install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
+file(READ org.kde.umbrello.appdata.xml UMBRELLO_APPDATA)
+string(REPLACE "<binary>umbrello</binary>" "<binary>umbrello5</binary>" UMBRELLO_APPDATA_OUT "${UMBRELLO_APPDATA}")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml "${UMBRELLO_APPDATA_OUT}")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 
 install( FILES
     docgenerators/xmi2docbook.xsl
     docgenerators/docbook2xhtml.xsl
     docgenerators/xmi.css
     docgenerators/common.ent
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 
 install( DIRECTORY
     layouts
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello
+    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR}
     PATTERN .svn EXCLUDE )
 
 add_subdirectory( pics )

@@ -464,12 +464,12 @@
        <entry name="stringClassName" type="String">
          <label>String Class Name</label>
          <whatsthis>The name of the string class</whatsthis>
-         <default>string</default>
+         <default>std::string</default>
        </entry>
        <entry name="stringClassNameInclude" type="String">
          <label>String Class Name Include</label>
          <whatsthis>The name of the string class to be included</whatsthis>
-         <default>string</default>
+         <default>&lt;string&gt;</default>
        </entry>
        <entry name="stringIncludeIsGlobal" type="Bool">
          <label>String Include is Global</label>
@@ -479,12 +479,12 @@
        <entry name="vectorClassName" type="String">
          <label>Vector Class Name</label>
          <whatsthis>The name of the vector class</whatsthis>
-         <default>vector</default>
+         <default>std::vector</default>
        </entry>
        <entry name="vectorClassNameInclude" type="String">
          <label>Vector Class Name Include </label>
          <whatsthis>The name of the vector class to be included</whatsthis>
-         <default>vector</default>
+         <default>&lt;vector&gt;</default>
        </entry>
        <entry name="vectorIncludeIsGlobal" type="Bool">
          <label>Vector include is global</label>

@@ -422,13 +422,14 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
   * @param isAbstract     boolean switch to decide if method is abstract
   * @param isFriend       true boolean switch to decide if methods is a friend function
   * @param isConstructor  boolean switch to decide if methods is a constructor
+  * @param isDestructor   boolean switch to decide if methods is a destructor
   * @param comment        The Documentation for this method
   */
 void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   Uml::Visibility::Enum scope, const QString& type,
                   bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
-                  const QString& comment)
+                  bool isDestructor, const QString& comment)
 {
     op->setVisibilityCmd(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
@@ -457,6 +458,8 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
     // if the operation is a constructor, add it as a stereotype
     if (isConstructor)
         op->setStereotype(QLatin1String("constructor"));
+    if (isDestructor)
+        op->setStereotype(QLatin1String("destructor"));
 
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
@@ -585,6 +588,40 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
     UMLObject *parentObj = createUMLObject(UMLObject::ot_Class, parentName);
     UMLClassifier *parent = parentObj->asUMLClassifier();
     createGeneralization(child, parent);
+}
+
+/**
+ * Remap UMLObject instance in case it does not have the correct type.
+ *
+ * @param ns uml object instance with incorrect class
+ * @param currentScope parent uml object
+ * @return newly created UMLEnum instance or zero in case of error
+ */
+UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
+{
+    if (ns) {
+        QString comment = ns->doc();
+        QString name = ns->name();
+        QString stereotype = ns->stereotype();
+        Uml::Visibility::Enum visibility = ns->visibility();
+        UMLApp::app()->document()->removeUMLObject(ns, true);
+        if (currentScope == 0)
+            currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+        UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
+        if (!o)
+            return 0;
+        UMLEnum *e = o->asUMLEnum();
+        if (!e)
+            return 0;
+        e->setDoc(comment);
+        e->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+        e->setVisibilityCmd(visibility);
+        // add to parents child list
+        if (!currentScope->containedObjects().contains(e))
+            currentScope->containedObjects().append(e);
+        return e;
+    }
+    return 0;
 }
 
 /**

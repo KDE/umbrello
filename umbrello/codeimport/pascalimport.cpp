@@ -288,6 +288,8 @@ bool PascalImport::parseStmt()
                     break;
             }
         }
+        bool isConstructor = false;
+        bool isDestructor = false;
         QString returnType;
         if (keyword == QLatin1String("function")) {
             if (advance() != QLatin1String(":")) {
@@ -296,15 +298,18 @@ bool PascalImport::parseStmt()
                 return false;
             }
             returnType = advance();
-        } else if (keyword == QLatin1String("constructor") || keyword == QLatin1String("destructor")) {
-            op->setStereotype(keyword);
+        } else if (keyword == QLatin1String("constructor")) {
+            isConstructor = true;
+        } else if (keyword == QLatin1String("destructor")) {
+            isDestructor = true;
         }
         skipStmt();
         bool isVirtual = false;
         bool isAbstract = false;
         checkModifiers(isVirtual, isAbstract);
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, returnType,
-                                   !isVirtual, isAbstract, false, false, m_comment);
+                                   !isVirtual, isAbstract, false, isConstructor,
+                                   isDestructor, m_comment);
         return true;
     }
     if (m_section != sect_TYPE) {
@@ -324,8 +329,11 @@ bool PascalImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
+            if (enumType == 0)
+                enumType = Import_Utils::remapUMLEnum(ns, enumType);
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+                if (enumType != 0)
+                    Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
                 if (advance() != QLatin1String(","))
                     break;
             }

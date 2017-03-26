@@ -425,17 +425,6 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 }
 
 /**
- * Returns the number of attributes for the class.
- *
- * @return  The number of attributes for the class.
- */
-int UMLClassifier::attributes()
-{
-    UMLClassifierListItemList atts = getFilteredList(UMLObject::ot_Attribute);
-    return atts.count();
-}
-
-/**
  * Returns the attributes for the specified scope.
  * @return   List of true attributes for the class.
  */
@@ -1022,6 +1011,8 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType o
             continue;
         }
         UMLClassifierListItem *listItem = o->asUMLClassifierListItem();
+        if (!listItem)
+            continue;
         if (ot == UMLObject::ot_UMLObject || listItem->baseType() == ot) {
             resultList.append(listItem);
         }
@@ -1312,7 +1303,7 @@ bool UMLClassifier::hasAccessorMethods()
  */
 bool UMLClassifier::hasOperationMethods()
 {
-    return getOpList().last() ? true : false;
+    return getOpList().count() > 0 ? true : false;
 }
 
 /**

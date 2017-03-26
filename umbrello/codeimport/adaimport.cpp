@@ -329,8 +329,11 @@ bool AdaImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
+            if (enumType == 0)
+                enumType = Import_Utils::remapUMLEnum(ns, enumType);
             while ((next = advance()) != QLatin1String(")")) {
-                Import_Utils::addEnumLiteral(enumType, next, m_comment);
+                if (enumType != 0)
+                    Import_Utils::addEnumLiteral(enumType, next, m_comment);
                 m_comment.clear();
                 if (advance() != QLatin1String(","))
                     break;
@@ -557,7 +560,7 @@ bool AdaImport::parseStmt()
             isAbstract = true;
         if (klass != 0 && op != 0)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
-                                       false, isAbstract, false, false, m_comment);
+                                       false, isAbstract, false, false, false, m_comment);
         skipStmt();
         return true;
     }

@@ -208,8 +208,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         return true;  // doesn't matter what's already connected to widget
         break;
 
-    case Uml::AssociationType::Composition:   // can't have mutual composition
-    case Uml::AssociationType::Containment:   // can't have mutual containment
+    case Uml::AssociationType::Composition:
+    case Uml::AssociationType::Containment:
+        return true;
+        break;
+
     case Uml::AssociationType::Generalization://can have many sub/super types but can't sup/sub each
         foreach (AssociationWidget * assoc, list) {
             if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
@@ -412,6 +415,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Artifact,    true,   false,  false,  false },
     { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
     { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
+    {Java, Uml::AssociationType::Association,      WidgetBase::wt_Enum,       WidgetBase::wt_Enum,        true,   false,  false,   false },
     { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true  },
     { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true  },
     { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true  },
@@ -529,6 +533,8 @@ int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Ru
 bool AssocRules::Assoc_Rule::isValid() const
 {
     if (language == All)
+        return true;
+    else if (language == Java && UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java)
         return true;
     else
         return false;

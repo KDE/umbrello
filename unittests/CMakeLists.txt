@@ -134,3 +134,5 @@ if(LLVM_FOUND)
     target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic ${LIBS})
     ecm_mark_nongui_executable(testllvm testllvmparser)
 endif()
+
+add_custom_target(check COMMAND ${CMAKE_BUILD_TOOL} test)

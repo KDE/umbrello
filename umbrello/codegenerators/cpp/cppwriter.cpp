@@ -50,7 +50,7 @@ CppWriter::CppWriter()
     // allows you to specify where the vector variable should be in your code,
     // and "%ITEMCLASS%", if needed, where the class of the item is declared.
     VECTOR_METHOD_APPEND = QLatin1String("%VARNAME%.push_back(add_object);"); // for std::vector
-    VECTOR_METHOD_REMOVE = QLatin1String("int i, size = %VARNAME%.size();\nfor (i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"); // for std::vector
+    VECTOR_METHOD_REMOVE = QString(QLatin1String("int i, size = %VARNAME%.size();\nfor (i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\t%1<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }")).arg(policyExt()->getVectorClassName()); // for std::vector
     VECTOR_METHOD_INIT.clear(); // nothing to be done
     /*
         VECTOR_METHOD_APPEND = QLatin1String("%VARNAME%.append(&add_object);"); // Qt lib implementation
@@ -346,7 +346,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     }
 
     writeBlankLine(cpp);
-    cpp << "#include <" << policyExt()->getStringClassNameInclude() << ">" << m_endl;
+    cpp << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
     if (c->hasVectorFields())
     {
         cpp << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
@@ -969,7 +969,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
             stream << ";" << m_endl;
     }
 
-    if (i)
+    if (i > -1)
         className += QLatin1String("*");
 
     // get method

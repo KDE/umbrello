@@ -1323,7 +1323,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
         insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
         UMLClassifier *umlc = c->classifier();
-        if (umlc->isAbstract() && umlc->attributes() == 0)
+        if (umlc->isAbstract() && umlc->getAttributeList().size() == 0)
             insert(mt_ChangeToInterface, i18n("Change into Interface"));
     }
     insert(mt_Properties);

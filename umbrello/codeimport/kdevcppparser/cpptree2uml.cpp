@@ -277,6 +277,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     bool isStatic = false;
 //:unused:    bool isInline = false;
     bool isConstructor = false;
+    bool isDestructor = false;
 
     bool isConstExpression = false;
 
@@ -319,12 +320,17 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 
     // if a class has no return type, it could be a constructor or
     // a destructor
-    if (d && returnType.isEmpty() && id.indexOf(QLatin1Char('~')) == -1)
-        isConstructor = true;
+    if (d && returnType.isEmpty()) {
+        if (id.indexOf(QLatin1Char('~')) == -1)
+            isConstructor = true;
+        else
+            isDestructor = true;
+    }
 
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
-                               isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
+                               isStatic, false /*isAbstract*/, isFriend, isConstructor,
+                               isDestructor, m_comment);
     m_comment = QString();
 
 /* For reference, Kdevelop does some more:
@@ -552,6 +558,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     bool isPure = decl->initializer() != 0;
     bool isConstructor = false;
     bool isConstExpression = false;
+    bool isDestructor = false;
 
     if (funSpec){
 //:unused:        QList<AST*> l = funSpec->nodeList();
@@ -588,12 +595,16 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setStereotype(QLatin1String("constexpr"));
     // if a class has no return type, it could de a constructor or
     // a destructor
-    if (d && returnType.isEmpty() && id.indexOf(QLatin1Char('~')) == -1)
-        isConstructor = true;
+    if (d && returnType.isEmpty()) {
+        if (id.indexOf(QLatin1Char('~')) == -1)
+            isConstructor = true;
+        else
+            isDestructor = true;
+    }
 
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
-                               isStatic, isPure, isFriend, isConstructor, m_comment);
+                               isStatic, isPure, isFriend, isConstructor, isDestructor, m_comment);
     if  (isPure)
         c->setAbstract(true);
     m_comment = QString();

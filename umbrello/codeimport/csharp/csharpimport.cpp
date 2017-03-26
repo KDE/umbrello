@@ -415,7 +415,7 @@ bool CSharpImport::parseStmt()
         }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
                                    m_isStatic, m_isAbstract, false /*isFriend*/,
-                                   false /*isConstructor*/, m_comment);
+                                   false /*isConstructor*/, false, m_comment);
         m_isAbstract = m_isStatic = false;
         // reset the default visibility
         m_currentAccess = m_defaultCurrentAccess;
@@ -626,12 +626,15 @@ bool CSharpImport::parseEnumDeclaration()
     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
     UMLEnum *enumType = ns->asUMLEnum();
+    if (enumType == 0)
+        enumType = Import_Utils::remapUMLEnum(ns, currentScope());
     skipStmt(QLatin1String("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QLatin1String("}")) {
         QString next = advance();
         if (next == QLatin1String("=")) {
             next = advance();
-            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
+            if (enumType != 0)
+                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
             next = advance();
         } else {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);

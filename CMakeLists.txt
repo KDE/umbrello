@@ -2,11 +2,11 @@ project(umbrello)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "17")
-set (KDE_APPLICATIONS_VERSION_MINOR "03")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
-MATH(EXPR UMBRELLO_VERSION_MINOR "18+${KDE_APPLICATIONS_VERSION_MINOR}")
+MATH(EXPR UMBRELLO_VERSION_MINOR "15+${KDE_APPLICATIONS_VERSION_MINOR}")
 set(UMBRELLO_VERSION_PATCH ${KDE_APPLICATIONS_VERSION_MICRO})
 
 option(BUILD_ICONS "Create icons from svg source" OFF)
@@ -20,6 +20,10 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
 
 set(CMAKE_AUTORCC ON)
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
+endif()
 
     cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
@@ -71,6 +75,7 @@ set(CMAKE_AUTORCC ON)
     endmacro(ecm_add_executable)
 
     set(BUILD_UNITTESTS 1)
+    set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello5)
 
 # use some compile flags
 add_definitions(
