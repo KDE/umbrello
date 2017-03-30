@@ -124,7 +124,9 @@ all) ## run all required targets
         $0 packdebug
         $0 createsha
         $0 upload
-        $0 ticket
+        echo "Content for ticket creating:"
+        $0 createdescription
+        echo run "$0 ticket" to submit ticket
         ;;
 
 *)
