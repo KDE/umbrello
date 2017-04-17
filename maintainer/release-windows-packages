@@ -83,6 +83,10 @@ packdebug) ## package debug package
         rm -rf out/*debug*.7z
         arch=mingw32
         version=$(find binaries/ -name *$arch*debug* | sed 's,.*debug-,,g;s,\.noarch.*,,g')
+        if test -z "$version"; then
+                echo no version found
+                exit 1;
+        fi
         dir=tmp/usr/i686-w64-mingw32/sys-root/mingw
         outfile=$PWD/out/umbrello-i686-w64-mingw32-$version-debug.7z
         (cd $dir; 7z a -r -mx=9 $outfile *.debug *.sym)
