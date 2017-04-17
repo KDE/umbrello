@@ -12,8 +12,14 @@
 #
 # run ./release-windows-packages to see all modes
 #
-REPO=openSUSE_42.2
-VERSION=2.20.90
+ROOT=home\:rhabacker\:branches\:
+ROOT32=${ROOT}windows\:mingw\:win32\:KDE4
+ROOT64=${ROOT}windows\:mingw\:win64\:KDE4
+SRCROOT32=windows\:mingw\:win32
+SRCROOT64=windows\:mingw\:win64
+REPO=openSUSE_Leap_42.2
+SRCREPO=openSUSE_42.2
+VERSION=2.21.90
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
@@ -32,19 +38,24 @@ clean) ## clean working area
 download) ## download rpm packages
         cd work
         rm -rf binaries
-        osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello-installer $REPO x86_64
-        osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello-installer $REPO x86_64
+        osc $oscoptions getbinaries $ROOT32 mingw32-umbrello-installer $REPO x86_64
+        osc $oscoptions getbinaries $ROOT64 mingw64-umbrello-installer $REPO x86_64
+        $0 downloadsrc
+        ;;
+
+downloadsrc) ## download source
+        cd work
         # fetch source package
-        src32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep src)
-        osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $src32pkg
+        src32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 mingw32-umbrello | grep src)
+        osc $oscoptions getbinaries --sources $SRCROOT32 mingw32-umbrello $SRCREPO x86_64 $src32pkg
         # we only need once source package
-        #src64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep src)
-        #osc $oscoptions getbinaries --sources windows\:mingw:\win32 mingw64-umbrello $REPO x86_64 $src64pkg
+        #src64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep src)
+        #osc $oscoptions getbinaries --sources $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $src64pkg
         # fetch debug packages
-        debug32pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win32 mingw32-umbrello | grep debug)
-        osc $oscoptions getbinaries windows\:mingw:\win32 mingw32-umbrello $REPO x86_64 $debug32pkg
-        debug64pkg=$(osc $oscoptions ls -b -r $REPO -a x86_64 windows:mingw:win64 mingw64-umbrello | grep debug)
-        osc $oscoptions getbinaries windows\:mingw:\win64 mingw64-umbrello $REPO x86_64 $debug64pkg
+        debug32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 mingw32-umbrello | grep debug)
+        osc $oscoptions getbinaries $SRCROOT32 mingw32-umbrello $SRCREPO x86_64 $debug32pkg
+        debug64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep debug)
+        osc $oscoptions getbinaries $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $debug64pkg
         ;;
 
 unpack) ## unpack rpm files
