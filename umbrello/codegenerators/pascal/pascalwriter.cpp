@@ -307,7 +307,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
             //     continue;
             pas << indent() << cleanName(at->name()) << " : "
                 << at->getTypeName();
-            if (at && !at->getInitialValue().isEmpty())
+            if (!at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
             pas << ";" << m_endl;
         }
