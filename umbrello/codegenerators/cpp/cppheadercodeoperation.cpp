@@ -55,11 +55,13 @@ void CPPHeaderCodeOperation::updateContent()
 void CPPHeaderCodeOperation::updateMethodDeclaration()
 {
     ClassifierCodeDocument *ccd = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
+    Q_ASSERT(ccd);
     bool isInterface = ccd->parentIsInterface();
     UMLOperation * o = getParentOperation();
 
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    Q_ASSERT(policy);
     bool isInlineMethod = policy->getOperationsAreInline();
     QString tag = policy->getDocToolTag();
 
