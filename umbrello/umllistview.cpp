@@ -1033,6 +1033,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)), this, SLOT(childObjectAdded(UMLClassifierListItem*)));
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     }
+    break;
     case UMLObject::ot_Enum: {
         UMLEnum *e = object->asUMLEnum();
         connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
