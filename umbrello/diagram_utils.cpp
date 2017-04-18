@@ -43,11 +43,12 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
     QStringList l = lines;
     while(l.size() > 0) {
         QStringList cols = l.takeFirst().split(QRegExp(QLatin1String("\\s+")),QString::SkipEmptyParts);
+        if (cols.size() < 1)
+            continue;
+
         if (cols[0] == QLatin1String("#")) {
             continue;
         }
-        if (cols.size() < 1)
-            continue;
         /*
          * #0  0x000000000050d0b0 in Import_Utils::importStackTrace(QString const&, UMLScene*) (fileName=..., scene=scene@entry=0x12bd0f0)
          */
