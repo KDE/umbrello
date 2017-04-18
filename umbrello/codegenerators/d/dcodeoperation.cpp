@@ -40,6 +40,7 @@ void DCodeOperation::updateMethodDeclaration()
 {
     CodeDocument * doc = getParentDocument();
     DClassifierCodeDocument * ddoc = dynamic_cast<DClassifierCodeDocument*>(doc);
+    Q_ASSERT(ddoc);
     UMLOperation * o = getParentOperation();
     bool isInterface = ddoc->getParentClassifier()->isInterface();
     QString endLine = getNewLineEndingChars();
