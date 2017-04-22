@@ -52,6 +52,7 @@ void RubyClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
 void RubyClassDeclarationBlock::updateContent ()
 {
     RubyClassifierCodeDocument *parentDoc = dynamic_cast<RubyClassifierCodeDocument*>(getParentDocument());
+    Q_ASSERT(parentDoc);
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     QString endLine = p->getNewLineEndingChars();

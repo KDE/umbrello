@@ -716,7 +716,7 @@ void AdaWriter::finalizeRun()
                             continue;
                         ada << indent() << cleanName(at->name()) << " : "
                         << at->getTypeName();
-                        if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
+                        if (!at->getInitialValue().isEmpty() && !at->getInitialValue().toLatin1().isEmpty())
                             ada << " := " << at->getInitialValue();
                         ada << ";" << m_endl;
                     }

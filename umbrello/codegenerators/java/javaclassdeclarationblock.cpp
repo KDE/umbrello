@@ -51,6 +51,7 @@ void JavaClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
 void JavaClassDeclarationBlock::updateContent ()
 {
     JavaClassifierCodeDocument *parentDoc = dynamic_cast<JavaClassifierCodeDocument*>(getParentDocument());
+    Q_ASSERT(parentDoc);
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();

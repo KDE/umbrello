@@ -43,6 +43,7 @@ void RubyCodeOperation::updateMethodDeclaration()
 {
     CodeDocument * doc = getParentDocument();
     RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(doc);
+    Q_ASSERT(rubydoc);
     UMLClassifier *c = rubydoc->getParentClassifier();
     UMLOperation * o = getParentOperation();
     bool isInterface = rubydoc->getParentClassifier()->isInterface();

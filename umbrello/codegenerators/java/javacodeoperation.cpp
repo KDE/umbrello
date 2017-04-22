@@ -38,6 +38,7 @@ void JavaCodeOperation::updateMethodDeclaration()
 {
     CodeDocument * doc = getParentDocument();
     JavaClassifierCodeDocument * javadoc = dynamic_cast<JavaClassifierCodeDocument*>(doc);
+    Q_ASSERT(javadoc);
     UMLOperation * o = getParentOperation();
     bool isInterface = javadoc->getParentClassifier()->isInterface();
     QString endLine = getNewLineEndingChars();
