@@ -25,6 +25,7 @@
 #include "cppimport.h"
 #include "csharpimport.h"
 #include "codeimpthread.h"
+#include "phpimport.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -54,6 +55,8 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
         classImporter = new CSharpImport(thread);
     else if (fileName.endsWith(QLatin1String(".sql")))
         classImporter = new SQLImport(thread);
+    else if (fileName.endsWith(QLatin1String(".php")))
+        classImporter = new PHPImport(thread);
     else
         classImporter = new CppImport(thread);  // the default.
     return classImporter;

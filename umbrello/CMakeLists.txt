@@ -11,8 +11,8 @@ endif()
 ########### set variables #############
 
 # Some definitions for experimental code or debugging
-add_definitions(-DQT_NO_CAST_TO_ASCII)
-add_definitions(-DQT_NO_CAST_FROM_ASCII)
+#add_definitions(-DQT_NO_CAST_TO_ASCII)
+#add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
@@ -292,6 +292,7 @@ ki18n_wrap_ui(  libcodeimpwizard_SRCS
 set(libcodeimport_SRCS
     codeimport/adaimport.cpp
     codeimport/classimport.cpp
+    codeimport/phpimport.cpp
     codeimport/idlimport.cpp
     codeimport/import_utils.cpp
     codeimport/javaimport.cpp
@@ -541,6 +542,24 @@ if(NOT BUILD_KF5)
         ${KDE4_KTEXTEDITOR_LIBS}
         ${KDE4_KFILE_LIBS}
     )
+
+    if(KDEVPLATFORM_FOUND)
+        target_link_libraries(libumbrello
+            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
+            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
+            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
+            ${KDEVPLATFORM_PROJECT_LIBRARIES}
+            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
+            ${KDEVPLATFORM_SHELL_LIBRARIES}
+            ${KDEVPLATFORM_UTIL_LIBRARIES}
+            ${KDEVPLATFORM_VCS_LIBRARIES}
+            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
+            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
+            ${KDEVPLATFORM_TESTS_LIBRARIES}
+            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
+            kdev4phpparser
+        )
+    endif()
     kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/kde4/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
