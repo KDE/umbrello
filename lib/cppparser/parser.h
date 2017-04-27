@@ -276,8 +276,11 @@ public:
 };
 
 
-class Parser
+#define PARSER_DEBUG_METHOD DEBUG(DBG_SRC) << "token=" << m_lexer->lookAhead(0).text() << endl
+
+class Parser : public QObject
 {
+    Q_OBJECT
 public:
     Parser(Driver* driver, Lexer* lexer);
     virtual ~Parser();
@@ -463,14 +466,12 @@ private:
     void eventuallyTakeComment(Type& ast);
 
     ParserPrivateData* d;
-    Driver* m_driver;
-    Lexer* lex;
+    Driver *m_driver;
+    Lexer *m_lexer;
     Comment m_currentComment;
     int m_problems;
     int m_maxProblems;
     bool objcp;
-
-private:
     Parser(const Parser& source);
     void operator = (const Parser& source);
 };
