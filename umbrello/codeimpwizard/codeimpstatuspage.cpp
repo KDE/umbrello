@@ -46,6 +46,7 @@
 #endif
 #include <QListWidget>
 #include <QTimer>
+#include <QScrollBar>
 
 /**
  * Constructor.
@@ -140,7 +141,12 @@ void CodeImpStatusPage::importCode()
     m_savedlistViewVisible = UMLApp::app()->listView()->parentWidget()->isVisible();
     UMLApp::app()->listView()->parentWidget()->setVisible(false);
 
-    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
+    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>\n", m_files.size()));
+    
+    ui_textEditLogger->insertHtml(QLatin1String("\n") + QLatin1String("<br>"));
+    ui_textEditLogger->moveCursor (QTextCursor::End);
+    ui_textEditLogger->verticalScrollBar()->setValue(ui_textEditLogger->verticalScrollBar()->maximum()); // move Cursor to the end
+
     m_index = 0;
     m_workDone = false;
     m_savedUndoEnabled = UMLApp::app()->isUndoEnabled();
@@ -282,6 +288,8 @@ void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
     else {
         ui_textEditLogger->insertHtml(QLatin1String("\n<b>") + file + QLatin1String(":</b> ") + text + QLatin1String("<br>"));
     }
+    // move Cursor to the end
+    ui_textEditLogger->verticalScrollBar()->setValue(ui_textEditLogger->verticalScrollBar()->maximum());
 }
 
 /**
