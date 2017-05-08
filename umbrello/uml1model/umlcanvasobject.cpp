@@ -53,7 +53,7 @@ UMLCanvasObject::~UMLCanvasObject()
 }
 
 /**
- * Return the subset of m_List that matches the given type.
+ * Return the subset of subordinates that matches the given type.
  *
  * @param assocType   The AssociationType::Enum to match.
  * @return   The list of associations that match assocType.
@@ -62,7 +62,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
 {
     UMLAssociationList list;
     UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
@@ -75,7 +75,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
 }
 
 /**
- * Adds an association end to m_List.
+ * Adds an association end to subordinates.
  *
  * @param assoc  The association to add.
  *               @todo change param type to UMLRole
@@ -86,7 +86,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
     // add association only if not already present in list
     if (!hasAssociation(assoc))
     {
-        m_List.append(assoc);
+        subordinates().append(assoc);
 
         // Don't emit signals during load from XMI
         UMLObject::emitModified();
@@ -103,7 +103,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
  */
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 {
-    uint cnt = m_List.count(assoc);
+    uint cnt = subordinates().count(assoc);
     DEBUG(DBG_SRC) << "count is " << cnt;
     return (cnt > 0);
 }
@@ -116,14 +116,14 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
  */
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
-    if (!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
+    if (!hasAssociation(assoc) || !subordinates().removeAll(assoc)) {
         DEBUG(DBG_SRC) << "cannot find given assoc " << assoc << " in list";
         return -1;
     }
     UMLApp::app()->document()->removeAssociation(assoc, false);
     UMLObject::emitModified();
     emit sigAssociationEndRemoved(assoc);
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -131,8 +131,8 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
  */
 void UMLCanvasObject::removeAllAssociationEnds()
 {
-    for (int i = 0; i < m_List.count(); i++) {
-        UMLObject *o = m_List.at(i);
+    for (int i = 0; i < subordinates().count(); i++) {
+        UMLObject *o = subordinates().at(i);
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
@@ -165,9 +165,9 @@ void UMLCanvasObject::removeAllAssociationEnds()
  */
 void UMLCanvasObject::removeAllChildObjects()
 {
-    if (!m_List.isEmpty()) {
+    if (!subordinates().isEmpty()) {
         removeAllAssociationEnds();
-        m_List.clear();
+        subordinates().clear();
     }
 }
 
@@ -244,7 +244,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObject *obj = 0;
-    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
@@ -270,7 +270,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerA
 {
     Q_UNUSED(considerAncestors);
     UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->id() == id)
@@ -290,10 +290,10 @@ bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) const
     if (!UMLObject::operator==(rhs)) {
         return false;
     }
-    if (m_List.count() != rhs.m_List.count()) {
+    if (subordinates().count() != rhs.subordinates().count()) {
         return false;
     }
-    if (&m_List != &(rhs.m_List)) {
+    if (&subordinates() != &(rhs.subordinates())) {
         return false;
     }
     return true;
@@ -310,7 +310,7 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
     // TODO Associations are not copied at the moment. This because
     // the duplicate function (on umlwidgets) do not copy the associations.
     //
-    //target->m_List = m_List;
+    //target->subordinates() = subordinates();
 }
 
 /**
@@ -323,7 +323,7 @@ int UMLCanvasObject::associations()
 {
     int count = 0;
     UMLObject *obj = 0;
-    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Association)
@@ -341,7 +341,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
 {
     UMLAssociationList assocs;
     UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_List); oit.hasNext() ;) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext() ;) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
@@ -454,11 +454,11 @@ UMLAssociationList UMLCanvasObject::getRelationships()
 bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
-    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
+    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
         UMLObject *obj = ait.next();
         uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
-            m_List.removeAll(obj);
+            subordinates().removeAll(obj);
             overallSuccess = false;
         }
     }

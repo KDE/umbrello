@@ -52,7 +52,7 @@ UMLEntity::UMLEntity(const QString& name, Uml::ID::Type id)
  */
 UMLEntity::~UMLEntity()
 {
-    m_List.clear();
+    subordinates().clear();
 }
 
 /**
@@ -305,7 +305,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
 {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
-    m_List.append(literal);
+    subordinates().append(literal);
     emit entityAttributeAdded(literal);
     UMLObject::emitModified();
     connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
@@ -324,7 +324,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
     QString name = (QString)att->name();
     if (findChildObject(name) == 0) {
         att->setParent(this);
-        m_List.append(att);
+        subordinates().append(att);
         emit entityAttributeAdded(att);
         UMLObject::emitModified();
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
@@ -351,10 +351,10 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
     QString name = (QString)att->name();
     if (findChildObject(name) == 0) {
         att->setParent(this);
-        if (position >= 0 && position <= (int)m_List.count())  {
-            m_List.insert(position, att);
+        if (position >= 0 && position <= (int)subordinates().count())  {
+            subordinates().insert(position, att);
         } else {
-            m_List.append(att);
+            subordinates().append(att);
         }
         emit entityAttributeAdded(att);
         UMLObject::emitModified();
@@ -372,7 +372,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
  */
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
 {
-    if (!m_List.removeAll((UMLEntityAttribute*)att)) {
+    if (!subordinates().removeAll((UMLEntityAttribute*)att)) {
         uDebug() << "cannot find att given in list";
         return -1;
     }
@@ -382,7 +382,7 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
     // for us by QObject. -b.t.
     // disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
     delete att;
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -410,7 +410,7 @@ void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
 bool UMLEntity::resolveRef()
 {
     bool success = UMLClassifier::resolveRef();
-    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
+    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         UMLObject* obj = oit.next();
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
@@ -471,7 +471,7 @@ bool UMLEntity::load1(QDomElement& element)
             if(!pEntityAttribute->loadFromXMI1(tempElement)) {
                 return false;
             }
-            m_List.append(pEntityAttribute);
+            subordinates().append(pEntityAttribute);
         } else if (UMLDoc::tagEq(tag, QLatin1String("UniqueConstraint"))) {
             UMLUniqueConstraint* pUniqueConstraint = new UMLUniqueConstraint(this);
             if (!pUniqueConstraint->loadFromXMI1(tempElement)) {
@@ -582,7 +582,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
         return false;
     }
 
-    m_List.append(constr);
+    subordinates().append(constr);
 
     emit entityConstraintAdded(constr);
     UMLObject::emitModified();
@@ -609,7 +609,7 @@ bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
         unsetPrimaryKey();
     }
 
-    m_List.removeAll(constr);
+    subordinates().removeAll(constr);
 
     emit entityConstraintRemoved(constr);
     UMLObject::emitModified();
@@ -693,7 +693,7 @@ bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const
 UMLEntityAttributeList UMLEntity::getEntityAttributes() const
 {
     UMLEntityAttributeList entityAttributeList;
-    for (UMLObjectListIt lit(m_List); lit.hasNext();) {
+    for (UMLObjectListIt lit(subordinates()); lit.hasNext();) {
         UMLObject *listItem = lit.next();
         if (listItem->baseType() == UMLObject::ot_EntityAttribute) {
             entityAttributeList.append(listItem->asUMLEntityAttribute());

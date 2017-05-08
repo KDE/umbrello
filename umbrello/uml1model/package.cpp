@@ -403,7 +403,7 @@ void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     // save associations
-    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
+    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
         obj = ait.next();
         obj->saveToXMI1 (qDoc, ownedElement);
     }
