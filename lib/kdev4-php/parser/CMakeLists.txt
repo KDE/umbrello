@@ -10,7 +10,11 @@ kdevpgqt_generate(parser_SRCS php NAMESPACE Php DEBUG_VISITOR TOKEN_TEXT
     "${php_SOURCE_DIR}/parser/phplexer.h"
 )
 
-kde4_add_library( kdev4phpparser SHARED ${parser_SRCS} ${parser_STAT_SRCS} )
+if(NO_INSTALL)
+    kde4_add_library( kdev4phpparser STATIC ${parser_SRCS} ${parser_STAT_SRCS} )
+else()
+    kde4_add_library( kdev4phpparser SHARED ${parser_SRCS} ${parser_STAT_SRCS} )
+endif()
 target_link_libraries( kdev4phpparser LINK_PRIVATE
     ${KDE4_KDECORE_LIBS}
     ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
@@ -32,4 +36,6 @@ target_link_libraries(php-parser
     kdev4phpparser
 )
 
-install(TARGETS kdev4phpparser DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+if(NOT NO_INSTALL)
+    install(TARGETS kdev4phpparser DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+endif()
