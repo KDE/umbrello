@@ -64,7 +64,6 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
     UMLObject *o = 0;
     for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         o = oit.next();
-        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *a = o->asUMLAssociation();
@@ -133,7 +132,6 @@ void UMLCanvasObject::removeAllAssociationEnds()
 {
     for (int i = 0; i < subordinates().count(); i++) {
         UMLObject *o = subordinates().at(i);
-        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }
@@ -246,7 +244,6 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
     UMLObject *obj = 0;
     for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         obj = oit.next();
-        uIgnoreZeroPointer(obj);
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
@@ -272,7 +269,6 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerA
     UMLObject *o = 0;
     for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         o = oit.next();
-        uIgnoreZeroPointer(o);
         if (o->id() == id)
             return o;
     }
@@ -325,7 +321,6 @@ int UMLCanvasObject::associations()
     UMLObject *obj = 0;
     for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
         obj = oit.next();
-        uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Association)
             count++;
     }
@@ -343,7 +338,6 @@ UMLAssociationList UMLCanvasObject::getAssociations()
     UMLObject *o = 0;
     for (UMLObjectListIt oit(subordinates()); oit.hasNext() ;) {
         o = oit.next();
-        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *assoc = o->asUMLAssociation();
@@ -456,7 +450,6 @@ bool UMLCanvasObject::resolveRef()
     bool overallSuccess = UMLObject::resolveRef();
     for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
         UMLObject *obj = ait.next();
-        uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             subordinates().removeAll(obj);
             overallSuccess = false;

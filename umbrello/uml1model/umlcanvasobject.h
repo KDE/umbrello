@@ -78,6 +78,7 @@ public:
     virtual void removeAllChildObjects();
 
     UMLObjectList &subordinates() const {
+        m_List.removeAll(0);
         return m_List;
     }
 

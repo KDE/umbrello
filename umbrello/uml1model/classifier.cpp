@@ -432,7 +432,6 @@ UMLAttributeList UMLClassifier::getAttributeList() const
 {
     UMLAttributeList attributeList;
     foreach (UMLObject* listItem, subordinates()) {
-        uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Attribute) {
             attributeList.append(listItem->asUMLAttribute());
         }
@@ -520,7 +519,6 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLOperationList list;
     foreach (UMLObject*  obj, subordinates()) {
-        uIgnoreZeroPointer(obj);
         if (obj->baseType() != UMLObject::ot_Operation)
             continue;
         UMLOperation *op = obj->asUMLOperation();
@@ -652,7 +650,6 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     // CHECK: association property m_pClassAssoc is not copied
     subordinates().copyInto(&(target->subordinates()));
     foreach(UMLObject *o, target->subordinates()) {
-        uIgnoreZeroPointer(o);
         o->setUMLParent(target);
     }
 }
@@ -680,7 +677,6 @@ bool UMLClassifier::resolveRef()
     bool success = UMLPackage::resolveRef();
     // Using reentrant iteration is a bare necessity here:
     foreach (UMLObject* obj, subordinates()) {
-        uIgnoreZeroPointer(obj);
         /**** For reference, here is the non-reentrant iteration scheme -
               DO NOT USE THIS !
         for (UMLObject *obj = subordinates().first(); obj; obj = subordinates().next())
