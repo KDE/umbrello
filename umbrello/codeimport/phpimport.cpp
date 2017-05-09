@@ -125,7 +125,7 @@ public:
         return m_content.mid(begin, end-begin+1);
     }
 
-    void visitNamespaceDeclarationStatement(NamespaceDeclarationStatementAst *node)
+    void visitSimpleNamespaceDeclarationStatement(NamespaceDeclarationStatementAst *node)
     {
         QStringList nsNames;
         if (node->namespaceNameSequence)
@@ -138,24 +138,60 @@ public:
             } while (it != end);
         }
 
-//        if (m_thread) {
-//            m_thread->emitMessageToLog(QString(), QLatin1String("namespace ") + nsName);
-//        }
-        QString nsName = nsNames.first();
-        UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
-        UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
-        if (!o)
-            o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
-        m_currentScope.push_back(nsName);
-        if (++m_nsCnt > NamespaceSize) {
-            uError() << "excessive namespace nesting";
-            m_nsCnt = NamespaceSize;
+        m_nsCnt = 0;
+        foreach(const QString &nsName, nsNames) {
+            UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
+            UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
+            if (!o)
+                o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
+            if (++m_nsCnt > NamespaceSize) {
+                uError() << "excessive namespace nesting";
+                m_nsCnt = NamespaceSize;
+            }
+            UMLPackage *ns = o->asUMLPackage();
+            m_currentScope.push_back(nsName);
+            m_currentNamespace[m_nsCnt] = ns;
         }
-        UMLPackage *ns = o->asUMLPackage();
-        m_currentNamespace[m_nsCnt] = ns;
+    }
+
+    void visitStapledNamespaceDeclarationStatement(NamespaceDeclarationStatementAst *node)
+    {
+        QStringList nsNames;
+        if (node->namespaceNameSequence)
+        {
+            const KDevPG::ListNode<IdentifierAst*> *it = node->namespaceNameSequence->front(), *end = it;
+            do {
+                nsNames.append(tokenValue(it->element));
+                visitNode(it->element);
+                it = it->next;
+            } while (it != end);
+        }
+
+        m_nsCnt = 0;
+        foreach(const QString &nsName, nsNames) {
+            UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
+            UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
+            if (!o)
+                o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
+            if (++m_nsCnt > NamespaceSize) {
+                uError() << "excessive namespace nesting";
+                m_nsCnt = NamespaceSize;
+            }
+            UMLPackage *ns = o->asUMLPackage();
+            m_currentScope.push_back(nsName);
+            m_currentNamespace[m_nsCnt] = ns;
+        }
         visitNode(node->body);
-        --m_nsCnt;
-        m_currentScope.pop_back();
+        m_nsCnt = 0;
+        m_currentScope.clear();
+    }
+
+    void visitNamespaceDeclarationStatement(NamespaceDeclarationStatementAst *node)
+    {
+        if (!node->body)
+            visitSimpleNamespaceDeclarationStatement(node);
+        else
+            visitStapledNamespaceDeclarationStatement(node);
     }
 
     virtual void visitNamespacedIdentifier(NamespacedIdentifierAst *node)
