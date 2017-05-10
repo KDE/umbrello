@@ -60,11 +60,14 @@ public:
       : m_str (str),
         m_content(content)
     {}
+    void setFilePath(const QString &path)
+    {
+        m_filePath = path;
+    }
 
-    void visitStart(StartAst *ast, QStringList &dependencies)
+    void setDependencies(QStringList &dependencies)
     {
         m_dependencies = &dependencies;
-        DefaultVisitor::visitStart(ast);
     }
 
     virtual void visitUnaryExpression(UnaryExpressionAst *node)
@@ -89,6 +92,13 @@ public:
                 tokenString = tokenString.mid(2, tokenString.size() - 4);
             else if (tokenString.startsWith("("))
                 tokenString = tokenString.mid(1, tokenString.size() - 2);
+
+            const QString search = "dirname(__FILE__).";
+            if (tokenString.contains(search)) {
+                tokenString.replace(search, m_filePath);
+                tokenString.replace("\"", "");
+                tokenString.replace("\'", "");
+            }
             qDebug() << "-------------------include ----- " << tokenString;
             if (!m_dependencies->contains(tokenString))
                 m_dependencies->append(tokenString);
@@ -99,6 +109,7 @@ public:
     QString m_content;
     int m_indent;
     QStringList *m_dependencies;
+    QString m_filePath;
 };
 
 const int NamespaceSize = 100;
@@ -414,7 +425,7 @@ public:
         } else {
             qout << "Parsing file " << fileName << endl;
         }
-        return runSession();
+        return runSession(QFileInfo(fileName).canonicalPath());
     }
 
     /// parse code directly
@@ -449,7 +460,7 @@ private:
     /**
      * actually run the parse session
      */
-    bool runSession()
+    bool runSession(const QString &filePath=QString())
     {
         bool result = true;
 
@@ -485,7 +496,9 @@ private:
                 debugVisitor.visitStart(m_ast);
             }
             Php::PHPIncludeFileVisitor includeFileVisitor(m_session.tokenStream(), m_session.contents());
-            includeFileVisitor.visitStart(m_ast, m_dependencies);
+            includeFileVisitor.setFilePath(filePath);
+            includeFileVisitor.setDependencies(m_dependencies);
+            includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
             qout << endl << "problems encountered during parsing:" << endl;
