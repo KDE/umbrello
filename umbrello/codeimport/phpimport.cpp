@@ -53,6 +53,8 @@ QTextStream qin(stdin);
 
 namespace Php {
 
+typedef QMap<QString, QString> VariableMapping;
+
 class PHPIncludeFileVisitor : public DefaultVisitor
 {
 public:
@@ -63,6 +65,11 @@ public:
     void setFilePath(const QString &path)
     {
         m_filePath = path;
+    }
+
+    void setVariableMapping(VariableMapping &map)
+    {
+        m_map = map;
     }
 
     void setDependencies(QStringList &dependencies)
@@ -98,6 +105,14 @@ public:
                 tokenString.replace(search, m_filePath);
                 tokenString.replace("\"", "");
                 tokenString.replace("\'", "");
+            } else if(tokenString.startsWith("$")) {
+                int i = tokenString.indexOf('.');
+                QString key = tokenString.mid(1, i-1);
+                if (m_map.contains(key)) {
+                    tokenString.replace("$" + key + ".", m_map[key]);
+                    tokenString.replace("\"", "");
+                    tokenString.replace("\'", "");
+                }
             }
             qDebug() << "-------------------include ----- " << tokenString;
             if (!m_dependencies->contains(tokenString))
@@ -110,6 +125,7 @@ public:
     int m_indent;
     QStringList *m_dependencies;
     QString m_filePath;
+    VariableMapping m_map;
 };
 
 const int NamespaceSize = 100;
@@ -128,6 +144,11 @@ public:
     {
         m_currentNamespace.fill(0, NamespaceSize);
         m_usingNamespaces.fill(0, NamespaceSize);
+    }
+
+    void setFileName(const QString &fileName)
+    {
+        m_fileName = fileName;
     }
 
     QString tokenValue(AstNode *node)
@@ -384,6 +405,7 @@ public:
     QVector<QPointer<UMLPackage>> m_currentNamespace;
     QVector<QPointer<UMLPackage>> m_usingNamespaces;
     QStringList m_currentScope;
+    QString m_fileName;
     int m_nsCnt;
 };
 
@@ -509,8 +531,11 @@ private:
                 debugVisitor.visitStart(m_ast);
             }
             Php::PHPIncludeFileVisitor includeFileVisitor(m_session.tokenStream(), m_session.contents());
+            Php::VariableMapping map;
+            map["afw_root"] = filePath;
             includeFileVisitor.setFilePath(filePath);
             includeFileVisitor.setDependencies(m_dependencies);
+            includeFileVisitor.setVariableMapping(map);
             includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
@@ -642,6 +667,7 @@ void PHPImport::feedTheModel(const QString& fileName)
     foreach(const QString &file, m_d->getParsedFiles(fileName)) {
         PhpParser *p = m_d->m_parsers[file];
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
+        visitor.setFileName(file);
         if (p->ast() && !p->isFeeded()) {
             uDebug() << "feeding" << file;
             visitor.visitStart(p->ast());
