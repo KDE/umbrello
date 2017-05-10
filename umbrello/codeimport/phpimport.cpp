@@ -114,6 +114,7 @@ public:
         m_nsCnt(0)
     {
         m_currentNamespace.fill(0, NamespaceSize);
+        m_usingNamespaces.fill(0, NamespaceSize);
     }
 
     QString tokenValue(AstNode *node)
@@ -194,17 +195,33 @@ public:
             visitStapledNamespaceDeclarationStatement(node);
     }
 
-    virtual void visitNamespacedIdentifier(NamespacedIdentifierAst *node)
+    void visitUseNamespace(UseNamespaceAst *node)
     {
-        DefaultVisitor::visitNamespacedIdentifier(node);
-        if (node->namespaceNameSequence)
+        QStringList nsNames;
+        if (node->identifier->namespaceNameSequence)
         {
-            const KDevPG::ListNode<IdentifierAst*> *it = node->namespaceNameSequence->front(), *end = it;
+            const KDevPG::ListNode<IdentifierAst*> *it = node->identifier->namespaceNameSequence->front(), *end = it;
             do {
-                uDebug() << "namespace" << tokenValue(it->element);
+                nsNames.append(tokenValue(it->element));
+                visitNode(it->element);
                 it = it->next;
             } while (it != end);
         }
+        DefaultVisitor::visitUseNamespace(node);
+        UMLPackage *parent = 0;
+        UMLPackage *p = 0;
+        foreach(const QString &nsName, nsNames) {
+            UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parent);
+            if (!o)
+                o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parent);
+            p = o->asUMLPackage();
+            parent = p;
+        }
+        if (p) {
+            m_usingNamespaces.append(p);
+            uDebug() << "adding namespace to use" << nsNames.join("::");
+        }
+        // TODO add searching referenced objects in that namespace
     }
 
     void visitClassVariable(ClassVariableAst *node)
@@ -308,6 +325,7 @@ public:
     QString m_content;
     int m_indent;
     QVector<QPointer<UMLPackage>> m_currentNamespace;
+    QVector<QPointer<UMLPackage>> m_usingNamespaces;
     QStringList m_currentScope;
     int m_nsCnt;
 };
