@@ -236,7 +236,7 @@ public:
             return;
         QString methodName = tokenValue(node->methodName);
         Uml::Visibility::Enum m_currentAccess = Uml::Visibility::Public;
-        QString returnType = "void";
+        QString returnType = "auto";
         bool isStatic = false;
         bool isAbstract = false;
         bool isFriend = false;
@@ -245,16 +245,27 @@ public:
         QString m_comment;
         UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
         UMLClassifier *c = parentPackage->asUMLClassifier();
+        UMLOperation *m = 0;
         if (c) {
-            UMLOperation *m = Import_Utils::makeOperation(c, methodName);
+            m = Import_Utils::makeOperation(c, methodName);
+        } else {
+            uError() << "no parent class found for method" << methodName;
+        }
+        if (m) {
+            if (node->parameters && node->parameters->parametersSequence) {
+                const KDevPG::ListNode<ParameterAst*> *__it = node->parameters->parametersSequence->front(), *__end = __it;
+                do {
+                    QString type = "auto";
+                    QString name = tokenValue(__it->element->variable).mid(1);
+                    Import_Utils::addMethodParameter(m, type, name);
+                    __it = __it->next;
+                } while (__it != __end);
+            }
             Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
                                        isStatic, isAbstract, isFriend, isConstructor,
                                        isDestructor, m_comment);
-        }  else {
-            uError() << "no parent class found for method" << methodName;
         }
         DefaultVisitor::visitClassStatement(node);
-        //_printToken(node->methodName, "IdentifierAst", "ClassStatement");
     }
 
     void visitClassDeclarationStatement(ClassDeclarationStatementAst *node)
@@ -285,8 +296,41 @@ public:
 
     void visitFunctionDeclarationStatement(FunctionDeclarationStatementAst *node)
     {
+        if (!node || !node->functionName)
+            return;
+        QString methodName = tokenValue(node->functionName);
+        Uml::Visibility::Enum m_currentAccess = Uml::Visibility::Public;
+        QString returnType = "auto";
+        bool isStatic = false;
+        bool isAbstract = false;
+        bool isFriend = false;
+        bool isConstructor = false;
+        bool isDestructor = false;
+        QString m_comment;
+        UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
+        UMLClassifier *c = parentPackage->asUMLClassifier();
+        UMLOperation *m = 0;
+        if (c) {
+            m = Import_Utils::makeOperation(c, methodName);
+        }else {
+            uError() << "no parent class found for method" << methodName;
+        }
+
+        if (m) {
+            if (node->parameters && node->parameters->parametersSequence) {
+                const KDevPG::ListNode<ParameterAst*> *__it = node->parameters->parametersSequence->front(), *__end = __it;
+                do {
+                    QString type = "auto";
+                    QString name = tokenValue(__it->element->variable).mid(1);
+                    Import_Utils::addMethodParameter(m, type, name);
+                    __it = __it->next;
+                } while (__it != __end);
+            }
+            Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
+                                       isStatic, isAbstract, isFriend, isConstructor,
+                                       isDestructor, m_comment);
+        }
         DefaultVisitor::visitFunctionDeclarationStatement(node);
-        _printToken(node->functionName, "IdentifierAst", "FunctionDeclarationStatementAst");
     }
 
     void _printToken(AstNode *node, const QString &mType, const QString &mName = QString())
