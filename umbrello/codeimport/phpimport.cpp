@@ -87,6 +87,8 @@ public:
             tokenString = m_content.mid(begin, end-begin+1);
             if (tokenString.startsWith("(\"") || tokenString.startsWith("('"))
                 tokenString = tokenString.mid(2, tokenString.size() - 4);
+            else if (tokenString.startsWith("("))
+                tokenString = tokenString.mid(1, tokenString.size() - 2);
             qDebug() << "-------------------include ----- " << tokenString;
             if (!m_dependencies->contains(tokenString))
                 m_dependencies->append(tokenString);
