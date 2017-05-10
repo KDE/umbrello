@@ -411,7 +411,9 @@ template<class SessionT, class TokenStreamT, class TokenT, class LexerT,
 class DebugLanguageParserHelper {
 public:
     DebugLanguageParserHelper(const bool printAst, const bool printTokens)
-        : m_printAst(printAst), m_printTokens(printTokens)
+        : m_printAst(printAst),
+          m_printTokens(printTokens),
+          m_isFeeded(false)
     {
         m_session.setDebug(printAst);
     }
@@ -456,6 +458,17 @@ public:
     {
         return m_ast;
     }
+
+    void setFeeded(bool state)
+    {
+        m_isFeeded = state;
+    }
+
+    bool isFeeded()
+    {
+        return m_isFeeded;
+    }
+
 private:
     /**
      * actually run the parse session
@@ -524,6 +537,7 @@ private:
     const bool m_printTokens;
     StartAstT* m_ast;
     QStringList m_dependencies;
+    bool m_isFeeded;
 };
 
 
@@ -628,9 +642,10 @@ void PHPImport::feedTheModel(const QString& fileName)
     foreach(const QString &file, m_d->getParsedFiles(fileName)) {
         PhpParser *p = m_d->m_parsers[file];
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
-        if (p->ast()) {
-            qDebug() << file;
+        if (p->ast() && !p->isFeeded()) {
+            uDebug() << "feeding" << file;
             visitor.visitStart(p->ast());
+            p->setFeeded(true);
         }
     }
 }
