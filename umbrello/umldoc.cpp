@@ -810,6 +810,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false) {
+            uError() << "could not open" << archive->fileName();
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -828,6 +829,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
+            uError() << "could not open" << tmp_xmi_file.fileName();
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -849,6 +851,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
         if (!archive->close()) {
+            uError() << "could not close" << archive->fileName();
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -870,6 +873,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #else
             uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
 #endif
+            if (!uploaded)
+                uError() << "could not upload file" << tmp_tgz_file.fileName() << "to" << url;
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -897,6 +902,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
+            uError() << "could not open" << tmpfile.fileName();
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -916,6 +922,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #else
             uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
 #endif
+            if (!uploaded)
+                uError() << "could not upload file" << tmpfile.fileName() << "to" << url;
         }
         else {
             // now remove the original file
@@ -937,7 +945,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
-                DEBUG(DBG_SRC) << "UMLDoc::saveDocument moving with error = " << tmpfile.fileName() << " to " << url;
+                uError() << "Could not move" << tmpfile.fileName() << "to" << url;
                 KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
             if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
