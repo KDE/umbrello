@@ -115,7 +115,7 @@ public:
                     tokenString.replace("\"", "");
                     tokenString.replace("\'", "");
                 }
-            }
+            } // generate parse error for unknown variables
             qDebug() << "-------------------include ----- " << tokenString;
             if (!m_dependencies->contains(tokenString))
                 m_dependencies->append(tokenString);
@@ -632,7 +632,8 @@ public:
                 }
             }
         }
-        qDebug() << m_parsers;
+        qDebug() << m_parsers.size();
+        //qDebug() << m_parsers;
         return true;
     }
 
