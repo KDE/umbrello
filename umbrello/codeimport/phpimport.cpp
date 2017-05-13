@@ -161,6 +161,19 @@ public:
         return m_content.mid(begin, end-begin+1);
     }
 
+    QString tokenValue(const KDevPG::ListNode<Php::NamespacedIdentifierAst*> *node)
+    {
+        QStringList names;
+        const KDevPG::ListNode<NamespacedIdentifierAst*> *__it = node->front(), *__end = __it;
+        do
+        {
+            names.append(tokenValue(__it->element));
+            __it = __it->next;
+        }
+        while (__it != __end);
+        return names.join("::");
+    }
+
     void visitStart(StartAst *node)
     {
         if (Settings::optionState().codeImportState.createArtifacts) {
@@ -330,6 +343,52 @@ public:
             }
         }
         DefaultVisitor::visitClassExtends(node);
+    }
+
+    void visitClassImplements(ClassImplementsAst *node)
+    {
+        if (node->implementsSequence) {
+            QString baseName = tokenValue(node->implementsSequence);
+            UMLClassifier *a = m_currentNamespace[m_nsCnt]->asUMLClassifier();
+            bool found = false;
+            foreach(UMLObject *uc, m_usingClasses) {
+                if (uc->name() == baseName) {
+                    Import_Utils::createGeneralization(a, uc->asUMLClassifier());
+                    found = true;
+                }
+            }
+            if (!found) {
+                UMLObject *o = UMLApp::app()->document()->findUMLObject(baseName, UMLObject::ot_Interface,
+                                                                        m_currentNamespace[m_nsCnt-1]);
+                if (!o)
+                    o = Import_Utils::createUMLObject(UMLObject::ot_Interface, baseName,
+                                                      m_currentNamespace[m_nsCnt-1],
+                                                      QString()/*ast->comment()*/, QString(), true);
+                Import_Utils::createGeneralization(a, o->asUMLClassifier());
+            }
+        }
+        DefaultVisitor::visitClassImplements(node);
+    }
+
+    void visitInterfaceDeclarationStatement(InterfaceDeclarationStatementAst *node)
+    {
+        QString interfaceName = tokenValue(node->interfaceName);
+        UMLObject *o = UMLApp::app()->document()->findUMLObject(interfaceName, UMLObject::ot_Interface, m_currentNamespace[m_nsCnt]);
+        if (!o)
+            o = Import_Utils::createUMLObject(UMLObject::ot_Interface, interfaceName,
+                                              m_currentNamespace[m_nsCnt],
+                                              QString()/*ast->comment()*/, QString(), true);
+        m_currentScope.push_back(interfaceName);
+        if (++m_nsCnt > NamespaceSize) {
+            uError() << "excessive namespace nesting";
+            m_nsCnt = NamespaceSize;
+        }
+        UMLPackage *ns = o->asUMLPackage();
+        m_currentNamespace[m_nsCnt] = ns;
+        // handle modifier
+        DefaultVisitor::visitInterfaceDeclarationStatement(node);
+        --m_nsCnt;
+        m_currentScope.pop_back();
     }
 
     void visitClassDeclarationStatement(ClassDeclarationStatementAst *node)
