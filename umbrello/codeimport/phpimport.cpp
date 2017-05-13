@@ -145,6 +145,7 @@ public:
         m_nsCnt(0)
     {
         m_currentNamespace.fill(0, NamespaceSize);
+        Import_Utils::createUMLObject(UMLObject::ot_Datatype, "auto", 0);
     }
 
     void setFileName(const QString &fileName)
