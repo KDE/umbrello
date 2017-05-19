@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
             QStringList importList = args->values(IMPORT_FILES);
             if (importList.size() > 0) {
                 uml->newDocument();
-                uml->importFiles(&importList);
+                uml->importFiles(importList);
             }
         }
 #else
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
             for (int i = 0; i < args->count(); i++)
                 importList.append(args->url(i).toLocalFile());
             uml->newDocument();
-            uml->importFiles(&importList);
+            uml->importFiles(importList);
         }
 #endif
         else

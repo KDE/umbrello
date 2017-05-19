@@ -38,7 +38,8 @@
 #include <QRegExp>
 
 CppTree2Uml::CppTree2Uml(const QString& fileName, CodeImpThread* thread)
-  : m_thread(thread)
+  : m_thread(thread),
+    m_rootFolder(0)
 {
     clear();
     QDir dir(fileName);
@@ -66,10 +67,36 @@ void CppTree2Uml::clear()
     m_anon = 0;
 }
 
+void CppTree2Uml::setRootPath(const QString &rootPath)
+{
+    m_rootPath = rootPath;
+    if (Settings::optionState().codeImportState.createArtifacts) {
+        if (!m_rootFolder) {
+            UMLDoc *umldoc = UMLApp::app()->document();
+            UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+            if (!m_rootPath.isEmpty()) {
+                UMLFolder *root = Import_Utils::createSubDir(m_rootPath, componentView);
+                m_rootFolder = root;
+            } else {
+                m_rootFolder = componentView;
+            }
+        }
+    }
+}
+
 void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
 {
     clear();
-    Import_Utils::createArtifact(file.fileName(), 0, file->comment());
+    if (Settings::optionState().codeImportState.createArtifacts) {
+        QFileInfo fi(file.fileName());
+
+        UMLFolder *parent = m_rootFolder;
+        QString path = fi.path().replace(m_rootPath, QLatin1String(""));
+        if (!path.isEmpty())
+            parent = Import_Utils::createSubDir(path.mid(1), m_rootFolder);
+
+        Import_Utils::createArtifact(fi.fileName(), parent, file->comment());
+    }
 
     TreeParser::parseTranslationUnit(file);
 }
