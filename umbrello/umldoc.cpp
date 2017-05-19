@@ -1054,7 +1054,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
         return o;
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        UMLObjectList list = m_root[i]->containedObjects();
+        UMLObjectList &list = m_root[i]->containedObjects();
         if (list.size() == 0)
             continue;
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
@@ -1098,7 +1098,7 @@ UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
 {
     if (folder == 0)
         return 0;
-    UMLObjectList list = folder->containedObjects();
+    UMLObjectList &list = folder->containedObjects();
     if (list.size() == 0)
         return 0;
     return Model_Utils::findUMLObjectRaw(list, name, type, 0);
@@ -1898,7 +1898,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                         uError() << umlobject->name() << ": root package is not set !";
                         return;
                     }
-                    UMLObjectList rootObjects = rootPkg->containedObjects();
+                    UMLObjectList &rootObjects = rootPkg->containedObjects();
                     // Store the associations to remove in a buffer because we
                     // should not remove elements from m_objectList while it is
                     // being iterated over.
@@ -2710,7 +2710,7 @@ bool UMLDoc::loadUMLObjectsFromXMI1(QDomElement& element)
             continue;
         }
         if (pkg) {
-            UMLObjectList objects = pkg->containedObjects();
+            UMLObjectList &objects = pkg->containedObjects();
             if (! objects.contains(pObject)) {
                 DEBUG(DBG_SRC) << "CHECK: adding " << pObject->name()
                                << " to " << pkg->name();
@@ -2963,7 +2963,7 @@ UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
  */
 UMLClassifierList UMLDoc::datatypes()
 {
-    UMLObjectList objects = m_datatypeRoot->containedObjects();
+    UMLObjectList &objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
@@ -3394,7 +3394,7 @@ void UMLDoc::addDefaultDatatypes()
  */
 void UMLDoc::createDatatype(const QString &name)
 {
-    UMLObjectList datatypes = m_datatypeRoot->containedObjects();
+    UMLObjectList &datatypes = m_datatypeRoot->containedObjects();
     UMLObject* umlobject = Model_Utils::findUMLObject(datatypes, name,
                                                       UMLObject::ot_Datatype, m_datatypeRoot);
     if (!umlobject) {
