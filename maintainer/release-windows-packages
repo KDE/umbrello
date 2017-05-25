@@ -22,14 +22,14 @@ if test $? -ne 0; then
     echo "7z not found, run 'zypper install p7zip'"
     exit 1
 fi
-ROOT=home\:rhabacker\:branches\:
-ROOT32=${ROOT}windows\:mingw\:win32\:KDE4
-ROOT64=${ROOT}windows\:mingw\:win64\:KDE4
+ROOT=
+ROOT32=${ROOT}windows\:mingw\:win32
+ROOT64=${ROOT}windows\:mingw\:win64
 SRCROOT32=windows\:mingw\:win32
 SRCROOT64=windows\:mingw\:win64
 REPO=openSUSE_Leap_42.2
-SRCREPO=openSUSE_42.2
-VERSION=2.21.90
+SRCREPO=openSUSE_Leap_42.2
+VERSION=2.22.1
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
