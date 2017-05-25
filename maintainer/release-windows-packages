@@ -40,6 +40,8 @@ if ! test -d "work"; then
     mkdir work
 fi
 
+echo "running mode $1"
+
 case $1 in
 clean) ## clean working area
         rm -rf work/*
