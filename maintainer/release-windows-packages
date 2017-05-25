@@ -12,6 +12,10 @@
 #
 # run ./release-windows-packages to see all modes
 #
+
+# abort on errors
+set -e
+
 self=$(realpath $0)
 which 7z >/dev/null 2>&1
 if test $? -ne 0; then
@@ -118,7 +122,9 @@ createsha) ## create sha256sums
 
 upload) ## upload files to staging area
         for i in $(find work/out -name '*.7z' -o -name '*.exe'); do
+            set +e
             curl -T $i  ftp://upload.kde.org/incoming/
+            set -e
         done
         ;;
 
