@@ -12,6 +12,11 @@
 #
 # run ./release-windows-packages to see all modes
 #
+which 7z >/dev/null 2>&1
+if test $? -ne 0; then
+    echo "7z not found, run 'zypper install p7zip'"
+    exit 1
+fi
 ROOT=home\:rhabacker\:branches\:
 ROOT32=${ROOT}windows\:mingw\:win32\:KDE4
 ROOT64=${ROOT}windows\:mingw\:win64\:KDE4
