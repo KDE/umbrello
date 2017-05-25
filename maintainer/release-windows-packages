@@ -12,6 +12,7 @@
 #
 # run ./release-windows-packages to see all modes
 #
+self=$(realpath $0)
 which 7z >/dev/null 2>&1
 if test $? -ne 0; then
     echo "7z not found, run 'zypper install p7zip'"
@@ -45,7 +46,8 @@ download) ## download rpm packages
         rm -rf binaries
         osc $oscoptions getbinaries $ROOT32 mingw32-umbrello-installer $REPO x86_64
         osc $oscoptions getbinaries $ROOT64 mingw64-umbrello-installer $REPO x86_64
-        $0 downloadsrc
+        cd ..
+        $self downloadsrc
         ;;
 
 downloadsrc) ## download source
@@ -136,17 +138,17 @@ ticket) ## submit phabricator ticket
         ;;
 
 all) ## run all required targets
-        $0 clean
-        $0 download
-        $0 unpack
-        $0 movepackage
-        $0 repacksource
-        $0 packdebug
-        $0 createsha
-        $0 upload
+        $self clean
+        $self download
+        $self unpack
+        $self movepackage
+        $self repacksource
+        $self packdebug
+        $self createsha
+        $self upload
         echo "Content for ticket creating:"
-        $0 createdescription
-        echo run "$0 ticket" to submit ticket
+        $self createdescription
+        echo run "$self ticket" to submit ticket
         ;;
 
 *)
