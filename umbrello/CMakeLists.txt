@@ -580,7 +580,11 @@ else()
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/128-apps-umbrello.png
     )
     add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello libumbrello KF5::WindowSystem)
+    target_link_libraries(umbrello
+        libumbrello
+        KF5::Crash
+        KF5::WindowSystem
+    )
     set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 endif()
 if(LIB_BUILD_MODE EQUAL SHARED)
