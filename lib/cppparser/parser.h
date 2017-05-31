@@ -21,6 +21,8 @@
 
 #include "ast.h"
 
+// qt includes
+#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QList>
