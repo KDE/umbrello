@@ -1,0 +1,64 @@
+# import into class diagram
+TestClass1
+ member11
+ member12
+ method11()
+ method12()
+
+TestClass2
+ member21
+ member22
+ method21()
+ method22()
+
+TestClass3
+ int member11
+ test member12
+ int method12()
+# comments
+# int method11()
+// int method11()
+
+TestClass4
+ public int publicMember41
+ protected int proctedMember42
+ private test privateMember43
+ public int publicMethod41()
+ protected int protectedMethod42()
+ private int privateMethod43()
+
+TestClass5
+ + int publicMember51
+ # test protectedMember52
+ - test privateMember53
+ + int publicMethod51()
+ # int protectedMethod52()
+ - int privateMethod53()
+ ~ int implementationMethod54()
+
+# association
+TestClass1 --- TestClass5
+
+# uniassociation
+TestClass4 --> TestClass2
+
+# generalization
+TestClass4 -|> TestClass1
+
+# aggregation
+TestClass2 -<> TestClass3
+
+# composition
+TestClass5 --* TestClass2
+
+# parse error
+# unknown class
+TestClass --* TestClass2
+
+# invalid syntax
+TestClass --*
+
+## not yet implemented
+# type modifiers
+# method parameter
+# multiplicity e.g TestClass2 {1..*} -<> {1} TestClass3
