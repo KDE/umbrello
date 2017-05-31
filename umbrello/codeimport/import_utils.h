@@ -81,7 +81,7 @@ namespace Import_Utils {
                         const QString &comment = QString(),
                         const QString &value = QString());
 
-    void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
+    UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent);
     void createGeneralization(UMLClassifier *child, const QString &parentName);
 
     UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope);

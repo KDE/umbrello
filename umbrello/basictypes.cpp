@@ -124,7 +124,7 @@ QString toString(Enum item, bool mnemonic)
  * @param item   item to convert
  * @return Visibility enum
  */
-Enum fromString(const QString& item)
+Enum fromString(const QString& item, bool checkUnkown)
 {
     if (item == QLatin1String("public") || item == QLatin1String("+"))
         return Public;
@@ -138,6 +138,8 @@ Enum fromString(const QString& item)
         return Protected;
     else if (item == QLatin1String("class"))
         return Private;
+    else if (checkUnkown)
+        return Unknown;
     else
         return Public;
 }

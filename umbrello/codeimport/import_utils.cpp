@@ -530,7 +530,7 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &co
  * Create a generalization from the given child classifier to the given
  * parent classifier.
  */
-void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
+UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent)
 {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
@@ -547,6 +547,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     UMLDoc *umldoc = UMLApp::app()->document();
     assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
     umldoc->addAssociation(assoc);
+    return assoc;
 }
 
 /**

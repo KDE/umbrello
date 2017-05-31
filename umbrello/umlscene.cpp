@@ -3136,8 +3136,8 @@ void UMLScene::slotMenuSelection(QAction* action)
         dialog->exec();
         QUrl url = dialog->selectedUrl();
         if (!url.isEmpty())
-            if (!Diagram_Utils::importSequences(url.toLocalFile(), this))
-                UMLApp::app()->slotStatusMsg(i18n("Failed to import stack trace."));
+            if (!Diagram_Utils::importGraph(url.toLocalFile(), this))
+                UMLApp::app()->slotStatusMsg(i18n("Failed to import from file."));
         break;
     }
 

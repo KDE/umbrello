@@ -11,9 +11,10 @@
 #ifndef DIAGRAM_UTILS_H
 #define DIAGRAM_UTILS_H
 
+#include <QString>
+
 class UMLScene;
 class QMimeData;
-class QString;
 class QStringList;
 
 /**
@@ -24,9 +25,10 @@ class QStringList;
 namespace Diagram_Utils {
     typedef enum { Invalid, GDB, QtCreatorGDB, Simple} SequenceLineFormat;
     SequenceLineFormat detectSequenceLineFormat(const QStringList &lines);
-    bool importSequences(const QStringList &lines, UMLScene *scene);
-    bool importSequences(const QString &fileName, UMLScene *scene);
-    bool importSequences(const QMimeData *mimeData, UMLScene *scene);
+    bool importSequences(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
+    bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
+    bool importGraph(const QString &fileName, UMLScene *scene);
+    bool importGraph(const QMimeData *mimeData, UMLScene *scene);
 } // end namespace Diagram_Utils
 
 #endif
