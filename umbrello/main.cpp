@@ -28,6 +28,7 @@
 #include <ktip.h>
 
 #if QT_VERSION >= 0x050000
+#include <KCrash>
 #include <QApplication>
 #include <QCommandLineParser>
 #endif
@@ -102,6 +103,7 @@ int main(int argc, char *argv[])
 {
 #if QT_VERSION >= 0x050000
     QApplication app(argc, argv);
+    KCrash::initialize();
 
     KLocalizedString::setApplicationDomain("umbrello");
 

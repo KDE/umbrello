@@ -120,7 +120,7 @@ target_link_libraries(testcrashhandler ${LIBS})
 
 find_package(LLVM CONFIG)
 find_package(CLANG QUIET)
-if(LLVM_FOUND)
+if(LLVM_FOUND AND CLANG_FOUND)
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
@@ -129,10 +129,8 @@ if(LLVM_FOUND)
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
-    if(CLANG_FOUND)
-        include_directories(${CLANG_INCLUDE_DIRS})
-        add_definitions(${CLANG_DEFINITIONS})
-    endif()
+    include_directories(${CLANG_INCLUDE_DIRS})
+    add_definitions(${CLANG_DEFINITIONS})
 
     # Now build our tools
     add_executable(testllvm testllvm.cpp)
