@@ -1156,6 +1156,114 @@ QString WidgetBase::toI18nString(WidgetType wt)
     return name;
 }
 
+/**
+ * Returns the given enum value as icon type.
+ * @param wt   WidgetType of which an icon type representation is wanted
+ * @return   the WidgetType as icon type
+ */
+Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
+{
+    Icon_Utils::IconType icon;
+
+    switch (wt) {
+    case wt_Activity:
+        icon = Icon_Utils::it_Activity;
+        break;
+    case wt_Actor:
+        icon = Icon_Utils::it_Actor;
+        break;
+    case wt_Artifact:
+        icon = Icon_Utils::it_Artifact;
+        break;
+    case wt_Association:
+        icon = Icon_Utils::it_Association;
+        break;
+    case wt_Box:
+        icon = Icon_Utils::it_Box;
+        break;
+    case wt_Category:
+        icon = Icon_Utils::it_Category;
+        break;
+    case wt_CombinedFragment:
+        icon = Icon_Utils::it_Combined_Fragment;
+        break;
+    case wt_Component:
+        icon = Icon_Utils::it_Component;
+        break;
+    case wt_Class:
+        icon = Icon_Utils::it_Class;
+        break;
+    case wt_Datatype:
+        icon = Icon_Utils::it_Datatype;
+        break;
+    case wt_Entity:
+        icon = Icon_Utils::it_Entity;
+        break;
+    case wt_Enum:
+        icon = Icon_Utils::it_Enum;
+        break;
+    case wt_FloatingDashLine:
+        icon = Icon_Utils::it_Association;
+        break;
+    case wt_ForkJoin:
+        icon = Icon_Utils::it_Fork_Join;
+        break;
+    case wt_Instance:
+        icon = Icon_Utils::it_Instance;
+        break;
+    case wt_Interface:
+        icon = Icon_Utils::it_Interface;
+        break;
+    case wt_Message:
+        icon = Icon_Utils::it_Message_Synchronous;
+        break;
+    case wt_Node:
+        icon = Icon_Utils::it_Node;
+        break;
+    case wt_Note:
+        icon = Icon_Utils::it_Note;
+        break;
+    case wt_Object:
+        icon = Icon_Utils::it_Object;
+        break;
+    case wt_ObjectNode:
+        icon = Icon_Utils::it_Object_Node;
+        break;
+    case wt_Package:
+        icon = Icon_Utils::it_Package;
+        break;
+    case wt_Pin:
+        icon = Icon_Utils::it_Pin;
+        break;
+    case wt_Port:
+        icon = Icon_Utils::it_Port;
+        break;
+    case wt_Precondition:
+        icon = Icon_Utils::it_Precondition;
+        break;
+    case wt_Region:
+        icon = Icon_Utils::it_Region;
+        break;
+    case wt_Signal:
+        icon = Icon_Utils::it_Send_Signal;
+        break;
+    case wt_State:
+        icon = Icon_Utils::it_State;
+        break;
+    case wt_Text:
+        icon = Icon_Utils::it_Text;
+        break;
+    case wt_UseCase:
+        icon = Icon_Utils::it_UseCase;
+        break;
+    default:
+        icon = Icon_Utils::it_Home;
+        uWarning() << "unknown widget type";
+        break;
+    }
+    return icon;
+}
+
 #include  "activitywidget.h"
 #include  "actorwidget.h"
 #include  "artifactwidget.h"

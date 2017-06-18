@@ -426,28 +426,26 @@ void DocWindow::slotFocusEnabledChanged(int status)
  */
 void DocWindow::updateLabel(const QString& name)
 {
-    if (!name.isEmpty()) {
-        Icon_Utils::IconType icon = Icon_Utils::it_Home;
-        switch (m_Showing) {
-        case st_Project:
-            icon = Icon_Utils::it_Code_Gen_Wizard;
-            break;
-        case st_UMLScene:
-            icon = Icon_Utils::it_Diagram_Class;
-            break;
-        case st_UMLObject:
-            icon = Icon_Utils::it_Object;
-            break;
-        case st_UMLWidget:
-            icon = Icon_Utils::it_Class;
-            break;
-        case st_Association:
-            icon = Icon_Utils::it_Association;
-            break;
-        }
-        m_typeLabel->setPixmap(Icon_Utils::SmallIcon(icon));
-        m_nameLabel->setText(name);
+    Icon_Utils::IconType icon = Icon_Utils::it_Home;
+    switch (m_Showing) {
+    case st_Project:
+        icon = Icon_Utils::it_Code_Gen_Wizard;
+        break;
+    case st_UMLScene:
+        icon = Icon_Utils::it_Diagram_Class;
+        break;
+    case st_UMLObject:
+        icon = Icon_Utils::it_Object;
+        break;
+    case st_UMLWidget:
+        icon = WidgetBase::toIcon(m_pUMLWidget->baseType());
+        break;
+    case st_Association:
+        icon = Icon_Utils::it_Association;
+        break;
     }
+    m_typeLabel->setPixmap(Icon_Utils::SmallIcon(icon));
+    m_nameLabel->setText(name);
     m_modifiedWidget->setModified(isModified());
 }
 

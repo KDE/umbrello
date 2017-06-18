@@ -12,6 +12,7 @@
 #define WIDGETBASE_H
 
 #include "basictypes.h"
+#include "icon_utils.h"
 
 #include <QColor>
 #include <QDomDocument>
@@ -109,6 +110,7 @@ public:
 
     static QString toString(WidgetType wt);
     static QString toI18nString(WidgetType wt);
+    static Icon_Utils::IconType toIcon(WidgetType wt);
 
     explicit WidgetBase(UMLScene * scene, WidgetType type= wt_UMLWidget);
     virtual ~WidgetBase();
