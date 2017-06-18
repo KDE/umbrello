@@ -12,6 +12,7 @@
 #define UMLOBJECT_H
 
 #include "basictypes.h"
+#include "icon_utils.h"
 #include "umlpackagelist.h"
 
 //qt includes
@@ -111,6 +112,7 @@ public:
 
     static QString toString(ObjectType ot);
     static QString toI18nString(ObjectType t);
+    static Icon_Utils::IconType toIcon(ObjectType t);
 
     explicit UMLObject(const UMLObject& other);
     explicit UMLObject(UMLObject* parent, const QString& name, Uml::ID::Type id = Uml::ID::None);
