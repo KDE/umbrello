@@ -244,10 +244,7 @@ void DocWindow::showDocumentation(AssociationWidget * widget, bool overwrite)
         return;
     }
     if (widget == m_pAssocWidget) {
-        if (overwrite) {
-            updateDocumentation(true);
-        }
-        else {
+        if (!overwrite) {
             return;
         }
     }
