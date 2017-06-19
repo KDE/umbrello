@@ -21,7 +21,6 @@ class StateWidget;
 class KLineEdit;
 class QGroupBox;
 class QLabel;
-class KTextEdit;
 
 /**
  * Displays the properties for a @ref StateWidget
