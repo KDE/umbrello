@@ -435,7 +435,7 @@ void DocWindow::updateLabel(const QString& name)
         icon = Icon_Utils::it_Diagram_Class;
         break;
     case st_UMLObject:
-        icon = Icon_Utils::it_Object;
+        icon = UMLObject::toIcon(m_pUMLObject->baseType());
         break;
     case st_UMLWidget:
         icon = WidgetBase::toIcon(m_pUMLWidget->baseType());

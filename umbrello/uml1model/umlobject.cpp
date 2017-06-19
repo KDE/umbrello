@@ -1194,6 +1194,73 @@ QString UMLObject::toI18nString(ObjectType t)
 }
 
 /**
+ * Returns the given object type value as icon type.
+ * @param ot   ObjectType of which an icon type is wanted
+ * @return   the ObjectType as icon type
+ */
+Icon_Utils::IconType UMLObject::toIcon(ObjectType t)
+{
+    Icon_Utils::IconType icon;
+
+    switch (t) {
+    case UMLObject::ot_Actor:
+        icon = Icon_Utils::it_Actor;
+        break;
+    case  UMLObject::ot_Artifact:
+        icon = Icon_Utils::it_Artifact;
+        break;
+    case UMLObject::ot_Association:
+        icon = Icon_Utils::it_Association;
+        break;
+    case UMLObject::ot_Class:
+        icon = Icon_Utils::it_Class;
+        break;
+    case  UMLObject::ot_Component:
+        icon = Icon_Utils::it_Component;
+        break;
+    case  UMLObject::ot_Datatype:
+        icon = Icon_Utils::it_Datatype;
+        break;
+    case  UMLObject::ot_Entity:
+        icon = Icon_Utils::it_Entity;
+        break;
+    case  UMLObject::ot_Enum:
+        icon = Icon_Utils::it_Enum;
+        break;
+    case  UMLObject::ot_Folder:
+        icon = Icon_Utils::it_Folder;
+        break;
+    case UMLObject::ot_Instance:
+        icon = Icon_Utils::it_Instance;
+        break;
+    case  UMLObject::ot_Interface:
+        icon = Icon_Utils::it_Interface;
+        break;
+    case  UMLObject::ot_Node:
+        icon = Icon_Utils::it_Node;
+        break;
+    case  UMLObject::ot_Package:
+        icon = Icon_Utils::it_Package;
+        break;
+    case  UMLObject::ot_Port:
+        icon = Icon_Utils::it_Port;
+        break;
+//    case  UMLObject::ot_Stereotype:
+//        icon = Icon_Utils::it_Stereotype;
+//        break;
+    case  UMLObject::ot_UseCase:
+        icon = Icon_Utils::it_UseCase;
+        break;
+
+    default:
+        icon = Icon_Utils::it_Home;
+        uWarning() << "unknown object type";
+        break;
+    }
+    return icon;
+}
+
+/**
  * Print UML Object to debug output stream, so it can be used like
  *   uDebug() << "This object shouldn't be here: " << illegalObject;
  */
