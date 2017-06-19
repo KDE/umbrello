@@ -18,12 +18,12 @@
 #include <QWidget>
 
 class AssociationWidget;
+class DocumentationWidget;
 class QCheckBox;
 class QGridLayout;
 class QLabel;
 class KComboBox;
 class KLineEdit;
-class KTextEdit;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
@@ -57,7 +57,7 @@ private:
        so we can translate both ways */
     QList<Uml::AssociationType::Enum> m_AssocTypes;
     QStringList m_AssocTypeStrings;
-    KTextEdit *m_doc;
+    DocumentationWidget *m_docWidget;
 
     AssociationWidget *m_pAssociationWidget;
     ObjectWidget *m_pWidget;

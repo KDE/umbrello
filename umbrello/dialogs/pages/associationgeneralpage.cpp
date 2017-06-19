@@ -16,6 +16,7 @@
 #include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
+#include "documentationwidget.h"
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
@@ -77,11 +78,8 @@ void AssociationGeneralPage::constructWidget()
 
     // group boxes for name+type, documentation properties
     QGroupBox *nameAndTypeGB = new QGroupBox(this);
-    QGroupBox *docGB = new QGroupBox(this);
     nameAndTypeGB->setTitle(i18n("Properties"));
-    docGB->setTitle(i18n("Documentation"));
     topLayout->addWidget(nameAndTypeGB);
-    topLayout->addWidget(docGB);
 
     m_pNameAndTypeLayout = new QGridLayout(nameAndTypeGB);
     m_pNameAndTypeLayout->setSpacing(6);
@@ -182,14 +180,9 @@ void AssociationGeneralPage::constructWidget()
 #endif
     m_pNameAndTypeLayout->addWidget(m_pTypeCB, 1, 1);
 
-    // document
-    QHBoxLayout * docLayout = new QHBoxLayout(docGB);
-    docLayout->setMargin(margin);
-
-    m_doc = new KTextEdit(docGB);
-    docLayout->addWidget(m_doc);
-    m_doc->setText(m_pAssociationWidget->documentation());
-    m_doc->setWordWrapMode(QTextOption::WordWrap);
+    // documentation
+    m_docWidget = new DocumentationWidget(m_pAssociationWidget, this);
+    topLayout->addWidget(m_docWidget);
 }
 
 void AssociationGeneralPage::slotStereoCheckboxChanged(int state)
@@ -222,7 +215,7 @@ void AssociationGeneralPage::apply()
         int comboBoxItem = m_pTypeCB->currentIndex();
         Uml::AssociationType::Enum newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssociationType(newType);
-        m_pAssociationWidget->setDocumentation(m_doc->toPlainText());
+        m_docWidget->apply();
         if (m_pStereoChkB && m_pStereoChkB->isChecked()) {
             QString stereo = m_pAssocNameComB->currentText();
             // keep the order

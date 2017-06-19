@@ -15,7 +15,7 @@
 
 class CodeTextEdit;
 class UMLObject;
-class UMLWidget;
+class WidgetBase;
 
 class KTextEdit;
 
@@ -27,7 +27,7 @@ class DocumentationWidget : public QWidget
     Q_OBJECT
 public:
     explicit DocumentationWidget(UMLObject *o, QWidget *parent = 0);
-    explicit DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
+    explicit DocumentationWidget(WidgetBase *w, QWidget *parent = 0);
     ~DocumentationWidget();
 
     void apply();
@@ -37,7 +37,7 @@ protected:
     KTextEdit *m_editField;
     CodeTextEdit *m_codeEditField;
     UMLObject *m_object;
-    UMLWidget *m_widget;
+    WidgetBase *m_widget;
     void init(const QString &text);
 };
 

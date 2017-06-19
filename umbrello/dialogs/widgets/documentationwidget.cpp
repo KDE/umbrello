@@ -36,7 +36,7 @@ DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     init(o->doc());
 }
 
-DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
+DocumentationWidget::DocumentationWidget(WidgetBase *w, QWidget *parent) :
     QWidget(parent),
     m_object(0),
     m_widget(w)
