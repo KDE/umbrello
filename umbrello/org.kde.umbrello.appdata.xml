@@ -25,6 +25,7 @@
   <name xml:lang="sk">Umbrello</name>
   <name xml:lang="sl">Umbrello</name>
   <name xml:lang="sv">Umbrello</name>
+  <name xml:lang="tr">Umbrello</name>
   <name xml:lang="uk">Umbrello</name>
   <name xml:lang="x-test">xxUmbrelloxx</name>
   <name xml:lang="zh-CN">Umbrello</name>
@@ -50,6 +51,7 @@
   <summary xml:lang="sk">Modelár UML</summary>
   <summary xml:lang="sl">Modelirnik UML</summary>
   <summary xml:lang="sv">UML-modellering</summary>
+  <summary xml:lang="tr">UML Modelleyici</summary>
   <summary xml:lang="uk">Засіб моделювання UML</summary>
   <summary xml:lang="x-test">xxUML Modellerxx</summary>
   <summary xml:lang="zh-CN">UML 建模工具</summary>
@@ -103,6 +105,7 @@
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
@@ -129,6 +132,7 @@
       <li xml:lang="sk">Podporované formáty: XMI</li>
       <li xml:lang="sl">Podprte vrste: XMI</li>
       <li xml:lang="sv">Format som stöds: XMI</li>
+      <li xml:lang="tr">Desteklenen biçimler: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="x-test">xxSupported formats: XMIxx</li>
       <li xml:lang="zh-CN">支持格式：XMI</li>
@@ -153,6 +157,7 @@
       <li xml:lang="sk">Podporovaných je niekoľko typov diagramov: prípady použitia, triedy, sekvencie, stavy, aktivity, nasadenie, vzťahy entít</li>
       <li xml:lang="sl">Podprte so številne vrste diagramov: primer uporabe, razred, zaporedje, sporazumevanje, stanje, dejavnost, sestavni del, namestitev, odvisnost entitet</li>
       <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, kommunikation, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
+      <li xml:lang="tr">Çeşitli türde diyagramlar desteklenir: kullanım senaryosu, sınıf, sıralama, iletişim, durum, faaliyet, bileşen, dağılım, Varlık bağıntı</li>
       <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, обміну даними, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
       <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationshipxx</li>
       <li xml:lang="zh-TW">支援數種類型的圖表：使用範例、類、序列、協作、狀態、活動、組件、佈署、實體關係</li>
