@@ -28,7 +28,7 @@ include(KDECMakeSettings)
 include(GenerateExportHeader)
 include(FeatureSummary)
 
-find_package(Qt5 REQUIRED Core Widgets Test WebKitWidgets)
+find_package(Qt5 REQUIRED Core Widgets Test)
 find_package(KF5 REQUIRED COMPONENTS Archive ThreadWeaver TextEditor I18n ItemModels KCMUtils)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
 find_package(KDevelop-PG-Qt REQUIRED)
