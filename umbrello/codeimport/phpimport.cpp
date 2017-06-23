@@ -12,12 +12,14 @@
 #include "phpimport.h"
 
 // app includes
+#include "artifact.h"
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
+#include "object_factory.h"
 #include "operation.h"
 #include "optionstate.h"
 #include "package.h"
@@ -158,6 +160,26 @@ public:
         int begin = startToken.begin;
         int end = endToken.end;
         return m_content.mid(begin, end-begin+1);
+    }
+
+    void visitStart(StartAst *node)
+    {
+        if (Settings::optionState().codeImportState.createArtifacts) {
+            QFileInfo fi(m_fileName);
+            UMLObject *o = Import_Utils::createArtifactFolder(fi.canonicalPath(), 0, QString());
+            UMLPackage *p = o->asUMLPackage();
+            QString fileName = fi.fileName();
+            o = UMLApp::app()->document()->findUMLObject(fileName, UMLObject::ot_Artifact, p);
+            if (!o)
+                o = Object_Factory::createNewUMLObject(UMLObject::ot_Artifact, fileName, p, true);
+            UMLArtifact *a = o->asUMLArtifact();
+            if (a)
+                a->setDrawAsType(UMLArtifact::file);
+            else
+                uError() << "could not add artifact" << m_fileName;
+            //a->setDoc(comment);
+        }
+        DefaultVisitor::visitStart(node);
     }
 
     void visitSimpleNamespaceDeclarationStatement(NamespaceDeclarationStatementAst *node)
