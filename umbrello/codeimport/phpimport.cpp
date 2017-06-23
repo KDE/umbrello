@@ -539,7 +539,7 @@ public:
         } else {
             qout << "Parsing file " << fileName << endl;
         }
-        return runSession(QFileInfo(fileName).canonicalPath());
+        return runSession(fileName);
     }
 
     /// parse code directly
@@ -585,7 +585,7 @@ private:
     /**
      * actually run the parse session
      */
-    bool runSession(const QString &filePath=QString())
+    bool runSession(const QString &fileName=QString())
     {
         bool result = true;
 
@@ -622,6 +622,7 @@ private:
             }
             Php::PHPIncludeFileVisitor includeFileVisitor(m_session.tokenStream(), m_session.contents());
             Php::VariableMapping map;
+            QString filePath = QFileInfo(fileName).canonicalPath();
             map["afw_root"] = filePath;
             includeFileVisitor.setFilePath(filePath);
             includeFileVisitor.setDependencies(m_dependencies);
@@ -631,7 +632,10 @@ private:
         if (!m_session.problems().isEmpty()) {
             qout << endl << "problems encountered during parsing:" << endl;
             foreach(KDevelop::ProblemPointer p, m_session.problems()) {
-                qout << p->description() << endl;
+                QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
+                        .arg(fileName).arg(p->finalLocation().start.line+1)
+                        .arg(p->finalLocation().start.column).arg(p->severityString()).arg(p->description());
+                UMLApp::app()->logWindow()->addItem(item);
             }
         } else {
             qout << "no problems encountered during parsing" << endl;
