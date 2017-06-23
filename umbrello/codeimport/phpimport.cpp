@@ -145,7 +145,6 @@ public:
         m_nsCnt(0)
     {
         m_currentNamespace.fill(0, NamespaceSize);
-        m_usingNamespaces.fill(0, NamespaceSize);
     }
 
     void setFileName(const QString &fileName)
@@ -263,21 +262,16 @@ public:
                 it = it->next;
             } while (it != end);
         }
-        DefaultVisitor::visitUseNamespace(node);
         UMLPackage *parent = 0;
-        UMLPackage *p = 0;
-        foreach(const QString &nsName, nsNames) {
-            UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parent);
-            if (!o)
-                o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parent);
-            p = o->asUMLPackage();
-            parent = p;
+        QString names = nsNames.join("::");
+        UMLObject *o = UMLApp::app()->document()->findUMLObject(names, UMLObject::ot_Class, parent);
+        if (!o)
+            o = Import_Utils::createUMLObject(UMLObject::ot_Class, names, parent);
+        if (o) {
+            m_usingClasses.append(o->asUMLClassifier());
+            uDebug() << "using class" << names;
         }
-        if (p) {
-            m_usingNamespaces.append(p);
-            uDebug() << "adding namespace to use" << nsNames.join("::");
-        }
-        // TODO add searching referenced objects in that namespace
+        DefaultVisitor::visitUseNamespace(node);
     }
 
     void visitClassVariable(ClassVariableAst *node)
@@ -322,6 +316,20 @@ public:
                                        isDestructor, m_comment);
         }
         DefaultVisitor::visitClassStatement(node);
+    }
+
+    void visitClassExtends(ClassExtendsAst *node)
+    {
+        if (node->identifier) {
+            QString baseName = tokenValue(node->identifier);
+            UMLClassifier *a = m_currentNamespace[m_nsCnt]->asUMLClassifier();
+            foreach(UMLObject *uc, m_usingClasses) {
+                if (uc->name() == baseName) {
+                    Import_Utils::createGeneralization(a, uc->asUMLClassifier());
+                }
+            }
+        }
+        DefaultVisitor::visitClassExtends(node);
     }
 
     void visitClassDeclarationStatement(ClassDeclarationStatementAst *node)
@@ -425,7 +433,7 @@ public:
     QString m_content;
     int m_indent;
     QVector<QPointer<UMLPackage>> m_currentNamespace;
-    QVector<QPointer<UMLPackage>> m_usingNamespaces;
+    QList<QPointer<UMLClassifier>> m_usingClasses;
     QStringList m_currentScope;
     QString m_fileName;
     int m_nsCnt;
