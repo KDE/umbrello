@@ -13,11 +13,12 @@
 #define ASSOCIATIONWIDGETLIST_H
 
 #include <QList>
+#include <QPointer>
 
 // forward declarations
 class AssociationWidget;
 
-typedef QList<AssociationWidget*> AssociationWidgetList;
-typedef QListIterator<AssociationWidget*> AssociationWidgetListIt;
+typedef QList<QPointer<AssociationWidget>> AssociationWidgetList;
+typedef QListIterator<QPointer<AssociationWidget>> AssociationWidgetListIt;
 
 #endif

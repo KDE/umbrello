@@ -77,7 +77,8 @@ public:
 
     virtual void removeAllChildObjects();
 
-    UMLObjectList &subordinates() {
+    UMLObjectList &subordinates() const {
+        m_List.removeAll(0);
         return m_List;
     }
 
@@ -86,7 +87,7 @@ public:
     // The abstract method UMLObject::saveToXMI1() is implemented
     // in the classes inheriting from UMLCanvasObject.
 
-protected:
+private:
 
     /**
      * List of all the associations in this object.
@@ -96,7 +97,7 @@ protected:
      * @todo Only a pointer to the appropriate assocation end object
      *       (UMLRole) should be saved here, not the entire UMLAssociation.
      */
-    UMLObjectList m_List;
+    mutable UMLObjectList m_List;
 
 signals:
 

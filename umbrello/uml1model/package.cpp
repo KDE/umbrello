@@ -194,7 +194,10 @@ void UMLPackage::removeObject(UMLObject *pObject)
     if (pObject->baseType() == UMLObject::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = o->asUMLAssociation();
-        removeAssocFromConcepts(assoc);
+        if (assoc)
+	        removeAssocFromConcepts(assoc);
+        else
+            uError() << "invalid cast found";
     }
     if (m_objects.indexOf(pObject) == -1)
         uDebug() << name() << " removeObject: object with id="
@@ -224,7 +227,7 @@ void UMLPackage::removeAllObjects()
 /**
  * Returns the list of objects contained in this package.
  */
-UMLObjectList UMLPackage::containedObjects()
+UMLObjectList &UMLPackage::containedObjects()
 {
     return m_objects;
 }
@@ -401,7 +404,7 @@ void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     // save associations
-    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
+    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
         obj = ait.next();
         obj->saveToXMI1 (qDoc, ownedElement);
     }

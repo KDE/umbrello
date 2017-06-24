@@ -27,7 +27,7 @@ DocumentationWidget::DocumentationWidget(QWidget *parent)
     ui->setupUi(this);
 }
 
-DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent)
+DocumentationWidget::DocumentationWidget(WidgetBase *w, QWidget *parent)
  : QWidget(parent),
    ui(new Ui::DocumentationWidget),
    m_object(0),
@@ -70,4 +70,4 @@ void DocumentationWidget::init(const QString &text)
     ui->docTE->setWordWrapMode(QTextOption::WordWrap);
     ui->docTE->setPlainText(text);
     setFocusProxy(ui->docTE);
-}
+

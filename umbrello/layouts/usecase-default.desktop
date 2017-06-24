@@ -73,9 +73,9 @@ Comment[zh_CN]=用例默认布局
 Comment[zh_TW]=Usecase 預設佈局
 
 [X-UMBRELLO-Dot-Nodes]
-type::usecase shape=ellipse
-type::actor shape=circle
-type::note shape=box
+type::usecase=shape=ellipse
+type::actor=shape=circle
+type::note=shape=box
 type::default=shape=box
 
 # for dot output
@@ -92,7 +92,9 @@ visual::type::realisation=arrowtail=normal,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
 ranking::type::association=weight=1.0
+ranking::type::dependency=weight=1.0
 ranking::type::uniassociation=weight=0.1
+ranking::type::anchor=weight=1.0
 ranking::type::default=constraint=false
 
 [X-UMBRELLO-Dot-Attributes]

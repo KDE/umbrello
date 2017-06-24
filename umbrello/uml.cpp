@@ -2695,16 +2695,18 @@ void UMLApp::slotUpdateViews()
 /**
  * Import the source files that are in fileList.
  */
-void UMLApp::importFiles(QStringList* fileList)
+void UMLApp::importFiles(QStringList &fileList, const QString &rootPath)
 {
-    if (!fileList->isEmpty()) {
-        listView()->setUpdatesEnabled(false);
-        logWindow()->setUpdatesEnabled(false);
+    if (!fileList.isEmpty()) {
+        bool saveState = listView()->parentWidget()->isVisible();
+        listView()->parentWidget()->setVisible(false);
+        logWindow()->parentWidget()->setVisible(true);
         logWindow()->clear();
 
-        const QString& firstFile = fileList->first();
+        const QString& firstFile = fileList.first();
         ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
-        classImporter->importFiles(*fileList);
+        classImporter->setRootPath(rootPath);
+        classImporter->importFiles(fileList);
         delete classImporter;
         m_doc->setLoading(false);
         // Modification is set after the import is made, because the file was modified when adding the classes.
@@ -2727,7 +2729,7 @@ void UMLApp::slotImportClass()
 
     QStringList files = QFileDialog::getOpenFileNames(this, i18n("Select file(s) to import:"), QString(), f);
     if (!files.isEmpty()) {
-        importFiles(&files);
+        importFiles(files);
     }
 }
 
@@ -2758,7 +2760,7 @@ void UMLApp::slotImportProject()
     if (!dir.isEmpty()) {
         QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
         getFiles(listFile, dir, filter);
-        importFiles(&listFile);
+        importFiles(listFile, dir);
     }
 }
 

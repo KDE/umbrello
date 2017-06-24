@@ -3029,7 +3029,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         else if (association())
             m_scene->removeAssocInViewAndDoc(this);
         else
-            m_scene->removeAssoc(this);
+            m_scene->removeWidgetCmd(this);
         break;
 
     case ListPopupMenu::mt_Rename_MultiA:
@@ -3744,8 +3744,7 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if (_select) {
-        if (m_scene->selectedCount() == 0)
-                UMLApp::app()->docWindow()->showDocumentation(this, false);
+        UMLApp::app()->docWindow()->showDocumentation(this, false);
     } else
         UMLApp::app()->docWindow()->updateDocumentation(true);
 
@@ -3930,7 +3929,7 @@ void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj
         return;
     }
     m_umlObject = 0;
-    m_scene->removeAssoc(this);
+    m_scene->removeWidgetCmd(this);
 }
 
 /**

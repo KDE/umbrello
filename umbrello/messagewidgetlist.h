@@ -13,10 +13,11 @@
 #define MESSAGEWIDGETLIST_H
 
 #include <QList>
+#include <QPointer>
 
 class MessageWidget;
 
-typedef QList<MessageWidget*> MessageWidgetList;
-typedef QListIterator<MessageWidget*> MessageWidgetListIt;
+typedef QList<QPointer<MessageWidget>> MessageWidgetList;
+typedef QListIterator<QPointer<MessageWidget>> MessageWidgetListIt;
 
 #endif

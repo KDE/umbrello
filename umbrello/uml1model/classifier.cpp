@@ -305,7 +305,7 @@ UMLOperation* UMLClassifier::createOperation(
 bool UMLClassifier::addOperation(UMLOperation* op, int position)
 {
     Q_ASSERT(op);
-    if (m_List.indexOf(op) != -1) {
+    if (subordinates().indexOf(op) != -1) {
         uDebug() << "findRef(" << op->name() << ") finds op (bad)";
         return false;
     }
@@ -314,9 +314,9 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
         return false;
     }
 
-    if (position >= 0 && position <= m_List.count()) {
+    if (position >= 0 && position <= subordinates().count()) {
         uDebug() << op->name() << ": inserting at position " << position;
-        m_List.insert(position, op);
+        subordinates().insert(position, op);
         UMLClassifierListItemList itemList = getFilteredList(UMLObject::ot_Operation);
         QString buf;
         foreach (UMLClassifierListItem* currentAtt, itemList) {
@@ -325,7 +325,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
         uDebug() << "  list after change: " << buf;
     }
     else {
-        m_List.append(op);
+        subordinates().append(op);
     }
     emit operationAdded(op);
     UMLObject::emitModified();
@@ -368,7 +368,7 @@ int UMLClassifier::removeOperation(UMLOperation *op)
         uDebug() << "called on NULL op";
         return -1;
     }
-    if (!m_List.removeAll(op)) {
+    if (!subordinates().removeAll(op)) {
         uDebug() << "cannot find op " << op->name() << " in list";
         return -1;
     }
@@ -377,7 +377,7 @@ int UMLClassifier::removeOperation(UMLOperation *op)
     disconnect(op, &UMLOperation::modified, this, &UMLClassifier::modified);
     emit operationRemoved(op);
     UMLObject::emitModified();
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -431,8 +431,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 UMLAttributeList UMLClassifier::getAttributeList() const
 {
     UMLAttributeList attributeList;
-    foreach (UMLObject* listItem, m_List) {
-        uIgnoreZeroPointer(listItem);
+    foreach (UMLObject* listItem, subordinates()) {
         if (listItem->baseType() == UMLObject::ot_Attribute) {
             attributeList.append(listItem->asUMLAttribute());
         }
@@ -519,8 +518,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLOperationList list;
-    foreach (UMLObject*  obj, m_List) {
-        uIgnoreZeroPointer(obj);
+    foreach (UMLObject*  obj, subordinates()) {
         if (obj->baseType() != UMLObject::ot_Operation)
             continue;
         UMLOperation *op = obj->asUMLOperation();
@@ -650,9 +648,8 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     UMLCanvasObject::copyInto(target);
     target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
-    m_List.copyInto(&(target->m_List));
-    foreach(UMLObject *o, target->m_List) {
-        uIgnoreZeroPointer(o);
+    subordinates().copyInto(&(target->subordinates()));
+    foreach(UMLObject *o, target->subordinates()) {
         o->setUMLParent(target);
     }
 }
@@ -679,11 +676,10 @@ bool UMLClassifier::resolveRef()
 {
     bool success = UMLPackage::resolveRef();
     // Using reentrant iteration is a bare necessity here:
-    foreach (UMLObject* obj, m_List) {
-        uIgnoreZeroPointer(obj);
+    foreach (UMLObject* obj, subordinates()) {
         /**** For reference, here is the non-reentrant iteration scheme -
               DO NOT USE THIS !
-        for (UMLObject *obj = m_List.first(); obj; obj = m_List.next())
+        for (UMLObject *obj = subordinates().first(); obj; obj = subordinates().next())
          {  ....  }
          ****/
         if (obj->resolveRef()) {
@@ -797,14 +793,14 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id /* = Uml::id_None */)
 {
-    foreach (UMLObject* obj, m_List) {
+    foreach (UMLObject* obj, subordinates()) {
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Attribute && obj->name() == name)
             return obj->asUMLAttribute();
     }
     Uml::Visibility::Enum scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
-    m_List.append(a);
+    subordinates().append(a);
     emit attributeAdded(a);
     UMLObject::emitModified();
     connect(a, &UMLAttribute::modified, this, &UMLClassifier::modified);
@@ -829,7 +825,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
     if (type) {
         a->setType(type);
     }
-    m_List.append(a);
+    subordinates().append(a);
     emit attributeAdded(a);
     UMLObject::emitModified();
     connect(a, &UMLAttribute::modified, this, &UMLClassifier::modified);
@@ -854,11 +850,11 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
     Q_ASSERT(att);
     if (findChildObject(att->name()) == 0) {
         att->setParent(this);
-        if (position >= 0 && position < (int)m_List.count()) {
-            m_List.insert(position, att);
+        if (position >= 0 && position < (int)subordinates().count()) {
+            subordinates().insert(position, att);
         }
         else {
-            m_List.append(att);
+            subordinates().append(att);
         }
         emit attributeAdded(att);
         UMLObject::emitModified();
@@ -880,7 +876,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
  */
 int UMLClassifier::removeAttribute(UMLAttribute* att)
 {
-    if (!m_List.removeAll(att)) {
+    if (!subordinates().removeAll(att)) {
         uDebug() << "cannot find att given in list";
         return -1;
     }
@@ -888,7 +884,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
     disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
     emit attributeRemoved(att);
     UMLObject::emitModified();
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -946,7 +942,7 @@ int UMLClassifier::operations()
 UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed)
 {
     UMLOperationList ops;
-    foreach (UMLObject* li, m_List) {
+    foreach (UMLObject* li, subordinates()) {
         uIgnoreZeroPointer(li);
         if (li->baseType() == ot_Operation) {
             ops.append(li->asUMLOperation());
@@ -996,7 +992,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
 }
 
 /**
- * Returns the entries in m_List that are of the requested type.
+ * Returns the entries in subordinates that are of the requested type.
  * If the requested type is UMLObject::ot_UMLObject then all entries
  * are returned.
  * @param ot   the requested object type
@@ -1005,7 +1001,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
 UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType ot) const
 {
     UMLClassifierListItemList resultList;
-    foreach (UMLObject* o, m_List) {
+    foreach (UMLObject* o, subordinates()) {
         uIgnoreZeroPointer(o);
         if (!o || o->baseType() == UMLObject::ot_Association) {
             continue;
@@ -1035,7 +1031,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
         return templt;
     }
     templt = new UMLTemplate(this, name, id);
-    m_List.append(templt);
+    subordinates().append(templt);
     emit templateAdded(templt);
     UMLObject::emitModified();
     connect(templt, &UMLTemplate::modified, this, &UMLClassifier::modified);
@@ -1055,7 +1051,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
     QString name = newTemplate->name();
     if (findChildObject(name) == 0) {
         newTemplate->setParent(this);
-        m_List.append(newTemplate);
+        subordinates().append(newTemplate);
         emit templateAdded(newTemplate);
         UMLObject::emitModified();
         connect(newTemplate, &UMLTemplate::modified, this, &UMLClassifier::modified);
@@ -1084,11 +1080,11 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
     QString name = templt->name();
     if (findChildObject(name) == 0) {
         templt->setParent(this);
-        if (position >= 0 && position <= (int)m_List.count()) {
-            m_List.insert(position, templt);
+        if (position >= 0 && position <= (int)subordinates().count()) {
+            subordinates().insert(position, templt);
         }
         else {
-            m_List.append(templt);
+            subordinates().append(templt);
         }
         emit templateAdded(templt);
         UMLObject::emitModified();
@@ -1108,14 +1104,14 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
  */
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
 {
-    if (!m_List.removeAll(umltemplate)) {
+    if (!subordinates().removeAll(umltemplate)) {
         uWarning() << "cannot find att given in list";
         return -1;
     }
     emit templateRemoved(umltemplate);
     UMLObject::emitModified();
     disconnect(umltemplate, &UMLTemplate::modified, this, &UMLClassifier::modified);
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -1155,7 +1151,7 @@ int UMLClassifier::templates()
 UMLTemplateList UMLClassifier::getTemplateList() const
 {
     UMLTemplateList templateList;
-    foreach (UMLObject* listItem, m_List) {
+    foreach (UMLObject* listItem, subordinates()) {
         uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Template) {
             templateList.append(listItem->asUMLTemplate());
@@ -1169,13 +1165,13 @@ UMLTemplateList UMLClassifier::getTemplateList() const
  * Ownership of the item is passed to the caller.
  *
  * @param item   Subordinate item to take.
- * @return       Index in m_List of the item taken.
- *               Return -1 if the item is not found in m_List.
+ * @return       Index in subordinates of the item taken.
+ *               Return -1 if the item is not found in subordinates.
  */
 int UMLClassifier::takeItem(UMLClassifierListItem *item)
 {
     QString buf;
-    foreach (UMLObject* currentAtt, m_List) {
+    foreach (UMLObject* currentAtt, subordinates()) {
         uIgnoreZeroPointer(currentAtt);
         QString txt = currentAtt->name();
         if (txt.isEmpty()) {
@@ -1183,9 +1179,9 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
         }
         buf.append(QLatin1Char(' ') + currentAtt->name());
     }
-    uDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf;
+    uDebug() << "  UMLClassifier::takeItem (before): subordinates() is " << buf;
 
-    int index = m_List.indexOf(item);
+    int index = subordinates().indexOf(item);
     if (index == -1) {
         return -1;
     }
@@ -1197,7 +1193,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Attribute: {
-            UMLAttribute *retval = m_List.takeAt(index)->asUMLAttribute();
+            UMLAttribute *retval = subordinates().takeAt(index)->asUMLAttribute();
             if (retval) {
                 emit attributeRemoved(retval);
                 UMLObject::emitModified();
@@ -1207,7 +1203,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_Template: {
-            UMLTemplate *templt = m_List.takeAt(index)->asUMLTemplate();
+            UMLTemplate *templt = subordinates().takeAt(index)->asUMLTemplate();
             if (templt) {
                 emit templateRemoved(templt);
                 UMLObject::emitModified();
@@ -1217,7 +1213,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EnumLiteral: {
-            UMLEnumLiteral *el = m_List.takeAt(index)->asUMLEnumLiteral();
+            UMLEnumLiteral *el = subordinates().takeAt(index)->asUMLEnumLiteral();
             if (el) {
                 UMLEnum *e = this->asUMLEnum();
                 e->signalEnumLiteralRemoved(el);
@@ -1228,7 +1224,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
         case UMLObject::ot_EntityAttribute: {
-            UMLEntityAttribute* el = m_List.takeAt(index)->asUMLEntityAttribute();
+            UMLEntityAttribute* el = subordinates().takeAt(index)->asUMLEntityAttribute();
             if (el) {
                 UMLEntity *e = this->asUMLEntity();
                 e->signalEntityAttributeRemoved(el);
@@ -1239,7 +1235,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             break;
         }
     case UMLObject::ot_InstanceAttribute: {
-        UMLInstanceAttribute *ia = m_List.takeAt(index)->asUMLInstanceAttribute();
+        UMLInstanceAttribute *ia = subordinates().takeAt(index)->asUMLInstanceAttribute();
         if(ia) {
             emit attributeRemoved(ia);
             UMLObject::emitModified();

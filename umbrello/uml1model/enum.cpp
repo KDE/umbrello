@@ -38,7 +38,7 @@ UMLEnum::UMLEnum(const QString& name, Uml::ID::Type id) : UMLClassifier(name, id
  */
 UMLEnum::~UMLEnum()
 {
-    m_List.clear();
+    subordinates().clear();
 }
 
 /**
@@ -137,7 +137,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
         return el;
     }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id, value);
-    m_List.append(literal);
+    subordinates().append(literal);
     UMLObject::emitModified();
     emit enumLiteralAdded(literal);
     connect(literal, &UMLEnumLiteral::modified, this, &UMLEnum::modified);
@@ -156,7 +156,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
     QString name = (QString)literal->name();
     if (findChildObject(name) == 0) {
         literal->setParent(this);
-        m_List.append(literal);
+        subordinates().append(literal);
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
         connect(literal, &UMLEnumLiteral::modified, this, &UMLEnum::modified);
@@ -183,10 +183,10 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
     QString name = (QString)literal->name();
     if (findChildObject(name) == 0) {
         literal->setParent(this);
-        if (position >= 0 && position <= (int)m_List.count())  {
-            m_List.insert(position, literal);
+        if (position >= 0 && position <= (int)subordinates().count())  {
+            subordinates().insert(position, literal);
         } else {
-            m_List.append(literal);
+            subordinates().append(literal);
         }
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
@@ -204,7 +204,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
  */
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
 {
-    if (!m_List.removeAll(literal)) {
+    if (!subordinates().removeAll(literal)) {
         uDebug() << "cannot find att given in list";
         return -1;
     }
@@ -214,7 +214,7 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
     // for us by QObject. -b.t.
     // disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     delete literal;
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -223,7 +223,7 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
  */
 int UMLEnum::enumLiterals()
 {
-    return m_List.count();
+    return subordinates().count();
 }
 
 /**
@@ -270,7 +270,7 @@ bool UMLEnum::load1(QDomElement& element)
             if(!pEnumLiteral->loadFromXMI1(tempElement)) {
                 return false;
             }
-            m_List.append(pEnumLiteral);
+            subordinates().append(pEnumLiteral);
         } else if (UMLDoc::tagEq(tag, QLatin1String("Enumeration.literal"))) {  // UML 1.4
             if (! load1(tempElement))
                 return false;

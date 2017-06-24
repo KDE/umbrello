@@ -19,6 +19,7 @@
 // fwd decls
 class CodeImpThread;
 class UMLClassifier;
+class UMLFolder;
 class UMLOperation;
 class UMLPackage;
 
@@ -29,6 +30,7 @@ public:
     virtual ~CppTree2Uml();
 
     void clear();
+    void setRootPath(const QString &rootPath);
     //FileDom file() { return m_file; }
 
     // translation-unit
@@ -89,6 +91,8 @@ private:
     int m_nsCnt;  ///< stack top for m_currentNamespace
     int m_clsCnt;  ///< stack top for m_currentClass
     CodeImpThread* m_thread;
+    QString m_rootPath; ///< root path of project
+    UMLFolder *m_rootFolder;
 
 private:
     CppTree2Uml(const CppTree2Uml& source);

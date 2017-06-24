@@ -75,7 +75,7 @@ void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)
     if (index == -1) {
         return;
     }
-    UMLObjectList contents = m_package->containedObjects();
+    UMLObjectList &contents = m_package->containedObjects();
     UMLObject *o = contents.at(index);
     QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(this, o, true);
     dlg->exec();
@@ -88,7 +88,7 @@ void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)
 void PackageContentsPage::fillListBox()
 {
     m_contentLW->clear();
-    UMLObjectList contents = m_package->containedObjects();
+    UMLObjectList &contents = m_package->containedObjects();
     UMLObjectListIt objList_it(contents);
     UMLObject* umlo = 0;
     while (objList_it.hasNext()) {
@@ -115,7 +115,7 @@ void PackageContentsPage::slotMenuSelection(QAction* action)
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {
-            UMLObjectList contents = m_package->containedObjects();
+            UMLObjectList &contents = m_package->containedObjects();
             if (m_contentLW->currentRow() == -1)
                 break;
             UMLObject *o = contents.at(m_contentLW->currentRow());

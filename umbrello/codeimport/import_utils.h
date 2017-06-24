@@ -12,6 +12,7 @@
 #define IMPORT_UTILS_H
 
 #include "basictypes.h"
+#include "folder.h"
 #include "umlattributelist.h"
 
 #include <QStringList>
@@ -32,8 +33,12 @@ class QMimeData;
  */
 namespace Import_Utils {
 
+    UMLFolder *createSubDir(const QString& name,
+                            UMLFolder *parentPkg,
+                            const QString &comment = QString());
+
     UMLObject *createArtifact(const QString& name,
-                              UMLPackage *parentPkg = 0,
+                              UMLFolder *parentPkg = NULL,
                               const QString &comment = QString());
 
     UMLObject* createUMLObject(UMLObject::ObjectType type,
@@ -76,7 +81,7 @@ namespace Import_Utils {
                         const QString &comment = QString(),
                         const QString &value = QString());
 
-    void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
+    UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent);
     void createGeneralization(UMLClassifier *child, const QString &parentName);
 
     UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope);

@@ -16,14 +16,14 @@
 #include "ui_documentationwidget.h"
 
 class UMLObject;
-class UMLWidget;
+class WidgetBase;
 
 class DocumentationWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit DocumentationWidget(QWidget *parent = 0);
-    explicit DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
+    explicit DocumentationWidget(WidgetBase *w, QWidget *parent = 0);
     ~DocumentationWidget();
 
     void apply();
@@ -34,7 +34,7 @@ private:
 
 protected:
     UMLObject *m_object;
-    UMLWidget *m_widget;
+    WidgetBase *m_widget;
     void init(const QString &text);
 };
 

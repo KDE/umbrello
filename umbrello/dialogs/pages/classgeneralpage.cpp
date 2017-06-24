@@ -43,7 +43,6 @@
 #include <KMessageBox>
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <ktextedit.h>
 
 // qt includes
 #include <QCheckBox>

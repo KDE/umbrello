@@ -1000,6 +1000,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(c, &UMLInstance::attributeRemoved, this, &UMLListView::childObjectRemoved);
         connect(object, &UMLObject::modified, this, &UMLListView::slotObjectChanged);
     }
+    break;
     case UMLObject::ot_Enum: {
         UMLEnum *e = object->asUMLEnum();
         connect(e, &UMLEnum::enumLiteralAdded, this, &UMLListView::childObjectAdded);
@@ -2703,7 +2704,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
     } else if (Model_Utils::typeIsCanvasWidget(lvt) || Model_Utils::typeIsClassifierList(lvt)) {
         UMLPackage *nmSpc = object->asUMLPackage();
         if (nmSpc) {
-            UMLObjectList contained = nmSpc->containedObjects();
+            UMLObjectList &contained = nmSpc->containedObjects();
             if (contained.count()) {
                 KMessageBox::error(
                     0,

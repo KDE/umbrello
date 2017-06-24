@@ -97,7 +97,7 @@ private:
     /**
      * Primary Key of this Entity
      * This is a pointer kept for easy access to the primary key, and to distinguish it
-     * from all other UniqueConstraints. It is also there in m_List (inherited from
+     * from all other UniqueConstraints. It is also there in subordinates (inherited from
      * UMLCanvasObject)
      */
     UMLUniqueConstraint* m_PrimaryKey;

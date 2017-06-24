@@ -30,6 +30,7 @@ public:
 
     bool importFiles(const QStringList& fileNames);
     bool importFile(const QString& fileName);
+    void setRootPath(const QString &path);
 
     /**
      * Return state of the importer. It may be disabled because of 
@@ -65,6 +66,7 @@ protected:
 
     CodeImpThread* m_thread;  ///< thread in which the work of importing is done
     bool m_enabled;           ///< state of importer
+    QString m_rootPath;       ///< root path of import
 };
 
 #endif

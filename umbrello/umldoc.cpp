@@ -684,6 +684,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false) {
+            uError() << "could not open" << archive->fileName();
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
@@ -694,6 +695,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
         QTemporaryFile tmp_xmi_file;
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
+            uError() << "could not open" << tmp_xmi_file.fileName();
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
@@ -711,6 +713,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
         if (!archive->close()) {
+            uError() << "could not close" << archive->fileName();
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             delete archive;
             return false;
@@ -724,6 +727,8 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
+            if (!uploaded)
+                uError() << "could not upload file" << tmp_tgz_file.fileName() << "to" << url;
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -746,6 +751,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
+            uError() << "could not open" << tmpfile.fileName();
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
             return false;
         }
@@ -757,6 +763,8 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
+            if (!uploaded)
+                uError() << "could not upload file" << tmpfile.fileName() << "to" << url;
         }
         else {
             // now remove the original file
@@ -769,7 +777,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
-                DEBUG(DBG_SRC) << "UMLDoc::saveDocument moving with error = " << tmpfile.fileName() << " to " << url;
+                uError() << "Could not move" << tmpfile.fileName() << "to" << url;
                 KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
                 setUrlUntitled();
                 return false;
@@ -870,7 +878,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
         return o;
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        UMLObjectList list = m_root[i]->containedObjects();
+        UMLObjectList &list = m_root[i]->containedObjects();
         if (list.size() == 0)
             continue;
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
@@ -914,7 +922,7 @@ UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
 {
     if (folder == 0)
         return 0;
-    UMLObjectList list = folder->containedObjects();
+    UMLObjectList &list = folder->containedObjects();
     if (list.size() == 0)
         return 0;
     return Model_Utils::findUMLObjectRaw(list, name, type, 0);
@@ -1717,7 +1725,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                         uError() << umlobject->name() << ": root package is not set !";
                         return;
                     }
-                    UMLObjectList rootObjects = rootPkg->containedObjects();
+                    UMLObjectList &rootObjects = rootPkg->containedObjects();
                     // Store the associations to remove in a buffer because we
                     // should not remove elements from m_objectList while it is
                     // being iterated over.
@@ -2530,7 +2538,7 @@ bool UMLDoc::loadUMLObjectsFromXMI1(QDomElement& element)
             continue;
         }
         if (pkg) {
-            UMLObjectList objects = pkg->containedObjects();
+            UMLObjectList &objects = pkg->containedObjects();
             if (! objects.contains(pObject)) {
                 DEBUG(DBG_SRC) << "CHECK: adding " << pObject->name()
                                << " to " << pkg->name();
@@ -2783,7 +2791,7 @@ UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
  */
 UMLClassifierList UMLDoc::datatypes()
 {
-    UMLObjectList objects = m_datatypeRoot->containedObjects();
+    UMLObjectList &objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
@@ -3200,7 +3208,7 @@ void UMLDoc::addDefaultDatatypes()
  */
 void UMLDoc::createDatatype(const QString &name)
 {
-    UMLObjectList datatypes = m_datatypeRoot->containedObjects();
+    UMLObjectList &datatypes = m_datatypeRoot->containedObjects();
     UMLObject* umlobject = Model_Utils::findUMLObject(datatypes, name,
                                                       UMLObject::ot_Datatype, m_datatypeRoot);
     if (!umlobject) {

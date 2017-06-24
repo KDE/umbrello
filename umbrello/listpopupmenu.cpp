@@ -1521,6 +1521,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_FloatText, menu);
             break;
         case mt_On_Class_Diagram:
+            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
             insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
             insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
             insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
@@ -1565,7 +1566,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_Category, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category..."));
             break;
         case mt_On_Sequence_Diagram:
-            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("Import stack trace..."));
+            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
             insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
             insert(mt_FloatText, menu);
             break;

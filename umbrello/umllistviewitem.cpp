@@ -514,7 +514,11 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             return;
         }
         UMLOperation *op = m_object->asUMLOperation();
-        UMLClassifier *parent = op ? op->umlParent()->asUMLClassifier() : 0;
+        if (!op) {
+            cancelRenameWithMsg();
+            return;
+        }
+        UMLClassifier *parent = op->umlParent()->asUMLClassifier();
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
         if (st == Model_Utils::PS_OK) {

@@ -137,12 +137,7 @@ public:
     void removeAssoc(AssociationWidget* pAssoc);
     void addAssoc(AssociationWidget* pAssoc);
 
-    /**
-     *  Returns the list of associations connected to this widget.
-     */
-    AssociationWidgetList & associationWidgetList() {
-        return m_Assocs;
-    }
+    AssociationWidgetList &associationWidgetList() const;
 
     /**
      * Read property of bool m_isInstance
@@ -281,9 +276,6 @@ protected:
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
-    /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
-    AssociationWidgetList m_Assocs;
-
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
     bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
     bool m_showStereotype;   ///< should the stereotype be displayed
@@ -344,5 +336,7 @@ private:
     void init();
     void toForeground();
 
+    /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
+    mutable AssociationWidgetList m_Assocs;
 };
 #endif

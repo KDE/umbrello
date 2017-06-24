@@ -176,7 +176,7 @@ bool UMLInstance::load1(QDomElement &element)
             if(!pInstanceAttribute->loadFromXMI1(tempElement)) {
                 return false;
             }
-            m_List.append(pInstanceAttribute);
+            subordinates().append(pInstanceAttribute);
         }
         node = node.nextSibling();
     }//end while

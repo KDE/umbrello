@@ -60,6 +60,7 @@ endif()
         Completion
         Config
         CoreAddons
+        Crash
         DocTools
         I18n
         IconThemes

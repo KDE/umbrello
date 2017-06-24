@@ -37,6 +37,7 @@ void CPPSourceCodeOperation::updateContent()
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    Q_ASSERT(policy);
     bool isInlineMethod = policy->getOperationsAreInline();
 
     if (!isInlineMethod) {
@@ -47,8 +48,10 @@ void CPPSourceCodeOperation::updateContent()
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
     CPPSourceCodeDocument * doc = dynamic_cast<CPPSourceCodeDocument*>(getParentDocument());
+    Q_ASSERT(doc);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    Q_ASSERT(policy);
     UMLClassifier * c = doc->getParentClassifier();
     UMLOperation * o = getParentOperation();
     bool isInterface = doc->parentIsInterface();

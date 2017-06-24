@@ -20,6 +20,7 @@
 // kde includes
 #include <kaboutdata.h>
 #include <kconfig.h>
+#include <KCrash>
 #include <KLocalizedString>
 #include <ktip.h>
 
@@ -77,6 +78,7 @@ static const QString LANGUAGES      = QStringLiteral("languages");
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    KCrash::initialize();
 
     KLocalizedString::setApplicationDomain("umbrello");
 
@@ -161,7 +163,7 @@ int main(int argc, char *argv[])
             QStringList importList = args->values(IMPORT_FILES);
             if (importList.size() > 0) {
                 uml->newDocument();
-                uml->importFiles(&importList);
+                uml->importFiles(importList);
             }
         }
         else

@@ -637,7 +637,8 @@ bool CSharpImport::parseEnumDeclaration()
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
             next = advance();
         } else {
-            Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);
+            if (enumType != 0)
+                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);
         }
         if (next == QLatin1String("{") || next == QLatin1String("(")) {
             if (! skipToClosing(next[0]))

@@ -61,10 +61,11 @@ namespace Uml
             Private,
             Protected,
             Implementation, // objects marked with this are declared in the implementation file.
-            FromParent = 3  // alias for Implementation, used by CodeGenerationPolicy
+            FromParent = 3,  // alias for Implementation, used by CodeGenerationPolicy
+            Unknown
         };
         QString toString(Enum item, bool mnemonic = false);
-        Enum fromString(const QString& item);
+        Enum fromString(const QString& item, bool checkUnknown = false);
         Enum fromInt(int item);
     }
 

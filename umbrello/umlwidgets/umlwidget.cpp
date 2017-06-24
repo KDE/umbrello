@@ -1102,9 +1102,18 @@ void UMLWidget::setActivated(bool active /*=true*/)
  */
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 {
-    if (pAssoc && !m_Assocs.contains(pAssoc)) {
-        m_Assocs.append(pAssoc);
+    if (pAssoc && !associationWidgetList().contains(pAssoc)) {
+        associationWidgetList().append(pAssoc);
     }
+}
+
+/**
+ *  Returns the list of associations connected to this widget.
+ */
+AssociationWidgetList &UMLWidget::associationWidgetList() const
+{
+    m_Assocs.removeAll(0);
+    return m_Assocs;
 }
 
 /**
@@ -1114,7 +1123,7 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc) {
-        m_Assocs.removeAll(pAssoc);
+        associationWidgetList().removeAll(pAssoc);
     }
 }
 
@@ -1139,11 +1148,11 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
         return;
     }
 
-    foreach(AssociationWidget* assocwidget, m_Assocs) {
+    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
         assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget, m_Assocs) {
+    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
         assocwidget->widgetMoved(this, dx, dy);
     }
 }
@@ -1156,12 +1165,12 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
  */
 void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 {
-    foreach(AssociationWidget* assocwidget, m_Assocs) {
+    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget, m_Assocs) {
+    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
         if (!assocwidget->isSelected()) {
             assocwidget->widgetMoved(this, dx, dy);
         }

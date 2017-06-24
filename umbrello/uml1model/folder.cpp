@@ -277,7 +277,7 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     // Save asscociations if any.
-    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
+    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
         obj = ait.next();
         obj->saveToXMI1 (qDoc, ownedElement);
     }

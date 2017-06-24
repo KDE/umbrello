@@ -13,8 +13,9 @@
 
 // app includes
 #include "debug_utils.h"
-#include "umldoc.h"
+#include "folder.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "idlimport.h"
 #include "pythonimport.h"
 #include "javaimport.h"
@@ -110,6 +111,11 @@ bool ClassImport::importFile(const QString& fileName)
 {
     initPerFile();
     return parseFile(fileName);
+}
+
+void ClassImport::setRootPath(const QString &path)
+{
+    m_rootPath = path;
 }
 
 /**

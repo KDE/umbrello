@@ -105,15 +105,15 @@ struct LexerData {
 };
 
 Lexer::Lexer(Driver* driver)
-    : d(new LexerData),
-      m_driver(driver),
-      m_recordComments(true),
-      m_recordWhiteSpaces(false),
-      m_skipWordsEnabled(true),
-      m_preprocessorEnabled(true),
-      m_inPreproc(false),
-      m_reportWarnings(false),
-      m_reportMessages(false)
+  : d(new LexerData),
+    m_driver(driver),
+    m_recordComments(true),
+    m_recordWhiteSpaces(false),
+    m_skipWordsEnabled(true),
+    m_preprocessorEnabled(true),
+    m_inPreproc(false),
+    m_reportWarnings(false),
+    m_reportMessages(false)
 {
     reset();
     d->beginScope();

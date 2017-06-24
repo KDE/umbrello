@@ -197,9 +197,8 @@ bool UMLClipboard::paste(const QMimeData* data)
 
     int codingType = UMLDragData::getCodingType(data);
     if (codingType == 6
-            && UMLApp::app()->currentView()
-            && UMLApp::app()->currentView()->umlScene()->type() == Uml::DiagramType::Sequence) {
-        return Diagram_Utils::importSequences(data, UMLApp::app()->currentView()->umlScene());
+            && UMLApp::app()->currentView()) {
+        return Diagram_Utils::importGraph(data, UMLApp::app()->currentView()->umlScene());
     }
     QString mimeType = QLatin1String("application/x-uml-clip") + QString::number(codingType);
     uDebug() << "Pasting mimeType=" << mimeType << "data=" << data->data(mimeType);

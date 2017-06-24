@@ -177,7 +177,7 @@ public:
     QString activeLanguageScopeSeparator();
 
     KConfig* config();
-    void importFiles(QStringList* fileList);
+    void importFiles(QStringList& fileList, const QString &rootPath = QString());
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);

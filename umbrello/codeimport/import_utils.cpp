@@ -530,7 +530,7 @@ void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &co
  * Create a generalization from the given child classifier to the given
  * parent classifier.
  */
-void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
+UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent)
 {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
@@ -547,27 +547,49 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     UMLDoc *umldoc = UMLApp::app()->document();
     assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
     umldoc->addAssociation(assoc);
+    return assoc;
 }
+
+/**
+ * Create a subdir with the given name.
+ */
+UMLFolder *createSubDir(const QString& name,
+                        UMLFolder *parentPkg,
+                        const QString &comment)
+{
+    UMLDoc *umldoc = UMLApp::app()->document();
+    if (!parentPkg) {
+        parentPkg = umldoc->rootFolder(Uml::ModelType::Component);
+    }
+
+    UMLObject::ObjectType type = UMLObject::ot_Folder;
+    UMLFolder *o = umldoc->findUMLObjectRaw(parentPkg, name, type)->asUMLFolder();
+    if (o)
+        return o;
+    o = Object_Factory::createUMLObject(type, name, parentPkg, false)->asUMLFolder();
+    if (o)
+        o->setDoc(comment);
+    return o;
+}
+
 
 /**
  * Create an artifact with the given name.
  */
 UMLObject *createArtifact(const QString& name,
-                          UMLPackage *parentPkg,
+                          UMLFolder *parentPkg,
                           const QString &comment)
 {
-    Q_UNUSED(parentPkg);
+    UMLDoc *umldoc = UMLApp::app()->document();
+    if (!parentPkg) {
+        parentPkg = umldoc->rootFolder(Uml::ModelType::Component);
+    }
 
     UMLObject::ObjectType type = UMLObject::ot_Artifact;
-    if (!Settings::optionState().codeImportState.createArtifacts)
-        return 0;
-    UMLDoc *umldoc = UMLApp::app()->document();
-    UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
-    QFileInfo fi(name);
-    UMLObject *o = umldoc->findUMLObjectRaw(componentView, fi.fileName(), type);
+    UMLObject *o = umldoc->findUMLObjectRaw(parentPkg, name, type);
     if (o)
         return o;
-    o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
+    o = Object_Factory::createUMLObject(type, name, parentPkg, false);
     UMLArtifact *a = o->asUMLArtifact();
     a->setDrawAsType(UMLArtifact::file);
     a->setDoc(comment);

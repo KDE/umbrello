@@ -114,15 +114,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     topLayout->addWidget(m_docWidget);
 
     // Check the proper Kind radiobutton.
-    if (attr) {
-        Uml::ParameterDirection::Enum kind = attr->getParmKind();
-        if (kind == Uml::ParameterDirection::Out)
-            m_pOut->setChecked(true);
-        else if (kind == Uml::ParameterDirection::InOut)
-            m_pInOut->setChecked(true);
-        else
-            m_pIn->setChecked(true);
-    } else
+    Uml::ParameterDirection::Enum kind = attr->getParmKind();
+    if (kind == Uml::ParameterDirection::Out)
+        m_pOut->setChecked(true);
+    else if (kind == Uml::ParameterDirection::InOut)
+        m_pInOut->setChecked(true);
+    else
         m_pIn->setChecked(true);
 
     // set tab order

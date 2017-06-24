@@ -12,7 +12,10 @@
 #include "diagram_utils.h"
 
 // app includes
+#include "associationwidget.h"
+#include "association.h"
 #include "debug_utils.h"
+#include "import_utils.h"
 #include "messagewidget.h"
 #include "object_factory.h"
 #include "objectwidget.h"
@@ -23,6 +26,7 @@
 #include "widget_factory.h"
 
 //// qt includes
+#include <QListWidget>
 #include <QMap>
 #include <QMimeData>
 #include <QRegExp>
@@ -43,11 +47,12 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
     QStringList l = lines;
     while(l.size() > 0) {
         QStringList cols = l.takeFirst().split(QRegExp(QLatin1String("\\s+")),QString::SkipEmptyParts);
+        if (cols.size() < 1)
+            continue;
+
         if (cols[0] == QLatin1String("#")) {
             continue;
         }
-        if (cols.size() < 1)
-            continue;
         /*
          * #0  0x000000000050d0b0 in Import_Utils::importStackTrace(QString const&, UMLScene*) (fileName=..., scene=scene@entry=0x12bd0f0)
          */
@@ -79,13 +84,13 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
  * @return true line could be parsed and return variable has been filled
  * @return false line could not be parsed, no return variable has been filled
  */
-bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QString &method)
+bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QString &method, QString &error)
 {
     QString identifier;
     QString module;
     QStringList cols = s.split(QRegExp(QLatin1String("\\s+")),QString::SkipEmptyParts);
     if (cols.size() < 1) {
-        DEBUG(DBG_SRC) << "could not parse" << s;
+        error = QLatin1String("could not parse");
         return false;
     }
     // skip comments
@@ -175,6 +180,7 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
        package = b.join(QLatin1String("::"));
        return true;
     }
+    error = QLatin1String("unsupported line format");
     return false;
 }
 
@@ -183,10 +189,11 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
  *
  * @param lines String list with sequences
  * @param scene The diagram to import the sequences into.
+ * @param fileName The filename the sequences are imported from
  * @return true Import was successful.
  * @return false Import failed.
  */
-bool importSequences(const QStringList &lines, UMLScene *scene)
+bool importSequences(const QStringList &lines, UMLScene *scene, const QString &fileName)
 {
     // object widget cache map
     QMap<QString, ObjectWidget*> objectsMap;
@@ -203,7 +210,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
     ObjectWidget *leftWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, left);
     leftWidget->activate();
     // required to be savable
-    scene->addWidget(leftWidget);
+    scene->addWidgetCmd(leftWidget);
     objectsMap[name] = leftWidget;
 
     ObjectWidget *rightWidget = 0;
@@ -223,10 +230,17 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
     // for each line
     int index = 1;
     foreach(const QString &line, l) {
-        QString stackframe, package, method;
+        QString stackframe, package, method, error;
 
-        if (!parseSequenceLine(line, stackframe, package, method))
+        if (!parseSequenceLine(line, stackframe, package, method, error)) {
+            if (!error.isEmpty()) {
+                QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
+                        .arg(fileName).arg(index)
+                        .arg(1).arg(line).arg(error);
+                UMLApp::app()->logWindow()->addItem(item);
+            }
             continue;
+        }
 
         bool createObject = false;
         if (package.contains(method))
@@ -250,7 +264,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);
             rightWidget->activate();
             objectsMap[package] = rightWidget;
-            scene->addWidget(rightWidget);
+            scene->addWidgetCmd(rightWidget);
             mostRightWidget = rightWidget;
         }
 
@@ -264,7 +278,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
         messageWidget->activate();
         messageWidget->setY(y);
         // to make it savable
-        scene->messageList().append(messageWidget);
+        scene->addWidgetCmd(messageWidget);
         messages.insert(0, messageWidget);
 
         leftWidget = rightWidget;
@@ -291,14 +305,162 @@ bool importSequences(const QStringList &lines, UMLScene *scene)
 }
 
 /**
- * Import sequence diagram entries from clipboard
+ * Import sequence diagram entries from a string list.
+ *
+ * @param lines String list with sequences
+ * @param scene The diagram to import the sequences into.
+ * @return true Import was successful.
+ * @return false Import failed.
+ */
+bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName)
+{
+    if (scene->type() == Uml::DiagramType::Sequence)
+        return importSequences(lines, scene);
+    else if (scene->type() != Uml::DiagramType::Class)
+        return false;
+
+    UMLDoc *umldoc = UMLApp::app()->document();
+
+    UMLWidget *lastWidget = 0;
+    UMLClassifier *c = 0;
+    QString methodIdentifier(QLatin1String("()"));
+    QMap<QString, QPointer<UMLWidget>> widgetList;
+    int lineNumber = 0;
+    // for each line
+    foreach(const QString &line, lines) {
+        lineNumber++;
+        if (line.trimmed().isEmpty() || line.startsWith(QLatin1Char('#')) || line.startsWith(QLatin1String("//")))
+            continue;
+        QStringList l = line.split(QLatin1String(" "));
+        if (l.size() == 1) {
+            UMLObject *o = umldoc->findUMLObject(l[0], UMLObject::ot_Class);
+            if (!o)
+                o = Object_Factory::createUMLObject(UMLObject::ot_Class, l[0]);
+            c = o->asUMLClassifier();
+            // TODO: avoid multiple inserts
+            UMLWidget *w = Widget_Factory::createWidget(scene, o);
+            if (lastWidget)
+                w->setX(lastWidget->x() + lastWidget->width() + 10);
+            w->activate();
+            scene->addWidgetCmd(w);
+            widgetList[l[0]] = w;
+            lastWidget = w;
+        } else if (l.size() == 3 && l[1].startsWith(QLatin1Char('-'))) { // associations
+            UMLObject *o1 = umldoc->findUMLObject(l[0], UMLObject::ot_Class);
+            if (!o1)
+                o1 = Object_Factory::createUMLObject(UMLObject::ot_Class, l[0]);
+            UMLObject *o2 = umldoc->findUMLObject(l[2], UMLObject::ot_Class);
+            if (!o2)
+                o2 = Object_Factory::createUMLObject(UMLObject::ot_Class, l[2]);
+            bool swapObjects = false;
+            Uml::AssociationType::Enum type = Uml::AssociationType::Unknown;
+            UMLAssociation *assoc = 0;
+            bool newAssoc = false;
+            if (l[1] == QLatin1String("---")) {
+                type = Uml::AssociationType::Association;
+            } else if (l[1] == QLatin1String("-->")) {
+                type = Uml::AssociationType::UniAssociation;
+            } else if (l[1] == QLatin1String("-<>")) {
+                type = Uml::AssociationType::Aggregation;
+                swapObjects = true;
+            } else if (l[1] == QLatin1String("--*")) {
+                type = Uml::AssociationType::Composition;
+                swapObjects = true;
+            } else if (l[1] == QLatin1String("-|>")) {
+                type = Uml::AssociationType::Generalization;
+            }
+            QPointer<UMLWidget> w1 = 0;
+            QPointer<UMLWidget> w2 = 0;
+            bool error = false;
+            if (swapObjects) {
+                w1 = widgetList[l[2]];
+                w2 = widgetList[l[0]];
+                if (w1 && w2) {
+                    if (!assoc) {
+                        assoc = umldoc->findAssociation(type, o1, o2);
+                        if (!assoc) {
+                            assoc = new UMLAssociation(type, o1, o2);
+                            newAssoc = true;
+                        }
+                    }
+                }
+                else
+                    error = true;
+            } else {
+                w1 = widgetList[l[0]];
+                w2 = widgetList[l[2]];
+                if (w1 && w2) {
+                    if (!assoc) {
+                        assoc = umldoc->findAssociation(type, o2, o1);
+                        if (!assoc) {
+                            assoc = new UMLAssociation(type, o2, o1);
+                            newAssoc = true;
+                        }
+                    }
+                }
+                else
+                    error = true;
+            }
+            if (!error) {
+                if (newAssoc) {
+                    assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
+                    umldoc->addAssociation(assoc);
+                }
+                AssociationWidget* aw = AssociationWidget::create(scene, w1, type, w2, assoc);
+                scene->addAssociation(aw);
+            } else {
+                if (assoc)
+                    delete assoc;
+                QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
+                        .arg(fileName).arg(lineNumber)
+                        .arg(1).arg(line).arg(QLatin1String("error:could not add association"));
+                UMLApp::app()->logWindow()->addItem(item);
+            }
+        } else if (l[0].isEmpty() && c && l.size() == 2) {
+            QString name = l.last();
+            if (name.contains(methodIdentifier)) {
+                name.remove(methodIdentifier);
+                UMLOperation *m = Import_Utils::makeOperation(c, name);
+                Import_Utils::insertMethod(c, m, Uml::Visibility::Public, QLatin1String("void"), false, false);
+            } else {
+                Import_Utils::insertAttribute(c, Uml::Visibility::Public, name, QLatin1String("int"));
+            }
+        } else if (l[0].isEmpty() && c && l.size() >= 3) {
+            QString name = l.takeLast();
+            l.takeFirst();
+            QString v = l.first().toLower();
+            Uml::Visibility::Enum visibility = Uml::Visibility::fromString(v, true);
+            if (visibility == Uml::Visibility::Unknown)
+                visibility = Uml::Visibility::Public;
+            else
+                l.takeFirst();
+            QString type = l.join(QLatin1String(" "));
+            if (name.contains(methodIdentifier)) {
+                name.remove(methodIdentifier);
+                UMLOperation *m = Import_Utils::makeOperation(c, name);
+                Import_Utils::insertMethod(c, m, visibility, type, false, false);
+            } else {
+                Import_Utils::insertAttribute(c, visibility, name, type);
+            }
+        } else {
+            QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
+                    .arg(fileName).arg(lineNumber)
+                    .arg(1).arg(line).arg(QLatin1String("syntax error"));
+            UMLApp::app()->logWindow()->addItem(item);
+        }
+    }
+    return true;
+}
+
+/**
+ * Import graph entries from clipboard
  *
  * @param mimeData instance of mime data to import from
- * @param scene The diagram to import the sequences into.
+ * @param scene The diagram to import the graph into.
  * @return true Import successful.
  * @return false Import failed.
  */
-bool importSequences(const QMimeData* mimeData, UMLScene *scene)
+bool importGraph(const QMimeData* mimeData, UMLScene *scene)
 {
     QString requestedFormat = QLatin1String("text/plain");
     if (!mimeData->hasFormat(requestedFormat))
@@ -313,20 +475,24 @@ bool importSequences(const QMimeData* mimeData, UMLScene *scene)
 
     UMLDoc *doc = UMLApp::app()->document();
     doc->beginPaste();
-    bool result = importSequences(lines, scene);
+    bool result = false;
+    if (scene->type() == Uml::DiagramType::Sequence)
+        result = importSequences(lines, scene);
+    else
+        result = importGraph(lines, scene);
     doc->endPaste();
     return result;
 }
 
 /**
- * Import sequence diagram entries from file
+ * Import graph entries from file
  *
- * @param fileName filename to import the sequences from.
- * @param scene The diagram to import the sequences into.
+ * @param fileName filename to import the graph from.
+ * @param scene The diagram to import the graph into.
  * @return true Import successful.
  * @return false Import failed.
  */
-bool importSequences(const QString &fileName, UMLScene *scene)
+bool importGraph(const QString &fileName, UMLScene *scene)
 {
     QFile file(fileName);
 
@@ -339,7 +505,7 @@ bool importSequences(const QString &fileName, UMLScene *scene)
     while (!in.atEnd()) {
         lines.append(in.readLine());
     }
-    return importSequences(lines, scene);
+    return importGraph(lines, scene, fileName);
 }
 
 }  // end namespace Diagram_Utils

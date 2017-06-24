@@ -99,6 +99,7 @@ void CppImport::feedTheModel(const QString& fileName)
     }
     ms_seenFiles.append(fileName);
     CppTree2Uml modelFeeder(fileName, m_thread);
+    modelFeeder.setRootPath(m_rootPath);
     modelFeeder.parseTranslationUnit(*ast);
 }
 
