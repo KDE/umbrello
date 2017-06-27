@@ -133,7 +133,11 @@ if(NOT BUILD_KF5)
         )
         set(NO_INSTALL 1)
         set(BUILD_PARSER_ONLY 1)
-        add_definitions(-DKDEVPHPPARSER_EXPORT=)
+        set(BUILD_PHP_IMPORT 1)
+        add_definitions(
+            -DKDEVPHPPARSER_EXPORT=
+            -DENABLE_PHP_IMPORT
+        )
         add_subdirectory(lib/kdev4-php)
     endif()
 

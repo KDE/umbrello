@@ -10,9 +10,13 @@ endif()
 
 ########### set variables #############
 
+# php import support requires kdevplatform and kdev-php
+# which does not compile without NO_CAST_XX_ASCII
+if(NOT BUILD_PHP_IMPORT)
+    add_definitions(-DQT_NO_CAST_TO_ASCII)
+    add_definitions(-DQT_NO_CAST_FROM_ASCII)
+endif()
 # Some definitions for experimental code or debugging
-#add_definitions(-DQT_NO_CAST_TO_ASCII)
-#add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
@@ -292,7 +296,6 @@ ki18n_wrap_ui(  libcodeimpwizard_SRCS
 set(libcodeimport_SRCS
     codeimport/adaimport.cpp
     codeimport/classimport.cpp
-    codeimport/phpimport.cpp
     codeimport/idlimport.cpp
     codeimport/import_utils.cpp
     codeimport/javaimport.cpp
@@ -302,6 +305,11 @@ set(libcodeimport_SRCS
     codeimport/sqlimport.cpp
     codeimport/csharp/csharpimport.cpp
 )
+if(BUILD_PHP_IMPORT)
+    list(APPEND libcodeimport_SRCS
+        codeimport/phpimport.cpp
+    )
+endif()
 
 list(APPEND libcodeimport_SRCS
     codeimport/cppimport.cpp
@@ -543,7 +551,7 @@ if(NOT BUILD_KF5)
         ${KDE4_KFILE_LIBS}
     )
 
-    if(KDEVPLATFORM_FOUND)
+    if(BUILD_PHP_IMPORT)
         target_link_libraries(libumbrello
             ${KDEVPLATFORM_INTERFACES_LIBRARIES}
             ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
