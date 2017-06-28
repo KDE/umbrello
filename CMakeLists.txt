@@ -122,6 +122,24 @@ if(NOT BUILD_KF5)
                                  )
         endforeach()
     endmacro(ecm_mark_nongui_executable)
+    find_package(KDevelop-PG-Qt)
+    find_package(KDevPlatform)
+    if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
+        include_directories(
+            ${KDEVPGQT_INCLUDE_DIR}
+            ${KDEVPLATFORM_INCLUDE_DIR}
+            ${CMAKE_SOURCE_DIR}/lib/kdev4-php/parser
+            ${CMAKE_BINARY_DIR}/lib/kdev4-php/parser
+        )
+        set(NO_INSTALL 1)
+        set(BUILD_PARSER_ONLY 1)
+        set(BUILD_PHP_IMPORT 1)
+        add_definitions(
+            -DKDEVPHPPARSER_EXPORT=
+            -DENABLE_PHP_IMPORT
+        )
+        add_subdirectory(lib/kdev4-php)
+    endif()
 
     macro_display_feature_log()
     KDE4_NO_ENABLE_FINAL(umbrello)

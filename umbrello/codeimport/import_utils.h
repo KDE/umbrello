@@ -37,6 +37,10 @@ namespace Import_Utils {
                             UMLFolder *parentPkg,
                             const QString &comment = QString());
 
+    UMLObject *createArtifactFolder(const QString& name,
+                                    UMLPackage *parentPkg,
+                                    const QString &comment);
+
     UMLObject *createArtifact(const QString& name,
                               UMLFolder *parentPkg = NULL,
                               const QString &comment = QString());
