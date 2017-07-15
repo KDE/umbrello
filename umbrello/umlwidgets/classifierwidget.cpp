@@ -887,11 +887,7 @@ QPainterPath ClassifierWidget::shape() const
         path.addEllipse(rect());
         return path;
     }
-#ifdef ENABLE_WIDGET_SHOW_DOC
     QSizeF mainSize = rect().size();
-#else
-    QSizeF mainSize = calculateSize(false);
-#endif
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     qreal mainY = 0.0;
     if (templatesBoxSize.height() > 0) {

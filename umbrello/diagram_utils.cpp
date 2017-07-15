@@ -139,9 +139,12 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
      * Qtcreator/gdb
      *  6	Driver::ParseHelper::ParseHelper	driver.cpp	299	0x634c44
      * 31   g_main_context_dispatch /usr/lib64/libglib-2.0.so.0     0x7fffefe16316
+     * ignoring
+     * ... <more>                                                   0x7ffff41152d9
+     * 13  ??                                                       0x7ffff41152d9
      */
     else if (cols[cols.size()-1].startsWith(QLatin1String("0x"))) {
-        if (cols[0] == QLatin1String("..."))
+        if (cols[0] == QLatin1String("...") || cols[1] == QLatin1String("??"))
             return false;
 
         sequence = cols.takeFirst();
@@ -151,7 +154,7 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
         if (cols.size() == 2) {
             module = cols.takeLast();
             identifier = cols.join(QLatin1String(" "));
-        } else {
+        } else if (cols.size() > 2) {
             line = cols.takeLast();
             file = cols.takeLast();
             identifier = cols.join(QLatin1String(" "));
