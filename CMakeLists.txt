@@ -190,6 +190,7 @@ else()
         DocTools
         I18n
         IconThemes
+        KDELibs4Support
         KIO
         TextEditor
         WidgetsAddons
