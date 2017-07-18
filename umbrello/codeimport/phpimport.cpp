@@ -779,6 +779,13 @@ void PHPImport::initialize()
 }
 
 /**
+ * Implement abstract operation from ClassImport for PHP
+ */
+void PHPImport::initPerFile()
+{
+}
+
+/**
  * Import a single file.
  * @param fileName  The file to import.
  */
