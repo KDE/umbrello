@@ -6,7 +6,7 @@ set (KDE_APPLICATIONS_VERSION_MINOR "11")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
-MATH(EXPR UMBRELLO_VERSION_MINOR "15+${KDE_APPLICATIONS_VERSION_MINOR}")
+MATH(EXPR UMBRELLO_VERSION_MINOR "12+${KDE_APPLICATIONS_VERSION_MINOR}")
 set(UMBRELLO_VERSION_PATCH ${KDE_APPLICATIONS_VERSION_MICRO})
 
 option(BUILD_ICONS "Create icons from svg source" OFF)
@@ -15,7 +15,13 @@ option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
 
 option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories (for debugging purpose)" OFF)
 
-option(BUILD_KF5 "Build for KDE Frameworks 5" OFF)
+if(WIN32)
+    set(BUILD_KF5_DEFAULT OFF)
+else()
+    set(BUILD_KF5_DEFAULT ON)
+endif()
+
+option(BUILD_KF5 "Build for KDE Frameworks 5" ${BUILD_KF5_DEFAULT})
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -184,6 +190,7 @@ else()
         DocTools
         I18n
         IconThemes
+        KDELibs4Support
         KIO
         TextEditor
         WidgetsAddons
