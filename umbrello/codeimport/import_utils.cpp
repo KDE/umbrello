@@ -574,6 +574,28 @@ UMLFolder *createSubDir(const QString& name,
 
 
 /**
+  * Create a folder for artifacts
+ */
+UMLObject *createArtifactFolder(const QString& name,
+                                UMLPackage *parentPkg,
+                                const QString &comment)
+{
+    Q_UNUSED(parentPkg);
+
+    UMLObject::ObjectType type = UMLObject::ot_Folder;
+    UMLDoc *umldoc = UMLApp::app()->document();
+    UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+    UMLObject *o = umldoc->findUMLObjectRaw(componentView, name, type);
+    if (o)
+        return o;
+    o = Object_Factory::createUMLObject(type, name, componentView, false);
+    UMLFolder *a = o->asUMLFolder();
+    a->setDoc(comment);
+    DEBUG(DBG_SRC) << name << comment;
+    return o;
+}
+
+/**
  * Create an artifact with the given name.
  */
 UMLObject *createArtifact(const QString& name,

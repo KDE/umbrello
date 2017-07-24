@@ -72,6 +72,8 @@ public:
 
     virtual void cleanup();
 
+    virtual bool activate(IDChangeLog* ChangeLog = 0);
+
 public slots:
     void slotMenuSelection(QAction* action);
 
@@ -83,8 +85,10 @@ protected:
     CombinedFragmentType m_CombinedFragment;
 
 private:
+    void setDashLineGeometryAndPosition() const;
+
     /// Dash lines of an alternative or parallel combined fragment
-    QList<FloatingDashLineWidget*> m_dashLines ;
+    QList<FloatingDashLineWidget*> m_dashLines;
 
 };
 

@@ -2,11 +2,11 @@ project(umbrello)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "17")
-set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MINOR "11")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
-MATH(EXPR UMBRELLO_VERSION_MINOR "15+${KDE_APPLICATIONS_VERSION_MINOR}")
+MATH(EXPR UMBRELLO_VERSION_MINOR "12+${KDE_APPLICATIONS_VERSION_MINOR}")
 set(UMBRELLO_VERSION_PATCH ${KDE_APPLICATIONS_VERSION_MICRO})
 
 option(BUILD_ICONS "Create icons from svg source" OFF)
@@ -64,6 +64,7 @@ endif()
         DocTools
         I18n
         IconThemes
+        KDELibs4Support
         KIO
         TextEditor
         WidgetsAddons

@@ -1064,6 +1064,12 @@ QStringList toExtensions(Enum item)
         case Uml::ProgrammingLanguage::CSharp:
             result << QLatin1String("*.cs");
             break;
+        case Uml::ProgrammingLanguage::PHP:
+            result << QLatin1String("*.php") << QLatin1String("*.inc");
+            break;
+        case Uml::ProgrammingLanguage::PHP5:
+            result << QLatin1String("*.php") << QLatin1String("*.php5") << QLatin1String("*.inc");
+            break;
         default:
             break;
     }
@@ -1098,6 +1104,12 @@ QString toExtensionsDescription(Enum item)
             result = QLatin1String("Source files");
             break;
         case Uml::ProgrammingLanguage::CSharp:
+            result = QLatin1String("Source files");
+            break;
+        case Uml::ProgrammingLanguage::PHP:
+            result = QLatin1String("Source files");
+            break;
+        case Uml::ProgrammingLanguage::PHP5:
             result = QLatin1String("Source files");
             break;
         default:

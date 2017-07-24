@@ -65,6 +65,7 @@ public:
     ObjectsWindow *objectsWindow;
     StereotypesWindow *stereotypesWindow;
     QDockWidget *welcomeWindow;
+    QDockWidget *editorWindow;
 
     KTextEditor::Editor *editor;
     KTextEditor::View *view;
@@ -81,6 +82,7 @@ public:
         objectsWindow(0),
         stereotypesWindow(0),
         welcomeWindow(0),
+        editorWindow(0),
         view(0),
         document(0)
     {
@@ -103,6 +105,16 @@ public slots:
         if (!file.exists())
             return;
 
+        if (!editorWindow) {
+            editorWindow = new QDockWidget(QLatin1String("Editor"));
+            parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
+        }
+
+        if (document) {
+            editorWindow->setWidget(0);
+            delete view;
+            delete document;
+        }
         document = editor->createDocument(0);
         view = document->createView(parent);
         view->document()->openUrl(QUrl(columns[0]));
@@ -112,12 +124,8 @@ public slots:
         if(iface)
             iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
-        SinglePageDialogBase *dialog = new SinglePageDialogBase(parent);
-        dialog->setMainWidget(view);
-        dialog->setMinimumSize(800, 800);
-        dialog->exec();
-        delete dialog;
-        delete document;
+        editorWindow->setWidget(view);
+        editorWindow->setVisible(true);
     }
 
     void createDiagramsWindow()

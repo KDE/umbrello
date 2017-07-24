@@ -10,9 +10,13 @@ endif()
 
 ########### set variables #############
 
+# php import support requires kdevplatform and kdev-php
+# which does not compile without NO_CAST_XX_ASCII
+if(NOT BUILD_PHP_IMPORT)
+    add_definitions(-DQT_NO_CAST_TO_ASCII)
+    add_definitions(-DQT_NO_CAST_FROM_ASCII)
+endif()
 # Some definitions for experimental code or debugging
-add_definitions(-DQT_NO_CAST_TO_ASCII)
-add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
@@ -313,6 +317,11 @@ set(libcodeimport_SRCS
     codeimport/sqlimport.cpp
     codeimport/csharp/csharpimport.cpp
 )
+if(BUILD_PHP_IMPORT)
+    list(APPEND libcodeimport_SRCS
+        codeimport/phpimport.cpp
+    )
+endif()
 
 list(APPEND libcodeimport_SRCS
     codeimport/cppimport.cpp
@@ -535,9 +544,9 @@ set(umbrello_SRCS
 
 set(LIB_BUILD_MODE STATIC)
 if(CMAKE_MAJOR_VERSION LESS 3)
-    qt5_add_resources(libumbrello_SRCS icons.qrc ui.qrc)
+    qt5_add_resources(libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
 else()
-    list(APPEND libumbrello_SRCS icons.qrc ui.qrc)
+    list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
 endif()
 add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
 set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)

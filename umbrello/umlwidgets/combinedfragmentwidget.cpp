@@ -217,19 +217,9 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_resizable =  true ; //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
-    if (m_CombinedFragment == Alt  && m_dashLines.isEmpty())
+    if (m_CombinedFragment == Alt && m_dashLines.isEmpty())
     {
         m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
-        if (m_CombinedFragment == Alt)
-        {
-            m_dashLines.back()->setText(QLatin1String("else"));
-        }
-        // TODO: move to UMLWidget::calculateSize api
-        m_dashLines.back()->setX(x());
-        m_dashLines.back()->setYMin(y());
-        m_dashLines.back()->setYMax(y() + height());
-        m_dashLines.back()->setY(y() + height()/2);
-        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
         m_scene->addWidgetCmd(m_dashLines.back());
     }
 }
@@ -448,3 +438,31 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Overrides UMLWidget method to optionally set-up a dashed line
+ */
+bool CombinedFragmentWidget::activate(IDChangeLog *ChangeLog)
+{
+    if(UMLWidget::activate(ChangeLog))
+    {
+        setDashLineGeometryAndPosition();
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Sets the geometry and positions of the last dash line
+ */
+void CombinedFragmentWidget::setDashLineGeometryAndPosition() const
+{
+    if (m_CombinedFragment == Alt && !m_dashLines.isEmpty())
+    {
+        m_dashLines.back()->setText(QLatin1String("else"));
+        m_dashLines.back()->setX(x());
+        m_dashLines.back()->setYMin(y());
+        m_dashLines.back()->setYMax(y() + height());
+        m_dashLines.back()->setY(y() + height() / 2);
+        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
+    }
+}
