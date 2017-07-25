@@ -4,9 +4,7 @@ if(ENABLE_OBJECT_DIAGRAM)
     set(ACTION_NEW_OBJECT_DIAGRAM "<Action name=\"new_object_diagram\"/>")
 endif()
 configure_file(umbrelloui.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc @ONLY)
-if(BUILD_KF5)
-    configure_file(ui.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc @ONLY)
-endif()
+configure_file(ui.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc @ONLY)
 
 ########### set variables #############
 
