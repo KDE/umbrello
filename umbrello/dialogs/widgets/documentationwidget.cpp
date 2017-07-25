@@ -70,4 +70,4 @@ void DocumentationWidget::init(const QString &text)
     ui->docTE->setWordWrapMode(QTextOption::WordWrap);
     ui->docTE->setPlainText(text);
     setFocusProxy(ui->docTE);
-
+}
