@@ -47,7 +47,7 @@ include_directories(
         Qt5::Widgets
         Qt5::WebKitWidgets
         KF5::I18n
-        KF5::KCrash
+        KF5::Crash
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         libumbrello
