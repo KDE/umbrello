@@ -1,6 +1,16 @@
 # KDE Config File
 [General]
 Name=Simple PHP Application
+Name[ca]=Una aplicació PHP senzilla
+Name[es]=Aplicación PHP sencilla
+Name[sv]=Enkelt PHP-program
+Name[uk]=Проста програма мовою PHP
+Name[x-test]=xxSimple PHP Applicationxx
 Category=PHP
 Comment=Generate filestructure to start a PHP application
+Comment[ca]=Genera l'estructura de fitxers per a iniciar una aplicació PHP
+Comment[es]=Generar una estructura de archivo para iniciar una aplicación PHP
+Comment[sv]=Skapa filstruktur för att påbörja ett PHP-program
+Comment[uk]=Створення початкової файлової структури програми мовою PHP
+Comment[x-test]=xxGenerate filestructure to start a PHP applicationxx
 ShowFilesAfterGeneration=%{dest}/%{APPNAMELC}.php
