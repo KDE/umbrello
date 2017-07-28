@@ -2,6 +2,7 @@
 [General]
 Name=Simple PHP Application
 Name[ca]=Una aplicació PHP senzilla
+Name[cs]=Jednoduchá aplikace PHP
 Name[es]=Aplicación PHP sencilla
 Name[nl]=Eenvoudige PHP-toepassing
 Name[pt]=Aplicação Simples de PHP
@@ -11,6 +12,7 @@ Name[x-test]=xxSimple PHP Applicationxx
 Category=PHP
 Comment=Generate filestructure to start a PHP application
 Comment[ca]=Genera l'estructura de fitxers per a iniciar una aplicació PHP
+Comment[cs]=Vygenerovat strukturu souborů pro započetí aplikace PHP
 Comment[es]=Generar una estructura de archivo para iniciar una aplicación PHP
 Comment[nl]=Bestandsstructuur genereren om een PHP-toepassing te beginnen
 Comment[pt]=Gera uma estrutura de ficheiros para iniciar uma aplicação em PHP
