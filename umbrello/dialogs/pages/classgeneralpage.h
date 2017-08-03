@@ -95,10 +95,7 @@ private:
     UMLArtifactTypeWidget *m_artifactTypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
 
-    void insertStereotypesSorted(const QString& type);
-
 public slots:
-
     void slotActorToggled(bool state);
 };
 
