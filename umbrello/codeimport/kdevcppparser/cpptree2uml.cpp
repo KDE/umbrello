@@ -39,7 +39,8 @@
 
 CppTree2Uml::CppTree2Uml(const QString& fileName, CodeImpThread* thread)
   : m_thread(thread),
-    m_rootFolder(0)
+    m_rootFolder(0),
+    m_doc(UMLApp::app()->document())
 {
     clear();
     QDir dir(fileName);
@@ -72,8 +73,7 @@ void CppTree2Uml::setRootPath(const QString &rootPath)
     m_rootPath = rootPath;
     if (Settings::optionState().codeImportState.createArtifacts) {
         if (!m_rootFolder) {
-            UMLDoc *umldoc = UMLApp::app()->document();
-            UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+            UMLFolder *componentView = m_doc->rootFolder(Uml::ModelType::Component);
             if (!m_rootPath.isEmpty()) {
                 UMLFolder *root = Import_Utils::createSubDir(m_rootPath, componentView);
                 m_rootFolder = root;
@@ -121,9 +121,9 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("namespace ") + nsName);
     }
-    UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
+    UMLObject *o = m_doc->findUMLObject(nsName, UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
     if (!o)
-        o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
+        o = m_doc->findUMLObject(nsName, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
     if (o && o->stereotype() == QLatin1String("class-or-package")) {
         o->setStereotype(QString());
         o->setBaseType(UMLObject::ot_Package);
@@ -403,9 +403,9 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
         className = QLatin1String("anon_") + QString::number(m_anon);
         m_anon++;
     }
-    UMLObject *o = UMLApp::app()->document()->findUMLObject(className, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
+    UMLObject *o = m_doc->findUMLObject(className, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
     if (!o)
-        o = UMLApp::app()->document()->findUMLObject(className, UMLObject::ot_Datatype, m_currentNamespace[m_nsCnt]);
+        o = m_doc->findUMLObject(className, UMLObject::ot_Datatype, m_currentNamespace[m_nsCnt]);
     if (o && o->stereotype() == QLatin1String("class-or-package")) {
         o->setStereotype(QString());
         o->setBaseType(UMLObject::ot_Class);
