@@ -2704,11 +2704,8 @@ Uml::ProgrammingLanguage::Enum UMLApp::activeLanguage() const
  */
 bool UMLApp::activeLanguageIsCaseSensitive()
 {
-    return (m_activeLanguage != Uml::ProgrammingLanguage::Pascal &&
-            m_activeLanguage != Uml::ProgrammingLanguage::Ada &&
-            m_activeLanguage != Uml::ProgrammingLanguage::SQL &&
-            m_activeLanguage != Uml::ProgrammingLanguage::MySQL &&
-            m_activeLanguage != Uml::ProgrammingLanguage::PostgreSQL);
+    Uml::ProgrammingLanguage::Enum pl = activeLanguage();
+    return Uml::ProgrammingLanguage::isCaseSensitive(pl);
 }
 
 /**
@@ -2717,15 +2714,7 @@ bool UMLApp::activeLanguageIsCaseSensitive()
 QString UMLApp::activeLanguageScopeSeparator()
 {
     Uml::ProgrammingLanguage::Enum pl = activeLanguage();
-    if (pl == Uml::ProgrammingLanguage::Ada ||
-        pl == Uml::ProgrammingLanguage::CSharp ||
-        pl == Uml::ProgrammingLanguage::Pascal ||
-        pl == Uml::ProgrammingLanguage::Java ||
-        pl == Uml::ProgrammingLanguage::JavaScript ||
-        pl == Uml::ProgrammingLanguage::Vala ||
-        pl == Uml::ProgrammingLanguage::Python)  // CHECK: more?
-        return QLatin1String(".");
-    return QLatin1String("::");
+    return Uml::ProgrammingLanguage::scopeSeparator(pl);
 }
 
 void UMLApp::slotShowTreeView(bool state)
