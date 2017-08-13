@@ -394,9 +394,21 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("class ") + className);
     }
-    if (!scopeOfName(ast->name(), QStringList()).isEmpty()){
-        uDebug() << "skip private class declarations";
-        return;
+    QStringList scope = scopeOfName(ast->name(), QStringList());
+    UMLObject *localParent = 0;
+    if (!scope.isEmpty()) {
+        localParent = m_doc->findUMLObject(scope.join(QLatin1String("::")),
+                                           UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
+        if (!localParent)
+            localParent = m_doc->findUMLObject(scope.join(QLatin1String("::")),
+                                               UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
+        if (!localParent) {
+            localParent = Import_Utils::createUMLObject(UMLObject::ot_Class, className,
+                                                        m_currentNamespace[m_nsCnt],
+                                                        ast->comment(), QString(), true);
+            localParent->setStereotype(QLatin1String("class-or-package"));
+        }
+        m_currentNamespace[++m_nsCnt] = localParent->asUMLPackage();
     }
 
     if (className.isEmpty()) {
@@ -458,6 +470,8 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     m_currentAccess = oldAccess;
     m_inSlots = oldInSlots;
     m_inSignals = oldInSignals;
+    if (localParent)
+        m_currentNamespace[m_nsCnt--] = 0;
 }
 
 void CppTree2Uml::parseEnumSpecifier(EnumSpecifierAST* ast)
