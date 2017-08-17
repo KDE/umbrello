@@ -45,7 +45,7 @@ ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene)
  */
 ToolBarStateMessages::~ToolBarStateMessages()
 {
-    delete m_messageLine;
+    cleanMessage();
 }
 
 /**
@@ -225,6 +225,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         yclick = 0;
     }
     else {
+        // TODO use cleanMessage()
         if (m_messageLine)
             delete m_messageLine;
         m_messageLine = new QGraphicsLineItem();

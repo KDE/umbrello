@@ -630,9 +630,8 @@ void AssociationLine::createCollaborationLine()
 {
     const QPen p = pen();
 
-    // recreate
-    delete m_collaborationLineItem;
-    delete m_collaborationLineHead;
+    //recreate
+    removeCollaborationLine();
 
     m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
     m_collaborationLineItem->setPen(p);
