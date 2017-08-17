@@ -2865,6 +2865,7 @@ void UMLApp::slotUpdateViews()
 void UMLApp::importFiles(QStringList &fileList, const QString &rootPath)
 {
     if (!fileList.isEmpty()) {
+        bool really_visible = !listView()->parentWidget()->visibleRegion().isEmpty();
         bool saveState = listView()->parentWidget()->isVisible();
         listView()->parentWidget()->setVisible(false);
         logWindow()->parentWidget()->setVisible(true);
@@ -2882,6 +2883,9 @@ void UMLApp::importFiles(QStringList &fileList, const QString &rootPath)
         m_doc->setModified(true);
         listView()->setUpdatesEnabled(true);
         logWindow()->setUpdatesEnabled(true);
+        listView()->parentWidget()->setVisible(saveState);
+        if (really_visible)
+            m_listDock->raise();
     }
 }
 
