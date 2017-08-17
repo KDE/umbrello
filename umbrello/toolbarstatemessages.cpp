@@ -225,6 +225,8 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         yclick = 0;
     }
     else {
+        if (m_messageLine)
+            delete m_messageLine;
         m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x();

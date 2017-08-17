@@ -60,6 +60,10 @@ AssociationLine::AssociationLine(AssociationWidget *association)
  */
 AssociationLine::~AssociationLine()
 {
+    delete m_startSymbol;
+    delete m_endSymbol;
+    delete m_subsetSymbol;
+    removeCollaborationLine();
 }
 
 /**

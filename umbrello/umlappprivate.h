@@ -101,6 +101,10 @@ public:
     ~UMLAppPrivate()
     {
         delete logWindow;
+        delete stereotypesWindow;
+        delete objectsWindow;
+        delete editorWindow;
+        delete welcomeWindow;
     }
 
 public slots:
