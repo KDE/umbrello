@@ -189,7 +189,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
     else if (!m_firstObject && msgType == Uml::SequenceMessage::Found && xclick == 0 && yclick == 0) {
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
-
+        cleanMessage();
         m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x();
