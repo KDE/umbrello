@@ -51,7 +51,9 @@ DiagramsWindow::DiagramsWindow(const QString &title, QWidget *parent)
 
 DiagramsWindow::~DiagramsWindow()
 {
+    QAbstractItemModel *proxy = m_diagramsTree->model();
     delete m_diagramsTree;
+    delete proxy;
 }
 
 void DiagramsWindow::modified()

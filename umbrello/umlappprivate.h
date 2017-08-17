@@ -100,10 +100,11 @@ public:
 
     ~UMLAppPrivate()
     {
-        delete logWindow;
-        delete stereotypesWindow;
-        delete objectsWindow;
+        delete diagramsWindow;
         delete editorWindow;
+        delete logWindow;
+        delete objectsWindow;
+        delete stereotypesWindow;
         delete welcomeWindow;
     }
 

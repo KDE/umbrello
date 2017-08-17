@@ -50,7 +50,9 @@ StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
 
 StereotypesWindow::~StereotypesWindow()
 {
+    QAbstractItemModel *proxy = m_stereotypesTree->model();
     delete m_stereotypesTree;
+    delete proxy;
 }
 
 void StereotypesWindow::modified()
