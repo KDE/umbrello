@@ -45,6 +45,7 @@ SeqLineWidget::SeqLineWidget(UMLScene *scene, ObjectWidget * pObject)
  */
 SeqLineWidget::~SeqLineWidget()
 {
+    cleanupDestructionBox();
 }
 
 /**

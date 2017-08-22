@@ -93,6 +93,7 @@ private:
     CodeImpThread* m_thread;
     QString m_rootPath; ///< root path of project
     UMLFolder *m_rootFolder;
+    UMLDoc *m_doc;
 
 private:
     CppTree2Uml(const CppTree2Uml& source);

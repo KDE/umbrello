@@ -1118,6 +1118,28 @@ QString toExtensionsDescription(Enum item)
     return toString(item) + QLatin1String(" ") + result;
 }
 
+bool isCaseSensitive(Enum item)
+{
+    return (item != Uml::ProgrammingLanguage::Pascal &&
+            item != Uml::ProgrammingLanguage::Ada &&
+            item != Uml::ProgrammingLanguage::SQL &&
+            item != Uml::ProgrammingLanguage::MySQL &&
+            item != Uml::ProgrammingLanguage::PostgreSQL);
+}
+
+QString scopeSeparator(Enum item)
+{
+    if (item == Uml::ProgrammingLanguage::Ada ||
+        item == Uml::ProgrammingLanguage::CSharp ||
+        item == Uml::ProgrammingLanguage::Pascal ||
+        item == Uml::ProgrammingLanguage::Java ||
+        item == Uml::ProgrammingLanguage::JavaScript ||
+        item == Uml::ProgrammingLanguage::Vala ||
+        item == Uml::ProgrammingLanguage::Python)  // CHECK: more?
+        return QLatin1String(".");
+    return QLatin1String("::");
+}
+
 }  // end namespace ProgrammingLanguage
 
 //-----------------------------------------------------------------------------

@@ -35,6 +35,7 @@ public:
     virtual ~ToolBarStateArrow();
 
     virtual void init();
+    void cleanup();
 
 protected:
 

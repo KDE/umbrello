@@ -220,6 +220,7 @@ AssociationWidget* AssociationWidget::create
  */
 AssociationWidget::~AssociationWidget()
 {
+    cleanup();
     delete m_associationLine;
 }
 

@@ -97,9 +97,9 @@ private:
     VisibilityEnumWidget *m_visibilityEnumWidget;
 
     void insertStereotypesSorted(const QString& type);
+    void setInstanceWidgetNameIfApplicable(const QString& name) const;
 
 public slots:
-
     void slotActorToggled(bool state);
 };
 

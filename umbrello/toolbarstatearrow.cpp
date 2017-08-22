@@ -32,6 +32,7 @@ ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene)
  */
 ToolBarStateArrow::~ToolBarStateArrow()
 {
+    cleanup();
 }
 
 /**
@@ -41,6 +42,14 @@ void ToolBarStateArrow::init()
 {
     ToolBarState::init();
 
+    cleanup();
+}
+
+/**
+ * Clean up anything before deletion.
+ */
+void ToolBarStateArrow::cleanup()
+{
     while (!m_selectionRect.isEmpty())
         delete m_selectionRect.takeFirst();
     m_selectionRect.clear();
@@ -124,11 +133,7 @@ void ToolBarStateArrow::mouseReleaseWidget()
  */
 void ToolBarStateArrow::mouseReleaseEmpty()
 {
-    if (m_selectionRect.count() == 4) {
-        while (!m_selectionRect.isEmpty())
-            delete m_selectionRect.takeFirst();
-        m_selectionRect.clear();
-    }
+    cleanup();
 }
 
 /**

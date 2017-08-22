@@ -163,15 +163,14 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             name.remove(QLatin1Char('&'));
     }
 #endif
-    if (name.contains(QLatin1String("::")))
-        components = name.split(QLatin1String("::"));
-    else if (name.contains(QLatin1Char('.')))
-        components = name.split(QLatin1Char('.'));
+    QString scopeSeparator = UMLApp::app()->activeLanguageScopeSeparator();
+    if (name.contains(scopeSeparator))
+        components = name.split(scopeSeparator);
     QString nameWithoutFirstPrefix;
     if (components.size() > 1) {
         name = components.front();
         components.pop_front();
-        nameWithoutFirstPrefix = components.join(QLatin1String("::"));
+        nameWithoutFirstPrefix = components.join(scopeSeparator);
     }
     if (currentObj) {
         UMLPackage *pkg = 0;

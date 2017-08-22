@@ -304,6 +304,8 @@ namespace Uml
         Enum fromInt(int item);
         QStringList toExtensions(Enum item);
         QString toExtensionsDescription(Enum item);
+        bool isCaseSensitive(Enum item);
+        QString scopeSeparator(Enum item);
     }
 
     /**

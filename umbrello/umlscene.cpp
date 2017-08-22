@@ -153,6 +153,9 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 //    // settings for background
 //    setBackgroundBrush(QColor(195, 195, 195));
     m_layoutGrid = new LayoutGrid(this);
+
+    // fix crash caused by Qt stale item issue see https://bugs.kde.org/show_bug.cgi?id=383592
+    setItemIndexMethod(NoIndex);
 }
 
 /**

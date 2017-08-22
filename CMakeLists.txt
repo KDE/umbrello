@@ -79,6 +79,9 @@ endif()
     set(BUILD_UNITTESTS 1)
     set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello5)
 
+    ki18n_install(po)
+    kdoctools_install(po)
+
 # use some compile flags
 add_definitions(
     -DQT_NO_SIGNAL_SLOTS_KEYWORDS

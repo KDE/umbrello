@@ -371,6 +371,7 @@ void ClassGeneralPage::apply()
         UMLObject* o = m_pInstanceWidget->umlObject();
         if (!o) {
             uError() << "UML object of instance widget is zero.";
+            setInstanceWidgetNameIfApplicable(name);
             return;
         }
 
@@ -397,3 +398,17 @@ void ClassGeneralPage::slotActorToggled(bool state)
     }
 }
 
+/**
+ * Sets the input name to the instance widget if the change is applicable.
+ * @param name The name of the widget
+ */
+void ClassGeneralPage::setInstanceWidgetNameIfApplicable(const QString& name) const
+{
+    if(!m_pInstanceWidget)
+        return;
+
+    if(m_pInstanceWidget->isCombinedFragmentWidget() || m_pInstanceWidget->isFloatingDashLineWidget())
+    {
+        m_pInstanceWidget->setName(name);
+    }
+}

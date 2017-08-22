@@ -136,8 +136,10 @@ UMLListView::UMLListView(QWidget *parent)
  */
 UMLListView::~UMLListView()
 {
+    clean(); // m_lv
     delete m_datatypeFolder;
     delete m_settingsFolder;
+    delete m_rv;
 }
 
 /**
