@@ -100,7 +100,12 @@ public:
 
     ~UMLAppPrivate()
     {
+        delete diagramsWindow;
+        delete editorWindow;
         delete logWindow;
+        delete objectsWindow;
+        delete stereotypesWindow;
+        delete welcomeWindow;
     }
 
 public slots:

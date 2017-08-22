@@ -50,7 +50,7 @@ ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
  */
 ToolBarStateAssociation::~ToolBarStateAssociation()
 {
-    delete m_associationLine;
+    cleanAssociation();
 }
 
 /**
@@ -186,6 +186,7 @@ void ToolBarStateAssociation::setFirstWidget()
     //TODO why is this needed?
     m_pUMLScene->setPos(pos);
 
+    cleanAssociation();
     m_firstWidget = widget;
 
     m_associationLine = new QGraphicsLineItem();

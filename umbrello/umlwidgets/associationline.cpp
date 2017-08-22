@@ -60,6 +60,10 @@ AssociationLine::AssociationLine(AssociationWidget *association)
  */
 AssociationLine::~AssociationLine()
 {
+    delete m_startSymbol;
+    delete m_endSymbol;
+    delete m_subsetSymbol;
+    removeCollaborationLine();
 }
 
 /**
@@ -626,9 +630,8 @@ void AssociationLine::createCollaborationLine()
 {
     const QPen p = pen();
 
-    // recreate
-    delete m_collaborationLineItem;
-    delete m_collaborationLineHead;
+    //recreate
+    removeCollaborationLine();
 
     m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
     m_collaborationLineItem->setPen(p);

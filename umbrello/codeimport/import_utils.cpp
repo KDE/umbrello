@@ -189,7 +189,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
                        << "): Association as parent package is not supported yet, using Logical View";
         parentPkg = logicalView;
-    } else if (name.startsWith(QLatin1String("::"))) {
+    } else if (name.startsWith(UMLApp::app()->activeLanguageScopeSeparator())) {
         name = name.mid(2);
         parentPkg = logicalView;
     }
@@ -219,15 +219,14 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                 parentPkg = logicalView;
             // Find, or create, the scopes.
             QStringList components;
-            if (typeName.contains(QLatin1String("::"))) {
-                components = typeName.split(QLatin1String("::"), QString::SkipEmptyParts);
+            QString scopeSeparator = UMLApp::app()->activeLanguageScopeSeparator();
+            if (typeName.contains(scopeSeparator)) {
+                components = typeName.split(scopeSeparator, QString::SkipEmptyParts);
             } else if (typeName.contains(QLatin1String("..."))) {
                 // Java variable length arguments
                 type = UMLObject::ot_Datatype;
                 parentPkg = umldoc->datatypeFolder();
                 isAdorned = false;
-            } else if (typeName.contains(QLatin1String("."))) {
-                components = typeName.split(QLatin1Char('.'));
             }
             if (components.count() > 1) {
                 typeName = components.back();
