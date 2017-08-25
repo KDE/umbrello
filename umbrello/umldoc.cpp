@@ -1367,7 +1367,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
  * @param roleAObj  Pointer to the role A UMLCanvasObject.
  * @param roleBObj  Pointer to the role B UMLCanvasObject.
  * @param swap      Optional pointer to boolean.
- *                  The bool is set to true if the assocation
+ *                  The bool is set to true if the association
  *                  matched with swapped roles, else it is set
  *                  to false.
  * @return  Pointer to the UMLAssociation found or NULL if not found.

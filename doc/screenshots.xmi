@@ -348,7 +348,7 @@
            <startpoint startx="-98,42903900146484" starty="632,4533081054688"/>
            <endpoint endx="-98,42903900146484" endy="673,2112426757812"/>
           </linepath>
-          <floatingtext linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-204,7544708251953" showstereotype="1" y="707,2478637695312" text="Process successfull finished" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="lTy9u4o5blsK" pretext="" role="703" width="171" isinstance="0" posttext="" usefillcolor="1" fillcolor="#ffff00" xmi.id="mQma5qEoFuH5" height="17"/>
+          <floatingtext linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-204,7544708251953" showstereotype="1" y="707,2478637695312" text="Process successful finished" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="lTy9u4o5blsK" pretext="" role="703" width="171" isinstance="0" posttext="" usefillcolor="1" fillcolor="#ffff00" xmi.id="mQma5qEoFuH5" height="17"/>
          </assocwidget>
          <assocwidget roleBdoc="" linecolor="#ff0000" indexa="1" usesdiagramfillcolor="0" widgetbid="5XNqc8bbuwF6" indexb="1" linewidth="0" seqnum="" textcolor="#000000" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" roleAdoc="" widgetaid="1tlpDViG034d" font="Sans Serif,9,-1,0,50,0,0,0,0,0" visibilityA="0" visibilityB="0" usefillcolor="1" fillcolor="#ffff00" changeabilityA="900" changeabilityB="900" documentation="" type="515">
           <linepath layout="Polyline">

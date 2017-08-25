@@ -435,7 +435,7 @@ UMLPackage* treeViewGetPackageFromCurrent()
 /**
  * Build the diagram name from the tree view.
 
- * The function returns a relative path constructed from the folder hierachy.
+ * The function returns a relative path constructed from the folder hierarchy.
  * @param id   the id of the diaram
  * @return     the constructed diagram name
  */

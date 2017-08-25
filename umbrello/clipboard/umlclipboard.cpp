@@ -492,7 +492,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
  * as a fallback-clip when clip 1, 2, 4 or 5 are not applicable. But that should
  * never happen.
  *
- * Todo: remove clip3 alltogether.
+ * Todo: remove clip3 altogether.
  *
  * @param data   mime type
  * @return       success flag

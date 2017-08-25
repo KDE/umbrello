@@ -1186,7 +1186,7 @@
         <UML:Generalization xmi.idref="lYX43ktrCwIU"/>
        </UML:GeneralizableElement.generalization>
        <UML:Classifier.feature>
-        <UML:Attribute visibility="protected" isSpecification="false" xmi.id="ATvyUV5FPOur" type="omyw4EVj2KYH" comment="List of all the associations in this object.&#xa;Inheriting classes add more types of objects that are possible in this list;&#xa;for example, UMLClassifier adds operations, attributes, and templates.&#xa;&#xa;@todo Only a pointer to the appropriate assocation end object&#xa;(UMLRole) should be saved here, not the entire UMLAssociation." name="m_List"/>
+        <UML:Attribute visibility="protected" isSpecification="false" xmi.id="ATvyUV5FPOur" type="omyw4EVj2KYH" comment="List of all the associations in this object.&#xa;Inheriting classes add more types of objects that are possible in this list;&#xa;for example, UMLClassifier adds operations, attributes, and templates.&#xa;&#xa;@todo Only a pointer to the appropriate association end object&#xa;(UMLRole) should be saved here, not the entire UMLAssociation." name="m_List"/>
         <UML:Operation stereotype="constructor" visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="XYFhSXBebD44" name="UMLCanvasObject">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="56pft2O4x26o" type="bAIcUIEX6vYI" value="" name="name"/>

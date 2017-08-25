@@ -515,7 +515,7 @@ bool LayoutGenerator::parseLine(const QString &line)
         return true;
     } else if (keyword == QLatin1String("edge")) {
         return true;
-    // transistion
+    // transition
     } else if (line.contains(QLatin1String("->"))) {
         QStringList k = keyword.split(QLatin1Char(' '));
         if (k.size() < 3)

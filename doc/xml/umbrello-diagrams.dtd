@@ -1,7 +1,7 @@
 
 <!--   umbrello specific diagram elements -->
 
-<!--     TODO: analyse element hierachy   -->
+<!--     TODO: analyse element hierarchy   -->
 
 <!ENTITY % WidgetBaseAtts '
           autoresize CDATA #IMPLIED
