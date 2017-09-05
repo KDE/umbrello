@@ -1618,8 +1618,10 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 
     // Automatically select all messages if two object widgets are selected
     foreach(MessageWidget *w, messageList()) {
-        if (w->objectWidget(Uml::RoleType::A)->isSelected() &&
-                w->objectWidget(Uml::RoleType::B)->isSelected()) {
+        if (w->objectWidget(Uml::RoleType::A) &&
+            w->objectWidget(Uml::RoleType::B) &&
+            w->objectWidget(Uml::RoleType::A)->isSelected() &&
+            w->objectWidget(Uml::RoleType::B)->isSelected()) {
             makeSelected(w);
         }
     }
