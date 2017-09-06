@@ -36,11 +36,14 @@
           <x>10</x>
           <y>30</y>
           <width>513</width>
-          <height>12</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string>Additional include search paths could be added by specifying environment variable UMBRELLO_INCPATH.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>
