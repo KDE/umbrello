@@ -59,6 +59,7 @@ Comment[sv]=Exportera layout av objektdiagram
 Comment[tr]=Düzeni Nesne Diyagramları için Dışa Aktar
 Comment[uk]=Компонування для експортування діаграм об’єктів
 Comment[x-test]=xxExport Layout for Object Diagramsxx
+Comment[zh_CN]=导出对象图布局
 
 [X-UMBRELLO-Dot-Nodes]
 type::instance=shape=box
