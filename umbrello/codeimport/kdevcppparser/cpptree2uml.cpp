@@ -345,6 +345,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     if (isConstExpression)
         m->setStereotype(QLatin1String("constexpr"));
 
+    if (d->override())
+        m->setOverride(true);
     // if a class has no return type, it could be a constructor or
     // a destructor
     if (d && returnType.isEmpty()) {
@@ -632,6 +634,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
 
     QString returnType = typeOfDeclaration(typeSpec, d);
     UMLOperation *m = Import_Utils::makeOperation(c, id);
+    if (d->override())
+        m->setOverride(true);
     if (isConstExpression)
         m->setStereotype(QLatin1String("constexpr"));
     // if a class has no return type, it could de a constructor or

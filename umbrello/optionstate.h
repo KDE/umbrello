@@ -251,7 +251,8 @@ class CodeImportState {
 public:
     CodeImportState()
       : createArtifacts(false),
-        resolveDependencies(false)
+        resolveDependencies(false),
+        supportCPP11(true)
     {
     }
 
@@ -263,6 +264,7 @@ public:
 
     bool createArtifacts;
     bool resolveDependencies;
+    bool supportCPP11;
 };
 
 class AutoLayoutState {

@@ -21,6 +21,7 @@
 #include "driver.h"
 #include "lexer.h"
 #include "errors.h"
+#include "optionstate.h"
 
 // qt
 #include <QString>
@@ -1294,6 +1295,16 @@ bool Parser::parseDeclarator(DeclaratorAST::Node& node)
                 ast->setConstant(constant);
             }
 
+            if (Settings::optionState().codeImportState.supportCPP11) {
+                int startOverride = m_lexer->index();
+                if (m_lexer->lookAhead(0) == Token_override) {
+                    nextToken();
+                    AST::Node override = CreateNode<AST>();
+                    UPDATE_POS(override, startOverride, m_lexer->index());
+                    ast->setOverride(override);
+                }
+            }
+
             GroupAST::Node except;
             if (parseExceptionSpecification(except)) {
                 ast->setExceptionSpecification(except);
@@ -1389,6 +1400,16 @@ bool Parser::parseAbstractDeclarator(DeclaratorAST::Node& node)
                 AST::Node constant = CreateNode<AST>();
                 UPDATE_POS(constant, startConstant, m_lexer->index());
                 ast->setConstant(constant);
+            }
+
+            if (Settings::optionState().codeImportState.supportCPP11) {
+                int startOverride = m_lexer->index();
+                if (m_lexer->lookAhead(0) == Token_override) {
+                    nextToken();
+                    AST::Node override = CreateNode<AST>();
+                    UPDATE_POS(override, startOverride, m_lexer->index());
+                    ast->setOverride(override);
+                }
             }
 
             GroupAST::Node except;

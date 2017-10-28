@@ -54,6 +54,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_visibility = s;
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
+    m_Override = false;
     m_Code.clear();
 }
 
@@ -70,6 +71,7 @@ UMLOperation::UMLOperation(UMLClassifier * parent)
 {
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
+    m_Override = false;
     m_Code.clear();
 }
 
@@ -427,6 +429,22 @@ bool UMLOperation::getConst() const
 }
 
 /**
+ * Sets whether this operation has override flag.
+ */
+void UMLOperation::setOverride(bool b)
+{
+    m_Override = b;
+}
+
+/**
+ * Returns whether this operation has override flag.
+ */
+bool UMLOperation::getOverride() const
+{
+    return m_Override;
+}
+
+/**
  * Display the properties configuration dialog for the template.
  *
  * @param parent   the parent for the dialog
@@ -462,6 +480,7 @@ void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement operationElement = UMLObject::save1(QLatin1String("UML:Operation"), qDoc);
     operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
     QDomElement featureElement = qDoc.createElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement(QLatin1String("UML:Parameter"));
@@ -515,6 +534,8 @@ bool UMLOperation::load1(QDomElement & element)
         // called again by the processing for BehavioralFeature.parameter (see below)
         m_bConst = (isQuery == QLatin1String("true"));
     }
+    QString isOverride = element.attribute(QLatin1String("isOverride"));
+    m_Override = (isOverride == QLatin1String("true"));
     QDomNode node = element.firstChild();
     if (node.isComment())
         node = node.nextSibling();

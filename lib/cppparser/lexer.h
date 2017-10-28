@@ -112,6 +112,7 @@ enum Type {
     Token_operator,
     Token_or,
     Token_or_eq,
+    Token_override,
     Token_private,
     Token_protected,
     Token_public,

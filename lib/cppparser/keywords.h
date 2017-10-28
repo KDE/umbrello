@@ -62,6 +62,7 @@ INSERT("not_eq", Token_not_eq);
 INSERT("operator", Token_operator);
 INSERT("or", Token_or);
 INSERT("or_eq", Token_or_eq);
+INSERT("override", Token_override);
 INSERT("private", Token_private);
 INSERT("protected", Token_protected);
 INSERT("public", Token_public);

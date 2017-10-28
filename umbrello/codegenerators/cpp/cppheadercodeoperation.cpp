@@ -140,6 +140,8 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     end = (inlinePolicy ? QLatin1String("}") : QString());
     if (pOp->getConst())
         prototype += QLatin1String(" const");
+    if (pOp->getOverride())
+        prototype += QLatin1String(" override");
     if (interface || pOp->isAbstract()) {
        // constructor can't be virtual or abstract
        if (!pOp->isLifeOperation()) {

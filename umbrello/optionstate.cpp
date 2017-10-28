@@ -229,12 +229,14 @@ namespace Settings {
         // code importer options
         createArtifacts = UmbrelloSettings::createArtifacts();
         resolveDependencies = UmbrelloSettings::resolveDependencies();
+        supportCPP11 = UmbrelloSettings::supportCPP11();
     }
 
     void CodeImportState::save()
     {
         UmbrelloSettings::setCreateArtifacts(createArtifacts);
         UmbrelloSettings::setResolveDependencies(resolveDependencies);
+        UmbrelloSettings::setSupportCPP11(supportCPP11);
     }
 
     /**
@@ -245,6 +247,7 @@ namespace Settings {
     {
         element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
         element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
+        element.setAttribute(QLatin1String("supportcpp11"), supportCPP11);
     }
 
     /**
@@ -259,6 +262,8 @@ namespace Settings {
         createArtifacts = (bool)temp.toInt();
         temp = element.attribute(QLatin1String("resolvedependencies"), QLatin1String("0"));
         resolveDependencies = (bool)temp.toInt();
+        temp = element.attribute(QLatin1String("supportcpp11"), QLatin1String("0"));
+        supportCPP11 = (bool)temp.toInt();
 
         return true;
     }

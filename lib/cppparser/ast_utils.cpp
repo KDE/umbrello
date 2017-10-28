@@ -123,6 +123,9 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
 
         if (declarator->constant() != 0)
             text += QLatin1String(" const");
+
+        if (declarator->override() != 0)
+            text += QLatin1String(" override");
     }
 
     return text.replace(QRegExp(QLatin1String(" :: ")), QLatin1String("::")).simplified();

@@ -322,6 +322,11 @@
          <whatsthis>Resolve dependencies when importing file</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="supportCPP11" type="Bool">
+         <label>Support C++11 standard</label>
+         <whatsthis>Support C++11 standard on code import</whatsthis>
+         <default>true</default>
+       </entry>
     </group>
    <group name="Code Generation">
        <entry name="autoGenEmptyConstructors" type="Bool">

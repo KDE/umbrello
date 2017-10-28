@@ -713,6 +713,12 @@ void DeclaratorAST::setConstant(AST::Node& constant)
     if (m_constant.get()) m_constant->setParent(this);
 }
 
+void DeclaratorAST::setOverride(AST::Node& override)
+{
+    m_override = std::move(override);
+    if (m_override.get()) m_override->setParent(this);
+}
+
 void DeclaratorAST::setExceptionSpecification(GroupAST::Node& exceptionSpecification)
 {
     m_exceptionSpecification = std::move(exceptionSpecification);

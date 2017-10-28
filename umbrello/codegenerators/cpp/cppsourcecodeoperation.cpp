@@ -97,6 +97,8 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     startText += methodName + QLatin1String(" (") + paramStr + QLatin1Char(')');
     if (o->getConst())
         startText += QLatin1String(" const");
+    if (o->getOverride())
+        startText += QLatin1String(" override");
     startText += QLatin1String(" {");
 
     setStartMethodText(startText);

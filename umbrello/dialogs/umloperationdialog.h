@@ -73,6 +73,7 @@ protected:
     QCheckBox*            m_pAbstractCB;
     QCheckBox*            m_pStaticCB;
     QCheckBox*            m_pQueryCB;
+    QCheckBox*            m_pOverrideCB;
     QPushButton*          m_pDeleteButton;
     QPushButton*          m_pPropertiesButton;
     QToolButton*          m_pUpButton;

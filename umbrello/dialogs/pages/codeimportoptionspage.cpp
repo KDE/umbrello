@@ -36,6 +36,7 @@ CodeImportOptionsPage::CodeImportOptionsPage(QWidget *parent)
     setupUi(this);
     createArtifactCheckBox->setChecked(Settings::optionState().codeImportState.createArtifacts);
     resolveDependenciesCheckBox->setChecked(Settings::optionState().codeImportState.resolveDependencies);
+    supportCPP11CheckBox->setChecked(Settings::optionState().codeImportState.supportCPP11);
 }
 
 /**
@@ -50,8 +51,10 @@ CodeImportOptionsPage::~CodeImportOptionsPage()
  */
 void CodeImportOptionsPage::setDefaults()
 {
-    createArtifactCheckBox->setChecked(true);
-    resolveDependenciesCheckBox->setChecked(true);
+    Settings::CodeImportState dummy;
+    createArtifactCheckBox->setChecked(dummy.createArtifacts);
+    resolveDependenciesCheckBox->setChecked(dummy.resolveDependencies);
+    supportCPP11CheckBox->setChecked(dummy.supportCPP11);
 }
 
 /**
@@ -62,5 +65,6 @@ void CodeImportOptionsPage::apply()
 {
     Settings::optionState().codeImportState.createArtifacts = createArtifactCheckBox->isChecked();
     Settings::optionState().codeImportState.resolveDependencies = resolveDependenciesCheckBox->isChecked();
+    Settings::optionState().codeImportState.supportCPP11 = supportCPP11CheckBox->isChecked();
     emit applyClicked();
 }

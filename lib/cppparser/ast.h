@@ -1037,6 +1037,13 @@ public:
     }
     void setConstant(AST::Node& constant);
 
+    AST* override()
+    {
+        return m_override.get();
+    }
+
+    void setOverride(AST::Node& override);
+
     GroupAST* exceptionSpecification()
     {
         return m_exceptionSpecification.get();
@@ -1051,6 +1058,7 @@ private:
     QList<AST*> m_arrayDimensionList;
     AUTO_PTR<class ParameterDeclarationClauseAST> m_parameterDeclarationClause;
     AST::Node m_constant;
+    AST::Node m_override;
     GroupAST::Node m_exceptionSpecification;
 
 private:

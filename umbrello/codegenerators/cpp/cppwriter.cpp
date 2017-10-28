@@ -1256,6 +1256,9 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (op->getConst())
             str += QLatin1String(" const");
 
+        if (op->getOverride())
+            str += QLatin1String(" override");
+
         // method body : only gets IF it is not in a header
         if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
             str += QLatin1Char(';'); // terminate now

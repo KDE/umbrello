@@ -74,6 +74,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="supportCPP11CheckBox">
+            <property name="text">
+             <string>Enable C++11 standard (experimental)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
