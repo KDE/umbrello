@@ -9,12 +9,91 @@
  ***************************************************************************/
 
 #include "optionstate.h"
+#include "umbrellosettings.h"
 
 #if QT_VERSION < 0x050000
 #include <kglobal.h>
 #endif
 
 namespace Settings {
+
+    void GeneralState::load()
+    {
+        undo = UmbrelloSettings::undo();
+        tabdiagrams = UmbrelloSettings::tabdiagrams();
+    #ifdef ENABLE_NEW_CODE_GENERATORS
+        newcodegen = UmbrelloSettings::newcodegen();
+    #endif
+        angularlines = UmbrelloSettings::angularlines();
+        footerPrinting =  UmbrelloSettings::footerPrinting();
+        uml2 = UmbrelloSettings::uml2();
+        autosave =  UmbrelloSettings::autosave();
+        time =  UmbrelloSettings::time(); //old autosavetime value kept for compatibility
+        autosavetime =  UmbrelloSettings::autosavetime();
+        //if we don't have a "new" autosavetime value, convert the old one
+        if (autosavetime == 0) {
+            switch (time) {
+            case 0: autosavetime =  5; break;
+            case 1: autosavetime = 10; break;
+            case 2: autosavetime = 15; break;
+            case 3: autosavetime = 20; break;
+            case 4: autosavetime = 25; break;
+            default: autosavetime = 5; break;
+            }
+        }
+
+        autosavesuffix =  UmbrelloSettings::autosavesuffix();
+        loadlast =  UmbrelloSettings::loadlast();
+        diagram  = UmbrelloSettings::diagram();
+        defaultLanguage =  UmbrelloSettings::defaultLanguage();
+    }
+
+    void GeneralState::save()
+    {
+        UmbrelloSettings::setUndo(undo);
+        UmbrelloSettings::setTabdiagrams(tabdiagrams);
+        UmbrelloSettings::setNewcodegen(newcodegen);
+        UmbrelloSettings::setAngularlines(angularlines);
+        UmbrelloSettings::setFooterPrinting(footerPrinting);
+        UmbrelloSettings::setAutosave(autosave);
+        UmbrelloSettings::setTime(time);
+        UmbrelloSettings::setAutosavetime(autosavetime);
+        UmbrelloSettings::setAutosavesuffix(autosavesuffix);
+        UmbrelloSettings::setLoadlast(loadlast);
+        UmbrelloSettings::setUml2(uml2);
+        UmbrelloSettings::setDiagram(diagram);
+        UmbrelloSettings::setDefaultLanguage(defaultLanguage);
+    }
+
+    void ClassState::load()
+    {
+        showVisibility =  UmbrelloSettings::showVisibility();
+        showAtts =  UmbrelloSettings::showAtts();
+        showOps =  UmbrelloSettings::showOps();
+        showStereoType =  UmbrelloSettings::showStereoType();
+        showAttSig =  UmbrelloSettings::showAttSig();
+        showOpSig =  UmbrelloSettings::showOpSig();
+        showPackage =  UmbrelloSettings::showPackage();
+        showAttribAssocs =  UmbrelloSettings::showAttribAssocs();
+        showPublicOnly =  UmbrelloSettings::showPublicOnly();
+        defaultAttributeScope = UmbrelloSettings::defaultAttributeScope();
+        defaultOperationScope = UmbrelloSettings::defaultOperationScope();
+    }
+
+    void ClassState::save()
+    {
+        UmbrelloSettings::setShowVisibility(showVisibility);
+        UmbrelloSettings::setShowAtts(showAtts);
+        UmbrelloSettings::setShowOps(showOps);
+        UmbrelloSettings::setShowStereoType(showStereoType);
+        UmbrelloSettings::setShowAttSig(showAttSig);
+        UmbrelloSettings::setShowOpSig(showOpSig);
+        UmbrelloSettings::setShowPackage(showPackage);
+        UmbrelloSettings::setShowAttribAssocs(showAttribAssocs);
+        UmbrelloSettings::setShowPublicOnly(showPublicOnly);
+        UmbrelloSettings::setDefaultAttributeScope(defaultAttributeScope);
+        UmbrelloSettings::setDefaultOperationScope(defaultOperationScope);
+    }
 
     /**
      * Save instance into a QDomElement.
@@ -69,6 +148,30 @@ namespace Settings {
         return true;
     }
 
+    void UIState::load()
+    {
+        useFillColor =  UmbrelloSettings::useFillColor();
+        fillColor =  UmbrelloSettings::fillColor();
+        lineColor =  UmbrelloSettings::lineColor();
+        lineWidth =  UmbrelloSettings::lineWidth();
+        textColor = UmbrelloSettings::textColor();
+        font =  UmbrelloSettings::uiFont();
+        backgroundColor = UmbrelloSettings::backgroundColor();
+        gridDotColor = UmbrelloSettings::gridDotColor();
+    }
+
+    void UIState::save()
+    {
+        UmbrelloSettings::setUseFillColor(useFillColor);
+        UmbrelloSettings::setFillColor(fillColor);
+        UmbrelloSettings::setLineColor(lineColor);
+        UmbrelloSettings::setLineWidth(lineWidth);
+        UmbrelloSettings::setTextColor(textColor);
+        UmbrelloSettings::setUiFont(font);
+        UmbrelloSettings::setBackgroundColor(backgroundColor);
+        UmbrelloSettings::setGridDotColor(gridDotColor);
+    }
+
     /**
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
@@ -121,6 +224,18 @@ namespace Settings {
 
         return true;
     }
+    void CodeImportState::load()
+    {
+        // code importer options
+        createArtifacts = UmbrelloSettings::createArtifacts();
+        resolveDependencies = UmbrelloSettings::resolveDependencies();
+    }
+
+    void CodeImportState::save()
+    {
+        UmbrelloSettings::setCreateArtifacts(createArtifacts);
+        UmbrelloSettings::setResolveDependencies(resolveDependencies);
+    }
 
     /**
      * Save instance into a QDomElement.
@@ -148,6 +263,91 @@ namespace Settings {
         return true;
     }
 
+    void CodeGenerationState::load()
+    {
+        // CPP code generation options
+        cppCodeGenerationState.autoGenAccessors = UmbrelloSettings::autoGenAccessors();
+
+        cppCodeGenerationState.inlineAccessors = UmbrelloSettings::inlineAccessors();
+        cppCodeGenerationState.publicAccessors = UmbrelloSettings::publicAccessors();
+        cppCodeGenerationState.inlineOps = UmbrelloSettings::inlineOps();
+        cppCodeGenerationState.virtualDestructors = UmbrelloSettings::virtualDestructors();
+        cppCodeGenerationState.packageIsNamespace = UmbrelloSettings::packageIsNamespace();
+
+        cppCodeGenerationState.stringClassName = UmbrelloSettings::stringClassName();
+        cppCodeGenerationState.stringClassNameInclude = UmbrelloSettings::stringClassNameInclude();
+        cppCodeGenerationState.stringIncludeIsGlobal = UmbrelloSettings::stringIncludeIsGlobal();
+
+        cppCodeGenerationState.vectorClassName = UmbrelloSettings::vectorClassName();
+        cppCodeGenerationState.vectorClassNameInclude = UmbrelloSettings::vectorClassNameInclude();
+        cppCodeGenerationState.vectorIncludeIsGlobal = UmbrelloSettings::vectorIncludeIsGlobal();
+        cppCodeGenerationState.docToolTag = UmbrelloSettings::docToolTag();
+
+        // Java code generation options
+        javaCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsJava();
+        javaCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsJava();
+
+        // D code generation options
+        dCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsD();
+        dCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsD();
+
+        // Ruby code generation options
+        rubyCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsRuby();
+        rubyCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsRuby();
+    }
+
+    void CodeGenerationState::save()
+    {
+        // write config for CPP code generation options
+        UmbrelloSettings::setAutoGenAccessors(cppCodeGenerationState.autoGenAccessors);
+
+        UmbrelloSettings::setInlineAccessors(cppCodeGenerationState.inlineAccessors);
+        UmbrelloSettings::setPublicAccessors(cppCodeGenerationState.publicAccessors);
+        UmbrelloSettings::setInlineOps(cppCodeGenerationState.inlineOps);
+        UmbrelloSettings::setVirtualDestructors(cppCodeGenerationState.virtualDestructors);
+        UmbrelloSettings::setPackageIsNamespace(cppCodeGenerationState.packageIsNamespace);
+
+        UmbrelloSettings::setStringClassName(cppCodeGenerationState.stringClassName);
+        UmbrelloSettings::setStringClassNameInclude(cppCodeGenerationState.stringClassNameInclude);
+        UmbrelloSettings::setStringIncludeIsGlobal(cppCodeGenerationState.stringIncludeIsGlobal);
+
+        UmbrelloSettings::setVectorClassName(cppCodeGenerationState.vectorClassName);
+        UmbrelloSettings::setVectorClassNameInclude(cppCodeGenerationState.vectorClassNameInclude);
+        UmbrelloSettings::setVectorIncludeIsGlobal(cppCodeGenerationState.vectorIncludeIsGlobal);
+        UmbrelloSettings::setDocToolTag(cppCodeGenerationState.docToolTag);
+
+        // write config for Java code generation options
+        UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(javaCodeGenerationState.autoGenerateAttributeAccessors);
+        UmbrelloSettings::setAutoGenerateAssocAccessorsJava(javaCodeGenerationState.autoGenerateAssocAccessors);
+
+    //     CodeGenerator *codegen = getGenerator();
+    //     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
+    //     if (javacodegen)
+    //         UmbrelloSettings::setBuildANTDocumentJava(javacodegen->getCreateANTBuildFile());
+
+        // write config for D code generation options
+        UmbrelloSettings::setAutoGenerateAttributeAccessorsD(dCodeGenerationState.autoGenerateAttributeAccessors);
+        UmbrelloSettings::setAutoGenerateAssocAccessorsD(dCodeGenerationState.autoGenerateAssocAccessors);
+
+        // write config for Ruby code generation options
+        UmbrelloSettings::setAutoGenerateAttributeAccessorsRuby(rubyCodeGenerationState.autoGenerateAttributeAccessors);
+        UmbrelloSettings::setAutoGenerateAssocAccessorsRuby(rubyCodeGenerationState.autoGenerateAssocAccessors);
+    }
+
+    void AutoLayoutState::load()
+    {
+        autoDotPath =  UmbrelloSettings::autoDotPath();
+        dotPath =  UmbrelloSettings::dotPath();
+        showExportLayout =  UmbrelloSettings::showExportLayout();
+    }
+
+    void AutoLayoutState::save()
+    {
+        UmbrelloSettings::setAutoDotPath(autoDotPath);
+        UmbrelloSettings::setDotPath(dotPath);
+        UmbrelloSettings::setShowExportLayout(showExportLayout);
+    }
+
     OptionState& optionState()
     {
         return OptionState::instance();
@@ -160,6 +360,28 @@ namespace Settings {
 
     OptionState::OptionState()
     {
+    }
+
+    void OptionState::load()
+    {
+        generalState.load();
+        uiState.load();
+        classState.load();
+        codeViewerState.load();
+        codeGenerationState.load();
+        codeImportState.load();
+        autoLayoutState.load();
+    }
+
+    void OptionState::save()
+    {
+        generalState.save();
+        uiState.save();
+        classState.save();
+        codeViewerState.save();
+        codeGenerationState.save();
+        codeImportState.save();
+        autoLayoutState.save();
     }
 
     /**
@@ -200,5 +422,4 @@ namespace Settings {
         static QScopedPointer<OptionState> optionState(new OptionState);
         return *optionState;
     }
-
 }  // namespace Settings

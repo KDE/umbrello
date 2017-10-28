@@ -460,6 +460,7 @@ set(umbrellobase_SRCS
     assocrules.cpp
     basictypes.cpp
     birdview.cpp
+    codeviewerstate.cpp
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
     diagram_utils.cpp

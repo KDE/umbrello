@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2014                                               *
+ *   copyright (C) 2004-2017                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -17,7 +17,11 @@
 namespace Settings {
 
 /// configurable params for the code viewer tool
-struct CodeViewerState {
+class CodeViewerState {
+public:
+    void load();
+    void save();
+
     int height;
     int width;
     bool showHiddenBlocks;

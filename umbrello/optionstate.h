@@ -49,6 +49,9 @@ public:
     {
     }
 
+    void load();
+    void save();
+
     bool undo;
     bool tabdiagrams;
     bool newcodegen;
@@ -72,6 +75,9 @@ public:
        lineWidth(0)
     {
     }
+
+    void load();
+    void save();
 
     void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
@@ -103,6 +109,9 @@ public:
         defaultOperationScope(Uml::Visibility::Public)
     {
     }
+
+    void load();
+    void save();
 
     void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
@@ -144,6 +153,9 @@ public:
         overwritePolicy(CodeGenerationPolicy::Ok)
     {
     }
+
+    void load();
+    void save();
 
     bool autoGenEmptyConstructors;
     CodeGenerationPolicy::CommentStyle commentStyle;
@@ -243,6 +255,9 @@ public:
     {
     }
 
+    void load();
+    void save();
+
     void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
@@ -258,6 +273,9 @@ public:
     {
     }
 
+    void load();
+    void save();
+
     void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
 
@@ -269,6 +287,9 @@ public:
 class OptionState {
 public:
     OptionState();
+
+    void load();
+    void save();
 
     void saveToXMI1(QDomElement& element);
     bool loadFromXMI1(QDomElement& element);
