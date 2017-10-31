@@ -249,12 +249,12 @@ int main(int argc, char *argv[])
                 uml->setActiveLanguage(lang);
             uml->importFiles(importList);
         }
-        else if (args->isSet("import-directory") && args->count() > 0) {
+        else if (args->isSet("import-directory")) {
             uml->newDocument();
             if (lang != Uml::ProgrammingLanguage::Reserved)
                 uml->setActiveLanguage(lang);
             QStringList filter = Uml::ProgrammingLanguage::toExtensions(uml->activeLanguage());
-            QString dir = args->url(0).toLocalFile();
+            QString dir = args->getOption("import-directory");
             QStringList listFile;
             getFiles(listFile, dir, filter);
             uml->importFiles(listFile, dir);
