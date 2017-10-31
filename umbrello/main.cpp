@@ -178,6 +178,7 @@ int main(int argc, char *argv[])
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
     KApplication app;
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 #endif
     Q_INIT_RESOURCE(icons);
 
@@ -188,8 +189,6 @@ int main(int argc, char *argv[])
 #if QT_VERSION >= 0x050000
         if (args->isSet(EXPORT_FORMATS)) {
 #else
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
         if (args->isSet("export-formats")) {
 #endif
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
