@@ -43,6 +43,8 @@
 #define StringLiteral(a) QByteArray(a)
 #endif
 
+void getFiles(QStringList& files, const QString& path, QStringList& filters);
+
 /**
  * Description for this application
  */
@@ -176,6 +178,12 @@ int main(int argc, char *argv[])
     options.add("import-files", ki18n("import files"));
     options.add("languages", ki18n("list supported languages"));
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
+    options.add("import-directory <dir>", ki18n("import files from directory <dir>"));
+    for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+        Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
+        QByteArray optionString = "set-language-" + Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
+        options.add(optionString, ki18n("set active language"));
+    }
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
     KApplication app;
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -213,6 +221,16 @@ int main(int argc, char *argv[])
             uml->show();
         }
 
+        Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
+        for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+            Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
+            QByteArray langString = "set-language-";
+            langString += Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
+            if (args->isSet(langString)) {
+                lang = Uml::ProgrammingLanguage::fromInt(i);
+            }
+        }
+
 #if QT_VERSION >= 0x050000
         if (args->isSet(IMPORT_FILES)) {
             QStringList importList = args->values(IMPORT_FILES);
@@ -227,12 +245,26 @@ int main(int argc, char *argv[])
             for (int i = 0; i < args->count(); i++)
                 importList.append(args->url(i).toLocalFile());
             uml->newDocument();
+            if (lang != Uml::ProgrammingLanguage::Reserved)
+                uml->setActiveLanguage(lang);
             uml->importFiles(importList);
         }
+        else if (args->isSet("import-directory") && args->count() > 0) {
+            uml->newDocument();
+            if (lang != Uml::ProgrammingLanguage::Reserved)
+                uml->setActiveLanguage(lang);
+            QStringList filter = Uml::ProgrammingLanguage::toExtensions(uml->activeLanguage());
+            QString dir = args->url(0).toLocalFile();
+            QStringList listFile;
+            getFiles(listFile, dir, filter);
+            uml->importFiles(listFile, dir);
+        }
 #endif
-        else
+        else {
             initDocument(args);
-
+            if (lang != Uml::ProgrammingLanguage::Reserved)
+                uml->setActiveLanguage(lang);
+        }
 
         // export option
 #if QT_VERSION >= 0x050000
