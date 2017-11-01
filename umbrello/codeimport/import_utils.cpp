@@ -166,13 +166,22 @@ UMLObject* findUMLObject(QString name, UMLObject::ObjectType type)
 
 /**
  * Find or create a document object.
+ * @param type object type
+ * @param inName name of uml object
+ * @param parentPkg parent package
+ * @param comment comment for uml object
+ * @param stereotype stereotype for uml object
+ * @param searchInParentPackageOnly flags to search only in parent package
+ * @param remapParent flag to control remapping of parents if an uml object has been found
+ * @return new object or zero
  */
 UMLObject *createUMLObject(UMLObject::ObjectType type,
                            const QString& inName,
                            UMLPackage *parentPkg,
                            const QString& comment,
                            const QString& stereotype,
-                           bool searchInParentPackageOnly)
+                           bool searchInParentPackageOnly,
+                           bool remapParent)
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -290,7 +299,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         } else {
             o = origType;
         }
-    } else if (parentPkg && !bPutAtGlobalScope) {
+    } else if (parentPkg && !bPutAtGlobalScope && remapParent) {
         UMLPackage *existingPkg = o->umlPackage();
         if (existingPkg != parentPkg && existingPkg != umldoc->datatypeFolder()) {
             if (existingPkg)

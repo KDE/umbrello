@@ -50,7 +50,8 @@ namespace Import_Utils {
                                UMLPackage *parentPkg = 0,
                                const QString& comment = QString(),
                                const QString& stereotype = QString(),
-                               bool searchInParentPackageOnly = false);
+                               bool searchInParentPackageOnly = false,
+                               bool remapParent = true);
 
     void putAtGlobalScope(bool yesno);
 
