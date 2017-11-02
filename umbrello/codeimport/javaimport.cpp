@@ -289,6 +289,11 @@ bool JavaImport::parseFile(const QString& filename)
     s_parseDepth++;
     // in the case of self referencing types, we can avoid parsing the
     // file twice by adding it to the list
+    if (s_filesAlreadyParsed.contains(filename)) {
+        s_parseDepth--;
+        return true;
+    }
+
     s_filesAlreadyParsed.append(filename);
     NativeImportBase::parseFile(filename);
     s_parseDepth--;
