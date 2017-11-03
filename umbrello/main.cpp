@@ -39,8 +39,10 @@
 #define StringLiteral(a) QStringLiteral(a)
 #define ki18n(a) i18n(a)
 #define KLocalizedString(a) QString(a)
+#define Latin1String(a) QString::fromLatin1(a)
 #else
 #define StringLiteral(a) QByteArray(a)
+#define Latin1String(a) (a)
 #endif
 
 void getFiles(QStringList& files, const QString& path, QStringList& filters);
@@ -226,7 +228,7 @@ int main(int argc, char *argv[])
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
             QByteArray langString = "set-language-";
             langString += Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
-            if (args->isSet(QString::fromLatin1(langString))) {
+            if (args->isSet(Latin1String(langString))) {
                 lang = Uml::ProgrammingLanguage::fromInt(i);
             }
         }
