@@ -50,7 +50,13 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters);
  * @param args The command line arguments given.
  * @return True if the GUI should be shown, false otherwise.
  */
-bool showGUI(KCmdLineArgs *args);
+bool showGUI(KCmdLineArgs *args)
+{
+    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
+        return false;
+    }
+    return true;
+}
 
 /**
  * Initializes the document used by the application.
@@ -60,7 +66,20 @@ bool showGUI(KCmdLineArgs *args);
  *
  * @param args The command line arguments given.
  */
-void initDocument(KCmdLineArgs *args);
+void initDocument(KCmdLineArgs *args)
+{
+    if (args->count()) {
+        UMLApp::app()->openDocumentFile(args->url(0));
+    } else {
+        bool last = UmbrelloSettings::loadlast();
+        QString file = UmbrelloSettings::lastFile();
+        if(last && !file.isEmpty()) {
+            UMLApp::app()->openDocumentFile(KUrl(file));
+        } else {
+            UMLApp::app()->newDocument();
+        }
+    }
+}
 
 /**
  * Export all the views in the document using the command line args set by the user.
@@ -69,7 +88,32 @@ void initDocument(KCmdLineArgs *args);
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
+
+void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
+{
+    QString extension(exportOpt.last());
+    uDebug() << "extension: " << extension;
+
+    // export to the specified directory, or the directory where the file is saved
+    // if no directory was specified
+    QUrl directory;
+    QStringList directoryOpt = args->getOptionList("directory");
+    if (directoryOpt.size() > 0) {
+        directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
+    } else {
+        QFileInfo fi(UMLApp::app()->document()->url().toLocalFile());
+        directory = QUrl::fromLocalFile(fi.absolutePath());
+    }
+
+    bool useFolders = args->isSet("use-folders");
+
+    uDebug() << "directory: " << directory;
+
+    // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
+    // the method it provides for exporting the views. Once all the views were exported, a quit event
+    // is sent and the app finishes without user interaction
+    kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
+}
 
 int main(int argc, char *argv[])
 {
@@ -197,53 +241,4 @@ int main(int argc, char *argv[])
     int result = app.exec();
     delete uml;
     return result;
-}
-
-bool showGUI(KCmdLineArgs *args)
-{
-    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
-        return false;
-    }
-    return true;
-}
-
-void initDocument(KCmdLineArgs *args)
-{
-    if (args->count()) {
-        UMLApp::app()->openDocumentFile(args->url(0));
-    } else {
-        bool last = UmbrelloSettings::loadlast();
-        QString file = UmbrelloSettings::lastFile();
-        if(last && !file.isEmpty()) {
-            UMLApp::app()->openDocumentFile(KUrl(file));
-        } else {
-            UMLApp::app()->newDocument();
-        }
-    }
-}
-
-void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
-{
-    QString extension(exportOpt.last());
-    uDebug() << "extension: " << extension;
-
-    // export to the specified directory, or the directory where the file is saved
-    // if no directory was specified
-    QUrl directory;
-    QStringList directoryOpt = args->getOptionList("directory");
-    if (directoryOpt.size() > 0) {
-        directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
-    } else {
-        QFileInfo fi(UMLApp::app()->document()->url().toLocalFile());
-        directory = QUrl::fromLocalFile(fi.absolutePath());
-    }
-
-    bool useFolders = args->isSet("use-folders");
-
-    uDebug() << "directory: " << directory;
-
-    // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
-    // the method it provides for exporting the views. Once all the views were exported, a quit event
-    // is sent and the app finishes without user interaction
-    kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
