@@ -341,6 +341,16 @@ void UMLListViewItem::updateObject()
     if (m_object == 0)
         return;
 
+    // check if parent has been changed, remap parent if so
+    UMLListViewItem *oldParent = dynamic_cast<UMLListViewItem*>(parent());
+    if (oldParent && oldParent->m_object != m_object->umlPackage()) {
+        UMLListViewItem *newParent = UMLApp::app()->listView()->findUMLObject(m_object->umlPackage());
+        if (newParent) {
+            oldParent->removeChild(this);
+            newParent->addChild(this);
+        }
+    }
+
     Uml::Visibility::Enum scope = m_object->visibility();
     UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();

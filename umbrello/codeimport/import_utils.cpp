@@ -286,14 +286,17 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
         UMLPackage *existingPkg = o->umlPackage();
-        if (existingPkg != umldoc->datatypeFolder()) {
+        if (existingPkg != parentPkg && existingPkg != umldoc->datatypeFolder()) {
+            bool l = umldoc->loading();
+            umldoc->setLoading(false);
             if (existingPkg)
                 existingPkg->removeObject(o);
             else
                 uError() << "createUMLObject(" << name << "): "
                     << "o->getUMLPackage() was NULL";
-            o->setUMLPackage(parentPkg);
             parentPkg->addObject(o);
+            o->setUMLPackage(parentPkg);
+            umldoc->setLoading(l);
         }
     }
     QString strippedComment = formatComment(comment);
