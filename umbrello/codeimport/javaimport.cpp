@@ -251,9 +251,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                                                                  name, parent,
-                                                                  QString(), QString(),
-                                                                  true, true);
+                                                                  name, parent);
                     current = ns->asUMLPackage();
                     parent = current;
                 } // for
@@ -265,9 +263,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 }
                 // now that we have the right package, the class should be findable
                 return Import_Utils::createUMLObject(UMLObject::ot_Class,
-                                                              baseClassName, current,
-                                                              QString(), QString(),
-                                                              true, true);
+                                                              baseClassName, current);
             } // if file exists
         } // if import matches
     } //foreach import
