@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
             QByteArray langString = "set-language-";
             langString += Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
-            if (args->isSet(Latin1String(langString))) {
+            if (args->isSet(langString)) {
                 lang = Uml::ProgrammingLanguage::fromInt(i);
             }
         }
