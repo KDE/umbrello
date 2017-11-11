@@ -258,8 +258,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 if (isArray) {
                     // we have imported the type. For arrays we want to return
                     // the array type
-                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current,
-                                                         QString(), QString(), true, true);
+                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current);
                 }
                 // now that we have the right package, the class should be findable
                 return Import_Utils::createUMLObject(UMLObject::ot_Class,
