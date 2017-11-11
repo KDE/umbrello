@@ -241,6 +241,33 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 }
                 // now that we have the right package, the class should be findable
                 return findObject(baseClassName, current);
+            // imported class is specified but seems to be external
+            } else if (import.endsWith(baseClassName)) {
+                // we need to set the package for the class that will be resolved
+                // start at the root package
+                UMLPackage *parent = 0;
+                UMLPackage *current = 0;
+
+                for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
+                    QString name = (*it);
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
+                                                                  name, parent,
+                                                                  QString(), QString(),
+                                                                  true, true);
+                    current = ns->asUMLPackage();
+                    parent = current;
+                } // for
+                if (isArray) {
+                    // we have imported the type. For arrays we want to return
+                    // the array type
+                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current,
+                                                         QString(), QString(), true, true);
+                }
+                // now that we have the right package, the class should be findable
+                return Import_Utils::createUMLObject(UMLObject::ot_Class,
+                                                              baseClassName, current,
+                                                              QString(), QString(),
+                                                              true, true);
             } // if file exists
         } // if import matches
     } //foreach import
