@@ -287,8 +287,6 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     } else if (parentPkg && !bPutAtGlobalScope) {
         UMLPackage *existingPkg = o->umlPackage();
         if (existingPkg != parentPkg && existingPkg != umldoc->datatypeFolder()) {
-            bool l = umldoc->loading();
-            umldoc->setLoading(false);
             if (existingPkg)
                 existingPkg->removeObject(o);
             else
@@ -296,7 +294,12 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     << "o->getUMLPackage() was NULL";
             parentPkg->addObject(o);
             o->setUMLPackage(parentPkg);
-            umldoc->setLoading(l);
+            // setUMLPackage() triggers tree view item update if not loading by default
+            if (umldoc->loading()) {
+                UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
+                if (item)
+                    item->updateObject();
+            }
         }
     }
     QString strippedComment = formatComment(comment);
