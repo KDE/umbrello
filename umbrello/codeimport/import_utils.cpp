@@ -241,9 +241,12 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     }
                     o = Object_Factory::createUMLObject(UMLObject::ot_Class, scopeName, parentPkg);
                     o->setStereotypeCmd(QLatin1String("class-or-package"));
-                    UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
-                    if (item)
-                        item->updateObject();
+                    // setStereotypeCmd() triggers tree view item update if not loading by default
+                    if (umldoc->loading()) {
+                        UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
+                        if (item)
+                            item->updateObject();
+                    }
                     parentPkg = o->asUMLPackage();
                     Model_Utils::treeViewSetCurrentItem(o);
                 }
