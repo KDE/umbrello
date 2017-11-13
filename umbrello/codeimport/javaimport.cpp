@@ -318,7 +318,7 @@ bool JavaImport::parseStmt()
             QString name = (*it);
             log(keyword + QLatin1Char(' ') + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                            name, currentScope(), m_comment);
+                            name, currentScope(), m_comment, QString(), true);
             pushScope(ns->asUMLPackage());
         }
         if (advance() != QLatin1String(";")) {
