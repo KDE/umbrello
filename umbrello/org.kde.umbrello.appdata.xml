@@ -22,6 +22,7 @@
   <name xml:lang="pl">Umbrello</name>
   <name xml:lang="pt">Umbrello</name>
   <name xml:lang="pt-BR">Umbrello</name>
+  <name xml:lang="ru">Umbrello</name>
   <name xml:lang="sk">Umbrello</name>
   <name xml:lang="sl">Umbrello</name>
   <name xml:lang="sv">Umbrello</name>
@@ -48,6 +49,7 @@
   <summary xml:lang="pl">Program do modelowania UML</summary>
   <summary xml:lang="pt">Modelador de UML</summary>
   <summary xml:lang="pt-BR">Modelador de UML</summary>
+  <summary xml:lang="ru">Средство UML-моделирования</summary>
   <summary xml:lang="sk">Modelár UML</summary>
   <summary xml:lang="sl">Modelirnik UML</summary>
   <summary xml:lang="sv">UML-modellering</summary>
@@ -103,6 +105,7 @@
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
