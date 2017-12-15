@@ -141,7 +141,7 @@ void CodeImpStatusPage::importCode()
     m_savedlistViewVisible = UMLApp::app()->listView()->parentWidget()->isVisible();
     UMLApp::app()->listView()->parentWidget()->setVisible(false);
 
-    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>\n", m_files.size()));
+    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
     
     ui_textEditLogger->insertHtml(QLatin1String("\n") + QLatin1String("<br>"));
     ui_textEditLogger->moveCursor (QTextCursor::End);
