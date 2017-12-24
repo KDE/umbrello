@@ -1273,6 +1273,7 @@ void UMLApp::slotFileOpen()
                  "*.zargo|Compressed argo Files(*.zargo)\n"
                  )
 #if QT_VERSION >= 0x050000
+           .replace(QLatin1String(","), QLatin1String(""))
             );
 #else
             ,this, i18n("Open File"));

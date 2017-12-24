@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
                          umbrelloVersion(),
                          i18n("Umbrello – Visual development environment for software, "
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
-                              "See also <a href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."),
+                              "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
                          KAboutData::License_GPL,
                          i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2016 Umbrello UML Modeller Authors"),
                          KLocalizedString(),

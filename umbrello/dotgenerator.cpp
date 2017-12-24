@@ -191,7 +191,7 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString>
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
 #if QT_VERSION >= 0x050000
-    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
+    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1*.desktop").arg(diagramType));
 #else
     KStandardDirs dirs;
 
@@ -231,7 +231,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     QString configFileName;
     foreach(const QString &fileName, fileNames) {
 #if QT_VERSION >= 0x050000
-        configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1").arg(fileName));
+        configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1").arg(fileName));
 #else
         configFileName = KStandardDirs::locate("data", QString::fromLatin1("umbrello/layouts/%1").arg(fileName));
 #endif

@@ -137,7 +137,7 @@ private:
     Uml::SignatureType::Enum m_attributeSignature;   ///< Loaded/saved item.
     Uml::SignatureType::Enum m_operationSignature;   ///< Loaded/saved item.
     AssociationWidget *m_pAssocWidget; ///< related AssociationWidget in case this classifier acts as an association class
-    FloatingTextWidget *m_pInterfaceName;  ///< Separate widget for name in case of interface drawn as circle
+    QPointer<FloatingTextWidget> m_pInterfaceName;  ///< Separate widget for name in case of interface drawn as circle
 
 };
 
