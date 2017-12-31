@@ -36,8 +36,11 @@ include_directories(
     ${KDEVPGQT_INCLUDE_DIR}
 )
 
+if(NOT BUILD_PARSER_ONLY)
 add_subdirectory(app_templates)
+endif()
 add_subdirectory(parser)
+if(NOT BUILD_PARSER_ONLY)
 add_subdirectory(duchain)
 add_subdirectory(completion)
 add_subdirectory(testprovider)
@@ -64,8 +67,11 @@ target_link_libraries(kdevphplanguagesupport
     KF5::I18n
     KF5::TextEditor
 )
+endif()
 
 # not writeable so that the refactoring actions get hidden
-install(FILES phpfunctions.php DESTINATION ${DATA_INSTALL_DIR}/kdevphpsupport PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+if(NOT NO_INSTALL)
+    install(FILES phpfunctions.php DESTINATION ${DATA_INSTALL_DIR}/kdevphpsupport PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

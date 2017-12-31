@@ -73,6 +73,7 @@ namespace KDevelop
 %parser_declaration_header "tokenstream.h"
 %parser_declaration_header "QtCore/QString"
 %parser_declaration_header "language/duchain/problem.h"
+%parser_declaration_header "language/editor/documentrange.h"
 %parser_declaration_header "phplexer.h"
 
 %parser_bits_header "parserdebug.h"

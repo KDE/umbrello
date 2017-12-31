@@ -13,8 +13,18 @@ kdevpgqt_generate(parser_SRCS php NAMESPACE Php DEBUG_VISITOR TOKEN_TEXT
     "${php_SOURCE_DIR}/parser/phplexer.h"
 )
 
-
-add_library(kdevphpparser SHARED ${parser_SRCS} ${parser_STAT_SRCS})
+if(NO_INSTALL)
+    list(APPEND parser_STAT_SRCS
+        ${CMAKE_CURRENT_BINARY_DIR}/phpvisitor.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/phpdefaultvisitor.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/phpvisitor.h
+        ${CMAKE_CURRENT_BINARY_DIR}/phpdefaultvisitor.h
+        ${CMAKE_CURRENT_BINARY_DIR}/phpdebugvisitor.h
+    )
+    add_library(kdevphpparser STATIC ${parser_SRCS} ${parser_STAT_SRCS})
+else()
+    add_library(kdevphpparser SHARED ${parser_SRCS} ${parser_STAT_SRCS})
+endif()
 
 generate_export_header(kdevphpparser EXPORT_MACRO_NAME KDEVPHPPARSER_EXPORT
                                       EXPORT_FILE_NAME parserexport.h)
@@ -31,5 +41,6 @@ if(BUILD_TESTING)
         kdevphpparser
     )
 endif()
-
-install(TARGETS kdevphpparser DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+if(NOT NO_INSTALL)
+    install(TARGETS kdevphpparser DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+endif()
