@@ -1,0 +1,10 @@
+# KDebugSettings data file
+# Format:
+# logname<space>description
+
+kdevelop.languages.php KDevelop plugin: PHP language support
+kdevelop.languages.php.completion KDevelop plugin: PHP language support - codecompletion
+kdevelop.languages.php.docs KDevelop plugin: PHP language support - documentation
+kdevelop.languages.php.duchain KDevelop plugin: PHP language support - duchain
+kdevelop.languages.php.parser KDevelop plugin: PHP language support - parser
+kdevelop.languages.php.testprovider KDevelop plugin: PHP language support - testprovider

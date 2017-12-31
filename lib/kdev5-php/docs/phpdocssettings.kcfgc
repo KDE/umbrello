@@ -1,0 +1,6 @@
+File=phpdocssettings.kcfg
+ClassName=PhpDocsSettings
+Singleton=true
+UseEnumTypes=true
+SetUserTexts=true
+ItemAccessors=true
