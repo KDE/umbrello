@@ -33,6 +33,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
 endif()
 
+find_package(KDevelop-PG-Qt)
+
 if(NOT BUILD_KF5)
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
@@ -128,7 +130,6 @@ if(NOT BUILD_KF5)
                                  )
         endforeach()
     endmacro(ecm_mark_nongui_executable)
-    find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform)
     if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
         include_directories(
@@ -207,6 +208,30 @@ else()
 
     ki18n_install(po)
     kdoctools_install(po)
+
+    find_package(KDevPlatform "5.1.2" COMPONENTS
+        KDev::Interfaces
+        KDev::Language
+        KDev::Tests
+    )
+    if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND AND TARGET KDev::Tests)
+        include_directories(
+            ${KDEVPGQT_INCLUDE_DIR}
+            ${KDEVPLATFORM_INCLUDE_DIR}
+            ${CMAKE_SOURCE_DIR}/lib/kdev5-php/parser
+            ${CMAKE_BINARY_DIR}/lib/kdev5-php/parser
+        )
+        set(NO_INSTALL 1)
+        set(BUILD_PARSER_ONLY 1)
+        set(BUILD_PHP_IMPORT 1)
+        add_definitions(
+            -DKDEVPHPPARSER_EXPORT=
+            -DENABLE_PHP_IMPORT
+        )
+        add_subdirectory(lib/kdev5-php)
+    elseif(NOT TARGET KDev::Tests)
+        message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
+    endif()
 endif()
 
 

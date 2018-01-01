@@ -633,8 +633,14 @@ private:
             qout << endl << "problems encountered during parsing:" << endl;
             foreach(KDevelop::ProblemPointer p, m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
+#if QT_VERSION > 0x050000
+                        .arg(fileName).arg(p->finalLocation().start().line()+1)
+                        .arg(p->finalLocation().start().column())
+#else
                         .arg(fileName).arg(p->finalLocation().start.line+1)
-                        .arg(p->finalLocation().start.column).arg(p->severityString()).arg(p->description());
+                        .arg(p->finalLocation().start.column)
+#endif
+                        .arg(p->severityString()).arg(p->description());
                 UMLApp::app()->logWindow()->addItem(item);
             }
         } else {

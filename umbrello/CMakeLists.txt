@@ -599,6 +599,14 @@ else()
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
     )
+    if(BUILD_PHP_IMPORT)
+        target_link_libraries(libumbrello
+            KDev::Interfaces
+            KDev::Language
+            KDev::Tests
+            kdevphpparser
+        )
+    endif()
     ecm_add_app_icon(umbrello_SRCS
         ICONS
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png
