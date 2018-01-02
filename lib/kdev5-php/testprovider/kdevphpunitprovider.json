@@ -2,39 +2,15 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "Miha Čančula",
-                "Name[x-test]": "xxMiha Čančulaxx"
+                "Name": "Miha Čančula"
             }
         ],
         "Category": "Testing",
         "Description": "Finds and runs PHPUnit tests.",
-        "Description[ca@valencia]": "Busca i executa les proves de PHPUnit.",
-        "Description[ca]": "Cerca i executa les proves de PHPUnit.",
-        "Description[es]": "Encuentra y ejecuta pruebas PHPUnit.",
-        "Description[it]": "Trova ed esegue i test PHPUnit.",
-        "Description[nl]": "Testen van PHPUnit vinden en uitvoeren.",
-        "Description[pl]": "Znajduje i uruchamia testy PHPUnit.",
-        "Description[pt]": "Procura e executa os testes do PHPUnit.",
-        "Description[sv]": "Söker efter och kör PHPUnit-tester.",
-        "Description[uk]": "Знаходить і запускає перевірки PHPUnit.",
-        "Description[x-test]": "xxFinds and runs PHPUnit tests.xx",
-        "Description[zh_CN]": "查找并运行 PHPUnit 测试",
         "Icon": "application-x-php",
         "Id": "kdevphpunitprovider",
         "License": "GPL",
         "Name": "PHPUnit Integration",
-        "Name[ca@valencia]": "Integració del PHPUnit",
-        "Name[ca]": "Integració del PHPUnit",
-        "Name[es]": "Integración de PHPUnit",
-        "Name[fr]": "Intégration de « PHPUnit »",
-        "Name[it]": "Integrazione PHPUnit",
-        "Name[nl]": "Integratie van PHPUnit",
-        "Name[pl]": "Integracja PHPUnit",
-        "Name[pt]": "Integração com o PHPUnit",
-        "Name[sv]": "Integrering av PHPUnit",
-        "Name[uk]": "Документація з PHPUnit",
-        "Name[x-test]": "xxPHPUnit Integrationxx",
-        "Name[zh_CN]": "PHPUnit 集成",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
