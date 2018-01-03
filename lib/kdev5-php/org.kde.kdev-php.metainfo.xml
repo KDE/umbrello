@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="addon">
-  <id>org.kde.kdev-php</id>
-  <extends>org.kde.kdevelop.desktop</extends>
+  <id>org.kde.umbrello.kdev-php</id>
+  <extends>org.kde.umbrello.desktop</extends>
   <name>KDevelop PHP Support</name>
   <name xml:lang="ca">Implementació de PHP del KDevelop</name>
   <name xml:lang="nl">KDevelop ondersteuning van PHP</name>
