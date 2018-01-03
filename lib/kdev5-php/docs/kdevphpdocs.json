@@ -2,14 +2,25 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "Milian Wolff"
+                "Name": "Milian Wolff",
+                "Name[x-test]": "xxMilian Wolffxx"
             }
         ],
         "Category": "Documentation",
         "Description": "This plugin integrates PHP.net online documentation.",
+        "Description[ca]": "Aquest connector integra la documentació en línia de PHP.net.",
+        "Description[nl]": "Deze plugin integreert PHP.net online-documentatie.",
+        "Description[pt]": "Este 'plugin' integra-se com a documentação 'online' do PHP.net.",
+        "Description[uk]": "За допомогою цього додатка можна інтегрувати документацію PHP.net.",
+        "Description[x-test]": "xxThis plugin integrates PHP.net online documentation.xx",
         "Id": "kdevphpdocs",
         "License": "GPL",
         "Name": "PHP Documentation",
+        "Name[ca]": "Documentació del PHP",
+        "Name[nl]": "PHP-documentatie",
+        "Name[pt]": "Documentação de PHP",
+        "Name[uk]": "Документація з PHP",
+        "Name[x-test]": "xxPHP Documentationxx",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
