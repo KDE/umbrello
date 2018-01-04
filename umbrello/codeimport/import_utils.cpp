@@ -166,13 +166,22 @@ UMLObject* findUMLObject(QString name, UMLObject::ObjectType type)
 
 /**
  * Find or create a document object.
+ * @param type object type
+ * @param inName name of uml object
+ * @param parentPkg parent package
+ * @param comment comment for uml object
+ * @param stereotype stereotype for uml object
+ * @param searchInParentPackageOnly flags to search only in parent package
+ * @param remapParent flag to control remapping of parents if an uml object has been found
+ * @return new object or zero
  */
 UMLObject *createUMLObject(UMLObject::ObjectType type,
                            const QString& inName,
                            UMLPackage *parentPkg,
                            const QString& comment,
                            const QString& stereotype,
-                           bool searchInParentPackageOnly)
+                           bool searchInParentPackageOnly,
+                           bool remapParent)
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -193,14 +202,17 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         name = name.mid(2);
         parentPkg = logicalView;
     }
-    UMLObject *o = umldoc->findUMLObject(name, type, parentPkg);
     bNewUMLObjectWasCreated = false;
+    UMLObject *o = 0;
     if (searchInParentPackageOnly) {
-        if (o && o->umlPackage() != parentPkg) {
+        o = Model_Utils::findUMLObject(parentPkg->containedObjects(), name, type);
+        if (!o) {
             o = Object_Factory::createNewUMLObject(type, name, parentPkg);
             bNewUMLObjectWasCreated = true;
             bPutAtGlobalScope = false;
         }
+    } else {
+        o = umldoc->findUMLObject(name, type, parentPkg);
     }
     if (o == 0) {
         // Strip possible adornments and look again.
@@ -287,7 +299,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         } else {
             o = origType;
         }
-    } else if (parentPkg && !bPutAtGlobalScope) {
+    } else if (parentPkg && !bPutAtGlobalScope && remapParent) {
         UMLPackage *existingPkg = o->umlPackage();
         if (existingPkg != parentPkg && existingPkg != umldoc->datatypeFolder()) {
             if (existingPkg)

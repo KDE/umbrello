@@ -230,14 +230,17 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                                                                  name, parent);
+                                                                  name, parent,
+                                                                  QString(), QString(),
+                                                                  true, false);
                     current = ns->asUMLPackage();
                     parent = current;
                 } // for
                 if (isArray) {
                     // we have imported the type. For arrays we want to return
                     // the array type
-                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current);
+                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current,
+                                                         QString(), QString(), true, false);
                 }
                 // now that we have the right package, the class should be findable
                 return findObject(baseClassName, current);
@@ -318,7 +321,7 @@ bool JavaImport::parseStmt()
             QString name = (*it);
             log(keyword + QLatin1Char(' ') + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                            name, currentScope(), m_comment);
+                            name, currentScope(), m_comment, QString(), true);
             pushScope(ns->asUMLPackage());
         }
         if (advance() != QLatin1String(";")) {

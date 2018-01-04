@@ -525,7 +525,7 @@ public:
     DebugLanguageParserHelper(const bool printAst, const bool printTokens)
         : m_printAst(printAst),
           m_printTokens(printTokens),
-          m_isFeeded(false)
+          m_isFed(false)
     {
         m_session.setDebug(printAst);
     }
@@ -573,12 +573,12 @@ public:
 
     void setFeeded(bool state)
     {
-        m_isFeeded = state;
+        m_isFed = state;
     }
 
     bool isFeeded()
     {
-        return m_isFeeded;
+        return m_isFed;
     }
 
 private:
@@ -662,7 +662,7 @@ private:
     const bool m_printTokens;
     StartAstT* m_ast;
     QStringList m_dependencies;
-    bool m_isFeeded;
+    bool m_isFed;
 };
 
 
