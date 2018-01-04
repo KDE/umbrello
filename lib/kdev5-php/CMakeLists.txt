@@ -30,7 +30,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 add_definitions( -DKDE_DEFAULT_DEBUG_AREA=9043 )
-add_definitions( -DTRANSLATION_DOMAIN=\"kdevphp\" )
+add_definitions( -DTRANSLATION_DOMAIN=\"umbrello_kdevphp5\" )
 
 include_directories(
     ${KDEVPGQT_INCLUDE_DIR}
