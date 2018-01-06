@@ -11,6 +11,7 @@
         "Description[sv]": "PHP-språkstöd",
         "Description[uk]": "Підтримка мови PHP",
         "Description[x-test]": "xxPHP Language Supportxx",
+        "Description[zh_CN]": "Php 语言支持",
         "Icon": "application-x-php",
         "Id": "KDevPhpSupport",
         "Name": "PHP Language Support",
@@ -23,6 +24,7 @@
         "Name[sv]": "PHP-språkstöd",
         "Name[uk]": "Підтримка мови PHP",
         "Name[x-test]": "xxPHP Language Supportxx",
+        "Name[zh_CN]": "Php 语言支持",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]

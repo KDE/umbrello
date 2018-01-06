@@ -22,3 +22,4 @@ Name[sk]=Dokumentácia PHP
 Name[sv]=PHP-dokumentation
 Name[uk]=Документація з PHP
 Name[x-test]=xxPHP Documentationxx
+Name[zh_CN]=PHP 文档
