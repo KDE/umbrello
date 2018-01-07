@@ -630,7 +630,7 @@ if(NOT BUILD_KF5)
         ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc
         DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 else()
-    file(READ umbrello.desktop UMBRELLO_DESKTOP)
+    file(READ umbrello.desktop UMBRELLO_DESKTOP_OUT)
     string(REPLACE "Exec=umbrello" "Exec=umbrello5" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
     install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
