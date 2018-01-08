@@ -307,7 +307,7 @@ bool IDLImport::parseStmt()
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
         if (enumType == 0)
-            enumType = Import_Utils::remapUMLEnum(ns, enumType);
+            enumType = Import_Utils::remapUMLEnum(ns, currentScope());
         m_srcIndex++;  // skip name
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
             if (enumType != 0)

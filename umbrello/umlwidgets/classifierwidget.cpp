@@ -1297,12 +1297,14 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
         QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
         QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
         QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
+        QString showstereotype = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("1"));
         setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
         setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
         setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
         setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
         setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
         setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
+        setVisualPropertyCmd(ShowStereotype, (bool)showstereotype.toInt());
         m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
         m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
     }
@@ -1371,6 +1373,7 @@ void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
         conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
         conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
+        conceptElement.setAttribute(QLatin1String("showstereotype"), visualProperty(ShowStereotype));
     }
 #ifdef ENABLE_WIDGET_SHOW_DOC
     conceptElement.setAttribute(QLatin1String("showdocumentation"),visualProperty(ShowDocumentation));
