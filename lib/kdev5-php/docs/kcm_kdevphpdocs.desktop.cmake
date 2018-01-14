@@ -15,6 +15,7 @@ Name=PHP Documentation
 Name[ca]=Documentació del PHP
 Name[ca@valencia]=Documentació del PHP
 Name[cs]=Dokumentace PHP
+Name[es]=Documentación de PHP
 Name[fr]=Documentation PHP
 Name[gl]=Documentación de PHP
 Name[it]=Documentazione PHP
