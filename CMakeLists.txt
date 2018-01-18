@@ -323,6 +323,14 @@ add_unstable_feature(XMIRESOLUTION) # see https://bugs.kde.org/show_bug.cgi?id=9
 # because of using umbrello specific XMI tag (UML:InstanceAttribute).
 add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=123633
 
+configure_file(Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
+find_program(DOXYGEN_EXECUTABLE doxygen)
+if(DOXYGEN_EXECUTABLE)
+    add_custom_target(apidoc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+    )
+endif()
+
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)
