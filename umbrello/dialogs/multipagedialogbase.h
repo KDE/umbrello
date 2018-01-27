@@ -30,6 +30,8 @@ class QFrame;
 class UMLWidget;
 class UMLWidgetStylePage;
 class WidgetBase;
+class UMLScene;
+namespace Settings { class OptionState; }
 
 /**
  * Base class for property dialogs
@@ -109,8 +111,11 @@ protected:
     KPageWidgetItem *setupFontPage(const QFont &font);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
     KPageWidgetItem *setupFontPage(AssociationWidget *widget);
-    void applyFontPage(UMLWidget *widget);
+    void resetFontPage(QWidget *widget);
     void applyFontPage(AssociationWidget *widget);
+    void applyFontPage(Settings::OptionState *state);
+    void applyFontPage(UMLScene *scene);
+    void applyFontPage(UMLWidget *wigdet);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     KPageWidgetItem *setupStylePage(AssociationWidget *widget);

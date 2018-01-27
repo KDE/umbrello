@@ -54,7 +54,7 @@ SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
     m_bChangesApplied = false;
     m_pOptionState = state;
     setupGeneralPage();
-    setupFontPage();
+    pageFont = setupFontPage(state->uiState.font);
     setupUIPage();
     setupClassPage();
     setupCodeImportPage();
@@ -265,20 +265,6 @@ void SettingsDialog::setupCodeViewerPage(Settings::CodeViewerState options)
                                 Icon_Utils::it_Properties_CodeViewer, m_pCodeViewerPage);
 }
 
-void SettingsDialog::setupFontPage()
-{
-#if QT_VERSION >= 0x050000
-    m_FontWidgets.chooser = new QFontDialog();
-    m_FontWidgets.chooser->setCurrentFont(m_pOptionState->uiState.font);
-    m_FontWidgets.chooser->setOption(QFontDialog::NoButtons);
-#else
-    m_FontWidgets.chooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
-#endif
-    pageFont = createPage(i18n("Font"), i18n("Font Settings"),
-                          Icon_Utils::it_Properties_Font, m_FontWidgets.chooser);
-}
-
 void SettingsDialog::setupAutoLayoutPage()
 {
     m_pAutoLayoutPage = new AutoLayoutOptionPage;
@@ -317,11 +303,7 @@ void SettingsDialog::slotDefault()
     }
     else if (current == pageFont)
     {
-#if QT_VERSION >= 0x050000
-        m_FontWidgets.chooser->setCurrentFont(parentWidget()->font());
-#else
-        m_FontWidgets.chooser->setFont(parentWidget()->font());
-#endif
+        resetFontPage(parentWidget());
     }
     else if (current == pageUserInterface)
     {
@@ -360,11 +342,7 @@ void SettingsDialog::applyPage(KPageWidgetItem*item)
     }
     else if (item == pageFont)
     {
-#if QT_VERSION >= 0x050000
-        m_pOptionState->uiState.font = m_FontWidgets.chooser->currentFont();
-#else
-        m_pOptionState->uiState.font = m_FontWidgets.chooser->font();
-#endif
+        applyFontPage(m_pOptionState);
     }
     else if (item == pageUserInterface)
     {

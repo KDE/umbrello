@@ -392,14 +392,13 @@ KPageWidgetItem *MultiPageDialogBase::setupFontPage(AssociationWidget *widget)
 }
 
 /**
- * updates the font page data
- * @param widget Widget to save the font data into
+ * Set the font page to show the font from the given widget
+ * @param widget
  */
-void MultiPageDialogBase::applyFontPage(UMLWidget *widget)
+void MultiPageDialogBase::resetFontPage(QWidget *widget)
 {
-    Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);
-    widget->setFont(m_fontChooser->font());
+    m_fontChooser->setFont(widget->font());
 }
 
 /**
@@ -408,9 +407,34 @@ void MultiPageDialogBase::applyFontPage(UMLWidget *widget)
  */
 void MultiPageDialogBase::applyFontPage(AssociationWidget *widget)
 {
-    Q_UNUSED(widget);
     Q_ASSERT(m_fontChooser);
     widget->lwSetFont(m_fontChooser->font());
+}
+
+void MultiPageDialogBase::applyFontPage(Settings::OptionState *state)
+{
+    Q_ASSERT(m_fontChooser);
+    state->uiState.font = m_fontChooser->font();
+}
+
+/**
+ * updates the font page data
+ * @param widget Widget to save the font data into
+ */
+void MultiPageDialogBase::applyFontPage(UMLScene *scene)
+{
+    Q_ASSERT(m_fontChooser);
+    scene->setFont(m_fontChooser->font(), true);
+}
+
+/**
+ * updates the font page data
+ * @param widget Widget to save the font data into
+ */
+void MultiPageDialogBase::applyFontPage(UMLWidget *widget)
+{
+    Q_ASSERT(m_fontChooser);
+    widget->setFont(m_fontChooser->font());
 }
 
 /**

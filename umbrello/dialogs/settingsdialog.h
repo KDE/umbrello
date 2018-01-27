@@ -90,16 +90,7 @@ private:
     }
     ;//end struct UIWidgets
 
-    struct FontWidgets {
-#if QT_VERSION >= 0x050000
-        QFontDialog *chooser;
-#else
-        KFontChooser *chooser;
-#endif
-    };
-
     //private methods
-    void setupFontPage();
     void setupUIPage();
     void setupGeneralPage();
     void setupClassPage();
@@ -110,7 +101,6 @@ private:
     void applyPage(KPageWidgetItem*);
 
     //private attributes
-    FontWidgets m_FontWidgets;
     UIWidgets m_UiWidgets;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;

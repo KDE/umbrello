@@ -48,7 +48,6 @@ protected:
     void setupDiagramPropertiesPage();
     void setupDisplayPage();
     void setupStylePage();
-    void setupFontPage();
 
     void applyPage(KPageWidgetItem*);
 

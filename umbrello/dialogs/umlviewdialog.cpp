@@ -83,7 +83,7 @@ void UMLViewDialog::setupPages()
 {
     setupDiagramPropertiesPage();
     setupStylePage();
-    setupFontPage();
+    m_pageFontItem = setupFontPage(m_pScene->optionState().uiState.font);
     setupDisplayPage();
 }
 
@@ -126,23 +126,6 @@ void UMLViewDialog::setupStylePage()
 }
 
 /**
- * Sets up font page.
- */
-void UMLViewDialog::setupFontPage()
-{
-#if QT_VERSION >= 0x050000
-    m_pChooser = new QFontDialog();
-    m_pChooser->setCurrentFont(m_pScene->optionState().uiState.font);
-    m_pChooser->setOption(QFontDialog::NoButtons);
-#else
-    m_pChooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont(m_pScene->optionState().uiState.font);
-#endif
-    m_pageFontItem = createPage(i18n("Font"), i18n("Font Settings"),
-                                Icon_Utils::it_Properties_Font, m_pChooser);
-}
-
-/**
  * Applies the properties of the given page.
  */
 void UMLViewDialog::applyPage(KPageWidgetItem *item)
@@ -162,13 +145,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == m_pageFontItem)
     {
-#if QT_VERSION >= 0x050000
-        QFont font = m_pChooser->currentFont();
-#else
-        QFont font = m_pChooser->font();
-#endif
-        uDebug() << "setting font " << font.toString();
-        m_pScene->setFont(font, true);
+        applyFontPage(m_pScene);
     }
     else if (item == m_pageDisplayItem)
     {
