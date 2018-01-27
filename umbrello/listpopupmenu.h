@@ -234,6 +234,7 @@ public:
         mt_Change_Font,
         mt_Change_Font_Selection,
         mt_SnapToGrid,
+        mt_SnapComponentSizeToGrid,
         mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
         mt_AutoResize,

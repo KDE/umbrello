@@ -3103,6 +3103,11 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_doc->setModified();
         break;
 
+    case ListPopupMenu::mt_SnapComponentSizeToGrid:
+        toggleSnapComponentSizeToGrid();
+        m_doc->setModified();
+        break;
+
     case ListPopupMenu::mt_ShowSnapGrid:
         toggleShowGrid();
         m_doc->setModified();

@@ -2160,6 +2160,8 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insertLayoutItems(view);
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
     setActionChecked(mt_SnapToGrid, view->umlScene()->snapToGrid());
+    insert(mt_SnapComponentSizeToGrid, i18n("Snap Component Size to Grid"), CHECKABLE);
+    setActionChecked(mt_SnapComponentSizeToGrid, view->umlScene()->snapComponentSizeToGrid());
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
     setActionChecked(mt_ShowSnapGrid, view->umlScene()->isSnapGridVisible());
     insert(mt_ShowDocumentationIndicator, i18n("Show Documentation Indicator"), CHECKABLE);
