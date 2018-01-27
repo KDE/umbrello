@@ -55,11 +55,7 @@ protected:
     void checkName();
 
     UMLScene*              m_pScene;  ///< the scene to represent
-#if QT_VERSION >= 0x050000
-    QFontDialog*           m_pChooser;
-#else
     KFontChooser*          m_pChooser;
-#endif
     DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
     KPageWidgetItem*       m_pageStyleItem;

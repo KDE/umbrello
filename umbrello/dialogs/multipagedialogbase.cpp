@@ -368,6 +368,7 @@ void MultiPageDialogBase::applyGeneralPage(AssociationWidget *widget)
 KPageWidgetItem *MultiPageDialogBase::setupFontPage(const QFont &font)
 {
     m_fontChooser = new KFontChooser(0, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_fontChooser->enableColumn(KFontChooser::StyleList, false);
     m_fontChooser->setFont(font);
     return createPage(i18n("Font"), i18n("Font Settings"),
                       Icon_Utils::it_Properties_Font, m_fontChooser);
