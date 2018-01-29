@@ -288,11 +288,11 @@ protected:
      * been explicitly set for this widget.
      * These are saved to XMI.
      */
-    bool m_usesDiagramTextColor;
-    bool m_usesDiagramLineColor;
     bool m_usesDiagramFillColor;
-    bool m_usesDiagramUseFillColor;
+    bool m_usesDiagramLineColor;
     bool m_usesDiagramLineWidth;
+    bool m_usesDiagramTextColor;
+    bool m_usesDiagramUseFillColor;
     bool m_autoResize;
 };
 
