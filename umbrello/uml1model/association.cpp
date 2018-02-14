@@ -211,11 +211,7 @@ void UMLAssociation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 bool UMLAssociation::showPropertiesDialog(QWidget *parent)
 {
     QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(parent, this, true);
-    bool modified = false;
-    if (dlg->exec()) {
-        modified = true;
-    }
-    dlg->close();
+    bool modified = dlg->exec();
     delete dlg;
     return modified;
 }

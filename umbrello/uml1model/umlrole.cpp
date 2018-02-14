@@ -223,10 +223,7 @@ void UMLRole::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 bool UMLRole::showPropertiesDialog(QWidget *parent)
 {
     QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(parent, this);
-    bool modified = false;
-    if (dlg->exec() == QDialog::Accepted) {
-        modified = true;
-    }
+    bool modified = dlg->exec() == QDialog::Accepted;
     delete dlg;
     return modified;
 }

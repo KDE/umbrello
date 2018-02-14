@@ -90,11 +90,8 @@ void UMLView::setZoom(qreal zoom)
  */
 bool UMLView::showPropertiesDialog(QWidget *parent)
 {
-    bool success = false;
     QPointer<UMLViewDialog> dlg = new UMLViewDialog(parent, umlScene());
-    if (dlg->exec() == QDialog::Accepted) {
-        success = true;
-    }
+    bool success = dlg->exec() == QDialog::Accepted;
     delete dlg;
     return success;
 }
