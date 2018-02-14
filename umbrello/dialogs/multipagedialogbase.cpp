@@ -18,7 +18,9 @@
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "notepage.h"
+#include "messagewidget.h"
 #include "uml.h"
+#include "selectoperationpage.h"
 #include "umlwidget.h"
 #include "umlwidgetstylepage.h"
 
@@ -26,6 +28,7 @@
 #if QT_VERSION >=0x050000
 #include <KHelpClient>
 #endif
+#include <KPushButton>
 #include <KLocalizedString>
 #include <KPageDialog>
 #include <KPageWidget>
@@ -49,6 +52,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
   : QWidget(parent),
     m_pAssocGeneralPage(0),
     m_notePage(0),
+    m_operationGeneralPage(0),
     m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
@@ -83,6 +87,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
   : QWidget(parent),
     m_pAssocGeneralPage(0),
     m_notePage(0),
+    m_operationGeneralPage(0),
     m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
@@ -119,6 +124,17 @@ MultiPageDialogBase::~MultiPageDialogBase()
     delete m_pageWidget;
 }
 
+void MultiPageDialogBase::slotEnableButtonOk(bool state)
+{
+#if QT_VERSION >= 0x050000
+    m_pageDialog->button(QDialogButtonBox::Ok)->setEnabled(state);
+    m_pageDialog->button(QDialogButtonBox::Apply)->setEnabled(state);
+#else
+    m_pageDialog->button(KDialog::Ok)->setEnabled(state);
+    m_pageDialog->button(KDialog::Apply)->setEnabled(state);
+#endif
+}
+
 /**
  * Apply all used pages
  */
@@ -129,6 +145,9 @@ void MultiPageDialogBase::apply()
 
     if (m_notePage)
         m_notePage->apply();
+
+    if (m_operationGeneralPage)
+        m_operationGeneralPage->apply();
 
     if (m_pRolePage) {
         applyAssociationRolePage();
@@ -357,14 +376,15 @@ void MultiPageDialogBase::setupGeneralPage(AssociationWidget *widget)
 }
 
 /**
- * updates the general page data
- * @param widget Widget to save the general page data into
+ * Sets up the general page for operations
+ * @param widget The widget to load the initial data from
  */
-void MultiPageDialogBase::applyGeneralPage(AssociationWidget *widget)
+KPageWidgetItem *MultiPageDialogBase::setupGeneralPage(MessageWidget *widget)
 {
-    Q_UNUSED(widget);
-    Q_ASSERT(m_pAssocGeneralPage);
-    m_pAssocGeneralPage->apply();
+    m_operationGeneralPage = new SelectOperationPage(widget->umlScene()->activeView(), widget->lwClassifier(), widget);
+    connect(m_operationGeneralPage, SIGNAL(enableButtonOk(bool)), this, SLOT(slotEnableButtonOk(bool)));
+    return createPage(i18nc("general settings", "General"), i18n("General Settings"),
+                      Icon_Utils::it_Properties_General, m_operationGeneralPage);
 }
 
 /**

@@ -21,7 +21,7 @@
 #include "operation.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "selectoperationdialog.h"
+#include "messagewidgetpropertiesdialog.h"
 #include "umlview.h"
 #include "uniqueid.h"
 #include "idchangelog.h"
@@ -1330,14 +1330,14 @@ bool MessageWidget::showPropertiesDialog()
     }
     bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(umlScene()->activeView(), lwClassifier(), this);
-    if (selectDialog->exec()) {
+    QPointer<MessageWidgetPropertiesDialog> dlg = new MessageWidgetPropertiesDialog(0, this);
+    if (dlg->exec()) {
         m_pFText->setMessageText();
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
         result = true;
     }
-    delete selectDialog;
+    delete dlg;
     return result;
 }
 

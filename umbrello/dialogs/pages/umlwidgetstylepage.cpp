@@ -188,6 +188,8 @@ void UMLWidgetStylePage::init()
     m_lineWidthDefaultB = new QPushButton(i18nc("default line width button", "Defa&ult"), m_pStyleGB) ;
     styleLayout->addWidget(m_lineWidthDefaultB, row, 2);
 
+    topLayout->addStretch(1);
+
     //connect button signals up
     connect(m_lineWidthDefaultB, SIGNAL(clicked()), this, SLOT(slotLineWidthButtonClicked()));
 }

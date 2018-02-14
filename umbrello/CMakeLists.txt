@@ -200,6 +200,7 @@ set(libdialogs_SRCS
     dialogs/dialog_utils.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
+    dialogs/messagewidgetpropertiesdialog.cpp
     dialogs/multipagedialogbase.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
@@ -240,6 +241,7 @@ set(libdialogs_SRCS
     dialogs/pages/dialogpagebase.cpp
     dialogs/pages/generaloptionpage.cpp
     dialogs/pages/packagecontentspage.cpp
+    dialogs/pages/selectoperationpage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/documentationwidget.cpp
@@ -593,6 +595,7 @@ else()
         KF5::I18n
         KF5::IconThemes
         KF5::KIOCore
+        KF5::KDELibs4Support
         KF5::TextEditor
         KF5::WidgetsAddons
         KF5::XmlGui

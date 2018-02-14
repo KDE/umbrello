@@ -29,7 +29,9 @@ class QAbstractButton;
 class QFrame;
 class NotePage;
 class NoteWidget;
+class MessageWidget;
 class UMLWidget;
+class SelectOperationPage;
 class UMLWidgetStylePage;
 class WidgetBase;
 class UMLScene;
@@ -84,6 +86,9 @@ signals:
     void applyClicked();
     void defaultClicked();
 
+protected slots:
+    void slotEnableButtonOk(bool state);
+
 private slots:
     void slotOkClicked();
     void slotApplyClicked();
@@ -95,6 +100,7 @@ private slots:
 protected:
     AssociationGeneralPage *m_pAssocGeneralPage;
     NotePage *m_notePage;
+    SelectOperationPage *m_operationGeneralPage;
     AssociationRolePage *m_pRolePage;
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;
@@ -112,6 +118,8 @@ protected:
     void applyGeneralPage(AssociationWidget *widget);
 
     void setupGeneralPage(NoteWidget *widget);
+    KPageWidgetItem *setupGeneralPage(MessageWidget *widget);
+    void applyGeneralPage(MessageWidget *widget);
 
     KPageWidgetItem *setupFontPage(const QFont &font);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
