@@ -14,12 +14,14 @@
 //app includes
 #include "classifier.h"
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "operation.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "selectoperationdialog.h"
 #include "umlview.h"
 #include "uniqueid.h"
 #include "idchangelog.h"
@@ -1318,18 +1320,25 @@ void MessageWidget::setyclicked(int yclick)
 }
 
 /**
- * Event handler for mouse double click events.
- * @param event QGraphicsSceneMouseEvent which triggered the double click event
+ * Show a properties dialog for an ObjectWidget.
  */
-void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+bool MessageWidget::showPropertiesDialog()
 {
-    Q_UNUSED(event)
-    DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET!";
-    if (m_pFText != 0) {
-        DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET - on floating text widget!";
-//        QAction* action = m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
-//        m_pFText->slotMenuSelection(action);
+    if (!lwClassifier()) {
+        uError() << "lwClassifier() returns a NULL classifier";
+        return false;
     }
+    bool result = false;
+    UMLApp::app()->docWindow()->updateDocumentation(false);
+    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(umlScene()->activeView(), lwClassifier(), this);
+    if (selectDialog->exec()) {
+        m_pFText->setMessageText();
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
+        UMLApp::app()->document()->setModified(true);
+        result = true;
+    }
+    delete selectDialog;
+    return result;
 }
 
 /**

@@ -148,9 +148,9 @@ public:
         return m_xclicked;
     }
 
-protected:
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual bool showPropertiesDialog();
 
+protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 

@@ -602,15 +602,8 @@ void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
-        switch(baseType()) {
-        case WidgetBase::wt_Message:  // will be handled in its class
-            QGraphicsItem::mouseDoubleClickEvent(event);
-            break;
-        default:
-            showPropertiesDialog();
-            event->accept();
-            break;
-        }
+        showPropertiesDialog();
+        event->accept();
     }
 }
 
