@@ -49,9 +49,11 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_brush(m_fillColor),
     m_lineWidth(0), // initialize with 0 to have valid start condition
     m_useFillColor(true),
-    m_usesDiagramTextColor(true),
+    m_usesDiagramFillColor(true),
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true),
+    m_usesDiagramTextColor(true),
+    m_usesDiagramUseFillColor(true),
     m_autoResize(true)
 {
     Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);

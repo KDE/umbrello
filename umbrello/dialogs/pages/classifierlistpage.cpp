@@ -712,6 +712,14 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
     if (listItem->showPropertiesDialog(this)) {
         m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
         m_docTE->setText(listItem->doc());
+        if (m_itemType == UMLObject::ot_Operation) {
+            UMLOperation* o = listItem->asUMLOperation();
+            if (!o) {
+                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                return;
+            }
+            m_pCodeTE->setPlainText(o->getSourceCode());
+        }
     }
 }
 

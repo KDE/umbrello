@@ -23,16 +23,11 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
 #include <kfontchooser.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
 // qt includes
-#if QT_VERSION >= 0x050000
-#include <QFontDialog>
-#endif
 #include <QFrame>
 #include <QHBoxLayout>
 

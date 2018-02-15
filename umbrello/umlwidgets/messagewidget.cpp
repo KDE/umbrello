@@ -376,6 +376,10 @@ void MessageWidget::paintSynchronous(QPainter *painter, const QStyleOptionGraphi
     const int boxWidth = 17;
     const int wr = w < boxWidth ? w : boxWidth;
     const int arrowWidth = 4;
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
+    else
+        painter->setBrush(m_scene->backgroundColor());
 
     if(isSelf()) {
         painter->fillRect(offsetX, offsetY, wr, h,  QBrush(Qt::white));              //box

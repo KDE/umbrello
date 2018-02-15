@@ -26,8 +26,8 @@ class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
 class KColorButton;
-#if QT_VERSION < 0x050000
 class KFontChooser;
+#if QT_VERSION < 0x050000
 class KIntSpinBox;
 #endif
 class QCheckBox;
