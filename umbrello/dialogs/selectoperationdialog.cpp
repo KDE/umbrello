@@ -15,6 +15,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "linkwidget.h"
 #include "operation.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlscene.h"
@@ -47,11 +48,13 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  c       The concept to get the operations from.
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
-SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
+SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, LinkWidget *widget, bool enableAutoIncrement)
   : SinglePageDialogBase(parent),
     m_id(CUSTOM),
     m_pView(parent),
-    m_classifier(c)
+    m_classifier(c),
+    m_widget(widget),
+    m_enableAutoIncrement(enableAutoIncrement)
 {
     setCaption(i18n("Select Operation"));
 
@@ -101,6 +104,7 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
     enableButtonOk(false);
+    setupDialog();
 }
 
 /**
@@ -269,4 +273,68 @@ void SelectOperationDialog::setAutoIncrementSequence(bool state)
 bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
+}
+
+/**
+ * internal setup function
+ */
+void SelectOperationDialog::setupDialog()
+{
+    if (m_enableAutoIncrement && m_pView->umlScene()->autoIncrementSequence()) {
+        setAutoIncrementSequence(true);
+        setSeqNumber(m_pView->umlScene()->autoIncrementSequenceValue());
+   } else
+        setSeqNumber(m_widget->sequenceNumber());
+
+    if (m_widget->operation() == 0) {
+        setCustomOp(m_widget->lwOperationText());
+    } else {
+        setClassOp(m_widget->lwOperationText());
+    }
+}
+
+/**
+ * apply changes to the related instamces
+ * @return true - success
+ * @return false - failure
+ */
+bool SelectOperationDialog::apply()
+{
+    QString opText = getOpText();
+    if (isClassOp()) {
+        Model_Utils::OpDescriptor od;
+        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, m_classifier);
+        if (st == Model_Utils::PS_OK) {
+            UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
+            selfAndAncestors.prepend(m_classifier);
+            UMLOperation *op = 0;
+            foreach (UMLClassifier *cl, selfAndAncestors) {
+                op = cl->findOperation(od.m_name, od.m_args);
+                if (op) {
+                    break;
+                }
+            }
+            if (!op) {
+                // The op does not yet exist. Create a new one.
+                UMLObject *o = m_classifier->createOperation(od.m_name, 0, &od.m_args);
+                op = o->asUMLOperation();
+            }
+            if (od.m_pReturnType) {
+                op->setType(od.m_pReturnType);
+            }
+
+            m_widget->setOperation(op);
+            opText.clear();
+        } else {
+            m_widget->setOperation(0);
+        }
+    } else {
+        m_widget->setOperation(0);
+    }
+    m_widget->setSequenceNumber(getSeqNumber());
+    m_widget->setOperationText(opText);
+    if (m_enableAutoIncrement) {
+        m_pView->umlScene()->setAutoIncrementSequence(autoIncrementSequence());
+    }
+    return true;
 }

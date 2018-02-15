@@ -231,64 +231,15 @@ bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         uError() << "m_linkWidget is NULL";
         return false;
     }
-    QString seqNum = m_linkWidget->sequenceNumber();
-    UMLClassifier* c = m_linkWidget->lwClassifier();
-    QString opText = m_linkWidget->lwOperationText();
-    if (!c) {
+    if (!m_linkWidget->lwClassifier()) {
         uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
         return false;
     }
     bool result = false;
 
-    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(m_scene->activeView(), c, enableAutoIncrement);
-    if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
-        seqNum = m_scene->autoIncrementSequenceValue();
-        selectDialog->setAutoIncrementSequence(true);
-    }
-    selectDialog->setSeqNumber(seqNum);
-    if (m_linkWidget->operation() == 0) {
-        selectDialog->setCustomOp(opText);
-    } else {
-        selectDialog->setClassOp(opText);
-    }
+    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(m_scene->activeView(), m_linkWidget->lwClassifier(), m_linkWidget, enableAutoIncrement);
     if (selectDialog->exec()) {
-        seqNum = selectDialog->getSeqNumber();
-        opText = selectDialog->getOpText();
-        if (selectDialog->isClassOp()) {
-            Model_Utils::OpDescriptor od;
-            Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
-            if (st == Model_Utils::PS_OK) {
-                UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
-                selfAndAncestors.prepend(c);
-                UMLOperation *op = 0;
-                foreach (UMLClassifier *cl, selfAndAncestors) {
-                    op = cl->findOperation(od.m_name, od.m_args);
-                    if (op) {
-                        break;
-                    }
-                }
-                if (!op) {
-                    // The op does not yet exist. Create a new one.
-                    UMLObject *o = c->createOperation(od.m_name, 0, &od.m_args);
-                    op = o->asUMLOperation();
-                }
-                if (od.m_pReturnType) {
-                    op->setType(od.m_pReturnType);
-                }
-
-                m_linkWidget->setOperation(op);
-                opText.clear();
-            } else {
-                m_linkWidget->setOperation(0);
-            }
-        } else {
-            m_linkWidget->setOperation(0);
-        }
-        m_linkWidget->setSequenceNumber(seqNum);
-        m_linkWidget->setOperationText(opText);
-        if (enableAutoIncrement) {
-            m_scene->setAutoIncrementSequence(selectDialog->autoIncrementSequence());
-        }
+        selectDialog->apply();
         setMessageText();
         result = true;
     }

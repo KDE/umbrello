@@ -20,6 +20,7 @@ class QGroupBox;
 class QLabel;
 class UMLClassifier;
 class UMLView;
+class LinkWidget;
 
 /**
  * A dialog used to select an operation.
@@ -32,7 +33,7 @@ class SelectOperationDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
-    SelectOperationDialog(UMLView * parent, UMLClassifier * c, bool enableAutoIncrement = true);
+    SelectOperationDialog(UMLView * parent, UMLClassifier * c, LinkWidget *widget, bool enableAutoIncrement = true);
     ~SelectOperationDialog();
 
     QString getOpText();
@@ -48,7 +49,10 @@ public:
     void setCustomOp(const QString &op);
     bool setClassOp(const QString &op);
 
+    bool apply();
+
 protected:
+    void setupDialog();
     void setupOperationsList();
 
 private:
@@ -67,6 +71,8 @@ private:
     int               m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
     UMLView          *m_pView;
     UMLClassifier    *m_classifier;
+    LinkWidget       *m_widget;
+    bool              m_enableAutoIncrement;
 
 public slots:
     void slotAutoIncrementChecked(bool state);
