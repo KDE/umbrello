@@ -274,6 +274,8 @@ protected:
     bool wasSizeChanged();
     bool wasPositionChanged();
 
+    virtual void toForeground();
+
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
@@ -334,7 +336,6 @@ protected:
 
 private:
     void init();
-    void toForeground();
 
     /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
     mutable AssociationWidgetList m_Assocs;

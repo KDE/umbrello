@@ -80,6 +80,7 @@ public slots:
 
 protected:
     QSizeF minimumSize() const;
+    void toForeground();
 
     /// Type of CombinedFragment.
     CombinedFragmentType m_CombinedFragment;

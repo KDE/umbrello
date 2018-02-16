@@ -77,3 +77,7 @@ void BoxWidget::showPropertiesDialog()
         umlDoc()->setModified(true);
     }
 }
+
+void BoxWidget::toForeground()
+{
+}

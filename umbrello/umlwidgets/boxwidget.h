@@ -34,6 +34,9 @@ public:
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual void showPropertiesDialog();
+
+protected:
+    void toForeground();
 };
 
 #endif

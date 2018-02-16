@@ -37,6 +37,7 @@
 CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
+    setZValue(-10);
     setCombinedFragmentType(combinedfragmentType);
 }
 
@@ -470,4 +471,8 @@ void CombinedFragmentWidget::setDashLineGeometryAndPosition() const
         m_dashLines.back()->setY(y() + height() / 2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
     }
+}
+
+void CombinedFragmentWidget::toForeground()
+{
 }
