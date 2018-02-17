@@ -70,6 +70,9 @@ public:
 
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
+    virtual QRectF boundingRect() const;
+    virtual QPainterPath shape() const;
+
 public slots:
     void slotMenuSelection(QAction* action);
 
@@ -86,7 +89,7 @@ private:
 
     /// Dash lines of an alternative or parallel combined fragment
     QList<FloatingDashLineWidget*> m_dashLines;
-
+    qreal m_labelWidth;
 };
 
 #endif

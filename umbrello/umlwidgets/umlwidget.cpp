@@ -47,6 +47,9 @@ DEBUG_REGISTER_DISABLED(UMLWidget)
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
 const int UMLWidget::defaultMargin = 5;
+const int UMLWidget::selectionMarkerSize = 4;
+const int UMLWidget::resizeMarkerLineCount = 3;
+
 
 /**
  * Creates a UMLWidget object.
@@ -1706,7 +1709,7 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (option->state & QStyle::State_Selected) {
         const qreal w = width();
         const qreal h = height();
-        const qreal s = 4;
+        const qreal s = selectionMarkerSize;
         QBrush brush(Qt::blue);
         painter->fillRect(0, 0, s,  s, brush);
         painter->fillRect(0, 0 + h - s, s, s, brush);

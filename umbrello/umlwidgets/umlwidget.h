@@ -45,6 +45,8 @@ public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
     static const int defaultMargin;
+    static const int selectionMarkerSize;
+    static const int resizeMarkerLineCount;
 
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = 0);
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
