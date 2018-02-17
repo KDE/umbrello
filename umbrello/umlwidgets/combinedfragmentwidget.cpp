@@ -27,6 +27,9 @@
 #include <QPainter>
 #include <QString>
 
+static const int defaultWidth = 100;
+static const int defaultHeight = 50;
+
 /**
  * Creates a Combined Fragment widget.
  *
@@ -84,18 +87,18 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     switch (m_CombinedFragment)
     {
         case Ref :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("ref"));
+        painter->drawText(defaultMargin, textStartY, w - defaultMargin * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
+        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("ref"));
         break;
 
         case Opt :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("opt"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("opt"));
         break;
 
         case Break :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("break"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("break"));
         break;
 
         case Loop :
@@ -104,35 +107,36 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                      temp += QLatin1String(" [") + combined_fragment_value + QLatin1Char(']');
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
 
         break;
 
         case Neg :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("neg"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("neg"));
         break;
 
         case Crit :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("critical"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("critical"));
         break;
 
         case Ass :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("assert"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("assert"));
         break;
 
         case Alt :
                 if (combined_fragment_value != QLatin1String("-"))
                 {
                      temp = QLatin1Char('[') + combined_fragment_value + QLatin1Char(']');
-            painter->drawText(COMBINED_FRAGMENT_MARGIN, 20, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight)
+            painter->drawText(defaultMargin, labelHeight,
+                              w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + labelHeight + fontHeight)
                         m_dashLines.first()->setY(y() + h/2);
                 }
-                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
+                painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
                 // dash lines
                 //m_dashLines.first()->paint(painter);
                 // TODO: move to UMLWidget::calculateSize api
@@ -150,8 +154,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
         break;
 
         case Par :
-                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
+                painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
                 // dash lines
                 if (m_dashLines.size() != 0) {
                     //m_dashLines.first()->paint(painter);
@@ -190,14 +194,14 @@ QSizeF CombinedFragmentWidget::minimumSize() const
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(name());
     height = fontHeight;
-    width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
+    width = textWidth + 60 > defaultWidth ? textWidth + 60: defaultWidth;
     if (m_CombinedFragment == Loop)
          width += int((float)textWidth * 0.4f);
     if (m_CombinedFragment == Alt)
          height += fontHeight + 40;
-    height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
-    width += COMBINED_FRAGMENT_MARGIN * 2;
-    height += COMBINED_FRAGMENT_MARGIN * 2;
+    height = height > defaultHeight ? height : defaultHeight;
+    width += defaultMargin * 2;
+    height += defaultMargin * 2;
 
     return QSizeF(width, height);
 }

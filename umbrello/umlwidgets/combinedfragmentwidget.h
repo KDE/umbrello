@@ -17,10 +17,6 @@
 
 #include <QList>
 
-#define COMBINED_FRAGMENT_MARGIN 5
-#define COMBINED_FRAGMENT_WIDTH 100
-#define COMBINED_FRAGMENT_HEIGHT 50
-
 /**
  * This class is the graphical version of a UML combined fragment.  A combinedfragmentWidget is created
  * by a @ref UMLView.  An combinedfragmentWidget belongs to only one @ref UMLView instance.
