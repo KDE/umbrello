@@ -71,7 +71,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     int w = width();
     int h = height();
     int line_width = initialLabelWidth;
-    int old_Y;
+    qreal old_Y;
 
     setPenFromSettings(painter);
 

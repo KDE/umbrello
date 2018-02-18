@@ -64,13 +64,13 @@ private:
      * Minimum value of the Y-coordinate of the dash line
      * (= y-coordinate of the combined fragment)
      */
-    int m_yMin;
+    qreal m_yMin;
 
     /**
      * Maximum value of the Y-coordinate of the dash line
      * (= y-coordinate of the combined fragment + height of the combined fragment)
      */
-    int m_yMax;
+    qreal m_yMax;
     CombinedFragmentWidget *m_parent;
 };
 
