@@ -45,6 +45,8 @@ public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
     static const int defaultMargin;
+    static const int selectionMarkerSize;
+    static const int resizeMarkerLineCount;
 
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = 0);
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
@@ -274,6 +276,8 @@ protected:
     bool wasSizeChanged();
     bool wasPositionChanged();
 
+    virtual void toForeground();
+
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
@@ -334,7 +338,6 @@ protected:
 
 private:
     void init();
-    void toForeground();
 
     /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
     mutable AssociationWidgetList m_Assocs;

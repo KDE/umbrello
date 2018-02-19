@@ -27,6 +27,14 @@
 #include <QPainter>
 #include <QString>
 
+DEBUG_REGISTER_DISABLED(CombinedFragmentWidget)
+
+static const int defaultWidth = 100;
+static const int defaultHeight = 50;
+static const int initialLabelWidth = 45;
+static const int labelHeight = 20;
+static const int labelBorderMargin = 10;
+
 /**
  * Creates a Combined Fragment widget.
  *
@@ -35,8 +43,10 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
+  : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id),
+    m_labelWidth(initialLabelWidth)
 {
+    setZValue(-10);
     setCombinedFragmentType(combinedfragmentType);
 }
 
@@ -60,8 +70,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
     int w = width();
     int h = height();
-    int line_width = 45;
-    int old_Y;
+    int line_width = initialLabelWidth;
+    qreal old_Y;
 
     setPenFromSettings(painter);
 
@@ -83,18 +93,18 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     switch (m_CombinedFragment)
     {
         case Ref :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("ref"));
+        painter->drawText(defaultMargin, textStartY, w - defaultMargin * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
+        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("ref"));
         break;
 
         case Opt :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("opt"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("opt"));
         break;
 
         case Break :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("break"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("break"));
         break;
 
         case Loop :
@@ -103,35 +113,36 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                      temp += QLatin1String(" [") + combined_fragment_value + QLatin1Char(']');
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
 
         break;
 
         case Neg :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("neg"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("neg"));
         break;
 
         case Crit :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("critical"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("critical"));
         break;
 
         case Ass :
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("assert"));
+        painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("assert"));
         break;
 
         case Alt :
                 if (combined_fragment_value != QLatin1String("-"))
                 {
                      temp = QLatin1Char('[') + combined_fragment_value + QLatin1Char(']');
-            painter->drawText(COMBINED_FRAGMENT_MARGIN, 20, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight)
+            painter->drawText(defaultMargin, labelHeight,
+                              w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + labelHeight + fontHeight)
                         m_dashLines.first()->setY(y() + h/2);
                 }
-                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
+                painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
                 // dash lines
                 //m_dashLines.first()->paint(painter);
                 // TODO: move to UMLWidget::calculateSize api
@@ -149,8 +160,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
         break;
 
         case Par :
-                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
+                painter->drawText(defaultMargin, 0,
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
                 // dash lines
                 if (m_dashLines.size() != 0) {
                     //m_dashLines.first()->paint(painter);
@@ -172,9 +183,10 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     }
 
     setPenFromSettings(painter);
-    painter->drawLine(0, 20, line_width, 20);
-    painter->drawLine(line_width, 20, line_width + 10, 10);
-    painter->drawLine(line_width + 10, 10, line_width + 10, 0);
+    painter->drawLine(0, labelHeight, line_width, labelHeight);
+    painter->drawLine(line_width, labelHeight, line_width + labelBorderMargin, labelHeight-labelBorderMargin);
+    painter->drawLine(line_width + labelBorderMargin, labelHeight-labelBorderMargin, line_width + labelBorderMargin, 0);
+    m_labelWidth = line_width;
 
     UMLWidget::paint(painter, option, widget);
 }
@@ -189,14 +201,14 @@ QSizeF CombinedFragmentWidget::minimumSize() const
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(name());
     height = fontHeight;
-    width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
+    width = textWidth + 60 > defaultWidth ? textWidth + 60: defaultWidth;
     if (m_CombinedFragment == Loop)
          width += int((float)textWidth * 0.4f);
     if (m_CombinedFragment == Alt)
          height += fontHeight + 40;
-    height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
-    width += COMBINED_FRAGMENT_MARGIN * 2;
-    height += COMBINED_FRAGMENT_MARGIN * 2;
+    height = height > defaultHeight ? height : defaultHeight;
+    width += defaultMargin * 2;
+    height += defaultMargin * 2;
 
     return QSizeF(width, height);
 }
@@ -470,4 +482,46 @@ void CombinedFragmentWidget::setDashLineGeometryAndPosition() const
         m_dashLines.back()->setY(y() + height() / 2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
     }
+}
+
+void CombinedFragmentWidget::toForeground()
+{
+}
+
+QRectF CombinedFragmentWidget::boundingRect() const
+{
+    const qreal r = defaultMargin / 2.0;
+    return rect().adjusted(-r, -r, r, r);
+}
+
+QPainterPath CombinedFragmentWidget::shape() const
+{
+    const qreal w = width();
+    const qreal h = height();
+    const qreal s = selectionMarkerSize * resizeMarkerLineCount;
+    const qreal r = defaultMargin / 2.0;
+    const qreal lw = m_labelWidth + r;
+    const qreal lh = labelHeight + r;
+
+    QPainterPath outerPath;
+    outerPath.setFillRule(Qt::WindingFill);
+    outerPath.addRect(boundingRect());
+
+    QPolygonF inner;
+    inner.append(QPointF(r, lh));
+    inner.append(QPointF(lw, lh));
+    inner.append(QPointF(lw + labelBorderMargin, lh - labelBorderMargin));
+    inner.append(QPointF(lw + labelBorderMargin, r));
+    inner.append(QPointF(w - selectionMarkerSize - r, r));
+    inner.append(QPointF(w - r, selectionMarkerSize + r));
+    inner.append(QPointF(w - r, h - s));
+    inner.append(QPointF(w - s, h - r));
+    inner.append(QPointF(selectionMarkerSize + r, h - r));
+    inner.append(QPointF(r, h - selectionMarkerSize - r));
+    inner.append(QPointF(r, lh));
+    QPainterPath innerPath;
+    innerPath.addPolygon(inner);
+
+    QPainterPath result = outerPath.subtracted(innerPath);
+    return result.simplified();
 }
