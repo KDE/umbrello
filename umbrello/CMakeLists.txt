@@ -222,6 +222,7 @@ set(libdialogs_SRCS
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
     dialogs/pages/activitypage.cpp
+    dialogs/pages/notepage.cpp
     dialogs/pages/associationgeneralpage.cpp
     dialogs/pages/associationrolepage.cpp
     dialogs/pages/autolayoutoptionpage.cpp

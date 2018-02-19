@@ -531,6 +531,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
         insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Box:

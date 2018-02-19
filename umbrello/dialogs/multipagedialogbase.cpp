@@ -17,6 +17,7 @@
 #include "associationwidget.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
+#include "notepage.h"
 #include "uml.h"
 #include "umlwidget.h"
 #include "umlwidgetstylepage.h"
@@ -47,6 +48,7 @@ DEBUG_REGISTER(MultiPageDialogBase)
 MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pAssocGeneralPage(0),
+    m_notePage(0),
     m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
@@ -80,6 +82,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
 MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pAssocGeneralPage(0),
+    m_notePage(0),
     m_pRolePage(0),
     m_fontChooser(0),
     m_pStylePage(0),
@@ -123,6 +126,9 @@ void MultiPageDialogBase::apply()
 {
     if (m_pAssocGeneralPage)
         m_pAssocGeneralPage->apply();
+
+    if (m_notePage)
+        m_notePage->apply();
 
     if (m_pRolePage) {
         applyAssociationRolePage();
@@ -359,6 +365,18 @@ void MultiPageDialogBase::applyGeneralPage(AssociationWidget *widget)
     Q_UNUSED(widget);
     Q_ASSERT(m_pAssocGeneralPage);
     m_pAssocGeneralPage->apply();
+}
+
+/**
+ * Sets up the general settings page.
+ * @param widget The widget to load the initial data from
+ */
+void MultiPageDialogBase::setupGeneralPage(NoteWidget *widget)
+{
+    QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_notePage = new NotePage (page, widget);
+    layout->addWidget(m_notePage);
 }
 
 /**

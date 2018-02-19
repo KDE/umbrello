@@ -27,6 +27,8 @@ class KFontChooser;
 class KPageDialog;
 class QAbstractButton;
 class QFrame;
+class NotePage;
+class NoteWidget;
 class UMLWidget;
 class UMLWidgetStylePage;
 class WidgetBase;
@@ -92,6 +94,7 @@ private slots:
 #endif
 protected:
     AssociationGeneralPage *m_pAssocGeneralPage;
+    NotePage *m_notePage;
     AssociationRolePage *m_pRolePage;
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;
@@ -107,6 +110,8 @@ protected:
 
     void setupGeneralPage(AssociationWidget *widget);
     void applyGeneralPage(AssociationWidget *widget);
+
+    void setupGeneralPage(NoteWidget *widget);
 
     KPageWidgetItem *setupFontPage(const QFont &font);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);

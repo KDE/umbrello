@@ -55,6 +55,7 @@ public:
 
     Uml::ID::Type diagramLink() const;
     void setDiagramLink(Uml::ID::Type viewID);
+    bool setDiagramLink(const QString &viewName);
 
     void askForNoteType(UMLWidget* &targetWidget);
 

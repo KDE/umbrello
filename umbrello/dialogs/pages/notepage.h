@@ -8,31 +8,30 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef NOTEDIALOG_H
-#define NOTEDIALOG_H
+#ifndef NOTEPAGE_H
+#define NOTEPAGE_H
 
-#include "multipagedialogbase.h"
+#include "dialogpagebase.h"
 
 class DocumentationWidget;
 class NoteWidget;
 
 /**
- * @author Paul Hensgen
+ * @author Ralf Habacker
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class NoteDialog : public MultiPageDialogBase
+class NotePage : public DialogPageBase
 {
    Q_OBJECT
 public:
-    NoteDialog(QWidget *parent, NoteWidget *widget);
+    NotePage(QWidget *parent, NoteWidget *note);
+    ~NotePage();
 
-public slots:
-    void slotOk();
-    void slotApply();
+    bool apply();
 
 protected:
-    void setupPages();
-    NoteWidget *m_widget;
+    DocumentationWidget *m_docWidget; ///< widget holding the documentation
+    NoteWidget *m_noteWidget;  ///< note widget to show documentation for
 };
 
 #endif

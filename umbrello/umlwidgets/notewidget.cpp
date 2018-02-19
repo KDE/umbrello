@@ -267,6 +267,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
+    case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         break;
 
