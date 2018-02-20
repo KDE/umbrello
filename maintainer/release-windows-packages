@@ -16,6 +16,8 @@
 # abort on errors
 set -e
 
+echo2() { printf "%s\n" "$*" >&2; }
+
 self=$(realpath $0)
 which 7z >/dev/null 2>&1
 if test $? -ne 0; then
@@ -40,7 +42,7 @@ if ! test -d "work"; then
     mkdir work
 fi
 
-echo "running mode $1"
+echo2 "running mode $1"
 
 case $1 in
 clean) ## clean working area
@@ -154,18 +156,18 @@ all) ## run all required targets
         $self packdebug
         $self createsha
         $self upload
-        echo "Content for ticket creating:"
+        echo2 "Content for ticket creating:"
         $self createdescription
-        echo run "$self ticket" to submit ticket
+        echo2 run "$self ticket" to submit ticket
         ;;
 
 *)
-        echo "Make sure to setup VERSION inside $0 and run"
-        echo "$0 all"
-        echo
-        echo "or run single targets"
-        echo
-        gawk '$0 ~ /^[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0
+        echo2 "Make sure to setup VERSION inside $0 and run"
+        echo2 "$0 all"
+        echo2
+        echo2 "or run single targets"
+        echo2
+        gawk '$0 ~ /^[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0 >&2
         ;;
 esac
 
