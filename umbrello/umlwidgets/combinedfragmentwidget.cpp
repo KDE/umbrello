@@ -228,8 +228,9 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
 {
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_resizable =  true ; //(m_CombinedFragment == Normal);
+    bool isLoading = UMLApp::app()->document()->loading();
     // creates a dash line if the combined fragment type is alternative or parallel
-    if (m_CombinedFragment == Alt && m_dashLines.isEmpty())
+    if (!isLoading && m_CombinedFragment == Alt && m_dashLines.isEmpty())
     {
         m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         m_scene->addWidgetCmd(m_dashLines.back());
