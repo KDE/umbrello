@@ -175,13 +175,14 @@ void FloatingDashLineWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElem
  */
 bool FloatingDashLineWidget::loadFromXMI1(QDomElement & qElement)
 {
+    m_yMax = qElement.attribute(QLatin1String("maxY")).toFloat();
+    m_yMin = qElement.attribute(QLatin1String("minY")).toFloat();
+    m_Text = qElement.attribute(QLatin1String("text"));
+
     if(!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
-    DEBUG(DBG_SRC) << "load.......";
-    m_yMax = qElement.attribute(QLatin1String("maxY")).toInt();
-    m_yMin = qElement.attribute(QLatin1String("minY")).toInt();
-    m_Text = qElement.attribute(QLatin1String("text"));
+
     return true;
 }
 

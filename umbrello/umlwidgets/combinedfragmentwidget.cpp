@@ -463,7 +463,8 @@ bool CombinedFragmentWidget::activate(IDChangeLog *ChangeLog)
 {
     if(UMLWidget::activate(ChangeLog))
     {
-        setDashLineGeometryAndPosition();
+        if (!UMLApp::app()->document()->loading())
+            setDashLineGeometryAndPosition();
         return true;
     }
     return false;
