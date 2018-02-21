@@ -500,10 +500,10 @@ QPainterPath CombinedFragmentWidget::shape() const
 {
     const qreal w = width();
     const qreal h = height();
-    const qreal s = selectionMarkerSize * resizeMarkerLineCount;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
 
+    const qreal s = selectionMarkerSize * resizeMarkerLineCount + 4;
     const qreal r = defaultMargin / 2.0;
     qreal lw = m_labelWidth + r;
     qreal lh = labelHeight + r;
