@@ -1968,6 +1968,7 @@ QString UMLDoc::name() const
 void UMLDoc::setResolution(qreal resolution)
 {
     m_resolution = resolution;
+    uDebug() << "screen dpi:" << qApp->desktop()->logicalDpiX() << "file dpi:" <<  resolution << "scale:" << qApp->desktop()->logicalDpiX() / resolution;
 }
 
 /**

@@ -320,7 +320,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
     qreal nX = toDoubleFromAnyLocale(x);
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
     qreal nY = toDoubleFromAnyLocale(y);
-    QPointF startPoint(nX * dpiScale, nY * dpiScale);
+    QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
@@ -331,7 +331,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
     nX = toDoubleFromAnyLocale(x);
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
     nY = toDoubleFromAnyLocale(y);
-    QPointF endPoint(nX * dpiScale, nY * dpiScale);
+    QPointF endPoint(nX, nY);
     setEndPoints(startPoint * dpiScale, endPoint * dpiScale);
     QPointF point;
     node = endElement.nextSibling();
