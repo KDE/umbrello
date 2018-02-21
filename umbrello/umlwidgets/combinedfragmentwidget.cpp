@@ -501,9 +501,18 @@ QPainterPath CombinedFragmentWidget::shape() const
     const qreal w = width();
     const qreal h = height();
     const qreal s = selectionMarkerSize * resizeMarkerLineCount;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+
     const qreal r = defaultMargin / 2.0;
-    const qreal lw = m_labelWidth + r;
-    const qreal lh = labelHeight + r;
+    qreal lw = m_labelWidth + r;
+    qreal lh = labelHeight + r;
+    if (m_CombinedFragment == Alt) {
+        const int textWidth = fm.width(name() + QLatin1String("[]"));
+        lh += fontHeight;
+        if (lw < textWidth)
+            lw = textWidth + r;
+    }
 
     QPainterPath outerPath;
     outerPath.setFillRule(Qt::WindingFill);
