@@ -25,12 +25,12 @@ class NoteDialog : public SinglePageDialogBase
 {
    Q_OBJECT
 public:
-    NoteDialog(QWidget *parent, NoteWidget *pNote);
+    NoteDialog(QWidget *parent, NoteWidget *note);
     ~NoteDialog();
 
 protected:
     DocumentationWidget *m_docWidget; ///< widget holding the documentation
-    NoteWidget *m_pNoteWidget;  ///< note widget to show documentation for
+    NoteWidget *m_noteWidget;  ///< note widget to show documentation for
 
     bool apply();
 };

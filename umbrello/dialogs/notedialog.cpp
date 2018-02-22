@@ -24,15 +24,15 @@
 /**
  * Constructs an NoteDialog.
  */
-NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
+NoteDialog::NoteDialog(QWidget * parent, NoteWidget * note)
   : SinglePageDialogBase(parent)
 {
     setCaption(i18n("Note Documentation"));
 
-    m_pNoteWidget = pNote;
+    m_noteWidget = note;
     QFrame *frame = new QFrame(this);
     setMainWidget(frame);
-    m_docWidget = new DocumentationWidget(m_pNoteWidget);
+    m_docWidget = new DocumentationWidget(m_noteWidget);
     QVBoxLayout *layout = new QVBoxLayout(frame);
     layout->addWidget(m_docWidget, 10);
     setMinimumSize(600, 250);
