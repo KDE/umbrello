@@ -228,8 +228,9 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
 {
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_resizable =  true ; //(m_CombinedFragment == Normal);
+    bool isLoading = UMLApp::app()->document()->loading();
     // creates a dash line if the combined fragment type is alternative or parallel
-    if (m_CombinedFragment == Alt && m_dashLines.isEmpty())
+    if (!isLoading && m_CombinedFragment == Alt && m_dashLines.isEmpty())
     {
         m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         m_scene->addWidgetCmd(m_dashLines.back());
@@ -462,7 +463,8 @@ bool CombinedFragmentWidget::activate(IDChangeLog *ChangeLog)
 {
     if(UMLWidget::activate(ChangeLog))
     {
-        setDashLineGeometryAndPosition();
+        if (!UMLApp::app()->document()->loading())
+            setDashLineGeometryAndPosition();
         return true;
     }
     return false;
@@ -498,10 +500,19 @@ QPainterPath CombinedFragmentWidget::shape() const
 {
     const qreal w = width();
     const qreal h = height();
-    const qreal s = selectionMarkerSize * resizeMarkerLineCount;
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+
+    const qreal s = selectionMarkerSize * resizeMarkerLineCount + 4;
     const qreal r = defaultMargin / 2.0;
-    const qreal lw = m_labelWidth + r;
-    const qreal lh = labelHeight + r;
+    qreal lw = m_labelWidth + r;
+    qreal lh = labelHeight + r;
+    if (m_CombinedFragment == Alt) {
+        const int textWidth = fm.width(name() + QLatin1String("[]"));
+        lh += fontHeight;
+        if (lw < textWidth)
+            lw = textWidth + r;
+    }
 
     QPainterPath outerPath;
     outerPath.setFillRule(Qt::WindingFill);

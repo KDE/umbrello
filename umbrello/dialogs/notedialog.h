@@ -13,11 +13,10 @@
 
 #include "multipagedialogbase.h"
 
-class DocumentationWidget;
 class NoteWidget;
 
 /**
- * @author Paul Hensgen
+ * @author Ralf Habacker
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class NoteDialog : public MultiPageDialogBase
@@ -25,6 +24,8 @@ class NoteDialog : public MultiPageDialogBase
    Q_OBJECT
 public:
     NoteDialog(QWidget *parent, NoteWidget *widget);
+
+    bool apply();
 
 public slots:
     void slotOk();

@@ -182,6 +182,39 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 }
 
 /**
+ * Set the given diagram as hyperlinked to this note.
+ * If the diagram name is empty or the related view
+ * could not be found, the link will be removed.
+ *
+ * @param diagramName name of diagram to link to
+ * @return true  if link could be added
+ * @return false if link could not be added
+ */
+bool NoteWidget::setDiagramLink(const QString &diagramName)
+{
+    if (diagramName.isEmpty()) {
+        m_diagramLink = Uml::ID::None;
+        return true;
+    }
+
+    UMLDoc *umldoc = UMLApp::app()->document();
+    UMLView *view = 0;
+    for (int i = 1; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(i);
+        view = umldoc->findView(dt, diagramName, true);
+        if (view)
+            break;
+    }
+    if (view == 0 || view->umlScene() == 0) {
+        m_diagramLink = Uml::ID::None;
+        return false;
+    }
+    m_diagramLink = view->umlScene()->ID();
+    update();
+    return true;
+}
+
+/**
  * Display a dialog box to allow the user to choose the note's type.
  */
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)

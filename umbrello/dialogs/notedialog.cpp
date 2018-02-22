@@ -34,13 +34,29 @@ void NoteDialog::setupPages()
 void NoteDialog::slotOk()
 {
     slotApply();
-    accept();
 }
 
 void NoteDialog::slotApply()
 {
+    if (!apply())
+        reject();
+    else
+        accept();
+}
+
+bool NoteDialog::apply()
+{
     MultiPageDialogBase::apply();
     if (m_widget) {
         applyFontPage(m_widget);
-}
+        QString key = QLatin1String("Diagram:");
+        QString str = m_widget->documentation();
+        if (!str.startsWith(key)) {
+            m_widget->setDiagramLink(QString());
+            return false;
+        }
+        QString diagramName = str.remove(key).trimmed();
+        m_widget->setDiagramLink(diagramName);
+    }
+    return true;
 }
