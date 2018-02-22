@@ -49,6 +49,14 @@ NoteDialog::~NoteDialog()
 bool NoteDialog::apply()
 {
     m_docWidget->apply();
+    QString key = QLatin1String("Diagram:");
+    QString str = m_noteWidget->documentation();
+    if (!str.startsWith(key)) {
+        m_noteWidget->setDiagramLink(QString());
+        return true;
+    }
+    QString diagramName = str.remove(key).trimmed();
+    m_noteWidget->setDiagramLink(diagramName);
     return true;
 }
 
