@@ -344,8 +344,9 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             UMLWidget *w = Widget_Factory::createWidget(scene, o);
             if (lastWidget)
                 w->setX(lastWidget->x() + lastWidget->width() + 10);
-            w->activate();
-            scene->addWidgetCmd(w);
+            scene->setupNewWidget(w, false);
+            scene->createAutoAssociations(w);
+            scene->createAutoAttributeAssociations2(w);
             widgetList[l[0]] = w;
             lastWidget = w;
         } else if (l.size() == 3 && l[1].startsWith(QLatin1Char('-'))) { // associations
