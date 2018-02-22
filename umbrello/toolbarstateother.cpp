@@ -326,6 +326,11 @@ bool ToolBarStateOther::newWidget()
             umlWidget->asNoteWidget()->askForNoteType(umlWidget);
         }
         break;
+    case WorkToolBar::tbb_Note:
+        {
+            umlWidget->showPropertiesDialog();
+        }
+        break;
     default:
         uWarning() << "Unknown ToolBar_Buttons: " << QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton()));
         break;
