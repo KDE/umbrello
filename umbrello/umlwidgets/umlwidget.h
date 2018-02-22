@@ -172,7 +172,7 @@ public:
     bool showStereotype() const;
     virtual void setShowStereotype(bool flag);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     virtual void adjustAssocs(qreal dx, qreal dy);
     void adjustUnselectedAssocs(qreal dx, qreal dy);

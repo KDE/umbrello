@@ -76,7 +76,7 @@ public:
     bool drawVertical() const;
     void setDrawVertical(bool to = true);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);

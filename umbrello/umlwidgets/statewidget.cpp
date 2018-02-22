@@ -399,16 +399,19 @@ void StateWidget::setDrawVertical(bool to)
 /**
  * Show a properties dialog for a StateWidget.
  */
-void StateWidget::showPropertiesDialog()
+bool StateWidget::showPropertiesDialog()
 {
+    bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation(false);
 
     QPointer<StateDialog> dialog = new StateDialog(m_scene->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
+        result = true;
     }
     delete dialog;
+    return result;
 }
 
 /**

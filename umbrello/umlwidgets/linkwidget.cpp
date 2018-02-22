@@ -72,8 +72,9 @@ void LinkWidget::resetTextPositions()
  * Motivated by FloatingTextWidget::mouseDoubleClickEvent()
  * Only applies to AssociationWidget.
  */
-void LinkWidget::showPropertiesDialog()
+bool LinkWidget::showPropertiesDialog()
 {
+    return false;
 }
 
 /**

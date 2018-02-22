@@ -449,14 +449,17 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
  * Shows the association properties dialog and updates the
  * corresponding texts if its execution is successful.
  */
-void AssociationWidget::showPropertiesDialog()
+bool AssociationWidget::showPropertiesDialog()
 {
+    bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation();
     QPointer<AssociationPropertiesDialog> dlg = new AssociationPropertiesDialog(static_cast<QWidget*>(m_scene->activeView()), this);
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
+        result = true;
     }
     delete dlg;
+    return result;
 }
 
 /**

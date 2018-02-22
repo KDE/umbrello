@@ -38,7 +38,7 @@ public:
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
-    void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

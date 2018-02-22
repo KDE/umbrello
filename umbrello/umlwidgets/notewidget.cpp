@@ -276,8 +276,9 @@ void NoteWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Show a properties dialog for a NoteWidget.
  */
-void NoteWidget::showPropertiesDialog()
+bool NoteWidget::showPropertiesDialog()
 {
+    bool result = false;
     NoteDialog * dlg = 0;
     UMLApp::app()->docWindow()->updateDocumentation(false);
     dlg = new NoteDialog(umlScene()->activeView(), this);
@@ -285,8 +286,10 @@ void NoteWidget::showPropertiesDialog()
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
         update();
+        result = true;
     }
     delete dlg;
+    return result;
 }
 
 /**

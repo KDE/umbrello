@@ -499,9 +499,16 @@ void WidgetBase::setAutoResize(bool state)
 /**
  * A virtual method for the widget to display a property dialog box.
  * Subclasses should reimplment this appropriately.
+ * In case the user cancels the dialog or there are some requirements
+ * not fullfilled the method returns false; true otherwise.
+ *
+ * @return true - properties has been applyed
+ * @return false - properties has not been applied
+ *
  */
-void WidgetBase::showPropertiesDialog()
+bool WidgetBase::showPropertiesDialog()
 {
+    return false;
 }
 
 /**

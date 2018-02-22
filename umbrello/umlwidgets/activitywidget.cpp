@@ -151,16 +151,19 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
  * Reimplemented from UMLWidget::showPropertiesDialog to show a
  * properties dialog for an ActivityWidget.
  */
-void ActivityWidget::showPropertiesDialog()
+bool ActivityWidget::showPropertiesDialog()
 {
+    bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation(false);
 
     QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
+        result = true;
     }
     delete dialog;
+    return result;
 }
 
 /**

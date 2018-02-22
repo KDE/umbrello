@@ -33,7 +33,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
 protected:
     void toForeground();

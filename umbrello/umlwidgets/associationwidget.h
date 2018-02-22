@@ -77,7 +77,7 @@ public:
     virtual void setMessageText(FloatingTextWidget *ft);
     virtual void setText(FloatingTextWidget *ft, const QString &newText);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     virtual QString lwOperationText();
     virtual UMLClassifier *lwClassifier();

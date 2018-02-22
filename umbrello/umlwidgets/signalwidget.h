@@ -51,7 +51,7 @@ public:
     QString signalTypeStr() const;
     void setSignalType(SignalType signalType);
 
-    virtual void  showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 

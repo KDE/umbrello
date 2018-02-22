@@ -228,8 +228,9 @@ void SignalWidget::setSignalType(SignalType signalType)
 /**
  * Show a properties dialog for a UMLWidget.
  */
-void SignalWidget::showPropertiesDialog()
+bool SignalWidget::showPropertiesDialog()
 {
+    return false;
 }
 
 /**

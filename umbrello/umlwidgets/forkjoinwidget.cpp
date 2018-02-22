@@ -116,14 +116,17 @@ void ForkJoinWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Show a properties dialog for a Fork/Join Widget.
  */
-void ForkJoinWidget::showPropertiesDialog()
+bool ForkJoinWidget::showPropertiesDialog()
 {
     QColor newColor = QColorDialog::getColor(fillColor()); // krazy:exclude=qclasses
+    if (!newColor.isValid())
+        return false;
     if (newColor != fillColor()) {
         setFillColor(newColor);
         setUsesDiagramFillColor(false);
         umlDoc()->setModified(true);
     }
+    return true;
 }
 
 /**

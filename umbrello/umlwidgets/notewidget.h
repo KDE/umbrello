@@ -59,7 +59,7 @@ public:
 
     void askForNoteType(UMLWidget* &targetWidget);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);

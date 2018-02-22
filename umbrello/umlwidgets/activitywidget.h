@@ -62,7 +62,7 @@ public:
     QString postconditionText() const;
     void setPostconditionText(const QString&);
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 

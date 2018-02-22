@@ -1183,8 +1183,9 @@ void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 /**
  * Show a properties dialog for a UMLWidget.
  */
-void UMLWidget::showPropertiesDialog()
+bool UMLWidget::showPropertiesDialog()
 {
+    bool result = false;
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
     UMLApp::app()->docWindow()->updateDocumentation(false);
@@ -1193,9 +1194,11 @@ void UMLWidget::showPropertiesDialog()
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(umlObject(), true);
         m_doc->setModified(true);
+        result = true;
     }
     dlg->close(); //wipe from memory
     delete dlg;
+    return result;
 }
 
 /**

@@ -50,7 +50,7 @@ public:
 
     void cleanup();
 
-    void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     void setDrawAsActor(bool drawAsActor);
     bool drawAsActor() const;

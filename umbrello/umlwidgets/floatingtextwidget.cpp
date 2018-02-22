@@ -225,19 +225,20 @@ void FloatingTextWidget::showChangeTextDialog()
  *
  * @param enableAutoIncrement Enable auto increment checkbox
  */
-void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
+bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 {
     if (!m_linkWidget) {
         uError() << "m_linkWidget is NULL";
-        return;
+        return false;
     }
     QString seqNum = m_linkWidget->sequenceNumber();
     UMLClassifier* c = m_linkWidget->lwClassifier();
     QString opText = m_linkWidget->lwOperationText();
     if (!c) {
         uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
-        return;
+        return false;
     }
+    bool result = false;
 
     QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(m_scene->activeView(), c, enableAutoIncrement);
     if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
@@ -289,8 +290,10 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
             m_scene->setAutoIncrementSequence(selectDialog->autoIncrementSequence());
         }
         setMessageText();
+        result = true;
     }
     delete selectDialog;
+    return result;
 }
 
 /**
@@ -299,17 +302,18 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
  * for the floating text widget, the rename dialog for floating text or
  * the options dialog for the link widget are shown.
  */
-void FloatingTextWidget::showPropertiesDialog()
+bool FloatingTextWidget::showPropertiesDialog()
 {
     if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
             m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
-        showOperationDialog(false);
+        return showOperationDialog(false);
     } else if (m_textRole == Uml::TextRole::Floating) {
         // double clicking on a text line opens the dialog to change the text
-        handleRename();
+        return handleRename();
     } else if (m_linkWidget) {
-        m_linkWidget->showPropertiesDialog();
+        return m_linkWidget->showPropertiesDialog();
     }
+    return false;
 }
 
 /**
@@ -391,7 +395,7 @@ Uml::TextRole::Enum FloatingTextWidget::textRole() const
  * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
  * Given an own method because it requires rather lengthy code.
  */
-void FloatingTextWidget::handleRename()
+bool FloatingTextWidget::handleRename()
 {
     QString t;
     if (m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
@@ -413,10 +417,11 @@ void FloatingTextWidget::handleRename()
     QString newText = text();
     bool ok = Dialog_Utils::askName(i18n("Rename"), t, newText);
     if (!ok || newText == text()) {
-        return;
+        return false;
     }
 
     UMLApp::app()->executeCommand(new Uml::CmdHandleRename(this, newText));
+    return true;
 }
 
 /**

@@ -68,14 +68,17 @@ void BoxWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Show a properties dialog for a BoxWidget.
  */
-void BoxWidget::showPropertiesDialog()
+bool BoxWidget::showPropertiesDialog()
 {
     QColor newColor = QColorDialog::getColor(lineColor()); // krazy:exclude=qclasses
+    if (!newColor.isValid())
+        return false;
     if (newColor != lineColor()) {
         setLineColor(newColor);
         setUsesDiagramLineColor(false);
         umlDoc()->setModified(true);
     }
+    return true;
 }
 
 void BoxWidget::toForeground()

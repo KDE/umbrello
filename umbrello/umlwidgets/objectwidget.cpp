@@ -368,16 +368,19 @@ void ObjectWidget::cleanup()
 /**
  * Show a properties dialog for an ObjectWidget.
  */
-void ObjectWidget::showPropertiesDialog()
+bool ObjectWidget::showPropertiesDialog()
 {
+    bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation(false);
     QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
+        result = true;
     }
     dlg->close();
     delete dlg;
+    return result;
 }
 
 /**

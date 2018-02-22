@@ -52,7 +52,7 @@ public:
     void setState(const QString& state);
     QString state() const;
 
-    virtual void showPropertiesDialog();
+    virtual bool showPropertiesDialog();
 
     void askStateForWidget();
     void askForObjectNodeType(UMLWidget* &targetWidget);

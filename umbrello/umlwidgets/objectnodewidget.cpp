@@ -252,16 +252,19 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
 /**
  * Show a properties dialog for an ObjectNodeWidget.
  */
-void ObjectNodeWidget::showPropertiesDialog()
+bool ObjectNodeWidget::showPropertiesDialog()
 {
     UMLApp::app()->docWindow()->updateDocumentation(false);
 
+    bool result = false;
     QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(UMLApp::app()->currentView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
+        result = true;
     }
     delete dialog;
+    return result;
 }
 
 /**

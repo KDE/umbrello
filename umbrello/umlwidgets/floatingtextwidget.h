@@ -57,8 +57,8 @@ public:
     bool isEmpty();
 
     void showChangeTextDialog();
-    void showOperationDialog(bool enableAutoIncrement = true);
-    virtual void showPropertiesDialog();
+    bool showOperationDialog(bool enableAutoIncrement = true);
+    virtual bool showPropertiesDialog();
 
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
@@ -68,7 +68,7 @@ public:
     Uml::TextRole::Enum textRole() const;
     void setTextRole(Uml::TextRole::Enum role);
 
-    void handleRename();
+    bool handleRename();
     void changeName(const QString& newText);
 
     void setSequenceNumber(const QString &sequenceNumber);
