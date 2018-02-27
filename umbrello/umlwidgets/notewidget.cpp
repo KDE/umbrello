@@ -540,14 +540,11 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
  */
 void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        if (m_diagramLink == Uml::ID::None) {
-            showPropertiesDialog();
-        } else {
-            UMLDoc *umldoc = UMLApp::app()->document();
-            umldoc->changeCurrentView(m_diagramLink);
-        }
+    if (event->button() == Qt::LeftButton && m_diagramLink != Uml::ID::None) {
+        UMLDoc *umldoc = UMLApp::app()->document();
+        umldoc->changeCurrentView(m_diagramLink);
         event->accept();
-    }
+    } else
+        UMLWidget::showPropertiesDialog();
 }
 
