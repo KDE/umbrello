@@ -191,12 +191,6 @@ public:
     bool isPointAddable();
     bool isPointRemovable();
 
-    //:TODO: the following four methods should be protected
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
     virtual void setSelected(bool _select);
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
@@ -211,6 +205,11 @@ protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QPointF calculateTextPosition(Uml::TextRole::Enum role);
