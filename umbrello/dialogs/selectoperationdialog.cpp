@@ -67,11 +67,6 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
-#if QT_VERSION < 0x050000
-    mainLayout->setSpacing(spacingHint());
-#endif
-    mainLayout->setMargin(fontMetrics().height());
-
     Dialog_Utils::makeLabeledEditField(mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
                                     m_pSeqLE);
