@@ -19,6 +19,7 @@ class QCheckBox;
 class QGroupBox;
 class QLabel;
 class QPushButton;
+class LinkWidget;
 class MessageWidget;
 class UMLClassifier;
 class UMLView;
@@ -77,7 +78,7 @@ private:
     int               m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
     UMLView          *m_pView;
     UMLClassifier    *m_classifier;
-    MessageWidget    *m_widget;
+    LinkWidget       *m_widget;
     bool              m_enableAutoIncrement;
 
 public slots:
