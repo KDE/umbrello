@@ -239,17 +239,14 @@ void ClassPropertiesDialog::setupPages(bool assoc)
  */
 void ClassPropertiesDialog::setupGeneralPage()
 {
-    QFrame* page = createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
-                               Icon_Utils::it_Properties_General);
-    page->setMinimumSize(310, 330);
-    QHBoxLayout * topLayout = new QHBoxLayout(page);
     if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
-        m_pGenPage = new ClassGeneralPage(m_doc, page, static_cast<ObjectWidget*>(m_pWidget));
+        m_pGenPage = new ClassGeneralPage(m_doc, 0, static_cast<ObjectWidget*>(m_pWidget));
     else if (m_pWidget && !m_pObject)
-        m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
+        m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pWidget);
     else
-        m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
-    topLayout->addWidget(m_pGenPage);
+        m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pObject);
+    createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
+               Icon_Utils::it_Properties_General, m_pGenPage)->setMinimumSize(310, 330);
 }
 
 /**
@@ -257,12 +254,10 @@ void ClassPropertiesDialog::setupGeneralPage()
  */
 void ClassPropertiesDialog::setupDisplayPage()
 {
-    QFrame* page = createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
-                               Icon_Utils::it_Properties_Display);
-    QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
-    ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
+    ClassifierWidget *cw = m_pWidget->asClassifierWidget();
     m_pOptionsPage = new ClassOptionsPage(page, cw);
-    m_pOptionsLayout->addWidget(m_pOptionsPage);
+    createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
+               Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
 
 /**
