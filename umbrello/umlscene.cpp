@@ -3785,9 +3785,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             }
             addWidgetCmd(message);
             FloatingTextWidget *ft = message->floatingTextWidget();
-            if (ft)
-                addWidgetCmd(ft);
-            else if (message->sequenceMessageType() != SequenceMessage::Creation)
+            if (!ft && message->sequenceMessageType() != SequenceMessage::Creation)
                 DEBUG(DBG_SRC) << "floating text is NULL for message " << Uml::ID::toString(message->id());
         }
         node = messageElement.nextSibling();
