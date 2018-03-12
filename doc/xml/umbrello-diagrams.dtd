@@ -167,6 +167,7 @@
 <!ELEMENT entitywidget ANY >
 <!ATTLIST entitywidget
           %UMLWidgetAtts;
+          showattsig CDATA #IMPLIED
 >
 <!ELEMENT floatingdashlinewidget ANY >
 <!ATTLIST floatingdashlinewidget

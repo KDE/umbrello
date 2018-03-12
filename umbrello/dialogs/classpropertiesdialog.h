@@ -18,6 +18,7 @@ class ClassGeneralPage;
 class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
+class EntityWidget;
 class PackageContentsPage;
 class ObjectWidget;
 class UMLDoc;
@@ -57,6 +58,7 @@ protected:
     void setupOperationsPage();
     void setupTemplatesPage();
     void setupEnumLiteralsPage();
+    void setupEntityDisplayPage(EntityWidget *widget);
     void setupEntityAttributesPage();
     void setupEntityConstraintsPage();
     void setupContentsPage();

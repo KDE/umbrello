@@ -17,6 +17,7 @@
 #include <QWidget>
 
 class ClassifierWidget;
+class EntityWidget;
 class UMLScene;
 class KComboBox;
 class QCheckBox;
@@ -41,6 +42,7 @@ public:
     ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
     ClassOptionsPage(QWidget* pParent, UMLScene *scene);
     ClassOptionsPage(QWidget* pParent, Settings::OptionState *options, bool isDiagram=true);
+    ClassOptionsPage(QWidget* pParent, EntityWidget* widget);
     virtual ~ClassOptionsPage();
 
     void setDefaults();
@@ -54,10 +56,12 @@ protected:
     void setupPage();
     void setupPageFromScene();
     void setupClassPageOption();
+    void setupPageFromEntityWidget();
 
     void applyWidget();
     void applyOptionState();
     void applyScene();
+    void applyEntityWidget();
 
     void insertAttribScope(const QString& type, int index = -1);
     void insertOperationScope(const QString& type, int index = -1);
@@ -78,6 +82,7 @@ protected:
     KComboBox * m_operationScopeCB;
 
     ClassifierWidget* m_pWidget; ///< The classifier widget to represent in the dialog page.
+    EntityWidget* m_entityWidget; ///< The entity widget to represent in the dialog page.
     UMLScene* m_scene; ///< The scene to represent in the dialog page.
     Settings::OptionState *m_options; ///< The OptionState structure to represent in the dialog page.
     bool m_isDiagram; ///< Flag indicating that page is for diagram property dialog

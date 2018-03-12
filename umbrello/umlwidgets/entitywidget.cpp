@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2014                                               *
+ *   copyright (C) 2003-2018                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -47,6 +47,54 @@ EntityWidget::~EntityWidget()
 }
 
 /**
+ * calculate content related size of widget.
+ *
+ * @return calculated widget size
+ */
+QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
+{
+    Q_UNUSED(withExtensions)
+    const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+    if (!m_umlObject)
+        return QSizeF(width(), height());
+
+    qreal width = 0, height = defaultMargin;
+    if (showStereotype() && !m_umlObject->stereotype().isEmpty()) {
+        const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+        const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
+        if (stereoWidth > width)
+            width = stereoWidth;
+        height += fontHeight;
+    }
+
+    const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
+    const int nameWidth = bfm.size(0, name()).width();
+    if (nameWidth > width)
+        width = nameWidth;
+    height += fontHeight;
+
+    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
+    foreach (UMLClassifierListItem* entityattribute, list) {
+        QString text = entityattribute->name();
+        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        if (showAttributeSignature()) {
+            text.append(QLatin1String(" : ") + casted->getTypeName());
+            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+        }
+        if (showStereotype()) {
+            text.append(QLatin1String(" ") + casted->stereotype(true));
+        }
+        const int nameWidth = bfm.size(0, text).width();
+        if (nameWidth > width)
+            width = nameWidth;
+        height += fontHeight;
+    }
+    return QSizeF(width + 2*defaultMargin, height);
+}
+
+/**
  * Draws the entity as a rectangle with a box underneith with a list of literals
  */
 void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -74,7 +122,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     font.setBold(true);
     painter->setFont(font);
     int y = 0;
-    if (!m_umlObject->stereotype().isEmpty()) {
+    if (showStereotype() && !m_umlObject->stereotype().isEmpty()) {
         painter->drawText(ENTITY_MARGIN, 0,
                    w - ENTITY_MARGIN * 2, fontHeight,
                    Qt::AlignCenter, m_umlObject->stereotype(true));
@@ -110,6 +158,13 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         QString text = entityattribute->name();
         painter->setPen(textColor());
         UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        if (showAttributeSignature()) {
+            text.append(QLatin1String(" : ") + casted->getTypeName());
+            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+        }
+        if (showStereotype()) {
+            text.append(QLatin1String(" ") + casted->stereotype(true));
+        }
         if(casted && casted->indexType() == UMLEntityAttribute::Primary)
         {
             font.setUnderline(true);
@@ -125,6 +180,15 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     UMLWidget::paint(painter, option, widget);
 }
 
+bool EntityWidget::loadFromXMI1(QDomElement & qElement)
+{
+    if (!UMLWidget::loadFromXMI1(qElement))
+        return false;
+    QString showAttributeSignatures = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("0"));
+    m_showAttributeSignatures = (bool)showAttributeSignatures.toInt();
+    return true;
+}
+
 /**
  * Saves to the "entitywidget" XMI element.
  */
@@ -132,6 +196,8 @@ void EntityWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement(QLatin1String("entitywidget"));
     UMLWidget::saveToXMI1(qDoc, conceptElement);
+    conceptElement.setAttribute(QLatin1String("showattsigs"), m_showAttributeSignatures);
+
     qElement.appendChild(conceptElement);
 }
 
@@ -181,6 +247,14 @@ void EntityWidget::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_Show_Attribute_Signature:
+        setShowAttributeSignature(!showAttributeSignature());
+        break;
+
+    case ListPopupMenu::mt_Show_Stereotypes:
+        setShowStereotype(!showStereotype());
+        break;
+
     default:
         UMLWidget::slotMenuSelection(action);
     }
@@ -195,52 +269,27 @@ QSizeF EntityWidget::minimumSize() const
         return UMLWidget::minimumSize();
     }
 
-    int width, height;
-    QFont font = UMLWidget::font();
-    font.setItalic(false);
-    font.setUnderline(false);
-    font.setBold(false);
-    const QFontMetrics fm(font);
+    return calculateSize();
+}
 
-    const int fontHeight = fm.lineSpacing();
+/**
+ * Set the status of whether to show attributes.
+ *
+ * @param flag   True if attributes shall be shown.
+ */
+void EntityWidget::setShowAttributeSignature(bool flag)
+{
+    m_showAttributeSignatures = flag;
+    updateGeometry();
+    update();
+}
 
-    int lines = 1;//always have one line - for name
-    if (!m_umlObject->stereotype().isEmpty()) {
-        lines++;
-    }
-
-    const int numberOfEntityAttributes = m_umlObject->asUMLEntity()->entityAttributes();
-
-    height = width = 0;
-    //set the height of the entity
-
-    lines += numberOfEntityAttributes;
-    if (numberOfEntityAttributes == 0) {
-        height += fontHeight / 2; //no entity literals, so just add a bit of space
-    }
-
-    height += lines * fontHeight;
-
-    //now set the width of the concept
-    //set width to name to start with
-    // FIXME spaces to get round beastie with font width,
-    // investigate UMLWidget::getFontMetrics()
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(QLatin1Char(' ') + name() +
-                                                        QLatin1Char(' ')).width();
-    const int w = getFontMetrics(FT_BOLD).boundingRect(m_umlObject->stereotype(true)).width();
-
-    width = w > width ? w : width;
-
-    UMLClassifier* classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    UMLClassifierListItem* listItem = 0;
-    foreach (listItem, list) {
-        int w = fm.width(listItem->name());
-        width = w > width?w:width;
-    }
-
-    //allow for width margin
-    width += ENTITY_MARGIN * 2;
-
-    return QSizeF(width, height);
+/**
+ * Returns the status of whether to show attributes.
+ *
+ * @return  True if attributes are shown.
+ */
+bool EntityWidget::showAttributeSignature() const
+{
+    return m_showAttributeSignatures;
 }

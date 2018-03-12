@@ -362,6 +362,7 @@ private:
 #endif
 
     void insertSubMenuNew(MenuType type);
+    void insertSubMenuShowEntity(EntityWidget *widget);
     void insertSubMenuAlign();
     void insertSubMenuColor(bool fc);
 

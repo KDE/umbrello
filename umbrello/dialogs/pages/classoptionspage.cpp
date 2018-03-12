@@ -15,6 +15,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "classifierwidget.h"
+#include "entitywidget.h"
 #include "widgetbase.h"
 
 // kde includes
@@ -75,6 +76,15 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *opti
     setupClassPageOption();
 }
 
+ClassOptionsPage::ClassOptionsPage(QWidget *pParent, EntityWidget *widget)
+  : QWidget(pParent),
+    m_isDiagram(false)
+{
+    init();
+    m_entityWidget = widget;
+    setupPageFromEntityWidget();
+}
+
 /**
  * Destructor
  */
@@ -110,6 +120,8 @@ void ClassOptionsPage::apply()
         applyScene();
     } else if (m_options) {
         applyOptionState();
+    } else if (m_entityWidget) {
+        applyEntityWidget();
     }
 }
 
@@ -315,6 +327,29 @@ void ClassOptionsPage::setupClassPageOption()
     }
 }
 
+void ClassOptionsPage::setupPageFromEntityWidget()
+{
+    int margin = fontMetrics().height();
+
+    QVBoxLayout * topLayout = new QVBoxLayout(this);
+
+    topLayout->setSpacing(6);
+    m_visibilityGB = new QGroupBox(i18n("Show"), this);
+    topLayout->addWidget(m_visibilityGB);
+    QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
+    visibilityLayout->setSpacing(10);
+    visibilityLayout->setMargin(margin);
+    visibilityLayout->setRowStretch(3, 1);
+
+    m_showAttSigCB = new QCheckBox(i18n("Attribute Signatures"), m_visibilityGB);
+    m_showAttSigCB->setChecked(m_entityWidget->showAttributeSignature());
+    visibilityLayout->addWidget(m_showAttSigCB, 1, 0);
+
+    m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
+    m_showStereotypeCB->setChecked(m_entityWidget->showStereotype());
+    visibilityLayout->addWidget(m_showStereotypeCB, 2, 0);
+}
+
 /**
  * Sets the ClassifierWidget's properties to those selected in this dialog page.
  */
@@ -379,6 +414,13 @@ void ClassOptionsPage::applyScene()
         m_scene->setShowOpSig(m_showOpSigCB->isChecked());
 }
 
+void ClassOptionsPage::applyEntityWidget()
+{
+    Q_ASSERT(m_entityWidget);
+    m_entityWidget->setShowStereotype(m_showStereotypeCB->isChecked());
+    m_entityWidget->setShowAttributeSignature(m_showAttSigCB->isChecked());
+}
+
 /**
  * Initialize optional items
  */
@@ -387,6 +429,7 @@ void ClassOptionsPage::init()
     m_scene = 0;
     m_options = 0;
     m_pWidget = 0;
+    m_entityWidget = 0;
     m_showStereotypeCB = 0;
     m_showAttsCB = 0;
     m_showAttSigCB = 0;

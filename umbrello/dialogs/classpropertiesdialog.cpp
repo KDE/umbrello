@@ -223,6 +223,8 @@ void ClassPropertiesDialog::setupPages(bool assoc)
     if (ot == UMLObject::ot_Entity) {
         setupEntityAttributesPage();
         setupEntityConstraintsPage();
+        if (m_pWidget && m_pWidget->isEntityWidget())
+            setupEntityDisplayPage(m_pWidget->asEntityWidget());
     }
     if (ot == UMLObject::ot_Package) {
         setupContentsPage();
@@ -246,7 +248,7 @@ void ClassPropertiesDialog::setupGeneralPage()
     else
         m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pObject);
     createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
-               Icon_Utils::it_Properties_General, m_pGenPage)->setMinimumSize(310, 330);
+               Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
 }
 
 /**
@@ -255,7 +257,17 @@ void ClassPropertiesDialog::setupGeneralPage()
 void ClassPropertiesDialog::setupDisplayPage()
 {
     ClassifierWidget *cw = m_pWidget->asClassifierWidget();
-    m_pOptionsPage = new ClassOptionsPage(page, cw);
+    m_pOptionsPage = new ClassOptionsPage(0, cw);
+    createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
+               Icon_Utils::it_Properties_Display, m_pOptionsPage);
+}
+
+/**
+ * Sets up the page "Display" for the component.
+ */
+void ClassPropertiesDialog::setupEntityDisplayPage(EntityWidget *widget)
+{
+    m_pOptionsPage = new ClassOptionsPage(0, widget);
     createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
                Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }

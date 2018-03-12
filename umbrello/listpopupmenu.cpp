@@ -20,6 +20,7 @@
 #include "classifierwidget.h"
 #include "combinedfragmentwidget.h"
 #include "debug_utils.h"
+#include "entitywidget.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
 #include "forkjoinwidget.h"
@@ -460,6 +461,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Entity:
         insertSubMenuNew(mt_Entity);
+        insertSubMenuShowEntity(object->asEntityWidget());
         insertSubMenuColor(object->useFillColor());
         insertStdItems(true, type);
         insert(mt_Rename);
@@ -1424,6 +1426,23 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
         uError() << "Action's data field does not contain ListPopupMenu pointer!";
         return mt_Undefined;
     }
+}
+
+void ListPopupMenu::insertSubMenuShowEntity(EntityWidget *widget)
+{
+#if QT_VERSION >= 0x050000
+    QMenu* show = new QMenu(i18n("Show"), this);
+#else
+    KMenu* show = new KMenu(i18n("Show"), this);
+#endif
+    show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
+
+    insert(mt_Show_Attribute_Signature, show, i18n("Attribute Signature"), CHECKABLE);
+    setActionChecked(mt_Show_Attribute_Signature, widget->showAttributeSignature());
+
+    insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
+    setActionChecked(mt_Show_Stereotypes, widget->showStereotype());
+    addMenu(show);
 }
 
 /**
