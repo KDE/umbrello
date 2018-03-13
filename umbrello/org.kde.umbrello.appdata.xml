@@ -8,6 +8,7 @@
   <name xml:lang="ca">Umbrello</name>
   <name xml:lang="ca-valencia">Umbrello</name>
   <name xml:lang="cs">Umbrello</name>
+  <name xml:lang="da">Umbrello</name>
   <name xml:lang="de">Umbrello</name>
   <name xml:lang="el">Umbrello</name>
   <name xml:lang="en-GB">Umbrello</name>
@@ -35,6 +36,7 @@
   <summary xml:lang="ca">Modelador UML</summary>
   <summary xml:lang="ca-valencia">Modelador UML</summary>
   <summary xml:lang="cs">UML modelář</summary>
+  <summary xml:lang="da">UML-modellering</summary>
   <summary xml:lang="de">UML-Modeller</summary>
   <summary xml:lang="el">Μοντελοποιητής UML</summary>
   <summary xml:lang="en-GB">UML Modeller</summary>
@@ -66,6 +68,7 @@
     </p>
     <p xml:lang="ca">L'Umbrello és una eina de modelatge de Llenguatge Unificat de Modelatge (UML) i generador de codi. Pot crear diagrames de programari i altres sistemes en el format UML estàndard de la indústria, i també pot generar codi des de diagrames UML en diversos llenguatges de programació.</p>
     <p xml:lang="ca-valencia">L'Umbrello és una eina de modelatge de Llenguatge Unificat de Modelatge (UML) i generador de codi. Pot crear diagrames de programari i altres sistemes en el format UML estàndard de la indústria, i també pot generar codi des de diagrames UML en diversos llenguatges de programació.</p>
+    <p xml:lang="da">Umbrello er et Unified Modelling Language-modelleringsværktøj (UML) og kodegenerator. Den kan generere diagrammer af software og andre systemer i UML-formatet, som er en industristandard, og kan også generere kode fra UML-diagrammer i forskellige programmeringssprog.</p>
     <p xml:lang="de">Umbrello ist ein Modellierungswerkzeug und Quelltextgenerator für die vereinheitlichte Modellierungssprache (UML). Es können Diagramme von Software und anderen System im Industriestandard UML sowie Quelltext für verschiedene Sprachen erstellt werden.</p>
     <p xml:lang="el">Το Umbrello είναι ένα εργαλείο για τη γλώσσα μοντελοποίησης λογισμικού (UML) και δημιουργίας κώδικα. Μπορεί να δημιουργήσει διαγράμματα λογισμικού και άλλων συστημάτων βιομηχανικού πρότυπου UML καθώς και να δημιουργήσει κώδικα από τα διαγράμματα UML από μία ποικιλία γλωσσών προγραμματισμού.</p>
     <p xml:lang="en-GB">Umbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.</p>
@@ -91,6 +94,7 @@
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
+    <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
@@ -119,6 +123,7 @@
       <li xml:lang="ca">Formats acceptats: XMI</li>
       <li xml:lang="ca-valencia">Formats acceptats: XMI</li>
       <li xml:lang="cs">Podporované formáty: XMI</li>
+      <li xml:lang="da">Understøttede formater: XMI</li>
       <li xml:lang="de">Unterstützte Formate: XMI</li>
       <li xml:lang="el">Υποστηριζόμενοι τύποι: XMI</li>
       <li xml:lang="en-GB">Supported formats: XMI</li>
@@ -144,6 +149,7 @@
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
+      <li xml:lang="da">Understøtter adskillige diagramtyper: brugsmønster, klasse, sekvens, kommunikation, tilstand, aktivitet, komponent, udførelse, entitetsrelation</li>
       <li xml:lang="de">Verschiedene Diagramm-Typen werden unterstützt: Anwendungsfalldiagramm, Klassendiagramm, Sequenzdiagramm, Kommunikationsdiagramm, Zustandsdiagramm, Aktivitätsdiagramm, Komponentendiagramm, Verteilungsdiagramm, Entity-Relationship-Diagramm</li>
       <li xml:lang="el">Υποστηρίζονται διάφοροι τύποι διαγραμμάτων: περίπτωσης χρήσης, κλάσης, ακολουθίας, επικοινωνίας, κατάστασης, συστατικού, ανάπτυξης, σχέσεων οντότητας</li>
       <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
