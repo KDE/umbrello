@@ -232,6 +232,7 @@ namespace Icon_Utils {
         it_ClassOrPackage,
         it_Instance,
         it_Remove,
+        it_Duplicate,
         N_ICONTYPES    // must remain last
     };
 

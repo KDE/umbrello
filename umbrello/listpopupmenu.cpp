@@ -772,7 +772,7 @@ void ListPopupMenu::insert(MenuType m)
         m_actions[m] = addAction(i18n("Collapse All"));
         break;
     case mt_Clone:
-        m_actions[m] = addAction(i18nc("duplicate action", "Duplicate"));
+        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate"));
         break;
     case mt_Externalize_Folder:
         m_actions[m] = addAction(i18n("Externalize Folder..."));
