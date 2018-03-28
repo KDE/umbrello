@@ -814,6 +814,9 @@ void ListPopupMenu::insert(MenuType m)
     case mt_InstanceAttribute:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
+    case mt_Remove:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove"));
+        break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
         break;
@@ -976,9 +979,11 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     addSeparator();
     if (type == WidgetBase::wt_UMLWidget)
         insert(mt_Rename);
-    else if (Model_Utils::isCloneable(type))
+    else if (Model_Utils::isCloneable(type)) {
         insert(mt_Clone);
-    insert(mt_Delete);
+        insert(mt_Remove);
+    } else
+        insert(mt_Delete);
     if (!m_isListView)
     {
         insert(mt_Resize);

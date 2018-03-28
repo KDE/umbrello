@@ -372,6 +372,8 @@ QString toString(IconType type)
             return QLatin1String("branch");
         case it_New:
             return QLatin1String("document-new");
+        case it_Remove:
+            return QLatin1String("remove");
         case it_Delete:
             return QLatin1String("edit-delete");
         case it_Add_Point:

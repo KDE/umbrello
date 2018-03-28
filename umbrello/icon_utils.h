@@ -231,6 +231,7 @@ namespace Icon_Utils {
         it_Document_Edit,
         it_ClassOrPackage,
         it_Instance,
+        it_Remove,
         N_ICONTYPES    // must remain last
     };
 

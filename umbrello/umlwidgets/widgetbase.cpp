@@ -952,7 +952,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
     }
 
-    case ListPopupMenu::mt_Delete:
+    case ListPopupMenu::mt_Remove:
         umlScene()->deleteSelection();
         break;
 
