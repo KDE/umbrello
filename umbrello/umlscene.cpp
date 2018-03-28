@@ -1256,8 +1256,9 @@ QRectF UMLScene::diagramRect()
 }
 
 /**
- * Returns a list of selected widgets.
+ * Returns a list of selected widgets
  * QGraphicsScene calls widgets isSelected() to determine selection state.
+ * @return list of selected widgets based on class UMLWidget
  */
 UMLWidgetList UMLScene::selectedWidgets() const
 {
@@ -1420,9 +1421,7 @@ void UMLScene::unselectChildrenOfSelectedWidgets()
  */
 void UMLScene::deleteSelection()
 {
-    int selectionCount = (selectedWidgets().count()
-        + associationList().count()
-        + messageList().count());
+    int selectionCount = selectedWidgets().count() + associationList().count();
 
     if (selectionCount > 1) {
         UMLApp::app()->beginMacro(i18n("Delete widgets"));
