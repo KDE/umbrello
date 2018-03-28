@@ -24,6 +24,7 @@ class ClassOptionsPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
+class DontAskAgainWidget;
 class GeneralOptionPage;
 class KColorButton;
 class KFontChooser;
@@ -102,6 +103,7 @@ private:
 
     //private attributes
     UIWidgets m_UiWidgets;
+    DontAskAgainWidget *m_dontAskAgainWidget;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
     AutoLayoutOptionPage * m_pAutoLayoutPage;

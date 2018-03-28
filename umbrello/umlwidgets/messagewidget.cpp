@@ -14,6 +14,7 @@
 //app includes
 #include "classifier.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
@@ -774,8 +775,10 @@ void MessageWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     if (sel == ListPopupMenu::mt_Delete) {
-        // This will clean up this widget and the text widget:
-        m_scene->removeWidget(this);
+        if (Dialog_Utils::askDeleteAssociation()) {
+            // This will clean up this widget and the text widget:
+            m_scene->removeWidget(this);
+        }
     } else {
 
         UMLWidget::slotMenuSelection(action);

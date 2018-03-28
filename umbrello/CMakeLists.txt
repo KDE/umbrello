@@ -198,6 +198,7 @@ set(libdialogs_SRCS
     dialogs/codeviewerdialog.cpp
     dialogs/diagramselectiondialog.cpp
     dialogs/dialog_utils.cpp
+    dialogs/dontaskagain.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
     dialogs/messagewidgetpropertiesdialog.cpp

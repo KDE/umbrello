@@ -12,6 +12,7 @@
 
 #include "classifier.h"
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "optionstate.h"
 #include "uml.h"
@@ -953,6 +954,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     }
 
     case ListPopupMenu::mt_Remove:
+        umlScene()->deleteSelection();
+        break;
+
+    case ListPopupMenu::mt_Delete:
+        if (!Dialog_Utils::askDeleteAssociation())
+            break;
         umlScene()->deleteSelection();
         break;
 

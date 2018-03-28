@@ -19,7 +19,7 @@
 #include "umlwidgetstylepage.h"
 #include "codevieweroptionspage.h"
 #include "generaloptionpage.h"
-#include "dialog_utils.h"
+#include "dontaskagain.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "layoutgenerator.h"
@@ -54,6 +54,8 @@ SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
     m_bChangesApplied = false;
     m_pOptionState = state;
     setupGeneralPage();
+    m_dontAskAgainWidget = DontAskAgainHandler::instance().createWidget();
+    m_pGeneralPage->layout()->addWidget(m_dontAskAgainWidget);
     pageFont = setupFontPage(state->uiState.font);
     setupUIPage();
     setupClassPage();
@@ -300,6 +302,7 @@ void SettingsDialog::slotDefault()
     if (current ==  pageGeneral)
     {
         m_pGeneralPage->setDefaults();
+        m_dontAskAgainWidget->setDefaults();
     }
     else if (current == pageFont)
     {
@@ -339,6 +342,7 @@ void SettingsDialog::applyPage(KPageWidgetItem*item)
     if (item == pageGeneral)
     {
         m_pGeneralPage->apply();
+        m_dontAskAgainWidget->apply();
     }
     else if (item == pageFont)
     {

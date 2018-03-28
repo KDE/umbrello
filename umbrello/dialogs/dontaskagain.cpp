@@ -1,0 +1,142 @@
+/***************************************************************************
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   copyright (C) 2018                                                    *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
+ ***************************************************************************/
+
+#include "dontaskagain.h"
+
+// Qt includes
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QMetaType>
+#include <QVariant>
+#include <QVBoxLayout>
+
+// KDE includes
+#include <KLocalizedString>
+#include <KMessageBox>
+
+Q_DECLARE_METATYPE(DontAskAgainItem*)
+
+DontAskAgainItem::DontAskAgainItem(const QString &name)
+  : m_name(name)
+{
+    DontAskAgainHandler::instance().addItem(this);
+}
+
+DontAskAgainItem::~DontAskAgainItem()
+{
+}
+
+QString &DontAskAgainItem::name()
+{
+    return m_name;
+}
+
+bool DontAskAgainItem::isAll()
+{
+    return m_name == QLatin1String("all");
+}
+
+bool DontAskAgainItem::isEnabled()
+{
+    return isAll() ? false : KMessageBox::shouldBeShownContinue(m_name);
+}
+
+void DontAskAgainItem::setEnabled(bool state)
+{
+    if (isAll())
+        KMessageBox::enableAllMessages();
+    else if(state)
+        KMessageBox::enableMessage(m_name);
+    else
+        KMessageBox::saveDontShowAgainContinue(m_name);
+}
+
+DontAskAgainWidget::DontAskAgainWidget(QList<DontAskAgainItem *> &items, QWidget *parent)
+  : QWidget(parent),
+    m_items(items)
+{
+    setLayout(new QVBoxLayout(this));
+    QGroupBox *box = new QGroupBox(i18n("Notifications"));
+    layout()->addWidget(box);
+    m_layout = new QVBoxLayout(box);
+    foreach(DontAskAgainItem *item, m_items) {
+        addItem(item);
+    }
+}
+
+bool DontAskAgainWidget::apply()
+{
+    // handle 'all messages' case
+    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+        DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
+        if (item->isAll() && c->isChecked()) {
+            item->setEnabled();
+            return true;
+        }
+    }
+    // handle 'single message' case
+    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+        DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
+        if (!item->isAll() && c->isChecked() ^ item->isEnabled())
+            item->setEnabled(c->isChecked());
+    }
+    return true;
+}
+
+void DontAskAgainWidget::setDefaults()
+{
+    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+        DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
+        if (item->isAll())
+            c->setChecked(true);
+        else
+            c->setChecked(false);
+    }
+}
+
+void DontAskAgainWidget::addItem(DontAskAgainItem *item)
+{
+    QCheckBox *c = new QCheckBox(item->text());
+    c->setChecked(item->isEnabled());
+    c->setProperty("data", QVariant::fromValue(item));
+    connect(c, SIGNAL(toggled(bool)), this, SLOT(slotToggled(bool)));
+    m_layout->addWidget(c);
+}
+
+void DontAskAgainWidget::slotToggled(bool state)
+{
+    QCheckBox *c = dynamic_cast<QCheckBox*>(sender());
+    if (!c)
+        return;
+
+    DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
+    if (item->isAll()) {
+        foreach(QCheckBox *cb, this->findChildren<QCheckBox *>()) {
+            if (cb != c)
+                cb->setEnabled(!state);
+        }
+    }
+}
+
+void DontAskAgainHandler::addItem(DontAskAgainItem *item)
+{
+    m_items.append(item);
+}
+
+DontAskAgainWidget *DontAskAgainHandler::createWidget()
+{
+    return new DontAskAgainWidget(m_items);
+}
+
+DontAskAgainHandler &DontAskAgainHandler::instance()
+{
+    static DontAskAgainHandler handler;
+    return handler;
+}

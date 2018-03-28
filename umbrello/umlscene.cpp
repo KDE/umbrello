@@ -1436,24 +1436,28 @@ void UMLScene::deleteSelection()
                 widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             widget->setSelectedFlag(false);
             widget->hide();
-        } else {
+        // message widgets are handled later
+        } else if (!widget->isMessageWidget()){
             removeWidget(widget);
         }
     }
 
-    // Delete any selected associations.
-    foreach(AssociationWidget* assocwidget, associationList()) {
-        if (assocwidget->isSelected()) {
-            removeWidgetCmd(assocwidget);
+    if ((associationList().size() > 0 || messageList().size()) > 0
+            && Dialog_Utils::askDeleteAssociation()) {
+        // Delete any selected associations.
+        foreach(AssociationWidget* assocwidget, associationList()) {
+            if (assocwidget->isSelected()) {
+                removeWidgetCmd(assocwidget);
+            }
         }
-    }
 
-    // we also have to remove selected messages from sequence diagrams
+        // we also have to remove selected messages from sequence diagrams
 
-    // loop through all messages and check the selection state
-    foreach(MessageWidget* cur_msgWgt, messageList()) {
-        if (cur_msgWgt->isSelected()) {
-            removeWidget(cur_msgWgt);  // Remove message - it is selected.
+        // loop through all messages and check the selection state
+        foreach(MessageWidget* cur_msgWgt, messageList()) {
+            if (cur_msgWgt->isSelected()) {
+                removeWidget(cur_msgWgt);  // Remove message - it is selected.
+            }
         }
     }
 

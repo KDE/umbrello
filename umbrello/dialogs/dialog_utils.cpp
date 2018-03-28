@@ -16,6 +16,7 @@
 #include "umldoc.h"
 #include "stereotype.h"
 #include "umlwidget.h"
+#include "dontaskagain.h"
 
 // kde includes
 #include <KMessageBox>
@@ -27,6 +28,9 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
+
+DefineDontAskAgainItem(allItem, QLatin1String("all"), i18n("Enable all messages"));
+DefineDontAskAgainItem(askDeleteAssociationItem, QLatin1String("delete-association"), i18n("Enable 'delete association' related messages"));
 
 namespace Dialog_Utils {
 
@@ -94,6 +98,23 @@ bool askName(const QString& title, const QString& prompt, QString& name)
      name = KInputDialog::getText(title, prompt, name, &ok, (QWidget*)UMLApp::app());
 #endif
      return ok;
+}
+
+/**
+ * Ask the user for permission to delete an association.
+ *
+ * @return true - user want to continue
+ * @return false - user want to cancel
+ */
+bool askDeleteAssociation()
+{
+    return KMessageBox::warningContinueCancel(
+        UMLApp::app(),
+        i18n("You are about to delete an association. Do you really want to continue?"),
+        i18n("Delete Association"),
+        KStandardGuiItem::cont(),
+        KStandardGuiItem::cancel(),
+        askDeleteAssociationItem.name()) == KMessageBox::Continue;
 }
 
 /**

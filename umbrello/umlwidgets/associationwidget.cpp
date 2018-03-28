@@ -3036,6 +3036,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
+        if (!Dialog_Utils::askDeleteAssociation())
+            break;
         if (m_pAssocClassLineSel0)
             removeAssocClassLine();
         else if (association())
