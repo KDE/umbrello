@@ -15,7 +15,7 @@ option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
 
 option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories (for debugging purpose)" OFF)
 
-if(WIN32)
+if(WIN32 AND NOT (DEFINED "$ENV{CRAFT_ROOT}" OR DEFINED "$ENV{JENKINS_ROOT}"))
     set(BUILD_KF5_DEFAULT OFF)
 else()
     set(BUILD_KF5_DEFAULT ON)
