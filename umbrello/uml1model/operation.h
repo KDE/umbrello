@@ -69,6 +69,8 @@ public:
     bool getOverride() const;
     void setVirtual(bool b);
     bool isVirtual() const;
+    void setInline(bool b);
+    bool isInline() const;
 
     void setSourceCode(const QString& code);
     QString getSourceCode() const;
@@ -84,6 +86,7 @@ private:
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
     bool             m_Override;  ///< Holds the override attribute of the <UML:Operation>
     bool             m_virtual;   ///< Holds the virtual attribute of the <UML:Operation>
+    bool             m_inline;    ///< Holds the inline attribute of the <UML:Operation>
     QString          m_Code;      ///< Holds the entered source code
 };
 

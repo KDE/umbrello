@@ -461,6 +461,22 @@ bool UMLOperation::isVirtual() const
 }
 
 /**
+ * Sets whether this operation is inlined.
+ */
+void UMLOperation::setInline(bool b)
+{
+    m_inline = b;
+}
+
+/**
+ * Returns whether this operation is inlined.
+ */
+bool UMLOperation::isInline() const
+{
+    return m_inline;
+}
+
+/**
  * Display the properties configuration dialog for the template.
  *
  * @param parent   the parent for the dialog
@@ -498,6 +514,7 @@ void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
     operationElement.setAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
     operationElement.setAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isInline"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
     QDomElement featureElement = qDoc.createElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement(QLatin1String("UML:Parameter"));
@@ -555,6 +572,8 @@ bool UMLOperation::load1(QDomElement & element)
     m_Override = (isOverride == QLatin1String("true"));
     QString isVirtual = element.attribute(QLatin1String("isVirtual"));
     m_virtual = (isVirtual == QLatin1String("true"));
+    QString isInline = element.attribute(QLatin1String("isInline"));
+    m_inline = (isInline == QLatin1String("true"));
     QDomNode node = element.firstChild();
     if (node.isComment())
         node = node.nextSibling();

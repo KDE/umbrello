@@ -116,10 +116,13 @@ void UMLOperationDialog::setupDialog()
     m_virtualCB = new QCheckBox(i18n("&virtual"), m_pGenGB);
     m_virtualCB->setChecked(m_operation->isVirtual());
     genLayout->addWidget(m_virtualCB, 2, 3);
+    m_inlineCB = new QCheckBox(i18n("&inline"), m_pGenGB);
+    m_inlineCB->setChecked(m_operation->isInline());
+    genLayout->addWidget(m_inlineCB, 2, 4);
     if (Settings::optionState().codeImportState.supportCPP11) {
         m_pOverrideCB = new QCheckBox(i18n("&Override"), m_pGenGB);
         m_pOverrideCB->setChecked(m_operation->getOverride());
-        genLayout->addWidget(m_pOverrideCB, 2, 4);
+        genLayout->addWidget(m_pOverrideCB, 2, 5);
     }
 
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
@@ -441,6 +444,7 @@ bool UMLOperationDialog::apply()
     m_operation->setStatic(m_pStaticCB->isChecked());
     m_operation->setConst(m_pQueryCB->isChecked());
     m_operation->setVirtual(m_virtualCB->isChecked());
+    m_operation->setInline(m_inlineCB->isChecked());
     if (m_pOverrideCB)
         m_operation->setOverride(m_pOverrideCB->isChecked());
     m_docWidget->apply();

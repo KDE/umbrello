@@ -74,6 +74,7 @@ protected:
     QCheckBox*            m_pStaticCB;
     QCheckBox*            m_pQueryCB;
     QCheckBox*            m_virtualCB;
+    QCheckBox*            m_inlineCB;
     QCheckBox*            m_pOverrideCB;
     QPushButton*          m_pDeleteButton;
     QPushButton*          m_pPropertiesButton;

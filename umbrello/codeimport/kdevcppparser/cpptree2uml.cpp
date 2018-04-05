@@ -302,7 +302,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     bool isFriend = false;
     bool isVirtual = false;
     bool isStatic = false;
-//:unused:    bool isInline = false;
+    bool isInline = false;
     bool isConstructor = false;
     bool isDestructor = false;
 
@@ -314,8 +314,9 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
             QString text = l.at(i)->text();
             if (text == QLatin1String("virtual"))
                 isVirtual = true;
-//:unused:            else if (text == "inline") isInline = true;
-//:unused:        }
+            else if (text == QLatin1String("inline"))
+                isInline = true;
+        }
     }
 
     if (storageSpec){
@@ -347,6 +348,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         m->setStereotype(QLatin1String("constexpr"));
     if (isVirtual)
         m->setVirtual(true);
+    if (isInline)
+        m->setInline(true);
     if (d->override())
         m->setOverride(true);
     if (d->constant())
@@ -601,7 +604,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     bool isFriend = false;
     bool isVirtual = false;
     bool isStatic = false;
-//:unused:    bool isInline = false;
+    bool isInline = false;
     bool isPure = decl->initializer() != 0;
     bool isConstructor = false;
     bool isConstExpression = false;
@@ -613,8 +616,9 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
             QString text = l.at(i)->text();
             if (text == QLatin1String("virtual"))
                 isVirtual = true;
-//:unused:            else if (text == QLatin1String("inline")) isInline = true;
-//:unused:        }
+            else if (text == QLatin1String("inline"))
+                isInline = true;
+        }
     }
 
     if (storageSpec){
@@ -647,6 +651,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setStereotype(QLatin1String("constexpr"));
     if (isVirtual)
         m->setVirtual(true);
+    if (isInline)
+        m->setInline(true);
     // if a class has no return type, it could de a constructor or
     // a destructor
     if (d && returnType.isEmpty()) {
