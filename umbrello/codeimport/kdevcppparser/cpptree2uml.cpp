@@ -300,7 +300,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         return;
 
     bool isFriend = false;
-//:unused:    bool isVirtual = false;
+    bool isVirtual = false;
     bool isStatic = false;
 //:unused:    bool isInline = false;
     bool isConstructor = false;
@@ -309,10 +309,11 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     bool isConstExpression = false;
 
     if (funSpec){
-//:unused:        QList<AST*> l = funSpec->nodeList();
-//:unused:        for (int i = 0; i < l.size(); ++i) {
-//:unused:            QString text = l.at(i)->text();
-//:unused:            if (text == "virtual") isVirtual = true;
+        QList<AST*> l = funSpec->nodeList();
+        for (int i = 0; i < l.size(); ++i) {
+            QString text = l.at(i)->text();
+            if (text == QLatin1String("virtual"))
+                isVirtual = true;
 //:unused:            else if (text == "inline") isInline = true;
 //:unused:        }
     }
@@ -344,7 +345,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     UMLOperation *m = Import_Utils::makeOperation(c, id);
     if (isConstExpression)
         m->setStereotype(QLatin1String("constexpr"));
-
+    if (isVirtual)
+        m->setVirtual(true);
     if (d->override())
         m->setOverride(true);
     if (d->constant())
@@ -597,7 +599,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
                                              TypeSpecifierAST * typeSpec, InitDeclaratorAST * decl)
 {
     bool isFriend = false;
-//:unused:    bool isVirtual = false;
+    bool isVirtual = false;
     bool isStatic = false;
 //:unused:    bool isInline = false;
     bool isPure = decl->initializer() != 0;
@@ -606,10 +608,11 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     bool isDestructor = false;
 
     if (funSpec){
-//:unused:        QList<AST*> l = funSpec->nodeList();
-//:unused:        for (int i = 0; i < l.size(); ++i) {
-//:unused:            QString text = l.at(i)->text();
-//:unused:            if (text == QLatin1String("virtual")) isVirtual = true;
+        QList<AST*> l = funSpec->nodeList();
+        for (int i = 0; i < l.size(); ++i) {
+            QString text = l.at(i)->text();
+            if (text == QLatin1String("virtual"))
+                isVirtual = true;
 //:unused:            else if (text == QLatin1String("inline")) isInline = true;
 //:unused:        }
     }
@@ -642,6 +645,8 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setConst(true);
     if (isConstExpression)
         m->setStereotype(QLatin1String("constexpr"));
+    if (isVirtual)
+        m->setVirtual(true);
     // if a class has no return type, it could de a constructor or
     // a destructor
     if (d && returnType.isEmpty()) {

@@ -445,6 +445,22 @@ bool UMLOperation::getOverride() const
 }
 
 /**
+ * Sets whether this operation is a virtual method.
+ */
+void UMLOperation::setVirtual(bool b)
+{
+    m_virtual = b;
+}
+
+/**
+ * Returns whether this operation is a virtual method.
+ */
+bool UMLOperation::isVirtual() const
+{
+    return m_virtual;
+}
+
+/**
  * Display the properties configuration dialog for the template.
  *
  * @param parent   the parent for the dialog
@@ -481,6 +497,7 @@ void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement operationElement = UMLObject::save1(QLatin1String("UML:Operation"), qDoc);
     operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
     operationElement.setAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
     QDomElement featureElement = qDoc.createElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement(QLatin1String("UML:Parameter"));
@@ -536,6 +553,8 @@ bool UMLOperation::load1(QDomElement & element)
     }
     QString isOverride = element.attribute(QLatin1String("isOverride"));
     m_Override = (isOverride == QLatin1String("true"));
+    QString isVirtual = element.attribute(QLatin1String("isVirtual"));
+    m_virtual = (isVirtual == QLatin1String("true"));
     QDomNode node = element.firstChild();
     if (node.isComment())
         node = node.nextSibling();
