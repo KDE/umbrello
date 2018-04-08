@@ -22,7 +22,8 @@
 
 <!-- ========= umbrello specific ========= -->
 <!ATTLIST UML:Operation
-   isOverride (true|false) #IMPLIED>
+   isOverride (true|false) #IMPLIED
+   isVirtual (true|false) #IMPLIED>
 
 <!ENTITY % UML.EntityAtts '
    isAbstract (true|false) #IMPLIED
