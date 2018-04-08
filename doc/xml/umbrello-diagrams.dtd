@@ -66,6 +66,8 @@
           usefillcolor CDATA #IMPLIED
           xmi.id CDATA #IMPLIED
           zoom CDATA #IMPLIED
+          showdocumentation CDATA #IMPLIED
+          autoincrementsequence CDATA #IMPLIED
 >
 <!ELEMENT associations ANY >
 <!ATTLIST associations
