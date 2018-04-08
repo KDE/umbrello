@@ -21,6 +21,8 @@
 %UML14;
 
 <!-- ========= umbrello specific ========= -->
+<!ATTLIST UML:Operation
+   isOverride (true|false) #IMPLIED>
 
 <!ENTITY % UML.EntityAtts '
    isAbstract (true|false) #IMPLIED
