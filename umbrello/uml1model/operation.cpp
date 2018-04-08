@@ -514,7 +514,9 @@ void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
     operationElement.setAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
     operationElement.setAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
-    operationElement.setAttribute(QLatin1String("isInline"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isInline"), m_inline ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isMutual"), m_mutual ? QLatin1String("true") : QLatin1String("false"));
+    operationElement.setAttribute(QLatin1String("isVolatile"), m_volatile ? QLatin1String("true") : QLatin1String("false"));
     QDomElement featureElement = qDoc.createElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement(QLatin1String("UML:Parameter"));
