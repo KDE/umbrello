@@ -217,6 +217,7 @@ bool Parser::skipUntilDeclaration()
         case Token_const:       // cv
         case Token_const_expr:       // cv
         case Token_volatile:    // cv
+        case Token_mutable:    // cv
 
         case Token_public:
         case Token_protected:
@@ -245,6 +246,7 @@ bool Parser::skipUntilStatement()
         case Token_const:
         case Token_const_expr:
         case Token_volatile:
+        case Token_mutable:
         case Token_identifier:
         case Token_case:
         case Token_default:
@@ -1044,7 +1046,7 @@ bool Parser::parseCvQualify(GroupAST::Node& node)
     int n = 0;
     while (!m_lexer->lookAhead(0).isNull()) {
         int tk = m_lexer->lookAhead(0);
-        if (tk == Token_const || tk == Token_volatile) {
+        if (tk == Token_const || tk == Token_volatile || tk == Token_mutable) {
             ++n;
             int startWord = m_lexer->index();
             nextToken();

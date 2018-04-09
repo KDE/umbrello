@@ -218,6 +218,10 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         // Strip possible adornments and look again.
         const bool isConst = name.contains(QRegExp(QLatin1String("^const ")));
         name.remove(QRegExp(QLatin1String("^const\\s+")));
+        const bool isVolatile = name.contains(QRegExp(QLatin1String("^volatile ")));
+        name.remove(QRegExp(QLatin1String("^volatile\\s+")));
+        const bool isMutable = name.contains(QRegExp(QLatin1String("^mutable ")));
+        name.remove(QRegExp(QLatin1String("^mutable\\s+")));
         QString typeName(name);
         bool isAdorned = typeName.contains(QRegExp(QLatin1String("[^\\w:\\. ]")));
         const bool isPointer = typeName.contains(QLatin1Char('*'));
@@ -272,8 +276,12 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             bNewUMLObjectWasCreated = true;
             bPutAtGlobalScope = false;
         }
-        if (isConst || isAdorned) {
+        if (isConst || isAdorned || isMutable || isVolatile) {
             // Create the full given type (including adornments.)
+            if (isVolatile)
+                name.prepend(QLatin1String("volatile "));
+            if (isMutable)
+                name.prepend(QLatin1String("mutable "));
             if (isConst)
                 name.prepend(QLatin1String("const "));
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,

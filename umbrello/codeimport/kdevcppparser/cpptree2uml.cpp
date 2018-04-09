@@ -576,7 +576,10 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("static")) isStatic = true;
+            if (text == QLatin1String("static"))
+                isStatic = true;
+            else if (text == QLatin1String("mutable"))
+                typeName.prepend(text + QLatin1String(" "));
 //:unused:            else if (text == QLatin1String("friend")) isFriend = true;
         }
     }
