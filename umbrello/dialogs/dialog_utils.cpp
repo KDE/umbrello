@@ -31,6 +31,7 @@
 
 DefineDontAskAgainItem(allItem, QLatin1String("all"), i18n("Enable all messages"));
 DefineDontAskAgainItem(askDeleteAssociationItem, QLatin1String("delete-association"), i18n("Enable 'delete association' related messages"));
+DefineDontAskAgainItem(askDeleteDiagramItem, QLatin1String("delete-diagram"), i18n("Enable 'delete diagram' related messages"));
 
 namespace Dialog_Utils {
 
@@ -115,6 +116,26 @@ bool askDeleteAssociation()
         KStandardGuiItem::cont(),
         KStandardGuiItem::cancel(),
         askDeleteAssociationItem.name()) == KMessageBox::Continue;
+}
+
+/**
+ * Ask the user for permission to delete a diagram.
+ *
+ * @return true - user want to continue
+ * @return false - user want to cancel
+ */
+bool askDeleteDiagram(const QString &name)
+{
+    QString text = name.isEmpty() ? i18n("You are about to delete the entire diagram.\nAre you sure?")
+                                  : i18n("Are you sure you want to delete diagram %1?", name);
+
+    return KMessageBox::warningContinueCancel(
+        UMLApp::app(),
+        text,
+        i18n("Delete Diagram?"),
+        KGuiItem(i18n("&Delete")),
+        KStandardGuiItem::cancel(),
+        askDeleteDiagramItem.name()) == KMessageBox::Continue;
 }
 
 /**

@@ -3283,10 +3283,7 @@ WidgetBase::WidgetType UMLScene::getUniqueSelectionType()
  */
 void UMLScene::clearDiagram()
 {
-    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(activeView(),
-                                     i18n("You are about to delete the entire diagram.\nAre you sure?"),
-                                     i18n("Delete Diagram?"),
-                                     KGuiItem(i18n("&Delete"), QLatin1String("edit-delete")))) {
+    if (Dialog_Utils::askDeleteDiagram()) {
         removeAllWidgets();
     }
 }

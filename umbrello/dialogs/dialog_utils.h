@@ -45,6 +45,7 @@ bool askName(const QString& title, const QString& prompt, QString& name);
 void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 
 bool askDeleteAssociation();
+bool askDeleteDiagram(const QString &name = QString());
 }
 
 #endif

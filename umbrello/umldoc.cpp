@@ -1755,12 +1755,7 @@ void UMLDoc::removeDiagram(Uml::ID::Type id)
     }
 
     UMLScene* umlScene = umlView->umlScene();
-    if (KMessageBox::warningContinueCancel(
-        0,
-        i18n("Are you sure you want to delete diagram %1?", umlScene->name()),
-        i18n("Delete Diagram"),
-        KGuiItem(i18n("&Delete"), QLatin1String("edit-delete"))) == KMessageBox::Continue
-    ) {
+    if (Dialog_Utils::askDeleteDiagram(umlScene->name())) {
         UMLApp::app()->executeCommand(new Uml::CmdRemoveDiagram(
             umlScene->folder(),
             umlScene->type(),
