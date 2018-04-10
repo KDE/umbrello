@@ -563,7 +563,7 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
     }
 
     QString typeName = typeOfDeclaration(typeSpec, d);
-//:unused:    bool isFriend = false;
+    bool isFriend = false;
     bool isStatic = false;
 //:unused:    bool isInitialized = decl->initializer() != 0;
 
@@ -571,13 +571,16 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("static")) isStatic = true;
-//:unused:            else if (text == QLatin1String("friend")) isFriend = true;
+            if (text == QLatin1String("static"))
+                isStatic = true;
+            else if (text == QLatin1String("friend"))
+                isFriend = true;
         }
     }
 
-    Import_Utils::insertAttribute(c, m_currentAccess, id, typeName,
-                                  m_comment, isStatic);
+    UMLAttribute *attribute = Import_Utils::insertAttribute(c, m_currentAccess, id, typeName, m_comment, isStatic);
+    if (isFriend)
+        attribute->setStereotype(QLatin1String("friend"));
     m_comment = QString();
 }
 

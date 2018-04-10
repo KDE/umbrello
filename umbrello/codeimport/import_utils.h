@@ -59,12 +59,12 @@ namespace Import_Utils {
 
     void assignUniqueIdOnCreation(bool yesno);
 
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
+    UMLAttribute* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                const QString& type,
                                const QString& comment = QString(),
                                bool isStatic = false);
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
+    UMLAttribute *insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                UMLClassifier *attrType,
                                const QString& comment /* =QString() */,
