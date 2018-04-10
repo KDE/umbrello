@@ -381,7 +381,7 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name)
  * Create a UMLAttribute and insert it into the document.
  * Use the specified existing attrType.
  */
-UMLObject* insertAttribute(UMLClassifier *owner,
+UMLAttribute* insertAttribute(UMLClassifier *owner,
                            Uml::Visibility::Enum scope,
                            const QString& name,
                            UMLClassifier *attrType,
@@ -398,7 +398,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
     }
     UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);
     if (o) {
-        return o;
+        return o->asUMLAttribute();
     }
 
     UMLAttribute *attr = owner->addAttribute(name, attrType, scope);
@@ -415,7 +415,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
 /**
  * Create a UMLAttribute and insert it into the document.
  */
-UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
+UMLAttribute *insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
                            const QString& name,
                            const QString& type,
                            const QString& comment /* =QString() */,
