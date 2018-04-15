@@ -545,6 +545,6 @@ void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         umldoc->changeCurrentView(m_diagramLink);
         event->accept();
     } else
-        UMLWidget::showPropertiesDialog();
+        showPropertiesDialog();
 }
 
