@@ -11,6 +11,7 @@
 #include "stereotypeswindow.h"
 
 // app includes
+#include "dialog_utils.h"
 #include "stereotype.h"
 #include "models/stereotypesmodel.h"
 #include "uml.h"
@@ -71,4 +72,16 @@ void StereotypesWindow::slotStereotypesDoubleClicked(QModelIndex index)
         UMLStereotype *s = v.value<UMLStereotype*>();
         s->showPropertiesDialog(this);
     }
+}
+
+void StereotypesWindow::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event);
+    QString name;
+    if (!Dialog_Utils::askName(i18n("New Stereotype"), i18n("Enter name for new stereotype"), name))
+        return;
+    if (UMLApp::app()->document()->findStereotype(name))
+        return;
+    UMLStereotype *s = new UMLStereotype(name);
+    UMLApp::app()->document()->stereotypesModel()->addStereotype(s);
 }

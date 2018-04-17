@@ -33,6 +33,7 @@ protected slots:
 
 protected:
     QTableView *m_stereotypesTree;
+    void contextMenuEvent(QContextMenuEvent *event);
 };
 
 #endif // STEREOTYPESWINDOW_H
