@@ -305,16 +305,16 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 //:unused:    bool isInline = false;
     bool isConstructor = false;
     bool isDestructor = false;
-
+    bool isExplicit = false;
     bool isConstExpression = false;
 
     if (funSpec){
-//:unused:        QList<AST*> l = funSpec->nodeList();
-//:unused:        for (int i = 0; i < l.size(); ++i) {
-//:unused:            QString text = l.at(i)->text();
-//:unused:            if (text == "virtual") isVirtual = true;
-//:unused:            else if (text == "inline") isInline = true;
-//:unused:        }
+        QList<AST*> l = funSpec->nodeList();
+        for (int i = 0; i < l.size(); ++i) {
+            QString text = l.at(i)->text();
+            if (text == QLatin1String("explicit"))
+                isExplicit = true;
+        }
     }
 
     if (storageSpec){
@@ -363,6 +363,8 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
                                isStatic, false /*isAbstract*/, isFriend, isConstructor,
                                isDestructor, m_comment);
     m_comment = QString();
+    if  (isExplicit && isConstructor)
+        m->setStereotype(QLatin1String("explicit constructor"));
 
 /* For reference, Kdevelop does some more:
     method->setFileName(m_fileName);
@@ -607,14 +609,15 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     bool isConstructor = false;
     bool isConstExpression = false;
     bool isDestructor = false;
+    bool isExplicit = false;
 
     if (funSpec){
-//:unused:        QList<AST*> l = funSpec->nodeList();
-//:unused:        for (int i = 0; i < l.size(); ++i) {
-//:unused:            QString text = l.at(i)->text();
-//:unused:            if (text == QLatin1String("virtual")) isVirtual = true;
-//:unused:            else if (text == QLatin1String("inline")) isInline = true;
-//:unused:        }
+        QList<AST*> l = funSpec->nodeList();
+        for (int i = 0; i < l.size(); ++i) {
+            QString text = l.at(i)->text();
+            if (text == QLatin1String("explicit"))
+                isExplicit = true;
+        }
     }
 
     if (storageSpec){
@@ -659,6 +662,9 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
                                isStatic, isPure, isFriend, isConstructor, isDestructor, m_comment);
     if  (isPure)
         c->setAbstract(true);
+    if  (isExplicit && isConstructor)
+        m->setStereotype(QLatin1String("explicit constructor"));
+
     m_comment = QString();
 }
 
