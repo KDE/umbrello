@@ -342,8 +342,6 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 
     QString returnType = typeOfDeclaration(typeSpec, d);
     UMLOperation *m = Import_Utils::makeOperation(c, id);
-    if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
 
     if (d->override())
         m->setOverride(true);
@@ -363,8 +361,16 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
                                isStatic, false /*isAbstract*/, isFriend, isConstructor,
                                isDestructor, m_comment);
     m_comment = QString();
-    if  (isExplicit && isConstructor)
-        m->setStereotype(QLatin1String("explicit constructor"));
+    if  (isConstructor) {
+        QString stereotype;
+        if (isExplicit)
+            stereotype.append(QLatin1String("explicit "));
+        if (isConstExpression)
+            stereotype.append(QLatin1String("constexpr "));
+        stereotype.append(QLatin1String("constructor"));
+        m->setStereotype(stereotype);
+    } else if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
 
 /* For reference, Kdevelop does some more:
     method->setFileName(m_fileName);
@@ -646,8 +652,6 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setOverride(true);
     if (d->constant())
         m->setConst(true);
-    if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
     // if a class has no return type, it could de a constructor or
     // a destructor
     if (d && returnType.isEmpty()) {
@@ -662,8 +666,17 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
                                isStatic, isPure, isFriend, isConstructor, isDestructor, m_comment);
     if  (isPure)
         c->setAbstract(true);
-    if  (isExplicit && isConstructor)
-        m->setStereotype(QLatin1String("explicit constructor"));
+
+    if  (isConstructor) {
+        QString stereotype;
+        if (isExplicit)
+            stereotype.append(QLatin1String("explicit "));
+        if (isConstExpression)
+            stereotype.append(QLatin1String("constexpr "));
+        stereotype.append(QLatin1String("constructor"));
+        m->setStereotype(stereotype);
+    } else if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
 
     m_comment = QString();
 }
