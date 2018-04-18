@@ -3150,6 +3150,8 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
 
                 SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
                 ast->setInitDeclaratorList(declarators);
+                if (hasFunSpec)
+                    ast->setFunctionSpecifier(funSpec);
                 ast->setText(toString(start, endSignature));
                 node = std::move(ast);
                 UPDATE_POS(node, start, m_lexer->index());
