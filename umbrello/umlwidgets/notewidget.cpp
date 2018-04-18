@@ -318,26 +318,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
  */
 QSizeF NoteWidget::minimumSize() const
 {
-    int width = 60;
-    int height = 30;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(documentation());
-    if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    return QSizeF(width, height);
+    return calculateSize().expandedTo(UMLWidget::DefaultMinimumSize);
 }
 
 /**
@@ -347,27 +328,32 @@ QSizeF NoteWidget::minimumSize() const
 QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
 {
     Q_UNUSED(withExtensions)
-    int width = this->width();
+    int width = 0;
     int height = this->height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int margin = fm.width(QLatin1String("W"));
-    QSize size = fm.size (0, documentation());
+    QSize size = fm.size(Qt::TextExpandTabs, documentation());
     const int textWidth = size.width();
+    const int textHeight = size.height();
     if (m_noteType == PreCondition) {
         const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
+        width += 2 * defaultMargin;
     }
     else if (m_noteType == PostCondition) {
         const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
+        width += 2 * defaultMargin;
     }
     else if (m_noteType == Transformation) {
         const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
+        width += 2 * defaultMargin;
     }
+    if (textWidth > width)
+        width = textWidth;
+    if (textHeight > height)
+        height = textHeight;
+
     return QSizeF(width, height);
 }
 
