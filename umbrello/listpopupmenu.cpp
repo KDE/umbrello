@@ -1777,8 +1777,6 @@ void ListPopupMenu::setupMenu(MenuType type)
         if (m_isListView)
             insert(mt_Show);
         addSeparator();
-        insert(mt_Import_Class);
-        addSeparator();
         if (m_TriggerObjectType == tot_Object) {
             UMLObject *o = m_TriggerObject.m_Object;
             if (o && o->stereotype() == QLatin1String("class-or-package")) {
