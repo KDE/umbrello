@@ -345,7 +345,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
     QRectF diagramRect();
 

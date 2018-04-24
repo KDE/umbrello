@@ -15,6 +15,7 @@
 #include "association.h"
 #include "associationline.h"
 #include "associationpropertiesdialog.h"
+#include "associationwidgetpopupmenu.h"
 #include "assocrules.h"
 #include "attribute.h"
 #include "classifier.h"
@@ -24,7 +25,6 @@
 #include "docwindow.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
-#include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "operation.h"
@@ -4004,21 +4004,8 @@ void AssociationWidget::clipSize()
 void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     const Uml::AssociationType::Enum type = associationType();
-    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
-    if ((type == Uml::AssociationType::Anchor) ||
-            onAssocClassLine(event->scenePos())) {
-        menuType = ListPopupMenu::mt_Anchor;
-    } else if (isCollaboration()) {
-        menuType = ListPopupMenu::mt_Collaboration_Message;
-    } else if (!association()) {
-        menuType = ListPopupMenu::mt_AttributeAssociation;
-    } else if (AssocRules::allowRole(type)) {
-        menuType = ListPopupMenu::mt_FullAssociation;
-    }
 
     event->accept();
-    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType)
-                   << " / association = " << Uml::AssociationType::toString(type);
 
     UMLScene *scene = umlScene();
     QWidget *parent = 0;
@@ -4034,23 +4021,9 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     setSelected(true);
     m_eventScenePos = event->scenePos();
-    ListPopupMenu popup(parent, menuType, this);
+    AssociationWidgetPopupMenu popup(parent, type, this);
     QAction *triggered = popup.exec(event->screenPos());
-    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
-
-    if (!parentMenu) {
-        uWarning() << "Action's data field does not contain ListPopupMenu pointer";
-        return;
-    }
-
-    WidgetBase *ownerWidget = parentMenu->ownerWidget();
-    // assert because logic is based on only WidgetBase being the owner of
-    // ListPopupMenu actions executed in this context menu.
-    Q_ASSERT_X(ownerWidget != 0, "AssociationWidget::contextMenuEvent",
-            "ownerWidget is null which means action belonging to UMLView, UMLScene"
-            " or UMLObject is the one triggered in ListPopupMenu");
-
-    ownerWidget->slotMenuSelection(triggered);
+    slotMenuSelection(triggered);
 }
 
 /**

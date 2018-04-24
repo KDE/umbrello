@@ -374,6 +374,7 @@ set(libumlwidgets_SRCS
     umlwidgets/artifactwidget.cpp
     umlwidgets/associationline.cpp
     umlwidgets/associationwidget.cpp
+    umlwidgets/associationwidgetpopupmenu.cpp
     umlwidgets/boxwidget.cpp
     umlwidgets/categorywidget.cpp
     umlwidgets/childwidgetplacement.cpp
@@ -410,6 +411,7 @@ set(libumlwidgets_SRCS
     umlwidgets/widget_factory.cpp
     umlwidgets/widget_utils.cpp
     umlwidgets/widgetbase.cpp
+    umlwidgets/widgetbasepopupmenu.cpp
     umlwidgets/widgetlist_utils.cpp
     umlwidgets/statusbartoolbutton.cpp
 )
@@ -493,8 +495,10 @@ set(umbrellobase_SRCS
     uml.cpp
     umldoc.cpp
     umllistview.cpp
+    umllistviewpopupmenu.cpp
     umllistviewitem.cpp
     umlscene.cpp
+    umlscenepopupmenu.cpp
     umlview.cpp
     umlviewimageexporterall.cpp
     umlviewimageexporter.cpp

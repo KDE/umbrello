@@ -28,7 +28,7 @@
 #include "category.h"
 #include "docwindow.h"
 #include "layoutgenerator.h"
-#include "listpopupmenu.h"
+#include "umllistviewpopupmenu.h"
 #include "template.h"
 #include "operation.h"
 #include "attribute.h"
@@ -2087,8 +2087,7 @@ void UMLListView::contextMenuEvent(QContextMenuEvent *event)
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(event->pos()));
     if (item) {
-        const UMLListViewItem::ListViewType type = item->type();
-        ListPopupMenu popup(this, type, item->umlObject());
+        UMLListViewPopupMenu popup(this, item->type(), item->umlObject());
         QAction *triggered = popup.exec(event->globalPos());
         slotMenuSelection(triggered, event->globalPos());
         event->accept();

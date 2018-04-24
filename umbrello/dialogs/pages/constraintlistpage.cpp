@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #if QT_VERSION >= 0x050000
+#include <QMenu>
 #include <QPushButton>
 #endif
 #include <QVBoxLayout>

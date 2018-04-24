@@ -14,11 +14,12 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
-#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlobject.h"
 #include "umlscene.h"
+#include "widgetbasepopupmenu.h"
 
 #if QT_VERSION < 0x050000
 #include <kcolordialog.h>
@@ -773,7 +774,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     // Determine multi state
     bool multi = (isSelected() && count > 1);
 
-    ListPopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
+    WidgetBasePopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
 
     // Disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive()) {
@@ -781,21 +782,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
 
     QAction *triggered = popup.exec(event->screenPos());
-    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
-
-    if (!parentMenu) {
-        uDebug() << "Action's data field does not contain ListPopupMenu pointer";
-        return;
-    }
-
-    WidgetBase *ownerWidget = parentMenu->ownerWidget();
-    // assert because logic is based on only WidgetBase being the owner of
-    // ListPopupMenu actions executed in this context menu.
-    Q_ASSERT_X(ownerWidget != 0, "WidgetBase::contextMenuEvent",
-            "ownerWidget is null which means action belonging to UMLView, UMLScene"
-            " or UMLObject is the one triggered in ListPopupMenu");
-
-    ownerWidget->slotMenuSelection(triggered);
+    slotMenuSelection(triggered);
 }
 
 /**

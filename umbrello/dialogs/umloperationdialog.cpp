@@ -242,8 +242,8 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
     }
     // this happens, when there was no right click in the list widget
     ListPopupMenu popup(this, ListPopupMenu::mt_Parameter_Selected);
-    QAction* action = popup.getAction(ListPopupMenu::mt_Properties);
-    slotMenuSelection(action);
+    QAction *triggered = popup.getAction(ListPopupMenu::mt_Properties);
+    slotMenuSelection(triggered);
 }
 
 void UMLOperationDialog::slotMenuSelection(QAction* action)
