@@ -948,6 +948,7 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     default:
+        uWarning() << "unknown menu type " << type;
         break;
     }//end switch
 }

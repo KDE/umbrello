@@ -201,6 +201,7 @@ void UMLListViewPopupMenu::setupMenu(MenuType type)
         insert(mt_Properties);
         break;
     default:
+        uWarning() << "unknown menu type " << type;
         break;
     }
     ListPopupMenu::setupMenu(type);

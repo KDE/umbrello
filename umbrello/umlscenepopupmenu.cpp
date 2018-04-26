@@ -85,6 +85,7 @@ void UMLScenePopupMenu::setupMenu(MenuType type)
         insert(mt_Properties);
         break;
     default:
+        uWarning() << "unknown menu type " << type;
         break;
     }
     bool bCutState = UMLApp::app()->isCutCopyState();

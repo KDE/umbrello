@@ -117,6 +117,7 @@ void AssociationWidgetPopupMenu::setupMenu(MenuType type)
         insertAssociationItem(type);
         break;
     default:
+        uWarning() << "unknown menu type " << type;
         break;
     }
 }
