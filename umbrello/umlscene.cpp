@@ -719,40 +719,35 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned false";
         return;
     }
-    UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid;
-    if (!tidIt.hasNext()) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
-        return;
-    }
-    tid = tidIt.next();
-    UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::ID::Type id = tid->id;
+    for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
+        UMLListViewItem::ListViewType lvtype = (*it)->type;
+        Uml::ID::Type id = (*it)->id;
 
-    DiagramType::Enum diagramType = type();
+        DiagramType::Enum diagramType = type();
 
-    UMLObject* temp = 0;
-    //if dragging diagram - might be a drag-to-note
-    if (Model_Utils::typeIsDiagram(lvtype)) {
-        e->accept();
-        return;
-    }
-    //can't drag anything onto state/activity diagrams
-    if (diagramType == DiagramType::State || diagramType == DiagramType::Activity) {
-        e->ignore();
-        return;
-    }
-    //make sure can find UMLObject
-    if (!(temp = m_doc->findObjectById(id))) {
-        DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
-        e->ignore();
-        return;
-    }
-    bool bAccept = Model_Utils::typeIsAllowedInDiagram(temp, this);
-    if (bAccept) {
-        e->accept();
-    } else {
-        e->ignore();
+        UMLObject* temp = 0;
+        //if dragging diagram - might be a drag-to-note
+        if (Model_Utils::typeIsDiagram(lvtype)) {
+            e->accept();
+            continue;
+        }
+        //can't drag anything onto state/activity diagrams
+        if (diagramType == DiagramType::State || diagramType == DiagramType::Activity) {
+            e->ignore();
+            continue;
+        }
+        //make sure can find UMLObject
+        if (!(temp = m_doc->findObjectById(id))) {
+            DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
+            e->ignore();
+            continue;
+        }
+        bool bAccept = Model_Utils::typeIsAllowedInDiagram(temp, this);
+        if (bAccept) {
+            e->accept();
+        } else {
+            e->ignore();
+        }
     }
 }
 
@@ -774,47 +769,44 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned error";
         return;
     }
-    UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid;
-    if (!tidIt.hasNext()) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
-        return;
-    }
-    tid = tidIt.next();
-    UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::ID::Type id = tid->id;
-
-    if (Model_Utils::typeIsDiagram(lvtype)) {
-        bool breakFlag = false;
-        UMLWidget* w = 0;
-        foreach(w, widgetList()) {
-            if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
-                breakFlag = true;
-                break;
-            }
-        }
-        if (breakFlag) {
-            NoteWidget *note = static_cast<NoteWidget*>(w);
-            note->setDiagramLink(id);
-        }
-        return;
-    }
-    UMLObject* o = m_doc->findObjectById(id);
-    if (!o) {
-        DEBUG(DBG_SRC) << "object id=" << Uml::ID::toString(id) << " not found";
-        return;
-    }
-
     m_Pos = e->scenePos();
 
-    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
-    if (!newWidget) {
-        return;
-    }
+    for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
+        UMLListViewItem::ListViewType lvtype = (*it)->type;
+        Uml::ID::Type id = (*it)->id;
 
-    setupNewWidget(newWidget);
-    createAutoAssociations(newWidget);
-    createAutoAttributeAssociations2(newWidget);
+        if (Model_Utils::typeIsDiagram(lvtype)) {
+            bool breakFlag = false;
+            UMLWidget* w = 0;
+            foreach(w, widgetList()) {
+                if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
+                    breakFlag = true;
+                    break;
+                }
+            }
+            if (breakFlag) {
+                NoteWidget *note = static_cast<NoteWidget*>(w);
+                note->setDiagramLink(id);
+            }
+            continue;
+        }
+        UMLObject* o = m_doc->findObjectById(id);
+        if (!o) {
+            DEBUG(DBG_SRC) << "object id=" << Uml::ID::toString(id) << " not found";
+            continue;
+        }
+
+        UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+        if (!newWidget) {
+            uWarning() << "could not create widget for uml object" << o->name();
+            continue;
+        }
+
+        setupNewWidget(newWidget);
+        m_Pos += QPointF(UMLWidget::DefaultMinimumSize.width(), UMLWidget::DefaultMinimumSize.height());
+        createAutoAssociations(newWidget);
+        createAutoAttributeAssociations2(newWidget);
+    }
 }
 
 /**

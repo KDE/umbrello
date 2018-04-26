@@ -114,7 +114,7 @@ UMLListView::UMLListView(QWidget *parent)
     //setDropVisualizer(false);
     //setItemsMovable(true);
     //setItemsRenameable(true);
-    //setSelectionModeExt(FileManager);
+    setSelectionMode(ExtendedSelection);
     setFocusPolicy(Qt::StrongFocus);
     setDragEnabled(true);
     //setColumnWidthMode(0, Manual);
