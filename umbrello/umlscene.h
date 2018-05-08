@@ -182,6 +182,8 @@ private:
 public:
 
     UMLWidgetList selectedWidgets() const;
+    AssociationWidgetList selectedAssociationWidgets() const;
+    UMLWidgetList selectedMessageWidgets() const;
     void clearSelected();
 
     void moveSelectedBy(qreal dX, qreal dY);

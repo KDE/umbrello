@@ -1257,8 +1257,8 @@ QRectF UMLScene::diagramRect()
 
 /**
  * Returns a list of selected widgets
- * QGraphicsScene calls widgets isSelected() to determine selection state.
  * @return list of selected widgets based on class UMLWidget
+ * @note This method returns widgets including message widgets, but no association widgets
  */
 UMLWidgetList UMLScene::selectedWidgets() const
 {
@@ -1267,6 +1267,40 @@ UMLWidgetList UMLScene::selectedWidgets() const
     UMLWidgetList widgets;
     foreach(QGraphicsItem *item, items) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
+        if (w)
+            widgets.append(w);
+    }
+    return widgets;
+}
+
+/**
+ * Returns a list of selected association widgets
+ * @return list of selected widgets based on class AssociationWidget
+ */
+AssociationWidgetList UMLScene::selectedAssociationWidgets() const
+{
+    QList<QGraphicsItem *> items = selectedItems();
+
+    AssociationWidgetList widgets;
+    foreach(QGraphicsItem *item, items) {
+        AssociationWidget *w = dynamic_cast<AssociationWidget*>(item);
+        if (w)
+            widgets.append(w);
+    }
+    return widgets;
+}
+
+/**
+ * Returns a list of selected message widgets
+ * @return list of selected widgets based on class MessageWidget
+ */
+UMLWidgetList UMLScene::selectedMessageWidgets() const
+{
+    QList<QGraphicsItem *> items = selectedItems();
+
+    UMLWidgetList widgets;
+    foreach(QGraphicsItem *item, items) {
+        MessageWidget *w = dynamic_cast<MessageWidget*>(item);
         if (w)
             widgets.append(w);
     }
@@ -1421,11 +1455,26 @@ void UMLScene::unselectChildrenOfSelectedWidgets()
  */
 void UMLScene::deleteSelection()
 {
-    int selectionCount = selectedWidgets().count() + associationList().count();
+    AssociationWidgetList selectedAssociations = selectedAssociationWidgets();
+    int selectionCount = selectedWidgets().count() + selectedAssociations.count();
 
-    if (selectionCount > 1) {
-        UMLApp::app()->beginMacro(i18n("Delete widgets"));
+    if (selectionCount == 0)
+        return;
+
+    // check related associations
+    bool hasAssociations = false;
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        if (widget->isTextWidget() && widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
+            continue;
+        }
+        if (widget->isMessageWidget() || widget->associationWidgetList().size() > 0)
+            hasAssociations = true;
     }
+
+    if (hasAssociations && !Dialog_Utils::askDeleteAssociation())
+        return;
+
+    UMLApp::app()->beginMacro(i18n("Delete widgets"));
 
     unselectChildrenOfSelectedWidgets();
 
@@ -1442,35 +1491,20 @@ void UMLScene::deleteSelection()
         }
     }
 
-    if ((associationList().size() > 0 || messageList().size()) > 0
-            && Dialog_Utils::askDeleteAssociation()) {
-        // Delete any selected associations.
-        foreach(AssociationWidget* assocwidget, associationList()) {
-            if (assocwidget->isSelected()) {
-                removeWidgetCmd(assocwidget);
-            }
-        }
-
-        // we also have to remove selected messages from sequence diagrams
-
-        // loop through all messages and check the selection state
-        foreach(MessageWidget* cur_msgWgt, messageList()) {
-            if (cur_msgWgt->isSelected()) {
-                removeWidget(cur_msgWgt);  // Remove message - it is selected.
-            }
-        }
+    // Delete any selected associations.
+    foreach(AssociationWidget* assocwidget, selectedAssociations) {
+        removeWidgetCmd(assocwidget);
     }
 
-    // sometimes we miss one widget, so call this function again to remove it as well
-    //if (selectedWidgets().count() != 0)
-    //    deleteSelection();
+    // we also have to remove selected messages from sequence diagrams
+    foreach(UMLWidget* cur_msgWgt, selectedMessageWidgets()) {
+        removeWidget(cur_msgWgt);
+    }
 
     //make sure list empty - it should be anyway, just a check.
     clearSelected();
 
-    if (selectionCount > 1) {
-        UMLApp::app()->endMacro();
-    }
+    UMLApp::app()->endMacro();
 }
 
 /**
