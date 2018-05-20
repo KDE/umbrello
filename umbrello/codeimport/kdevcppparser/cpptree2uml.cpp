@@ -70,7 +70,7 @@ void CppTree2Uml::clear()
 
 void CppTree2Uml::setRootPath(const QString &rootPath)
 {
-    m_rootPath = rootPath;
+    m_rootPath = QDir::fromNativeSeparators(rootPath);
     if (Settings::optionState().codeImportState.createArtifacts) {
         if (!m_rootFolder) {
             UMLFolder *componentView = m_doc->rootFolder(Uml::ModelType::Component);
@@ -91,9 +91,9 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
         QFileInfo fi(file.fileName());
 
         UMLFolder *parent = m_rootFolder;
-        QString path = fi.path().replace(m_rootPath, QLatin1String(""));
+        QString path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
         if (!path.isEmpty())
-            parent = Import_Utils::createSubDir(path.mid(1), m_rootFolder);
+            parent = Import_Utils::createSubDir(path, m_rootFolder);
 
         Import_Utils::createArtifact(fi.fileName(), parent, file->comment());
     }
