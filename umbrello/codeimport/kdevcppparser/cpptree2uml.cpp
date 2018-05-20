@@ -70,7 +70,7 @@ void CppTree2Uml::clear()
 
 void CppTree2Uml::setRootPath(const QString &rootPath)
 {
-    m_rootPath = rootPath;
+    m_rootPath = QDir::fromNativeSeparators(rootPath);
     if (Settings::optionState().codeImportState.createArtifacts) {
         if (!m_rootFolder) {
             UMLFolder *componentView = m_doc->rootFolder(Uml::ModelType::Component);
@@ -91,9 +91,9 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
         QFileInfo fi(file.fileName());
 
         UMLFolder *parent = m_rootFolder;
-        QString path = fi.path().replace(m_rootPath, QLatin1String(""));
+        QString path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
         if (!path.isEmpty())
-            parent = Import_Utils::createSubDir(path.mid(1), m_rootFolder);
+            parent = Import_Utils::createSubDir(path, m_rootFolder);
 
         Import_Utils::createArtifact(fi.fileName(), parent, file->comment());
     }
@@ -370,8 +370,16 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
                                isStatic, false /*isAbstract*/, isFriend, isConstructor,
                                isDestructor, m_comment);
     m_comment = QString();
-    if  (isExplicit && isConstructor)
-        m->setStereotype(QLatin1String("explicit constructor"));
+    if  (isConstructor) {
+        QString stereotype;
+        if (isExplicit)
+            stereotype.append(QLatin1String("explicit "));
+        if (isConstExpression)
+            stereotype.append(QLatin1String("constexpr "));
+        stereotype.append(QLatin1String("constructor"));
+        m->setStereotype(stereotype);
+    } else if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
 
 /* For reference, Kdevelop does some more:
     method->setFileName(m_fileName);
@@ -679,8 +687,17 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
                                isStatic, isPure, isFriend, isConstructor, isDestructor, m_comment);
     if  (isPure)
         c->setAbstract(true);
-    if  (isExplicit && isConstructor)
-        m->setStereotype(QLatin1String("explicit constructor"));
+
+    if  (isConstructor) {
+        QString stereotype;
+        if (isExplicit)
+            stereotype.append(QLatin1String("explicit "));
+        if (isConstExpression)
+            stereotype.append(QLatin1String("constexpr "));
+        stereotype.append(QLatin1String("constructor"));
+        m->setStereotype(stereotype);
+    } else if (isConstExpression)
+        m->setStereotype(QLatin1String("constexpr"));
 
     m_comment = QString();
 }

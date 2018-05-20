@@ -12,31 +12,39 @@
 #
 # run ./release-windows-packages to see all modes
 #
+NAME=umbrello
+
+PACKAGENAME32=mingw32-$NAME
+ROOT32=windows\:mingw\:win32
+SRCROOT32=${ROOT32}
+ARCHOUT32=i686-w64-mingw32
+
+PACKAGENAME64=mingw64-$NAME
+ROOT64=windows\:mingw\:win64
+SRCROOT64=${ROOT64}
+ARCHOUT64=x86_64-w64-mingw32
+
+REPO=openSUSE_Leap_42.2
+SRCREPO=$REPO
+VERSION=2.25.0
+
+PHABURL=https://phabricator.kde.org
+oscoptions="-A https://api.opensuse.org"
+apitoken=cli-uxo23l4q5qrzoyscbz5kp4zcngqp
+options='projectPHIDs[]=PHID-PROJ-3qa4tomwgrmcmp4ym2ow'
 
 # abort on errors
 set -e
 
 echo2() { printf "%s\n" "$*" >&2; }
 
-self=$(realpath $0)
 which 7z >/dev/null 2>&1
 if test $? -ne 0; then
     echo "7z not found, run 'zypper install p7zip'"
     exit 1
 fi
-ROOT=
-ROOT32=${ROOT}windows\:mingw\:win32
-ROOT64=${ROOT}windows\:mingw\:win64
-SRCROOT32=windows\:mingw\:win32
-SRCROOT64=windows\:mingw\:win64
-REPO=openSUSE_Leap_42.2
-SRCREPO=openSUSE_Leap_42.2
-VERSION=2.22.1
 
-PHABURL=https://phabricator.kde.org
-oscoptions="-A https://api.opensuse.org"
-apitoken=cli-uxo23l4q5qrzoyscbz5kp4zcngqp
-options='projectPHIDs[]=PHID-PROJ-3qa4tomwgrmcmp4ym2ow'
+self=$(realpath $0)
 
 if ! test -d "work"; then
     mkdir work
@@ -52,30 +60,36 @@ clean) ## clean working area
 download) ## download rpm packages
         cd work
         rm -rf binaries
-        osc $oscoptions getbinaries $ROOT32 mingw32-umbrello-installer $REPO x86_64
-        osc $oscoptions getbinaries $ROOT64 mingw64-umbrello-installer $REPO x86_64
+        osc $oscoptions getbinaries $ROOT32 $PACKAGENAME32-installer $REPO x86_64
+        if test -n "$ROOT64"; then
+            osc $oscoptions getbinaries $ROOT64 $PACKAGENAME64-installer $REPO x86_64
+        fi
         cd ..
         $self downloadsrc
+        touch work/$1.finished
         ;;
 
 downloadsrc) ## download source
         cd work
         # fetch source package
-        src32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 mingw32-umbrello | grep src)
-        osc $oscoptions getbinaries --sources $SRCROOT32 mingw32-umbrello $SRCREPO x86_64 $src32pkg
+        src32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep src)
+        osc $oscoptions getbinaries --sources $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $src32pkg
         # we only need once source package
         #src64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep src)
         #osc $oscoptions getbinaries --sources $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $src64pkg
         # fetch debug packages
-        debug32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 mingw32-umbrello | grep debug)
-        osc $oscoptions getbinaries $SRCROOT32 mingw32-umbrello $SRCREPO x86_64 $debug32pkg
-        debug64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep debug)
-        osc $oscoptions getbinaries $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $debug64pkg
+        debug32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep debug)
+        osc $oscoptions getbinaries $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $debug32pkg
+        if test -n "$ROOT64"; then
+            debug64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 $PACKAGENAME64 | grep debug)
+            osc $oscoptions getbinaries $SRCROOT64 $PACKAGENAME64 $SRCREPO x86_64 $debug64pkg
+        fi
+        touch $1.finished
         ;;
 
 unpack) ## unpack rpm files
         cd work
-        files=$(find binaries -name *installer* -o -name *portable* -o -name *src* -o -name *debug* | grep "$VERSION")
+        files=$(cd binaries; find -name '*installer*' -o -name '*portable*' -o -name '*src*' -o -name '*debugpackage*' | grep "$VERSION" | sed 's,^.,binaries,g')
         if test -d tmp; then
                 rm -rf tmp
         fi
@@ -83,6 +97,7 @@ unpack) ## unpack rpm files
         for i in $(echo $files); do
                 (cd tmp; rpm2cpio ../$i | cpio -idmv)
         done
+        touch $1.finished
         ;;
 
 movepackage) ## move windows binary packages into upload folder
@@ -91,37 +106,20 @@ movepackage) ## move windows binary packages into upload folder
         mkdir -p out
         find tmp/ -type f -name '*.exe' -exec cp {} out \;
         find tmp/ -type f -name '*.7z' -exec cp {} out \;
-        ;;
-
-packdebug) ## package debug package
-        cd work
-        rm -rf out/*debug*.7z
-        arch=mingw32
-        version=$(find binaries/ -name *$arch*debug* | sed 's,.*debug-,,g;s,\.noarch.*,,g')
-        if test -z "$version"; then
-                echo no version found
-                exit 1;
-        fi
-        dir=tmp/usr/i686-w64-mingw32/sys-root/mingw
-        outfile=$PWD/out/umbrello-i686-w64-mingw32-$version-debug.7z
-        (cd $dir; 7z a -r -mx=9 $outfile *.debug *.sym)
-
-        arch=mingw64
-        version=$(find binaries/ -name *$arch*debug* | sed 's,.*debug-,,g;s,\.noarch.*,,g')
-        dir=tmp/usr/x86_64-w64-mingw32/sys-root/mingw
-        outfile=$PWD/out/umbrello-x86_64-w64-mingw32-$version-debug.7z
-        (cd $dir; 7z a -r -mx=9 $outfile *.debug *.sym)
+        touch $1.finished
         ;;
 
 repacksource) ## repackage source tar ball to 7z
         # repackage source package
-        srcfile=$(find work/tmp -name '*.xz')
+        srcfile=$(find work/tmp -name "$NAME*.xz")
         outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
         (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
+        touch work/$1.finished
         ;;
 
 createsha) ## create sha256sums
-        (cd work/out; find -type f -name '*.7z' -o -name '*.exe' | sed 's,\./,,g' | sort | xargs sha256sum > umbrello.sha256sum)
+        (cd work/out; find -type f -name '*.7z' -o -name '*.exe' | sed 's,\./,,g' | sort | xargs sha256sum > $NAME.sha256sum)
+        touch work/$1.finished
         ;;
 
 upload) ## upload files to staging area
@@ -130,35 +128,50 @@ upload) ## upload files to staging area
             curl -T $i  ftp://upload.kde.org/incoming/
             set -e
         done
+        touch work/$1.finished
         ;;
 
 createdescription) ## create ticket description
-        description="Please move the umbrello related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/umbrello/$VERSION' location and please update the symbolic link 'stable/umbrello/latest' to 'stable/umbrello/$VERSION'"
-        sums=$(cat work/out/umbrello.sha256sum | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /umbrello-[0-9]/ { print "src   " $0 }')
+        description="Please move the $NAME related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/$NAME/$VERSION' location and please update the symbolic link 'stable/$NAME/latest' to 'stable/$NAME/$VERSION'"
+        sums=$(cat work/out/$NAME.sha256sum | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /[a-z]+-[0-9]/ { print "src   " $0 }')
         echo -e "$description\n\n$sums"
+        touch work/$1.finished
         ;;
 
 ticket) ## submit phabricator ticket
         description=$($0 createdescription)
         curl $PHABURL/api/maniphest.createtask \
         -d api.token=$apitoken \
-        -d "title=tarball move request for stable/umbrello/$VERSION" \
+        -d "title=tarball move request for stable/$NAME/$VERSION" \
         -d "description=$description" \
         -d "$options"
+        touch work/$1.finished
         ;;
 
-all) ## run all required targets
+sf) ## run all required targets for releasing on sourceforge
         $self clean
         $self download
         $self unpack
         $self movepackage
         $self repacksource
-        $self packdebug
+        $self createsha
+        echo "All release related files are located in work/out"
+        ls work/out
+        touch work/$1.finished
+        ;;
+
+kde) ## run all required targets for releasing on download.kde.org
+        $self clean
+        $self download
+        $self unpack
+        $self movepackage
+        $self repacksource
         $self createsha
         $self upload
         echo2 "Content for ticket creating:"
         $self createdescription
         echo2 run "$self ticket" to submit ticket
+        touch work/$1.finished
         ;;
 
 *)
