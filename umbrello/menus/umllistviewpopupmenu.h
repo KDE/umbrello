@@ -21,6 +21,7 @@ public:
 protected:
     void insertSubMenuNew(UMLListViewItem::ListViewType type, KMenu *menu = 0);
     void insertStdItems(bool insertLeadingSeparator = true);
+    void insertSubmodelAction();
 };
 
 #endif // UMLLISTVIEWPOPUPMENU_H

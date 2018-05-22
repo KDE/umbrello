@@ -10,6 +10,9 @@
 
 #include "umllistviewpopupmenu.h"
 #include "debug_utils.h"
+#include "folder.h"
+#include "optionstate.h"
+#include "model_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -347,3 +350,35 @@ void UMLListViewPopupMenu::insertStdItems(bool insertLeadingSeparator)
     insert(mt_Delete);
 }
 
+/**
+ * Inserts a menu item for externalization/de-externalization
+ * of a folder.
+ */
+void UMLListViewPopupMenu::insertSubmodelAction()
+{
+    const Settings::OptionState& ostat = Settings::optionState();
+    if (ostat.generalState.tabdiagrams) {
+        // Umbrello currently does not support External Folders
+        // in combination with Tabbed Diagrams.
+        // If you need external folders then disable the tabbed diagrams
+        // in the General Settings.
+        return;
+    }
+    UMLObject *o = Model_Utils::treeViewGetCurrentObject();
+    if (o == 0) {
+        uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
+        return;
+    }
+    UMLFolder *f = o->asUMLFolder();
+    if (f == 0) {
+        uError() << o->name() << " is not a Folder";
+        return;
+    }
+    QString submodelFile = f->folderFile();
+    if (submodelFile.isEmpty()) {
+        insert(mt_Externalize_Folder);
+    }
+    else {
+        insert(mt_Internalize_Folder);
+    }
+}
