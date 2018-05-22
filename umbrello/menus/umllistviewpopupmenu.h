@@ -16,7 +16,7 @@
 
 class UMLListViewPopupMenu : public ListPopupMenu {
 public:
-    UMLListViewPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject *object);
+    UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *item);
 
 protected:
     void insertSubMenuNew(UMLListViewItem::ListViewType type, KMenu *menu = 0);

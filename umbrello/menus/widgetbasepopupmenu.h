@@ -19,7 +19,7 @@
 class WidgetBasePopupMenu : public ListPopupMenu
 {
 public:
-    WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType);
+    WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType = WidgetBase::wt_UMLWidget);
 
 protected:
     void makeClassifierPopup(ClassifierWidget *c);

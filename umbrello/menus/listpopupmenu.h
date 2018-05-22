@@ -45,6 +45,7 @@ public:
 
     enum MenuType  ///< This type hosts all possible menu types.
     {
+        mt_Min = -1,
         mt_Model,
         // diagrams
         mt_Activity_Diagram,
@@ -266,7 +267,8 @@ public:
         mt_Align_HorizontalDistribute,
         mt_Import_from_File,
         mt_Remove,
-
+        // add new entries above
+        mt_Max,
         mt_Undefined  =  - 1
     };
 
@@ -330,12 +332,10 @@ protected:
     void setupActionsData();
 
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
-        UMLObject* m_Object;
         WidgetBase* m_Widget;
     };
 
     enum TriggerObjectType {  ///< Enum to keep track on TriggerObject Type.
-        tot_Object,
         tot_Widget
     };
 

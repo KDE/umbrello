@@ -73,7 +73,7 @@ class WidgetBase : public QGraphicsObject
 public:
     enum WidgetType
     {
-        wt_MIN = 299,               // lower bounds check value
+        wt_Min = 299,               // lower bounds check value
         wt_UMLWidget,               // does not have UMLObject representation
         wt_Actor,                   // has UMLObject representation
         wt_UseCase,                 // has UMLObject representation
@@ -105,7 +105,7 @@ public:
         wt_Category,                // has UMLObject representation
         wt_Port,                    // has UMLObject representation
         wt_Instance,                // has UMLObject representation == wt_Object
-        wt_MAX                      // upper bounds check value
+        wt_Max                      // upper bounds check value
     };
 
     static QString toString(WidgetType wt);

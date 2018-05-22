@@ -63,8 +63,6 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type)
     : KMenu(parent),
     m_isListView(false)
 {
-    m_TriggerObject.m_Object = 0;
-    m_TriggerObjectType = tot_Object;
     if (type != mt_Undefined) {
         setupMenu(type);
         setupActionsData();

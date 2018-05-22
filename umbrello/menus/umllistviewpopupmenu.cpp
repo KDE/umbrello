@@ -14,13 +14,12 @@
 // kde includes
 #include <KLocalizedString>
 
-UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject *object)
+UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *item)
   : ListPopupMenu(parent)
 {
     m_isListView = true;
-    m_TriggerObject.m_Object = object;
-    m_TriggerObjectType = tot_Object;
     MenuType mt = mt_Undefined;
+    UMLListViewItem::ListViewType type = item->type();
     switch(type) {
         case UMLListViewItem::lvt_Logical_View:
             insertContainerItems(true);

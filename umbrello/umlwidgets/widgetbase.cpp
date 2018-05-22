@@ -58,7 +58,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramUseFillColor(true),
     m_autoResize(true)
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     // Note: no virtual methods from derived classes available,
     // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
@@ -93,7 +93,7 @@ WidgetBase::~WidgetBase()
  */
 WidgetBase::WidgetType WidgetBase::baseType() const
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     return m_baseType;
 }
 
@@ -102,7 +102,7 @@ WidgetBase::WidgetType WidgetBase::baseType() const
  */
 void WidgetBase::setBaseType(const WidgetType& baseType)
 {
-    Q_ASSERT(baseType > wt_MIN && baseType < wt_MAX);
+    Q_ASSERT(baseType > wt_Min && baseType < wt_Max);
     m_baseType = baseType;
 }
 
@@ -111,7 +111,7 @@ void WidgetBase::setBaseType(const WidgetType& baseType)
  */
 QLatin1String WidgetBase::baseTypeStr() const
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 

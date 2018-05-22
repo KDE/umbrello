@@ -2087,7 +2087,7 @@ void UMLListView::contextMenuEvent(QContextMenuEvent *event)
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(event->pos()));
     if (item) {
-        UMLListViewPopupMenu popup(this, item->type(), item->umlObject());
+        UMLListViewPopupMenu popup(this, item);
         QAction *triggered = popup.exec(event->globalPos());
         slotMenuSelection(triggered, event->globalPos());
         event->accept();

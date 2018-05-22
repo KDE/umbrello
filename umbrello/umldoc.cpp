@@ -3449,7 +3449,8 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    UMLListViewPopupMenu popup(UMLApp::app()->mainViewWidget(), type, 0);
+    UMLListViewItem item((UMLListView *)0, QString(), type);
+    UMLListViewPopupMenu popup(UMLApp::app()->mainViewWidget(), &item);
     QAction *triggered = popup.exec(point);
     view->umlScene()->slotMenuSelection(triggered);
 }
