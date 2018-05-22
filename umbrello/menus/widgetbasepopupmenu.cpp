@@ -201,9 +201,9 @@ void WidgetBasePopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType ty
 /**
  * Inserts the menu actions for a widget
  *
- * @param WidgetBase* object
+ * @param widget widget to generate the menu for
  */
-void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
+void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
 {
     WidgetBase::WidgetType type = widget->baseType();
     switch (type) {
@@ -223,7 +223,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
          KMenu* m = makeCategoryTypeMenu(widget->umlObject()->asUMLCategory());
          m->setTitle(i18n("Category Type"));
          addMenu(m);
-         insertSubMenuColor(object->useFillColor());
+         insertSubMenuColor(widget->useFillColor());
          insertStdItems(true, type);
          insert(mt_Rename);
          insert(mt_Change_Font);
@@ -232,7 +232,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_Class:
     case WidgetBase::wt_Interface:
         {
-            ClassifierWidget* classifier = object->asClassifierWidget();
+            ClassifierWidget* classifier = widget->asClassifierWidget();
             if (classifier)
                 makeClassifierPopup(classifier);
         }
@@ -286,7 +286,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insertStdItems(false);
         insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
         {
-            PinPortBase *pW = static_cast<PinPortBase*>(object);
+            PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
             if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
@@ -304,7 +304,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
             MenuType tabUp = mt_Up;
             insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
             insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
-            if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
+            if (!(static_cast<ObjectWidget*>(widget))->canTabUp()) {
                 setActionEnabled(tabUp, false);
             }
         }
@@ -347,14 +347,14 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_State:
         {
-            StateWidget* pState = static_cast< StateWidget *>(object);
+            StateWidget* pState = static_cast< StateWidget *>(widget);
             if (pState->stateType() == StateWidget::Normal) {
                 // FIXME: why not using wt_state
                 insertSubMenuNew(WidgetBase::wt_Activity);
             } else {
                 insertSubMenuNew(type);
             }
-            insertSubMenuColor(object->useFillColor());
+            insertSubMenuColor(widget->useFillColor());
             insertStdItems(false, type);
             switch (pState->stateType()) {
             case StateWidget::Normal:
@@ -378,7 +378,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_ForkJoin:
         insertSubMenuNew(type);
         {
-            ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
+            ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(widget);
             if (pForkJoin->orientation() == Qt::Vertical) {
                 insert(mt_Flip, i18n("Flip Horizontal"));
             }
@@ -393,11 +393,11 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_Activity:
         insertSubMenuNew(type);
         {
-            ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
+            ActivityWidget* pActivity = static_cast<ActivityWidget *>(widget);
             if(pActivity->activityType() == ActivityWidget::Normal
               || pActivity->activityType() == ActivityWidget::Invok
               || pActivity->activityType() == ActivityWidget::Param) {
-                insertSubMenuColor(object->useFillColor());
+                insertSubMenuColor(widget->useFillColor());
             }
             insertStdItems(false, type);
             if(pActivity->activityType() == ActivityWidget::Normal
@@ -413,11 +413,11 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_ObjectNode:
         insertSubMenuNew(type);
         {
-            ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
+            ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(widget);
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
               || objWidget->objectNodeType() == ObjectNodeWidget::Data
               || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
-                insertSubMenuColor(object->useFillColor());
+                insertSubMenuColor(widget->useFillColor());
             }
             insertStdItems(false, type);
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
@@ -445,7 +445,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insert(mt_Rename, i18n("Change Text..."));
         if (type == WidgetBase::wt_Pin) {
             insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
-            PinPortBase *pW = static_cast<PinPortBase*>(object);
+            PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
             if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
@@ -457,12 +457,12 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_CombinedFragment:
         insertSubMenuNew(type);
         // for alternative and parallel combined fragments
-        if ((static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Alt ||
-            (static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Par) {
+        if ((static_cast<CombinedFragmentWidget*>(widget))->combinedFragmentType() == CombinedFragmentWidget::Alt ||
+            (static_cast<CombinedFragmentWidget*>(widget))->combinedFragmentType() == CombinedFragmentWidget::Par) {
             insert(mt_AddInteractionOperand, i18n("Add Interaction Operand"));
             addSeparator();
         }
-        insertSubMenuColor(object->useFillColor());
+        insertSubMenuColor(widget->useFillColor());
         addSeparator();
         insert(mt_Cut);
         insert(mt_Copy);
