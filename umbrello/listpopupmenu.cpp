@@ -653,9 +653,10 @@ void ListPopupMenu::insertSubMenuNew(MenuType type, KMenu *menu)
         case mt_Enum:
             insert(mt_EnumLiteral, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));
             break;
+        case mt_Object:
+            break;
         case mt_New_Activity:
         case mt_Activity_Selected:
-            insert(mt_New_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_State_Activity), i18n("Activity..."));
             break;
         case mt_Subsystem:
             insert(mt_Subsystem, menu);
