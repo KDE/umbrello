@@ -22,12 +22,14 @@ public:
     WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType);
 
 protected:
-    MenuType toMenuType(WidgetBase::WidgetType type);
     void makeClassifierPopup(ClassifierWidget *c);
     void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
     void makeClassifierShowPopup(ClassifierWidget *c);
     void insertSingleSelectionMenu(WidgetBase* widget);
     void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
+    void insertSubMenuNew(WidgetBase::WidgetType type, KMenu *menu=0);
+    void insertSubMenuShowEntity(EntityWidget *widget);
+    KMenu *makeCategoryTypeMenu(UMLCategory *category);
 };
 
 #endif // WIDGETBASEPOPUPMENU_H

@@ -19,9 +19,8 @@ public:
     UMLListViewPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject *object);
 
 protected:
-    virtual void setupMenu(MenuType type);
-    virtual void insertSubMenuNew(MenuType type, KMenu *menu = 0);
-    virtual void insertStdItems(bool insertLeadingSeparator = true, WidgetBase::WidgetType type= WidgetBase::wt_UMLWidget);
+    void insertSubMenuNew(UMLListViewItem::ListViewType type, KMenu *menu = 0);
+    void insertStdItems(bool insertLeadingSeparator = true);
 };
 
 #endif // UMLLISTVIEWPOPUPMENU_H

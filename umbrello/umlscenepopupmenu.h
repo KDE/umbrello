@@ -23,9 +23,8 @@ public:
 
 protected:
     UMLScene *m_scene;
-    void setupMenu(MenuType type);
     void insertLayoutItems();
-    void insertSubMenuNew(MenuType type, KMenu *menu = 0);
+    void insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *menu = 0);
 };
 
 #endif // UMLSCENEPOPUPMENU_H

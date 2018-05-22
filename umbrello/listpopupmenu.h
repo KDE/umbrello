@@ -298,6 +298,9 @@ public:
 
     WidgetBase *ownerWidget() const;
 
+    QList<MenuType> &debugActions() { return m_debugActions; }
+    void dumpActions(const QString &title);
+
 protected:
     void insert(MenuType m);
     void insert(const MenuType m, KMenu* menu);
@@ -307,7 +310,7 @@ protected:
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
 
-    virtual void insertStdItems(bool insertLeadingSeparator = true,
+    void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams, bool packages=true);
     void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
@@ -315,11 +318,9 @@ protected:
     void insertSubMenuLayout(AssociationLine *associationLine);
     void insertSubmodelAction();
 
-    KMenu* makeCategoryTypeMenu(UMLCategory* category);
     KMenu *makeNewMenu();
 
-    virtual void insertSubMenuNew(MenuType type, KMenu *menu = 0);
-    void insertSubMenuShowEntity(EntityWidget *widget);
+    void insertSubMenuNew(MenuType type, KMenu *menu = 0);
     void insertSubMenuAlign();
     void insertSubMenuColor(bool fc);
 
@@ -343,7 +344,7 @@ protected:
 
     QHash<MenuType, QAction*> m_actions;
     bool m_isListView;
-
+    QList<MenuType> m_debugActions;
 };
 
 /// Need this for ability to store ListPopupMenu* in a QVariant

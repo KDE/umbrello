@@ -15,12 +15,10 @@
 #include "activitywidget.h"
 #include "associationline.h"
 #include "associationwidget.h"
-#include "category.h"
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "combinedfragmentwidget.h"
 #include "debug_utils.h"
-#include "entitywidget.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
 #include "forkjoinwidget.h"
@@ -50,6 +48,11 @@ DEBUG_REGISTER_DISABLED(ListPopupMenu)
 
 static const bool CHECKABLE = true;
 
+// uncomment to see not handled switch cases
+//#define CHECK_SWITCH
+
+#define DEBUG_AddAction(m) m_debugActions.append(m)
+
 /**
  * Constructs the popup menu
  *
@@ -77,6 +80,7 @@ ListPopupMenu::~ListPopupMenu()
         delete action;
     }
     m_actions.clear();
+    m_debugActions.clear();
 }
 
 /**
@@ -86,6 +90,7 @@ ListPopupMenu::~ListPopupMenu()
  */
 void ListPopupMenu::insert(MenuType m)
 {
+    DEBUG_AddAction(m);
     switch (m) {
     case mt_Properties:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
@@ -186,6 +191,7 @@ void ListPopupMenu::insert(MenuType m)
  */
 void ListPopupMenu::insert(const MenuType m, KMenu* menu)
 {
+    DEBUG_AddAction(m);
     Q_ASSERT(menu != 0);
     switch (m) {
     case mt_Subsystem:
@@ -263,6 +269,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
  */
 void ListPopupMenu::insert(const MenuType m, const QIcon & icon, const QString & text)
 {
+    DEBUG_AddAction(m);
     m_actions[m] = addAction(icon, text);
 }
 
@@ -275,6 +282,7 @@ void ListPopupMenu::insert(const MenuType m, const QIcon & icon, const QString &
  */
 void ListPopupMenu::insert(const MenuType m, const QString & text, const bool checkable)
 {
+    DEBUG_AddAction(m);
     m_actions[m] = addAction(text);
     if (checkable) {
         QAction* action = getAction(m);
@@ -293,6 +301,7 @@ void ListPopupMenu::insert(const MenuType m, const QString & text, const bool ch
  */
 void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text)
 {
+    DEBUG_AddAction(m);
     m_actions[m] = menu->addAction(icon, text);
 }
 
@@ -306,6 +315,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, co
  */
 void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable)
 {
+    DEBUG_AddAction(m);
     m_actions[m] = menu->addAction(text);
     if (checkable) {
         QAction* action = getAction(m);
@@ -490,19 +500,6 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
     }
 }
 
-void ListPopupMenu::insertSubMenuShowEntity(EntityWidget *widget)
-{
-    KMenu* show = new KMenu(i18n("Show"), this);
-    show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
-
-    insert(mt_Show_Attribute_Signature, show, i18n("Attribute Signature"), CHECKABLE);
-    setActionChecked(mt_Show_Attribute_Signature, widget->showAttributeSignature());
-
-    insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
-    setActionChecked(mt_Show_Stereotypes, widget->showStereotype());
-    addMenu(show);
-}
-
 /**
  * Add the align actions submenu
  */
@@ -678,110 +675,6 @@ void ListPopupMenu::setupMenu(MenuType type)
 {
     DEBUG(DBG_SRC) << "ListPopupMenu created for MenuType=" << toString(type);
     switch(type) {
-    case mt_Class:
-        insertSubMenuNew(type);
-        insertStdItems();
-        if (m_isListView)
-            insert(mt_Show);
-        addSeparator();
-        if (m_TriggerObjectType == tot_Object) {
-            UMLObject *o = m_TriggerObject.m_Object;
-            if (o && o->stereotype() == QLatin1String("class-or-package")) {
-                insert(mt_ChangeToClass, i18n("Change into Class"));
-                insert(mt_ChangeToPackage, i18n("Change into Package"));
-            }
-        }
-        addSeparator();
-        insert(mt_Properties);
-        break;
-
-    case mt_Interface:
-        insertSubMenuNew(type);
-        insertStdItems();
-        if (m_isListView)
-            insert(mt_Show);
-        insert(mt_Properties);
-        break;
-
-    case mt_Package:
-        insertContainerItems(false);
-        insertStdItems();
-        if (m_isListView)
-            insert(mt_Show);
-        insert(mt_Properties);
-        addSeparator();
-        insert(mt_Expand_All);
-        insert(mt_Collapse_All);
-        break;
-
-    case mt_Subsystem:
-        insertSubMenuNew(type);
-        insertStdItems();
-        insert(mt_Properties);
-        addSeparator();
-        insert(mt_Expand_All);
-        insert(mt_Collapse_All);
-        break;
-
-    case mt_Component:
-        insertSubMenuNew(type);
-        insertStdItems();
-        insert(mt_Properties);
-        addSeparator();
-        insert(mt_Expand_All);
-        insert(mt_Collapse_All);
-        break;
-
-    case mt_Entity:
-        insertSubMenuNew(type);
-        insertStdItems();
-        insert(mt_Properties);
-        break;
-
-    case mt_Enum:
-        insertSubMenuNew(type);
-        insertStdItems();
-        insert(mt_Properties);
-        break;
-
-    case mt_Datatype:
-    case mt_EnumLiteral:
-    case mt_Port:
-    case mt_Node:
-    case mt_Artifact:
-    case mt_Actor:
-    case mt_UseCase:
-    case mt_Attribute:
-    case mt_EntityAttribute:
-    case mt_InstanceAttribute:
-    case mt_Operation:
-    case mt_Template:
-        insertStdItems(false);
-        insert(mt_Properties);
-        break;
-
-    case mt_Category:
-        {
-            if (m_TriggerObjectType != tot_Object) {
-                uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
-                return;
-            }
-            KMenu* menu = makeCategoryTypeMenu(m_TriggerObject.m_Object->asUMLCategory());
-            menu->setTitle(i18n("Category Type"));
-            addMenu(menu);
-            insertStdItems(false);
-        }
-        break;
-
-    case mt_UniqueConstraint:
-    case mt_PrimaryKeyConstraint:
-    case mt_ForeignKeyConstraint:
-    case mt_CheckConstraint:
-        insert(mt_Rename);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
     case mt_New_Parameter:
         insert(mt_New_Parameter);
         break;
@@ -955,23 +848,6 @@ void ListPopupMenu::setupMenu(MenuType type)
 }
 
 /**
- * Creates a popup menu for a single category Object
- * @param category The UMLCategory for which the category menu is created
- */
-KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
-{
-    KMenu* catTypeMenu = new KMenu(this);
-    insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
-    insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
-    insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);
-    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation);
-    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation);
-    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union);
-
-    return catTypeMenu;
-}
-
-/**
  * Create the 'new' menu
  * @return menu instance
  */
@@ -1092,4 +968,16 @@ QString ListPopupMenu::toString(MenuType menu)
 QString ListPopupMenu::toString(DataType data)
 {
     return QLatin1String(ENUM_NAME(ListPopupMenu, DataType, data));
+}
+
+/**
+ * dump collected actions
+ * @param type optional menu type
+ */
+void ListPopupMenu::dumpActions(const QString &title)
+{
+    qDebug().nospace() << title;
+    foreach(MenuType keyType, m_debugActions) {
+        qDebug().nospace() << "    " << toString(keyType);
+    }
 }
