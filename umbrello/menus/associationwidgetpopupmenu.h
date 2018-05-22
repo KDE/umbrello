@@ -24,6 +24,7 @@ public:
 protected:
     void insertAssociationItem(MenuType mt);
     void setupMenu(MenuType type);
+    void insertSubMenuLayout(AssociationLine *associationLine);
 };
 
 #endif // ASSOCIATIONWIDGETPOPUPMENU_H

@@ -12,6 +12,7 @@
 
 // app includes
 #include "assocrules.h"
+#include "associationline.h"
 #include "associationwidget.h"
 #include "debug_utils.h"
 
@@ -50,7 +51,6 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
     setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
-
 
 /**
  * Inserts a menu item for an association
@@ -120,4 +120,32 @@ void AssociationWidgetPopupMenu::setupMenu(MenuType type)
         uWarning() << "unknown menu type " << type;
         break;
     }
+}
+
+/**
+ * Inserts a sub menu for association layouts.
+ */
+void AssociationWidgetPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
+{
+    KMenu* layout = new KMenu(i18nc("Layout menu", "Layout"), this);
+    insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
+    insert(mt_LayoutDirect, layout, i18n("Direct"), true);
+    insert(mt_LayoutSpline, layout, i18n("Spline"), true);
+    insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
+    switch(associationLine->layout()) {
+    case AssociationLine::Direct:
+        m_actions[mt_LayoutDirect]->setChecked(true);
+        break;
+    case AssociationLine::Orthogonal:
+        m_actions[mt_LayoutOrthogonal]->setChecked(true);
+        break;
+    case AssociationLine::Spline:
+        m_actions[mt_LayoutSpline]->setChecked(true);
+        break;
+    case AssociationLine::Polyline:
+    default:
+        m_actions[mt_LayoutPolyline]->setChecked(true);
+        break;
+    }
+    addMenu(layout);
 }

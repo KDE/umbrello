@@ -316,7 +316,6 @@ protected:
     void insertContainerItems(bool folderAndDiagrams, bool packages=true);
     void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
     void insertAssociationTextItem(const QString &label, MenuType mt);
-    void insertSubMenuLayout(AssociationLine *associationLine);
     void insertSubmodelAction();
 
     KMenu *makeNewMenu();
