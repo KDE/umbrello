@@ -284,7 +284,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertSubMenuNew(type);
         insertSubMenuColor(widget->useFillColor());
         insertStdItems(false);
-        insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
+        insert(mt_NameAsTooltip, i18n("Name as Tooltip"), true);
         {
             PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
@@ -444,7 +444,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         if (type == WidgetBase::wt_Pin) {
-            insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
+            insert(mt_NameAsTooltip, i18n("Name as Tooltip"), true);
             PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
             if (ft == 0)
