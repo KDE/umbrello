@@ -114,7 +114,6 @@ public:
         mt_New_Activity,
         mt_New_Attribute,
         mt_New_CheckConstraint,
-        mt_New_Connected_Note,
         mt_New_EntityAttribute,
         mt_New_EnumLiteral,
         mt_New_ForeignKeyConstraint,

@@ -87,7 +87,7 @@ void WidgetBasePopupMenu::makeClassifierPopup(ClassifierWidget *c)
     insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
     insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
     insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
-    insert(mt_New_Connected_Note, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
+    insert(mt_Note, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
     addMenu(menu);
 
     makeClassifierShowPopup(c);
