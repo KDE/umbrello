@@ -89,97 +89,7 @@ ListPopupMenu::~ListPopupMenu()
  */
 void ListPopupMenu::insert(MenuType m)
 {
-    DEBUG_AddAction(m);
-    switch (m) {
-    case mt_Properties:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
-        break;
-    case mt_Rename:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
-        break;
-    case mt_Rename_Object:
-        insert(m, i18n("Rename Object..."));
-        break;
-    case mt_Resize:
-        insert(m, i18n("Resize"));
-        break;
-    case mt_Show:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
-        break;
-    case mt_Delete:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete"));
-        break;
-    case mt_Cut:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Cut), i18n("Cut"));
-        break;
-    case mt_Copy:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Copy), i18n("Copy"));
-        break;
-    case mt_Paste:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Paste), i18n("Paste"));
-        break;
-    case mt_Change_Font:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
-        break;
-    case mt_Line_Color:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-        break;
-    case mt_Expand_All:
-        m_actions[m] = addAction(i18n("Expand All"));
-        break;
-    case mt_Collapse_All:
-        m_actions[m] = addAction(i18n("Collapse All"));
-        break;
-    case mt_Clone:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate"));
-        break;
-    case mt_Externalize_Folder:
-        m_actions[m] = addAction(i18n("Externalize Folder..."));
-        break;
-    case mt_Internalize_Folder:
-        m_actions[m] = addAction(i18n("Internalize Folder"));
-        break;
-    case mt_Import_Class:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)..."));
-        break;
-    case mt_Import_Project:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory..."));
-        break;
-    case mt_Reset_Label_Positions:
-        m_actions[m] = addAction(i18n("Reset Label Positions"));
-        break;
-    case mt_New_Parameter:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter..."));
-        break;
-    case mt_New_Operation:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
-        break;
-    case mt_New_Attribute:
-    case mt_New_InstanceAttribute:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
-        break;
-    case mt_New_Template:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
-        break;
-    case mt_New_EnumLiteral:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Literal_New), i18n("New Literal..."));
-        break;
-    case mt_New_EntityAttribute:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute_New), i18n("New Entity Attribute..."));
-        break;
-    case mt_Export_Image:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
-        break;
-    case mt_InstanceAttribute:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
-        break;
-    case mt_Remove:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove"));
-        break;
-    default:
-        uWarning() << "called on unimplemented MenuType " << toString(m);
-        break;
-    }
+    insert(m, this);
 }
 
 /**
@@ -255,6 +165,91 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         break;
     case mt_Note:
         insert(mt_Note, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
+        break;
+    case mt_Properties:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
+        break;
+    case mt_Rename:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
+        break;
+    case mt_Rename_Object:
+        insert(m, i18n("Rename Object..."));
+        break;
+    case mt_Resize:
+        insert(m, i18n("Resize"));
+        break;
+    case mt_Show:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
+        break;
+    case mt_Delete:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete"));
+        break;
+    case mt_Cut:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Cut), i18n("Cut"));
+        break;
+    case mt_Copy:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Copy), i18n("Copy"));
+        break;
+    case mt_Paste:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Paste), i18n("Paste"));
+        break;
+    case mt_Change_Font:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
+        break;
+    case mt_Line_Color:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
+        break;
+    case mt_Expand_All:
+        m_actions[m] = menu->addAction(i18n("Expand All"));
+        break;
+    case mt_Collapse_All:
+        m_actions[m] = menu->addAction(i18n("Collapse All"));
+        break;
+    case mt_Clone:
+        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate"));
+        break;
+    case mt_Externalize_Folder:
+        m_actions[m] = menu->addAction(i18n("Externalize Folder..."));
+        break;
+    case mt_Internalize_Folder:
+        m_actions[m] = menu->addAction(i18n("Internalize Folder"));
+        break;
+    case mt_Import_Class:
+        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)..."));
+        break;
+    case mt_Import_Project:
+        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory..."));
+        break;
+    case mt_Reset_Label_Positions:
+        m_actions[m] = menu->addAction(i18n("Reset Label Positions"));
+        break;
+    case mt_New_Parameter:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter..."));
+        break;
+    case mt_New_Operation:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
+        break;
+    case mt_New_Attribute:
+    case mt_New_InstanceAttribute:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
+        break;
+    case mt_New_Template:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
+        break;
+    case mt_New_EnumLiteral:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Literal_New), i18n("New Literal..."));
+        break;
+    case mt_New_EntityAttribute:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute_New), i18n("New Entity Attribute..."));
+        break;
+    case mt_Export_Image:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
+        break;
+    case mt_InstanceAttribute:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
+        break;
+    case mt_Remove:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove"));
         break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
