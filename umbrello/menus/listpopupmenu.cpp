@@ -326,38 +326,6 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, 
 }
 
 /**
- * Shortcut for the frequently used insert() calls.
- *
- * @param insertLeadingSeparator   Set this true if the group shall
- *                                 start with a separator.
- * @param type      The WidgetType for which to insert the menu items.
- *                  If no argument is supplied then a Rename item will be
- *                  included.
- */
-void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-                                   WidgetBase::WidgetType type /* = wt_UMLWidget */)
-{
-    if (insertLeadingSeparator)
-        addSeparator();
-    insert(mt_Cut);
-    insert(mt_Copy);
-    insert(mt_Paste);
-    addSeparator();
-    if (type == WidgetBase::wt_UMLWidget)
-        insert(mt_Rename);
-    else if (Model_Utils::isCloneable(type)) {
-        insert(mt_Clone);
-        insert(mt_Remove);
-    } else
-        insert(mt_Delete);
-    if (!m_isListView)
-    {
-        insert(mt_Resize);
-        insert(mt_AutoResize, i18n("Auto resize"), CHECKABLE);
-    }
-}
-
-/**
  * Shortcut for inserting standard model items (Class, Interface,
  * Datatype, Enum, Package) as well as diagram choices.
  *
@@ -438,40 +406,6 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
         uError() << "Action's data field does not contain ListPopupMenu pointer!";
         return mt_Undefined;
     }
-}
-
-/**
- * Add the align actions submenu
- */
-void ListPopupMenu::insertSubMenuAlign()
-{
-    KMenu* alignment = new KMenu(i18nc("align menu", "Align"), this);
-    insert(mt_Align_Right, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right), i18n("Align Right"));
-    insert(mt_Align_Left, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left), i18n("Align Left"));
-    insert(mt_Align_Top, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top), i18n("Align Top"));
-    insert(mt_Align_Bottom, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Bottom), i18n("Align Bottom"));
-
-    insert(mt_Align_VerticalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle), i18n("Align Vertical Middle"));
-    insert(mt_Align_HorizontalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle), i18n("Align Horizontal Middle"));
-    insert(mt_Align_VerticalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute), i18n("Align Vertical Distribute"));
-    insert(mt_Align_HorizontalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute), i18n("Align Horizontal Distribute"));
-
-    addMenu(alignment);
-}
-
-/**
- * Shortcut for commonly used sub menu initializations.
- *
- * @param fc   The "Use Fill Color" is checked.
- */
-void ListPopupMenu::insertSubMenuColor(bool fc)
-{
-    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
-    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
-    insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
-    setActionChecked(mt_Use_Fill_Color, fc);
-    addMenu(color);
 }
 
 /**
@@ -610,6 +544,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type, KMenu *menu)
  * Shortcut for commonly used menu initializations.
  *
  * @param type   The MenuType for which to set up the menu.
+ * @TODO This method need to be cleaned up
  */
 void ListPopupMenu::setupMenu(MenuType type)
 {

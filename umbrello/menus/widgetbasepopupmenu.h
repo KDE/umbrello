@@ -27,6 +27,9 @@ protected:
     void makeClassifierShowPopup(ClassifierWidget *c);
     void insertSingleSelectionMenu(WidgetBase* widget);
     void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
+    void insertStdItems(bool insertLeadingSeparator = true, WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
+    void insertSubMenuAlign();
+    void insertSubMenuColor(bool fc);
     void insertSubMenuNew(WidgetBase::WidgetType type, KMenu *menu=0);
     void insertSubMenuShowEntity(EntityWidget *widget);
     KMenu *makeCategoryTypeMenu(UMLCategory *category);
