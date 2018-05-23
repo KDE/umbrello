@@ -47,7 +47,19 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
     }
     DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType)
                  << " / association = " << Uml::AssociationType::toString(type);
-    setupMenu(menuType);
+
+    switch (menuType) {
+    case mt_Association_Selected:
+    case mt_AttributeAssociation:
+    case mt_FullAssociation:
+    case mt_Collaboration_Message:
+        insertAssociationItem(menuType);
+        break;
+    default:
+        uWarning() << "unknown menu type " << type;
+        break;
+    }
+
     setActionChecked(mt_AutoResize, widget->autoResize());
     setupActionsData();
 }
@@ -57,6 +69,7 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
  *
  * @param label   The menu text.
  * @param mt      The menu type.
+ * @TODO merge into constructor
  */
 void AssociationWidgetPopupMenu::insertAssociationItem(MenuType mt)
 {
@@ -105,21 +118,6 @@ void AssociationWidgetPopupMenu::insertAssociationItem(MenuType mt)
 
     insert(mt_Line_Color);
     insert(mt_Properties);
-}
-
-void AssociationWidgetPopupMenu::setupMenu(MenuType type)
-{
-    switch (type) {
-    case mt_Association_Selected:
-    case mt_AttributeAssociation:
-    case mt_FullAssociation:
-    case mt_Collaboration_Message:
-        insertAssociationItem(type);
-        break;
-    default:
-        uWarning() << "unknown menu type " << type;
-        break;
-    }
 }
 
 /**
