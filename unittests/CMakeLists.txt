@@ -36,6 +36,7 @@ include_directories(
       ${SRC_PATH}/debug
       ${SRC_PATH}/dialogs
       ${SRC_PATH}/docgenerators
+      ${SRC_PATH}/menus/
       ${SRC_PATH}/refactoring
       ${SRC_PATH}/uml1model/
       ${SRC_PATH}/umlwidgets/

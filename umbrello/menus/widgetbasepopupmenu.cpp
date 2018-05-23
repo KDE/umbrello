@@ -642,4 +642,3 @@ KMenu* WidgetBasePopupMenu::makeCategoryTypeMenu(UMLCategory* category)
 
     return catTypeMenu;
 }
-
