@@ -641,28 +641,28 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_Artifact, menu);
             break;
         case WidgetBase::wt_Class:
-            insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute"));
-            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
-            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template"));
+            insert(mt_Attribute, menu);
+            insert(mt_Operation, menu);
+            insert(mt_Template, menu);
             insertContainerItems(menu, false, false);
             break;
         case WidgetBase::wt_Interface:
-            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
-            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Interface), i18n("Template"));
+            insert(mt_Operation, menu);
+            insert(mt_Template, menu);
             insertContainerItems(menu, false, false);
             break;
         case WidgetBase::wt_Entity:
-            insert(mt_EntityAttribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
-            insert(mt_PrimaryKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey), i18n("Primary Key Constraint..."));
-            insert(mt_UniqueConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique), i18n("Unique Constraint..."));
-            insert(mt_ForeignKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint..."));
-            insert(mt_CheckConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check), i18n("Check Constraint..."));
+            insert(mt_EntityAttribute, menu);
+            insert(mt_PrimaryKeyConstraint, menu);
+            insert(mt_UniqueConstraint, menu);
+            insert(mt_ForeignKeyConstraint, menu);
+            insert(mt_CheckConstraint, menu);
             break;
         case WidgetBase::wt_Enum:
-            insert(mt_EnumLiteral, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));
+            insert(mt_EnumLiteral, menu);
             break;
         case WidgetBase::wt_Activity:
-            insert(mt_New_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_State_Activity), i18n("Activity..."));
+            insert(mt_New_Activity, menu);
             break;
         default:
             delete menu;
