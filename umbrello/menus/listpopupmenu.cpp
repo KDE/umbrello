@@ -523,42 +523,8 @@ void ListPopupMenu::insertSubMenuNew(TriggerType type, KMenu *menu)
         menu = makeNewMenu();
     }
     switch (type) {
-        case tt_Class:
-            insert(mt_Attribute, menu);
-            insert(mt_Operation, menu);
-            insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
-            break;
-        case tt_Component:
-            insert(mt_Component, menu);
-            if (Settings::optionState().generalState.uml2)
-                insert(mt_Port, menu);
-            insert(mt_Artifact, menu);
-            break;
-        case tt_Interface:
-            insert(mt_Operation, menu);
-            insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
-            break;
-        case tt_Entity:
-            insert(mt_EntityAttribute, menu);
-            insert(mt_PrimaryKeyConstraint, menu);
-            insert(mt_UniqueConstraint, menu);
-            insert(mt_ForeignKeyConstraint, menu);
-            insert(mt_CheckConstraint, menu);
-            break;
-        case tt_Enum:
-            insert(mt_EnumLiteral, menu);
-            break;
-        case tt_Object:
-            break;
         case tt_New_Activity:
         case tt_Activity_Selected:
-            break;
-        case tt_Subsystem:
-            insert(mt_Subsystem, menu);
-            insert(mt_Component, menu);
-            insert(mt_Artifact, menu);
             break;
         default:
             break;
@@ -602,22 +568,6 @@ void ListPopupMenu::setupMenu(TriggerType type)
 
     case tt_New_EntityAttribute:
         insert(mt_New_EntityAttribute);
-        break;
-
-    case tt_New_UniqueConstraint:
-        insert(mt_New_UniqueConstraint);
-        break;
-
-    case tt_New_PrimaryKeyConstraint:
-        insert(mt_New_PrimaryKeyConstraint);
-        break;
-
-    case tt_New_ForeignKeyConstraint:
-        insert(mt_New_ForeignKeyConstraint);
-        break;
-
-    case tt_New_CheckConstraint:
-        insert(mt_New_CheckConstraint);
         break;
 
     case tt_New_Activity:
@@ -670,75 +620,6 @@ void ListPopupMenu::setupMenu(TriggerType type)
     case tt_EntityAttribute_Selected:
         insert(mt_New_EntityAttribute);
         insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_UniqueConstraint_Selected:
-        insert(mt_New_UniqueConstraint);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_PrimaryKeyConstraint_Selected:
-        insert(mt_New_PrimaryKeyConstraint);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_ForeignKeyConstraint_Selected:
-        insert(mt_New_ForeignKeyConstraint);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_CheckConstraint_Selected:
-        insert(mt_New_ForeignKeyConstraint);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_Anchor:
-        insert(mt_Delete, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Anchor"));
-        break;
-
-    case tt_RoleNameA:
-        insertAssociationTextItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
-        break;
-
-    case tt_RoleNameB:
-        insertAssociationTextItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
-        break;
-
-    case tt_MultiB:
-        insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
-        break;
-
-    case tt_MultiA:
-        insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
-        break;
-
-    case tt_Name:
-        insertAssociationTextItem(i18n("Change Name"), mt_Rename_Name);
-        break;
-
-    case tt_Model:
-        insert(mt_Model, i18n("Rename..."));
-        break;
-
-    case tt_Properties:
-        insert(mt_Expand_All);
-        insert(mt_Collapse_All);
-        insert(mt_Properties);
-        break;
-
-    case tt_Properties_AutoLayout:
-    case tt_Properties_Class:
-    case tt_Properties_CodeImport:
-    case tt_Properties_CodeGeneration:
-    case tt_Properties_CodeViewer:
-    case tt_Properties_Font:
-    case tt_Properties_General:
-    case tt_Properties_UserInterface:
         insert(mt_Properties);
         break;
 
