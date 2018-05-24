@@ -203,10 +203,10 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
         break;
     case mt_Rename_Object:
-        insert(m, i18n("Rename Object..."));
+        insert(m, menu, i18n("Rename Object..."));
         break;
     case mt_Resize:
-        insert(m, i18n("Resize"));
+        insert(m, menu, i18n("Resize"));
         break;
     case mt_Show:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
