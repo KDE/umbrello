@@ -1234,22 +1234,6 @@ void ClassifierWidget::changeToPackage()
     updateGeometry();
     update();
 }
-/**
- * @brief ClassifierWidget::changeToInstance
- * Change this classifier from a class or interface to a Instance
- * This widget is also updated
- */
-void ClassifierWidget::changeToInstance()
-{
-    setBaseType(WidgetBase::wt_Instance);
-    m_umlObject->setBaseType(UMLObject::ot_Instance);
-    setVisualProperty(ShowAttributes, true);
-    setVisualProperty(ShowStereotype, false);
-    setVisualProperty(ShowOperations,false);
-
-    updateGeometry();
-    update();
-}
 
 /**
  * Extends base method to adjust also the association of a class
@@ -1486,10 +1470,6 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ChangeToPackage:
         changeToPackage();
-        break;
-
-    case ListPopupMenu::mt_ChangeToInstance:
-        changeToInstance();
         break;
 
     default:

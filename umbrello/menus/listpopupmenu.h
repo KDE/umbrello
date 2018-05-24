@@ -169,7 +169,6 @@ public:
         mt_ChangeToClass,
         mt_ChangeToInterface,
         mt_ChangeToPackage,
-        mt_ChangeToInstance,
         mt_Rename_Object,
         mt_Select_Operation,
         mt_Properties,
