@@ -215,9 +215,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
 
         case UMLListViewItem::lvt_Category:
             {
-                KMenu* menu = makeCategoryTypeMenu(object->asUMLCategory());
-                menu->setTitle(i18n("Category Type"));
-                addMenu(menu);
+                insertSubMenuCategoryType(object->asUMLCategory());
                 insertStdItems(false);
             }
             break;

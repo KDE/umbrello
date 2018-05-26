@@ -178,9 +178,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
     case WidgetBase::wt_Category:
        {
          insertSubMenuNew(type);
-         KMenu* m = makeCategoryTypeMenu(widget->umlObject()->asUMLCategory());
-         m->setTitle(i18n("Category Type"));
-         addMenu(m);
+         insertSubMenuCategoryType(widget->umlObject()->asUMLCategory());
          insertSubMenuColor(widget->useFillColor());
          insertStdItems(true, type);
          insert(mt_Rename);

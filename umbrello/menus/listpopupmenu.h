@@ -297,7 +297,7 @@ protected:
     void insertAssociationTextItem(const QString &label, MenuType mt);
 
     KMenu *makeNewMenu();
-    KMenu *makeCategoryTypeMenu(UMLCategory *category);
+    void insertSubMenuCategoryType(UMLCategory *category);
 
     void insertSubMenuNew(TriggerType type, KMenu *menu = 0);
 
