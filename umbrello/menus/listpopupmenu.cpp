@@ -252,6 +252,9 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_FloatText:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..."));
         break;
+    case mt_Note:
+        insert(mt_Note, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
+        break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
         break;
