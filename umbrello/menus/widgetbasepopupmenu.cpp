@@ -72,48 +72,6 @@ WidgetBasePopupMenu::WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, 
 }
 
 /**
- * Creates a popup menu for a single class or interface widgets.
- */
-void WidgetBasePopupMenu::makeClassifierPopup(ClassifierWidget *c)
-{
-    WidgetBase::WidgetType type = c->baseType();
-    KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
-    menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
-    if (type == WidgetBase::wt_Class)
-        insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
-    insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
-    insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
-    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
-    insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
-    insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
-    insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
-    insert(mt_Note, menu);
-    addMenu(menu);
-
-    makeClassifierShowPopup(c);
-
-    insertSubMenuColor(c->useFillColor());
-    insertStdItems(true, type);
-    insert(mt_Rename);
-    insert(mt_Change_Font);
-    if (type == WidgetBase::wt_Interface) {
-        insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
-        setActionChecked(mt_DrawAsCircle, c->visualProperty(ClassifierWidget::DrawAsCircle));
-        insert(mt_ChangeToClass, i18n("Change into Class"));
-    } else if (type == WidgetBase::wt_Class && c->umlObject() && c->umlObject()->stereotype() == QLatin1String("class-or-package")) {
-            insert(mt_ChangeToClass, i18n("Change into Class"));
-            insert(mt_ChangeToPackage, i18n("Change into Package"));
-    } else {
-        insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
-        insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
-        UMLClassifier *umlc = c->classifier();
-        if (umlc->isAbstract() && umlc->getAttributeList().size() == 0)
-            insert(mt_ChangeToInterface, i18n("Change into Interface"));
-    }
-    insert(mt_Properties);
-}
-
-/**
  * Creates the "Show" submenu in the context menu of one classifier widget
  */
 void WidgetBasePopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
@@ -230,11 +188,45 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
          break;
        }
     case WidgetBase::wt_Class:
+        {
+            ClassifierWidget* c = widget->asClassifierWidget();
+            if (!c)
+                break;
+            insertSubMenuNew(type);
+            makeClassifierShowPopup(c);
+            insertSubMenuColor(c->useFillColor());
+            insertStdItems(true, type);
+            insert(mt_Rename);
+            insert(mt_Change_Font);
+            if (c->umlObject() && c->umlObject()->stereotype() == QLatin1String("class-or-package")) {
+                insert(mt_ChangeToClass, i18n("Change into Class"));
+                insert(mt_ChangeToPackage, i18n("Change into Package"));
+            } else {
+                insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
+                insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
+            UMLClassifier *umlc = c->classifier();
+            if (umlc->isAbstract() && umlc->getAttributeList().size() == 0)
+                insert(mt_ChangeToInterface, i18n("Change into Interface"));
+            }
+            insert(mt_Properties);
+        }
+        break;
+
     case WidgetBase::wt_Interface:
         {
-            ClassifierWidget* classifier = widget->asClassifierWidget();
-            if (classifier)
-                makeClassifierPopup(classifier);
+            ClassifierWidget* c = widget->asClassifierWidget();
+            if (!c)
+                break;
+            insertSubMenuNew(type);
+            makeClassifierShowPopup(c);
+            insertSubMenuColor(c->useFillColor());
+            insertStdItems(true, type);
+            insert(mt_Rename);
+            insert(mt_Change_Font);
+            insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
+            setActionChecked(mt_DrawAsCircle, c->visualProperty(ClassifierWidget::DrawAsCircle));
+            insert(mt_ChangeToClass, i18n("Change into Class"));
+            insert(mt_Properties);
         }
         break;
 
@@ -641,15 +633,21 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_Artifact, menu);
             break;
         case WidgetBase::wt_Class:
-            insert(mt_Attribute, menu);
-            insert(mt_Operation, menu);
-            insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
+            insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
+            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
+            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
+            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
             break;
         case WidgetBase::wt_Interface:
-            insert(mt_Operation, menu);
-            insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
+            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
+            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
+            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
+            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
             break;
         case WidgetBase::wt_Entity:
             insert(mt_EntityAttribute, menu);

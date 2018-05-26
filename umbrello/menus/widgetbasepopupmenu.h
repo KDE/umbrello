@@ -22,7 +22,6 @@ public:
     WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType = WidgetBase::wt_UMLWidget);
 
 protected:
-    void makeClassifierPopup(ClassifierWidget *c);
     void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
     void makeClassifierShowPopup(ClassifierWidget *c);
     void insertSingleSelectionMenu(WidgetBase* widget);
