@@ -659,8 +659,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_New_Activity, menu);
             break;
         default:
-            delete menu;
-            return;
+            break;
     }
     insert(mt_FloatText, menu);
     insert(mt_Note, menu);

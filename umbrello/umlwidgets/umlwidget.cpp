@@ -18,7 +18,9 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
+#include "associationwidget.h"
 #include "floatingtextwidget.h"
+#include "notewidget.h"
 #include "idchangelog.h"
 #include "listpopupmenu.h"
 #include "settingsdialog.h"
@@ -812,6 +814,12 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
             update();
             UMLApp::app()->document()->setModified(true);
         }
+        break;
+    }
+
+    case ListPopupMenu::mt_Note: {
+        NoteWidget *widget = new NoteWidget(umlScene());
+        addConnectedWidget(widget, Uml::AssociationType::Anchor);
         break;
     }
 
@@ -1927,3 +1935,20 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Adds a widget to the diagram, which is connected to the current widget
+ * @param widget widget instance to add to diagram
+ * @param type association type
+ */
+void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type)
+{
+    umlScene()->addItem(widget);
+    widget->setX(x() + rect().width() + 100);
+    widget->setY(y());
+    widget->setSize(100, 40);
+    AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
+    umlScene()->addAssociation(assoc);
+    widget->showPropertiesDialog();
+    QSizeF size = widget->minimumSize();
+    widget->setSize(size);
+}

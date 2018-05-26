@@ -278,6 +278,8 @@ protected:
 
     virtual void toForeground();
 
+    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association);
+
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
