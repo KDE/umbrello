@@ -19,6 +19,7 @@
 // kde includes
 #include <KLocalizedString>
 
+enum class LocalTriggerType { AnchorSelected, AssociationSelected, CollaborationMessage, AttributeAssociation, FullAssociation };
 /**
  * Constructs the popup menu for a scene widget.
  *
@@ -30,84 +31,47 @@
 AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::AssociationType::Enum type, AssociationWidget *widget)
   : ListPopupMenu(parent)
 {
-    m_isListView = false;
-    m_TriggerObject.m_Widget = widget;
-    m_TriggerObjectType = tot_Widget;
-
-    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
-    if ((type == Uml::AssociationType::Anchor) /*||
-          widget->onAssocClassLine(event->scenePos())*/) {
-        menuType = ListPopupMenu::mt_Anchor;
+    LocalTriggerType triggerType = LocalTriggerType::AssociationSelected;
+    if (type == Uml::AssociationType::Anchor) {
+        triggerType = LocalTriggerType::AnchorSelected;
     } else if (widget->isCollaboration()) {
-        menuType = ListPopupMenu::mt_Collaboration_Message;
+        triggerType = LocalTriggerType::CollaborationMessage;
     } else if (!widget->association()) {
-        menuType = ListPopupMenu::mt_AttributeAssociation;
+        triggerType = LocalTriggerType::AttributeAssociation;
     } else if (AssocRules::allowRole(type)) {
-        menuType = ListPopupMenu::mt_FullAssociation;
-    }
-    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType)
-                 << " / association = " << Uml::AssociationType::toString(type);
-
-    switch (menuType) {
-    case mt_Association_Selected:
-    case mt_AttributeAssociation:
-    case mt_FullAssociation:
-    case mt_Collaboration_Message:
-        insertAssociationItem(menuType);
-        break;
-    default:
-        uWarning() << "unknown menu type " << type;
-        break;
+        triggerType = LocalTriggerType::FullAssociation;
     }
 
-    setActionChecked(mt_AutoResize, widget->autoResize());
-    setupActionsData();
-}
-
-/**
- * Inserts a menu item for an association
- *
- * @param label   The menu text.
- * @param mt      The menu type.
- * @TODO merge into constructor
- */
-void AssociationWidgetPopupMenu::insertAssociationItem(MenuType mt)
-{
-    switch(mt) {
-    case mt_Collaboration_Message:
-        // insert(mt_Cut);
-        // insert(mt_Copy);
-        // insert(mt_Paste);
-        // addSeparator();
+    switch (triggerType) {
+    case LocalTriggerType::AnchorSelected:
+        insert(mt_Delete, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Anchor"));
         break;
-    default:
-        break;
-    }
-
-    if (m_TriggerObjectType == tot_Widget
-        && m_TriggerObject.m_Widget->isAssociationWidget()) {
-        AssociationWidget *w = m_TriggerObject.m_Widget->asAssociationWidget();
-        if (w->isPointAddable())
+    case LocalTriggerType::AssociationSelected:
+    case LocalTriggerType::AttributeAssociation:
+    case LocalTriggerType::FullAssociation:
+    case LocalTriggerType::CollaborationMessage:
+        if (widget->isPointAddable())
             insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
-        if (w->isPointRemovable())
+        if (widget->isPointRemovable())
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
         addSeparator();
-        insertSubMenuLayout(w->associationLine());
+        insertSubMenuLayout(widget->associationLine());
+        addSeparator();
+        insert(mt_Delete);
+    default:
+        break;
     }
-    addSeparator();
-    insert(mt_Delete);
 
-    switch(mt) {
-    case mt_AttributeAssociation:
-    case mt_FullAssociation:
+    switch(triggerType) {
+    case LocalTriggerType::AttributeAssociation:
+    case LocalTriggerType::FullAssociation:
         insert(mt_Rename_Name, i18n("Change Association Name..."));
         insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
         insert(mt_Rename_RoleBName, i18n("Change Role B Name..."));
         insert(mt_Change_Font);
         insert(mt_Reset_Label_Positions);
         break;
-
-    case mt_Collaboration_Message:
+    case LocalTriggerType::CollaborationMessage:
         insert(mt_Change_Font);
         insert(mt_New_Operation);
         insert(mt_Select_Operation, i18n("Select Operation..."));
@@ -118,6 +82,9 @@ void AssociationWidgetPopupMenu::insertAssociationItem(MenuType mt)
 
     insert(mt_Line_Color);
     insert(mt_Properties);
+
+    setActionChecked(mt_AutoResize, widget->autoResize());
+    setupActionsData();
 }
 
 /**

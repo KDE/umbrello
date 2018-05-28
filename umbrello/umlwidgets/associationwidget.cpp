@@ -4003,8 +4003,6 @@ void AssociationWidget::clipSize()
  */
 void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    const Uml::AssociationType::Enum type = associationType();
-
     event->accept();
 
     UMLScene *scene = umlScene();
@@ -4021,6 +4019,8 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     setSelected(true);
     m_eventScenePos = event->scenePos();
+
+    const Uml::AssociationType::Enum type = onAssocClassLine(event->scenePos()) ? Uml::AssociationType::Anchor : associationType();
     AssociationWidgetPopupMenu popup(parent, type, this);
     QAction *triggered = popup.exec(event->screenPos());
     slotMenuSelection(triggered);

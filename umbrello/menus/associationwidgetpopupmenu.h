@@ -14,7 +14,7 @@
 #include "listpopupmenu.h"
 
 /**
- * Constructs the popup menu for a WidgetBase with customized menu type.
+ * Constructs the popup menu for an association widget
  */
 class AssociationWidgetPopupMenu : public ListPopupMenu
 {
@@ -22,7 +22,6 @@ public:
     AssociationWidgetPopupMenu(QWidget *parent, Uml::AssociationType::Enum type, AssociationWidget *widget);
 
 protected:
-    void insertAssociationItem(MenuType mt);
     void insertSubMenuLayout(AssociationLine *associationLine);
     void insertSubmodelAction();
 };
