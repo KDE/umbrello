@@ -12,7 +12,7 @@
 
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -108,7 +108,7 @@ void PackageContentsPage::fillListBox()
  */
 void PackageContentsPage::slotShowContextMenu(const QPoint &p)
 {
-    ListPopupMenu popup(this, ListPopupMenu::tt_Association_Selected);
+    DialogsPopupMenu popup(this, DialogsPopupMenu::tt_Association_Selected);
     QAction *triggered = popup.exec(mapToGlobal(p) + QPoint(0, 20));
     slotMenuSelection(triggered);
 }

@@ -21,6 +21,7 @@
 #include "testlistpopupmenu.h"
 
 #include "associationwidgetpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "widgetbasepopupmenu.h"
 #include "umllistviewpopupmenu.h"
 #include "umlscenepopupmenu.h"
@@ -136,10 +137,10 @@ void TestListPopupMenu::test_createUMLListview()
 void TestListPopupMenu::test_createMiscMenu()
 {
     QWidget qWidget;
-    for(int i = ListPopupMenu::TriggerType::tt_Min+1; i < ListPopupMenu::TriggerType::tt_Max; i++) {
-        ListPopupMenu::TriggerType tt = static_cast<ListPopupMenu::TriggerType>(i);
-        ListPopupMenu popup(&qWidget, tt);
-        popup.dumpActions(ListPopupMenu::toString(tt));
+    for(int i = DialogsPopupMenu::TriggerType::tt_Min+1; i < DialogsPopupMenu::TriggerType::tt_Max; i++) {
+        DialogsPopupMenu::TriggerType tt = static_cast<DialogsPopupMenu::TriggerType>(i);
+        DialogsPopupMenu popup(&qWidget, tt);
+        popup.dumpActions(DialogsPopupMenu::toString(tt));
     }
 }
 

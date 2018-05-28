@@ -38,33 +38,7 @@ class ListPopupMenu : public KMenu
     Q_OBJECT
     Q_ENUMS(MenuType)
     Q_ENUMS(DataType)
-    Q_ENUMS(TriggerType)
 public:
-
-    enum TriggerType  ///< This type hosts all possible menu types.
-    {
-        tt_Min = -1,
-        tt_Activity_Selected,
-        tt_Association_Selected,
-        tt_Attribute_Selected,
-        tt_EntityAttribute_Selected,
-        tt_EnumLiteral_Selected,
-        tt_InstanceAttribute_Selected,
-        tt_New_Activity,
-        tt_New_Attribute,
-        tt_New_EntityAttribute,
-        tt_New_EnumLiteral,
-        tt_New_InstanceAttribute,
-        tt_New_Operation,
-        tt_New_Parameter,
-        tt_New_Template,
-        tt_Operation_Selected,
-        tt_Parameter_Selected,
-        tt_Template_Selected,
-        tt_Undefined,
-        tt_Max
-    };
-
     enum MenuType  ///< This type hosts all possible menu entry types
     {
         mt_Model,
@@ -252,7 +226,6 @@ public:
         mt_Undefined  =  - 1
     };
 
-    static QString toString(TriggerType menu);
     static QString toString(MenuType menu);
 
     enum DataType  ///< Key value of the data map used in actions.
@@ -264,7 +237,7 @@ public:
     static QString toString(DataType data);
     static QVariant dataFromAction(DataType key, QAction* action);
 
-    ListPopupMenu(QWidget* parent = 0, TriggerType type = tt_Undefined);
+    ListPopupMenu(QWidget* parent = 0);
 
     virtual ~ListPopupMenu();
 
@@ -296,10 +269,6 @@ protected:
 
     KMenu *makeNewMenu();
     void insertSubMenuCategoryType(UMLCategory *category);
-
-    void insertSubMenuNew(TriggerType type, KMenu *menu = 0);
-
-    void setupMenu(TriggerType type);
 
     void setActionChecked(MenuType idx, bool value);
     void setupActionsData();

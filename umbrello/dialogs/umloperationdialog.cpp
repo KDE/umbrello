@@ -18,7 +18,7 @@
 #include "operation.h"
 #include "classifier.h"
 #include "template.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "umlattributelist.h"
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
@@ -215,14 +215,14 @@ void UMLOperationDialog::slotNameChanged(const QString &_text)
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
 {
-    ListPopupMenu::TriggerType type = ListPopupMenu::tt_Undefined;
+    DialogsPopupMenu::TriggerType type = DialogsPopupMenu::tt_Undefined;
     QListWidgetItem* item = m_pParmsLW->itemAt(p);
     if (item) // pressed on an item
     {
-        type = ListPopupMenu::tt_Parameter_Selected;
+        type = DialogsPopupMenu::tt_Parameter_Selected;
     } else // pressed into fresh air
     {
-        type = ListPopupMenu::tt_New_Parameter;
+        type = DialogsPopupMenu::tt_New_Parameter;
     }
     if (m_menu) {
         m_menu->hide();
@@ -230,7 +230,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         delete m_menu;
         m_menu = 0;
     }
-    ListPopupMenu popup(this, type);
+    DialogsPopupMenu popup(this, type);
     QAction *triggered = popup.exec(m_pParmsLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }
@@ -241,20 +241,20 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
         return;
     }
     // this happens, when there was no right click in the list widget
-    ListPopupMenu popup(this, ListPopupMenu::tt_Parameter_Selected);
-    QAction *triggered = popup.getAction(ListPopupMenu::mt_Properties);
+    DialogsPopupMenu popup(this, DialogsPopupMenu::tt_Parameter_Selected);
+    QAction *triggered = popup.getAction(DialogsPopupMenu::mt_Properties);
     slotMenuSelection(triggered);
 }
 
 void UMLOperationDialog::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
-    if(id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties) {
+    DialogsPopupMenu::MenuType id = DialogsPopupMenu::typeFromAction(action);
+    if(id == DialogsPopupMenu::mt_Rename || id == DialogsPopupMenu::mt_Properties) {
         slotParameterProperties();
-    } else if(id == ListPopupMenu::mt_New_Parameter) {
+    } else if(id == DialogsPopupMenu::mt_New_Parameter) {
         slotNewParameter();
     }
-    else if(id == ListPopupMenu::mt_Delete) {
+    else if(id == DialogsPopupMenu::mt_Delete) {
         slotDeleteParameter();
     }
 }

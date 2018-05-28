@@ -19,7 +19,7 @@
 #include "enum.h"
 #include "entity.h"
 #include "attribute.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "operation.h"
 #include "template.h"
 #include "enumliteral.h"
@@ -59,7 +59,6 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     m_bSigWaiting = false;
     m_doc = doc;
     m_pClassifier = classifier;
-    m_pMenu = 0;
 
     setupPage();
 }
@@ -448,42 +447,42 @@ void ClassifierListPage::slotListItemModified()
 
 void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
 {
-    ListPopupMenu::TriggerType type = ListPopupMenu::tt_Undefined;
+    DialogsPopupMenu::TriggerType type = DialogsPopupMenu::tt_Undefined;
     if (m_pItemListLB->itemAt(pos)) { //pressed on a list item
         if (m_itemType == UMLObject::ot_Attribute) {
-            type = ListPopupMenu::tt_Attribute_Selected;
+            type = DialogsPopupMenu::tt_Attribute_Selected;
         } else if (m_itemType == UMLObject::ot_Operation) {
-            type = ListPopupMenu::tt_Operation_Selected;
+            type = DialogsPopupMenu::tt_Operation_Selected;
         } else if (m_itemType == UMLObject::ot_Template) {
-            type = ListPopupMenu::tt_Template_Selected;
+            type = DialogsPopupMenu::tt_Template_Selected;
         } else if (m_itemType == UMLObject::ot_EnumLiteral) {
-            type = ListPopupMenu::tt_EnumLiteral_Selected;
+            type = DialogsPopupMenu::tt_EnumLiteral_Selected;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
-            type = ListPopupMenu::tt_EntityAttribute_Selected;
+            type = DialogsPopupMenu::tt_EntityAttribute_Selected;
         } else if(m_itemType == UMLObject::ot_InstanceAttribute){
-            type = ListPopupMenu::tt_InstanceAttribute_Selected;
+            type = DialogsPopupMenu::tt_InstanceAttribute_Selected;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air
         if (m_itemType == UMLObject::ot_Attribute) {
-            type = ListPopupMenu::tt_New_Attribute;
+            type = DialogsPopupMenu::tt_New_Attribute;
         } else if (m_itemType == UMLObject::ot_Operation) {
-            type = ListPopupMenu::tt_New_Operation;
+            type = DialogsPopupMenu::tt_New_Operation;
         } else if (m_itemType == UMLObject::ot_Template) {
-            type = ListPopupMenu::tt_New_Template;
+            type = DialogsPopupMenu::tt_New_Template;
         } else if (m_itemType == UMLObject::ot_EnumLiteral) {
-            type = ListPopupMenu::tt_New_EnumLiteral;
+            type = DialogsPopupMenu::tt_New_EnumLiteral;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
-            type = ListPopupMenu::tt_New_EntityAttribute;
+            type = DialogsPopupMenu::tt_New_EntityAttribute;
         } else if( m_itemType == UMLObject::ot_InstanceAttribute) {
-            type = ListPopupMenu::tt_New_InstanceAttribute;
+            type = DialogsPopupMenu::tt_New_InstanceAttribute;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
     }
 
-    ListPopupMenu popup(this, type);
+    DialogsPopupMenu popup(this, type);
     QAction *triggered = popup.exec(mapToGlobal(pos) + QPoint(0, 40));
     slotMenuSelection(triggered);
 }

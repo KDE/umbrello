@@ -623,7 +623,6 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
 
     m_activated = other.m_activated;
     m_unNameLineSegment = other.m_unNameLineSegment;
-    m_pMenu = other.m_pMenu;
     setUMLAssociation(other.association());
     setSelected(other.isSelected());
 

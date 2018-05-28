@@ -374,6 +374,7 @@ set(libmenus_SRCS
     menus/umlscenepopupmenu.cpp
     menus/associationwidgetpopupmenu.cpp
     menus/widgetbasepopupmenu.cpp
+    menus/dialogspopupmenu.cpp
 )
 
 set(libumlwidgets_SRCS

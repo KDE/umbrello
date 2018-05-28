@@ -14,7 +14,7 @@
 #include "associationpropertiesdialog.h"
 #include "debug_utils.h"
 #include "dialogpagebase.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "umlobject.h"
 #include "umlscene.h"
 
@@ -106,7 +106,7 @@ void ClassAssociationsPage::fillListBox()
 
 void ClassAssociationsPage::slotRightButtonPressed(const QPoint &p)
 {
-    ListPopupMenu popup(this, ListPopupMenu::tt_Association_Selected);
+    DialogsPopupMenu popup(this, DialogsPopupMenu::tt_Association_Selected);
     QAction *triggered = popup.exec(m_pAssocLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }
