@@ -38,9 +38,65 @@ class ListPopupMenu : public KMenu
     Q_OBJECT
     Q_ENUMS(MenuType)
     Q_ENUMS(DataType)
+    Q_ENUMS(TriggerType)
 public:
 
-    enum MenuType  ///< This type hosts all possible menu types.
+    enum TriggerType  ///< This type hosts all possible menu types.
+    {
+        tt_Min = -1,
+        tt_Activity_Selected,
+        tt_Anchor,
+        tt_Association_Selected,
+        tt_Attribute_Selected,
+        tt_CheckConstraint_Selected,
+        tt_EntityAttribute_Selected,
+        tt_EnumLiteral_Selected,
+        tt_ForeignKeyConstraint_Selected,
+        tt_InstanceAttribute_Selected,
+        tt_Model,
+        tt_MultiA,
+        tt_MultiB,
+        tt_Name,
+        tt_New_Activity,
+        tt_New_Attribute,
+        tt_New_EntityAttribute,
+        tt_New_EnumLiteral,
+        tt_New_InstanceAttribute,
+        tt_New_Operation,
+        tt_New_Parameter,
+        tt_New_Template,
+        tt_Operation_Selected,
+        tt_Parameter_Selected,
+        tt_PrimaryKeyConstraint_Selected,
+        tt_Properties,
+        tt_Properties_AutoLayout,
+        tt_Properties_Class,
+        tt_Properties_CodeGeneration,
+        tt_Properties_CodeImport,
+        tt_Properties_CodeViewer,
+        tt_Properties_Font,
+        tt_Properties_General,
+        tt_Properties_UserInterface,
+        tt_RoleNameA,
+        tt_RoleNameB,
+        tt_Template_Selected,
+        tt_Undefined,
+        tt_UniqueConstraint_Selected,
+        tt_New_UniqueConstraint,
+        tt_New_PrimaryKeyConstraint,
+        tt_New_ForeignKeyConstraint,
+        tt_New_CheckConstraint,
+        tt_Class,
+        tt_Component,
+        tt_Interface,
+        tt_Entity,
+        tt_Enum,
+        tt_Object,
+        tt_Subsystem,
+        tt_Max
+    };
+
+    enum MenuType  ///< This type hosts all possible menu entry types
     {
         mt_Min = -1,
         mt_Model,
@@ -268,6 +324,7 @@ public:
         mt_Undefined  =  - 1
     };
 
+    static QString toString(TriggerType menu);
     static QString toString(MenuType menu);
 
     enum DataType  ///< Key value of the data map used in actions.
@@ -279,7 +336,7 @@ public:
     static QString toString(DataType data);
     static QVariant dataFromAction(DataType key, QAction* action);
 
-    ListPopupMenu(QWidget* parent = 0, MenuType type = mt_Undefined);
+    ListPopupMenu(QWidget* parent = 0, TriggerType type = tt_Undefined);
 
     virtual ~ListPopupMenu();
 
@@ -314,9 +371,9 @@ protected:
     KMenu *makeNewMenu();
     KMenu *makeCategoryTypeMenu(UMLCategory *category);
 
-    void insertSubMenuNew(MenuType type, KMenu *menu = 0);
+    void insertSubMenuNew(TriggerType type, KMenu *menu = 0);
 
-    virtual void setupMenu(MenuType type);
+    void setupMenu(TriggerType type);
 
     void setActionChecked(MenuType idx, bool value);
     void setupActionsData();

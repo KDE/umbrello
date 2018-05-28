@@ -223,12 +223,12 @@ void ActivityPage::slotRename()
 
 void ActivityPage::slotRightButtonPressed(const QPoint & p)
 {
-    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::TriggerType type = ListPopupMenu::tt_Undefined;
     QListWidgetItem* item = m_pActivityLW->itemAt(p);
     if (item) { //pressed on an item
-        type = ListPopupMenu::mt_Activity_Selected;
+        type = ListPopupMenu::tt_Activity_Selected;
     } else { //pressed into fresh air
-        type = ListPopupMenu::mt_New_Activity;
+        type = ListPopupMenu::tt_New_Activity;
     }
 
     ListPopupMenu popup(this, type);

@@ -215,14 +215,14 @@ void UMLOperationDialog::slotNameChanged(const QString &_text)
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
 {
-    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::TriggerType type = ListPopupMenu::tt_Undefined;
     QListWidgetItem* item = m_pParmsLW->itemAt(p);
     if (item) // pressed on an item
     {
-        type = ListPopupMenu::mt_Parameter_Selected;
+        type = ListPopupMenu::tt_Parameter_Selected;
     } else // pressed into fresh air
     {
-        type = ListPopupMenu::mt_New_Parameter;
+        type = ListPopupMenu::tt_New_Parameter;
     }
     if (m_menu) {
         m_menu->hide();
@@ -241,7 +241,7 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
         return;
     }
     // this happens, when there was no right click in the list widget
-    ListPopupMenu popup(this, ListPopupMenu::mt_Parameter_Selected);
+    ListPopupMenu popup(this, ListPopupMenu::tt_Parameter_Selected);
     QAction *triggered = popup.getAction(ListPopupMenu::mt_Properties);
     slotMenuSelection(triggered);
 }

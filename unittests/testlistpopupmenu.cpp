@@ -136,14 +136,10 @@ void TestListPopupMenu::test_createUMLListview()
 void TestListPopupMenu::test_createMiscMenu()
 {
     QWidget qWidget;
-    for(int i = ListPopupMenu::MenuType::mt_Model; i < ListPopupMenu::MenuType::mt_Max; i++) {
-        ListPopupMenu::MenuType mt = static_cast<ListPopupMenu::MenuType>(i);
-        if (mt == ListPopupMenu::MenuType::mt_Category) {
-            qDebug().nospace() << ListPopupMenu::toString(mt);
-        } else {
-            ListPopupMenu popup(&qWidget, mt);
-            popup.dumpActions(ListPopupMenu::toString(mt));
-        }
+    for(int i = ListPopupMenu::TriggerType::tt_Min+1; i < ListPopupMenu::TriggerType::tt_Max; i++) {
+        ListPopupMenu::TriggerType tt = static_cast<ListPopupMenu::TriggerType>(i);
+        ListPopupMenu popup(&qWidget, tt);
+        popup.dumpActions(ListPopupMenu::toString(tt));
     }
 }
 

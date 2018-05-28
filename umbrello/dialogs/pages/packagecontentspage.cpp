@@ -108,7 +108,7 @@ void PackageContentsPage::fillListBox()
  */
 void PackageContentsPage::slotShowContextMenu(const QPoint &p)
 {
-    ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
+    ListPopupMenu popup(this, ListPopupMenu::tt_Association_Selected);
     QAction *triggered = popup.exec(mapToGlobal(p) + QPoint(0, 20));
     slotMenuSelection(triggered);
 }

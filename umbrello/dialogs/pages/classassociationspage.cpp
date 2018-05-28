@@ -106,7 +106,7 @@ void ClassAssociationsPage::fillListBox()
 
 void ClassAssociationsPage::slotRightButtonPressed(const QPoint &p)
 {
-    ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
+    ListPopupMenu popup(this, ListPopupMenu::tt_Association_Selected);
     QAction *triggered = popup.exec(m_pAssocLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }

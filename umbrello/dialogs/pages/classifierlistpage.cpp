@@ -448,36 +448,36 @@ void ClassifierListPage::slotListItemModified()
 
 void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
 {
-    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::TriggerType type = ListPopupMenu::tt_Undefined;
     if (m_pItemListLB->itemAt(pos)) { //pressed on a list item
         if (m_itemType == UMLObject::ot_Attribute) {
-            type = ListPopupMenu::mt_Attribute_Selected;
+            type = ListPopupMenu::tt_Attribute_Selected;
         } else if (m_itemType == UMLObject::ot_Operation) {
-            type = ListPopupMenu::mt_Operation_Selected;
+            type = ListPopupMenu::tt_Operation_Selected;
         } else if (m_itemType == UMLObject::ot_Template) {
-            type = ListPopupMenu::mt_Template_Selected;
+            type = ListPopupMenu::tt_Template_Selected;
         } else if (m_itemType == UMLObject::ot_EnumLiteral) {
-            type = ListPopupMenu::mt_EnumLiteral_Selected;
+            type = ListPopupMenu::tt_EnumLiteral_Selected;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
-            type = ListPopupMenu::mt_EntityAttribute_Selected;
+            type = ListPopupMenu::tt_EntityAttribute_Selected;
         } else if(m_itemType == UMLObject::ot_InstanceAttribute){
-            type = ListPopupMenu::mt_InstanceAttribute_Selected;
+            type = ListPopupMenu::tt_InstanceAttribute_Selected;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air
         if (m_itemType == UMLObject::ot_Attribute) {
-            type = ListPopupMenu::mt_New_Attribute;
+            type = ListPopupMenu::tt_New_Attribute;
         } else if (m_itemType == UMLObject::ot_Operation) {
-            type = ListPopupMenu::mt_New_Operation;
+            type = ListPopupMenu::tt_New_Operation;
         } else if (m_itemType == UMLObject::ot_Template) {
-            type = ListPopupMenu::mt_New_Template;
+            type = ListPopupMenu::tt_New_Template;
         } else if (m_itemType == UMLObject::ot_EnumLiteral) {
-            type = ListPopupMenu::mt_New_EnumLiteral;
+            type = ListPopupMenu::tt_New_EnumLiteral;
         } else if (m_itemType == UMLObject::ot_EntityAttribute) {
-            type = ListPopupMenu::mt_New_EntityAttribute;
+            type = ListPopupMenu::tt_New_EntityAttribute;
         } else if( m_itemType == UMLObject::ot_InstanceAttribute) {
-            type = ListPopupMenu::mt_New_InstanceAttribute;
+            type = ListPopupMenu::tt_New_InstanceAttribute;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }

@@ -60,11 +60,11 @@ static const bool CHECKABLE = true;
  * @param parent   The parent to ListPopupMenu.
  * @param type     The type of menu to display.
  */
-ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type)
+ListPopupMenu::ListPopupMenu(QWidget *parent, TriggerType type)
     : KMenu(parent),
     m_isListView(false)
 {
-    if (type != mt_Undefined) {
+    if (type != tt_Undefined) {
         setupMenu(type);
         setupActionsData();
     }
@@ -517,45 +517,45 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
  *
  * @param type   The MenuType for which to set up the menu.
  */
-void ListPopupMenu::insertSubMenuNew(MenuType type, KMenu *menu)
+void ListPopupMenu::insertSubMenuNew(TriggerType type, KMenu *menu)
 {
     if (!menu) {
         menu = makeNewMenu();
     }
     switch (type) {
-        case mt_Class:
+        case tt_Class:
             insert(mt_Attribute, menu);
             insert(mt_Operation, menu);
             insert(mt_Template, menu);
             insertContainerItems(menu, false, false);
             break;
-        case mt_Component:
+        case tt_Component:
             insert(mt_Component, menu);
             if (Settings::optionState().generalState.uml2)
                 insert(mt_Port, menu);
             insert(mt_Artifact, menu);
             break;
-        case mt_Interface:
+        case tt_Interface:
             insert(mt_Operation, menu);
             insert(mt_Template, menu);
             insertContainerItems(menu, false, false);
             break;
-        case mt_Entity:
+        case tt_Entity:
             insert(mt_EntityAttribute, menu);
             insert(mt_PrimaryKeyConstraint, menu);
             insert(mt_UniqueConstraint, menu);
             insert(mt_ForeignKeyConstraint, menu);
             insert(mt_CheckConstraint, menu);
             break;
-        case mt_Enum:
+        case tt_Enum:
             insert(mt_EnumLiteral, menu);
             break;
-        case mt_Object:
+        case tt_Object:
             break;
-        case mt_New_Activity:
-        case mt_Activity_Selected:
+        case tt_New_Activity:
+        case tt_Activity_Selected:
             break;
-        case mt_Subsystem:
+        case tt_Subsystem:
             insert(mt_Subsystem, menu);
             insert(mt_Component, menu);
             insert(mt_Artifact, menu);
@@ -572,173 +572,173 @@ void ListPopupMenu::insertSubMenuNew(MenuType type, KMenu *menu)
  * @param type   The MenuType for which to set up the menu.
  * @TODO This method need to be cleaned up
  */
-void ListPopupMenu::setupMenu(MenuType type)
+void ListPopupMenu::setupMenu(TriggerType type)
 {
     DEBUG(DBG_SRC) << "ListPopupMenu created for MenuType=" << toString(type);
     switch(type) {
-    case mt_New_Parameter:
+    case tt_New_Parameter:
         insert(mt_New_Parameter);
         break;
 
-    case mt_New_Operation:
+    case tt_New_Operation:
         insert(mt_New_Operation);
         break;
 
-    case mt_New_Attribute:
+    case tt_New_Attribute:
         insert(mt_New_Attribute);
         break;
 
-    case mt_New_InstanceAttribute:
+    case tt_New_InstanceAttribute:
         insert(mt_New_InstanceAttribute);
         break;
 
-    case mt_New_Template:
+    case tt_New_Template:
         insert(mt_New_Template);
         break;
 
-    case mt_New_EnumLiteral:
+    case tt_New_EnumLiteral:
         insert(mt_New_EnumLiteral);
         break;
 
-    case mt_New_EntityAttribute:
+    case tt_New_EntityAttribute:
         insert(mt_New_EntityAttribute);
         break;
 
-    case mt_New_UniqueConstraint:
+    case tt_New_UniqueConstraint:
         insert(mt_New_UniqueConstraint);
         break;
 
-    case mt_New_PrimaryKeyConstraint:
+    case tt_New_PrimaryKeyConstraint:
         insert(mt_New_PrimaryKeyConstraint);
         break;
 
-    case mt_New_ForeignKeyConstraint:
+    case tt_New_ForeignKeyConstraint:
         insert(mt_New_ForeignKeyConstraint);
         break;
 
-    case mt_New_CheckConstraint:
+    case tt_New_CheckConstraint:
         insert(mt_New_CheckConstraint);
         break;
 
-    case mt_New_Activity:
+    case tt_New_Activity:
         insertSubMenuNew(type);
         break;
 
-    case mt_Activity_Selected:
+    case tt_Activity_Selected:
         insertSubMenuNew(type);
         insert(mt_Rename);
         insert(mt_Delete);
         break;
 
-    case mt_Parameter_Selected:
+    case tt_Parameter_Selected:
         insert(mt_New_Parameter);
         insert(mt_Rename);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_Operation_Selected:
+    case tt_Operation_Selected:
         insert(mt_New_Operation);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_Attribute_Selected:
+    case tt_Attribute_Selected:
         insert(mt_New_Attribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_InstanceAttribute_Selected:
+    case tt_InstanceAttribute_Selected:
         insert(mt_New_InstanceAttribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_Template_Selected:
+    case tt_Template_Selected:
         insert(mt_New_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_EnumLiteral_Selected:
+    case tt_EnumLiteral_Selected:
         insert(mt_New_EnumLiteral);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_EntityAttribute_Selected:
+    case tt_EntityAttribute_Selected:
         insert(mt_New_EntityAttribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_UniqueConstraint_Selected:
+    case tt_UniqueConstraint_Selected:
         insert(mt_New_UniqueConstraint);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_PrimaryKeyConstraint_Selected:
+    case tt_PrimaryKeyConstraint_Selected:
         insert(mt_New_PrimaryKeyConstraint);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_ForeignKeyConstraint_Selected:
+    case tt_ForeignKeyConstraint_Selected:
         insert(mt_New_ForeignKeyConstraint);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_CheckConstraint_Selected:
+    case tt_CheckConstraint_Selected:
         insert(mt_New_ForeignKeyConstraint);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
 
-    case mt_Anchor:
+    case tt_Anchor:
         insert(mt_Delete, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Anchor"));
         break;
 
-    case mt_RoleNameA:
+    case tt_RoleNameA:
         insertAssociationTextItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
         break;
 
-    case mt_RoleNameB:
+    case tt_RoleNameB:
         insertAssociationTextItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
         break;
 
-    case mt_MultiB:
+    case tt_MultiB:
         insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
         break;
 
-    case mt_MultiA:
+    case tt_MultiA:
         insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
         break;
 
-    case mt_Name:
+    case tt_Name:
         insertAssociationTextItem(i18n("Change Name"), mt_Rename_Name);
         break;
 
-    case mt_Model:
+    case tt_Model:
         insert(mt_Model, i18n("Rename..."));
         break;
 
-    case mt_Properties:
+    case tt_Properties:
         insert(mt_Expand_All);
         insert(mt_Collapse_All);
         insert(mt_Properties);
         break;
 
-    case mt_Properties_AutoLayout:
-    case mt_Properties_Class:
-    case mt_Properties_CodeImport:
-    case mt_Properties_CodeGeneration:
-    case mt_Properties_CodeViewer:
-    case mt_Properties_Font:
-    case mt_Properties_General:
-    case mt_Properties_UserInterface:
+    case tt_Properties_AutoLayout:
+    case tt_Properties_Class:
+    case tt_Properties_CodeImport:
+    case tt_Properties_CodeGeneration:
+    case tt_Properties_CodeViewer:
+    case tt_Properties_Font:
+    case tt_Properties_General:
+    case tt_Properties_UserInterface:
         insert(mt_Properties);
         break;
 
@@ -870,6 +870,14 @@ void ListPopupMenu::setupActionsData()
         action->setData(QVariant(map));
     }
 
+}
+
+/**
+ * Convert enum TriggerType to string.
+ */
+QString ListPopupMenu::toString(TriggerType menu)
+{
+    return QLatin1String(ENUM_NAME(ListPopupMenu, TriggerType, menu));
 }
 
 /**
