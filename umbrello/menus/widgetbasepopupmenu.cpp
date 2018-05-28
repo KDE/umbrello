@@ -44,10 +44,6 @@ static const bool CHECKABLE = true;
 WidgetBasePopupMenu::WidgetBasePopupMenu(QWidget * parent, WidgetBase * widget, bool multi, WidgetBase::WidgetType uniqueType)
   : ListPopupMenu(parent)
 {
-    m_isListView = false;
-    m_TriggerObject.m_Widget = widget;
-    m_TriggerObjectType = tot_Widget;
-
     if (!widget)
         return;
 

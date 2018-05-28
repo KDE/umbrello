@@ -61,8 +61,7 @@ static const bool CHECKABLE = true;
  * @param type     The type of menu to display.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, TriggerType type)
-    : KMenu(parent),
-    m_isListView(false)
+    : KMenu(parent)
 {
     if (type != tt_Undefined) {
         setupMenu(type);
@@ -687,20 +686,6 @@ ListPopupMenu::MenuType ListPopupMenu::getMenuType(QAction* action)
 }
 
 /**
- * Utility method to fetch owner of the menu.
- *
- * @return The owned WidgetBase if this menu is owned by a
- *         widget. Otherwise returns 0.
- */
-WidgetBase* ListPopupMenu::ownerWidget() const
-{
-    if (m_TriggerObjectType == tot_Widget) {
-        return m_TriggerObject.m_Widget;
-    }
-    return 0;
-}
-
-/**
  * Checks the action item.
  *
  * @param idx     The MenuType for which to check the menu item.
@@ -750,14 +735,6 @@ void ListPopupMenu::setupActionsData()
         action->setData(QVariant(map));
     }
 
-}
-
-/**
- * Convert enum TriggerType to string.
- */
-QString ListPopupMenu::toString(TriggerType menu)
-{
-    return QLatin1String(ENUM_NAME(ListPopupMenu, TriggerType, menu));
 }
 
 /**

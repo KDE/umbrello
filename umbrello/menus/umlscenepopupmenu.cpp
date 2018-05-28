@@ -25,8 +25,6 @@ UMLScenePopupMenu::UMLScenePopupMenu(QWidget *parent, UMLScene *scene)
 {
     const bool CHECKABLE = true;
 
-    // FIXME: this is not true
-    m_isListView = true;
     Uml::DiagramType::Enum type = scene->type();
     switch(type) {
         case Uml::DiagramType::UseCase:

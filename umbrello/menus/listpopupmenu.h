@@ -279,8 +279,6 @@ public:
 
     MenuType getMenuType(QAction* action);
 
-    WidgetBase *ownerWidget() const;
-
     QList<MenuType> &debugActions() { return m_debugActions; }
     void dumpActions(const QString &title);
 
@@ -306,19 +304,7 @@ protected:
     void setActionChecked(MenuType idx, bool value);
     void setupActionsData();
 
-    union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
-        WidgetBase* m_Widget;
-    };
-
-    enum TriggerObjectType {  ///< Enum to keep track on TriggerObject Type.
-        tot_Widget
-    };
-
-    TriggerObject m_TriggerObject;
-    TriggerObjectType m_TriggerObjectType;
-
     QHash<MenuType, QAction*> m_actions;
-    bool m_isListView;
     QList<MenuType> m_debugActions;
 };
 
