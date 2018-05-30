@@ -183,7 +183,7 @@
   </screenshots>
   <project_group>KDE</project_group>
   <provides>
-    <binary>umbrello</binary>
+    <binary>umbrello5</binary>
   </provides>
   <launchable type="desktop-id">org.kde.umbrello.desktop</launchable>
 </component>
