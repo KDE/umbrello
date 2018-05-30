@@ -185,4 +185,5 @@
   <provides>
     <binary>umbrello</binary>
   </provides>
+  <launchable type="desktop-id">org.kde.umbrello.desktop</launchable>
 </component>
