@@ -303,13 +303,7 @@ void ListPopupMenu::insert(const MenuType m, const QIcon & icon, const QString &
  */
 void ListPopupMenu::insert(const MenuType m, const QString & text, const bool checkable)
 {
-    DEBUG_AddAction(m);
-    m_actions[m] = addAction(text);
-    if (checkable) {
-        QAction* action = getAction(m);
-        if (action)
-            action->setCheckable(checkable);
-    }
+    insert(m, this, text, checkable);
 }
 
 /**
