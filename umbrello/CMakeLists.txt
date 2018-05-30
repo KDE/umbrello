@@ -638,19 +638,16 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files #############
 
 if(NOT BUILD_KF5)
-    install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+    install( PROGRAMS org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR} )
     install( FILES
         ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc
         DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 else()
-    file(READ umbrello.desktop UMBRELLO_DESKTOP_OUT)
+    file(READ org.kde.umbrello.desktop UMBRELLO_DESKTOP_OUT)
     string(REPLACE "Exec=umbrello" "Exec=umbrello5" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
-    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} RENAME org.kde.umbrello.desktop)
-    file(READ org.kde.umbrello.appdata.xml UMBRELLO_APPDATA)
-    string(REPLACE "<binary>umbrello</binary>" "<binary>umbrello5</binary>" UMBRELLO_APPDATA_OUT "${UMBRELLO_APPDATA}")
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml "${UMBRELLO_APPDATA_OUT}")
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
+    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
+    install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 endif()
 
 install( FILES
