@@ -93,7 +93,7 @@ void UMLStereotypeWidget::init()
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Stereotype name:"), this);
+    m_label = new QLabel(i18n("Stereotype &name:"), this);
     layout->addWidget(m_label);
 
     m_comboBox = new KComboBox(true, this);
