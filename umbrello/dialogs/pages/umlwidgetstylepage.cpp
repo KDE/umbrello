@@ -183,6 +183,7 @@ void UMLWidgetStylePage::init()
 #else
     m_lineWidthB = new KIntSpinBox(0, 10, 1, 0, m_pStyleGB);
 #endif
+    m_lineWidthL->setBuddy(m_lineWidthB);
     styleLayout->addWidget(m_lineWidthB, row, 1);
 
     m_lineWidthDefaultB = new QPushButton(i18nc("default line width button", "Defa&ult"), m_pStyleGB) ;
