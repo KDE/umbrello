@@ -31,6 +31,8 @@ set(CMAKE_AUTORCC ON)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
+    # TODO: after removing kdelibs4support this could also be removed
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 endif()
 
 find_package(KDevelop-PG-Qt)
