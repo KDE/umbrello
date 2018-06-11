@@ -39,9 +39,6 @@ public:
 
 protected:
     QSizeF minimumSize() const;
-
-private:
-    ListPopupMenu* m_pMenu;  ///< the right mouse button menu
 };
 
 #endif

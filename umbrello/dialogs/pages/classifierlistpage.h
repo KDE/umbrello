@@ -17,7 +17,6 @@
 #include "umlobject.h"
 
 class CodeTextEdit;
-class ListPopupMenu;
 class UMLClassifier;
 class UMLDoc;
 class KTextEdit;
@@ -84,7 +83,6 @@ private:
     QToolButton*   m_pBottomArrowB;
 
     UMLDoc*        m_doc;
-    ListPopupMenu* m_pMenu;
     UMLClassifierListItem* m_pOldListItem;
 
 protected:

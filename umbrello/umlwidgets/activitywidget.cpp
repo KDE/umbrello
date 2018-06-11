@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"

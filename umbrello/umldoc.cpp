@@ -39,7 +39,7 @@
 #include "umlview.h"
 #include "entityconstraint.h"
 #include "idchangelog.h"
-#include "listpopupmenu.h"
+#include "umllistviewpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
 #include "umlscene.h"
@@ -3449,7 +3449,8 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    ListPopupMenu popup(UMLApp::app()->mainViewWidget(), type, 0);
+    UMLListViewItem item((UMLListView *)0, QString(), type);
+    UMLListViewPopupMenu popup(UMLApp::app()->mainViewWidget(), &item);
     QAction *triggered = popup.exec(point);
     view->umlScene()->slotMenuSelection(triggered);
 }

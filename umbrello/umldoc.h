@@ -13,7 +13,6 @@
 
 // app includes
 #include "basictypes.h"
-#include "listpopupmenu.h"
 #include "optionstate.h"
 #include "umlobject.h"
 #include "umlobjectlist.h"

@@ -16,6 +16,7 @@
 #include "package.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
+#include "listpopupmenu.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "componentwidget.h"

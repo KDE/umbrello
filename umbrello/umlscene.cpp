@@ -43,7 +43,6 @@
 #include "import_utils.h"
 #include "layoutgenerator.h"
 #include "layoutgrid.h"
-#include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
 #include "notewidget.h"
@@ -67,6 +66,7 @@
 #include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlrole.h"
+#include "umlscenepopupmenu.h"
 #include "umlview.h"
 #include "umlviewimageexporter.h"
 #include "umlwidget.h"
@@ -2797,74 +2797,15 @@ void UMLScene::resetToolbar()
 /**
  * Event handler for context menu events.
  */
-void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
+void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    QGraphicsScene::contextMenuEvent(contextMenuEvent);
-    if (!contextMenuEvent->isAccepted()) {
-        setPos(contextMenuEvent->scenePos());
-        setMenu(contextMenuEvent->screenPos());
-        contextMenuEvent->accept();
-    }
-}
-
-/**
- * Sets the popup menu to use when clicking on a diagram background
- * (rather than a widget or listView).
- */
-void UMLScene::setMenu(const QPoint& pos)
-{
-    ListPopupMenu::MenuType menu = ListPopupMenu::mt_Undefined;
-    switch (type()) {
-    case DiagramType::Class:
-        menu = ListPopupMenu::mt_On_Class_Diagram;
-        break;
-
-    case DiagramType::UseCase:
-        menu = ListPopupMenu::mt_On_UseCase_Diagram;
-        break;
-
-    case DiagramType::Sequence:
-        menu = ListPopupMenu::mt_On_Sequence_Diagram;
-        break;
-
-    case DiagramType::Collaboration:
-        menu = ListPopupMenu::mt_On_Collaboration_Diagram;
-        break;
-
-    case DiagramType::State:
-        menu = ListPopupMenu::mt_On_State_Diagram;
-        break;
-
-    case DiagramType::Activity:
-        menu = ListPopupMenu::mt_On_Activity_Diagram;
-        break;
-
-    case DiagramType::Component:
-        menu = ListPopupMenu::mt_On_Component_Diagram;
-        break;
-
-    case DiagramType::Deployment:
-        menu = ListPopupMenu::mt_On_Deployment_Diagram;
-        break;
-
-    case DiagramType::EntityRelationship:
-        menu = ListPopupMenu::mt_On_EntityRelationship_Diagram;
-        break;
-
-    case DiagramType::Object:
-        menu = ListPopupMenu::mt_On_Object_Diagram;
-        break;
-
-    default:
-        uWarning() << "unknown diagram type " << type();
-        menu = ListPopupMenu::mt_Undefined;
-        break;
-    }//end switch
-    if (menu != ListPopupMenu::mt_Undefined) {
-        // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
-        ListPopupMenu popup(activeView(), menu, activeView());
-        QAction *triggered = popup.exec(pos);
+    QGraphicsScene::contextMenuEvent(event);
+    if (!event->isAccepted()) {
+        setPos(event->scenePos());
+        UMLScenePopupMenu popup(m_view, this);
+        QAction *triggered = popup.exec(event->screenPos());
         slotMenuSelection(triggered);
+        event->accept();
     }
 }
 

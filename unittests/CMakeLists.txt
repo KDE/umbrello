@@ -36,6 +36,7 @@ include_directories(
       ${SRC_PATH}/debug
       ${SRC_PATH}/dialogs
       ${SRC_PATH}/docgenerators
+      ${SRC_PATH}/menus/
       ${SRC_PATH}/refactoring
       ${SRC_PATH}/uml1model/
       ${SRC_PATH}/umlwidgets/
@@ -118,6 +119,9 @@ target_link_libraries(testumlroledialog ${LIBS})
 
 ecm_add_executable(testcrashhandler testcrashhandler.cpp)
 target_link_libraries(testcrashhandler ${LIBS})
+
+ecm_add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
+target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
 find_package(CLANG QUIET)

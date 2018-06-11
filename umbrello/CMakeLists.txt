@@ -66,6 +66,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/uml1model/
   ${CMAKE_CURRENT_SOURCE_DIR}/umlwidgets/
+  ${CMAKE_CURRENT_SOURCE_DIR}/menus
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
   ${CMAKE_SOURCE_DIR}/lib/interfaces/
 )
@@ -367,6 +368,14 @@ set(libcmds_SRCS
     cmds/widget/cmdsetname.cpp
     cmds/widget/cmdsettxt.cpp
 )
+set(libmenus_SRCS
+    menus/listpopupmenu.cpp
+    menus/umllistviewpopupmenu.cpp
+    menus/umlscenepopupmenu.cpp
+    menus/associationwidgetpopupmenu.cpp
+    menus/widgetbasepopupmenu.cpp
+    menus/dialogspopupmenu.cpp
+)
 
 set(libumlwidgets_SRCS
     umlwidgets/activitywidget.cpp
@@ -475,7 +484,6 @@ set(umbrellobase_SRCS
     import_argo.cpp
     import_rose.cpp
     layoutgenerator.cpp
-    listpopupmenu.cpp
     model_utils.cpp
     object_factory.cpp
     optionstate.cpp
@@ -525,6 +533,7 @@ set(libumbrello_SRCS
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
+    ${libmenus_SRCS}
     ${libuml_SRCS}
     ${libumlwidgets_SRCS}
     ${umbrellobase_SRCS}

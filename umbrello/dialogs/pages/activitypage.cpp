@@ -12,7 +12,7 @@
 
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "listpopupmenu.h"
+#include "dialogspopupmenu.h"
 #include "statewidget.h"
 #include "uml.h"
 
@@ -223,15 +223,15 @@ void ActivityPage::slotRename()
 
 void ActivityPage::slotRightButtonPressed(const QPoint & p)
 {
-    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
+    DialogsPopupMenu::TriggerType type = DialogsPopupMenu::tt_Undefined;
     QListWidgetItem* item = m_pActivityLW->itemAt(p);
     if (item) { //pressed on an item
-        type = ListPopupMenu::mt_Activity_Selected;
+        type = DialogsPopupMenu::tt_Activity_Selected;
     } else { //pressed into fresh air
-        type = ListPopupMenu::mt_New_Activity;
+        type = DialogsPopupMenu::tt_New_Activity;
     }
 
-    ListPopupMenu popup(this, type);
+    DialogsPopupMenu popup(this, type);
     QAction *triggered = popup.exec(m_pActivityLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }

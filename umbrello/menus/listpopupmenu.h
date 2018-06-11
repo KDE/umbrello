@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2014                                               *
+ *   copyright (C) 2003-2018                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -19,10 +19,8 @@
 
 #include <QHash>
 
-class AssociationLine;
-class ClassifierWidget;
 class UMLCategory;
-class UMLView;
+class ListPopupMenuPrivate;
 
 /**
  * A popup menu that depending on what type is set to will
@@ -42,147 +40,113 @@ class ListPopupMenu : public KMenu
     Q_ENUMS(MenuType)
     Q_ENUMS(DataType)
 public:
-
-    enum MenuType  ///< This type hosts all possible menu types.
+    enum MenuType  ///< This type hosts all possible menu entry types
     {
         mt_Model,
-        mt_Logical_View,
-        mt_UseCase_View,
-        mt_Component_View,
-        mt_Deployment_View,
-        mt_EntityRelationship_Model,
-        mt_UseCase_Diagram,
-        mt_Sequence_Diagram,
-        mt_Class_Diagram,
-        mt_Object_Diagram,
-        mt_Collaboration_Diagram,
-        mt_State_Diagram,
+        // diagrams
         mt_Activity_Diagram,
+        mt_Class_Diagram,
+        mt_Collaboration_Diagram,
         mt_Component_Diagram,
         mt_Deployment_Diagram,
         mt_EntityRelationship_Diagram,
-        mt_On_UseCase_Diagram,
-        mt_On_Sequence_Diagram,
-        mt_On_Class_Diagram,
-        mt_On_Object_Diagram,
-        mt_On_Collaboration_Diagram,
-        mt_On_State_Diagram,
-        mt_On_Activity_Diagram,
-        mt_On_Component_Diagram,
-        mt_On_Deployment_Diagram,
-        mt_On_EntityRelationship_Diagram,
+        mt_Sequence_Diagram,
+        mt_State_Diagram,
+        mt_UseCase_Diagram,
         mt_Logical_Folder,
         mt_UseCase_Folder,
         mt_Component_Folder,
         mt_Deployment_Folder,
         mt_EntityRelationship_Folder,
-        mt_Class,
-        mt_Package,
-        mt_Subsystem,
-        mt_Component,
-        mt_Port,
-        mt_Node,
-        mt_Artifact,
-        mt_Interface,
-        mt_Enum,
-        mt_Entity,
-        mt_Instance,
-        mt_Datatype,
+        // widgets, uml objects
+        mt_Activity,
         mt_Actor,
-        mt_UseCase,
+        mt_Artifact,
         mt_Attribute,
-        mt_EntityAttribute,
-        mt_InstanceAttribute,
-        mt_EnumLiteral,
-        mt_UniqueConstraint,
-        mt_PrimaryKeyConstraint,
-        mt_ForeignKeyConstraint,
-        mt_CheckConstraint,
-        mt_Object,
+        mt_Branch,
         mt_Category,
-        mt_DisjointSpecialisation,
-        mt_OverlappingSpecialisation,
-        mt_Union,
-        mt_Initial_State,
-        mt_End_State,
-        mt_State,
-        mt_Junction,
-        mt_DeepHistory,
-        mt_ShallowHistory,
+        mt_CheckConstraint,
         mt_Choice,
+        mt_Class,
+        mt_Component,
+        mt_Datatype,
+        mt_DeepHistory,
+        mt_DisjointSpecialisation,
+        mt_End_Activity,
+        mt_End_State,
+        mt_Entity,
+        mt_EntityAttribute,
+        mt_Enum,
+        mt_EnumLiteral,
+        mt_FloatText,
+        mt_ForeignKeyConstraint,
+        mt_Initial_Activity,
+        mt_Initial_State,
+        mt_Instance,
+        mt_InstanceAttribute,
+        mt_Interface,
+        mt_Junction,
+        mt_Node,
+        mt_Note,
+        mt_Object,
+        mt_Operation,
+        mt_OverlappingSpecialisation,
+        mt_Package,
+        mt_Port,
+        mt_PrimaryKeyConstraint,
+        mt_ShallowHistory,
+        mt_State,
         mt_StateFork,
         mt_StateJoin,
-        mt_Activity,
-        mt_Initial_Activity,
-        mt_End_Activity,
-        mt_Operation,
+        mt_Subsystem,
         mt_Template,
-        mt_New_Parameter,
-        mt_New_Operation,
+        mt_Union,
+        mt_UniqueConstraint,
+        mt_UseCase,
+        // new from dialogs
+        mt_New_Activity,
         mt_New_Attribute,
-        mt_New_InstanceAttribute,
-        mt_New_Template,
-        mt_New_EnumLiteral,
         mt_New_EntityAttribute,
-        mt_New_UniqueConstraint,
-        mt_New_PrimaryKeyConstraint,
-        mt_New_ForeignKeyConstraint,
-        mt_New_CheckConstraint,
-        mt_Parameter_Selected,
-        mt_Operation_Selected,
-        mt_Attribute_Selected,
-        mt_InstanceAttribute_Selected,
-        mt_Template_Selected,
-        mt_EnumLiteral_Selected,
-        mt_EntityAttribute_Selected,
-        mt_UniqueConstraint_Selected,
-        mt_PrimaryKeyConstraint_Selected,
-        mt_ForeignKeyConstraint_Selected,
-        mt_CheckConstraint_Selected,
-        mt_Association_Selected,                 // Association without role names
-        mt_Show_Attributes,                      // Toggle visual property on a widget
-        mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
+        mt_New_EnumLiteral,
+        mt_New_InstanceAttribute,
+        mt_New_Operation,
+        mt_New_Parameter,
+        mt_New_Template,
+        // selection
+        // visual properties
+        mt_Hide_Attribute_Signature_Selection,
         mt_Hide_Attributes_Selection,            // Unset visual property on multiple widgets
-        mt_Show_Documentation,
-        mt_Show_Operations,                      // Toggle 'show operations'
-        mt_Show_Operations_Selection,            // Show operations
-        mt_Hide_Operations_Selection,            // Hide operations
-        mt_Show_Packages,                        // etc...
-        mt_Show_Packages_Selection,
-        mt_Hide_Packages_Selection,
-        mt_Show_Public_Only,
         mt_Hide_NonPublic_Selection,             // Could be named "show public only"
-        mt_Show_NonPublic_Selection,             // Could be named "hide public only" (crazy!)
-        mt_Show_Stereotypes,
-        mt_Show_Stereotypes_Selection,
-        mt_Hide_Stereotypes_Selection,
-        mt_Visibility,
-        mt_Show_Visibility_Selection,
-        mt_Hide_Visibility_Selection,
-        mt_Show_Operation_Signature,
-        mt_Show_Operation_Signature_Selection,
         mt_Hide_Operation_Signature_Selection,
+        mt_Hide_Operations_Selection,            // Hide operations
+        mt_Hide_Packages_Selection,
+        mt_Hide_Stereotypes_Selection,
+        mt_Hide_Visibility_Selection,
         mt_Show_Attribute_Signature,
         mt_Show_Attribute_Signature_Selection,
-        mt_Hide_Attribute_Signature_Selection,
-
+        mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
+        mt_Show_Attributes,                      // Toggle visual property on a widget
+        mt_Show_Documentation,
+        mt_Show_NonPublic_Selection,             // Could be named "hide public only" (crazy!)
+        mt_Show_Operation_Signature,
+        mt_Show_Operation_Signature_Selection,
+        mt_Show_Operations_Selection,            // Show operations
+        mt_Show_Operations,                      // Toggle 'show operations'
+        mt_Show_Packages,                        // etc...
+        mt_Show_Packages_Selection,
+        mt_Show_Public_Only,
+        mt_Show_Stereotypes,
+        mt_Show_Stereotypes_Selection,
+        mt_Show_Visibility_Selection,
+        mt_Visibility,
+        // other
         mt_DrawAsCircle,
         mt_ChangeToClass,
         mt_ChangeToInterface,
         mt_ChangeToPackage,
-        mt_ChangeToInstance,
         mt_Rename_Object,
         mt_Select_Operation,
-        mt_Anchor,
         mt_Properties,
-        mt_Properties_AutoLayout,
-        mt_Properties_Class,
-        mt_Properties_CodeImport,
-        mt_Properties_CodeGeneration,
-        mt_Properties_CodeViewer,
-        mt_Properties_Font,
-        mt_Properties_General,
-        mt_Properties_UserInterface,
         mt_Rename,
         mt_NameAsTooltip,
         mt_Show,
@@ -190,24 +154,12 @@ public:
         mt_Export_Image,
         mt_Import_Class,
         mt_Import_Project,
-        mt_Sequence_Number,
         mt_Cut,
         mt_Copy,
         mt_Paste,
         mt_Clear,
         mt_Redo,
         mt_Undo,
-        mt_Link_Docs,
-        mt_Message_Text,
-        mt_Collaboration_Message,
-        mt_FloatText,
-        mt_MultiA,
-        mt_MultiB,
-        mt_Name,                                 // Association name
-        mt_FullAssociation,                      // Association with role names
-        mt_AttributeAssociation,                 // Rendering of an attribute as an association
-        mt_RoleNameA,
-        mt_RoleNameB,
         mt_Reset_Label_Positions,
         mt_Line_Color,
         mt_Line_Color_Selection,
@@ -216,7 +168,6 @@ public:
         mt_Use_Fill_Color,
         mt_Set_Use_Fill_Color_Selection,
         mt_Unset_Use_Fill_Color_Selection,
-        mt_Default_Properties,
         mt_Rename_MultiA,
         mt_Rename_MultiB,
         mt_Rename_Name,
@@ -230,11 +181,8 @@ public:
         mt_ShowSnapGrid,
         mt_AutoResize,
         mt_Resize,
-        mt_Activity_Selected,
-        mt_New_Activity,
         mt_Up,
         mt_Down,
-        mt_Branch,
         mt_Flip,
         mt_Add_Point,
         mt_Delete_Point,
@@ -275,7 +223,7 @@ public:
         mt_Align_HorizontalDistribute,
         mt_Import_from_File,
         mt_Remove,
-
+        // add new entries above
         mt_Undefined  =  - 1
     };
 
@@ -290,11 +238,7 @@ public:
     static QString toString(DataType data);
     static QVariant dataFromAction(DataType key, QAction* action);
 
-    explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
-    ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
-    ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
-    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false,
-        WidgetBase::WidgetType uniqueType = WidgetBase::wt_UMLWidget);
+    ListPopupMenu(QWidget* parent = 0);
 
     virtual ~ListPopupMenu();
 
@@ -309,13 +253,11 @@ public:
 
     MenuType getMenuType(QAction* action);
 
-    WidgetBase *ownerWidget() const;
+    void dumpActions(const QString &title);
 
-private:
-
-    void insertSingleSelectionMenu(WidgetBase* object);
-    void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
-
+    KMenu *newMenu(const QString &title, QWidget *widget);
+    void addMenu(KMenu *menu);
+protected:
     void insert(MenuType m);
     void insert(const MenuType m, KMenu* menu);
     void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
@@ -323,51 +265,18 @@ private:
     void insert(const MenuType m, const QIcon & icon, const QString & text);
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
-
-    void insertStdItems(bool insertLeadingSeparator = true,
-                        WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams, bool packages=true);
     void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
-    void insertAssociationItem(MenuType mt);
     void insertAssociationTextItem(const QString &label, MenuType mt);
-    void insertSubMenuLayout(AssociationLine *associationLine);
-    void insertSubmodelAction();
-    void insertLayoutItems(UMLView *view);
 
-    void makeClassifierPopup(ClassifierWidget *c);
-    void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
-    void makeClassifierShowPopup(ClassifierWidget *c);
-    KMenu* makeCategoryTypeMenu(UMLCategory* category);
-
-    void insertSubMenuNew(MenuType type);
-    void insertSubMenuShowEntity(EntityWidget *widget);
-    void insertSubMenuAlign();
-    void insertSubMenuColor(bool fc);
-
-    void setupDiagramMenu(UMLView* view);
-    void setupMenu(MenuType type);
+    KMenu *makeNewMenu();
+    void insertSubMenuCategoryType(UMLCategory *category);
 
     void setActionChecked(MenuType idx, bool value);
     void setupActionsData();
 
-    union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
-        UMLView* m_View;
-        UMLObject* m_Object;
-        WidgetBase* m_Widget;
-    };
-
-    enum TriggerObjectType {  ///< Enum to keep track on TriggerObject Type.
-        tot_View,
-        tot_Object,
-        tot_Widget
-    };
-
-    TriggerObject m_TriggerObject;
-    TriggerObjectType m_TriggerObjectType;
-
     QHash<MenuType, QAction*> m_actions;
-    bool m_isListView;
-
+    ListPopupMenuPrivate *d;
 };
 
 /// Need this for ability to store ListPopupMenu* in a QVariant

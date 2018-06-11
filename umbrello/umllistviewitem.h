@@ -43,6 +43,7 @@ public:
     {
         //the values in this enum are saved out to the file
         //for file compatibility, only add new values to the end
+        lvt_Min = 799,
         lvt_View  =  800,
         lvt_Logical_View,
         lvt_UseCase_View,
@@ -102,6 +103,8 @@ public:
         lvt_Object_Diagram,
         lvt_Instance,
         lvt_InstanteAttribute,
+        // enter new values above
+        lvt_Max,
         lvt_Unknown = -1
     };
 

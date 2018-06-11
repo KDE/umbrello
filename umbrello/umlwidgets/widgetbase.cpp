@@ -14,11 +14,12 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
-#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlobject.h"
 #include "umlscene.h"
+#include "widgetbasepopupmenu.h"
 
 #if QT_VERSION < 0x050000
 #include <kcolordialog.h>
@@ -57,7 +58,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramUseFillColor(true),
     m_autoResize(true)
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     // Note: no virtual methods from derived classes available,
     // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
@@ -92,7 +93,7 @@ WidgetBase::~WidgetBase()
  */
 WidgetBase::WidgetType WidgetBase::baseType() const
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     return m_baseType;
 }
 
@@ -101,7 +102,7 @@ WidgetBase::WidgetType WidgetBase::baseType() const
  */
 void WidgetBase::setBaseType(const WidgetType& baseType)
 {
-    Q_ASSERT(baseType > wt_MIN && baseType < wt_MAX);
+    Q_ASSERT(baseType > wt_Min && baseType < wt_Max);
     m_baseType = baseType;
 }
 
@@ -110,7 +111,7 @@ void WidgetBase::setBaseType(const WidgetType& baseType)
  */
 QLatin1String WidgetBase::baseTypeStr() const
 {
-    Q_ASSERT(m_baseType > wt_MIN && m_baseType < wt_MAX);
+    Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
@@ -773,7 +774,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     // Determine multi state
     bool multi = (isSelected() && count > 1);
 
-    ListPopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
+    WidgetBasePopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
 
     // Disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive()) {
@@ -781,21 +782,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
 
     QAction *triggered = popup.exec(event->screenPos());
-    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
-
-    if (!parentMenu) {
-        uDebug() << "Action's data field does not contain ListPopupMenu pointer";
-        return;
-    }
-
-    WidgetBase *ownerWidget = parentMenu->ownerWidget();
-    // assert because logic is based on only WidgetBase being the owner of
-    // ListPopupMenu actions executed in this context menu.
-    Q_ASSERT_X(ownerWidget != 0, "WidgetBase::contextMenuEvent",
-            "ownerWidget is null which means action belonging to UMLView, UMLScene"
-            " or UMLObject is the one triggered in ListPopupMenu");
-
-    ownerWidget->slotMenuSelection(triggered);
+    slotMenuSelection(triggered);
 }
 
 /**

@@ -16,7 +16,7 @@
 
 class DocumentationWidget;
 class KComboBox;
-class ListPopupMenu;
+class DialogsPopupMenu;
 class QAbstractButton;
 class QGroupBox;
 class QListWidget;
@@ -55,7 +55,7 @@ protected:
 
     UMLOperation*     m_operation;  ///< The operation to represent.
     UMLDoc*           m_doc;        ///< The UMLDocument where all objects live.
-    ListPopupMenu*    m_menu;       ///< Menu used in parameter list box.
+    DialogsPopupMenu* m_menu;       ///< Menu used in parameter list box.
 
     //GUI widgets
     QGroupBox*            m_pParmsGB;
