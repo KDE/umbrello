@@ -320,6 +320,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18nc("clear note", "Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
+        insert(mt_Resize);
+        insert(mt_AutoResize, i18n("Auto resize"), CHECKABLE);
         insert(mt_Delete);
         insert(mt_Change_Font);
         insert(mt_Properties);

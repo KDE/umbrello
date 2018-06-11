@@ -317,7 +317,8 @@ void NoteWidget::slotMenuSelection(QAction* action)
  */
 QSizeF NoteWidget::minimumSize() const
 {
-    return calculateSize().expandedTo(UMLWidget::DefaultMinimumSize);
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    return QSizeF(fm.averageCharWidth()*20, fm.height() * 2);
 }
 
 /**
@@ -336,22 +337,21 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
     if (m_noteType == PreCondition) {
         const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * defaultMargin;
     }
     else if (m_noteType == PostCondition) {
         const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * defaultMargin;
     }
     else if (m_noteType == Transformation) {
         const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * defaultMargin;
     }
+
     if (textWidth > width)
         width = textWidth;
     if (textHeight > height)
         height = textHeight;
+    width += 2 * defaultMargin;
 
     return QSizeF(width, height);
 }

@@ -10,6 +10,7 @@
 
 #include "documentationwidget.h"
 
+#include "associationwidget.h"
 #include "codetextedit.h"
 #include "operation.h"
 #include "umlobject.h"
@@ -30,16 +31,28 @@
 DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     QWidget(parent),
     m_object(o),
-    m_widget(0)
+    m_widget(0),
+    m_assocWidget(0)
 {
     Q_ASSERT(o);
     init(o->doc());
 }
 
-DocumentationWidget::DocumentationWidget(WidgetBase *w, QWidget *parent) :
+DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
     QWidget(parent),
     m_object(0),
-    m_widget(w)
+    m_widget(w),
+    m_assocWidget(0)
+{
+    Q_ASSERT(w);
+    init(w->documentation());
+}
+
+DocumentationWidget::DocumentationWidget(AssociationWidget *w, QWidget *parent) :
+    QWidget(parent),
+    m_object(0),
+    m_widget(0),
+    m_assocWidget(w)
 {
     Q_ASSERT(w);
     init(w->documentation());
@@ -63,8 +76,13 @@ void DocumentationWidget::apply()
             o->setSourceCode(m_codeEditField->toPlainText());
         }
     }
-    else if (m_widget)
+    else if (m_widget) {
         m_widget->setDocumentation(m_editField->toPlainText());
+        m_widget->updateGeometry();
+    }
+    else if (m_assocWidget) {
+        m_assocWidget->setDocumentation(m_editField->toPlainText());
+    }
 }
 
 /**
