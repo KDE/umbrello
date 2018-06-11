@@ -74,7 +74,7 @@ void WidgetBasePopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
 {
     WidgetBase::WidgetType type = c->baseType();
 
-    KMenu* show = new KMenu(i18n("Show"), this);
+    KMenu* show = newMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
 #ifdef ENABLE_WIDGET_SHOW_DOC
     insert(mt_Show_Documentation, show, i18n("Documentation"), CHECKABLE);
@@ -112,10 +112,10 @@ void WidgetBasePopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
  */
 void WidgetBasePopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType type)
 {
-    KMenu* show = new KMenu(i18n("Show"), this);
+    KMenu* show = newMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
 
-    KMenu* attributes = new KMenu(i18n("Attributes"), this);
+    KMenu* attributes = newMenu(i18n("Attributes"), this);
     if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Attributes_Selection, attributes, i18n("Show"));
         insert(mt_Hide_Attributes_Selection, attributes, i18n("Hide"));
@@ -124,27 +124,27 @@ void WidgetBasePopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType ty
     }
     show->addMenu(attributes);
 
-    KMenu* operations = new KMenu(i18n("Operations"), this);
+    KMenu* operations = newMenu(i18n("Operations"), this);
     insert(mt_Show_Operations_Selection, operations, i18n("Show"));
     insert(mt_Hide_Operations_Selection, operations, i18n("Hide"));
     insert(mt_Show_Operation_Signature_Selection, operations, i18n("Show Signatures"));
     insert(mt_Hide_Operation_Signature_Selection, operations, i18n("Hide Signatures"));
     show->addMenu(operations);
 
-    KMenu* visibility = new KMenu(i18n("Visibility"), this);
+    KMenu* visibility = newMenu(i18n("Visibility"), this);
     insert(mt_Show_Visibility_Selection, visibility, i18n("Show"));
     insert(mt_Hide_Visibility_Selection, visibility, i18n("Hide"));
     insert(mt_Hide_NonPublic_Selection, visibility, i18n("Hide Non-public members"));
     insert(mt_Show_NonPublic_Selection, visibility, i18n("Show Non-public members"));
     show->addMenu(visibility);
 
-    KMenu* packages = new KMenu(i18n("Packages"), this);
+    KMenu* packages = newMenu(i18n("Packages"), this);
     insert(mt_Show_Packages_Selection, packages, i18n("Show"));
     insert(mt_Hide_Packages_Selection, packages, i18n("Hide"));
     show->addMenu(packages);
 
     if (type == WidgetBase::wt_Class) {
-        KMenu* stereotypes = new KMenu(i18n("Stereotypes"), this);
+        KMenu* stereotypes = newMenu(i18n("Stereotypes"), this);
         insert(mt_Show_Stereotypes_Selection, stereotypes, i18n("Show"));
         insert(mt_Hide_Stereotypes_Selection, stereotypes, i18n("Hide"));
         show->addMenu(stereotypes);
@@ -515,7 +515,7 @@ void WidgetBasePopupMenu::insertMultiSelectionMenu(WidgetBase::WidgetType unique
 {
     insertSubMenuAlign();
 
-    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
+    KMenu* color = newMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Set_Use_Fill_Color_Selection, color, i18n("Use Fill Color"));
@@ -575,7 +575,7 @@ void WidgetBasePopupMenu::insertStdItems(bool insertLeadingSeparator, WidgetBase
  */
 void WidgetBasePopupMenu::insertSubMenuAlign()
 {
-    KMenu* alignment = new KMenu(i18nc("align menu", "Align"), this);
+    KMenu* alignment = newMenu(i18nc("align menu", "Align"), this);
     insert(mt_Align_Right, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right), i18n("Align Right"));
     insert(mt_Align_Left, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left), i18n("Align Left"));
     insert(mt_Align_Top, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top), i18n("Align Top"));
@@ -596,7 +596,7 @@ void WidgetBasePopupMenu::insertSubMenuAlign()
  */
 void WidgetBasePopupMenu::insertSubMenuColor(bool fc)
 {
-    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
+    KMenu* color = newMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
@@ -668,7 +668,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
 
 void WidgetBasePopupMenu::insertSubMenuShowEntity(EntityWidget *widget)
 {
-    KMenu* show = new KMenu(i18n("Show"), this);
+    KMenu* show = newMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
 
     insert(mt_Show_Attribute_Signature, show, i18n("Attribute Signature"), CHECKABLE);

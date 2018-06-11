@@ -20,6 +20,7 @@
 #include <QHash>
 
 class UMLCategory;
+class ListPopupMenuPrivate;
 
 /**
  * A popup menu that depending on what type is set to will
@@ -252,9 +253,10 @@ public:
 
     MenuType getMenuType(QAction* action);
 
-    QList<MenuType> &debugActions() { return m_debugActions; }
     void dumpActions(const QString &title);
 
+    KMenu *newMenu(const QString &title, QWidget *widget);
+    void addMenu(KMenu *menu);
 protected:
     void insert(MenuType m);
     void insert(const MenuType m, KMenu* menu);
@@ -274,7 +276,7 @@ protected:
     void setupActionsData();
 
     QHash<MenuType, QAction*> m_actions;
-    QList<MenuType> m_debugActions;
+    ListPopupMenuPrivate *d;
 };
 
 /// Need this for ability to store ListPopupMenu* in a QVariant

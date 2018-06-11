@@ -52,7 +52,26 @@ static const bool CHECKABLE = true;
 // uncomment to see not handled switch cases
 //#define CHECK_SWITCH
 
-#define DEBUG_AddAction(m) m_debugActions.append(m)
+class DebugMenu {
+public:
+    DebugMenu(ListPopupMenu::MenuType _m) : m(_m) {}
+    DebugMenu(const QString & _m) : menu(_m) {}
+    ListPopupMenu::MenuType m;
+    QString menu;
+};
+
+class ListPopupMenuPrivate {
+public:
+    QList<DebugMenu> debugActions;
+    ~ListPopupMenuPrivate()
+    {
+        debugActions.clear();
+    }
+};
+
+#define DEBUG_AddAction(m) d->debugActions.append(DebugMenu(m))
+#define DEBUG_StartMenu(m) d->debugActions.append(DebugMenu(m->title() + QLatin1String(" - start")))
+#define DEBUG_EndMenu(m) d->debugActions.append(DebugMenu(m->title() + QLatin1String(" - end")))
 
 /**
  * Constructs the popup menu
@@ -60,7 +79,8 @@ static const bool CHECKABLE = true;
  * @param parent   The parent to ListPopupMenu.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent)
-  : KMenu(parent)
+  : KMenu(parent),
+    d(new ListPopupMenuPrivate)
 {
 }
 
@@ -73,7 +93,20 @@ ListPopupMenu::~ListPopupMenu()
         delete action;
     }
     m_actions.clear();
-    m_debugActions.clear();
+    delete d;
+}
+
+KMenu *ListPopupMenu::newMenu(const QString &title, QWidget *widget)
+{
+    KMenu *menu = new KMenu(title, widget);
+    DEBUG_StartMenu(menu);
+    return menu;
+}
+
+void ListPopupMenu::addMenu(KMenu *menu)
+{
+    KMenu::addMenu(menu);
+    DEBUG_EndMenu(menu);
 }
 
 /**
@@ -350,7 +383,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, 
  */
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams, bool packages)
 {
-    KMenu* menu = new KMenu(i18nc("new container menu", "New"), this);
+    KMenu* menu = newMenu(i18nc("new container menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     insertContainerItems(menu, folderAndDiagrams, packages);
     addMenu(menu);
@@ -506,7 +539,7 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
  */
 KMenu *ListPopupMenu::makeNewMenu()
 {
-    KMenu *menu = new KMenu(i18nc("new sub menu", "New"), this);
+    KMenu *menu = newMenu(i18nc("new sub menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     return menu;
 }
@@ -517,7 +550,7 @@ KMenu *ListPopupMenu::makeNewMenu()
  */
 void ListPopupMenu::insertSubMenuCategoryType(UMLCategory* category)
 {
-    KMenu* menu = new KMenu(i18nc("category type sub menu", "Category Type"), this);
+    KMenu* menu = newMenu(i18nc("category type sub menu", "Category Type"), this);
     insert(mt_DisjointSpecialisation, menu, i18n("Disjoint(Specialisation)"), CHECKABLE);
     insert(mt_OverlappingSpecialisation, menu, i18n("Overlapping(Specialisation)"), CHECKABLE);
     insert(mt_Union, menu, i18n("Union"), CHECKABLE);
@@ -625,6 +658,11 @@ QString ListPopupMenu::toString(DataType data)
     return QLatin1String(ENUM_NAME(ListPopupMenu, DataType, data));
 }
 
+//QList<DebugMenu> &ListPopupMenu::debugActions()
+//{
+//    return d->debugActions;
+//}
+
 /**
  * dump collected actions
  * @param type optional menu type
@@ -632,7 +670,10 @@ QString ListPopupMenu::toString(DataType data)
 void ListPopupMenu::dumpActions(const QString &title)
 {
     qDebug().nospace() << title;
-    foreach(MenuType keyType, m_debugActions) {
-        qDebug().nospace() << "    " << toString(keyType);
+    foreach(DebugMenu e, d->debugActions) {
+        if (!e.menu.isEmpty())
+            qDebug().nospace() << "  " << e.menu;
+        else
+            qDebug().nospace() << "    " << toString(e.m);
     }
 }
