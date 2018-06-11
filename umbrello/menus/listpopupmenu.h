@@ -19,10 +19,7 @@
 
 #include <QHash>
 
-class AssociationLine;
-class ClassifierWidget;
 class UMLCategory;
-class UMLView;
 
 /**
  * A popup menu that depending on what type is set to will
@@ -315,6 +312,7 @@ protected:
     void insertAssociationTextItem(const QString &label, MenuType mt);
 
     KMenu *makeNewMenu();
+    KMenu *makeCategoryTypeMenu(UMLCategory *category);
 
     void insertSubMenuNew(MenuType type, KMenu *menu = 0);
 

@@ -20,8 +20,7 @@
 UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *item)
   : ListPopupMenu(parent)
 {
-    m_isListView = true;
-    MenuType mt = mt_Undefined;
+    UMLObject *object = item->umlObject();
     UMLListViewItem::ListViewType type = item->type();
     switch(type) {
         case UMLListViewItem::lvt_Logical_View:
@@ -145,108 +144,107 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             insert(mt_Properties);
             break;
 
-        case UMLListViewItem::lvt_Actor:
-            mt = mt_Actor;
-            break;
-
-        case UMLListViewItem::lvt_UseCase:
-            mt = mt_UseCase;
-            break;
-
         case UMLListViewItem::lvt_Class:
-            mt = mt_Class;
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Show);
+            addSeparator();
+            if (object && object->stereotype() == QLatin1String("class-or-package")) {
+                insert(mt_ChangeToClass, i18n("Change into Class"));
+                insert(mt_ChangeToPackage, i18n("Change into Package"));
+            }
+            addSeparator();
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Package:
-            mt = mt_Package;
+            insertContainerItems(false);
+            insertStdItems();
+            insert(mt_Show);
+            insert(mt_Properties);
+            addSeparator();
+            insert(mt_Expand_All);
+            insert(mt_Collapse_All);
             break;
 
         case UMLListViewItem::lvt_Subsystem:
-            mt = mt_Subsystem;
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Properties);
+            addSeparator();
+            insert(mt_Expand_All);
+            insert(mt_Collapse_All);
             break;
 
         case UMLListViewItem::lvt_Component:
-            mt = mt_Component;
-            break;
-
-        case UMLListViewItem::lvt_Port:
-            mt = mt_Port;
-            break;
-
-        case UMLListViewItem::lvt_Node:
-            mt = mt_Node;
-            break;
-
-        case UMLListViewItem::lvt_Artifact:
-            mt = mt_Artifact;
-            break;
-
-        case UMLListViewItem::lvt_Interface:
-            mt = mt_Interface;
-            break;
-
-        case UMLListViewItem::lvt_Enum:
-            mt = mt_Enum;
-            break;
-
-        case UMLListViewItem::lvt_EnumLiteral:
-            mt = mt_EnumLiteral;
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Properties);
+            addSeparator();
+            insert(mt_Expand_All);
+            insert(mt_Collapse_All);
             break;
 
         case UMLListViewItem::lvt_Datatype:
-            mt = mt_Datatype;
-            break;
-
+        case UMLListViewItem::lvt_EnumLiteral:
+        case UMLListViewItem::lvt_Port:
+        case UMLListViewItem::lvt_Node:
+        case UMLListViewItem::lvt_Actor:
+        case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Attribute:
-            mt = mt_Attribute;
-            break;
-
+        case UMLListViewItem::lvt_EntityAttribute:
+        case UMLListViewItem::lvt_InstanteAttribute:
         case UMLListViewItem::lvt_Operation:
-            mt = mt_Operation;
+        case UMLListViewItem::lvt_Template:
+            insertStdItems(false);
+            insert(mt_Properties);
             break;
 
-        case UMLListViewItem::lvt_Template:
-            mt = mt_Template;
+        case UMLListViewItem::lvt_Interface:
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Show);
+            insert(mt_Properties);
+            break;
+
+        case UMLListViewItem::lvt_Enum:
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Category:
-            mt = mt_Category;
+            {
+                KMenu* menu = makeCategoryTypeMenu(object->asUMLCategory());
+                menu->setTitle(i18n("Category Type"));
+                addMenu(menu);
+                insertStdItems(false);
+            }
             break;
 
         case UMLListViewItem::lvt_Entity:
-            mt = mt_Entity;
-            break;
-
-        case UMLListViewItem::lvt_EntityAttribute:
-            mt = mt_EntityAttribute;
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Instance:
-            mt = mt_Instance;
-            break;
-
-        case UMLListViewItem::lvt_InstanteAttribute:
-            mt = mt_InstanceAttribute;
+            insertSubMenuNew(type);
+            insertStdItems();
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_UniqueConstraint:
-            mt = mt_UniqueConstraint;
-            break;
-
         case UMLListViewItem::lvt_PrimaryKeyConstraint:
-            mt = mt_PrimaryKeyConstraint;
-            break;
-
         case UMLListViewItem::lvt_ForeignKeyConstraint:
-            mt = mt_ForeignKeyConstraint;
-            break;
-
         case UMLListViewItem::lvt_CheckConstraint:
-            mt = mt_CheckConstraint;
+            insert(mt_Rename);
+            insert(mt_Delete);
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Model:
-            mt = mt_Model;
+            insert(mt_Model, i18n("Rename..."));
             break;
 
         case UMLListViewItem::lvt_Properties:
@@ -271,8 +269,6 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
 #endif
     }
 
-    if (mt != mt_Undefined)
-        setupMenu(mt);
     setupActionsData();
 }
 
@@ -331,6 +327,40 @@ void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type, 
             insert(mt_EntityRelationship_Folder, menu);
             insert(mt_Entity, menu);
             insert(mt_EntityRelationship_Diagram, menu);
+            break;
+        case UMLListViewItem::lvt_Class:
+            insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute"));
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template"));
+            insertContainerItems(menu, false, false);
+            break;
+        case UMLListViewItem::lvt_Component:
+            insert(mt_Component, menu);
+            if (Settings::optionState().generalState.uml2)
+                insert(mt_Port, menu);
+            insert(mt_Artifact, menu);
+            break;
+        case UMLListViewItem::lvt_Interface:
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Interface), i18n("Template"));
+            insertContainerItems(menu, false, false);
+            break;
+        case UMLListViewItem::lvt_Entity:
+            insert(mt_EntityAttribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
+            insert(mt_PrimaryKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey), i18n("Primary Key Constraint..."));
+            insert(mt_UniqueConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique), i18n("Unique Constraint..."));
+            insert(mt_ForeignKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint..."));
+            insert(mt_CheckConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check), i18n("Check Constraint..."));
+            break;
+        case UMLListViewItem::lvt_Enum:
+            insert(mt_EnumLiteral, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));
+            break;
+        //case UMLListViewItem::lvt_Object:
+        //    break;
+        case UMLListViewItem::lvt_Subsystem:
+            insert(mt_Subsystem, menu);
+            insert(mt_Component, menu);
+            insert(mt_Artifact, menu);
             break;
        default:
             delete menu;

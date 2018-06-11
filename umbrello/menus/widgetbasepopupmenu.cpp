@@ -686,21 +686,3 @@ void WidgetBasePopupMenu::insertSubMenuShowEntity(EntityWidget *widget)
     setActionChecked(mt_Show_Stereotypes, widget->showStereotype());
     addMenu(show);
 }
-
-
-/**
- * Creates a popup menu for a single category Object
- * @param category The UMLCategory for which the category menu is created
- */
-KMenu* WidgetBasePopupMenu::makeCategoryTypeMenu(UMLCategory* category)
-{
-    KMenu* catTypeMenu = new KMenu(this);
-    insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
-    insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
-    insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);
-    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation);
-    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation);
-    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union);
-
-    return catTypeMenu;
-}

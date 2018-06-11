@@ -13,6 +13,8 @@
 
 #include "listpopupmenu.h"
 
+class AssociationLine;
+
 /**
  * Constructs the popup menu for an association widget
  */

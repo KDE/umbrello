@@ -15,6 +15,7 @@
 #include "activitywidget.h"
 #include "associationline.h"
 #include "associationwidget.h"
+#include "category.h"
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "combinedfragmentwidget.h"
@@ -731,6 +732,23 @@ KMenu *ListPopupMenu::makeNewMenu()
     KMenu *menu = new KMenu(i18nc("new sub menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     return menu;
+}
+
+/**
+ * Creates a popup menu for a single category Object
+ * @param category The UMLCategory for which the category menu is created
+ */
+KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
+{
+    KMenu* catTypeMenu = new KMenu(this);
+    insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
+    insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
+    insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);
+    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation);
+    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation);
+    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union);
+
+    return catTypeMenu;
 }
 
 /**
