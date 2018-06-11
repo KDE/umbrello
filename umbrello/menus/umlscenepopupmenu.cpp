@@ -176,5 +176,6 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             delete menu;
             return;
     }
+    insert(mt_Note, menu);
     addMenu(menu);
 }

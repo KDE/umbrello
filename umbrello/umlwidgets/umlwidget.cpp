@@ -817,6 +817,19 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_FloatText: {
+        FloatingTextWidget* ft = new FloatingTextWidget(umlScene());
+        ft->showChangeTextDialog();
+        //if no text entered delete
+        if (!FloatingTextWidget::isTextValid(ft->text())) {
+            delete ft;
+        } else {
+            ft->setID(UniqueID::gen());
+            addWidget(ft, false);
+        }
+        break;
+    }
+
     case ListPopupMenu::mt_Note: {
         NoteWidget *widget = new NoteWidget(umlScene());
         addConnectedWidget(widget, Uml::AssociationType::Anchor);
@@ -1949,6 +1962,23 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
     AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
     umlScene()->addAssociation(assoc);
     widget->showPropertiesDialog();
+    QSizeF size = widget->minimumSize();
+    widget->setSize(size);
+}
+
+/**
+ * Adds a widget to the diagram, which is connected to the current widget
+ * @param widget widget instance to add to diagram
+ * @param type association type
+ */
+void UMLWidget::addWidget(UMLWidget *widget, bool showProperties)
+{
+    umlScene()->addItem(widget);
+    widget->setX(x() + rect().width() + 100);
+    widget->setY(y());
+    widget->setSize(100, 40);
+    if (showProperties)
+        widget->showPropertiesDialog();
     QSizeF size = widget->minimumSize();
     widget->setSize(size);
 }
