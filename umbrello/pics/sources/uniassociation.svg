@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.37"
+   inkscape:version="0.48.4 r9939"
    width="22pt"
    height="22pt"
-   sodipodi:docbase="/home/jr/tmp/umbrello/icons/inkscape-svg"
    sodipodi:docname="uniassociation.svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   version="1.1">
+  <metadata
+     id="metadata43">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
      id="defs3">
     <linearGradient
@@ -179,11 +193,22 @@
        inkscape:cy="33.777672"
        inkscape:window-width="1022"
        inkscape:window-height="701"
-       gridspacingy="1.0000000pt"
-       gridspacingx="1.0000000pt"
        gridtolerance="1.0000000px"
        inkscape:window-x="0"
-       inkscape:window-y="0" />
+       inkscape:window-y="0">
+      <inkscape:grid
+         id="GridFromPre046Settings"
+         type="xygrid"
+         originx="0px"
+         originy="0px"
+         spacingx="1.0000000pt"
+         spacingy="1.0000000pt"
+         color="#3f3fff"
+         empcolor="#3f3fff"
+         opacity="0.15"
+         empopacity="0.38"
+         empspacing="5" />
+    </sodipodi:namedview>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -192,30 +217,50 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.6274170"
-     inkscape:cx="13.7972814"
-     inkscape:cy="10.5907033"
-     inkscape:window-width="1016"
-     inkscape:window-height="693"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
+     inkscape:zoom="32"
+     inkscape:cx="13.487347"
+     inkscape:cy="21.829888"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
      gridtolerance="1.0000000px"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     showgrid="true" />
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     showgrid="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       id="grid42"
+       type="xygrid"
+       originx="0px"
+       originy="0px"
+       spacingx="1.0000000pt"
+       spacingy="1.0000000pt"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="5" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="13.75,28.991378"
+       id="guide3022" />
+  </sodipodi:namedview>
   <g
-     id="g1210">
+     id="g3022">
     <path
-       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.62628;"
-       d="M 18.100766 10.114902 L 13.714502 1.7802173 L 8.7652941 10.114902 "
+       style="font-size:12px;fill:none;stroke:#ff0000;stroke-width:1.62627995"
+       d="M 18.763678,10.004417 13.736598,1.6697319 8.7873913,10.004417"
        id="path1009"
-       sodipodi:nodetypes="ccc" />
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0" />
     <rect
-       style="font-size:12;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1pt;"
+       style="font-size:12px;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
        id="rect1209"
-       width="2.48592234"
-       height="25.08019308"
-       x="12.54009724"
-       y="2.41980620" />
+       width="2.4859223"
+       height="25.080193"
+       x="12.50695"
+       y="2.4198062" />
   </g>
 </svg>

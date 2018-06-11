@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.37"
+   inkscape:version="0.48.4 r9939"
    width="22pt"
    height="22pt"
-   sodipodi:docbase="/home/jr/tmp/umbrello/icons/inkscape-svg"
    sodipodi:docname="interface.svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xml="http://www.w3.org/XML/1998/namespace"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   version="1.1">
+  <metadata
+     id="metadata22">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
      id="defs3">
     <linearGradient
@@ -57,6 +70,72 @@
     <linearGradient
        xlink:href="#linearGradient830"
        id="linearGradient836" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3038"
+       spreadMethod="reflect"
+       x1="25.175753"
+       y1="16.251965"
+       x2="4.0460443"
+       y2="6.1188601"
+       gradientTransform="scale(1.5862721,0.63040888)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3040"
+       spreadMethod="reflect"
+       x1="19.864598"
+       y1="39.425081"
+       x2="3.1748987"
+       y2="31.421257"
+       gradientTransform="scale(2.0216361,0.49464886)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3042"
+       spreadMethod="reflect"
+       x1="227.0734"
+       y1="38.762495"
+       x2="119.67329"
+       y2="-12.743023"
+       gradientTransform="scale(1.693965,0.59033096)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3047"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="scale(1.693965,0.59033096)"
+       spreadMethod="reflect"
+       x1="227.0734"
+       y1="38.762495"
+       x2="119.67329"
+       y2="-12.743023" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3050"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="scale(2.0216361,0.49464886)"
+       spreadMethod="reflect"
+       x1="19.864598"
+       y1="39.425081"
+       x2="3.1748987"
+       y2="31.421257" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient830"
+       id="linearGradient3056"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="scale(1.5862721,0.63040888)"
+       spreadMethod="reflect"
+       x1="25.175753"
+       y1="16.251965"
+       x2="4.0460443"
+       y2="6.1188601" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -65,66 +144,82 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.6274170"
-     inkscape:cx="13.7972814"
-     inkscape:cy="11.3558311"
+     inkscape:zoom="16"
+     inkscape:cx="12.74606"
+     inkscape:cy="12.710165"
      inkscape:window-width="1016"
      inkscape:window-height="693"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
      gridtolerance="1.0000000px"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     showgrid="true" />
-  <rect
-     style="font-size:12;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.227;"
-     id="rect837"
-     width="26.22858411"
-     height="18.73091698"
-     x="0.68923926"
-     y="4.44105864" />
-  <rect
-     style="font-size:12;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.456527pt;"
-     id="rect825"
-     width="24.90570598"
-     height="9.89791008"
-     ry="0"
-     x="1.33175063"
-     y="5.06444607" />
-  <text
-     xml:space="preserve"
-     style="font-size:12;font-weight:bold;font-stretch:normal;stroke-width:1pt;font-family:Bitstream Vera Sans Mono;text-anchor:middle;font-style:normal;writing-mode:lr;"
-     x="15.8012514"
-     y="19.6672548"
-     id="text838"
-     transform="scale(0.882660,0.446496)"
-     sodipodi:linespacing="100%"><tspan
-       x="15.8012514"
-       y="19.6672554"
-       sodipodi:role="line"
-       id="tspan943">«xy»</tspan><tspan
-       x="15.8012514"
-       y="31.6672554"
-       sodipodi:role="line"
-       id="tspan945">ABC</tspan></text>
-  <path
-     style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.25;"
-     d="M 0.84533027 15.610254 L 26.618236 15.610254 "
-     id="path845" />
-  <rect
-     style="font-size:12;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.456527pt;"
-     id="rect846"
-     width="25.07143413"
-     height="6.13441568"
-     ry="0"
-     x="1.29826760"
-     y="16.29058838" />
-  <rect
-     style="fill:url(#linearGradient829);fill-opacity:0.75000000;fill-rule:evenodd;stroke:none;stroke-width:0.45652742pt;stroke-opacity:1.0000000;"
-     id="rect847"
-     width="135.18759"
-     height="47.111610"
-     ry="0.0000000"
-     x="175.11363"
-     y="-1.7772827" />
+     showgrid="true"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0px"
+       originy="0px"
+       spacingx="1.0000000pt"
+       spacingy="1.0000000pt"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="5" />
+  </sodipodi:namedview>
+  <g
+     id="g3059">
+    <rect
+       y="4.4410586"
+       x="0.68923926"
+       height="18.730917"
+       width="26.228584"
+       id="rect837"
+       style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.227" />
+    <rect
+       y="5.064446"
+       x="1.3317506"
+       ry="0"
+       height="9.8979101"
+       width="24.905706"
+       id="rect825"
+       style="font-size:12px;fill:url(#linearGradient3056);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt" />
+    <text
+       sodipodi:linespacing="100%"
+       transform="scale(1.4060085,0.71123327)"
+       id="text838"
+       y="12.346654"
+       x="9.9196644"
+       style="font-size:7.53332567px;font-style:normal;font-weight:bold;font-stretch:normal;line-height:100%;writing-mode:lr-tb;text-anchor:middle;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+       xml:space="preserve"><tspan
+         id="tspan945"
+         sodipodi:role="line"
+         y="12.346654"
+         x="9.9196644">«xy»</tspan></text>
+    <path
+       id="path845"
+       d="m 0.84533027,15.610254 25.77290573,0"
+       style="font-size:12px;fill:none;stroke:#ff0000;stroke-width:1.25"
+       inkscape:connector-curvature="0" />
+    <rect
+       y="16.290588"
+       x="1.2982676"
+       ry="0"
+       height="6.1344156"
+       width="25.071434"
+       id="rect846"
+       style="font-size:12px;fill:url(#linearGradient3050);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.45652699pt" />
+    <text
+       transform="scale(1.4060085,0.71123326)"
+       id="text838-0"
+       y="19.932016"
+       x="9.8328123"
+       style="font-size:7.53332567px;font-style:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;text-anchor:middle;stroke-width:1pt;font-family:Bitstream Vera Sans Mono"
+       xml:space="preserve"><tspan
+         id="tspan945-1"
+         sodipodi:role="line"
+         y="19.932016"
+         x="9.8328123">ABC</tspan></text>
+  </g>
 </svg>

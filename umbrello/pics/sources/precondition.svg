@@ -112,10 +112,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient826"
        id="linearGradient4000"
-       x1="0.039669931"
-       y1="11.18972"
-       x2="22.106777"
-       y2="11.18972"
+       x1="-7.08533"
+       y1="17.079597"
+       x2="18.396446"
+       y2="0.12722015"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(-22.146447,0)" />
   </defs>
@@ -127,17 +127,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="16"
-     inkscape:cx="14.732246"
-     inkscape:cy="13.686181"
-     inkscape:window-width="1022"
-     inkscape:window-height="701"
+     inkscape:cx="3.482246"
+     inkscape:cy="13.748681"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
      gridtolerance="1.0000000px"
-     inkscape:window-x="524"
-     inkscape:window-y="50"
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg1">
     <inkscape:grid
        id="GridFromPre046Settings"
@@ -175,7 +175,7 @@
      d="m 94.6875,39.375 a 31.25,31.5625 0 1 1 -62.5,0 31.25,31.5625 0 1 1 62.5,0 z"
      transform="matrix(-0.29987491,0,0,0.15904073,30.006434,4.4084492)" />
   <rect
-     style="fill:url(#linearGradient4000);fill-opacity:1;stroke:#ff0000;stroke-width:1.33800005999999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     style="fill:url(#linearGradient4000);fill-opacity:1.0;stroke:#ff0000;stroke-width:1.33800005999999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
      id="rect3988"
      width="20.729107"
      height="10.30417"

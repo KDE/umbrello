@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.38.1"
+   inkscape:version="0.48.4 r9939"
    width="128.00000pt"
    height="128.00000pt"
-   sodipodi:docbase="/home/bartkozoltan/Documents/work/umbrello/new pics"
    sodipodi:docname="composition.svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   version="1.1">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
      id="defs3">
     <linearGradient
@@ -52,7 +66,7 @@
     <linearGradient
        id="linearGradient826">
       <stop
-         style="stop-color:#000;stop-opacity:1;"
+         style="stop-color:#ff0000;stop-opacity:1;"
          offset="0"
          id="stop827" />
       <stop
@@ -86,6 +100,15 @@
        x2="-0.77287894"
        y2="1.0071716"
        spreadMethod="pad" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient826"
+       id="linearGradient3777"
+       x1="19.595289"
+       y1="-165.27165"
+       x2="-6.7613502"
+       y2="-95.877495"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -94,35 +117,47 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.0000000"
-     inkscape:cx="79.132812"
-     inkscape:cy="78.777267"
-     inkscape:window-width="1022"
-     inkscape:window-height="701"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
+     inkscape:zoom="4"
+     inkscape:cx="34.132812"
+     inkscape:cy="79.027267"
+     inkscape:window-width="1680"
+     inkscape:window-height="977"
      gridtolerance="1.0000000px"
-     inkscape:window-x="0"
-     inkscape:window-y="0" />
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     showgrid="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0px"
+       originy="0px"
+       spacingx="1.0000000pt"
+       spacingy="1.0000000pt"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="5" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-10.5,48.25"
+       id="guide3769" />
+  </sodipodi:namedview>
   <path
      style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#ff0000;stroke-width:12.951884;stroke-dashoffset:0.0000000;"
      d="M 83.854692,3.1467970 L 83.910715,142.25704"
      id="path861"
      sodipodi:nodetypes="cc" />
   <rect
-     style="fill:#ff0000;fill-rule:evenodd;stroke:#ff0000;stroke-width:11.858918;"
+     style="fill-rule:evenodd;stroke:#ff0000;stroke-width:11.85891799999999918;fill-opacity:1;fill:url(#linearGradient3777)"
      id="rect854"
      width="44.507047"
      height="43.717121"
      x="-20.046628"
      y="-162.59821"
      transform="matrix(0.588591,-0.808431,-0.588093,-0.808793,0.000000,0.000000)" />
-  <rect
-     style="fill:url(#linearGradient892);fill-rule:evenodd;stroke-width:11.052127;"
-     id="rect855"
-     width="41.237688"
-     height="40.506848"
-     x="-15.112020"
-     y="-162.64811"
-     transform="matrix(0.566729,-0.823905,-0.566229,-0.824248,0.000000,0.000000)" />
 </svg>

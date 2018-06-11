@@ -73,8 +73,8 @@ set(ICONS
     entity
     enum
     foreignkey_constraint
-    #generalise
-    #initial
+    generalisation
+    initial_state
     instance
     interface
     join

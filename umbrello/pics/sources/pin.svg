@@ -44,7 +44,7 @@
     <linearGradient
        id="linearGradient826">
       <stop
-         style="stop-color:#000;stop-opacity:1;"
+         style="stop-color:#ffff00;stop-opacity:1;"
          offset="0"
          id="stop827" />
       <stop
@@ -94,6 +94,16 @@
        y2="18.531332"
        gradientTransform="matrix(1.9404376,0,0,0.51534766,0,2)"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient826"
+       id="linearGradient5471"
+       x1="18.837671"
+       y1="15.077421"
+       x2="5.9184508"
+       y2="5.4036961"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1350493,0,0,1.1350493,-1.3621019,-1.6373519)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -103,12 +113,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="24.189235"
-     inkscape:cx="8.3602045"
-     inkscape:cy="14.936287"
+     inkscape:cx="3.4508288"
+     inkscape:cy="15.760438"
      inkscape:window-width="1680"
-     inkscape:window-height="987"
+     inkscape:window-height="977"
      gridtolerance="1.0000000px"
-     inkscape:window-x="1677"
+     inkscape:window-x="-3"
      inkscape:window-y="-3"
      showgrid="true"
      snaptogrid="false"
@@ -132,10 +142,10 @@
        snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <rect
-     style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.25;stroke-dasharray:none"
+     style="font-size:12px;fill:url(#linearGradient5471);fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.41881156;stroke-dasharray:none"
      id="rect632"
-     width="6.3357668"
-     height="6.3259778"
-     x="7.680572"
-     y="7.9870653" />
+     width="7.1914072"
+     height="7.1802964"
+     x="7.3557262"
+     y="7.4283609" />
 </svg>
