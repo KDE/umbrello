@@ -138,6 +138,7 @@ Comment[pt]=O Umbrello é uma ferramenta de modelação de UML (Unified Modellin
 Comment[sv]=Umbrello är ett modelleringsverktyg och en kodgenerator för Unified Modelling Language (UML)
 Comment[uk]=Umbrello — засіб моделювання та генератор коду на основі уніфікованої мови моделювання (UML)
 Comment[x-test]=xxUmbrello is a Unified Modelling Language (UML) modelling tool and code generatorxx
+Comment[zh_CN]=Umbrello 是一个统一建模语言 (UML) 建模工具与代码生成器
 Comment[zh_TW]=Umbrello 為 Unified Modelling Language - 通用建模語言 (UML) 建模工具與代碼生成器
 MimeType=application/x-uml;text/x-xmi;
 Categories=Qt;KDE;Development;
