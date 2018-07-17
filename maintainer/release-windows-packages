@@ -24,9 +24,9 @@ ROOT64=windows\:mingw\:win64
 SRCROOT64=${ROOT64}
 ARCHOUT64=x86_64-w64-mingw32
 
-REPO=openSUSE_Leap_42.2
+REPO=openSUSE_Leap_42.3
 SRCREPO=$REPO
-VERSION=2.25.0
+VERSION=2.25.3
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
@@ -60,9 +60,9 @@ clean) ## clean working area
 download) ## download rpm packages
         cd work
         rm -rf binaries
-        osc $oscoptions getbinaries $ROOT32 $PACKAGENAME32-installer $REPO x86_64
+        osc $oscoptions getbinaries $ROOT32 $PACKAGENAME32:$PACKAGENAME32-installer $REPO x86_64
         if test -n "$ROOT64"; then
-            osc $oscoptions getbinaries $ROOT64 $PACKAGENAME64-installer $REPO x86_64
+            osc $oscoptions getbinaries $ROOT64 $PACKAGENAME64:$PACKAGENAME64-installer $REPO x86_64
         fi
         cd ..
         $self downloadsrc
