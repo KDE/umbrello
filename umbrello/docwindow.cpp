@@ -282,6 +282,7 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
             m_pUMLScene->setDocumentation(m_docTE->toPlainText());
         } else if (m_Showing == st_UMLWidget &&  m_pUMLWidget) {
             m_pUMLWidget->setDocumentation(m_docTE->toPlainText());
+            m_pUMLWidget->updateGeometry();
         } else if (m_Showing == st_Association &&  m_pAssocWidget) {
             m_pAssocWidget->setDocumentation(m_docTE->toPlainText());
         } else if (m_Showing == st_Project) {

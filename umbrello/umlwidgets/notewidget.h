@@ -63,6 +63,7 @@ public:
 
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual QSizeF minimumSize() const;
 
     static QPointer<NoteWidget> s_pCurrentNote;
 
@@ -70,7 +71,6 @@ public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 protected:
-    virtual QSizeF minimumSize() const;
     virtual QSizeF calculateSize(bool withExtensions = true) const;
     void paintText(QPainter *painter);
     void paintTextWordWrap(QPainter *painter);

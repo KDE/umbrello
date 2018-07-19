@@ -12,6 +12,9 @@
 #include "notedialog.h"
 #include "notewidget.h"
 
+// KDE includes
+#include <KLocalizedString>
+
 /**
  * Constructs an NoteDialog.
  */
@@ -19,6 +22,7 @@ NoteDialog::NoteDialog(QWidget * parent, NoteWidget * widget)
   : MultiPageDialogBase(parent),
     m_widget(widget)
 {
+    setCaption(i18n("Note Properties"));
     setupPages();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));

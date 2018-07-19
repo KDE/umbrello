@@ -67,7 +67,6 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    const int margin = 10;
     int w = width();
     int h = height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -76,8 +75,8 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     poly.setPoint(0, 0, 0);
     poly.setPoint(1, 0, h);
     poly.setPoint(2, w, h);
-    poly.setPoint(3, w, margin);
-    poly.setPoint(4, w - margin, 0);
+    poly.setPoint(3, w, defaultMargin );
+    poly.setPoint(4, w - defaultMargin , 0);
     poly.setPoint(5, 0, 0);
 
     setPenFromSettings(painter);
@@ -87,18 +86,18 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         painter->drawPolygon(poly);
     } else
         painter->drawPolyline(poly);
-    painter->drawLine(w - margin, 0, w - margin, margin);
-    painter->drawLine(w - margin, margin, w, margin);
+    painter->drawLine(w - defaultMargin , 0, w - defaultMargin , defaultMargin );
+    painter->drawLine(w - defaultMargin , defaultMargin , w, defaultMargin );
     painter->setPen(textColor());
     switch(m_noteType) {
     case NoteWidget::PreCondition :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< precondition >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< precondition >>"));
         break;
     case NoteWidget::PostCondition :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< postcondition >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< postcondition >>"));
         break;
     case NoteWidget::Transformation :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< transformation >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< transformation >>"));
         break;
     case NoteWidget::Normal :
     default :
@@ -318,26 +317,8 @@ void NoteWidget::slotMenuSelection(QAction* action)
  */
 QSizeF NoteWidget::minimumSize() const
 {
-    int width = 60;
-    int height = 30;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(documentation());
-    if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
-        width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
-    }
-    return QSizeF(width, height);
+    return QSizeF(fm.averageCharWidth()*20, fm.height() * 2);
 }
 
 /**
@@ -347,27 +328,31 @@ QSizeF NoteWidget::minimumSize() const
 QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
 {
     Q_UNUSED(withExtensions)
-    int width = this->width();
+    int width = 0;
     int height = this->height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int margin = fm.width(QLatin1String("W"));
-    QSize size = fm.size (0, documentation());
+    QSize size = fm.size(Qt::TextExpandTabs, documentation());
     const int textWidth = size.width();
+    const int textHeight = size.height();
     if (m_noteType == PreCondition) {
         const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
     }
     else if (m_noteType == PostCondition) {
         const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
     }
     else if (m_noteType == Transformation) {
         const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 2 * margin;
     }
+
+    if (textWidth > width)
+        width = textWidth;
+    if (textHeight > height)
+        height = textHeight;
+    width += 2 * defaultMargin;
+
     return QSizeF(width, height);
 }
 
@@ -392,13 +377,12 @@ void NoteWidget::paintText(QPainter *painter)
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int margin      = fm.width(QLatin1String("W"));
     const QSize textSize  = fm.size(Qt::TextExpandTabs, text);
 
-    const int width = this->width() - margin * 2;
+    const int width = this->width() - defaultMargin * 2;
     const int height = this->height() - fontHeight;
     int textY = fontHeight / 2;
-    int textX = margin;
+    int textX = defaultMargin;
 
     if ((textSize.width() < width) && (textSize.height() < height)) {
         // the entire text is small enough - draw it
@@ -465,10 +449,9 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
     QString word;
     QString fullLine;
     QString testCombineLine;
-    const int margin = fm.width(QLatin1String("W"));
     int textY = fontHeight / 2;
-    int textX = margin;
-    const int width = this -> width() - margin * 2;
+    int textX = defaultMargin;
+    const int width = this -> width() - defaultMargin * 2;
     const int height = this -> height() - fontHeight;
     QChar returnChar = QChar::fromLatin1('\n');
     QChar c;
@@ -494,7 +477,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                 fullLine = word;
                 word = QString();
                 // update write position
-                textX = margin;
+                textX = defaultMargin;
                 textY += fontHeight;
                 if (textY > height)
                     return;
@@ -505,7 +488,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                     painter->drawText(textX, textY,
                                 textWidth, fontHeight, Qt::AlignLeft, fullLine);
                     fullLine = QString();
-                    textX = margin;
+                    textX = defaultMargin;
                     textY += fontHeight;
                     if(textY > height) return;
                 }
@@ -516,7 +499,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                 painter->drawText(textX, textY,
                             textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
                 fullLine = word = QString();
-                textX = margin;
+                textX = defaultMargin;
                 textY += fontHeight;
                 if (textY > height)
                     return;

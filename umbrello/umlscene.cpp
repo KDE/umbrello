@@ -2947,6 +2947,18 @@ void UMLScene::slotMenuSelection(QAction* action)
         Object_Factory::createUMLObject(UMLObject::ot_Instance);
         break;
 
+    case ListPopupMenu::mt_Note: {
+        m_bCreateObject = true;
+        UMLWidget* widget = new NoteWidget(this);
+        addItem(widget);
+        widget->setPos(pos());
+        widget->setSize(100, 40);
+        widget->showPropertiesDialog();
+        QSizeF size = widget->minimumSize();
+        widget->setSize(size);
+        break;
+    }
+
     case ListPopupMenu::mt_Cut:
         //FIXME make this work for diagram's right click menu
         if (selectedWidgets().count() &&
