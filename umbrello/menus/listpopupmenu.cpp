@@ -119,6 +119,12 @@ void ListPopupMenu::insert(MenuType m)
     insert(m, this);
 }
 
+void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QString &s)
+{
+    QAction* action = UMLApp::app()->actionCollection()->action(s);
+    insert(m, menu, action->icon(), action->text());
+}
+
 /**
  * Shortcut for the frequently used addAction() calls.
  *
@@ -143,172 +149,99 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     DEBUG_AddAction(m);
     Q_ASSERT(menu != 0);
     switch (m) {
-    case mt_New_Activity:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State_Activity), i18n("Activity..."));
-        break;
-    case mt_EnumLiteral:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));
-        break;
-    case mt_EntityAttribute:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
-        break;
-    case mt_PrimaryKeyConstraint:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey), i18n("Primary Key Constraint..."));
-        break;
-    case mt_UniqueConstraint:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique), i18n("Unique Constraint..."));
-        break;
-    case mt_ForeignKeyConstraint:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint..."));
-        break;
-    case mt_CheckConstraint:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check), i18n("Check Constraint..."));
-        break;
-    case mt_Attribute:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute"));
-        break;
-    case mt_Operation:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
-        break;
-    case mt_Template:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template"));
-        break;
-    case mt_Subsystem:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem"));
-        break;
-    case mt_Component:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component"));
-        break;
-    case mt_Port:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port"));
-        break;
-    case mt_Artifact:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact"));
-        break;
-    case mt_Component_Diagram:
-        insertAction(mt_Component_Diagram, menu, QLatin1String("new_component_diagram"));
-        break;
-    case mt_Node:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node"));
-        break;
-    case mt_Deployment_Diagram:
-        insertAction(mt_Deployment_Diagram, menu, QLatin1String("new_deployment_diagram"));
-        break;
-    case mt_Deployment_Folder:
-    case mt_Component_Folder:
-    case mt_UseCase_Folder:
-    case mt_EntityRelationship_Folder:
-        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
-        break;
-    case mt_Entity:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity"));
-        break;
-    case mt_EntityRelationship_Diagram:
-        insertAction(mt_EntityRelationship_Diagram, menu, QLatin1String("new_entityrelationship_diagram"));
-        break;
-    case mt_Category:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category"));
-        break;
-    case mt_Actor:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor"));
-        break;
-    case mt_UseCase:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case"));
-        break;
-    case mt_UseCase_Diagram:
-        insertAction(mt_UseCase_Diagram, menu, QLatin1String("new_use_case_diagram"));
-        break;
-    case mt_FloatText:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..."));
-        break;
-    case mt_Note:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
-        break;
-    case mt_Properties:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
-        break;
-    case mt_Rename:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
-        break;
-    case mt_Rename_Object:
-        insert(m, menu, i18n("Rename Object..."));
-        break;
-    case mt_Resize:
-        insert(m, menu, i18n("Resize"));
-        break;
-    case mt_Show:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
-        break;
-    case mt_Delete:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete"));
-        break;
-    case mt_Cut:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Cut), i18n("Cut"));
-        break;
-    case mt_Copy:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Copy), i18n("Copy"));
-        break;
-    case mt_Paste:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Paste), i18n("Paste"));
-        break;
-    case mt_Change_Font:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
-        break;
-    case mt_Line_Color:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-        break;
-    case mt_Expand_All:
-        m_actions[m] = menu->addAction(i18n("Expand All"));
-        break;
-    case mt_Collapse_All:
-        m_actions[m] = menu->addAction(i18n("Collapse All"));
-        break;
-    case mt_Clone:
-        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate"));
-        break;
-    case mt_Externalize_Folder:
-        m_actions[m] = menu->addAction(i18n("Externalize Folder..."));
-        break;
-    case mt_Internalize_Folder:
-        m_actions[m] = menu->addAction(i18n("Internalize Folder"));
-        break;
-    case mt_Import_Class:
-        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)..."));
-        break;
-    case mt_Import_Project:
-        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory..."));
-        break;
-    case mt_Reset_Label_Positions:
-        m_actions[m] = menu->addAction(i18n("Reset Label Positions"));
-        break;
-    case mt_New_Parameter:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter..."));
-        break;
-    case mt_New_Operation:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
-        break;
-    case mt_New_Attribute:
-    case mt_New_InstanceAttribute:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
-        break;
-    case mt_New_Template:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
-        break;
-    case mt_New_EnumLiteral:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Literal_New), i18n("New Literal..."));
-        break;
-    case mt_New_EntityAttribute:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute_New), i18n("New Entity Attribute..."));
-        break;
-    case mt_Export_Image:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
-        break;
-    case mt_InstanceAttribute:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
-        break;
-    case mt_Remove:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove"));
-        break;
+    case mt_Activity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Activity...")); break;
+    case mt_Actor: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor")); break;
+    //case mt_Actor: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor...")); break;
+    case mt_Artifact: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact")); break;
+    //case mt_Artifact: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact...")); break;
+    case mt_Attribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute")); break;
+    //case mt_Attribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute...")); break;
+    case mt_Branch: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Branch), i18n("Branch/Merge")); break;
+    case mt_Category: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category")); break;
+    //case mt_Category: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category...")); break;
+    case mt_Change_Font: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font...")); break;
+    case mt_CheckConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check), i18n("Check Constraint...")); break;
+    case mt_Choice: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Choice_Rhomb), i18n("Choice")); break;
+    case mt_Class: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class...")); break;
+    case mt_Clone: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate")); break;
+    case mt_Collapse_All: m_actions[m] = menu->addAction(i18n("Collapse All")); break;
+    case mt_Component: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component")); break;
+    //case mt_Component: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component...")); break;
+    case mt_Component_Diagram: insertFromActionKey(m, menu, QLatin1String("new_component_diagram")); break;
+    case mt_Component_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+    case mt_Copy: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Copy), i18n("Copy")); break;
+    case mt_Cut: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Cut), i18n("Cut")); break;
+    case mt_Datatype: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype...")); break;
+    case mt_DeepHistory: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_History_Deep), i18n("Deep History")); break;
+    case mt_Delete: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete")); break;
+    case mt_Deployment_Diagram: insertFromActionKey(m, menu, QLatin1String("new_deployment_diagram")); break;
+    case mt_Deployment_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+    case mt_End_Activity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End Activity")); break;
+    case mt_End_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State")); break;
+    case mt_Entity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity")); break;
+    //case mt_Entity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity...")); break;
+    case mt_EntityAttribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute...")); break;
+    case mt_EntityRelationship_Diagram: insertFromActionKey(m, menu, QLatin1String("new_entityrelationship_diagram")); break;
+    case mt_EntityRelationship_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+    case mt_Enum: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum...")); break;
+    case mt_EnumLiteral: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal...")); break;
+    case mt_Expand_All: m_actions[m] = menu->addAction(i18n("Expand All")); break;
+    case mt_Export_Image: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture...")); break;
+    case mt_Externalize_Folder: m_actions[m] = menu->addAction(i18n("Externalize Folder...")); break;
+    case mt_FloatText: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line...")); break;
+    case mt_ForeignKeyConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint...")); break;
+    case mt_Import_Class: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)...")); break;
+    case mt_Import_Project: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory...")); break;
+    case mt_Import_from_File: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file...")); break;
+    case mt_Initial_Activity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial Activity")); break;
+    case mt_Initial_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State")); break;
+    case mt_Instance: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Instance), i18nc("new instance menu item", "Instance...")); break;
+    case mt_InstanceAttribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute...")); break;
+    case mt_Internalize_Folder: m_actions[m] = menu->addAction(i18n("Internalize Folder")); break;
+    case mt_Junction: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18n("Junction")); break;
+    case mt_Line_Color: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color...")); break;
+    case mt_Logical_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+    case mt_New_Activity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State_Activity), i18n("Activity...")); break;
+    case mt_New_Attribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute...")); break;
+    case mt_New_EntityAttribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute_New), i18n("New Entity Attribute...")); break;
+    case mt_New_EnumLiteral: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Literal_New), i18n("New Literal...")); break;
+    case mt_New_InstanceAttribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute...")); break;
+    case mt_New_Operation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation...")); break;
+    case mt_New_Parameter: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter...")); break;
+    case mt_New_Template: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template...")); break;
+    case mt_Node: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node")); break;
+    //case mt_Node: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node...")); break;
+    case mt_Note: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note...")); break;
+    //case mt_Note: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note...")); break;
+    case mt_Object: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object...")); break;
+    case mt_Operation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation")); break;
+    //case mt_Operation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation...")); break;
+    case mt_Package: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package...")); break;
+    case mt_Paste: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Paste), i18n("Paste")); break;
+    case mt_Port: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port")); break;
+    //case mt_Port: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port...")); break;
+    case mt_PrimaryKeyConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey), i18n("Primary Key Constraint...")); break;
+    case mt_Properties: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties")); break;
+    case mt_Remove: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove")); break;
+    case mt_Rename: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename...")); break;
+    case mt_Rename_Object: insert(m, menu, i18n("Rename Object...")); break;
+    case mt_Reset_Label_Positions: m_actions[m] = menu->addAction(i18n("Reset Label Positions")); break;
+    case mt_Resize: insert(m, menu, i18n("Resize")); break;
+    case mt_ShallowHistory: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History")); break;
+    case mt_Show: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show")); break;
+    case mt_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State...")); break;
+    case mt_StateFork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork")); break;
+    case mt_StateJoin: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join")); break;
+    case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem")); break;
+    //case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem...")); break;
+    case mt_Template: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template")); break;
+    //case mt_Template: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template...")); break;
+    case mt_UniqueConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique), i18n("Unique Constraint...")); break;
+    case mt_UseCase: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case")); break;
+    //case mt_UseCase: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case...")); break;
+    case mt_UseCase_Diagram: insertFromActionKey(m, menu, QLatin1String("new_use_case_diagram")); break;
+    case mt_UseCase_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
         break;
@@ -404,12 +337,12 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folderAndDiagrams, bo
 {
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
-    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class"));
-    insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface"));
-    insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype"));
-    insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
+    insert(mt_Class, menu);
+    insert(mt_Interface);
+    insert(mt_Datatype);
+    insert(mt_Enum);
     if (packages)
-        insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
+        insert(mt_Package);
     if (folderAndDiagrams) {
         insertAction(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
         insertAction(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));

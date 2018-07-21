@@ -124,12 +124,12 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             insert(mt_UseCase, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case..."));
             break;
         case Uml::DiagramType::Class:
-            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
-            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
-            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
-            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
-            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
-            insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package..."));
+            insert(mt_Import_from_File, menu);
+            insert(mt_Class, menu);
+            insert(mt_Interface, menu);
+            insert(mt_Datatype, menu);
+            insert(mt_Enum, menu);
+            insert(mt_Package, menu);
             break;
          case Uml::DiagramType::Object:
             insert(mt_Instance, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Instance), i18nc("new instance menu item", "Instance..."));
@@ -164,7 +164,7 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             insert(mt_Category, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category..."));
             break;
         case Uml::DiagramType::Sequence:
-            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
+            insert(mt_Import_from_File, menu);
             insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
             break;
         case Uml::DiagramType::Collaboration:
