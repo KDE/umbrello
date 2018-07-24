@@ -11,6 +11,8 @@
 #include "umlwidget.h"
 
 // local includes
+#include "actor.h"
+#include "actorwidget.h"
 #include "associationwidget.h"
 #include "classifier.h"
 #include "classpropertiesdialog.h"
@@ -30,6 +32,8 @@
 #include "umlobject.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "usecase.h"
+#include "usecasewidget.h"
 #include "uniqueid.h"
 
 // kde includes
@@ -830,9 +834,23 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_Actor: {
+        UMLActor *actor = new UMLActor;
+        UMLWidget *widget = new ActorWidget(umlScene(), actor);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
     case ListPopupMenu::mt_Note: {
         NoteWidget *widget = new NoteWidget(umlScene());
         addConnectedWidget(widget, Uml::AssociationType::Anchor);
+        break;
+    }
+
+    case ListPopupMenu::mt_UseCase: {
+        UMLUseCase *useCase = new UMLUseCase;
+        UMLWidget *widget = new UseCaseWidget(umlScene(), useCase);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
         break;
     }
 
