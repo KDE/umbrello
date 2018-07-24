@@ -23,8 +23,11 @@
 #include "associationwidget.h"
 #include "floatingtextwidget.h"
 #include "notewidget.h"
+#include "object_factory.h"
 #include "idchangelog.h"
 #include "listpopupmenu.h"
+#include "port.h"
+#include "portwidget.h"
 #include "settingsdialog.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -844,6 +847,18 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Note: {
         NoteWidget *widget = new NoteWidget(umlScene());
         addConnectedWidget(widget, Uml::AssociationType::Anchor);
+        break;
+    }
+
+    case ListPopupMenu::mt_Port: {
+        // TODO: merge with ToolbarStateOneWidget::setWidget()
+        UMLPackage* component = umlObject()->asUMLPackage();
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
+        if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
+            UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
+            UMLWidget *umlWidget = Widget_Factory::createWidget(umlScene(), port);
+            umlScene()->setupNewWidget(umlWidget);
+        }
         break;
     }
 
