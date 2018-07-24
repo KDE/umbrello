@@ -2902,6 +2902,18 @@ void UMLScene::slotMenuSelection(QAction* action)
         Object_Factory::createUMLObject(UMLObject::ot_Package);
         break;
 
+    case ListPopupMenu::mt_Subsystem: {
+        m_bCreateObject = true;
+        UMLPackage *component = UMLApp::app()->document()->rootFolder(Uml::ModelType::Component);
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Package, component, i18n("new_subsystem"));
+        if (Dialog_Utils::askName(i18n("Enter Subsystem Name"), i18n("Enter the name of the new subsystem"), name)) {
+            UMLObject *package = Object_Factory::createUMLObject(UMLObject::ot_Package, name, component);
+            if (package)
+                package->setStereotypeCmd(QLatin1String("subsystem"));
+       }
+       break;
+    }
+
     case ListPopupMenu::mt_Component:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Component);
