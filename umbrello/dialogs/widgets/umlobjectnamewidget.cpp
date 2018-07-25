@@ -32,6 +32,7 @@ UMLObjectNameWidget::UMLObjectNameWidget(const QString &label, const QString &te
 
     m_label->setBuddy(m_editField);
     setLayout(layout);
+    setFocusProxy(m_editField);
 }
 
 UMLObjectNameWidget::~UMLObjectNameWidget()
