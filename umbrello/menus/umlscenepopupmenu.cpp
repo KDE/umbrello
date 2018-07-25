@@ -152,7 +152,6 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             insert(mt_Branch, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Branch), i18n("Branch/Merge"));
             break;
         case Uml::DiagramType::Component:
-            insert(mt_Subsystem, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem..."));
             insert(mt_Component, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component..."));
             insert(mt_Artifact, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact..."));
             break;
