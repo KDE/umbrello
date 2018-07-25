@@ -177,5 +177,6 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             return;
     }
     insert(mt_Note, menu);
+    insert(mt_FloatText, menu);
     addMenu(menu);
 }
