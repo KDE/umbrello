@@ -617,15 +617,6 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
         menu = makeNewMenu();
 
     switch (type) {
-        case WidgetBase::wt_Actor:
-        case WidgetBase::wt_UseCase:
-            insert(mt_Actor, menu);
-            insert(mt_UseCase, menu);
-            break;
-        case WidgetBase::wt_Component:
-            insert(mt_Component, menu);
-            insert(mt_Artifact, menu);
-            break;
         case WidgetBase::wt_Class:
             insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
             insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
@@ -652,9 +643,6 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             break;
         case WidgetBase::wt_Enum:
             insert(mt_EnumLiteral, menu);
-            break;
-        case WidgetBase::wt_Activity:
-            insert(mt_New_Activity, menu);
             break;
         default:
             break;
