@@ -68,7 +68,7 @@ void PhpUnitProvider::updateReady(const IndexedString& document, const Reference
 
     DUChainReadLocker lock;
     if (!context) {
-        qCDebug(TESTPROVIDER) << "Recieved null context for file: " << document;
+        qCDebug(TESTPROVIDER) << "Received null context for file: " << document;
         return;
     }
 

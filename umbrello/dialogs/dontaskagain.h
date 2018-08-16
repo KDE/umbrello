@@ -81,7 +81,7 @@ protected slots:
 
 /**
  * Dialogs provided by namespace KMessageBox support a feature to hide dialogs on user request
- * by specifing the parameter dontAskAgainName, which adds a checkbox named "Don't ask again"
+ * by specifying the parameter dontAskAgainName, which adds a checkbox named "Don't ask again"
  * to the related dialog.
  *
  * What is currently missing in KMessageBox namespace and therefore provided by class
