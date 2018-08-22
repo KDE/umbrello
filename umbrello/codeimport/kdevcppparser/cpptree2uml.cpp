@@ -755,23 +755,17 @@ void CppTree2Uml::parseBaseClause(BaseClauseAST * baseClause, UMLClassifier* kla
     for (int i = 0; i < l.size(); ++i) {
         BaseSpecifierAST* baseSpecifier = l.at(i);
 
-        if (baseSpecifier->name() == 0) {
+        NameAST *name = baseSpecifier->name();
+        if (name == 0) {
                 uDebug() << "baseSpecifier->name() is NULL";
                 continue;
         }
-
-        QString baseName = baseSpecifier->name()->text();
-        // uDebug() << "CppTree2Uml::parseBaseClause : baseSpecifier is " << baseName;
-
-        /* TJansen: For templates we have a basename like "foo< T >". The
-         * original class we want to reference is however called "foo",
-         * therefore strip the template parameters. Works for simple cases,
-         * maybe probematic with multiple template parameters that differ.
-         */
-        int templateIndex = baseName.indexOf(QString::fromLatin1("<"));
-        if (templateIndex > 0)
-            baseName.truncate(templateIndex);
-
+        ClassOrNamespaceNameAST *cons = name->unqualifiedName();
+        if (cons == 0) {
+            uDebug() << "name->unqualifiedName() is NULL";
+            continue;
+        }
+        QString baseName = cons->name()->text();
         Import_Utils::putAtGlobalScope(true);
         UMLObject *c = Import_Utils::createUMLObject(UMLObject::ot_Class, baseName,
                                                      m_currentNamespace[m_nsCnt],
