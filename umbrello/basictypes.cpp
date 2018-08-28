@@ -967,6 +967,9 @@ QStringList toExtensions(Enum item)
         case Uml::ProgrammingLanguage::PHP5:
             result << QLatin1String("*.php") << QLatin1String("*.php5") << QLatin1String("*.inc");
             break;
+        case Uml::ProgrammingLanguage::Vala:
+            result << QLatin1String("*.vala") << QLatin1String("*.vapi");
+            break;
         default:
             break;
     }
@@ -1009,6 +1012,9 @@ QString toExtensionsDescription(Enum item)
         case Uml::ProgrammingLanguage::PHP5:
             result = QLatin1String("Source files");
             break;
+        case Uml::ProgrammingLanguage::Vala:
+            result = QLatin1String("Source files");
+            break;
         default:
             break;
     }
@@ -1028,6 +1034,7 @@ QString scopeSeparator(Enum item)
 {
     if (item == Uml::ProgrammingLanguage::Ada ||
         item == Uml::ProgrammingLanguage::CSharp ||
+        item == Uml::ProgrammingLanguage::Vala ||
         item == Uml::ProgrammingLanguage::Pascal ||
         item == Uml::ProgrammingLanguage::Java ||
         item == Uml::ProgrammingLanguage::JavaScript ||

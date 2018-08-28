@@ -40,6 +40,7 @@ CSharpImport::CSharpImport(CodeImpThread* thread)
   : NativeImportBase(QLatin1String("//"), thread),
     m_defaultCurrentAccess(Uml::Visibility::Public)
 {
+    m_language = Uml::ProgrammingLanguage::CSharp;
     setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
     initVars();
 }
@@ -49,6 +50,11 @@ CSharpImport::CSharpImport(CodeImpThread* thread)
  */
 CSharpImport::~CSharpImport()
 {
+}
+
+QString CSharpImport::fileExtension()
+{
+    return(QLatin1String(".cs"));
 }
 
 /**
@@ -167,7 +173,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
     // the file we're looking for might be in the same directory as the
     // current class
     QString myDir = file.join(QLatin1String("/"));
-    QString myFile = myDir + QLatin1Char('/') + baseClassName + QLatin1String(".cs");
+    QString myFile = myDir + QLatin1Char('/') + baseClassName + fileExtension();
     if (QFile::exists(myFile)) {
         spawnImport(myFile);
         if (isArray) {
@@ -198,7 +204,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
         if (import.endsWith(QLatin1Char('*')) || import.endsWith(baseClassName)) {
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
-            QString aFile = sourceRoot + split.join(QLatin1String("/")) + QLatin1Char('/') + baseClassName + QLatin1String(".cs");
+            QString aFile = sourceRoot + split.join(QLatin1String("/")) + QLatin1Char('/') + baseClassName + fileExtension();
             if (QFile::exists(aFile)) {
                 spawnImport(aFile);
                 // we need to set the package for the class that will be resolved

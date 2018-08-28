@@ -26,6 +26,7 @@ class CSharpImport : public NativeImportBase
 public:
     explicit CSharpImport(CodeImpThread* thread = 0);
     virtual ~CSharpImport();
+    virtual QString fileExtension();
 
 protected:
     void initVars();
@@ -59,6 +60,11 @@ protected:
      * can be reset when we're done.
      */
     static int s_parseDepth;
+
+    /**
+     * required for language specific suport
+     */
+    Uml::ProgrammingLanguage::Enum m_language;
 
 private:
     static UMLObject* findObject(const QString& name, UMLPackage *parentPkg);

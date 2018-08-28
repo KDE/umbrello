@@ -309,6 +309,7 @@ set(libcodeimport_SRCS
     codeimport/pythonimport.cpp
     codeimport/sqlimport.cpp
     codeimport/csharp/csharpimport.cpp
+    codeimport/valaimport.cpp
 )
 if(BUILD_PHP_IMPORT)
     list(APPEND libcodeimport_SRCS

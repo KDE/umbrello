@@ -25,6 +25,7 @@
 #include "cppimport.h"
 #include "csharpimport.h"
 #include "codeimpthread.h"
+#include "valaimport.h"
 #ifdef ENABLE_PHP_IMPORT
 #include "phpimport.h"
 #endif
@@ -55,6 +56,8 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
         classImporter = new PascalImport(thread);
     else if (fileName.endsWith(QLatin1String(".cs")))
         classImporter = new CSharpImport(thread);
+    else if (fileName.contains(QRegExp(QLatin1String(".va[lp][ai]$"))))
+        classImporter = new ValaImport(thread);
     else if (fileName.endsWith(QLatin1String(".sql")))
         classImporter = new SQLImport(thread);
 #ifdef ENABLE_PHP_IMPORT
