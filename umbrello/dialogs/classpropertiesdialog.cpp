@@ -249,6 +249,7 @@ void ClassPropertiesDialog::setupGeneralPage()
         m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pObject);
     createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
                Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
+    m_pGenPage->setFocus();
 }
 
 /**

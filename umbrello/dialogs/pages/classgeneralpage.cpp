@@ -95,6 +95,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         QString name = UMLObject::toI18nString(t);
         m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
+        setFocusProxy(m_instanceNameWidget);
         QString className = UMLObject::toI18nString(UMLObject::ot_Class);
         m_nameWidget = new UMLObjectNameWidget(className, m_pObject->asUMLInstance()->classifier()->name());
         m_nameWidget->addToLayout(m_pNameLayout, 1);
@@ -103,6 +104,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         QString name = UMLObject::toI18nString(t);
         m_nameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_nameWidget->addToLayout(m_pNameLayout, 0);
+        setFocusProxy(m_nameWidget);
     }
 
     if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
@@ -204,6 +206,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     QString name = UMLObject::toI18nString(UMLObject::ot_Instance);
     m_instanceNameWidget = new UMLObjectNameWidget(name , m_pWidget->instanceName());
     m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
+    setFocusProxy(m_instanceNameWidget);
 
     QString className = UMLObject::toI18nString(UMLObject::ot_Class);
     m_nameWidget = new UMLObjectNameWidget(className, m_pWidget->name());
@@ -267,6 +270,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     QString typeName = UMLWidget::toI18nString(widget->baseType());
     m_nameWidget = new UMLObjectNameWidget(typeName, widget->name());
     m_nameWidget->addToLayout(m_pNameLayout, 0);
+    setFocusProxy(m_nameWidget);
 
     if (widget->umlObject()) {
         m_stereotypeWidget = new UMLStereotypeWidget(widget->umlObject());

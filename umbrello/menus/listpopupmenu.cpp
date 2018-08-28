@@ -221,13 +221,13 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..."));
         break;
     case mt_Note:
-        insert(mt_Note, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note..."));
         break;
     case mt_Properties:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
         break;
     case mt_Rename:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
         break;
     case mt_Rename_Object:
         insert(m, menu, i18n("Rename Object..."));

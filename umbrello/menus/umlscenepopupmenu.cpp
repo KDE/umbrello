@@ -152,10 +152,7 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             insert(mt_Branch, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Branch), i18n("Branch/Merge"));
             break;
         case Uml::DiagramType::Component:
-            insert(mt_Subsystem, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem..."));
             insert(mt_Component, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component..."));
-            if (Settings::optionState().generalState.uml2)
-                insert(mt_Port, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port..."));
             insert(mt_Artifact, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact..."));
             break;
         case Uml::DiagramType::Deployment:
@@ -177,5 +174,6 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             return;
     }
     insert(mt_Note, menu);
+    insert(mt_FloatText, menu);
     addMenu(menu);
 }
