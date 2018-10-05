@@ -259,6 +259,7 @@ public:
     void addMenu(KMenu *menu);
 protected:
     void insert(MenuType m);
+    void insertAction(const MenuType m, KMenu *menu, const QString &action);
     void insert(const MenuType m, KMenu* menu);
     void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
     void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);

@@ -124,6 +124,19 @@ void ListPopupMenu::insert(MenuType m)
  *
  * @param m      The MenuType for which to insert a menu item.
  * @param menu   The KMenu for which to insert a menu item.
+ * @param s      The entry to be inserted from the action collection
+ */
+void ListPopupMenu::insertAction(const MenuType m, KMenu *menu, const QString &s)
+{
+    QAction* action = UMLApp::app()->actionCollection()->action(s);
+    insert(m, menu, action->icon(), action->text());
+}
+
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m      The MenuType for which to insert a menu item.
+ * @param menu   The KMenu for which to insert a menu item.
  */
 void ListPopupMenu::insert(const MenuType m, KMenu* menu)
 {
@@ -173,19 +186,13 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact"));
         break;
     case mt_Component_Diagram:
-        {
-            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_component_diagram"));
-            insert(mt_Component_Diagram, menu, action->icon(), action->text());
-        }
+        insertAction(mt_Component_Diagram, menu, QLatin1String("new_component_diagram"));
         break;
     case mt_Node:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node"));
         break;
     case mt_Deployment_Diagram:
-        {
-            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_deployment_diagram"));
-            insert(mt_Deployment_Diagram, menu, action->icon(), action->text());
-        }
+        insertAction(mt_Deployment_Diagram, menu, QLatin1String("new_deployment_diagram"));
         break;
     case mt_Deployment_Folder:
     case mt_Component_Folder:
@@ -197,10 +204,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity"));
         break;
     case mt_EntityRelationship_Diagram:
-        {
-            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_entityrelationship_diagram"));
-            insert(mt_EntityRelationship_Diagram, menu, action->icon(), action->text());
-        }
+        insertAction(mt_EntityRelationship_Diagram, menu, QLatin1String("new_entityrelationship_diagram"));
         break;
     case mt_Category:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category"));
@@ -212,10 +216,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case"));
         break;
     case mt_UseCase_Diagram:
-        {
-            QAction* action = UMLApp::app()->actionCollection()->action(QLatin1String("new_use_case_diagram"));
-            insert(mt_UseCase_Diagram, menu, action->icon(), action->text());
-        }
+        insertAction(mt_UseCase_Diagram, menu, QLatin1String("new_use_case_diagram"));
         break;
     case mt_FloatText:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..."));
@@ -410,16 +411,11 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folderAndDiagrams, bo
     if (packages)
         insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
     if (folderAndDiagrams) {
-        QAction *action = UMLApp::app()->actionCollection()->action(QLatin1String("new_class_diagram"));
-        insert(mt_Class_Diagram, menu, action->icon(), action->text());
-        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_sequence_diagram"));
-        insert(mt_Sequence_Diagram, menu, action->icon(), action->text());
-        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_collaboration_diagram"));
-        insert(mt_Collaboration_Diagram, menu, action->icon(), action->text());
-        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_state_diagram"));
-        insert(mt_State_Diagram, menu, action->icon(), action->text());
-        action = UMLApp::app()->actionCollection()->action(QLatin1String("new_activity_diagram"));
-        insert(mt_Activity_Diagram, menu, action->icon(), action->text());
+        insertAction(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
+        insertAction(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));
+        insertAction(mt_Collaboration_Diagram, menu, QLatin1String("new_collaboration_diagram"));
+        insertAction(mt_State_Diagram, menu, QLatin1String("new_state_diagram"));
+        insertAction(mt_Activity_Diagram, menu, QLatin1String("new_activity_diagram"));
     }
 }
 
