@@ -25,7 +25,7 @@
 #include "notewidget.h"
 #include "object_factory.h"
 #include "idchangelog.h"
-#include "listpopupmenu.h"
+#include "menus/listpopupmenu.h"
 #include "port.h"
 #include "portwidget.h"
 #include "settingsdialog.h"
@@ -38,6 +38,7 @@
 #include "usecase.h"
 #include "usecasewidget.h"
 #include "uniqueid.h"
+#include "widget_factory.h"
 
 // kde includes
 #include <KLocalizedString>
