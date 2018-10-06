@@ -681,28 +681,13 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     m_bCreateObject = false;
 
-    switch (o->baseType()) {
-        case UMLObject::ot_Actor:
-        case UMLObject::ot_UseCase:
-        case UMLObject::ot_Class:
-        case UMLObject::ot_Package:
-        case UMLObject::ot_Component:
-        case UMLObject::ot_Node:
-        case UMLObject::ot_Artifact:
-        case UMLObject::ot_Interface:
-        case UMLObject::ot_Enum:
-        case UMLObject::ot_Entity:
-        case UMLObject::ot_Datatype:
-        case UMLObject::ot_Category:
-        case UMLObject::ot_Instance:
-            createAutoAssociations(newWidget);
-            // We need to invoke createAutoAttributeAssociations()
-            // on all other widgets again because the newly created
-            // widget might saturate some latent attribute assocs.
-            createAutoAttributeAssociations2(newWidget);
-            break;
-        default:
-            break;
+    if (Model_Utils::hasAssociations(o->baseType()))
+    {
+        createAutoAssociations(newWidget);
+        // We need to invoke createAutoAttributeAssociations()
+        // on all other widgets again because the newly created
+        // widget might saturate some latent attribute assocs.
+        createAutoAttributeAssociations2(newWidget);
     }
     resizeSceneToItems();
 }

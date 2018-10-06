@@ -80,6 +80,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     UMLListViewItem::ListViewType parentType);
 bool typeIsAllowedInDiagram(UMLObject *o, UMLScene *scene);
 bool typeIsAllowedInDiagram(UMLWidget *w, UMLScene *scene);
+bool hasAssociations(UMLObject::ObjectType type);
 
 Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);

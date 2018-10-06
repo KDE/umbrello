@@ -567,6 +567,20 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                     widgetElement = widgetNode.toElement();
                     continue;
                 }
+            } else if (Model_Utils::isCloneable(widget->baseType())) {
+                if (widget->umlObject()) {
+                    UMLObject *clone = widget->umlObject()->clone();
+                    widget->setUMLObject(clone);
+                    // we do not want to recreate an additional widget,
+                    // which would be the case if calling scene->addUMLObject()
+                    UMLApp::app()->document()->addUMLObject(clone);
+                    UMLApp::app()->listView()->slotObjectCreated(clone);
+                    if (Model_Utils::hasAssociations(clone->baseType()))
+                    {
+                        scene->createAutoAssociations(widget);
+                        scene->createAutoAttributeAssociations2(widget);
+                    }
+                }
             }
 
             // Generate a new unique 'local ID' so a second widget for the same
