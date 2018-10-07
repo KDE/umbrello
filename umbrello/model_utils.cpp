@@ -2009,7 +2009,9 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
         }
         break;
     case Uml::DiagramType::EntityRelationship:
-        if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Entity &&
+             ot != UMLObject::ot_Category))
             bAccept = false;
         break;
     default:
