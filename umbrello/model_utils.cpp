@@ -65,6 +65,7 @@ bool isCloneable(WidgetBase::WidgetType type)
     case WidgetBase::wt_Node:
     case WidgetBase::wt_Artifact:
     case WidgetBase::wt_Instance:
+    case WidgetBase::wt_Entity:
         return true;
     default:
         return false;
@@ -2008,7 +2009,9 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
         }
         break;
     case Uml::DiagramType::EntityRelationship:
-        if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
+        if (scene->widgetOnDiagram(id) ||
+            (ot != UMLObject::ot_Entity &&
+             ot != UMLObject::ot_Category))
             bAccept = false;
         break;
     default:
@@ -2063,5 +2066,30 @@ bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
     return bAccept;
 }
 
+/**
+ * return true if given object type supports associatons
+ * @param type uml object type to check
+ */
+bool hasAssociations(UMLObject::ObjectType type)
+{
+    switch (type) {
+        case UMLObject::ot_Actor:
+        case UMLObject::ot_UseCase:
+        case UMLObject::ot_Class:
+        case UMLObject::ot_Package:
+        case UMLObject::ot_Component:
+        case UMLObject::ot_Node:
+        case UMLObject::ot_Artifact:
+        case UMLObject::ot_Interface:
+        case UMLObject::ot_Enum:
+        case UMLObject::ot_Entity:
+        case UMLObject::ot_Datatype:
+        case UMLObject::ot_Category:
+        case UMLObject::ot_Instance:
+            return true;
+        default:
+            return false;
+    }
+}
 }  // namespace Model_Utils
 

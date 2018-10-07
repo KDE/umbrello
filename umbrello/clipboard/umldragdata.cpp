@@ -526,7 +526,9 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QString sourceDiagramID = root.attribute(QLatin1String("diagramid"), QLatin1String(""));
     UMLView *sourceView = doc->findView(Uml::ID::fromString(sourceDiagramID));
 
-    bool pasteToDiagramCopiedFrom = sourceView && sourceView->umlScene()->ID() == scene->ID();
+    bool fromSameDiagram = sourceView && sourceView->umlScene()->ID() == scene->ID();
+    bool fromAnotherInstance = !sourceView;
+    bool fromDifferentDiagramType = dType != scene->type();
 
     // Load widgets
     QDomNode widgetsNode = objectsNode.nextSibling();
@@ -541,7 +543,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget) {
-            if (pasteToDiagramCopiedFrom && widget->isObjectWidget()) {
+            if (fromSameDiagram && widget->isObjectWidget()) {
                 delete widget;
                 widgetNode = widgetNode.nextSibling();
                 widgetElement = widgetNode.toElement();
@@ -549,7 +551,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             }
 
             // check if widget is pastable
-            if (!sourceView || sourceView->umlScene()->type() != scene->type()) {
+            if (fromAnotherInstance || fromDifferentDiagramType) {
                 UMLObject *object = widget->umlObject();
                 if (object) {
                     if (!Model_Utils::typeIsAllowedInDiagram(object, scene)) {
@@ -564,6 +566,20 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                     widgetNode = widgetNode.nextSibling();
                     widgetElement = widgetNode.toElement();
                     continue;
+                }
+            } else if (Model_Utils::isCloneable(widget->baseType())) {
+                if (widget->umlObject()) {
+                    UMLObject *clone = widget->umlObject()->clone();
+                    widget->setUMLObject(clone);
+                    // we do not want to recreate an additional widget,
+                    // which would be the case if calling scene->addUMLObject()
+                    UMLApp::app()->document()->addUMLObject(clone);
+                    UMLApp::app()->listView()->slotObjectCreated(clone);
+                    if (Model_Utils::hasAssociations(clone->baseType()))
+                    {
+                        scene->createAutoAssociations(widget);
+                        scene->createAutoAttributeAssociations2(widget);
+                    }
                 }
             }
 
@@ -596,7 +612,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Make sure all object widgets are loaded before adding messages or
     // preconditions
-    if (!pasteToDiagramCopiedFrom) {
+    if (!fromSameDiagram) {
         foreach (UMLWidget* widget, widgets) {
             if (widget->isObjectWidget()) {
                 executeCreateWidgetCommand(widget);
@@ -606,7 +622,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Now add all remaining widgets
     foreach (UMLWidget* widget, widgets) {
-        if (!pasteToDiagramCopiedFrom && widget->isMessageWidget()) {
+        if (!fromSameDiagram && widget->isMessageWidget()) {
             MessageWidget* message = widget->asMessageWidget();
             message->resolveObjectWidget(log);
         }
