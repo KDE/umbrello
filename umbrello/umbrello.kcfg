@@ -175,6 +175,11 @@
          <whatsthis>The Color of the grid dots</whatsthis>
          <default>lightGray</default>
        </entry>
+       <entry name="rightToLeftUI" type="Bool">
+         <label>Right to left user interface</label>
+         <whatsthis>Enable/disable user interface direction from right to left</whatsthis>
+         <default>false</default>
+       </entry>
    </group>
    <group name ="Class Options">
        <entry name="showVisibility" type="Bool">

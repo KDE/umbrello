@@ -23,6 +23,7 @@
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "layoutgenerator.h"
+#include "umbrellosettings.h"
 
 // kde includes
 #include <KColorButton>
@@ -121,6 +122,15 @@ void SettingsDialog::setupUIPage()
     
     pageUserInterface = createPage(i18n("User Interface"), i18n("User Interface Settings"),
                                    Icon_Utils::it_Properties_UserInterface, page);
+
+    QGroupBox *box = new QGroupBox(i18nc("General options", "General"), page);
+    QGridLayout * otherLayout = new QGridLayout(box);
+    otherLayout->setSpacing(spacingHint());
+    otherLayout->setMargin(fontMetrics().height());
+    uiPageLayout->addWidget(box);
+    m_UiWidgets.rightToLeftUI = new QCheckBox(i18n("Right to left user interface"), box);
+    m_UiWidgets.rightToLeftUI->setChecked(UmbrelloSettings::rightToLeftUI());
+    otherLayout->addWidget(m_UiWidgets.rightToLeftUI, 0, 0);
 
     m_UiWidgets.colorGB = new QGroupBox(i18nc("color group box", "Color"), page);
     QGridLayout * colorLayout = new QGridLayout(m_UiWidgets.colorGB);
@@ -315,6 +325,7 @@ void SettingsDialog::slotDefault()
         m_UiWidgets.fillColorB->setColor(FILL_COLOR);
         m_UiWidgets.lineColorB->setColor(LINK_COLOR);
         m_UiWidgets.lineWidthB->setValue(0);
+        m_UiWidgets.rightToLeftUI->setChecked(false);
     }
     else if (current == pageClass)
     {
@@ -357,6 +368,8 @@ void SettingsDialog::applyPage(KPageWidgetItem*item)
         m_pOptionState->uiState.lineWidth = m_UiWidgets.lineWidthB->value();
         m_pOptionState->uiState.backgroundColor = m_UiWidgets.bgColorB->color();
         m_pOptionState->uiState.gridDotColor = m_UiWidgets.gridColorB->color();
+        UmbrelloSettings::setRightToLeftUI(m_UiWidgets.rightToLeftUI->isChecked());
+        qApp->setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
     }
     else if (item == pageClass)
     {

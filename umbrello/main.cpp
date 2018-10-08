@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 #endif
 
     Q_INIT_RESOURCE(icons);
-
+    app.setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
     QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();

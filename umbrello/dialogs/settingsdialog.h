@@ -68,6 +68,7 @@ protected:
 private:
     //private structs
     struct UIWidgets {
+        QCheckBox * rightToLeftUI;
         QGroupBox * colorGB;
 
         QCheckBox * textColorCB;
