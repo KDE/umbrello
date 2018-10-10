@@ -246,6 +246,7 @@ set(libdialogs_SRCS
     dialogs/pages/generaloptionpage.cpp
     dialogs/pages/packagecontentspage.cpp
     dialogs/pages/selectoperationpage.cpp
+    dialogs/pages/uioptionspage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/documentationwidget.cpp

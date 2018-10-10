@@ -31,6 +31,8 @@ class KFontChooser;
 #if QT_VERSION < 0x050000
 class KIntSpinBox;
 #endif
+class UIOptionsPage;
+
 class QCheckBox;
 #if QT_VERSION >= 0x050000
 class QFontDialog;
@@ -103,7 +105,6 @@ private:
     void applyPage(KPageWidgetItem*);
 
     //private attributes
-    UIWidgets m_UiWidgets;
     DontAskAgainWidget *m_dontAskAgainWidget;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
@@ -113,6 +114,7 @@ private:
     CodeViewerOptionsPage * m_pCodeViewerPage;
     GeneralOptionPage * m_pGeneralPage;
     ClassOptionsPage * m_pClassPage;
+    UIOptionsPage *m_uiOptionsPage;
 
     bool m_bChangesApplied;
     KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen,
@@ -122,12 +124,6 @@ private slots:
     void slotApply();
     void slotOk();
     void slotDefault();
-    void slotTextCBChecked(bool value);
-    void slotLineCBChecked(bool value);
-    void slotFillCBChecked(bool value);
-    void slotGridCBChecked(bool value);
-    void slotBgCBChecked(bool value);
-    void slotLineWidthCBChecked(bool value);
 };
 
 #endif
