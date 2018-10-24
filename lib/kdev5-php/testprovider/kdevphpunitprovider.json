@@ -3,7 +3,26 @@
         "Authors": [
             {
                 "Name": "Miha Čančula",
-                "Name[x-test]": "xxMiha Čančulaxx"
+                "Name[ca@valencia]": "Miha Čančula",
+                "Name[ca]": "Miha Čančula",
+                "Name[cs]": "Miha Čančula",
+                "Name[da]": "Miha Čančula",
+                "Name[de]": "Miha Čančula",
+                "Name[el]": "Miha Čančula",
+                "Name[en_GB]": "Miha Čančula",
+                "Name[es]": "Miha Čančula",
+                "Name[fi]": "Miha Čančula",
+                "Name[fr]": "Miha Čančula",
+                "Name[gl]": "Miha Čančula",
+                "Name[it]": "Miha Čančula",
+                "Name[nl]": "Miha Čančula",
+                "Name[pt]": "Miha Čančula",
+                "Name[sk]": "Miha Čančula",
+                "Name[sl]": "Miha Čančula",
+                "Name[sv]": "Miha Čančula",
+                "Name[uk]": "Miha Čančula",
+                "Name[x-test]": "xxMiha Čančulaxx",
+                "Name[zh_CN]": "Miha Čančula"
             }
         ],
         "Category": "Testing",
@@ -14,6 +33,7 @@
         "Description[da]": "Finder og kører PHPUnit-test.",
         "Description[de]": "Sucht und führt PHPUnit-Tests aus.",
         "Description[el]": "Βρίσκει και εκτελεί PHPUnit tests.",
+        "Description[en_GB]": "Finds and runs PHPUnit tests.",
         "Description[es]": "Encuentra y ejecuta pruebas PHPUnit.",
         "Description[fi]": "Etsii ja suorittaa PHPUnit-testejä.",
         "Description[fr]": "Trouve et exécute des tests « PHPUnit ».",
@@ -37,6 +57,7 @@
         "Name[da]": "PHPUnit-integration",
         "Name[de]": "PHPUnit-Integration",
         "Name[el]": "Ενσωμάτωση PHPUnit",
+        "Name[en_GB]": "PHPUnit Integration",
         "Name[es]": "Integración de PHPUnit",
         "Name[fi]": "PHPUnit-integrointi",
         "Name[fr]": "Intégration de « PHPUnit »",
