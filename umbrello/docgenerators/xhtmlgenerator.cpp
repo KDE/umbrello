@@ -230,3 +230,40 @@ void XhtmlGenerator::threadFinished()
     delete m_d2xg;
     m_d2xg = 0;
 }
+
+/**
+ * return local dookbool xsl file for generating html
+ *
+ * @return filename if present
+ */
+QString XhtmlGenerator::localDocbookXslFile()
+{
+    QString xslFileName = QLatin1String("../../xml/docbook/stylesheet/nwalsh/current/html/docbook.xsl");
+#if QT_VERSION >= 0x050000
+    QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, xslFileName);
+#else
+    QString localXsl = KGlobal::dirs()->findResource("data", xslFileName);
+#endif
+    QFileInfo fi(localXsl);
+    return fi.canonicalFilePath();
+}
+
+/**
+ * return custom xsl file for generating html
+ *
+ * @return filename
+ */
+QString XhtmlGenerator::customXslFile()
+{
+
+  QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
+#if QT_VERSION >= 0x050000
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
+#else
+    QString xsltFileName(KGlobal::dirs()->findResource("appdata", xslBaseName));
+#endif
+  if (xsltFileName.isEmpty())
+      xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+  return xsltFileName;
+}
