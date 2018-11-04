@@ -72,11 +72,15 @@ void Docbook2XhtmlGeneratorJob::run()
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
+  QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
 #if QT_VERSION >= 0x050000
-  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
+  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
 #else
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
+  QString xsltFileName(KGlobal::dirs()->findResource("appdata", xslBaseName));
 #endif
+  if (xsltFileName.isEmpty())
+      xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
   uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);

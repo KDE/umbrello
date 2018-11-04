@@ -200,7 +200,9 @@ UMLApp::UMLApp(QWidget* parent)
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
     StandardWindowOptions opt = Default;
     opt &= ~Save;
-    setupGUI(opt);
+    QString xmlFile = QLatin1String(UMBRELLOUI_RC);
+    QFileInfo fi(xmlFile);
+    setupGUI(opt, fi.exists() ? xmlFile : QString());
     initView();
     initClip();
     readOptions();

@@ -180,17 +180,21 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
+    QString cssBaseName = QLatin1String("xmi.css");
 #if QT_VERSION >= 0x050000
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("xmi.css")));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, cssBaseName));
 #else
-    QString cssFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi.css")));
+    QString cssFileName(KGlobal::dirs()->findResource("appdata", cssBaseName));
 #endif
+    if (cssFileName.isEmpty())
+        cssFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
+
 #if QT_VERSION >= 0x050000
     QUrl cssUrl = m_destDir;
-    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + QLatin1String("xmi.css"));
+    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + cssBaseName);
 #else
     KUrl cssUrl = m_destDir;
-    cssUrl.addPath(QLatin1String("xmi.css"));
+    cssUrl.addPath(cssBaseName);
 #endif
 #if QT_VERSION >= 0x050000
     KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
