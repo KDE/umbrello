@@ -443,7 +443,7 @@ void UMLDoc::closeDocument()
 bool UMLDoc::newDocument()
 {
     bool state = UMLApp::app()->document()->loading();
-    UMLApp::app()->document()->setLoading(false);
+    UMLApp::app()->document()->setLoading(true);
 
     closeDocument();
     UMLApp::app()->setCurrentView(0);
