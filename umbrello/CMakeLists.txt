@@ -28,6 +28,8 @@ if(UNIX)
 endif()
 
 add_definitions(-DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
+add_definitions(-DDOCGENERATORS_DIR="${CMAKE_SOURCE_DIR}/umbrello/docgenerators")
+add_definitions(-DUMBRELLOUI_RC="${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc")
 
 include_directories(
   ${LIBXML2_INCLUDE_DIR}

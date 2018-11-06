@@ -13,6 +13,7 @@
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "xhtmlgenerator.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
@@ -71,12 +72,8 @@ void Docbook2XhtmlGeneratorJob::run()
   params[nbparams] = 0;
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
+  QString xsltFileName = XhtmlGenerator::customXslFile();
 
-#if QT_VERSION >= 0x050000
-  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
-#else
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
-#endif
   uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
@@ -84,11 +81,7 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "XSLT is'" << xslt << "'";
   xsltFile.close();
 
-#if QT_VERSION >= 0x050000
-  QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#else
-  QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#endif
+  QString localXsl = XhtmlGenerator::localDocbookXslFile();
   uDebug() << "Local xsl is'" << localXsl << "'";
   if (!localXsl.isEmpty())
   {

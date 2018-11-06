@@ -180,17 +180,21 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
+    QString cssBaseName = QLatin1String("xmi.css");
 #if QT_VERSION >= 0x050000
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("xmi.css")));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, cssBaseName));
 #else
-    QString cssFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi.css")));
+    QString cssFileName(KGlobal::dirs()->findResource("appdata", cssBaseName));
 #endif
+    if (cssFileName.isEmpty())
+        cssFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
+
 #if QT_VERSION >= 0x050000
     QUrl cssUrl = m_destDir;
-    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + QLatin1String("xmi.css"));
+    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + cssBaseName);
 #else
     KUrl cssUrl = m_destDir;
-    cssUrl.addPath(QLatin1String("xmi.css"));
+    cssUrl.addPath(cssBaseName);
 #endif
 #if QT_VERSION >= 0x050000
     KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
@@ -225,4 +229,41 @@ void XhtmlGenerator::threadFinished()
     m_pThreadFinished = true;
     delete m_d2xg;
     m_d2xg = 0;
+}
+
+/**
+ * return local dookbool xsl file for generating html
+ *
+ * @return filename if present
+ */
+QString XhtmlGenerator::localDocbookXslFile()
+{
+    QString xslFileName = QLatin1String("../../xml/docbook/stylesheet/nwalsh/current/html/docbook.xsl");
+#if QT_VERSION >= 0x050000
+    QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, xslFileName);
+#else
+    QString localXsl = KGlobal::dirs()->findResource("data", xslFileName);
+#endif
+    QFileInfo fi(localXsl);
+    return fi.canonicalFilePath();
+}
+
+/**
+ * return custom xsl file for generating html
+ *
+ * @return filename
+ */
+QString XhtmlGenerator::customXslFile()
+{
+
+  QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
+#if QT_VERSION >= 0x050000
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
+#else
+    QString xsltFileName(KGlobal::dirs()->findResource("appdata", xslBaseName));
+#endif
+  if (xsltFileName.isEmpty())
+      xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+  return xsltFileName;
 }

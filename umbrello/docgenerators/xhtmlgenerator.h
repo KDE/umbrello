@@ -52,8 +52,10 @@ public:
 #else
     bool generateXhtmlForProjectInto(const KUrl& destDir);
 #endif
-signals:
+    static QString localDocbookXslFile();
+    static QString customXslFile();
 
+signals:
     void finished(bool status);
 
 protected slots:

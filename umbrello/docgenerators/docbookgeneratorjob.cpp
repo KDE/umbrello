@@ -77,11 +77,14 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = 0;
 
+    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
 #if QT_VERSION >= 0x050000
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("xmi2docbook.xsl")));
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
 #else
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi2docbook.xsl")));
+    QString xsltFile(KGlobal::dirs()->findResource("appdata", xslBaseName));
 #endif
+    if (xsltFile.isEmpty())
+        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;

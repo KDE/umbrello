@@ -442,6 +442,9 @@ void UMLDoc::closeDocument()
  */
 bool UMLDoc::newDocument()
 {
+    bool state = UMLApp::app()->document()->loading();
+    UMLApp::app()->document()->setLoading(false);
+
     closeDocument();
     UMLApp::app()->setCurrentView(0);
     setUrlUntitled();
@@ -465,6 +468,7 @@ bool UMLDoc::newDocument()
     UMLApp::app()->enableUndoAction(false);
     UMLApp::app()->clearUndoStack();
 
+    UMLApp::app()->document()->setLoading(state);
     return true;
 }
 
