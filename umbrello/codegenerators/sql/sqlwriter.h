@@ -43,7 +43,7 @@ public:
     virtual QStringList reservedKeywords() const;
 
 protected:
-
+    QStringList m_enumsGenerated;
     UMLEntity* m_pEntity;
 
     virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);

@@ -235,6 +235,24 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
     // write all entity attributes
     UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
+    if (language() == Uml::ProgrammingLanguage::PostgreSQL) {
+        foreach(UMLEntityAttribute *at, entAttList) {
+            if (at->getType()->baseType() == UMLObject::ot_Enum) {
+                UMLEnum *_enum = at->getType()->asUMLEnum();
+                if (m_enumsGenerated.contains(at->getTypeName()))
+                    continue;
+                m_enumsGenerated.append(at->getTypeName());
+                sql << "CREATE TYPE " << at->getTypeName() << " AS ENUM (";
+                QString delimiter(QLatin1String(""));
+                UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+                foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                    sql << delimiter << "'" << enumLiteral->name() << "'";
+                    delimiter = QLatin1String(", ");
+                }
+                sql << ");\n";
+            }
+        }
+    }
 
     sql << "CREATE TABLE " <<  entityname << " (";
 
@@ -421,8 +439,13 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         }
 
         // write any default values
-        sql << (at->getInitialValue().isEmpty() ? QString() : QLatin1String(" DEFAULT ") + at->getInitialValue());
-
+        if (!at->getInitialValue().isEmpty()) {
+            if (at->getType()->baseType() == UMLObject::ot_Enum) {
+                sql << QLatin1String(" DEFAULT '") << at->getInitialValue() << QLatin1String("'");
+            } else {
+                sql << QLatin1String(" DEFAULT ") + at->getInitialValue();
+            }
+        }
         // now get documentation/comment of current attribute
         attrDoc = at->doc();
     }
