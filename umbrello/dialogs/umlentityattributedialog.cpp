@@ -17,6 +17,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umldatatypewidget.h"
+#include "defaultvaluewidget.h"
 #include "umlstereotypewidget.h"
 #include "codegenerator.h"
 #include "dialog_utils.h"
@@ -75,9 +76,9 @@ void UMLEntityAttributeDialog::setupDialog()
                                     m_pNameL, i18nc("name of entity attribute", "&Name:"),
                                     m_pNameLE, m_pEntityAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
-                                    m_pInitialL, i18n("&Default value:"),
-                                    m_pInitialLE, m_pEntityAttribute->getInitialValue());
+    m_defaultValueWidget = new DefaultValueWidget(m_pEntityAttribute->getType(), m_pEntityAttribute->getInitialValue(), this);
+    m_defaultValueWidget->addToLayout(valuesLayout, 2);
+    connect(m_datatypeWidget, SIGNAL(editTextChanged(QString)), m_defaultValueWidget, SLOT(setType(QString)));
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pEntityAttribute);
     m_stereotypeWidget->addToLayout(valuesLayout, 3);
@@ -181,7 +182,7 @@ bool UMLEntityAttributeDialog::apply()
         return false;
     }
     m_pEntityAttribute->setName(name);
-    m_pEntityAttribute->setInitialValue(m_pInitialLE->text());
+    m_pEntityAttribute->setInitialValue(m_defaultValueWidget->value());
     m_stereotypeWidget->apply();
     m_pEntityAttribute->setValues(m_pValuesLE->text());
     m_pEntityAttribute->setAttributes(m_pAttributesCB->currentText());
@@ -226,6 +227,4 @@ void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
     } else if (checked == false) {
         m_pNullCB->setEnabled(true);
     }
-
 }
-

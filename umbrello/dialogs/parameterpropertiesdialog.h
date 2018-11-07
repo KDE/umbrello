@@ -16,6 +16,7 @@
 #include "singlepagedialogbase.h"
 
 class DocumentationWidget;
+class DefaultValueWidget;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
@@ -55,8 +56,9 @@ private:
     QGroupBox * m_pParmGB;
     QGroupBox * m_pKindGB;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-    QLabel * m_pNameL, * m_pInitialL;
-    KLineEdit * m_pNameLE, * m_pInitialLE;
+    QLabel * m_pNameL;
+    KLineEdit * m_pNameLE;
+    DefaultValueWidget * m_defaultValueWidget;
     DocumentationWidget * m_docWidget;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;

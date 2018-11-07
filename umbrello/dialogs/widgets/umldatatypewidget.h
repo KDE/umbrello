@@ -25,6 +25,7 @@ class UMLTemplate;
 
 class UMLDatatypeWidget : public QWidget
 {
+    Q_OBJECT
 public:
     UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
     UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
@@ -36,6 +37,9 @@ public:
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
     bool apply();
     void reset();
+
+Q_SIGNALS:
+    void editTextChanged(const QString &);
 
 protected:
     QLabel *m_label;

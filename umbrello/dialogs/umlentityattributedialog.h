@@ -13,6 +13,7 @@
 
 #include "singlepagedialogbase.h"
 
+class DefaultValueWidget;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
@@ -58,6 +59,7 @@ protected:
     QCheckBox* m_pNullCB;
     UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
+    DefaultValueWidget *m_defaultValueWidget;
 
 public slots:
     void slotAutoIncrementStateChanged(bool checked);

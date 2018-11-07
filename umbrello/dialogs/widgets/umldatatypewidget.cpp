@@ -111,6 +111,7 @@ void UMLDatatypeWidget::init()
     m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
 #endif
     setLayout(layout);
+    connect(m_comboBox, SIGNAL(editTextChanged(QString)), this, SIGNAL(editTextChanged(QString)));
 }
 
 UMLDatatypeWidget::~UMLDatatypeWidget()
