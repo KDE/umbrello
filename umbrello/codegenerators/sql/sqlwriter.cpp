@@ -16,6 +16,7 @@
 #include "checkconstraint.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "enum.h"
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 #include "model_utils.h"
@@ -387,7 +388,18 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         sql << m_indentation << cleanName(at->name()) ;
 
         // the datatype
-        sql <<  ' ' << at->getTypeName();
+        if (language() == Uml::ProgrammingLanguage::MySQL && at->getType()->baseType() == UMLObject::ot_Enum) {
+            UMLEnum *_enum = at->getType()->asUMLEnum();
+            sql << " ENUM(";
+            QString delimiter(QLatin1String(""));
+            UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+            foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                sql << delimiter << "'" << enumLiteral->name() << "'";
+                delimiter = QLatin1String(", ");
+            }
+            sql << ')';
+        } else
+            sql <<  ' ' << at->getTypeName();
 
         // the length (if there's some value)
         QString lengthStr = at->getValues().trimmed();
