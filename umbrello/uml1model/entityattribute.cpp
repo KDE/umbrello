@@ -37,9 +37,6 @@ UMLEntityAttribute::UMLEntityAttribute(UMLObject *parent, const QString& name,
   : UMLAttribute(parent, name, id, s, type, iv)
 {
     init();
-    if (m_pSecondary) {
-        m_pSecondary->setBaseType(UMLObject::ot_Entity);
-    }
 }
 
 /**

@@ -605,12 +605,25 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                     Uml::ID::None,
                     Uml::Visibility::Public,
                     type);
-            // UMLEntityAttribute sets the type to ot_Entity
-            type->setBaseType(UMLObject::ot_Datatype);
             if (constraints.primaryKey)
                 a->setIndexType(UMLEntityAttribute::Primary);
             a->setNull(!constraints.notNullConstraint);
-            a->setInitialValue(constraints.defaultValue);
+            // convert index to value if present, see https://dev.mysql.com/doc/refman/8.0/en/enum.html
+            if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::MySQL && type->isUMLEnum()) {
+                bool ok;
+                int index = constraints.defaultValue.toInt(&ok);
+                if (!ok) // string (not checked if valid) or empty
+                    a->setInitialValue(constraints.defaultValue);
+                else if (index > 0) {
+                    index--; // 0 is empty
+                    UMLEnum *_enum = type->asUMLEnum();
+                    UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+                    if (index < enumLiterals.size())
+                        a->setInitialValue(enumLiterals.at(index)->name());
+                }
+            } else {
+                a->setInitialValue(constraints.defaultValue);
+            }
             a->setValues(fieldType.at(1));
             a->setAutoIncrement(constraints.autoIncrement);
             if (constraints.primaryKey) {
