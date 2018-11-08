@@ -57,8 +57,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_pAtt = attr;
 
     int margin = fontMetrics().height();
-    setMinimumSize(300, 400);
-    //disableResize();
     QFrame *frame = new QFrame(this);
     setMainWidget(frame);
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
