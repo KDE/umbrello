@@ -21,7 +21,7 @@
 #ifndef TESTDOXDELEGATE_H
 #define TESTDOXDELEGATE_H
 
-#include <QtWidgets/QItemDelegate>
+#include <QItemDelegate>
 #include <KColorScheme>
 
 class TestDoxDelegate : public QItemDelegate

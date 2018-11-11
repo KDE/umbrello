@@ -1293,7 +1293,6 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
 #include  "regionwidget.h"
 #include  "signalwidget.h"
 #include  "statewidget.h"
-#include  "floatingtextwidget.h"
 #include  "usecasewidget.h"
 
 ActivityWidget* WidgetBase::asActivityWidget() { return dynamic_cast<ActivityWidget* >(this); }

@@ -18,8 +18,8 @@
 #ifndef BENCHMARKS_H
 #define BENCHMARKS_H
 
-#include <QtCore/QObject>
-#include <QtCore/QFile>
+#include <QObject>
+#include <QFile>
 
 #include "duchaintestbase.h"
 

@@ -23,10 +23,10 @@
 #include "phpparser.h"
 #include "tokenstream.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
-#include <QtCore/QDebug>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
+#include <QDebug>
 
 #include "parserdebug.h"
 

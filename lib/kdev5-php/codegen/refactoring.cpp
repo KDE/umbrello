@@ -19,7 +19,7 @@
  */
 
 
-#include <QtCore/QObject>
+#include <QObject>
 #include <codegen/refactoring.h>
 
 

@@ -40,7 +40,7 @@
 #include <language/duchain/classmemberdeclaration.h>
 #include <language/duchain/classfunctiondeclaration.h>
 
-#include <QtCore/QFile>
+#include <QFile>
 
 #include "phpdocsdebug.h"
 #include "phpdocumentation.h"

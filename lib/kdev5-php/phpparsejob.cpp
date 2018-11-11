@@ -41,8 +41,8 @@
 #include "phpducontext.h"
 #include "phpdebug.h"
 
-#include <QtCore/QReadLocker>
-#include <QtCore/QThread>
+#include <QReadLocker>
+#include <QThread>
 #include <language/duchain/duchainutils.h>
 
 #include <mutex>

@@ -19,7 +19,7 @@
 #ifndef PHP_PARSESESSION_H
 #define PHP_PARSESESSION_H
 
-#include <QtCore/QString>
+#include <QString>
 #include "phpparser.h"
 #include "parserexport.h"
 

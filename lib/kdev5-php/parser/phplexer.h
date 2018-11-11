@@ -21,8 +21,8 @@
 #ifndef PHPLEXER_H
 #define PHPLEXER_H
 
-#include <QtCore/QStack>
-#include <QtCore/QString>
+#include <QStack>
+#include <QString>
 
 #include "parserexport.h"
 

@@ -19,7 +19,7 @@
 
 #include "declarationnavigationcontext.h"
 
-#include <QtGui/QTextDocument>
+#include <QTextDocument>
 
 #include <klocalizedstring.h>
 

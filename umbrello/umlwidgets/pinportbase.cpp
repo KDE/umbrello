@@ -20,7 +20,6 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "floatingtextwidget.h"
-#include "debug_utils.h"
 #include "umlwidgets/childwidgetplacementpin.h"
 #include "umlwidgets/childwidgetplacementport.h"
 

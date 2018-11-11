@@ -18,7 +18,7 @@
 
 #include "magicconstantnavigationcontext.h"
 
-#include <QtGui/QTextDocument>
+#include <QTextDocument>
 #include <KLocalizedString>
 #include <language/duchain/topducontext.h>
 #include <language/duchain/declaration.h>

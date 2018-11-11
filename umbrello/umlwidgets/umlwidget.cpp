@@ -20,7 +20,6 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
-#include "associationwidget.h"
 #include "floatingtextwidget.h"
 #include "notewidget.h"
 #include "object_factory.h"

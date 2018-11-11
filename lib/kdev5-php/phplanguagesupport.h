@@ -22,7 +22,7 @@
 
 #include <interfaces/iplugin.h>
 #include <language/interfaces/ilanguagesupport.h>
-#include <QtCore/QVariant>
+#include <QVariant>
 
 namespace KDevelop
 {
