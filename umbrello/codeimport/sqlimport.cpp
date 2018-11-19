@@ -313,7 +313,7 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
     ColumnConstraints constraints;
     int index = m_srcIndex;
 
-    while(token != QLatin1String(",") && token != QLatin1String(")")) {
+    while(token != QLatin1String(",") && token != QLatin1String(")") && token.toLower() != QLatin1String("COMMENT")) {
         if (token.toLower() == QLatin1String("character")) { // mysql
             token = advance(); // set
             if (token.toLower() == QLatin1String("set")) {
