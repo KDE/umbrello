@@ -92,8 +92,8 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 
         QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap = fkc->getEntityAttributePairs();
 
-        // get the referenced attributes
-        QList<UMLEntityAttribute*> eaList = attributeMap.values();
+        // get the attributes
+        QList<UMLEntityAttribute*> eaList = attributeMap.keys();
 
         // convert to UMLEntityAttributeList
         UMLEntityAttributeList refAttList;
@@ -102,7 +102,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
         }
 
         // create an index on them
-        SQLWriter::printIndex(sql, fkc->getReferencedEntity(), refAttList);
+        SQLWriter::printIndex(sql, m_pEntity, refAttList);
     }
 
     SQLWriter::printForeignKeyConstraints(sql, constrList);

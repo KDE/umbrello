@@ -596,7 +596,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeL
     }
     sql << "index ";
 
-    sql << " ON " << cleanName(m_pEntity->name()) << '(';
+    sql << " ON " << cleanName(ent->name()) << '(';
 
     bool first = true;
 
