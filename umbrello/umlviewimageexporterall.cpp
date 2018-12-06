@@ -94,8 +94,7 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
     if (m_dialog->m_kURL->url().isEmpty()) {
 #if QT_VERSION >= 0x050000
         QUrl directory(umlDoc->url());
-        directory.adjusted(QUrl::RemoveFilename);
-        m_dialog->m_kURL->setUrl(directory);
+        m_dialog->m_kURL->setUrl(directory.adjusted(QUrl::RemoveFilename));
 #else
         m_dialog->m_kURL->setUrl(umlDoc->url().directory());
 #endif
