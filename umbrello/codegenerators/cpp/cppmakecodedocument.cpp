@@ -47,7 +47,7 @@ QString CPPMakefileCodeDocument::getPath ()
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplified();
+    path = path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
