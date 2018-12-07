@@ -604,7 +604,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
         }
     }
 
-    name.simplified();
+    name = name.simplified();
     name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     return overwritableName(name, codeDocument->getFileExtension());

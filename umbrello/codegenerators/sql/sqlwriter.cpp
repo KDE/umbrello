@@ -406,7 +406,8 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         sql << m_indentation << cleanName(at->name()) ;
 
         // the datatype
-        if (language() == Uml::ProgrammingLanguage::MySQL && at->getType()->baseType() == UMLObject::ot_Enum) {
+        if (language() == Uml::ProgrammingLanguage::MySQL &&
+                at->getType() && at->getType()->baseType() == UMLObject::ot_Enum) {
             UMLEnum *_enum = at->getType()->asUMLEnum();
             sql << " ENUM(";
             QString delimiter(QLatin1String(""));
@@ -595,7 +596,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeL
     }
     sql << "index ";
 
-    sql << " ON " << cleanName(m_pEntity->name()) << '(';
+    sql << " ON " << cleanName(ent->name()) << '(';
 
     bool first = true;
 

@@ -93,10 +93,18 @@ QString JavaImport::joinTypename(const QString& typeName)
  */
 void JavaImport::fillSource(const QString& word)
 {
+    QString w(word);
+    /* In Java, method varargs are represented by three dots following the
+       type name.  For portability to other C family languages, we replace
+       the "..." by "[]".
+     */
+    if (w.contains(QLatin1String("..."))) {
+        w.replace(QLatin1String("..."), QLatin1String("[]"));
+    }
     QString lexeme;
-    const uint len = word.length();
+    const uint len = w.length();
     for (uint i = 0; i < len; ++i) {
-        const QChar& c = word[i];
+        const QChar& c = w[i];
         if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('.')) {
             lexeme += c;
         } else {

@@ -82,9 +82,7 @@ QString JavaClassifierCodeDocument::getPath ()
     path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
     path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
-    path.toLower();
-
-    return path;
+    return path.toLower();
 }
 
 QString JavaClassifierCodeDocument::getJavaClassName (const QString &name)

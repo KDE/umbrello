@@ -19,9 +19,8 @@
 
 // kde includes
 #if QT_VERSION > 0x050000
-namespace dummy {
-#include <kaboutdata.h>
-}
+// prevent including of <kaboutdata.h>
+#define KABOUTDATA_H
 #include <k4aboutdata.h>
 #define KAboutData K4AboutData
 #include <KCrash>

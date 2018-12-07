@@ -341,7 +341,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
   QString fileName;
 
   // Replace all white spaces with blanks
-  packageName.simplified();
+  packageName = packageName.simplified();
 
   // Replace all blanks with underscore
   packageName.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));

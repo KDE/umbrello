@@ -125,8 +125,8 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
             UMLObject *p = dynamic_cast<UMLObject*>(o->parent());
             if (p)
                 return p->name();
-        } else
-            return QString();
+        }
+        return QVariant();
    case 3:
         return Uml::ID::toString(o->id());
    case 4:
@@ -159,6 +159,7 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
             return QLatin1String("not implemented");
         } else
             return QLatin1String("no parent");
+        return QVariant();
     case 6:
         return QString::number((quintptr)o, 16);
     default:
