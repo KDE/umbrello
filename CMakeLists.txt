@@ -126,22 +126,6 @@ if(NOT BUILD_KF5)
                                  )
         endforeach()
     endmacro(ecm_mark_nongui_executable)
-
-    macro(kdoctools_create_handbook)
-        set(KDOCTOOLS_CUSTOMIZATION_DIR "${KDE4_DATA_INSTALL_DIR}/ksgmltools2/customization")
-        set(KDEX_DTD ${KDE4_DATA_DIR}/ksgmltools2/customization/dtd/kdex.dtd)
-        set(kdedbx45_dtd "
-    <!ENTITY % kdexDTD       PUBLIC
-      \"-//OASIS//DTD DocBook XML V4.5//EN\"
-      \"${KDEX_DTD}\">
-    %kdexDTD;
-    ")
-        set(CUSTOM_DTD ${CMAKE_CURRENT_SOURCE_DIR}/dtd/kdedbx45.dtd)
-        if (NOT EXISTS ${CUSTOM_DTD})
-            file(WRITE ${CUSTOM_DTD} "${kdedbx45_dtd}")
-        endif()
-        kde4_create_handbook(${ARGN})
-    endmacro()
     if(NOT DISABLE_PHP_IMPORT)
         find_package(KDevelop-PG-Qt)
         find_package(KDevPlatform)
