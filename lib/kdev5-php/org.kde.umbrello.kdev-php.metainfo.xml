@@ -21,6 +21,7 @@
   <name xml:lang="uk">Підтримка PHP у KDevelop</name>
   <name xml:lang="x-test">xxKDevelop PHP Supportxx</name>
   <name xml:lang="zh-CN">KDevelop PHP 支持</name>
+  <name xml:lang="zh-TW">KDevelop PHP 支援</name>
   <summary>PHP language support for KDevelop</summary>
   <summary xml:lang="ca">Implementació del llenguatge PHP per al KDevelop</summary>
   <summary xml:lang="ca-valencia">Implementació del llenguatge PHP per al KDevelop</summary>
@@ -40,6 +41,7 @@
   <summary xml:lang="uk">Підтримка мови PHP у KDevelop</summary>
   <summary xml:lang="x-test">xxPHP language support for KDevelopxx</summary>
   <summary xml:lang="zh-CN">KDevelop 的 PHP 语言支持</summary>
+  <summary xml:lang="zh-TW">適用於 KDevelop 的 PHP 語言支援</summary>
   <project_license>GPL-2.0+</project_license>
   <metadata_license>CC0-1.0</metadata_license>
   <url type="homepage">https://kdevelop.org</url>
