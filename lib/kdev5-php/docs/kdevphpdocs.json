@@ -23,7 +23,8 @@
                 "Name[sv]": "Milian Wolff",
                 "Name[uk]": "Milian Wolff",
                 "Name[x-test]": "xxMilian Wolffxx",
-                "Name[zh_CN]": "Milian Wolff"
+                "Name[zh_CN]": "Milian Wolff",
+                "Name[zh_TW]": "Milian Wolff"
             }
         ],
         "Category": "Documentation",
@@ -48,6 +49,7 @@
         "Description[uk]": "За допомогою цього додатка можна інтегрувати документацію PHP.net.",
         "Description[x-test]": "xxThis plugin integrates PHP.net online documentation.xx",
         "Description[zh_CN]": "此插件集成了 PHP.net 的在线文档。",
+        "Description[zh_TW]": "此外掛程式將 PHP.net 線上文件整合至此軟體。",
         "Id": "kdevphpdocs",
         "License": "GPL",
         "Name": "PHP Documentation",
@@ -72,6 +74,7 @@
         "Name[uk]": "Документація з PHP",
         "Name[x-test]": "xxPHP Documentationxx",
         "Name[zh_CN]": "PHP 文档",
+        "Name[zh_TW]": "PHP 文件",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
