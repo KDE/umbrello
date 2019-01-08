@@ -24,7 +24,8 @@
                 "Name[sv]": "Miha Čančula",
                 "Name[uk]": "Miha Čančula",
                 "Name[x-test]": "xxMiha Čančulaxx",
-                "Name[zh_CN]": "Miha Čančula"
+                "Name[zh_CN]": "Miha Čančula",
+                "Name[zh_TW]": "Miha Čančula"
             }
         ],
         "Category": "Testing",
@@ -51,6 +52,7 @@
         "Description[uk]": "Знаходить і запускає перевірки PHPUnit.",
         "Description[x-test]": "xxFinds and runs PHPUnit tests.xx",
         "Description[zh_CN]": "查找并运行 PHPUnit 测试",
+        "Description[zh_TW]": "搜尋並執行 PHPUnit 單元測試。",
         "Icon": "application-x-php",
         "Id": "kdevphpunitprovider",
         "License": "GPL",
@@ -77,6 +79,7 @@
         "Name[uk]": "Інтеграція з PHPUnit",
         "Name[x-test]": "xxPHPUnit Integrationxx",
         "Name[zh_CN]": "PHPUnit 集成",
+        "Name[zh_TW]": "PHPUnit 整合",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
