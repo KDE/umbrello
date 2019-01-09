@@ -966,8 +966,6 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
     }
     else
         painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
-
-    UMLWidget::paint(painter, option);
 }
 
 /**

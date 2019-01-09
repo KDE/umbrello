@@ -30,11 +30,11 @@
 // sys includes
 #include <cmath>
 
-PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o)
+PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, UMLObject *o)
   : UMLWidget(scene, type, o),
     m_childPlacement(createPlacement(type))
 {
-    init();
+    init(owner);
 }
 
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id)

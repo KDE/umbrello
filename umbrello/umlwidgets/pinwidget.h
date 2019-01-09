@@ -30,7 +30,7 @@ class PinWidget : public PinPortBase
     Q_OBJECT
 public:
 
-    PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id = Uml::ID::None);
+    PinWidget(UMLScene* scene, UMLWidget* owner, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinWidget();
 
     // int getMinY();

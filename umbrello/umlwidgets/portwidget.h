@@ -28,7 +28,7 @@ class PortWidget : public PinPortBase
 {
     Q_OBJECT
 public:
-    PortWidget(UMLScene *scene, UMLPort *d);
+    PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner = 0);
     virtual ~PortWidget();
 
     UMLWidget* ownerWidget() const;
