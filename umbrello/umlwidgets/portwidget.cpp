@@ -35,12 +35,10 @@
  * @param scene   The parent of this PortWidget.
  * @param d       The UMLPort this will be representing.
  */
-PortWidget::PortWidget(UMLScene *scene, UMLPort *d) 
-  : PinPortBase(scene, WidgetBase::wt_Port, d)
+PortWidget::PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner)
+  : PinPortBase(scene, WidgetBase::wt_Port, owner, d)
 {
     setToolTip(d->name());
-    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-    setParentItem(scene->widgetOnDiagram(compWidgetId));
 }
 
 /**
