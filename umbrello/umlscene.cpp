@@ -3537,6 +3537,9 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, widgetList()) {
         uIgnoreZeroPointer(widget);
+        // do not save floating text widgets having a parent widget; they are saved as part of the parent
+        if (widget->isTextWidget() && widget->parentItem())
+            continue;
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
