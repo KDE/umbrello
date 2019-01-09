@@ -28,8 +28,8 @@ class PinPortBase : public UMLWidget
 {
     Q_OBJECT
 public:
-    PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o);
-    PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id);
+    PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, UMLObject *o);
+    PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner = 0, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinPortBase();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
