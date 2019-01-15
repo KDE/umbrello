@@ -1839,7 +1839,7 @@ Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
 /**
  * Converts a list view type enum to the equivalent settings dialog type.
  *
- * @param lvt   The ListViewType to convert.
+ * @param type   The ListViewType to convert.
  * @return  The converted settings dialog type
  */
 MultiPageDialogBase::PageType convert_LVT_PT(UMLListViewItem::ListViewType type)

@@ -36,7 +36,6 @@
 
 /**
  *  Sets up the AssociationRolePage.
- *  @param  d       The UMLDoc which controls controls object creation.
  *  @param  parent  The parent to the AssociationRolePage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */

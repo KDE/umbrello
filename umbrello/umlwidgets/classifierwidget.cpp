@@ -91,7 +91,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
  * Constructs a ClassifierWidget.
  *
  * @param scene   The parent of this ClassifierWidget.
- * @param c       The UMLClassifier to represent.
+ * @param o       The UMLPackage to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o),
@@ -703,7 +703,7 @@ AssociationWidget *ClassifierWidget::classAssociationWidget() const
 /**
  * Overrides standard method.
  * Auxiliary to reimplementations in the derived classes.
- * @NOTE keep fetching attributes in sync with calculateSize()
+ * @note keep fetching attributes in sync with calculateSize()
  */
 void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

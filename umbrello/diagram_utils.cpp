@@ -137,11 +137,13 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
 
     /**
      * Qtcreator/gdb
+     * @verbatim
      *  6	Driver::ParseHelper::ParseHelper	driver.cpp	299	0x634c44
      * 31   g_main_context_dispatch /usr/lib64/libglib-2.0.so.0     0x7fffefe16316
      * ignoring
      * ... <more>                                                   0x7ffff41152d9
      * 13  ??                                                       0x7ffff41152d9
+     * @endverbatim
      */
     else if (cols[cols.size()-1].startsWith(QLatin1String("0x"))) {
         if (cols[0] == QLatin1String("...") || cols[1] == QLatin1String("??"))

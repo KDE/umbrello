@@ -208,7 +208,7 @@ QString PythonImport::skipBody()
 }
 
 /**
- * Parse assignments in the form <identifier> '=' <value>
+ * Parse assignments in the form \<identifier\> '=' \<value\>
  * Instance variables are identified by a prefixed 'self.'.
  * @return success status of parsing
  */

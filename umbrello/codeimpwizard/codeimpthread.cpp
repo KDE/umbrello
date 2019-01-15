@@ -83,7 +83,7 @@ void CodeImpThread::run()
 /**
  * Emit a signal to the main gui thread to show a question box.
  * @param question   the text of the question
- * @return   the code of the answer button @ref KMessageBox::ButtonCode
+ * @return   the code of the answer button KMessageBox::ButtonCode
  */
 int CodeImpThread::emitAskQuestion(const QString& question)
 {
