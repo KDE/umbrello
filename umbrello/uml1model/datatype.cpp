@@ -69,7 +69,7 @@ bool UMLDatatype::isReference() const
 /**
  * Loads object from QDomElement.
  *
- * @param qElement A QDomElement which contains xml info for this object.
+ * @param element A QDomElement which contains xml info for this object.
  */
 bool UMLDatatype::loadFromXMI1(QDomElement & element)
 {

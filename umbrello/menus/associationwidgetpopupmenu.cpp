@@ -24,9 +24,8 @@ enum class LocalTriggerType { AnchorSelected, AssociationSelected, Collaboration
  * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
- * @param object   The WidgetBase to represent a menu for.
- * @param multi    True if multiple items are selected.
- * @param uniqueType The type of widget shared by all selected widgets
+ * @param type     The type of widget shared by all selected widgets.
+ * @param widget   The AssociationWidget to represent a menu for.
  */
 AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::AssociationType::Enum type, AssociationWidget *widget)
   : ListPopupMenu(parent)

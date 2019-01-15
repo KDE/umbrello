@@ -89,7 +89,7 @@ protected slots:
  * support in an application setting dialog.
  *
  * To use this support call macro @ref DefineDontAskAgainItem and add a call to method
- * @ref DontAskAgainItem::name as parameter @ref dontAskAgainName to related class KMessageBox
+ * DontAskAgainItem::name as parameter @ref dontAskAgainName to related class KMessageBox
  * methods. See the following example:
  *
  * \code{.cpp}

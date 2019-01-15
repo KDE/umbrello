@@ -661,7 +661,7 @@ QString ListPopupMenu::toString(DataType data)
 
 /**
  * dump collected actions
- * @param type optional menu type
+ * @param title optional menu title
  */
 void ListPopupMenu::dumpActions(const QString &title)
 {

@@ -38,7 +38,6 @@
  *
  * @param pParent Parent widget
  * @param options Settings to read from/save into
- * @param isDiagram Flag if object is for display diagram class options
  */
 UIOptionsPage::UIOptionsPage(QWidget* pParent, Settings::OptionState *options)
   : DialogPageBase(pParent),

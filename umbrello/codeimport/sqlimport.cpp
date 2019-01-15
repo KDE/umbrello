@@ -242,7 +242,7 @@ QStringList SQLImport::parseFieldType(QString &token)
  * Parse default expression.
  *
  * The expression could be in the form
- *    (expression)::<type>
+ *    (expression)\::\<type\>
  *    function(expression)
  *
  * @param token string with current token

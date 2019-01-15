@@ -652,7 +652,7 @@ UMLPackage* UMLObject::umlPackage() const
  *
  * @param parent object to set as parent
  *
- * @TODO prevent setting parent to myself
+ * TODO prevent setting parent to myself
  */
 void UMLObject::setUMLParent(UMLObject *parent)
 {
@@ -1128,7 +1128,7 @@ QString UMLObject::toString(ObjectType ot)
 
 /**
  * Returns the given object type value as localized string.
- * @param ot   ObjectType of which a string representation is wanted
+ * @param t   ObjectType of which a string representation is wanted
  * @return   the ObjectType as localized string
  */
 QString UMLObject::toI18nString(ObjectType t)

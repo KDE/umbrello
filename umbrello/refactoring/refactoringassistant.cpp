@@ -192,8 +192,6 @@ void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item, const UMLObj
 
 /**
  * Slot for updating the tree item properties according to the given UML object.
- * If no parameter is given the sender is used.
- * @param obj   the UML object
  */
 void RefactoringAssistant::objectModified()
 {

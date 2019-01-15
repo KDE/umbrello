@@ -465,8 +465,6 @@ bool AssociationWidget::showPropertiesDialog()
 /**
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
- *
- * @param op        Return this AssociationWidget's operation string.
  */
 QString AssociationWidget::lwOperationText()
 {

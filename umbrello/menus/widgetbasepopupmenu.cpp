@@ -37,7 +37,7 @@ static const bool CHECKABLE = true;
  * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
- * @param object   The WidgetBase to represent a menu for.
+ * @param widget   The WidgetBase to represent a menu for.
  * @param multi    True if multiple items are selected.
  * @param uniqueType The type of widget shared by all selected widgets
  */

@@ -2003,7 +2003,7 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
 /**
  * Adds a widget to the diagram, which is connected to the current widget
  * @param widget widget instance to add to diagram
- * @param type association type
+ * @param showProperties whether to show properties of the widget
  */
 void UMLWidget::addWidget(UMLWidget *widget, bool showProperties)
 {
