@@ -1962,7 +1962,7 @@ QString UMLDoc::name() const
 /**
  * Set coordinates resolution for current document.
 
- * @param document resolution in DPI
+ * @param resolution document resolution in DPI
  */
 void UMLDoc::setResolution(qreal resolution)
 {
@@ -2512,7 +2512,7 @@ bool UMLDoc::loadDiagrams1()
 
 /**
  * Add a xml node containing a diagram to the list of diagrams to load.
- * Helper function for @ref loadDiagrams().
+ * Helper function for loadDiagrams().
  *
  * @param folder pointer to UMFolder instance the diagrams belongs to
  * @param node xml document node containing the diagram

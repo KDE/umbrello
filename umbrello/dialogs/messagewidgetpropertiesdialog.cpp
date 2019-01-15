@@ -19,7 +19,6 @@
  *  Sets up an Message Widget Properties Dialog.
  *  @param  parent  The parent of the dialog
  *  @param  widget  The Message Widget to display properties of.
- *  @param  pageNum The page to show first.
  */
 MessageWidgetPropertiesDialog::MessageWidgetPropertiesDialog (QWidget *parent, MessageWidget * widget)
   : MultiPageDialogBase(parent),

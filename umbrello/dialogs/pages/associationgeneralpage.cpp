@@ -41,7 +41,6 @@
 /**
  *  Sets up the AssociationGeneralPage.
  *
- *  @param  d       The UMLDoc which controls controls object creation.
  *  @param  parent  The parent to the AssociationGeneralPage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */

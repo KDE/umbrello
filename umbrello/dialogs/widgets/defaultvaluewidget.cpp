@@ -135,7 +135,7 @@ void DefaultValueWidget::setType(UMLObject *type)
  * name. If an object was found, the display of the selectable
  * options depends on the type.
  *
- * @param type type as text to set the widget from
+ * @param _type type as text to set the widget from
  */
 void DefaultValueWidget::setType(const QString &_type)
 {

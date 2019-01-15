@@ -458,7 +458,7 @@ void MultiPageDialogBase::applyFontPage(Settings::OptionState *state)
 
 /**
  * updates the font page data
- * @param widget Widget to save the font data into
+ * @param scene Scene to save the font data into
  */
 void MultiPageDialogBase::applyFontPage(UMLScene *scene)
 {
