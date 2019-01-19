@@ -7,6 +7,7 @@
   <name xml:lang="ca-valencia">Implementació de PHP del KDevelop</name>
   <name xml:lang="cs">Podpora jazyka PHP v KDevelop</name>
   <name xml:lang="de">KDevelop – PHP-Unterstützung</name>
+  <name xml:lang="el">KDevelop PHP Support</name>
   <name xml:lang="en-GB">KDevelop PHP Support</name>
   <name xml:lang="es">Implementación de PHP para KDevelop</name>
   <name xml:lang="fr">Prise en charge de PHP pour KDevelop</name>
@@ -27,6 +28,7 @@
   <summary xml:lang="ca-valencia">Implementació del llenguatge PHP per al KDevelop</summary>
   <summary xml:lang="cs">Podpora jazyka PHP pro KDevelop</summary>
   <summary xml:lang="de">PHP-Sprachunterstützung für KDevelop</summary>
+  <summary xml:lang="el">Υποστήριξη γλώσσας PHP για το KDevelop</summary>
   <summary xml:lang="en-GB">PHP language support for KDevelop</summary>
   <summary xml:lang="es">Implementación del lenguaje PHP para KDevelop</summary>
   <summary xml:lang="fr">Prise en charge du langage PHP pour KDevelop</summary>
