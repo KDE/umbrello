@@ -192,6 +192,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Port:
         case UMLListViewItem::lvt_Node:
         case UMLListViewItem::lvt_Actor:
+        case UMLListViewItem::lvt_Artifact:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
@@ -218,10 +219,10 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             break;
 
         case UMLListViewItem::lvt_Category:
-            {
-                insertSubMenuCategoryType(object->asUMLCategory());
-                insertStdItems(false);
-            }
+            insertSubMenuCategoryType(object->asUMLCategory());
+            insertStdItems(false);
+            insert(mt_Show);
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Entity:
