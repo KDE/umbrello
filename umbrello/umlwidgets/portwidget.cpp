@@ -17,7 +17,9 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "listpopupmenu.h"
+#include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlscene.h"
 #include "componentwidget.h"
 #include "floatingtextwidget.h"
@@ -46,6 +48,12 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner)
  */
 PortWidget::~PortWidget()
 {
+    if (m_umlObject) {
+        // delete related uml object
+        UMLApp::app()->document()->slotRemoveUMLObject(m_umlObject);
+        UMLApp::app()->listView()->slotObjectRemoved(m_umlObject);
+        delete m_umlObject;
+    }
 }
 
 /**
