@@ -24,6 +24,7 @@ public:
     ChildWidgetPlacementPort(PinPortBase* widget);
     virtual ~ChildWidgetPlacementPort();
 
+    virtual void detectConnectedSide();
     virtual void setInitialPosition();
     virtual void setNewPositionWhenMoved(qreal diffX, qreal diffY);
     virtual void setNewPositionOnParentResize();
