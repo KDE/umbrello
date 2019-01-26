@@ -1510,7 +1510,8 @@ void UMLScene::deleteSelection()
         } else if (widget->isPortWidget()) {
             UMLObject *o = widget->umlObject();
             removeWidget(widget);
-            UMLApp::app()->executeCommand(new CmdRemoveUMLObject(o));
+            if (o)
+                UMLApp::app()->executeCommand(new CmdRemoveUMLObject(o));
             // message widgets are handled later
         } else if (!widget->isMessageWidget()){
             removeWidget(widget);
