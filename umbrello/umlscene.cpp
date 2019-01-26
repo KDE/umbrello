@@ -122,7 +122,7 @@ public:
      * Check if there is a corresponding port widget
      * for all UMLPort instances and add if not.
      */
-    void fixupPorts()
+    void addMissingPorts()
     {
         UMLWidgetList ports;
         UMLWidgetList components;
@@ -156,6 +156,40 @@ public:
             }
         }
     }
+
+    /**
+     * Check if port are located equally on the border of a component
+     * and fix position if not.
+     */
+    void fixPortPositions()
+    {
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (w->isPortWidget()) {
+                QGraphicsItem *g = w->parentItem();
+                ComponentWidget *c = dynamic_cast<ComponentWidget*>(g);
+                Q_ASSERT(c);
+                qreal w2 = w->width()/2;
+                qreal h2 = w->height()/2;
+                if (w->x() <= -w2 || w->y() <= -h2
+                        || w->x() >= c->width() - w2
+                        || w->y() >= c->height() - h2)
+                    continue;
+                if (w->x() >= c->width() - 3 * w2) { // right
+                    w->setX(c->width() - w2);
+                } else if (w->y() >= c->height() - 3 * h2) { // bottom
+                    w->setY(c->height() - h2);
+                } else if (w->x() < 3 * w2) { // left
+                    w->setX(-w2);
+                } else if (w->y() < 3 * h2) { // top
+                    w->setY(-h2);
+                } else
+                    uWarning() << "uncatched widget position of" << w->name();
+            }
+        }
+
+
+    }
+
     UMLScene *p;
 };
 
@@ -3747,8 +3781,10 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
         return false;
     }
 
-    if (this->type() == Uml::DiagramType::Component)
-        m_d->fixupPorts();
+    if (this->type() == Uml::DiagramType::Component) {
+        m_d->addMissingPorts();
+        m_d->fixPortPositions();
+    }
     return true;
 }
 
