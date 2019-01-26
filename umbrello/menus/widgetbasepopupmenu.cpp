@@ -277,6 +277,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
+        insert(mt_Delete);
         insert(mt_Properties);
         break;
 
