@@ -48,12 +48,6 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner)
  */
 PortWidget::~PortWidget()
 {
-    if (m_umlObject) {
-        // delete related uml object
-        UMLApp::app()->document()->slotRemoveUMLObject(m_umlObject);
-        UMLApp::app()->listView()->slotObjectRemoved(m_umlObject);
-        delete m_umlObject;
-    }
 }
 
 /**

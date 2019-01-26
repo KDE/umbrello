@@ -1507,7 +1507,11 @@ void UMLScene::deleteSelection()
                 widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             widget->setSelectedFlag(false);
             widget->hide();
-        // message widgets are handled later
+        } else if (widget->isPortWidget()) {
+            UMLObject *o = widget->umlObject();
+            removeWidget(widget);
+            UMLApp::app()->executeCommand(new CmdRemoveUMLObject(o));
+            // message widgets are handled later
         } else if (!widget->isMessageWidget()){
             removeWidget(widget);
         }
