@@ -158,6 +158,28 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
 }
 
 /**
+ * Override method from UMLWidget for adjustment of attached PortWidgets.
+ */
+void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
+{
+    if (m_doc->loading()) {
+        // don't recalculate the assocs during load of XMI
+        // -> return immediately without action
+        return;
+    }
+    UMLWidget::adjustUnselectedAssocs(dx, dy);
+    UMLPackage *comp = m_umlObject->asUMLPackage();
+    foreach (UMLObject *o, comp->containedObjects()) {
+        uIgnoreZeroPointer(o);
+        if (o->baseType() != UMLObject::ot_Port)
+            continue;
+        UMLWidget *portW = m_scene->widgetOnDiagram(o->id());
+        if (portW)
+            portW->adjustUnselectedAssocs(dx, dy);
+    }
+}
+
+/**
  * Saves to the "componentwidget" XMI element.
  */
 void ComponentWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)

@@ -36,6 +36,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void adjustAssocs(qreal dx, qreal dy);
+    virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
 
