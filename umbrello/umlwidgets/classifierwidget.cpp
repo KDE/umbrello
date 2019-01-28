@@ -905,6 +905,8 @@ QPainterPath ClassifierWidget::shape() const
  */
 void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
+    Q_UNUSED(option);
+
     const int w = width();
 
     if (associationWidgetList().size() > 1) {

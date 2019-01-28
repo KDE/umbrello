@@ -56,7 +56,7 @@ public slots:
 
 protected:
     void init(UMLWidget *owner = 0);
-    bool activate(IDChangeLog* ChangeLog = 0);
+    bool activate(IDChangeLog* changeLog = 0);
 
 private:
     ChildWidgetPlacement* createPlacement(WidgetBase::WidgetType type);
