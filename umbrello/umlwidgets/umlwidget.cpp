@@ -515,7 +515,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     QPointF delta = event->scenePos() - event->lastScenePos();
-    adjustUnselectedAssocs(delta.x(), delta.y());
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
