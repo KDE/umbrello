@@ -184,7 +184,7 @@ public:
 
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
 
-    void updateGeometry();
+    void updateGeometry(bool withAssocs = true);
 
     void clipSize();
 

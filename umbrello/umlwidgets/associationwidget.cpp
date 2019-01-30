@@ -1966,8 +1966,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
-        if (m_role[RoleType::B].umlWidget->changesShape())
-            m_role[RoleType::B].umlWidget->updateGeometry();
+        if (m_role[RoleType::B].umlWidget && m_role[RoleType::B].umlWidget->changesShape())
+            m_role[RoleType::B].umlWidget->updateGeometry(false);
     }//end if widgetA moved
     else if (m_role[RoleType::B].umlWidget == widget) {
         const int size = m_associationLine->count();
@@ -1975,8 +1975,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
-        if (m_role[RoleType::A].umlWidget->changesShape())
-            m_role[RoleType::A].umlWidget->updateGeometry();
+        if (m_role[RoleType::A].umlWidget && m_role[RoleType::A].umlWidget->changesShape())
+            m_role[RoleType::A].umlWidget->updateGeometry(false);
     }//end if widgetB moved
 
     if (m_role[RoleType::A].roleWidget && !m_role[RoleType::A].roleWidget->isSelected()) {

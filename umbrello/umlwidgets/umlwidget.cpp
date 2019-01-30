@@ -1669,8 +1669,10 @@ void UMLWidget::setSize(const QSizeF& size)
 
 /**
  * Update the size of this widget.
+ *
+ * @param withAssocs true - update associations too
  */
-void UMLWidget::updateGeometry()
+void UMLWidget::updateGeometry(bool withAssocs)
 {
     if (m_doc->loading()) {
         return;
@@ -1685,7 +1687,8 @@ void UMLWidget::updateGeometry()
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
-    adjustAssocs(size.width()-oldW, size.height()-oldH);
+    if (withAssocs)
+        adjustAssocs(size.width()-oldW, size.height()-oldH);
     update();
 }
 
