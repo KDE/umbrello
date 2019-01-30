@@ -255,7 +255,11 @@ bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
  */
 bool FloatingTextWidget::showPropertiesDialog()
 {
-    if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
+    UMLWidget *p = dynamic_cast<UMLWidget*>(parentItem());
+    if (p && p->isInterfaceWidget()) {
+        if (p->showPropertiesDialog())
+            setText(p->name());
+    } else if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
             m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         return showOperationDialog(false);
     } else if (m_textRole == Uml::TextRole::Floating) {
