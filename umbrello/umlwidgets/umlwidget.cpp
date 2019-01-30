@@ -1681,6 +1681,7 @@ void UMLWidget::updateGeometry()
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
     adjustAssocs(size.width()-oldW, size.height()-oldH);
+    update();
 }
 
 /**
