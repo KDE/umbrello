@@ -1175,6 +1175,10 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
     if (pAssoc) {
         associationWidgetList().removeAll(pAssoc);
     }
+
+    if (changesShape()) {
+        updateGeometry();
+    }
 }
 
 /**
@@ -1185,6 +1189,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
+    qDebug() << this;
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
