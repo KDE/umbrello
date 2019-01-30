@@ -315,3 +315,10 @@ bool PinPortBase::loadFromXMI1(QDomElement & qElement)
     return true;
 }
 
+bool PinPortBase::activate(IDChangeLog* changeLog)
+{
+    Q_UNUSED(changeLog);
+    m_childPlacement->detectConnectedSide();
+    return true;
+}
+

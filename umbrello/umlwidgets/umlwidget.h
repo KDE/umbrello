@@ -175,7 +175,7 @@ public:
     virtual bool showPropertiesDialog();
 
     virtual void adjustAssocs(qreal dx, qreal dy);
-    void adjustUnselectedAssocs(qreal dx, qreal dy);
+    virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
     bool isActivated() const;
     void setActivated(bool active = true);

@@ -38,8 +38,6 @@ if(NOT BUILD_KF5)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
     find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest QtWebKit)
 
-    set(KDE4_BUILD_TESTS ON)  # for unit tests
-
     # search packages used by KDE
     find_package(KDE4 REQUIRED)
     include(KDE4Defaults)

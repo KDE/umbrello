@@ -28,12 +28,15 @@ class ChildWidgetPlacement
 public:
     ChildWidgetPlacement(PinPortBase* widget);
     virtual ~ChildWidgetPlacement() {}
+
+    virtual void detectConnectedSide() = 0;
     virtual void setInitialPosition() = 0;
     virtual void setNewPositionWhenMoved(qreal diffX, qreal diffY) = 0;
     virtual void setNewPositionOnParentResize() = 0;
 
 protected:
     enum ConnectedSide {
+        Undefined,
         Top,
         Right,
         Bottom,

@@ -23,6 +23,7 @@
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "classoptionspage.h"
+#include "component.h"
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatype.h"
@@ -52,6 +53,7 @@
 #include "package.h"
 #include "packagewidget.h"
 #include "pinwidget.h"
+#include "portwidget.h"
 #include "seqlinewidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
@@ -111,7 +113,84 @@ DEBUG_REGISTER(UMLScene)
  */
 class UMLScenePrivate {
 public:
-    UMLScenePrivate() {}
+    UMLScenePrivate(UMLScene *parent)
+    : p(parent)
+    {
+    }
+
+    /**
+     * Check if there is a corresponding port widget
+     * for all UMLPort instances and add if not.
+     */
+    void addMissingPorts()
+    {
+        UMLWidgetList ports;
+        UMLWidgetList components;
+
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (w->isPortWidget())
+                ports.append(w);
+            else if (w->isComponentWidget())
+                components.append(w);
+        }
+
+        foreach(UMLWidget *cw, components) {
+            UMLComponent *c = cw->umlObject()->asUMLComponent();
+            if (!c)
+                continue;
+            // iterate through related ports for this component widget
+            foreach(UMLObject *o, c->containedObjects()) {
+                UMLPort *up = o->asUMLPort();
+                if (!up)
+                    continue;
+                Uml::ID::Type id = o->id();
+                bool found = false;
+                foreach(UMLWidget *p, ports) {
+                    if (p->id() == id) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    new PortWidget(p, up, cw);
+            }
+        }
+    }
+
+    /**
+     * Check if port are located equally on the border of a component
+     * and fix position if not.
+     */
+    void fixPortPositions()
+    {
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (w->isPortWidget()) {
+                QGraphicsItem *g = w->parentItem();
+                ComponentWidget *c = dynamic_cast<ComponentWidget*>(g);
+                Q_ASSERT(c);
+                qreal w2 = w->width()/2;
+                qreal h2 = w->height()/2;
+                if (w->x() <= -w2 || w->y() <= -h2
+                        || w->x() >= c->width() - w2
+                        || w->y() >= c->height() - h2)
+                    continue;
+                if (w->x() >= c->width() - 3 * w2) { // right
+                    w->setX(c->width() - w2);
+                } else if (w->y() >= c->height() - 3 * h2) { // bottom
+                    w->setY(c->height() - h2);
+                } else if (w->x() < 3 * w2) { // left
+                    w->setX(-w2);
+                } else if (w->y() < 3 * h2) { // top
+                    w->setY(-h2);
+                } else
+                    uWarning() << "uncatched widget position of" << w->name();
+            }
+        }
+
+
+    }
+
+    UMLScene *p;
 };
 
 /**
@@ -133,7 +212,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bDrawSelectedOnly(false),
     m_bPaste(false),
     m_bStartedCut(false),
-    m_d(new UMLScenePrivate),
+    m_d(new UMLScenePrivate(this)),
     m_view(view),
     m_pFolder(parentFolder),
     m_pIDChangesLog(0),
@@ -1462,7 +1541,12 @@ void UMLScene::deleteSelection()
                 widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             widget->setSelectedFlag(false);
             widget->hide();
-        // message widgets are handled later
+        } else if (widget->isPortWidget()) {
+            UMLObject *o = widget->umlObject();
+            removeWidget(widget);
+            if (o)
+                UMLApp::app()->executeCommand(new CmdRemoveUMLObject(o));
+            // message widgets are handled later
         } else if (!widget->isMessageWidget()){
             removeWidget(widget);
         }
@@ -3695,6 +3779,11 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     if (!associationsLoaded) {
         uWarning() << "failed UMLScene load on associations";
         return false;
+    }
+
+    if (this->type() == Uml::DiagramType::Component) {
+        m_d->addMissingPorts();
+        m_d->fixPortPositions();
     }
     return true;
 }

@@ -514,7 +514,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     QPointF delta = event->scenePos() - event->lastScenePos();
-    adjustUnselectedAssocs(delta.x(), delta.y());
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
@@ -1175,6 +1174,10 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
     if (pAssoc) {
         associationWidgetList().removeAll(pAssoc);
     }
+
+    if (changesShape()) {
+        updateGeometry();
+    }
 }
 
 /**
@@ -1185,6 +1188,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
+    qDebug() << this;
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
@@ -1681,6 +1685,7 @@ void UMLWidget::updateGeometry()
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
     adjustAssocs(size.width()-oldW, size.height()-oldH);
+    update();
 }
 
 /**

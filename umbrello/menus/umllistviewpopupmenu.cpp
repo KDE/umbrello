@@ -170,6 +170,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Subsystem:
             insertSubMenuNew(type);
             insertStdItems();
+            insert(mt_Show);
             insert(mt_Properties);
             addSeparator();
             insert(mt_Expand_All);
@@ -179,6 +180,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Component:
             insertSubMenuNew(type);
             insertStdItems();
+            insert(mt_Show);
             insert(mt_Properties);
             addSeparator();
             insert(mt_Expand_All);
@@ -190,6 +192,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Port:
         case UMLListViewItem::lvt_Node:
         case UMLListViewItem::lvt_Actor:
+        case UMLListViewItem::lvt_Artifact:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
@@ -197,6 +200,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_Template:
             insertStdItems(false);
+            insert(mt_Show);
             insert(mt_Properties);
             break;
 
@@ -210,25 +214,28 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Enum:
             insertSubMenuNew(type);
             insertStdItems();
+            insert(mt_Show);
             insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Category:
-            {
-                insertSubMenuCategoryType(object->asUMLCategory());
-                insertStdItems(false);
-            }
+            insertSubMenuCategoryType(object->asUMLCategory());
+            insertStdItems(false);
+            insert(mt_Show);
+            insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Entity:
             insertSubMenuNew(type);
             insertStdItems();
+            insert(mt_Show);
             insert(mt_Properties);
             break;
 
         case UMLListViewItem::lvt_Instance:
             insertSubMenuNew(type);
             insertStdItems();
+            insert(mt_Show);
             insert(mt_Properties);
             break;
 
@@ -238,6 +245,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_CheckConstraint:
             insert(mt_Rename);
             insert(mt_Delete);
+            insert(mt_Show);
             insert(mt_Properties);
             break;
 

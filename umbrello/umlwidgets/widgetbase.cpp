@@ -56,7 +56,8 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineWidth(true),
     m_usesDiagramTextColor(true),
     m_usesDiagramUseFillColor(true),
-    m_autoResize(true)
+    m_autoResize(true),
+    m_changesShape(false)
 {
     Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
     // Note: no virtual methods from derived classes available,
@@ -496,6 +497,24 @@ bool WidgetBase::autoResize()
 void WidgetBase::setAutoResize(bool state)
 {
     m_autoResize = state;
+}
+
+/**
+ * Return changes state property
+ * @return the changes shape state
+ */
+bool WidgetBase::changesShape()
+{
+    return m_changesShape;
+}
+
+/**
+ * set changes shape property
+ * @param state
+ */
+void WidgetBase::setChangesShape(bool state)
+{
+    m_changesShape = state;
 }
 
 /**

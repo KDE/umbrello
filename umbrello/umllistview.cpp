@@ -691,7 +691,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             if (UMLApp::app()->currentView() != view) {
                 UMLApp::app()->setCurrentView(view, false);
             }
-            view->centerOn(selectedResult->pos());
+            view->centerOn(selectedResult->scenePos());
             selectedResult->setSelected(true);
         }
         break;

@@ -11,6 +11,7 @@
 #include "umlwidgets/childwidgetplacementport.h"
 
 #include "umlwidgets/umlwidget.h"
+#include "pinportbase.h"
 
 ChildWidgetPlacementPort::ChildWidgetPlacementPort(PinPortBase* widget)
  : ChildWidgetPlacement(widget)
@@ -146,6 +147,34 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
         break;
     }
     setPos(newX, newY);
+}
+
+void ChildWidgetPlacementPort::detectConnectedSide()
+{
+    if (m_widget->x() < 0) {
+        if (m_widget->y() < 0)
+            m_connectedSide = TopLeft;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Left;
+        else
+            m_connectedSide =BottomLeft;
+    } else if (m_widget->x() < maxX()) {
+        if (m_widget->y() < 0)
+            m_connectedSide = Top;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Undefined;
+        else
+            m_connectedSide = Bottom;
+    } else if (m_widget->x() >= maxX()) {
+        if (m_widget->y() < 0)
+            m_connectedSide = TopRight;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Right;
+        else
+            m_connectedSide =BottomRight;
+    } else {
+        m_connectedSide = TopLeft;
+    }
 }
 
 void ChildWidgetPlacementPort::setNewPositionOnParentResize()

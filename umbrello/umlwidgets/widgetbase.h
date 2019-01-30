@@ -173,6 +173,9 @@ public:
     bool autoResize();
     void setAutoResize(bool state);
 
+    bool changesShape();
+    void setChangesShape(bool state);
+
     virtual bool showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement &qElement);
@@ -294,6 +297,7 @@ protected:
     bool m_usesDiagramTextColor;
     bool m_usesDiagramUseFillColor;
     bool m_autoResize;
+    bool m_changesShape; ///< The widget changes its shape when the number of connections or their positions are changed
 };
 
 #endif

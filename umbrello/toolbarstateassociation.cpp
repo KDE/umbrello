@@ -230,6 +230,10 @@ void ToolBarStateAssociation::setSecondWidget()
     }
     if (valid) {
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
+        if (widgetA->changesShape())
+            widgetA->updateGeometry();
+        if (widgetB->changesShape())
+            widgetB->updateGeometry();
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)
             wt->showOperationDialog();

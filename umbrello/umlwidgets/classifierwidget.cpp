@@ -884,7 +884,7 @@ QPainterPath ClassifierWidget::shape() const
 {
     QPainterPath path;
     if (classifier() && classifier()->isInterface() && visualProperty(DrawAsCircle)) {
-        path.addEllipse(rect());
+        path.addEllipse(QRectF(QPointF(), calculateAsCircleSize()));
         return path;
     }
     QSizeF mainSize = rect().size();
@@ -905,6 +905,8 @@ QPainterPath ClassifierWidget::shape() const
  */
 void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
+    Q_UNUSED(option);
+
     const int w = width();
 
     if (associationWidgetList().size() > 1) {
@@ -1155,6 +1157,7 @@ void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
             m_pInterfaceName->hide();
         m_resizable = true;
     }
+    setChangesShape(drawAsCircle);
     updateGeometry();
     update();
 }

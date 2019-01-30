@@ -21,6 +21,11 @@ ChildWidgetPlacementPin::~ChildWidgetPlacementPin()
 {
 }
 
+void ChildWidgetPlacementPin::detectConnectedSide()
+{
+
+}
+
 void ChildWidgetPlacementPin::setInitialPosition()
 {
     m_connectedSide = Top;
