@@ -145,6 +145,9 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
             }
         }
         break;
+
+        default:
+        break;
     }
     setPos(newX, newY);
 }
