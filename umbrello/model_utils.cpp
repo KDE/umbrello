@@ -542,6 +542,8 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
             currentName = i18n("new_category");
         else if(type == UMLObject::ot_Instance)
             currentName = i18n("new_object");
+        else if(type == UMLObject::ot_SubSystem)
+            currentName = i18n("new_subsystem");
         else {
             currentName = i18n("new_object");
             uWarning() << "unknown object type in umldoc::uniqObjectName()";
@@ -1928,6 +1930,7 @@ Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot)
         case UMLObject::ot_Component:
         case UMLObject::ot_Port:
         case UMLObject::ot_Artifact:
+        case UMLObject::ot_SubSystem:
             mt = Uml::ModelType::Component;
             break;
         case UMLObject::ot_Node:

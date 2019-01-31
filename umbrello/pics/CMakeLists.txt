@@ -162,6 +162,7 @@ set(CURSOR_ICONS
     shallow-history
     state
     state-fork
+    subsystem
     text
     umbr-coll-message-asynchronous
     umbr-coll-message-synchronous

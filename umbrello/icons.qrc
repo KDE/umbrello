@@ -178,5 +178,6 @@
         <file>pics/interface-requirement.png</file>
         <file>pics/cursor-interface-provider.png</file>
         <file>pics/cursor-interface-requirement.png</file>
+        <file>pics/cursor-subsystem.png</file>
     </qresource>
 </RCC>

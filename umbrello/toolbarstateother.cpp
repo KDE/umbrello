@@ -142,6 +142,9 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
     case WorkToolBar::tbb_Instance:
         ot = UMLObject::ot_Instance;
         break;
+    case WorkToolBar::tbb_SubSystem:
+        ot = UMLObject::ot_SubSystem;
+        break;
     default:
         ot = UMLObject::ot_UMLObject;
         break;

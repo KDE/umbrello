@@ -630,6 +630,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_UseCase, menu);
             break;
         case WidgetBase::wt_Component:
+            insert(mt_Subsystem, menu);
             insert(mt_Component, menu);
             if (Settings::optionState().generalState.uml2)
                 insert(mt_Port, menu);

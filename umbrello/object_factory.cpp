@@ -151,6 +151,11 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         case UMLObject::ot_Category:
             o = new UMLCategory(name, g_predefinedId);
             break;
+        case UMLObject::ot_SubSystem: {
+            o = new UMLPackage(name, g_predefinedId);
+            o->setStereotypeCmd(QLatin1String("subsystem"));
+        break;
+    }
         default:
             uWarning() << "error unknown type: " << UMLObject::toString(type);
             return 0;

@@ -107,7 +107,8 @@ public:
         ot_CheckConstraint,
         ot_Category,
         ot_Port,
-        ot_InstanceAttribute
+        ot_InstanceAttribute,
+        ot_SubSystem  ///< no real object type
     };
 
     static QString toString(ObjectType ot);

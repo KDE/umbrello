@@ -191,6 +191,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Component:
         insertHotBtn(tbb_Interface_Provider);
+        insertHotBtn(tbb_SubSystem);
         insertHotBtn(tbb_Component);
         if (Settings::optionState().generalState.uml2)
             insertHotBtn(tbb_Port);
@@ -365,6 +366,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },
         { tbb_StateJoin,                i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotStateJoin()) },
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
+        { tbb_SubSystem,                i18n("Subsystem"),               Icon_Utils::it_Subsystem,               SLOT(slotSubsystem()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },
         { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Rhomb,            SLOT(slotChoice()) },
         //:TODO: let the user decide which symbol he wants (setting an option)
@@ -481,6 +483,7 @@ void WorkToolBar::slotCategory()                 { buttonChanged(tbb_Category); 
 void WorkToolBar::slotCategory2Parent()          { buttonChanged(tbb_Category2Parent);          }
 void WorkToolBar::slotChild2Category()           { buttonChanged(tbb_Child2Category);           }
 void WorkToolBar::slotInstance()                 { buttonChanged(tbb_Instance);                 }
+void WorkToolBar::slotSubsystem()                { buttonChanged(tbb_SubSystem);                }
 /**
  * Setup actions after reading shortcuts from settings
  */

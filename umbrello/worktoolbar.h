@@ -120,7 +120,8 @@ public:
         tbb_Category,
         tbb_Category2Parent,
         tbb_Child2Category,
-        tbb_Instance
+        tbb_Instance,
+        tbb_SubSystem
     };
 
 private:
@@ -225,6 +226,7 @@ public slots:
     void slotCategory2Parent();
     void slotChild2Category();
     void slotInstance();
+    void slotSubsystem();
 };
 
 #endif
