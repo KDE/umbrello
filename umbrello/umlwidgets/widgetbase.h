@@ -39,7 +39,7 @@ class EnumWidget;
 class FloatingDashLineWidget;
 class FloatingTextWidget;
 class ForkJoinWidget;
-//class InterfaceWidget;
+class InterfaceWidget;
 class MessageWidget;
 class NodeWidget;
 class NoteWidget;
@@ -237,7 +237,7 @@ public:
     EnumWidget* asEnumWidget();
     FloatingDashLineWidget* asFloatingDashLineWidget();
     ForkJoinWidget* asForkJoinWidget();
-    //InterfaceWidget* asInterfaceWidget();
+    InterfaceWidget* asInterfaceWidget();
     MessageWidget* asMessageWidget();
     NodeWidget* asNodeWidget();
     NoteWidget* asNoteWidget();

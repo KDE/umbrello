@@ -1299,7 +1299,7 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
 #include  "enumwidget.h"
 #include  "floatingdashlinewidget.h"
 #include  "forkjoinwidget.h"
-//#include  "interfacewidget.h"
+#include  "interfacewidget.h"
 #include  "messagewidget.h"
 #include  "nodewidget.h"
 #include  "notewidget.h"
@@ -1328,7 +1328,7 @@ EntityWidget* WidgetBase::asEntityWidget() { return dynamic_cast<EntityWidget* >
 EnumWidget* WidgetBase::asEnumWidget() { return dynamic_cast<EnumWidget* >(this); }
 FloatingDashLineWidget* WidgetBase::asFloatingDashLineWidget() { return dynamic_cast<FloatingDashLineWidget*>(this); }
 ForkJoinWidget* WidgetBase::asForkJoinWidget() { return dynamic_cast<ForkJoinWidget* >(this); }
-//InterfaceWidget* WidgetBase::asInterfaceWidget() { return dynamic_cast<InterfaceWidget* >(this); }
+InterfaceWidget* WidgetBase::asInterfaceWidget() { return dynamic_cast<InterfaceWidget* >(this); }
 MessageWidget* WidgetBase::asMessageWidget() { return dynamic_cast<MessageWidget* >(this); }
 NodeWidget* WidgetBase::asNodeWidget() { return dynamic_cast<NodeWidget* >(this); }
 NoteWidget* WidgetBase::asNoteWidget() { return dynamic_cast<NoteWidget* >(this); }

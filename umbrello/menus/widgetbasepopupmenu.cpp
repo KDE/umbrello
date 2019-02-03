@@ -19,6 +19,7 @@
 #include "entitywidget.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "notewidget.h"
 #include "objectwidget.h"
 #include "objectnodewidget.h"
@@ -208,7 +209,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
 
     case WidgetBase::wt_Interface:
         {
-            ClassifierWidget* c = widget->asClassifierWidget();
+            InterfaceWidget* c = widget->asInterfaceWidget();
             if (!c)
                 break;
             insertSubMenuNew(type);

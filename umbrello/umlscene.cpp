@@ -41,6 +41,7 @@
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
+#include "interfacewidget.h"
 #include "import_utils.h"
 #include "layoutgenerator.h"
 #include "layoutgrid.h"
@@ -3332,8 +3333,11 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
     foreach(UMLWidget* pWidget, widgetList()) {
         uIgnoreZeroPointer(pWidget);
         WidgetBase::WidgetType wt = pWidget->baseType();
-        if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
-            page->setWidget(static_cast<ClassifierWidget *>(pWidget));
+        if (wt == WidgetBase::wt_Class) {
+            page->setWidget(pWidget->asClassifierWidget());
+            page->apply();
+        } else if (wt == WidgetBase::wt_Interface) {
+            page->setWidget(pWidget->asInterfaceWidget());
             page->apply();
         }
     }
