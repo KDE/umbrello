@@ -195,7 +195,7 @@ public:
     {
         UMLWidgetList labelsWithoutParents;
         UMLWidgetList labelsWithParent;
-        uDebug() << "checking diagram" << p->name() << "id" << Uml::ID::toString(p->id());
+        uDebug() << "checking diagram" << p->name() << "id" << Uml::ID::toString(p->ID());
 
         foreach(UMLWidget *w, p->widgetList()) {
             if (!w->isTextWidget())
