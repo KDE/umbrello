@@ -857,6 +857,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
             UMLWidget *umlWidget = Widget_Factory::createWidget(umlScene(), port);
+            umlWidget->setParentItem(this);
             umlScene()->setupNewWidget(umlWidget);
         }
         break;
