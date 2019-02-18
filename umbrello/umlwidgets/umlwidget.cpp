@@ -1378,8 +1378,16 @@ void UMLWidget::resize()
  */
 void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
 {
-    // TODO the status message lies for at least MessageWidget which could only be resized vertical
-    UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
+    QString msgX = i18n("Hold shift or control to move in X axis.");
+    QString msgY = i18n("Hold shift and control to move in Y axis.");
+    QString msg;
+    if (isMessageWidget())
+        msg = msgY;
+    else if (isObjectWidget())
+        msg = msgX;
+    else
+        msg = QString(QLatin1String("%1 %2")).arg(msgX, msgY);
+    UMLApp::app()->document()->writeToStatusBar(msg);
 
     m_resized = true;
 
