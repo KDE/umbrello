@@ -26,7 +26,7 @@ ARCHOUT64=x86_64-w64-mingw32
 
 REPO=openSUSE_Leap_42.3
 SRCREPO=$REPO
-VERSION=2.25.3
+VERSION=2.27.3
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
@@ -111,7 +111,7 @@ movepackage) ## move windows binary packages into upload folder
 
 repacksource) ## repackage source tar ball to 7z
         # repackage source package
-        srcfile=$(find work/tmp -name "$NAME*.xz")
+        srcfile=$(find work/tmp -name "$NAME-[0-9]*.xz")
         outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
         (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
         touch work/$1.finished
