@@ -114,13 +114,13 @@ set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )
 
-ecm_add_executable(testumlroledialog ${testumlroledialog_SRCS})
+add_executable(testumlroledialog ${testumlroledialog_SRCS})
 target_link_libraries(testumlroledialog ${LIBS})
 
-ecm_add_executable(testcrashhandler testcrashhandler.cpp)
+add_executable(testcrashhandler testcrashhandler.cpp)
 target_link_libraries(testcrashhandler ${LIBS})
 
-ecm_add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
+add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
 target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
