@@ -12,11 +12,14 @@
 #include "dialog_utils.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "stereotype.h"
 #include "umlwidget.h"
 #include "dontaskagain.h"
+#include "model_utils.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KMessageBox>
@@ -139,6 +142,86 @@ bool askDeleteDiagram(const QString &name)
 }
 
 /**
+ * Ask the user for a new widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askNewName(WidgetBase::WidgetType type, QString &name)
+{
+    QString title = Widget_Utils::newTitle(type);
+    QString text = Widget_Utils::newText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for renaming a widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askRenameName(WidgetBase::WidgetType type, QString &name)
+{
+    QString title = Widget_Utils::renameTitle(type);
+    QString text = Widget_Utils::renameText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for a default new widget name
+ *
+ * The name is predefined by the widgets type default name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askDefaultNewName(WidgetBase::WidgetType type, QString &name)
+{
+    name = Widget_Utils::defaultWidgetName(type);
+    return askNewName(type, name);
+}
+
+/**
+ * Ask the user for a new object name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askNewName(UMLObject::ObjectType type, QString &name)
+{
+    QString title = Model_Utils::newTitle(type);
+    QString text = Model_Utils::newText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for renaming a widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askRenameName(UMLObject::ObjectType type, QString &name)
+{
+    QString title = Model_Utils::renameTitle(type);
+    QString text = Model_Utils::renameText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for a default new widget name
+ *
+ * The name is predefined by the widgets type default name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askDefaultNewName(UMLObject::ObjectType type, QString &name)
+{
+    name = Model_Utils::uniqObjectName(type);
+    return askNewName(type, name);
+}
+
+/**
  * Helper function for inserting available stereotypes into a KComboBox
  *
  * @param kcb    The KComboBox into which to insert the stereotypes
@@ -167,6 +250,13 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
         kcb->setCurrentIndex(currentIndex);
     }
     kcb->completionObject()->addItem(type);
+}
+
+bool askDefaultNewName(UMLObject::ObjectType type, QString &name)
+{
+    name = Model_Utils::uniqModelName(type);
+    return askNewName(type, name);
+
 }
 
 }  // end namespace Dialog_Utils

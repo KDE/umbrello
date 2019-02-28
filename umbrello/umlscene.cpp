@@ -3226,10 +3226,8 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Activity:
         {
-            QString name = i18n("new activity");
-            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
-                                            i18n("Enter the name of the new activity:"),
-                                            name);
+            QString name;
+            bool ok = Dialog_Utils::askDefaultNewName(WidgetBase::wt_Activity, name);
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);

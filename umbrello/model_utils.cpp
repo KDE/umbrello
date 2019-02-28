@@ -510,43 +510,38 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
 {
     QString currentName = prefix;
     if (currentName.isEmpty()) {
-        if(type == UMLObject::ot_Class)
-            currentName = i18n("new_class");
-        else if(type == UMLObject::ot_Actor)
-            currentName = i18n("new_actor");
-        else if(type == UMLObject::ot_UseCase)
-            currentName = i18n("new_usecase");
-        else if(type == UMLObject::ot_Package)
-            currentName = i18n("new_package");
-        else if(type == UMLObject::ot_Component)
-            currentName = i18n("new_component");
-        else if(type == UMLObject::ot_Port)
-            currentName = i18n("new_port");
-        else if(type == UMLObject::ot_Node)
-            currentName = i18n("new_node");
-        else if(type == UMLObject::ot_Artifact)
-            currentName = i18n("new_artifact");
-        else if(type == UMLObject::ot_Interface)
-            currentName = i18n("new_interface");
-        else if(type == UMLObject::ot_Datatype)
-            currentName = i18n("new_datatype");
-        else if(type == UMLObject::ot_Enum)
-            currentName = i18n("new_enum");
-        else if(type == UMLObject::ot_Entity)
-            currentName = i18n("new_entity");
-        else if(type == UMLObject::ot_Folder)
-            currentName = i18n("new_folder");
-        else if(type == UMLObject::ot_Association)
-            currentName = i18n("new_association");
-        else if(type == UMLObject::ot_Category)
-            currentName = i18n("new_category");
-        else if(type == UMLObject::ot_Instance)
+        switch(type) {
+        case UMLObject::ot_Actor:               currentName = i18n("new_actor");                  break;
+        case UMLObject::ot_Artifact:            currentName = i18n("new_artifact");               break;
+        case UMLObject::ot_Association:         currentName = i18n("new_association");            break;
+        case UMLObject::ot_Attribute:           currentName = i18n("new_attribute");              break;
+        case UMLObject::ot_Category:            currentName = i18n("new_category");               break;
+        case UMLObject::ot_CheckConstraint:     currentName = i18n("new_check_constraint");       break;
+        case UMLObject::ot_Class:               currentName = i18n("new_class");                  break;
+        case UMLObject::ot_Component:           currentName = i18n("new_component");              break;
+        case UMLObject::ot_Datatype:            currentName = i18n("new_datatype");               break;
+        case UMLObject::ot_Entity:              currentName = i18n("new_entity");                 break;
+        case UMLObject::ot_EntityAttribute:     currentName = i18n("new_entity_attribute");       break;
+        case UMLObject::ot_EntityConstraint:    currentName = i18n("new_entity_constraint");      break;
+        case UMLObject::ot_Enum:                currentName = i18n("new_enum");                   break;
+        case UMLObject::ot_EnumLiteral:         currentName = i18n("new_enum_literal");           break;
+        case UMLObject::ot_Folder:              currentName = i18n("new_folder");                 break;
+        case UMLObject::ot_ForeignKeyConstraint:currentName = i18n("new_foreign_key_constraint"); break;
+        case UMLObject::ot_Instance:            currentName = i18n("new_instance");               break;
+        case UMLObject::ot_InstanceAttribute:   currentName = i18n("new_instance_attribute");     break;
+        case UMLObject::ot_Interface:           currentName = i18n("new_interface");              break;
+        case UMLObject::ot_Node:                currentName = i18n("new_node");                   break;
+        case UMLObject::ot_Operation:           currentName = i18n("new_operation");              break;
+        case UMLObject::ot_Package:             currentName = i18n("new_package");                break;
+        case UMLObject::ot_Port:                currentName = i18n("new_port");                   break;
+        case UMLObject::ot_Role:                currentName = i18n("new_role");                   break;
+        case UMLObject::ot_Stereotype:          currentName = i18n("new_stereotype");             break;
+        case UMLObject::ot_Template:            currentName = i18n("new_template");               break;
+        case UMLObject::ot_UniqueConstraint:    currentName = i18n("new_unique_constraint");      break;
+        case UMLObject::ot_UseCase:             currentName = i18n("new_use case");               break;
+        default:
             currentName = i18n("new_object");
-        else if(type == UMLObject::ot_SubSystem)
-            currentName = i18n("new_subsystem");
-        else {
-            currentName = i18n("new_object");
-            uWarning() << "unknown object type in umldoc::uniqObjectName()";
+            uWarning() << "unknown object type";
         }
     }
     UMLDoc *doc = UMLApp::app()->document();
@@ -555,6 +550,178 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
         name = currentName + QLatin1Char('_') + QString::number(number);
     }
     return name;
+}
+
+/**
+ * Returns translated title string used by uml object related dialogs
+ * @param type uml object type
+ * @return translated title string
+ */
+QString newTitle(UMLObject::ObjectType type)
+{
+    switch(type) {
+    case UMLObject::ot_Actor:               return i18n("New actor");
+    case UMLObject::ot_Artifact:            return i18n("New artifact");
+    case UMLObject::ot_Association:         return i18n("New association");
+    case UMLObject::ot_Attribute:           return i18n("New attribute");
+    case UMLObject::ot_Category:            return i18n("New category");
+    case UMLObject::ot_CheckConstraint:     return i18n("New check constraint");
+    case UMLObject::ot_Class:               return i18n("New class");
+    case UMLObject::ot_Component:           return i18n("New component");
+    case UMLObject::ot_Datatype:            return i18n("New datatype");
+    case UMLObject::ot_Entity:              return i18n("New entity");
+    case UMLObject::ot_EntityAttribute:     return i18n("New entity attribute");
+    case UMLObject::ot_EntityConstraint:    return i18n("New entity constraint");
+    case UMLObject::ot_Enum:                return i18n("New enum");
+    case UMLObject::ot_EnumLiteral:         return i18n("New enum literal");
+    case UMLObject::ot_Folder:              return i18n("New folder");
+    case UMLObject::ot_ForeignKeyConstraint:return i18n("New foreign key constraint");
+    case UMLObject::ot_Instance:            return i18n("New instance");
+    case UMLObject::ot_InstanceAttribute:   return i18n("New instance attribute");
+    case UMLObject::ot_Interface:           return i18n("New interface");
+    case UMLObject::ot_Node:                return i18n("New node");
+    case UMLObject::ot_Operation:           return i18n("New operation");
+    case UMLObject::ot_Package:             return i18n("New package");
+    case UMLObject::ot_Port:                return i18n("New port");
+    case UMLObject::ot_Role:                return i18n("New role");
+    case UMLObject::ot_Stereotype:          return i18n("New stereotype");
+    case UMLObject::ot_Template:            return i18n("New template");
+    case UMLObject::ot_UniqueConstraint:    return i18n("New unique constraint");
+    case UMLObject::ot_UseCase:             return i18n("New use case");
+    default:
+        uWarning() << "unknown object type" << UMLObject::toString(type);
+        return i18n("New UML object");
+    }
+    return QString();
+}
+
+/**
+ * Returns translated text string used by uml object related dialogs
+ * @param type uml object type
+ * @return translated text string
+ */
+QString newText(UMLObject::ObjectType type)
+{
+    switch(type) {
+    case UMLObject::ot_Actor:               return i18n("Enter the name of the new actor:");
+    case UMLObject::ot_Artifact:            return i18n("Enter the name of the new artifact:");
+    case UMLObject::ot_Association:         return i18n("Enter the name of the new association:");
+    case UMLObject::ot_Attribute:           return i18n("Enter the name of the new attribute:");
+    case UMLObject::ot_Category:            return i18n("Enter the name of the new category:");
+    case UMLObject::ot_CheckConstraint:     return i18n("Enter the name of the new check constraint:");
+    case UMLObject::ot_Class:               return i18n("Enter the name of the new class:");
+    case UMLObject::ot_Component:           return i18n("Enter the name of the new component:");
+    case UMLObject::ot_Datatype:            return i18n("Enter the name of the new datatype:");
+    case UMLObject::ot_Entity:              return i18n("Enter the name of the new entity:");
+    case UMLObject::ot_EntityAttribute:     return i18n("Enter the name of the new entity attribute:");
+    case UMLObject::ot_EntityConstraint:    return i18n("Enter the name of the new entity constraint:");
+    case UMLObject::ot_Enum:                return i18n("Enter the name of the new enum:");
+    case UMLObject::ot_EnumLiteral:         return i18n("Enter the name of the new enum literal:");
+    case UMLObject::ot_Folder:              return i18n("Enter the name of the new folder:");
+    case UMLObject::ot_ForeignKeyConstraint:return i18n("Enter the name of the new foreign key constraint:");
+    case UMLObject::ot_Instance:            return i18n("Enter the name of the new instance:");
+    case UMLObject::ot_InstanceAttribute:   return i18n("Enter the name of the new instance attribute:");
+    case UMLObject::ot_Interface:           return i18n("Enter the name of the new interface:");
+    case UMLObject::ot_Node:                return i18n("Enter the name of the new node:");
+    case UMLObject::ot_Operation:           return i18n("Enter the name of the new operation:");
+    case UMLObject::ot_Package:             return i18n("Enter the name of the new package:");
+    case UMLObject::ot_Port:                return i18n("Enter the name of the new port:");
+    case UMLObject::ot_Role:                return i18n("Enter the name of the new role:");
+    case UMLObject::ot_Stereotype:          return i18n("Enter the name of the new stereotype:");
+    case UMLObject::ot_Template:            return i18n("Enter the name of the new template:");
+    case UMLObject::ot_UniqueConstraint:    return i18n("Enter the name of the new unique constraint:");
+    case UMLObject::ot_UseCase:             return i18n("Enter the name of the new use case:");
+    default:
+        uWarning() << "unknown object type" << UMLObject::toString(type);
+        return i18n("Enter the name of the new UML object");
+    }
+    return QString();
+}
+
+/**
+ * Returns translated title string used by uml object related dialogs
+ * @param type uml object type
+ * @return translated title string
+ */
+QString renameTitle(UMLObject::ObjectType type)
+{
+    switch(type) {
+    case UMLObject::ot_Actor:               return i18n("Rename actor");
+    case UMLObject::ot_Artifact:            return i18n("Rename artifact");
+    case UMLObject::ot_Association:         return i18n("Rename association");
+    case UMLObject::ot_Attribute:           return i18n("Rename attribute");
+    case UMLObject::ot_Category:            return i18n("Rename category");
+    case UMLObject::ot_CheckConstraint:     return i18n("Rename check constraint");
+    case UMLObject::ot_Class:               return i18n("Rename class");
+    case UMLObject::ot_Component:           return i18n("Rename component");
+    case UMLObject::ot_Datatype:            return i18n("Rename datatype");
+    case UMLObject::ot_Entity:              return i18n("Rename entity");
+    case UMLObject::ot_EntityAttribute:     return i18n("Rename entity attribute");
+    case UMLObject::ot_EntityConstraint:    return i18n("Rename entity constraint");
+    case UMLObject::ot_Enum:                return i18n("Rename enum");
+    case UMLObject::ot_EnumLiteral:         return i18n("Rename enum literal");
+    case UMLObject::ot_Folder:              return i18n("Rename folder");
+    case UMLObject::ot_ForeignKeyConstraint:return i18n("Rename foreign key constraint");
+    case UMLObject::ot_Instance:            return i18n("Rename instance");
+    case UMLObject::ot_InstanceAttribute:   return i18n("Rename instance attribute");
+    case UMLObject::ot_Interface:           return i18n("Rename interface");
+    case UMLObject::ot_Node:                return i18n("Rename node");
+    case UMLObject::ot_Operation:           return i18n("Rename operation");
+    case UMLObject::ot_Package:             return i18n("Rename package");
+    case UMLObject::ot_Port:                return i18n("Rename port");
+    case UMLObject::ot_Role:                return i18n("Rename role");
+    case UMLObject::ot_Stereotype:          return i18n("Rename stereotype");
+    case UMLObject::ot_Template:            return i18n("Rename template");
+    case UMLObject::ot_UniqueConstraint:    return i18n("Rename unique constraint");
+    case UMLObject::ot_UseCase:             return i18n("Rename use case");
+    default:
+        uWarning() << "unknown object type" << UMLObject::toString(type);
+        return i18n("Rename UML object");
+    }
+    return QString();
+}
+
+/**
+ * Returns translated text string used by uml object related dialogs
+ * @param type uml object type
+ * @return translated text string
+ */
+QString renameText(UMLObject::ObjectType type)
+{
+    switch(type) {
+    case UMLObject::ot_Actor:               return i18n("Enter the new name of the actor:");
+    case UMLObject::ot_Artifact:            return i18n("Enter the new name of the artifact:");
+    case UMLObject::ot_Association:         return i18n("Enter the new name of the association:");
+    case UMLObject::ot_Attribute:           return i18n("Enter the new name of the attribute:");
+    case UMLObject::ot_Category:            return i18n("Enter the new name of the category:");
+    case UMLObject::ot_CheckConstraint:     return i18n("Enter the new name of the check constraint:");
+    case UMLObject::ot_Class:               return i18n("Enter the new name of the class:");
+    case UMLObject::ot_Component:           return i18n("Enter the new name of the component:");
+    case UMLObject::ot_Datatype:            return i18n("Enter the new name of the datatype:");
+    case UMLObject::ot_Entity:              return i18n("Enter the new name of the entity:");
+    case UMLObject::ot_EntityAttribute:     return i18n("Enter the new name of the entity attribute:");
+    case UMLObject::ot_EntityConstraint:    return i18n("Enter the new name of the entity constraint:");
+    case UMLObject::ot_Enum:                return i18n("Enter the new name of the enum:");
+    case UMLObject::ot_EnumLiteral:         return i18n("Enter the new name of the enum literal:");
+    case UMLObject::ot_Folder:              return i18n("Enter the new name of the folder:");
+    case UMLObject::ot_ForeignKeyConstraint:return i18n("Enter the new name of the foreign key constraint:");
+    case UMLObject::ot_Instance:            return i18n("Enter the new name of the instance:");
+    case UMLObject::ot_InstanceAttribute:   return i18n("Enter the new name of the instance attribute:");
+    case UMLObject::ot_Interface:           return i18n("Enter the new name of the interface:");
+    case UMLObject::ot_Node:                return i18n("Enter the new name of the node:");
+    case UMLObject::ot_Operation:           return i18n("Enter the new name of the operation:");
+    case UMLObject::ot_Package:             return i18n("Enter the new name of the package:");
+    case UMLObject::ot_Port:                return i18n("Enter the new name of the port:");
+    case UMLObject::ot_Role:                return i18n("Enter the new name of the role:");
+    case UMLObject::ot_Stereotype:          return i18n("Enter the new name of the stereotype:");
+    case UMLObject::ot_Template:            return i18n("Enter the new name of the template:");
+    case UMLObject::ot_UniqueConstraint:    return i18n("Enter the new name of the unique constraint:");
+    case UMLObject::ot_UseCase:             return i18n("Enter the new name of the use case:");
+    default:
+        uWarning() << "unknown object type" << UMLObject::toString(type);
+        return i18n("Enter the new name of the UML object");
+    }
+    return QString();
 }
 
 /**

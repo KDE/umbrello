@@ -17,6 +17,8 @@
 #include "messagewidget.h"
 #include "umlwidget.h"
 
+#include <KLocalizedString>
+
 // qt includes
 #include <QBuffer>
 #include <QImageReader>
@@ -824,4 +826,234 @@ namespace Widget_Utils
         return result;
     }
 
-}  // namespace Widget_Utils
+    /**
+     * Returns a default name for the new widget
+     * @param type the widget type
+     * @return the default name
+     */
+    QString defaultWidgetName(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("new activity");
+        case WidgetBase::wt_Actor:            return i18n("new actor");
+        case WidgetBase::wt_Artifact:         return i18n("new artifact");
+        case WidgetBase::wt_Association:      return i18n("new association");
+        case WidgetBase::wt_Box:              return i18n("new box");
+        case WidgetBase::wt_Category:         return i18n("new category");
+        case WidgetBase::wt_Class:            return i18n("new class");
+        case WidgetBase::wt_CombinedFragment: return i18n("new combined fragment");
+        case WidgetBase::wt_Component:        return i18n("new component");
+        case WidgetBase::wt_Datatype:         return i18n("new datatype");
+        case WidgetBase::wt_Entity:           return i18n("new entity");
+        case WidgetBase::wt_Enum:             return i18n("new enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("new floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("new fork/join");
+        case WidgetBase::wt_Instance:         return i18n("new instance");
+        case WidgetBase::wt_Interface:        return i18n("new interface");
+        case WidgetBase::wt_Message:          return i18n("new message");
+        case WidgetBase::wt_Node:             return i18n("new node");
+        case WidgetBase::wt_Note:             return i18n("new note");
+        case WidgetBase::wt_Object:           return i18n("new object");
+        case WidgetBase::wt_ObjectNode:       return i18n("new object node");
+        case WidgetBase::wt_Package:          return i18n("new package");
+        case WidgetBase::wt_Pin:              return i18n("new pin");
+        case WidgetBase::wt_Port:             return i18n("new port");
+        case WidgetBase::wt_Precondition:     return i18n("new precondition");
+        case WidgetBase::wt_Region:           return i18n("new region");
+        case WidgetBase::wt_Signal:           return i18n("new signal");
+        case WidgetBase::wt_State:            return i18n("new state");
+        case WidgetBase::wt_Text:             return i18n("new text");
+        case WidgetBase::wt_UMLWidget:        return i18n("new UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("new use case");
+        default:
+            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            return i18n("new widget");
+            break;
+        }
+        return QString();
+    }
+
+    /**
+     * Returns translated title string used by widget related dialogs
+     * @param type widget type
+     * @return translated title string
+     */
+    QString newTitle(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("New activity");
+        case WidgetBase::wt_Actor:            return i18n("New actor");
+        case WidgetBase::wt_Artifact:         return i18n("New artifact");
+        case WidgetBase::wt_Association:      return i18n("New association");
+        case WidgetBase::wt_Box:              return i18n("New box");
+        case WidgetBase::wt_Category:         return i18n("New category");
+        case WidgetBase::wt_Class:            return i18n("New class");
+        case WidgetBase::wt_CombinedFragment: return i18n("New combined fragment");
+        case WidgetBase::wt_Component:        return i18n("New component");
+        case WidgetBase::wt_Datatype:         return i18n("New datatype");
+        case WidgetBase::wt_Entity:           return i18n("New entity");
+        case WidgetBase::wt_Enum:             return i18n("New enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("New floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("New fork/join");
+        case WidgetBase::wt_Instance:         return i18n("New instance");
+        case WidgetBase::wt_Interface:        return i18n("New interface");
+        case WidgetBase::wt_Message:          return i18n("New message");
+        case WidgetBase::wt_Node:             return i18n("New node");
+        case WidgetBase::wt_Note:             return i18n("New note");
+        case WidgetBase::wt_Object:           return i18n("New object");
+        case WidgetBase::wt_ObjectNode:       return i18n("New object node");
+        case WidgetBase::wt_Package:          return i18n("New package");
+        case WidgetBase::wt_Pin:              return i18n("New pin");
+        case WidgetBase::wt_Port:             return i18n("New port");
+        case WidgetBase::wt_Precondition:     return i18n("New precondition");
+        case WidgetBase::wt_Region:           return i18n("New region");
+        case WidgetBase::wt_Signal:           return i18n("New signal");
+        case WidgetBase::wt_State:            return i18n("New state");
+        case WidgetBase::wt_Text:             return i18n("New text");
+        case WidgetBase::wt_UMLWidget:        return i18n("New UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("New use case");
+        default:
+            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            return i18n("New widget");
+        }
+        return QString();
+    }
+
+    /**
+     * Returns translated text string used by widget related dialogs
+     * @param type widget type
+     * @return translated text string
+     */
+    QString newText(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Enter the name of the new activity:");
+        case WidgetBase::wt_Actor:            return i18n("Enter the name of the new actor:");
+        case WidgetBase::wt_Artifact:         return i18n("Enter the name of the new artifact:");
+        case WidgetBase::wt_Association:      return i18n("Enter the name of the new association:");
+        case WidgetBase::wt_Box:              return i18n("Enter the name of the new box:");
+        case WidgetBase::wt_Category:         return i18n("Enter the name of the new category:");
+        case WidgetBase::wt_Class:            return i18n("Enter the name of the new class:");
+        case WidgetBase::wt_CombinedFragment: return i18n("Enter the name of the new combined fragment:");
+        case WidgetBase::wt_Component:        return i18n("Enter the name of the new component:");
+        case WidgetBase::wt_Datatype:         return i18n("Enter the name of the new datatype:");
+        case WidgetBase::wt_Entity:           return i18n("Enter the name of the new entity:");
+        case WidgetBase::wt_Enum:             return i18n("Enter the name of the new enum:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the name of the new floating dash Line:");
+        case WidgetBase::wt_ForkJoin:         return i18n("Enter the name of the new fork/join:");
+        case WidgetBase::wt_Instance:         return i18n("Enter the name of the new instance:");
+        case WidgetBase::wt_Interface:        return i18n("Enter the name of the new interface:");
+        case WidgetBase::wt_Message:          return i18n("Enter the name of the new message:");
+        case WidgetBase::wt_Node:             return i18n("Enter the name of the new node:");
+        case WidgetBase::wt_Note:             return i18n("Enter the name of the new note:");
+        case WidgetBase::wt_Object:           return i18n("Enter the name of the new object:");
+        case WidgetBase::wt_ObjectNode:       return i18n("Enter the name of the new object node:");
+        case WidgetBase::wt_Package:          return i18n("Enter the name of the new package:");
+        case WidgetBase::wt_Pin:              return i18n("Enter the name of the new pin:");
+        case WidgetBase::wt_Port:             return i18n("Enter the name of the new port:");
+        case WidgetBase::wt_Precondition:     return i18n("Enter the name of the new precondition:");
+        case WidgetBase::wt_Region:           return i18n("Enter the name of the new region:");
+        case WidgetBase::wt_Signal:           return i18n("Enter the name of the new signal:");
+        case WidgetBase::wt_State:            return i18n("Enter the name of the new state:");
+        case WidgetBase::wt_Text:             return i18n("Enter the name of the new text:");
+        case WidgetBase::wt_UMLWidget:        return i18n("Enter the name of the new uml widget:");
+        case WidgetBase::wt_UseCase:          return i18n("Enter the name of the new use case:");
+        default:
+            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            return i18n("Enter the name of the new widget:");
+        }
+        return QString();
+    }
+
+    /**
+     * Returns translated title string used by widget related dialogs
+     * @param type widget type
+     * @return translated title string
+     */
+    QString renameTitle(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Rename activity");
+        case WidgetBase::wt_Actor:            return i18n("Rename actor");
+        case WidgetBase::wt_Artifact:         return i18n("Rename artifact");
+        case WidgetBase::wt_Association:      return i18n("Rename association");
+        case WidgetBase::wt_Box:              return i18n("Rename box");
+        case WidgetBase::wt_Category:         return i18n("Rename category");
+        case WidgetBase::wt_Class:            return i18n("Rename class");
+        case WidgetBase::wt_CombinedFragment: return i18n("Rename combined fragment");
+        case WidgetBase::wt_Component:        return i18n("Rename component");
+        case WidgetBase::wt_Datatype:         return i18n("Rename datatype");
+        case WidgetBase::wt_Entity:           return i18n("Rename entity");
+        case WidgetBase::wt_Enum:             return i18n("Rename enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Rename floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("Rename fork/join");
+        case WidgetBase::wt_Instance:         return i18n("Rename instance");
+        case WidgetBase::wt_Interface:        return i18n("Rename interface");
+        case WidgetBase::wt_Message:          return i18n("Rename message");
+        case WidgetBase::wt_Node:             return i18n("Rename node");
+        case WidgetBase::wt_Note:             return i18n("Rename note");
+        case WidgetBase::wt_Object:           return i18n("Rename object");
+        case WidgetBase::wt_ObjectNode:       return i18n("Rename object node");
+        case WidgetBase::wt_Package:          return i18n("Rename package");
+        case WidgetBase::wt_Pin:              return i18n("Rename pin");
+        case WidgetBase::wt_Port:             return i18n("Rename port");
+        case WidgetBase::wt_Precondition:     return i18n("Rename precondition");
+        case WidgetBase::wt_Region:           return i18n("Rename region");
+        case WidgetBase::wt_Signal:           return i18n("Rename signal");
+        case WidgetBase::wt_State:            return i18n("Rename state");
+        case WidgetBase::wt_Text:             return i18n("Rename text");
+        case WidgetBase::wt_UMLWidget:        return i18n("Rename UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("Rename use case");
+        default:
+            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            return i18n("Rename widget");
+        }
+        return QString();
+    }
+
+    /**
+     * Returns translated text string used by widget related dialogs
+     * @param type wodget type
+     * @return translated text string
+     */
+    QString renameText(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Enter the new name of the activity:");
+        case WidgetBase::wt_Actor:            return i18n("Enter the new name of the actor:");
+        case WidgetBase::wt_Artifact:         return i18n("Enter the new name of the artifact:");
+        case WidgetBase::wt_Association:      return i18n("Enter the new name of the association:");
+        case WidgetBase::wt_Box:              return i18n("Enter the new name of the box:");
+        case WidgetBase::wt_Category:         return i18n("Enter the new name of the category:");
+        case WidgetBase::wt_Class:            return i18n("Enter the new name of the class:");
+        case WidgetBase::wt_CombinedFragment: return i18n("Enter the new name of the combined fragment:");
+        case WidgetBase::wt_Component:        return i18n("Enter the new name of the component:");
+        case WidgetBase::wt_Datatype:         return i18n("Enter the new name of the datatype:");
+        case WidgetBase::wt_Entity:           return i18n("Enter the new name of the entity:");
+        case WidgetBase::wt_Enum:             return i18n("Enter the new name of the enum:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the new name of the floating dash Line:");
+        case WidgetBase::wt_ForkJoin:         return i18n("Enter the new name of the fork/join widget:");
+        case WidgetBase::wt_Instance:         return i18n("Enter the new name of the instance:");
+        case WidgetBase::wt_Interface:        return i18n("Enter the new name of the interface:");
+        case WidgetBase::wt_Message:          return i18n("Enter the new name of the message:");
+        case WidgetBase::wt_Node:             return i18n("Enter the new name of the node:");
+        case WidgetBase::wt_Note:             return i18n("Enter the new name of the note:");
+        case WidgetBase::wt_Object:           return i18n("Enter the new name of the object:");
+        case WidgetBase::wt_ObjectNode:       return i18n("Enter the new name of the object node:");
+        case WidgetBase::wt_Package:          return i18n("Enter the new name of the package:");
+        case WidgetBase::wt_Pin:              return i18n("Enter the new name of the pin:");
+        case WidgetBase::wt_Port:             return i18n("Enter the new name of the port:");
+        case WidgetBase::wt_Precondition:     return i18n("Enter the new name of the precondition:");
+        case WidgetBase::wt_Region:           return i18n("Enter the new name of the region:");
+        case WidgetBase::wt_Signal:           return i18n("Enter the new name of the signal:");
+        case WidgetBase::wt_State:            return i18n("Enter the new name of the state:");
+        case WidgetBase::wt_Text:             return i18n("Enter the new name of the text:");
+        case WidgetBase::wt_UMLWidget:        return i18n("Enter the new name of the uml widget:");
+        case WidgetBase::wt_UseCase:          return i18n("Enter the new name of the use case:");
+        default:
+            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            return i18n("Enter the new name of the widget:");
+        }
+        return QString();
+    }
+}

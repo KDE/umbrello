@@ -66,6 +66,10 @@ QString treeViewBuildDiagramName(Uml::ID::Type id);
 QString uniqObjectName(UMLObject::ObjectType type,
                        UMLPackage *parentPkg,
                        QString prefix = QString());
+QString newTitle(UMLObject::ObjectType type);
+QString newText(UMLObject::ObjectType type);
+QString renameTitle(UMLObject::ObjectType type);
+QString renameText(UMLObject::ObjectType type);
 
 QString getXmiId(QDomElement element);
 bool isCommonXMI1Attribute(const QString &tag);

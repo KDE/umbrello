@@ -14,6 +14,7 @@
 #include "basictypes.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
+#include "widgetbase.h"
 
 #include <QBrush>
 #include <QDomDocument>
@@ -61,6 +62,12 @@ namespace Widget_Utils
     bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
 
     QLineF closestPoints(const QPolygonF& self, const QPolygonF& other);
+
+    QString defaultWidgetName(WidgetBase::WidgetType type);
+    QString newTitle(WidgetBase::WidgetType type);
+    QString newText(WidgetBase::WidgetType type);
+    QString renameTitle(WidgetBase::WidgetType type);
+    QString renameText(WidgetBase::WidgetType type);
 }
 
 #endif

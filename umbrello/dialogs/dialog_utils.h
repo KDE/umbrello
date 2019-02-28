@@ -11,6 +11,8 @@
 #ifndef DIALOG_UTILS_H
 #define DIALOG_UTILS_H
 
+#include "widgetbase.h"
+
 #include <QString>
 
 #if QT_VERSION < 0x050000
@@ -41,6 +43,14 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
 bool askName(const QString& title, const QString& prompt, QString& name);
+
+bool askNewName(WidgetBase::WidgetType type, QString &name);
+bool askRenameName(WidgetBase::WidgetType type, QString &name);
+bool askDefaultNewName(WidgetBase::WidgetType type, QString &name);
+
+bool askNewName(UMLObject::ObjectType type, QString &name);
+bool askRenameName(UMLObject::ObjectType type, QString &name);
+bool askDefaultNewName(UMLObject::ObjectType type, QString &name);
 
 void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 
