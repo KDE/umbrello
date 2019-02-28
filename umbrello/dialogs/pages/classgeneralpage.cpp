@@ -304,7 +304,7 @@ void ClassGeneralPage::apply()
 
     if (m_pObject) {
         UMLObject::ObjectType t = m_pObject->baseType();
-        if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum) {
+        if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum || t == UMLObject::ot_Entity) {
             m_packageWidget->apply();
         }
 

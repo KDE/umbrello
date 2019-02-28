@@ -195,7 +195,7 @@ public:
     UMLFolder * datatypeFolder() const;
     UMLClassifierList datatypes();
     UMLAssociationList associations();
-    UMLPackageList packages(bool includeNested = true);
+    UMLPackageList packages(bool includeNested = true, Uml::ModelType::Enum model = Uml::ModelType::Logical);
 
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 

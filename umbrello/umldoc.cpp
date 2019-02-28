@@ -2932,10 +2932,10 @@ void UMLDoc::removeAllObjects()
  *
  * @return List of UMLPackages.
  */
-UMLPackageList UMLDoc::packages(bool includeNested /* = true */)
+UMLPackageList UMLDoc::packages(bool includeNested /* = true */, Uml::ModelType::Enum model)
 {
     UMLPackageList packageList;
-    m_root[Uml::ModelType::Logical]->appendPackages(packageList, includeNested);
+    m_root[model]->appendPackages(packageList, includeNested);
     return packageList;
 }
 

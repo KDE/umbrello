@@ -41,7 +41,8 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
 
     m_label->setBuddy(m_editField);
 
-    UMLPackageList packageList = UMLApp::app()->document()->packages();
+    Uml::ModelType::Enum guess = Model_Utils::guessContainer(o);
+    UMLPackageList packageList = UMLApp::app()->document()->packages(true, guess);
     QStringList packages;
     foreach(UMLPackage* package, packageList) {
         packages << package->name();
@@ -93,7 +94,8 @@ void UMLPackageWidget::apply()
             newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
         }
     } else {
-        newPackage = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+        Uml::ModelType::Enum guess = Model_Utils::guessContainer(m_object);
+        newPackage = UMLApp::app()->document()->rootFolder(guess);
     }
 
     // adjust list view items
