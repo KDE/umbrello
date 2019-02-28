@@ -46,8 +46,6 @@
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
-typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
-
 /**
  *  Sets up the UMLForeignKeyConstraintDialog
  *
@@ -158,7 +156,9 @@ bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
-    UMLObject* uo = m_doc->findUMLObject(entityName, UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  entityName,
+                                                  UMLObject::ot_Entity);
 
     UMLEntity* ue = uo->asUMLEntity();
 
@@ -188,6 +188,9 @@ bool UMLForeignKeyConstraintDialog::apply()
 
     // set the name
     m_pForeignKeyConstraint->setName(m_GeneralWidgets.nameT->text());
+
+    // propagate changes to tree view
+    m_pForeignKeyConstraint->emitModified();
 
     return true;
 }
@@ -422,8 +425,9 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
 
     // fill the combo boxes
 
-    UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
-                                         UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  m_GeneralWidgets.referencedEntityCB->currentText(),
+                                                  UMLObject::ot_Entity);
 
     UMLEntity* ue = uo->asUMLEntity();
 

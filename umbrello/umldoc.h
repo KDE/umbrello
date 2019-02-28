@@ -149,6 +149,14 @@ public:
                                 const QString &name,
                                 UMLObject::ObjectType type = UMLObject::ot_UMLObject);
 
+    UMLObject* findUMLObjectRecursive(Uml::ModelType::Enum,
+                                      const QString &name,
+                                      UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
+    UMLObject* findUMLObjectRecursive(UMLFolder *folder,
+                                      const QString &name,
+                                      UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
     UMLClassifier * findUMLClassifier(const QString &name);
 
     UMLView * findView(Uml::ID::Type id);
@@ -187,7 +195,7 @@ public:
     UMLFolder * datatypeFolder() const;
     UMLClassifierList datatypes();
     UMLAssociationList associations();
-    UMLPackageList packages(bool includeNested = true);
+    UMLPackageList packages(bool includeNested = true, Uml::ModelType::Enum model = Uml::ModelType::Logical);
 
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 

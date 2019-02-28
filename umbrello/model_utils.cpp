@@ -328,6 +328,35 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
 }
 
 /**
+ * Find the UML object of the given type and name in the passed-in list.
+ * This method searches for the raw name.
+ *
+ * @param inList        List in which to seek the object.
+ * @param name          Name of the object to find.
+ * @param type          ObjectType of the object to find (optional.)
+ *                      When the given type is ot_UMLObject the type is
+ *                      disregarded, i.e. the given name is the only
+ *                      search criterion.
+ * @return      Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
+                                  const QString& name,
+                                  UMLObject::ObjectType type /* = ot_UMLObject */)
+{
+    foreach(UMLObject *obj, inList) {
+        if (obj->name() == name && type == obj->baseType())
+            return obj;
+        UMLPackage *pkg = obj->asUMLPackage();
+        if (pkg && pkg->containedObjects().size() > 0) {
+            UMLObject *o = findUMLObjectRecursive(pkg->containedObjects(), name, type);
+            if (o)
+                return o;
+        }
+    }
+    return 0;
+}
+
+/**
  * Get the root folder of the given UMLObject.
  */
 UMLPackage* rootPackage(UMLObject* obj)
@@ -1143,24 +1172,29 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
                parentType == UMLListViewItem::lvt_UseCase_View;
     case UMLListViewItem::lvt_Subsystem:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
-               parentType == UMLListViewItem::lvt_Subsystem;
+               parentType == UMLListViewItem::lvt_Subsystem ||
+               parentType == UMLListViewItem::lvt_Component_View;
     case UMLListViewItem::lvt_Component:
-    case UMLListViewItem::lvt_Port:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component ||
+               parentType == UMLListViewItem::lvt_Subsystem ||
+               parentType == UMLListViewItem::lvt_Component_View;
+    case UMLListViewItem::lvt_Port:
+        return parentType == UMLListViewItem::lvt_Component ||
                parentType == UMLListViewItem::lvt_Subsystem;
     case UMLListViewItem::lvt_Artifact:
     case UMLListViewItem::lvt_Component_Diagram:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component_View;
-        break;
     case UMLListViewItem::lvt_Node:
     case UMLListViewItem::lvt_Deployment_Diagram:
-        return parentType == UMLListViewItem::lvt_Deployment_Folder;
+        return parentType == UMLListViewItem::lvt_Deployment_Folder ||
+               parentType == UMLListViewItem::lvt_Deployment_View;
     case UMLListViewItem::lvt_Entity:
     case UMLListViewItem::lvt_EntityRelationship_Diagram:
     case UMLListViewItem::lvt_Category:
-        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder;
+        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder ||
+               parentType == UMLListViewItem::lvt_EntityRelationship_Model;
     default:
         return false;
     }

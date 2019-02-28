@@ -29,6 +29,9 @@ class QLabel;
 class QPushButton;
 class QTreeWidget;
 
+typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
+typedef QList<EntityAttributePair> EntityAttributePairList;
+
 /**
  * A dialog page to display foreignkey constraint properties.
  *
@@ -91,7 +94,7 @@ private:
     UMLEntityAttributeList m_pLocalAttributeList;
     UMLEntityAttributeList m_pReferencedAttributeList;
 
-    QList< QPair<UMLEntityAttribute*, UMLEntityAttribute*> > m_pAttributeMapList;
+    EntityAttributePairList m_pAttributeMapList;
 
     /**
      * Temporary Storage for entity index in referencedColumnCB.

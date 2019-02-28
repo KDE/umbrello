@@ -1495,3 +1495,27 @@ void ClassifierWidget::slotShowOperations(bool state)
     setVisualProperty(ShowOperations, state);
 }
 
+/**
+ * Show a properties dialog for a ClassifierWidget
+ */
+bool ClassifierWidget::showPropertiesDialog()
+{
+    if (UMLWidget::showPropertiesDialog()) {
+        if (isInterfaceWidget() && visualProperty(DrawAsCircle))
+            m_pInterfaceName->setText(name());
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Overriding the method from WidgetBase because we need to do
+ * something extra in case this ClassifierWidget represents
+ * an interface widget used in component diagrams.
+ */
+void ClassifierWidget::setUMLObject(UMLObject *obj)
+{
+    WidgetBase::setUMLObject(obj);
+    if (isInterfaceWidget() && visualProperty(DrawAsCircle))
+        m_pInterfaceName->setText(obj->name());
+}

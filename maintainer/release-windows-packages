@@ -26,7 +26,6 @@ ARCHOUT64=x86_64-w64-mingw32
 
 REPO=openSUSE_Leap_42.3
 SRCREPO=$REPO
-VERSION=2.25.3
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
@@ -66,7 +65,15 @@ download) ## download rpm packages
         fi
         cd ..
         $self downloadsrc
+        $self fetchversion
         touch work/$1.finished
+        ;;
+
+fetchversion)
+        cd work
+        VERSION=$(find binaries/ -name "*$PACKAGENAME32-installer*" | sed "s,^.*$PACKAGENAME32-installer-,,g;s,-.*$,,g")
+        echo $VERSION > VERSION
+        touch $1.finished
         ;;
 
 downloadsrc) ## download source
@@ -88,6 +95,11 @@ downloadsrc) ## download source
         ;;
 
 unpack) ## unpack rpm files
+        if ! test -f work/VERSION; then
+            echo "no version found"
+            exit 1;
+        fi
+        VERSION=$(cat work/VERSION)
         cd work
         files=$(cd binaries; find -name '*installer*' -o -name '*portable*' -o -name '*src*' -o -name '*debugpackage*' | grep "$VERSION" | sed 's,^.,binaries,g')
         if test -d tmp; then
@@ -111,7 +123,7 @@ movepackage) ## move windows binary packages into upload folder
 
 repacksource) ## repackage source tar ball to 7z
         # repackage source package
-        srcfile=$(find work/tmp -name "$NAME*.xz")
+        srcfile=$(find work/tmp -name "$NAME-[0-9]*.xz")
         outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
         (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
         touch work/$1.finished
@@ -132,6 +144,11 @@ upload) ## upload files to staging area
         ;;
 
 createdescription) ## create ticket description
+        if ! test -f work/VERSION; then
+            echo "no version found"
+            exit 1;
+        fi
+        VERSION=$(cat work/VERSION)
         description="Please move the $NAME related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/$NAME/$VERSION' location and please update the symbolic link 'stable/$NAME/latest' to 'stable/$NAME/$VERSION'"
         sums=$(cat work/out/$NAME.sha256sum | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /[a-z]+-[0-9]/ { print "src   " $0 }')
         echo -e "$description\n\n$sums"
@@ -140,6 +157,11 @@ createdescription) ## create ticket description
 
 ticket) ## submit phabricator ticket
         description=$($0 createdescription)
+        if ! test -f work/createdescription.finished; then
+            echo "no description found"
+            exit 1;
+        fi
+        VERSION=$(cat work/VERSION)
         curl $PHABURL/api/maniphest.createtask \
         -d api.token=$apitoken \
         -d "title=tarball move request for stable/$NAME/$VERSION" \

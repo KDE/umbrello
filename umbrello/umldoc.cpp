@@ -1109,6 +1109,41 @@ UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
 }
 
 /**
+ * Used to find a @ref UMLObject by its type and raw name recursivly
+ *
+ * @param modelType    The model type in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRecursive(Uml::ModelType::Enum modelType,
+                                          const QString &name,
+                                          UMLObject::ObjectType type)
+{
+    return findUMLObjectRecursive(rootFolder(modelType), name, type);
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name recursivly
+ *
+ * @param folder       The UMLFolder in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRecursive(UMLFolder *folder,
+                                          const QString &name,
+                                          UMLObject::ObjectType type)
+{
+    if (folder == 0)
+        return 0;
+    UMLObjectList &list = folder->containedObjects();
+    if (list.size() == 0)
+        return 0;
+    return Model_Utils::findUMLObjectRecursive(list, name, type);
+}
+
+/**
  * Used to find a @ref UMLClassifier by its name.
  *
  * @param name   The name of the @ref UMLObject to find.
@@ -2897,10 +2932,10 @@ void UMLDoc::removeAllObjects()
  *
  * @return List of UMLPackages.
  */
-UMLPackageList UMLDoc::packages(bool includeNested /* = true */)
+UMLPackageList UMLDoc::packages(bool includeNested /* = true */, Uml::ModelType::Enum model)
 {
     UMLPackageList packageList;
-    m_root[Uml::ModelType::Logical]->appendPackages(packageList, includeNested);
+    m_root[model]->appendPackages(packageList, includeNested);
     return packageList;
 }
 

@@ -69,7 +69,8 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     updateResizability();
     calculateWidget();
     y = y < getMinY() ? getMinY() : y;
-    y = y > getMaxY() ? getMaxY() : y;
+    if (y > b->getEndLineY())
+        b->setEndLine(y);
     setY(y);
 
     this->activate();

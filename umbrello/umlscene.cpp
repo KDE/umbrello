@@ -186,8 +186,36 @@ public:
                     uWarning() << "uncatched widget position of" << w->name();
             }
         }
+    }
 
+    /**
+     * Check if duplicated floating text labels are in the scene and remove them
+     */
+    void removeDuplicatedFloatingTextInstances()
+    {
+        UMLWidgetList labelsWithoutParents;
+        UMLWidgetList labelsWithParent;
+        uDebug() << "checking diagram" << p->name() << "id" << Uml::ID::toString(p->ID());
 
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (!w->isTextWidget())
+                continue;
+            if (w->parentItem())
+                labelsWithParent.append(w);
+            else
+                labelsWithoutParents.append(w);
+        }
+        foreach(UMLWidget *w, labelsWithoutParents) {
+            foreach(UMLWidget *wp, labelsWithParent) {
+                if (w->id() == wp->id() &&
+                        w->localID() == wp->localID() &&
+                        w->name() == wp->name()) {
+                    p->removeWidgetCmd(w);
+                    uDebug() << "removed duplicated text label" << w->name() << "id:" << Uml::ID::toString(w->id());
+                    break;
+                }
+            }
+        }
     }
 
     UMLScene *p;
@@ -3785,6 +3813,7 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
         m_d->addMissingPorts();
         m_d->fixPortPositions();
     }
+    m_d->removeDuplicatedFloatingTextInstances();
     return true;
 }
 
