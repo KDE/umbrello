@@ -46,8 +46,6 @@
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
-typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
-
 /**
  *  Sets up the UMLForeignKeyConstraintDialog
  *
