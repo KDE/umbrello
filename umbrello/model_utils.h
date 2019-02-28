@@ -49,6 +49,10 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
+UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
+                                  const QString& name,
+                                  UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
 UMLPackage* rootPackage(UMLObject* obj);
 
 void treeViewAddViews(const UMLViewList& viewList);

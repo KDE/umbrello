@@ -158,7 +158,9 @@ bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
-    UMLObject* uo = m_doc->findUMLObject(entityName, UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  entityName,
+                                                  UMLObject::ot_Entity);
 
     UMLEntity* ue = uo->asUMLEntity();
 
@@ -422,8 +424,9 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
 
     // fill the combo boxes
 
-    UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
-                                         UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  m_GeneralWidgets.referencedEntityCB->currentText(),
+                                                  UMLObject::ot_Entity);
 
     UMLEntity* ue = uo->asUMLEntity();
 
