@@ -189,6 +189,9 @@ bool UMLForeignKeyConstraintDialog::apply()
     // set the name
     m_pForeignKeyConstraint->setName(m_GeneralWidgets.nameT->text());
 
+    // propagate changes to tree view
+    m_pForeignKeyConstraint->emitModified();
+
     return true;
 }
 
