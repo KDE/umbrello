@@ -1174,9 +1174,11 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Subsystem;
     case UMLListViewItem::lvt_Component:
-    case UMLListViewItem::lvt_Port:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component ||
+               parentType == UMLListViewItem::lvt_Subsystem;
+    case UMLListViewItem::lvt_Port:
+        return parentType == UMLListViewItem::lvt_Component ||
                parentType == UMLListViewItem::lvt_Subsystem;
     case UMLListViewItem::lvt_Artifact:
     case UMLListViewItem::lvt_Component_Diagram:
