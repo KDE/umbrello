@@ -1172,11 +1172,13 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
                parentType == UMLListViewItem::lvt_UseCase_View;
     case UMLListViewItem::lvt_Subsystem:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
-               parentType == UMLListViewItem::lvt_Subsystem;
+               parentType == UMLListViewItem::lvt_Subsystem ||
+               parentType == UMLListViewItem::lvt_Component_View;
     case UMLListViewItem::lvt_Component:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component ||
-               parentType == UMLListViewItem::lvt_Subsystem;
+               parentType == UMLListViewItem::lvt_Subsystem ||
+               parentType == UMLListViewItem::lvt_Component_View;
     case UMLListViewItem::lvt_Port:
         return parentType == UMLListViewItem::lvt_Component ||
                parentType == UMLListViewItem::lvt_Subsystem;
@@ -1184,14 +1186,15 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     case UMLListViewItem::lvt_Component_Diagram:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component_View;
-        break;
     case UMLListViewItem::lvt_Node:
     case UMLListViewItem::lvt_Deployment_Diagram:
-        return parentType == UMLListViewItem::lvt_Deployment_Folder;
+        return parentType == UMLListViewItem::lvt_Deployment_Folder ||
+               parentType == UMLListViewItem::lvt_Deployment_View;
     case UMLListViewItem::lvt_Entity:
     case UMLListViewItem::lvt_EntityRelationship_Diagram:
     case UMLListViewItem::lvt_Category:
-        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder;
+        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder ||
+               parentType == UMLListViewItem::lvt_EntityRelationship_Model;
     default:
         return false;
     }

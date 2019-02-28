@@ -127,7 +127,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
     }
 
-    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum) {
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum || t == UMLObject::ot_Entity) {
         m_packageWidget = new UMLPackageWidget(m_pObject);
         m_packageWidget->addToLayout(m_pNameLayout, row);
         ++row;
