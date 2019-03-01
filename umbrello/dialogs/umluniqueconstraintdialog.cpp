@@ -247,6 +247,9 @@ bool UMLUniqueConstraintDialog::apply()
     // set name
     m_pUniqueConstraint->setName(name);
 
+    // propagate changes to tree view
+    m_pUniqueConstraint->emitModified();
+
     return true;
 }
 
