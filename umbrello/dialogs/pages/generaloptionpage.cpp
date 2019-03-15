@@ -35,6 +35,7 @@
 #include <QSpinBox>
 #endif
 
+#include <iostream>
 /**
  * Constructor.
  * @param parent   the parent (wizard) of this wizard page
@@ -78,6 +79,21 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
+    
+    m_GeneralWidgets.layoutTypeL = new QLabel(i18n("Create new association lines as:"), m_GeneralWidgets.miscGB);
+    miscLayout->addWidget(m_GeneralWidgets.layoutTypeL, 3, 0);
+    m_GeneralWidgets.layoutTypeKB = new KComboBox(m_GeneralWidgets.miscGB);
+#if QT_VERSION < 0x050000
+    m_GeneralWidgets.layoutTypeKB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
+    miscLayout->addWidget(m_GeneralWidgets.layoutTypeKB, 3, 1);
+    for (int layoutTypeNo = 1; layoutTypeNo < 5; ++layoutTypeNo) {
+        Uml::LayoutType::Enum lt = Uml::LayoutType::fromInt(layoutTypeNo);
+        insertLayoutType(Uml::LayoutType::toString(lt), layoutTypeNo - 1);
+    }
+    std::cout << ((int)optionState.generalState.layouttype-1) << std::endl;
+    m_GeneralWidgets.layoutTypeKB->setCurrentIndex((int)optionState.generalState.layouttype-1);
+    
     topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
@@ -204,6 +220,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
 #endif
     optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
+    optionState.generalState.layouttype = Uml::LayoutType::fromInt(m_GeneralWidgets.layoutTypeKB->currentIndex() + 1);
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();
@@ -222,6 +239,15 @@ void GeneralOptionPage::insertDiagram(const QString& type, int index)
 {
     m_GeneralWidgets.diagramKB->insertItem(index, type);
     m_GeneralWidgets.diagramKB->completionObject()->addItem(type);
+}
+
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
+void GeneralOptionPage::insertLayoutType(const QString& type, int index)
+{
+    m_GeneralWidgets.layoutTypeKB->insertItem(index, type);
+    m_GeneralWidgets.layoutTypeKB->completionObject()->addItem(type);
 }
 
 /**

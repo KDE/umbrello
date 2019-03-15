@@ -38,6 +38,19 @@
          <whatsthis>Enables/Disables Support for Angular Lines in diagrams</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="layouttype" type="Enum">
+         <label>Layout Type</label>
+         <whatsthis>The layout type to use for new lines</whatsthis>
+         <choices name="Uml::DiagramType::Enum">
+            <choice name="Undefined"/>
+            <choice name="Direct"/>
+            <choice name="Orthogonal"/>
+            <choice name="Polyline"/>
+            <choice name="Spline"/>
+            <choice name="N_LAYOUTTYPES"/>
+         </choices>
+         <default>Uml::DiagramType::Direct</default>
+       </entry>
        <entry name="footerPrinting" type="Bool">
          <label>Footer Printing</label>
          <whatsthis>Enables/Disables Support for footer printing</whatsthis>

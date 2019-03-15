@@ -14,6 +14,7 @@
 // application includes
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlwidget.h"
@@ -25,6 +26,7 @@
 // system includes
 #include <cstdlib>
 #include <cmath>
+#include <iostream>
 
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
@@ -47,12 +49,17 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_subsetSymbol(0),
     m_collaborationLineItem(0),
     m_collaborationLineHead(0),
-    m_layout(Polyline)
+    m_layout(Settings::optionState().generalState.layouttype),
+    m_autoLayoutSpline(true)
 {
+    std::cout << "AssociationLine::AssociationLine()" << std::endl;
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
     setZValue(3);
+    //setLayout(Uml::LayoutType::Spline);
+    //createSplinePoints();
+    std::cout << "AssociationLine::AssociationLine(): " << Uml::LayoutType::toString(m_layout).toUtf8().constData() << std::endl;
 }
 
 /**
@@ -262,6 +269,23 @@ bool AssociationLine::isEndSegmentIndex(int index) const
     return (index == 0 || index == (size - 1));
 }
 
+bool AssociationLine::isAutoLayouted() const
+{
+    return m_autoLayoutSpline;
+}
+
+bool AssociationLine::enableAutoLayout()
+{
+    std::cout << "AssociationLine::enableAutoLayout()" << std::endl;
+    m_autoLayoutSpline = true;
+    createSplinePoints();
+    path();
+    createSplinePoints();
+    path();
+    update();
+    return true;
+}
+
 /**
  * Sets the start and end points.
  */
@@ -305,7 +329,7 @@ void AssociationLine::dumpPoints()
 bool AssociationLine::loadFromXMI1(QDomElement &qElement)
 {
     QString layout = qElement.attribute(QLatin1String("layout"), QLatin1String("polyline"));
-    m_layout = fromString(layout);
+    m_layout = Uml::LayoutType::fromString(layout);
 
     QDomNode node = qElement.firstChild();
 
@@ -359,7 +383,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
 void AssociationLine::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
-    lineElement.setAttribute(QLatin1String("layout"), toString(m_layout));
+    lineElement.setAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));
     QDomElement startElement = qDoc.createElement(QLatin1String("startpoint"));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
@@ -724,25 +748,28 @@ void AssociationLine::alignSymbols()
 /**
  * @return The path of the AssociationLine.
  */
-QPainterPath AssociationLine::path() const
+QPainterPath AssociationLine::path()
 {
+    std::cout << "AssociationLine::path(): " << Uml::LayoutType::toString(m_layout).toUtf8().constData() << m_points.size() << " points" << std::endl;
+    
     if (m_points.count() > 0) {
         QPainterPath path;
         switch (m_layout) {
-        case Direct:
+        case Uml::LayoutType::Direct:
             path.moveTo(m_points.first());
             path.lineTo(m_points.last());
             break;
 
-        case Spline:
+        case Uml::LayoutType::Spline:
+            createSplinePoints();
             path = createBezierCurve(m_points);
             break;
 
-        case Orthogonal:
+        case Uml::LayoutType::Orthogonal:
             path = createOrthogonalPath(m_points);
             break;
 
-        case Polyline:
+        case Uml::LayoutType::Polyline:
         default:
             QPolygonF polygon(m_points);
             path.addPolygon(polygon);
@@ -772,7 +799,7 @@ QRectF AssociationLine::boundingRect() const
 /**
  * @return The shape of the AssociationLine.
  */
-QPainterPath AssociationLine::shape() const
+QPainterPath AssociationLine::shape()
 {
     QPainterPathStroker stroker;
     stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
@@ -783,30 +810,30 @@ QPainterPath AssociationLine::shape() const
 /**
  * Convert enum LayoutType to string.
  */
-QString AssociationLine::toString(LayoutType layout)
+QString AssociationLine::toString(Uml::LayoutType::Enum layout)
 {
-    return QLatin1String(ENUM_NAME(AssociationLine, LayoutType, layout));
+    return Uml::LayoutType::toString(layout);
 }
 
 /**
  * Convert string to enum LayoutType.
  */
-AssociationLine::LayoutType AssociationLine::fromString(const QString &layout)
+Uml::LayoutType::Enum AssociationLine::fromString(const QString &layout)
 {
     if (layout == QLatin1String("Direct"))
-        return Direct;
+        return Uml::LayoutType::Direct;
     if (layout == QLatin1String("Spline"))
-        return Spline;
+        return Uml::LayoutType::Spline;
     if (layout == QLatin1String("Orthogonal"))
-        return Orthogonal;
-    return Polyline;
+        return Uml::LayoutType::Orthogonal;
+    return Uml::LayoutType::Polyline;
 }
 
 /**
  * Return the layout type of the association line.
  * @return   the currently used layout
  */
-AssociationLine::LayoutType AssociationLine::layout() const
+Uml::LayoutType::Enum AssociationLine::layout() const
 {
     return m_layout;
 }
@@ -815,12 +842,13 @@ AssociationLine::LayoutType AssociationLine::layout() const
  * Set the layout type of the association line.
  * @param layout   the desired layout to set
  */
-void AssociationLine::setLayout(LayoutType layout)
+void AssociationLine::setLayout(Uml::LayoutType::Enum layout)
 {
+    std::cout << "AssociationLine::setLayout()" << std::endl;
     prepareGeometryChange();
     m_layout = layout;
-    DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
-    if (m_layout == Spline) {
+    DEBUG(DBG_SRC) << "new layout = " << Uml::LayoutType::toString(m_layout);
+    if (m_layout == Uml::LayoutType::Spline) {
         createSplinePoints();
     }
     alignSymbols();
@@ -833,19 +861,62 @@ void AssociationLine::setLayout(LayoutType layout)
  */
 void AssociationLine::createSplinePoints()
 {
-    if (m_points.size() == 2) {  // create two points
-        QPointF p1 = m_points.first();  // start point
-        QPointF p2 = m_points.last();   // end point
+    std::cout << "AssociationLine::createSplinePoints(): " << m_points.size() << " points" << std::endl;
+    QPointF c1, c2;
+    QPointF p1 = m_points.first();  // start point
+    QPointF p2 = m_points.last();   // end point
+        
+    if (m_autoLayoutSpline) {
+        std::cout << "AssociationLine::createSplinePoints(): auto" << std::endl;
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
-        qreal oneThirdX = 0.33 * dx;
+        /*qreal oneThirdX = 0.33 * dx;
         qreal oneThirdY = 0.33 * dy;
         QPointF c1(p1.x() + oneThirdX,  // control point 1
                    p1.y() - oneThirdY);
         QPointF c2(p2.x() - oneThirdX,  // control point 2
-                   p2.y() + oneThirdY);
+                   p2.y() + oneThirdY);*/
+        qreal oneHalfX = 0.5 * dx;
+        qreal oneHalfY = 0.5 * dy;
+        if (dx > dy) {
+            c1dx = oneHalfX;
+            c1dy = 0;
+            c2dx = -oneHalfX;
+            c2dy = 0;
+        }
+        else {
+            c1dx = 0;
+            c1dy = oneHalfY;
+            c2dx = 0;
+            c2dy = -oneHalfY;
+        }
+        
+        c1 = QPointF(p1.x() + c1dx,  // control point 1
+                p1.y() + c1dy);
+        c2 = QPointF(p2.x() + c2dx,  // control point 2
+                p2.y() + c2dy);
+    } else {
+        std::cout << "AssociationLine::createSplinePoints(): not auto" << std::endl;
+        //c1 = m_points[1];
+        //c2 = m_points[2];
+        
+        //c1dx = c1.x() - p1.x();
+        //c1dy = c1.y() - p1.y();
+        //c2dx = c2.x() - p2.x();
+        //c2dy = c2.y() - p2.y();
+        
+        c1 = QPointF(p1.x() + c1dx,  // control point 1
+                    p1.y() + c1dy);
+        c2 = QPointF(p2.x() + c2dx,  // control point 2
+                    p2.y() + c2dy);
+    }
+    if (m_points.size() == 2) {  // create two points
         insertPoint(1, c1);
         insertPoint(2, c2);
+    }
+    if (m_points.size() == 4) {  // change bezier points
+        setPoint(1, c1);
+        setPoint(2, c2);
     }
     if (m_points.size() == 3) {  // create one point
         // insertPoint(1 or 2, );
@@ -860,6 +931,9 @@ void AssociationLine::createSplinePoints()
  */
 QPainterPath AssociationLine::createBezierCurve(QVector<QPointF> points)
 {
+    std::string autoLayout;
+
+    std::cout << "AssociationLine::createBezierCurve(): " << points.size() << " points " << std::endl;
     QPainterPath path;
     if (points.size() > 3) {  // cubic Bezier curve(s)
         path.moveTo(points.at(0));
@@ -938,6 +1012,7 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
  */
 void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    std::cout << "AssociationLine::paint()" << std::endl;
     Q_UNUSED(widget)
     QPen _pen = pen();
     const QColor orig = _pen.color().lighter();
@@ -999,6 +1074,23 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                 painter->drawRect(circle);
             }
         }
+        
+        //circle.moveCenter(savedStart);
+        //painter->drawRect(circle);
+        
+        // draw bezier handles
+        if (m_layout == Uml::LayoutType::Spline) {
+            for (int i = 2; i < sz-1; ++i) {
+                painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
+                //    if(m_layout == Uml::LayoutType::Spline) {
+                QLineF mysegmentLine(savedStart, m_points[i-1]);
+                painter->drawLine(mysegmentLine);
+                
+                QLineF mysegmentLine2(m_points[i], savedEnd);
+                painter->drawLine(mysegmentLine2);
+            }            
+        }
+        
         circle.moveCenter(savedEnd);
         painter->drawRect(circle);
 
@@ -1011,7 +1103,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->drawEllipse(circle);
         }
         else if (m_activeSegmentIndex != -1) {
-            if (m_layout == Polyline) {
+            if (m_layout == Uml::LayoutType::Polyline) {
                 painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
                 painter->setBrush(Qt::NoBrush);
 
@@ -1019,6 +1111,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                 painter->drawLine(segmentLine);
             }
         }
+        
         // debug info
         if (Tracer::instance()->isEnabled(QString::fromLatin1(metaObject()->className()))) {
             painter->setPen(Qt::green);
@@ -1103,7 +1196,15 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_activePointIndex != -1) {
         // Move a single point (snap behaviour)
+        if (m_activePointIndex == 1) {
+            c1dx = newPos.x() - m_points.at(0).x();
+            c1dy = newPos.y() - m_points.at(0).y();
+        } else if (m_activePointIndex == 2) {
+            c2dx = newPos.x() - m_points.at(3).x();
+            c2dy = newPos.y() - m_points.at(3).y();
+        }
         setPoint(m_activePointIndex, newPos);
+        m_autoLayoutSpline = false;
     }
     else if (m_activeSegmentIndex != -1 && !isEndSegmentIndex(m_activeSegmentIndex)) {
         // Move a segment (between two points, snap behaviour not implemented)

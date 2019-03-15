@@ -105,17 +105,9 @@ class Symbol : public QGraphicsItem
 class AssociationLine : public QGraphicsObject
 {
     Q_OBJECT
-    Q_ENUMS(LayoutType)
 public:
-    enum LayoutType {
-        Direct = 1,
-        Orthogonal,
-        Polyline,
-        Spline
-    };
-
-    static QString toString(LayoutType layout);
-    static LayoutType fromString(const QString& layout);
+    static QString toString(Uml::LayoutType::Enum layout);
+    static Uml::LayoutType::Enum fromString(const QString& layout);
 
     explicit AssociationLine(AssociationWidget *association);
     virtual ~AssociationLine();
@@ -138,6 +130,9 @@ public:
 
     bool isEndPointIndex(int index) const;
     bool isEndSegmentIndex(int index) const;
+    bool isAutoLayouted() const;
+    
+    bool enableAutoLayout();
 
     bool setEndPoints(const QPointF &start, const QPointF &end);
 
@@ -153,13 +148,13 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-    QPainterPath path() const;
+    QPainterPath path();
 
     QRectF boundingRect() const;
-    QPainterPath shape() const;
+    QPainterPath shape();
 
-    LayoutType layout() const;
-    void setLayout(LayoutType layout);
+    Uml::LayoutType::Enum  layout() const;
+    void setLayout(Uml::LayoutType::Enum layout);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -196,12 +191,13 @@ private:
     Symbol            *m_subsetSymbol;           ///< subset symbol
     QGraphicsLineItem *m_collaborationLineItem;  ///< parallel arrow line drawn in case of collaboration message
     Symbol            *m_collaborationLineHead;  ///< arrow head drawn at end of m_collaborationLineItem
-    LayoutType         m_layout;
+    Uml::LayoutType::Enum m_layout;
     QPen               m_pen;                    ///< pen used to draw an association line
-
+    bool               m_autoLayoutSpline;
     static QPainterPath createBezierCurve(QVector<QPointF> points);
     static QPainterPath createOrthogonalPath(QVector<QPointF> points);
 
+    qreal              c1dx, c1dy, c2dx, c2dy;
     static const qreal Delta;  ///< default delta for fuzzy recognition of points closer to point
     static const qreal SelectedPointDiameter;         ///< radius of circles drawn to show "selection"
     static const qreal SelfAssociationMinimumHeight;  ///< minimum height for self association's loop

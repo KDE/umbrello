@@ -63,6 +63,8 @@ protected:
         QCheckBox * tabdiagramsCB;
         QCheckBox * newcodegenCB;
         QCheckBox * angularLinesCB;
+        QLabel    * layoutTypeL;
+        KComboBox * layoutTypeKB;
         QCheckBox * footerPrintingCB;
         
         QCheckBox * autosaveCB;
@@ -80,6 +82,7 @@ protected:
     } m_GeneralWidgets;
 
     void insertDiagram(const QString& type, int index);
+    void insertLayoutType(const QString& type, int index);
 
 protected slots:
     void slotAutosaveCBClicked();

@@ -56,6 +56,7 @@ public:
     bool tabdiagrams;
     bool newcodegen;
     bool angularlines;
+    Uml::LayoutType::Enum layouttype;
     bool footerPrinting;
     bool autosave;
     int time;        ///< old autosave time, kept for compatibility
@@ -286,6 +287,22 @@ public:
     bool showExportLayout;  ///< flag for display export layout
 };
 
+class LayoutTypeState {
+public:
+    LayoutTypeState()
+     : showExportLayout(Uml::LayoutType::Enum::Direct)
+    {
+    }
+
+    void load();
+    void save();
+
+    void saveToXMI1(QDomElement& element);
+    bool loadFromXMI1(QDomElement& element);
+
+    Uml::LayoutType::Enum  showExportLayout;  ///< flag for display export layout
+};
+
 class OptionState {
 public:
     OptionState();
@@ -299,6 +316,7 @@ public:
     static OptionState &instance();
 
     GeneralState        generalState;
+    LayoutTypeState     layoutTypeState;
     UIState             uiState;
     ClassState          classState;
     CodeViewerState     codeViewerState;

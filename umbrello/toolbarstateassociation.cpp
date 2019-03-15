@@ -32,6 +32,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+#include <iostream>
+
 /**
  * Creates a new ToolBarStateAssociation.
  *
@@ -189,6 +191,7 @@ void ToolBarStateAssociation::setFirstWidget()
     cleanAssociation();
     m_firstWidget = widget;
 
+    // preliminary line
     m_associationLine = new QGraphicsLineItem();
     m_pUMLScene->addItem(m_associationLine);
     m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
@@ -212,6 +215,7 @@ void ToolBarStateAssociation::setFirstWidget()
  */
 void ToolBarStateAssociation::setSecondWidget()
 {
+    std::cout << "ToolBarStateAssociation::setSecondWidget()" << std::endl;
     Uml::AssociationType::Enum type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = currentWidget();

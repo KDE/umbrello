@@ -186,6 +186,7 @@ public:
         mt_Flip,
         mt_Add_Point,
         mt_Delete_Point,
+        mt_Auto_Layout_Spline,
 
         mt_Expand_All,                           // Expand all items in the list
         mt_Collapse_All,                         // Collapse all items in the list

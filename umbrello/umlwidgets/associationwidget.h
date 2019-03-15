@@ -190,6 +190,7 @@ public:
 
     bool isPointAddable();
     bool isPointRemovable();
+    bool isAutoLayouted();
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -284,6 +285,7 @@ private:
 
     bool checkAddPoint(const QPointF &scenePos);
     bool checkRemovePoint(const QPointF &scenePos);
+    bool checkAutoLayoutSpline();
 
     bool linePathStartsAt(const UMLWidget* widget);
 

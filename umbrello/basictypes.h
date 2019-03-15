@@ -135,7 +135,25 @@ namespace Uml
         Enum fromInt(int item);
         bool hasUMLRepresentation(Enum item);
     }
-
+    
+    /**
+     * Layout types.
+     */
+    namespace LayoutType
+    {
+        enum Enum {
+            Undefined = 0,
+            Direct,
+            Orthogonal,
+            Polyline,
+            Spline,
+            N_LAYOUTTYPES   // must remain last
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
+    
     /**
      * Signature types.
      */

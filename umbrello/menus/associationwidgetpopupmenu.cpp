@@ -53,6 +53,8 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
             insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
         if (widget->isPointRemovable())
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
+        if (!widget->isAutoLayouted())
+            insert(mt_Auto_Layout_Spline, i18n("Choose Spline points automatically"));
         addSeparator();
         insertSubMenuLayout(widget->associationLine());
         addSeparator();
@@ -97,16 +99,16 @@ void AssociationWidgetPopupMenu::insertSubMenuLayout(AssociationLine *associatio
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);
     insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
     switch(associationLine->layout()) {
-    case AssociationLine::Direct:
+    case Uml::LayoutType::Direct:
         m_actions[mt_LayoutDirect]->setChecked(true);
         break;
-    case AssociationLine::Orthogonal:
+    case Uml::LayoutType::Orthogonal:
         m_actions[mt_LayoutOrthogonal]->setChecked(true);
         break;
-    case AssociationLine::Spline:
+    case Uml::LayoutType::Spline:
         m_actions[mt_LayoutSpline]->setChecked(true);
         break;
-    case AssociationLine::Polyline:
+    case Uml::LayoutType::Polyline:
     default:
         m_actions[mt_LayoutPolyline]->setChecked(true);
         break;

@@ -25,6 +25,7 @@ namespace Settings {
         newcodegen = UmbrelloSettings::newcodegen();
     #endif
         angularlines = UmbrelloSettings::angularlines();
+        layouttype = UmbrelloSettings::layouttype();
         footerPrinting =  UmbrelloSettings::footerPrinting();
         uml2 = UmbrelloSettings::uml2();
         autosave =  UmbrelloSettings::autosave();

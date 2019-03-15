@@ -56,6 +56,7 @@
 
 // system includes
 #include <cmath>
+#include <iostream>
 
 #define DBG_AW() DEBUG(QLatin1String("AssociationWidget"))
 DEBUG_REGISTER_DISABLED(AssociationWidget)
@@ -138,6 +139,7 @@ AssociationWidget* AssociationWidget::create
                                      Uml::AssociationType::Enum assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = 0 */)
 {
+    std::cout << "AssociationWidget::create" << std::endl;
     AssociationWidget* instance = new AssociationWidget(scene);
     if (umlobject) {
         instance->setUMLObject(umlobject);
@@ -1383,6 +1385,13 @@ bool AssociationWidget::isPointRemovable()
         return false;
     int i = m_associationLine->closestPointIndex(m_eventScenePos);
     return i > 0 && i < m_associationLine->count() - 1;
+}
+
+bool AssociationWidget::isAutoLayouted()
+{
+    if (!isSelected() || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
+        return false;
+    return  m_associationLine->isAutoLayouted();
 }
 
 /**
@@ -3035,6 +3044,10 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Delete_Point:
         checkRemovePoint(m_eventScenePos);
         break;
+        
+    case ListPopupMenu::mt_Auto_Layout_Spline:
+        checkAutoLayoutSpline();
+        break;
 
     case ListPopupMenu::mt_Delete:
         if (!Dialog_Utils::askDeleteAssociation())
@@ -3155,16 +3168,16 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_LayoutDirect:
-        m_associationLine->setLayout(AssociationLine::Direct);
+        m_associationLine->setLayout(Uml::LayoutType::Direct);
         break;
     case ListPopupMenu::mt_LayoutSpline:
-        m_associationLine->setLayout(AssociationLine::Spline);
+        m_associationLine->setLayout(Uml::LayoutType::Spline);
         break;
     case ListPopupMenu::mt_LayoutOrthogonal:
-        m_associationLine->setLayout(AssociationLine::Orthogonal);
+        m_associationLine->setLayout(Uml::LayoutType::Orthogonal);
         break;
     case ListPopupMenu::mt_LayoutPolyline:
-        m_associationLine->setLayout(AssociationLine::Polyline);
+        m_associationLine->setLayout(Uml::LayoutType::Polyline);
         break;
 
     default:
@@ -3319,6 +3332,12 @@ bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
 
     calculateNameTextSegment();
     umlDoc()->setModified(true);
+    return true;
+}
+
+bool AssociationWidget::checkAutoLayoutSpline() {
+    m_associationLine->enableAutoLayout();
+    m_associationLine->update();
     return true;
 }
 
@@ -3856,7 +3875,7 @@ bool AssociationWidget::onAssociation(const QPointF& point)
         return true;
     }
     // check also the points
-    if (m_associationLine->layout() == AssociationLine::Spline) {
+    if (m_associationLine->layout() == Uml::LayoutType::Spline) {
         if (m_associationLine->closestPointIndex(point, diameter) > -1) {
             DEBUG(DBG_SRC) << "on spline point";
             return true;

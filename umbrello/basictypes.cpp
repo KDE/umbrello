@@ -476,6 +476,58 @@ bool hasUMLRepresentation(Enum item)
 
 //-----------------------------------------------------------------------------
 
+namespace LayoutType
+{
+    
+/**
+ * Return string corresponding to the given LayoutType.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Direct:
+            return QLatin1String("Direct");
+        case Orthogonal:
+            return QLatin1String("Orthogonal");
+        case Polyline:
+            return QLatin1String("Polyline");
+        case Spline:
+            return QLatin1String("Spline");
+        default:
+            break;
+    }
+    return QString();
+}
+
+/**
+ * Return LayoutType corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == QLatin1String("Direct"))
+        return Direct;
+    if (item == QLatin1String("Orthogonal"))
+        return Orthogonal;
+    if (item == QLatin1String("Polyline"))
+        return Polyline;
+    if (item == QLatin1String("Spline"))
+        return Spline;
+    return Direct;
+}
+
+/**
+ * Convert a integer item into LayoutType representation.
+ * @param item   integer value to convert
+ * @return LayoutType enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+}
+    
+//-----------------------------------------------------------------------------
+
 namespace SignatureType {
 
 /**
