@@ -86,6 +86,8 @@ bool UMLCheckConstraintDialog::apply()
     // set name
     m_pCheckConstraint->setName(m_pNameLE->text().trimmed());
 
+    // propagate changes to tree view
+    m_pCheckConstraint->emitModified();
     return true;
 }
 
