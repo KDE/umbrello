@@ -91,7 +91,11 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
         QFileInfo fi(file.fileName());
 
         UMLFolder *parent = m_rootFolder;
-        QString path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
+        QString path;
+        if (!m_rootPath.isEmpty())
+            path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
+        else
+            path = fi.absolutePath();
         if (!path.isEmpty())
             parent = Import_Utils::createSubDir(path, m_rootFolder);
 
