@@ -98,6 +98,10 @@ if(NOT DISABLE_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
 endif()
+if(BUILD_KF5 AND NOT TARGET KDev::Tests)
+    message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
+    set(KDEVPLATFORM_FOUND 0)
+endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
     include_directories(
         ${KDEVPGQT_INCLUDE_DIR}
@@ -125,9 +129,6 @@ else()
 
     ki18n_install(po)
     kdoctools_install(po)
-    if(NOT TARGET KDev::Tests)
-        message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
-    endif()
 endif()
 
 if(POLICY CMP0071)
