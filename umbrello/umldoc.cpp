@@ -509,9 +509,9 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     KJobWidgets::setWindow(job, UMLApp::app());
     job->exec();
     QFile file(tmpfile.fileName());
-    if (job->error() || !tmpfile.exists()) {
-        if (!tmpfile.exists())
-            DEBUG(DBG_SRC) << "UMLDoc::openDocument: temporary file <" << tmpfile.fileName() << "> failed!";
+    if (job->error() || !file.exists()) {
+        if (!file.exists())
+            DEBUG(DBG_SRC) << "UMLDoc::openDocument: temporary file <" << file.fileName() << "> failed!";
         if (job->error())
            DEBUG(DBG_SRC) << "UMLDoc::openDocument: " << job->errorString();
         KMessageBox::error(0, i18n("The file <%1> does not exist.", url.toString()), i18n("Load Error"));
@@ -547,7 +547,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
     if (mimetype.isEmpty() == false) {
 #if QT_VERSION >= 0x050000
-        KTar archive(tmpfile.fileName(), mimetype);
+        KTar archive(file.fileName(), mimetype);
 #else
         KTar archive(tmpfile, mimetype);
 #endif
