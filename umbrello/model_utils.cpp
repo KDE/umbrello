@@ -85,6 +85,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
 {
     for (UMLObjectListIt oit(inList); oit.hasNext();) {
         UMLObject *obj = oit.next();
+        uIgnoreZeroPointer(obj);
         if (obj->id() == id)
             return obj;
         UMLObject *o;

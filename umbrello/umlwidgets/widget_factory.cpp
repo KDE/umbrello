@@ -38,6 +38,7 @@
 #include "floatingtextwidget.h"
 #include "folder.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "messagewidget.h"
 #include "node.h"
 #include "nodewidget.h"
@@ -127,7 +128,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = ow;
         } else {
             UMLClassifier *c = o->asUMLClassifier();
-            ClassifierWidget* interfaceWidget = new ClassifierWidget(scene, c);
+            InterfaceWidget* interfaceWidget = new InterfaceWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component || diagramType == Uml::DiagramType::Deployment) {
                 interfaceWidget->setDrawAsCircle(true);
             }
@@ -280,7 +281,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ArtifactWidget(scene, o->asUMLArtifact());
         } else if (tag == QLatin1String("interfacewidget")) {
             if (validateObjType(UMLObject::ot_Interface, o, id))
-                widget = new ClassifierWidget(scene, o->asUMLClassifier());
+                widget = new InterfaceWidget(scene, o->asUMLClassifier());
         } else if (tag == QLatin1String("datatypewidget")) {
             if (validateObjType(UMLObject::ot_Datatype, o, id))
                 widget = new DatatypeWidget(scene, o->asUMLClassifier());

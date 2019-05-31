@@ -401,6 +401,7 @@ set(libumlwidgets_SRCS
     umlwidgets/floatingdashlinewidget.cpp
     umlwidgets/floatingtextwidget.cpp
     umlwidgets/forkjoinwidget.cpp
+    umlwidgets/interfacewidget.cpp
     umlwidgets/layoutgrid.cpp
     umlwidgets/linkwidget.cpp
     umlwidgets/messagewidget.cpp
