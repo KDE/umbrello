@@ -32,6 +32,7 @@
 #if QT_VERSION >= 0x050000
 #include <QUrl>
 #endif
+#include <QMap>
 
 // system includes
 #include <typeinfo>
