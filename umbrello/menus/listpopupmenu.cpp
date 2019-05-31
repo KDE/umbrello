@@ -119,12 +119,6 @@ void ListPopupMenu::insert(MenuType m)
     insert(m, this);
 }
 
-void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QString &s)
-{
-    QAction* action = UMLApp::app()->actionCollection()->action(s);
-    insert(m, menu, action->icon(), action->text());
-}
-
 /**
  * Shortcut for the frequently used addAction() calls.
  *
@@ -132,7 +126,7 @@ void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QSt
  * @param menu   The KMenu for which to insert a menu item.
  * @param s      The entry to be inserted from the action collection
  */
-void ListPopupMenu::insertAction(const MenuType m, KMenu *menu, const QString &s)
+void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QString &s)
 {
     QAction* action = UMLApp::app()->actionCollection()->action(s);
     insert(m, menu, action->icon(), action->text());
@@ -344,11 +338,11 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folderAndDiagrams, bo
     if (packages)
         insert(mt_Package);
     if (folderAndDiagrams) {
-        insertAction(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
-        insertAction(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));
-        insertAction(mt_Collaboration_Diagram, menu, QLatin1String("new_collaboration_diagram"));
-        insertAction(mt_State_Diagram, menu, QLatin1String("new_state_diagram"));
-        insertAction(mt_Activity_Diagram, menu, QLatin1String("new_activity_diagram"));
+        insertFromActionKey(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
+        insertFromActionKey(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));
+        insertFromActionKey(mt_Collaboration_Diagram, menu, QLatin1String("new_collaboration_diagram"));
+        insertFromActionKey(mt_State_Diagram, menu, QLatin1String("new_state_diagram"));
+        insertFromActionKey(mt_Activity_Diagram, menu, QLatin1String("new_activity_diagram"));
     }
 }
 
