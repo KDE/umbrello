@@ -56,7 +56,6 @@
 
 // system includes
 #include <cmath>
-#include <iostream>
 
 #define DBG_AW() DEBUG(QLatin1String("AssociationWidget"))
 DEBUG_REGISTER_DISABLED(AssociationWidget)
@@ -139,7 +138,6 @@ AssociationWidget* AssociationWidget::create
                                      Uml::AssociationType::Enum assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = 0 */)
 {
-    std::cout << "AssociationWidget::create" << std::endl;
     AssociationWidget* instance = new AssociationWidget(scene);
     if (umlobject) {
         instance->setUMLObject(umlobject);

@@ -26,7 +26,6 @@
 // system includes
 #include <cstdlib>
 #include <cmath>
-#include <iostream>
 
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
@@ -49,17 +48,15 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_subsetSymbol(0),
     m_collaborationLineItem(0),
     m_collaborationLineHead(0),
-    m_layout(Settings::optionState().generalState.layouttype),
+    m_layout(Settings::optionState().generalState.layoutType),
     m_autoLayoutSpline(true)
 {
-    std::cout << "AssociationLine::AssociationLine()" << std::endl;
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
     setZValue(3);
     //setLayout(Uml::LayoutType::Spline);
     //createSplinePoints();
-    std::cout << "AssociationLine::AssociationLine(): " << Uml::LayoutType::toString(m_layout).toUtf8().constData() << std::endl;
 }
 
 /**
@@ -276,7 +273,6 @@ bool AssociationLine::isAutoLayouted() const
 
 bool AssociationLine::enableAutoLayout()
 {
-    std::cout << "AssociationLine::enableAutoLayout()" << std::endl;
     m_autoLayoutSpline = true;
     createSplinePoints();
     path();
@@ -748,10 +744,8 @@ void AssociationLine::alignSymbols()
 /**
  * @return The path of the AssociationLine.
  */
-QPainterPath AssociationLine::path()
+QPainterPath AssociationLine::path() const
 {
-    std::cout << "AssociationLine::path(): " << Uml::LayoutType::toString(m_layout).toUtf8().constData() << m_points.size() << " points" << std::endl;
-    
     if (m_points.count() > 0) {
         QPainterPath path;
         switch (m_layout) {
@@ -761,7 +755,6 @@ QPainterPath AssociationLine::path()
             break;
 
         case Uml::LayoutType::Spline:
-            createSplinePoints();
             path = createBezierCurve(m_points);
             break;
 
@@ -799,7 +792,7 @@ QRectF AssociationLine::boundingRect() const
 /**
  * @return The shape of the AssociationLine.
  */
-QPainterPath AssociationLine::shape()
+QPainterPath AssociationLine::shape() const
 {
     QPainterPathStroker stroker;
     stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
@@ -844,7 +837,6 @@ Uml::LayoutType::Enum AssociationLine::layout() const
  */
 void AssociationLine::setLayout(Uml::LayoutType::Enum layout)
 {
-    std::cout << "AssociationLine::setLayout()" << std::endl;
     prepareGeometryChange();
     m_layout = layout;
     DEBUG(DBG_SRC) << "new layout = " << Uml::LayoutType::toString(m_layout);
@@ -861,13 +853,11 @@ void AssociationLine::setLayout(Uml::LayoutType::Enum layout)
  */
 void AssociationLine::createSplinePoints()
 {
-    std::cout << "AssociationLine::createSplinePoints(): " << m_points.size() << " points" << std::endl;
     QPointF c1, c2;
     QPointF p1 = m_points.first();  // start point
     QPointF p2 = m_points.last();   // end point
         
     if (m_autoLayoutSpline) {
-        std::cout << "AssociationLine::createSplinePoints(): auto" << std::endl;
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
         /*qreal oneThirdX = 0.33 * dx;
@@ -896,7 +886,6 @@ void AssociationLine::createSplinePoints()
         c2 = QPointF(p2.x() + c2dx,  // control point 2
                 p2.y() + c2dy);
     } else {
-        std::cout << "AssociationLine::createSplinePoints(): not auto" << std::endl;
         //c1 = m_points[1];
         //c2 = m_points[2];
         
@@ -933,7 +922,6 @@ QPainterPath AssociationLine::createBezierCurve(QVector<QPointF> points)
 {
     std::string autoLayout;
 
-    std::cout << "AssociationLine::createBezierCurve(): " << points.size() << " points " << std::endl;
     QPainterPath path;
     if (points.size() > 3) {  // cubic Bezier curve(s)
         path.moveTo(points.at(0));
@@ -1012,7 +1000,6 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
  */
 void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    std::cout << "AssociationLine::paint()" << std::endl;
     Q_UNUSED(widget)
     QPen _pen = pen();
     const QColor orig = _pen.color().lighter();

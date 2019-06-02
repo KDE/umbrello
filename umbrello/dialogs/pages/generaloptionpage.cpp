@@ -35,7 +35,6 @@
 #include <QSpinBox>
 #endif
 
-#include <iostream>
 /**
  * Constructor.
  * @param parent   the parent (wizard) of this wizard page
@@ -91,8 +90,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
         Uml::LayoutType::Enum lt = Uml::LayoutType::fromInt(layoutTypeNo);
         insertLayoutType(Uml::LayoutType::toString(lt), layoutTypeNo - 1);
     }
-    std::cout << ((int)optionState.generalState.layouttype-1) << std::endl;
-    m_GeneralWidgets.layoutTypeKB->setCurrentIndex((int)optionState.generalState.layouttype-1);
+    m_GeneralWidgets.layoutTypeKB->setCurrentIndex((int)optionState.generalState.layoutType-1);
     
     topLayout->addWidget(m_GeneralWidgets.miscGB);
 
@@ -220,7 +218,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
 #endif
     optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
-    optionState.generalState.layouttype = Uml::LayoutType::fromInt(m_GeneralWidgets.layoutTypeKB->currentIndex() + 1);
+    optionState.generalState.layoutType = Uml::LayoutType::fromInt(m_GeneralWidgets.layoutTypeKB->currentIndex() + 1);
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();

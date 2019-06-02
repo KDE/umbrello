@@ -32,8 +32,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <iostream>
-
 /**
  * Creates a new ToolBarStateAssociation.
  *
@@ -215,7 +213,6 @@ void ToolBarStateAssociation::setFirstWidget()
  */
 void ToolBarStateAssociation::setSecondWidget()
 {
-    std::cout << "ToolBarStateAssociation::setSecondWidget()" << std::endl;
     Uml::AssociationType::Enum type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = currentWidget();

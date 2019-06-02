@@ -148,10 +148,10 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-    QPainterPath path();
+    QPainterPath path() const;
 
     QRectF boundingRect() const;
-    QPainterPath shape();
+    QPainterPath shape() const;
 
     Uml::LayoutType::Enum  layout() const;
     void setLayout(Uml::LayoutType::Enum layout);

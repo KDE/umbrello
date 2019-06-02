@@ -56,7 +56,7 @@ public:
     bool tabdiagrams;
     bool newcodegen;
     bool angularlines;
-    Uml::LayoutType::Enum layouttype;
+    Uml::LayoutType::Enum layoutType;
     bool footerPrinting;
     bool autosave;
     int time;        ///< old autosave time, kept for compatibility
