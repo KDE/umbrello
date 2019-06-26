@@ -314,13 +314,16 @@ bool PythonImport::parseStmt()
         }
 
         QString name = advance();
+        bool isConstructor = name == QLatin1String("__init__");
         Uml::Visibility::Enum visibility = Uml::Visibility::Public;
-        if (name.startsWith(QLatin1String("__"))) {
-            name = name.mid(2);
-            visibility = Uml::Visibility::Private;
-        } else if (name.startsWith(QLatin1String("_"))) {
-            name = name.mid(1);
-            visibility = Uml::Visibility::Protected;
+        if (!isConstructor) {
+            if (name.startsWith(QLatin1String("__"))) {
+                name = name.mid(2);
+                visibility = Uml::Visibility::Private;
+            } else if (name.startsWith(QLatin1String("_"))) {
+                name = name.mid(1);
+                visibility = Uml::Visibility::Protected;
+            }
         }
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != QLatin1String("(")) {
@@ -345,7 +348,7 @@ bool PythonImport::parseStmt()
         }
         Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
-                                   false /*isConstructor*/, false, m_comment);
+                                   isConstructor, false, m_comment);
         m_isStatic = false;
         int srcIndex = m_srcIndex;
         op->setSourceCode(skipBody());
@@ -356,7 +359,7 @@ bool PythonImport::parseStmt()
         }
 
         // parse instance variables from __init__ method
-        if (name == QLatin1String("__init__")) {
+        if (isConstructor) {
             int indexSave = m_srcIndex;
             m_srcIndex = srcIndex;
             advance();
