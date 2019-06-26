@@ -235,16 +235,19 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
     }
     QString type;
     if (value == QLatin1String("[")) {
-        if (lookAhead() == QLatin1String("]")) {
-            advance();
-            type = QLatin1String("list");
-            value = QLatin1String("");
+        type = QLatin1String("list");
+        for(QString token = advance(); token != ";"; token = advance()) {
+            value += token;
         }
     } else if (value == QLatin1String("{")) {
-        if (lookAhead() == QLatin1String("}")) {
-            advance();
-            type = QLatin1String("dict");
-            value = QLatin1String("");
+        type = QLatin1String("dict");
+        for(QString token = advance(); token != ";"; token = advance()) {
+            value += token;
+        }
+    } else if (value == QLatin1String("(")) {
+        type = QLatin1String("tuple");
+        for(QString token = advance(); token != ";"; token = advance()) {
+            value += token;
         }
     } else if (value.startsWith(QLatin1String("\""))) {
         type = QLatin1String("string");
@@ -255,7 +258,17 @@ bool PythonImport::parseAssignmentStmt(const QString keyword)
     } else if (value.contains(QRegExp(QLatin1String("-?\\d+")))) {
         type = QLatin1String("int");
     } else if (!value.isEmpty()) {
-        type = QLatin1String("object");
+        if (lookAhead() == "(") {
+            advance();
+            type = value;
+            value = QLatin1String("");
+            for(QString token = advance(); token != ")"; token = advance()) {
+                value += token;
+            }
+            if (!value.isEmpty())
+                value = QString("(%1)").arg(value);
+        } else
+            type = QLatin1String("object");
     }
 
     UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
