@@ -96,6 +96,9 @@ endmacro()
 
 macro(find_package package)
     # avoid recursive loops
+    if(NOT DEFEINED in_find_package)
+        set(in_find_package 0)
+    endif()
     math(EXPR in_find_package "${in_find_package} + 1")
     #message("-- ${ARGV} --")
     if("${package}" MATCHES "^(Qt5)")
