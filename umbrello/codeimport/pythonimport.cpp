@@ -214,8 +214,12 @@ QString PythonImport::skipBody()
  * @param value returns assignment value
  * @return success status of parsing
  */
-bool PythonImport::parseInitializer(const QString &keyword, QString &type, QString &value)
+bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QString &value)
 {
+    QString keyword = _keyword;
+    if (_keyword == QLatin1String("-"))
+        keyword.append(advance());
+
     if (keyword == QLatin1String("[")) {
         type = QLatin1String("list");
         int index = m_srcIndex;
@@ -292,10 +296,7 @@ bool PythonImport::parseAssignmentStmt(const QString &keyword)
     QString initialValue;
     if (advance() == QLatin1String("=")) {
 
-        QString value = advance();
-        if (value == QLatin1String("-"))
-            value.append(advance());
-        if (!parseInitializer(value, type, initialValue))
+        if (!parseInitializer(advance(), type, initialValue))
             return false;
     }
 
