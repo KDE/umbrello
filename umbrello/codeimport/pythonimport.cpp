@@ -207,6 +207,13 @@ QString PythonImport::skipBody()
     return body;
 }
 
+/**
+ * Parses a python initializer
+ * @param _keyword current string from parser
+ * @param type returns type of assignment
+ * @param value returns assignment value
+ * @return success status of parsing
+ */
 bool PythonImport::parseInitializer(const QString &keyword, QString &type, QString &value)
 {
     if (keyword == QLatin1String("[")) {
@@ -260,6 +267,7 @@ bool PythonImport::parseInitializer(const QString &keyword, QString &type, QStri
 /**
  * Parse assignments in the form \<identifier\> '=' \<value\>
  * Instance variables are identified by a prefixed 'self.'.
+ * @param keyword current string from parser
  * @return success status of parsing
  */
 bool PythonImport::parseAssignmentStmt(const QString &keyword)
@@ -299,6 +307,11 @@ bool PythonImport::parseAssignmentStmt(const QString &keyword)
     return true;
 }
 
+/**
+ * Parses method parameter list
+ * @param op UMLOperation instance to add parameter
+ * @return success status of parsing
+ */
 bool PythonImport::parseMethodParameters(UMLOperation *op)
 {
     bool firstParam = true;
