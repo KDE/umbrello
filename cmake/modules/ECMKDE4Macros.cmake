@@ -54,6 +54,9 @@ endmacro(ecm_add_test)
 
 macro(add_executable)
     # avoid recursive loops
+    if(NOT DEFINED in_add_executable)
+        set(in_add_executable 0)
+    endif()
     math(EXPR in_add_executable "${in_add_executable} + 1")
     if(${in_find_package} OR ${in_add_executable} GREATER 1)
         _add_executable(${ARGV})
