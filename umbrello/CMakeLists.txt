@@ -1,4 +1,5 @@
 add_subdirectory( headings )
+add_subdirectory(docgenerators)
 
 if(ENABLE_OBJECT_DIAGRAM)
     set(ACTION_NEW_OBJECT_DIAGRAM "<Action name=\"new_object_diagram\"/>")
@@ -663,13 +664,6 @@ else()
     install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
     install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 endif()
-
-install( FILES
-    docgenerators/xmi2docbook.xsl
-    docgenerators/docbook2xhtml.xsl
-    docgenerators/xmi.css
-    docgenerators/common.ent
-    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 
 install( DIRECTORY
     layouts

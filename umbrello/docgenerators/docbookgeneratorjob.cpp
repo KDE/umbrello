@@ -41,6 +41,88 @@
 
 extern int xmlLoadExtDtdDefaultValue;
 
+#define MAX_PATHS 64
+xmlExternalEntityLoader defaultEntityLoader = NULL;
+static xmlChar *paths[MAX_PATHS + 1];
+static int nbpaths = 0;
+static QHash<QString,QString> replaceURLList;
+
+/*
+* Entity loading control and customization.
+* taken from kdelibs/kdoctools/xslt.cpp
+*/
+static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const char *ID,xmlParserCtxtPtr ctxt)
+{
+    xmlParserInputPtr ret;
+    warningSAXFunc warning = NULL;
+
+    // use local available dtd versions instead of fetching it everytime from the internet
+    QString url = QLatin1String(_URL);
+    QHash<QString, QString>::const_iterator i;
+    for(i = replaceURLList.constBegin(); i != replaceURLList.constEnd(); i++)
+    {
+        if (url.startsWith(i.key()))
+        {
+            url.replace(i.key(),i.value());
+            qDebug() << "converted" << _URL << "to" << url;
+        }
+    }
+    char URL[1024];
+    strcpy(URL,url.toLatin1().constData());
+
+    const char *lastsegment = URL;
+    const char *iter = URL;
+
+    if (nbpaths > 0) {
+        while (*iter != 0) {
+            if (*iter == '/')
+            lastsegment = iter + 1;
+            iter++;
+        }
+    }
+
+    if ((ctxt != NULL) && (ctxt->sax != NULL)) {
+        warning = ctxt->sax->warning;
+        ctxt->sax->warning = NULL;
+    }
+
+    if (defaultEntityLoader != NULL) {
+        ret = defaultEntityLoader(URL, ID, ctxt);
+        if (ret != NULL) {
+            if (warning != NULL)
+                ctxt->sax->warning = warning;
+            qDebug() << "Loaded URL=\"" << URL << "\" ID=\"" << ID << "\"";
+            return(ret);
+        }
+    }
+    for (int i = 0;i < nbpaths;i++) {
+        xmlChar *newURL;
+
+        newURL = xmlStrdup((const xmlChar *) paths[i]);
+        newURL = xmlStrcat(newURL, (const xmlChar *) "/");
+        newURL = xmlStrcat(newURL, (const xmlChar *) lastsegment);
+        if (newURL != NULL) {
+            ret = defaultEntityLoader((const char *)newURL, ID, ctxt);
+        if (ret != NULL) {
+            if (warning != NULL)
+                ctxt->sax->warning = warning;
+                qDebug() << "Loaded URL=\"" << newURL << "\" ID=\"" << ID << "\"";
+                xmlFree(newURL);
+                return(ret);
+            }
+            xmlFree(newURL);
+        }
+    }
+    if (warning != NULL) {
+        ctxt->sax->warning = warning;
+        if (URL != NULL)
+            warning(ctxt, "failed to load external entity \"%s\"\n", URL);
+        else if (ID != NULL)
+            warning(ctxt, "failed to load external entity \"%s\"\n", ID);
+    }
+    return(NULL);
+}
+
 DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
         QThread(parent)
 {
@@ -85,6 +167,14 @@ void DocbookGeneratorJob::run()
 #endif
     if (xsltFile.isEmpty())
         xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+    if (!defaultEntityLoader) {
+        defaultEntityLoader = xmlGetExternalEntityLoader();
+        xmlSetExternalEntityLoader(xsltprocExternalEntityLoader);
+        QFileInfo xsltFilePath(xsltFile);
+
+        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString("file:///%1/simple4125/sdocbook.dtd").arg(xsltFilePath.absolutePath());
+    }
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
