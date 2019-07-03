@@ -13,6 +13,8 @@
 
 #include "nativeimportbase.h"
 
+class UMLOperation;
+
 /**
  * Python code import
  * @author Oliver Kellogg
@@ -27,8 +29,10 @@ public:
 protected:
     void initVars();
 
-    bool parseAssignmentStmt(const QString keyword);
+    bool parseInitializer(const QString &keyword, QString &type, QString &value);
+    bool parseAssignmentStmt(const QString &keyword);
 
+    bool parseMethodParameters(UMLOperation *op);
     bool parseStmt();
 
     void fillSource(const QString& line);

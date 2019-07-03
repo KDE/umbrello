@@ -5,6 +5,10 @@ class Visibility():
   _protected=0
   public=0
 
+  # public by default
+  def __init__(self):
+    pass
+
   def public(self):
     pass
 
