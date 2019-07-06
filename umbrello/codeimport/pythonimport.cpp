@@ -250,11 +250,11 @@ bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QStr
     } else if (keyword.contains(QRegExp(QLatin1String("-?\\d+")))) {
         type = QLatin1String("int");
         value = keyword;
-    } else if (keyword.toLower() == "none") {
+    } else if (keyword.toLower() == QLatin1String("none")) {
         type = QLatin1String("object");
         value = keyword;
     } else if (!keyword.isEmpty()) {
-        if (lookAhead() == "(") {
+        if (lookAhead() == QLatin1String("(")) {
             advance();
             type = keyword;
             int index = m_srcIndex;
