@@ -173,7 +173,7 @@ void DocbookGeneratorJob::run()
         xmlSetExternalEntityLoader(xsltprocExternalEntityLoader);
         QFileInfo xsltFilePath(xsltFile);
 
-        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString("file:///%1/simple4125/sdocbook.dtd").arg(xsltFilePath.absolutePath());
+        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString(QLatin1String("file:///%1/simple4125/sdocbook.dtd")).arg(xsltFilePath.absolutePath());
     }
 
     xmlSubstituteEntitiesDefault(1);
