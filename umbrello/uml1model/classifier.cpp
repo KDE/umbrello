@@ -665,6 +665,25 @@ UMLObject* UMLClassifier::clone() const
 }
 
 /**
+ * override setting name of classifier
+ * @param strName name to set
+ */
+void UMLClassifier::setNameCmd(const QString &strName)
+{
+    if (hasMethods()) {
+        UMLOperationList constructors = findOperations(name());
+        foreach(UMLOperation *constructor, constructors) {
+            constructor->setNameCmd(strName);
+        }
+        UMLOperationList destructors = findOperations(QLatin1String("~") + name());
+        foreach(UMLOperation *destructor, destructors) {
+            destructor->setNameCmd(QLatin1String("~") + strName);
+        }
+    }
+    UMLObject::setNameCmd(strName);
+}
+
+/**
  * Needs to be called after all UML objects are loaded from file.
  * Calls the parent resolveRef(), and calls resolveRef() on all
  * UMLClassifierListItems.

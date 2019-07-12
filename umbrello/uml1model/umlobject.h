@@ -160,7 +160,7 @@ public:
     UMLObject* umlParent() const;
 
     virtual void setName(const QString &strName);
-    void setNameCmd(const QString &strName) ;
+    virtual void setNameCmd(const QString &strName) ;
     QString name() const;
 
     virtual QString fullyQualifiedName(const QString& separator = QString(),

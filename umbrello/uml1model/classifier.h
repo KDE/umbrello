@@ -55,6 +55,8 @@ public:
 
     UMLObject* clone() const;
 
+    virtual void setNameCmd(const QString &strName);
+
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                           UMLObject *type = 0,
                                           Uml::Visibility::Enum vis = Uml::Visibility::Private,
