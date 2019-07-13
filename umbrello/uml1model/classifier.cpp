@@ -670,14 +670,14 @@ UMLObject* UMLClassifier::clone() const
  */
 void UMLClassifier::setNameCmd(const QString &strName)
 {
-    if (hasMethods()) {
-        UMLOperationList constructors = findOperations(name());
-        foreach(UMLOperation *constructor, constructors) {
-            constructor->setNameCmd(strName);
-        }
-        UMLOperationList destructors = findOperations(QLatin1String("~") + name());
-        foreach(UMLOperation *destructor, destructors) {
-            destructor->setNameCmd(QLatin1String("~") + strName);
+    if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Cpp ||
+            UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::CSharp ||
+            UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java) {
+        foreach(UMLOperation *op, getOpList()) {
+            if (op->isConstructorOperation())
+                op->setNameCmd(strName);
+            if (op->isDestructorOperation())
+                op->setNameCmd(QLatin1String("~") + strName);
         }
     }
     UMLObject::setNameCmd(strName);
