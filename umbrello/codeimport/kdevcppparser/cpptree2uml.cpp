@@ -666,6 +666,16 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     }
 
     QString returnType = typeOfDeclaration(typeSpec, d);
+    // if a class has no return type, it could de a constructor or
+    // a destructor
+    if (d && returnType.isEmpty()) {
+        if (id.indexOf(QLatin1Char('~')) == -1)
+            isConstructor = true;
+        else {
+            isDestructor = true;
+            id.remove(QLatin1String(" "));
+        }
+    }
     UMLOperation *m = Import_Utils::makeOperation(c, id);
     if (d->override())
         m->setOverride(true);
@@ -677,14 +687,6 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setVirtual(true);
     if (isInline)
         m->setInline(true);
-    // if a class has no return type, it could de a constructor or
-    // a destructor
-    if (d && returnType.isEmpty()) {
-        if (id.indexOf(QLatin1Char('~')) == -1)
-            isConstructor = true;
-        else
-            isDestructor = true;
-    }
 
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
