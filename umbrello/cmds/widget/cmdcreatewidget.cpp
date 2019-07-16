@@ -11,6 +11,9 @@
 #include "cmdcreatewidget.h"
 
 // app includes
+#include "associationwidget.h"
+#include "model_utils.h"
+#include "uml.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -36,6 +39,21 @@ namespace Uml
     }
 
     /**
+     * Constructor.
+     */
+    CmdCreateWidget::CmdCreateWidget(AssociationWidget* widget)
+      : CmdBaseWidgetCommand(widget)
+    {
+        setText(i18n("Create widget : %1", widget->name()));
+
+        addWidgetToScene(widget);
+
+        QDomDocument doc;
+        m_element = doc.createElement(QLatin1String("widget"));
+        widget->saveToXMI1(doc, m_element);
+    }
+
+    /**
      *  Destructor.
      */
     CmdCreateWidget::~CmdCreateWidget()
@@ -47,14 +65,31 @@ namespace Uml
      */
     void CmdCreateWidget::redo()
     {
-        UMLWidget* umlWidget = scene()->findWidget(m_widgetId);
-        if (umlWidget == 0) {
-            // If the widget is not found, the add command was undone. Load the
-            // widget back from the saved XMI state.
-            QDomElement widgetElement = m_element.firstChild().toElement();
-            umlWidget = scene()->loadWidgetFromXMI(widgetElement);
-            if (umlWidget)
-                addWidgetToScene(umlWidget);
+        if (!m_isAssoc) {
+            UMLWidget* widget = scene()->findWidget(m_widgetId);
+            if (widget == nullptr) {
+                // If the widget is not found, the add command was undone. Load the
+                // widget back from the saved XMI state.
+                QDomElement widgetElement = m_element.firstChild().toElement();
+                widget = scene()->loadWidgetFromXMI(widgetElement);
+                if (widget) {
+                    addWidgetToScene(widget);
+                }
+            }
+        } else {
+            AssociationWidget* widget = scene()->findAssocWidget(m_widgetId);
+            if (widget == nullptr) {
+                // If the widget is not found, the add command was undone. Load the
+                // widget back from the saved XMI state.
+                QDomElement widgetElement = m_element.firstChild().toElement();
+                widget = AssociationWidget::create(scene());
+                if (widget->loadFromXMI1(widgetElement)) {
+                    addWidgetToScene(widget);
+                    m_assocWidget = widget;
+                    m_widgetId = widget->id();
+                } else
+                    delete widget;
+            }
         }
     }
 
@@ -63,9 +98,9 @@ namespace Uml
      */
     void CmdCreateWidget::undo()
     {
-        UMLWidget* umlWidget = widget();
-        if (umlWidget != 0) {
-            scene()->removeWidgetCmd(umlWidget);
-        }
+        if (!m_isAssoc)
+            removeWidgetFromScene(widget());
+        else
+            removeWidgetFromScene(assocWidget());
     }
 }

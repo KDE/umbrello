@@ -1259,6 +1259,16 @@ void UMLScene::removeWidget(UMLWidget * o)
 }
 
 /**
+ * Remove a widget from view (undo command)
+ *
+ * @param o  The widget to remove.
+ */
+void UMLScene::removeWidget(AssociationWidget* w)
+{
+    UMLApp::app()->executeCommand(new CmdRemoveWidget(w));
+}
+
+/**
  * Remove a widget from view.
  *
  * @param o  The widget to remove.
@@ -1583,7 +1593,7 @@ void UMLScene::deleteSelection()
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, selectedAssociations) {
-        removeWidgetCmd(assocwidget);
+        removeWidget(assocwidget);
     }
 
     // we also have to remove selected messages from sequence diagrams

@@ -16,6 +16,7 @@
 #include <QPointer>
 #include <QUndoCommand>
 
+class AssociationWidget;
 class UMLScene;
 class UMLWidget;
 
@@ -25,6 +26,7 @@ namespace Uml
     {
         public:
             explicit CmdBaseWidgetCommand(UMLWidget* widget);
+            CmdBaseWidgetCommand(AssociationWidget* widget);
             virtual ~CmdBaseWidgetCommand();
 
         protected:
@@ -32,10 +34,17 @@ namespace Uml
             Uml::ID::Type m_widgetId;
             QPointer<UMLScene> m_scene;
             QPointer<UMLWidget> m_widget;
+            QPointer<AssociationWidget> m_assocWidget;
+            bool m_isAssoc;
 
             void setWidget(UMLWidget* widget);
+            void setWidget(AssociationWidget* widget);
             void addWidgetToScene(UMLWidget* widget);
+            void addWidgetToScene(AssociationWidget* widget);
+            void removeWidgetFromScene(UMLWidget *widget);
+            void removeWidgetFromScene(AssociationWidget *widget);
             UMLWidget* widget();
+            AssociationWidget* assocWidget();
             UMLScene* scene();
     };
 }

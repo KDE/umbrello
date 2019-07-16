@@ -17,6 +17,7 @@
 #include "associationline.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "cmds/widget/cmdcreatewidget.h"
 #include "floatingtextwidget.h"
 #include "debug_utils.h"
 #include "folder.h"
@@ -238,16 +239,7 @@ void ToolBarStateAssociation::setSecondWidget()
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)
             wt->showOperationDialog();
-        if (addAssociationInViewAndDoc(temp)) {
-            if (type == Uml::AssociationType::Containment) {
-                UMLObject *newContainer = widgetA->umlObject();
-                UMLObject *objToBeMoved = widgetB->umlObject();
-                if (newContainer && objToBeMoved) {
-                    Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
-                }
-            }
-            UMLApp::app()->document()->setModified();
-        }
+        UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(temp));
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget

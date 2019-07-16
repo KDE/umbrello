@@ -176,6 +176,7 @@ public:
                                        UMLWidget *pWidgetB, const QString& roleNameB);
 
     void removeWidget(UMLWidget *o);
+    void removeWidget(AssociationWidget *w);
     void removeWidgetCmd(UMLWidget *o);
 private:
     void removeOwnedWidgets(UMLWidget* o);
