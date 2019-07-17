@@ -521,7 +521,8 @@ void FloatingTextWidget::moveWidgetBy(qreal diffX, qreal diffY)
         return;
 
     if (textRole() == Uml::TextRole::Seq_Message
-                    && ((MessageWidget*)link())->isSelected()) {
+            && link() && dynamic_cast<MessageWidget*>(link())
+            && dynamic_cast<MessageWidget*>(link())->isSelected()) {
         return;
     }
 
