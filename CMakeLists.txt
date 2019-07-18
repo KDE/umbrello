@@ -106,6 +106,7 @@ if(BUILD_KF5 AND NOT TARGET KDev::Tests)
     set(BUILD_PHP_IMPORT 0)
 endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
+    message(STATUS "requirements available - enable building php code import")
     include_directories(
         ${KDEVPGQT_INCLUDE_DIR}
         ${KDEVPLATFORM_INCLUDE_DIR}
