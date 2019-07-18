@@ -428,7 +428,7 @@ void UMLScene::setID(Uml::ID::Type id)
  */
 QPointF UMLScene::pos() const
 {
-    return m_Pos;
+    return m_pos;
 }
 
 /**
@@ -436,7 +436,7 @@ QPointF UMLScene::pos() const
  */
 void UMLScene::setPos(const QPointF &pos)
 {
-    m_Pos = pos;
+    m_pos = pos;
 }
 
 /**
@@ -690,8 +690,8 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
         (!w->isPortWidget()) &&
         (!w->isObjectWidget())) {
         // ObjectWidget's position is handled by the widget
-        w->setX(m_Pos.x());
-        w->setY(m_Pos.y());
+        w->setX(m_pos.x());
+        w->setY(m_pos.y());
     }
     w->setVisible(true);
     w->activate();
@@ -877,7 +877,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned error";
         return;
     }
-    m_Pos = e->scenePos();
+    m_pos = e->scenePos();
 
     for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
         UMLListViewItem::ListViewType lvtype = (*it)->type;
@@ -911,7 +911,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         }
 
         setupNewWidget(newWidget);
-        m_Pos += QPointF(UMLWidget::DefaultMinimumSize.width(), UMLWidget::DefaultMinimumSize.height());
+        m_pos += QPointF(UMLWidget::DefaultMinimumSize.width(), UMLWidget::DefaultMinimumSize.height());
         createAutoAssociations(newWidget);
         createAutoAttributeAssociations2(newWidget);
     }
@@ -1935,8 +1935,8 @@ void UMLScene::activate()
     foreach(AssociationWidget* aw, associationList()) {
         if (aw->activate()) {
             if (m_PastePoint.x() != 0) {
-                int x = m_PastePoint.x() - m_Pos.x();
-                int y = m_PastePoint.y() - m_Pos.y();
+                int x = m_PastePoint.x() - m_pos.x();
+                int y = m_PastePoint.y() - m_pos.y();
                 aw->moveEntireAssoc(x, y);
             }
         } else {
@@ -3086,9 +3086,9 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Paste:
-        m_PastePoint = m_Pos;
-        m_Pos.setX(2000);
-        m_Pos.setY(2000);
+        m_PastePoint = m_pos;
+        m_pos.setX(2000);
+        m_pos.setY(2000);
         UMLApp::app()->slotEditPaste();
 
         m_PastePoint.setX(0);
@@ -3291,8 +3291,8 @@ void UMLScene::slotShowView()
 QPointF UMLScene::getPastePoint()
 {
     QPointF point = m_PastePoint;
-    point.setX(point.x() - m_Pos.x());
-    point.setY(point.y() - m_Pos.y());
+    point.setX(point.x() - m_pos.x());
+    point.setY(point.y() - m_pos.y());
     return point;
 }
 
@@ -3301,7 +3301,7 @@ QPointF UMLScene::getPastePoint()
  */
 void UMLScene::resetPastePoint()
 {
-    m_PastePoint = m_Pos;
+    m_PastePoint = m_pos;
 }
 
 /**

@@ -370,7 +370,7 @@ protected:
 #endif
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
-    QPointF m_Pos;
+    QPointF m_pos;
     bool m_bCreateObject;
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
