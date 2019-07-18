@@ -22,6 +22,7 @@
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "notewidget.h"
+#include "messagewidget.h"
 #include "object_factory.h"
 #include "idchangelog.h"
 #include "menus/listpopupmenu.h"
@@ -868,6 +869,14 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         addConnectedWidget(widget, Uml::AssociationType::Association);
         break;
     }
+
+    case ListPopupMenu::mt_MessageSynchronous:
+//        MessageWidget *widget = new MessageWidget(umlScene(), this);
+//        addConnectedWidget(widget, Uml::AssociationType::Coll_Message_Synchronous);
+    case ListPopupMenu::mt_MessageAsynchronous:
+    case ListPopupMenu::mt_MessageFound:
+    case ListPopupMenu::mt_MessageLost:
+        break;
 
     default:
         WidgetBase::slotMenuSelection(trigger);

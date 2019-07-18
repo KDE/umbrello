@@ -207,6 +207,7 @@ public:
     void selectAll();
 
     UMLWidget* widgetOnDiagram(Uml::ID::Type id);
+    UMLWidget *widgetOnDiagram(WidgetBase::WidgetType type);
 
     bool isSavedInSeparateFile();
 
@@ -384,8 +385,6 @@ private:
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 
-    ToolBarStateFactory* m_pToolBarStateFactory;
-    ToolBarState* m_pToolBarState;
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
     bool m_isActivated;             ///< True if the view was activated after the serialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.

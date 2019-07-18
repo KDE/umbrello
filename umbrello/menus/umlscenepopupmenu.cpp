@@ -166,6 +166,13 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
         case Uml::DiagramType::Sequence:
             insert(mt_Import_from_File, menu);
             insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
+            if (m_scene->onWidgetLine(m_scene->pos())) {
+                insert(mt_MessageSynchronous, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Message_Sync), i18n("Synchronous Message"));
+                insert(mt_MessageAsynchronous, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Message_Async), i18n("Asynchronous Message"));
+                insert(mt_MessageLost, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Message_Lost), i18n("Lost Message"));
+            } else if (m_scene->widgetOnDiagram(WidgetBase::wt_Object)){
+                insert(mt_MessageFound, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Message_Found), i18n("Found Message"));
+            }
             break;
         case Uml::DiagramType::Collaboration:
             insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));

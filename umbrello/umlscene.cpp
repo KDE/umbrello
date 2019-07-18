@@ -115,10 +115,17 @@ DEBUG_REGISTER(UMLScene)
 class UMLScenePrivate {
 public:
     UMLScenePrivate(UMLScene *parent)
-    : p(parent)
+      : p(parent),
+        toolBarState(nullptr)
     {
+        toolBarStateFactory = new ToolBarStateFactory;
     }
 
+    ~UMLScenePrivate()
+    {
+        delete toolBarState;
+        delete toolBarStateFactory;
+    }
     /**
      * Check if there is a corresponding port widget
      * for all UMLPort instances and add if not.
@@ -219,7 +226,29 @@ public:
         }
     }
 
+    void setToolBarChanged(WorkToolBar::ToolBar_Buttons button)
+    {
+        if (toolBarState)
+            toolBarState->cleanBeforeChange();
+        toolBarState = toolBarStateFactory->getState(button, p);
+        toolBarState->init();
+        p->setPaste(false);
+    }
+
+    void addConnectedMessageWidget(WorkToolBar::ToolBar_Buttons button)
+    {
+        setToolBarChanged(button);
+        QGraphicsSceneMouseEvent event;
+        event.setScenePos(p->pos());
+        event.setButton(Qt::LeftButton);
+        toolBarState->mousePress(&event);
+        toolBarState->mouseRelease(&event);
+    }
+
     UMLScene *p;
+    ToolBarStateFactory *toolBarStateFactory;
+    ToolBarState *toolBarState;
+
 };
 
 /**
@@ -256,10 +285,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     // setup signals
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
-    // Create the ToolBarState factory. This class is not a singleton, because it
-    // needs a pointer to this object.
-    m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
+    m_d->setToolBarChanged(WorkToolBar::tbb_Arrow);
 
     m_doc = UMLApp::app()->document();
 
@@ -291,8 +317,6 @@ UMLScene::~UMLScene()
     blockSignals(true);
     removeAllWidgets();
 
-    delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = 0;
     delete m_layoutGrid;
     delete m_d;
 }
@@ -757,11 +781,7 @@ void UMLScene::hideEvent(QHideEvent* /*he*/)
  */
 void UMLScene::slotToolBarChanged(int c)
 {
-    m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
-    m_pToolBarState->init();
-
-    m_bPaste = false;
+    m_d->setToolBarChanged((WorkToolBar::ToolBar_Buttons)c);
 }
 
 /**
@@ -923,7 +943,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
  */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseMove(ome);
+    m_d->toolBarState->mouseMove(ome);
 }
 
 /**
@@ -937,7 +957,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         return;
     }
 
-    m_pToolBarState->mousePress(event);
+    m_d->toolBarState->mousePress(event);
 
     //TODO should be managed by widgets when are selected. Right now also has some
     //problems, such as clicking on a widget, and clicking to move that widget shows
@@ -975,7 +995,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     if (!m_doc->loading())
-        m_pToolBarState->mouseDoubleClick(event);
+        m_d->toolBarState->mouseDoubleClick(event);
     if (!event->isAccepted()) {
         // show properties dialog of the scene
         if (m_view->showPropertiesDialog() == true) {
@@ -991,7 +1011,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseRelease(ome);
+    m_d->toolBarState->mouseRelease(ome);
 }
 
 /**
@@ -1139,6 +1159,24 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
     }
 
     return 0;
+}
+
+/**
+ * Returns whether a widget is already on the diagram.
+ *
+ * @param type The type of the widget to check for.
+ *
+ * @return Returns pointer to the widget if it is on the diagram, NULL if not.
+ */
+UMLWidget* UMLScene::widgetOnDiagram(WidgetBase::WidgetType type)
+{
+    foreach(UMLWidget *widget, widgetList()) {
+        if (!widget)
+            continue;
+        if (widget->baseType() == type)
+            return widget;
+    }
+    return nullptr;
 }
 
 /**
@@ -3252,6 +3290,22 @@ void UMLScene::slotMenuSelection(QAction* action)
                 UMLApp::app()->slotStatusMsg(i18n("Failed to import from file."));
         break;
     }
+
+    case ListPopupMenu::mt_MessageSynchronous:
+        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Synchronous);
+        break;
+
+    case ListPopupMenu::mt_MessageAsynchronous:
+        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Asynchronous);
+        break;
+
+    case ListPopupMenu::mt_MessageFound:
+        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Found);
+        break;
+
+    case ListPopupMenu::mt_MessageLost:
+        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Lost);
+        break;
 
     default:
         uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
