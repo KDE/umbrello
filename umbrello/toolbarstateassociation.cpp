@@ -247,6 +247,7 @@ void ToolBarStateAssociation::setSecondWidget()
     }
 
     cleanAssociation();
+    emit finished();
 }
 
 /**

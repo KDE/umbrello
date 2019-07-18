@@ -312,5 +312,6 @@ void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
     message->setTextPosition();
     m_pUMLScene->addWidgetCmd(ft);
     UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));
+    emit finished();
 }
 

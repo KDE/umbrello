@@ -237,12 +237,14 @@ public:
 
     void addConnectedMessageWidget(WorkToolBar::ToolBar_Buttons button)
     {
+        UMLApp::app()->workToolBar()->buttonChanged(button);
         setToolBarChanged(button);
         QGraphicsSceneMouseEvent event;
         event.setScenePos(p->pos());
         event.setButton(Qt::LeftButton);
         toolBarState->mousePress(&event);
         toolBarState->mouseRelease(&event);
+        p->connect(toolBarState, SIGNAL(finished()), UMLApp::app()->workToolBar(), SLOT(slotResetToolBar()));
     }
 
     UMLScene *p;
