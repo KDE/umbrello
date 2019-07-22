@@ -64,7 +64,7 @@ public:
     virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) { Q_UNUSED(rectangle) Q_UNUSED(image) Q_UNUSED(sr) Q_UNUSED(flags) }
     virtual void drawLines(const QLineF * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
     virtual void drawLines(const QLine * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
-    virtual void drawwPath(const QPainterPath & path) { Q_UNUSED(path) }
+    virtual void drawPath(const QPainterPath & path) { Q_UNUSED(path) }
     virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) { Q_UNUSED(r) Q_UNUSED(pm) Q_UNUSED(sr) }
     virtual void drawPoints(const QPointF * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
     virtual void drawPoints(const QPoint * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
