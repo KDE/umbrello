@@ -85,7 +85,7 @@ type::default=shape=box
 # for dot output
 [X-UMBRELLO-Dot-Edges]
 # for visual representation
-visual::type::component::port=arrowhead=none,style=invis
+visual::type::component::port=arrowhead=none,style=dotted
 visual::type::anchor=arrowhead=none,style=dashed
 visual::type::association=arrowhead=none
 visual::type::dependency=arrowtail=vee,style=dashed,dir=back
@@ -93,12 +93,12 @@ visual::type::realization=arrowtail=normal,dir=back
 visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
-ranking::type::component::port=minlen=0.0001
-#ranking::type::anchor=weight=0.001
-#ranking::type::association=weight=0.5
+ranking::type::component::port=minlen=0.0001,constraint=false
+#ranking::type::anchor=weight=0.8
+ranking::type::association=weight=0.8
 ranking::type::dependency=weight=0.8
-#ranking::type::realization=weight=0.8
-#ranking::type::uniassociation=weight=0.5
+ranking::type::realization=weight=0.8
+ranking::type::uniassociation=weight=0.8
 ranking::type::default=weight=0.001
 
 [X-UMBRELLO-Dot-Attributes]

@@ -263,6 +263,8 @@ bool LayoutGenerator::apply(UMLScene *scene)
         QString id = Uml::ID::toString(widget->localID());
         if (!m_nodes.contains(id))
             continue;
+        if (widget->isPortWidget() || widget->isPinWidget())
+            continue;
         QPoint p = origin(id);
         widget->setStartMovePosition(widget->pos());
         widget->setX(p.x());
