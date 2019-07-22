@@ -77,6 +77,11 @@ case $var in
 	shift
 	;;
 
+--symlink) ## update 'latest' symbolic link
+	update_symlink=1
+	shift
+	;;
+
 --dryrun) ## simulate upload only
 	dryrun=1
 	curl="echo curl"
