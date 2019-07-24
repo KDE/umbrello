@@ -90,6 +90,7 @@ set(ICONS
     relationship
     send_signal
     shallow-history
+    state
     state-fork
     subsystem
     template
@@ -151,6 +152,7 @@ set(CURSOR_ICONS
     relationship
     send_signal
     shallow-history
+    state
     state-fork
     text
     umbr-coll-message-asynchronous
