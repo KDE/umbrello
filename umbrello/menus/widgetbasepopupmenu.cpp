@@ -370,8 +370,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             else {
                 insert(mt_Flip, i18n("Flip Vertical"));
             }
-            m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
-                                                 i18n("Fill Color..."));
+            insert(mt_Fill_Color);
         }
         break;
 
@@ -596,8 +595,8 @@ void WidgetBasePopupMenu::insertSubMenuAlign()
 void WidgetBasePopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = newMenu(i18nc("color menu", "Color"), this);
-    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
+    insert(mt_Line_Color, color);
+    insert(mt_Fill_Color, color);
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
     setActionChecked(mt_Use_Fill_Color, fc);
     addMenu(color);
