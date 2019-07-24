@@ -258,7 +258,7 @@ private:
         FloatingTextWidget* changeabilityWidget;  ///< information regarding changeability
         FloatingTextWidget* roleWidget;           ///< role's label of this association
 
-        UMLWidget* umlWidget;    ///< UMLWidget at this role's side of this association
+        QPointer<UMLWidget> umlWidget;    ///< UMLWidget at this role's side of this association
 
         Uml::Region::Enum     m_WidgetRegion;   ///< region of this role's widget
 

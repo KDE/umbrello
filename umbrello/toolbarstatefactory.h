@@ -16,6 +16,7 @@
 
 #include "worktoolbar.h"
 
+#include <QPointer>
 #define NR_OF_TOOLBAR_STATES 5
 
 
@@ -44,7 +45,7 @@ protected:
     int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;
 
 protected:
-    ToolBarState* m_states[NR_OF_TOOLBAR_STATES];
+    QPointer<ToolBarState> m_states[NR_OF_TOOLBAR_STATES];
 };
 
 #endif //TOOLBARSTATEFACTORY_H

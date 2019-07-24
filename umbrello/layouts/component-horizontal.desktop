@@ -52,43 +52,35 @@ Comment[uk]=Компонування з горизонтальним розта�
 Comment[x-test]=xxLayout which renders horizontalxx
 
 [X-UMBRELLO-Dot-Nodes]
-type::class=shape=box
+type::artifact=shape=box
+type::component=shape=component
+type::interface=shape=doublecircle
+type::note=shape=box
 type::default=shape=box
 
-# for image output
+# for dot output
 [X-UMBRELLO-Dot-Edges]
 # for visual representation
+visual::type::component::port=arrowhead=none,style=dotted
 visual::type::anchor=arrowhead=none,style=dashed
-visual::type::aggregation=arrowtail=odiamond,dir=back
-visual::type::composition=arrowhead=diamonds
-visual::type::containment=arrowtail=odottee,dir=back
-visual::type::dependency=arrowtail=vee,style=dashed,dir=back
-visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::association=arrowhead=none
-visual::type::generalization=arrowtail=onormal,dir=back
-visual::type::realisation=arrowtail=normal,dir=back
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::realization=arrowtail=normal,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
-ranking::type::anchor=weight=0.001
-ranking::type::aggregation=weight=0.001
-ranking::type::association=weight=0.001
-ranking::type::composition=weight=0.001
-ranking::type::containment=weight=0.001
-ranking::type::dependency=weight=0.001
-ranking::type::generalization=weight=1.0
-ranking::type::realisation=weight=0.8
-ranking::type::uniassociation=weight=0.001
+ranking::type::component::port=minlen=0.0001,constraint=false
+#ranking::type::anchor=weight=0.8
+ranking::type::association=weight=0.8
+ranking::type::dependency=weight=0.8
+ranking::type::realization=weight=0.8
+ranking::type::uniassociation=weight=0.8
 ranking::type::default=weight=0.001
-# id handling
-id::type::aggregation=swap
-id::type::composition=swap
-id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=LR,outputorder=nodesfirst,ranksep=1.0,nodesep=0.8
+graph=splines=polyline,rankdir=LR,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
 node=
 edge=
 
 [X-UMBRELLO-Dot-Settings]
 origin=50,50
-

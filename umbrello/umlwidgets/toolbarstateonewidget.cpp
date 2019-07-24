@@ -204,7 +204,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     if (umlwidget) {
         m_pUMLScene->setupNewWidget(umlwidget);
     }
-
+    emit finished();
 }
 
 /**

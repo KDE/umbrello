@@ -58,7 +58,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
     }
 
     // Make explicit the selected button. This is only necessary for states with a pool.
-    if (key != 3) ((ToolBarStatePool *) m_states[key])->setButton(toolbarButton);
+    if (key != 3) ((ToolBarStatePool*) m_states[key].data())->setButton(toolbarButton);
 
     return m_states[key];
 }

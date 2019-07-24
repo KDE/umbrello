@@ -15,6 +15,7 @@
 
 #include <QDomElement>
 
+class AssociationWidget;
 class UMLWidget;
 
 namespace Uml
@@ -22,7 +23,8 @@ namespace Uml
     class CmdCreateWidget : public CmdBaseWidgetCommand
     {
     public:
-        explicit CmdCreateWidget(UMLWidget* widget);
+        explicit CmdCreateWidget(UMLWidget *widget);
+        CmdCreateWidget(AssociationWidget *widget);
         ~CmdCreateWidget();
 
         void redo();

@@ -19,6 +19,8 @@ option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories
 
 option(BUILD_KF5 "Build for KDE Frameworks 5" ON)
 
+option(BUILD_PHP_IMPORT "Build with php import support" ON)
+
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
@@ -39,7 +41,7 @@ if(NOT BUILD_KF5)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
     include(ECMKDE4Macros)
     set(QT_MIN_VERSION "4.8.0")
-    set(KDEV_MIN_VERSION 1.5.2)
+    set(KDEV_MIN_VERSION 1.7.3)
     set(KDEV_SOURCE_DIR lib/kdev4-php)
     set(KDEV_COMPONENTS)
 else()
@@ -94,15 +96,17 @@ find_package(KF5 REQUIRED COMPONENTS
     XmlGui
 )
 
-if(NOT DISABLE_PHP_IMPORT)
+if(BUILD_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
 endif()
 if(BUILD_KF5 AND NOT TARGET KDev::Tests)
     message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
     set(KDEVPLATFORM_FOUND 0)
+    set(BUILD_PHP_IMPORT 0)
 endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
+    message(STATUS "requirements available - enable building php code import")
     include_directories(
         ${KDEVPGQT_INCLUDE_DIR}
         ${KDEVPLATFORM_INCLUDE_DIR}
@@ -117,6 +121,8 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
         -DENABLE_PHP_IMPORT
     )
     add_subdirectory(${KDEV_SOURCE_DIR})
+else()
+    set(BUILD_PHP_IMPORT 0)
 endif()
 
 set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})

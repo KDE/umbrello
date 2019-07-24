@@ -78,27 +78,33 @@ Comment[zh_CN]=垂直显示的布局
 Comment[zh_TW]=垂直繪製的佈局
 
 [X-UMBRELLO-Dot-Nodes]
-type::initial=shape=circle
-type::normal=shape=box,style=rounded
-type::end=shape=doublecircle
-type::fork=shape=box,style=filled,fillcolor=black,width="0.1",label=""
-type::join=shape=box,style=filled,fillcolor=black,width="0.1",label=""
-type::junction=shape=circle,style=filled,fillcolor=black,width="0.4",label=""
-type::deephistory=shape=circle,width="0.4",label="H*"
-type::shallowhistory=shape=circle,width="0.4",label="H"
-type::choice=shape=diamond
+type::artifact=shape=box
+type::component=shape=component
+type::interface=shape=doublecircle
+type::note=shape=box
 type::default=shape=box
 
+# for dot output
 [X-UMBRELLO-Dot-Edges]
 # for visual representation
-visual::type::state=arrowhead=normal,label=""
-#visual::type::default=arrowhead=none,minlen=0.5
-ranking::type::default=weight=0.8
-# id handling
-id::type::state=swap
+visual::type::component::port=arrowhead=none,style=dotted
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::association=arrowhead=none
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::realization=arrowtail=normal,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::component::port=minlen=0.0001,constraint=false
+#ranking::type::anchor=weight=0.8
+ranking::type::association=weight=0.8
+ranking::type::dependency=weight=0.8
+ranking::type::realization=weight=0.8
+ranking::type::uniassociation=weight=0.8
+ranking::type::default=weight=0.001
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=BT,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
 node=
 edge=
 

@@ -692,13 +692,13 @@ void AssociationLine::alignSymbols()
 
     QList<QPolygonF> polygons = path().toSubpathPolygons();
 
-    if (m_startSymbol) {
+    if (m_startSymbol && polygons.size() > 0) {
         QPolygonF firstLine = polygons.first();
         QLineF segment(firstLine.at(1), firstLine.at(0));
         m_startSymbol->alignTo(segment);
     }
 
-    if (m_endSymbol) {
+    if (m_endSymbol && polygons.size() > 0) {
         QPolygonF lastLine = polygons.last();
         int maxIndex = lastLine.size();
         QLineF segment(lastLine.at(maxIndex-2), lastLine.at(maxIndex-1));

@@ -85,6 +85,10 @@ public slots:
     virtual void slotAssociationRemoved(AssociationWidget* association);
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
+signals:
+    // signals finish of operation
+    void finished();
+
 protected:
     ToolBarState(UMLScene* umlScene);
 

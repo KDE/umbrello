@@ -11,12 +11,6 @@ endif()
 
 ########### set variables #############
 
-# php import support requires kdevplatform and kdev-php
-# which does not compile without NO_CAST_XX_ASCII
-if(NOT BUILD_PHP_IMPORT)
-    add_definitions(-DQT_NO_CAST_TO_ASCII)
-    add_definitions(-DQT_NO_CAST_FROM_ASCII)
-endif()
 # Some definitions for experimental code or debugging
 # TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
@@ -340,6 +334,39 @@ set(libkdevcppparser_SRCS
     codeimport/kdevcppparser/cpptree2uml.cpp
 )
 
+add_library(codeimport STATIC ${libcodeimport_SRCS} ${libkdevcppparser_SRCS})
+if(NOT BUILD_KF5)
+    if(BUILD_PHP_IMPORT)
+        target_link_libraries(codeimport
+            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
+            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
+            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
+            ${KDEVPLATFORM_PROJECT_LIBRARIES}
+            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
+            ${KDEVPLATFORM_SHELL_LIBRARIES}
+            ${KDEVPLATFORM_UTIL_LIBRARIES}
+            ${KDEVPLATFORM_VCS_LIBRARIES}
+            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
+            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
+            ${KDEVPLATFORM_TESTS_LIBRARIES}
+            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
+            kdev4phpparser
+        )
+    endif()
+else()
+    target_link_libraries(codeimport
+        KF5::KDELibs4Support
+    )
+    if(BUILD_PHP_IMPORT)
+        target_link_libraries(codeimport
+            KDev::Interfaces
+            KDev::Language
+            KDev::Tests
+            kdevphpparser
+        )
+    endif()
+endif()
+
 set(libclipboard_SRCS
     clipboard/idchangelog.cpp
     clipboard/umlclipboard.cpp
@@ -534,8 +561,6 @@ set(libumbrello_SRCS
     ${libcodeimpwizard_SRCS}
     ${libclassparser_SRCS}
     ${libclipboard_SRCS}
-    ${libkdevcppparser_SRCS}
-    ${libcodeimport_SRCS}
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
@@ -569,26 +594,10 @@ if(NOT BUILD_KF5)
         ${LIBXSLT_LIBRARIES}
         ${KDE4_KTEXTEDITOR_LIBS}
         ${KDE4_KFILE_LIBS}
+        codeimport
     )
 
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(libumbrello
-            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
-            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
-            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
-            ${KDEVPLATFORM_PROJECT_LIBRARIES}
-            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
-            ${KDEVPLATFORM_SHELL_LIBRARIES}
-            ${KDEVPLATFORM_UTIL_LIBRARIES}
-            ${KDEVPLATFORM_VCS_LIBRARIES}
-            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
-            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
-            ${KDEVPLATFORM_TESTS_LIBRARIES}
-            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
-            kdev4phpparser
-        )
-    endif()
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/kde4/hi*-apps-umbrello.png")
+    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
@@ -618,15 +627,8 @@ else()
         KF5::Crash
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
+        codeimport
     )
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(libumbrello
-            KDev::Interfaces
-            KDev::Language
-            KDev::Tests
-            kdevphpparser
-        )
-    endif()
     ecm_add_app_icon(umbrello_SRCS
         ICONS
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png
@@ -645,6 +647,9 @@ else()
     )
     set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 endif()
+
+target_compile_definitions(libumbrello PRIVATE -DQT_NO_CAST_TO_ASCII -DQT_NO_CAST_FROM_ASCII)
+
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()

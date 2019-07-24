@@ -365,7 +365,7 @@ QString toString(IconType type)
     case it_Rename: return QLatin1String("edit-rename");
     case it_Send_Signal: return QLatin1String("send_signal");
     case it_Show: return QLatin1String("document-preview");
-    case it_State: return QLatin1String("usecase");
+    case it_State: return QLatin1String("state");
     case it_State_Activity: return QLatin1String("text-x-generic");
     case it_State_Transition: return QLatin1String("uniassociation");
     case it_Subsystem: return QLatin1String("subsystem");

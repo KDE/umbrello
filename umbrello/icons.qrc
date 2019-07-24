@@ -170,5 +170,7 @@
         <file>pics/uniassociation.png</file>
         <file>pics/unique_constraint.png</file>
         <file>pics/usecase.png</file>
+        <file>pics/state.png</file>
+        <file>pics/cursor-state.png</file>
     </qresource>
 </RCC>

@@ -40,6 +40,12 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 
+QString dotType(WidgetBase *widget)
+{
+    const QString rawType = widget->baseTypeStr();
+    return rawType.toLower().remove(QLatin1String("wt_"));
+}
+
 /**
  * dot specific paint engine
  */
@@ -58,7 +64,7 @@ public:
     virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) { Q_UNUSED(rectangle) Q_UNUSED(image) Q_UNUSED(sr) Q_UNUSED(flags) }
     virtual void drawLines(const QLineF * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
     virtual void drawLines(const QLine * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
-    virtual void drawwPath(const QPainterPath & path) { Q_UNUSED(path) }
+    virtual void drawPath(const QPainterPath & path) { Q_UNUSED(path) }
     virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) { Q_UNUSED(r) Q_UNUSED(pm) Q_UNUSED(sr) }
     virtual void drawPoints(const QPointF * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
     virtual void drawPoints(const QPoint * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
@@ -326,8 +332,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         if (usePosition())
             params  << QString::fromLatin1("pos=\"%1, %2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
 
-        const QString rawType = widget->baseTypeStr();
-        QString type = rawType.toLower().remove(QLatin1String("wt_"));
+        QString type = dotType(widget);
 
         if (type == QLatin1String("state")) {
             StateWidget *w = static_cast<StateWidget *>(widget);
@@ -382,6 +387,28 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         if (!widget->isTextWidget())
             out << "\"" << id << "\""
                 << " [" << params.join(QLatin1String(",")) << "];\n";
+        // add associations for child items
+        foreach(QGraphicsItem *item, widget->childItems()) {
+            UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
+            QString type2 = dotType(w2);
+            QString id2 = fixID(Uml::ID::toString(w2->localID()));
+            QStringList params2;
+            QString vkey = QString(QLatin1String("visual::type::%1::%2")).arg(type).arg(type2);
+            if (m_edgeParameters.contains(vkey)) {
+                params2 << m_edgeParameters[vkey];
+            } else {
+                uDebug() << "key" << vkey << "not found; skipping association";
+                continue;
+            }
+            vkey = QString(QLatin1String("ranking::type::%1::%2")).arg(type).arg(type2);
+            if (m_edgeParameters.contains(vkey)) {
+                params2 << m_edgeParameters[vkey];
+            } else {
+                uDebug() << "key" << vkey << "not found";
+            }
+            out << "\"" << id << "\" -> \"" << id2 << "\""
+                << " [" << params2.join(QLatin1String(",")) << "];\n";
+        }
     }
 
     foreach(AssociationWidget *assoc, scene->associationList()) {

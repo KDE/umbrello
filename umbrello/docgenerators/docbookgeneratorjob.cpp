@@ -103,9 +103,9 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
         newURL = xmlStrcat(newURL, (const xmlChar *) lastsegment);
         if (newURL != NULL) {
             ret = defaultEntityLoader((const char *)newURL, ID, ctxt);
-        if (ret != NULL) {
-            if (warning != NULL)
-                ctxt->sax->warning = warning;
+            if (ret != NULL) {
+                if (warning != NULL)
+                    ctxt->sax->warning = warning;
                 qDebug() << "Loaded URL=\"" << newURL << "\" ID=\"" << ID << "\"";
                 xmlFree(newURL);
                 return(ret);

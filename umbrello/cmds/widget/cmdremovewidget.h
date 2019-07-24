@@ -15,6 +15,7 @@
 
 #include <QDomElement>
 
+class AssociationWidget;
 class UMLWidget;
 
 namespace Uml
@@ -23,6 +24,7 @@ namespace Uml
     {
     public:
         explicit CmdRemoveWidget(UMLWidget* widget);
+        CmdRemoveWidget(AssociationWidget *widget);
         ~CmdRemoveWidget();
 
         void redo();

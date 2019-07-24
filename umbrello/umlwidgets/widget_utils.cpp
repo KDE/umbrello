@@ -44,7 +44,7 @@ namespace Widget_Utils
     {
         foreach (UMLWidget* obj, widgets) {
             if (obj->isObjectWidget()) {
-                if (static_cast<ObjectWidget *>(obj)->localID() == id)
+                if (obj->localID() == id)
                     return obj;
             } else if (obj->id() == id) {
                 return obj;

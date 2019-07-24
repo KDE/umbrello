@@ -12,6 +12,7 @@
 #include "toolbarstatemessages.h"
 
 // local includes
+#include "cmds.h"
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
@@ -304,16 +305,13 @@ void ToolBarStateMessages::cleanMessage()
 
 void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
 {
-    m_pUMLScene->addWidgetCmd(message);
-    message->activate();
-
     FloatingTextWidget *ft = message->floatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
     ft->showOperationDialog();
     message->setTextPosition();
     m_pUMLScene->addWidgetCmd(ft);
-
-    UMLApp::app()->document()->setModified();
+    UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));
+    emit finished();
 }
 

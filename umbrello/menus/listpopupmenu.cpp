@@ -223,7 +223,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Resize: insert(m, menu, i18n("Resize")); break;
     case mt_ShallowHistory: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History")); break;
     case mt_Show: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show")); break;
-    case mt_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State...")); break;
+    case mt_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State), i18nc("add new state", "State...")); break;
     case mt_StateFork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork")); break;
     case mt_StateJoin: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join")); break;
     case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem")); break;

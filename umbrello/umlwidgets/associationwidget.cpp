@@ -1525,7 +1525,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
         return Uml::ID::None;
     }
     if (m_role[role].umlWidget->isObjectWidget())
-        return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
+        return m_role[role].umlWidget->localID();
     Uml::ID::Type id = m_role[role].umlWidget->id();
     return id;
 }
@@ -1544,7 +1544,7 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
         return Uml::ID::None;
     }
     if (m_role[role].umlWidget->isObjectWidget())
-        return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
+        return m_role[role].umlWidget->localID();
     Uml::ID::Type id = m_role[role].umlWidget->localID();
     return id;
 }
