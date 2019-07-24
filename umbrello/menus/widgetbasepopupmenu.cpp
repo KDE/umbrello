@@ -349,10 +349,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
                 break;
             case StateWidget::Fork:
             case StateWidget::Join:
-                if (pState->drawVertical())
-                    insert(mt_Flip, i18n("Flip Horizontal"));
-                else
-                    insert(mt_Flip, i18n("Flip Vertical"));
+                insert(pState->drawVertical() ? mt_FlipHorizontal : mt_FlipVertical);
                 break;
             default:
                 break;
@@ -364,12 +361,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertSubMenuNew(type);
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(widget);
-            if (pForkJoin->orientation() == Qt::Vertical) {
-                insert(mt_Flip, i18n("Flip Horizontal"));
-            }
-            else {
-                insert(mt_Flip, i18n("Flip Vertical"));
-            }
+            insert(pForkJoin->orientation() == Qt::Vertical ? mt_FlipHorizontal : mt_FlipVertical);
             insert(mt_Fill_Color);
         }
         break;

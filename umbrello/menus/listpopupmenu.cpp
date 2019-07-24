@@ -183,6 +183,8 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Export_Image: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture...")); break;
     case mt_Externalize_Folder: m_actions[m] = menu->addAction(i18n("Externalize Folder...")); break;
     case mt_Fill_Color: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color...")); break;
+    case mt_FlipHorizontal: m_actions[m] = menu->addAction(i18n("Flip Horizontal")); break;
+    case mt_FlipVertical: m_actions[m] = menu->addAction(i18n("Flip Vertical")); break;
     case mt_FloatText: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line...")); break;
     case mt_ForeignKeyConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint...")); break;
     case mt_Import_Class: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)...")); break;

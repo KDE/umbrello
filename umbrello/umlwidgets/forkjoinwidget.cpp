@@ -140,17 +140,11 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Fill_Color:
         showPropertiesDialog();
         break;
-
-    case ListPopupMenu::mt_Flip:
-        switch (m_orientation) {
-        case Qt::Vertical:
-            setOrientation(Qt::Horizontal);
-            break;
-        case Qt::Horizontal:
-        default:
-            setOrientation(Qt::Vertical);
-            break;
-        }
+    case ListPopupMenu::mt_FlipHorizontal:
+        setOrientation(Qt::Horizontal);
+        break;
+    case ListPopupMenu::mt_FlipVertical:
+        setOrientation(Qt::Vertical);
         break;
     default:
         break;

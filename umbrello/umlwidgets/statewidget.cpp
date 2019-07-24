@@ -506,10 +506,12 @@ void StateWidget::slotMenuSelection(QAction* action)
         }
         break;
 
-    case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
+    case ListPopupMenu::mt_FlipHorizontal:
+        setDrawVertical(false);
         break;
-
+    case ListPopupMenu::mt_FlipVertical:
+        setDrawVertical(true);
+        break;
     default:
         UMLWidget::slotMenuSelection(action);
         break;
