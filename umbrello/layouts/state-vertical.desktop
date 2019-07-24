@@ -98,7 +98,7 @@ ranking::type::default=weight=0.8
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=BT,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
 node=
 edge=
 
