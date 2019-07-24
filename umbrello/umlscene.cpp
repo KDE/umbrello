@@ -235,7 +235,7 @@ public:
         p->setPaste(false);
     }
 
-    void addConnectedMessageWidget(WorkToolBar::ToolBar_Buttons button)
+    void triggerToolBarButton(WorkToolBar::ToolBar_Buttons button)
     {
         UMLApp::app()->workToolBar()->buttonChanged(button);
         setToolBarChanged(button);
@@ -250,7 +250,6 @@ public:
     UMLScene *p;
     ToolBarStateFactory *toolBarStateFactory;
     ToolBarState *toolBarState;
-
 };
 
 /**
@@ -2934,6 +2933,11 @@ void UMLScene::resetToolbar()
     emit sigResetToolBar();
 }
 
+void UMLScene::triggerToolbarButton(WorkToolBar::ToolBar_Buttons button)
+{
+    m_d->triggerToolBarButton(button);
+}
+
 /**
  * Event handler for context menu events.
  */
@@ -3294,19 +3298,19 @@ void UMLScene::slotMenuSelection(QAction* action)
     }
 
     case ListPopupMenu::mt_MessageSynchronous:
-        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Synchronous);
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Synchronous);
         break;
 
     case ListPopupMenu::mt_MessageAsynchronous:
-        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Asynchronous);
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Asynchronous);
         break;
 
     case ListPopupMenu::mt_MessageFound:
-        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Found);
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Found);
         break;
 
     case ListPopupMenu::mt_MessageLost:
-        m_d->addConnectedMessageWidget(WorkToolBar::tbb_Seq_Message_Lost);
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Lost);
         break;
 
     default:

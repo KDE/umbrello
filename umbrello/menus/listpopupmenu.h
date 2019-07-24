@@ -102,6 +102,7 @@ public:
         mt_State,
         mt_StateFork,
         mt_StateJoin,
+        mt_StateTransition,
         mt_Subsystem,
         mt_Template,
         mt_Union,

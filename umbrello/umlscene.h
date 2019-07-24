@@ -214,6 +214,7 @@ public:
     void setMenu(const QPoint& pos);
 
     void resetToolbar();
+    void triggerToolbarButton(WorkToolBar::ToolBar_Buttons button);
 
     bool getPaste() const;
     void setPaste(bool paste);

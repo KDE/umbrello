@@ -904,6 +904,9 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_StateJoin:
         addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::State, false);
         break;
+    case ListPopupMenu::mt_StateTransition:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_State_Transition);
+        break;
     default:
         WidgetBase::slotMenuSelection(trigger);
         break;
