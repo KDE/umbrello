@@ -29,6 +29,7 @@
 #include "port.h"
 #include "portwidget.h"
 #include "settingsdialog.h"
+#include "statewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -878,6 +879,31 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_MessageLost:
         break;
 
+    // state diagrams
+    case ListPopupMenu::mt_Choice:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_DeepHistory:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_End_State:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_Junction:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_ShallowHistory:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_State:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_StateFork:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::Association, false);
+        break;
+    case ListPopupMenu::mt_StateJoin:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::Association, false);
+        break;
     default:
         WidgetBase::slotMenuSelection(trigger);
         break;
@@ -2011,18 +2037,23 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  * Adds a widget to the diagram, which is connected to the current widget
  * @param widget widget instance to add to diagram
  * @param type association type
+ * @param setupSize if true setup size to a predefined value
  */
-void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type)
+void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, bool setupSize)
 {
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
     widget->setY(y());
-    widget->setSize(100, 40);
+    if (setupSize) {
+        widget->setSize(100, 40);
+        QSizeF size = widget->minimumSize();
+        widget->setSize(size);
+    }
     AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
     umlScene()->addAssociation(assoc);
+    umlScene()->clearSelected();
+    umlScene()->selectWidget(widget);
     widget->showPropertiesDialog();
-    QSizeF size = widget->minimumSize();
-    widget->setSize(size);
 }
 
 /**
