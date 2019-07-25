@@ -881,28 +881,28 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
 
     // state diagrams
     case ListPopupMenu::mt_Choice:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_DeepHistory:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_End_State:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_Junction:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_ShallowHistory:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_State:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_StateFork:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::State, false);
         break;
     case ListPopupMenu::mt_StateJoin:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::Association, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::State, false);
         break;
     default:
         WidgetBase::slotMenuSelection(trigger);

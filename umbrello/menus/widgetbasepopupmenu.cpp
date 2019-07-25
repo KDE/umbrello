@@ -338,12 +338,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
     case WidgetBase::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>(widget);
-            if (pState->stateType() == StateWidget::Normal) {
-                // FIXME: why not using wt_state
-                insertSubMenuNew(WidgetBase::wt_Activity);
-            } else {
-                insertSubMenuNew(type);
-            }
+            insertSubMenuNew(type);
             insertSubMenuColor(widget->useFillColor());
             insertStdItems(false, type);
             switch (pState->stateType()) {
@@ -619,16 +614,6 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
         menu = makeNewMenu();
 
     switch (type) {
-        case WidgetBase::wt_Activity:
-            insert(mt_End_State, menu);
-            insert(mt_State, menu);
-            insert(mt_Junction, menu);
-            insert(mt_DeepHistory, menu);
-            insert(mt_ShallowHistory, menu);
-            insert(mt_Choice, menu);
-            insert(mt_StateFork, menu);
-            insert(mt_StateJoin, menu);
-            break;
         case WidgetBase::wt_Actor:
         case WidgetBase::wt_UseCase:
             insert(mt_Actor, menu);
