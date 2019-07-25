@@ -605,6 +605,25 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
         menu = makeNewMenu();
 
     switch (type) {
+        case WidgetBase::wt_Activity:
+            insert(mt_Initial_Activity, menu);
+            insert(mt_Activity, menu);
+            insert(mt_End_Activity, menu);
+            insert(mt_Final_Activity, menu);
+            insert(mt_Branch, menu);
+            insert(mt_Fork, menu);
+            insert(mt_Invoke_Activity, menu);
+            insert(mt_Param_Activity, menu);
+            insert(mt_Activity_Transition, menu);
+            insert(mt_Exception, menu);
+            insert(mt_PrePostCondition, menu);
+            insert(mt_Send_Signal, menu);
+            insert(mt_Accept_Signal, menu);
+            insert(mt_Accept_Time_Event, menu);
+            insert(mt_Region, menu);
+            insert(mt_Pin, menu);
+            insert(mt_Object_Node, menu);
+            break;
         case WidgetBase::wt_Actor:
         case WidgetBase::wt_UseCase:
             insert(mt_Actor, menu);

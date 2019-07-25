@@ -147,9 +147,22 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             break;
         case Uml::DiagramType::Activity:
             insert(mt_Initial_Activity, menu);
-            insert(mt_End_Activity, menu);
             insert(mt_Activity, menu);
+            insert(mt_End_Activity, menu);
+            insert(mt_Final_Activity, menu);
             insert(mt_Branch, menu);
+            insert(mt_Fork, menu);
+            insert(mt_Invoke_Activity, menu);
+            insert(mt_Param_Activity, menu);
+            insert(mt_Activity_Transition, menu);
+            insert(mt_Exception, menu);
+            insert(mt_PrePostCondition, menu);
+            insert(mt_Send_Signal, menu);
+            insert(mt_Accept_Signal, menu);
+            insert(mt_Accept_Time_Event, menu);
+            insert(mt_Region, menu);
+            insert(mt_Pin, menu);
+            insert(mt_Object_Node, menu);
             break;
         case Uml::DiagramType::Component:
             insert(mt_Subsystem, menu);

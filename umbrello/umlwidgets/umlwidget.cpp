@@ -11,6 +11,7 @@
 #include "umlwidget.h"
 
 // local includes
+#include "activitywidget.h"
 #include "actor.h"
 #include "actorwidget.h"
 #include "associationwidget.h"
@@ -21,13 +22,18 @@
 #include "dialog_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
+#include "forkjoinwidget.h"
 #include "notewidget.h"
 #include "messagewidget.h"
 #include "object_factory.h"
 #include "idchangelog.h"
 #include "menus/listpopupmenu.h"
+#include "objectnodewidget.h"
+#include "pinwidget.h"
 #include "port.h"
 #include "portwidget.h"
+#include "regionwidget.h"
+#include "signalwidget.h"
 #include "settingsdialog.h"
 #include "statewidget.h"
 #include "uml.h"
@@ -879,7 +885,60 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_MessageLost:
         break;
 
-    // state diagrams
+    // activity diagrams
+    case ListPopupMenu::mt_Accept_Signal:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Accept), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Accept_Time_Event:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Time), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Normal), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Activity_Transition:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Branch:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Branch), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Exception:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_Exception);
+        break;
+    case ListPopupMenu::mt_Final_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Fork:
+        addConnectedWidget(new ForkJoinWidget(umlScene()), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_End_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::End), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Initial_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Initial), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Invoke_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Invok), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Object_Node:
+        addConnectedWidget(new ObjectNodeWidget(umlScene(), ObjectNodeWidget::Data), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Pin:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_Pin);
+        break;
+    case ListPopupMenu::mt_Param_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Param), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_PrePostCondition:
+        addConnectedWidget(new NoteWidget(umlScene(), NoteWidget::Normal), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Region:
+        addConnectedWidget(new RegionWidget(umlScene()), Uml::AssociationType::Activity, false);
+        break;
+    case ListPopupMenu::mt_Send_Signal:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Send), Uml::AssociationType::Activity, false);
+        break;
+
+  // state diagrams
     case ListPopupMenu::mt_Choice:
         addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::State, false);
         break;
