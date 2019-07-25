@@ -41,15 +41,6 @@ Name[x-test]=xxHorizontal Layoutxx
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
 Comment=Layout which renders horizontal
-Comment[ca]=Disposició que renderitza horitzontalment
-Comment[de]=Layout, das horizontal gerendert wird
-Comment[es]=Diseño que se organiza de forma horizontal
-Comment[fr]=Disposition permettant un rendu horizontal
-Comment[nl]=Indeling die zich horizontaal laat weergeven
-Comment[pl]=Układ, który wyświetla się w poziomie
-Comment[pt]=Disposição que representa os itens na horizontal
-Comment[uk]=Компонування з горизонтальним розташуванням елементів
-Comment[x-test]=xxLayout which renders horizontalxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box
