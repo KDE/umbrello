@@ -136,8 +136,8 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
         break;
         case Uml::DiagramType::State:
             insert(mt_Initial_State, menu);
-            insert(mt_End_State, menu);
             insert(mt_State, menu);
+            insert(mt_End_State, menu);
             insert(mt_Junction, menu);
             insert(mt_DeepHistory, menu);
             insert(mt_ShallowHistory, menu);
