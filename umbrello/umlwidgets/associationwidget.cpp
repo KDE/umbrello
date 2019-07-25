@@ -1387,9 +1387,21 @@ bool AssociationWidget::isPointRemovable()
 
 bool AssociationWidget::isAutoLayouted()
 {
-    if (!isSelected() || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
+    if (associationType() == Uml::AssociationType::Exception)
+        return true;
+    if (!isSelected() || m_associationLine->count() <= 2)
         return false;
     return  m_associationLine->isAutoLayouted();
+}
+
+/**
+ * if layout of this widget can be changed
+ * @return true if layout could be changed
+ * @return false if layout could not be changed
+ */
+bool AssociationWidget::isLayoutChangeable()
+{
+    return associationType() != Uml::AssociationType::Exception;
 }
 
 /**

@@ -55,8 +55,10 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
         if (!widget->isAutoLayouted())
             insert(mt_Auto_Layout_Spline, i18n("Choose Spline points automatically"));
-        addSeparator();
-        insertSubMenuLayout(widget->associationLine());
+        if (widget->isLayoutChangeable()) {
+            addSeparator();
+            insertSubMenuLayout(widget->associationLine());
+        }
         addSeparator();
         insert(mt_Delete);
     default:

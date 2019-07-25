@@ -191,6 +191,7 @@ public:
     bool isPointAddable();
     bool isPointRemovable();
     bool isAutoLayouted();
+    bool isLayoutChangeable();
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -198,6 +199,7 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
     virtual void setSelected(bool _select);
+
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
