@@ -78,18 +78,23 @@ namespace Uml
             }
         } else {
             AssociationWidget* widget = scene()->findAssocWidget(m_widgetId);
-            if (widget == nullptr) {
-                // If the widget is not found, the add command was undone. Load the
-                // widget back from the saved XMI state.
-                QDomElement widgetElement = m_element.firstChild().toElement();
-                widget = AssociationWidget::create(scene());
-                if (widget->loadFromXMI1(widgetElement)) {
-                    addWidgetToScene(widget);
-                    m_assocWidget = widget;
-                    m_widgetId = widget->id();
-                } else
-                    delete widget;
+            if (widget)
+                return;
+            if (m_assocWidget) {
+                scene()->addAssociation(m_assocWidget, false);
+                return;
             }
+
+            // If the widget is not found, the add command was undone. Load the
+            // widget back from the saved XMI state.
+            QDomElement widgetElement = m_element.firstChild().toElement();
+            widget = AssociationWidget::create(scene());
+            if (widget->loadFromXMI1(widgetElement)) {
+                addWidgetToScene(widget);
+                m_assocWidget = widget;
+                m_widgetId = widget->id();
+            } else
+                delete widget;
         }
     }
 
