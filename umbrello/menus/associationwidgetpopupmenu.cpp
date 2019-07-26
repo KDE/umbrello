@@ -61,6 +61,7 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
         }
         addSeparator();
         insert(mt_Delete);
+        break;
     default:
         break;
     }
