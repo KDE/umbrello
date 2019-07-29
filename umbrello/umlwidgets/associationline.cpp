@@ -512,9 +512,10 @@ void AssociationLine::calculateInitialEndPoints()
 void AssociationLine::reconstructSymbols()
 {
     switch( m_associationWidget->associationType() ) {
+        case Uml::AssociationType::Exception:
+            setLayout(Uml::LayoutType::Polyline);
         case Uml::AssociationType::State:
         case Uml::AssociationType::Activity:
-        case Uml::AssociationType::Exception:
         case Uml::AssociationType::UniAssociation:
         case Uml::AssociationType::Dependency:
             setStartSymbol(Symbol::None);
