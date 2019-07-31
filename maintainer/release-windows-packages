@@ -57,7 +57,7 @@ fi
 echo2 "running mode $1"
 dryrun=0
 update=0
-update_symlink=0
+update_symlink=1
 curl=curl
 
 # check options
