@@ -30,6 +30,7 @@ set(ICONS
     class-or-package
     combined_fragment
     component
+    component1
     composition
     containment
     CVglobal_meth
@@ -124,6 +125,7 @@ set(CURSOR_ICONS
     class
     combined_fragment
     component
+    component1
     composition
     containment
     datatype

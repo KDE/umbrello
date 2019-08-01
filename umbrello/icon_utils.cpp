@@ -23,6 +23,7 @@
 
 #include "basictypes.h"
 #include "debug_utils.h"
+#include "optionstate.h"
 
 #include <kiconloader.h>
 
@@ -238,7 +239,7 @@ QString toString(IconType type)
     case it_Color_Fill: return QLatin1String("fill-color");
     case it_Color_Line: return QLatin1String("draw-brush");
     case it_Combined_Fragment: return QLatin1String("combined_fragment");
-    case it_Component: return QLatin1String("component");
+    case it_Component: return Settings::optionState().generalState.uml2 ? QLatin1String("component") : QLatin1String("component1");
     case it_Composition: return QLatin1String("composition");
     case it_Condition_PrePost: return QLatin1String("PrePostCondition");
     case it_Constraint_Check: return QLatin1String("check_constraint");
