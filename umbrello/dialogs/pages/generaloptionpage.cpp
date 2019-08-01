@@ -78,7 +78,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
-    
+
+    m_GeneralWidgets.uml2CB = new QCheckBox(i18n("Enable UML2 support"), m_GeneralWidgets.miscGB);
+    m_GeneralWidgets.uml2CB->setChecked(optionState.generalState.uml2);
+    miscLayout->addWidget(m_GeneralWidgets.uml2CB, 2, 1);
+
     m_GeneralWidgets.layoutTypeL = new QLabel(i18n("Create new association lines as:"), m_GeneralWidgets.miscGB);
     miscLayout->addWidget(m_GeneralWidgets.layoutTypeL, 3, 0);
     m_GeneralWidgets.layoutTypeKB = new KComboBox(m_GeneralWidgets.miscGB);
@@ -220,6 +224,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
     optionState.generalState.layoutType = Uml::LayoutType::fromInt(m_GeneralWidgets.layoutTypeKB->currentIndex() + 1);
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
+    optionState.generalState.uml2 = m_GeneralWidgets.uml2CB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();
     // retrieve Suffix setting from dialog entry

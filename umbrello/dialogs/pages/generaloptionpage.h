@@ -66,7 +66,8 @@ protected:
         QLabel    * layoutTypeL;
         KComboBox * layoutTypeKB;
         QCheckBox * footerPrintingCB;
-        
+        QCheckBox * uml2CB;
+
         QCheckBox * autosaveCB;
         QCheckBox * loadlastCB;
 
