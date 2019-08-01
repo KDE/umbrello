@@ -172,5 +172,7 @@
         <file>pics/usecase.png</file>
         <file>pics/state.png</file>
         <file>pics/cursor-state.png</file>
+        <file>pics/component1.png</file>
+        <file>pics/cursor-component1.png</file>
     </qresource>
 </RCC>
