@@ -198,7 +198,7 @@ QString toString(IconType type)
     switch (type) {
     case it_Accept_Signal: return QLatin1String("accept_signal");
     case it_Accept_TimeEvent: return QLatin1String("accept_time_event");
-    case it_Activity: return QLatin1String("usecase");
+    case it_Activity: return QLatin1String("activity");
     case it_Activity_End: return QLatin1String("end_state");
     case it_Activity_Final: return QLatin1String("final_activity");
     case it_Activity_Initial: return QLatin1String("initial_state");
