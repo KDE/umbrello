@@ -86,6 +86,7 @@ public:
         tbb_UseCase,
         tbb_Class,
         tbb_Interface,
+        tbb_Interface_Provider,
         tbb_Datatype,
         tbb_Enum,
         tbb_Entity,
@@ -186,6 +187,7 @@ public slots:
     void slotUseCase();
     void slotClass();
     void slotInterface();
+    void slotInterfaceProvider();
     void slotDatatype();
     void slotEnum();
     void slotEntity();

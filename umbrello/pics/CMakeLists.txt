@@ -79,6 +79,7 @@ set(ICONS
     initial_state
     instance
     interface
+    interface-provider
     join
     junction
     node
@@ -142,6 +143,7 @@ set(CURSOR_ICONS
     initial_state
     instance
     interface
+    interface-provider
     join
     junction
     node

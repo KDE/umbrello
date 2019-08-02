@@ -190,7 +190,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         break;
 
     case Uml::DiagramType::Component:
-        insertHotBtn(tbb_Interface);
+        insertHotBtn(tbb_Interface_Provider);
         insertHotBtn(tbb_Component);
         if (Settings::optionState().generalState.uml2)
             insertHotBtn(tbb_Port);
@@ -357,6 +357,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Node,                     i18n("Node"),                    Icon_Utils::it_Node,                    SLOT(slotNode()) },
         { tbb_Artifact,                 i18n("Artifact"),                Icon_Utils::it_Artifact,                SLOT(slotArtifact()) },
         { tbb_Interface,                i18n("Interface"),               Icon_Utils::it_Interface,               SLOT(slotInterface()) },
+        { tbb_Interface_Provider,       i18n("Interface Provider"),      Icon_Utils::it_Interface_Provider,      SLOT(slotInterfaceProvider()) },
         { tbb_Datatype,                 i18n("Datatype"),                Icon_Utils::it_Datatype,                SLOT(slotDatatype()) },
         { tbb_Enum,                     i18n("Enum"),                    Icon_Utils::it_Enum,                    SLOT(slotEnum()) },
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
@@ -442,6 +443,7 @@ void WorkToolBar::slotActor()                    { buttonChanged(tbb_Actor);    
 void WorkToolBar::slotUseCase()                  { buttonChanged(tbb_UseCase);                  }
 void WorkToolBar::slotClass()                    { buttonChanged(tbb_Class);                    }
 void WorkToolBar::slotInterface()                { buttonChanged(tbb_Interface);                }
+void WorkToolBar::slotInterfaceProvider()        { buttonChanged(tbb_Interface_Provider);       }
 void WorkToolBar::slotDatatype()                 { buttonChanged(tbb_Datatype);                 }
 void WorkToolBar::slotEnum()                     { buttonChanged(tbb_Enum);                     }
 void WorkToolBar::slotEntity()                   { buttonChanged(tbb_Entity);                   }

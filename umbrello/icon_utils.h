@@ -93,6 +93,7 @@ namespace Icon_Utils {
         it_Node,
         it_Artifact,
         it_Interface,
+        it_Interface_Provider,
         it_Datatype,
         it_Enum,
         it_Entity,
