@@ -307,6 +307,7 @@ QString toString(IconType type)
     case it_InitialState: return QLatin1String("initial_state");
     case it_Instance: return QLatin1String("instance");
     case it_Interface: return QLatin1String("interface");
+    case it_Interface_Requirement: return QLatin1String("interface-requirement");
     case it_Interface_Provider: return QLatin1String("interface-provider");
     case it_Join: return QLatin1String("join");
     case it_Junction: return QLatin1String("junction");

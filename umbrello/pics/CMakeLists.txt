@@ -80,6 +80,7 @@ set(ICONS
     instance
     interface
     interface-provider
+    interface-requirement
     join
     junction
     node
@@ -144,6 +145,7 @@ set(CURSOR_ICONS
     instance
     interface
     interface-provider
+    interface-requirement
     join
     junction
     node
