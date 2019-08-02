@@ -4,6 +4,7 @@ add_subdirectory(global)
 set(ICONS
     accept_signal
     accept_time_event
+    activity
     activity-fork
     actor
     aggregation
@@ -108,6 +109,7 @@ set(ICONS
 set(CURSOR_ICONS
     accept_signal
     accept_time_event
+    activity
     activity-fork
     actor
     aggregation
