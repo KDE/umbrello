@@ -174,5 +174,7 @@
         <file>pics/cursor-state.png</file>
         <file>pics/component1.png</file>
         <file>pics/cursor-component1.png</file>
+        <file>pics/interface-provider.png</file>
+        <file>pics/cursor-interface-provider.png</file>
     </qresource>
 </RCC>

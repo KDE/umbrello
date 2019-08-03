@@ -124,6 +124,9 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
     case WorkToolBar::tbb_Interface:
         ot = UMLObject::ot_Interface;
         break;
+    case WorkToolBar::tbb_Interface_Provider:
+        ot = UMLObject::ot_Interface;
+        break;
     case WorkToolBar::tbb_Enum:
         ot = UMLObject::ot_Enum;
         break;
