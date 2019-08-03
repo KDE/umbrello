@@ -101,7 +101,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
         if (w->isInstance()) {
             setupInstancePages();
         } else {
-            setupPages();
+            setupPages(true);
         }
     } else if (w->isNodeWidget()) {
         setupInstancePages();
