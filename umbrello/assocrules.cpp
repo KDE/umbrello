@@ -536,10 +536,9 @@ int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Ru
 
 bool AssocRules::Assoc_Rule::isValid() const
 {
-    bool isValidLevel = true;
-//    (level == Any) ||
-//            (level == UML1 && !Settings::optionState().generalState.uml2) ||
-//            (level == UML2 && Settings::optionState().generalState.uml2);
+    bool isValidLevel = (level == Any) ||
+            (level == UML1 && !Settings::optionState().generalState.uml2) ||
+            (level == UML2 && Settings::optionState().generalState.uml2);
     if (language == All)
         return isValidLevel;
     else if (language == Java && UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java)
