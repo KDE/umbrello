@@ -42,6 +42,7 @@ public:
     static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
     typedef enum {All, Java} Language;
+    typedef enum {Any, UML1, UML2 } Level;
 
 private:
     class Assoc_Rule {  ///< Structure to help determine association rules.
@@ -55,6 +56,7 @@ private:
         bool multiplicity;                 ///< multipliciy text on association
         bool bidirectional;                ///< can have an association of same type going between widget each way
         bool self;                         ///< association to self
+        Level level;                       ///< UML level
     };
 
     static Assoc_Rule m_AssocRules[];  ///< Container that holds all the rules.
