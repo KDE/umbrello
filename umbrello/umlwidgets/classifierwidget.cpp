@@ -908,9 +908,31 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
     Q_UNUSED(option);
 
     const int w = width();
+    bool showProvider = associationWidgetList().size() == 0;
+    bool showRequired = false;
+    AssociationWidgetList requiredAssocs;
 
-    if (associationWidgetList().size() > 1) {
+    foreach (AssociationWidget *aw, associationWidgetList()) {
+        const Uml::AssociationType::Enum aType = aw->associationType();
+        UMLWidget *otherEnd = aw->widgetForRole(Uml::RoleType::A);
+        UMLWidget *thisEnd = aw->widgetForRole(Uml::RoleType::B);
+        if (aType == Uml::AssociationType::UniAssociation ||
+                aType == Uml::AssociationType::Association) {
+            if (otherEnd->baseType() == WidgetBase::wt_Component ||
+                    otherEnd->baseType() == WidgetBase::wt_Port)  // provider
+                showProvider = true;
+            else if (thisEnd->baseType() == WidgetBase::wt_Component ||
+                     thisEnd->baseType() == WidgetBase::wt_Port) {
+                showRequired = true;
+                requiredAssocs.push_back(aw);
+            }
+        }
+    }
+
+    if (showProvider || !showRequired)
         painter->drawEllipse(w/2 - CIRCLE_SIZE/2, SOCKET_INCREMENT / 2, CIRCLE_SIZE, CIRCLE_SIZE);
+
+    if (showRequired) {
         // Draw socket for required interface.
         const qreal angleSpan = 180;   // 360.0 / (m_Assocs.size() + 1.0);
         const int arcDiameter = CIRCLE_SIZE + SOCKET_INCREMENT;
@@ -918,16 +940,8 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
         const QPointF center(x() + w/2, y() + arcDiameter/2);
         const qreal cX = center.x();
         const qreal cY = center.y();
-        foreach (AssociationWidget *aw, associationWidgetList()) {
-            const Uml::AssociationType::Enum aType = aw->associationType();
-            if (aType == Uml::AssociationType::UniAssociation ||
-                   aType == Uml::AssociationType::Association)  // provider
-                continue;
-            UMLWidget *otherEnd = aw->widgetForRole(Uml::RoleType::A);
-            const WidgetBase::WidgetType oType = otherEnd->baseType();
-            if (oType != WidgetBase::wt_Component && oType != WidgetBase::wt_Port)
-                continue;
 
+        foreach (AssociationWidget *aw, requiredAssocs) {
             AssociationLine *assocLine = aw->associationLine();
             const QPointF p(assocLine->endPoint());
             const qreal tolerance = 18.0;
@@ -966,8 +980,6 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
             }
         }
     }
-    else
-        painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
 }
 
 /**
@@ -977,8 +989,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
 QSize ClassifierWidget::calculateAsCircleSize() const
 {
     int circleSize = CIRCLE_SIZE;
-    if (associationWidgetList().size() > 1)
-        circleSize += SOCKET_INCREMENT;
+    circleSize += SOCKET_INCREMENT;
     return QSize(circleSize, circleSize);
 }
 
