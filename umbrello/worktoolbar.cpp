@@ -14,6 +14,7 @@
 // application specific includes
 #include "debug_utils.h"
 #include "icon_utils.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -191,6 +192,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Component:
         insertHotBtn(tbb_SubSystem);
+        if (Settings::optionState().generalState.uml2)
+            insertHotBtn(tbb_Interface_Requirement);
         insertHotBtn(tbb_Component);
         if (Settings::optionState().generalState.uml2)
             insertHotBtn(tbb_Port);
@@ -359,6 +362,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Artifact,                 i18n("Artifact"),                Icon_Utils::it_Artifact,                SLOT(slotArtifact()) },
         { tbb_Interface,                i18n("Interface"),               Icon_Utils::it_Interface,               SLOT(slotInterface()) },
         { tbb_Interface_Provider,       i18n("Interface Provider"),      Icon_Utils::it_Interface_Provider,      SLOT(slotInterfaceProvider()) },
+        { tbb_Interface_Requirement,    i18n("Interface required"),      Icon_Utils::it_Interface_Requirement,   SLOT(slotInterfaceRequirement()) },
         { tbb_Datatype,                 i18n("Datatype"),                Icon_Utils::it_Datatype,                SLOT(slotDatatype()) },
         { tbb_Enum,                     i18n("Enum"),                    Icon_Utils::it_Enum,                    SLOT(slotEnum()) },
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
@@ -446,6 +450,7 @@ void WorkToolBar::slotUseCase()                  { buttonChanged(tbb_UseCase);  
 void WorkToolBar::slotClass()                    { buttonChanged(tbb_Class);                    }
 void WorkToolBar::slotInterface()                { buttonChanged(tbb_Interface);                }
 void WorkToolBar::slotInterfaceProvider()        { buttonChanged(tbb_Interface_Provider);       }
+void WorkToolBar::slotInterfaceRequired()        { buttonChanged(tbb_Interface_Requirement);    }
 void WorkToolBar::slotDatatype()                 { buttonChanged(tbb_Datatype);                 }
 void WorkToolBar::slotEnum()                     { buttonChanged(tbb_Enum);                     }
 void WorkToolBar::slotEntity()                   { buttonChanged(tbb_Entity);                   }

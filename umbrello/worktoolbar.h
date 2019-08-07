@@ -87,6 +87,7 @@ public:
         tbb_Class,
         tbb_Interface,
         tbb_Interface_Provider,
+        tbb_Interface_Requirement,
         tbb_Datatype,
         tbb_Enum,
         tbb_Entity,
@@ -189,6 +190,7 @@ public slots:
     void slotClass();
     void slotInterface();
     void slotInterfaceProvider();
+    void slotInterfaceRequired();
     void slotDatatype();
     void slotEnum();
     void slotEntity();
