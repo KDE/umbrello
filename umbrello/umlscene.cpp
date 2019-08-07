@@ -381,7 +381,7 @@ void UMLScene::setAutoIncrementSequence(bool state)
 QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
-    if (type() == Uml::DiagramType::Sequence) {
+    if (isSequenceDiagram()) {
         foreach (MessageWidget* message, messageList()) {
             bool ok;
             int value = message->sequenceNumber().toInt(&ok);
@@ -389,7 +389,7 @@ QString UMLScene::autoIncrementSequenceValue()
                sequenceNumber = value;
         }
     }
-    else if (type() == Uml::DiagramType::Collaboration) {
+    else if (isCollaborationDiagram()) {
         foreach (AssociationWidget* assoc, associationList()) {
             bool ok;
             int value = assoc->sequenceNumber().toInt(&ok);
@@ -3715,8 +3715,7 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute(QLatin1String("canvasheight"), QString::number(height()));
     viewElement.setAttribute(QLatin1String("canvaswidth"), QString::number(width()));
     viewElement.setAttribute(QLatin1String("isopen"), isOpen());
-    if (type() == Uml::DiagramType::Sequence ||
-        type() == Uml::DiagramType::Collaboration)
+    if (isSequenceDiagram() || isCollaborationDiagram())
         viewElement.setAttribute(QLatin1String("autoincrementsequence"), autoIncrementSequence());
 
     //now save all the widgets
@@ -3883,7 +3882,7 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
         return false;
     }
 
-    if (this->type() == Uml::DiagramType::Component) {
+    if (this->isComponentDiagram()) {
         m_d->addMissingPorts();
         m_d->fixPortPositions();
     }

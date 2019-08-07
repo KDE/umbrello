@@ -564,8 +564,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
             delete widget;
             objectAlreadyExists = true;
         } else {
-            if (currentScene->type() == Uml::DiagramType::Activity ||
-                currentScene->type() == Uml::DiagramType::State) {
+            if (currentScene->isActivityDiagram() || currentScene->isStateDiagram()) {
                 widget->setID(doc->assignNewID(widget->id()));
             }
         }

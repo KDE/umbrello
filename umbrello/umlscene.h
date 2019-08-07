@@ -313,6 +313,17 @@ public:
 
     UMLSceneItemList collisions(const QPointF &p, int delta = 3);
 
+    bool isClassDiagram()              { return type() == Uml::DiagramType::Class;  }
+    bool isUseCaseDiagram()            { return type() == Uml::DiagramType::UseCase; }
+    bool isSequenceDiagram()           { return type() == Uml::DiagramType::Sequence; }
+    bool isCollaborationDiagram()      { return type() == Uml::DiagramType::Collaboration; }
+    bool isStateDiagram()              { return type() == Uml::DiagramType::State; }
+    bool isActivityDiagram()           { return type() == Uml::DiagramType::Activity; }
+    bool isComponentDiagram()          { return type() == Uml::DiagramType::Component; }
+    bool isDeploymentDiagram()         { return type() == Uml::DiagramType::Deployment; }
+    bool isEntityRelationshipDiagram() { return type() == Uml::DiagramType::EntityRelationship; }
+    bool isObjectDiagram()             { return type() == Uml::DiagramType::Object; }
+
 protected:
     // Methods and members related to loading/saving
 

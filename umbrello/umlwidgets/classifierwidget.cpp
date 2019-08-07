@@ -80,7 +80,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         updateSignatureTypes();
     }
 
-    if (c && scene->type() == Uml::DiagramType::Object) {
+    if (c && scene->isObjectDiagram()) {
         setBaseType(WidgetBase::wt_Instance);
         m_visualProperties =  ShowAttributes;
         updateSignatureTypes();

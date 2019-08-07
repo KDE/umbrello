@@ -319,7 +319,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
  */
 bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName)
 {
-    if (scene->type() == Uml::DiagramType::Sequence)
+    if (scene->isSequenceDiagram())
         return importSequences(lines, scene);
     else if (scene->type() != Uml::DiagramType::Class)
         return false;
@@ -482,7 +482,7 @@ bool importGraph(const QMimeData* mimeData, UMLScene *scene)
     UMLDoc *doc = UMLApp::app()->document();
     doc->beginPaste();
     bool result = false;
-    if (scene->type() == Uml::DiagramType::Sequence)
+    if (scene->isSequenceDiagram())
         result = importSequences(lines, scene);
     else
         result = importGraph(lines, scene);

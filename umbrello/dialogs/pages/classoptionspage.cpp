@@ -51,7 +51,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget *pParent, UMLScene *scene)
     m_scene = scene;
 
     // class diagram uses full UIState
-    if (scene->type() == Uml::DiagramType::Class) {
+    if (scene->isClassDiagram()) {
         m_options = &scene->optionState();
         setupClassPageOption();
     }
@@ -406,7 +406,7 @@ void ClassOptionsPage::applyOptionState()
  */
 void ClassOptionsPage::applyScene()
 {
-    if (m_scene->type() == Uml::DiagramType::Class) {
+    if (m_scene->isClassDiagram()) {
         applyOptionState();
         m_scene->setClassWidgetOptions(this);
     }

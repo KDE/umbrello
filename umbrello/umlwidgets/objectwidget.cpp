@@ -60,7 +60,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
     m_showDestruction(false),
     m_isOnDestructionBox(false)
 {
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
+    if (m_scene && m_scene->isSequenceDiagram()) {
         m_pLine = new SeqLineWidget( m_scene, this );
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
@@ -84,7 +84,7 @@ ObjectWidget::~ObjectWidget()
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     //make sure only calling this in relation to an object on a collab. diagram
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Collaboration)) {
+    if (m_scene && m_scene->isCollaborationDiagram()) {
         m_multipleInstance = multiple;
         updateGeometry();
         update();
@@ -130,7 +130,7 @@ void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
 void ObjectWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
 {
     Q_UNUSED(diffX);
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
+    if (m_scene && m_scene->isSequenceDiagram()) {
         diffY = 0;
     }
 }

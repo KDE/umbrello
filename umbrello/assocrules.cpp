@@ -67,7 +67,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     if(!bValid) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->currentView();
-        if (view && view->umlScene()->type() == Uml::DiagramType::Component &&
+        if (view && view->umlScene()->isComponentDiagram() &&
             widgetType == WidgetBase::wt_Package &&
             (assocType == Uml::AssociationType::Generalization || assocType == Uml::AssociationType::Realization))
             ;

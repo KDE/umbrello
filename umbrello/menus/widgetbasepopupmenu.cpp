@@ -287,7 +287,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertSubMenuNew(type);
         insertSubMenuColor(widget->useFillColor());
         if (widget->umlScene() &&
-            widget->umlScene()->type() == Uml::DiagramType::Sequence) {
+            widget->umlScene()->isSequenceDiagram()) {
             addSeparator();
             MenuType tabUp = mt_Up;
             insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
