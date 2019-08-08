@@ -68,12 +68,8 @@ void PortWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString newName = name();
-            bool ok = Dialog_Utils::askName(i18n("Enter Port Name"),
-                                            i18n("Enter the port name :"),
-                                            newName);
-            if (ok) {
+            if (Dialog_Utils::askNewName(WidgetBase::wt_Port, newName))
                 setName(newName);
-            }
         }
         break;
 

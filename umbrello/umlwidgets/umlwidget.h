@@ -14,6 +14,7 @@
 #include "associationwidgetlist.h"
 #include "basictypes.h"
 #include "optionstate.h"
+#include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 
@@ -284,6 +285,7 @@ public:
 
 protected:
     void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, AddWidgetOptions options = Default);
+    void addConnectedUMLObject(UMLObject::ObjectType otype, Uml::AssociationType::Enum type);
     void addWidget(UMLWidget *widget, bool showProperties = true);
 
     ///////////////// Data Loaded/Saved /////////////////////////////////

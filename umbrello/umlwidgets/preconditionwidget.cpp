@@ -255,9 +255,7 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString text = name();
-            bool ok = Dialog_Utils::askName(i18n("Enter Precondition Name"),
-                                            i18n("Enter the precondition :"),
-                                            text);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::wt_Precondition, text);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }

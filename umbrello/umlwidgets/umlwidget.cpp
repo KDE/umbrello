@@ -871,10 +871,14 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     }
 
     case ListPopupMenu::mt_Interface: {
-        UMLClassifier *c = new UMLClassifier();
-        c->setBaseType(UMLObject::ot_Interface);
-        ClassifierWidget *widget = new ClassifierWidget(umlScene(), c);
-        addConnectedWidget(widget, Uml::AssociationType::Association);
+        UMLPackage* component = umlObject()->asUMLPackage();
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Interface, component);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Interface, name)) {
+            UMLClassifier *c = new UMLClassifier();
+            c->setBaseType(UMLObject::ot_Interface);
+            ClassifierWidget *widget = new ClassifierWidget(umlScene(), c);
+            addConnectedWidget(widget, Uml::AssociationType::Association);
+        }
         break;
     }
 
@@ -905,7 +909,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         // TODO: merge with ToolbarStateOneWidget::setWidget()
         UMLPackage* component = umlObject()->asUMLPackage();
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
-        if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Port, name)) {
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
             UMLWidget *umlWidget = Widget_Factory::createWidget(umlScene(), port);
             umlWidget->setParentItem(this);

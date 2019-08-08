@@ -110,9 +110,7 @@ bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 {
     Q_UNUSED(parent);
     QString stereoTypeName = name();
-    bool ok = Dialog_Utils::askName(i18n("Stereotype"),
-                                    i18n("Enter name:"),
-                                    stereoTypeName);
+    bool ok = Dialog_Utils::askRenameName(baseType(), stereoTypeName);
     if (ok) {
         setName(stereoTypeName);
     }

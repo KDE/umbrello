@@ -217,7 +217,7 @@ bool askRenameName(UMLObject::ObjectType type, QString &name)
  */
 bool askDefaultNewName(UMLObject::ObjectType type, QString &name)
 {
-    name = Model_Utils::uniqObjectName(type);
+    name = Model_Utils::uniqObjectName(type, nullptr);
     return askNewName(type, name);
 }
 
@@ -250,13 +250,6 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
         kcb->setCurrentIndex(currentIndex);
     }
     kcb->completionObject()->addItem(type);
-}
-
-bool askDefaultNewName(UMLObject::ObjectType type, QString &name)
-{
-    name = Model_Utils::uniqModelName(type);
-    return askNewName(type, name);
-
 }
 
 }  // end namespace Dialog_Utils

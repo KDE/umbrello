@@ -78,7 +78,7 @@ void StereotypesWindow::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event);
     QString name;
-    if (!Dialog_Utils::askName(i18n("New Stereotype"), i18n("Enter name for new stereotype"), name))
+    if (!Dialog_Utils::askDefaultNewName(UMLObject::ot_Stereotype, name))
         return;
     if (UMLApp::app()->document()->findStereotype(name))
         return;

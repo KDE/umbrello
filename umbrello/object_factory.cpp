@@ -243,9 +243,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     }
 
     while (bValidNameEntered == false) {
-        bool ok = Dialog_Utils::askName(i18nc("UMLObject name", "Name"),
-                                        i18n("Enter name:"),
-                                        name);
+        bool ok = Dialog_Utils::askNewName(type, name);
         if (!ok) {
             return 0;
         }

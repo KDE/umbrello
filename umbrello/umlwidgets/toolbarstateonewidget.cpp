@@ -181,21 +181,21 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     UMLWidget * umlwidget = 0;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (widgetType() == WidgetBase::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
-
-        Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
-            // Create the widget. Some setup functions can remove the widget.
-    }
-
-    if (widgetType() == WidgetBase::wt_Pin && m_firstObject->isActivityWidget()) {
-        QString name = i18n("new pin");
-        if (Dialog_Utils::askName(i18n("Enter Pin Name"), i18n("Enter the Pin"), name)) {
+        QString name = Widget_Utils::defaultWidgetName(WidgetBase::wt_Precondition);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Precondition, name)) {
+            umlwidget = new PreconditionWidget(m_pUMLScene, firstObject->asObjectWidget());
+            umlwidget->setName(name);
+        }
+    } else if (widgetType() == WidgetBase::wt_Pin && m_firstObject->isActivityWidget()) {
+        QString name = Widget_Utils::defaultWidgetName(WidgetBase::wt_Pin);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Pin, name)) {
             umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
+            umlwidget->setName(name);
         }
     } else if (widgetType() == WidgetBase::wt_Port && m_firstObject->isComponentWidget()) {
         UMLPackage* component = m_firstObject->umlObject()->asUMLPackage();
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
-        if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Port, name)) {
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
             umlwidget = new PortWidget(m_pUMLScene, port, m_firstObject);
         }

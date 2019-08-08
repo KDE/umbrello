@@ -186,11 +186,8 @@ void ActivityPage::slotMenuSelection(QAction* action)
 
 void ActivityPage::slotNewActivity()
 {
-    QString name = i18n("new activity");
-    bool ok = Dialog_Utils::askName(i18n("New Activity"),
-                                    i18n("Enter the name of the new activity:"),
-                                    name);
-    if (ok && name.length() > 0) {
+    QString name;
+    if (Dialog_Utils::askDefaultNewName(WidgetBase::wt_Activity, name) && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
         m_pStateWidget->addActivity(name);
@@ -210,9 +207,7 @@ void ActivityPage::slotRename()
 {
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-    bool ok = Dialog_Utils::askName(i18n("Rename Activity"),
-                                    i18n("Enter the new name of the activity:"),
-                                    name);
+    bool ok = Dialog_Utils::askRenameName(WidgetBase::wt_Activity, name);
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);

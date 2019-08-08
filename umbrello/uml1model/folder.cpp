@@ -576,9 +576,7 @@ bool UMLFolder::showPropertiesDialog(QWidget *parent)
 {
     Q_UNUSED(parent);
     QString folderName = this->name();
-    bool ok = Dialog_Utils::askName(i18n("Folder"),
-                                    i18n("Enter name:"),
-                                    folderName);
+    bool ok = Dialog_Utils::askRenameName(UMLObject::ot_Folder, folderName);
     if (ok) {
         setName(folderName);
     }

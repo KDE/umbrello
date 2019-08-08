@@ -11,6 +11,7 @@
 #ifndef DIALOG_UTILS_H
 #define DIALOG_UTILS_H
 
+#include "umlobject.h"
 #include "widgetbase.h"
 
 #include <QString>
