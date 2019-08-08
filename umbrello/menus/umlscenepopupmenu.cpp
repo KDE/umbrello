@@ -167,6 +167,7 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
         case Uml::DiagramType::Component:
             insert(mt_Subsystem, menu);
             insert(mt_Component, menu);
+            insert(mt_InterfaceComponent, menu);
             insert(mt_Artifact, menu);
             break;
         case Uml::DiagramType::Deployment:

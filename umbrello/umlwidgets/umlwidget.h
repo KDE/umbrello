@@ -278,7 +278,12 @@ protected:
 
     virtual void toForeground();
 
-    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, bool setupSize = true);
+public:
+    enum AddWidgetOption { NoOption = 0, SetupSize = 1, SwitchDirection = 2, ShowProperties = 4, Default = SetupSize | ShowProperties };
+    Q_DECLARE_FLAGS(AddWidgetOptions, AddWidgetOption)
+
+protected:
+    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, AddWidgetOptions options = Default);
     void addWidget(UMLWidget *widget, bool showProperties = true);
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
@@ -345,4 +350,5 @@ private:
     /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
     mutable AssociationWidgetList m_Assocs;
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(UMLWidget::AddWidgetOptions)
 #endif

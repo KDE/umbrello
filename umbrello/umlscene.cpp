@@ -3067,6 +3067,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Interface:
+    case ListPopupMenu::mt_InterfaceComponent:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Interface);
         break;

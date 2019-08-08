@@ -200,6 +200,10 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Initial_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State")); break;
     case mt_Instance: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Instance), i18nc("new instance menu item", "Instance...")); break;
     case mt_InstanceAttribute: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute...")); break;
+    case mt_Interface: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface")); break;
+    case mt_InterfaceComponent: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Interface_Provider), i18n("Interface")); break;
+    case mt_InterfaceProvided: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Interface_Provider), i18n("Provided interface")); break;
+    case mt_InterfaceRequired: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Interface_Requirement), i18n("Required interface")); break;
     case mt_Internalize_Folder: m_actions[m] = menu->addAction(i18n("Internalize Folder")); break;
     case mt_Junction: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18n("Junction")); break;
     case mt_Line_Color: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color...")); break;

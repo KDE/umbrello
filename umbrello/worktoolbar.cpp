@@ -190,11 +190,11 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         break;
 
     case Uml::DiagramType::Component:
-        insertHotBtn(tbb_Interface_Provider);
         insertHotBtn(tbb_SubSystem);
         insertHotBtn(tbb_Component);
         if (Settings::optionState().generalState.uml2)
             insertHotBtn(tbb_Port);
+        insertHotBtn(tbb_Interface_Provider);
         insertHotBtn(tbb_Artifact);
         insertBasicAssociations();
         break;

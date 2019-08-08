@@ -11,6 +11,8 @@
 #include "umlwidget.h"
 
 // local includes
+#include "artifact.h"
+#include "artifactwidget.h"
 #include "activitywidget.h"
 #include "actor.h"
 #include "actorwidget.h"
@@ -18,11 +20,14 @@
 #include "classifier.h"
 #include "classpropertiesdialog.h"
 #include "cmds.h"
+#include "component.h"
+#include "componentwidget.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "notewidget.h"
 #include "messagewidget.h"
 #include "object_factory.h"
@@ -851,6 +856,45 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_Artifact: {
+        UMLArtifact *a = new UMLArtifact();
+        ArtifactWidget *widget = new ArtifactWidget(umlScene(), a);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Component: {
+        UMLComponent *c = new UMLComponent();
+        ComponentWidget *widget = new ComponentWidget(umlScene(), c);
+        addConnectedWidget(widget, Uml::AssociationType::Association, SetupSize);
+        break;
+    }
+
+    case ListPopupMenu::mt_Interface: {
+        UMLClassifier *c = new UMLClassifier();
+        c->setBaseType(UMLObject::ot_Interface);
+        ClassifierWidget *widget = new ClassifierWidget(umlScene(), c);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_InterfaceComponent:
+    case ListPopupMenu::mt_InterfaceProvided: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association, SetupSize);
+        break;
+    }
+
+    case ListPopupMenu::mt_InterfaceRequired: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association, SetupSize | SwitchDirection);
+        break;
+    }
+
     case ListPopupMenu::mt_Note: {
         NoteWidget *widget = new NoteWidget(umlScene());
         addConnectedWidget(widget, Uml::AssociationType::Anchor);
@@ -887,81 +931,81 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
 
     // activity diagrams
     case ListPopupMenu::mt_Accept_Signal:
-        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Accept), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Accept), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Accept_Time_Event:
-        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Time), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Time), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Normal), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Normal), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Activity_Transition:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Branch:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Branch), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Branch), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Exception:
         umlScene()->triggerToolbarButton(WorkToolBar::tbb_Exception);
         break;
     case ListPopupMenu::mt_Final_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Fork:
-        addConnectedWidget(new ForkJoinWidget(umlScene()), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ForkJoinWidget(umlScene()), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_End_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::End), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::End), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Initial_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Initial), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Initial), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Invoke_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Invok), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Invok), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Object_Node:
-        addConnectedWidget(new ObjectNodeWidget(umlScene(), ObjectNodeWidget::Data), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ObjectNodeWidget(umlScene(), ObjectNodeWidget::Data), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Pin:
         umlScene()->triggerToolbarButton(WorkToolBar::tbb_Pin);
         break;
     case ListPopupMenu::mt_Param_Activity:
-        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Param), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Param), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_PrePostCondition:
-        addConnectedWidget(new NoteWidget(umlScene(), NoteWidget::Normal), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new NoteWidget(umlScene(), NoteWidget::Normal), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Region:
-        addConnectedWidget(new RegionWidget(umlScene()), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new RegionWidget(umlScene()), Uml::AssociationType::Activity, NoOption);
         break;
     case ListPopupMenu::mt_Send_Signal:
-        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Send), Uml::AssociationType::Activity, false);
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Send), Uml::AssociationType::Activity, NoOption);
         break;
 
   // state diagrams
     case ListPopupMenu::mt_Choice:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_DeepHistory:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_End_State:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_Junction:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_ShallowHistory:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_State:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_StateFork:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_StateJoin:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::State, false);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_StateTransition:
         umlScene()->triggerToolbarButton(WorkToolBar::tbb_State_Transition);
@@ -2100,22 +2144,25 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  * @param widget widget instance to add to diagram
  * @param type association type
  * @param setupSize if true setup size to a predefined value
+ * @param switchAssocDirection switch direction of association
  */
-void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, bool setupSize)
+void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
     widget->setY(y());
-    if (setupSize) {
+    if (options & SetupSize) {
         widget->setSize(100, 40);
         QSizeF size = widget->minimumSize();
         widget->setSize(size);
     }
-    AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
+    AssociationWidget* assoc = options & SwitchDirection ? AssociationWidget::create(umlScene(), widget, type, this)
+                                                    : AssociationWidget::create(umlScene(), this, type, widget);
     umlScene()->addAssociation(assoc);
     umlScene()->clearSelected();
     umlScene()->selectWidget(widget);
-    widget->showPropertiesDialog();
+    if (options & ShowProperties)
+        widget->showPropertiesDialog();
 }
 
 /**
