@@ -13,6 +13,7 @@
 
 // app includes
 #include "cmds.h"
+#include "debug_utils.h"
 #include "finddialog.h"
 #include "findresults.h"
 #include "uml.h"
@@ -111,6 +112,11 @@ public:
 public slots:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
+        if (editor == nullptr) {
+            uError() << "could not get editor instance, which indicates an installation problem, see for kate[4]-parts package";
+            return;
+        }
+
         QStringList columns = item->text().split(QChar::fromLatin1(':'));
 
         QFileInfo file(columns[0]);
