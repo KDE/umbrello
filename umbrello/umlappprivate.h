@@ -135,7 +135,7 @@ public slots:
         }
         document = editor->createDocument(0);
         view = document->createView(parent);
-        view->document()->openUrl(QUrl(columns[0]));
+        view->document()->openUrl(QUrl::fromLocalFile(columns[0]));
         view->document()->setReadWrite(false);
         view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
         KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
