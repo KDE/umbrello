@@ -227,6 +227,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     //case mt_Note: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Note), i18n("Note...")); break;
     case mt_Object: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object...")); break;
     case mt_Object_Node: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Object_Node), i18n("Object Node")); break;
+    case mt_Open_File: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_File_Open), i18n("Open file")); break;
     case mt_Operation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation")); break;
     //case mt_Operation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation...")); break;
     case mt_Package: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package...")); break;

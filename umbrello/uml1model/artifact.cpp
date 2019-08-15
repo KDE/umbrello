@@ -14,6 +14,8 @@
 
 #include <KLocalizedString>
 
+#include <QDir>
+
 /**
  * Sets up an Artifact.
  * @param name   The name of the Concept.
@@ -86,5 +88,18 @@ void UMLArtifact::setDrawAsType(Draw_Type type)
 UMLArtifact::Draw_Type UMLArtifact::getDrawAsType()
 {
     return m_drawAsType;
+}
+
+/**
+ * Return full path of this artifact including its parent
+ * @return full path
+ */
+QString UMLArtifact::fullPath() const
+{
+    QString path = name();
+    for(UMLPackage *p = umlPackage(); p != nullptr && p->umlPackage() != nullptr; p = p->umlPackage()) {
+        path.insert(0, p->name() + QLatin1Char('/'));
+    }
+    return QDir::toNativeSeparators(path);
 }
 

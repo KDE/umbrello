@@ -276,6 +276,7 @@ QString toString(IconType type)
     case it_Exception: return QLatin1String("exception");
     case it_Export_Files: return QLatin1String("document-export");
     case it_Export_Picture: return QLatin1String("image-x-generic");
+    case it_File_Open: return QLatin1String("document-open");
     case it_Folder: return QLatin1String("folder-new");
     case it_Folder_Cyan: return QLatin1String("folder");
     case it_Folder_Cyan_Open: return QLatin1String("folder-open");

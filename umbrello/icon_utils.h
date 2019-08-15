@@ -47,6 +47,7 @@ namespace Icon_Utils {
     {
         it_Home = 0,
         it_Arrow,
+        it_File_Open,
         it_Folder,
         it_Folder_Cyan,
         it_Folder_Cyan_Open,

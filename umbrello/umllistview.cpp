@@ -631,6 +631,18 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             break;
         }
 
+    case ListPopupMenu::mt_Open_File: {
+        UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+        UMLArtifact *artifact = current->umlObject()->asUMLArtifact();
+        if (artifact == nullptr) {
+            uError() << "artifact is 0";
+            return;
+        }
+        QUrl file = QUrl::fromLocalFile(artifact->fullPath());
+        UMLApp::app()->slotOpenFileInEditor(file);
+        break;
+    }
+
     case ListPopupMenu::mt_Rename:
         edit(currentIndex());
         break;

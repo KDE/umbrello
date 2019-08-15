@@ -131,3 +131,41 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
 #endif
     return html;
 }
+
+bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endCursor)
+{
+    if (editor == nullptr) {
+        uError() << "could not get editor instance, which indicates an installation problem, see for kate[4]-parts package";
+        return false;
+    }
+
+    if (file.isLocalFile()) {
+        QFileInfo fi(file.toLocalFile());
+        if (!fi.exists())
+            return false;
+    }
+
+    if (!editorWindow) {
+        editorWindow = new QDockWidget(QLatin1String("Editor"));
+        parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
+    }
+
+    if (document) {
+        editorWindow->setWidget(0);
+        delete view;
+        delete document;
+    }
+    document = editor->createDocument(0);
+    view = document->createView(parent);
+    view->document()->openUrl(file);
+    view->document()->setReadWrite(false);
+    if (startCursor != endCursor)
+        view->setCursorPosition(KTextEditor::Cursor(startCursor, endCursor));
+    KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
+    if(iface)
+        iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
+
+    editorWindow->setWidget(view);
+    editorWindow->setVisible(true);
+    return true;
+}

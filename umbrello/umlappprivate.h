@@ -109,41 +109,14 @@ public:
         delete welcomeWindow;
     }
 
+    bool openFileInEditor(const QUrl &file, int startCursor=0, int endCursor=0);
+
 public slots:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
-        if (editor == nullptr) {
-            uError() << "could not get editor instance, which indicates an installation problem, see for kate[4]-parts package";
-            return;
-        }
-
         QStringList columns = item->text().split(QChar::fromLatin1(':'));
 
-        QFileInfo file(columns[0]);
-        if (!file.exists())
-            return;
-
-        if (!editorWindow) {
-            editorWindow = new QDockWidget(QLatin1String("Editor"));
-            parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
-        }
-
-        if (document) {
-            editorWindow->setWidget(0);
-            delete view;
-            delete document;
-        }
-        document = editor->createDocument(0);
-        view = document->createView(parent);
-        view->document()->openUrl(QUrl::fromLocalFile(columns[0]));
-        view->document()->setReadWrite(false);
-        view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
-        KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
-        if(iface)
-            iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
-
-        editorWindow->setWidget(view);
-        editorWindow->setVisible(true);
+        openFileInEditor(QUrl::fromLocalFile(columns[0]), columns[1].toInt()-1, columns[2].toInt());
     }
 
     void createDiagramsWindow()

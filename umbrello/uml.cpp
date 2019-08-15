@@ -3318,6 +3318,19 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 }
 
 /**
+ * open file in internal editor
+ * @param file path to the file to open
+ * @param startCursor cursor position for selection start
+ * @param endCursor cursor position for selection end
+ * @return true file could be loaded
+ * @return false file could not be loaded
+ */
+bool UMLApp::slotOpenFileInEditor(const QUrl &file, int startCursor, int endCursor)
+{
+    return m_d->openFileInEditor(file, startCursor, endCursor);
+}
+
+/**
  * Return the tab widget.
  */
 #if QT_VERSION >= 0x050000

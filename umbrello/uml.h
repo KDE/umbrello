@@ -325,6 +325,7 @@ public slots:
     void slotMoveTabRight();
 
     void slotXhtmlDocGenerationFinished(bool status);
+    bool slotOpenFileInEditor(const QUrl &file, int startCursor = 0, int endCursor = 0);
 
 private slots:
     void setLang_actionscript();

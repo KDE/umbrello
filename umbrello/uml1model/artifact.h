@@ -50,6 +50,8 @@ public:
 
     Draw_Type getDrawAsType();
 
+    QString fullPath() const;
+
 protected:
 
     bool load1(QDomElement & element);

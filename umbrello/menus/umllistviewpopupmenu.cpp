@@ -144,6 +144,13 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             insert(mt_Properties);
             break;
 
+    case UMLListViewItem::lvt_Artifact:
+            insert(mt_Open_File);
+            insertStdItems(true);
+            insert(mt_Show);
+            insert(mt_Properties);
+            break;
+
         case UMLListViewItem::lvt_Class:
             insertSubMenuNew(type);
             insertStdItems();
@@ -192,7 +199,6 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_Port:
         case UMLListViewItem::lvt_Node:
         case UMLListViewItem::lvt_Actor:
-        case UMLListViewItem::lvt_Artifact:
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
