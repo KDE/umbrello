@@ -1195,7 +1195,7 @@ QString UMLObject::toI18nString(ObjectType t)
 
 /**
  * Returns the given object type value as icon type.
- * @param ot   ObjectType of which an icon type is wanted
+ * @param t  ObjectType of which an icon type is wanted
  * @return   the ObjectType as icon type
  */
 Icon_Utils::IconType UMLObject::toIcon(ObjectType t)

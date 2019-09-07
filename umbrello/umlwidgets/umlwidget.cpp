@@ -2143,8 +2143,7 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  * Adds a widget to the diagram, which is connected to the current widget
  * @param widget widget instance to add to diagram
  * @param type association type
- * @param setupSize if true setup size to a predefined value
- * @param switchAssocDirection switch direction of association
+ * @param options widget options
  */
 void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
