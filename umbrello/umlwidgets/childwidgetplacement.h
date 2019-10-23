@@ -30,7 +30,7 @@ public:
     virtual ~ChildWidgetPlacement() {}
 
     virtual void detectConnectedSide() = 0;
-    virtual void setInitialPosition() = 0;
+    virtual void setInitialPosition(const QPointF &scenePos = QPointF()) = 0;
     virtual void setNewPositionWhenMoved(qreal diffX, qreal diffY) = 0;
     virtual void setNewPositionOnParentResize() = 0;
 

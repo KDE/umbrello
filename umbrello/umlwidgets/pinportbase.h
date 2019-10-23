@@ -37,6 +37,8 @@ public:
 
     virtual UMLWidget* ownerWidget() const;
 
+    void setInitialPosition(const QPointF &scenePos);
+
     void updateWidget();
     void setName(const QString &strName);
     void moveWidgetBy(qreal diffX, qreal diffY);

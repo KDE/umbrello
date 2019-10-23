@@ -80,12 +80,17 @@ void PinPortBase::init(UMLWidget *owner)
     setMaximumSize(fixedSize);
     setSize(fixedSize);
 
-    m_childPlacement->setInitialPosition();
+    //m_childPlacement->setInitialPosition();
 }
 
 UMLWidget* PinPortBase::ownerWidget() const
 {
     return dynamic_cast<UMLWidget*>(parentItem());
+}
+
+void PinPortBase::setInitialPosition(const QPointF &scenePos)
+{
+    m_childPlacement->setInitialPosition(scenePos);
 }
 
 /**

@@ -22,10 +22,26 @@ ChildWidgetPlacementPort::~ChildWidgetPlacementPort()
 {
 }
 
-void ChildWidgetPlacementPort::setInitialPosition()
+void ChildWidgetPlacementPort::setInitialPosition(const QPointF &scenePos)
 {
-    m_connectedSide = TopLeft;
-    setPos(minX(), minY());
+#if 0
+    QPointF p = ownerWidget()->mapFromScene(scenePos);
+    p -= QPointF(width()/2, height()/2);
+    setPos(p);
+#else
+    if (ownerWidget()) {
+        QPointF p = ownerWidget()->mapFromScene(scenePos);
+        p -= QPointF(width()/2, height()/2);
+        setPos(p);
+
+        detectConnectedSide();
+        setNewPositionWhenMoved(0.0, 0.0);
+        //setNewPositionOnParentResize();
+    } else {
+        m_connectedSide = TopLeft;
+        setPos(minX(), minY());
+    }
+#endif
 }
 
 void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)

@@ -197,7 +197,9 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
         if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
-            umlwidget = new PortWidget(m_pUMLScene, port, m_firstObject);
+            PortWidget *widget = new PortWidget(m_pUMLScene, port, m_firstObject);
+            widget->setInitialPosition(m_pUMLScene->pos());
+            umlwidget = widget;
         }
     }
 
