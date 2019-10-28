@@ -123,7 +123,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
-    if (c->baseType() == UMLObject::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum || c->isInterface()) {
         need_impl = false;
     }
     if (need_impl) {
