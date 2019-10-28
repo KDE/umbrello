@@ -104,8 +104,10 @@ void UMLOperationDialog::setupDialog()
     m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
     m_stereotypeWidget->addToLayout(genLayout, 1);
 
+    bool isInterface = m_operation->umlPackage()->asUMLClassifier()->isInterface();
     m_pAbstractCB = new QCheckBox(i18n("&Abstract operation"), m_pGenGB);
     m_pAbstractCB->setChecked(m_operation->isAbstract());
+    m_pAbstractCB->setEnabled(!isInterface);
     genLayout->addWidget(m_pAbstractCB, 2, 0);
     m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pGenGB);
     m_pStaticCB->setChecked(m_operation->isStatic());
@@ -115,17 +117,21 @@ void UMLOperationDialog::setupDialog()
     genLayout->addWidget(m_pQueryCB, 2, 2);
     m_virtualCB = new QCheckBox(i18n("&virtual"), m_pGenGB);
     m_virtualCB->setChecked(m_operation->isVirtual());
+    m_virtualCB->setEnabled(!isInterface);
     genLayout->addWidget(m_virtualCB, 2, 3);
     m_inlineCB = new QCheckBox(i18n("&inline"), m_pGenGB);
     m_inlineCB->setChecked(m_operation->isInline());
+    m_inlineCB->setEnabled(!isInterface);
     genLayout->addWidget(m_inlineCB, 2, 4);
     if (Settings::optionState().codeImportState.supportCPP11) {
         m_pOverrideCB = new QCheckBox(i18n("&Override"), m_pGenGB);
         m_pOverrideCB->setChecked(m_operation->getOverride());
+        m_pOverrideCB->setEnabled(!isInterface);
         genLayout->addWidget(m_pOverrideCB, 2, 5);
     }
 
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
+    m_visibilityEnumWidget->setEnabled(!isInterface);
 
     m_docWidget = new DocumentationWidget(m_operation, this);
 

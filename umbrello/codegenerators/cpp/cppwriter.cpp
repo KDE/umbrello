@@ -123,7 +123,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
-    if (c->baseType() == UMLObject::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum || c->isInterface()) {
         need_impl = false;
     }
     if (need_impl) {
@@ -1259,8 +1259,11 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (op->getOverride())
             str += QLatin1String(" override");
 
+        if (isHeaderMethod && op->isAbstract()) {
+            str += QLatin1String(" = 0;");
+        }
         // method body : only gets IF it is not in a header
-        if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
+        else if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
             str += QLatin1Char(';'); // terminate now
         }
         else {

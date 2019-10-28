@@ -44,7 +44,9 @@
  */
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::ID::Type id, Uml::Visibility::Enum s, UMLObject *rt)
-  : UMLClassifierListItem(parent, name, id)
+  : UMLClassifierListItem(parent, name, id),
+    m_virtual(false),
+    m_inline(false)
 {
     if (rt)
         m_returnId = UniqueID::gen();
@@ -67,7 +69,9 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
  * @param parent    the parent to this operation
  */
 UMLOperation::UMLOperation(UMLClassifier * parent)
-  : UMLClassifierListItem (parent)
+  : UMLClassifierListItem (parent),
+    m_virtual(false),
+    m_inline(false)
 {
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
