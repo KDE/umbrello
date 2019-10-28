@@ -262,6 +262,11 @@ UMLOperation* UMLClassifier::createOperation(
         }
     }
 
+    if (isInterface()) {
+        op->setAbstract(true);
+        op->setVirtual(true);
+    }
+
     // Only show the operation dialog if no name was provided (allows quick-create
     // from listview)
     if (nameNotSet) {
