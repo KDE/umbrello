@@ -182,23 +182,26 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->drawPolygon(polygon);
         }
         break;
-    case StateWidget::Combined: {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        painter->drawRoundedRect(rect(), 10.0, 10.0);
-        painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
-        painter->setPen(textColor());
-        QFont font = UMLWidget::font();
-        font.setBold(false);
-        painter->setFont(font);
-        UMLView *view = m_doc->findView(m_diagramLinkId);
-        painter->drawText(STATE_MARGIN, 0,
-                          w - STATE_MARGIN * 2, fontHeight,
-                          Qt::AlignCenter, view->umlScene()->name());
-        setPenFromSettings(painter);
-        view->umlScene()->render(painter, rect().adjusted(2, fontHeight + 2, -2, -2));
+    case StateWidget::Combined:
+        {
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight = fm.lineSpacing();
+            painter->drawRoundedRect(rect(), 10.0, 10.0);
+            painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
+            painter->setPen(textColor());
+            UMLView *view = m_doc->findView(m_diagramLinkId);
+            if (view) {
+                QFont font = UMLWidget::font();
+                font.setBold(false);
+                painter->setFont(font);
+                painter->drawText(STATE_MARGIN, 0,
+                                  w - STATE_MARGIN * 2, fontHeight,
+                                  Qt::AlignCenter, view->umlScene()->name());
+                setPenFromSettings(painter);
+            }
+            view->umlScene()->render(painter, rect().adjusted(2, fontHeight + 2, -2, -2));
+        }
         break;
-    }
     default:
         uWarning() << "Unknown state type: " << stateTypeStr();
         break;
@@ -263,7 +266,13 @@ QSizeF StateWidget::minimumSize() const
             height = 25;
             break;
         case StateWidget::Combined:
-            height = getFontMetrics(FT_NORMAL).lineSpacing() + 2;
+            {
+                height = getFontMetrics(FT_NORMAL).lineSpacing() + STATE_MARGIN;
+                UMLView *view = m_doc->findView(m_diagramLinkId);
+                if (view)
+                    width = getFontMetrics(FT_NORMAL).width(view->umlScene()->name()) + STATE_MARGIN * 2;
+            }
+            break;
         default:
             break;
     }
