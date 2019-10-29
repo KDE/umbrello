@@ -262,6 +262,8 @@ QSizeF StateWidget::minimumSize() const
             width = 25;
             height = 25;
             break;
+        case StateWidget::Combined:
+            height = getFontMetrics(FT_NORMAL).lineSpacing() + 2;
         default:
             break;
     }

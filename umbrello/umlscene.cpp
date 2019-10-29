@@ -3201,6 +3201,22 @@ void UMLScene::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_CombinedState:
+        {
+            QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+            if (ok) {
+                StateWidget* state = new StateWidget(this);
+                state->setName(name);
+                setupNewWidget(state);
+                Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, name);
+                UMLApp::app()->executeCommand(d);
+                state->setDiagramLink(d->view()->umlScene()->ID());
+                state->setStateType(StateWidget::Combined);
+            }
+        }
+        break;
+
     case ListPopupMenu::mt_Initial_Activity:
         {
             ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Initial);
