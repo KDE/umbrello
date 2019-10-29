@@ -518,9 +518,7 @@ void StateWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         nameNew = name();
-        ok = Dialog_Utils::askName(i18n("Enter State Name"),
-                                   i18n("Enter the name of the new state:"),
-                                   nameNew);
+        ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, nameNew);
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }

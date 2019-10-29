@@ -3191,10 +3191,8 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_State:
         {
-            QString name = i18n("new state");
-            bool ok = Dialog_Utils::askName(i18n("Enter State Name"),
-                                            i18n("Enter the name of the new state:"),
-                                            name);
+            QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
