@@ -71,6 +71,7 @@ public:
         mt_CheckConstraint,
         mt_Choice,
         mt_Class,
+        mt_CombinedState,
         mt_Component,
         mt_Datatype,
         mt_DeepHistory,

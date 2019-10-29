@@ -162,6 +162,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Class: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class...")); break;
     case mt_Clone: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Duplicate), i18nc("duplicate action", "Duplicate")); break;
     case mt_Collapse_All: m_actions[m] = menu->addAction(i18n("Collapse All")); break;
+    case mt_CombinedState: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State), i18nc("add new combined state", "Combined state...")); break;
     case mt_Component: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component")); break;
     //case mt_Component: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component...")); break;
     case mt_Component_Diagram: insertFromActionKey(m, menu, QLatin1String("new_component_diagram")); break;

@@ -29,6 +29,7 @@ namespace Uml
 
         void redo();
         void undo();
+        UMLView *view() { return m_pUMLView; }
 
     private:
         QString                 m_name;

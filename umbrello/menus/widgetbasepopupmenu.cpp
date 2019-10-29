@@ -673,6 +673,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_InterfaceRequired, menu);
             break;
         case WidgetBase::wt_State:
+            insert(mt_CombinedState, menu);
             insert(mt_State, menu);
             insert(mt_End_State, menu);
             insert(mt_StateTransition, menu);

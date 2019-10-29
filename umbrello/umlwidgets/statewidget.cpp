@@ -12,6 +12,7 @@
 #include "statewidget.h"
 
 // app includes
+#include "cmds/cmdcreatediagram.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
@@ -181,6 +182,23 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->drawPolygon(polygon);
         }
         break;
+    case StateWidget::Combined: {
+        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+        const int fontHeight  = fm.lineSpacing();
+        painter->drawRoundedRect(rect(), 10.0, 10.0);
+        painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
+        painter->setPen(textColor());
+        QFont font = UMLWidget::font();
+        font.setBold(false);
+        painter->setFont(font);
+        UMLView *view = m_doc->findView(m_diagramLinkId);
+        painter->drawText(STATE_MARGIN, 0,
+                          w - STATE_MARGIN * 2, fontHeight,
+                          Qt::AlignCenter, view->umlScene()->name());
+        setPenFromSettings(painter);
+        view->umlScene()->render(painter, rect().adjusted(2, fontHeight + 2, -2, -2));
+        break;
+    }
     default:
         uWarning() << "Unknown state type: " << stateTypeStr();
         break;
@@ -414,6 +432,16 @@ bool StateWidget::showPropertiesDialog()
     return result;
 }
 
+Uml::ID::Type StateWidget::diagramLink()
+{
+    return m_diagramLinkId;
+}
+
+void StateWidget::setDiagramLink(const Uml::ID::Type &id)
+{
+    m_diagramLinkId = id;
+}
+
 /**
  * Creates the "statewidget" XMI element.
  */
@@ -426,6 +454,8 @@ void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     stateElement.setAttribute(QLatin1String("statetype"), m_stateType);
     if (m_stateType == Fork || m_stateType == Join)
         stateElement.setAttribute(QLatin1String("drawvertical"), m_drawVertical);
+    if (m_stateType == Combined)
+        stateElement.setAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
     //save states activities
     QDomElement activitiesElement = qDoc.createElement(QLatin1String("Activities"));
 
@@ -450,6 +480,10 @@ bool StateWidget::loadFromXMI1(QDomElement & qElement)
     m_Doc = qElement.attribute(QLatin1String("documentation"));
     QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
     m_stateType = (StateType)type.toInt();
+    if (m_stateType == Combined) {
+        QString linkID = qElement.attribute(QLatin1String("diagramlinkid"));
+        m_diagramLinkId = Uml::ID::fromString(linkID);
+    }
     setAspectRatioMode();
     QString drawVertical = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("1"));
     m_drawVertical = (bool)drawVertical.toInt();
@@ -512,6 +546,15 @@ void StateWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_FlipVertical:
         setDrawVertical(true);
         break;
+    case ListPopupMenu::mt_CombinedState: {
+        QString diagramName = m_doc->createDiagramName(Uml::DiagramType::State);
+        Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, diagramName);
+        UMLApp::app()->executeCommand(d);
+        m_diagramLinkId = d->view()->umlScene()->ID();
+        setStateType(Combined);
+        break;
+    }
+
     default:
         UMLWidget::slotMenuSelection(action);
         break;

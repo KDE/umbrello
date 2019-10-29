@@ -51,10 +51,11 @@ public:
         Junction,        // Pseudostate
         DeepHistory,     // Pseudostate
         ShallowHistory,  // Pseudostate
-        Choice           // Pseudostate
+        Choice,          // Pseudostate
         //Terminate        // Pseudostate
         //EntryPoint       // Pseudostate
         //ExitPoint        // Pseudostate
+        Combined         // Pseudostate
     };
 
     explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::ID::Type id = Uml::ID::None);
@@ -78,6 +79,9 @@ public:
 
     virtual bool showPropertiesDialog();
 
+    Uml::ID::Type diagramLink();
+    void setDiagramLink(const Uml::ID::Type &id);
+
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
@@ -93,7 +97,7 @@ private:
     StateType   m_stateType;   ///< Type of state.
     bool m_drawVertical;   ///< whether to draw the fork/join horizontally or vertically
     QStringList m_Activities;  ///< List of activities for the state.
-
+    Uml::ID::Type m_diagramLinkId;
 };
 
 #endif
