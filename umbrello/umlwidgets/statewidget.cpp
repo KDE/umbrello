@@ -317,6 +317,7 @@ void StateWidget::setAspectRatioMode()
         case StateWidget::Initial:
         case StateWidget::End:
         case StateWidget::Choice:
+        case StateWidget::Combined:
         case StateWidget::DeepHistory:
         case StateWidget::ShallowHistory:
         case StateWidget::Fork:
@@ -340,7 +341,7 @@ void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonPress);
         QPointF p1 = pos - QPointF(2, fontHeight+2);
         qreal scale;
-        if (clientArea.width() > clientArea.height())
+        if (m_sceneRect.width() > m_sceneRect.height())
             scale = m_sceneRect.width()/clientArea.width();
         else
             scale = m_sceneRect.height()/clientArea.height();
@@ -367,7 +368,7 @@ void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseMove);
         QPointF p1 = pos - QPointF(2, fontHeight+2);
         qreal scale;
-        if (clientArea.width() > clientArea.height())
+        if (m_sceneRect.width() > m_sceneRect.height())
             scale = m_sceneRect.width()/clientArea.width();
         else
             scale = m_sceneRect.height()/clientArea.height();
@@ -401,7 +402,7 @@ void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonRelease);
         QPointF p1 = pos - QPointF(2, fontHeight+2);
         qreal scale;
-        if (clientArea.width() > clientArea.height())
+        if (m_sceneRect.width() > m_sceneRect.height())
             scale = m_sceneRect.width()/clientArea.width();
         else
             scale = m_sceneRect.height()/clientArea.height();
