@@ -3465,6 +3465,7 @@ void UMLScene::applyLayout(const QString &variant)
     LayoutGenerator r;
     r.generate(this, variant);
     r.apply(this);
+    resizeSceneToItems();
     UMLApp::app()->slotZoomFit();
 }
 
