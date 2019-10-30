@@ -76,6 +76,7 @@ public:
         mt_Datatype,
         mt_DeepHistory,
         mt_DisjointSpecialisation,
+        mt_EditCombinedState,
         mt_End_Activity,
         mt_End_State,
         mt_Entity,

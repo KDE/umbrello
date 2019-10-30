@@ -555,14 +555,24 @@ void StateWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_FlipVertical:
         setDrawVertical(true);
         break;
-    case ListPopupMenu::mt_CombinedState: {
-        QString diagramName = m_doc->createDiagramName(Uml::DiagramType::State);
-        Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, diagramName);
-        UMLApp::app()->executeCommand(d);
-        m_diagramLinkId = d->view()->umlScene()->ID();
-        setStateType(Combined);
+
+    case ListPopupMenu::mt_CombinedState:
+        {
+            QString diagramName = m_doc->createDiagramName(Uml::DiagramType::State);
+            Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, diagramName);
+            UMLApp::app()->executeCommand(d);
+            m_diagramLinkId = d->view()->umlScene()->ID();
+            setStateType(Combined);
+        }
         break;
-    }
+
+    case ListPopupMenu::mt_EditCombinedState:
+        if (m_diagramLinkId.empty()) {
+            uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
+            break;
+        }
+        UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
+        break;
 
     default:
         UMLWidget::slotMenuSelection(action);

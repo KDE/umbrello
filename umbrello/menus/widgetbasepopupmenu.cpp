@@ -338,6 +338,14 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
     case WidgetBase::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>(widget);
+            switch (pState->stateType()) {
+            case StateWidget::Combined:
+                insert(mt_EditCombinedState);
+                break;
+            default:
+                break;
+            }
+
             insertSubMenuNew(type);
             insertSubMenuColor(widget->useFillColor());
             insertStdItems(false, type);

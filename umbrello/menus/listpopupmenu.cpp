@@ -174,6 +174,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Delete: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete")); break;
     case mt_Deployment_Diagram: insertFromActionKey(m, menu, QLatin1String("new_deployment_diagram")); break;
     case mt_Deployment_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
+    case mt_EditCombinedState: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State), i18n("Edit combined state")); break;
     case mt_End_Activity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End Activity")); break;
     case mt_End_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State")); break;
     case mt_Entity: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity")); break;
