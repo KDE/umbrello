@@ -324,6 +324,9 @@ public:
     bool isEntityRelationshipDiagram() { return type() == Uml::DiagramType::EntityRelationship; }
     bool isObjectDiagram()             { return type() == Uml::DiagramType::Object; }
 
+    void setWidgetLink(WidgetBase *w);
+    WidgetBase *widgetLink();
+
 protected:
     // Methods and members related to loading/saving
 
@@ -444,6 +447,8 @@ signals:
     void sigShowGridToggled(bool);
     void sigAssociationRemoved(AssociationWidget*);
     void sigWidgetRemoved(UMLWidget*);
+
+    friend class StateWidget;
 };
 
 QDebug operator<<(QDebug dbg, UMLScene *item);

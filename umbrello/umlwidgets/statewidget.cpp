@@ -567,11 +567,17 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_EditCombinedState:
-        if (m_diagramLinkId.empty()) {
-            uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
-            break;
+        {
+            if (m_diagramLinkId.empty()) {
+                uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
+                break;
+            }
+            UMLView *view = m_doc->findView(m_diagramLinkId);
+            if (view) {
+                view->umlScene()->setWidgetLink(this);
+                UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
+            }
         }
-        UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
         break;
 
     default:

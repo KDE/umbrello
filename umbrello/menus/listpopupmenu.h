@@ -135,6 +135,7 @@ public:
         mt_New_Operation,
         mt_New_Parameter,
         mt_New_Template,
+        mt_ReturnToCombinedState,
         // selection
         // visual properties
         mt_Hide_Attribute_Signature_Selection,

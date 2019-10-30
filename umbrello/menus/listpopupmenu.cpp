@@ -244,6 +244,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Remove: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove")); break;
     case mt_Rename: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename...")); break;
     case mt_Rename_Object: insert(m, menu, i18n("Rename Object...")); break;
+    case mt_ReturnToCombinedState: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Return to combined state")); break;
     case mt_Reset_Label_Positions: m_actions[m] = menu->addAction(i18n("Reset Label Positions")); break;
     case mt_Resize: insert(m, menu, i18n("Resize")); break;
     case mt_Send_Signal: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Send_Signal), i18n("Send Signal")); break;

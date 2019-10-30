@@ -37,6 +37,8 @@ UMLScenePopupMenu::UMLScenePopupMenu(QWidget *parent, UMLScene *scene)
         case Uml::DiagramType::EntityRelationship:
         case Uml::DiagramType::Sequence:
         case Uml::DiagramType::Collaboration:
+            if (type == Uml::DiagramType::State && scene->widgetLink())
+                insert(mt_ReturnToCombinedState);
             insertSubMenuNew(type);
             addSeparator();
             insert(mt_Undo);

@@ -250,6 +250,7 @@ public:
     UMLScene *p;
     ToolBarStateFactory *toolBarStateFactory;
     ToolBarState *toolBarState;
+    QPointer<WidgetBase> widgetLink;
 };
 
 /**
@@ -3217,6 +3218,12 @@ void UMLScene::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_ReturnToCombinedState:
+        if (widgetLink()) {
+            UMLApp::app()->document()->changeCurrentView(widgetLink()->umlScene()->ID());
+        }
+        break;
+
     case ListPopupMenu::mt_Initial_Activity:
         {
             ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Initial);
@@ -4349,4 +4356,14 @@ QDebug operator<<(QDebug dbg, UMLScene *item)
                   << " / id=" << Uml::ID::toString(item->ID())
                   << " / isOpen=" << item->isOpen();
     return dbg.space();
+}
+
+void UMLScene::setWidgetLink(WidgetBase *w)
+{
+    m_d->widgetLink = w;
+}
+
+WidgetBase *UMLScene::widgetLink()
+{
+    return m_d->widgetLink;
 }
