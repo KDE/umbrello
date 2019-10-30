@@ -89,6 +89,9 @@ protected:
     QSizeF minimumSize() const;
     QSizeF maximumSize();
     void setAspectRatioMode();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -98,6 +101,7 @@ private:
     bool m_drawVertical;   ///< whether to draw the fork/join horizontally or vertically
     QStringList m_Activities;  ///< List of activities for the state.
     Uml::ID::Type m_diagramLinkId;
+    QRectF m_sceneRect;
 };
 
 #endif

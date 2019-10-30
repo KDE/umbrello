@@ -200,6 +200,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                 setPenFromSettings(painter);
             }
             view->umlScene()->render(painter, rect().adjusted(2, fontHeight + 2, -2, -2));
+            m_sceneRect = view->umlScene()->sceneRect();
         }
         break;
     default:
@@ -327,6 +328,94 @@ void StateWidget::setAspectRatioMode()
             setFixedAspectRatio(false);
             break;
     }
+}
+
+void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
+    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
+    UMLView *view = m_doc->findView(m_diagramLinkId);
+    QPointF pos = mapFromScene(event->scenePos());
+    if (m_stateType == Combined && view && clientArea.contains(pos)) {
+        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonPress);
+        QPointF p1 = pos - QPointF(2, fontHeight+2);
+        qreal scale;
+        if (clientArea.width() > clientArea.height())
+            scale = m_sceneRect.width()/clientArea.width();
+        else
+            scale = m_sceneRect.height()/clientArea.height();
+        QPointF p2(p1 * scale);
+        QPointF p3 = p2 + m_sceneRect.topLeft();
+        e.setScenePos(p3);
+        e.setPos(e.scenePos());
+        e.setModifiers(event->modifiers());
+        e.setButtons(event->buttons());
+        e.setButton(event->button());
+        view->umlScene()->mousePressEvent(&e);
+        update();
+    } else
+        UMLWidget::mousePressEvent(event);
+}
+
+void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
+    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
+    UMLView *view = m_doc->findView(m_diagramLinkId);
+    QPointF pos = mapFromScene(event->scenePos());
+    if (m_stateType == Combined && view && clientArea.contains(pos)) {
+        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseMove);
+        QPointF p1 = pos - QPointF(2, fontHeight+2);
+        qreal scale;
+        if (clientArea.width() > clientArea.height())
+            scale = m_sceneRect.width()/clientArea.width();
+        else
+            scale = m_sceneRect.height()/clientArea.height();
+        QPointF p2(p1 * scale);
+        QPointF p3 = p2 + m_sceneRect.topLeft();
+        e.setScenePos(p3);
+        e.setPos(e.scenePos());
+        QPointF lastPos = mapFromScene(event->lastScenePos());
+        QPointF pl1 = lastPos - QPointF(2, fontHeight+2);
+        QPointF pl2(pl1 * scale);
+        QPointF pl3 = pl2 + m_sceneRect.topLeft();
+        e.setLastScenePos(pl3);
+        e.setLastPos(pl3);
+        e.setModifiers(event->modifiers());
+        e.setButtons(event->buttons());
+        e.setButton(event->button());
+        view->umlScene()->mouseMoveEvent(&e);
+        update();
+    } else
+        UMLWidget::mouseMoveEvent(event);
+
+}
+
+void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
+    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
+    UMLView *view = m_doc->findView(m_diagramLinkId);
+    QPointF pos = mapFromScene(event->scenePos());
+    if (m_stateType == Combined && view && clientArea.contains(pos)) {
+        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonRelease);
+        QPointF p1 = pos - QPointF(2, fontHeight+2);
+        qreal scale;
+        if (clientArea.width() > clientArea.height())
+            scale = m_sceneRect.width()/clientArea.width();
+        else
+            scale = m_sceneRect.height()/clientArea.height();
+        QPointF p2(p1 * scale);
+        QPointF p3 = p2 + m_sceneRect.topLeft();
+        e.setScenePos(p3);
+        e.setPos(e.scenePos());
+        e.setModifiers(event->modifiers());
+        e.setButtons(event->buttons());
+        e.setButton(event->button());
+        view->umlScene()->mouseReleaseEvent(&e);
+        update();
+    } else
+        UMLWidget::mouseReleaseEvent(event);
 }
 
 /**
