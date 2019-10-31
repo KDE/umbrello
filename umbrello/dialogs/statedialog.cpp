@@ -15,11 +15,16 @@
 #include "activitypage.h"
 #include "documentationwidget.h"
 #include "umlview.h"
+#include "umlscene.h"
+#include "umlviewlist.h"
+#include "umldoc.h"
+#include "uml.h"
 #include "statewidget.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 
 // kde includes
+#include <KComboBox>
 #include <klineedit.h>
 #include <KLocalizedString>
 
@@ -86,6 +91,15 @@ void StateDialog::applyPage(KPageWidgetItem*item)
 {
     m_bChangesMade = true;
     if (item == pageGeneral) {
+        if (m_pStateWidget->stateType() == StateWidget::Combined) {
+            QString name = m_GenPageWidgets.diagramLinkCB->currentText();
+            Uml::ID::Type id;
+            foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+                if (name == view->umlScene()->name())
+                    id = view->umlScene()->ID();
+            }
+            m_pStateWidget->setDiagramLink(id);
+        }
         m_pStateWidget->setName(m_GenPageWidgets.nameLE->text());
         m_GenPageWidgets.docWidget->apply();
     }
@@ -152,27 +166,56 @@ void StateDialog::setupGeneralPage()
     case StateWidget::Choice:
         typeStr = i18nc("choice state in statechart", "Choice");
         break;
+    case StateWidget::Combined:
+        typeStr = i18nc("combined state in statechart", "Combined");
+        break;
     default:
         typeStr = QString::fromLatin1("???");
         break;
     }
-    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
+    int row = 0;
+    Dialog_Utils::makeLabeledEditField(generalLayout, row++,
                                        m_GenPageWidgets.typeL, i18n("State type:"),
                                        m_GenPageWidgets.typeLE, typeStr);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField(generalLayout, 1,
-                                    m_GenPageWidgets.nameL, i18n("State name:"),
-                                    m_GenPageWidgets.nameLE);
+    Dialog_Utils::makeLabeledEditField(generalLayout, row++,
+                                       m_GenPageWidgets.nameL, i18n("State name:"),
+                                       m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
-    generalLayout->addWidget(m_GenPageWidgets.docWidget, 2, 0, 1, 2);
-
-    if (type != StateWidget::Normal) {
+    if (type != StateWidget::Normal && type != StateWidget::Combined) {
         m_GenPageWidgets.nameLE->setEnabled(false);
         m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pStateWidget->name());
+
+    if (type == StateWidget::Combined) {
+        m_GenPageWidgets.diagramLinkL = new QLabel(i18n("Linked diagram:"));
+        generalLayout->addWidget(m_GenPageWidgets.diagramLinkL, row, 0);
+
+        m_GenPageWidgets.diagramLinkCB = new KComboBox;
+        generalLayout->addWidget(m_GenPageWidgets.diagramLinkCB, row++, 1);
+
+        QStringList diagrams;
+        QString name;
+        foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+            if (view->umlScene()->ID() == m_pStateWidget->diagramLink())
+                name = view->umlScene()->name();
+            if (view->umlScene()->ID() == m_pStateWidget->umlScene()->ID())
+                continue;
+            diagrams << view->umlScene()->name();
+        }
+        diagrams.sort();
+        m_GenPageWidgets.diagramLinkCB->insertItems(-1, diagrams);
+        int currentIndex = m_GenPageWidgets.diagramLinkCB->findText(name);
+        if (currentIndex > -1) {
+            m_GenPageWidgets.diagramLinkCB->setCurrentIndex(currentIndex);
+        }
+        m_GenPageWidgets.diagramLinkCB->completionObject()->addItem(name);
+    }
+
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
+    generalLayout->addWidget(m_GenPageWidgets.docWidget, row, 0, 1, 2);
 }
 
 /**

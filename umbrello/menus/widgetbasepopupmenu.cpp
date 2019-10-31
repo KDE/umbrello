@@ -350,6 +350,10 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insertSubMenuColor(widget->useFillColor());
             insertStdItems(false, type);
             switch (pState->stateType()) {
+            case StateWidget::Combined:
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+                break;
             case StateWidget::Normal:
                 insert(mt_Rename, i18n("Change State Name..."));
                 insert(mt_Change_Font);
