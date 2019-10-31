@@ -193,16 +193,11 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             QFont font = UMLWidget::font();
             font.setBold(false);
             painter->setFont(font);
+            painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
+                              Qt::AlignCenter, name());
             if (!m_linkedDiagram) {
-                QString name = i18n("undefined");
-                painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
-                                  Qt::AlignCenter,
-                                  name);
-                m_size = QSizeF(fm.width(name) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
+                m_size = QSizeF(fm.width(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
             } else {
-                painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
-                                  Qt::AlignCenter,
-                                  m_linkedDiagram->name());
                 m_sceneRect = m_linkedDiagram->sceneRect();
                 m_clientRect = rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN);
                 if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
