@@ -89,6 +89,7 @@
 
 // include files for Qt
 #include <QColor>
+#include <QLineF>
 #include <QPainter>
 #include <QPixmap>
 #include <QPrinter>
@@ -104,7 +105,7 @@ bool UMLScene::m_showDocumentationIndicator = false;
 
 using namespace Uml;
 
-DEBUG_REGISTER(UMLScene)
+DEBUG_REGISTER_DISABLED(UMLScene)
 
 /**
  * The class UMLScenePrivate is intended to hold private
@@ -3702,6 +3703,18 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(painter, rect);
     m_layoutGrid->paint(painter, rect);
+    // debug info
+    if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
+        painter->setPen(Qt::green);
+        painter->drawRect(sceneRect());
+        painter->setPen(Qt::blue);
+        painter->drawRect(itemsBoundingRect());
+        QVector<QLineF> lines;
+        lines << QLineF(m_pos + QPointF(-5,0), m_pos + QPointF(5,0))
+              << QLineF(m_pos + QPointF(0,-5), m_pos + QPointF(0,5));
+        painter->setPen(Qt::gray);
+        painter->drawLines(lines);
+    }
 }
 
 /**
