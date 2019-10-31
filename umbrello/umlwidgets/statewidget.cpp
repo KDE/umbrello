@@ -28,6 +28,7 @@
 #include <KLocalizedString>
 
 // qt includes
+#include <QtGlobal>
 #include <QPointer>
 
 /**
@@ -186,21 +187,33 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight = fm.lineSpacing();
-            painter->drawRoundedRect(rect(), 10.0, 10.0);
+            painter->drawRoundedRect(rect(), STATE_MARGIN, STATE_MARGIN );
             painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
             painter->setPen(textColor());
-            UMLView *view = m_doc->findView(m_diagramLinkId);
-            if (view) {
-                QFont font = UMLWidget::font();
-                font.setBold(false);
-                painter->setFont(font);
-                painter->drawText(STATE_MARGIN, 0,
-                                  w - STATE_MARGIN * 2, fontHeight,
-                                  Qt::AlignCenter, view->umlScene()->name());
-                setPenFromSettings(painter);
+            QFont font = UMLWidget::font();
+            font.setBold(false);
+            painter->setFont(font);
+            if (!m_linkedDiagram) {
+                QString name = i18n("undefined");
+                painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
+                                  Qt::AlignCenter,
+                                  name);
+                m_size = QSizeF(fm.width(name) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
+            } else {
+                painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
+                                  Qt::AlignCenter,
+                                  m_linkedDiagram->name());
+                m_sceneRect = m_linkedDiagram->sceneRect();
+                m_clientRect = rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN);
+                if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
+                    painter->setPen(Qt::magenta);
+                    painter->drawRect(m_clientRect);
+                }
+                m_linkedDiagram->render(painter, m_clientRect);
+                m_size = QSizeF(qMax<qreal>(fm.width(m_linkedDiagram->name()), m_sceneRect.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + m_sceneRect.height());
+                setSize(m_size);
             }
-            view->umlScene()->render(painter, rect().adjusted(2, fontHeight + 2, -2, -2));
-            m_sceneRect = view->umlScene()->sceneRect();
+            setPenFromSettings(painter);
         }
         break;
     default:
@@ -267,13 +280,7 @@ QSizeF StateWidget::minimumSize() const
             height = 25;
             break;
         case StateWidget::Combined:
-            {
-                height = getFontMetrics(FT_NORMAL).lineSpacing() + STATE_MARGIN;
-                UMLView *view = m_doc->findView(m_diagramLinkId);
-                if (view)
-                    width = getFontMetrics(FT_NORMAL).width(view->umlScene()->name()) + STATE_MARGIN * 2;
-            }
-            break;
+            return m_size;
         default:
             break;
     }
@@ -301,6 +308,8 @@ QSizeF StateWidget::maximumSize()
                 return QSizeF(fontHeight + 10, fontHeight + 10);
             }
             break;
+        case StateWidget::Combined:
+            return m_size;
         default:
             break;
     }
@@ -317,7 +326,6 @@ void StateWidget::setAspectRatioMode()
         case StateWidget::Initial:
         case StateWidget::End:
         case StateWidget::Choice:
-        case StateWidget::Combined:
         case StateWidget::DeepHistory:
         case StateWidget::ShallowHistory:
         case StateWidget::Fork:
@@ -331,28 +339,39 @@ void StateWidget::setAspectRatioMode()
     }
 }
 
+/**
+ * Setup synthetizied graphics scene event
+ *
+ * @param e event to setup
+ * @param event event source
+ * @param pos position in item coordinates
+ */
+void StateWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF & pos)
+{
+    QPointF p1 = pos - m_clientRect.topLeft();
+    qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - STATE_MARGIN);
+    qreal scaleH = m_sceneRect.height() / m_clientRect.height();
+    QPointF p2 = QPointF(p1.x() * scaleW, p1.y() * scaleH);
+    QPointF p3 = p2 + m_sceneRect.topLeft();
+    e.setScenePos(p3);
+    e.setPos(e.scenePos());
+    QPointF lastPos = mapFromScene(event->lastScenePos());
+    QPointF lp1 = lastPos - m_clientRect.topLeft();
+    QPointF lp2 = QPointF(lp1.x() * scaleW, lp1.y() * scaleH);
+    QPointF lp3 = lp2 + m_sceneRect.topLeft();
+    e.setLastScenePos(lp3);
+    e.setModifiers(event->modifiers());
+    e.setButtons(event->buttons());
+    e.setButton(event->button());
+}
+
 void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
-    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
-    UMLView *view = m_doc->findView(m_diagramLinkId);
     QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && view && clientArea.contains(pos)) {
-        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonPress);
-        QPointF p1 = pos - QPointF(2, fontHeight+2);
-        qreal scale;
-        if (m_sceneRect.width() > m_sceneRect.height())
-            scale = m_sceneRect.width()/clientArea.width();
-        else
-            scale = m_sceneRect.height()/clientArea.height();
-        QPointF p2(p1 * scale);
-        QPointF p3 = p2 + m_sceneRect.topLeft();
-        e.setScenePos(p3);
-        e.setPos(e.scenePos());
-        e.setModifiers(event->modifiers());
-        e.setButtons(event->buttons());
-        e.setButton(event->button());
-        view->umlScene()->mousePressEvent(&e);
+    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneMouseEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->mousePressEvent(&e);
         update();
     } else
         UMLWidget::mousePressEvent(event);
@@ -360,32 +379,11 @@ void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
-    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
-    UMLView *view = m_doc->findView(m_diagramLinkId);
     QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && view && clientArea.contains(pos)) {
-        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseMove);
-        QPointF p1 = pos - QPointF(2, fontHeight+2);
-        qreal scale;
-        if (m_sceneRect.width() > m_sceneRect.height())
-            scale = m_sceneRect.width()/clientArea.width();
-        else
-            scale = m_sceneRect.height()/clientArea.height();
-        QPointF p2(p1 * scale);
-        QPointF p3 = p2 + m_sceneRect.topLeft();
-        e.setScenePos(p3);
-        e.setPos(e.scenePos());
-        QPointF lastPos = mapFromScene(event->lastScenePos());
-        QPointF pl1 = lastPos - QPointF(2, fontHeight+2);
-        QPointF pl2(pl1 * scale);
-        QPointF pl3 = pl2 + m_sceneRect.topLeft();
-        e.setLastScenePos(pl3);
-        e.setLastPos(pl3);
-        e.setModifiers(event->modifiers());
-        e.setButtons(event->buttons());
-        e.setButton(event->button());
-        view->umlScene()->mouseMoveEvent(&e);
+    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneMouseEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->mouseMoveEvent(&e);
         update();
     } else
         UMLWidget::mouseMoveEvent(event);
@@ -394,26 +392,11 @@ void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    const int fontHeight = getFontMetrics(FT_NORMAL).lineSpacing();
-    QRectF clientArea = rect().adjusted(2, fontHeight + 2, -2, -2);
-    UMLView *view = m_doc->findView(m_diagramLinkId);
     QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && view && clientArea.contains(pos)) {
-        QGraphicsSceneMouseEvent e(QGraphicsSceneEvent::MouseButtonRelease);
-        QPointF p1 = pos - QPointF(2, fontHeight+2);
-        qreal scale;
-        if (m_sceneRect.width() > m_sceneRect.height())
-            scale = m_sceneRect.width()/clientArea.width();
-        else
-            scale = m_sceneRect.height()/clientArea.height();
-        QPointF p2(p1 * scale);
-        QPointF p3 = p2 + m_sceneRect.topLeft();
-        e.setScenePos(p3);
-        e.setPos(e.scenePos());
-        e.setModifiers(event->modifiers());
-        e.setButtons(event->buttons());
-        e.setButton(event->button());
-        view->umlScene()->mouseReleaseEvent(&e);
+    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneMouseEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->mouseReleaseEvent(&e);
         update();
     } else
         UMLWidget::mouseReleaseEvent(event);
@@ -538,9 +521,14 @@ Uml::ID::Type StateWidget::diagramLink()
     return m_diagramLinkId;
 }
 
-void StateWidget::setDiagramLink(const Uml::ID::Type &id)
+bool StateWidget::setDiagramLink(const Uml::ID::Type &id)
 {
-    m_diagramLinkId = id;
+    UMLView *view = m_doc->findView(id);
+    if (view) {
+        m_diagramLinkId = id;
+        m_linkedDiagram = view->umlScene();
+    }
+    return view;
 }
 
 /**
@@ -568,6 +556,13 @@ void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     }//end for
     stateElement.appendChild(activitiesElement);
     qElement.appendChild(stateElement);
+}
+
+bool StateWidget::activate(IDChangeLog *changeLog)
+{
+    if (stateType() == Combined)
+        setDiagramLink(m_diagramLinkId);
+    return UMLWidget::activate(changeLog);
 }
 
 /**
@@ -657,17 +652,12 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_EditCombinedState:
-        {
-            if (m_diagramLinkId.empty()) {
-                uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
-                break;
-            }
-            UMLView *view = m_doc->findView(m_diagramLinkId);
-            if (view) {
-                view->umlScene()->setWidgetLink(this);
-                UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
-            }
+        if (!m_linkedDiagram) {
+            uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
+            break;
         }
+        m_linkedDiagram->setWidgetLink(this);
+        UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
         break;
 
     default:
