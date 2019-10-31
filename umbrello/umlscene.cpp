@@ -3664,7 +3664,7 @@ void UMLScene::fileLoaded()
 void UMLScene::resizeSceneToItems()
 {
     // let QGraphicsScene handle scene size by itself
-    setSceneRect(QRectF());
+    setSceneRect(itemsBoundingRect());
 }
 
 /**

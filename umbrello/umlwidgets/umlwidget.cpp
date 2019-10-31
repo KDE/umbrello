@@ -601,9 +601,9 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         if ((m_inMoveArea && wasPositionChanged()) ||
                 (m_inResizeArea && wasSizeChanged())) {
             umlDoc()->setModified(true);
-            umlScene()->resizeSceneToItems();
             umlScene()->invalidate();
         }
+        umlScene()->resizeSceneToItems();
 
         UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
     }
