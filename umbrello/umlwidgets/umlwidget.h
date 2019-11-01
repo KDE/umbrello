@@ -211,6 +211,14 @@ public:
         m_fixedAspectRatio = state;
     }
 
+    bool resizable() const {
+        return m_resizable;
+    }
+
+    void setResizable(bool state) {
+        m_resizable = state;
+    }
+
     typedef enum {
         FT_NORMAL = 0,
         FT_BOLD  = 1,

@@ -41,9 +41,8 @@
 StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
-    m_stateType = stateType;
+    setStateType(stateType);
     m_drawVertical = true;
-    setAspectRatioMode();
     m_Text = QLatin1String("State");
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
@@ -421,6 +420,10 @@ void StateWidget::setStateType(StateType stateType)
 {
     m_stateType = stateType;
     setAspectRatioMode();
+    if (stateType == Combined) {
+        setAutoResize(false);
+        setResizable(false);
+    }
 }
 
 /**
@@ -570,7 +573,7 @@ bool StateWidget::loadFromXMI1(QDomElement & qElement)
     m_Text = qElement.attribute(QLatin1String("statename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
     QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
-    m_stateType = (StateType)type.toInt();
+    setStateType((StateType)type.toInt());
     if (m_stateType == Combined) {
         QString linkID = qElement.attribute(QLatin1String("diagramlinkid"));
         m_diagramLinkId = Uml::ID::fromString(linkID);
