@@ -3219,6 +3219,7 @@ void UMLScene::slotMenuSelection(QAction* action)
                 Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, name);
                 UMLApp::app()->executeCommand(d);
                 state->setDiagramLink(d->view()->umlScene()->ID());
+                d->view()->umlScene()->setWidgetLink(state);
                 state->setStateType(StateWidget::Combined);
             }
         }
