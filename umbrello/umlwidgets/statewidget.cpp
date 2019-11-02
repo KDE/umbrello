@@ -334,6 +334,22 @@ void StateWidget::setAspectRatioMode()
 }
 
 /**
+ * Maps point from item coordinate to client scene coordinate system.
+ *
+ * @param pos item coordinated
+ * @return point in client scene coordinate system
+ */
+QPointF StateWidget::mapToClient(const QPointF &pos)
+{
+    QPointF p1 = pos - m_clientRect.topLeft();
+    qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - STATE_MARGIN);
+    qreal scaleH = m_sceneRect.height() / m_clientRect.height();
+    QPointF p2 = QPointF(p1.x() * scaleW, p1.y() * scaleH);
+    QPointF p3 = p2 + m_sceneRect.topLeft();
+    return p3;
+}
+
+/**
  * Setup synthetizied graphics scene event
  *
  * @param e event to setup
@@ -342,21 +358,58 @@ void StateWidget::setAspectRatioMode()
  */
 void StateWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF & pos)
 {
-    QPointF p1 = pos - m_clientRect.topLeft();
-    qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - STATE_MARGIN);
-    qreal scaleH = m_sceneRect.height() / m_clientRect.height();
-    QPointF p2 = QPointF(p1.x() * scaleW, p1.y() * scaleH);
-    QPointF p3 = p2 + m_sceneRect.topLeft();
-    e.setScenePos(p3);
+    QPointF p = mapToClient(pos);
+    e.setScenePos(p);
     e.setPos(e.scenePos());
     QPointF lastPos = mapFromScene(event->lastScenePos());
-    QPointF lp1 = lastPos - m_clientRect.topLeft();
-    QPointF lp2 = QPointF(lp1.x() * scaleW, lp1.y() * scaleH);
-    QPointF lp3 = lp2 + m_sceneRect.topLeft();
-    e.setLastScenePos(lp3);
+    QPointF lp = mapToClient(lastPos);
+    e.setLastScenePos(lp);
     e.setModifiers(event->modifiers());
     e.setButtons(event->buttons());
     e.setButton(event->button());
+}
+
+
+/**
+ * Setup synthetizied graphics scene context menu event
+ *
+ * @param e event to setup
+ * @param event event source
+ * @param pos position in item coordinates
+ */
+void StateWidget::setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF & pos)
+{
+    QPointF p = mapToClient(pos);
+    e.setScenePos(p);
+    e.setPos(e.scenePos());
+    QPoint sp = event->screenPos();
+    e.setScreenPos(sp);
+    e.setModifiers(event->modifiers());
+    e.setReason(event->reason());
+}
+
+void StateWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+    QPointF pos = mapFromScene(event->scenePos());
+    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneContextMenuEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->contextMenuEvent(&e);
+        update();
+    } else
+        UMLWidget::contextMenuEvent(event);
+}
+
+void StateWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    QPointF pos = mapFromScene(event->scenePos());
+    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneMouseEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->mouseDoubleClickEvent(&e);
+        update();
+    } else
+        UMLWidget::mouseDoubleClickEvent(event);
 }
 
 void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)

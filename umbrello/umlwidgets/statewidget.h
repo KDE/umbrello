@@ -90,7 +90,11 @@ protected:
     QSizeF minimumSize() const;
     QSizeF maximumSize();
     void setAspectRatioMode();
+    QPointF mapToClient(const QPointF &pos);
     void setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF &pos);
+    void setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF &pos);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
