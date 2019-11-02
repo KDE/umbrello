@@ -21,6 +21,7 @@
 #include "objectwidget.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlview.h"
 #include "umlobject.h"
 #include "umlscene.h"
 #include "widget_factory.h"
@@ -512,6 +513,26 @@ bool importGraph(const QString &fileName, UMLScene *scene)
         lines.append(in.readLine());
     }
     return importGraph(lines, scene, fileName);
+}
+
+/**
+ * Check if name for a diagram is unique
+ *
+ * @param type type of diagram to check (set to undefined if to check against all diagrams)
+ * @param name name of diagram to check
+ * @return true - name is unique
+ * @return false - name is not unique
+ */
+bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name)
+{
+    bool found = false;
+    foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+        if (type == Uml::DiagramType::Undefined || view->umlScene()->type() == type) {
+            if (view->umlScene()->name() == name)
+                found = true;
+        }
+    }
+    return !found;
 }
 
 }  // end namespace Diagram_Utils

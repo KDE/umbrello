@@ -3206,7 +3206,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_CombinedState:
         {
             QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
-            bool ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+            bool ok;
+            do {
+                if (!Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name))
+                    name.append(QLatin1String("_1"));
+                ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+            } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);

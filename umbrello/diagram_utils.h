@@ -11,6 +11,8 @@
 #ifndef DIAGRAM_UTILS_H
 #define DIAGRAM_UTILS_H
 
+#include "basictypes.h"
+
 #include <QString>
 
 class UMLScene;
@@ -29,6 +31,7 @@ namespace Diagram_Utils {
     bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
     bool importGraph(const QString &fileName, UMLScene *scene);
     bool importGraph(const QMimeData *mimeData, UMLScene *scene);
+    bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name);
 } // end namespace Diagram_Utils
 
 #endif
