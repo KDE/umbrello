@@ -197,13 +197,13 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             if (!m_linkedDiagram) {
                 m_size = QSizeF(fm.width(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
             } else {
-                m_sceneRect = m_linkedDiagram->sceneRect();
+                m_sceneRect = m_linkedDiagram->sceneRect().adjusted(-1,-1, 1, 1);
                 m_clientRect = rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN);
                 if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
                     painter->setPen(Qt::magenta);
                     painter->drawRect(m_clientRect);
                 }
-                m_linkedDiagram->render(painter, m_clientRect);
+                m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
                 m_size = QSizeF(qMax<qreal>(fm.width(m_linkedDiagram->name()), m_sceneRect.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + m_sceneRect.height());
                 setSize(m_size);
             }
