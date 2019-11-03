@@ -186,7 +186,12 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight = fm.lineSpacing();
-            painter->drawRoundedRect(rect(), STATE_MARGIN, STATE_MARGIN );
+            setPenFromSettings(painter);
+            QPainterPath path;
+            path.addRoundedRect(rect(), STATE_MARGIN, STATE_MARGIN);
+            if (useFillColor())
+                painter->fillPath(path, UMLWidget::fillColor());
+            painter->drawPath(path);
             painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
             painter->setPen(textColor());
             QFont font = UMLWidget::font();
