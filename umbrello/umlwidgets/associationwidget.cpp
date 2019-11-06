@@ -86,27 +86,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     // which does not call the virtual methods from this class.
     setLineColor(lineColor());
     setLineWidth(lineWidth());
-    // floating text widgets objects owned by this association
-    m_role[RoleType::A].changeabilityWidget = 0;
-    m_role[RoleType::B].changeabilityWidget = 0;
-    m_role[RoleType::A].multiplicityWidget = 0;
-    m_role[RoleType::B].multiplicityWidget = 0;
-    m_role[RoleType::A].roleWidget = 0;
-    m_role[RoleType::B].roleWidget = 0;
-    m_role[RoleType::A].umlWidget = 0;
-    m_role[RoleType::B].umlWidget = 0;
-
-    // associationwidget attributes
-    m_role[RoleType::A].m_WidgetRegion = Uml::Region::Error;
-    m_role[RoleType::B].m_WidgetRegion = Uml::Region::Error;
-    m_role[RoleType::A].m_nIndex = 0;
-    m_role[RoleType::B].m_nIndex = 0;
-    m_role[RoleType::A].m_nTotalCount = 0;
-    m_role[RoleType::B].m_nTotalCount = 0;
-    m_role[RoleType::A].visibility = Uml::Visibility::Public;
-    m_role[RoleType::B].visibility = Uml::Visibility::Public;
-    m_role[RoleType::A].changeability = Uml::Changeability::Changeable;
-    m_role[RoleType::B].changeability = Uml::Changeability::Changeable;
 
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -4420,3 +4399,17 @@ bool AssociationWidget::loadFromXMI1(QDomElement& qElement)
     }
 }
 
+AssociationWidget::WidgetRole::WidgetRole()
+  : multiplicityWidget(nullptr)
+  , changeabilityWidget(nullptr)
+  , roleWidget(nullptr)
+  , umlWidget(nullptr)
+  , proxyWidget(nullptr)
+  , proxyWidgetID(Uml::ID::None)
+  , m_WidgetRegion(Uml::Region::Error)
+  , m_nIndex(0)
+  , m_nTotalCount(0)
+  , visibility(Uml::Visibility::Public)
+  , changeability(Uml::Changeability::Changeable)
+{
+}

@@ -272,6 +272,7 @@ private:
         Uml::Changeability::Enum  changeability;
         QString                   roleDocumentation;
 
+        WidgetRole();
     };
 
     void updateRegionLineCount(int index, int totalCount,
