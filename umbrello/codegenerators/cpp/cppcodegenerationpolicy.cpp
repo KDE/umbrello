@@ -121,6 +121,39 @@ bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
     return Settings::optionState().codeGenerationState.cppCodeGenerationState.virtualDestructors;
 }
 
+void CPPCodeGenerationPolicy::setGetterWithGetPrefix(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.getterWithGetPrefix = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getGetterWithGetPrefix()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.getterWithGetPrefix;
+}
+
+void CPPCodeGenerationPolicy::setRemovePrefixFromAccessorMethods(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getRemovePrefixFromAccessorMethods()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods;
+}
+
+void CPPCodeGenerationPolicy::setAccessorMethodsStartWithUpperCase(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getAccessorMethodsStartWithUpperCase()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase;
+}
+
 /**
  * Set the value of m_packageIsNamespace.
  * @param var the new value
@@ -320,6 +353,9 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setAccessorsAreInline(cppclone->getAccessorsAreInline());
         setOperationsAreInline(cppclone->getOperationsAreInline());
         setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
+        setGetterWithGetPrefix(cppclone->getGetterWithGetPrefix());
+        setRemovePrefixFromAccessorMethods(cppclone->getRemovePrefixFromAccessorMethods());
+        setAccessorMethodsStartWithUpperCase(cppclone->getAccessorMethodsStartWithUpperCase());
         setPackageIsNamespace(cppclone->getPackageIsNamespace());
 
         setStringClassName(cppclone->getStringClassName());
@@ -354,6 +390,9 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setAccessorsArePublic(UmbrelloSettings::publicAccessors());
     setOperationsAreInline(UmbrelloSettings::inlineOps());
     setDestructorsAreVirtual(UmbrelloSettings::virtualDestructors());
+    setGetterWithGetPrefix(UmbrelloSettings::getterWithGetPrefix());
+    setRemovePrefixFromAccessorMethods(UmbrelloSettings::removePrefixFromAccessorMethods());
+    setAccessorMethodsStartWithUpperCase(UmbrelloSettings::accessorMethodsStartWithUpperCase());
     setPackageIsNamespace(UmbrelloSettings::packageIsNamespace());
 
     setStringClassName(UmbrelloSettings::stringClassName());
@@ -401,6 +440,9 @@ void CPPCodeGenerationPolicy::init()
     setAccessorsArePublic(optionState.codeGenerationState.cppCodeGenerationState.publicAccessors);
     setOperationsAreInline(optionState.codeGenerationState.cppCodeGenerationState.inlineOps);
     setDestructorsAreVirtual(optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors);
+    setGetterWithGetPrefix(optionState.codeGenerationState.cppCodeGenerationState.getterWithGetPrefix);
+    setRemovePrefixFromAccessorMethods(optionState.codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods);
+    setAccessorMethodsStartWithUpperCase(optionState.codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase);
     setPackageIsNamespace(optionState.codeGenerationState.cppCodeGenerationState.packageIsNamespace);
 
     setStringClassName(optionState.codeGenerationState.cppCodeGenerationState.stringClassName);

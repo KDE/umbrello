@@ -35,6 +35,9 @@ public:
     void setAccessorsArePublic(bool bFlag = true);
     void setGenerateMakefileDocument(bool bFlag = true);
     void setDocToolTag(const QString &value);
+    void setGetterWithoutGetPrefix(bool bFlag = true);
+    void setRemovePrefixFromAccessorMethodName(bool bFlag = true);
+    void setAccessorMethodsStartWithUpperCase(bool bFlag);
 
     bool getPackageIsANamespace();
     bool getVirtualDestructors();
@@ -45,6 +48,9 @@ public:
     bool getAccessorsArePublic();
     bool getGenerateMakefileDocument();
     QString getDocToolTag();
+    bool getGettersWithGetPrefix();
+    bool getRemovePrefixFromAccessorMethodName();
+    bool getAccessorMethodsStartWithUpperCase();
 
 public slots:
 
@@ -67,6 +73,9 @@ private:
     QListWidgetItem *m_optionAccessorsAreInline;
     QListWidgetItem *m_optionAccessorsArePublic;
     QListWidgetItem *m_optionDocToolTag;
+    QListWidgetItem *m_optionGetterWithGetPrefix;
+    QListWidgetItem *m_optionRemovePrefixFromAccessorMethodName;
+    QListWidgetItem *m_optionAccessorMethodsStartWithUpperCase;
 
     static Qt::CheckState toCheckState(bool value);
 

@@ -40,6 +40,9 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const 
     form->setOperationsAreInline(policy->getOperationsAreInline());
     form->setAccessorsAreInline(policy->getAccessorsAreInline());
     form->setAccessorsArePublic(policy->getAccessorsArePublic());
+    form->setGetterWithoutGetPrefix(policy->getGetterWithGetPrefix());
+    form->setRemovePrefixFromAccessorMethodName(policy->getRemovePrefixFromAccessorMethods());
+    form->setAccessorMethodsStartWithUpperCase(policy->getAccessorMethodsStartWithUpperCase());
     form->setDocToolTag(policy->getDocToolTag());
 
     form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(), true);
@@ -79,6 +82,9 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setAccessorsAreInline(form->getAccessorsAreInline());
     parent->setOperationsAreInline(form->getOperationsAreInline());
     parent->setAccessorsArePublic(form->getAccessorsArePublic());
+    parent->setGetterWithGetPrefix(form->getGettersWithGetPrefix());
+    parent->setRemovePrefixFromAccessorMethods(form->getRemovePrefixFromAccessorMethodName());
+    parent->setAccessorMethodsStartWithUpperCase(form->getAccessorMethodsStartWithUpperCase());
     parent->setDocToolTag(form->getDocToolTag());
 
     parent->setStringClassName(form->ui_stringClassHCombo->currentText());

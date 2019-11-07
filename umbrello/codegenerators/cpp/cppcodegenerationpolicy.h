@@ -50,6 +50,15 @@ public:
     void setAccessorsArePublic(bool var);
     bool getAccessorsArePublic();
 
+    void setGetterWithGetPrefix(bool var);
+    bool getGetterWithGetPrefix();
+
+    void setRemovePrefixFromAccessorMethods(bool var);
+    bool getRemovePrefixFromAccessorMethods();
+
+    bool getAccessorMethodsStartWithUpperCase();
+    void setAccessorMethodsStartWithUpperCase(bool var);
+
     /**
      * We want to be flexible about which classes are allowed for generation
      * of the CPP code. In the next 4 method pairs, we give accessors that allow setting and getting
@@ -88,7 +97,6 @@ public:
     CodeGenerationPolicyPage * createPage (QWidget *parent = 0, const char * name = 0);
 
 protected:
-
     void init();
 
 private:

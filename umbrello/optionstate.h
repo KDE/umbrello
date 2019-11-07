@@ -183,7 +183,10 @@ public:
             publicAccessors(false),
             stringIncludeIsGlobal(false),
             vectorIncludeIsGlobal(false),
-            virtualDestructors(false)
+            virtualDestructors(false),
+            getterWithGetPrefix(false),
+            removePrefixFromAccessorMethods(false),
+            accessorMethodsStartWithUpperCase(false)
         {
         }
 
@@ -200,6 +203,9 @@ public:
         QString docToolTag;
         bool vectorIncludeIsGlobal;
         bool virtualDestructors;
+        bool getterWithGetPrefix;
+        bool removePrefixFromAccessorMethods;
+        bool accessorMethodsStartWithUpperCase;
     };
 
     class DCodeGenerationState {
