@@ -436,12 +436,19 @@ QPen AssociationLine::pen() const
  */
 void AssociationLine::setPen(const QPen &pen)
 {
-    if (m_startSymbol)
+    if (m_startSymbol) {
         m_startSymbol->setPen(pen);
-    if (m_subsetSymbol)
+        // update brush fill color
+        m_startSymbol->setBrush(brush());
+    }
+    if (m_subsetSymbol) {
         m_subsetSymbol->setPen(pen);
-    if (m_endSymbol)
+        m_subsetSymbol->setBrush(brush());
+    }
+    if (m_endSymbol) {
         m_endSymbol->setPen(pen);
+        m_endSymbol->setBrush(brush());
+    }
 
     prepareGeometryChange();
     m_pen = pen;
