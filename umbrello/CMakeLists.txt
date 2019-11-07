@@ -424,6 +424,7 @@ set(libumlwidgets_SRCS
     umlwidgets/combinedfragmentwidget.cpp
     umlwidgets/componentwidget.cpp
     umlwidgets/datatypewidget.cpp
+    umlwidgets/diagramproxywidget.cpp
     umlwidgets/entitywidget.cpp
     umlwidgets/enumwidget.cpp
     umlwidgets/floatingdashlinewidget.cpp

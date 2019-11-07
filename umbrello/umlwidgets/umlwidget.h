@@ -17,6 +17,7 @@
 #include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
+#include "diagramproxywidget.h"
 
 #include <QCursor>
 #include <QFont>
@@ -36,7 +37,7 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase
+class UMLWidget : public WidgetBase, public DiagramProxyWidget
 {
     Q_OBJECT
 public:
@@ -91,7 +92,7 @@ public:
 
     void setScene(UMLScene *scene);
 
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    virtual bool activate(IDChangeLog* changeLog = 0);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);

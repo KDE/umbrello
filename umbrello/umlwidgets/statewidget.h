@@ -79,20 +79,13 @@ public:
 
     virtual bool showPropertiesDialog();
 
-    Uml::ID::Type diagramLink();
-    bool setDiagramLink(const Uml::ID::Type &id);
-
     virtual bool loadFromXMI1(QDomElement & qElement);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool activate(IDChangeLog* changeLog = 0);
 
 protected:
     QSizeF minimumSize() const;
     QSizeF maximumSize();
     void setAspectRatioMode();
-    QPointF mapToClient(const QPointF &pos);
-    void setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF &pos);
-    void setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF &pos);
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -106,10 +99,6 @@ private:
     StateType   m_stateType;   ///< Type of state.
     bool m_drawVertical;   ///< whether to draw the fork/join horizontally or vertically
     QStringList m_Activities;  ///< List of activities for the state.
-    Uml::ID::Type m_diagramLinkId; ///< id of linked diagram
-    QPointer<UMLScene> m_linkedDiagram; ///< pointer to linked diagram
-    QRectF m_clientRect; ///< widget area for embedded diagram
-    QRectF m_sceneRect;  ///< scene rectangle used for internal calculations
     QSizeF m_size;       ///< widget size used by combined state
 };
 

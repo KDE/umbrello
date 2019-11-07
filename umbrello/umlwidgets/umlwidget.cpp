@@ -83,6 +83,7 @@ const int UMLWidget::resizeMarkerLineCount = 3;
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
   : WidgetBase(scene, type)
+  , DiagramProxyWidget(this)
 {
     init();
     m_umlObject = o;
@@ -103,6 +104,7 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
  */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id)
   : WidgetBase(scene, type)
+  , DiagramProxyWidget(this)
 {
     init();
     if (id == Uml::ID::None)
@@ -128,6 +130,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
         return *this;
 
     WidgetBase::operator=(other);
+    DiagramProxyWidget::operator=(other);
 
     // assign members loaded/saved
     m_useFillColor = other.m_useFillColor;
@@ -1211,8 +1214,9 @@ void UMLWidget::setFillColorCmd(const QColor &color)
  * @param ChangeLog
  * @return  true for success
  */
-bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
+bool UMLWidget::activate(IDChangeLog* changeLog)
 {
+    DiagramProxyWidget::activate(changeLog);
     if (widgetHasUMLObject(baseType()) && m_umlObject == 0) {
         m_umlObject = m_doc->findObjectById(m_nId);
         if (m_umlObject == 0) {
@@ -2097,6 +2101,7 @@ void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
       Type must be set in the child class.
     */
     WidgetBase::saveToXMI1(qDoc, qElement);
+    DiagramProxyWidget::saveToXMI1(qDoc, qElement);
     qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
@@ -2122,6 +2127,7 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
     m_nId = Uml::ID::fromString(id);
 
     WidgetBase::loadFromXMI1(qElement);
+    DiagramProxyWidget::loadFromXMI1(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));

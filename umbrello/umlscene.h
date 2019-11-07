@@ -448,7 +448,7 @@ signals:
     void sigAssociationRemoved(AssociationWidget*);
     void sigWidgetRemoved(UMLWidget*);
 
-    friend class StateWidget;
+    friend class DiagramProxyWidget;
 };
 
 QDebug operator<<(QDebug dbg, UMLScene *item);

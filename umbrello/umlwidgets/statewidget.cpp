@@ -338,119 +338,43 @@ void StateWidget::setAspectRatioMode()
     }
 }
 
-/**
- * Maps point from item coordinate to client scene coordinate system.
- *
- * @param pos item coordinated
- * @return point in client scene coordinate system
- */
-QPointF StateWidget::mapToClient(const QPointF &pos)
-{
-    QPointF p1 = pos - m_clientRect.topLeft();
-    qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - STATE_MARGIN);
-    qreal scaleH = m_sceneRect.height() / m_clientRect.height();
-    QPointF p2 = QPointF(p1.x() * scaleW, p1.y() * scaleH);
-    QPointF p3 = p2 + m_sceneRect.topLeft();
-    return p3;
-}
-
-/**
- * Setup synthetizied graphics scene event
- *
- * @param e event to setup
- * @param event event source
- * @param pos position in item coordinates
- */
-void StateWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF & pos)
-{
-    QPointF p = mapToClient(pos);
-    e.setScenePos(p);
-    e.setPos(e.scenePos());
-    QPointF lastPos = mapFromScene(event->lastScenePos());
-    QPointF lp = mapToClient(lastPos);
-    e.setLastScenePos(lp);
-    e.setModifiers(event->modifiers());
-    e.setButtons(event->buttons());
-    e.setButton(event->button());
-}
-
-
-/**
- * Setup synthetizied graphics scene context menu event
- *
- * @param e event to setup
- * @param event event source
- * @param pos position in item coordinates
- */
-void StateWidget::setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF & pos)
-{
-    QPointF p = mapToClient(pos);
-    e.setScenePos(p);
-    e.setPos(e.scenePos());
-    QPoint sp = event->screenPos();
-    e.setScreenPos(sp);
-    e.setModifiers(event->modifiers());
-    e.setReason(event->reason());
-}
-
 void StateWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneContextMenuEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->contextMenuEvent(&e);
-        update();
-    } else
+    if (m_stateType == Combined)
+        DiagramProxyWidget::contextMenuEvent(event);
+    if (event->isAccepted())
         UMLWidget::contextMenuEvent(event);
 }
 
 void StateWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneMouseEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->mouseDoubleClickEvent(&e);
-        update();
-    } else
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseDoubleClickEvent(event);
+    if (event->isAccepted())
         UMLWidget::mouseDoubleClickEvent(event);
 }
 
 void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneMouseEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->mousePressEvent(&e);
-        update();
-    } else
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mousePressEvent(event);
+    if (event->isAccepted())
         UMLWidget::mousePressEvent(event);
 }
 
 void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneMouseEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->mouseMoveEvent(&e);
-        update();
-    } else
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseMoveEvent(event);
+    if (event->isAccepted())
         UMLWidget::mouseMoveEvent(event);
-
 }
 
 void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QPointF pos = mapFromScene(event->scenePos());
-    if (m_stateType == Combined && m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneMouseEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->mouseReleaseEvent(&e);
-        update();
-    } else
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseReleaseEvent(event);
+    if (event->isAccepted())
         UMLWidget::mouseReleaseEvent(event);
 }
 
@@ -572,21 +496,6 @@ bool StateWidget::showPropertiesDialog()
     return result;
 }
 
-Uml::ID::Type StateWidget::diagramLink()
-{
-    return m_diagramLinkId;
-}
-
-bool StateWidget::setDiagramLink(const Uml::ID::Type &id)
-{
-    UMLView *view = m_doc->findView(id);
-    if (view) {
-        m_diagramLinkId = id;
-        m_linkedDiagram = view->umlScene();
-    }
-    return view;
-}
-
 /**
  * Creates the "statewidget" XMI element.
  */
@@ -599,8 +508,6 @@ void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     stateElement.setAttribute(QLatin1String("statetype"), m_stateType);
     if (m_stateType == Fork || m_stateType == Join)
         stateElement.setAttribute(QLatin1String("drawvertical"), m_drawVertical);
-    if (m_stateType == Combined)
-        stateElement.setAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
     //save states activities
     QDomElement activitiesElement = qDoc.createElement(QLatin1String("Activities"));
 
@@ -614,13 +521,6 @@ void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(stateElement);
 }
 
-bool StateWidget::activate(IDChangeLog *changeLog)
-{
-    if (stateType() == Combined)
-        setDiagramLink(m_diagramLinkId);
-    return UMLWidget::activate(changeLog);
-}
-
 /**
  * Loads a "statewidget" XMI element.
  */
@@ -632,10 +532,6 @@ bool StateWidget::loadFromXMI1(QDomElement & qElement)
     m_Doc = qElement.attribute(QLatin1String("documentation"));
     QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
     setStateType((StateType)type.toInt());
-    if (m_stateType == Combined) {
-        QString linkID = qElement.attribute(QLatin1String("diagramlinkid"));
-        m_diagramLinkId = Uml::ID::fromString(linkID);
-    }
     setAspectRatioMode();
     QString drawVertical = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("1"));
     m_drawVertical = (bool)drawVertical.toInt();
@@ -702,7 +598,7 @@ void StateWidget::slotMenuSelection(QAction* action)
             QString diagramName = m_doc->createDiagramName(Uml::DiagramType::State);
             Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, diagramName);
             UMLApp::app()->executeCommand(d);
-            m_diagramLinkId = d->view()->umlScene()->ID();
+            setDiagramLink(d->view()->umlScene()->ID());
             setStateType(Combined);
         }
         break;
