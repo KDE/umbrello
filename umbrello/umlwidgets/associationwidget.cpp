@@ -3260,6 +3260,9 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
             DEBUG(DBG_SRC) << "no closest segment found!";
             return false;
         }
+        // switch type to see additional points by default
+        if (m_associationLine->count() == 2)
+            m_associationLine->setLayout(Uml::LayoutType::Polyline);
         m_associationLine->insertPoint(i + 1, scenePos);
         if (m_nLinePathSegmentIndex == i) {
             QPointF segStart = m_associationLine->point(i);
@@ -3305,6 +3308,10 @@ bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
 
     // there was a point so we remove the point
     m_associationLine->removePoint(i);
+
+    // switch type back to simple line
+    if (m_associationLine->count() == 2)
+        m_associationLine->setLayout(Uml::LayoutType::Direct);
 
     // Maybe reattach association class connecting line
     // to different association linepath segment.
