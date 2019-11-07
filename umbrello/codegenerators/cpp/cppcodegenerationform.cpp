@@ -67,6 +67,18 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
         new QListWidgetItem(i18n("Accessors are public"), ui_generalOptionsListWidget);
     m_optionAccessorsArePublic->setFlags(flags);
 
+    m_optionGetterWithGetPrefix =
+        new QListWidgetItem(i18n("Create getters with get prefix"), ui_generalOptionsListWidget);
+    m_optionGetterWithGetPrefix->setFlags(flags);
+
+    m_optionRemovePrefixFromAccessorMethodName =
+            new QListWidgetItem(i18n("Remove prefix '[a-zA-Z]_' from accessor method names"), ui_generalOptionsListWidget);
+        m_optionRemovePrefixFromAccessorMethodName->setFlags(flags);
+
+    m_optionAccessorMethodsStartWithUpperCase =
+            new QListWidgetItem(i18n("Accessor methods start with capital letters"), ui_generalOptionsListWidget);
+        m_optionAccessorMethodsStartWithUpperCase->setFlags(flags);
+
     m_optionDocToolTag =
         new QListWidgetItem(i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
     m_optionDocToolTag->setFlags(flags);
@@ -146,10 +158,16 @@ void CPPCodeGenerationForm::generalOptionsListWidgetClicked(QListWidgetItem *pSe
             (m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked);
         m_optionAccessorsAreInline->setHidden(dontGenerateAccessorMethods);
         m_optionAccessorsArePublic->setHidden(dontGenerateAccessorMethods);
+        m_optionGetterWithGetPrefix->setHidden(dontGenerateAccessorMethods);
+        m_optionRemovePrefixFromAccessorMethodName->setHidden(dontGenerateAccessorMethods);
+        m_optionAccessorMethodsStartWithUpperCase->setHidden(dontGenerateAccessorMethods);
         // reset the value if needed
         if (dontGenerateAccessorMethods) {
             m_optionAccessorsAreInline->setCheckState(Qt::Unchecked);
             m_optionAccessorsArePublic->setCheckState(Qt::Unchecked);
+            m_optionGetterWithGetPrefix->setCheckState(Qt::Unchecked);
+            m_optionRemovePrefixFromAccessorMethodName->setCheckState(Qt::Unchecked);
+            m_optionAccessorMethodsStartWithUpperCase->setHidden(Qt::Unchecked);
         }
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
@@ -251,6 +269,33 @@ void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
 }
 
 /**
+ * Set the display state of the related checkbox
+ * @param flag   the flag to set
+ */
+void CPPCodeGenerationForm::setGetterWithoutGetPrefix(bool bFlag)
+{
+    m_optionGetterWithGetPrefix->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
+ * Set the display state of the related checkbox
+ * @param flag   the flag to set
+ */
+void CPPCodeGenerationForm::setRemovePrefixFromAccessorMethodName(bool bFlag)
+{
+    m_optionRemovePrefixFromAccessorMethodName->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
+ * Set the display state of the related checkbox
+ * @param flag   the flag to set
+ */
+void CPPCodeGenerationForm::setAccessorMethodsStartWithUpperCase(bool bFlag)
+{
+    m_optionAccessorMethodsStartWithUpperCase->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
  * Set the doc display state of option "Doc Tool Tag".
  * @param value   the value of the tag
  */
@@ -322,6 +367,37 @@ bool CPPCodeGenerationForm::getAccessorsArePublic()
     return m_optionAccessorsArePublic->checkState() == Qt::Checked;
 }
 
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getGettersWithGetPrefix()
+{
+    return m_optionGetterWithGetPrefix->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getRemovePrefixFromAccessorMethodName()
+{
+    return m_optionRemovePrefixFromAccessorMethodName->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getAccessorMethodsStartWithUpperCase()
+{
+    return m_optionAccessorMethodsStartWithUpperCase->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
 QString CPPCodeGenerationForm::getDocToolTag()
 {
     return m_optionDocToolTag->checkState() == Qt::Checked ? QLatin1String("\\") : QLatin1String("@");

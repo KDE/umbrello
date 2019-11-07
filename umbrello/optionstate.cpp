@@ -311,6 +311,9 @@ namespace Settings {
         UmbrelloSettings::setPublicAccessors(cppCodeGenerationState.publicAccessors);
         UmbrelloSettings::setInlineOps(cppCodeGenerationState.inlineOps);
         UmbrelloSettings::setVirtualDestructors(cppCodeGenerationState.virtualDestructors);
+        UmbrelloSettings::setGetterWithGetPrefix(cppCodeGenerationState.getterWithGetPrefix);
+        UmbrelloSettings::setRemovePrefixFromAccessorMethods(cppCodeGenerationState.removePrefixFromAccessorMethods);
+        UmbrelloSettings::setAccessorMethodsStartWithUpperCase(cppCodeGenerationState.accessorMethodsStartWithUpperCase);
         UmbrelloSettings::setPackageIsNamespace(cppCodeGenerationState.packageIsNamespace);
 
         UmbrelloSettings::setStringClassName(cppCodeGenerationState.stringClassName);

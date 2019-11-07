@@ -519,6 +519,21 @@
          <whatsthis>Enables/Disables virtual destructors</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="getterWithGetPrefix" type="Bool">
+         <label>Getters with 'get' prefix</label>
+         <whatsthis>If enabled, create getters with 'get' prefix</whatsthis>
+         <default>true</default>
+       </entry>
+       <entry name="removePrefixFromAccessorMethods" type="Bool">
+         <label>Remove prefix '[a-zA-Z]_' from accessor methods</label>
+         <whatsthis>If enabled, remove prefix '[a-zA-Z]_' from accessor methods</whatsthis>
+         <default>false</default>
+       </entry>
+       <entry name="accessorMethodsStartWithUpperCase" type="Bool">
+         <label>Accessor methods start with capital letters</label>
+         <whatsthis>If enabled, accessor methods start with capital letters</whatsthis>
+         <default>true</default>
+       </entry>
        <entry name="docToolTag" type="String">
          <label>Documentation tags</label>
          <whatsthis>The tag used for generating doxygen documentation (\\, @)</whatsthis>

@@ -607,12 +607,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
         QString varName = getAttributeVariableName(at);
         QString methodBaseName = cleanName(at->name());
 
-        // force capitalizing the field name, this is silly,
-        // from what I can tell, this IS the default behavior for
-        // cleanName. I dunno why it is not working -b.t.
         methodBaseName = methodBaseName.trimmed();
-        methodBaseName.replace(0, 1, methodBaseName.at(0).toUpper());
-
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
                                             methodBaseName, at->doc(), Uml::Changeability::Changeable, isHeaderMethod,
                                             at->isStatic(), writeMethodBody, stream);
@@ -936,7 +931,12 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         return;
 
     QString className = fixTypeName(fieldClassName);
-    QString fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
+    QString fldName = fieldName;
+    if (policyExt()->getRemovePrefixFromAccessorMethods())
+        fldName.replace(QRegExp(QLatin1String("^[a-zA-Z]_")), QLatin1String(""));
+    QString setFldName = Codegen_Utils::capitalizeFirstLetter(fldName);
+    if (policyExt()->getAccessorMethodsStartWithUpperCase())
+        Codegen_Utils::capitalizeFirstLetter(fldName);
     QString indnt = indent();
     QString varName = QLatin1String("new_var");
     QString fullVarName = varName;
@@ -981,7 +981,9 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     stream << indnt << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
-    stream << "get" << fldName << "()";
+    if (!policyExt()->getRemovePrefixFromAccessorMethods())
+        stream << "get";
+    stream << fldName << "()";
 
     if (writeMethodBody) {
         stream << m_endl << indnt << "{" << m_endl;
