@@ -10,6 +10,7 @@
 
 #include "umlwidgetstylepage.h"
 
+#include "associationwidget.h"
 #include "debug_utils.h"
 #include "optionstate.h"
 #include "uml.h"
@@ -43,10 +44,18 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
     m_options(0)
 {
     init();
+    if (m_pUMLWidget->isAssociationWidget()) {
+        m_pFillColorB->setEnabled(false);
+        m_pFillColorL->setEnabled(false);
+        m_pFillDefaultB->setEnabled(false);
+        m_pUseFillColorCB->setEnabled(false);
+    }
     m_pTextColorB->setColor(pWidget->textColor());
     m_pLineColorB->setColor(pWidget->lineColor());
-    m_pFillColorB->setColor(pWidget->fillColor());
-    m_pUseFillColorCB->setChecked(pWidget->useFillColor());
+    if (m_pFillColorB->isEnabled())
+        m_pFillColorB->setColor(pWidget->fillColor());
+    if (m_pUseFillColorCB->isEnabled())
+        m_pUseFillColorCB->setChecked(pWidget->useFillColor());
     m_lineWidthB->setValue(pWidget->lineWidth());
 }
 
@@ -262,10 +271,12 @@ void UMLWidgetStylePage::slotLineWidthButtonClicked()
 void UMLWidgetStylePage::apply()
 {
     if (m_pUMLWidget) {
-        m_pUMLWidget->setUseFillColor(m_pUseFillColorCB->isChecked());
+        if (m_pUseFillColorCB->isEnabled())
+            m_pUMLWidget->setUseFillColor(m_pUseFillColorCB->isChecked());
         m_pUMLWidget->setTextColor(m_pTextColorB->color());
         m_pUMLWidget->setLineColor(m_pLineColorB->color());
-        m_pUMLWidget->setFillColor(m_pFillColorB->color());
+        if (m_pFillColorB->isEnabled())
+            m_pUMLWidget->setFillColor(m_pFillColorB->color());
         m_pUMLWidget->setLineWidth(m_lineWidthB->value());
     }
     else if (m_options) {
