@@ -1599,7 +1599,6 @@ void UMLWidget::setSelectedFlag(bool _select)
  */
 void UMLWidget::setSelected(bool _select)
 {
-    WidgetBase::setSelected(_select);
     const WidgetBase::WidgetType wt = baseType();
     if (_select) {
         if (m_scene->selectedCount() == 0) {
@@ -1619,6 +1618,8 @@ void UMLWidget::setSelected(bool _select)
         if (isSelected())
             UMLApp::app()->docWindow()->updateDocumentation(true);
     }
+
+    WidgetBase::setSelected(_select);
 
     update();
 

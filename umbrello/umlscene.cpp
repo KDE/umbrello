@@ -962,33 +962,10 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
     m_d->toolBarState->mousePress(event);
 
-    //TODO should be managed by widgets when are selected. Right now also has some
-    //problems, such as clicking on a widget, and clicking to move that widget shows
-    //documentation of the diagram instead of keeping the widget documentation.
-    //When should diagram documentation be shown? When clicking on an empty
-    //space in the diagram with arrow tool?
-    UMLWidget* widget = widgetAt(event->scenePos());
-    if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        UMLApp::app()->docWindow()->showDocumentation(widget);
-        event->accept();
-    }
-    else {
-        AssociationWidget* association = associationAt(event->scenePos());
-        if (association) {
-            DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
-            // the following is done in AssociationWidget::setSelected()
-            // UMLApp::app()->docWindow()->showDocumentation(association, true);
-            // event->accept();
-        }
-        //:TODO: else if (clicking on other elements with documentation) {
-        //:TODO: UMLApp::app()->docWindow()->showDocumentation(umlObject, true);
-        else {
-            // clicking on an empty space in the diagram with arrow tool
-            UMLApp::app()->docWindow()->showDocumentation(this);
-            event->accept();
-        }
-    }
+    // setup document
+    if (selectedItems().count() == 0)
+        UMLApp::app()->docWindow()->showDocumentation(this);
+    event->accept();
 }
 
 /**
