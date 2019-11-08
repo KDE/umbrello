@@ -1249,32 +1249,6 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::RoleType::Enum role) const
 }
 
 /**
- * Sets the associated widgets.
- *
- * @param widgetA   Pointer the role A widget for the association.
- * @param assocType The AssociationType::Enum for this association.
- * @param widgetB   Pointer the role B widget for the association.
- */
-bool AssociationWidget::setWidgets(UMLWidget* widgetA,
-                                   Uml::AssociationType::Enum assocType,
-                                   UMLWidget* widgetB)
-{
-    //if the association already has a WidgetB or WidgetA associated, then
-    //it cannot be changed to other widget, that would require a  deletion
-    //of the association and the creation of a new one
-    if ((m_role[RoleType::A].umlWidget && (m_role[RoleType::A].umlWidget != widgetA)) ||
-            (m_role[RoleType::B].umlWidget && (m_role[RoleType::B].umlWidget != widgetB))) {
-        return false;
-    }
-    setWidgetForRole(widgetA, RoleType::A);
-    setAssociationType(assocType);
-    setWidgetForRole(widgetB, RoleType::B);
-
-    calculateEndingPoints();
-    return true;
-}
-
-/**
  * CleansUp all the association's data in the related widgets.
  */
 void AssociationWidget::cleanup()

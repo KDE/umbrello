@@ -128,8 +128,6 @@ public:
     UMLWidget* widgetForRole(Uml::RoleType::Enum role) const;
     void setWidgetForRole(UMLWidget* widget, Uml::RoleType::Enum role);
 
-    bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
-
     bool containsAsEndpoint(UMLWidget* widget);
 
     Uml::AssociationType::Enum associationType() const;
