@@ -125,7 +125,7 @@ target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
 find_package(CLANG QUIET)
-if(LLVM_FOUND AND CLANG_FOUND)
+if(LLVM_FOUND AND CLANG_FOUND AND NOT BUILD_KF5)
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
