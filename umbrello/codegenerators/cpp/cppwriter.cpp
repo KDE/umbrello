@@ -932,7 +932,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     QString className = fixTypeName(fieldClassName);
     QString indnt = indent();
-    QString varName = QLatin1String("new_var");
+    QString varName = QLatin1String("value");
     QString fullVarName = varName;
 
     int i = className.indexOf(QLatin1Char('['));
@@ -948,11 +948,11 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     // set method
     if (change == Uml::Changeability::Changeable) {
-        writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QLatin1String("param new_var the new value of ") + fieldVarName, stream);
+        writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QString(QLatin1String("param %1 the new value of ")).arg(varName) + fieldVarName, stream);
         stream << indnt << "void ";
         if (!isHeaderMethod)
             stream << className_ << "::";
-        stream << "set" << fldName << "(" << className << " " << fullVarName << ")";
+        stream << "set" << setFldName << "(" << className << " " << fullVarName << ")";
 
         if (writeMethodBody) {
             stream << m_endl << indnt << "{" << m_endl;
