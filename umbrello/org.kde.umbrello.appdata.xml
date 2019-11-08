@@ -179,13 +179,13 @@
       <li xml:lang="zh-TW">支援數種類型的圖表：使用範例、類、序列、協作、狀態、活動、組件、佈署、實體關係</li>
     </ul>
   </description>
-  <url type="homepage">http://umbrello.kde.org</url>
+  <url type="homepage">https://umbrello.kde.org</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=umbrello</url>
-  <url type="help">http://docs.kde.org/stable/en/kdesdk/umbrello/index.html</url>
+  <url type="help">https://docs.kde.org/stable/en/kdesdk/umbrello/index.html</url>
   <url type="donation">https://www.kde.org/community/donations/?app=umbrello&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
-      <image>http://kde.org/images/screenshots/umbrello.png</image>
+      <image>https://kde.org/images/screenshots/umbrello.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
