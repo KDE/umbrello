@@ -1508,8 +1508,6 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
         uError() << "umlWidget is NULL";
         return Uml::ID::None;
     }
-    if (m_role[role].umlWidget->isObjectWidget())
-        return m_role[role].umlWidget->localID();
     Uml::ID::Type id = m_role[role].umlWidget->localID();
     return id;
 }
