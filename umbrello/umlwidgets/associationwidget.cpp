@@ -639,17 +639,13 @@ bool AssociationWidget::operator==(const AssociationWidget& other) const
 
     if (widgetForRole(RoleType::A)->isObjectWidget() &&
             other.widgetForRole(RoleType::A)->isObjectWidget()) {
-        ObjectWidget *ownA = static_cast<ObjectWidget*>(widgetForRole(RoleType::A));
-        ObjectWidget *otherA = static_cast<ObjectWidget*>(other.widgetForRole(RoleType::A));
-        if (ownA->localID() != otherA->localID())
+        if (widgetForRole(RoleType::A)->localID() != other.widgetForRole(RoleType::A)->localID())
             return false;
     }
 
     if (widgetForRole(RoleType::B)->isObjectWidget() &&
             other.widgetForRole(RoleType::B)->isObjectWidget()) {
-        ObjectWidget *ownB = static_cast<ObjectWidget*>(widgetForRole(RoleType::B));
-        ObjectWidget *otherB = static_cast<ObjectWidget*>(other.widgetForRole(RoleType::B));
-        if (ownB->localID() != otherB->localID())
+        if (widgetForRole(RoleType::B)->localID() != other.widgetForRole(RoleType::B)->localID())
             return false;
     }
 
