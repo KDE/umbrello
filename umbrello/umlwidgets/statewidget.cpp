@@ -340,41 +340,51 @@ void StateWidget::setAspectRatioMode()
 
 void StateWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
     if (m_stateType == Combined)
         DiagramProxyWidget::contextMenuEvent(event);
     if (event->isAccepted())
+#endif
         UMLWidget::contextMenuEvent(event);
 }
 
 void StateWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
     if (m_stateType == Combined)
         DiagramProxyWidget::mouseDoubleClickEvent(event);
     if (event->isAccepted())
+#endif
         UMLWidget::mouseDoubleClickEvent(event);
 }
 
 void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
     if (m_stateType == Combined)
         DiagramProxyWidget::mousePressEvent(event);
     if (event->isAccepted())
+#endif
         UMLWidget::mousePressEvent(event);
 }
 
 void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
     if (m_stateType == Combined)
         DiagramProxyWidget::mouseMoveEvent(event);
     if (event->isAccepted())
+#endif
         UMLWidget::mouseMoveEvent(event);
 }
 
 void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
     if (m_stateType == Combined)
         DiagramProxyWidget::mouseReleaseEvent(event);
     if (event->isAccepted())
+#endif
         UMLWidget::mouseReleaseEvent(event);
 }
 
