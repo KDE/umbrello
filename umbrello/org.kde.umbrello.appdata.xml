@@ -185,6 +185,7 @@
   <url type="donation">https://www.kde.org/community/donations/?app=umbrello&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
+      <caption>Showing class diagram</caption>
       <image>https://kde.org/images/screenshots/umbrello.png</image>
     </screenshot>
   </screenshots>
