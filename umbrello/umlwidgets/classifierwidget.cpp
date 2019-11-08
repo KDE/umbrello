@@ -831,7 +831,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             if (brect.width() > width() + 2*defaultMargin)
                 brect.setWidth(width()-2*defaultMargin);
             brect.adjust(textX, bodyOffsetY, textX, bodyOffsetY);
-            painter->drawText(brect, Qt::AlignCenter | Qt::TextWordWrap, documentation());
+            painter->drawText(brect, Qt::AlignLeft | Qt::TextWordWrap, documentation());
             bodyOffsetY += brect.height();
         }
         else
