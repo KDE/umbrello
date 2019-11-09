@@ -59,6 +59,8 @@ public:
 
     void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement, const QString &suffix);
     bool loadFromXMI1(QDomElement &qElement, const QString &suffix);
+    bool getStartMove();
+
 private:
     AssociationWidget *m_q;
 };

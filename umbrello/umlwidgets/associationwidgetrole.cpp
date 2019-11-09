@@ -126,3 +126,13 @@ bool AssociationWidgetRole::loadFromXMI1(QDomElement &qElement, const QString &s
     // for remaining see AssociationWidget::loadFromXMI
     return true;
 }
+bool AssociationWidgetRole::getStartMove()
+{
+    if (multiplicityWidget && multiplicityWidget->getStartMove())
+        return true;
+    else if (changeabilityWidget && changeabilityWidget->getStartMove())
+        return true;
+    else if (roleWidget  && roleWidget->getStartMove())
+        return true;
+    return false;
+}

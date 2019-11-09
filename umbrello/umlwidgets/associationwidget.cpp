@@ -2713,17 +2713,9 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
 void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
 {
     bool startMove = false;
-    if (m_role[RoleType::A].multiplicityWidget && m_role[RoleType::A].multiplicityWidget->getStartMove())
+    if (m_role[RoleType::A].getStartMove())
         startMove = true;
-    else if (m_role[RoleType::B].multiplicityWidget && m_role[RoleType::B].multiplicityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::A].changeabilityWidget && m_role[RoleType::A].changeabilityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::B].changeabilityWidget && m_role[RoleType::B].changeabilityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::A].roleWidget  && m_role[RoleType::A].roleWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::B].roleWidget  && m_role[RoleType::B].roleWidget->getStartMove())
+    else if (m_role[RoleType::B].getStartMove())
         startMove = true;
     else if (m_nameWidget && m_nameWidget->getStartMove())
         startMove = true;
@@ -2745,17 +2737,9 @@ void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
 void AssociationWidget::setTextPositionRelatively(Uml::TextRole::Enum role, const QPointF &oldPosition)
 {
     bool startMove = false;
-    if (m_role[RoleType::A].multiplicityWidget && m_role[RoleType::A].multiplicityWidget->getStartMove())
+    if (m_role[RoleType::A].getStartMove())
         startMove = true;
-    else if (m_role[RoleType::B].multiplicityWidget && m_role[RoleType::B].multiplicityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::A].changeabilityWidget && m_role[RoleType::A].changeabilityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::B].changeabilityWidget && m_role[RoleType::B].changeabilityWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::A].roleWidget  && m_role[RoleType::A].roleWidget->getStartMove())
-        startMove = true;
-    else if (m_role[RoleType::B].roleWidget  && m_role[RoleType::B].roleWidget->getStartMove())
+    else if (m_role[RoleType::B].getStartMove())
         startMove = true;
     else if (m_nameWidget && m_nameWidget->getStartMove())
         startMove = true;
