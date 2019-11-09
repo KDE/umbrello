@@ -4001,39 +4001,14 @@ void AssociationWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
     }
     assocElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
     assocElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
-    assocElement.setAttribute(QLatin1String("indexa"), m_role[RoleType::A].m_nIndex);
-    assocElement.setAttribute(QLatin1String("indexb"), m_role[RoleType::B].m_nIndex);
-    assocElement.setAttribute(QLatin1String("totalcounta"), m_role[RoleType::A].m_nTotalCount);
-    assocElement.setAttribute(QLatin1String("totalcountb"), m_role[RoleType::B].m_nTotalCount);
     m_associationLine->saveToXMI1(qDoc, assocElement);
 
     if (m_nameWidget) {
         m_nameWidget->saveToXMI1(qDoc, assocElement);
     }
 
-    if (multiplicityWidget(RoleType::A)) {
-        multiplicityWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
-    }
-
-    if (multiplicityWidget(RoleType::B)) {
-        multiplicityWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
-    }
-
-    if (roleWidget(RoleType::A)) {
-        roleWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
-    }
-
-    if (roleWidget(RoleType::B)) {
-        roleWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
-    }
-
-    if (changeabilityWidget(RoleType::A)) {
-        changeabilityWidget(RoleType::A)->saveToXMI1(qDoc, assocElement);
-    }
-
-    if (changeabilityWidget(RoleType::B)) {
-        changeabilityWidget(RoleType::B)->saveToXMI1(qDoc, assocElement);
-    }
+    m_role[RoleType::A].saveToXMI1(qDoc, assocElement, QLatin1String("a"));
+    m_role[RoleType::B].saveToXMI1(qDoc, assocElement, QLatin1String("b"));
 
     if (m_associationClass) {
         QString acid = Uml::ID::toString(m_associationClass->id());
@@ -4186,14 +4161,8 @@ bool AssociationWidget::loadFromXMI1(QDomElement& qElement,
 
     setAssociationType(aType);
 
-    QString indexa = qElement.attribute(QLatin1String("indexa"), QLatin1String("0"));
-    QString indexb = qElement.attribute(QLatin1String("indexb"), QLatin1String("0"));
-    QString totalcounta = qElement.attribute(QLatin1String("totalcounta"), QLatin1String("0"));
-    QString totalcountb = qElement.attribute(QLatin1String("totalcountb"), QLatin1String("0"));
-    m_role[RoleType::A].m_nIndex = indexa.toInt();
-    m_role[RoleType::B].m_nIndex = indexb.toInt();
-    m_role[RoleType::A].m_nTotalCount = totalcounta.toInt();
-    m_role[RoleType::B].m_nTotalCount = totalcountb.toInt();
+    m_role[RoleType::A].loadFromXMI1(qElement, QLatin1String("a"));
+    m_role[RoleType::B].loadFromXMI1(qElement, QLatin1String("b"));
 
     QString assocclassid = qElement.attribute(QLatin1String("assocclass"));
     if (! assocclassid.isEmpty()) {

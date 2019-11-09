@@ -20,6 +20,8 @@ class FloatingTextWidget;
 class UMLWidget;
 
 class QPointF;
+class QDomDocument;
+class QDomElement;
 
 /**
  * The AssociationWidgetRole struct gathers all information pertaining to the role.
@@ -55,6 +57,8 @@ public:
     void setSelected(bool select);
     void clipSize();
 
+    void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement, const QString &suffix);
+    bool loadFromXMI1(QDomElement &qElement, const QString &suffix);
 private:
     AssociationWidget *m_q;
 };

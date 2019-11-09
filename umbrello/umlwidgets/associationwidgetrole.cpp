@@ -103,3 +103,26 @@ void AssociationWidgetRole::clipSize()
     if (changeabilityWidget)
         changeabilityWidget->clipSize();
 }
+
+void AssociationWidgetRole::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement, const QString &suffix)
+{
+    qElement.setAttribute(QString(QLatin1String("index%1")).arg(suffix), m_nIndex);
+    qElement.setAttribute(QString(QLatin1String("totalcount%1")).arg(suffix), m_nTotalCount);
+
+    if (multiplicityWidget)
+        multiplicityWidget->saveToXMI1(qDoc, qElement);
+    if (roleWidget)
+        roleWidget->saveToXMI1(qDoc, qElement);
+    if (changeabilityWidget)
+        changeabilityWidget->saveToXMI1(qDoc, qElement);
+}
+
+bool AssociationWidgetRole::loadFromXMI1(QDomElement &qElement, const QString &suffix)
+{
+    QString index = qElement.attribute(QString(QLatin1String("index%1")).arg(suffix), QLatin1String("0"));
+    QString totalcount = qElement.attribute(QString(QLatin1String("totalcount%1")).arg(suffix), QLatin1String("0"));
+    m_nIndex = index.toInt();
+    m_nTotalCount = totalcount.toInt();
+    // for remaining see AssociationWidget::loadFromXMI
+    return true;
+}
