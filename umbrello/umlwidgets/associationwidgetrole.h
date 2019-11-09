@@ -19,6 +19,8 @@ class AssociationWidget;
 class FloatingTextWidget;
 class UMLWidget;
 
+class QPointF;
+
 /**
  * The AssociationWidgetRole struct gathers all information pertaining to the role.
  * The AssociationWidget class contains two AssociationWidgetRole objects, one for
@@ -48,6 +50,8 @@ public:
     void cleanup();
 
     void setFont(const QFont &font);
+
+    UMLWidget *onWidget(const QPointF &p);
 
 private:
     AssociationWidget *m_q;

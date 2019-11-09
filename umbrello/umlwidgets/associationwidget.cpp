@@ -3742,28 +3742,23 @@ void AssociationWidget::setSelected(bool _select /* = true */)
  *
  * @param p Point to be checked.
  *
- * @return m_nameWidget if m_nameWidget is non NULL and m_nameWidget->onWidget(p) returns non 0;
- *         m_role[0].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
- *         its onWidget(p) returns non 0;
- *         m_role[1].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
- *         its onWidget(p) returns non 0;
- *         else NULL.
+ * @return pointer to widget at the provided point
+ * @return 0 is no widget has been found
  */
 UMLWidget* AssociationWidget::onWidget(const QPointF &p)
 {
-    if (m_nameWidget && m_nameWidget->onWidget(p)) {
+    if (m_nameWidget && m_nameWidget->onWidget(p))
         return m_nameWidget;
-    }
-    for (int i = 0; i <= 1; i++) {
-        const AssociationWidgetRole& r = m_role[i];
-        if (r.multiplicityWidget && r.multiplicityWidget->onWidget(p))
-            return r.multiplicityWidget;
-        if (r.changeabilityWidget && r.changeabilityWidget->onWidget(p))
-            return r.changeabilityWidget;
-        if (r.roleWidget && r.roleWidget->onWidget(p))
-            return r.roleWidget;
-    }
-    return 0;
+
+    UMLWidget *w = m_role[RoleType::A].onWidget(p);
+    if (w)
+        return w;
+
+    w = m_role[RoleType::B].onWidget(p);
+    if (w)
+        return w;
+
+    return nullptr;
 }
 
 /**

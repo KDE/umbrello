@@ -57,3 +57,22 @@ void AssociationWidgetRole::setFont(const QFont &font)
     if (changeabilityWidget)
         changeabilityWidget->setFont(font);
 }
+
+/**
+ * Check owned floating texts
+ *
+ * @param p Point to be checked
+ *
+ * @return pointer to widget at the provided point p
+ * @return 0 if no widget found
+ */
+UMLWidget* AssociationWidgetRole::onWidget(const QPointF &p)
+{
+    if (multiplicityWidget && multiplicityWidget->onWidget(p))
+        return multiplicityWidget;
+    else if (changeabilityWidget && changeabilityWidget->onWidget(p))
+        return changeabilityWidget;
+    else if (roleWidget && roleWidget->onWidget(p))
+        return roleWidget;
+    return nullptr;
+}
