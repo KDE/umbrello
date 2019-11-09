@@ -3916,23 +3916,8 @@ void AssociationWidget::clipSize()
     if (m_nameWidget)
         m_nameWidget->clipSize();
 
-    if (m_role[RoleType::A].multiplicityWidget)
-        m_role[RoleType::A].multiplicityWidget->clipSize();
-
-    if (m_role[RoleType::B].multiplicityWidget)
-        m_role[RoleType::B].multiplicityWidget->clipSize();
-
-    if (m_role[RoleType::A].roleWidget)
-        m_role[RoleType::A].roleWidget->clipSize();
-
-    if (m_role[RoleType::B].roleWidget)
-        m_role[RoleType::B].roleWidget->clipSize();
-
-    if (m_role[RoleType::A].changeabilityWidget)
-        m_role[RoleType::A].changeabilityWidget->clipSize();
-
-    if (m_role[RoleType::B].changeabilityWidget)
-        m_role[RoleType::B].changeabilityWidget->clipSize();
+    m_role[RoleType::A].clipSize();
+    m_role[RoleType::B].clipSize();
 
     if (m_associationClass)
         m_associationClass->clipSize();

@@ -91,3 +91,15 @@ void AssociationWidgetRole::setSelected(bool select)
     if (changeabilityWidget)
        changeabilityWidget->setSelected(select);
 }
+
+void AssociationWidgetRole::clipSize()
+{
+    if (multiplicityWidget)
+        multiplicityWidget->clipSize();
+
+    if (roleWidget)
+        roleWidget->clipSize();
+
+    if (changeabilityWidget)
+        changeabilityWidget->clipSize();
+}

@@ -53,6 +53,7 @@ public:
 
     UMLWidget *onWidget(const QPointF &p);
     void setSelected(bool select);
+    void clipSize();
 
 private:
     AssociationWidget *m_q;
