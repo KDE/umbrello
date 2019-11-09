@@ -186,6 +186,12 @@
   <screenshots>
     <screenshot type="default">
       <caption>Showing class diagram</caption>
+      <caption xml:lang="ca">Mostrant un diagrama de classes</caption>
+      <caption xml:lang="cs">Zobrazuje diagram třídy</caption>
+      <caption xml:lang="pt">A mostrar um diagrama de classes</caption>
+      <caption xml:lang="sv">Visa klassdiagram</caption>
+      <caption xml:lang="uk">Показ діаграми класу</caption>
+      <caption xml:lang="x-test">xxShowing class diagramxx</caption>
       <image>https://kde.org/images/screenshots/umbrello.png</image>
     </screenshot>
   </screenshots>
