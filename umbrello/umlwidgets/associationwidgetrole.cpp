@@ -76,3 +76,18 @@ UMLWidget* AssociationWidgetRole::onWidget(const QPointF &p)
         return roleWidget;
     return nullptr;
 }
+
+/**
+ * Sets the state of whether the widget is selected.
+ *
+ * @param _select   The state of whether the widget is selected.
+ */
+void AssociationWidgetRole::setSelected(bool select)
+{
+    if (roleWidget)
+       roleWidget->setSelected(select);
+    if (multiplicityWidget )
+       multiplicityWidget->setSelected(select);
+    if (changeabilityWidget)
+       changeabilityWidget->setSelected(select);
+}

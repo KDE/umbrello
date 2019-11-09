@@ -52,6 +52,7 @@ public:
     void setFont(const QFont &font);
 
     UMLWidget *onWidget(const QPointF &p);
+    void setSelected(bool select);
 
 private:
     AssociationWidget *m_q;

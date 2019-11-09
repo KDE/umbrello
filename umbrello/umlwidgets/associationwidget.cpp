@@ -3704,18 +3704,9 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     WidgetBase::setSelected(_select);
     if ( m_nameWidget)
         m_nameWidget->setSelected( _select );
-    if ( m_role[RoleType::A].roleWidget )
-        m_role[RoleType::A].roleWidget->setSelected( _select );
-    if ( m_role[RoleType::B].roleWidget )
-        m_role[RoleType::B].roleWidget->setSelected( _select );
-    if ( m_role[RoleType::A].multiplicityWidget )
-        m_role[RoleType::A].multiplicityWidget->setSelected( _select );
-    if ( m_role[RoleType::B].multiplicityWidget )
-        m_role[RoleType::B].multiplicityWidget->setSelected( _select );
-    if ( m_role[RoleType::A].changeabilityWidget)
-        m_role[RoleType::A].changeabilityWidget->setSelected( _select );
-    if ( m_role[RoleType::B].changeabilityWidget)
-        m_role[RoleType::B].changeabilityWidget->setSelected( _select );
+
+    m_role[RoleType::A].setSelected(_select);
+    m_role[RoleType::B].setSelected(_select);
 
     // Update the docwindow for this association.
     // This is done last because each of the above setSelected calls
