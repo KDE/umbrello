@@ -716,7 +716,7 @@ bool AssociationWidget::activate()
 
     if (AssocRules::allowRole(type)) {
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
-            WidgetRole& robj = m_role[r];
+            AssociationWidgetRole& robj = m_role[r];
             if (robj.roleWidget == 0)
                 continue;
             robj.roleWidget->setLink(this);
@@ -749,7 +749,7 @@ bool AssociationWidget::activate()
     }
 
     for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
-        WidgetRole& robj = m_role[r];
+        AssociationWidgetRole& robj = m_role[r];
 
         FloatingTextWidget* pMulti = robj.multiplicityWidget;
         if (pMulti != 0 &&
@@ -1256,7 +1256,7 @@ void AssociationWidget::cleanup()
         updateAssociations(m_role[RoleType::B].m_nTotalCount - 1, m_role[RoleType::B].m_WidgetRegion, RoleType::B);
 
     for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
-        WidgetRole& robj = m_role[r];
+        AssociationWidgetRole& robj = m_role[r];
 
         if (robj.umlWidget) {
             robj.umlWidget->removeAssoc(this);
@@ -3354,8 +3354,8 @@ int AssociationWidget::getRegionCount(Uml::Region::Enum region, Uml::RoleType::E
         //don't count this association
         if (assocwidget == this)
             continue;
-        const WidgetRole& otherA = assocwidget->m_role[RoleType::A];
-        const WidgetRole& otherB = assocwidget->m_role[RoleType::B];
+        const AssociationWidgetRole& otherA = assocwidget->m_role[RoleType::A];
+        const AssociationWidgetRole& otherB = assocwidget->m_role[RoleType::B];
         const UMLWidget *a = otherA.umlWidget;
         const UMLWidget *b = otherB.umlWidget;
         /*
@@ -3518,8 +3518,8 @@ void AssociationWidget::updateAssociations(int totalCount,
     m_ordered.clear();
     // we order the AssociationWidget list by region and x/y value
     foreach (AssociationWidget* assocwidget, list) {
-        WidgetRole *roleA = &assocwidget->m_role[RoleType::A];
-        WidgetRole *roleB = &assocwidget->m_role[RoleType::B];
+        AssociationWidgetRole *roleA = &assocwidget->m_role[RoleType::A];
+        AssociationWidgetRole *roleB = &assocwidget->m_role[RoleType::B];
         UMLWidget *wA = roleA->umlWidget;
         UMLWidget *wB = roleB->umlWidget;
         // Skip self associations.
@@ -3625,7 +3625,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         return;
     }
 
-    WidgetRole& robj = m_role[role];
+    AssociationWidgetRole& robj = m_role[role];
     UMLWidget * pWidget = robj.umlWidget;
 
     robj.m_nIndex = index;
@@ -3785,7 +3785,7 @@ UMLWidget* AssociationWidget::onWidget(const QPointF &p)
         return m_nameWidget;
     }
     for (int i = 0; i <= 1; i++) {
-        const WidgetRole& r = m_role[i];
+        const AssociationWidgetRole& r = m_role[i];
         if (r.multiplicityWidget && r.multiplicityWidget->onWidget(p))
             return r.multiplicityWidget;
         if (r.changeabilityWidget && r.changeabilityWidget->onWidget(p))
@@ -4372,17 +4372,4 @@ bool AssociationWidget::loadFromXMI1(QDomElement& qElement)
             "messages nor widgets on umlscene";
         return false;
     }
-}
-
-AssociationWidget::WidgetRole::WidgetRole()
-  : multiplicityWidget(nullptr)
-  , changeabilityWidget(nullptr)
-  , roleWidget(nullptr)
-  , umlWidget(nullptr)
-  , m_WidgetRegion(Uml::Region::Error)
-  , m_nIndex(0)
-  , m_nTotalCount(0)
-  , visibility(Uml::Visibility::Public)
-  , changeability(Uml::Changeability::Changeable)
-{
 }

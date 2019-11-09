@@ -12,6 +12,7 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "associationwidgetlist.h"
+#include "associationwidgetrole.h"
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
@@ -247,32 +248,6 @@ private:
     void createPointsException();
     void updatePointsException();
 
-    /**
-     * The WidgetRole struct gathers all information pertaining to the role.
-     * The AssociationWidget class contains two WidgetRole objects, one for each
-     * side of the association (A and B).
-     */
-    struct WidgetRole {
-
-        FloatingTextWidget* multiplicityWidget;   ///< information regarding multiplicity
-        FloatingTextWidget* changeabilityWidget;  ///< information regarding changeability
-        FloatingTextWidget* roleWidget;           ///< role's label of this association
-
-        QPointer<UMLWidget> umlWidget;    ///< UMLWidget at this role's side of this association
-
-        Uml::Region::Enum     m_WidgetRegion;   ///< region of this role's widget
-
-        int m_nIndex;        ///< the index of where the line is on the region for this role
-        int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
-
-        // The following items are only used if m_pObject is not set.
-        Uml::Visibility::Enum     visibility;
-        Uml::Changeability::Enum  changeability;
-        QString                   roleDocumentation;
-
-        WidgetRole();
-    };
-
     void updateRegionLineCount(int index, int totalCount,
                                Uml::Region::Enum region, Uml::RoleType::Enum role);
 
@@ -323,7 +298,7 @@ private:
     AssociationLine *m_associationLine;      ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
-    WidgetRole  m_role[2];
+    AssociationWidgetRole  m_role[2];
     FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
     QPointF m_eventScenePos;           ///< holds scene pos of contextMenuEvent()
 

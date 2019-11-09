@@ -413,6 +413,7 @@ set(libumlwidgets_SRCS
     umlwidgets/activitywidget.cpp
     umlwidgets/actorwidget.cpp
     umlwidgets/artifactwidget.cpp
+    umlwidgets/associationwidgetrole.cpp
     umlwidgets/associationline.cpp
     umlwidgets/associationwidget.cpp
     umlwidgets/boxwidget.cpp
