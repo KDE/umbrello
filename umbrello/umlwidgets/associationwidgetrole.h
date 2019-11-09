@@ -15,6 +15,7 @@
 
 #include <QPointer>
 
+class AssociationWidget;
 class FloatingTextWidget;
 class UMLWidget;
 
@@ -43,7 +44,13 @@ public:
 
     AssociationWidgetRole();
 
+    void setParent(AssociationWidget *parent) { m_q = parent; }
+    void cleanup();
+
     void setFont(const QFont &font);
+
+private:
+    AssociationWidget *m_q;
 };
 
 #endif // ASSOCIATIONWIDGETROLE_H

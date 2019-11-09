@@ -12,6 +12,7 @@
 
 #include "floatingtextwidget.h"
 #include "umlwidget.h"
+#include "umlscene.h"
 
 AssociationWidgetRole::AssociationWidgetRole()
   : multiplicityWidget(nullptr)
@@ -23,7 +24,28 @@ AssociationWidgetRole::AssociationWidgetRole()
   , m_nTotalCount(0)
   , visibility(Uml::Visibility::Public)
   , changeability(Uml::Changeability::Changeable)
+  , m_q(nullptr)
 {
+}
+
+void AssociationWidgetRole::cleanup()
+{
+    if (umlWidget) {
+        umlWidget->removeAssoc(m_q);
+        umlWidget = nullptr;
+    }
+    if (roleWidget) {
+        roleWidget->umlScene()->removeWidget(roleWidget);
+        roleWidget = nullptr;
+    }
+    if (multiplicityWidget) {
+        multiplicityWidget->umlScene()->removeWidget(multiplicityWidget);
+        multiplicityWidget = nullptr;
+    }
+    if (changeabilityWidget) {
+        changeabilityWidget->umlScene()->removeWidget(changeabilityWidget);
+        changeabilityWidget = nullptr;
+    }
 }
 
 void AssociationWidgetRole::setFont(const QFont &font)

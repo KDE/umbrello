@@ -82,6 +82,8 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     m_associationType(Uml::AssociationType::Association),
     m_nameWidget(0)
 {
+    m_role[0].setParent(this);
+    m_role[1].setParent(this);
     // propagate line color and width set by base class constructor
     // which does not call the virtual methods from this class.
     setLineColor(lineColor());
@@ -1241,26 +1243,8 @@ void AssociationWidget::cleanup()
     if (m_role[RoleType::B].m_nTotalCount > 2)
         updateAssociations(m_role[RoleType::B].m_nTotalCount - 1, m_role[RoleType::B].m_WidgetRegion, RoleType::B);
 
-    for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
-        AssociationWidgetRole& robj = m_role[r];
-
-        if (robj.umlWidget) {
-            robj.umlWidget->removeAssoc(this);
-            robj.umlWidget = 0;
-        }
-        if (robj.roleWidget) {
-            m_scene->removeWidget(robj.roleWidget);
-            robj.roleWidget = 0;
-        }
-        if (robj.multiplicityWidget) {
-            m_scene->removeWidget(robj.multiplicityWidget);
-            robj.multiplicityWidget = 0;
-        }
-        if (robj.changeabilityWidget) {
-            m_scene->removeWidget(robj.changeabilityWidget);
-            robj.changeabilityWidget = 0;
-        }
-    }
+    m_role[RoleType::A].cleanup();
+    m_role[RoleType::B].cleanup();
 
     if (m_nameWidget) {
         m_scene->removeWidget(m_nameWidget);
