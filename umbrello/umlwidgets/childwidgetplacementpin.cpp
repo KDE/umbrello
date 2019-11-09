@@ -26,8 +26,9 @@ void ChildWidgetPlacementPin::detectConnectedSide()
 
 }
 
-void ChildWidgetPlacementPin::setInitialPosition()
+void ChildWidgetPlacementPin::setInitialPosition(const QPointF &scenePos)
 {
+    Q_UNUSED(scenePos);
     m_connectedSide = Top;
     setPos(0, - height() ); // place above parent
 }

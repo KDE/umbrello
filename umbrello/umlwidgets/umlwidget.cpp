@@ -918,7 +918,10 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
             UMLWidget *umlWidget = Widget_Factory::createWidget(umlScene(), port);
             umlWidget->setParentItem(this);
-            umlScene()->setupNewWidget(umlWidget);
+            QPointF p = mapFromScene(umlScene()->pos());
+            umlWidget->setPos(p);
+            umlScene()->setupNewWidget(umlWidget, false);
+
         }
         break;
     }

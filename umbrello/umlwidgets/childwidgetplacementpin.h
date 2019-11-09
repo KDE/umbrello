@@ -26,7 +26,7 @@ public:
     virtual ~ChildWidgetPlacementPin();
 
     virtual void detectConnectedSide();
-    virtual void setInitialPosition();
+    virtual void setInitialPosition(const QPointF &scenePos = QPointF());
     virtual void setNewPositionWhenMoved(qreal diffX, qreal diffY);
     virtual void setNewPositionOnParentResize();
 
