@@ -42,6 +42,8 @@ public:
     QString                   roleDocumentation;
 
     AssociationWidgetRole();
+
+    void setFont(const QFont &font);
 };
 
 #endif // ASSOCIATIONWIDGETROLE_H

@@ -266,22 +266,8 @@ void AssociationWidget::lwSetFont (QFont font)
     if (m_nameWidget) {
         m_nameWidget->setFont(font);
     }
-    if (m_role[RoleType::A].roleWidget) {
-        m_role[RoleType::A].roleWidget->setFont(font);
-    }
-    if (m_role[RoleType::B].roleWidget) {
-        m_role[RoleType::B].roleWidget->setFont(font);
-    }
-    if (m_role[RoleType::A].multiplicityWidget) {
-        m_role[RoleType::A].multiplicityWidget->setFont(font);
-    }
-    if (m_role[RoleType::B].multiplicityWidget) {
-        m_role[RoleType::B].multiplicityWidget->setFont(font);
-    }
-    if (m_role[RoleType::A].changeabilityWidget)
-        m_role[RoleType::A].changeabilityWidget->setFont(font);
-    if (m_role[RoleType::B].changeabilityWidget)
-        m_role[RoleType::B].changeabilityWidget->setFont(font);
+    m_role[RoleType::A].setFont(font);
+    m_role[RoleType::B].setFont(font);
 }
 
 /**

@@ -10,6 +10,7 @@
 
 #include "associationwidgetrole.h"
 
+#include "floatingtextwidget.h"
 #include "umlwidget.h"
 
 AssociationWidgetRole::AssociationWidgetRole()
@@ -23,4 +24,14 @@ AssociationWidgetRole::AssociationWidgetRole()
   , visibility(Uml::Visibility::Public)
   , changeability(Uml::Changeability::Changeable)
 {
+}
+
+void AssociationWidgetRole::setFont(const QFont &font)
+{
+    if (roleWidget)
+        roleWidget->setFont(font);
+    if (multiplicityWidget)
+        multiplicityWidget->setFont(font);
+    if (changeabilityWidget)
+        changeabilityWidget->setFont(font);
 }
