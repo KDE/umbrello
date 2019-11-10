@@ -124,11 +124,11 @@ add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
 target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
-if(LLVM_FOUND AND CLANG_FOUND AND NOT BUILD_KF5)
 find_package(Clang CONFIG)
 if(NOT Clang_FOUND)
     find_package(CLANG QUIET)
 endif()
+if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND) AND LLVM_VERSION VERSION_LESS "8.0.0")
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
