@@ -68,7 +68,7 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     m_optionAccessorsArePublic->setFlags(flags);
 
     m_optionGetterWithGetPrefix =
-        new QListWidgetItem(i18n("Create getters with get prefix"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Create getters with 'get' prefix"), ui_generalOptionsListWidget);
     m_optionGetterWithGetPrefix->setFlags(flags);
 
     m_optionRemovePrefixFromAccessorMethodName =
