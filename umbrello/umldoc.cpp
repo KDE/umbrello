@@ -2835,8 +2835,11 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute(QLatin1String("language"), QLatin1String("UNKNOWN"));
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(lang);
-            CodeGenerator *g = UMLApp::app()->setGenerator(pl);
-            g->loadFromXMI1(cgelement);
+            if (pl != Uml::ProgrammingLanguage::Reserved) {
+                CodeGenerator *g = UMLApp::app()->setGenerator(pl);
+                g->loadFromXMI1(cgelement);
+            } else
+                uError() << "failed to setup unsupported code generator" << lang;
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
