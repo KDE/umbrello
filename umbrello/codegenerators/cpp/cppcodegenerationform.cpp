@@ -68,7 +68,7 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     m_optionAccessorsArePublic->setFlags(flags);
 
     m_optionGetterWithGetPrefix =
-        new QListWidgetItem(i18n("Create getters with get prefix"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Create getters with 'get' prefix"), ui_generalOptionsListWidget);
     m_optionGetterWithGetPrefix->setFlags(flags);
 
     m_optionRemovePrefixFromAccessorMethodName =
@@ -86,6 +86,10 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem*)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
+
+    connect(ui_generalOptionsListWidget,
+            SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
+            SLOT(editClassMemberPrefixDoubleClicked(QListWidgetItem*)));
 }
 
 /**
@@ -305,6 +309,15 @@ void CPPCodeGenerationForm::setDocToolTag(const QString &value)
 }
 
 /**
+ * Set the class member prefix
+ * @param value  the value to set
+ */
+void CPPCodeGenerationForm::setClassMemberPrefix(const QString &value)
+{
+    ui_classMemberPrefixEdit->setText(value);
+}
+
+/**
  * Get the display state of option "Package Is Namespace".
  * @return   the state of the flag
  */
@@ -401,6 +414,15 @@ bool CPPCodeGenerationForm::getAccessorMethodsStartWithUpperCase()
 QString CPPCodeGenerationForm::getDocToolTag()
 {
     return m_optionDocToolTag->checkState() == Qt::Checked ? QLatin1String("\\") : QLatin1String("@");
+}
+
+/**
+ * Get the class member prefix
+ * @return  value
+ */
+QString CPPCodeGenerationForm::getClassMemberPrefix()
+{
+    return ui_classMemberPrefixEdit->text();
 }
 
 /**

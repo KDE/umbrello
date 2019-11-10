@@ -44,6 +44,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const 
     form->setRemovePrefixFromAccessorMethodName(policy->getRemovePrefixFromAccessorMethods());
     form->setAccessorMethodsStartWithUpperCase(policy->getAccessorMethodsStartWithUpperCase());
     form->setDocToolTag(policy->getDocToolTag());
+    form->setClassMemberPrefix(policy->getClassMemberPrefix());
 
     form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(), true);
     form->ui_listClassHCombo->setCurrentItem(policy->getVectorClassName(), true);
@@ -85,7 +86,6 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setGetterWithGetPrefix(form->getGettersWithGetPrefix());
     parent->setRemovePrefixFromAccessorMethods(form->getRemovePrefixFromAccessorMethodName());
     parent->setAccessorMethodsStartWithUpperCase(form->getAccessorMethodsStartWithUpperCase());
-    parent->setDocToolTag(form->getDocToolTag());
 
     parent->setStringClassName(form->ui_stringClassHCombo->currentText());
     parent->setStringClassNameInclude(form->ui_stringIncludeFileHistoryCombo->currentText());
@@ -94,6 +94,9 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setVectorClassName(form->ui_listClassHCombo->currentText());
     parent->setVectorClassNameInclude(form->ui_listIncludeFileHistoryCombo->currentText());
     parent->setVectorIncludeIsGlobal(form->ui_globalListCheckBox->isChecked());
+
+    parent->setDocToolTag(form->getDocToolTag());
+    parent->setClassMemberPrefix(form->getClassMemberPrefix());
 
     parent->blockSignals(false);
 

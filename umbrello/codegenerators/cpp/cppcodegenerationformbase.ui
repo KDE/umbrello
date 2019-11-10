@@ -50,11 +50,35 @@
         <attribute name="title">
          <string>General</string>
         </attribute>
-        <layout class="QVBoxLayout">
-         <item>
-          <widget class="QListWidget" name="ui_generalOptionsListWidget"/>
-         </item>
-        </layout>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>4</x>
+           <y>4</y>
+           <width>441</width>
+           <height>222</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Class member prefix</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="ui_classMemberPrefixEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QListWidget" name="ui_generalOptionsListWidget"/>
+          </item>
+         </layout>
+        </widget>
        </widget>
        <widget class="QWidget" name="ui_tabMethodBodyGeneration">
         <attribute name="title">

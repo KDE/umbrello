@@ -236,6 +236,17 @@ void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
+void CPPCodeGenerationPolicy::setClassMemberPrefix(const QString &value)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.classMemberPrefix = value;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+QString CPPCodeGenerationPolicy::getClassMemberPrefix()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.classMemberPrefix;
+}
+
 void CPPCodeGenerationPolicy::setDocToolTag(const QString &value)
 {
     Settings::optionState().codeGenerationState.cppCodeGenerationState.docToolTag = value;
@@ -365,7 +376,9 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setVectorClassName(cppclone->getVectorClassName());
         setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
         setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
+
         setDocToolTag(cppclone->getDocToolTag());
+        setClassMemberPrefix(cppclone->getClassMemberPrefix());
     }
 
     blockSignals(false); // "as you were citizen"
@@ -402,7 +415,9 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setVectorClassName(UmbrelloSettings::vectorClassName());
     setVectorClassNameInclude(UmbrelloSettings::vectorClassNameInclude());
     setVectorIncludeIsGlobal(UmbrelloSettings::vectorIncludeIsGlobal());
+
     setDocToolTag(UmbrelloSettings::docToolTag());
+    setClassMemberPrefix(UmbrelloSettings::classMemberPrefix());
 
     blockSignals(false); // "as you were citizen"
 
@@ -452,6 +467,9 @@ void CPPCodeGenerationPolicy::init()
     setVectorClassName(optionState.codeGenerationState.cppCodeGenerationState.vectorClassName);
     setVectorClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude);
     setVectorIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal);
+
+    setDocToolTag(optionState.codeGenerationState.cppCodeGenerationState.docToolTag);
+    setClassMemberPrefix(optionState.codeGenerationState.cppCodeGenerationState.classMemberPrefix);
 
     blockSignals(false);
 }

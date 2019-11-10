@@ -73,6 +73,9 @@ public:
     void setVectorClassNameInclude(const QString &value);
     QString getVectorClassNameInclude();
 
+    void setClassMemberPrefix(const QString &value);
+    QString getClassMemberPrefix();
+
     void setDocToolTag(const QString &value);
     QString getDocToolTag();
 
