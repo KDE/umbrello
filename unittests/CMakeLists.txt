@@ -124,8 +124,11 @@ add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
 target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
-find_package(CLANG QUIET)
 if(LLVM_FOUND AND CLANG_FOUND AND NOT BUILD_KF5)
+find_package(Clang CONFIG)
+if(NOT Clang_FOUND)
+    find_package(CLANG QUIET)
+endif()
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
@@ -142,13 +145,19 @@ if(LLVM_FOUND AND CLANG_FOUND AND NOT BUILD_KF5)
 
     # Find the libraries that correspond to the LLVM components
     # that we wish to use
-    llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
+    if(LLVM_VERSION_MAJOR STREQUAL "7")
+        set(llvm_libs LLVM)
+    else()
+        llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
+    endif()
 
     # Link against LLVM libraries
-    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling)
+    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling clangBasic)
 
     add_executable(testllvmparser testllvmparser.cpp)
-    llvm_map_components_to_libnames(llvm_libs support)
+    if(NOT LLVM_VERSION_MAJOR STREQUAL "7")
+        llvm_map_components_to_libnames(llvm_libs support)
+    endif()
     target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic ${LIBS})
     ecm_mark_nongui_executable(testllvm testllvmparser)
 endif()
