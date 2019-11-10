@@ -103,9 +103,10 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 
     bool isInlineMethod = policy->getAccessorsAreInline();
     QString tag = policy->getDocToolTag();
+    QString classMemberPrefix = policy->getClassMemberPrefix();
 
     QString vectorClassName = policy->getVectorClassName();
-    QString fieldName = cppfield->getFieldName();
+    QString fieldName = classMemberPrefix + cppfield->getFieldName();
     QString fieldType = cppfield->getTypeName();
     QString objectType = cppfield->getListObjectType();
     if(objectType.isEmpty())

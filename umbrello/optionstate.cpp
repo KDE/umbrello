@@ -323,7 +323,9 @@ namespace Settings {
         UmbrelloSettings::setVectorClassName(cppCodeGenerationState.vectorClassName);
         UmbrelloSettings::setVectorClassNameInclude(cppCodeGenerationState.vectorClassNameInclude);
         UmbrelloSettings::setVectorIncludeIsGlobal(cppCodeGenerationState.vectorIncludeIsGlobal);
+
         UmbrelloSettings::setDocToolTag(cppCodeGenerationState.docToolTag);
+        UmbrelloSettings::setClassMemberPrefix(cppCodeGenerationState.classMemberPrefix);
 
         // write config for Java code generation options
         UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(javaCodeGenerationState.autoGenerateAttributeAccessors);

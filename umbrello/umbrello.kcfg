@@ -464,6 +464,11 @@
          <whatsthis>Enables/Disables auto generation of accessors</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="classMemberPrefix" type="String">
+         <label>Class member prefix</label>
+         <whatsthis>The prefix for class members</whatsthis>
+         <default></default>
+       </entry>
        <entry name="inlineAccessors" type="Bool">
          <label>Inline Accessors</label>
          <whatsthis>Enables/Disables Inline accessors</whatsthis>

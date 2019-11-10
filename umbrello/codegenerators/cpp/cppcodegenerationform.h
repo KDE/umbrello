@@ -38,6 +38,7 @@ public:
     void setGetterWithoutGetPrefix(bool bFlag = true);
     void setRemovePrefixFromAccessorMethodName(bool bFlag = true);
     void setAccessorMethodsStartWithUpperCase(bool bFlag);
+    void setClassMemberPrefix(const QString &value);
 
     bool getPackageIsANamespace();
     bool getVirtualDestructors();
@@ -51,6 +52,7 @@ public:
     bool getGettersWithGetPrefix();
     bool getRemovePrefixFromAccessorMethodName();
     bool getAccessorMethodsStartWithUpperCase();
+    QString getClassMemberPrefix();
 
 public slots:
 

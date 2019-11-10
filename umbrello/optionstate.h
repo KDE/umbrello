@@ -200,6 +200,7 @@ public:
         bool stringIncludeIsGlobal;
         QString vectorClassName;
         QString vectorClassNameInclude;
+        QString classMemberPrefix;
         QString docToolTag;
         bool vectorIncludeIsGlobal;
         bool virtualDestructors;

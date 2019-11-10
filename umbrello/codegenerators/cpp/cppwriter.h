@@ -137,6 +137,7 @@ private:
     QString fixInitialStringDeclValue(const QString &value, const QString &type);
 
     QString getAttributeVariableName(UMLAttribute *at);
+    QString getAttributeMethodBaseName(const QString &fieldName);
 
     void writeBlankLine(QTextStream &stream);
 

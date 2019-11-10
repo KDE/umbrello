@@ -605,7 +605,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 
     foreach (UMLAttribute* at, attribs) {
         QString varName = getAttributeVariableName(at);
-        QString methodBaseName = cleanName(at->name());
+        QString methodBaseName = getAttributeMethodBaseName(cleanName(at->name()));
 
         methodBaseName = methodBaseName.trimmed();
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
@@ -931,12 +931,6 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         return;
 
     QString className = fixTypeName(fieldClassName);
-    QString fldName = fieldName;
-    if (policyExt()->getRemovePrefixFromAccessorMethods())
-        fldName.replace(QRegExp(QLatin1String("^[a-zA-Z]_")), QLatin1String(""));
-    QString setFldName = Codegen_Utils::capitalizeFirstLetter(fldName);
-    if (policyExt()->getAccessorMethodsStartWithUpperCase())
-        Codegen_Utils::capitalizeFirstLetter(fldName);
     QString indnt = indent();
     QString varName = QLatin1String("new_var");
     QString fullVarName = varName;
@@ -948,6 +942,9 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         className = className.left(i);
         isArrayType = true;
     }
+    QString fldName = fieldName;
+    if (policyExt()->getAccessorMethodsStartWithUpperCase())
+        fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
     // set method
     if (change == Uml::Changeability::Changeable) {
@@ -981,9 +978,10 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     stream << indnt << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
-    if (!policyExt()->getRemovePrefixFromAccessorMethods())
-        stream << "get";
-    stream << fldName << "()";
+    if (policyExt()->getGetterWithGetPrefix())
+        stream << "get" << fldName << "()";
+    else
+        stream << fieldName << "()";
 
     if (writeMethodBody) {
         stream << m_endl << indnt << "{" << m_endl;
@@ -1386,8 +1384,22 @@ void CppWriter::printTextAsSeparateLinesWithIndent(const QString &text, const QS
  */
 QString CppWriter::getAttributeVariableName(UMLAttribute *at)
 {
-    QString fieldName = cleanName(at->name());
+    QString fieldName;
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
+    CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    if (policy && !policy->getClassMemberPrefix().isEmpty())
+        fieldName = policy->getClassMemberPrefix() + cleanName(at->name());
+    else
+        fieldName = cleanName(at->name());
     return fieldName;
+}
+
+QString CppWriter::getAttributeMethodBaseName(const QString &fieldName)
+{
+    QString fldName = fieldName;
+    if (policyExt()->getRemovePrefixFromAccessorMethods())
+        fldName.replace(QRegExp(QLatin1String("^[a-zA-Z]_")), QLatin1String(""));
+    return fldName;
 }
 
 /**
