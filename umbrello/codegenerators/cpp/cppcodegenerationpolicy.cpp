@@ -376,6 +376,7 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setVectorClassName(cppclone->getVectorClassName());
         setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
         setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
+
         setDocToolTag(cppclone->getDocToolTag());
         setClassMemberPrefix(cppclone->getClassMemberPrefix());
     }
@@ -414,6 +415,7 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setVectorClassName(UmbrelloSettings::vectorClassName());
     setVectorClassNameInclude(UmbrelloSettings::vectorClassNameInclude());
     setVectorIncludeIsGlobal(UmbrelloSettings::vectorIncludeIsGlobal());
+
     setDocToolTag(UmbrelloSettings::docToolTag());
     setClassMemberPrefix(UmbrelloSettings::classMemberPrefix());
 
@@ -466,6 +468,7 @@ void CPPCodeGenerationPolicy::init()
     setVectorClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude);
     setVectorIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal);
 
+    setDocToolTag(optionState.codeGenerationState.cppCodeGenerationState.docToolTag);
     setClassMemberPrefix(optionState.codeGenerationState.cppCodeGenerationState.classMemberPrefix);
 
     blockSignals(false);

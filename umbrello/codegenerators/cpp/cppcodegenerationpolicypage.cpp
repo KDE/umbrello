@@ -86,7 +86,6 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setGetterWithGetPrefix(form->getGettersWithGetPrefix());
     parent->setRemovePrefixFromAccessorMethods(form->getRemovePrefixFromAccessorMethodName());
     parent->setAccessorMethodsStartWithUpperCase(form->getAccessorMethodsStartWithUpperCase());
-    parent->setDocToolTag(form->getDocToolTag());
 
     parent->setStringClassName(form->ui_stringClassHCombo->currentText());
     parent->setStringClassNameInclude(form->ui_stringIncludeFileHistoryCombo->currentText());
@@ -96,6 +95,7 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setVectorClassNameInclude(form->ui_listIncludeFileHistoryCombo->currentText());
     parent->setVectorIncludeIsGlobal(form->ui_globalListCheckBox->isChecked());
 
+    parent->setDocToolTag(form->getDocToolTag());
     parent->setClassMemberPrefix(form->getClassMemberPrefix());
 
     parent->blockSignals(false);
