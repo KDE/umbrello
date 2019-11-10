@@ -230,11 +230,11 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // Accessors for attributes
     writeAttributeMethods(final_atpub, Uml::Visibility::Public, java);
-    writeAttributeMethods(final_atprot, Uml::Visibility::Protected, java);
-    writeAttributeMethods(final_atpriv, Uml::Visibility::Private, java);
+    writeAttributeMethods(final_atprot, Uml::Visibility::Public, java);
+    writeAttributeMethods(final_atpriv, Uml::Visibility::Public, java);
     writeAttributeMethods(atpub, Uml::Visibility::Public, java);
-    writeAttributeMethods(atprot, Uml::Visibility::Protected, java);
-    writeAttributeMethods(atpriv, Uml::Visibility::Private, java);
+    writeAttributeMethods(atprot, Uml::Visibility::Public, java);
+    writeAttributeMethods(atpriv, Uml::Visibility::Public, java);
 
     // accessor methods for associations
 
