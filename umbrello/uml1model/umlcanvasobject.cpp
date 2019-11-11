@@ -289,8 +289,11 @@ bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) const
     if (subordinates().count() != rhs.subordinates().count()) {
         return false;
     }
-    if (&subordinates() != &(rhs.subordinates())) {
-        return false;
+    for (int i = 0; i < subordinates().count(); i++) {
+        UMLObject *a = subordinates().at(i);
+        UMLObject *b = subordinates().at(i);
+        if (!(*a == *b))
+            return false;
     }
     return true;
 }

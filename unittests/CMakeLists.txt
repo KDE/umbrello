@@ -82,12 +82,12 @@ ecm_add_test(
     TEST_NAME testumlobject
 )
 
-#ecm_add_test(
-#    testclassifier.cpp
-#    testbase.cpp
-#    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME testclassifier
-#)
+ecm_add_test(
+    testclassifier.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testclassifier
+)
 
 ecm_add_test(
     testcppwriter.cpp
