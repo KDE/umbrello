@@ -176,7 +176,7 @@ void TEST_classifier::test_getFilteredList()
 
 void TEST_classifier::test_resolveRef()
 {
-    IS_NOT_IMPL();
+    qDebug() << "already tested by testumlobject";
 }
 
 void TEST_classifier::test_findOperations()
@@ -211,7 +211,7 @@ void TEST_classifier::test_setGetClassAssoc()
 
 void TEST_classifier::test_setBaseType()
 {
-    IS_NOT_IMPL();
+    qDebug() << "already tested by testumlobject";
 }
 
 void TEST_classifier::test_isInterface()
@@ -250,33 +250,3 @@ void TEST_classifier::test_getUniAssociationToBeImplemented()
 }
 
 QTEST_MAIN(TEST_classifier)
-
-class A {
-public:
-    A(int a) :_a(a) {}
-    bool operator ==(const A & rhs) const
-    {
-        fprintf(stderr, "%s\n", __PRETTY_FUNCTION__);
-        return _a == rhs._a;
-    }
-private:
-    int _a;
-};
-
-
-#if 0
-int main(int argc, char **argv)
-{
-
-//    A a(5);
-//    A b(2);
-//    A c(a);
-//    printf("%d\n", a == b);
-//    printf("%d\n", a == c);
-
-    QApplication app(argc, argv);
-    TEST_classifier z;
-    z.initTestCase();
-    z.test_equal();
-}
-#endif
