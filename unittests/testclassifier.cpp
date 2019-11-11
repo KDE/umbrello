@@ -23,16 +23,21 @@
 // app include
 #include "uml.h"
 #include "classifier.h"
+#include "datatype.h"
+#include "operation.h"
+#include "model_utils.h"
 
 #define IS_NOT_IMPL() QSKIP("not implemented yet", SkipSingle)
 //-----------------------------------------------------------------------------
 
-//#define RUN_ALL
 
 #ifdef RUN_ALL
 #undef QCOMPARE
 #define QCOMPARE(actual, expected) \
     QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)
+#undef QVERIFY
+#define QVERIFY(statement) \
+    QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)
 #endif
 
 void TEST_classifier::test_equal()
@@ -181,7 +186,25 @@ void TEST_classifier::test_resolveRef()
 
 void TEST_classifier::test_findOperations()
 {
-    IS_NOT_IMPL();
+    UMLClassifier c("Test A", Uml::ID::None);
+    UMLOperation o1(nullptr, "testop1");
+    c.addOperation(&o1);
+    int num1 = c.getOpList().count();
+    QCOMPARE(num1, 1);
+    UMLOperation o2(nullptr, "testop2");
+    c.addOperation(&o2);
+    int num2 = c.getOpList().count();
+    QCOMPARE(num2, 2);
+    QCOMPARE(c.findOperations("testop1").count(), 1);
+    QCOMPARE(c.findOperations("testop2").count(), 1);
+    QCOMPARE(c.findOperations("testOp1").count(), 0);
+    QCOMPARE(c.findOperations("testOp2").count(), 0);
+    // case insensitive language
+    Uml::ProgrammingLanguage::Enum lang = UMLApp::app()->activeLanguage();
+    UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::PostgreSQL);
+    QCOMPARE(c.findOperations("testOp1").count(), 1);
+    QCOMPARE(c.findOperations("testOp2").count(), 1);
+    UMLApp::app()->setActiveLanguage(lang);
 }
 
 void TEST_classifier::test_findChildObjectById()
@@ -191,7 +214,50 @@ void TEST_classifier::test_findChildObjectById()
 
 void TEST_classifier::test_findOperation()
 {
-    IS_NOT_IMPL();
+    UMLClassifier c("Test A", Uml::ID::None);
+    UMLOperation o1(nullptr, "testop1");
+    UMLAttribute a1(nullptr, "aParam");
+    a1.setTypeName("int");
+    o1.addParm(&a1);
+    c.addOperation(&o1);
+    UMLOperation o2(nullptr, "testop1");
+    UMLAttribute a2(nullptr, "aParam");
+    a2.setTypeName("double");
+    o2.addParm(&a2);
+    c.addOperation(&o2);
+    Model_Utils::NameAndType_List searchTypes;
+    // first function
+    searchTypes << Model_Utils::NameAndType("aParam", a1.getType());
+    UMLOperation *o = c.findOperation("testop1", searchTypes);
+    QVERIFY(o);
+    // second function
+    searchTypes.clear();
+    searchTypes << Model_Utils::NameAndType("aParam", a2.getType());
+    o = c.findOperation("testop1", searchTypes);
+    QVERIFY(o);
+
+    // unknown type
+    UMLDatatype d1("someType");
+    searchTypes.clear();
+    searchTypes << Model_Utils::NameAndType("aParam", &d1);
+    o = c.findOperation("testop1", searchTypes);
+    QVERIFY(!o);
+
+#if 0
+    // different param name
+    searchTypes.clear();
+    searchTypes << Model_Utils::NameAndType("otherParam", a1.getType());
+    o = c.findOperation("testop1", searchTypes);
+    QVERIFY(!o);
+
+    // different param name
+    searchTypes.clear();
+    searchTypes << Model_Utils::NameAndType("otherParam", a2.getType());
+    o = c.findOperation("testop1", searchTypes);
+    QVERIFY(!o);
+#else
+    qDebug() <<"finding param names is not supported";
+#endif
 }
 
 void TEST_classifier::test_findSuperClassConcepts()
