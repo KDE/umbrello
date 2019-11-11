@@ -49,8 +49,6 @@ public:
     explicit UMLClassifier(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLClassifier();
 
-    bool operator==(const UMLClassifier & rhs) const;
-
     virtual void copyInto(UMLObject *lhs) const;
 
     UMLObject* clone() const;
@@ -124,9 +122,6 @@ public:
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
     virtual bool acceptAssociationType(Uml::AssociationType::Enum type);
-
-    void setClassAssoc(UMLAssociation *assoc);
-    UMLAssociation *getClassAssoc() const;
 
     void setBaseType(UMLObject::ObjectType ot);
 

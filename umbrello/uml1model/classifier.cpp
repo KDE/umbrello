@@ -636,14 +636,6 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
 }
 
 /**
- * Overloaded '==' operator.
- */
-bool UMLClassifier::operator==(const UMLClassifier & rhs) const
-{
-    return UMLCanvasObject::operator==(rhs);
-}
-
-/**
  * Copy the internal presentation of this object into the new
  * object.
  */
@@ -909,25 +901,6 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
     emit attributeRemoved(att);
     UMLObject::emitModified();
     return subordinates().count();
-}
-
-/**
- * Sets the UMLAssociation for which this class shall act as an
- * association class.
- */
-void UMLClassifier::setClassAssoc(UMLAssociation *assoc)
-{
-    m_pClassAssoc = assoc;
-}
-
-/**
- * Returns the UMLAssociation for which this class acts as an
- * association class. Returns NULL if this class does not act
- * as an association class.
- */
-UMLAssociation *UMLClassifier::getClassAssoc() const
-{
-    return m_pClassAssoc;
 }
 
 /**
