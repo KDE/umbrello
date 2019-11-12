@@ -66,6 +66,21 @@ bool UMLRole::operator==(const UMLRole &rhs) const
           );
 }
 
+/**
+ * Returns a String representation of this UMLRole instance.
+ */
+QString UMLRole::toString() const
+{
+    QString result;
+    if (object()) {
+        result = object()->name();
+        result += QLatin1Char(':');
+        result += name();
+    } else
+        result = QLatin1String("null");
+    return result;
+}
+
 UMLAssociation * UMLRole::parentAssociation() const
 {
     return m_pAssoc;

@@ -112,24 +112,9 @@ Uml::AssociationType::Enum UMLAssociation::getAssocType() const
  */
 QString UMLAssociation::toString() const
 {
-    QString string;
-    if(m_pRole[RoleType::A])
-    {
-        string += m_pRole[RoleType::A]->object()->name();
-        string += QLatin1Char(':');
-        string += m_pRole[RoleType::A]->name();
-    } else {
-        string += QLatin1String("null");
-    }
+    QString string = m_pRole[RoleType::A]->toString();
     string += QLatin1Char(' ') + Uml::AssociationType::toStringI18n(m_AssocType) + QLatin1Char(' ');
-    if(m_pRole[RoleType::B])
-    {
-        string += m_pRole[RoleType::B]->object()->name();
-        string += QLatin1Char(':');
-        string += m_pRole[RoleType::B]->name();
-    } else {
-        string += QLatin1String("null");
-    }
+    string += m_pRole[RoleType::B]->toString();
     return string;
 }
 
