@@ -27,18 +27,7 @@
 #include "operation.h"
 #include "model_utils.h"
 
-#define IS_NOT_IMPL() QSKIP("not implemented yet", SkipSingle)
 //-----------------------------------------------------------------------------
-
-
-#ifdef RUN_ALL
-#undef QCOMPARE
-#define QCOMPARE(actual, expected) \
-    QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)
-#undef QVERIFY
-#define QVERIFY(statement) \
-    QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)
-#endif
 
 void TEST_classifier::test_equal()
 {

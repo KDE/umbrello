@@ -34,8 +34,6 @@
 // kde includes
 #include <KLocalizedString>
 
-const bool IS_NOT_IMPL = false;
-
 //-----------------------------------------------------------------------------
 
 void TestUMLObject::test_copyInto()
