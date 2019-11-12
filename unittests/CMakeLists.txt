@@ -83,6 +83,13 @@ ecm_add_test(
 )
 
 ecm_add_test(
+    testassociation.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testassociation
+)
+
+ecm_add_test(
     testclassifier.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
