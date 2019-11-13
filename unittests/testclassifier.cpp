@@ -43,10 +43,10 @@ void TEST_classifier::test_equal()
 
 void TEST_classifier::test_copyInto()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
-    UMLClassifier* b = new UMLClassifier("Test B", Uml::ID::None);
-    b->copyInto(a);
-    QCOMPARE(*a == *b, true);
+    UMLClassifier a("Test A", Uml::ID::None);
+    UMLClassifier b("Test B", Uml::ID::None);
+    b.copyInto(&a);
+    QCOMPARE(a == b, true);
 }
 
 void TEST_classifier::test_clone()
@@ -58,14 +58,15 @@ void TEST_classifier::test_clone()
 
 void TEST_classifier::test_addAttributeWithType()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
-    UMLAttribute* attrA = a->addAttribute("attributeA_", Uml::ID::None);
-    /* UMLAttribute* attrB = */ a->addAttribute("attributeB_", Uml::ID::None);
-    int num1 = a->getAttributeList().count();
+    UMLClassifier a("Test A", Uml::ID::None);
+    a.addAttribute("attributeA_", Uml::ID::None);
+    UMLAttribute *attrA = a.addAttribute("attributeA_", Uml::ID::None);
+    /* UMLAttribute* attrB = */ a.addAttribute("attributeB_", Uml::ID::None);
+    int num1 = a.getAttributeList().count();
     QCOMPARE(num1, 2);
-    int num2 = a->removeAttribute(attrA);
+    int num2 = a.removeAttribute(attrA);
     QCOMPARE(num2, 1);  // one deleted
-    int num3 = a->getAttributeList().count();
+    int num3 = a.getAttributeList().count();
     QCOMPARE(num3, num1 - 1);
 }
 
