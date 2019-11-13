@@ -117,6 +117,13 @@ ecm_add_test(
     TEST_NAME testoptionstate
 )
 
+ecm_add_test(
+    testumlcanvasobject.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testumlcanvasobject
+)
+
 set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )
