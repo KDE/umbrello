@@ -22,6 +22,7 @@
 
 // app include
 #include "uml.h"
+#include "association.h"
 #include "classifier.h"
 #include "datatype.h"
 #include "operation.h"
@@ -252,12 +253,28 @@ void TEST_classifier::test_findOperation()
 
 void TEST_classifier::test_findSuperClassConcepts()
 {
-    IS_NOT_IMPL();
+    UMLClassifier c1("Test A");
+    UMLClassifier c2("Test B");
+    UMLAssociation a1(Uml::AssociationType::Generalization, &c1, &c2);
+    QCOMPARE(c1.findSuperClassConcepts(UMLClassifier::ALL).size(), 0);
+    c1.addAssociationEnd(&a1);
+    QCOMPARE(c1.findSuperClassConcepts(UMLClassifier::ALL).size(), 1);
+    UMLAssociation a2(Uml::AssociationType::Realization, &c1, &c2);
+    c1.addAssociationEnd(&a2);
+    QCOMPARE(c1.findSuperClassConcepts(UMLClassifier::ALL).size(), 2);
 }
 
 void TEST_classifier::test_findSubClassConcepts()
 {
-    IS_NOT_IMPL();
+    UMLClassifier c1("Test A");
+    UMLClassifier c2("Test B");
+    UMLAssociation a1(Uml::AssociationType::Generalization, &c1, &c2);
+    QCOMPARE(c2.findSubClassConcepts(UMLClassifier::ALL).size(), 0);
+    c2.addAssociationEnd(&a1);
+    QCOMPARE(c2.findSubClassConcepts(UMLClassifier::ALL).size(), 1);
+    UMLAssociation a2(Uml::AssociationType::Realization, &c1, &c2);
+    c2.addAssociationEnd(&a2);
+    QCOMPARE(c2.findSubClassConcepts(UMLClassifier::ALL).size(), 2);
 }
 
 void TEST_classifier::test_setGetClassAssoc()
