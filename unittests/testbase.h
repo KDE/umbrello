@@ -1,5 +1,5 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    Copyright 2015, 2019  Ralf Habacker  <ralf.habacker@freenet.de>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -24,6 +24,17 @@
 // qt includes
 #include <QObject>
 #include <QtTest>
+
+#ifdef RUN_ALL
+#undef QCOMPARE
+#define QCOMPARE(actual, expected) \
+    QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)
+#undef QVERIFY
+#define QVERIFY(statement) \
+    QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)
+#endif
+
+#define IS_NOT_IMPL() QSKIP("not implemented yet", SkipSingle)
 
 /**
  * The TestBase class is intended as base class for umbrello unit tests.

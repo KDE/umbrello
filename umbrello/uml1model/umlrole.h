@@ -31,6 +31,8 @@ public:
 
     bool operator==(const UMLRole & rhs) const;
 
+    QString toString() const;
+
     void setObject(UMLObject *obj);
     UMLObject* object() const;
 

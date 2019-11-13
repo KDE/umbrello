@@ -47,7 +47,8 @@ TestBase::TestBase(QObject *parent)
 void TestBase::initTestCase()
 {
     QWidget *w = new QWidget;
-    new UMLApp(w);
+    UMLApp *app = new UMLApp(w);
+    app->setActiveLanguage(Uml::ProgrammingLanguage::Cpp);
 }
 
 void TestBase::cleanupTestCase()
