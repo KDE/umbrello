@@ -410,8 +410,7 @@ void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
 bool UMLEntity::resolveRef()
 {
     bool success = UMLClassifier::resolveRef();
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
-        UMLObject* obj = oit.next();
+    foreach (UMLObject *obj, subordinates()) {
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             if (!cli)
@@ -693,8 +692,7 @@ bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const
 UMLEntityAttributeList UMLEntity::getEntityAttributes() const
 {
     UMLEntityAttributeList entityAttributeList;
-    for (UMLObjectListIt lit(subordinates()); lit.hasNext();) {
-        UMLObject *listItem = lit.next();
+    foreach (UMLObject *listItem, subordinates()) {
         if (listItem->baseType() == UMLObject::ot_EntityAttribute) {
             entityAttributeList.append(listItem->asUMLEntityAttribute());
         }

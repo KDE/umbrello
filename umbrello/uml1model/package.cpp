@@ -378,8 +378,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 bool UMLPackage::resolveRef()
 {
     bool overallSuccess = UMLCanvasObject::resolveRef();
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *obj = oit.next();
+    foreach (UMLObject *obj, subordinates()) {
         uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             UMLObject::ObjectType ot = obj->baseType();
@@ -400,14 +399,12 @@ void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
     UMLObject *obj = 0;
     // save classifiers etc.
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        obj = oit.next();
+    foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     // save associations
-    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
-        obj = ait.next();
+    foreach (UMLObject *obj, subordinates()) {
         obj->saveToXMI1 (qDoc, ownedElement);
     }
 
