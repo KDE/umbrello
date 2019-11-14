@@ -66,6 +66,7 @@ private slots:
     void test_hasAbstractOps();
     void test_makeChildObject();
     void test_getUniAssociationToBeImplemented();
+    void test_saveAndLoad();
 };
 
 #endif // TEST_CLASSIFIER_H
