@@ -77,9 +77,9 @@ void TestAssociation::test_UMLRole()
 void TestAssociation::test_associationType()
 {
     UMLAssociation a(Uml::AssociationType::Association);
-    QCOMPARE(a.getAssocType(), Uml::AssociationType::Association);
+    QVERIFY(a.getAssocType() == Uml::AssociationType::Association);
     a.setAssociationType(Uml::AssociationType::Aggregation);
-    QCOMPARE(a.getAssocType(), Uml::AssociationType::Aggregation);
+    QVERIFY(a.getAssocType() == Uml::AssociationType::Aggregation);
 }
 
 void TestAssociation::test_objectID()
