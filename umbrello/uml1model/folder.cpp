@@ -269,16 +269,13 @@ QString UMLFolder::folderFile() const
 void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
-    UMLObject *obj = 0;
     // Save contained objects if any.
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        obj = oit.next();
+    foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     // Save asscociations if any.
-    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
-        obj = ait.next();
+    foreach (UMLObject *obj, subordinates()) {
         obj->saveToXMI1 (qDoc, ownedElement);
     }
     qElement.appendChild(ownedElement);

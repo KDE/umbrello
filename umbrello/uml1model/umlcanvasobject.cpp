@@ -61,9 +61,7 @@ UMLCanvasObject::~UMLCanvasObject()
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType)
 {
     UMLAssociationList list;
-    UMLObject *o = 0;
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
-        o = oit.next();
+    foreach (UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *a = o->asUMLAssociation();
@@ -240,9 +238,7 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    UMLObject *obj = 0;
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
-        obj = oit.next();
+    foreach (UMLObject *obj, subordinates()) {
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
@@ -265,9 +261,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors)
 {
     Q_UNUSED(considerAncestors);
-    UMLObject *o = 0;
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
-        o = oit.next();
+    foreach (UMLObject *o, subordinates()) {
         if (o->id() == id)
             return o;
     }
@@ -320,9 +314,7 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
 int UMLCanvasObject::associations()
 {
     int count = 0;
-    UMLObject *obj = 0;
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext();) {
-        obj = oit.next();
+    foreach (UMLObject *obj, subordinates()) {
         if (obj->baseType() == UMLObject::ot_Association)
             count++;
     }
@@ -337,9 +329,7 @@ int UMLCanvasObject::associations()
 UMLAssociationList UMLCanvasObject::getAssociations()
 {
     UMLAssociationList assocs;
-    UMLObject *o = 0;
-    for (UMLObjectListIt oit(subordinates()); oit.hasNext() ;) {
-        o = oit.next();
+    foreach (UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *assoc = o->asUMLAssociation();
@@ -450,8 +440,7 @@ UMLAssociationList UMLCanvasObject::getRelationships()
 bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
-    for (UMLObjectListIt ait(subordinates()); ait.hasNext();) {
-        UMLObject *obj = ait.next();
+    foreach (UMLObject *obj, subordinates()) {
         if (! obj->resolveRef()) {
             subordinates().removeAll(obj);
             overallSuccess = false;
