@@ -22,6 +22,8 @@
 
 // app include
 #include "association.h"
+#include "classifier.h"
+#include "folder.h"
 #include "package.h"
 #include "stereotype.h"
 #include "uml.h"
@@ -33,6 +35,7 @@
 
 void TestAssociation::test_equal()
 {
+    const SignalBlocker sb(UMLApp::app()->document());
     UMLPackage parent("Test Parent");
     UMLObject o1(nullptr, "objectA");
     UMLObject o2(nullptr, "objectB");
@@ -200,6 +203,70 @@ void TestAssociation::resolveRef()
     a.getUMLRole(Uml::RoleType::B)->setSecondaryId(QLatin1String(""));
     a.getUMLRole(Uml::RoleType::B)->setSecondaryFallback(Uml::ID::toString(stereotype2->id()));
     QCOMPARE(a.resolveRef(), true);
+}
+
+class TestUMLAssociation : public UMLAssociation
+{
+public:
+    TestUMLAssociation(Uml::AssociationType::Enum type, UMLObject *roleA, UMLObject *roleB)
+      : UMLAssociation(type, roleA, roleB)
+    {
+    }
+    TestUMLAssociation(Uml::AssociationType::Enum type = Uml::AssociationType::Unknown)
+      : UMLAssociation(type)
+    {
+    }
+
+    QDomDocument testSave()
+    {
+        QDomDocument qDoc;
+        QDomElement root = qDoc.createElement("unittest");
+        qDoc.appendChild(root);
+        saveToXMI1(qDoc, root);
+        return qDoc;
+    }
+
+    bool testLoad(QDomDocument &qDoc)
+    {
+        QDomElement root = qDoc.childNodes().at(0).toElement();
+        QDomElement e = root.childNodes().at(0).toElement();
+        bool result = loadFromXMI1(e);
+        if (result) {
+            const SignalBlocker sb(UMLApp::app()->document());
+            result = resolveRef();
+        }
+        return result;
+    }
+
+    void testDump(const QString &title = QString())
+    {
+        QDomDocument doc = testSave();
+        QString xml = doc.toString();
+        qDebug() << title << doc.toString();
+    }
+};
+
+void TestAssociation::test_saveAndLoad()
+{
+    UMLPackage parent("Test Parent");
+    UMLClassifier c1("Test A");
+    UMLClassifier c2("Test B");
+    c1.setUMLPackage(&parent);
+    c2.setUMLPackage(&parent);
+    c1.setStereotypeCmd("test");
+    UMLFolder *root = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+    root->addObject(&c1);
+    root->addObject(&c2);
+    TestUMLAssociation a1(Uml::AssociationType::Association, &c1, &c2);
+    a1.setNameCmd("Test assoc");
+    a1.setUMLPackage(&parent);
+    QDomDocument save = a1.testSave();
+    //a1.testDump("save");
+    TestUMLAssociation a2;
+    a2.setUMLPackage(&parent);
+    QCOMPARE(a2.testLoad(save), true);
+    QCOMPARE(a2.testSave().toString(), save.toString());
+    //a2.testDump("load");
 }
 
 QTEST_MAIN(TestAssociation)

@@ -23,6 +23,7 @@
 // app includes
 #include "codegenerationpolicy.h"
 #include "uml.h"
+#include "umldoc.h"
 
 // qt includes
 #include <QApplication>
@@ -85,4 +86,15 @@ void TestCodeGeneratorBase::initTestCase()
 QString TestCodeGeneratorBase::temporaryPath()
 {
     return m_tempPath;
+}
+
+SetLoading::SetLoading()
+{
+    _state = UMLApp::app()->document()->loading();
+    UMLApp::app()->document()->setLoading();
+}
+
+SetLoading::~SetLoading()
+{
+    UMLApp::app()->document()->setLoading(_state);
 }

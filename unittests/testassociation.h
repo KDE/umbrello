@@ -26,6 +26,20 @@
 class TestAssociation : public TestBase
 {
     Q_OBJECT
+protected:
+    SetLoading *_sl;
+protected slots:
+    void initTestCase()
+    {
+        TestBase::initTestCase();
+        _sl = new SetLoading;
+    }
+
+    void cleanupTestCase()
+    {
+        delete _sl;
+    }
+
 private slots:
     void test_equal();
     void test_toString();
@@ -38,6 +52,7 @@ private slots:
     void test_roleName();
     void test_roleDoc();
     void resolveRef();
+    void test_saveAndLoad();
 };
 
 #endif // TESTASSOCIATION_H
