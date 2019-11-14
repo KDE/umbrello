@@ -397,7 +397,6 @@ void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement packageElement = UMLObject::save1(QLatin1String("UML:Package"), qDoc);
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
-    UMLObject *obj = 0;
     // save classifiers etc.
     foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);

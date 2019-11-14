@@ -269,7 +269,6 @@ QString UMLFolder::folderFile() const
 void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
-    UMLObject *obj = 0;
     // Save contained objects if any.
     foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
