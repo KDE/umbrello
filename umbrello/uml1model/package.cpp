@@ -85,9 +85,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
         return;
     Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
-    UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c == 0)
             continue;
@@ -109,9 +107,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
  */
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-    UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c) {
             if (c->hasAssociation(assoc))
@@ -243,8 +239,7 @@ UMLObjectList &UMLPackage::containedObjects()
 UMLObject * UMLPackage::findObject(const QString &name)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *obj = oit.next();
+    foreach (UMLObject *obj, m_objects) {
         if (!obj)
             continue;
         if (caseSensitive) {
@@ -278,8 +273,7 @@ UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
  */
 void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Package || ot == ot_Folder) {
@@ -303,8 +297,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
@@ -328,8 +321,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 void UMLPackage::appendEntities(UMLEntityList& entities,
                                  bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
@@ -353,8 +345,7 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
+    foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
