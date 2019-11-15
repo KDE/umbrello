@@ -282,19 +282,14 @@ void TEST_classifier::test_setGetClassAssoc()
     IS_NOT_IMPL();
 }
 
-void TEST_classifier::test_setBaseType()
-{
-    qDebug() << "already tested by testumlobject";
-}
-
 void TEST_classifier::test_isInterface()
 {
-    IS_NOT_IMPL();
-}
-
-void TEST_classifier::test_isDatatype()
-{
-    IS_NOT_IMPL();
+    UMLClassifier c1("Test A");
+    QCOMPARE(c1.isInterface(), false);
+    c1.setBaseType(UMLObject::ObjectType::ot_Interface);
+    QCOMPARE(c1.isInterface(), true);
+    c1.setBaseType(UMLObject::ObjectType::ot_Class);
+    QCOMPARE(c1.isInterface(), false);
 }
 
 void TEST_classifier::test_setGetOriginType()

@@ -58,9 +58,7 @@ private slots:
     void test_findSuperClassConcepts();
     void test_findSubClassConcepts();
     void test_setGetClassAssoc();
-    void test_setBaseType();
     void test_isInterface();
-    void test_isDatatype();
     void test_setGetOriginType();
     void test_setGetIsReference();
     void test_hasAbstractOps();
