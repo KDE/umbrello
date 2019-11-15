@@ -378,7 +378,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 bool UMLPackage::resolveRef()
 {
     bool overallSuccess = UMLCanvasObject::resolveRef();
-    foreach (UMLObject *obj, subordinates()) {
+    foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             UMLObject::ObjectType ot = obj->baseType();
