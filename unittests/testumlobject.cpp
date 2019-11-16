@@ -125,19 +125,7 @@ void TestUMLObject::test_isStatic()
     QCOMPARE(a.isStatic(), true);
 }
 
-class LocalUMLObject : public UMLObject
-{
-public:
-    LocalUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
-      : UMLObject(name, id)
-    {
-    }
-
-    UMLObject *secondary() const
-    {
-        return m_pSecondary.data();
-    }
-};
+typedef TestUML<UMLObject, const QString &> TESTUMLObject;
 
 void TestUMLObject::test_resolveRef()
 {
@@ -159,7 +147,7 @@ void TestUMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // unknown stereotype
-    LocalUMLObject b("Test B");
+    TESTUMLObject b("Test B");
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));

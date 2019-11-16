@@ -140,6 +140,7 @@ public:
     QDomDocument testSave1();
     bool testLoad1(QDomDocument &qDoc);
     void testDump(const QString &title = QString());
+    UMLObject *secondary() const;
 };
 
 template <class T, typename N>
@@ -173,5 +174,11 @@ void TestUML<T,N>::testDump(const QString &title)
     qDebug() << title << doc.toString();
 }
 
+// used by resolveRef() tests
+template <class T, typename N>
+UMLObject *TestUML<T,N>::secondary() const
+{
+    return T::m_pSecondary.data();
+}
 
 #endif // TESTBASE_H
