@@ -61,11 +61,6 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
-    void setLocalID(Uml::ID::Type id);
-    Uml::ID::Type localID() const;
-
-    virtual UMLWidget* widgetWithID(Uml::ID::Type id);
-
     virtual QSizeF minimumSize() const;
     void setMinimumSize(const QSizeF &size);
 
@@ -138,8 +133,8 @@ public:
 
     void moveByLocal(qreal dx, qreal dy);
 
-    void removeAssoc(AssociationWidget* pAssoc);
-    void addAssoc(AssociationWidget* pAssoc);
+    virtual void removeAssoc(AssociationWidget* pAssoc);
+    virtual void addAssoc(AssociationWidget* pAssoc);
 
     AssociationWidgetList &associationWidgetList() const;
 
@@ -305,7 +300,6 @@ protected:
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    Uml::ID::Type  m_nLocalID;
     bool           m_startMove;
     QPointF        m_startMovePostion;
     QSizeF         m_startResizeSize;

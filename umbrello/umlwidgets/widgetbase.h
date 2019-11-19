@@ -121,6 +121,11 @@ public:
     Uml::ID::Type id() const;
     void setID(Uml::ID::Type id);
 
+    void setLocalID(Uml::ID::Type id);
+    Uml::ID::Type localID() const;
+
+    virtual UMLWidget *widgetWithID(Uml::ID::Type id);
+
     WidgetType baseType() const;
     void setBaseType(const WidgetType& baseType);
     QLatin1String baseTypeStr() const;
@@ -180,6 +185,9 @@ public:
 
     virtual bool loadFromXMI1(QDomElement &qElement);
     virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+
+    virtual void removeAssoc(AssociationWidget* pAssoc);
+    virtual void addAssoc(AssociationWidget* pAssoc);
 
     WidgetBase& operator=(const WidgetBase& other);
 
@@ -277,6 +285,11 @@ protected:
      * For UMLObjects, the ID from the UMLObject is used.
      */
     Uml::ID::Type m_nId;
+
+    /**
+     * This ID is only used when a widget could be added more then one time to a diagram
+     */
+    Uml::ID::Type m_nLocalID;
 
     QColor m_textColor;  ///< Color of the text of the widget. Is saved to XMI.
     QColor m_lineColor;  ///< Color of the lines of the widget. Is saved to XMI.

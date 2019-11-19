@@ -20,6 +20,7 @@
 #include "umlobject.h"
 #include "umlscene.h"
 #include "widgetbasepopupmenu.h"
+#include "uniqueid.h"
 
 #if QT_VERSION < 0x050000
 #include <kcolordialog.h>
@@ -46,6 +47,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_baseType(type),
     m_scene(scene),
     m_umlObject(0),
+    m_nLocalID(UniqueID::gen()),
     m_textColor(QColor("black")),
     m_fillColor(QColor("yellow")),
     m_brush(m_fillColor),
@@ -187,6 +189,49 @@ Uml::ID::Type WidgetBase::id() const
     if (m_umlObject)
         return m_umlObject->id();
     return m_nId;
+}
+
+/**
+ * Sets the local id of the object.
+ *
+ * @param id   The local id of the object.
+ */
+void WidgetBase::setLocalID(Uml::ID::Type id)
+{
+    m_nLocalID = id;
+}
+
+/**
+ * Returns the local ID for this object.  This ID is used so that
+ * many objects of the same @ref UMLObject instance can be on the
+ * same diagram.
+ *
+ * @return  The local ID.
+ */
+Uml::ID::Type WidgetBase::localID() const
+{
+    return m_nLocalID;
+}
+
+/**
+ * Returns the widget with the given ID.
+ * The default implementation tests the following IDs:
+ * - m_nLocalID
+ * - if m_umlObject is non NULL: m_umlObject->id()
+ * - m_nID
+ * Composite widgets override this function to test further owned widgets.
+ *
+ * @param id  The ID to test this widget against.
+ * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
+ *           else NULL.
+ */
+UMLWidget* WidgetBase::widgetWithID(Uml::ID::Type id)
+{
+    if (id == m_nLocalID ||
+            (m_umlObject != nullptr && id == m_umlObject->id()) ||
+            id == m_nId)
+        return this->asUMLWidget();
+    return nullptr;
 }
 
 /**
@@ -547,6 +592,10 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 
+    // Unique identifier for widget (todo: id() should be unique, new attribute
+    // should indicate the UMLObject's ID it belongs to)
+    qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+
     qElement.setAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
                                                                              : m_textColor.name());
     if (m_usesDiagramLineColor) {
@@ -573,6 +622,24 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 }
 
 /**
+ * Adds an already created association to the list of
+ * associations that include this UMLWidget
+ */
+void WidgetBase::addAssoc(AssociationWidget *pAssoc)
+{
+    Q_UNUSED(pAssoc);
+}
+
+/**
+ * Removes an already created association from the list of
+ * associations that include this UMLWidget
+ */
+void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
+{
+    Q_UNUSED(pAssoc);
+}
+
+/**
  * A virtual method to load the properties of this widget from a
  * QDomElement into this widget.
  *
@@ -586,6 +653,11 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool WidgetBase::loadFromXMI1(QDomElement& qElement)
 {
+    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
+    if (localid != QLatin1String("0")) {
+        m_nLocalID = Uml::ID::fromString(localid);
+    }
+
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
     // earlier versions of Umbrello
@@ -661,6 +733,7 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_Doc = other.m_Doc;
     m_Text = other.m_Text;
     m_nId = other.m_nId;
+    m_nLocalID = other.m_nLocalID;
     m_textColor = other.m_textColor;
     setLineColor(other.lineColor());
     m_fillColor = other.m_fillColor;
