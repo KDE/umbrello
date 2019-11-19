@@ -97,6 +97,13 @@ ecm_add_test(
 )
 
 ecm_add_test(
+    testpackage.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testpackage
+)
+
+ecm_add_test(
     testcppwriter.cpp
     testbase.cpp
     LINK_LIBRARIES ${LIBS}

@@ -47,7 +47,7 @@ public:
     virtual QStringList reservedKeywords() const;
 
 private:
-
+    void writeIncludes(UMLClassifier *c, QTextStream &cpp);
     void writeClassDecl(UMLClassifier *c, QTextStream &cpp);
     void writeConstructorDecls(QTextStream &h);
     void writeConstructorMethods(UMLClassifier * c, QTextStream &cpp);
@@ -155,7 +155,7 @@ private:
 
     QStringList ObjectFieldVariables;
     QStringList VectorFieldVariables;
-
+    bool m_stringIncludeRequired;
 };
 
 

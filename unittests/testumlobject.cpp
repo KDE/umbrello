@@ -125,19 +125,7 @@ void TestUMLObject::test_isStatic()
     QCOMPARE(a.isStatic(), true);
 }
 
-class LocalUMLObject : public UMLObject
-{
-public:
-    LocalUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
-      : UMLObject(name, id)
-    {
-    }
-
-    UMLObject *secondary() const
-    {
-        return m_pSecondary.data();
-    }
-};
+typedef TestUML<UMLObject, const QString &> TESTUMLObject;
 
 void TestUMLObject::test_resolveRef()
 {
@@ -159,7 +147,7 @@ void TestUMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // unknown stereotype
-    LocalUMLObject b("Test B");
+    TESTUMLObject b("Test B");
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
@@ -238,5 +226,71 @@ void TestUMLObject::test_dynamic_cast()
     QVERIFY(!b);
 }
 
+void TestUMLObject::test_isUMLXXX()
+{
+    UMLObject a("Test A");
+    QVERIFY(a.isUMLObject());
+    a.setBaseType(UMLObject::ObjectType::ot_Actor);
+    QVERIFY(a.isUMLActor());
+    a.setBaseType(UMLObject::ObjectType::ot_Artifact);
+    QVERIFY(a.isUMLArtifact());
+    a.setBaseType(UMLObject::ObjectType::ot_Association);
+    QVERIFY(a.isUMLAssociation());
+    a.setBaseType(UMLObject::ObjectType::ot_Attribute);
+    QVERIFY(a.isUMLAttribute());
+    a.setBaseType(UMLObject::ObjectType::ot_Category);
+    QVERIFY(a.isUMLCategory());
+    a.setBaseType(UMLObject::ObjectType::ot_CheckConstraint);
+    QVERIFY(a.isUMLCheckConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Class);
+    QVERIFY(a.isUMLClassifier());
+    a.setBaseType(UMLObject::ObjectType::ot_Component);
+    QVERIFY(a.isUMLComponent());
+    a.setBaseType(UMLObject::ObjectType::ot_Datatype);
+    QVERIFY(a.isUMLDatatype());
+    a.setBaseType(UMLObject::ObjectType::ot_Entity);
+    QVERIFY(a.isUMLEntity());
+    a.setBaseType(UMLObject::ObjectType::ot_EntityAttribute);
+    QVERIFY(a.isUMLEntityAttribute());
+    a.setBaseType(UMLObject::ObjectType::ot_EntityConstraint);
+    QVERIFY(a.isUMLEntityConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Enum);
+    QVERIFY(a.isUMLEnum());
+    a.setBaseType(UMLObject::ObjectType::ot_EnumLiteral);
+    QVERIFY(a.isUMLEnumLiteral());
+    a.setBaseType(UMLObject::ObjectType::ot_Folder);
+    QVERIFY(a.isUMLFolder());
+    a.setBaseType(UMLObject::ObjectType::ot_ForeignKeyConstraint);
+    QVERIFY(a.isUMLForeignKeyConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Instance);
+    QVERIFY(a.isUMLInstance());
+    a.setBaseType(UMLObject::ObjectType::ot_InstanceAttribute);
+    QVERIFY(a.isUMLInstanceAttribute());
+//    UMLClassifier has isInterface()
+//    a.setBaseType(UMLObject::ObjectType::ot_Interface);
+//    QVERIFY(a.isUMLInterface());
+    a.setBaseType(UMLObject::ObjectType::ot_Node);
+    QVERIFY(a.isUMLNode());
+    a.setBaseType(UMLObject::ObjectType::ot_Operation);
+    QVERIFY(a.isUMLOperation());
+    a.setBaseType(UMLObject::ObjectType::ot_Package);
+    QVERIFY(a.isUMLPackage());
+    a.setBaseType(UMLObject::ObjectType::ot_Port);
+    QVERIFY(a.isUMLPort());
+    a.setBaseType(UMLObject::ObjectType::ot_Role);
+    QVERIFY(a.isUMLRole());
+    a.setBaseType(UMLObject::ObjectType::ot_Stereotype);
+    QVERIFY(a.isUMLStereotype());
+//    a.setBaseType(UMLObject::ObjectType::ot_SubSystem);
+//    QVERIFY(a.isUMLSubSystem());
+    a.setBaseType(UMLObject::ObjectType::ot_Template);
+    QVERIFY(a.isUMLTemplate());
+    a.setBaseType(UMLObject::ObjectType::ot_UMLObject);
+    QVERIFY(a.isUMLObject());
+    a.setBaseType(UMLObject::ObjectType::ot_UniqueConstraint);
+    QVERIFY(a.isUMLUniqueConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_UseCase);
+    QVERIFY(a.isUMLUseCase());
+}
 
 QTEST_MAIN(TestUMLObject)

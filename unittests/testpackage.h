@@ -1,5 +1,5 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    Copyright 2019  Ralf Habacker  <ralf.habacker@freenet.de>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -18,31 +18,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TESTUMLOBJECT_H
-#define TESTUMLOBJECT_H
+#ifndef TESTPACKAGE_H
+#define TESTPACKAGE_H
 
 #include "testbase.h"
 
-class TestUMLObject : public TestBase
+class TestPackage : public TestBase
 {
     Q_OBJECT
+protected:
+    SetLoading *_sl;
+protected slots:
+    void initTestCase()
+    {
+        TestBase::initTestCase();
+        _sl = new SetLoading;
+    }
+
+    void cleanupTestCase()
+    {
+        delete _sl;
+    }
+
 private slots:
-    void test_copyInto();
-    void test_clone();
-    void test_doc();
-    void test_equal();
-    void test_fullyQualifiedName();
-    void test_isAbstract();
-    void test_isStatic();
-    void test_resolveRef();
+    void test_appendClassesAndInterfaces();
     void test_saveAndLoad();
-    void test_setBaseType();
-    void test_setSterotype();
-    void test_setUMLPackage();
-    void test_setVisibility();
-    void test_toString();
-    void test_dynamic_cast();
-    void test_isUMLXXX();
 };
 
-#endif // TESTUMLOBJECT_H
+#endif // TESTASSOCIATION_H

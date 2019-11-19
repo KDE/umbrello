@@ -282,19 +282,14 @@ void TEST_classifier::test_setGetClassAssoc()
     IS_NOT_IMPL();
 }
 
-void TEST_classifier::test_setBaseType()
-{
-    qDebug() << "already tested by testumlobject";
-}
-
 void TEST_classifier::test_isInterface()
 {
-    IS_NOT_IMPL();
-}
-
-void TEST_classifier::test_isDatatype()
-{
-    IS_NOT_IMPL();
+    UMLClassifier c1("Test A");
+    QCOMPARE(c1.isInterface(), false);
+    c1.setBaseType(UMLObject::ObjectType::ot_Interface);
+    QCOMPARE(c1.isInterface(), true);
+    c1.setBaseType(UMLObject::ObjectType::ot_Class);
+    QCOMPARE(c1.isInterface(), false);
 }
 
 void TEST_classifier::test_setGetOriginType()
@@ -320,6 +315,26 @@ void TEST_classifier::test_makeChildObject()
 void TEST_classifier::test_getUniAssociationToBeImplemented()
 {
     IS_NOT_IMPL();
+}
+
+typedef TestUML<UMLClassifier, const QString&> TestUMLClassifier;
+
+void TEST_classifier::test_saveAndLoad()
+{
+    UMLPackage parent("test package");
+    TestUMLClassifier c1("Test A");
+    c1.setUMLPackage(&parent);
+    UMLOperation o1(nullptr, "testop1");
+    c1.addOperation(&o1);
+    UMLOperation o2(nullptr, "testop2");
+    c1.addOperation(&o2);
+    QDomDocument save = c1.testSave1();
+    //c1.testDump("save");
+    TestUMLClassifier c2;
+    c2.setUMLPackage(&parent);
+    QCOMPARE(c2.testLoad1(save), true);
+    //c2.testDump("after load");
+    QCOMPARE(c2.testSave1().toString(), save.toString());
 }
 
 QTEST_MAIN(TEST_classifier)

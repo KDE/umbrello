@@ -42,6 +42,7 @@
  * Constructor, initialises a couple of variables.
  */
 CppWriter::CppWriter()
+  : m_stringIncludeRequired(false)
 {
     // Probably we could resolve this better through the use of templates,
     // but it is a quick n dirty fix for the timebeing.. until codegeneration
@@ -146,7 +147,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
 {
     // open stream for writing
-    QTextStream h (&file);
+    QTextStream h(&file);
 
     // up the indent level to one
     m_indentLevel = 1;
@@ -164,8 +165,13 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine << "_H" << m_endl;
     h << "#define "<< hashDefine << "_H" << m_endl;
+    h << m_endl;
 
-    writeClassDecl(c, h);
+    QString s;
+    QTextStream t(&s);
+    writeClassDecl(c, t);
+    writeIncludes(c, h);
+    h << s;
 
     // last thing..close our hashdefine
     h << m_endl << "#endif // " << hashDefine << "_H" << m_endl;
@@ -332,27 +338,38 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 }
 
 /**
- * Writes class's documentation to the class header
- * "public abstract class Foo extents {".
+ * write includes
+ * @param c uml classifier
+ * @param stream text stream
  */
-void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
+void CppWriter::writeIncludes(UMLClassifier *c, QTextStream &stream)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
     foreach (UMLClassifier* classifier, superclasses) {
         QString headerName = findFileName(classifier, QLatin1String(".h"));
         if (!headerName.isEmpty()) {
-            cpp << "#include \"" << headerName << "\"" << m_endl;
+            stream << "#include \"" << headerName << "\"" << m_endl;
         }
     }
+    if (superclasses.size() > 0)
+        writeBlankLine(stream);
 
-    writeBlankLine(cpp);
-    cpp << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
+    if (m_stringIncludeRequired)
+        stream << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
+
     if (c->hasVectorFields())
-    {
-        cpp << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
-        writeBlankLine(cpp);
-    }
+        stream << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
 
+    if (m_stringIncludeRequired || c->hasVectorFields())
+        writeBlankLine(stream);
+}
+
+/**
+ * Writes class's documentation to the class header
+ * "public abstract class Foo extents {".
+ */
+void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
+{
     if (c->hasAssociations())
     {
         // write all includes we need to include other classes, that arent us.
@@ -364,7 +381,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         writeBlankLine(cpp);
     }
 
-    foreach (UMLClassifier* classifier, superclasses) {
+    foreach (UMLClassifier* classifier, c->getSuperClasses()) {
         if (classifier->package()!=c->package() && !classifier->package().isEmpty()) {
             cpp << "using " << cleanName(classifier->package()) << "::" << cleanName(classifier->name()) << ";" << m_endl;
         }
@@ -1152,8 +1169,10 @@ QString CppWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
         return QLatin1String("void");
-    if (string == QLatin1String("string"))
+    if (string == QLatin1String("string")) {
+        m_stringIncludeRequired = true;
         return policyExt()->getStringClassName();
+    }
     return string;
 }
 

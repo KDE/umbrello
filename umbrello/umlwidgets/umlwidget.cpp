@@ -211,49 +211,6 @@ bool UMLWidget::operator==(const UMLWidget& other) const
 }
 
 /**
- * Sets the local id of the object.
- *
- * @param id   The local id of the object.
- */
-void UMLWidget::setLocalID(Uml::ID::Type id)
-{
-    m_nLocalID = id;
-}
-
-/**
- * Returns the local ID for this object.  This ID is used so that
- * many objects of the same @ref UMLObject instance can be on the
- * same diagram.
- *
- * @return  The local ID.
- */
-Uml::ID::Type UMLWidget::localID() const
-{
-    return m_nLocalID;
-}
-
-/**
- * Returns the widget with the given ID.
- * The default implementation tests the following IDs:
- * - m_nLocalID
- * - if m_umlObject is non NULL: m_umlObject->id()
- * - m_nID
- * Composite widgets override this function to test further owned widgets.
- *
- * @param id  The ID to test this widget against.
- * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
- *           else NULL.
- */
-UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
-{
-    if (id == m_nLocalID ||
-        (m_umlObject != 0 && id == m_umlObject->id()) ||
-        id == m_nId)
-        return this;
-    return 0;
-}
-
-/**
  * Compute the minimum possible width and height.
  *
  * @return QSizeF(mininum_width, minimum_height)
@@ -740,7 +697,6 @@ void UMLWidget::constrain(qreal& width, qreal& height)
 void UMLWidget::init()
 {
     m_nId = Uml::ID::None;
-    m_nLocalID = UniqueID::gen();
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
@@ -1301,8 +1257,7 @@ void UMLWidget::setActivated(bool active /*=true*/)
 }
 
 /**
- * Adds an already created association to the list of
- * associations that include this UMLWidget
+ * Reimplemented from class WidgetBase
  */
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 {
@@ -1321,8 +1276,7 @@ AssociationWidgetList &UMLWidget::associationWidgetList() const
 }
 
 /**
- * Removes an already created association from the list of
- * associations that include this UMLWidget
+ * Reimplemented from class WidgetBase
  */
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 {
@@ -2118,10 +2072,6 @@ void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
     if (m_showStereotype)
         qElement.setAttribute(QLatin1String("showstereotype"), m_showStereotype);
-
-    // Unique identifier for widget (todo: id() should be unique, new attribute
-    // should indicate the UMLObject's ID it belongs to)
-    qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 }
 
 bool UMLWidget::loadFromXMI1(QDomElement & qElement)
@@ -2146,11 +2096,6 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
     m_instanceName = qElement.attribute(QLatin1String("instancename"));
     QString showstereo = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
     m_showStereotype = (bool)showstereo.toInt();
-
-    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
-    if (localid != QLatin1String("0")) {
-        m_nLocalID = Uml::ID::fromString(localid);
-    }
 
     return true;
 }

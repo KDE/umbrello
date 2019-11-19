@@ -205,46 +205,7 @@ void TestAssociation::resolveRef()
     QCOMPARE(a.resolveRef(), true);
 }
 
-class TestUMLAssociation : public UMLAssociation
-{
-public:
-    TestUMLAssociation(Uml::AssociationType::Enum type, UMLObject *roleA, UMLObject *roleB)
-      : UMLAssociation(type, roleA, roleB)
-    {
-    }
-    TestUMLAssociation(Uml::AssociationType::Enum type = Uml::AssociationType::Unknown)
-      : UMLAssociation(type)
-    {
-    }
-
-    QDomDocument testSave()
-    {
-        QDomDocument qDoc;
-        QDomElement root = qDoc.createElement("unittest");
-        qDoc.appendChild(root);
-        saveToXMI1(qDoc, root);
-        return qDoc;
-    }
-
-    bool testLoad(QDomDocument &qDoc)
-    {
-        QDomElement root = qDoc.childNodes().at(0).toElement();
-        QDomElement e = root.childNodes().at(0).toElement();
-        bool result = loadFromXMI1(e);
-        if (result) {
-            const SignalBlocker sb(UMLApp::app()->document());
-            result = resolveRef();
-        }
-        return result;
-    }
-
-    void testDump(const QString &title = QString())
-    {
-        QDomDocument doc = testSave();
-        QString xml = doc.toString();
-        qDebug() << title << doc.toString();
-    }
-};
+typedef TestUML<UMLAssociation, Uml::AssociationType::Enum> TestUMLAssociation;
 
 void TestAssociation::test_saveAndLoad()
 {
@@ -260,12 +221,12 @@ void TestAssociation::test_saveAndLoad()
     TestUMLAssociation a1(Uml::AssociationType::Association, &c1, &c2);
     a1.setNameCmd("Test assoc");
     a1.setUMLPackage(&parent);
-    QDomDocument save = a1.testSave();
+    QDomDocument save = a1.testSave1();
     //a1.testDump("save");
     TestUMLAssociation a2;
     a2.setUMLPackage(&parent);
-    QCOMPARE(a2.testLoad(save), true);
-    QCOMPARE(a2.testSave().toString(), save.toString());
+    QCOMPARE(a2.testLoad1(save), true);
+    QCOMPARE(a2.testSave1().toString(), save.toString());
     //a2.testDump("load");
 }
 

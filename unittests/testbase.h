@@ -85,7 +85,7 @@ protected:
 class SignalBlocker
 {
 public:
-    SignalBlocker(QObject *o)
+    explicit SignalBlocker(QObject *o)
       : _o(o)
     {
         _state = _o->blockSignals(true);
@@ -122,5 +122,63 @@ public:
 protected:
     bool _state;
 };
+
+#include <QDomDocument>
+#include "uml.h"
+#include "umldoc.h"
+
+/**
+ * template for adding test save/load support to UML related classe
+ */
+template <class T, typename N>
+class TestUML : public T
+{
+public:
+    TestUML<T,N>() : T() {}
+    TestUML<T,N>(N name) : T(name) {}
+    TestUML<T,N>(N p1, UMLObject *p2, UMLObject *p3) : T(p1, p2, p3) {}
+    QDomDocument testSave1();
+    bool testLoad1(QDomDocument &qDoc);
+    void testDump(const QString &title = QString());
+    UMLObject *secondary() const;
+};
+
+template <class T, typename N>
+QDomDocument TestUML<T,N>::testSave1()
+{
+    QDomDocument qDoc;
+    QDomElement root = qDoc.createElement("unittest");
+    qDoc.appendChild(root);
+    T::saveToXMI1(qDoc, root);
+    return qDoc;
+}
+
+template <class T, typename N>
+bool TestUML<T,N>::testLoad1(QDomDocument &qDoc)
+{
+    QDomElement root = qDoc.childNodes().at(0).toElement();
+    QDomElement e = root.childNodes().at(0).toElement();
+    bool result = T::loadFromXMI1(e);
+    if (result) {
+        const SignalBlocker sb(UMLApp::app()->document());
+        result = T::resolveRef();
+    }
+    return result;
+}
+
+template <class T, typename N>
+void TestUML<T,N>::testDump(const QString &title)
+{
+    QDomDocument doc = testSave1();
+    QString xml = doc.toString();
+    qDebug() << title << doc.toString();
+}
+
+// used by resolveRef() tests
+template <class T, typename N>
+UMLObject *TestUML<T,N>::secondary() const
+{
+    return T::m_pSecondary.data();
+}
 
 #endif // TESTBASE_H
