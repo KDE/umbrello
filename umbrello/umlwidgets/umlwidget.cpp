@@ -82,7 +82,7 @@ const int UMLWidget::resizeMarkerLineCount = 3;
  * @param o The UMLObject to represent.
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
-  : WidgetBase(scene, type, o ? m_umlObject->id() : Uml::ID::None)
+  : WidgetBase(scene, type, o ? o->id() : Uml::ID::None)
   , DiagramProxyWidget(this)
 {
     init();
