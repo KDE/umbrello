@@ -1909,8 +1909,8 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->setPen(Qt::green);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
-            painter->setPen(Qt::blue);
-            painter->drawRect(boundingRect());
+//            painter->setPen(Qt::blue);
+//            painter->drawRect(boundingRect());
             // origin
             painter->drawLine(-10, 0, 10, 0);
             painter->drawLine(0, -10, 0, 10);

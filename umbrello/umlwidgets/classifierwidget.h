@@ -116,6 +116,9 @@ private Q_SLOTS:
     void slotShowAttributes(bool state);
     void slotShowOperations(bool state);
 
+protected:
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     void updateSignatureTypes();
     QSize calculateTemplatesBoxSize() const;

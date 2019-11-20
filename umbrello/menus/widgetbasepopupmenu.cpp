@@ -658,6 +658,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_Operation, menu);
             insert(mt_Template, menu);
             insert(mt_Class, menu);
+            insert(mt_State_Diagram, menu);
             insert(mt_Interface, menu);
             insert(mt_Datatype, menu);
             insert(mt_Enum, menu);

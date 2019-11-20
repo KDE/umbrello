@@ -26,6 +26,9 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "widget_utils.h"
+#include "diagram_utils.h"
+#include "dialog_utils.h"
 
 // qt includes
 #include <QPainter>
@@ -46,6 +49,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     m_pAssocWidget(0),
     m_pInterfaceName(0)
 {
+    DiagramProxyWidget::setShowLinkedDiagram(false);
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
     setVisualPropertyCmd(ShowOperations, ops.classState.showOps);
@@ -873,6 +877,10 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         }
     }
 
+    if (DiagramProxyWidget::linkedDiagram()) {
+        DiagramProxyWidget::paint(painter, option, widget);
+    }
+
     UMLWidget::paint(painter, option, widget);
 }
 
@@ -895,6 +903,9 @@ QPainterPath ClassifierWidget::shape() const
                             templatesBoxSize.width(), templatesBoxSize.height()));
     }
     path.addRect(QRectF(0.0, mainY, mainSize.width(), mainSize.height()));
+    if (DiagramProxyWidget::linkedDiagram()) {
+        path.addRect(DiagramProxyWidget::iconRect());
+    }
     return path;
 }
 
@@ -1279,6 +1290,9 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
+    if (DiagramProxyWidget::linkedDiagram())
+        DiagramProxyWidget::setShowLinkedDiagram(false);
+
     bool loadShowAttributes = true;
     if (umlObject() && (umlObject()->isUMLPackage() || umlObject()->isUMLInstance())) {
         loadShowAttributes = false;
@@ -1483,6 +1497,26 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
         changeToPackage();
         break;
 
+    case ListPopupMenu::mt_State_Diagram:
+    {
+        QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+        bool ok;
+        do {
+            if (!Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name))
+                name.append(QLatin1String("_1"));
+            ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+        } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
+        if (ok) {
+            Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, name);
+            UMLApp::app()->executeCommand(d);
+            DiagramProxyWidget::setDiagramLink(d->view()->umlScene()->ID());
+            DiagramProxyWidget::setShowLinkedDiagram(false);
+            d->view()->umlScene()->setWidgetLink(this);
+        }
+    }
+    break;
+
+
     default:
         UMLWidget::slotMenuSelection(action);
         break;
@@ -1503,6 +1537,14 @@ void ClassifierWidget::slotShowAttributes(bool state)
 void ClassifierWidget::slotShowOperations(bool state)
 {
     setVisualProperty(ShowOperations, state);
+}
+
+void ClassifierWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (linkedDiagram())
+        DiagramProxyWidget::mouseDoubleClickEvent(event);
+    if (event->isAccepted())
+        UMLWidget::mouseDoubleClickEvent(event);
 }
 
 /**
