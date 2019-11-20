@@ -199,17 +199,13 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->setFont(font);
             painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
                               Qt::AlignCenter, name());
-            if (!m_linkedDiagram) {
+            if (!linkedDiagram()) {
                 m_size = QSizeF(fm.width(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
             } else {
-                m_sceneRect = m_linkedDiagram->sceneRect().adjusted(-1,-1, 1, 1);
-                m_clientRect = rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN);
-                if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
-                    painter->setPen(Qt::magenta);
-                    painter->drawRect(m_clientRect);
-                }
-                m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
-                m_size = QSizeF(qMax<qreal>(fm.width(m_linkedDiagram->name()), m_sceneRect.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + m_sceneRect.height());
+                DiagramProxyWidget::setClientRect(rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN));
+                DiagramProxyWidget::paint(painter, option, widget);
+                QSizeF size = DiagramProxyWidget::sceneRect().size();
+                m_size = QSizeF(qMax<qreal>(fm.width(linkedDiagram()->name()), size.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + size.height());
                 setSize(m_size);
             }
             setPenFromSettings(painter);
@@ -614,12 +610,12 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_EditCombinedState:
-        if (!m_linkedDiagram) {
+        if (!linkedDiagram()) {
             uError() << "no diagram id defined at widget '" << Uml::ID::toString(id()) << "'";
             break;
         }
-        m_linkedDiagram->setWidgetLink(this);
-        UMLApp::app()->document()->changeCurrentView(m_diagramLinkId);
+        linkedDiagram()->setWidgetLink(this);
+        UMLApp::app()->document()->changeCurrentView(diagramLink());
         break;
 
     default:

@@ -23,6 +23,7 @@ class UMLScene;
 class IDChangeLog;
 class QDomDocument;
 class QDomElement;
+class QStyleOptionGraphicsItem;
 
 class DiagramProxyWidget {
 public:
@@ -31,6 +32,9 @@ public:
     Uml::ID::Type diagramLink();
     UMLScene *linkedDiagram();
     bool setDiagramLink(const Uml::ID::Type &id);
+    const QRectF &clientRect();
+    const QRectF &sceneRect();
+    void setClientRect(const QRectF &rect);
 
     bool isProxyWidget();
     UMLWidget *getProxiedWidget(const QPointF &p);
@@ -38,14 +42,8 @@ public:
     QRectF mapFromClient(const QRectF &r);
     QPointF mapToClient(const QPointF &pos);
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 protected:
-    Uml::ID::Type m_diagramLinkId; ///< id of linked diagram
-    QPointer<UMLScene> m_linkedDiagram; ///< pointer to linked diagram
-    QRectF m_clientRect; ///< widget area for embedded diagram
-    QRectF m_sceneRect;  ///< scene rectangle used for internal calculations
-    UMLWidget *m_widget;
-    qreal m_borderWidth;
-
     DiagramProxyWidget& operator=(const DiagramProxyWidget& other);
     bool activate(IDChangeLog* changeLog = 0);
     bool loadFromXMI1(QDomElement &qElement);
@@ -57,6 +55,14 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
+private:
+    Uml::ID::Type m_diagramLinkId; ///< id of linked diagram
+    QPointer<UMLScene> m_linkedDiagram; ///< pointer to linked diagram
+    QRectF m_clientRect; ///< widget area for embedded diagram
+    QRectF m_sceneRect;  ///< scene rectangle used for internal calculations
+    UMLWidget *m_widget;
+    qreal m_borderWidth;
 };
 
 #endif // DIAGRAMPROXYWIDGET_H
