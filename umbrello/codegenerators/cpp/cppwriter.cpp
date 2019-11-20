@@ -969,7 +969,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         stream << indnt << "void ";
         if (!isHeaderMethod)
             stream << className_ << "::";
-        stream << "set" << setFldName << "(" << className << " " << fullVarName << ")";
+        stream << "set" << fldName << "(" << className << " " << fullVarName << ")";
 
         if (writeMethodBody) {
             stream << m_endl << indnt << "{" << m_endl;
