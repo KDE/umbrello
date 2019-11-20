@@ -665,8 +665,10 @@ AssociationLine* AssociationWidget::associationLine() const
  *
  * @return  true for success
  */
-bool AssociationWidget::activate()
+bool AssociationWidget::activate(IDChangeLog *changeLog)
 {
+    Q_UNUSED(changeLog);
+
     if (m_umlObject == 0 &&
         AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = umlDoc()->findObjectById(m_nId);
@@ -4042,9 +4044,8 @@ bool AssociationWidget::loadFromXMI1(QDomElement& qElement,
     QString type = qElement.attribute(QLatin1String("type"), QLatin1String("-1"));
     Uml::AssociationType::Enum aType = Uml::AssociationType::fromInt(type.toInt());
 
-    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     bool oldStyleLoad = false;
-    if (id == QLatin1String("-1")) {
+    if (m_nId == Uml::ID::None) {
         // xmi.id not present, ergo either a pure widget association,
         // or old (pre-1.2) style:
         // Everything is loaded from the AssociationWidget.
@@ -4128,7 +4129,6 @@ bool AssociationWidget::loadFromXMI1(QDomElement& qElement,
         // New style: The xmi.id is a reference to the UMLAssociation.
         // If the UMLObject is not found right now, we try again later
         // during the type resolution pass - see activate().
-        m_nId = Uml::ID::fromString(id);
         UMLObject *myObj = umlDoc()->findObjectById(m_nId);
         if (myObj) {
             const UMLObject::ObjectType ot = myObj->baseType();

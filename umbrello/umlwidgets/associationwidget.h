@@ -144,7 +144,7 @@ public:
 
     AssociationLine* associationLine() const;
 
-    virtual bool activate();
+    virtual bool activate(IDChangeLog *changeLog = 0);
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 

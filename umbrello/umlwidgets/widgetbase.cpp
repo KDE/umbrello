@@ -42,11 +42,12 @@
  * @param type    The WidgetType to construct.  This must be set to the appropriate
  *                value by the constructors of inheriting classes.
  */
-WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
+WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
   : QGraphicsObject(),
     m_baseType(type),
     m_scene(scene),
     m_umlObject(0),
+    m_nId(id == Uml::ID::None ? UniqueID::gen() : id),
     m_nLocalID(UniqueID::gen()),
     m_textColor(QColor("black")),
     m_fillColor(QColor("yellow")),
@@ -592,6 +593,7 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 
+    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
     // Unique identifier for widget (todo: id() should be unique, new attribute
     // should indicate the UMLObject's ID it belongs to)
     qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
@@ -619,6 +621,50 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
     }
     qElement.setAttribute(QLatin1String("font"), m_font.toString());
     qElement.setAttribute(QLatin1String("autoresize"), m_autoResize ? 1 : 0);
+}
+
+
+/**
+ * Returns whether the widget type has an associated UMLObject
+ */
+bool WidgetBase::widgetHasUMLObject(WidgetBase::WidgetType type)
+{
+    if (type == WidgetBase::wt_Actor         ||
+            type == WidgetBase::wt_UseCase   ||
+            type == WidgetBase::wt_Class     ||
+            type == WidgetBase::wt_Interface ||
+            type == WidgetBase::wt_Enum      ||
+            type == WidgetBase::wt_Datatype  ||
+            type == WidgetBase::wt_Package   ||
+            type == WidgetBase::wt_Component ||
+            type == WidgetBase::wt_Port ||
+            type == WidgetBase::wt_Node      ||
+            type == WidgetBase::wt_Artifact  ||
+            type == WidgetBase::wt_Object) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Activate the object after serializing it from a QDataStream
+ *
+ * @param ChangeLog
+ * @return  true for success
+ */
+bool WidgetBase::activate(IDChangeLog* changeLog)
+{
+    Q_UNUSED(changeLog);
+
+    if (widgetHasUMLObject(baseType()) && m_umlObject == nullptr) {
+        m_umlObject =  UMLApp::app()->document()->findObjectById(m_nId);
+        if (m_umlObject == nullptr) {
+            uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -653,6 +699,9 @@ void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
  */
 bool WidgetBase::loadFromXMI1(QDomElement& qElement)
 {
+    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
+    m_nId = Uml::ID::fromString(id);
+
     QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
     if (localid != QLatin1String("0")) {
         m_nLocalID = Uml::ID::fromString(localid);

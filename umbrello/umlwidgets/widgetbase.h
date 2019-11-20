@@ -39,6 +39,7 @@ class EnumWidget;
 class FloatingDashLineWidget;
 class FloatingTextWidget;
 class ForkJoinWidget;
+class IDChangeLog;
 class InterfaceWidget;
 class MessageWidget;
 class NodeWidget;
@@ -112,7 +113,7 @@ public:
     static QString toI18nString(WidgetType wt);
     static Icon_Utils::IconType toIcon(WidgetType wt);
 
-    explicit WidgetBase(UMLScene * scene, WidgetType type= wt_UMLWidget);
+    explicit WidgetBase(UMLScene * scene, WidgetType type= wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
@@ -263,6 +264,9 @@ public:
 //    TextWidget* asTextWidget();
     UseCaseWidget* asUseCaseWidget();
     UMLWidget* asUMLWidget();
+
+    static bool widgetHasUMLObject(WidgetBase::WidgetType type);
+    virtual bool activate(IDChangeLog *changeLog = 0);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction *trigger);

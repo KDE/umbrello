@@ -179,8 +179,6 @@ public:
 
     virtual void cleanup();
 
-    static bool widgetHasUMLObject(WidgetBase::WidgetType type);
-
     void updateGeometry(bool withAssocs = true);
 
     void clipSize();

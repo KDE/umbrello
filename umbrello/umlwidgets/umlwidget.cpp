@@ -82,14 +82,14 @@ const int UMLWidget::resizeMarkerLineCount = 3;
  * @param o The UMLObject to represent.
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
-  : WidgetBase(scene, type)
+  : WidgetBase(scene, type, o ? m_umlObject->id() : Uml::ID::None)
   , DiagramProxyWidget(this)
 {
     init();
     m_umlObject = o;
     if (m_umlObject) {
+        // TODO: calling WidgetBase::setUMLObject does not add this connection
         connect(m_umlObject, SIGNAL(modified()), this, SLOT(updateWidget()));
-        m_nId = m_umlObject->id();
     }
 }
 
@@ -103,14 +103,10 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
  *  The default value (id_None) will prompt generation of a new ID.
  */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id)
-  : WidgetBase(scene, type)
+  : WidgetBase(scene, type, id)
   , DiagramProxyWidget(this)
 {
     init();
-    if (id == Uml::ID::None)
-        m_nId = UniqueID::gen();
-    else
-        m_nId = id;
 }
 
 /**
@@ -696,7 +692,6 @@ void UMLWidget::constrain(qreal& width, qreal& height)
  */
 void UMLWidget::init()
 {
-    m_nId = Uml::ID::None;
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
@@ -1168,21 +1163,17 @@ void UMLWidget::setFillColorCmd(const QColor &color)
 }
 
 /**
- * Activate the object after serializing it from a QDataStream
+ * Reimplemented from class WidgetBase
  *
  * @param ChangeLog
  * @return  true for success
  */
 bool UMLWidget::activate(IDChangeLog* changeLog)
 {
+    if (!WidgetBase::activate(changeLog))
+        return false;
     DiagramProxyWidget::activate(changeLog);
-    if (widgetHasUMLObject(baseType()) && m_umlObject == 0) {
-        m_umlObject = m_doc->findObjectById(m_nId);
-        if (m_umlObject == 0) {
-            uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
-            return false;
-        }
-    }
+
     setFontCmd(m_font);
     setSize(width(), height());
     m_activated = true;
@@ -1710,29 +1701,6 @@ void UMLWidget::slotSnapToGrid()
 }
 
 /**
- * Returns whether the widget type has an associated UMLObject
- */
-bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
-{
-    if (type == WidgetBase::wt_Actor         ||
-            type == WidgetBase::wt_UseCase   ||
-            type == WidgetBase::wt_Class     ||
-            type == WidgetBase::wt_Interface ||
-            type == WidgetBase::wt_Enum      ||
-            type == WidgetBase::wt_Datatype  ||
-            type == WidgetBase::wt_Package   ||
-            type == WidgetBase::wt_Component ||
-            type == WidgetBase::wt_Port ||
-            type == WidgetBase::wt_Node      ||
-            type == WidgetBase::wt_Artifact  ||
-            type == WidgetBase::wt_Object) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
  * Set m_ignoreSnapToGrid.
  */
 void UMLWidget::setIgnoreSnapToGrid(bool to)
@@ -2059,7 +2027,6 @@ void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     */
     WidgetBase::saveToXMI1(qDoc, qElement);
     DiagramProxyWidget::saveToXMI1(qDoc, qElement);
-    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     qElement.setAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
@@ -2076,9 +2043,6 @@ void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
 
 bool UMLWidget::loadFromXMI1(QDomElement & qElement)
 {
-    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
-    m_nId = Uml::ID::fromString(id);
-
     WidgetBase::loadFromXMI1(qElement);
     DiagramProxyWidget::loadFromXMI1(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
