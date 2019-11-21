@@ -1247,31 +1247,6 @@ void ClassifierWidget::changeToPackage()
 }
 
 /**
- * Extends base method to adjust also the association of a class
- * association.
- * Executes the base method and then, if file isn't loading and the
- * classifier acts as a class association, the association position is
- * updated.
- * TODO: This is never called.
- *
- *  param x The x-coordinate.
- *  param y The y-coordinate.
- */
-//void ClassifierWidget::adjustAssociations(int x, int y)
-//{
-//    DEBUG(DBG_SRC) << "x=" << x << " / y=" << y;
-//    UMLWidget::adjustAssocs(x, y);
-
-//    if (m_doc->loading() || m_pAssocWidget == 0) {
-//        return;
-//    }
-
-//    //:TODO: the following is also called from UMLWidgetr::ajdustAssocs(...)
-//    //       and then AssociationWidget::widgetMoved(...)
-//    //m_pAssocWidget->computeAssocClassLine();
-//}
-
-/**
  * Loads the "classwidget" or "interfacewidget" XML element.
  */
 bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)

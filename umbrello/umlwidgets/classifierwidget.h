@@ -91,7 +91,6 @@ public:
 
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);
-//    virtual void adjustAssociations(int x, int y);
  
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
