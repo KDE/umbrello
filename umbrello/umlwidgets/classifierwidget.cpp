@@ -43,8 +43,8 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
-    m_pAssocWidget(0),
-    m_pInterfaceName(0)
+    m_pAssocWidget(nullptr),
+    m_pInterfaceName(nullptr)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
@@ -95,8 +95,8 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o),
-    m_pAssocWidget(0),
-    m_pInterfaceName(0)
+    m_pAssocWidget(nullptr),
+    m_pInterfaceName(nullptr)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
@@ -132,7 +132,7 @@ ClassifierWidget::~ClassifierWidget()
         m_pAssocWidget->removeAssocClassLine();
     if (m_pInterfaceName) {
         delete m_pInterfaceName;
-        m_pInterfaceName = 0;
+        m_pInterfaceName = nullptr;
     }
 }
 
@@ -685,7 +685,7 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
         return;
     }
     m_pAssocWidget = assocwidget;
-    UMLAssociation *umlassoc = 0;
+    UMLAssociation *umlassoc = nullptr;
     if (assocwidget)
         umlassoc = assocwidget->association();
 }
@@ -1108,13 +1108,13 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
  */
 UMLWidget* ClassifierWidget::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != 0)
+    if (UMLWidget::onWidget(p) != nullptr)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName) {
         uDebug() << "floatingtext: " << m_pInterfaceName->text();
         return m_pInterfaceName->onWidget(p);
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -1126,7 +1126,7 @@ UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName && m_pInterfaceName->widgetWithID(id))
         return m_pInterfaceName;
-    return 0;
+    return nullptr;
 }
 
 void ClassifierWidget::setDocumentation(const QString &doc)
@@ -1293,7 +1293,7 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
     if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext")) {
-            if (m_pInterfaceName == 0) {
+            if (m_pInterfaceName == nullptr) {
                 m_pInterfaceName = new FloatingTextWidget(m_scene,
                                                           Uml::TextRole::Floating,
                                                           name(), Uml::ID::Reserved);
@@ -1302,7 +1302,7 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
             if (!m_pInterfaceName->loadFromXMI1(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pInterfaceName;
-                m_pInterfaceName = 0;
+                m_pInterfaceName = nullptr;
             } else {
                 m_pInterfaceName->activate();
                 m_pInterfaceName->update();

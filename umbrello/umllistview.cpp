@@ -99,15 +99,15 @@ DEBUG_REGISTER(UMLListView)
  */
 UMLListView::UMLListView(QWidget *parent)
   : QTreeWidget(parent),
-    m_rv(0),
-    m_datatypeFolder(0),
-    m_settingsFolder(0),
+    m_rv(nullptr),
+    m_datatypeFolder(nullptr),
+    m_settingsFolder(nullptr),
     m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
     m_bCreatingChildObject(false),
     m_dragStartPosition(QPoint()),
-    m_dragCopyData(0)
+    m_dragCopyData(nullptr)
 {
     // setup list view
     setAcceptDrops(true);
@@ -129,7 +129,7 @@ UMLListView::UMLListView(QWidget *parent)
     setEditTriggers(QAbstractItemView::EditKeyPressed);
 
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        m_lv[i] = 0;
+        m_lv[i] = nullptr;
     }
 
     //setup slots/signals
