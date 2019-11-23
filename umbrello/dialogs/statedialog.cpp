@@ -19,6 +19,7 @@
 #include "umlviewlist.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "selectdiagramwidget.h"
 #include "statewidget.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
@@ -92,13 +93,7 @@ void StateDialog::applyPage(KPageWidgetItem*item)
     m_bChangesMade = true;
     if (item == pageGeneral) {
         if (m_pStateWidget->stateType() == StateWidget::Combined) {
-            QString name = m_GenPageWidgets.diagramLinkCB->currentText();
-            Uml::ID::Type id;
-            foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
-                if (name == view->umlScene()->name())
-                    id = view->umlScene()->ID();
-            }
-            m_pStateWidget->setDiagramLink(id);
+            m_pStateWidget->setDiagramLink(m_GenPageWidgets.diagramLinkWidget->currentID());
         }
         m_pStateWidget->setName(m_GenPageWidgets.nameLE->text());
         m_GenPageWidgets.docWidget->apply();
@@ -190,28 +185,11 @@ void StateDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText(m_pStateWidget->name());
 
     if (type == StateWidget::Combined) {
-        m_GenPageWidgets.diagramLinkL = new QLabel(i18n("Linked diagram:"));
-        generalLayout->addWidget(m_GenPageWidgets.diagramLinkL, row, 0);
-
-        m_GenPageWidgets.diagramLinkCB = new KComboBox;
-        generalLayout->addWidget(m_GenPageWidgets.diagramLinkCB, row++, 1);
-
-        QStringList diagrams;
-        QString name;
-        foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
-            if (view->umlScene()->ID() == m_pStateWidget->diagramLink())
-                name = view->umlScene()->name();
-            if (view->umlScene()->ID() == m_pStateWidget->umlScene()->ID())
-                continue;
-            diagrams << view->umlScene()->name();
-        }
-        diagrams.sort();
-        m_GenPageWidgets.diagramLinkCB->insertItems(-1, diagrams);
-        int currentIndex = m_GenPageWidgets.diagramLinkCB->findText(name);
-        if (currentIndex > -1) {
-            m_GenPageWidgets.diagramLinkCB->setCurrentIndex(currentIndex);
-        }
-        m_GenPageWidgets.diagramLinkCB->completionObject()->addItem(name);
+        m_GenPageWidgets.diagramLinkWidget = new SelectDiagramWidget(i18n("Linked diagram:"), this);
+        m_GenPageWidgets.diagramLinkWidget->setupWidget(Uml::DiagramType::State,
+            m_pStateWidget->linkedDiagram() ? m_pStateWidget->linkedDiagram()->name() : QString(),
+            m_pStateWidget->umlScene()->name(), false);
+        m_GenPageWidgets.diagramLinkWidget->addToLayout(generalLayout, row++);
     }
 
     m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);

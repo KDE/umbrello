@@ -17,6 +17,7 @@
 //forward declarations
 class ActivityPage;
 class DocumentationWidget;
+class SelectDiagramWidget;
 class StateWidget;
 class KComboBox;
 class KLineEdit;
@@ -57,8 +58,8 @@ protected:
     bool          m_bChangesMade;  ///< holds whether changes in the dialog have been made
 
     struct GeneralPageWidgets {
-        QLabel * nameL, * typeL, * diagramLinkL;
-        KComboBox *diagramLinkCB;
+        QLabel * nameL, * typeL;
+        SelectDiagramWidget *diagramLinkWidget;
         KLineEdit * nameLE, * typeLE;
         DocumentationWidget *docWidget;
         QGroupBox * generalGB;
