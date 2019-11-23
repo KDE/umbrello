@@ -10,11 +10,14 @@
 
 #include "diagramproxywidget.h"
 
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
+
+DEBUG_REGISTER_DISABLED(DiagramProxyWidget)
 
 DiagramProxyWidget::DiagramProxyWidget(UMLWidget *widget, qreal borderWidth)
   : m_diagramLinkId(Uml::ID::None)
@@ -41,6 +44,36 @@ bool DiagramProxyWidget::setDiagramLink(const Uml::ID::Type &id)
         m_linkedDiagram = view->umlScene();
     }
     return view;
+}
+
+/**
+ * Return the area in which the linked diagram is displayed.
+ *
+ * @return area in current item coordinates
+ */
+const QRectF &DiagramProxyWidget::clientRect()
+{
+    return m_clientRect;
+}
+
+/**
+ * Return scene area of the linked diagram.
+ *
+ * @return scene rectangle
+ */
+const QRectF &DiagramProxyWidget::sceneRect()
+{
+    return m_sceneRect;
+}
+
+/**
+ * Set the area in which the linked diagram is displayed
+ *
+ * @param rect
+ */
+void DiagramProxyWidget::setClientRect(const QRectF &rect)
+{
+    m_clientRect = rect;
 }
 
 bool DiagramProxyWidget::activate(IDChangeLog *changeLog)
@@ -221,4 +254,24 @@ void DiagramProxyWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_widget->update();
         event->ignore();
     }
+}
+
+/**
+ * Paint linked diagram into current widget
+ *
+ * @param painter painter to paint on
+ * @param option The option parameter provides style options for the item, such as its state, exposed area and its level-of-detail hints
+ * @param widget The widget argument is optional. If provided, it points to the widget that is being painted on; otherwise, it is 0
+ */
+void DiagramProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
+    if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
+        painter->setPen(Qt::magenta);
+        painter->drawRect(m_clientRect);
+    }
+    m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
 }
