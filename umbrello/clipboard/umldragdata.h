@@ -32,7 +32,7 @@ class QPixmap;
  * in a drag and drop operation or in a copy or paste operation.
  *
  * @author Gustavo Madrigal, Jonathan Riddell (XMI conversion)
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLDragData : public QMimeData 
 {

@@ -27,7 +27,7 @@
  *
  * @short Non-graphical management of objects and diagrams of a Folder
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  *
  * TODO: This whole class needs a relook regarding view/scene.
  */

@@ -27,7 +27,7 @@ class UMLRole;
  * @short Sets up association information.
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * @see UMLObject
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLAssociation : public UMLObject
 {

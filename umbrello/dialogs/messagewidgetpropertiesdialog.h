@@ -18,7 +18,7 @@ class MessageWidget;
 /**
  * Based off of AssociationPropertiesDialog class
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class MessageWidgetPropertiesDialog : public MultiPageDialogBase
 {

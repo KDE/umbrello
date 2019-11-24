@@ -100,7 +100,7 @@ class Symbol : public QGraphicsItem
  *
  * @author Gopala Krishna
  * @author Andi Fischer
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to uml-devel@lists.sf.net or https://bugs.kde.org
  */
 class AssociationLine : public QGraphicsObject
 {

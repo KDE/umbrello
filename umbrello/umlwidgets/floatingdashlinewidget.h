@@ -28,7 +28,7 @@ class CombinedFragmentWidget;
  *
  * @short  A dash line for UML combined fragments.
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class FloatingDashLineWidget : public UMLWidget
 {

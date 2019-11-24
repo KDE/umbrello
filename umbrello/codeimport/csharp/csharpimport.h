@@ -19,7 +19,7 @@ class UMLObject;
  * C# code import.
  * Grammar of C# can be found at http://msdn.microsoft.com/en-us/library/Aa664812 .
  * @author Andi Fischer (copied from JavaImport)
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class CSharpImport : public NativeImportBase
 {

@@ -23,7 +23,7 @@
  *
  * @short  A graphical version of a UML Activity.
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ObjectNodeWidget : public UMLWidget
 {

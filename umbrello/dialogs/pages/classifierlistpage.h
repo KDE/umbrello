@@ -34,7 +34,7 @@ class QVBoxLayout;
  *
  * @short A dialog page to display classifier properties.
  * @author Paul Hensgen, Jonathan Riddell
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassifierListPage : public DialogPageBase
 {

@@ -47,7 +47,7 @@ int main( int argc, char **argv )
     cout << "msgid \"\"\n";
     cout << "msgstr \"\"\n";
     cout << "\"Project-Id-Version: PACKAGE VERSION\\n\"\n";
-    cout << "\"Report-Msgid-Bugs-To: http://bugs.kde.org\\n\"\n";
+    cout << "\"Report-Msgid-Bugs-To: https://bugs.kde.org\\n\"\n";
     cout << "\"POT-Creation-Date: " << now.toString("yyyy-MM-dd hh:mm").toUtf8().data() << "+0000\\n\"\n";
     cout << "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
     cout << "\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";

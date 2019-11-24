@@ -25,7 +25,7 @@ class QLabel;
  *
  * @short A dialog page to display check constraint properties.
  * @author Sharan Rao
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLCheckConstraintDialog : public SinglePageDialogBase
 {

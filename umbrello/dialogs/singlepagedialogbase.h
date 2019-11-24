@@ -26,7 +26,7 @@ class QDialogButtonBox;
  *
  * @author   Ralf Habacker
  *
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 #if QT_VERSION >= 0x050000
 class SinglePageDialogBase : public QDialog

@@ -20,7 +20,7 @@ class CodeImpThread;
  * Abstract base for programming language specific import classes
  * @author Mikko Pasanen
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassImport
 {

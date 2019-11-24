@@ -21,7 +21,7 @@
  * @short Sets up template information.
  * @author Jonathan Riddell
  * @see UMLObject
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLTemplate : public UMLClassifierListItem
 {

@@ -972,7 +972,7 @@ bool UMLObject::loadFromXMI1(QDomElement & element)
         if (m_BaseType == ot_Role) {
             // Some older Umbrello versions had a problem with xmi.id's
             // of other objects being reused for the UMLRole, see e.g.
-            // attachment 21179 at http://bugs.kde.org/147988 .
+            // attachment 21179 at https://bugs.kde.org/147988 .
             // If the xmi.id is already being used then we generate a new one.
             UMLObject *o = umldoc->findObjectById(nId);
             if (o) {

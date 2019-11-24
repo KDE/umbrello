@@ -19,7 +19,7 @@
  * 
  * @author Ralf Habacker <ralf.habacker@freenet.de>
  *
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class AutoLayoutOptionPage : public DialogPageBase, private Ui::AutoLayoutOptionPage
 {

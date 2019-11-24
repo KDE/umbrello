@@ -6,7 +6,7 @@
  *                                                                         *
     copyright            : (C) 2003 by Oliver Kellogg
     email                : okellogg@users.sourceforge.net
-  Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+  Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  ***************************************************************************/
 
 #ifndef ASSOCIATIONWIDGETLIST_H

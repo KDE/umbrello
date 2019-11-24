@@ -24,7 +24,7 @@ class QCheckBox;
  * better to use user defined buttons but I couldn't work out how.
  *
  * @author Jonathan Riddell <jr@jriddell.org>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class OverwriteDialog: public SinglePageDialogBase
 {

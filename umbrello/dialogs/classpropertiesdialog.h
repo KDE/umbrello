@@ -29,7 +29,7 @@ class UMLWidgetStylePage;
 /**
  * @author Paul Hensgen <phensgen@techie.com>
  * @version 1.0
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassPropertiesDialog : public MultiPageDialogBase
 {

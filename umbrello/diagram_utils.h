@@ -22,7 +22,7 @@ class QStringList;
 /**
  * Utilities for diagrams
  * @author Ralf Habacker
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Diagram_Utils {
     typedef enum { Invalid, GDB, QtCreatorGDB, Simple} SequenceLineFormat;

@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 {
     KAboutData aboutData( QStringLiteral("php-parser"), i18n( "php-parser" ),
                           QStringLiteral("1"), i18n("KDevelop PHP parser debugging utility"), KAboutLicense::GPL,
-                          i18n( "(c) 2008 Niko Sams, 2009 Milian Wolff" ), {}, QStringLiteral("http://www.kdevelop.org") );
+                          i18n( "(c) 2008 Niko Sams, 2009 Milian Wolff" ), {}, QStringLiteral("https://www.kdevelop.org") );
 
     return KDevelopUtils::initAndRunParser<PhpParser>(aboutData, argc, argv);
 }

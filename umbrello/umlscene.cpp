@@ -2621,7 +2621,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     foreach(UMLAttribute* attr, attrList) {
         createAutoAttributeAssociation(attr->getType(), attr, widget);
         /*
-         * The following code from attachment 19935 of http://bugs.kde.org/140669
+         * The following code from attachment 19935 of https://bugs.kde.org/140669
          * creates Aggregation/Composition to the template parameters.
          * The current solution uses Dependency instead, see handling of template
          * instantiation at Import_Utils::createUMLObject().

@@ -31,7 +31,7 @@ class KComboBox;
 /**
  * Dialog utilities.
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Dialog_Utils {
 

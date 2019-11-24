@@ -22,7 +22,7 @@ class ChildWidgetPlacement;
  * @short Abstract base class for PinWidget and PortWidget
  * @author Oliver Kellogg
  * @see UMLWidget
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class PinPortBase : public UMLWidget
 {

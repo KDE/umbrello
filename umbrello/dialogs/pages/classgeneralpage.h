@@ -38,7 +38,7 @@ class VisibilityEnumWidget;
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassGeneralPage : public DialogPageBase
 {

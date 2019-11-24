@@ -23,7 +23,7 @@
  * @short Information for a non-graphical UML Category.
  * @author Sharan Rao
  * @see UMLCanvasObject
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLCategory : public UMLCanvasObject {
     Q_OBJECT

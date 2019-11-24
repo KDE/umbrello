@@ -22,7 +22,7 @@ class UMLPackage;
  * for the PetalNodes encountered.
  *
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Import_Rose {
 

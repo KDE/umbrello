@@ -372,7 +372,7 @@ bool LayoutGenerator::readGeneratedDotFile(const QString &fileName)
 /**
  * Parse line from dot generated plain-ext output format
  *
- *  The format is documented at http://graphviz.org/content/output-formats#dplain-ext and looks like:
+ *  The format is documented at https://graphviz.gitlab.io/_pages/doc/info/output.html and looks like:
  *
  *   graph 1 28.083 10.222
  *   node ITfDmJvJE00m 8.0833 8.7361 0.86111 0.45833 QObject solid box black lightgrey

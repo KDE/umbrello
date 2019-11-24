@@ -46,7 +46,7 @@ class UMLOperation;
  * @author Gustavo Madrigal
  * @author Gopala Krishna
  * @short This class represents an association inside a diagram.
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class AssociationWidget : public WidgetBase, public LinkWidget
 {

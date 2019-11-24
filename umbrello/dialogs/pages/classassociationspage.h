@@ -27,7 +27,7 @@ class UMLScene;
  *
  * @short The page shows all the Associations that belong to a UMLClassifier.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassAssociationsPage : public DialogPageBase
 {

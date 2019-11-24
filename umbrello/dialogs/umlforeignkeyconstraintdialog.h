@@ -37,7 +37,7 @@ typedef QList<EntityAttributePair> EntityAttributePairList;
  *
  * @short A dialog page to display foreignkey constraint properties.
  * @author Sharan Rao
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLForeignKeyConstraintDialog : public MultiPageDialogBase
 {

@@ -23,7 +23,7 @@
  * @short Sets up Unique entity constraint information.
  * @author Sharan Rao
  * @see UMLObject UMLClassifierListItem UMLEntityConstraint
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLUniqueConstraint : public UMLEntityConstraint
 {

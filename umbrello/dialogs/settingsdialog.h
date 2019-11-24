@@ -46,7 +46,7 @@ class UMLWidgetStylePage;
 /**
  * @author Paul Hensgen
  * modified by brian thomas Aug-2003
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class SettingsDialog : public MultiPageDialogBase
 {

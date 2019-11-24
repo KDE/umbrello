@@ -22,7 +22,7 @@ class CodeGenerationPolicyPage;
  * language independent policies.
  *
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class CodeGenPolicyExt : public QObject
 {

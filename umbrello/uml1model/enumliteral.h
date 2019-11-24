@@ -20,7 +20,7 @@
  * @short Sets up attribute information.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see UMLObject
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLEnumLiteral : public UMLClassifierListItem
 {

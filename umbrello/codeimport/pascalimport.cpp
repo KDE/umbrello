@@ -232,7 +232,7 @@ bool PascalImport::parseStmt()
         if (m_klass == 0) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
-            // stereotype <<utility>> for the unit, http://bugs.kde.org/89167
+            // stereotype <<utility>> for the unit, https://bugs.kde.org/89167
             bool dummyVirtual = false;
             bool dummyAbstract = false;
             checkModifiers(dummyVirtual, dummyAbstract);

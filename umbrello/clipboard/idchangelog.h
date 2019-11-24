@@ -21,7 +21,7 @@
  * assigned id.
  *
  * @author Gustavo Madrigal
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class IDChangeLog 
 {

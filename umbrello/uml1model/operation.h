@@ -19,7 +19,7 @@ class UMLClassifier;
 /**
  * This class represents an operation in the UML model.
  *
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLOperation : public UMLClassifierListItem
 {

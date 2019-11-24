@@ -24,7 +24,7 @@ class UMLClassifier;
  *
  * @short A base class for classifier list items (e.g. attributes)
  * @author Jonathan Riddell
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLClassifierListItem : public UMLObject
 {

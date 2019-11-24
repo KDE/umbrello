@@ -1221,7 +1221,7 @@ void DeclarationBuilder::visitFunctionCallParameterListElement(FunctionCallParam
         if ( refType ) {
             // this argument is referenced, so if the node contains undeclared variables we have
             // to declare them with a NULL type, see also:
-            // http://de.php.net/manual/en/language.references.whatdo.php
+            // https://de.php.net/manual/en/language.references.whatdo.php
 
             // declare with NULL type, just like PHP does
             declareFoundVariable(AbstractType::Ptr(new IntegralType(IntegralType::TypeNull)));

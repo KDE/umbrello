@@ -27,7 +27,7 @@ class KLineEdit;
  *   Displays the properties for a @ref ObjectNodeWidget
  *
  *   @author   Paul Hensgen
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ObjectNodeDialog : public MultiPageDialogBase
 {

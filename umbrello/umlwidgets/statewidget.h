@@ -33,7 +33,7 @@
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class StateWidget : public UMLWidget
 {

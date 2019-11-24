@@ -34,7 +34,7 @@ class QLabel;
  * @short A dialog page to display the user interface options.
  * @author Paul Hensgen
  * @author Ralf Habacker <ralf.habacker@freenet.de>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UIOptionsPage : public DialogPageBase
 {

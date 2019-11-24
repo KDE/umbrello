@@ -64,8 +64,8 @@ K_PLUGIN_FACTORY(KDevPhpSupportFactory, registerPlugin<Php::LanguageSupport>();)
 K_EXPORT_PLUGIN(KDevPhpSupportFactory(
     KAboutData("kdevphpsupport", "kdevphp", ki18n("PHP Support"),
                KDEVPHP_VERSION_STR, ki18n("Support for PHP Language"), KAboutData::License_GPL)
-    .addAuthor(ki18n("Milian Wolff"), ki18n("Author"), "mail@milianw.de", "http://milianw.de")
-    .addAuthor(ki18n("Niko Sams"), ki18n("Author"), "niko.sams@gmail.com", "http://nikosams.blogspot.com")
+    .addAuthor(ki18n("Milian Wolff"), ki18n("Author"), "mail@milianw.de", "https://milianw.de")
+    .addAuthor(ki18n("Niko Sams"), ki18n("Author"), "niko.sams@gmail.com", "https://nikosams.blogspot.com")
 ))
 
 namespace Php
