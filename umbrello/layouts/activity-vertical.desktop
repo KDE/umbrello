@@ -117,6 +117,6 @@ edge=
 origin=50,50
 generator=dot
 
-# see http://www.graphviz.org/pdf/dotguide.pdf
-# see http://www.graphviz.org/pdf/neatoguide.pdf
+# see https://www.graphviz.org/pdf/dotguide.pdf
+# see https://www.graphviz.org/pdf/neatoguide.pdf
 # for dot/neato attribute details

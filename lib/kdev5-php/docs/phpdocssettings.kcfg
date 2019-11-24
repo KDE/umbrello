@@ -6,10 +6,10 @@
   <kcfgfile name="kdeveloprc"/>
   <group name="PHP Documentation">
     <entry name="phpDocLocation" key="phpDocLocation" type="Url">
-        <default>http://php.net</default>
+        <default>https://php.net</default>
         <label>Specifies the location of the PHP documentation to use.</label>
         <tooltip>The location of the PHP documentation to use. You can either use a remote
-                 location like http://php.net or a local directory which contains the
+                 location like https://php.net or a local directory which contains the
                  PHP documentation in HTML format with many files.</tooltip>
         <whatsthis>Make sure local copies are downloaded in HTML format with many files.
         </whatsthis>
