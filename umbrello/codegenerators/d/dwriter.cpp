@@ -126,7 +126,7 @@ void DWriter::writeClass(UMLClassifier *c)
     // open text stream to file
     QTextStream d(&file);
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".d"));
     if (!str.isEmpty()) {
@@ -500,7 +500,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
             if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), m_indentation, d);
 

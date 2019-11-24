@@ -224,7 +224,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     // set the starting indentation at zero
     m_indentLevel = 0;
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".cpp"));
     if (!str.isEmpty()) {
@@ -693,7 +693,7 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
             if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), indent(), h);
 

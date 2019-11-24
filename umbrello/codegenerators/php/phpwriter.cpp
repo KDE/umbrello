@@ -3015,7 +3015,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".php"));
     if (!str.isEmpty()) {

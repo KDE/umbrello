@@ -138,7 +138,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // open text stream to file
     QTextStream java(&file);
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".java"));
     if (!str.isEmpty()) {
@@ -503,7 +503,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID:
             if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), m_indentation, java);
 
@@ -606,7 +606,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 
 /**
  * Calls @ref writeSingleAttributeAccessorMethods() or @ref
- * writeVectorAttributeAccessorMethods() on the assocaition
+ * writeVectorAttributeAccessorMethods() on the association
  * role.
  */
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,

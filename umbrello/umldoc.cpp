@@ -1109,7 +1109,7 @@ UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
 }
 
 /**
- * Used to find a @ref UMLObject by its type and raw name recursivly
+ * Used to find a @ref UMLObject by its type and raw name recursively
  *
  * @param modelType    The model type in which to search for the object
  * @param name         The raw name of the @ref UMLObject to find.
@@ -1124,7 +1124,7 @@ UMLObject* UMLDoc::findUMLObjectRecursive(Uml::ModelType::Enum modelType,
 }
 
 /**
- * Used to find a @ref UMLObject by its type and raw name recursivly
+ * Used to find a @ref UMLObject by its type and raw name recursively
  *
  * @param folder       The UMLFolder in which to search for the object
  * @param name         The raw name of the @ref UMLObject to find.

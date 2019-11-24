@@ -128,7 +128,7 @@ protected:
     void applyFontPage(AssociationWidget *widget);
     void applyFontPage(Settings::OptionState *state);
     void applyFontPage(UMLScene *scene);
-    void applyFontPage(UMLWidget *wigdet);
+    void applyFontPage(UMLWidget *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     KPageWidgetItem *setupStylePage(AssociationWidget *widget);

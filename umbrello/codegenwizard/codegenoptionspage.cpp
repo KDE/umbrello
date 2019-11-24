@@ -71,7 +71,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
 
     setupActiveLanguageBox();
 
-    //now insert the language-dependant page, should there be one
+    //now insert the language-dependent page, should there be one
     updateCodeGenerationPolicyTab();
 }
 

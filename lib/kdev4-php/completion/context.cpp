@@ -1584,7 +1584,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
         ///TODO: function-like statements should just be handled as a function with declaration etc.
         ///      e.g.: empty, eval, die, exit, isset, unset
         ///      but _not_ echo, print, catch, include*, require*
-        ///TODO: use user's style for indendation etc.
+        ///TODO: use user's style for indentation etc.
         ADD_KEYWORD2("abstract class", "abstract class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");
         ADD_KEYWORD2("final class", "final class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");
         ADD_KEYWORD2("class", "class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");

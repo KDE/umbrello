@@ -47,7 +47,7 @@ public:
 
     /**
      * UnFormat a long text string. Typically, this means removing
-     * the indentaion (linePrefix) and/or newline chars from each line.
+     * the indentation (linePrefix) and/or newline chars from each line.
      */
     virtual QString unformatText (const QString & text, const QString & indent = QString());
 

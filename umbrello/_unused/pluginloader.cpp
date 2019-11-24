@@ -35,7 +35,7 @@ PluginLoader::PluginLoader() :
         _plugins(),
         _categories()
 {
-    // preseed the categories
+    // proceed the categories
     _categories["metamodel"] = PluginList();
     _categories["storage"] = PluginList();
     _categories["visual"] = PluginList();

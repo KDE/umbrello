@@ -2913,7 +2913,7 @@ void UMLApp::initGenerator()
 
 /**
  * Updates the Menu for language selection and sets the
- * active lanugage. If no active lanugage is found or if it is
+ * active language. If no active language is found or if it is
  * not one of the registered languages it tries to fall back
  * to Cpp
  */

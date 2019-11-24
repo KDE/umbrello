@@ -48,7 +48,7 @@ QStringList XMILanguagesAttributes()
 }
 
 /**
- * Extract language related XML attributs from XMI file
+ * Extract language related XML attributes from XMI file
 
  * @param fileName file to extract attributes from
  * @param attributes List with attribute names to extract

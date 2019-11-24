@@ -221,8 +221,8 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString>
 /**
  * Read a layout config file
  *
- * @param diagramType String identifing the diagram
- * @param variant String identifing the variant
+ * @param diagramType String identifying the diagram
+ * @param variant String identifying the variant
  * @return true on success
  */
 bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)

@@ -94,7 +94,7 @@ private:
      * Inheriting classes add more types of objects that are possible in this list;
      * for example, UMLClassifier adds operations, attributes, and templates.
      *
-     * @todo Only a pointer to the appropriate assocation end object
+     * @todo Only a pointer to the appropriate association end object
      *       (UMLRole) should be saved here, not the entire UMLAssociation.
      */
     mutable UMLObjectList m_List;

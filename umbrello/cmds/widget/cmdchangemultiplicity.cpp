@@ -43,6 +43,6 @@ namespace Uml
     }
 }
 
-/* line to add the commande in the undo/redo list :
+/* line to add the commands in the undo/redo list :
 UMLApp::app()->executeCommand(new CmdChangeMulti(UMLRole role, QString newMulti));
 */

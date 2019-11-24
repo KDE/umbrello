@@ -340,7 +340,7 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     // set the starting indentation at zero
     m_indentLevel = 0;
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString         str;
     str = getHeadingFile(QLatin1String(".tclbody"));
     if (!str.isEmpty()) {
@@ -551,7 +551,7 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
             if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             // print RoleB decl
             if (printRoleB && a->visibility(Uml::RoleType::B) == permitScope) {
 

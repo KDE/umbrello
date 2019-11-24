@@ -23,7 +23,7 @@ UMLUseCase::UMLUseCase(const QString & name, Uml::ID::Type id)
 }
 
 /**
- * Standard decstructor.
+ * Standard destructor.
  */
 UMLUseCase::~UMLUseCase()
 {

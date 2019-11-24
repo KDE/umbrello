@@ -524,7 +524,7 @@ void TypeBuilder::visitStatement(StatementAst* node)
             if (!classDec) {
                 ///FIXME: this is just a hack for https://bugs.kde.org/show_bug.cgi?id=269369
                 ///       a proper fix needs full fledged two-pass, i.e. get rid of PreDeclarationBuilder
-                // 0 == global lookup and the delcaration is found again...
+                // 0 == global lookup and the declaration is found again...
                 classDec = dynamic_cast<ClassDeclaration*>(type->declaration(0));
             }
             if (classDec) {

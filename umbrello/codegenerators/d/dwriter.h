@@ -168,7 +168,7 @@ private:
 
     /**
      * Calls @ref writeSingleAttributeAccessorMethods() or @ref
-     * writeVectorAttributeAccessorMethods() on the assocaition
+     * writeVectorAttributeAccessorMethods() on the association
      * role.
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,

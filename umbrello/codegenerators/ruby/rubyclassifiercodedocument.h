@@ -31,7 +31,7 @@ class RubyCodeGenerationPolicy;
  * We carve the Ruby document up into sections as follows:
  * - header
  * - class declaration
- * -   guts of the class (e.g. accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. accessor methods, operations, dependent classes)
  */
 class RubyClassifierCodeDocument : public ClassifierCodeDocument
 {

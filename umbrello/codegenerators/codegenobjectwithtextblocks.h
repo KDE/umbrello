@@ -88,7 +88,7 @@ protected:
 
     /**
      * Find specific text block belonging to code classfields.
-     * Block may not presently be alocated t othe textblock list.
+     * Block may not presently be allocated to the textblock list.
      */
     virtual TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag) = 0;
 

@@ -2272,7 +2272,7 @@ bool typeIsAllowedInDiagram(UMLWidget* w, UMLScene *scene)
 }
 
 /**
- * return true if given object type supports associatons
+ * return true if given object type supports associations
  * @param type uml object type to check
  */
 bool hasAssociations(UMLObject::ObjectType type)

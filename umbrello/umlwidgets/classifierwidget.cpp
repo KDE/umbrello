@@ -275,7 +275,7 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
             return;
         }
 
-        // Call setVisualProperties appropriately based on enbable.
+        // Call setVisualProperties appropriately based on enable.
         if (enable) {
             setVisualProperties(visualProperties() | property);
         } else {

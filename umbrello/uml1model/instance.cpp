@@ -184,7 +184,7 @@ bool UMLInstance::load1(QDomElement &element)
 }
 
 /**
- * Resolve forwared declaration of referenced classifier hold in m_pSecondaryId
+ * Resolve forwarded declaration of referenced classifier hold in m_pSecondaryId
  * after loading object from xmi file.
  * @return true - resolve was successful
  * @return false - resolve was not successful

@@ -120,7 +120,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 }
 
 /**
- * Acivate the views in this folder.
+ * Activate the views in this folder.
  * "Activation": Some widgets require adjustments after loading from file,
  * those are done here.
  */
@@ -274,7 +274,7 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
         uIgnoreZeroPointer(obj);
         obj->saveToXMI1 (qDoc, ownedElement);
     }
-    // Save asscociations if any.
+    // Save associations if any.
     foreach (UMLObject *obj, subordinates()) {
         obj->saveToXMI1 (qDoc, ownedElement);
     }

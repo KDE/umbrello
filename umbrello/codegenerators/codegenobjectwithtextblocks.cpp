@@ -478,7 +478,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     uError() << "unable to create codeoperation for obj id:" << id;
             } else
-                uWarning() << "Got strange tag in text block stack: name=" << name << ", ignorning";
+                uWarning() << "Got strange tag in text block stack: name=" << name << ", ignoring";
 
             node = element.nextSibling();
             element = node.toElement();

@@ -53,7 +53,7 @@ private:
         WidgetBase::WidgetType widgetA_type;    ///< type of role A widget
         WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
         bool role;                         ///< role text
-        bool multiplicity;                 ///< multipliciy text on association
+        bool multiplicity;                 ///< multiplicity text on association
         bool bidirectional;                ///< can have an association of same type going between widget each way
         bool self;                         ///< association to self
         Level level;                       ///< UML level

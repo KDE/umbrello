@@ -565,7 +565,7 @@ void WidgetBase::setChangesShape(bool state)
 
 /**
  * A virtual method for the widget to display a property dialog box.
- * Subclasses should reimplment this appropriately.
+ * Subclasses should reimplement this appropriately.
  * In case the user cancels the dialog or there are some requirements
  * not fulfilled the method returns false; true otherwise.
  *
@@ -689,7 +689,7 @@ void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
  * A virtual method to load the properties of this widget from a
  * QDomElement into this widget.
  *
- * Subclasses should reimplement this to load addtional properties
+ * Subclasses should reimplement this to load additional properties
  * required, calling this base method to load the basic properties of
  * the widget.
  *

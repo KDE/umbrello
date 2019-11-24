@@ -278,7 +278,7 @@ QString CodeDocument::cleanName (const QString &name)
  */
 void CodeDocument::updateHeader ()
 {
-    //try to find a heading file (license, coments, etc) then extract its text
+    //try to find a heading file (license, comments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
     headingText.replace(QRegExp(QLatin1String("%filename%")), getFileName()+getFileExtension());
@@ -515,7 +515,7 @@ TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendInt
 
 /**
  * Have to implement this for CodeObjectWithTextBlocks.
- * Actually does not do anythying for a vannilla code document.
+ * Actually does not do anything for a vanilla code document.
  */
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {

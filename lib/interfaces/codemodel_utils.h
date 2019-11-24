@@ -525,7 +525,7 @@ int findLastMethodLine(ClassDom aClass, CodeModelItem::Access access);
 int findLastVariableLine(ClassDom aClass, CodeModelItem::Access access);
 
 /**
- * Get the string representation of an accesss pecifier
+ * Get the string representation of an access specifier
  * @param access An access specifier to get a string representation of.
  * @return string The representation of an access (e.g. "public").
  * @author Jonas Jacobi <j.jacobi@gmx.de>

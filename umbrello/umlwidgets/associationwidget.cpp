@@ -1277,7 +1277,7 @@ void AssociationWidget::cleanup()
 }
 
 /**
- * @brief Return state if the assocation line point in the near of the last context
+ * @brief Return state if the association line point in the near of the last context
  *        menu event position is addable or not.
  * A point is addable if the association is not an Exception and there is no point in the near.
  *
@@ -1292,7 +1292,7 @@ bool AssociationWidget::isPointAddable()
 }
 
 /**
- * @brief Return state if the assocation line point in the near of the last context
+ * @brief Return state if the association line point in the near of the last context
  *        menu event position is removable or not.
  * A point is removable if the association is not an Exception and is not the start or end point.
  *
@@ -2407,7 +2407,7 @@ QPointF AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPointF
 /** 
  * Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
  * P3, the result is returned in ResultingPoint. and result value represents the distance
- * between ResultingPoint and P3; if this value is negative an error ocurred. 
+ * between ResultingPoint and P3; if this value is negative an error occurred. 
  */
 float AssociationWidget::perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3,
         QPointF& ResultingPoint)
@@ -3815,7 +3815,7 @@ void AssociationWidget::setYEntireAssoc(qreal y)
 }
 
 /**
- * Moves all the mid points (all expcept start /end) by the given amount.
+ * Moves all the mid points (all except start /end) by the given amount.
  */
 void AssociationWidget::moveMidPointsBy(qreal x, qreal y)
 {
@@ -3867,7 +3867,7 @@ QPainterPath AssociationWidget::shape() const
 
 /**
  * Connected to UMLClassifier::attributeRemoved() or UMLEntity::constraintRemoved()
- * in case this AssociationWidget is linked to a clasifier list item
+ * in case this AssociationWidget is linked to a classifier list item
  * (an attribute or a foreign key constraint)
  *
  * @param obj   The UMLClassifierListItem removed.

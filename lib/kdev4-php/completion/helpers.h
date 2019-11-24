@@ -59,15 +59,15 @@ QStringList getMethodTokens(QString text);
 const QString KDEVPHPCOMPLETION_EXPORT indentString(KTextEditor::Document *document);
 
 /**
- * Get the indendation of a given line.
+ * Get the indentation of a given line.
  *
  * You usually want to use it with something like the following:
  *
  * \code
- * const QString indendation = getIndendation( document->line(replaceRange.start().line()) );
+ * const QString indentation = getindentation( document->line(replaceRange.start().line()) );
  * \endcode
  */
-QString KDEVPHPCOMPLETION_EXPORT getIndendation( const QString &line );
+QString KDEVPHPCOMPLETION_EXPORT getindentation( const QString &line );
 }
 
 #endif

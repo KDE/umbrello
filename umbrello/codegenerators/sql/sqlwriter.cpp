@@ -216,7 +216,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
 
     QTextStream sql(&file);
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".sql"));
     if (!str.isEmpty()) {

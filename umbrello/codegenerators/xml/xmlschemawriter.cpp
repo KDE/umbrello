@@ -603,7 +603,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             if (a->getObjectId(Uml::RoleType::B) == id && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private)
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role
+            // First: we insert documentation for association IF it has either role
             // AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), xs);

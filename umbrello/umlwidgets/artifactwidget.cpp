@@ -37,8 +37,8 @@ ArtifactWidget::~ArtifactWidget()
 }
 
 /**
- * Reimplemented to paint the articraft widget. Some part of specific
- * drawing is delegeted to private method like drawAsFile..
+ * Reimplemented to paint the artifact widget. Some part of specific
+ * drawing is delegated to private method like drawAsFile..
  */
 void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

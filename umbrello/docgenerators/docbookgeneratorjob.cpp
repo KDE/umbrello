@@ -56,7 +56,7 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
     xmlParserInputPtr ret;
     warningSAXFunc warning = NULL;
 
-    // use local available dtd versions instead of fetching it everytime from the internet
+    // use local available dtd versions instead of fetching it every time from the internet
     QString url = QLatin1String(_URL);
     QHash<QString, QString>::const_iterator i;
     for(i = replaceURLList.constBegin(); i != replaceURLList.constEnd(); i++)

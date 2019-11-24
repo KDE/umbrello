@@ -235,7 +235,7 @@ void ConstraintListPage::slotNewCheckConstraint()
 /**
  * Will return true if ct1 has a higher (top)  place in the list than ct2
  *
- * @param ct1 Contraint Type 1
+ * @param ct1 Constraint Type 1
  * @param ct2 Constraint Type 2
  * @return true if ct1 is to be shown above ct2 else false
  */

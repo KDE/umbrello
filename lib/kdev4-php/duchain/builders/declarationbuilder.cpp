@@ -71,7 +71,7 @@ void DeclarationBuilder::getVariableIdentifier(VariableAst* node,
 {
     parent = QualifiedIdentifier();
     if ( node->variablePropertiesSequence ) {
-        // at least one "->" in the assigment target
+        // at least one "->" in the assignment target
         // => find he parent of the target
         // => find the target (last object property)
         if ( node->variablePropertiesSequence->count() == 1 ) {
@@ -1069,7 +1069,7 @@ void DeclarationBuilder::visitAssignmentExpressionEqual(AssignmentExpressionEqua
                 declareClassMember(ctx, type, m_findVariable.identifier, m_findVariable.node);
             }
         } else {
-            // assigment to other variables
+            // assignment to other variables
             declareVariable(currentContext(), type, m_findVariable.identifier, m_findVariable.node );
         }
     }

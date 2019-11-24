@@ -388,7 +388,7 @@ void CodeEditor::appendText(TextBlockList * items)
             appendText(cb);
         /*
              // No! Shouldn't be any 'naked' comments floating about. Always
-             // are assocated with a parent code block.
+             // are associated with a parent code block.
              else if ((cm = dynamic_cast<CodeComment*>(tb)))
                     appendText(cm);
         */
@@ -492,7 +492,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
     DEBUG(DBG_SRC) << "code  method block";
     // Note: IF CodeAccessors are hidden, we DON'T show
     // it even when requested as the hiddeness of these methods
-    // should be controled by the class fields, not the user in the editor.
+    // should be controlled by the class fields, not the user in the editor.
     if (!mb->getWriteOutText() && (!m_showHiddenBlocks || dynamic_cast<CodeAccessorMethod*>(mb)))
         return;
 
@@ -947,7 +947,7 @@ void CodeEditor::slotRedrawText()
 }
 
 /**
- * Initialisation routine which is used in the construtors.
+ * Initialization routine which is used in the constructors.
  * @param parentDialog   the parent @ref CodeViewerDialog
  * @param parentDoc   the parent @ref CodeDocument
  */

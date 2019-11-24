@@ -323,7 +323,7 @@ void CodeClassField::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 /**
  * Find the minimum number of things that can occur in an association
  * If mistakenly called on attribute CF's the default value of is "0"
- * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
+ * is returned. Similarly, if the association (role) CF doesn't have a multiplicity
  * 0 is returned.
  */
 int CodeClassField::minimumListOccurances()
@@ -336,7 +336,7 @@ int CodeClassField::minimumListOccurances()
             return -1;
         }
         QString multi = role->multiplicity();
-        // ush. IF we had a multiplicty object, this would be much easier.
+        // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
             QString lowerBoundString = multi.remove(QRegExp(QLatin1String("\\.\\.\\d+$")));
@@ -351,7 +351,7 @@ int CodeClassField::minimumListOccurances()
 /**
  * Find the maximum number of things that can occur in an association
  * If mistakenly called on attribute CF's the default value of is "1"
- * is returned. If the association (role) CF doesn't have a multiplicty
+ * is returned. If the association (role) CF doesn't have a multiplicity
  * or has a "*" specified then '-1' (unbounded) is returned.
  */
 int CodeClassField::maximumListOccurances()
@@ -364,7 +364,7 @@ int CodeClassField::maximumListOccurances()
             return -1;
         }
         QString multi = role->multiplicity();
-        // ush. IF we had a multiplicty object, this would be much easier.
+        // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
             QString upperBoundString = multi.section(QRegExp(QLatin1String("(\\.\\.)")), 1);

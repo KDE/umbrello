@@ -723,7 +723,7 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
 }
 
 /**
- * Removes currently seleted attribute.
+ * Removes currently selected attribute.
  */
 void ClassifierListPage::slotDelete()
 {

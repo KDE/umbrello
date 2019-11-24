@@ -34,7 +34,7 @@ class KConfig;
 
 /**
  * This macro replaces the K_EXPORT_COMPONENT_FACTORY macro because of
- * a simple defficiency for this application - the construction of the
+ * a simple deficiency for this application - the construction of the
  * factory with a default instance name. This macro must be used in
  * the .cpp file implementing the plugin.
  *
@@ -68,7 +68,7 @@ class PluginLoader;
  * methods respectively.
  *
  * By default, plugins use a configuration group called [LoadActions] in
- * the config file. Entries in this group define any dependant or on-demand
+ * the config file. Entries in this group define any dependent or on-demand
  * plugins that should be loaded in conjunction with this plugin. Known
  * entries (actions) are "Load" and "LoadGUI". Because plugins can be used
  * by both GUI and command line tools, they must be selective about some

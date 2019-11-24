@@ -249,7 +249,7 @@ bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 
 /**
  * Show the properties for a FloatingTextWidget.
- * Depending on the role of the floating text wiget, the options dialog
+ * Depending on the role of the floating text widget, the options dialog
  * for the floating text widget, the rename dialog for floating text or
  * the options dialog for the link widget are shown.
  */

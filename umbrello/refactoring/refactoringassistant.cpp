@@ -501,7 +501,7 @@ void RefactoringAssistant::addBaseClassifier()
     }
     m_doc->createUMLAssociation(obj, super, Uml::AssociationType::Generalization);
 
-    //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
+    //////////////////////   Manually add the classifier to the assistant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
     QTreeWidgetItem *baseFolder = 0;
     for (int i = 0; i < item->childCount(); ++i) {
@@ -546,7 +546,7 @@ void RefactoringAssistant::addDerivedClassifier()
     }
     m_doc->createUMLAssociation(derived, obj, Uml::AssociationType::Generalization);
 
-    //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
+    //////////////////////   Manually add the classifier to the assistant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
     QTreeWidgetItem *derivedFolder = 0;
     for (int i = 0; i < item->childCount(); ++i) {

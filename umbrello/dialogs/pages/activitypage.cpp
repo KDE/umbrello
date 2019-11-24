@@ -259,7 +259,7 @@ void ActivityPage::slotUpClicked()
 
     QListWidgetItem* item = m_pActivityLW->takeItem(index);
     m_pActivityLW->insertItem(index - 1, item);
-    //set the moved atttribute selected
+    //set the moved attribute selected
     m_pActivityLW->setCurrentRow(index - 1);
 
     slotClicked(m_pActivityLW->currentItem());
@@ -276,7 +276,7 @@ void ActivityPage::slotDownClicked()
 
     QListWidgetItem* item = m_pActivityLW->takeItem(index);
     m_pActivityLW->insertItem(index + 1, item);
-    //set the moved atttribute selected
+    //set the moved attribute selected
     m_pActivityLW->setCurrentRow(index + 1);
 
     slotClicked(m_pActivityLW->currentItem());

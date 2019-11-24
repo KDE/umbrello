@@ -169,7 +169,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".cs"));
     if (!str.isEmpty()) {
@@ -666,7 +666,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
             uError() << "composition role B object is NULL";
             continue;
         }
-        // Take name and documentaton from Role, take type name from the referenced object
+        // Take name and documentation from Role, take type name from the referenced object
         QString roleName = cleanName(a->getRoleName(Uml::RoleType::B));
         QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {

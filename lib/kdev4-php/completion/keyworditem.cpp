@@ -69,7 +69,7 @@ void KeywordItem::execute(KTextEditor::Document* document, const KTextEditor::Ra
 {
     if ( !m_replacement.isEmpty() ) {
         QString replacement = m_replacement;
-        replacement = replacement.replace('\n', '\n' + getIndendation(document->line(word.start().line())));
+        replacement = replacement.replace('\n', '\n' + getindentation(document->line(word.start().line())));
         replacement = replacement.replace("%INDENT%", indentString(document));
 
         int cursorPos = replacement.indexOf("%CURSOR%");

@@ -408,7 +408,7 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
         uError() << name << ": attribute file_name not found (?)";
         return 0;
     }
-    file_name = file_name.mid(1, file_name.length() - 2);  // remove sourrounding ""
+    file_name = file_name.mid(1, file_name.length() - 2);  // remove surrounding ""
     /* I wanted to use
                   file_name.replace(QRegExp("\\\\+") "/");
        but this did not work using Qt 4.6.3. Workaround:

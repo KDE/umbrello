@@ -2765,7 +2765,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
             // if the current diagram type permits relationships
             AssocRules::allowAssociation(assocType, w, widget)) {
 
-            // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
+            // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
             AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
             a->setUMLObject(fkConstraint);

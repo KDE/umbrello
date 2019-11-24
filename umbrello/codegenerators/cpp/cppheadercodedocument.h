@@ -30,7 +30,7 @@ class CPPHeaderClassDeclarationBlock;
  * - includes
  * - import statements
  * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependent classes)
  */
 class CPPHeaderCodeDocument : public ClassifierCodeDocument
 {

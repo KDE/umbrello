@@ -94,7 +94,7 @@ void UMLAttribute::setVisibility(Uml::Visibility::Enum s)
 /**
  * Returns The initial value of the UMLAttribute.
  *
- * @return  The initial value of the Atrtibute.
+ * @return  The initial value of the Attribute.
  */
 QString UMLAttribute::getInitialValue() const
 {
@@ -375,7 +375,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
             }
         }
         if (count != 0) {
-            //The template is ill-formated, let's quit
+            //The template is ill-formatted, let's quit
             return;
         }
         setTemplateParams(type.mid(start + 1, end - start - 1), templateParamList);
@@ -392,7 +392,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
                 }
                 if (obj != 0) {
                     //We want to list only the params that already exist in this document
-                    //If the param doesnt't already exist, we couldn't draw an association anyway
+                    //If the param doesn't already exist, we couldn't draw an association anyway
                     UMLClassifier* tmpClassifier = obj->asUMLClassifier();
                     if (templateParamList.indexOf(tmpClassifier) == -1) {
                         templateParamList.append(tmpClassifier);

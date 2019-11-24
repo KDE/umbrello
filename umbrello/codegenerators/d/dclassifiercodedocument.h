@@ -31,7 +31,7 @@ class DCodeGenerationPolicy;
  * - package declaration
  * - import statements
  * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependent classes)
  */
 class DClassifierCodeDocument : public ClassifierCodeDocument
 {
@@ -70,8 +70,8 @@ private:
     HierarchicalCodeBlock * operationsBlock;
 
 /*
-    QString fileName; // Just for our convience in creating code
-    QString endLine; // characters for ending line. Just for our convience in creating code
+    QString fileName; // Just for our convenience in creating code
+    QString endLine; // characters for ending line. Just for our convenience in creating code
     QString DClassName;
 */
     void init();

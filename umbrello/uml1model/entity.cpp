@@ -592,7 +592,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 
 /**
  * Removes an existing constraint from this UMLEntity.
- * If the Contraint is a Primary Key, this Entity will no longer have a PrimaryKey.
+ * If the Constraint is a Primary Key, this Entity will no longer have a PrimaryKey.
  * @param constr   the constraint to be removed
  * @return true if the constraint could be removed successfully
  */

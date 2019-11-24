@@ -190,7 +190,7 @@ private:
                                     bool &arrayAccess);
 
     /**
-     * Declare a class member in @p parentCtx. Validates whether the current context allowes
+     * Declare a class member in @p parentCtx. Validates whether the current context allows
      * redeclaration of private/protected members.
      *
      * @param parentCtx  The class context you want to add the member to.

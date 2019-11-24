@@ -374,7 +374,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
 
 /**
  * Saves association line information into XMI element named "linepath".
- * @note Stored as linepath for backwared compatibility
+ * @note Stored as linepath for backward compatibility
  */
 void AssociationLine::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
 {

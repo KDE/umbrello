@@ -231,7 +231,7 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
 }
 
 /**
- * For use when the user selects only Attirbutes and/or
+ * For use when the user selects only Attributes and/or
  * Operation from the ListView
  */
 void UMLDragData::setUMLDataClip5(UMLObjectList& objects)

@@ -23,7 +23,7 @@ class CodeClassField;
  * associations) in the code document for any given code classfield. This is a
  * special CodeBlockWithComments which is "sync'd" to the parent CodeClassField.
  * Note: keep the inheritance sequence: QObject needs to be first in inheritance list.
- * Basicially a class to allow for synchronization of the contents based on the
+ * Basically a class to allow for synchronization of the contents based on the
  * values of the parentClassField's parentObject.
  */
 class CodeClassFieldDeclarationBlock : public OwnedCodeBlock, public CodeBlockWithComments

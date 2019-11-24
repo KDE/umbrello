@@ -145,7 +145,7 @@ bool TextBlock::getWriteOutText() const
 
 /**
  * Set how many times to indent this text block.
- * The amount of each indenatation is determined from the parent
+ * The amount of each indentation is determined from the parent
  * codedocument codegeneration policy.
  * @param level   the new value for the indentation level
  */
@@ -156,7 +156,7 @@ void TextBlock::setIndentationLevel(int level)
 
 /**
  * Get how many times to indent this text block.
- * The amount of each indenatation is determined from the parent
+ * The amount of each indentation is determined from the parent
  * codedocument codegeneration policy.
  * @return   the indentation level
  */
@@ -244,7 +244,7 @@ QString TextBlock::getNewEditorLine(int amount)
 
 /**
  * UnFormat a long text string. Typically, this means removing
- * the indentaion (linePrefix) and/or newline chars from each line.
+ * the indentation (linePrefix) and/or newline chars from each line.
  * If an indentation is not specified, then the current indentation is used.
  * @param text     the original text for unformatting
  * @param indent   the indentation
@@ -259,7 +259,7 @@ QString TextBlock::unformatText(const QString & text, const QString & indent)
     }
 
     if (!output.isEmpty()) {
-        // remove indenation from this text block.
+        // remove indentation from this text block.
         output.remove(QRegExp(QLatin1Char('^') + myIndent));
     }
 
