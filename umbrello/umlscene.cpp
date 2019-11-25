@@ -3693,6 +3693,10 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
     if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
         painter->setPen(Qt::green);
         painter->drawRect(sceneRect());
+        QVector<QLineF> origin;
+        origin << QLineF(QPointF(-5,0), QPointF(5,0))
+              << QLineF(QPointF(0,-5), QPointF(0,5));
+        painter->drawLines(origin);
         painter->setPen(Qt::blue);
         painter->drawRect(itemsBoundingRect());
         QVector<QLineF> lines;
