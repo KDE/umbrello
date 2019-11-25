@@ -27,6 +27,8 @@
 #include "umlview.h"
 #include "uniqueconstraint.h"
 
+DEBUG_REGISTER_DISABLED(EntityWidget)
+
 /**
  * Constructs an EntityWidget.
  *

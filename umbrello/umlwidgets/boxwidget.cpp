@@ -12,11 +12,14 @@
 #include "boxwidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 
 // qt includes
 #include <QColorDialog>
+
+DEBUG_REGISTER_DISABLED(BoxWidget)
 
 /**
  * Constructs a BoxWidget.

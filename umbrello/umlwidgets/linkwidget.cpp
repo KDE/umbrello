@@ -13,10 +13,13 @@
 
 // app includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "uml.h"
 #include "umlobject.h"
 #include "umlview.h"
+
+DEBUG_REGISTER_DISABLED(LinkWidget)
 
 LinkWidget::LinkWidget()
 {

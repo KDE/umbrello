@@ -17,6 +17,8 @@
 #include "umlscene.h"
 #include "umlview.h"
 
+DEBUG_REGISTER_DISABLED(ArtifactWidget)
+
 /**
  * Constructs a ArtifactWidget.
  *

@@ -13,7 +13,10 @@
 
 // local includes
 #include "actor.h"
+#include "debug_utils.h"
 #include "umlview.h"
+
+DEBUG_REGISTER_DISABLED(ActorWidget)
 
 /**
  * Constructs an ActorWidget.

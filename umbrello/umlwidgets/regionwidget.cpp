@@ -22,6 +22,8 @@
 #define REGION_WIDTH 90
 #define REGION_HEIGHT 45
 
+DEBUG_REGISTER_DISABLED(RegionWidget)
+
 /**
  * Creates a Region widget.
  *

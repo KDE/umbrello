@@ -27,6 +27,9 @@
 
 // qt includes
 #include <QPointer>
+
+DEBUG_REGISTER_DISABLED(ActivityWidget)
+
 /**
  * Creates a Activity widget.
  *

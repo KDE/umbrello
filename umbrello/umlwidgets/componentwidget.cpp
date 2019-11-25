@@ -21,6 +21,8 @@
 #include "package.h"
 #include "portwidget.h"
 
+DEBUG_REGISTER_DISABLED(ComponentWidget)
+
 /**
  * Constructs a ComponentWidget.
  *

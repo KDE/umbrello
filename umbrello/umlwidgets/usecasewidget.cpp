@@ -12,8 +12,11 @@
 #include "usecasewidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "usecase.h"
 #include "umlview.h"
+
+DEBUG_REGISTER_DISABLED(UseCaseWidget)
 
 /**
  *  Creates a UseCase widget.
