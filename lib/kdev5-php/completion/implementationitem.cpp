@@ -124,7 +124,7 @@ void ImplementationItem::execute(KTextEditor::View* view, const KTextEditor::Ran
         QString indentation;
         {
             QString currentLine = document->line(replaceRange.start().line());
-            indentation = getindentation(currentLine);
+            indentation = getIndentation(currentLine);
 
             if ( !currentLine.isEmpty() && currentLine != indentation ) {
                 // since theres some non-whitespace in this line, skip to the enxt one

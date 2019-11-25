@@ -64,10 +64,10 @@ const QString KDEVPHPCOMPLETION_EXPORT indentString(KTextEditor::Document *docum
  * You usually want to use it with something like the following:
  *
  * \code
- * const QString indentation = getindentation( document->line(replaceRange.start().line()) );
+ * const QString indentation = getIndentation( document->line(replaceRange.start().line()) );
  * \endcode
  */
-QString KDEVPHPCOMPLETION_EXPORT getindentation( const QString &line );
+QString KDEVPHPCOMPLETION_EXPORT getIndentation( const QString &line );
 }
 
 #endif
