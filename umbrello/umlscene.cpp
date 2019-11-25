@@ -1055,15 +1055,20 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 }
 
 /**
- * Tests the given point against all widgets and returns the
- * widget for which the point is within its bounding rectangle.
- * In case of multiple matches, returns the smallest widget.
- * Returns NULL if the point is not inside any widget.
- * TODO: What about using QGraphicsScene::items(...)?
+ * Checks the specified point against all widgets and returns the widget
+ * for which the point is within its bounding box.
+ * @param p Point in scene coordinates to search for
+ * @return Returns the first widget of type UMLWidget returned by QGraphicsScene::items() for multiple matches
+ * @return Returns NULL if the point is not inside any widget.
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    return dynamic_cast<UMLWidget*>(itemAt(p));
+    foreach(QGraphicsItem *item, items(p)) {
+        UMLWidget *w = dynamic_cast<UMLWidget*>(item);
+        if (w)
+            return w;
+    }
+    return nullptr;
 }
 
 /**
