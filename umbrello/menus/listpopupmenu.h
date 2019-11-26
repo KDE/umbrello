@@ -88,6 +88,7 @@ public:
         mt_Final_Activity,
         mt_ForeignKeyConstraint,
         mt_Fork,
+        mt_GoToStateDiagram,
         mt_Initial_Activity,
         mt_Initial_State,
         mt_Invoke_Activity,
@@ -135,6 +136,8 @@ public:
         mt_New_Operation,
         mt_New_Parameter,
         mt_New_Template,
+        mt_RemoveStateDiagram,
+        mt_ReturnToClass,
         mt_ReturnToCombinedState,
         // selection
         // visual properties

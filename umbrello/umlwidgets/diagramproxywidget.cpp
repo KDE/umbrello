@@ -10,7 +10,13 @@
 
 #include "diagramproxywidget.h"
 
+#include "cmds/cmdcreatediagram.h"
 #include "debug_utils.h"
+#include "diagram_utils.h"
+#include "dialog_utils.h"
+#include "widget_utils.h"
+#include "listpopupmenu.h"
+#include "statewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
@@ -21,27 +27,36 @@ DEBUG_REGISTER_DISABLED(DiagramProxyWidget)
 
 DiagramProxyWidget::DiagramProxyWidget(UMLWidget *widget, qreal borderWidth)
   : m_diagramLinkId(Uml::ID::None)
+  , m_iconRect(QRectF(0, 0, 10, 10))
   , m_widget(widget)
   , m_borderWidth(borderWidth)
+  , m_showLinkedDiagram(true)
 {
 }
 
-Uml::ID::Type DiagramProxyWidget::diagramLink()
+Uml::ID::Type DiagramProxyWidget::diagramLink() const
 {
     return m_diagramLinkId;
 }
 
-UMLScene *DiagramProxyWidget::linkedDiagram()
+UMLScene *DiagramProxyWidget::linkedDiagram() const
 {
     return m_linkedDiagram;
 }
 
 bool DiagramProxyWidget::setDiagramLink(const Uml::ID::Type &id)
 {
+    if (id == Uml::ID::None) {
+        m_diagramLinkId = id;
+        m_linkedDiagram = nullptr;
+        m_widget->updateGeometry(true);
+        return true;
+    }
     UMLView *view = UMLApp::app()->document()->findView(id);
     if (view) {
         m_diagramLinkId = id;
         m_linkedDiagram = view->umlScene();
+        m_widget->updateGeometry(true);
     }
     return view;
 }
@@ -210,13 +225,22 @@ void DiagramProxyWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void DiagramProxyWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    QPointF pos = m_widget->mapFromScene(event->scenePos());
-    if (m_linkedDiagram && m_clientRect.contains(pos)) {
-        QGraphicsSceneMouseEvent e(event->type());
-        setupEvent(e, event, pos);
-        m_linkedDiagram->mouseDoubleClickEvent(&e);
-        m_widget->update();
-        event->ignore();
+    if (m_showLinkedDiagram) {
+        QPointF pos = m_widget->mapFromScene(event->scenePos());
+        if (m_linkedDiagram && m_clientRect.contains(pos)) {
+            QGraphicsSceneMouseEvent e(event->type());
+            setupEvent(e, event, pos);
+            m_linkedDiagram->mouseDoubleClickEvent(&e);
+            m_widget->update();
+            event->ignore();
+        }
+    } else {
+        QPointF p = m_widget->mapFromScene(event->scenePos());
+        if (m_iconRect.contains(p)) {
+            linkedDiagram()->setWidgetLink(dynamic_cast<WidgetBase *>(this));
+            UMLApp::app()->document()->changeCurrentView(diagramLink());
+            event->ignore();
+        }
     }
 }
 
@@ -257,6 +281,42 @@ void DiagramProxyWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
+ * Getter for icon rectangle
+ * @return icon rectangle
+ */
+QRectF DiagramProxyWidget::iconRect() const
+{
+    return m_iconRect;
+}
+
+/**
+ * Setter for icon rectangle
+ * @param iconRect icon rectangle
+ */
+void DiagramProxyWidget::setIconRect(const QRectF &iconRect)
+{
+    m_iconRect = iconRect;
+}
+
+/**
+ * Return state of 'show linked diagram' attribute
+ * @return state
+ */
+bool DiagramProxyWidget::showLinkedDiagram() const
+{
+    return m_showLinkedDiagram;
+}
+
+/**
+ * Set state for 'show linked diagram' attribute
+ * @param showLinkedDiagram state to set
+ */
+void DiagramProxyWidget::setShowLinkedDiagram(bool showLinkedDiagram)
+{
+    m_showLinkedDiagram = showLinkedDiagram;
+}
+
+/**
  * Paint linked diagram into current widget
  *
  * @param painter painter to paint on
@@ -268,10 +328,65 @@ void DiagramProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
-    if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
-        painter->setPen(Qt::magenta);
-        painter->drawRect(m_clientRect);
+    if (m_showLinkedDiagram) {
+        m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
+        if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
+            painter->setPen(Qt::magenta);
+            painter->drawRect(m_clientRect);
+        }
+        m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
+    } else {
+        QPixmap p = Icon_Utils::smallIcon(Uml::DiagramType::State);
+        QRectF source(0,0, p.width(), p.height());
+        painter->drawPixmap(m_iconRect, p, source);
     }
-    m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
+}
+
+/**
+ * Captures any popup menu signals for menus it created.
+ *
+ * If the provided action is not handled, it will be forwarded
+ * to the contained widget.
+ *
+ * @param action action to handle
+ */
+void DiagramProxyWidget::slotMenuSelection(QAction* action)
+{
+    switch(ListPopupMenu::typeFromAction(action)) {
+    case ListPopupMenu::mt_State_Diagram:
+        {
+            QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+            bool ok;
+            do {
+                if (!Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name))
+                    name.append(QLatin1String("_1"));
+                ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+            } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
+            if (ok) {
+                Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(UMLApp::app()->document(), Uml::DiagramType::State, name);
+                UMLApp::app()->executeCommand(d);
+                setShowLinkedDiagram(false);
+                setDiagramLink(d->view()->umlScene()->ID());
+                d->view()->umlScene()->setWidgetLink(m_widget);
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_GoToStateDiagram:
+        if (!linkedDiagram()) {
+            uError() << "no diagram id defined at widget '" << Uml::ID::toString(m_widget->id()) << "'";
+            break;
+        }
+        linkedDiagram()->setWidgetLink(m_widget);
+        UMLApp::app()->document()->changeCurrentView(diagramLink());
+        break;
+
+    case ListPopupMenu::mt_RemoveStateDiagram:
+        setDiagramLink(Uml::ID::None);
+        break;
+
+    default:
+        m_widget->UMLWidget::slotMenuSelection(action);
+        break;
+    }
 }

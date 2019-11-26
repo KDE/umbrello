@@ -190,6 +190,11 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insertSubMenuNew(type);
             makeClassifierShowPopup(c);
             insertSubMenuColor(c->useFillColor());
+            if (c->linkedDiagram()) {
+                addSeparator();
+                insert(mt_GoToStateDiagram);
+                insert(mt_RemoveStateDiagram);
+            }
             insertStdItems(true, type);
             insert(mt_Rename);
             insert(mt_Change_Font);
@@ -661,6 +666,7 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_Interface, menu);
             insert(mt_Datatype, menu);
             insert(mt_Enum, menu);
+            insert(mt_State_Diagram, menu);
             break;
         case WidgetBase::wt_Interface:
             insert(mt_Operation, menu);

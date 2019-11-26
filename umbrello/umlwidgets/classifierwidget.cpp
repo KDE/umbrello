@@ -18,6 +18,8 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "diagram_utils.h"
+#include "dialog_utils.h"
 #include "instance.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
@@ -26,6 +28,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // qt includes
 #include <QPainter>
@@ -46,6 +49,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     m_pAssocWidget(nullptr),
     m_pInterfaceName(nullptr)
 {
+    DiagramProxyWidget::setShowLinkedDiagram(false);
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
     setVisualPropertyCmd(ShowOperations, ops.classState.showOps);
@@ -613,6 +617,9 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // allow for width margin
     width += defaultMargin * 2;
 
+    if (DiagramProxyWidget::linkedDiagram() || DiagramProxyWidget::diagramLink() != Uml::ID::None)
+        width += 2 * DiagramProxyWidget::iconRect().width();
+
     return QSizeF(width, height);
 }
 
@@ -871,6 +878,10 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
                         bodyOffsetY, fontHeight);
         }
+    }
+
+    if (DiagramProxyWidget::linkedDiagram()) {
+        DiagramProxyWidget::paint(painter, option, widget);
     }
 
     UMLWidget::paint(painter, option, widget);
@@ -1254,6 +1265,9 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI1(qElement)) {
         return false;
     }
+    if (DiagramProxyWidget::linkedDiagram())
+        DiagramProxyWidget::setShowLinkedDiagram(false);
+
     bool loadShowAttributes = true;
     if (umlObject() && (umlObject()->isUMLPackage() || umlObject()->isUMLInstance())) {
         loadShowAttributes = false;
@@ -1459,7 +1473,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        DiagramProxyWidget::slotMenuSelection(action);
         break;
     }
 }
@@ -1478,6 +1492,14 @@ void ClassifierWidget::slotShowAttributes(bool state)
 void ClassifierWidget::slotShowOperations(bool state)
 {
     setVisualProperty(ShowOperations, state);
+}
+
+void ClassifierWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (linkedDiagram())
+        DiagramProxyWidget::mouseDoubleClickEvent(event);
+    if (event->isAccepted())
+        UMLWidget::mouseDoubleClickEvent(event);
 }
 
 /**

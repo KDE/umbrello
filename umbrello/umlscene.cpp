@@ -3207,6 +3207,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_ReturnToClass:
     case ListPopupMenu::mt_ReturnToCombinedState:
         if (widgetLink()) {
             UMLApp::app()->document()->changeCurrentView(widgetLink()->umlScene()->ID());

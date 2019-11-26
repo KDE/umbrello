@@ -195,6 +195,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_FloatText: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line...")); break;
     case mt_ForeignKeyConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint...")); break;
     case mt_Fork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_Join), i18n("Fork")); break;
+    case mt_GoToStateDiagram: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Go to state diagram")); break;
     case mt_Import_Class: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)...")); break;
     case mt_Import_Project: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory...")); break;
     case mt_Import_from_File: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file...")); break;
@@ -242,9 +243,11 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Redo: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Redo")); break;
     case mt_Region: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Region), i18n("Region")); break;
     case mt_Remove: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove")); break;
+    case mt_RemoveStateDiagram: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Remove state diagram")); break;
     case mt_Rename: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename...")); break;
     case mt_Rename_Object: insert(m, menu, i18n("Rename Object...")); break;
     case mt_ReturnToCombinedState: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Return to combined state")); break;
+    case mt_ReturnToClass: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Return to class")); break;
     case mt_Reset_Label_Positions: m_actions[m] = menu->addAction(i18n("Reset Label Positions")); break;
     case mt_Resize: insert(m, menu, i18n("Resize")); break;
     case mt_Send_Signal: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Send_Signal), i18n("Send Signal")); break;
@@ -254,6 +257,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_StateFork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork")); break;
     case mt_StateJoin: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join")); break;
     case mt_StateTransition: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State_Transition), i18n("State Transition")); break;
+    case mt_State_Diagram: insertFromActionKey(m, menu, QLatin1String("new_state_diagram")); break;
     case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem")); break;
     //case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem...")); break;
     case mt_Template: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template")); break;
