@@ -31,6 +31,8 @@
 #include <QEvent>
 #include <QPolygon>
 
+DEBUG_REGISTER_DISABLED(SignalWidget)
+
 /**
  * Creates a Signal widget.
  *

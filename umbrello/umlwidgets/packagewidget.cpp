@@ -23,6 +23,8 @@
 // qt includes
 #include <QPainter>
 
+DEBUG_REGISTER_DISABLED(PackageWidget)
+
 /**
  * Constructs a PackageWidget.
  *

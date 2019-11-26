@@ -1874,7 +1874,9 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         }
         // debug info
         if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
-            painter->setPen(Qt::green);
+            QPen p(Qt::green);
+            p.setWidthF(1.0);
+            painter->setPen(p);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
             painter->setPen(Qt::blue);

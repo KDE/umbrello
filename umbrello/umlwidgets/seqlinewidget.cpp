@@ -12,6 +12,7 @@
 #include "seqlinewidget.h"
 
 //app includes
+#include "debug_utils.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "umlscene.h"
@@ -19,6 +20,8 @@
 
 //qt includes
 #include <QPainter>
+
+DEBUG_REGISTER_DISABLED(SeqLineWidget)
 
 // class members
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;

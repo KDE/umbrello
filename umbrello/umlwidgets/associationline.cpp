@@ -1109,16 +1109,17 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         
         // debug info
         if (Tracer::instance()->isEnabled(QString::fromLatin1(metaObject()->className()))) {
-            painter->setPen(Qt::green);
+            QPen p(Qt::green);
+            p.setWidthF(1.0);
+            painter->setPen(p);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
-            painter->setPen(Qt::red);
+            painter->setPen(Qt::blue);
             painter->drawRect(boundingRect());
             // origin
             painter->drawLine(-10, 0, 10, 0);
             painter->drawLine(0, -10, 0, 10);
         }
-
     }
 
     // now restore the points array

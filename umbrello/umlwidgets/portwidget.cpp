@@ -31,6 +31,8 @@
 #include <QPainter>
 #include <QToolTip>
 
+DEBUG_REGISTER_DISABLED(PortWidget)
+
 /**
  * Constructs a PortWidget.
  *

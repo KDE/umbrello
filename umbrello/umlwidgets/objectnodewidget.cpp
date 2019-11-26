@@ -33,6 +33,8 @@
 #define OBJECTNODE_WIDTH 30
 #define OBJECTNODE_HEIGHT 10
 
+DEBUG_REGISTER_DISABLED(ObjectNodeWidget)
+
 /**
  * Creates a Object Node widget.
  *

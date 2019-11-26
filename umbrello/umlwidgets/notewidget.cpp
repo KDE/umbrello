@@ -34,6 +34,8 @@
 #include <QColorDialog>
 #endif
 
+DEBUG_REGISTER_DISABLED(NoteWidget)
+
 QPointer<NoteWidget> NoteWidget::s_pCurrentNote;
 
 /**

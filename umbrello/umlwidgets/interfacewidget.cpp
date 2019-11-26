@@ -10,6 +10,11 @@
 
 #include "interfacewidget.h"
 
+#include "debug_utils.h"
+
+DEBUG_REGISTER_DISABLED(InterfaceWidget)
+
+
 InterfaceWidget::InterfaceWidget(UMLScene *scene, UMLClassifier *c)
   : ClassifierWidget(scene, c)
 {

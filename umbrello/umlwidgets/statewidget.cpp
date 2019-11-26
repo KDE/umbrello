@@ -31,6 +31,8 @@
 #include <QtGlobal>
 #include <QPointer>
 
+DEBUG_REGISTER_DISABLED(StateWidget)
+
 /**
  * Creates a State widget.
  *

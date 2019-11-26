@@ -20,6 +20,8 @@
 // qt includes
 #include <QPainter>
 
+DEBUG_REGISTER_DISABLED(CategoryWidget)
+
 /**
  *  Creates a Category widget.
  *

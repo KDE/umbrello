@@ -25,6 +25,8 @@
 #include "umlscene.h"
 #include "umlview.h"
 
+DEBUG_REGISTER_DISABLED(EnumWidget)
+
 /**
  * Constructs an instance of EnumWidget.
  *

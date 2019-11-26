@@ -20,6 +20,8 @@
 // qt includes
 #include <QColorDialog>
 
+DEBUG_REGISTER_DISABLED(ForkJoinWidget)
+
 /**
  * Constructs a ForkJoinWidget.
  *
