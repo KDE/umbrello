@@ -56,9 +56,10 @@ void SelectDiagramWidget::setupWidget(Uml::DiagramType::Enum type, const QString
         QString name = view->umlScene()->name();
         if (name == excludeName)
             continue;
-        if (type == Uml::DiagramType::Undefined || type == view->umlScene()->type())
+        if (type == Uml::DiagramType::Undefined || type == view->umlScene()->type()) {
             diagrams << name;
             m_editField->completionObject()->addItem(name);
+        }
     }
     diagrams.sort();
     if (withNewEntry)
