@@ -353,6 +353,7 @@ void DiagramProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 void DiagramProxyWidget::slotMenuSelection(QAction* action)
 {
     switch(ListPopupMenu::typeFromAction(action)) {
+    // classifier widget
     case ListPopupMenu::mt_State_Diagram:
         {
             QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
@@ -372,7 +373,21 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
         }
         break;
 
+    // state widget
+    case ListPopupMenu::mt_CombinedState:
+        {
+            QString diagramName = UMLApp::app()->document()->createDiagramName(Uml::DiagramType::State);
+            Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(UMLApp::app()->document(), Uml::DiagramType::State, diagramName);
+            UMLApp::app()->executeCommand(d);
+            setDiagramLink(d->view()->umlScene()->ID());
+            m_widget->asStateWidget()->setStateType(StateWidget::Combined);
+        }
+        break;
+
+    // classifier widget
     case ListPopupMenu::mt_GoToStateDiagram:
+    // state widget
+    case ListPopupMenu::mt_EditCombinedState:
         if (!linkedDiagram()) {
             uError() << "no diagram id defined at widget '" << Uml::ID::toString(m_widget->id()) << "'";
             break;
