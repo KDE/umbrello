@@ -38,10 +38,13 @@ UMLScenePopupMenu::UMLScenePopupMenu(QWidget *parent, UMLScene *scene)
         case Uml::DiagramType::Sequence:
         case Uml::DiagramType::Collaboration:
             if (type == Uml::DiagramType::State && scene->widgetLink()) {
-                if (scene->widgetLink()->isStateWidget())
+                if (scene->widgetLink()->isStateWidget()) {
                     insert(mt_ReturnToCombinedState);
-                else if (scene->widgetLink()->isClassWidget())
+                    addSeparator();
+                } else if (scene->widgetLink()->isClassWidget()) {
                     insert(mt_ReturnToClass);
+                    addSeparator();
+                }
             }
             insertSubMenuNew(type);
             addSeparator();

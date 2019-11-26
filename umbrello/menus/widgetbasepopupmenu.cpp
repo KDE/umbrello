@@ -349,6 +349,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             switch (pState->stateType()) {
             case StateWidget::Combined:
                 insert(mt_EditCombinedState);
+                addSeparator();
                 break;
             default:
                 break;
@@ -356,7 +357,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
 
             insertSubMenuNew(type);
             insertSubMenuColor(widget->useFillColor());
-            insertStdItems(false, type);
+            insertStdItems(true, type);
             switch (pState->stateType()) {
             case StateWidget::Combined:
                 insert(mt_Change_Font);
