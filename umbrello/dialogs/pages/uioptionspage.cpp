@@ -77,7 +77,7 @@ void UIOptionsPage::setupPage()
     uiPageLayout->addWidget(boxAssocs);
 
     m_angularLinesCB = new QCheckBox(i18n("Use angular association lines"), boxAssocs);
-    m_angularLinesCB->setChecked(Settings::OptionState().generalState.angularlines);
+    m_angularLinesCB->setChecked(m_options->generalState.angularlines);
     layoutAssocs->addWidget(m_angularLinesCB, 0, 0);
 
     m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Create new association lines as:"), Settings::optionState().generalState.layoutType, boxAssocs);
