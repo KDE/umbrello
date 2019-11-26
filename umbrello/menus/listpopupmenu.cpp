@@ -254,7 +254,6 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_StateFork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork")); break;
     case mt_StateJoin: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join")); break;
     case mt_StateTransition: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State_Transition), i18n("State Transition")); break;
-    case mt_State_Diagram: insertFromActionKey(m, menu, QLatin1String("new_state_diagram")); break;
     case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem")); break;
     //case mt_Subsystem: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem...")); break;
     case mt_Template: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template")); break;

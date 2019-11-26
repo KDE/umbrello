@@ -23,7 +23,6 @@ DiagramProxyWidget::DiagramProxyWidget(UMLWidget *widget, qreal borderWidth)
   : m_diagramLinkId(Uml::ID::None)
   , m_widget(widget)
   , m_borderWidth(borderWidth)
-  , m_showLinkedDiagram(true)
 {
 }
 
@@ -32,7 +31,7 @@ Uml::ID::Type DiagramProxyWidget::diagramLink()
     return m_diagramLinkId;
 }
 
-UMLScene *DiagramProxyWidget::linkedDiagram() const
+UMLScene *DiagramProxyWidget::linkedDiagram()
 {
     return m_linkedDiagram;
 }
@@ -211,22 +210,13 @@ void DiagramProxyWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void DiagramProxyWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_showLinkedDiagram) {
-        QPointF pos = m_widget->mapFromScene(event->scenePos());
-        if (m_linkedDiagram && m_clientRect.contains(pos)) {
-            QGraphicsSceneMouseEvent e(event->type());
-            setupEvent(e, event, pos);
-            m_linkedDiagram->mouseDoubleClickEvent(&e);
-            m_widget->update();
-            event->ignore();
-        }
-    } else {
-        QPixmap p = Icon_Utils::SmallIcon(Icon_Utils::it_State);
-        if (m_iconRect.contains(event->pos())) {
-            linkedDiagram()->setWidgetLink(dynamic_cast<WidgetBase *>(this));
-            UMLApp::app()->document()->changeCurrentView(diagramLink());
-            event->ignore();
-        }
+    QPointF pos = m_widget->mapFromScene(event->scenePos());
+    if (m_linkedDiagram && m_clientRect.contains(pos)) {
+        QGraphicsSceneMouseEvent e(event->type());
+        setupEvent(e, event, pos);
+        m_linkedDiagram->mouseDoubleClickEvent(&e);
+        m_widget->update();
+        event->ignore();
     }
 }
 
@@ -266,26 +256,6 @@ void DiagramProxyWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-QRectF DiagramProxyWidget::iconRect() const
-{
-    return m_iconRect;
-}
-
-void DiagramProxyWidget::setIconRect(const QRectF &iconRect)
-{
-    m_iconRect = iconRect;
-}
-
-bool DiagramProxyWidget::showLinkedDiagram() const
-{
-    return m_showLinkedDiagram;
-}
-
-void DiagramProxyWidget::setShowLinkedDiagram(bool showLinkedDiagram)
-{
-    m_showLinkedDiagram = showLinkedDiagram;
-}
-
 /**
  * Paint linked diagram into current widget
  *
@@ -298,17 +268,10 @@ void DiagramProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    if (m_showLinkedDiagram) {
-        m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
-        if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
-            painter->setPen(Qt::magenta);
-            painter->drawRect(m_clientRect);
-        }
-        m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
-    } else {
-        QPixmap p = Icon_Utils::SmallIcon(Icon_Utils::it_State);
-        QRectF source(0, 0, p.width(), p.height());
-        m_iconRect = QRectF(-p.width() / 2, -p.height() / 2, p.width(), p.height());
-        painter->drawPixmap(m_iconRect, p, source);
+    m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
+    if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
+        painter->setPen(Qt::magenta);
+        painter->drawRect(m_clientRect);
     }
+    m_linkedDiagram->render(painter, m_clientRect, m_sceneRect);
 }

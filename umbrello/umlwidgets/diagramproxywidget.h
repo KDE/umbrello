@@ -30,7 +30,7 @@ public:
     DiagramProxyWidget(UMLWidget *widget, qreal borderWidth = 5);
     virtual ~DiagramProxyWidget() {}
     Uml::ID::Type diagramLink();
-    UMLScene *linkedDiagram() const;
+    UMLScene *linkedDiagram();
     bool setDiagramLink(const Uml::ID::Type &id);
     const QRectF &clientRect();
     const QRectF &sceneRect();
@@ -43,13 +43,6 @@ public:
     QPointF mapToClient(const QPointF &pos);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-
-    bool showLinkedDiagram() const;
-    void setShowLinkedDiagram(bool showLinkedDiagram);
-
-    QRectF iconRect() const;
-    void setIconRect(const QRectF &iconRect);
-
 protected:
     DiagramProxyWidget& operator=(const DiagramProxyWidget& other);
     bool activate(IDChangeLog* changeLog = 0);
@@ -68,10 +61,8 @@ private:
     QPointer<UMLScene> m_linkedDiagram; ///< pointer to linked diagram
     QRectF m_clientRect; ///< widget area for embedded diagram
     QRectF m_sceneRect;  ///< scene rectangle used for internal calculations
-    QRectF m_iconRect; ///< widget area for diagram icon
     UMLWidget *m_widget;
     qreal m_borderWidth;
-    bool m_showLinkedDiagram;
 };
 
 #endif // DIAGRAMPROXYWIDGET_H
