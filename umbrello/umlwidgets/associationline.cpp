@@ -55,8 +55,6 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
     setZValue(3);
-    //setLayout(Uml::LayoutType::Spline);
-    //createSplinePoints();
 }
 
 /**
@@ -508,6 +506,8 @@ void AssociationLine::calculateInitialEndPoints()
     } else if (!m_associationWidget->isSelf() && count() < 2) {
         setEndPoints(QPointF(), QPointF());
     }
+    if (m_layout == Uml::LayoutType::Spline)
+        createSplinePoints();
 }
 
 /**
