@@ -250,6 +250,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_ReturnToClass: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Return to class")); break;
     case mt_Reset_Label_Positions: m_actions[m] = menu->addAction(i18n("Reset Label Positions")); break;
     case mt_Resize: insert(m, menu, i18n("Resize")); break;
+    case mt_SelectStateDiagram: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Select state diagram")); break;
     case mt_Send_Signal: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Send_Signal), i18n("Send Signal")); break;
     case mt_ShallowHistory: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History")); break;
     case mt_Show: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show")); break;

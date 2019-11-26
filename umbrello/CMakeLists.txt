@@ -205,6 +205,7 @@ set(libdialogs_SRCS
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialog.cpp
     dialogs/parameterpropertiesdialog.cpp
+    dialogs/selectdiagramdialog.cpp
     dialogs/selectoperationdialog.cpp
     dialogs/settingsdialog.cpp
     dialogs/singlepagedialogbase.cpp

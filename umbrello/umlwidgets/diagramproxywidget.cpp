@@ -22,6 +22,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
+#include "selectdiagramdialog.h"
 
 DEBUG_REGISTER_DISABLED(DiagramProxyWidget)
 
@@ -383,6 +384,15 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
             m_widget->asStateWidget()->setStateType(StateWidget::Combined);
         }
         break;
+
+    case ListPopupMenu::mt_SelectStateDiagram:
+    {
+        SelectDiagramDialog dlg(nullptr, Uml::DiagramType::State, linkedDiagram() ? linkedDiagram()->name() : QString(), QString());
+        if (dlg.exec()) {
+            setDiagramLink(dlg.currentID());
+        }
+        break;
+    }
 
     // classifier widget
     case ListPopupMenu::mt_GoToStateDiagram:

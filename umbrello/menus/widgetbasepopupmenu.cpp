@@ -26,6 +26,7 @@
 #include "pinportbase.h"
 #include "statewidget.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umllistview.h"
 #include "umlscene.h"
 
@@ -190,11 +191,13 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insertSubMenuNew(type);
             makeClassifierShowPopup(c);
             insertSubMenuColor(c->useFillColor());
-            if (c->linkedDiagram()) {
-                addSeparator();
+            addSeparator();
+            if (c->linkedDiagram())
                 insert(mt_GoToStateDiagram);
+            if (UMLApp::app()->document()->views(Uml::DiagramType::State).size() > 0)
+                insert(mt_SelectStateDiagram);
+            if (c->linkedDiagram())
                 insert(mt_RemoveStateDiagram);
-            }
             insertStdItems(true, type);
             insert(mt_Rename);
             insert(mt_Change_Font);

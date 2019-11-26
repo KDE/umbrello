@@ -116,6 +116,7 @@ public:
         mt_PrePostCondition,
         mt_PrimaryKeyConstraint,
         mt_Region,
+        mt_SelectStateDiagram,
         mt_Send_Signal,
         mt_ShallowHistory,
         mt_State,

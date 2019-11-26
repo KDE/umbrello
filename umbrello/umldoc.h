@@ -201,6 +201,7 @@ public:
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 
     UMLViewList viewIterator();
+    UMLViewList views(Uml::DiagramType::Enum type = Uml::DiagramType::Undefined);
 
     bool assignNewIDs(UMLObject* obj);
 

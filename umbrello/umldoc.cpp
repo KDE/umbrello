@@ -3072,6 +3072,22 @@ UMLViewList UMLDoc::viewIterator()
 }
 
 /**
+ * Return a list of filtered views of this document by type.
+
+ * @param type diagram type to filter
+ * @return  List of UML views.
+ */
+UMLViewList UMLDoc::views(Uml::DiagramType::Enum type)
+{
+    UMLViewList result;
+    foreach(UMLView *v, viewIterator()) {
+        if (type == Uml::DiagramType::Undefined || v->umlScene()->type() == type)
+            result.append(v);
+    }
+    return result;
+}
+
+/**
  * Sets the modified flag for the document after a modifying
  * action on the view connected to the document.
  *
