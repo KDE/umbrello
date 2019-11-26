@@ -17,6 +17,8 @@ namespace Settings {
     class OptionState;
 }
 
+class SelectLayoutTypeWidget;
+
 class KColorButton;
 class KComboBox;
 class KIntSpinBox;
@@ -68,6 +70,8 @@ protected:
     KIntSpinBox  * m_lineWidthB;
 #endif
     QCheckBox * m_useFillColorCB;
+    QCheckBox *m_angularLinesCB;
+    SelectLayoutTypeWidget *m_layoutTypeW;
     void setupPage();
 
 protected slots:

@@ -244,10 +244,12 @@ set(libdialogs_SRCS
     dialogs/pages/uioptionspage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
+    dialogs/widgets/comboboxwidgetbase.cpp
     dialogs/widgets/documentationwidget.cpp
     dialogs/widgets/imagetypewidget.cpp
     dialogs/widgets/resolutionwidget.cpp
     dialogs/widgets/selectdiagramwidget.cpp
+    dialogs/widgets/selectlayouttypewidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
     dialogs/widgets/umldatatypewidget.cpp
     dialogs/widgets/defaultvaluewidget.cpp

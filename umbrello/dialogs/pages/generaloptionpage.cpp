@@ -13,6 +13,7 @@
 
 // local includes
 #include "dialog_utils.h"
+#include "selectlayouttypewidget.h"
 #include "optionstate.h"
 
 // kde includes
@@ -71,10 +72,6 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.newcodegenCB->setChecked(optionState.generalState.newcodegen);
     miscLayout->addWidget(m_GeneralWidgets.newcodegenCB, 1, 0);
 #endif
-    m_GeneralWidgets.angularLinesCB = new QCheckBox(i18n("Use angular association lines"), m_GeneralWidgets.miscGB);
-    m_GeneralWidgets.angularLinesCB->setChecked(optionState.generalState.angularlines);
-    miscLayout->addWidget(m_GeneralWidgets.angularLinesCB, 1, 1);
-
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
@@ -82,21 +79,6 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.uml2CB = new QCheckBox(i18n("Enable UML2 support"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.uml2CB->setChecked(optionState.generalState.uml2);
     miscLayout->addWidget(m_GeneralWidgets.uml2CB, 2, 1);
-
-    m_GeneralWidgets.layoutTypeL = new QLabel(i18n("Create new association lines as:"), m_GeneralWidgets.miscGB);
-    miscLayout->addWidget(m_GeneralWidgets.layoutTypeL, 3, 0);
-    m_GeneralWidgets.layoutTypeKB = new KComboBox(m_GeneralWidgets.miscGB);
-#if QT_VERSION < 0x050000
-    m_GeneralWidgets.layoutTypeKB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    miscLayout->addWidget(m_GeneralWidgets.layoutTypeKB, 3, 1);
-    for (int layoutTypeNo = 1; layoutTypeNo < 5; ++layoutTypeNo) {
-        Uml::LayoutType::Enum lt = Uml::LayoutType::fromInt(layoutTypeNo);
-        insertLayoutType(Uml::LayoutType::toString(lt), layoutTypeNo - 1);
-    }
-    m_GeneralWidgets.layoutTypeKB->setCurrentIndex((int)optionState.generalState.layoutType-1);
-    
-    topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
@@ -221,8 +203,6 @@ void GeneralOptionPage::apply()
 #ifdef ENABLE_NEW_CODE_GENERATORS
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
 #endif
-    optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
-    optionState.generalState.layoutType = Uml::LayoutType::fromInt(m_GeneralWidgets.layoutTypeKB->currentIndex() + 1);
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
     optionState.generalState.uml2 = m_GeneralWidgets.uml2CB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
@@ -242,15 +222,6 @@ void GeneralOptionPage::insertDiagram(const QString& type, int index)
 {
     m_GeneralWidgets.diagramKB->insertItem(index, type);
     m_GeneralWidgets.diagramKB->completionObject()->addItem(type);
-}
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- */
-void GeneralOptionPage::insertLayoutType(const QString& type, int index)
-{
-    m_GeneralWidgets.layoutTypeKB->insertItem(index, type);
-    m_GeneralWidgets.layoutTypeKB->completionObject()->addItem(type);
 }
 
 /**

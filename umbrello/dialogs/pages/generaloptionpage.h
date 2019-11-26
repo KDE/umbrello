@@ -25,6 +25,8 @@ class QLabel;
 class QSpinBox;
 #endif
 
+class SelectLayoutTypeWidget;
+
 /**
  * A dialog page to display auto layouts options
  * 
@@ -62,9 +64,7 @@ protected:
         QCheckBox * undoCB;
         QCheckBox * tabdiagramsCB;
         QCheckBox * newcodegenCB;
-        QCheckBox * angularLinesCB;
-        QLabel    * layoutTypeL;
-        KComboBox * layoutTypeKB;
+        SelectLayoutTypeWidget *layoutTypeW;
         QCheckBox * footerPrintingCB;
         QCheckBox * uml2CB;
 

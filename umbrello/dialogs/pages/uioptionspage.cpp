@@ -15,6 +15,8 @@
 #include "optionstate.h"
 #include "umbrellosettings.h"
 
+#include "selectlayouttypewidget.h"
+
 //// kde includes
 #include <KLocalizedString>
 #include <KColorButton>
@@ -68,6 +70,18 @@ void UIOptionsPage::setupPage()
     m_rightToLeftUI = new QCheckBox(i18n("Right to left user interface"), box);
     m_rightToLeftUI->setChecked(UmbrelloSettings::rightToLeftUI());
     otherLayout->addWidget(m_rightToLeftUI, 0, 0);
+
+    QGroupBox *boxAssocs = new QGroupBox(i18nc("Association options", "Associations"), this);
+    QGridLayout *layoutAssocs = new QGridLayout(boxAssocs);
+    layoutAssocs->setMargin(fontMetrics().height());
+    uiPageLayout->addWidget(boxAssocs);
+
+    m_angularLinesCB = new QCheckBox(i18n("Use angular association lines"), boxAssocs);
+    m_angularLinesCB->setChecked(Settings::OptionState().generalState.angularlines);
+    layoutAssocs->addWidget(m_angularLinesCB, 0, 0);
+
+    m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Create new association lines as:"), Settings::optionState().generalState.layoutType, boxAssocs);
+    m_layoutTypeW->addToLayout(layoutAssocs, 1);
 
     m_colorGB = new QGroupBox(i18nc("color group box", "Color"), this);
     QGridLayout * colorLayout = new QGridLayout(m_colorGB);
@@ -164,6 +178,8 @@ void UIOptionsPage::setDefaults()
     slotBgCBChecked(false);
     slotLineWidthCBChecked(false);
     m_rightToLeftUI->setChecked(false);
+    m_layoutTypeW->setCurrentLayout(Uml::LayoutType::Direct);
+    m_angularLinesCB->setChecked(false);
 }
 
 /**
@@ -178,6 +194,8 @@ void UIOptionsPage::apply()
     m_options->uiState.lineWidth = m_lineWidthB->value();
     m_options->uiState.backgroundColor = m_bgColorB->color();
     m_options->uiState.gridDotColor = m_gridColorB->color();
+    m_options->generalState.layoutType = m_layoutTypeW->currentLayout();
+    m_options->generalState.angularlines = m_angularLinesCB->isChecked();
     UmbrelloSettings::setRightToLeftUI(m_rightToLeftUI->isChecked());
     qApp->setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
 }
