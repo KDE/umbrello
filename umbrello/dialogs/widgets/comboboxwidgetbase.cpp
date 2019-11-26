@@ -15,8 +15,9 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, QWidget *parent)
+ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, const QString &postLabel, QWidget *parent)
   : QWidget(parent)
+  , m_postLabel(nullptr)
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0,0,0,0);
@@ -25,11 +26,19 @@ ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, QWidget *parent)
 
     m_editField = new KComboBox(this);
     m_editField->setEditable(true);
+    m_editField->setDuplicatesEnabled(false);  // only allow one of each type in box
 #if QT_VERSION < 0x050000
     m_editField->setCompletionMode(KGlobalSettings::CompletionPopup);
 #endif
     layout->addWidget(m_editField, 2);
+    m_label->setBuddy(m_editField);
+
+    if (!postLabel.isEmpty()) {
+        m_postLabel = new QLabel(postLabel, this);
+        layout->addWidget(m_postLabel);
+    }
     setLayout(layout);
+    setFocusProxy(m_editField);
 }
 
 /**
@@ -42,4 +51,6 @@ void ComboBoxWidgetBase::addToLayout(QGridLayout *layout, int row)
 {
     layout->addWidget(m_label, row, 0);
     layout->addWidget(m_editField, row, 1);
+    if (m_postLabel)
+        layout->addWidget(m_postLabel, row, 2);
 }

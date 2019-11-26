@@ -13,7 +13,7 @@
 #include <KComboBox>
 
 SelectLayoutTypeWidget::SelectLayoutTypeWidget(const QString &title, Uml::LayoutType::Enum selected, QWidget *parent)
-  : ComboBoxWidgetBase(title, parent)
+  : ComboBoxWidgetBase(title, QString(), parent)
 {
     for (int layoutTypeNo = Uml::LayoutType::Undefined + 1; layoutTypeNo < Uml::LayoutType::N_LAYOUTTYPES; ++layoutTypeNo) {
         Uml::LayoutType::Enum lt = Uml::LayoutType::fromInt(layoutTypeNo);

@@ -21,11 +21,12 @@ class ComboBoxWidgetBase : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ComboBoxWidgetBase(const QString &title, QWidget *parent = nullptr);
+    explicit ComboBoxWidgetBase(const QString &title, const QString &postLabel = QString(), QWidget *parent = nullptr);
     void addToLayout(QGridLayout *layout, int row);
 
 protected:
     QLabel *m_label;
+    QLabel *m_postLabel;
     KComboBox *m_editField;
 };
 

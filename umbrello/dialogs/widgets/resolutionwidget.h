@@ -1,5 +1,5 @@
 /*
-    Copyright 2015 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    Copyright 2015,2019 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -21,18 +21,17 @@
 #ifndef RESOLUTIONWIDGET_H
 #define RESOLUTIONWIDGET_H
 
-#include <QWidget>
+#include "comboboxwidgetbase.h"
 
 class KComboBox;
 class QHBoxLayout;
 class QLabel;
 
-class ResolutionWidget : public QWidget
+class ResolutionWidget : public ComboBoxWidgetBase
 {
     Q_OBJECT
 public:
     explicit ResolutionWidget(QWidget *parent = 0);
-    void addToLayout(QHBoxLayout *layout);
     float currentResolution();
 
 private slots:
@@ -40,8 +39,6 @@ private slots:
 
 private:
     QStringList resolutions();
-    QLabel *m_label;
-    KComboBox *m_comboBox;
 };
 
 #endif // RESOLUTIONWIDGET_H
