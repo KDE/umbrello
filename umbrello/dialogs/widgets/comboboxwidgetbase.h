@@ -22,7 +22,7 @@ class ComboBoxWidgetBase : public QWidget
     Q_OBJECT
 public:
     explicit ComboBoxWidgetBase(const QString &title, const QString &postLabel = QString(), QWidget *parent = nullptr);
-    void addToLayout(QGridLayout *layout, int row);
+    void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
 
 protected:
     QLabel *m_label;

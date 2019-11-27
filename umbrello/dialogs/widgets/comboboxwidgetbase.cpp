@@ -46,11 +46,12 @@ ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, const QString &post
  * and the editable field in column 1.
  * @param layout The layout to which the widget should be added
  * @param row The row in the grid layout where the widget should be placed
+ * @param startColumn The first column in the grid layout where the widget should be placed
  */
-void ComboBoxWidgetBase::addToLayout(QGridLayout *layout, int row)
+void ComboBoxWidgetBase::addToLayout(QGridLayout *layout, int row, int startColumn)
 {
-    layout->addWidget(m_label, row, 0);
-    layout->addWidget(m_editField, row, 1);
+    layout->addWidget(m_label, row, startColumn);
+    layout->addWidget(m_editField, row, startColumn + 1);
     if (m_postLabel)
-        layout->addWidget(m_postLabel, row, 2);
+        layout->addWidget(m_postLabel, row, startColumn + 2);
 }
