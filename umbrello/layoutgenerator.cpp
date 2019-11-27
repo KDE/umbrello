@@ -239,6 +239,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
             path->removePoint(0);
         }
         path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+        path->calculateInitialEndPoints();
 
         // set label position
         QPointF &l = m_edgeLabelPosition[id];
