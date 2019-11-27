@@ -27,18 +27,8 @@
  * @param parent parent widget
  */
 SelectDiagramWidget::SelectDiagramWidget(const QString &title, QWidget *parent)
-  : QWidget(parent)
+  : ComboBoxWidgetBase(title, QString(), parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-
-    m_label = new QLabel(title, this);
-    layout->addWidget(m_label);
-
-    m_editField = new KComboBox(this);
-    m_editField->setEditable(true);
-    layout->addWidget(m_editField, 2);
-    setLayout(layout);
 }
 
 /**
@@ -70,17 +60,6 @@ void SelectDiagramWidget::setupWidget(Uml::DiagramType::Enum type, const QString
     if (currentIndex > -1) {
         m_editField->setCurrentIndex(currentIndex);
     }
-}
-/**
- * Add this widget to a given grid layout. Umbrello dialogs places labels in column 0
- * and the editable field in column 1.
- * @param layout The layout to which the widget should be added
- * @param row The row in the grid layout where the widget should be placed
- */
-void SelectDiagramWidget::addToLayout(QGridLayout *layout, int row)
-{
-    layout->addWidget(m_label, row, 0);
-    layout->addWidget(m_editField, row, 1);
 }
 
 /**

@@ -13,31 +13,21 @@
 
 #include "basictypes.h"
 
-#include <QWidget>
-
-class KComboBox;
-
-class QGridLayout;
-class QLabel;
+#include "comboboxwidgetbase.h"
 
 /**
  * This widget provides selecting a diagram from the list of currently available diagrams
  * @author Ralf Habacker
  */
-class SelectDiagramWidget : public QWidget
+class SelectDiagramWidget : public ComboBoxWidgetBase
 {
     Q_OBJECT
 public:
     explicit SelectDiagramWidget(const QString &title, QWidget *parent = nullptr);
 
     void setupWidget(Uml::DiagramType::Enum type, const QString &currentName, const QString &excludeName, bool withNewEntry = true);
-    void addToLayout(QGridLayout *layout, int row);
     QString currentText();
     Uml::ID::Type currentID();
-
-protected:
-    QLabel *m_label;
-    KComboBox *m_editField;
 };
 
 #endif // SELECTDIAGRAMWIDGET_H
