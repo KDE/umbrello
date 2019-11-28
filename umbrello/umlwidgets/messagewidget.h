@@ -186,7 +186,7 @@ private:
 
     void init();
 
-    ObjectWidget * m_pOw[2];
+    QPointer<ObjectWidget> m_pOw[2];
     FloatingTextWidget * m_pFText;
 
     int m_xclicked;
