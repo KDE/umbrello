@@ -259,12 +259,8 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
         if (objectsMap.contains(package)) {
             rightWidget = objectsMap[package];
         } else {
-            UMLObject *right = umldoc->findUMLObject(package, UMLObject::ot_Class);
-            if (!right)
-                right = umldoc->findUMLObject(package, UMLObject::ot_Package);
-            if (!right) {
-                right = Object_Factory::createUMLObject(UMLObject::ot_Class, package);
-            }
+            UMLFolder *logicalView = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+            UMLObject *right = Import_Utils::createUMLObjectHierachy(UMLObject::ot_Class, package, logicalView);
 
             rightWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, right);
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);
