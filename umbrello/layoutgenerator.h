@@ -50,7 +50,7 @@ public:
     bool generate(UMLScene *scene, const QString &variant = QString());
     bool apply(UMLScene *scene);
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);
-    QPoint origin(const QString &id);
+    QPointF origin(const QString &id);
     bool readGeneratedDotFile(const QString &fileName);
     bool parseLine(const QString &line);
     bool splitParameters(QMap<QString,QStringList> &map, const QString &s);

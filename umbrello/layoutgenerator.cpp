@@ -266,7 +266,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
             continue;
         if (widget->isPortWidget() || widget->isPinWidget())
             continue;
-        QPoint p = origin(id);
+        QPointF p = origin(id);
         widget->setStartMovePosition(widget->pos());
         widget->setX(p.x());
         widget->setY(p.y()-widget->height());
@@ -330,7 +330,7 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
  * @param id The widget id to fetch the origin from
  * @return QPoint instance with the coordinates
  */
-QPoint LayoutGenerator::origin(const QString &id)
+QPointF LayoutGenerator::origin(const QString &id)
 {
     QString key = fixID(id);
     if (!m_nodes.contains(key)) {
@@ -340,7 +340,7 @@ QPoint LayoutGenerator::origin(const QString &id)
         return QPoint(0,0);
     }
     QRectF &r = m_nodes[key];
-    QPoint p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
+    QPointF p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
     uDebug() << r << p;
 #endif
