@@ -39,6 +39,10 @@
 #include <QTemporaryFile>
 //#include <QTextStream>
 
+//#define USE_XDOT
+
+//#define START_PNGVIEWER
+
 #define LAYOUTGENERATOR_DEBUG
 //#define LAYOUTGENERATOR_DATA_DEBUG
 
@@ -187,11 +191,16 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     pngFile.setFileTemplate(QDir::tempPath() + QLatin1String("/umbrello-layoutgenerator-XXXXXX.png"));
     pngFile.open();
     pngFile.close();
-    qDebug() << pngViewer() << pngFile.fileName();
     args.clear();
     args << QLatin1String("-o") << pngFile.fileName() << QLatin1String("-Tpng") << in.fileName();
     p.start(executable, args);
     p.waitForFinished();
+    qDebug() << pngViewer() << pngFile.fileName();
+#ifdef START_PNGVIEWER
+    args.clear();
+    args << pngFile.fileName();
+    p.startDetached(pngViewer(), args);
+#endif
 #endif
 #ifndef USE_XDOT
     if (!readGeneratedDotFile(out.fileName()))
