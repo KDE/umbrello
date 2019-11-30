@@ -10,7 +10,9 @@
 
 #include "umlwidgetstylepage.h"
 
+#include "associationline.h"
 #include "associationwidget.h"
+#include "selectlayouttypewidget.h"
 #include "debug_utils.h"
 #include "optionstate.h"
 #include "uml.h"
@@ -39,9 +41,10 @@
  *   Constructor - Observe a UMLWidget.
  */
 UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
-  : QWidget(pParent),
-    m_pUMLWidget(pWidget),
-    m_options(0)
+  : QWidget(pParent)
+  , m_pUMLWidget(pWidget)
+  , m_options(nullptr)
+  , m_layoutTypeW(nullptr)
 {
     init();
     if (m_pUMLWidget->isAssociationWidget()) {
@@ -63,9 +66,10 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
  *   Constructor - Observe an OptionState structure.
  */
 UMLWidgetStylePage::UMLWidgetStylePage(QWidget * pParent, Settings::OptionState *options)
-  : QWidget(pParent),
-    m_pUMLWidget(0),
-    m_options(options)
+  : QWidget(pParent)
+  , m_pUMLWidget(0)
+  , m_options(options)
+  , m_layoutTypeW(nullptr)
 {
     init();
     m_pTextColorB->setColor(m_options->uiState.textColor);
@@ -81,10 +85,11 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget * pParent, Settings::OptionState 
  *   Constructor - Observe a UMLScene.
  */
 UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, UMLScene *scene)
-  : QWidget(pParent),
-    m_pUMLWidget(0),
-    m_scene(scene),
-    m_options(0)
+  : QWidget(pParent)
+  , m_pUMLWidget(nullptr)
+  , m_scene(scene)
+  , m_options(nullptr)
+  , m_layoutTypeW(nullptr)
 {
     init();
     const Settings::OptionState state = m_scene->optionState();
@@ -198,10 +203,21 @@ void UMLWidgetStylePage::init()
     m_lineWidthDefaultB = new QPushButton(i18nc("default line width button", "Defa&ult"), m_pStyleGB) ;
     styleLayout->addWidget(m_lineWidthDefaultB, row, 2);
 
-    topLayout->addStretch(1);
-
     //connect button signals up
     connect(m_lineWidthDefaultB, SIGNAL(clicked()), this, SLOT(slotLineWidthButtonClicked()));
+
+    if (m_pUMLWidget && m_pUMLWidget->isAssociationWidget()) {
+        AssociationWidget *aw = m_pUMLWidget->asAssociationWidget();
+
+        QGroupBox *boxMisc = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), this);
+        QGridLayout *layoutAssocs = new QGridLayout(boxMisc);
+        layoutAssocs->setMargin(margin);
+        topLayout->addWidget(boxMisc);
+
+        m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Layout of the line:"), aw->associationLine()->layout(), boxMisc);
+        m_layoutTypeW->addToLayout(layoutAssocs, 1);
+    }
+    topLayout->addStretch(1);
 }
 
 /**
@@ -278,6 +294,9 @@ void UMLWidgetStylePage::apply()
         if (m_pFillColorB->isEnabled())
             m_pUMLWidget->setFillColor(m_pFillColorB->color());
         m_pUMLWidget->setLineWidth(m_lineWidthB->value());
+        if (m_layoutTypeW) {
+            m_pUMLWidget->asAssociationWidget()->associationLine()->setLayout(m_layoutTypeW->currentLayout());
+        }
     }
     else if (m_options) {
         m_options->uiState.useFillColor = m_pUseFillColorCB->isChecked();

@@ -15,10 +15,7 @@
 
 #include <QWidget>
 
-/**
- * @author Paul Hensgen
- * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
- */
+class SelectLayoutTypeWidget;
 class UMLScene;
 class WidgetBase;
 class KColorButton;
@@ -33,6 +30,10 @@ class QGroupBox;
 class QSpinBox;
 #endif
 
+/**
+ * @author Paul Hensgen
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
+ */
 class UMLWidgetStylePage : public QWidget
 {
     Q_OBJECT
@@ -87,6 +88,7 @@ protected:
     QSpinBox * m_lineWidthB;
 #else
     KIntSpinBox * m_lineWidthB;
+    SelectLayoutTypeWidget *m_layoutTypeW;
 #endif
 
 private:
