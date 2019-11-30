@@ -256,25 +256,16 @@ bool LayoutGenerator::apply(UMLScene *scene)
             continue;
         }
 
-        EdgePoints &p = m_edges[id];
-        int len = p.size();
-
-        while(path->count() > 1) {
-            path->removePoint(0);
-        }
-        path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
-        path->calculateInitialEndPoints();
-
         // set label position
         QPointF &l = m_edgeLabelPosition[id];
         FloatingTextWidget *tw = assoc->nameWidget();
         if (tw) {
             tw->setPos(mapToScene(l));
         }
-        // FIXME: set remaining association line points
-        /*
-        for(int i = 1; i < len-1; i++) {
-            path->insertPoint(i, mapToScene((p[i]));
+
+        // setup line points
+        EdgePoints &p = m_edges[id];
+        int len = p.size();
 #ifdef SHOW_CONTROLPOINTS
         QPolygonF pf;
         QFont f;
@@ -282,15 +273,30 @@ bool LayoutGenerator::apply(UMLScene *scene)
             pf << mapToScene(p[i]);
             s_path.addText(mapToScene(p[i] + QPointF(5,0)), f, QString::number(i));
         }
-        */
-        /*
-         * here stuff could be added to add more points from information returned by dot.
-        */
 
         s_path.addPolygon(pf);
         s_path.addEllipse(mapToScene(l), 5, 5);
         s_debugItems->setPath(s_path);
 #endif
+        path->setLayout(Settings::optionState().generalState.layoutType);
+        path->cleanup();
+
+        if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Polyline) {
+            for (int i = 0; i < len; i++) {
+                if (i > 0 && p[i] == p[i-1])
+                    continue;
+                path->addPoint(mapToScene(p[i]));
+            }
+        } else if(Settings::optionState().generalState.layoutType == Uml::LayoutType::Spline) {
+            for (int i = 0; i < len; i++) {
+                path->addPoint(mapToScene(p[i]));
+            }
+        } else if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Orthogonal) {
+            for (int i = 0; i < len; i++) {
+                path->addPoint(mapToScene(p[i]));
+            }
+        } else
+            path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
     }
 
     UMLApp::app()->beginMacro(i18n("Apply layout"));
