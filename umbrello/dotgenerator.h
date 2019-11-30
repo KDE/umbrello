@@ -37,6 +37,11 @@ public:
 
     bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = QLatin1String("default"));
 
+    static QString currentDotPath();
+    void setGeneratorName(const QString &name);
+    QString generatorFullPath();
+    int generatorVersion();
+
 protected:
     bool findItem(QStringList &params, const QString &search);
     QString fixID(const QString &_id);
@@ -50,6 +55,7 @@ protected:
     QString m_generator; ///< name of graphviz generator
     bool m_usePosition; ///< use position tag from dot (not used yet)
     bool m_useFullNodeLabels; ///< use full node labels
+    QString m_dotPath;     ///< contains path to generator executable
 
     friend QDebug operator<<(QDebug out, DotGenerator &c);
 };

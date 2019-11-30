@@ -142,6 +142,56 @@ DotGenerator::DotGenerator()
     m_usePosition(false),
     m_useFullNodeLabels(true)
 {
+    Settings::OptionState& optionState = Settings::optionState();
+    if (optionState.autoLayoutState.autoDotPath) {
+        m_dotPath = currentDotPath();
+    }
+    else if (!optionState.autoLayoutState.dotPath.isEmpty()) {
+        m_dotPath = optionState.autoLayoutState.dotPath;
+    }
+}
+
+/**
+ * Return the path where dot is installed.
+ *
+ * @return string with dot path
+ */
+QString DotGenerator::currentDotPath()
+{
+#if QT_VERSION >= 0x050000
+    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
+#else
+    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
+#endif
+    if (!executable.isEmpty()) {
+        QFileInfo fi(executable);
+        return fi.absolutePath();
+    }
+#ifdef Q_OS_WIN
+    // search for dot installation
+    QString appDir(QLatin1String(qgetenv("ProgramFiles").constData()));
+    QDir dir(appDir);
+    dir.setFilter(QDir::Dirs);
+    dir.setNameFilters(QStringList() << QLatin1String("Graphviz*"));
+    dir.setSorting(QDir::Reversed);
+    QFileInfoList list = dir.entryInfoList();
+    if (list.size() > 0) {
+        QString dotPath = list.at(0).absoluteFilePath();
+        QString exePath = QFile::exists(dotPath + QLatin1String("\\bin")) ? dotPath + QLatin1String("\\bin") : dotPath;
+        return QFile::exists(exePath + QLatin1String("\\dot.exe")) ? exePath : QString();
+    }
+#endif
+    return QString();
+}
+
+void DotGenerator::setGeneratorName(const QString &name)
+{
+    m_generator = name;
+}
+
+QString DotGenerator::generatorFullPath()
+{
+    return m_dotPath + QLatin1Char('/') + m_generator;
 }
 
 /**

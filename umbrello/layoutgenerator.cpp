@@ -98,47 +98,7 @@ LayoutGenerator::LayoutGenerator()
 */
 bool LayoutGenerator::isEnabled()
 {
-    Settings::OptionState& optionState = Settings::optionState();
-    if (optionState.autoLayoutState.autoDotPath) {
-        m_dotPath = currentDotPath();
-    }
-    else if (!optionState.autoLayoutState.dotPath.isEmpty()) {
-        m_dotPath = optionState.autoLayoutState.dotPath;
-    }
     return !m_dotPath.isEmpty();
-}
-
-/**
- * Return the path where dot is installed.
- *
- * @return string with dot path
- */
-QString LayoutGenerator::currentDotPath()
-{
-#if QT_VERSION >= 0x050000
-    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
-#else
-    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
-#endif
-    if (!executable.isEmpty()) {
-        QFileInfo fi(executable);
-        return fi.absolutePath();
-    }
-#ifdef Q_OS_WIN
-    // search for dot installation
-    QString appDir(QLatin1String(qgetenv("ProgramFiles").constData()));
-    QDir dir(appDir);
-    dir.setFilter(QDir::Dirs);
-    dir.setNameFilters(QStringList() << QLatin1String("Graphviz*"));
-    dir.setSorting(QDir::Reversed);
-    QFileInfoList list = dir.entryInfoList();
-    if (list.size() > 0) {
-        QString dotPath = list.at(0).absoluteFilePath();
-        QString exePath = QFile::exists(dotPath + QLatin1String("\\bin")) ? dotPath + QLatin1String("\\bin") : dotPath;
-        return QFile::exists(exePath + QLatin1String("\\dot.exe")) ? exePath : QString();
-    }
-#endif
-    return QString();
 }
 
 /**
@@ -187,7 +147,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     if (!createDotFile(scene, in.fileName(), variant))
         return false;
 
-    QString executable = m_dotPath + QLatin1Char('/') + m_generator;
+    QString executable = generatorFullPath();
 
     QProcess p;
     QStringList args;

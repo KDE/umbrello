@@ -46,7 +46,6 @@ public:
     LayoutGenerator();
 
     bool isEnabled();
-    static QString currentDotPath();
     bool generate(UMLScene *scene, const QString &variant = QString());
     bool apply(UMLScene *scene);
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);
@@ -61,7 +60,6 @@ protected:
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
     QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
-    QString m_dotPath;     ///< contains path to dot executable
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);
 };
