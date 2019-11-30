@@ -187,6 +187,8 @@ QString DotGenerator::currentDotPath()
 void DotGenerator::setGeneratorName(const QString &name)
 {
     m_generator = name;
+    m_version = generatorVersion();
+    uDebug() << "found graphviz generator at " << generatorFullPath() << " with version " << m_version;
 }
 
 QString DotGenerator::generatorFullPath()
@@ -351,7 +353,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     else
         uError() << "illegal format of entry 'origin'" << value;
 
-    m_generator = settings.readEntry("generator", "dot");
+    setGeneratorName(settings.readEntry("generator", "dot"));
 
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
     uDebug() << m_edgeParameters;
@@ -574,6 +576,23 @@ QString DotGenerator::fixID(const QString &_id)
     QString id(_id);
     id.remove(QLatin1Char('"'));
     return id;
+}
+
+/**
+ * get generator version
+ * @return version for example 20130928
+ */
+int DotGenerator::generatorVersion()
+{
+    QProcess p;
+    QStringList args;
+    args << QLatin1String("-V");
+    p.start(generatorFullPath(), args);
+    p.waitForFinished();
+    QString out(QLatin1String(p.readAllStandardError()));
+    QRegExp rx(QLatin1String("\\((.*)\\."));
+    QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
+    return version.toInt(0);
 }
 
 #if 0

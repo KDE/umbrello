@@ -238,25 +238,31 @@ bool LayoutGenerator::apply(UMLScene *scene)
         s_path.addEllipse(mapToScene(l), 5, 5);
         s_debugItems->setPath(s_path);
 #endif
-        path->setLayout(Settings::optionState().generalState.layoutType);
-        path->cleanup();
-
-        if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Polyline) {
-            for (int i = 0; i < len; i++) {
-                if (i > 0 && p[i] == p[i-1])
-                    continue;
-                path->addPoint(mapToScene(p[i]));
-            }
-        } else if(Settings::optionState().generalState.layoutType == Uml::LayoutType::Spline) {
-            for (int i = 0; i < len; i++) {
-                path->addPoint(mapToScene(p[i]));
-            }
-        } else if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Orthogonal) {
-            for (int i = 0; i < len; i++) {
-                path->addPoint(mapToScene(p[i]));
-            }
-        } else
+        if (m_version <= 20130928) {
+            path->setLayout(Uml::LayoutType::Direct);
+            path->cleanup();
             path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+        } else {
+            path->setLayout(Settings::optionState().generalState.layoutType);
+            path->cleanup();
+
+            if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Polyline) {
+                for (int i = 0; i < len; i++) {
+                    if (i > 0 && p[i] == p[i-1])
+                        continue;
+                    path->addPoint(mapToScene(p[i]));
+                }
+            } else if(Settings::optionState().generalState.layoutType == Uml::LayoutType::Spline) {
+                for (int i = 0; i < len; i++) {
+                    path->addPoint(mapToScene(p[i]));
+                }
+            } else if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Orthogonal) {
+                for (int i = 0; i < len; i++) {
+                    path->addPoint(mapToScene(p[i]));
+                }
+            } else
+                path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+        }
     }
 
     UMLApp::app()->beginMacro(i18n("Apply layout"));
