@@ -494,7 +494,7 @@ KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
 KPageWidgetItem *MultiPageDialogBase::setupStylePage(AssociationWidget *widget)
 {
     m_pStylePage = new UMLWidgetStylePage(0, widget);
-    return createPage(i18nc("style page name", "Style"), i18n("Role Style"),
+    return createPage(i18nc("style page name", "Style"), i18n("Line Style"),
                       Icon_Utils::it_Properties_Color, m_pStylePage);
 }
 
