@@ -1,4 +1,4 @@
-[Desktop Entry]
+Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
 Name[bs]=UseCase podrazumijevani raspored
@@ -100,7 +100,27 @@ ranking::type::anchor=weight=1.0
 ranking::type::default=constraint=false
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+graph=rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

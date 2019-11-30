@@ -46,6 +46,8 @@
 #define LAYOUTGENERATOR_DEBUG
 //#define LAYOUTGENERATOR_DATA_DEBUG
 
+//#define SHOW_CONTROLPOINTS
+
 #ifdef LAYOUTGENERATOR_DEBUG
 
 static QString pngViewer()
@@ -73,6 +75,11 @@ static QString textViewer()
 #endif
 #endif
 }
+#endif
+
+#ifdef SHOW_CONTROLPOINTS
+static QGraphicsPathItem *s_debugItems;
+static QPainterPath s_path;
 #endif
 
 /**
@@ -149,6 +156,14 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
         return false;
     }
 
+#ifdef SHOW_CONTROLPOINTS
+    if (!s_debugItems) {
+        s_debugItems = new QGraphicsPathItem;
+        scene->addItem(s_debugItems);
+    }
+    s_path = QPainterPath();
+    s_debugItems->setPath(s_path);
+#endif
 #ifdef LAYOUTGENERATOR_DEBUG
     in.setAutoRemove(false);
     out.setAutoRemove(false);
@@ -260,11 +275,22 @@ bool LayoutGenerator::apply(UMLScene *scene)
         /*
         for(int i = 1; i < len-1; i++) {
             path->insertPoint(i, mapToScene((p[i]));
+#ifdef SHOW_CONTROLPOINTS
+        QPolygonF pf;
+        QFont f;
+        for (int i=0; i < len; i++) {
+            pf << mapToScene(p[i]);
+            s_path.addText(mapToScene(p[i] + QPointF(5,0)), f, QString::number(i));
         }
         */
         /*
          * here stuff could be added to add more points from information returned by dot.
         */
+
+        s_path.addPolygon(pf);
+        s_path.addEllipse(mapToScene(l), 5, 5);
+        s_debugItems->setPath(s_path);
+#endif
     }
 
     UMLApp::app()->beginMacro(i18n("Apply layout"));
@@ -275,6 +301,12 @@ bool LayoutGenerator::apply(UMLScene *scene)
             continue;
         if (widget->isPortWidget() || widget->isPinWidget())
             continue;
+
+#ifdef SHOW_CONTROLPOINTS
+        s_path.addRect(QRectF(mapToScene(m_nodes[id].bottomLeft()), m_nodes[id].size()));
+        s_path.addRect(QRectF(origin(id), m_nodes[id].size()));
+        s_debugItems->setPath(s_path);
+#endif
         QPointF p = origin(id);
         widget->setStartMovePosition(widget->pos());
         widget->setX(p.x());

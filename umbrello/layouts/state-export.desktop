@@ -98,7 +98,27 @@ ranking::type::default=len=2
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,model=mds,normalize=yes
+graph=model=mds,normalize=yes
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

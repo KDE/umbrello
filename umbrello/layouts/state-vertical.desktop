@@ -91,14 +91,34 @@ type::default=shape=box
 
 [X-UMBRELLO-Dot-Edges]
 # for visual representation
-visual::type::state=arrowhead=normal,label=""
+visual::type::state=arrowhead=normal
 #visual::type::default=arrowhead=none,minlen=0.5
 ranking::type::default=weight=0.8
 # id handling
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

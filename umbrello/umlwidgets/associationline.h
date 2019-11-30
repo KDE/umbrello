@@ -117,6 +117,7 @@ public:
     QPointF startPoint() const;
     QPointF endPoint() const;
 
+    void addPoint(const QPointF& point);
     void insertPoint(int index, const QPointF& point);
     void removePoint(int index);
 

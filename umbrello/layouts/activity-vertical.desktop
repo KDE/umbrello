@@ -109,7 +109,27 @@ ranking::type::default=len=1.5
 id::type::default=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

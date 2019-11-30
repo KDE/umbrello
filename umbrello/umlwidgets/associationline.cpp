@@ -115,6 +115,11 @@ QPointF AssociationLine::endPoint() const
     return m_points.at(m_points.size()-1);
 }
 
+void AssociationLine::addPoint(const QPointF &point)
+{
+    m_points.append(point);
+}
+
 /**
  * Inserts the passed in \a point at the \a index passed in and
  * recalculates the bounding rect.

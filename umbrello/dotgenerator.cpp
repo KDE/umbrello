@@ -255,6 +255,8 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
     KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Dot-Nodes");
     KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Dot-Attributes");
+    QString layoutType = Uml::LayoutType::toString(Settings::optionState().generalState.layoutType);
+    KConfigGroup layoutAttributes(&desktopFile,QString(QLatin1String("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
     // settings are not needed by dotgenerator
     KConfigGroup settings(&desktopFile,"X-UMBRELLO-Dot-Settings");
 
@@ -266,6 +268,16 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
         QString value = attributes.readEntry(key);
         if (!value.isEmpty())
             m_dotParameters[key] = value;
+    }
+
+    foreach(const QString &key, layoutAttributes.keyList()) {
+        QString value = layoutAttributes.readEntry(key);
+        if (!value.isEmpty()) {
+            if (!m_dotParameters.contains(key))
+                m_dotParameters[key] = value;
+            else
+                m_dotParameters[key].append(QLatin1String(",") + value);
+        }
     }
 
     foreach(const QString &key, nodesAttributes.keyList()) {
