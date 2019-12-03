@@ -40,7 +40,8 @@ ToolBarState::~ToolBarState()
  */
 void ToolBarState::init()
 {
-    m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
+    if (m_pUMLScene->activeView())
+        m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
     m_pMouseEvent = 0;
     m_currentWidget = 0;
     m_currentAssociation = 0;
