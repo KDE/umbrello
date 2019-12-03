@@ -181,4 +181,48 @@ UMLObject *TestUML<T,N>::secondary() const
     return T::m_pSecondary.data();
 }
 
+/**
+ * template for adding test save/load support to widget related classes
+ */
+template <class T, typename N>
+class TestWidget : public T
+{
+public:
+    TestWidget<T,N>(UMLScene *scene, N w) : T(scene, w) {}
+    QDomDocument testSave1();
+    bool testLoad1(QDomDocument &qDoc);
+    void testDump(const QString &title = QString());
+};
+
+template <class T, typename N>
+QDomDocument TestWidget<T,N>::testSave1()
+{
+    QDomDocument qDoc;
+    QDomElement root = qDoc.createElement("unittest");
+    qDoc.appendChild(root);
+    T::saveToXMI1(qDoc, root);
+    return qDoc;
+}
+
+template <class T, typename N>
+bool TestWidget<T,N>::testLoad1(QDomDocument &qDoc)
+{
+    QDomElement root = qDoc.childNodes().at(0).toElement();
+    QDomElement e = root.childNodes().at(0).toElement();
+    bool result = T::loadFromXMI1(e);
+    if (result) {
+        const SignalBlocker sb(UMLApp::app()->document());
+        result = T::activate(nullptr);
+    }
+    return result;
+}
+
+template <class T, typename N>
+void TestWidget<T,N>::testDump(const QString &title)
+{
+    QDomDocument doc = testSave1();
+    QString xml = doc.toString();
+    qDebug() << title << doc.toString();
+}
+
 #endif // TESTBASE_H

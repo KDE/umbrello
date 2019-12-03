@@ -304,3 +304,13 @@ bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
     m_widgetAId = Uml::ID::fromString(widgetaid);
     return true;
 }
+
+ObjectWidget *PreconditionWidget::objectWidget() const
+{
+    return m_objectWidget;
+}
+
+void PreconditionWidget::setObjectWidget(ObjectWidget *objectWidget)
+{
+    m_objectWidget = objectWidget;
+}

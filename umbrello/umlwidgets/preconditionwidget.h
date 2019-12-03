@@ -47,7 +47,8 @@ public:
     virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
     virtual bool loadFromXMI1(QDomElement& qElement);
 
-    void setObjectWidget(ObjectWidget* widget);
+    ObjectWidget *objectWidget() const;
+    void setObjectWidget(ObjectWidget *objectWidget);
 
 public slots:
     void slotMenuSelection(QAction* action);
