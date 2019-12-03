@@ -263,6 +263,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
+        break;
+
     default:
         UMLWidget::slotMenuSelection(action);
     }
