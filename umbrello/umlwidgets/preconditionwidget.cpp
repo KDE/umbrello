@@ -57,7 +57,8 @@ PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID
     else
         m_nY = y();
 
-    activate();
+    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    calculateDimensions();
 }
 
 /**
@@ -154,15 +155,16 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
 
-    loadObjectWidget();
-
-    if (!m_objectWidget) {
-        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
-            << " could not be found";
-        return false;
+    if (m_objectWidget == nullptr &&
+            !(m_widgetAId.empty() || m_widgetAId == Uml::ID::None || m_widgetAId == Uml::ID::Reserved)) {
+        UMLWidget *w = umlScene()->findWidget(m_widgetAId);
+        m_objectWidget  = w->asObjectWidget();
+        if (!m_objectWidget) {
+            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId) << " could not be found";
+            return false;
+        }
+        connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
     }
-
-    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
     calculateDimensions();
     return true;
@@ -172,8 +174,10 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
  * Resolve references of this precondition so it references the correct
  * new object widget after paste.
  */
-void PreconditionWidget::resolveObjectWidget(IDChangeLog* log) {
+void PreconditionWidget::resolveObjectWidget(IDChangeLog* log)
+{
     m_widgetAId = log->findNewID(m_widgetAId);
+    activate(log);
 }
 
 /**
@@ -294,31 +298,9 @@ bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI1(qElement))
         return false;
-    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     setName(qElement.attribute(QLatin1String("preconditionname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
-
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     m_widgetAId = Uml::ID::fromString(widgetaid);
-
-    // Lookup the ObjectWidget, if it can't be found, assume it will be
-    // resolved later
-    loadObjectWidget();
-
     return true;
 }
-
-/**
- * Load the object widget from m_widgetAId
- *
- * This method is called in loadFromXMI1() when loading an XMI file, and called
- * from activate() when activating a widget after pasting.
- */
-void PreconditionWidget::loadObjectWidget()
-{
-    if (m_objectWidget == 0) {
-        m_objectWidget = dynamic_cast<ObjectWidget*>(
-            umlScene()->findWidget(m_widgetAId)
-        );
-    }
-}
-

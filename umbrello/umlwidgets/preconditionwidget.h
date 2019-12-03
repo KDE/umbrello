@@ -64,7 +64,6 @@ private:
     int m_nY;
 
     Uml::ID::Type m_widgetAId;
-    void loadObjectWidget();
 };
 
 #endif
