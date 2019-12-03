@@ -78,19 +78,21 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     int w = width();
     int h = height();
 
-    int x = m_objectWidget->x() + m_objectWidget->width() / 2;
-    x -= w/2;
-    setX(x);
-    int y = this->y();
+    if (m_objectWidget) {
+        int x = m_objectWidget->x() + m_objectWidget->width() / 2;
+        x -= w/2;
+        setX(x);
+        int y = this->y();
 
-    //test if y isn't above the object
-    if (y <= m_objectWidget->y() + m_objectWidget->height()) {
-        y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        //test if y isn't above the object
+        if (y <= m_objectWidget->y() + m_objectWidget->height()) {
+            y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        }
+        if (y + h >= m_objectWidget->getEndLineY()) {
+            y = m_objectWidget->getEndLineY() - h;
+        }
+        setY(y);
     }
-    if (y + h >= m_objectWidget->getEndLineY()) {
-        y = m_objectWidget->getEndLineY() - h;
-    }
-    setY(y);
     setPenFromSettings(painter);
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
@@ -182,18 +184,17 @@ void PreconditionWidget::calculateDimensions()
     int x = 0;
     int w = 0;
     int h = 0;
-    int x1 = m_objectWidget->x();
-    int w1 = m_objectWidget->width() / 2;
-
-    x1 += w1;
-
     QSizeF q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 
-    x = x1 - w/2;
-
-    m_nPosX = x;
+    if (m_objectWidget) {
+        int x1 = m_objectWidget->x();
+        int w1 = m_objectWidget->width() / 2;
+        x1 += w1;
+        x = x1 - w/2;
+        m_nPosX = x;
+    }
 
     setSize(w, h);
 }
@@ -203,7 +204,7 @@ void PreconditionWidget::calculateDimensions()
  */
 void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::ID::Type idA = m_objectWidget->localID();
+    const Uml::ID::Type idA = m_objectWidget ? m_objectWidget->localID() : Uml::ID::None;
     if (idA != id) {
         DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
