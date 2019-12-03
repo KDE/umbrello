@@ -449,6 +449,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         }
         insert(mt_Delete);
         insert(mt_Change_Font);
+        if (type == WidgetBase::wt_Precondition)
+            insert(mt_Properties);
         break;
 
     case WidgetBase::wt_CombinedFragment:
@@ -469,6 +471,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
         insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Text:

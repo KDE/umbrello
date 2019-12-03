@@ -131,6 +131,13 @@ ecm_add_test(
     TEST_NAME testumlcanvasobject
 )
 
+ecm_add_test(
+    testpreconditionwidget.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testpreconditionwidget
+)
+
 set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )

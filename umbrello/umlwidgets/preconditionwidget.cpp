@@ -57,7 +57,8 @@ PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID
     else
         m_nY = y();
 
-    activate();
+    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    calculateDimensions();
 }
 
 /**
@@ -78,19 +79,21 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     int w = width();
     int h = height();
 
-    int x = m_objectWidget->x() + m_objectWidget->width() / 2;
-    x -= w/2;
-    setX(x);
-    int y = this->y();
+    if (m_objectWidget) {
+        int x = m_objectWidget->x() + m_objectWidget->width() / 2;
+        x -= w/2;
+        setX(x);
+        int y = this->y();
 
-    //test if y isn't above the object
-    if (y <= m_objectWidget->y() + m_objectWidget->height()) {
-        y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        //test if y isn't above the object
+        if (y <= m_objectWidget->y() + m_objectWidget->height()) {
+            y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        }
+        if (y + h >= m_objectWidget->getEndLineY()) {
+            y = m_objectWidget->getEndLineY() - h;
+        }
+        setY(y);
     }
-    if (y + h >= m_objectWidget->getEndLineY()) {
-        y = m_objectWidget->getEndLineY() - h;
-    }
-    setY(y);
     setPenFromSettings(painter);
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
@@ -152,15 +155,16 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
 
-    loadObjectWidget();
-
-    if (!m_objectWidget) {
-        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
-            << " could not be found";
-        return false;
+    if (m_objectWidget == nullptr &&
+            !(m_widgetAId.empty() || m_widgetAId == Uml::ID::None || m_widgetAId == Uml::ID::Reserved)) {
+        UMLWidget *w = umlScene()->findWidget(m_widgetAId);
+        m_objectWidget  = w->asObjectWidget();
+        if (!m_objectWidget) {
+            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId) << " could not be found";
+            return false;
+        }
+        connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
     }
-
-    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
     calculateDimensions();
     return true;
@@ -170,8 +174,10 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
  * Resolve references of this precondition so it references the correct
  * new object widget after paste.
  */
-void PreconditionWidget::resolveObjectWidget(IDChangeLog* log) {
+void PreconditionWidget::resolveObjectWidget(IDChangeLog* log)
+{
     m_widgetAId = log->findNewID(m_widgetAId);
+    activate(log);
 }
 
 /**
@@ -182,18 +188,17 @@ void PreconditionWidget::calculateDimensions()
     int x = 0;
     int w = 0;
     int h = 0;
-    int x1 = m_objectWidget->x();
-    int w1 = m_objectWidget->width() / 2;
-
-    x1 += w1;
-
     QSizeF q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 
-    x = x1 - w/2;
-
-    m_nPosX = x;
+    if (m_objectWidget) {
+        int x1 = m_objectWidget->x();
+        int w1 = m_objectWidget->width() / 2;
+        x1 += w1;
+        x = x1 - w/2;
+        m_nPosX = x;
+    }
 
     setSize(w, h);
 }
@@ -203,7 +208,7 @@ void PreconditionWidget::calculateDimensions()
  */
 void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::ID::Type idA = m_objectWidget->localID();
+    const Uml::ID::Type idA = m_objectWidget ? m_objectWidget->localID() : Uml::ID::None;
     if (idA != id) {
         DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
@@ -263,6 +268,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
+        break;
+
     default:
         UMLWidget::slotMenuSelection(action);
     }
@@ -289,31 +298,19 @@ bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI1(qElement))
         return false;
-    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     setName(qElement.attribute(QLatin1String("preconditionname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
-
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     m_widgetAId = Uml::ID::fromString(widgetaid);
-
-    // Lookup the ObjectWidget, if it can't be found, assume it will be
-    // resolved later
-    loadObjectWidget();
-
     return true;
 }
 
-/**
- * Load the object widget from m_widgetAId
- *
- * This method is called in loadFromXMI1() when loading an XMI file, and called
- * from activate() when activating a widget after pasting.
- */
-void PreconditionWidget::loadObjectWidget()
+ObjectWidget *PreconditionWidget::objectWidget() const
 {
-    if (m_objectWidget == 0) {
-        m_objectWidget = dynamic_cast<ObjectWidget*>(
-            umlScene()->findWidget(m_widgetAId)
-        );
-    }
+    return m_objectWidget;
 }
 
+void PreconditionWidget::setObjectWidget(ObjectWidget *objectWidget)
+{
+    m_objectWidget = objectWidget;
+}
