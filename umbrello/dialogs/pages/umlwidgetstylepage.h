@@ -84,11 +84,12 @@ protected:
     KColorButton * m_pFillColorB;
     KColorButton * m_BackgroundColorB;
     KColorButton * m_GridDotColorB;
+    SelectLayoutTypeWidget *m_layoutTypeW;
+
 #if QT_VERSION >= 0x050000
     QSpinBox * m_lineWidthB;
 #else
     KIntSpinBox * m_lineWidthB;
-    SelectLayoutTypeWidget *m_layoutTypeW;
 #endif
 
 private:
