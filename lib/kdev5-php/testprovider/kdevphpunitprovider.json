@@ -34,7 +34,7 @@
         "Category": "Testing",
         "Description": "Finds and runs PHPUnit tests.",
         "Description[ca@valencia]": "Cerca i executa proves del PHPUnit.",
-        "Description[ca]": "Troba i executa les proves de PHPUnit.",
+        "Description[ca]": "Cerca i executa les proves de PHPUnit.",
         "Description[cs]": "Hledá a spouští testy PHPUnit.",
         "Description[da]": "Finder og kører PHPUnit-test.",
         "Description[de]": "Sucht und führt PHPUnit-Tests aus.",
