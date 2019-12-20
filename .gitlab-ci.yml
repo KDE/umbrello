@@ -1,12 +1,4 @@
 image: debian:stretch-slim
 
-stages:
-  - build
-
-build:production:
-  stage: build
-  image: "debian:stretch-slim"
-  script: &script
-    - chown -R user .
-    - runuser -u user curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST /trigger/runservice
-
+job1:
+  script: 'curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST /trigger/runservice'
