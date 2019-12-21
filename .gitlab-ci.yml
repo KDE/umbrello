@@ -11,7 +11,7 @@ build_ubuntu_18_04:
     - sed -i -e 's/# deb-src/deb-src/g' /etc/apt/sources.list
     - apt-get update
     - apt-get build-dep --yes --no-install-recommends umbrello
-    - apt-get build-dep --yes --no-install-recommends kmymoney
+    - echo 8 | apt-get build-dep --yes --no-install-recommends kmymoney
     - apt-get install --yes --no-install-recommends ninja-build 
     - apt-get install --yes osc
     # libkf5crash-dev
