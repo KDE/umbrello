@@ -18,7 +18,7 @@ build_ubuntu_18_04:
     - mkdir -p build && cd build
     - cmake -G Ninja ..
     - ninja
-    - ninja test
+    - ctest -VV
 
 #job1:
 #  script: 'curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST /trigger/runservice'
