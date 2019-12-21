@@ -12,14 +12,13 @@ build_ubuntu_18_04:
     - apt-get update
     - apt-get build-dep --yes --no-install-recommends umbrello
     - apt-get install --yes --no-install-recommends ninja-build 
+    - apt-get install --yes osc
     # libkf5crash-dev
   script:
     - mkdir -p build && cd build
     - cmake -G Ninja ..
     - ninja
-  after_script:
     - ninja test
-
 
 #job1:
 #  script: 'curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST /trigger/runservice'
