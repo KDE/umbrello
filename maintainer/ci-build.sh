@@ -9,17 +9,9 @@ set
 
 #------------------------
 # trigger obs windows build 
-token=
-if test "$2" == "master"; then
-    token=CBbFTso398hhg4WHESdUPE1n
-elif test "$2" == "release/19.12"; then
-    token=CoFGozRfz3m54BLePBHF1bHT
-fi
+token=CBbFTso398hhg4WHESdUPE1n
+curl http://173.212.229.51/cgi-bin/run-obs-build?repo=${CI_PROJECT_URL}.git&revision=$CI_COMMIT_SHORT_SHA&job=$CI_JOB_ID&apitoken=$token
 
-# perform api call
-if test -n "$token"; then
-    curl -H "Authorization: Token $token" -X POST https://api.opensuse.org/trigger/runservice
-fi
 
 #------------------------
 # build unix variant
