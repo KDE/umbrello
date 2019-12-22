@@ -12,5 +12,5 @@ build_ubuntu_18_04:
     - apt-get install --yes --no-install-recommends ninja-build libkf5crash-dev curl ca-certificates git gawk
   script:
     - REPO=$(git remote -v | gawk '{print $2}')
-    - BRANCH=$(git branch | gawk '{print $2}'')
+    - BRANCH=$(git branch | gawk '{print $2}')
     - sh -x maintainer/ci-build.sh $REPO $BRANCH
