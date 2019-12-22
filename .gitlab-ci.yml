@@ -1,47 +1,17 @@
-include:
-  - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-before.yml
-  #- https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-applications-linux.yml
-  #- https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-applications-freebsd.yml
-  #- https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-applications-windows.yml
-
-variables:
-  PRODUCT: Applications
-
-linux kf5-qt5 qt5.12:
-  image: "kdeorg/ci-suse-qt512"
-  extends: .linux
-  only:
-    #- master
-    #- merge_requests
-  variables:
-    PLATFORM: SUSEQt5.12
-    BRANCH_GROUP: kf5-qt5
-
-linux stable-kf5-qt5 qt5.12:
-  image: "kdeorg/ci-suse-qt512"
-  extends: .linux
-  only:
-    - /^release\/.*$/
-  variables:
-    PLATFORM: SUSEQt5.12
-    BRANCH_GROUP: stable-kf5-qt5
-
-variables:
-  PRODUCT: Applications
-
-windows kf5-qt5 qt5.13:
-  extends: .windows
-  only:
-    #- master
-    #- merge_requests
-  variables:
-    CI_PLATFORM: WindowsMSVCQt5.13
-    BRANCH_GROUP: kf5-qt5
-
-windows stable-kf5-qt5 qt5.13:
-  extends: .windows
-  only:
-    - /^release\/.*$/
-  variables:
-    CI_PLATFORM: WindowsMSVCQt5.13
-    BRANCH_GROUP: stable-kf5-qt5
+build:
+  stage: build
+  image: ubuntu:bionic
+  #only:
+  #  - merge_requests
+  before_script:
+    - sed -i -e 's/# deb-src/deb-src/g' /etc/apt/sources.list
+    - apt-get update
+    - apt-get build-dep --yes --no-install-recommends umbrello
+    - apt-get install --yes --no-install-recommends ninja-build
+    - apt-get install --yes libkf5crash-dev
+  script:
+    # trigger windows build
+    - curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST https://api.opensuse.org/trigger/runservice
+    - mkdir -p build && cd build
+    - cmake -G Ninja ..
+    - ninja
