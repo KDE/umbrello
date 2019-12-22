@@ -1,4 +1,4 @@
-build:
+build_ubuntu_18_04:
   stage: build
   image: ubuntu:bionic
   #only:
