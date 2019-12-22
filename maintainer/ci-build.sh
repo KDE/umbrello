@@ -4,6 +4,10 @@
 # $2 - git branch
 
 #------------------------
+# dump env
+set
+
+#------------------------
 # trigger obs windows build 
 token=
 if test "$2" == "master"; then
