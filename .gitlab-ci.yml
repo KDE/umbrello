@@ -8,7 +8,7 @@ build_ubuntu_18_04:
     - apt-get update
     - apt-get build-dep --yes --no-install-recommends umbrello
     - apt-get install --yes --no-install-recommends ninja-build
-    - apt-get install --yes libkf5crash-dev
+    - apt-get install --yes libkf5crash-dev curl
   script:
     # trigger windows build
     - curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST https://api.opensuse.org/trigger/runservice
