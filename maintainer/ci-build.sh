@@ -5,15 +5,17 @@
 
 #------------------------
 # trigger obs windows build 
-
-if test "$1" == "master"; then
+token=
+if test "$2" == "master"; then
     token=CBbFTso398hhg4WHESdUPE1n
-elif test "$1" == "release/19.12"; then
+elif test "$2" == "release/19.12"; then
     token=CoFGozRfz3m54BLePBHF1bHT
 fi
 
 # perform api call
-curl -H "Authorization: Token $token" -X POST https://api.opensuse.org/trigger/runservice
+if test -n "$token"; then
+    curl -H "Authorization: Token $token" -X POST https://api.opensuse.org/trigger/runservice
+fi
 
 #------------------------
 # build unix variant
