@@ -11,4 +11,6 @@ build_ubuntu_18_04:
     - apt-get build-dep --yes --no-install-recommends umbrello
     - apt-get install --yes --no-install-recommends ninja-build libkf5crash-dev curl ca-certificates git
   script:
-    - sh -x maintainer/ci-build.sh
+    - REPO=git remote -v | gawk '{print $2}'
+    - BRANCH=git branch | sed 's,\*,,g'
+    - sh -x maintainer/ci-build.sh $REPO $BRANCH
