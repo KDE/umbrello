@@ -1,9 +1,5 @@
 image: debian:stretch-slim
 
-include:
-  - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-before.yml
-  - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-applications-linux.yml
-
 build_ubuntu_18_04:
   stage: build
   image: ubuntu:bionic
@@ -16,7 +12,7 @@ build_ubuntu_18_04:
     - apt-get install --yes --no-install-recommends ninja-build libkf5crash-dev curl
   script:
     # trigger windows build
-    - curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST https://api.opensuse.org/trigger/runservice
+    - 'curl -H "Authorization: Token pZJ6BUtc7egASLS4VG7D17GW" -X POST https://api.opensuse.org/trigger/runservice'
     - mkdir -p build && cd build
     - cmake -G Ninja ..
     - ninja
