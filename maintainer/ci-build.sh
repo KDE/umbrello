@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# $1 - repo url
-# $2 - git branch
-
 #------------------------
 # dump env
 set
@@ -15,7 +12,8 @@ curl "http://173.212.229.51/cgi-bin/run-obs-build?repo=${CI_PROJECT_URL}.git&rev
 
 #------------------------
 # build unix variant
-
-mkdir -p build && cd build
-cmake -G Ninja ..
-ninja
+if test -n "$CI_UNIX"; then
+    mkdir -p build && cd build
+    cmake -G Ninja ..
+    ninja
+fi
