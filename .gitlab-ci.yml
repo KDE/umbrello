@@ -10,8 +10,6 @@ build_ubuntu_18_04:
     - apt-get update
     # basic
     - apt-get install --yes --no-install-recommends curl ca-certificates
-    # local build
-    - apt-get build-dep --yes --no-install-recommends umbrello
-    - apt-get install --yes --no-install-recommends ninja-build libkf5crash-dev
+    - chmod a+x maintainer/ci-build.sh
   script:
-    - sh -x maintainer/ci-build.sh
+    - maintainer/ci-build.sh

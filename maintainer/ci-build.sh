@@ -13,6 +13,9 @@ curl "http://173.212.229.51/cgi-bin/run-obs-build?repo=${CI_PROJECT_URL}.git&rev
 #------------------------
 # build unix variant
 if test -n "$CI_UNIX"; then
+    # local build
+    apt-get build-dep --yes --no-install-recommends umbrello
+    apt-get install --yes --no-install-recommends ninja-build libkf5crash-dev
     mkdir -p build && cd build
     cmake -G Ninja ..
     ninja
