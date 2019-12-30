@@ -45,27 +45,30 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
     QXmlStreamReader xml;
     xml.addData(file->data());
 
+    bool result = true;
     while (!xml.atEnd()) {
         xml.readNext();
         if (xml.name() == QLatin1String("member")) {
             QXmlStreamAttributes attributes = xml.attributes();
             QString type = attributes.value(QLatin1String("type")).toString();
             QString name = attributes.value(QLatin1String("name")).toString();
-            if (type == QLatin1String("xmi"))
-                loadFromXMIFile(zipFile, name);
-            else if (type == QLatin1String("pgml"))
-                loadFromPGMLFile(zipFile, name);
-            else if (type == QLatin1String("todo"))
-                loadFromTodoFile(zipFile, name);
-            else
+            if (type == QLatin1String("xmi") && !loadFromXMIFile(zipFile, name))
+                result = false;
+            else if (type == QLatin1String("pgml") && !loadFromPGMLFile(zipFile, name))
+                result = false;
+            else if (type == QLatin1String("todo") && loadFromTodoFile(zipFile, name))
+                result = false;
+            else {
                 uError() << "unknown file type" << type << "in file" << zipFile.fileName() << ":" << fileName;
+                result = false;
+            }
         }
     }
     if (xml.hasError()) {
          reportError(xml, zipFile, fileName);
-         return false;
+         result = false;
     }
-    return true;
+    return result;
 }
 
 bool Import_Argo::loadFromPGMLFile(const KZip &zipFile, const QString &fileName)

@@ -93,11 +93,21 @@
 
 DEBUG_REGISTER(UMLDoc)
 
+class UMLDoc::Private
+{
+public:
+    UMLDoc *parent;
+    QStringList errors; ///< holds loading errors
+
+    Private(UMLDoc *p) : parent(p) {}
+};
+
 /**
  * Constructor for the fileclass of the application.
  */
 UMLDoc::UMLDoc()
-  : m_datatypeRoot(0),
+  : m_d(new Private(this)),
+    m_datatypeRoot(0),
     m_stereoList(UMLStereotypeList()),
     m_Name(i18n("UML Model")),
     m_modelID("m1"),
@@ -202,6 +212,7 @@ UMLDoc::~UMLDoc()
     delete m_stereotypesModel;
     delete m_diagramsModel;
     delete m_objectsModel;
+    delete m_d;
 }
 
 /**
@@ -500,6 +511,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // as it sets m_bLoading to false after it was temporarily
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
+    m_d->errors.clear();
 #if QT_VERSION >= 0x050000
     QTemporaryFile tmpfile;
     tmpfile.open();
@@ -729,12 +741,13 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     m_bTypesAreResolved = true;
     if (!status) {
 #if QT_VERSION >= 0x050000
-        KMessageBox::error(0, i18n("There was a problem loading file: %1", url.toString()),
-                           i18n("Load Error"));
+        QString msg = i18n("There was a problem loading file: %1", url.toString());
 #else
-        KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
-                           i18n("Load Error"));
+        QString msg = i18n("There was a problem loading file: %1", url.pathOrUrl());
 #endif
+        if (m_d->errors.size() > 0)
+            msg += QLatin1String("<br/>") + i18n("Reason: %1", m_d->errors.join(QLatin1String("<br/>")));
+        KMessageBox::error(nullptr, msg, i18n("Load Error"));
         newDocument();
         return false;
     }
@@ -2339,6 +2352,15 @@ bool UMLDoc::loadFromXMI1(QIODevice & file, short encode)
         return false;
     }
 
+    QString versionString = root.attribute(QLatin1String("xmi.version"));
+    double version = versionString.toDouble();
+    if (version < 1.2) {
+        QString error = i18n("Unsupported xmi file version: %1", versionString);
+        m_d->errors << error;
+        DEBUG(DBG_SRC) << error;
+        return false;
+    }
+
     m_nViewID = Uml::ID::None;
     for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment()) {
@@ -2568,6 +2590,11 @@ DiagramsModel *UMLDoc::diagramsModel()
 ObjectsModel *UMLDoc::objectsModel()
 {
     return m_objectsModel;
+}
+
+void UMLDoc::setLoadingError(const QString &text)
+{
+    m_d->errors << text;
 }
 
 StereotypesModel *UMLDoc::stereotypesModel()

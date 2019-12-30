@@ -258,9 +258,14 @@ public:
     StereotypesModel *stereotypesModel();
     ObjectsModel *objectsModel();
 
+    void setLoadingError(const QString &text);
+
 private:
     void initSaveTimer();
     void createDatatypeFolder();
+
+    class Private;
+    Private *m_d;
 
     /**
      * Array of predefined root folders.
