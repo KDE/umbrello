@@ -2353,6 +2353,8 @@ bool UMLDoc::loadFromXMI1(QIODevice & file, short encode)
     }
 
     QString versionString = root.attribute(QLatin1String("xmi.version"));
+    if (versionString.isEmpty())
+        versionString = root.attribute(QLatin1String("xmi:version"));
     double version = versionString.toDouble();
     if (version < 1.2) {
         QString error = i18n("Unsupported xmi file version: %1", versionString);
