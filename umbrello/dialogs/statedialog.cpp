@@ -216,6 +216,7 @@ void StateDialog::setupGeneralPage()
 
     m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
     generalLayout->addWidget(m_GenPageWidgets.docWidget, row, 0, 1, 2);
+    m_GenPageWidgets.nameLE->setFocus();
 }
 
 /**
