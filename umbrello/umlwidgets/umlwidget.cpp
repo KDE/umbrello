@@ -962,7 +962,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::State, NoOption);
         break;
     case ListPopupMenu::mt_State:
-        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, NoOption);
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, ShowProperties);
         break;
     case ListPopupMenu::mt_StateFork:
         addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::State, NoOption);

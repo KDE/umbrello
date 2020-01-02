@@ -206,6 +206,7 @@ void ActivityDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pActivityWidget->name());
+    m_GenPageWidgets.nameLE->setFocus();
 }
 
 /**
