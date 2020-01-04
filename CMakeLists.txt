@@ -104,6 +104,10 @@ find_package(KF5 REQUIRED COMPONENTS
     XmlGui
 )
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    string(REPLACE "-Wsuggest-override" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+endif()
+
 if(BUILD_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
