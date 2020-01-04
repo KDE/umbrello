@@ -31,7 +31,11 @@
 #include "../shell/core_p.h"
 
 #include <QCoreApplication>
-#include <QTest>
+#include <QThread>
+
+namespace QTest {
+    void qWait(int i) { QThread::msleep(i); }
+}
 
 #include <KParts/MainWindow>
 

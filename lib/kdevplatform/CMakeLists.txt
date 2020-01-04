@@ -7,7 +7,6 @@ target_link_libraries(KDevTests
         #KDev::Project
         #KDev::Debugger
     PRIVATE
-        Qt5::Test
 )
 
 add_library(KDev::Tests ALIAS KDevTests)
