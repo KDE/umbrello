@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 project(umbrello)
 
+if(POLICY CMP0028)
+    cmake_policy(SET CMP0028 OLD)
+endif()
+
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "20")
 set (RELEASE_SERVICE_VERSION_MINOR "03")
