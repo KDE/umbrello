@@ -1,3 +1,4 @@
+add_subdirectory( codeimport )
 add_subdirectory( headings )
 add_subdirectory(docgenerators)
 
@@ -51,8 +52,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/vala/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/csharp/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
@@ -300,76 +299,6 @@ ki18n_wrap_ui(  libcodeimpwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
 )
-
-set(libcodeimport_SRCS
-    codeimport/adaimport.cpp
-    codeimport/classimport.cpp
-    codeimport/idlimport.cpp
-    codeimport/import_utils.cpp
-    codeimport/javaimport.cpp
-    codeimport/nativeimportbase.cpp
-    codeimport/pascalimport.cpp
-    codeimport/pythonimport.cpp
-    codeimport/sqlimport.cpp
-    codeimport/csharp/csharpimport.cpp
-)
-if(BUILD_PHP_IMPORT)
-    list(APPEND libcodeimport_SRCS
-        codeimport/phpimport.cpp
-    )
-endif()
-
-list(APPEND libcodeimport_SRCS
-    codeimport/cppimport.cpp
-)
-
-set(libkdevcppparser_SRCS
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast_utils.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/cachemanager.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/driver.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/errors.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexer.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexercache.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lookup.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/parser.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/tree_parser.cpp
-    ${CMAKE_SOURCE_DIR}/lib/interfaces/hashedstring.cpp
-    codeimport/kdevcppparser/cpptree2uml.cpp
-)
-
-add_library(codeimport STATIC ${libcodeimport_SRCS} ${libkdevcppparser_SRCS})
-if(NOT BUILD_KF5)
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(codeimport
-            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
-            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
-            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
-            ${KDEVPLATFORM_PROJECT_LIBRARIES}
-            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
-            ${KDEVPLATFORM_SHELL_LIBRARIES}
-            ${KDEVPLATFORM_UTIL_LIBRARIES}
-            ${KDEVPLATFORM_VCS_LIBRARIES}
-            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
-            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
-            ${KDEVPLATFORM_TESTS_LIBRARIES}
-            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
-            kdev4phpparser
-        )
-    endif()
-else()
-    target_link_libraries(codeimport
-        KF5::KDELibs4Support
-    )
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(codeimport
-            KDev::Interfaces
-            KDev::Language
-            KDev::Tests
-            kdevphpparser
-        )
-    endif()
-endif()
 
 set(libclipboard_SRCS
     clipboard/idchangelog.cpp
