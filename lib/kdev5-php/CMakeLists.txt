@@ -60,6 +60,7 @@ kdevplatform_add_plugin(kdevphplanguagesupport JSON kdevphpsupport.json
 target_link_libraries(kdevphplanguagesupport
     KDev::Interfaces
     KDev::Language
+    KDev::Tests
     kdevphpduchain
     kdevphpparser
     kdevphpcompletion
