@@ -51,6 +51,7 @@
 #include "usecasewidget.h"
 #include "uniqueid.h"
 #include "widget_factory.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -2110,6 +2111,8 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  */
 void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
+    QString name = Widget_Utils::defaultWidgetName(widget->baseType());
+    widget->setName(name);
     if (options & ShowProperties) {
         if (!widget->showPropertiesDialog()) {
             delete widget;
