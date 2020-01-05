@@ -108,7 +108,7 @@ void DClassifierCodeDocument::init()
 
 /**
  * Add a code operation to this d classifier code document.
- * In the vannilla version, we just tack all operations on the end
+ * In the vanilla version, we just tack all operations on the end
  * of the document.
  * @param op   the code operation
  * @return bool which is true IF the code operation was added successfully
@@ -273,7 +273,7 @@ void DClassifierCodeDocument::resetTextBlocks()
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void DClassifierCodeDocument::updateContent()

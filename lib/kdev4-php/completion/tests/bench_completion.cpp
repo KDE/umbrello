@@ -41,7 +41,7 @@ QTEST_MAIN(Php::BenchmarkCodeCompletion)
 
 namespace Php {
 
-// makro defined by cmake, points to the sourcedir of _this_ file
+// macro defined by cmake, points to the sourcedir of _this_ file
 const QString srcPath(KDESRCDIR);
 
 QFile* getFile(const QString& path)

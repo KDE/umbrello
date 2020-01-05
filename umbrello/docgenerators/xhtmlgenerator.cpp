@@ -107,7 +107,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 }
 
 /**
- * This slot is triggerd when the first part, xmi to docbook, is finished
+ * This slot is triggered when the first part, xmi to docbook, is finished
  * @param status   status to continue with converting
  */
 void XhtmlGenerator::slotDocbookToXhtml(bool status)

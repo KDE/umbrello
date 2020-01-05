@@ -42,7 +42,7 @@ class QGraphicsLineItem;
  * @todo sequence message lines should be handled by object widgets. Right now,
  * they aren't taken into account in testOnWidget and an explicit check is
  * needed. However, if onWidget in object widgets is changed to also check for
- * the line, a way to make them prioritaries over other widgets in testOnWidget
+ * the line, a way to give them priority over other widgets in testOnWidget
  * will be needed. For example, when creating a message clicking on an already
  * created message, the message line must be got instead of the message, even if
  * the message is smaller than the line.

@@ -33,7 +33,7 @@ class KeywordItem : public NormalDeclarationCompletionItem
 {
 public:
     /// Use @p customReplacement for additional power on how the keyword gets replaced.
-    /// Newlines will be indendet to the indentation level of the line we execute the item on.
+    /// Newlines will be indented to the indentation level of the line we execute the item on.
     /// To increase an indentation level, use %INDENT%. To place the cursor, use %CURSOR%.
     /// Alternatively you can select a word with %SELECT%word%SELECT%
     ///

@@ -22,7 +22,7 @@ class UMLArtifact;
  * Defines a graphical version of the @ref UMLArtifact.
  * Most of the functionality will come from the @ref UMLWidget class.
  *
- * @short A graphical version of a Artifact.
+ * @short A graphical version of an Artifact.
  * @author Jonathan Riddell
  * @see UMLWidget
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org

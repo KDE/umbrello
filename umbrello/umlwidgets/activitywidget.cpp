@@ -31,7 +31,7 @@
 DEBUG_REGISTER_DISABLED(ActivityWidget)
 
 /**
- * Creates a Activity widget.
+ * Creates an Activity widget.
  *
  * @param scene          The parent of the widget.
  * @param activityType   The type of activity.

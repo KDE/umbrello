@@ -136,7 +136,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // tidy up. no dangling open files please..
     file.close();
 
-    // bookeeping for code generation
+    // bookkeeping for code generation
     emit codeGenerated(c, true);
     emit showGeneratedFile(file.fileName());
 
@@ -319,7 +319,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             QString superClassName = getElementTypeName(superclasses.first());
             xs << indent() << "<" << makeSchemaTag(QLatin1String("complexContent")) << ">" << m_endl;
 
-            //PROBLEM: we only treat ONE superclass for inheritence.. bah.
+            //PROBLEM: we only treat ONE superclass for inheritance.. bah.
             m_indentLevel++;
             xs << indent() << "<" << makeSchemaTag(QLatin1String("extension")) << " base=\"" << makePackageTag(superClassName)
                <<"\"";
@@ -735,7 +735,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     //
     // The flipside for concrete classes is that we want to use them as elements in our document.
     // Unfortunately, about all you can do with complexTypes in terms of inheritance, is to
-    // use these as the basis for a new node type. This is NOT full inheritence because the new
+    // use these as the basis for a new node type. This is NOT full inheritance because the new
     // class (err. element node) wont be able to go into the document where it parent went without
     // you heavily editing the schema.
     //
@@ -744,7 +744,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     // as complexTypes.
     //
     // Of course, in OO methodology, you should be able to inherit from
-    // any class, but schema just don't allow use to have full inheritence using either groups
+    // any class, but schema just don't allow use to have full inheritance using either groups
     // or complexTypes. Thus we have taken a middle rode. If someone wants to key me into a
     // better way to represent this, I'd be happy to listen. =b.t.
     //
@@ -773,7 +773,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
 /**
  * Replaces `string' with `String' and `bool' with `boolean'
  * IF the type is "string" we need to declare it as
- * the XMLSchema Object "String" (there is no string primative in XMLSchema).
+ * the XMLSchema Object "String" (there is no string primitive in XMLSchema).
  * Same thing again for "bool" to "boolean".
  */
 QString XMLSchemaWriter::fixTypeName(const QString& string)

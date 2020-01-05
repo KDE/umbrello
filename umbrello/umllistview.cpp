@@ -313,7 +313,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
     if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
         slotDeleteSelectedItems();
     } else if (k == Qt::Key_F3) {
-        // prelimary support for layout generator
+        // preliminary support for layout generator
         LayoutGenerator r;
         if (!r.generate(UMLApp::app()->currentView()->umlScene()))
             return;
@@ -1261,7 +1261,7 @@ UMLDragData* UMLListView::getDragData()
 }
 
 /**
- * This methods looks for a object in a folder an its subfolders recursive.
+ * This method looks for an object in a folder an its subfolders recursive.
  * @param folder   The folder entry of the list view.
  * @param obj      The object to be found in the folder.
  * @return The object if found else a NULL pointer.

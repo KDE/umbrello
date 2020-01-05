@@ -307,7 +307,7 @@ void RubyClassifierCodeDocument::resetTextBlocks()
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void RubyClassifierCodeDocument::updateContent()

@@ -1169,7 +1169,7 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
 }
 
 /**
- * Adds a UMLObject thats already created but doesn't change
+ * Adds a UMLObject that is already created but doesn't change
  * any ids or signal.  Use AddUMLObjectPaste if pasting.
  *
  * @param object   The object to add.

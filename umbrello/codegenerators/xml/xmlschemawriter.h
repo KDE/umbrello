@@ -30,7 +30,7 @@
   * Our basic approach is to map UMLClassifiers (classes/interfaces) into
   * XML elements (or nodes). We declare these element in the schema either
   * as complexType or as groups based on whether they are concrete or abstract
-  * in nature. This is not a perfect decision, but thats life with XML Schema...
+  * in nature. This is not a perfect decision, but that's life with XML Schema...
   * you cant fully represent Objects in the XML world ..yet. -b.t.
   */
 

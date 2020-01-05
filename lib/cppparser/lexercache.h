@@ -160,7 +160,7 @@ private:
     //typedef __gnu_cxx::hash_multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     typedef std::multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     CachedLexedFileMap m_files;
-    QSet<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to used for each appearance of the string
+    QSet<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to use for each appearance of the string
     struct FileModificationCache {
         QDateTime m_readTime;
         QDateTime m_modificationTime;

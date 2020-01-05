@@ -36,7 +36,7 @@ public:
 
     /**
      * Add a code operation to this cpp classifier code document.
-     * In the vannilla version, we just tack all operations on the end
+     * In the vanilla version, we just tack all operations on the end
      * of the document.
      * @param op   the code operation
      * @return     bool which is true IF the code operation was added successfully

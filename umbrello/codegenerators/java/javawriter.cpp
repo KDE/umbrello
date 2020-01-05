@@ -174,7 +174,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     writeBlankLine(java);
 
     // write the opening declaration for the class incl any documentation,
-    // interfaces and/or inheritence issues we have
+    // interfaces and/or inheritance issues we have
     writeClassDecl(c, java);
 
     // start body of class
@@ -333,7 +333,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is wrong ! : No multiple inheritence of class
+            //The java generated code is wrong ! : No multiple inheritance of class
             java <<  ", " ;
         }
         java <<  cleanName(concept->name());
@@ -352,7 +352,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is OK ! : multiple inheritence of interface
+            //The java generated code is OK ! : multiple inheritance of interface
             java <<  ", " ;
         }
         java <<  cleanName(concept->name());

@@ -59,7 +59,7 @@ void UMLForeignKeyConstraint::init()
      m_UpdateAction = uda_NoAction;
      m_DeleteAction = uda_NoAction;
 
-    // connecte signals and slots
+    // connect signals and slots
      connect(this, SIGNAL(sigReferencedEntityChanged()), this, SLOT(slotReferencedEntityChanged()));
 }
 
@@ -249,7 +249,7 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
 }
 
 /**
- * Check if a attribute pair already exists
+ * Check if an attribute pair already exists
  * @param pAttr The Attribute of the Parent Entity
  * @param rAttr The Attribute of the Referenced Entity
  * @return true if the attribute pair could be found.

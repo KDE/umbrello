@@ -36,7 +36,7 @@
 DEBUG_REGISTER_DISABLED(ObjectNodeWidget)
 
 /**
- * Creates a Object Node widget.
+ * Creates an Object Node widget.
  *
  * @param scene            The parent of the widget.
  * @param objectNodeType   The type of object node

@@ -220,7 +220,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         m_seenIncludes.append(container);
     }
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         cs << m_container_indent << "/// <summary>" << m_endl;
         cs << formatDoc(c->doc(), m_container_indent + QLatin1String("/// "));

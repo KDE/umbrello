@@ -21,7 +21,7 @@ class UMLScene;
 /**
  * Displays an instance UMLObject of a concept.
  *
- * The local ID is needed as a it can represent a class
+ * The local ID is needed as it can represent a class
  * that has many objects representing it.
  *
  * @short Displays an instance of a Concept.

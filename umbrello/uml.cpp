@@ -817,7 +817,7 @@ void UMLApp::setupZoomMenu()
 
 /**
  * Sets up the statusbar for the main window by
- * initialzing a statuslabel.
+ * initializing a statuslabel.
  */
 void UMLApp::initStatusBar()
 {
@@ -1908,7 +1908,7 @@ void UMLApp::setModified(bool modified)
 {
     //fileSave->setEnabled(modified);
 
-    //if anything else needs to be done on a mofication, put it here
+    //if anything else needs to be done on a modification, put it here
 
     // printing should be possible whenever there is something to print
     if (m_loading == false && modified == true && currentView())  {
