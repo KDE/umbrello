@@ -156,7 +156,7 @@ find_package(Clang CONFIG)
 if(NOT Clang_FOUND)
     find_package(CLANG QUIET)
 endif()
-if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND) AND LLVM_VERSION VERSION_LESS "8.0.0")
+if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
@@ -173,20 +173,20 @@ if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND) AND LLVM_VERSION VERSION_LESS "8.
 
     # Find the libraries that correspond to the LLVM components
     # that we wish to use
-    if(LLVM_VERSION_MAJOR STREQUAL "7")
+    if(LLVM_PACKAGE_VERSION VERSION_GREATER_EQUAL "7.0.0")
         set(llvm_libs LLVM)
     else()
         llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
     endif()
 
     # Link against LLVM libraries
-    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling clangBasic)
+    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling clangBasic clangSerialization)
 
     add_executable(testllvmparser testllvmparser.cpp)
-    if(NOT LLVM_VERSION_MAJOR STREQUAL "7")
+    if(LLVM_PACKAGE_VERSION VERSION_LESS "7.0.0")
         llvm_map_components_to_libnames(llvm_libs support)
     endif()
-    target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic ${LIBS})
+    target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic clangSerialization ${LIBS})
     ecm_mark_nongui_executable(testllvm testllvmparser)
 endif()
 

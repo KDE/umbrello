@@ -20,6 +20,7 @@
 
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include <clang/Basic/Version.h>
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/Tooling/Tooling.h"
@@ -46,7 +47,11 @@ public:
     bool VisitCXXRecordDecl(CXXRecordDecl *Declaration)
     {
         if (Declaration->getQualifiedNameAsString() == "n::m::C") {
+#if CLANG_VERSION_MAJOR >= 8
+            FullSourceLoc FullLocation = Context->getFullLoc(Declaration->getBeginLoc());
+#else
             FullSourceLoc FullLocation = Context->getFullLoc(Declaration->getLocStart());
+#endif
             if (FullLocation.isValid())
                 llvm::outs() << "Found declaration at "
                              << FullLocation.getSpellingLineNumber() << ":"
