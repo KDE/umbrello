@@ -71,7 +71,7 @@ else()
     set(QT_MIN_VERSION "5.2.0")
     set(KDEV_MIN_VERSION 5.1.2)
     set(KDEV_SOURCE_DIR lib/kdev5-php)
-    set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Tests)
+    set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
 endif()
 
 # search packages used by Qt
@@ -112,11 +112,6 @@ if(BUILD_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
 endif()
-if(BUILD_KF5 AND NOT TARGET KDev::Tests)
-    message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
-    set(KDEVPLATFORM_FOUND 0)
-    set(BUILD_PHP_IMPORT 0)
-endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
     message(STATUS "requirements available - enable building php code import")
     include_directories(
@@ -132,6 +127,7 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
         -DKDEVPHPPARSER_EXPORT=
         -DENABLE_PHP_IMPORT
     )
+    add_subdirectory(lib/kdevplatform)
     add_subdirectory(${KDEV_SOURCE_DIR})
 else()
     set(BUILD_PHP_IMPORT 0)

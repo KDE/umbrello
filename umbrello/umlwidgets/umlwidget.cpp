@@ -51,6 +51,7 @@
 #include "usecasewidget.h"
 #include "uniqueid.h"
 #include "widget_factory.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -65,6 +66,8 @@
 using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
+
+#define I18N_NEXT_RELEASE(a,b) QString(QLatin1String(a)).arg(b))
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
@@ -2074,6 +2077,15 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  */
 void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
+    QString name = Widget_Utils::defaultWidgetName(widget->baseType());
+    widget->setName(name);
+    if (options & ShowProperties) {
+        if (!widget->showPropertiesDialog()) {
+            delete widget;
+            return;
+        }
+    }
+
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
     widget->setY(y());
@@ -2087,8 +2099,12 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
     umlScene()->addAssociation(assoc);
     umlScene()->clearSelected();
     umlScene()->selectWidget(widget);
-    if (options & ShowProperties)
-        widget->showPropertiesDialog();
+
+    UMLApp::app()->beginMacro(I18N_NEXT_RELEASE("Adding connected '%1'", widget->baseTypeStrWithoutPrefix());
+    UMLApp::app()->executeCommand(new CmdCreateWidget(widget));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(assoc));
+    UMLApp::app()->endMacro();
+    m_doc->setModified();
 }
 
 /**

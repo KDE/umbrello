@@ -130,6 +130,7 @@ public:
     WidgetType baseType() const;
     void setBaseType(const WidgetType& baseType);
     QLatin1String baseTypeStr() const;
+    QString baseTypeStrWithoutPrefix() const;
 
     virtual void setSelected(bool select);
 
