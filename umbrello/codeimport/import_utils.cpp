@@ -365,15 +365,15 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
 /**
  * Create hierachical tree of UML objects
  *
- * This methods creates the UML object specified by #type and #name including an optional namespace hierachy
+ * This method creates the UML object specified by #type and #name including an optional namespace hierarchy
  * if included in the #name e.g. NamespaceA::ClassA in C++.
  *
  * @param type  type of UML object to create
  * @param name  name of UML object
- * @param topLevelParent  UML package to add the hierachie of UML objects
+ * @param topLevelParent  UML package to add the hierarchy of UML objects
  * @return pointer to created or found UML object
  */
-UMLObject* createUMLObjectHierachy(UMLObject::ObjectType type, const QString &name, UMLPackage *topLevelParent)
+UMLObject* createUMLObjectHierarchy(UMLObject::ObjectType type, const QString &name, UMLPackage *topLevelParent)
 {
     UMLPackage *parent = topLevelParent;
     QString objectName;

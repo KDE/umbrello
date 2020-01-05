@@ -175,7 +175,7 @@ DiagramProxyWidget &DiagramProxyWidget::operator=(const DiagramProxyWidget &othe
 }
 
 /**
- * Setup synthetizied graphics scene event
+ * Set up synthetic graphics scene event
  *
  * @param e event to setup
  * @param event event source
@@ -195,7 +195,7 @@ void DiagramProxyWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneM
 }
 
 /**
- * Setup synthetizied graphics scene context menu event
+ * Set up synthetic graphics scene context menu event
  *
  * @param e event to setup
  * @param event event source

@@ -1235,7 +1235,7 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::RoleType::Enum role) const
 }
 
 /**
- * CleansUp all the association's data in the related widgets.
+ * Cleans up all the association's data in the related widgets.
  */
 void AssociationWidget::cleanup()
 {

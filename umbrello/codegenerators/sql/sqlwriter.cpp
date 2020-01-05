@@ -225,7 +225,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         sql << str << m_endl;
     }
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !m_pEntity->doc().isEmpty()) {
         sql << m_endl << "--" << m_endl;
         sql << "-- TABLE: " << entityname << m_endl;

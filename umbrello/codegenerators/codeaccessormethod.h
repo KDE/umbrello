@@ -24,11 +24,11 @@ class CodeAccessorMethod : public CodeMethodBlock
 public:
 
     // some types of accessor methods that are possible:
-    // "GET" is to retrieve single-valued (primative or Object) fields
-    // "SET" is to set single-valued (primative or Object) fields
-    // "ADD" is to add a value to a multiple-valued field of either primative or Object items
-    // "REMOVE" is to remove a value to a multiple-valued field of either primative or Object items
-    // "LIST" is to retrive the entire list of items in a  multiple-valued field
+    // "GET" is to retrieve single-valued (primitive or Object) fields
+    // "SET" is to set single-valued (primitive or Object) fields
+    // "ADD" is to add a value to a multiple-valued field of either primitive or Object items
+    // "REMOVE" is to remove a value to a multiple-valued field of either primitive or Object items
+    // "LIST" is to retrieve the entire list of items in a  multiple-valued field
     enum AccessorType {GET=0, SET, ADD, REMOVE, LIST};
 
     explicit CodeAccessorMethod(CodeClassField * field);

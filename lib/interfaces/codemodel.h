@@ -602,12 +602,12 @@ public:
     {
         return false;
     }
-    /**@return true if an item is a EnumModel.*/
+    /**@return true if an item is an EnumModel.*/
     virtual bool isEnum() const
     {
         return false;
     }
-    /**@return true if an item is a EnumeratorModel.*/
+    /**@return true if an item is an EnumeratorModel.*/
     virtual bool isEnumerator() const
     {
         return false;

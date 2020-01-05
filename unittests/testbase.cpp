@@ -80,7 +80,7 @@ void TestCodeGeneratorBase::initTestCase()
 }
 
 /**
- * Return temporay path usable to generated code.
+ * Return temporary path usable to generated code.
  * @return
  */
 QString TestCodeGeneratorBase::temporaryPath()

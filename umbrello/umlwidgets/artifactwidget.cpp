@@ -20,7 +20,7 @@
 DEBUG_REGISTER_DISABLED(ArtifactWidget)
 
 /**
- * Constructs a ArtifactWidget.
+ * Constructs an ArtifactWidget.
  *
  * @param scene     The parent of this ArtifactWidget.
  * @param a         The Artifact this widget will be representing.

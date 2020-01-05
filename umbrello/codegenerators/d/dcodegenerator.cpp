@@ -114,7 +114,7 @@ QString DCodeGenerator::capitalizeFirstLetter(const QString &item)
 
 /**
  * IF the type is "string" we need to declare it as
- * the D Object "String" (there is no string primative in D).
+ * the D Object "String" (there is no string primitive in D).
  * Same thing again for "bool" to "boolean".
  * @param item   the item to change
  * @return the changed item

@@ -45,7 +45,7 @@ CppWriter::CppWriter()
   : m_stringIncludeRequired(false)
 {
     // Probably we could resolve this better through the use of templates,
-    // but it is a quick n dirty fix for the timebeing.. until codegeneration
+    // but it is a quick n dirty fix for the time being.. until codegeneration
     // template system is in place.
     // You can insert code here. 3 general variables exist: "%VARNAME%"
     // allows you to specify where the vector variable should be in your code,
@@ -390,7 +390,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
         cpp << m_endl << "namespace " << cleanName(c->package()) << " {" << m_endl << m_endl;
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         cpp << m_endl << "/**" << m_endl;
         cpp << "  * class " << className_ << m_endl;
@@ -1315,7 +1315,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 }
 
 /**
- * Intellegently print out header include/forward decl. for associated classes.
+ * Intelligently print out header include/forward decl. for associated classes.
  * Note:
  *   To prevent circular including when both classifiers on either end
  *   of an association have roles we need to have forward declaration of

@@ -192,7 +192,7 @@ public:
                 } else if (w->y() < 3 * h2) { // top
                     w->setY(-h2);
                 } else
-                    uWarning() << "uncatched widget position of" << w->name();
+                    uWarning() << "unhandled widget position of" << w->name();
             }
         }
     }
@@ -2195,7 +2195,7 @@ void UMLScene::endPartialWidgetPaste()
 }
 
 /**
- * Removes a AssociationWidget from a diagram
+ * Removes an AssociationWidget from a diagram
  * Physically deletes the AssociationWidget passed in.
  *
  * @param pAssoc  Pointer to the AssociationWidget.

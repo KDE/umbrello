@@ -205,7 +205,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     QStringList package = m_currentPackage.split(QLatin1Char('.'));
     int dirsInPackageCount = package.size();
 
-    // in case the path does not fit into the package hierachy 
+    // in case the path does not fit into the package hierarchy 
     // we cannot check the imports 
     if (dirsInPackageCount >= file.size())
         return 0; 

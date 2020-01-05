@@ -142,7 +142,7 @@ void DWriter::writeClass(UMLClassifier *c)
     writeModuleImports(c, d);
 
     // write the opening declaration for the class incl any documentation,
-    // interfaces and/or inheritence issues we have
+    // interfaces and/or inheritance issues we have
     writeClassDecl(c, d);
 
     // start body of class
@@ -707,7 +707,7 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
 }
 
 // IF the type is "string" we need to declare it as
-// the D Object "String" (there is no string primative in D).
+// the D Object "String" (there is no string primitive in D).
 // Same thing again for "bool" to "boolean"
 QString DWriter::fixTypeName(const QString& string)
 {

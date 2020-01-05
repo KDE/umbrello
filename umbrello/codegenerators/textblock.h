@@ -19,7 +19,7 @@
 class CodeDocument;
 
 /**
- * The fundemental unit of text within an output file containing code.
+ * The fundamental unit of text within an output file containing code.
  */
 class TextBlock
 {

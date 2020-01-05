@@ -280,7 +280,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             int actTypeB = -1;
             if (actB)
                 actTypeB = actB->activityType();
-            // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
+            // only from a signalwidget, an objectnode widget, a normal activity, branch or fork activity, to the end
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&

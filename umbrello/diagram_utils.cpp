@@ -260,7 +260,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
             rightWidget = objectsMap[package];
         } else {
             UMLFolder *logicalView = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
-            UMLObject *right = Import_Utils::createUMLObjectHierachy(UMLObject::ot_Class, package, logicalView);
+            UMLObject *right = Import_Utils::createUMLObjectHierarchy(UMLObject::ot_Class, package, logicalView);
 
             rightWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, right);
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);

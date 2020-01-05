@@ -38,7 +38,7 @@ QTEST_MAIN(Php::Benchmarks)
 namespace Php
 {
 
-// makro defined by cmake, points to the sourcedir of _this_ file
+// macro defined by cmake, points to the sourcedir of _this_ file
 const QString srcPath(KDESRCDIR);
 
 Benchmarks::Benchmarks()

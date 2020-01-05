@@ -1013,7 +1013,7 @@ namespace Widget_Utils
 
     /**
      * Returns translated text string used by widget related dialogs
-     * @param type wodget type
+     * @param type widget type
      * @return translated text string
      */
     QString renameText(WidgetBase::WidgetType type)

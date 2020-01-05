@@ -146,7 +146,7 @@ private:
     /// relative URLS have to start with a /
     bool m_isFileCompletionAfterDirname;
     /**
-     * a list of indizes of identifiers which must not be added as completion items
+     * a list of indexes of identifiers which must not be added as completion items
      * examples:
      * class test implements foo, ...
      * => identifiers test and foo must not be proposed for completion

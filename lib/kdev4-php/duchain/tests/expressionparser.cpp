@@ -546,7 +546,7 @@ void TestExpressionParser::arrayFunctionDereferencing()
     Declaration* decl = top->localDeclarations().last();
     IntegralType::Ptr type = decl->abstractType().cast<IntegralType>();
     QVERIFY(type);
-    QEXPECT_FAIL("", "we'd need advanced array support to know that [0] returns a int...", Continue);
+    QEXPECT_FAIL("", "we'd need advanced array support to know that [0] returns an int...", Continue);
     QCOMPARE(type->dataType(), static_cast<uint>(IntegralType::TypeInt));
     // fallback
     QCOMPARE(type->dataType(), static_cast<uint>(IntegralType::TypeMixed));
@@ -574,7 +574,7 @@ void TestExpressionParser::arrayLiteralDereferencing()
     Declaration* decl = top->localDeclarations().last();
     IntegralType::Ptr type = decl->abstractType().cast<IntegralType>();
     QVERIFY(type);
-    QEXPECT_FAIL("", "we'd need advanced array support to know that [0] returns a int...", Continue);
+    QEXPECT_FAIL("", "we'd need advanced array support to know that [0] returns an int...", Continue);
     QCOMPARE(type->dataType(), static_cast<uint>(IntegralType::TypeInt));
     // fallback
     QCOMPARE(type->dataType(), static_cast<uint>(IntegralType::TypeMixed));

@@ -65,7 +65,7 @@ public:
 /**
  * declaration of class A with a number of completion items
  *
- * also introduces a instance of class A named $instA;
+ * also introduces an instance of class A named $instA;
  */
 const QByteArray testClassA(
     "class A {"
@@ -98,7 +98,7 @@ const QByteArray testClassA(
  * declaration of class B which extends class A
  * B has one new public member function
  *
- * also introduces a instance of class B named $instB;
+ * also introduces an instance of class B named $instB;
  */
 const QByteArray testClassB(
     "class B extends A {"

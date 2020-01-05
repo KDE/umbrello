@@ -286,7 +286,7 @@ QString JavaCodeGenerator::getListFieldClassName()
 
 /**
  * IF the type is "string" we need to declare it as
- * the Java Object "String" (there is no string primative in Java).
+ * the Java Object "String" (there is no string primitive in Java).
  * Same thing again for "bool" to "boolean".
  */
 QString JavaCodeGenerator::fixTypeName(const QString &string)

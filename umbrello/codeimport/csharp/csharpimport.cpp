@@ -589,7 +589,7 @@ bool CSharpImport::isClassModifier(const QString& keyword)
 }
 
 /**
- * Check if keyword is a interface, struct, enum or delegate modifier.
+ * Check if keyword is an interface, struct, enum or delegate modifier.
  * @return   result of check
  */
 bool CSharpImport::isCommonModifier(const QString& keyword)

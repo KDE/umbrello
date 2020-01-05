@@ -3041,7 +3041,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     }
     php << m_endl;
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;

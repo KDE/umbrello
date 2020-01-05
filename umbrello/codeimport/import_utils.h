@@ -53,7 +53,7 @@ namespace Import_Utils {
                                bool searchInParentPackageOnly = false,
                                bool remapParent = true);
 
-    UMLObject* createUMLObjectHierachy(UMLObject::ObjectType type, const QString &name, UMLPackage *parentPkg);
+    UMLObject* createUMLObjectHierarchy(UMLObject::ObjectType type, const QString &name, UMLPackage *parentPkg);
 
     void putAtGlobalScope(bool yesno);
 

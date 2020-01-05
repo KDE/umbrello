@@ -511,7 +511,7 @@ void WidgetBase::setUsesDiagramLineWidth(bool state)
 }
 
 /**
- * Returns the font used for diaplaying any text.
+ * Returns the font used for displaying any text.
  * @return the font
  */
 QFont WidgetBase::font() const

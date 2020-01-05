@@ -41,7 +41,7 @@ class NamespaceDeclaration;
 typedef KDevelop::AbstractDeclarationBuilder<AstNode, IdentifierAst, TypeBuilder> DeclarationBuilderBase;
 
 /**
- * The DeclarationBuilder builds declarations, types and contexts for everything in a AST.
+ * The DeclarationBuilder builds declarations, types and contexts for everything in an AST.
  *
  * \note Since PHP allows the usage of functions, classes and interfaces before definition,
  *       a \see PreDeclarationBuilder is used to get the declarations _and_ types for those.
@@ -158,7 +158,7 @@ private:
     bool isGlobalRedeclaration(const KDevelop::QualifiedIdentifier &identifier, AstNode *node,
                                DeclarationType type);
     /// check if a non-abstract method declaration tries to overwrite a final base method
-    /// or whether a abstract method is redeclared
+    /// or whether an abstract method is redeclared
     /// @param identifier   The identifier for the current method
     /// @param curClass     the current class we are in
     /// @param node         the node we are processing, used to access modifiers and for error reporting

@@ -368,7 +368,7 @@ bool UMLAssociation::load1(QDomElement & element)
         // setting the association type:
         //
         // In the old days, we could just record this on the association,
-        // and be done with it. But thats not how the UML13.dtd does things.
+        // and be done with it. But that's not how the UML13.dtd does things.
         // As a result, we are checking roleA for information about the
         // parent association (!) which by this point in the parse, should
         // be set. However, the information that the roles are allowed to have

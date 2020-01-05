@@ -376,7 +376,7 @@ void UMLClipboard::setCopyType(UMLListViewItemList& selectedItems)
 
 /**
  * Searches the child items of a UMLListViewItem to
- * establish which Copy type is to be perfomed.
+ * establish which Copy type is to be performed.
  * @param item          parent of the children
  * @param withDiagrams  includes diagrams
  * @param withObjects   includes objects

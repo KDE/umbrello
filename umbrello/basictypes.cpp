@@ -81,7 +81,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ModelType representation.
+ * Convert an integer item into ModelType representation.
  * @param item   integer value to convert
  * @return ModelType enum
  */
@@ -145,7 +145,7 @@ Enum fromString(const QString& item, bool checkUnkown)
 }
 
 /**
- * Convert a integer item into Visibility representation.
+ * Convert an integer item into Visibility representation.
  * @param item   integer value to convert
  * @return Visibility enum
  */
@@ -333,7 +333,7 @@ QString toString(Enum item)
 }
 
 /**
- * Converts a AssociationType to its string representation.
+ * Converts an AssociationType to its string representation.
  * @return  the string representation of the AssociationType
  */
 QString toStringI18n(Enum item)
@@ -442,7 +442,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ProgrammingLanguage representation.
+ * Convert an integer item into ProgrammingLanguage representation.
  * @param item   integer value to convert
  * @return AssociationType enum
  */
@@ -516,7 +516,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into LayoutType representation.
+ * Convert an integer item into LayoutType representation.
  * @param item   integer value to convert
  * @return LayoutType enum
  */
@@ -567,7 +567,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into SignatureType representation.
+ * Convert an integer item into SignatureType representation.
  * @param item   integer value to convert
  * @return SignatureType enum
  */
@@ -655,7 +655,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into TextRole representation.
+ * Convert an integer item into TextRole representation.
  * @param item   integer value to convert
  * @return TextRole enum
  */
@@ -704,7 +704,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Changeability representation.
+ * Convert an integer item into Changeability representation.
  * @param item   integer value to convert
  * @return Changeability enum
  */
@@ -760,7 +760,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into SequenceMessage representation.
+ * Convert an integer item into SequenceMessage representation.
  * @param item   integer value to convert
  * @return SequenceMessage enum
  */
@@ -804,7 +804,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into RoleType representation.
+ * Convert an integer item into RoleType representation.
  * @param item   integer value to convert
  * @return RoleType enum
  */
@@ -852,7 +852,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ParameterDirection representation.
+ * Convert an integer item into ParameterDirection representation.
  * @param item   integer value to convert
  * @return ParameterDirection enum
  */
@@ -968,7 +968,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ProgrammingLanguage representation.
+ * Convert an integer item into ProgrammingLanguage representation.
  * @param item   integer value to convert
  * @return ProgrammingLanguage enum
  */
@@ -1156,7 +1156,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Region representation.
+ * Convert an integer item into Region representation.
  * @param item   integer value to convert
  * @return Region enum
  */
@@ -1208,7 +1208,7 @@ Corner::Enum Corner::fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Corner representation.
+ * Convert an integer item into Corner representation.
  * @param item   integer value to convert
  * @return Corner enum
  */
