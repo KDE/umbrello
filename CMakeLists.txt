@@ -103,9 +103,6 @@ find_package(KF5 REQUIRED COMPONENTS
 if(BUILD_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
-    if(BUILD_KF5)
-        add_subdirectory(lib/kdevplatform)
-    endif()
 endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
     message(STATUS "requirements available - enable building php code import")
@@ -122,6 +119,7 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
         -DKDEVPHPPARSER_EXPORT=
         -DENABLE_PHP_IMPORT
     )
+    add_subdirectory(lib/kdevplatform)
     add_subdirectory(${KDEV_SOURCE_DIR})
 else()
     set(BUILD_PHP_IMPORT 0)
