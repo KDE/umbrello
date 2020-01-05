@@ -67,6 +67,8 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
 
+#define I18N_NEXT_RELEASE(a,b) QString(QLatin1String(a)).arg(b))
+
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
 const int UMLWidget::defaultMargin = 5;
@@ -2133,6 +2135,12 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
     umlScene()->addAssociation(assoc);
     umlScene()->clearSelected();
     umlScene()->selectWidget(widget);
+
+    UMLApp::app()->beginMacro(I18N_NEXT_RELEASE("Adding connected '%1'", widget->baseTypeStrWithoutPrefix());
+    UMLApp::app()->executeCommand(new CmdCreateWidget(widget));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(assoc));
+    UMLApp::app()->endMacro();
+    m_doc->setModified();
 }
 
 /**

@@ -118,6 +118,15 @@ QLatin1String WidgetBase::baseTypeStr() const
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
+/**
+ * @return The type as string without 'wt_' prefix.
+ */
+QString WidgetBase::baseTypeStrWithoutPrefix() const
+{
+    QString rawType = baseTypeStr();
+    return rawType.remove(QLatin1String("wt_"));
+}
+
 /*
  * Sets the state of whether the widget is selected.
  *
