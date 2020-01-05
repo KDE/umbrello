@@ -2110,6 +2110,13 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  */
 void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
+    if (options & ShowProperties) {
+        if (!widget->showPropertiesDialog()) {
+            delete widget;
+            return;
+        }
+    }
+
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
     widget->setY(y());
@@ -2123,8 +2130,6 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
     umlScene()->addAssociation(assoc);
     umlScene()->clearSelected();
     umlScene()->selectWidget(widget);
-    if (options & ShowProperties)
-        widget->showPropertiesDialog();
 }
 
 /**
