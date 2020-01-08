@@ -2758,10 +2758,22 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
         if (nmSpc) {
             UMLObjectList &contained = nmSpc->containedObjects();
             if (contained.count()) {
-                KMessageBox::error(
-                    0,
-                    i18n("The folder must be emptied before it can be deleted."),
-                    i18n("Folder Not Empty"));
+                if (nmSpc->baseType() == UMLObject::ot_Class) {
+                    KMessageBox::error(
+                        nullptr,
+                        i18n("The class must be emptied before it can be deleted."),
+                        i18n("Class Not Empty"));
+                } else if (nmSpc->baseType() == UMLObject::ot_Package) {
+                    KMessageBox::error(
+                        nullptr,
+                        i18n("The package must be emptied before it can be deleted."),
+                        i18n("Package Not Empty"));
+                } else if (nmSpc->baseType() == UMLObject::ot_Folder) {
+                    KMessageBox::error(
+                        nullptr,
+                        i18n("The folder must be emptied before it can be deleted."),
+                        i18n("Folder Not Empty"));
+                }
                 return false;
             }
         }
