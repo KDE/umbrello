@@ -232,24 +232,30 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
-        AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         if (widgetA->changesShape())
             widgetA->updateGeometry();
         if (widgetB->changesShape())
             widgetB->updateGeometry();
         if (widgetA->isClassWidget() && widgetB->isClassWidget()) {
-            if (temp->associationType() == Uml::AssociationType::Composition) {
+            if (type == Uml::AssociationType::Composition) {
                 UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
                 UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
                 attr->setType(widgetB->umlObject());
                 c->addAttribute(attr);
-            } else if (temp->associationType() == Uml::AssociationType::Aggregation) {
+                cleanAssociation();
+                emit finished();
+                return;
+            } else if (type == Uml::AssociationType::Aggregation) {
                 UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
                 UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
                 attr->setTypeName(QString(QLatin1String("%1*")).arg(widgetB->umlObject()->name()));
                 c->addAttribute(attr);
+                cleanAssociation();
+                emit finished();
+                return;
             }
         }
+        AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)
             wt->showOperationDialog();
