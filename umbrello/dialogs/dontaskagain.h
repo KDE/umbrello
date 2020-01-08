@@ -47,7 +47,8 @@ class DontAskAgainItem##name : public DontAskAgainItem \
 public: \
     DontAskAgainItem##name() : DontAskAgainItem(QLatin1String(key)) {} \
     virtual QString text() const { return _text; } \
-} name;
+}; \
+static DontAskAgainItem##name name;
 
 /**
  * The DontAskAgainWidget provides a graphical user interface
