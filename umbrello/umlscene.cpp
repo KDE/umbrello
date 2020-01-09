@@ -116,8 +116,9 @@ DEBUG_REGISTER_DISABLED(UMLScene)
 class UMLScenePrivate {
 public:
     UMLScenePrivate(UMLScene *parent)
-      : p(parent),
-        toolBarState(nullptr)
+      : p(parent)
+      , toolBarState(nullptr)
+      , inMouseMoveEvent(false)
     {
         toolBarStateFactory = new ToolBarStateFactory;
     }
@@ -252,6 +253,7 @@ public:
     ToolBarStateFactory *toolBarStateFactory;
     ToolBarState *toolBarState;
     QPointer<WidgetBase> widgetLink;
+    bool inMouseMoveEvent;
 };
 
 /**
@@ -946,7 +948,15 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
  */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
+#if QT_VERSION < 0x050000
+    if (m_d->inMouseMoveEvent)
+        return;
+    m_d->inMouseMoveEvent = true;
     m_d->toolBarState->mouseMove(ome);
+    m_d->inMouseMoveEvent = false;
+#else
+    m_d->toolBarState->mouseMove(ome);
+#endif
 }
 
 /**
