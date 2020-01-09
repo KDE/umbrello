@@ -361,11 +361,11 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folderAndDiagrams, bo
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
     insert(mt_Class, menu);
-    insert(mt_Interface);
-    insert(mt_Datatype);
-    insert(mt_Enum);
+    insert(mt_Interface, menu);
+    insert(mt_Datatype, menu);
+    insert(mt_Enum, menu);
     if (packages)
-        insert(mt_Package);
+        insert(mt_Package, menu);
     if (folderAndDiagrams) {
         insertFromActionKey(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
         insertFromActionKey(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));
