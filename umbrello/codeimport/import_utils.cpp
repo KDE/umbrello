@@ -773,4 +773,13 @@ bool isDatatype(const QString& name, UMLPackage *parentPkg)
     return (o != 0);
 }
 
+/**
+ * Returns the UML package of the global scope.
+ */
+UMLPackage *globalScope()
+{
+    UMLFolder *logicalView = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+    return logicalView;
+}
+
 }  // end namespace Import_Utils
