@@ -986,38 +986,69 @@ QStringList toExtensions(Enum item)
 {
     QStringList result;
     switch (item) {  //:TODO: More languages?
-        case Uml::ProgrammingLanguage::Ada:
+        case ActionScript:
+            result << QLatin1String("*.as");
+            break;
+        case Ada:
             result << QLatin1String("*.ads")
                    << QLatin1String("*.adb")
                    << QLatin1String("*.ada");
             break;
-        case Uml::ProgrammingLanguage::Cpp:
+        case Cpp:
             result << QLatin1String("*.h")
                    << QLatin1String("*.hpp")
                    << QLatin1String("*.hh")
                    << QLatin1String("*.hxx")
                    << QLatin1String("*.H");
             break;
-        case Uml::ProgrammingLanguage::IDL:
-            result << QLatin1String("*.idl");
-            break;
-        case Uml::ProgrammingLanguage::Java:
-            result << QLatin1String("*.java");
-            break;
-        case Uml::ProgrammingLanguage::Pascal:
-            result << QLatin1String("*.pas");
-            break;
-        case Uml::ProgrammingLanguage::Python:
-            result << QLatin1String("*.py") << QLatin1String("*.pyw");
-            break;
-        case Uml::ProgrammingLanguage::CSharp:
+        case CSharp:
             result << QLatin1String("*.cs");
             break;
-        case Uml::ProgrammingLanguage::PHP:
+        case D:
+            result << QLatin1String("*.d");
+            break;
+        case IDL:
+            result << QLatin1String("*.idl");
+            break;
+        case Java:
+            result << QLatin1String("*.java");
+            break;
+        case JavaScript:
+            result << QLatin1String("*.js");
+            break;
+        case Pascal:
+            result << QLatin1String("*.pas");
+            break;
+        case Perl:
+            result << QLatin1String("*.pl");
+            break;
+        case PHP:
             result << QLatin1String("*.php") << QLatin1String("*.inc");
             break;
-        case Uml::ProgrammingLanguage::PHP5:
+        case PHP5:
             result << QLatin1String("*.php") << QLatin1String("*.php5") << QLatin1String("*.inc");
+            break;
+        case Python:
+            result << QLatin1String("*.py") << QLatin1String("*.pyw");
+            break;
+        case Ruby:
+            result << QLatin1String("*.rb");
+            break;
+        case SQL:
+        case MySQL:
+        case PostgreSQL:
+            result << QLatin1String("*.sql");
+            if (item == MySQL)
+                result << QLatin1String("*.frm");
+            break;
+        case Tcl:
+            result << QLatin1String("*.tcl");
+            break;
+        case Vala:
+            result << QLatin1String("*.vala");
+            break;
+        case XMLSchema:
+            result << QLatin1String("*.xsd");
             break;
         default:
             break;

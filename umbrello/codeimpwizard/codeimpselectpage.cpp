@@ -328,68 +328,7 @@ void CodeImpSelectPage::changeLanguage()
     apply();
      */
     // set the file extension pattern with which the files are filtered
-    m_fileExtensions.clear();
-    switch (pl) {
-    case Uml::ProgrammingLanguage::ActionScript:
-        m_fileExtensions << QLatin1String("*.as");
-        break;
-    case Uml::ProgrammingLanguage::Ada:
-        m_fileExtensions << QLatin1String("*.ads") << QLatin1String("*.adb") << QLatin1String("*.ada");
-        break;
-    case Uml::ProgrammingLanguage::Cpp:
-        m_fileExtensions << QLatin1String("*.h") << QLatin1String("*.hpp") << QLatin1String("*.hh")
-                         << QLatin1String("*.hxx") << QLatin1String("*.H");
-        break;
-    case Uml::ProgrammingLanguage::CSharp:
-        m_fileExtensions << QLatin1String("*.cs");
-        break;
-    case Uml::ProgrammingLanguage::D:
-        m_fileExtensions << QLatin1String("*.d");
-        break;
-    case Uml::ProgrammingLanguage::IDL:
-        m_fileExtensions << QLatin1String("*.idl");
-        break;
-    case Uml::ProgrammingLanguage::Java:
-        m_fileExtensions << QLatin1String("*.java");
-        break;
-    case Uml::ProgrammingLanguage::JavaScript:
-        m_fileExtensions << QLatin1String("*.js");
-        break;
-    case Uml::ProgrammingLanguage::Pascal:
-        m_fileExtensions << QLatin1String("*.pas");
-        break;
-    case Uml::ProgrammingLanguage::Perl:
-        m_fileExtensions << QLatin1String("*.pl");
-        break;
-    case Uml::ProgrammingLanguage::PHP:
-    case Uml::ProgrammingLanguage::PHP5:
-        m_fileExtensions << QLatin1String("*.php");
-        break;
-    case Uml::ProgrammingLanguage::Python:
-        m_fileExtensions << QLatin1String("*.py") << QLatin1String("*.pyw");
-        break;
-    case Uml::ProgrammingLanguage::Ruby:
-        m_fileExtensions << QLatin1String("*.rb");
-        break;
-    case Uml::ProgrammingLanguage::SQL:
-    case Uml::ProgrammingLanguage::MySQL:
-    case Uml::ProgrammingLanguage::PostgreSQL:
-        m_fileExtensions << QLatin1String("*.sql");
-        if (pl == Uml::ProgrammingLanguage::MySQL)
-            m_fileExtensions << QLatin1String("*.frm");
-        break;
-    case Uml::ProgrammingLanguage::Tcl:
-        m_fileExtensions << QLatin1String("*.tcl");
-        break;
-    case Uml::ProgrammingLanguage::Vala:
-        m_fileExtensions << QLatin1String("*.vala");
-        break;
-    case Uml::ProgrammingLanguage::XMLSchema:
-        m_fileExtensions << QLatin1String("*.xsd");
-        break;
-    default:
-        break;
-    }
+    m_fileExtensions = Uml::ProgrammingLanguage::toExtensions(pl);
     uDebug() << "File extensions " << m_fileExtensions;
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
