@@ -699,7 +699,31 @@ UMLObject *createArtifact(const QString& name,
  */
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
-    UMLObject *parentObj = createUMLObject(UMLObject::ot_Class, parentName);
+    const QString& scopeSep = UMLApp::app()->activeLanguageScopeSeparator();
+    UMLObject *parentObj = 0;
+    if (parentName.contains(scopeSep)) {
+        QStringList split = parentName.split(scopeSep);
+        QString className = split.last();
+        split.pop_back(); // remove the classname
+        UMLPackage *parent = 0;
+        UMLPackage *current = 0;
+        for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
+            QString name = (*it);
+            UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
+                                                          name, parent,
+                                                          QString(), QString(),
+                                                          true, false);
+            current = ns->asUMLPackage();
+            parent = current;
+        }
+        UMLObject::ObjectType type = UMLObject::ot_Class;
+        if (child->baseType() == UMLObject::ot_Interface)
+          type = UMLObject::ot_Interface;
+        parentObj = Import_Utils::createUMLObject(type, className, parent,
+                                                  QString(), QString(), true, false);
+    } else {
+        parentObj = createUMLObject(UMLObject::ot_Class, parentName);
+    }
     UMLClassifier *parent = parentObj->asUMLClassifier();
     createGeneralization(child, parent);
 }
