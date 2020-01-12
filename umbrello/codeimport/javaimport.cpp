@@ -597,7 +597,7 @@ bool JavaImport::parseStmt()
                 break;
             m_srcIndex++;
         }
-        if (!typeName.isEmpty()) {
+        if (!typeName.isEmpty() && typeName != QLatin1String("void")) {
             // before adding the method, try resolving the return type
             UMLObject *obj = resolveClass(typeName);
             if (obj) {
