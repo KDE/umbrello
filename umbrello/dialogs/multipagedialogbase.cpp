@@ -106,7 +106,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         m_pageDialog->showButtonSeparator(true);
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
-        m_pageDialog->setHelp(QString(), QString::fromLatin1("umbrello"));
+        m_pageDialog->setHelp(QString::fromLatin1("settings"), QString::fromLatin1("umbrello"));
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
         connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
@@ -270,7 +270,7 @@ void MultiPageDialogBase::slotDefaultClicked()
 void MultiPageDialogBase::slotHelpClicked()
 {
     DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
-    KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
+    KHelpClient::invokeHelp(QLatin1String("settings"), QLatin1String("umbrello"));
 }
 
 /**
