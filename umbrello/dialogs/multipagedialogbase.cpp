@@ -35,7 +35,6 @@
 
 // qt includes
 #include <QApplication>
-#include <QDesktopServices>
 #include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -107,7 +106,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         m_pageDialog->showButtonSeparator(true);
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
-        m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
+        m_pageDialog->setHelp(QString(), QString::fromLatin1("umbrello"));
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
         connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
@@ -264,21 +263,16 @@ void MultiPageDialogBase::slotDefaultClicked()
     emit defaultClicked();
 }
 
+#if QT_VERSION >= 0x050000
 /**
  * Launch khelpcenter.
  */
 void MultiPageDialogBase::slotHelpClicked()
 {
     DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
-#if QT_VERSION >= 0x050000
     KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-#else
-    QUrl url = QUrl(QLatin1String("help:/umbrello/index.html"));
-    QDesktopServices::openUrl(url);
-#endif
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Button clicked event handler for the dialog button box.
  * @param button  the button which was clicked

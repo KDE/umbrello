@@ -93,8 +93,8 @@ private slots:
     void slotOkClicked();
     void slotApplyClicked();
     void slotDefaultClicked();
-    void slotHelpClicked();
 #if QT_VERSION >= 0x050000
+    void slotHelpClicked();
     void slotButtonClicked(QAbstractButton *button);
 #endif
 protected:
