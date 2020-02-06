@@ -103,6 +103,8 @@ namespace Import_Utils {
 
     bool isDatatype(const QString& name, UMLPackage *parentPkg = 0);
 
+    UMLPackage *globalScope();
+
 } // end namespace Import_Utils
 
 #endif

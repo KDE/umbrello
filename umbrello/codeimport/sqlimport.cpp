@@ -311,9 +311,10 @@ QString SQLImport::parseDefaultExpression(QString &token)
 SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
 {
     ColumnConstraints constraints;
-    int index = m_srcIndex;
 
-    while(token != QLatin1String(",") && token != QLatin1String(")") && token.toLower() != QLatin1String("COMMENT")) {
+    while (token != QLatin1String(",") && token != QLatin1String(")") && token.toLower() != QLatin1String("comment")) {
+        const int origIndex = m_srcIndex;
+
         if (token.toLower() == QLatin1String("character")) { // mysql
             token = advance(); // set
             if (token.toLower() == QLatin1String("set")) {
@@ -395,9 +396,9 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
                 }
                 // USING INDEX TABLESPACE tablespace
                 if (token.toLower() == QLatin1String("using")) {
-                    token = advance();
-                    token = advance();
-                    token = advance();
+                    token = advance();  // INDEX
+                    token = advance();  // TABLESPACE
+                    token = advance();  // tablespace
                     token = advance();
                 }
             }
@@ -452,10 +453,15 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             constraints.autoIncrement = true;
             token = advance();
         }
-        if (index == m_srcIndex) {
+
+        if (m_srcIndex == origIndex) {
             log(m_parsedFiles.first(), QLatin1String("could not parse column constraint '") + token + QLatin1String("'"));
             token = advance();
-            index = m_srcIndex;
+        }
+    }
+    if (token.toLower() == QLatin1String("comment")) {
+        while (token != QLatin1String(",") && token != QLatin1String(")")) {
+            token = advance();
         }
     }
     return constraints;

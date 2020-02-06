@@ -243,6 +243,11 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                              foundType == UMLObject::ot_Datatype)) {
                             return obj;
                         }
+                        // Code import may set <<class-or-package>> stereotype
+                        if ((type == UMLObject::ot_Package || type == UMLObject::ot_Class)
+                            && obj->stereotype() == QLatin1String("class-or-package")) {
+                            return obj;
+                        }
                         continue;
                     }
                     return obj;
@@ -275,6 +280,11 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         UMLObject::ObjectType foundType = obj->baseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != UMLObject::ot_UMLObject && type != foundType) {
+                // Code import may set <<class-or-package>> stereotype
+                if ((type == UMLObject::ot_Package || type == UMLObject::ot_Class)
+                    && obj->stereotype() == QLatin1String("class-or-package")) {
+                    return obj;
+                }
                 uDebug() << "type mismatch for "
                     << name << " (seeking type: "
                     << UMLObject::toString(type) << ", found type: "

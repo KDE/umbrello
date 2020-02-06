@@ -692,9 +692,6 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
         return;
     }
     m_pAssocWidget = assocwidget;
-    UMLAssociation *umlassoc = nullptr;
-    if (assocwidget)
-        umlassoc = assocwidget->association();
 }
 
 /**

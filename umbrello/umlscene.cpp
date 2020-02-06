@@ -116,8 +116,9 @@ DEBUG_REGISTER_DISABLED(UMLScene)
 class UMLScenePrivate {
 public:
     UMLScenePrivate(UMLScene *parent)
-      : p(parent),
-        toolBarState(nullptr)
+      : p(parent)
+      , toolBarState(nullptr)
+      , inMouseMoveEvent(false)
     {
         toolBarStateFactory = new ToolBarStateFactory;
     }
@@ -252,6 +253,7 @@ public:
     ToolBarStateFactory *toolBarStateFactory;
     ToolBarState *toolBarState;
     QPointer<WidgetBase> widgetLink;
+    bool inMouseMoveEvent;
 };
 
 /**
@@ -946,7 +948,15 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
  */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
+#if QT_VERSION < 0x050000
+    if (m_d->inMouseMoveEvent)
+        return;
+    m_d->inMouseMoveEvent = true;
     m_d->toolBarState->mouseMove(ome);
+    m_d->inMouseMoveEvent = false;
+#else
+    m_d->toolBarState->mouseMove(ome);
+#endif
 }
 
 /**
@@ -2655,9 +2665,9 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     // if the attribute type has a widget representation on this view
     if (w) {
         AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-        if (a == 0 &&
-            // if the current diagram type permits compositions
-            AssocRules::allowAssociation(assocType, widget, w)) {
+        if (a) {
+            a->setAssociationType(assocType);
+        } else if (AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == QLatin1String("CORBAInterface"))
@@ -2679,19 +2689,18 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         UMLDatatype *dt = type->asUMLDatatype();
         // if the Datatype is a reference (pointer) type
         if (dt && dt->isReference()) {
-            //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
             UMLClassifier *c = dt->originType();
             UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
+                Uml::AssociationType::Enum assocType = Uml::AssociationType::Aggregation;
                 AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-                if (a == 0 &&
-                        // if the current diagram type permits aggregations
-                        AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w)) {
+                if (a) {
+                    a->setAssociationType(assocType);
+                } else if (AssocRules::allowAssociation(assocType, widget, w)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
-                    a = AssociationWidget::create (this, widget,
-                                                   Uml::AssociationType::Aggregation, w, attr);
+                    a = AssociationWidget::create (this, widget, assocType, w, attr);
                     a->setVisibility(attr->visibility(), Uml::RoleType::B);
                     //a->setChangeability(true, Uml::RoleType::B);
                     a->setMultiplicity(QLatin1String("0..1"), Uml::RoleType::B);

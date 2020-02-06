@@ -328,33 +328,7 @@ void CodeImpSelectPage::changeLanguage()
     apply();
      */
     // set the file extension pattern with which the files are filtered
-    m_fileExtensions.clear();
-    switch (pl) {  //:TODO: More languages?
-    case Uml::ProgrammingLanguage::Ada:
-        m_fileExtensions << QLatin1String("*.ads") << QLatin1String("*.adb") << QLatin1String("*.ada");
-        break;
-    case Uml::ProgrammingLanguage::Cpp:
-        m_fileExtensions << QLatin1String("*.h") << QLatin1String("*.hpp") << QLatin1String("*.hh")
-                         << QLatin1String("*.hxx") << QLatin1String("*.H");
-        break;
-    case Uml::ProgrammingLanguage::IDL:
-        m_fileExtensions << QLatin1String("*.idl");
-        break;
-    case Uml::ProgrammingLanguage::Java:
-        m_fileExtensions << QLatin1String("*.java");
-        break;
-    case Uml::ProgrammingLanguage::Pascal:
-        m_fileExtensions << QLatin1String("*.pas");
-        break;
-    case Uml::ProgrammingLanguage::Python:
-        m_fileExtensions << QLatin1String("*.py") << QLatin1String("*.pyw");
-        break;
-    case Uml::ProgrammingLanguage::CSharp:
-        m_fileExtensions << QLatin1String("*.cs");
-        break;
-    default:
-        break;
-    }
+    m_fileExtensions = Uml::ProgrammingLanguage::toExtensions(pl);
     uDebug() << "File extensions " << m_fileExtensions;
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
