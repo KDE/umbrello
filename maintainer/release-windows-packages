@@ -16,14 +16,15 @@ NAME=umbrello
 # package name on download.kde.org
 RELEASE_NAME=umbrello
 
+ROOT=home:rhabacker:branches:
 PACKAGENAME32=mingw32-$NAME
-ROOT32=windows\:mingw\:win32
+ROOT32=${ROOT}windows\:mingw\:win32
 SRCROOT32=${ROOT32}
 ARCHOUT32=i686-w64-mingw32
 use32=1
 
 PACKAGENAME64=mingw64-$NAME
-ROOT64=windows\:mingw\:win64
+ROOT64=${ROOT}windows\:mingw\:win64
 SRCROOT64=${ROOT64}
 ARCHOUT64=x86_64-w64-mingw32
 use64=1
