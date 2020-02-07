@@ -78,6 +78,11 @@ case $var in
 	shift
 	;;
 
+--update) ## update already installed release
+	update=1
+	shift
+	;;
+
 --symlink) ## update 'latest' symbolic link
 	update_symlink=1
 	shift
