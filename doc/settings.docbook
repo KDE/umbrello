@@ -72,7 +72,7 @@
 </sect2>    <!-- startup-settings -->
 
 <sect2 id= "notifications-settings">
-<title>Notifiations</title>
+<title>Notifications</title>
 <itemizedlist>
     <listitem><para><guilabel>Enable all messages</guilabel> is an option to either see all
             notifications or a reduced set of notifications.</para>
@@ -485,7 +485,7 @@
             along with a browse button to find a select the include file. There
             is also an option to make the list global.</para>
         <para><guilabel>String</guilabel></para>
-            <para>Options of string or Qstring for the string type. An editable
+            <para>Options of string or QString for the string type. An editable
                 or selectable field follows to specify the include file along
                 with a browse button to find a select the include file. There
                 is also an option to make the string global.
@@ -518,13 +518,13 @@
             </mediaobject>
         </screenshot>
     </para>
-    <para>Allows customation of the Code Viewer. The <guilabel>Requested Font</guilabel>
+    <para>Allows customization of the Code Viewer. The <guilabel>Requested Font</guilabel>
         section allows the selection of the font, font style, and font size. A representation
         of you choices is shown below the choices.
     </para>
     <para>
         In the <guilabel>Colors</guilabel> section, changes can be made to Paper, Font, Selected,
-        UML object block, Hidden block, Editable text, and Uneditable text. Chnages to the colors
+        UML object block, Hidden block, Editable text, and Uneditable text. Changes to the colors
         can be made by clicking on the color box by the respective label.
     </para>
 </sect1>    <!-- code-viewer-settings -->
