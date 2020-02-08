@@ -225,7 +225,7 @@
     <listitem>
     <para><guilabel>For each imported file create an artifact in
     the component view</guilabel> The artifact created can
-    then be drug into the Class Diagram view where dependencies
+    then be dragged into the Class Diagram view where dependencies
     can be easily seen along with the attributes and functions
     of each file.</para>
     </listitem>
@@ -308,7 +308,7 @@
     </listitem>
     <listitem>
         <para><guilabel>Use a different name</guilabel> when a file already exists
-            buy renaming it using a suffix.</para>
+            by renaming it using a suffix.</para>
     </listitem>
 </itemizedlist>
 
@@ -392,7 +392,7 @@
 
     <sect4 id="language-general-tab">
         <title>General</title>
-        <para>Under the <guilabel>Language Options</guilabel><guilabel>General</guilabel>
+        <para>Under the <guilabel>General</guilabel> tab of the <guilabel>Language Options</guilabel>
             tab, several code generation options are listed.</para>
         <itemizedlist>
             <listitem>
@@ -454,7 +454,7 @@
                 <para>This capitalizes the first letter of the method name.</para>
             </listitem>
             <listitem>
-                <para><guilabel>Use a '\' as documentation tag instead of @</guilabel></para>
+                <para><guilabel>Use '\' as documentation tag instead of @</guilabel></para>
                 <para>A tag choice to use when documenting parameters of a method.</para>
             </listitem>
         </itemizedlist>
