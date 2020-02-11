@@ -2,7 +2,7 @@
 Type=Service
 Exec=blubb
 Comment=Finds and runs PHPUnit tests.
-Comment[ca]=Cerca i executa les proves de PHPUnit.
+Comment[ca]=Cerca i executa les proves del PHPUnit.
 Comment[ca@valencia]=Cerca i executa les proves de PHPUnit.
 Comment[cs]=Hledá a spouští testy PHPUnit.
 Comment[da]=Finder og kører PHPUnit-test.
