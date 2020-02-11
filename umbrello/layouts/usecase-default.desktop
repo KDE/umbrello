@@ -2,7 +2,7 @@
 Type=Service
 Name=UseCase Default Layout
 Name[bs]=UseCase podrazumijevani raspored
-Name[ca]=Disposició per omissió de casos d'ús
+Name[ca]=Disposició predeterminada dels casos d'ús
 Name[ca@valencia]=Disposició per omissió de casos d'ús
 Name[da]=Standardlayout for brugsmønster
 Name[de]=Standardlayout für Anwendungsfälle
@@ -38,7 +38,7 @@ Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
 Comment[bs]=UseCase podrazumijevani raspored
-Comment[ca]=Disposició per omissió de casos d'ús
+Comment[ca]=Disposició predeterminada dels casos d'ús
 Comment[ca@valencia]=Disposició per omissió de casos d'ús
 Comment[da]=Standardlayout for brugsmønster
 Comment[de]=Standardlayout für Anwendungsfälle
