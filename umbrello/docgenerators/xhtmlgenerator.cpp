@@ -258,7 +258,7 @@ QString XhtmlGenerator::customXslFile()
 
   QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
 #if QT_VERSION >= 0x050000
-    QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else
     QString xsltFileName(KGlobal::dirs()->findResource("appdata", xslBaseName));
 #endif
