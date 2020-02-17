@@ -161,9 +161,9 @@ void DocbookGeneratorJob::run()
 
     QString xslBaseName = QLatin1String("xmi2docbook.xsl");
 #if QT_VERSION >= 0x050000
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", xslBaseName));
+    QString xsltFile(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
 #endif
     if (xsltFile.isEmpty())
         xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;

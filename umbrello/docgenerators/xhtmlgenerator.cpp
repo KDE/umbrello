@@ -182,9 +182,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     QString cssBaseName = QLatin1String("xmi.css");
 #if QT_VERSION >= 0x050000
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, cssBaseName));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + cssBaseName));
 #else
-    QString cssFileName(KGlobal::dirs()->findResource("appdata", cssBaseName));
+    QString cssFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + cssBaseName));
 #endif
     if (cssFileName.isEmpty())
         cssFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
@@ -238,11 +238,11 @@ void XhtmlGenerator::threadFinished()
  */
 QString XhtmlGenerator::localDocbookXslFile()
 {
-    QString xslFileName = QLatin1String("../../xml/docbook/stylesheet/nwalsh/current/html/docbook.xsl");
+    QString xslFileName = QLatin1String("xml/docbook/stylesheet/nwalsh/current/html/docbook.xsl");
 #if QT_VERSION >= 0x050000
     QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, xslFileName);
 #else
-    QString localXsl = KGlobal::dirs()->findResource("data", xslFileName);
+    QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("../../") + xslFileName);
 #endif
     QFileInfo fi(localXsl);
     return fi.canonicalFilePath();
@@ -258,9 +258,9 @@ QString XhtmlGenerator::customXslFile()
 
   QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
 #if QT_VERSION >= 0x050000
-    QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("umbrello5/") + xslBaseName));
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else
-    QString xsltFileName(KGlobal::dirs()->findResource("appdata", xslBaseName));
+    QString xsltFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
 #endif
   if (xsltFileName.isEmpty())
       xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
