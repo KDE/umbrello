@@ -15,7 +15,7 @@
 
 // qt includes
 #include <QFileInfo>
-#include <QLibraryInfo>
+#include <QCoreApplication>
 
 namespace File_Utils {
 
@@ -26,11 +26,11 @@ namespace File_Utils {
 QString xmlCatalogFilePath()
 {
 #ifdef Q_OS_WIN
-    QString dataRoot = QLibraryInfo::location(QLibraryInfo::BinariesPath) + QLatin1String("/../");
+    QString dataRoot = QCoreApplication::applicationDirPath() + QLatin1String("/../");
 #else
-    QString dataRoot = QLatin1String("/etc/xml");
+    QString dataRoot = QLatin1String("/");
 #endif
-    QFileInfo fi(dataRoot + QLatin1String("/catalog"));
+    QFileInfo fi(dataRoot + QLatin1String("etc/xml/catalog"));
     uDebug() << fi.canonicalFilePath();
     return fi.canonicalFilePath();
 }
