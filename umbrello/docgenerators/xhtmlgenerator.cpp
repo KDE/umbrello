@@ -232,30 +232,12 @@ void XhtmlGenerator::threadFinished()
 }
 
 /**
- * return local dookbool xsl file for generating html
- *
- * @return filename if present
- */
-QString XhtmlGenerator::localDocbookXslFile()
-{
-    QString xslFileName = QLatin1String("xml/docbook/stylesheet/nwalsh/current/html/docbook.xsl");
-#if QT_VERSION >= 0x050000
-    QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, xslFileName);
-#else
-    QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("../../") + xslFileName);
-#endif
-    QFileInfo fi(localXsl);
-    return fi.canonicalFilePath();
-}
-
-/**
  * return custom xsl file for generating html
  *
- * @return filename
+ * @return filename with path
  */
 QString XhtmlGenerator::customXslFile()
 {
-
   QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
 #if QT_VERSION >= 0x050000
     QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
@@ -265,5 +247,6 @@ QString XhtmlGenerator::customXslFile()
   if (xsltFileName.isEmpty())
       xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
+  uDebug() << "XSLT file is'" << xsltFileName << "'";
   return xsltFileName;
 }

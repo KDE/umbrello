@@ -52,7 +52,6 @@ public:
 #else
     bool generateXhtmlForProjectInto(const KUrl& destDir);
 #endif
-    static QString localDocbookXslFile();
     static QString customXslFile();
 
 signals:

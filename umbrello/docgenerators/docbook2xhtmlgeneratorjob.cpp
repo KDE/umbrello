@@ -11,6 +11,7 @@
 #include "docbook2xhtmlgeneratorjob.h"
 
 #include "debug_utils.h"
+#include "file_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "xhtmlgenerator.h"
@@ -74,35 +75,13 @@ void Docbook2XhtmlGeneratorJob::run()
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
   QString xsltFileName = XhtmlGenerator::customXslFile();
 
-  uDebug() << "XSLT file is'" << xsltFileName << "'";
-  QFile xsltFile(xsltFileName);
-  xsltFile.open(QIODevice::ReadOnly);
-  QString xslt = QString::fromLatin1(xsltFile.readAll());
-  uDebug() << "XSLT is'" << xslt << "'";
-  xsltFile.close();
-
-  QString localXsl = XhtmlGenerator::localDocbookXslFile();
-  uDebug() << "Local xsl is'" << localXsl << "'";
-  if (!localXsl.isEmpty())
-  {
-    localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
-    xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
-  }
-#if QT_VERSION >= 0x050000
-  QTemporaryFile tmpXsl;
-#else
-  KTemporaryFile tmpXsl;
-#endif
-  tmpXsl.setAutoRemove(false);
-  tmpXsl.open();
-  QTextStream str (&tmpXsl);
-  str << xslt;
-  str.flush();
+  // use public xml catalogs
+  xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
 
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  uDebug() << "Parsing stylesheet " << tmpXsl.fileName();
-  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().toLatin1().constData());
+  uDebug() << "Parsing stylesheet " << xsltFileName;
+  cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
   uDebug() << "Parsing file " << m_docbookUrl.path();
   doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
   uDebug() << "Applying stylesheet ";

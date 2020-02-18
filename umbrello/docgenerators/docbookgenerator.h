@@ -50,8 +50,9 @@ class DocbookGenerator : public QObject
 #else
     void generateDocbookForProjectInto(const KUrl& destDir);
 #endif
-  signals:
+    static QString customXslFile();
 
+signals:
     void finished(bool status);
 
   private slots:

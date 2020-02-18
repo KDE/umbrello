@@ -10,7 +10,9 @@
 
 #include "docbookgeneratorjob.h"
 
+#include "docbookgenerator.h"
 #include "debug_utils.h"
+#include "file_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 
@@ -159,14 +161,15 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = 0;
 
-    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
-#if QT_VERSION >= 0x050000
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
-#else
-    QString xsltFile(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
-#endif
-    if (xsltFile.isEmpty())
-        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+    // use public xml catalogs
+    xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
+
+    // replace external uri for docbook.xsl
+    QString docBookUrl = QLatin1String("http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl");
+    xmlChar *localDocBookURI = xmlCatalogResolveURI((const xmlChar *)docBookUrl.toLocal8Bit().constData());
+    replaceURLList[docBookUrl] = QString(QLatin1String((const char *)localDocBookURI));
+
+    QString xsltFile = DocbookGenerator::customXslFile();
 
     if (!defaultEntityLoader) {
         defaultEntityLoader = xmlGetExternalEntityLoader();
