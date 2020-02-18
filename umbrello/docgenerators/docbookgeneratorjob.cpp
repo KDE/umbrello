@@ -164,11 +164,6 @@ void DocbookGeneratorJob::run()
     // use public xml catalogs
     xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
 
-    // replace external uri for docbook.xsl
-    QString docBookUrl = QLatin1String("http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl");
-    xmlChar *localDocBookURI = xmlCatalogResolveURI((const xmlChar *)docBookUrl.toLocal8Bit().constData());
-    replaceURLList[docBookUrl] = QString(QLatin1String((const char *)localDocBookURI));
-
     QString xsltFile = DocbookGenerator::customXslFile();
 
     if (!defaultEntityLoader) {
@@ -176,6 +171,7 @@ void DocbookGeneratorJob::run()
         xmlSetExternalEntityLoader(xsltprocExternalEntityLoader);
         QFileInfo xsltFilePath(xsltFile);
 
+        // Note: This would not be required if the dtd would be registered in global xml catalog
         replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString(QLatin1String("file:///%1/simple4125/sdocbook.dtd")).arg(xsltFilePath.absolutePath());
     }
 
