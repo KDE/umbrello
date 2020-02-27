@@ -4,7 +4,7 @@
   <extends>org.kde.umbrello.desktop</extends>
   <name>KDevelop PHP Support</name>
   <name xml:lang="ca">Implementació del PHP al KDevelop</name>
-  <name xml:lang="ca-valencia">Implementació de PHP al KDevelop</name>
+  <name xml:lang="ca-valencia">Implementació del PHP al KDevelop</name>
   <name xml:lang="cs">Podpora jazyka PHP v KDevelop</name>
   <name xml:lang="de">KDevelop – PHP-Unterstützung</name>
   <name xml:lang="el">KDevelop PHP Support</name>
