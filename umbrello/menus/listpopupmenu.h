@@ -100,6 +100,7 @@ public:
         mt_InterfaceRequired,
         mt_Junction,
         mt_MessageAsynchronous,
+        mt_MessageCreation,
         mt_MessageFound,
         mt_MessageLost,
         mt_MessageSynchronous,

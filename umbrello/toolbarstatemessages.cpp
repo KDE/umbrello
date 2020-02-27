@@ -17,10 +17,12 @@
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
+#include "object_factory.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlscene.h"
+#include "widget_factory.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -176,7 +178,25 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 {
     Uml::SequenceMessage::Enum msgType = getMessageType();
 
-    if (m_firstObject && msgType ==  Uml::SequenceMessage::Lost) {
+    if (m_firstObject && msgType ==  Uml::SequenceMessage::Creation) {
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
+
+        bool state = m_pUMLScene->getCreateObject();
+        m_pUMLScene->setCreateObject(false);
+        UMLObject *object = Object_Factory::createUMLObject(UMLObject::ot_Class);
+        m_pUMLScene->setCreateObject(state);
+        ObjectWidget *widget = (ObjectWidget *)Widget_Factory::createWidget(m_pUMLScene, object);
+        widget->setX(xclick);
+        widget->activate();
+        m_pUMLScene->addWidgetCmd(widget);
+
+        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, widget, yclick, msgType);
+        setupMessageWidget(message, false);
+        cleanMessage();
+        xclick = 0;
+        yclick = 0;
+    } else if (m_firstObject && msgType ==  Uml::SequenceMessage::Lost) {
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
@@ -279,6 +299,9 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
  */
 Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
 {
+    if (getButton() == WorkToolBar::tbb_Seq_Message_Creation) {
+        return Uml::SequenceMessage::Creation;
+    }
     if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::SequenceMessage::Synchronous;
     }
@@ -287,6 +310,9 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Lost) {
         return Uml::SequenceMessage::Lost;
+    }
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Creation) {
+        return Uml::SequenceMessage::Creation;
     }
     return Uml::SequenceMessage::Asynchronous;
 }
@@ -303,14 +329,16 @@ void ToolBarStateMessages::cleanMessage()
     m_messageLine = 0;
 }
 
-void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
+void ToolBarStateMessages::setupMessageWidget(MessageWidget *message, bool showOperationDialog)
 {
-    FloatingTextWidget *ft = message->floatingTextWidget();
-    //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-    //Shouldn't it cancel also the whole creation?
-    ft->showOperationDialog();
-    message->setTextPosition();
-    m_pUMLScene->addWidgetCmd(ft);
+    if (showOperationDialog) {
+        FloatingTextWidget *ft = message->floatingTextWidget();
+        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+        //Shouldn't it cancel also the whole creation?
+        ft->showOperationDialog();
+        m_pUMLScene->addWidgetCmd(ft);
+        message->setTextPosition();
+    }
     UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));
     emit finished();
 }

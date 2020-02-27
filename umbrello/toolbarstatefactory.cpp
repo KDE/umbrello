@@ -87,6 +87,7 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_Child2Category:           return 1;
 
         // Messages
+    case WorkToolBar::tbb_Seq_Message_Creation:     return 2;
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;
     case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
     case WorkToolBar::tbb_Seq_Message_Found:        return 2;

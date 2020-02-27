@@ -191,6 +191,7 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
             insert(mt_Import_from_File, menu);
             insert(mt_Object, menu);
             if (m_scene->onWidgetLine(m_scene->pos())) {
+                insert(mt_MessageCreation, menu);
                 insert(mt_MessageSynchronous, menu);
                 insert(mt_MessageAsynchronous, menu);
                 insert(mt_MessageLost, menu);

@@ -109,7 +109,7 @@ protected:
     bool m_isObjectWidgetLine;
 
 private:
-    void setupMessageWidget(MessageWidget *msg);
+    void setupMessageWidget(MessageWidget *msg, bool showOperationDialog = true);
 
     /**
      * x and y clicked for lost and found messages

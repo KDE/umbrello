@@ -887,6 +887,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_MessageCreation:
     case ListPopupMenu::mt_MessageSynchronous:
 //        MessageWidget *widget = new MessageWidget(umlScene(), this);
 //        addConnectedWidget(widget, Uml::AssociationType::Coll_Message_Synchronous);

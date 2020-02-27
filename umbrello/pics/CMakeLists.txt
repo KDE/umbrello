@@ -101,6 +101,7 @@ set(ICONS
     text
     umbr-coll-message-asynchronous
     umbr-coll-message-synchronous
+    umbr-message-creation
     umbr-message-asynchronous
     umbr-message-synchronous
     uniassociation
@@ -166,6 +167,7 @@ set(CURSOR_ICONS
     text
     umbr-coll-message-asynchronous
     umbr-coll-message-synchronous
+    umbr-message-creation
     umbr-message-asynchronous
     umbr-message-found
     umbr-message-lost

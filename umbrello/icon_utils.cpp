@@ -315,6 +315,7 @@ QString toString(IconType type)
     case it_Literal_New: return QLatin1String("text-x-generic");
     case it_Message_Async: return QLatin1String("umbr-message-asynchronous");
     case it_Message_Asynchronous: return QLatin1String("umbr-coll-message-asynchronous");
+    case it_Message_Creation: return QLatin1String("umbr-message-creation");
     case it_Message_Found: return QLatin1String("umbr-message-found");
     case it_Message_Lost: return QLatin1String("umbr-message-lost");
     case it_Message_Sync: return QLatin1String("umbr-message-synchronous");

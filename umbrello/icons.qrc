@@ -179,5 +179,7 @@
         <file>pics/cursor-interface-provider.png</file>
         <file>pics/cursor-interface-requirement.png</file>
         <file>pics/cursor-subsystem.png</file>
+        <file>pics/cursor-umbr-message-creation.png</file>
+        <file>pics/umbr-message-creation.png</file>
     </qresource>
 </RCC>

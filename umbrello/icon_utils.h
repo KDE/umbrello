@@ -178,6 +178,7 @@ namespace Icon_Utils {
         it_Constraint_Unique,
         it_Enum_Literal,
         it_State_Activity,
+        it_Message_Creation,
         it_Message_Sync,
         it_Message_Async,
         it_Message_Found,

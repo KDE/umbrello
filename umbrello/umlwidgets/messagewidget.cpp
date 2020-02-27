@@ -502,7 +502,7 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
             offsetX += 7;
             w -= 7;
         }
-        paintArrow(painter, offsetX, lineY, w, Qt::RightArrow);
+        paintArrow(painter, offsetX, lineY, w, Qt::RightArrow, true);
         if (messageOverlapsA) {
             offsetX -= 7;
         }
@@ -510,7 +510,7 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
         if (messageOverlapsA) {
             w -= 7;
         }
-        paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow);
+        paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow, true);
     }
 
     UMLWidget::paint(painter, option);

@@ -212,6 +212,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Line_Color: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color...")); break;
     case mt_Logical_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
     case mt_MessageAsynchronous: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Async), i18n("Asynchronous Message")); break;
+    case mt_MessageCreation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Creation), i18n("Creation Message")); break;
     case mt_MessageFound: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Found), i18n("Found Message")); break;
     case mt_MessageLost: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Lost), i18n("Lost Message")); break;
     case mt_MessageSynchronous: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Sync), i18n("Synchronous Message")); break;

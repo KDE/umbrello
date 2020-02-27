@@ -64,6 +64,7 @@ public:
         tbb_Containment,
         tbb_Coll_Message_Synchronous,
         tbb_Coll_Message_Asynchronous,
+        tbb_Seq_Message_Creation,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
         tbb_Seq_Message_Found,
@@ -170,6 +171,7 @@ public slots:
     void slotContainment();
     void slotColl_Message_Synchronous();
     void slotColl_Message_Asynchronous();
+    void slotSeq_Message_Creation();
     void slotSeq_Message_Synchronous();
     void slotSeq_Message_Asynchronous();
     void slotSeq_Message_Found();
