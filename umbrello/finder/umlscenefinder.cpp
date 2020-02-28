@@ -10,6 +10,8 @@
 
 #include "umlscenefinder.h"
 
+#include "floatingtextwidget.h"
+#include "messagewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -41,6 +43,14 @@ int UMLSceneFinder::collect(Category category, const QString &text)
         if (!includeObject(category, w->umlObject()))
             continue;
         if (w->name().contains(text, Qt::CaseInsensitive))
+            m_items.append(w->id());
+    }
+    foreach(MessageWidget* w, scene->messageList()) {
+        if (w->umlObject() && !includeObject(category, w->umlObject()))
+            continue;
+        if (w->name().contains(text, Qt::CaseInsensitive))
+            m_items.append(w->id());
+        if (w->floatingTextWidget()->text().contains(text, Qt::CaseInsensitive))
             m_items.append(w->id());
     }
     return m_items.size();
