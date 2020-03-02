@@ -10,7 +10,9 @@
 
 #include "docbookgeneratorjob.h"
 
+#include "docbookgenerator.h"
 #include "debug_utils.h"
+#include "file_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 
@@ -159,20 +161,17 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = 0;
 
-    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
-#if QT_VERSION >= 0x050000
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, xslBaseName));
-#else
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", xslBaseName));
-#endif
-    if (xsltFile.isEmpty())
-        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+    // use public xml catalogs
+    xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
+
+    QString xsltFile = DocbookGenerator::customXslFile();
 
     if (!defaultEntityLoader) {
         defaultEntityLoader = xmlGetExternalEntityLoader();
         xmlSetExternalEntityLoader(xsltprocExternalEntityLoader);
         QFileInfo xsltFilePath(xsltFile);
 
+        // Note: This would not be required if the dtd would be registered in global xml catalog
         replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString(QLatin1String("file:///%1/simple4125/sdocbook.dtd")).arg(xsltFilePath.absolutePath());
     }
 

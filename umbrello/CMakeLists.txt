@@ -445,6 +445,7 @@ set(umbrellobase_SRCS
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
     diagram_utils.cpp
+    file_utils.cpp
     objectswindow.cpp
     docwindow.cpp
     dotgenerator.cpp

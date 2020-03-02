@@ -285,11 +285,6 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
         fileName = tmpFile.fileName();
     }
 
-    QRectF rect = scene->diagramRect();
-    if (rect.isEmpty()) {
-        return i18n("Cannot save an empty diagram");
-    }
-
     // exporting the view to the file
     if (!exportViewTo(scene, imageType, fileName)) {
         return i18n("A problem occurred while saving diagram in %1", fileName);
@@ -471,6 +466,10 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 
     qreal border = 0.01; // mm
     QRectF rect = scene->diagramRect();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
+
     QSizeF paperSize(rect.size() * 25.4f / qApp->desktop()->logicalDpiX());
 
     QPrinter printer(QPrinter::ScreenResolution);
@@ -523,6 +522,9 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 
     bool exportSuccessful;
     QRectF rect = scene->diagramRect();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -572,6 +574,10 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     QRectF rect = scene->diagramRect();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
+
     float scale = m_resolution != 0.0 ? m_resolution / qApp->desktop()->logicalDpiX() : 72.0f / qApp->desktop()->logicalDpiX();
     QSizeF size = rect.size() * scale;
     QPixmap diagram(size.toSize());

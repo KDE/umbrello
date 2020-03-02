@@ -24,6 +24,7 @@
 #include <KMessageBox>
 #if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
+#include <kstandarddirs.h>
 #endif
 #include <kio/job.h>
 
@@ -158,4 +159,23 @@ void DocbookGenerator::threadFinished()
     docbookGeneratorJob = 0;
 }
 
+/**
+ * return custom xsl file for generating docbook
+ *
+ * @return filename with path
+ */
+QString DocbookGenerator::customXslFile()
+{
+    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
+#if QT_VERSION >= 0x050000
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
+#else
+    QString xsltFile(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
+#endif
+    if (xsltFile.isEmpty())
+        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+    uDebug() << "XSLT file is'" << xsltFile << "'";
+    return xsltFile;
+}
 
