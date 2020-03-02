@@ -300,6 +300,12 @@ void ToolBarState::setCurrentElement()
         return;
     }
 
+    objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
+    if (objectWidgetLine) {
+        setCurrentWidget(objectWidgetLine);
+        return;
+    }
+
     // Check widgets.
     UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
