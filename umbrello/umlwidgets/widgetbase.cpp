@@ -63,14 +63,14 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
     m_changesShape(false)
 {
     Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
+    setFlags(ItemIsSelectable);
+    //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
+
     // Note: no virtual methods from derived classes available,
     // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
     setSelected(false);
 
-    // TODO 310283
-    setFlags(ItemIsSelectable);
-    //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     if (m_scene) {
         m_usesDiagramLineColor = true;
         m_usesDiagramLineWidth  = true;
