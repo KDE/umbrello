@@ -83,6 +83,7 @@ const int UMLWidget::resizeMarkerLineCount = 3;
  * @param type  The WidgetType to construct.
  *              This must be set to the appropriate value by the constructors of inheriting classes.
  * @param o The UMLObject to represent.
+ * @note Although a pointer to the scene is required, the widget is not added to the scene by default.
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
   : WidgetBase(scene, type, o ? o->id() : Uml::ID::None)
