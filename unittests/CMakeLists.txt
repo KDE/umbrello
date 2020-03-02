@@ -138,6 +138,13 @@ ecm_add_test(
     TEST_NAME testpreconditionwidget
 )
 
+ecm_add_test(
+    testwidgetbase.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testwidgetbase
+)
+
 set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )

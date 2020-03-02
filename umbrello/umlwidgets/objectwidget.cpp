@@ -101,6 +101,19 @@ bool ObjectWidget::multipleInstance() const
     return m_multipleInstance;
 }
 
+void ObjectWidget::setSelected(bool state)
+{
+    UMLWidget::setSelected(state);
+    if (m_pLine) {
+        QPen pen = m_pLine->pen();
+        int lineWidth = (int)UMLWidget::lineWidth();
+        if (state)
+            lineWidth = lineWidth ? lineWidth * 2 : 2;
+        pen.setWidth(lineWidth);
+        m_pLine->setPen(pen);
+    }
+}
+
 /**
  * Overridden from UMLWidget.
  * Moves the widget to a new position using the difference between the

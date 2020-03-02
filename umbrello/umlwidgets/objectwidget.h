@@ -44,6 +44,8 @@ public:
     void setMultipleInstance(bool multiple);
     bool multipleInstance() const;
 
+    void setSelected(bool state);
+
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     bool activate(IDChangeLog* ChangeLog = 0);

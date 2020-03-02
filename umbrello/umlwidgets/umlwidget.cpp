@@ -1668,7 +1668,7 @@ void UMLWidget::setScene(UMLScene *scene)
  */
 void UMLWidget::setX(qreal x)
 {
-    QGraphicsObject::setX(x);
+    QGraphicsObjectWrapper::setX(x);
 }
 
 /**
@@ -1680,7 +1680,7 @@ void UMLWidget::setX(qreal x)
  */
 void UMLWidget::setY(qreal y)
 {
-    QGraphicsObject::setY(y);
+    QGraphicsObjectWrapper::setY(y);
 }
 
 /**

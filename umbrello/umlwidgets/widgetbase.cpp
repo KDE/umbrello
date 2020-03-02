@@ -35,6 +35,23 @@
 #endif
 #include <QPointer>
 
+void QGraphicsObjectWrapper::setSelected(bool state)
+{
+    if (!m_calledFromItemChange)
+        QGraphicsObject::setSelected(state);
+    m_calledFromItemChange = false;
+}
+
+QVariant QGraphicsObjectWrapper::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemSelectedChange && scene()) {
+        bool state = value.toBool();
+        m_calledFromItemChange = true;
+        setSelected(state);
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
 /**
  * Creates a WidgetBase object.
  *
@@ -43,7 +60,7 @@
  *                value by the constructors of inheriting classes.
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
-  : QGraphicsObject(),
+  : QGraphicsObjectWrapper(),
     m_baseType(type),
     m_scene(scene),
     m_umlObject(0),
@@ -135,7 +152,7 @@ QString WidgetBase::baseTypeStrWithoutPrefix() const
  */
 void WidgetBase::setSelected(bool select)
 {
-    QGraphicsObject::setSelected(select);
+    QGraphicsObjectWrapper::setSelected(select);
 }
 
 /**

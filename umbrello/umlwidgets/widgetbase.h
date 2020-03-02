@@ -62,11 +62,46 @@ class UMLScene;
 class UMLWidget;   // required by function onWidget()
 
 /**
+ * Provides a wrapper that bypasses the restriction that
+ * QGraphicsItem::setSelected() is not virtual
+ *
+ * The selection management of umbrello uses a virtual method
+ * setSelected() for selection to achieve the desired behavior
+ * in the different derivation levels regarding selection and
+ * deselection.
+ *
+ * Within QGraphicsScene, QGraphicsItem::setSelected() is called
+ * to manage the selection state, e.g. with clearSelection(), but
+ * unfortunately cannot be directly overwritten by umbrello because
+ * this method is not virtual (I consider this a design flaw).
+ *
+ * Fortunately there is a workaround for the problem by using
+ * QGraphicsItem::itemChange(), which is overridden in this class
+ * and calls the (now) virtual method setSelected() when the selection
+ * state changes. This calls derived implementations of this method
+ * and realizes the desired behavior.
+ *
+ * Within setSelected() you have to take care that
+ * QGraphicsObject::setSelected() is not called if the call came
+ * from itemChange() to avoid an endless loop.
+ *
+ * @author Ralf Habacker <ralf.habacker@freenet.de>
+ */
+class QGraphicsObjectWrapper: public QGraphicsObject
+{
+public:
+    virtual void setSelected(bool state);
+protected:
+    bool m_calledFromItemChange{false};
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+};
+
+/**
  * @short       Common base class for UMLWidget and AssociationWidget
  * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class WidgetBase : public QGraphicsObject
+class WidgetBase : public QGraphicsObjectWrapper
 {
     Q_OBJECT
     Q_ENUMS(WidgetType)
