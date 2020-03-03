@@ -181,7 +181,7 @@
   </description>
   <url type="homepage">https://umbrello.kde.org</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=umbrello</url>
-  <url type="help">https://docs.kde.org/stable/en/kdesdk/umbrello/index.html</url>
+  <url type="help">https://docs.kde.org/?application=umbrello</url>
   <url type="donation">https://www.kde.org/community/donations/?app=umbrello&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
@@ -202,7 +202,7 @@
       <caption xml:lang="sv">Visa klassdiagram</caption>
       <caption xml:lang="uk">Показ діаграми класу</caption>
       <caption xml:lang="x-test">xxShowing class diagramxx</caption>
-      <image>https://kde.org/images/screenshots/umbrello.png</image>
+      <image>https://cdn.kde.org/screenshots/umbrello/umbrello.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
