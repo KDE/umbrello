@@ -1,6 +1,6 @@
 /*
     Copyright 2008  Andreas Fischer  <andi.fischer@hispeed.ch>
-    Copyright (C) 2009-2014                                               *
+    Copyright (C) 2009-2020                                               *
     Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
 
     This program is free software; you can redistribute it and/or

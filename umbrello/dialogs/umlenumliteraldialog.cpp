@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2015      Tzvetelin Katchov <katchov@gmail.com>         *
- *   copyright (C) 2002-2015                                               *
+ *   copyright (C) 2002-2020                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 

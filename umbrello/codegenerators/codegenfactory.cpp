@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
                               Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
- *   copyright (C) 2003-2014                                               *
+ *   copyright (C) 2003-2020                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
