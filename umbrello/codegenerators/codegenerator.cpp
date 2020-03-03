@@ -251,6 +251,7 @@ void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
         foreach (UMLClassifier *c, concepts) {
+            uIgnoreZeroPointer(c);
             UMLOperationList operations = c->getOpList();
             foreach (UMLOperation *op, operations) {
                 // save the source code
