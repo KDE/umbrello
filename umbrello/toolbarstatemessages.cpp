@@ -302,7 +302,10 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
     if (getButton() == WorkToolBar::tbb_Seq_Message_Creation) {
         return Uml::SequenceMessage::Creation;
     }
-    if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Destroy) {
+        return Uml::SequenceMessage::Destroy;
+    }
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::SequenceMessage::Synchronous;
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Found) {
@@ -310,9 +313,6 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Lost) {
         return Uml::SequenceMessage::Lost;
-    }
-    else if (getButton() == WorkToolBar::tbb_Seq_Message_Creation) {
-        return Uml::SequenceMessage::Creation;
     }
     return Uml::SequenceMessage::Asynchronous;
 }
@@ -335,8 +335,12 @@ void ToolBarStateMessages::setupMessageWidget(MessageWidget *message, bool showO
         FloatingTextWidget *ft = message->floatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
-        ft->showOperationDialog();
-        m_pUMLScene->addWidgetCmd(ft);
+        if (message->sequenceMessageType() == Uml::SequenceMessage::Destroy) {
+            message->setOperationText(i18n("destroy"));
+        } else {
+            ft->showOperationDialog();
+            m_pUMLScene->addWidgetCmd(ft);
+        }
         message->setTextPosition();
     }
     UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));

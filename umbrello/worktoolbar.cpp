@@ -145,6 +145,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
     case Uml::DiagramType::Sequence:
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Seq_Message_Creation);
+        insertHotBtn(tbb_Seq_Message_Destroy);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
         insertHotBtn(tbb_Seq_Message_Found);
@@ -329,6 +330,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Arrow,                    i18nc("selection arrow", "Select"), Icon_Utils::it_Arrow,                SLOT(slotArrow()) },
         { tbb_Object,                   i18n("Object"),                  Icon_Utils::it_Object,                  SLOT(slotObject()) },
         { tbb_Seq_Message_Creation,     i18n("Creation"),                Icon_Utils::it_Message_Creation,        SLOT(slotSeq_Message_Creation()) },
+        { tbb_Seq_Message_Destroy,      i18n("Destroy"),                 Icon_Utils::it_Message_Destroy,         SLOT(slotSeq_Message_Destroy()) },
         { tbb_Seq_Message_Synchronous,  i18n("Synchronous Message"),     Icon_Utils::it_Message_Sync,            SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"),    Icon_Utils::it_Message_Async,           SLOT(slotSeq_Message_Asynchronous()) },
         { tbb_Seq_Message_Found,        i18n("Found Message"),           Icon_Utils::it_Message_Found,           SLOT(slotSeq_Message_Found()) },
@@ -433,6 +435,7 @@ void WorkToolBar::slotContainment()              { buttonChanged(tbb_Containment
 void WorkToolBar::slotColl_Message_Synchronous() { buttonChanged(tbb_Coll_Message_Synchronous); }
 void WorkToolBar::slotColl_Message_Asynchronous(){ buttonChanged(tbb_Coll_Message_Asynchronous);}
 void WorkToolBar::slotSeq_Message_Creation()     { buttonChanged(tbb_Seq_Message_Creation);      }
+void WorkToolBar::slotSeq_Message_Destroy()      { buttonChanged(tbb_Seq_Message_Destroy);      }
 void WorkToolBar::slotSeq_Message_Synchronous()  { buttonChanged(tbb_Seq_Message_Synchronous);  }
 void WorkToolBar::slotSeq_Message_Asynchronous() { buttonChanged(tbb_Seq_Message_Asynchronous); }
 void WorkToolBar::slotSeq_Message_Found()        { buttonChanged(tbb_Seq_Message_Found);        }

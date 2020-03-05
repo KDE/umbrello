@@ -222,7 +222,8 @@ namespace Uml
             Asynchronous,
             Creation,
             Lost,
-            Found
+            Found,
+            Destroy,
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);

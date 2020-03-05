@@ -115,6 +115,7 @@ public:
     void calculateDimensionsSynchronous();
     void calculateDimensionsAsynchronous();
     void calculateDimensionsCreation();
+    void calculateDimensionsDestroy();
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
@@ -169,6 +170,7 @@ protected:
     void paintSynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintAsynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintCreation(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintDestroy(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintLost(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option);
 

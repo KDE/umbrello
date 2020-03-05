@@ -3316,6 +3316,10 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Creation);
         break;
 
+    case ListPopupMenu::mt_MessageDestroy:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Destroy);
+        break;
+
     case ListPopupMenu::mt_MessageSynchronous:
         m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Synchronous);
         break;
