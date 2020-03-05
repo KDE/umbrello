@@ -65,7 +65,8 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         y -= m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y);
-    }
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy)
+        m_pOw[Uml::RoleType::B]->setShowDestruction(true);
     updateResizability();
     calculateWidget();
     y = y < getMinY() ? getMinY() : y;
@@ -143,6 +144,8 @@ void MessageWidget::init()
  */
 MessageWidget::~MessageWidget()
 {
+    if (m_pOw[Uml::RoleType::B] && m_sequenceMessageType == Uml::SequenceMessage::Destroy)
+        m_pOw[Uml::RoleType::B]->setShowDestruction(false);
 }
 
 /**
@@ -307,6 +310,8 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         paintAsynchronous(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         paintCreation(painter, option);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
+        paintDestroy(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         paintLost(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
@@ -516,6 +521,10 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
     UMLWidget::paint(painter, option);
 }
 
+void MessageWidget::paintDestroy(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    paintSynchronous(painter, option);
+}
 
 /**
  * Draws a solid arrow line and a stick arrow head
@@ -1022,6 +1031,8 @@ void MessageWidget::calculateDimensions()
         calculateDimensionsAsynchronous();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         calculateDimensionsCreation();
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
+        calculateDimensionsDestroy();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         calculateDimensionsLost();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
@@ -1133,6 +1144,14 @@ void MessageWidget::calculateDimensionsCreation()
 
     setPos(x, m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
     setSize(widgetWidth, widgetHeight);
+}
+
+/**
+ * Calculates and sets the size of the widget for a destroy message.
+ */
+void MessageWidget::calculateDimensionsDestroy()
+{
+    calculateDimensionsSynchronous();
 }
 
 /**
@@ -1274,6 +1293,8 @@ QSizeF MessageWidget::minimumSize() const
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Asynchronous) {
         return isSelf() ? QSizeF(width(), 20) : QSizeF(width(), 8);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
+        return QSizeF(width(), 8);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
         return QSizeF(width(), 8);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         return QSizeF(width(), 10);

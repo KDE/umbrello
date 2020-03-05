@@ -631,9 +631,7 @@ void ObjectWidget::setLineColorCmd(const QColor &color)
 {
     UMLWidget::setLineColorCmd(color);
     if (m_pLine) {
-        QPen pen = m_pLine->pen();
-        pen.setColor(color);
-        m_pLine->setPen(pen);
+        m_pLine->setLineColorCmd(color);
     }
 }
 

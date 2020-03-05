@@ -13,6 +13,8 @@
 
 #include <QGraphicsLineItem>
 
+#include <QPen>
+
 class ObjectWidget;
 class UMLScene;
 
@@ -56,6 +58,7 @@ public:
     }
 
     void setEndOfLine(int yPosition);
+    void setLineColorCmd(const QColor &color);
 
 protected:
     void cleanupDestructionBox();
@@ -66,8 +69,18 @@ protected:
     UMLScene*     m_scene;    ///< scene displayed on
 
     struct DestructionBox {
-        QGraphicsLineItem * line1;
-        QGraphicsLineItem * line2;
+        QGraphicsLineItem * line1{nullptr};
+        QGraphicsLineItem * line2{nullptr};
+        void setLineColorCmd(const QColor &color)
+        {
+            if (!line1)
+                return;
+            QPen pen = line1->pen();
+            pen.setColor(color);
+            line1->setPen(pen);
+            line2->setPen(pen);
+        }
+
         void setLine1Points(QRect rect) {
             line1->setLine(rect.x(), rect.y(),
                             rect.x() + rect.width(), rect.y() + rect.height());
@@ -81,6 +94,7 @@ protected:
     int m_nLengthY;  ///< the length of the line
 
     static int const m_nMouseDownEpsilonX;   ///< margin used for mouse clicks
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 };
 
 #endif

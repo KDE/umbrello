@@ -114,6 +114,7 @@ private:
     bool m_isOnDestructionBox;  ///< true when a click occurred on the destruction box
     MessageWidgetList m_messages;   ///< message widgets with an end on this widget
 
+    friend class SeqLineWidget;
 };
 
 #endif

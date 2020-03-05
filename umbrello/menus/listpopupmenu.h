@@ -101,6 +101,7 @@ public:
         mt_Junction,
         mt_MessageAsynchronous,
         mt_MessageCreation,
+        mt_MessageDestroy,
         mt_MessageFound,
         mt_MessageLost,
         mt_MessageSynchronous,
@@ -145,6 +146,7 @@ public:
         // visual properties
         mt_Hide_Attribute_Signature_Selection,
         mt_Hide_Attributes_Selection,            // Unset visual property on multiple widgets
+        mt_Hide_Destruction_Box,
         mt_Hide_NonPublic_Selection,             // Could be named "show public only"
         mt_Hide_Operation_Signature_Selection,
         mt_Hide_Operations_Selection,            // Hide operations
@@ -155,6 +157,7 @@ public:
         mt_Show_Attribute_Signature_Selection,
         mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
         mt_Show_Attributes,                      // Toggle visual property on a widget
+        mt_Show_Destruction_Box,
         mt_Show_Documentation,
         mt_Show_NonPublic_Selection,             // Could be named "hide public only" (crazy!)
         mt_Show_Operation_Signature,

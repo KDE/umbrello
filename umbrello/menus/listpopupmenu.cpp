@@ -196,6 +196,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_ForeignKeyConstraint: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint...")); break;
     case mt_Fork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_Join), i18n("Fork")); break;
     case mt_GoToStateDiagram: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Remove), i18n("Go to state diagram")); break;
+    case mt_Hide_Destruction_Box: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Destroy), i18n("Hide destruction box")); break;
     case mt_Import_Class: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_File), i18n("Import File(s)...")); break;
     case mt_Import_Project: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import from Directory...")); break;
     case mt_Import_from_File: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file...")); break;
@@ -213,6 +214,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Logical_Folder: m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder")); break;
     case mt_MessageAsynchronous: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Async), i18n("Asynchronous Message")); break;
     case mt_MessageCreation: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Creation), i18n("Creation Message")); break;
+    case mt_MessageDestroy: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Destroy), i18n("Destroy Message")); break;
     case mt_MessageFound: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Found), i18n("Found Message")); break;
     case mt_MessageLost: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Lost), i18n("Lost Message")); break;
     case mt_MessageSynchronous: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Sync), i18n("Synchronous Message")); break;
@@ -255,6 +257,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Send_Signal: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Send_Signal), i18n("Send Signal")); break;
     case mt_ShallowHistory: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History")); break;
     case mt_Show: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show")); break;
+    case mt_Show_Destruction_Box: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Message_Destroy), i18n("Show destruction box")); break;
     case mt_State: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_State), i18nc("add new state", "State...")); break;
     case mt_StateFork: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork")); break;
     case mt_StateJoin: m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join")); break;

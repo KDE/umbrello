@@ -307,6 +307,11 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertStdItems(true, type);
         insert(mt_Rename_Object);
         insert(mt_Rename, i18n("Rename Class..."));
+        if (widget->asObjectWidget() &&
+                widget->umlScene() &&
+                widget->umlScene()->isSequenceDiagram()) {
+            insert(widget->asObjectWidget()->showDestruction() ? mt_Hide_Destruction_Box : mt_Show_Destruction_Box);
+        }
         insert(mt_Change_Font);
         insert(mt_Properties);
         break;

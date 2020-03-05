@@ -103,6 +103,7 @@ set(ICONS
     umbr-coll-message-synchronous
     umbr-message-asynchronous
     umbr-message-creation
+    umbr-message-destroy
     umbr-message-found
     umbr-message-lost
     umbr-message-synchronous
@@ -171,6 +172,7 @@ set(CURSOR_ICONS
     umbr-coll-message-synchronous
     umbr-message-asynchronous
     umbr-message-creation
+    umbr-message-destroy
     umbr-message-found
     umbr-message-lost
     umbr-message-synchronous

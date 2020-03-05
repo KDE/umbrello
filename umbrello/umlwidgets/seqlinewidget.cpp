@@ -17,6 +17,7 @@
 #include "objectwidget.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widgetbasepopupmenu.h"
 
 //qt includes
 #include <QPainter>
@@ -38,7 +39,6 @@ SeqLineWidget::SeqLineWidget(UMLScene *scene, ObjectWidget * pObject)
     setPen(QPen(m_pObject->lineColor(), 0, Qt::DashLine));
     setZValue(0);
     setVisible(true);
-    m_DestructionBox.line1 = 0;
     m_nLengthY = 250;
     setupDestructionBox();
 }
@@ -198,4 +198,17 @@ void SeqLineWidget::setEndOfLine(int yPosition)
     setLine(sp.x(), sp.y(), sp.x(), newY);
     moveDestructionBox();
     m_scene->resizeSceneToItems();
+}
+
+void SeqLineWidget::setLineColorCmd(const QColor &color)
+{
+    QPen pen = this->pen();
+    pen.setColor(color);
+    setPen(pen);
+    m_DestructionBox.setLineColorCmd(color);
+}
+
+void SeqLineWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    m_pObject->contextMenuEvent(event);
 }

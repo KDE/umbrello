@@ -30,6 +30,7 @@
 #include "interfacewidget.h"
 #include "notewidget.h"
 #include "messagewidget.h"
+#include "objectwidget.h"
 #include "object_factory.h"
 #include "idchangelog.h"
 #include "menus/listpopupmenu.h"
@@ -830,6 +831,20 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_Hide_Destruction_Box: {
+        ObjectWidget *w = asObjectWidget();
+        if (w)
+            w->setShowDestruction(false);
+        break;
+    }
+
+    case ListPopupMenu::mt_Show_Destruction_Box: {
+        ObjectWidget *w = asObjectWidget();
+        if (w)
+            w->setShowDestruction(true);
+        break;
+    }
+
     case ListPopupMenu::mt_Interface: {
         UMLPackage* component = umlObject()->asUMLPackage();
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Interface, component);
@@ -889,6 +904,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     }
 
     case ListPopupMenu::mt_MessageCreation:
+    case ListPopupMenu::mt_MessageDestroy:
     case ListPopupMenu::mt_MessageSynchronous:
 //        MessageWidget *widget = new MessageWidget(umlScene(), this);
 //        addConnectedWidget(widget, Uml::AssociationType::Coll_Message_Synchronous);

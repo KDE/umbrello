@@ -290,6 +290,7 @@ Uml::AssociationType::Enum ToolBarStateAssociation::getAssociationType()
         case WorkToolBar::tbb_Dependency:               at = Uml::AssociationType::Dependency;        break;
         case WorkToolBar::tbb_Containment:              at = Uml::AssociationType::Containment;       break;
         case WorkToolBar::tbb_Seq_Message_Creation:
+        case WorkToolBar::tbb_Seq_Message_Destroy:
         case WorkToolBar::tbb_Seq_Message_Synchronous:
         case WorkToolBar::tbb_Seq_Combined_Fragment:
         case WorkToolBar::tbb_Seq_Precondition:
