@@ -103,8 +103,8 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Enum:
         case UMLObject::ot_Entity:
         case UMLObject::ot_Instance:
-            o = obj->asUMLClassifier()->findChildObjectById(id);
-            if (o == 0 &&
+            o = obj->isUMLClassifier() ? obj->asUMLClassifier()->findChildObjectById(id) : nullptr;
+            if (o == nullptr &&
                     (t == UMLObject::ot_Interface || t == UMLObject::ot_Class))
                 o = ((UMLPackage*)obj)->findObjectById(id);
             if (o)
