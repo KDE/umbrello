@@ -142,8 +142,8 @@ void SeqLineWidget::setupDestructionBox()
         return;
     }
     QRect rect;
-    rect.setX(m_pObject->x() + m_pObject->width() / 2 - 10);
-    rect.setY(m_pObject->y() + m_pObject->height() + m_nLengthY);
+    rect.setX(m_pObject->x() + m_pObject->width() / 2 - 7);
+    rect.setY(m_pObject->y() + m_pObject->height() + m_nLengthY - 7);
     rect.setWidth(14);
     rect.setHeight(14);
 
