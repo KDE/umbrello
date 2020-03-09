@@ -64,7 +64,6 @@ protected:
         QCheckBox * undoCB;
         QCheckBox * tabdiagramsCB;
         QCheckBox * newcodegenCB;
-        SelectLayoutTypeWidget *layoutTypeW;
         QCheckBox * footerPrintingCB;
         QCheckBox * uml2CB;
 
