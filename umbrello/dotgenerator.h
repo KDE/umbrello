@@ -56,7 +56,7 @@ protected:
     bool m_usePosition; ///< use position tag from dot (not used yet)
     bool m_useFullNodeLabels; ///< use full node labels
     QString m_dotPath;     ///< contains path to generator executable
-    int m_version;         ///< version of graphviz generator
+    int m_version{0};         ///< version of graphviz generator
 
     friend QDebug operator<<(QDebug out, DotGenerator &c);
 };
