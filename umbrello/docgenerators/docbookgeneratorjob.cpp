@@ -69,19 +69,8 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
             qDebug() << "converted" << _URL << "to" << url;
         }
     }
-    char URL[1024];
-    strcpy(URL,url.toLatin1().constData());
 
-    const char *lastsegment = URL;
-    const char *iter = URL;
-
-    if (nbpaths > 0) {
-        while (*iter != 0) {
-            if (*iter == '/')
-            lastsegment = iter + 1;
-            iter++;
-        }
-    }
+    QByteArray URL = url.toLatin1();
 
     if ((ctxt != NULL) && (ctxt->sax != NULL)) {
         warning = ctxt->sax->warning;
@@ -89,7 +78,7 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
     }
 
     if (defaultEntityLoader != NULL) {
-        ret = defaultEntityLoader(URL, ID, ctxt);
+        ret = defaultEntityLoader(URL.constData(), ID, ctxt);
         if (ret != NULL) {
             if (warning != NULL)
                 ctxt->sax->warning = warning;
@@ -97,6 +86,10 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
             return(ret);
         }
     }
+
+    int j = URL.lastIndexOf("/");
+    const char *lastsegment = j > -1 ? URL.constData()+j+1 : URL.constData();
+
     for (int i = 0;i < nbpaths;i++) {
         xmlChar *newURL;
 
@@ -117,8 +110,8 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
     }
     if (warning != NULL) {
         ctxt->sax->warning = warning;
-        if (URL != NULL)
-            warning(ctxt, "failed to load external entity \"%s\"\n", URL);
+        if (_URL != NULL)
+            warning(ctxt, "failed to load external entity \"%s\"\n", _URL);
         else if (ID != NULL)
             warning(ctxt, "failed to load external entity \"%s\"\n", ID);
     }
