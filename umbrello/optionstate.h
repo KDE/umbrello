@@ -38,6 +38,7 @@ public:
         tabdiagrams(false),
         newcodegen(false),
         angularlines(false),
+        layoutType(Uml::LayoutType::Undefined),
         footerPrinting(false),
         autosave(false),
         time(0),
