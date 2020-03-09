@@ -56,7 +56,7 @@ class DebugMenu {
 public:
     DebugMenu(ListPopupMenu::MenuType _m) : m(_m) {}
     DebugMenu(const QString & _m) : menu(_m) {}
-    ListPopupMenu::MenuType m;
+    ListPopupMenu::MenuType m{ListPopupMenu::mt_Undefined};
     QString menu;
 };
 
