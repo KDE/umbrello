@@ -54,7 +54,7 @@ protected:
     void checkName();
 
     UMLScene*              m_pScene;  ///< the scene to represent
-    KFontChooser*          m_pChooser;
+    KFontChooser*          m_pChooser{nullptr};
     DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
     KPageWidgetItem*       m_pageStyleItem;
