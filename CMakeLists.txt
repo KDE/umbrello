@@ -232,12 +232,36 @@ add_unstable_feature(COMBINED_STATE_DIRECT_EDIT) # experimental feature
 # because of using umbrello specific XMI tag (UML:InstanceAttribute).
 add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=123633
 
-configure_file(Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
-find_program(DOXYGEN_EXECUTABLE doxygen)
-if(DOXYGEN_EXECUTABLE)
-    add_custom_target(apidoc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+# requires cmake >= 3.9.6
+find_package(Doxygen OPTIONAL_COMPONENTS dot)
+if(DOXYGEN_FOUND)
+    message(STATUS "found doxygen package")
+
+    set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
+    set(DOXYGEN_CALL_GRAPH YES)
+    set(DOXYGEN_EXCLUDE_PATTERNS */lib/*)
+    set(DOXYGEN_EXTRACT_ALL YES)
+    set(DOXYGEN_EXTRACT_PACKAGE YES)
+    set(DOXYGEN_EXTRACT_PRIVATE YES)
+    set(DOXYGEN_EXTRACT_STATIC YES)
+    set(DOXYGEN_GENERATE_HTMLHELP YES)
+    set(DOXYGEN_HAVE_DOT YES)
+    set(DOXYGEN_MARKDOWN_SUPPORT NO)
+    set(DOXYGEN_MAX_DOT_GRAPH_DEPTH 1000)
+    set(DOXYGEN_PROJECT_BRIEF "Umbrello UML Modeller is a Unified Modelling Language (UML) diagram program based on KDE Technology")
+    set(DOXYGEN_PROJECT_NUMBER ${UMBRELLO_VERSION_STRING})
+    #set(DOXYGEN_PROJECT_LOGO ${CMAKE_SOURCE_DIR}/umbrello/pics/global/hi32-apps-umbrello.png)
+    set(DOXYGEN_SOURCE_BROWSER NO)
+    set(DOXYGEN_UML_LOOK YES)
+    set(DOXYGEN_USE_PDFLATEX NO)
+    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/apidoc)
+
+    doxygen_add_docs(apidoc
+        ${CMAKE_SOURCE_DIR}
+        COMMENT "generating api doc"
     )
+
+    install(DIRECTORY ${CMAKE_BINARY_DIR}/apidoc DESTINATION ${UMBRELLO_DATA_INSTALL_DIR})
 endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
