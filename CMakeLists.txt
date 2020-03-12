@@ -236,6 +236,7 @@ add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
 if(DOXYGEN_FOUND)
     message(STATUS "found doxygen package")
+    find_program(QHELPGENERATOR_EXECUTABLE qhelpgenerator)
 
     set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
     set(DOXYGEN_CALL_GRAPH YES)
@@ -255,6 +256,15 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_UML_LOOK YES)
     set(DOXYGEN_USE_PDFLATEX NO)
     set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/apidoc)
+
+    if(QHELPGENERATOR_EXECUTABLE)
+        set(DOXYGEN_GENERATE_QHP YES)
+        set(DOXYGEN_QCH_FILE ${CMAKE_BINARY_DIR}/umbrello.qch)
+        set(DOXYGEN_QHP_NAMESPACE org.kde.umbrello)
+        set(DOXYGEN_QHG_LOCATION ${QHELPGENERATOR_EXECUTABLE})
+        set(DOXYGEN_QHP_VIRTUAL_FOLDER doc)
+        install(FILES ${DOXYGEN_QCH_FILE} DESTINATION ${QT_DOC_DIR}/qch COMPONENT Devel)
+    endif()
 
     doxygen_add_docs(apidoc
         ${CMAKE_SOURCE_DIR}
