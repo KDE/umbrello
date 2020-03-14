@@ -104,9 +104,11 @@ private:
     };
 
     typedef QMap<QString, MapEntry> MapType;
+    typedef QMap<QString,Qt::CheckState> StateMap;
 
     static Tracer* m_instance;
     static MapType *m_classes;
+    static StateMap *m_states;
 
     explicit Tracer(QWidget *parent = 0);
 };

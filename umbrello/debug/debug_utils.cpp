@@ -31,7 +31,7 @@ Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 
 Tracer* Tracer::m_instance = 0;
 Tracer::MapType *Tracer::m_classes = 0;
-
+Tracer::StateMap *Tracer::m_states = 0;
 
 Tracer* Tracer::instance()
 {
@@ -51,6 +51,8 @@ Tracer::Tracer(QWidget *parent)
     // in case no one called registerClass() before
     if (!m_classes)
         m_classes = new Tracer::MapType;
+    if (!m_states)
+        m_states = new Tracer::StateMap;
     setRootIsDecorated(true);
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));
@@ -65,6 +67,9 @@ Tracer::~Tracer()
 {
     clear();
     delete m_classes;
+    m_classes = nullptr;
+    delete m_states;
+    m_states = nullptr;
 }
 
 /**
@@ -136,8 +141,6 @@ void Tracer::update(const QString &name)
     }
 }
 
-QMap<QString,Qt::CheckState> states;
-
 /**
  * Update check box of parent items.
  *
@@ -157,7 +160,7 @@ void Tracer::updateParentItemCheckBox(QTreeWidgetItem* parent)
     else
         parent->setCheckState(0, Qt::PartiallyChecked);
 
-    states[parent->text(0)] = parent->checkState(0);
+    (*m_states)[parent->text(0)] = parent->checkState(0);
 }
 
 /**
@@ -196,7 +199,7 @@ void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
 {
     // @TODO parent->checkState(0) do not return the correct state
     // Qt::CheckState state = parent->checkState(0);
-    Qt::CheckState state = states[parent->text(0)];
+    Qt::CheckState state = (*m_states)[parent->text(0)];
     if (state == Qt::PartiallyChecked || state == Qt::Unchecked) {
         for(int i = 0; i < parent->childCount(); i++) {
             QString text = parent->child(i)->text(0);
