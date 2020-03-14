@@ -29,13 +29,13 @@
 Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 #endif
 
-Tracer* Tracer::m_instance = 0;
-Tracer::MapType *Tracer::m_classes = 0;
-Tracer::StateMap *Tracer::m_states = 0;
+Tracer* Tracer::m_instance = nullptr;
+Tracer::MapType *Tracer::m_classes = nullptr;
+Tracer::StateMap *Tracer::m_states = nullptr;
 
 Tracer* Tracer::instance()
 {
-    if (m_instance == 0) {
+    if (m_instance == nullptr) {
         m_instance = new Tracer();
     }
     return m_instance;
@@ -174,7 +174,7 @@ void Tracer::showEvent(QShowEvent* e)
     MapType::const_iterator i = m_classes->constBegin();
     for(; i != m_classes->constEnd(); i++) {
         QList<QTreeWidgetItem*> items = findItems(i.value().filePath, Qt::MatchFixedString);
-        QTreeWidgetItem* topLevel = 0;
+        QTreeWidgetItem* topLevel = nullptr;
         if (items.size() == 0) {
             topLevel = new QTreeWidgetItem(QStringList(i.value().filePath));
             topLevel->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
