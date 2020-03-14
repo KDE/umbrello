@@ -32,11 +32,11 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
 {
     setObjectName(QLatin1String("ObjectsWindow"));
 
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
-    proxy->setSourceModel(UMLApp::app()->document()->objectsModel());
-    proxy->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel = new QSortFilterProxyModel;
+    m_proxyModel->setSourceModel(UMLApp::app()->document()->objectsModel());
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_objectsTree = new QTableView;
-    m_objectsTree->setModel(proxy);
+    m_objectsTree->setModel(m_proxyModel);
     m_objectsTree->setSortingEnabled(true);
     m_objectsTree->verticalHeader()->setDefaultSectionSize(20);
     m_objectsTree->verticalHeader()->setVisible(false);
@@ -54,6 +54,7 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
 ObjectsWindow::~ObjectsWindow()
 {
     delete m_objectsTree;
+    delete m_proxyModel;
 }
 
 void ObjectsWindow::modified()

@@ -14,6 +14,7 @@
 #include <QDockWidget>
 #include <QModelIndex>
 
+class QSortFilterProxyModel;
 class QTableView;
 
 class ObjectsWindow : public QDockWidget
@@ -34,6 +35,7 @@ protected slots:
 
 protected:
     QTableView *m_objectsTree;
+    QSortFilterProxyModel *m_proxyModel;
 };
 
 #endif // ObjectsWindow_H
