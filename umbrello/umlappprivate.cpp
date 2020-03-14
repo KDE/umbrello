@@ -90,6 +90,7 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
         QByteArray data = d->readAll();
         html = QString::fromUtf8(data);
         d->close();
+        delete d;
     } else {
         QFile f(file);
         if (!f.open(QIODevice::ReadOnly))
