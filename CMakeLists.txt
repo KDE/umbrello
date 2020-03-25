@@ -19,6 +19,8 @@ endif()
 
 set(UMBRELLO_VERSION_PATCH ${RELEASE_SERVICE_VERSION_MICRO})
 
+option(BUILD_APIDOC "Create api documentation" ON)
+
 option(BUILD_ICONS "Create icons from svg source" OFF)
 
 option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
@@ -234,10 +236,10 @@ add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=
 
 # requires cmake >= 3.9.6
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
-if(DOXYGEN_FOUND)
+if(DOXYGEN_FOUND AND BUILD_APIDOC)
     message(STATUS "found doxygen package")
     find_program(QHELPGENERATOR_EXECUTABLE qhelpgenerator)
-
+    message(STATUS "found qhelpgenerator ${QHELPGENERATOR_EXECUTABLE}")
     set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
     set(DOXYGEN_CALL_GRAPH YES)
     set(DOXYGEN_EXCLUDE_PATTERNS */lib/*)
@@ -267,6 +269,7 @@ if(DOXYGEN_FOUND)
     endif()
 
     doxygen_add_docs(apidoc
+        ALL
         ${CMAKE_SOURCE_DIR}
         COMMENT "generating api doc"
     )
