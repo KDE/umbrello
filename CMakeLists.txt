@@ -6,6 +6,10 @@ if(POLICY CMP0028)
     cmake_policy(SET CMP0028 OLD)
 endif()
 
+if(POLICY CMP0057)
+    cmake_policy(SET CMP0057 NEW)
+endif()
+
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "20")
 set (RELEASE_SERVICE_VERSION_MINOR "07")
