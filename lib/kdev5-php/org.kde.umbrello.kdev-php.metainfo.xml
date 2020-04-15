@@ -19,6 +19,7 @@
   <name xml:lang="pl">Obsługa PHP dla KDevelop</name>
   <name xml:lang="pt">Suporte para PHP do KDevelop</name>
   <name xml:lang="pt-BR">Suporte PHP do KDevelop</name>
+  <name xml:lang="ru">Поддержка PHP для KDevelop</name>
   <name xml:lang="sk">PHP podpora pre KDevelop</name>
   <name xml:lang="sl">Podpora PHP-ju za KDevelop</name>
   <name xml:lang="sv">KDevelop PHP-stöd</name>
@@ -43,6 +44,7 @@
   <summary xml:lang="pl">Obsługa języka PHP dla KDevelop</summary>
   <summary xml:lang="pt">Suporte à linguagem PHP do KDevelop</summary>
   <summary xml:lang="pt-BR">Suporte à linguagem PHP do KDevelop</summary>
+  <summary xml:lang="ru">Поддержка языка программирования PHP для KDevelop</summary>
   <summary xml:lang="sk">Podpora jazyka PHP pre KDevelop</summary>
   <summary xml:lang="sl">Podpora jeziku PHP za KDevelop</summary>
   <summary xml:lang="sv">Stöd för språket PHP i KDevelop</summary>
