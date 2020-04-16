@@ -242,7 +242,7 @@ add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
 if(DOXYGEN_FOUND AND BUILD_APIDOC)
     message(STATUS "found doxygen package")
-    find_program(QHELPGENERATOR_EXECUTABLE qhelpgenerator)
+    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator qhelpgenerator-qt5)
     message(STATUS "found qhelpgenerator ${QHELPGENERATOR_EXECUTABLE}")
     set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
     set(DOXYGEN_CALL_GRAPH YES)
