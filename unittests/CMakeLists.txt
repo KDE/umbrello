@@ -168,7 +168,7 @@ if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
     message(STATUS "Found CLANG ${CLANG_PACKAGE_VERSION}")
-    if(LLVM_PACKAGE_VERSION VERSION_LOWER "9.0.0")
+    if(LLVM_PACKAGE_VERSION VERSION_LESS "9.0.0")
         set(ENABLE_LLVM_TESTCASES 1)
     endif()
 endif()
