@@ -168,7 +168,11 @@ if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
     message(STATUS "Found CLANG ${CLANG_PACKAGE_VERSION}")
-
+    if(LLVM_PACKAGE_VERSION VERSION_LOWER_EQUAL "8.0.0")
+        set(ENABLE_LLVM_TESTCASES 1)
+    endif()
+endif()
+if(ENABLE_LLVM_TESTCASES)
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
