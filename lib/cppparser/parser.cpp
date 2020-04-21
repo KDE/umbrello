@@ -1851,11 +1851,12 @@ void Parser::eventuallyTakeComment(int startLn, int endLn, Type& ast)
 template<class Type>
 void Parser::eventuallyTakeComment(Type& ast)
 {
-    if (&(*ast) && comment()) {
-        ast->setComment(comment());
-    }
+    int line = currentLine();
+    Comment c = m_commentStore.getCommentsInRange(line);
 
-    clearComment();
+    if (&(*ast) && c) {
+        ast->setComment(c);
+    }
 }
 
 void Parser::clearComment()

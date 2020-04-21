@@ -168,7 +168,7 @@ public:
     {
         format();
         rhs.format();
-        m_text += QLatin1String(" ") + rhs.m_text;
+        m_text += QLatin1String("\n") + rhs.m_text;
     }
 
     operator bool() const
@@ -232,6 +232,28 @@ public:
         } else {
             return Comment();
         }
+    }
+
+    /**
+     * Returns the comments between "end" (inclusive) and "start" and removes it
+     * @param end last line to return
+     * @param start start line to return
+     * @return instance of class Comment with combined comment
+     */
+    Comment getCommentsInRange(int end, int start = 0)
+    {
+        CommentSet::iterator it = m_comments.begin();
+
+        Comment ret;
+        while (it != m_comments.end() && (*it).line() >= start && (*it).line() <= end) {
+            if (ret)
+                ret += *it;
+            else
+                ret = *it;
+            m_comments.erase(it);
+            ++it;
+        }
+        return ret;
     }
 
     ///Returns and removes the comment in the line
