@@ -242,9 +242,30 @@ public:
      */
     Comment getCommentsInRange(int end, int start = 0)
     {
+        Comment ret;
+
+        if (m_comments.empty())
+            return ret;
+
+        // The following lines will look ahead if there is a independent comment.
         CommentSet::iterator it = m_comments.begin();
 
-        Comment ret;
+        int tempLine = (*it).line();
+        ++it;
+
+        while (it != m_comments.end() && (*it).line() >= start && (*it).line() <= end) {
+            if(tempLine == ((*it).line() - 1)) {
+                tempLine++;
+                ++it;
+            } else {
+               --it;
+               m_comments.erase(it); // The independent comment is deleted
+               break;
+            }
+        }
+
+        it = m_comments.begin(); // Redefines the beginning of the container
+
         while (it != m_comments.end() && (*it).line() >= start && (*it).line() <= end) {
             if (ret)
                 ret += *it;
