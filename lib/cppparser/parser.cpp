@@ -1852,7 +1852,7 @@ template<class Type>
 void Parser::eventuallyTakeComment(Type& ast)
 {
     int line = currentLine();
-    Comment c = m_commentStore.getCommentsInRange(line);
+    Comment c = m_commentStore.getCommentsInRange(line, true);
 
     if (&(*ast) && c) {
         ast->setComment(c);
@@ -3133,11 +3133,24 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
         if (parseInitDeclarator(declarator)) {
             int endSignature = m_lexer->index();
 
+            Comment mcomment;
+            if (&(*declarator)) {
+                int endLine, endColumn;
+                declarator->getEndPosition(&endLine, &endColumn);
+                mcomment = m_commentStore.getCommentsInRange(endLine);
+            }
+            else {
+                mcomment = comment();
+            }
+            clearComment();
+
             switch (m_lexer->lookAhead(0)) {
             case ';': {
                 nextToken();
 
                 InitDeclaratorListAST::Node declarators = CreateNode<InitDeclaratorListAST>();
+
+                SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
 
                 // update declarators position
                 int startLine, startColumn, endLine, endColumn;
@@ -3146,10 +3159,16 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
                     declarator->getEndPosition(&endLine, &endColumn);
                     declarators->setStartPosition(startLine, startColumn);
                     declarators->setEndPosition(endLine, endColumn);
+
+                    ast->setComment(mcomment);
+                    preparseLineComments(endLine);
+                    Comment c = m_commentStore.getCommentInRange(endLine);
+                    if (c) {
+                        ast->addComment(c);
+                    }
                 }
                 declarators->addInitDeclarator(declarator);
 
-                SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
                 ast->setInitDeclaratorList(declarators);
                 if (hasFunSpec)
                     ast->setFunctionSpecifier(funSpec);
@@ -3225,9 +3244,6 @@ start_decl:
         return false;
     }
 
-    Comment mcomment = comment();
-    clearComment();
-
     TypeSpecifierAST::Node spec;
     if (parseTypeSpecifier(spec)) {
         if (!hasFunSpec)
@@ -3252,6 +3268,17 @@ start_decl:
                 }
             }
         }
+
+        Comment mcomment;
+        if (&(*decl)) {
+            int line, col;
+            decl->getEndPosition(&line, &col);
+            mcomment = m_commentStore.getCommentsInRange(line);
+        }
+        else {
+            mcomment = comment();
+        }
+        clearComment();
 
         int endSignature = m_lexer->index();
         switch (m_lexer->lookAhead(0)) {
@@ -3292,6 +3319,16 @@ start_decl:
                 FunctionDefinitionAST::Node ast = CreateNode<FunctionDefinitionAST>();
 
                 ast->setComment(mcomment);
+                if (&(*decl)) {
+                    int line, col;
+                    decl->getEndPosition(&line, &col);
+
+                    preparseLineComments(line);
+                    Comment c = m_commentStore.getCommentInRange(line);
+                    if (c) {
+                        ast->addComment(c);
+                    }
+                }
 
                 ast->setWinDeclSpec(winDeclSpec);
                 ast->setStorageSpecifier(storageSpec);
