@@ -21,14 +21,12 @@ case "$ci_variant" in
         ;;
 
     (local-mingw32)
-        $zyp --gpg-auto-import-keys addrepo \
+        $zyp addrepo --refresh --no-gpgcheck \
             https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/win32/openSUSE_Leap_15.1/ \
             home:rhabacker:branches:windows:mingw:win32
-        $zyp modifyrepo --enable home:rhabacker:branches:windows:mingw:win32
-        $zyp --gpg-auto-import-keys addrepo \
+        $zyp addrepo --refresh --no-gpgcheck \
             https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/openSUSE_Leap_15.1/ \
             home:rhabacker:branches:windows:mingw
-        $zyp modifyrepo --enable home:rhabacker:branches:windows:mingw
         $zyp install \
             cmake \
             kdevelop4-pg-qt \
