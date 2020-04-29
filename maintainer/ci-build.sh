@@ -14,6 +14,8 @@ case "$ci_variant" in
         mkdir -p build && cd build
         CXXFLAGS=-Wno-suggest-override cmake ..
         make -j5
+        ctest -VV || true
+        make install DESTDIR=$PWD/tmp
         ;;
 
     (check)
