@@ -1,5 +1,14 @@
 image: opensuse/leap
 
+system_check:
+  stage: build
+  image: opensuse/leap
+  variables:
+    ci_variant: "check"
+  before_script:
+  script:
+    - maintainer/ci-build.sh
+
 build_local:
   stage: build
   image: opensuse/leap
