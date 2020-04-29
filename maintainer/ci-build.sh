@@ -21,12 +21,32 @@ case "$ci_variant" in
         ;;
 
     (local-mingw32)
-        $zyp addrepo https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/win32/openSUSE_Leap_15.1/ home:rhabacker:branches:windows:mingw:win32
+        $zyp --gpg-auto-import-keys addrepo \
+            https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/win32/openSUSE_Leap_15.1/ \
+            home:rhabacker:branches:windows:mingw:win32
         $zyp modifyrepo --enable home:rhabacker:branches:windows:mingw:win32
-        $zyp install cmake kdevelop4-pg-qt mingw32-cross-binutils mingw32-cross-gcc-c++ mingw32-cross-kde4-tools \
-            mingw32-cross-qmake mingw32-kdevelop4-pg-qt  mingw32-libqt4-devel mingw32-libqt4-tools \
-            mingw32-libqt4-tools-devel mingw32-libkde4-devel mingw32-libkdevplatform4-devel mingw32-libxml2-devel \
-            mingw32-libxslt-devel mingw32-oxygen-icon-theme gettext-tools
+        $zyp --gpg-auto-import-keys addrepo \
+            https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/openSUSE_Leap_15.1/ \
+            home:rhabacker:branches:windows:mingw
+        $zyp modifyrepo --enable home:rhabacker:branches:windows:mingw
+        $zyp install \
+            cmake \
+            kdevelop4-pg-qt \
+            make \
+            mingw32-cross-binutils \
+            mingw32-cross-gcc-c++ \
+            mingw32-cross-kde4-tools \
+            mingw32-cross-qmake \
+            mingw32-kdevelop4-pg-qt \
+            mingw32-libqt4-devel \
+            mingw32-libqt4-tools \
+            mingw32-libqt4-tools-devel \
+            mingw32-libkde4-devel \
+            mingw32-libkdevplatform4-devel \
+            mingw32-libxml2-devel \
+            mingw32-libxslt-devel \
+            mingw32-oxygen-icon-theme \
+            gettext-tools
         mkdir -p build && cd build
         CXXFLAGS=-Wno-suggest-override cmake ..
         make -j5
