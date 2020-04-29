@@ -1,15 +1,25 @@
 image: opensuse/leap
 
-build_opensuse:
+build_local:
   stage: build
   image: opensuse/leap
   #only:
   #  - merge_requests
+  variables:
+    ci_variant: "local"
   before_script:
     - zypper refresh
     - zypper --non-interactive update
-    # basic
-    - zypper --non-interactive install curl ca-certificates cmake git
-    - chmod a+x maintainer/ci-build.sh
+  script:
+    - maintainer/ci-build.sh
+
+build:obs:
+  stage: build
+  when: manual
+  image: opensuse/leap
+  variables:
+    ci_variant: "remote"
+  before_script:
+    - zypper --non-interactive install curl ca-certificates
   script:
     - maintainer/ci-build.sh
