@@ -10,13 +10,29 @@ system_check:
   script:
     - maintainer/ci-build.sh
 
-build_local:
+build_local_kf5:
   stage: build
+  when: manual
   image: opensuse/leap
   #only:
   #  - merge_requests
   variables:
-    ci_variant: "local"
+    ci_variant: "local-kf5"
+  before_script:
+    - zypper modifyrepo --enable repo-source
+    - zypper refresh
+    - zypper --non-interactive update
+  script:
+    - maintainer/ci-build.sh
+
+build_local_mingw32:
+  stage: build
+  when: manual
+  image: opensuse/leap
+  #only:
+  #  - merge_requests
+  variables:
+    ci_variant: "local-mingw32"
   before_script:
     - zypper modifyrepo --enable repo-source
     - zypper refresh
