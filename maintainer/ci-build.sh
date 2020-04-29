@@ -12,7 +12,7 @@ case "$ci_variant" in
         zypper --non-interactive install cmake
         zypper --non-interactive si umbrello
         mkdir -p build && cd build
-        cmake ..
+        CXXFLAGS=-Wno-suggest-override cmake ..
         make -j5
         ;;
 
