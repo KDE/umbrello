@@ -7,7 +7,7 @@ build_opensuse:
   #  - merge_requests
   before_script:
     - zypper refresh
-    - zypper update
+    - zypper --non-interactive update
     # basic
     - zypper --non-interactive install curl ca-certificates cmake git
     - chmod a+x maintainer/ci-build.sh
