@@ -22,14 +22,13 @@ case "$ci_variant" in
 
     (local-mingw32)
         $zyp addrepo --refresh --no-gpgcheck \
-            https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/win32/openSUSE_Leap_15.1/ \
+            https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/win32/openSUSE_Leap_15.1 \
             home:rhabacker:branches:windows:mingw:win32
-        $zyp addrepo --refresh --no-gpgcheck \
-            https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/openSUSE_Leap_15.1/ \
-            home:rhabacker:branches:windows:mingw
+        #$zyp addrepo --refresh --no-gpgcheck \
+        #    https://download.opensuse.org/repositories/home:/rhabacker:/branches:/windows:/mingw:/openSUSE_Leap_15.1 \
+        #    home:rhabacker:branches:windows:mingw
         $zyp install \
             cmake \
-            kdevelop4-pg-qt \
             make \
             mingw32-cross-binutils \
             mingw32-cross-gcc-c++ \
@@ -45,6 +44,7 @@ case "$ci_variant" in
             mingw32-libxslt-devel \
             mingw32-oxygen-icon-theme \
             gettext-tools
+            # kdevelop4-pg-qt
         mkdir -p build && cd build
         CXXFLAGS=-Wno-suggest-override cmake ..
         make -j5
