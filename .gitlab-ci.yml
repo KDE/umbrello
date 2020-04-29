@@ -9,7 +9,7 @@ build_opensuse:
     - zypper refresh
     - zypper update
     # basic
-    - zypper install curl ca-certificates cmake git
+    - zypper --non-interactive install curl ca-certificates cmake git
     - chmod a+x maintainer/ci-build.sh
   script:
     - maintainer/ci-build.sh
