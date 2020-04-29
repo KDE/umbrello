@@ -1,15 +1,15 @@
-image: debian:stretch-slim
+image: opensuse/leap
 
-build_ubuntu_18_04:
+build_opensuse:
   stage: build
-  image: ubuntu:bionic
+  image: opensuse/leap
   #only:
   #  - merge_requests
   before_script:
-    - sed -i -e 's/# deb-src/deb-src/g' /etc/apt/sources.list
-    - apt-get update
+    - zypper refresh
+    - zypper update
     # basic
-    - apt-get install --yes --no-install-recommends curl ca-certificates
+    - zypper install curl ca-certificates cmake git
     - chmod a+x maintainer/ci-build.sh
   script:
     - maintainer/ci-build.sh
