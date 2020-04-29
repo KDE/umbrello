@@ -18,6 +18,7 @@ build_local:
   variables:
     ci_variant: "local"
   before_script:
+    - zypper modifyrepo --enable repo-source
     - zypper refresh
     - zypper --non-interactive update
   script:
