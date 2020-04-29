@@ -2,6 +2,7 @@ image: opensuse/leap
 
 system_check:
   stage: build
+  when: manual
   image: opensuse/leap
   variables:
     ci_variant: "check"
