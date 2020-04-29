@@ -17,9 +17,11 @@ case "$ci_variant" in
         ;;
 
     (check)
-        set
-        zypper lr --url
         uname -a
         cat /etc/os-release
+        set
+        zypper lr --url
+        ifconfig
+        route
         ;;
 esac
