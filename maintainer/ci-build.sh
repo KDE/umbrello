@@ -29,6 +29,7 @@ case "$ci_variant" in
         #    home:rhabacker:branches:windows:mingw
         $zyp install \
             cmake \
+            extra-cmake-modules \
             make \
             mingw32-cross-binutils \
             mingw32-cross-gcc-c++ \
