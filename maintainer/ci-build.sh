@@ -48,6 +48,7 @@ case "$ci_variant" in
             # kdevelop4-pg-qt
         mkdir -p build && cd build
         cmake \
+            -DBUILD_KF5=OFF \
             -DCMAKE_SYSTEM_NAME=Windows \
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
