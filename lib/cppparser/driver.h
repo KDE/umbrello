@@ -211,6 +211,10 @@ private:
     void operator = (const SourceProvider& source);
 };
 
+/**
+ * @brief The Driver class takes care of the management of the include files,
+ * the macros, calls the parser and stores errors that occurred during parsing.
+ */
 class Driver
 {
 public:

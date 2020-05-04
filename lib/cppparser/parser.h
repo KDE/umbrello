@@ -27,6 +27,7 @@
 #include <QStringList>
 #include <QList>
 #include <set>
+#include <vector>
 #include <iostream>
 
 struct ParserPrivateData;
@@ -168,7 +169,7 @@ public:
     {
         format();
         rhs.format();
-        m_text += QLatin1String(" ") + rhs.m_text;
+        m_text += QLatin1String("\n") + rhs.m_text;
     }
 
     operator bool() const
@@ -232,6 +233,53 @@ public:
         } else {
             return Comment();
         }
+    }
+
+    /**
+     * Returns the comments between "end" (inclusive) and "start" and removes it
+     * @param end last line to return
+     * @param classInit protects against independent comments which are further away of the class
+     * @param start start line to return
+     * @return instance of class Comment with combined comment
+     */
+    Comment getCommentsInRange(int end, bool classInit = false, int start = 0)
+    {
+        std::vector<Comment> tempStorage; // The vector is required in order to output the comments in the correct order since the iterator goes reverse
+        Comment ret;
+
+        if (m_comments.empty())
+            return ret;
+
+        // The following lines will look ahead if there is a independent comment.
+        CommentSet::iterator it = m_comments.end();
+        --it; // .end() points to an element behind the container, so it's safe to move it to the actual last element
+        int tempLine = (*it).line();
+        if(tempLine < (end-2) && classInit) { // protects against independent comments which are further away of the class
+            m_comments.clear();
+            return ret;
+        }
+        tempStorage.push_back(*it);
+
+        while (it != m_comments.begin() && (*it).line() >= start && (*it).line() <= end) { // goes reverse through the comments because the required comments are at the end of m_comments
+            --it;
+            if(tempLine == ((*it).line() + 1)) {
+                tempLine--;
+                tempStorage.push_back(*it);
+            } else { // as soons as first independent comment is found the rest isn't interesting anymore (protects against multiline independent comments)
+               m_comments.clear();
+               break;
+            }
+        }
+
+        for (auto it2 = tempStorage.rbegin(); it2 != tempStorage.rend(); ++it2) { // outputs the comments in the correct order
+            if(it2 == tempStorage.rbegin()) {
+                ret = (*it2);
+            }
+            else {
+                ret += (*it2);
+            }
+        }
+        return ret;
     }
 
     ///Returns and removes the comment in the line
