@@ -44,7 +44,7 @@
 extern int xmlLoadExtDtdDefaultValue;
 
 #define MAX_PATHS 64
-xmlExternalEntityLoader defaultEntityLoader = NULL;
+static xmlExternalEntityLoader defaultEntityLoader = NULL;
 static xmlChar *paths[MAX_PATHS + 1];
 static int nbpaths = 0;
 static QHash<QString,QString> replaceURLList;
