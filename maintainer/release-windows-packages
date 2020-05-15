@@ -100,6 +100,12 @@ case $var in
     shift
     echo $version > work/VERSION
     ;;
+--tarversion) ## set tarball version used by update-package
+    shift
+    tarversion=$1
+    shift
+    echo $tarversion > work/TARVERSION
+    ;;
 esac
 done
 
@@ -113,7 +119,11 @@ function update_package() {
     local pkgname=PACKAGENAME$arch
     local pkg=${!rootname}/${!pkgname}
     getversion
-    local fn="umbrello-$VERSION.tar.xz"
+    tarversion
+    if [ -z $TARVERSION ]; then
+        TARVERSION=$VERSION
+    fi
+    local fn="umbrello-$TARVERSION.tar.xz"
     p=$PWD
     cd work
     if test -d $pkg; then
@@ -167,6 +177,10 @@ function getversion() {
         exit 1;
     fi
     VERSION=$(cat work/VERSION)
+}
+
+function tarversion() {
+    TARVERSION=$(cat work/TARVERSION)
 }
 
 function downloadsrc() {
