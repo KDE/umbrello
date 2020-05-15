@@ -94,11 +94,51 @@ case $var in
     curl="echo curl"
     shift
     ;;
+--version) ## set package version
+    shift
+    version=$1
+    shift
+    echo $version > work/VERSION
+    ;;
 esac
 done
 
 function clean() {
     rm -rf work/*
+}
+
+function update_package() {
+    local arch=$1
+    local rootname=ROOT$arch
+    local pkgname=PACKAGENAME$arch
+    local pkg=${!rootname}/${!pkgname}
+    getversion
+    local fn="umbrello-$VERSION.tar.xz"
+    p=$PWD
+    cd work
+    if test -d $pkg; then
+        cd $pkg
+        $osc revert
+        $osc update
+    else
+        $osc co $pkg
+        cd $pkg
+    fi
+    local pattern="<param name=\"version\">@VERSION@</param>"
+    local i=$(echo $pattern | sed 's,@VERSION@,.*,g')
+    local o=$(echo $pattern | sed "s,@VERSION@,$VERSION,g")
+    local v=$(grep "$o" _service)
+    if [ -z "$v" ]; then
+        sed -i "s,$i,$o,g" _service
+    fi
+    local f=$(find -maxdepth 1 -name $fn)
+    if [ -z "$f" ]; then
+        $osc rm umbrello-*.tar.xz || true
+        cp ~/src/releaseme/$fn .
+        $osc add $fn
+    fi
+    $osc ci -m "update to $VERSION"
+    cd $p
 }
 
 function download() {
@@ -314,6 +354,16 @@ sf) ## run all required targets for releasing on sourceforge
 kde) ## run all required targets for releasing on download.kde.org
     kde
     ;;
+
+update-package) ## update obs package to requested version
+    if [ $use32 -ne 0 ]; then
+        update_package 32
+    fi
+    if [ $use64 -ne 0 ]; then
+        update_package 64
+    fi
+    ;;
+
 *)
     help
     ;;
