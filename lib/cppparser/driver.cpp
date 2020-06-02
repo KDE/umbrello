@@ -789,6 +789,9 @@ void Driver::setupLexer(Lexer * lexer)
     if (!hasMacro("__const__")) addMacro(Macro(QLatin1String("__const__"), QLatin1String("const")));
     if (!hasMacro("__volatile__")) addMacro(Macro(QLatin1String("__volatile__"), QLatin1String("volatile")));
     if (!hasMacro("__complex__")) addMacro(Macro(QLatin1String("__complex__"), QString()));
+
+    // c++ macros
+    if (!hasMacro("__cplusplus")) addMacro(Macro(QLatin1String("__cplusplus"), QString()));
 }
 
 void Driver::setupParser(Parser * parser)
