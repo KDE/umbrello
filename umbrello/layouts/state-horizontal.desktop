@@ -37,7 +37,6 @@ Name[sr@latin]=Vodoravni raspored
 Name[sv]=Horisontell layout
 Name[tr]=Yatay Düzen
 Name[uk]=Горизонтальне компонування
-Name[x-test]=xxHorizontal Layoutxx
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
 Comment=Layout which renders horizontal
@@ -60,7 +59,6 @@ Comment[pt_BR]=Layout que representa os itens na horizontal
 Comment[sk]=Rozloženie, ktoré renderuje vodorovne
 Comment[sv]=Layout som återges horisontellt
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
-Comment[x-test]=xxLayout which renders horizontalxx
 Comment[zh_TW]=水平繪製佈局
 
 [X-UMBRELLO-Dot-Nodes]
