@@ -132,7 +132,7 @@ private:
 
     int displayedMembers(UMLObject::ObjectType ot) const;
     void drawMembers(QPainter *painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
-                     int x, int y, int fontHeight);
+                     int x, int y, int textWidth, int fontHeight);
 
     static const int CIRCLE_SIZE;      ///< size of circle when interface is rendered as such
     static const int SOCKET_INCREMENT; ///< augmentation of circle for socket (required interface)
