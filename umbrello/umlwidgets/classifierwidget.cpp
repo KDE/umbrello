@@ -767,9 +767,10 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setFont(font);
         const int x = width() - templatesBoxSize.width() + defaultMargin;
         int y = defaultMargin;
+        const int templateWidth = templatesBoxSize.width() - 2 * defaultMargin;
         foreach (UMLTemplate *t, tlist) {
             QString text = t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype));
-            painter->drawText(x, y, fm.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
+            painter->drawText(x, y, templateWidth, fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
     }
@@ -852,10 +853,10 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         if (numAtts > 0) {
             if (baseType() == WidgetBase::wt_Instance) {
                 drawMembers(painter, UMLObject::ot_InstanceAttribute, m_attributeSignature, textX,
-                            bodyOffsetY, fontHeight);
+                            bodyOffsetY, textWidth, fontHeight);
             } else {
                 drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
-                            bodyOffsetY, fontHeight);
+                            bodyOffsetY, textWidth, fontHeight);
             }
             bodyOffsetY += fontHeight * numAtts;
         }
@@ -873,7 +874,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         const int numOps = displayedOperations();
         if (numOps >= 0) {
             drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
-                        bodyOffsetY, fontHeight);
+                        bodyOffsetY, textWidth, fontHeight);
         }
     }
 
@@ -1074,10 +1075,11 @@ QSize ClassifierWidget::calculateAsPackageSize() const
  * @param sigType    Governs details of the member display.
  * @param x          X coordinate at which to draw the texts.
  * @param y          Y coordinate at which text drawing commences.
- * @param fontHeight The font height.
+ * @param width      The text width.
+ * @param height     The text height.
  */
 void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
-                                   int x, int y, int fontHeight)
+                                   int x, int y, int width, int height)
 {
     UMLClassifier *umlc = classifier();
     if (!umlc) {
@@ -1095,12 +1097,11 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
         f.setItalic(obj->isAbstract());
         f.setUnderline(obj->isStatic());
         painter->setFont(f);
-        QFontMetrics fontMetrics(f);
-        painter->drawText(x, y, fontMetrics.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
+        painter->drawText(x, y, width, height, Qt::AlignVCenter, text);
         f.setItalic(false);
         f.setUnderline(false);
         painter->setFont(f);
-        y += fontHeight;
+        y += height;
     }
     painter->setClipping(false);
 }
