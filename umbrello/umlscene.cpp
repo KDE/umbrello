@@ -2782,19 +2782,17 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
                 uError() << "could not find role widget B and therefore cannot rename constraint";
         // if the current diagram type permits relationships
         } else if (AssocRules::allowAssociation(assocType, w, widget)) {
-                // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
-                // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
-                AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
-                a->setUMLObject(fkConstraint);
-                //a->setVisibility(attr->getVisibility(), Uml::RoleType::B);
-                a->setRoleName(fkConstraint->name(), Uml::RoleType::B);
-                a->setActivated(true);
-                if (! addAssociation(a))
-                    delete a;
-            }
+            // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
+            // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
+            AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
+            a->setUMLObject(fkConstraint);
+            //a->setVisibility(attr->getVisibility(), Uml::RoleType::B);
+            a->setRoleName(fkConstraint->name(), Uml::RoleType::B);
+            a->setActivated(true);
+            if (! addAssociation(a))
+                delete a;
         }
     }
-
 }
 
 void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
