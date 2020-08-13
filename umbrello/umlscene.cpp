@@ -2771,23 +2771,27 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 
     Uml::AssociationType::Enum assocType = Uml::AssociationType::Relationship;
     UMLWidget *w = findWidget(refEntity->id());
-    AssociationWidget *aw = 0;
+    AssociationWidget *aw = nullptr;
 
     if (w) {
-        aw = findAssocWidget(w, widget, fkConstraint->name());
-        if (aw == 0 &&
-            // if the current diagram type permits relationships
-            AssocRules::allowAssociation(assocType, w, widget)) {
-
-            // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
-            // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
-            AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
-            a->setUMLObject(fkConstraint);
-            //a->setVisibility(attr->getVisibility(), Uml::RoleType::B);
-            a->setRoleName(fkConstraint->name(), Uml::RoleType::B);
-            a->setActivated(true);
-            if (! addAssociation(a))
-                delete a;
+        aw = findAssocWidget(assocType, w, widget);
+        if (aw) {
+            if (aw->roleWidget(Uml::RoleType::B))
+                aw->roleWidget(Uml::RoleType::B)->setName(fkConstraint->name());
+            else
+                uError() << "could not find role widget B and therefore cannot rename constraint";
+        // if the current diagram type permits relationships
+        } else if (AssocRules::allowAssociation(assocType, w, widget)) {
+                // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
+                // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
+                AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
+                a->setUMLObject(fkConstraint);
+                //a->setVisibility(attr->getVisibility(), Uml::RoleType::B);
+                a->setRoleName(fkConstraint->name(), Uml::RoleType::B);
+                a->setActivated(true);
+                if (! addAssociation(a))
+                    delete a;
+            }
         }
     }
 
