@@ -13,6 +13,7 @@
   <name xml:lang="en-GB">Umbrello</name>
   <name xml:lang="es">Umbrello</name>
   <name xml:lang="et">Umbrello</name>
+  <name xml:lang="eu">Umbrello</name>
   <name xml:lang="fi">Umbrello</name>
   <name xml:lang="fr">Umbrello</name>
   <name xml:lang="gl">Umbrello</name>
@@ -42,6 +43,7 @@
   <summary xml:lang="en-GB">UML Modeller</summary>
   <summary xml:lang="es">Modelador UML</summary>
   <summary xml:lang="et">UML-i modelleerimise rakendus</summary>
+  <summary xml:lang="eu">UML modelatzailea</summary>
   <summary xml:lang="fi">UML-mallinnusohjelma</summary>
   <summary xml:lang="fr">Modeleur UML</summary>
   <summary xml:lang="gl">Modelador de UML</summary>
@@ -75,6 +77,7 @@
     <p xml:lang="en-GB">Umbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.</p>
     <p xml:lang="es">Umbrello es una herramienta de modelado y de generación de código para el lenguaje unificado de modelado (UML). Puede crear diagramas de software y de otros sistemas en el formato estándar de la industria UML, además de generar código a partir de diagramas UML en diversos lenguajes de programación.</p>
     <p xml:lang="et">Umbrello on unifitseeritud modelleerimiskeele UML modelleerimistööriist ja koodi genereerija. See võib luua tarkvara ja muude süsteemide skeeme standardses UML-vormingus, samuti genereerida UML-skeemide põhjal koodi mitmes programmeerimiskeeles.</p>
+    <p xml:lang="eu">Umbrello UML (Unified Modelling Language - modelatzeko lengoaia bateratua) modelatzeko tresna bat eta kode-sortzaile bat da. Software-diagramak eta beste sistema batzuk sor ditzake industriaren UML formatu estandarrean, eta UML diagrametatik kodea sor dezake hainbat lengoaiatan.</p>
     <p xml:lang="fi">Umbrello on UML-mallinnusohjelma. Umbrellolla voi luoda kaavioita ohjelmistoista ja muista järjestelmistä käyttäen standardia UML-muotoa. Sillä voi myös luoda koodin UML-kaavioiden perusteella useille ohjelmointikielille.</p>
     <p xml:lang="fr">Umbrello est un outil de modélisation est de génération de code utilisant Unified Modelling Language (UML). Il peut créer des diagrammes de logiciels et d'autres systèmes dans le format standard de l'industrie UML, il peut également générer du code à partir de diagrammes UML dans de nombreux langages de programmation.</p>
     <p xml:lang="gl">Umbrello é unha ferramenta de modelaxe e xerador de código baseado na linguaxe de modelaxe UML. Pode crear diagramas de software e doutros sistemas usando o formato estándar da industria, UML, e pode tamén xerar código a partir de diagramas UML en varios linguaxes de programación.</p>
@@ -102,6 +105,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="et">Omadused:</p>
+    <p xml:lang="eu">Ezaugarriak:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
@@ -132,6 +136,7 @@
       <li xml:lang="en-GB">Supported formats: XMI</li>
       <li xml:lang="es">Formatos permitidos: XMI</li>
       <li xml:lang="et">Toetatud vormingud: XMI</li>
+      <li xml:lang="eu">Onartutako formatuak: XMI</li>
       <li xml:lang="fi">Tukee XMI-tiedostomuotoa</li>
       <li xml:lang="fr">Formats pris en charge : XMI</li>
       <li xml:lang="gl">Formatos compatíbeis: XMI.</li>
@@ -159,6 +164,7 @@
       <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
       <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, comunicación, estado, actividad, componente, despliegue y relación de entidades</li>
       <li xml:lang="et">Toetatud on mitut tüüpi skeemid: kasutus, klass, järgnevus, suhtlus, olek, tegevus, komponent, evitus, olem-seos</li>
+      <li xml:lang="eu">Zenbait diagrama mota onartzen ditu: erabilera kasua, klasea, sekuentzia, lankidetza, egoera, jarduera, osagaia, hedatzea, entitate-erlazioa</li>
       <li xml:lang="fi">Tukee monenlaisia kaavioita: käyttötapauskaavio, luokkakaavio, sekvenssikaavio, kommunikointikaavio, tilakaavio, aktiviteettikaavio, komponenttikaavio, sijoittelukaavio, käsitekaavio</li>
       <li xml:lang="fr">Différents types de diagrammes sont gérés : cas d'utilisations, classes, séquences, communications, états, activités, composants, déploiements, relations entre entités</li>
       <li xml:lang="gl">Permite traballar con varios tipos de diagramas: caso de uso, clase, secuencia, comunicación, estado, actividade, compoñente, distribución, e entidade-relación.</li>
@@ -192,6 +198,7 @@
       <caption xml:lang="en-GB">Showing class diagram</caption>
       <caption xml:lang="es">Visualización de un diagrama de clase</caption>
       <caption xml:lang="et">Klassiskeemi näitamine</caption>
+      <caption xml:lang="eu">Klase-diagrama erakusten</caption>
       <caption xml:lang="fr">Affichage du diagramme de classe</caption>
       <caption xml:lang="gl">Mostra un diagrama de clases</caption>
       <caption xml:lang="id">Menampilkan diagram kelas</caption>
