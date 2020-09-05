@@ -44,3 +44,6 @@ umbrello/ui_*.h
 *.tmproj
 tmtags
 maintainer/work
+
+build
+.vscode
