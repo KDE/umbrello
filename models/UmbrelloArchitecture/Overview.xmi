@@ -5352,7 +5352,7 @@
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="JHGq04QAf3KD" type="uvZHh8vqXrmF" value="" name="rt" />
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation stereotype="constructor" visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="5DzlfnyrRF0O" comment="Constructs an UMLOperation.&#xa;Not intended for general use: The operation is not tied in with&#xa;umbrello's Qt signalling for object creation.&#xa;If you want to create an Operation use the method in UMLDoc instead.&#xa;&#xa;@param parent    the parent to this operation" name="UMLOperation" >
+        <UML:Operation stereotype="constructor" visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="5DzlfnyrRF0O" comment="Constructs a UMLOperation.&#xa;Not intended for general use: The operation is not tied in with&#xa;umbrello's Qt signalling for object creation.&#xa;If you want to create an Operation use the method in UMLDoc instead.&#xa;&#xa;@param parent    the parent to this operation" name="UMLOperation" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="ypwZUBfmSvcR" type="1VpgSlF7xwr7" value="" name="parent" />
          </UML:BehavioralFeature.parameter>
@@ -14818,7 +14818,7 @@
         </codeoperation>
         <codeoperation tag="operation_5DzlfnyrRF0O" parent_id="5DzlfnyrRF0O" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Constructs an UMLOperation.&amp;#010;Not intended for general use: The operation is not tied in with&amp;#010;umbrello's Qt signalling for object creation.&amp;#010;If you want to create an Operation use the method in UMLDoc instead.&amp;#010;&amp;#010;@param parent    the parent to this operation" />
+          <cppcodedocumentation tag="" text="Constructs a UMLOperation.&amp;#010;Not intended for general use: The operation is not tied in with&amp;#010;umbrello's Qt signalling for object creation.&amp;#010;If you want to create an Operation use the method in UMLDoc instead.&amp;#010;&amp;#010;@param parent    the parent to this operation" />
          </header>
         </codeoperation>
         <codeoperation tag="operation_y2Zd3tq75oqk" parent_id="y2Zd3tq75oqk" canDelete="false" >

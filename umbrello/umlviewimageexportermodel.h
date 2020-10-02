@@ -21,7 +21,7 @@
 class KUrl;
 
 /**
- * Exports an UMLView in various image formats.
+ * Exports a UMLView in various image formats.
  * It can also export all the views in the current document.
  *
  * The methods in this class don't communicate with the user, so asking the format

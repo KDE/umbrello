@@ -62,7 +62,7 @@ KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
 }
 
 /**
- * Helper function for requesting a name for an UMLWidget using a dialog.
+ * Helper function for requesting a name for a UMLWidget using a dialog.
  *
  * @param targetWidget          By-reference pointer to the widget to request the name for.
  *                              The widget may be deallocated, and the pointer returned

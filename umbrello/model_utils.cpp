@@ -823,7 +823,7 @@ bool isClassifierListitem(UMLObject::ObjectType type)
 }
 
 /**
- * Try to guess the correct container folder type of an UMLObject.
+ * Try to guess the correct container folder type of a UMLObject.
  * Object types that can't be guessed are mapped to Uml::ModelType::Logical.
  * NOTE: This function exists mainly for handling pre-1.5.5 files
  *       and should not be used for new code.

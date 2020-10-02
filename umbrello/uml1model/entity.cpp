@@ -90,7 +90,7 @@ UMLObject* UMLEntity::clone() const
 }
 
 /**
- * Create an UMLAttribute.
+ * Create a UMLAttribute.
  * @param name   an optional name for the attribute
  * @param type   an optional type object for the attribute
  * @param vis    the visibility of the attribute

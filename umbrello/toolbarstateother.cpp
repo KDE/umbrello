@@ -69,7 +69,7 @@ void ToolBarStateOther::setCurrentElement()
  * Associations, widgets and actual empty spaces are all treated as empty
  * spaces. It creates a new widget if the left button was released.
  * The widget to create depends on the type of the toolbar button selected.
- * If the widget is the visual representation of an UMLObject, the object
+ * If the widget is the visual representation of a UMLObject, the object
  * factory handles its creation. Otherwise, the widget is created using
  * newWidget().
  * The UMLView is resized to fit on all the items.

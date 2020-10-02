@@ -716,7 +716,7 @@ void UMLListViewItem::cancelRenameWithMsg()
 /**
  * Overrides the default sorting to sort by item type.
  * Sort the listview items by type and position within the corresponding list
- * of UMLObjects. If the item does not have an UMLObject then place it last.
+ * of UMLObjects. If the item does not have a UMLObject then place it last.
  */
 #if 0
 int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) const

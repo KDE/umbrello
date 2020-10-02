@@ -243,7 +243,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     }
     else
     {
-        // Loading of widgets which represent an UMLObject
+        // Loading of widgets which represent a UMLObject
 
         // Find the UMLObject and create the Widget to represent it
         Uml::ID::Type id = Uml::ID::fromString(idStr);

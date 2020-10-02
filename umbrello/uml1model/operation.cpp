@@ -31,7 +31,7 @@
 #include <QRegExp>
 
 /**
- * Constructs an UMLOperation.
+ * Constructs a UMLOperation.
  * Not intended for general use: The operation is not tied in with
  * umbrello's Qt signalling for object creation.
  * If you want to create an Operation use the method in UMLDoc instead.
@@ -61,7 +61,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
 }
 
 /**
- * Constructs an UMLOperation.
+ * Constructs a UMLOperation.
  * Not intended for general use: The operation is not tied in with
  * umbrello's Qt signalling for object creation.
  * If you want to create an Operation use the method in UMLDoc instead.

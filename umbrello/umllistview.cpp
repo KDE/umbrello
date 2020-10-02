@@ -870,7 +870,7 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
 }
 
 /**
- * Determine the parent ListViewItem given an UMLObject.
+ * Determine the parent ListViewItem given a UMLObject.
  *
  * @param object   Pointer to the UMLObject for which to look up the parent.
  * @return    Pointer to the parent UMLListViewItem chosen.
@@ -1306,7 +1306,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 }
 
 /**
- * Find an UMLObject in the listview.
+ * Find a UMLObject in the listview.
  *
  * @param p   Pointer to the object to find in the list view.
  * @return    Pointer to the UMLObject found or NULL if not found.
@@ -2210,7 +2210,7 @@ void UMLListView::slotDeleteSelectedItems()
 /**
  * Adds a new item to the tree of the given type under the given parent.
  * Method will take care of signalling anyone needed on creation of new item.
- * e.g. UMLDoc if an UMLObject is created.
+ * e.g. UMLDoc if a UMLObject is created.
  */
 void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
 {

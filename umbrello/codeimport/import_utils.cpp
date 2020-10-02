@@ -172,7 +172,7 @@ UMLObject* findUMLObject(QString name, UMLObject::ObjectType type)
  * @param comment comment for uml object
  * @param stereotype stereotype for uml object
  * @param searchInParentPackageOnly flags to search only in parent package
- * @param remapParent flag to control remapping of parents if an uml object has been found
+ * @param remapParent flag to control remapping of parents if a uml object has been found
  * @return new object or zero
  */
 UMLObject *createUMLObject(UMLObject::ObjectType type,
@@ -482,7 +482,7 @@ UMLAttribute *insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
   * @param klass          The classifier into which the operation shall be added.
   * @param op             Reference to pointer to the temporary UMLOperation
   *                       for insertion.  The caller relinquishes ownership of the
-  *                       object pointed to.  If an UMLOperation of same signature
+  *                       object pointed to.  If a UMLOperation of same signature
   *                       already exists  at the classifier then the incoming
   *                       UMLOperation is deleted and the pointer is set to the
   *                       existing UMLOperation.
@@ -588,7 +588,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
 }
 
 /**
- * Add an enum literal to an UMLEnum.
+ * Add an enum literal to a UMLEnum.
  */
 void addEnumLiteral(UMLEnum *enumType, const QString &literal, const QString &comment, const QString &value)
 {

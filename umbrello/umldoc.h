@@ -281,7 +281,7 @@ private:
     /**
      * The UMLDoc is the sole owner of all stereotypes.
      * UMLStereotype instances are reference counted.
-     * When an UMLStereotype is no longer referenced anywhere,
+     * When a UMLStereotype is no longer referenced anywhere,
      * its refcount drops to zero. It is then removed from the
      * m_stereoList and it is physically deleted.
      */

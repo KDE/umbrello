@@ -131,7 +131,7 @@ void DefaultValueWidget::setType(UMLObject *type)
 /**
  * Update widget with data type from a text string
  *
- * The method searches for an uml object with the specified
+ * The method searches for a uml object with the specified
  * name. If an object was found, the display of the selectable
  * options depends on the type.
  *

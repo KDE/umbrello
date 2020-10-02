@@ -687,7 +687,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                // if parent is not a UMLEnum, bail out immediately;
                if (!enumParent) {
                    result = false;
-                   uError() << "Parent is not an UMLEnum";
+                   uError() << "Parent is not a UMLEnum";
                    break;
                }
 
@@ -712,7 +712,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 // if parent is not a UMLEntity, bail out immediately;
                 if (!entityParent) {
                     result = false;
-                    uError() << "Parent is not an UMLEntity";
+                    uError() << "Parent is not a UMLEntity";
                     break;
                 }
                 UMLObject *exist = entityParent->findChildObject(obj->name(), UMLObject::ot_EntityAttribute);

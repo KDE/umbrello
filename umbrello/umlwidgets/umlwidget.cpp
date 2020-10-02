@@ -176,7 +176,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
         return false;
 
     /* Testing the associations is already an exaggeration, no?
-       The type and ID should uniquely identify an UMLWidget.
+       The type and ID should uniquely identify a UMLWidget.
      */
     if (m_Assocs.count() != other.m_Assocs.count()) {
         return false;

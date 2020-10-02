@@ -154,7 +154,7 @@ void NoteWidget::setNoteType(const QString& noteType)
 /**
  * Return the ID of the diagram hyperlinked to this note.
  *
- * @return  ID of an UMLView, or Uml::ID::None if no
+ * @return  ID of a UMLView, or Uml::ID::None if no
  *          hyperlink is set.
  */
 Uml::ID::Type NoteWidget::diagramLink() const
@@ -166,7 +166,7 @@ Uml::ID::Type NoteWidget::diagramLink() const
  * Set the ID of the diagram hyperlinked to this note.
  * To switch off the hyperlink, set this to Uml::id_None.
  *
- * @param viewID    ID of an UMLScene.
+ * @param viewID    ID of a UMLScene.
  */
 void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {

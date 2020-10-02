@@ -24,7 +24,7 @@ class UMLScene;
  * The UMLApp instance manages the visibility of UMLView instances.
  * The visible view (and therefore diagram) is at the top of stack.
  * The UMLView class inherits from QGraphicsView.
- * Construction of an UMLView implicitly constructs an UMLScene, i.e.
+ * Construction of a UMLView implicitly constructs a UMLScene, i.e.
  * there is a one to one relation between diagram and view.
  * The UMLFolder instances own the UMLView instances.
  *
