@@ -197,6 +197,8 @@ public:
     KConfig* config();
     void importFiles(QStringList& fileList, const QString &rootPath = QString());
 
+    static bool shuttingDown();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);
@@ -517,6 +519,7 @@ private:
 
     QPointer<DiagramPrintPage> m_printSettings; ///< printer diagram settings
     QPrinter *m_printer;               ///< print instance
+    static bool s_shuttingDown;
 
 signals:
     void sigCutSuccessful();

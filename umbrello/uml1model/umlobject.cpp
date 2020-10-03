@@ -515,7 +515,8 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
     }
     m_pStereotype = stereo;
     // TODO: don't emit modified() if predefined folder
-    emitModified();
+    if (!UMLApp::shuttingDown())
+        emitModified();
 }
 
 /**

@@ -131,6 +131,14 @@
 UMLApp* UMLApp::s_instance;
 
 /**
+ * Static flag returned by static function shuttingDown().
+ * It is intentionally an extra static member because it is queried
+ * after calling the UMLApp destructor.
+ * Member accesses shall be avoided during destruction.
+ */
+bool UMLApp::s_shuttingDown = false;
+
+/**
  * Searches for a menu with the given name.
  * @todo This is an ugly _HACK_ to allow to compile umbrello.
  *       All the menu stuff should be ported to KDE4 (using actions)
@@ -235,6 +243,7 @@ UMLApp::UMLApp(QWidget* parent)
  */
 UMLApp::~UMLApp()
 {
+    s_shuttingDown = true;
     disconnect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
     disconnect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
 #if QT_VERSION >= 0x050000
@@ -2923,6 +2932,14 @@ void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage)
     for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
+}
+
+/**
+ * Return true during shutdown, i.e. during ~UMLApp().
+ */
+bool UMLApp::shuttingDown()
+{
+    return s_shuttingDown;
 }
 
 /**
