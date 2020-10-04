@@ -51,12 +51,13 @@ namespace Dialog_Utils {
  */
 KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
                                 QLabel*     &label,     const QString& labelText,
-                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */)
+                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */,
+                                int columnOffset /* = 0 */)
 {
     label = new QLabel(labelText);
-    layout->addWidget(label, row, 0);
+    layout->addWidget(label, row, columnOffset);
     editField = new KLineEdit(editFieldText);
-    layout->addWidget(editField, row, 1);
+    layout->addWidget(editField, row, columnOffset + 1);
     label->setBuddy(editField);
     return editField;
 }

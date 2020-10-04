@@ -38,7 +38,8 @@ namespace Dialog_Utils {
 KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 KLineEdit * &editField,
-                                const QString& editFieldText = QString());
+                                const QString& editFieldText = QString(),
+                                int columnOffset = 0);
 
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
