@@ -755,7 +755,8 @@ QStringList DWriter::defaultDatatypes()
       << QLatin1String("creal")
       << QLatin1String("char")
       << QLatin1String("wchar")
-      << QLatin1String("dchar");
+      << QLatin1String("dchar")
+      << QLatin1String("string");
     return l;
 }
 
