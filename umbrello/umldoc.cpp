@@ -2110,7 +2110,10 @@ void UMLDoc::saveToXMI1(QIODevice& file)
     // documentation.appendChild(contact);
 
     QDomElement exporter = doc.createElement(QLatin1String("XMI.exporter"));
-    exporter.appendChild(doc.createTextNode(QLatin1String("umbrello uml modeller http://umbrello.kde.org")));
+    QString expoText(QLatin1String("umbrello uml modeller "));
+    expoText += QLatin1String(umbrelloVersion());
+    expoText += QLatin1String(" http://umbrello.kde.org");
+    exporter.appendChild(doc.createTextNode(expoText));
     documentation.appendChild(exporter);
 
     QDomElement exporterVersion = doc.createElement(QLatin1String("XMI.exporterVersion"));

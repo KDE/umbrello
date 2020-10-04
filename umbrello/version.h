@@ -25,14 +25,13 @@ inline QByteArray umbrelloVersion()
         .arg(KDE::versionMinor())
         .arg(KDE::versionRelease());
 #endif
+#if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
+    versionStr.append(QLatin1String(" (experimental)"));
+#endif
     return versionStr.toLatin1();
 }
 
 // Update this version and dtd's in doc/xml when changing the XMI file format
-#if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
-#define XMI_FILE_VERSION "1.6.19"
-#else
 #define XMI_FILE_VERSION "1.6.18"
-#endif
 
 #endif
