@@ -243,7 +243,7 @@ void UMLPackage::removeAllObjects()
 /**
  * Returns the list of objects contained in this package.
  */
-UMLObjectList &UMLPackage::containedObjects()
+UMLObjectList UMLPackage::containedObjects()
 {
     return m_objects;
 }

@@ -2756,7 +2756,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
     } else if (Model_Utils::typeIsCanvasWidget(lvt) || Model_Utils::typeIsClassifierList(lvt)) {
         UMLPackage *nmSpc = object->asUMLPackage();
         if (nmSpc) {
-            UMLObjectList &contained = nmSpc->containedObjects();
+            UMLObjectList contained = nmSpc->containedObjects();
             if (contained.count()) {
                 if (nmSpc->baseType() == UMLObject::ot_Class) {
                     KMessageBox::error(

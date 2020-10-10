@@ -222,7 +222,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 foundType != UMLObject::ot_Component) {
                 continue;
             }
-            UMLObjectList &objectsInCurrentScope = pkg->containedObjects();
+            UMLObjectList objectsInCurrentScope = pkg->containedObjects();
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext();) {
                 UMLObject *obj = oit.next();
                 uIgnoreZeroPointer(obj);

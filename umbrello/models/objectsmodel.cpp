@@ -135,9 +135,11 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
         if (o->umlPackage()) {
             UMLFolder *f = o->umlPackage()->asUMLFolder();
             if (f) {
-                if (f->containedObjects().contains(o))
+                UMLObjectList content = f->containedObjects();
+                if (content.contains(o))
                     return QLatin1String("package +");
-                else if (f->subordinates().contains(o))
+                content = f->subordinates();
+                if (content.contains(o))
                     return QLatin1String("list +");
             }
             else
