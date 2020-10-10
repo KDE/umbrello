@@ -122,11 +122,15 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 /**
  * Adds an object in this package.
  *
- * @param pObject   Pointer to the UMLObject to add.
+ * @param pObject             Pointer to the UMLObject to add.
+ * @param interactOnConflict  If pObject's name is already present in the package's
+ *                            contained objects then
+ *                            - if true then open a dialog asking the user for a
+ *                              different name;
+ *                            - if false then return false without inserting pObject.
  * @return    True if the object was actually added.
  */
-bool UMLPackage::addObject(UMLObject *pObject)
-{
+bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true */) {
     if (pObject == 0) {
         uError() << "is called with a NULL object";
         return false;
@@ -137,7 +141,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
     }
 
     if (m_objects.indexOf(pObject) != -1) {
-        uDebug() << pObject->name() << " is already there";
+        uDebug() << pObject->name() << " object is already there";
         return false;
     }
     if (pObject->baseType() == UMLObject::ot_Association) {
@@ -154,7 +158,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
             addAssocToConcepts(assoc);
         }
     }
-    else {
+    else if (interactOnConflict) {
       QString name = pObject->name();
       QString oldName = name;
       while (findObject(name) != 0 && pObject->baseType() != UMLObject::ot_Instance) {
@@ -176,6 +180,20 @@ bool UMLPackage::addObject(UMLObject *pObject)
       if (oldName != name) {
         pObject->setName(name);
       }
+    }
+    else {
+        QString nameToAdd = pObject->name();
+        bool found = false;
+        foreach (const UMLObject *obj, m_objects) {
+            if (obj->name() == nameToAdd) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            uDebug() << "package " << name() << " : " << nameToAdd << " name is already there";
+            return false;
+        }
     }
     m_objects.append(pObject);
     return true;

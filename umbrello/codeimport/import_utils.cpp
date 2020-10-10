@@ -737,28 +737,33 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
  */
 UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
 {
-    if (ns) {
-        QString comment = ns->doc();
-        QString name = ns->name();
-        QString stereotype = ns->stereotype();
-        Uml::Visibility::Enum visibility = ns->visibility();
-        UMLApp::app()->document()->removeUMLObject(ns, true);
-        if (currentScope == 0)
-            currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
-        UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
-        if (!o)
-            return 0;
-        UMLEnum *e = o->asUMLEnum();
-        if (!e)
-            return 0;
-        e->setDoc(comment);
-        e->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
-        e->setVisibilityCmd(visibility);
-        // add to parents child list
-        if (!currentScope->containedObjects().contains(e))
-            currentScope->containedObjects().append(e);
-        return e;
+    if (ns == 0) {
+        return 0;
     }
+    QString comment = ns->doc();
+    QString name = ns->name();
+    QString stereotype = ns->stereotype();
+    Uml::Visibility::Enum visibility = ns->visibility();
+    UMLApp::app()->document()->removeUMLObject(ns, true);
+    if (currentScope == 0)
+        currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+    UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
+    if (!o) {
+        DEBUG(DBG_SRC) << name << " : Object_Factory::createNewUMLObject(ot_Enum) returns null";
+        return 0;
+    }
+    UMLEnum *e = o->asUMLEnum();
+    if (!e) {
+        DEBUG(DBG_SRC) << name << " : object returned by Object_Factory::createNewUMLObject is not Enum";
+        return 0;
+    }
+    e->setDoc(comment);
+    e->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
+    e->setVisibilityCmd(visibility);
+    // add to parents child list
+    if (currentScope->addObject(e, false))  // false => non interactively
+        return e;
+    DEBUG(DBG_SRC) << name << " : name is already present in " << currentScope->name();
     return 0;
 }
 
