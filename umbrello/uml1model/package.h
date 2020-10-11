@@ -45,7 +45,7 @@ public:
 
     virtual void removeAllObjects();
 
-    UMLObjectList containedObjects();
+    UMLObjectList containedObjects(bool includeInactive = false);
 
     void addAssocToConcepts(UMLAssociation* assoc);
     void removeAssocFromConcepts(UMLAssociation *assoc);

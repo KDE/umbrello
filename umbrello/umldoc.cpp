@@ -28,6 +28,7 @@
 #include "template.h"
 #include "enumliteral.h"
 #include "stereotype.h"
+#include "datatype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
 #include "import_argo.h"
@@ -3033,11 +3034,13 @@ UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
 /**
  * Returns a list of the datatypes in this UMLDoc.
  *
+ * @param includeInactive  Include inactive datatypes which may have accrued by
+ *                         changing the active programming language.
  * @return  List of datatypes.
  */
-UMLClassifierList UMLDoc::datatypes()
+UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */)
 {
-    UMLObjectList objects = m_datatypeRoot->containedObjects();
+    UMLObjectList objects = m_datatypeRoot->containedObjects(includeInactive);
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
@@ -3480,15 +3483,38 @@ void UMLDoc::addDefaultDatatypes()
 
 /**
  * Add a datatype if it doesn't already exist.
- * Used by code generators and attribute dialog.
+ * Used by addDefaultDatatypes().
  */
 void UMLDoc::createDatatype(const QString &name)
 {
-    UMLObjectList datatypes = m_datatypeRoot->containedObjects();
+    UMLObjectList datatypes = m_datatypeRoot->containedObjects(true);
     UMLObject* umlobject = Model_Utils::findUMLObject(datatypes, name,
                                                       UMLObject::ot_Datatype, m_datatypeRoot);
-    if (!umlobject) {
+    if (umlobject) {
+        UMLDatatype *dt = umlobject->asUMLDatatype();
+        dt->setActive(true);
+        signalUMLObjectCreated(umlobject);
+        qApp->processEvents();
+    } else {
         Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
+    }
+}
+
+/**
+ * Remove a datatype by name.
+ * Used when changing the active programming language.
+ */
+void UMLDoc::removeDatatype(const QString &name)
+{
+    UMLObjectList datatypes = m_datatypeRoot->containedObjects();
+    // We don't use Model_Utils::findUMLObject because that function considers
+    // case sensitivity of the active language, which we don't want here.
+    foreach (UMLObject *obj, datatypes) {
+        uIgnoreZeroPointer(obj);
+        if (obj->name() == name) {
+            removeUMLObject(obj);
+            break;
+        }
     }
 }
 

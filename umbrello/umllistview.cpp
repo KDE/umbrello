@@ -26,6 +26,7 @@
 #include "enumliteral.h"
 #include "entity.h"
 #include "category.h"
+#include "datatype.h"
 #include "docwindow.h"
 #include "layoutgenerator.h"
 #include "umllistviewpopupmenu.h"
@@ -990,6 +991,13 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (parentItem == 0)
         return;
     UMLObject::ObjectType type = object->baseType();
+    if (type == UMLObject::ot_Datatype) {
+        UMLDatatype *dt = object->asUMLDatatype();
+        if (!dt->isActive()) {
+            DEBUG(DBG_SRC) << object->name() << " is not active. Refusing to create UMLListViewItem";
+            return;
+        }
+    }
 
     connectNewObjectsSlots(object);
     const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(object);
@@ -1623,7 +1631,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
 }
 
 /**
- * Moves an object given is unique ID and listview type to an
+ * Moves an object given its unique ID and listview type to an
  * other listview parent item.
  * Also takes care of the corresponding move in the model.
  */

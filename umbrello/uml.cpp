@@ -2322,6 +2322,11 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
         //    if (m_codegen->language() == pl) return m_codegen;
         // Some languages depend on a new generator instance being created
         // for each run.
+        QStringList entries = m_codegen->defaultDatatypes();
+        QStringList::Iterator end(entries.end());
+        for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
+            m_doc->removeDatatype(*it);
+        }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
         m_codegen = 0;
     }

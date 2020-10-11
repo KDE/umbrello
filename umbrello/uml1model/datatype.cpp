@@ -18,7 +18,7 @@
  */
 UMLDatatype::UMLDatatype(const QString & name, Uml::ID::Type id)
   : UMLClassifier(name, id),
-    m_isRef(false)
+    m_isRef(false), m_isActive(true)
 {
     m_BaseType = UMLObject::ot_Datatype;
 }
@@ -67,25 +67,44 @@ bool UMLDatatype::isReference() const
 }
 
 /**
- * Loads object from QDomElement.
+ * Set the m_isActive flag (is already set true by constructor).
+ * @param active  the flag to set
+ */
+void UMLDatatype::setActive(bool active)
+{
+    m_isActive = active;
+}
+
+/**
+ * Get the m_isActive flag.
+ * @return   true if is active, otherwise false
+ */
+bool UMLDatatype::isActive() const
+{
+    return m_isActive;
+}
+
+/**
+ * Loads Datatype specific attributes from QDomElement.
+ * Is invoked by UMLObject::loadFromXMI() which does most of the work.
  *
  * @param element A QDomElement which contains xml info for this object.
  */
-bool UMLDatatype::loadFromXMI1(QDomElement & element)
+bool UMLDatatype::load1(QDomElement & element)
 {
-    if (!UMLObject::loadFromXMI1(element))
-        return false;
-
     m_SecondaryId = element.attribute(QLatin1String("elementReference"));
     if (!m_SecondaryId.isEmpty()) {
         // @todo We do not currently support composition.
         m_isRef = true;
     }
+    QString active = element.attribute(QLatin1String("isActive"));
+    m_isActive = (active != QLatin1String("false"));
     return true;
 }
 
 /**
- * Creates the UML:Datatype element.
+ * Creates the UML:Datatype XMI element.
+ * Invokes UMLObject::save1() which does most of the work.
  *
  * @param qDoc       the xml document
  * @param qElement   the xml element
@@ -97,5 +116,8 @@ void UMLDatatype::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
     if (m_pSecondary != 0)
         classifierElement.setAttribute(QLatin1String("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
+    if (!m_isActive)
+        classifierElement.setAttribute(QLatin1String("isActive"), QLatin1String("false"));
+
     qElement.appendChild(classifierElement);
 }

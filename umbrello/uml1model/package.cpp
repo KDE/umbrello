@@ -18,7 +18,9 @@
 #include "umldoc.h"
 #include "classifier.h"
 #include "association.h"
+#include "datatype.h"
 #include "entity.h"
+#include "folder.h"
 #include "object_factory.h"
 #include "model_utils.h"
 
@@ -215,11 +217,29 @@ void UMLPackage::removeObject(UMLObject *pObject)
         else
             uError() << "invalid cast found";
     }
-    if (m_objects.indexOf(pObject) == -1)
+    if (m_objects.indexOf(pObject) == -1) {
         uDebug() << name() << " removeObject: object with id="
                  << Uml::ID::toString(pObject->id()) << "not found.";
-    else
+        return;
+    }
+    // Do not delete a datatype from its root folder but just mark it as inactive.
+    // We need this special handling because of the possibility of switching
+    // the active programming language.  Without it,
+    // - switching the active language could create dangling references on all
+    //   objects referencing the previous language's datatypes;
+    // - the display of the datatypes in the list view or in dialogs get
+    //   populated with the types from previously active languages.
+    if (this == UMLApp::app()->document()->datatypeFolder()) {
+        UMLDatatype *dt = pObject->asUMLDatatype();
+        if (dt) {
+            dt->setActive(false);
+        } else {
+            uWarning() << "UMLPackage::removeObject(" << pObject->name()
+                       << ") : Expected Datatype, found " << pObject->baseTypeStr();
+        }
+    } else {
         m_objects.removeAll(pObject);
+    }
 }
 
 /**
@@ -243,9 +263,24 @@ void UMLPackage::removeAllObjects()
 /**
  * Returns the list of objects contained in this package.
  */
-UMLObjectList UMLPackage::containedObjects()
+UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */)
 {
-    return m_objects;
+    UMLObjectList result;
+    foreach (UMLObject *obj, m_objects) {
+        uIgnoreZeroPointer(obj);
+        if (includeInactive) {
+            result.append(obj);
+        }
+        else if (obj->isUMLDatatype()) {
+            UMLDatatype *dt = obj->asUMLDatatype();
+            if (dt->isActive())
+                result.append(obj);
+        }
+        else {
+            result.append(obj);
+        }
+    }
+    return result;
 }
 
 /**

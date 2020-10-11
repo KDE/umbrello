@@ -65,7 +65,7 @@ bool showGUI(KCmdLineArgs *args)
  *
  * @param args The command line arguments given.
  */
-void initDocument(KCmdLineArgs *args)
+void initDocument(KCmdLineArgs *args, Uml::ProgrammingLanguage::Enum progLang)
 {
     if (args->count()) {
         UMLApp::app()->openDocumentFile(args->url(0));
@@ -76,6 +76,8 @@ void initDocument(KCmdLineArgs *args)
             UMLApp::app()->openDocumentFile(KUrl(file));
         } else {
             UMLApp::app()->newDocument();
+            if (progLang != Uml::ProgrammingLanguage::Reserved)
+                UMLApp::app()->setActiveLanguage(progLang);
         }
     }
 }
@@ -226,9 +228,7 @@ int main(int argc, char *argv[])
             uml->importFiles(listFile, dir);
         }
         else {
-            initDocument(args);
-            if (lang != Uml::ProgrammingLanguage::Reserved)
-                uml->setActiveLanguage(lang);
+            initDocument(args, lang);
         }
 
         // export option

@@ -21,6 +21,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "datatype.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -539,6 +540,22 @@ bool UMLFolder::load1(QDomElement& element)
             pObject = umldoc->findObjectById(id);
             if (pObject) {
                 uDebug() << "object " << idStr << "already exists";
+            }
+        }
+        // Avoid duplicate creation of datatype
+        if (pObject == 0 && this == umldoc->datatypeFolder()) {
+            QString name = tempElement.attribute(QLatin1String("name"));
+            foreach (UMLObject *o, m_objects) {
+                uIgnoreZeroPointer(o);
+                if (o->name() == name) {
+                    UMLDatatype *dt = o->asUMLDatatype();
+                    if (dt) {
+                        QString isActive = tempElement.attribute(QLatin1String("isActive"));
+                        dt->setActive(isActive != QLatin1String("false"));
+                        pObject = dt;
+                        break;
+                    }
+                }
             }
         }
         if (pObject == 0) {

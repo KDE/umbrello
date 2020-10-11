@@ -35,11 +35,15 @@ public:
     void setIsReference(bool isRef = true);
     bool isReference() const;
 
-    virtual bool loadFromXMI1(QDomElement & element);
+    void setActive(bool active = true);
+    bool isActive() const;
+
+    virtual bool load1(QDomElement & element);
     virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     bool m_isRef;
+    bool m_isActive;
 };
 
 #endif
