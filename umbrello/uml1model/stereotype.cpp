@@ -93,13 +93,92 @@ UMLObject* UMLStereotype::clone() const
 }
 
 /**
+ * Reset stereotype attribute definitions to none.
+ */
+void UMLStereotype::clearAttributeDefs()
+{
+    m_attrDefs.clear();
+}
+
+/**
+ * Setter for stereotype attribute definitions.
+ */
+void UMLStereotype::setAttributeDefs(const AttributeDefs& adefs)
+{
+    m_attrDefs = adefs;
+}
+
+/**
+ * Const getter for stereotype attribute definitions.
+ */
+const UMLStereotype::AttributeDefs& UMLStereotype::getAttributeDefs() const
+{
+    return m_attrDefs;
+}
+
+/**
+ * Getter for stereotype attribute definitions returning writable data.
+ */
+UMLStereotype::AttributeDefs& UMLStereotype::getAttributeDefs()
+{
+    return m_attrDefs;
+}
+
+/**
  * Saves to the <UML:StereoType> XMI element.
  */
 void UMLStereotype::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
     QDomElement stereotypeElement = UMLObject::save1(QLatin1String("UML:Stereotype"), qDoc);
+    if (!m_attrDefs.isEmpty()) {
+        QDomElement featureElement = qDoc.createElement(QLatin1String("UML:Stereotype.feature"));
+        foreach (AttributeDef ad, m_attrDefs) {
+            QDomElement attElement = qDoc.createElement(QLatin1String("UML:Attribute"));
+            attElement.setAttribute(QLatin1String("name"), ad.name);
+            attElement.setAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
+            featureElement.appendChild(attElement);
+        }
+        stereotypeElement.appendChild(featureElement);
+    }
     qElement.appendChild(stereotypeElement);
+}
+
+/**
+ * Auxiliary to loadFromXMI:
+ * The loading of stereotype attributes is implemented here.
+ */
+bool UMLStereotype::load1(QDomElement& element)
+{
+    if (!element.hasChildNodes()) {
+        return true;
+    }
+    for (QDomNode node = element.firstChild(); !node.isNull(); node = node.nextSibling()) {
+        if (node.isComment())
+            continue;
+        element = node.toElement();
+        QString tag = element.tagName();
+        if (UMLDoc::tagEq(tag, QLatin1String("Stereotype.feature"))) {
+            QDomNode attNode = element.firstChild();
+            QDomElement attElem = attNode.toElement();
+            while (!attElem.isNull()) {
+                tag = attElem.tagName();
+                if (UMLDoc::tagEq(tag, QLatin1String("Attribute"))) {
+                    QString name = attElem.attribute(QLatin1String("name"));
+                    QString typeStr = attElem.attribute(QLatin1String("type"));
+                    Uml::PrimitiveTypes::Enum type = Uml::PrimitiveTypes::fromString(typeStr);
+                    AttributeDef ad(name, type);
+                    m_attrDefs.append(ad);
+                } else {
+                    uDebug() << "UMLStereotype::::load1(" << m_name
+                             << "): Unknown Stereotype.feature child " << tag;
+                }
+                attNode = attNode.nextSibling();
+                attElem = attNode.toElement();
+            }
+        }
+    }
+    return true;
 }
 
 /**

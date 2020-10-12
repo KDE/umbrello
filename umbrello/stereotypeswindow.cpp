@@ -12,8 +12,10 @@
 
 // app includes
 #include "dialog_utils.h"
+#include "debug_utils.h"
 #include "stereotype.h"
 #include "models/stereotypesmodel.h"
+#include "dialogs/stereoattributedialog.h"
 #include "uml.h"
 #include "umldoc.h"
 
@@ -24,6 +26,7 @@
 #include <QHeaderView>
 #include <QTableView>
 #include <QSortFilterProxyModel>
+#include <QContextMenuEvent>
 #include <QtDebug>
 
 StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
@@ -76,7 +79,25 @@ void StereotypesWindow::slotStereotypesDoubleClicked(QModelIndex index)
 
 void StereotypesWindow::contextMenuEvent(QContextMenuEvent *event)
 {
-    Q_UNUSED(event);
+    const QPoint& pos = event->pos();
+    int row = m_stereotypesTree->rowAt(pos.y() - 60);
+    // Apparently we need the "- 60" to subtract height of title lines "Stereotypes", "Name / Usage"
+    uDebug() << "StereotypesWindow::contextMenuEvent: "
+             << " pos =" << event->pos() << ", row =" << row;
+    if (row >= 0) {
+        QModelIndex index = m_stereotypesTree->model()->index(row, 0);  // first column
+        uDebug() << "StereotypesWindow::contextMenuEvent: QModelIndex " << index;
+        QVariant v = m_stereotypesTree->model()->data(index, Qt::UserRole);
+        if (v.canConvert<UMLStereotype*>()) {
+            UMLStereotype *s = v.value<UMLStereotype*>();
+            StereoAttributeDialog *dialog = new StereoAttributeDialog(this, s);
+            dialog->exec();
+            delete dialog;
+        } else {
+            uDebug() << "StereotypesWindow::contextMenuEvent: QVariant::canConvert returns false";
+        }
+        return;
+    }
     QString name;
     if (!Dialog_Utils::askDefaultNewName(UMLObject::ot_Stereotype, name))
         return;

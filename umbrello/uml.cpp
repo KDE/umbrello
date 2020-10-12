@@ -395,6 +395,7 @@ void UMLApp::initActions()
     setProgLangAction(Uml::ProgrammingLanguage::Tcl,          "Tcl",             "setLang_tcl");
     setProgLangAction(Uml::ProgrammingLanguage::Vala,         "Vala",            "setLang_vala");
     setProgLangAction(Uml::ProgrammingLanguage::XMLSchema,    "XMLSchema",       "setLang_xmlschema");
+    setProgLangAction(Uml::ProgrammingLanguage::Reserved,     "none",            "setLang_none");
 
     connect(m_langAct[Uml::ProgrammingLanguage::ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
     connect(m_langAct[Uml::ProgrammingLanguage::Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
@@ -416,6 +417,7 @@ void UMLApp::initActions()
     connect(m_langAct[Uml::ProgrammingLanguage::Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
     connect(m_langAct[Uml::ProgrammingLanguage::Vala],         SIGNAL(triggered()), this, SLOT(setLang_vala()));
     connect(m_langAct[Uml::ProgrammingLanguage::XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Reserved],     SIGNAL(triggered()), this, SLOT(setLang_none()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -2310,13 +2312,6 @@ CodeGenPolicyExt *UMLApp::policyExt() const
  */
 CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
 {
-    if (pl == Uml::ProgrammingLanguage::Reserved) {
-        if (m_codegen) {
-            delete m_codegen;
-            m_codegen = 0;
-        }
-        return 0;
-    }
     if (m_codegen) {
         // Do not return a possible preexisting code generator:
         //    if (m_codegen->language() == pl) return m_codegen;
@@ -2331,14 +2326,17 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
         m_codegen = 0;
     }
     m_activeLanguage = pl;
-    m_codegen = CodeGenFactory::createObject(pl);
+    if (pl != Uml::ProgrammingLanguage::Reserved) {
+        m_codegen = CodeGenFactory::createObject(pl);
+    }
     updateLangSelectMenu(pl);
 
     slotAddDefaultDatatypes();
-    m_codegen->createDefaultStereotypes();
-
-    if (m_policyext) {
-        m_policyext->setDefaults(false); // picks up language specific stuff
+    if (pl != Uml::ProgrammingLanguage::Reserved) {
+        m_codegen->createDefaultStereotypes();
+        if (m_policyext) {
+            m_policyext->setDefaults(false); // picks up language specific stuff
+        }
     }
     return m_codegen;
 }
@@ -2489,6 +2487,11 @@ void UMLApp::setLang_vala()
 void UMLApp::setLang_xmlschema()
 {
     setActiveLanguage(Uml::ProgrammingLanguage::XMLSchema);
+}
+
+void UMLApp::setLang_none()
+{
+    setActiveLanguage(Uml::ProgrammingLanguage::Reserved);
 }
 
 #if QT_VERSION >= 0x050000
@@ -2934,7 +2937,7 @@ void UMLApp::initGenerator()
 void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage)
 {
     //m_langSelect->clear();
-    for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {
+    for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; ++i) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
 }

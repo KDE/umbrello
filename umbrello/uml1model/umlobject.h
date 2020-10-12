@@ -292,6 +292,11 @@ protected:
                                            ///< fully qualified target name of a reference.
                                            ///< In case the quidu is not found, the human readable name is
                                            ///< used which we store in m_SecondaryFallback.
+    QStringList m_TaggedValues;            ///< Concrete values of UMLStereotype::AttributeDefs if a
+                                           ///< stereotype is applied and has attributes.
+                                           ///< The order of elements is the same as in
+                                           ///< UMLStereotype::AttributeDefs.
+                                           ///< At most N_STEREOATTRS are used (see stereotype.h)
     UMLObjectPrivate *m_d;                 ///< private data
     friend class ObjectsModel;
 };

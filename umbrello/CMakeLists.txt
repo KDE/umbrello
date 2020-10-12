@@ -209,6 +209,7 @@ set(libdialogs_SRCS
     dialogs/settingsdialog.cpp
     dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
+    dialogs/stereoattributedialog.cpp
     dialogs/umlattributedialog.cpp
     dialogs/umlinstanceattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp

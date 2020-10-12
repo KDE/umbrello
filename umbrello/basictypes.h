@@ -264,6 +264,28 @@ namespace Uml
     }
 
     /**
+     * UML primitive types
+     */
+    namespace PrimitiveTypes
+    {
+        enum Enum {
+            String,
+            Boolean,
+            UnlimitedNatural,
+            Integer,
+            Real,
+            Reserved
+        };
+
+        const int n_types = int(Reserved);
+
+        QString toString(Enum item);
+        QString toString(int item);
+        Enum fromString(const QString& item, bool strict = false);
+        Enum fromInt(int item);
+    }
+
+    /**
      * Supported programming languages.
      */
     namespace ProgrammingLanguage
@@ -289,7 +311,7 @@ namespace Uml
             Tcl,
             Vala,
             XMLSchema,
-            Reserved
+            Reserved   // for UML Primitive Types (no code generator)
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);

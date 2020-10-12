@@ -865,6 +865,57 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace PrimitiveTypes {
+
+const char *strings[] = {
+    "String",
+    "Boolean",
+    "UnlimitedNatural",
+    "Integer",
+    "Real",
+    "not_a_primitivetype"
+};
+
+QString toString(Enum item)
+{
+    return QLatin1String(strings[item]);
+}
+
+QString toString(int item)
+{
+    if (item < 0 || item >= n_types)
+        return QLatin1String(strings[Reserved]);
+    return QLatin1String(strings[item]);
+}
+
+/**
+ * Converts the string of an Enum to the Enum value.
+ * @param item    The string to convert to Enum
+ * @param strict  Controls the value returned if the given string does not
+ *                represent an Enum value: If strict is true then the value
+ *                Reserved is returned, otherwise the value String is
+ *                returned.
+ */
+Enum fromString(const QString& item, bool strict /* = false */)
+{
+    for (int i = 0; i < n_types; i++) {
+        if (item == toString(i))
+            return Enum(i);
+    }
+    return (strict ? Reserved : String);
+}
+
+Enum fromInt(int item)
+{
+    if (item < 0 || item >= n_types)
+        return Reserved;
+    return Enum(item);
+}
+
+}  // end namespace PrimitiveTypes
+
+//-----------------------------------------------------------------------------
+
 namespace ProgrammingLanguage {
 
 /**
@@ -916,7 +967,7 @@ QString toString(Enum item)
         default:
             break;
     }
-    return QString();
+    return QLatin1String("none");
 }
 
 /**

@@ -350,6 +350,7 @@ private slots:
     void setLang_tcl();
     void setLang_vala();
     void setLang_xmlschema();
+    void setLang_none();
 #if QT_VERSION >= 0x050000
     void slotDiagramPopupMenu(const QPoint& point);
 #endif
@@ -448,7 +449,7 @@ private:
 
     QAction* zoom100Action;
 
-    QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
+    QAction* m_langAct[Uml::ProgrammingLanguage::Reserved + 1];
 #if QT_VERSION >= 0x050000
     QAction* deleteSelectedWidget;
     QAction* deleteDiagram;

@@ -89,7 +89,7 @@ CodeGenOptionsPage::~CodeGenOptionsPage()
 void CodeGenOptionsPage::setupActiveLanguageBox()
 {
     int indexCounter = 0;
-    while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
+    while (indexCounter <= Uml::ProgrammingLanguage::Reserved) {
         QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         ui_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
@@ -188,7 +188,9 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
     }
 
     Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
-    CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
+    CodeGenPolicyExt *policyExt = 0;
+    if (pl != Uml::ProgrammingLanguage::Reserved)
+        policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
         m_pCodePolicyPage = policyExt->createPage(0, "codelangpolicypage");

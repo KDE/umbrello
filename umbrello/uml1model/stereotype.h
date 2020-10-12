@@ -59,12 +59,31 @@ public:
 
     QString name(bool includeAdornments=false) const;
 
+    class AttributeDef
+    {
+    public:
+        QString name;
+        Uml::PrimitiveTypes::Enum type;
+        AttributeDef() : type(Uml::PrimitiveTypes::String) {}
+        AttributeDef(QString nm, Uml::PrimitiveTypes::Enum t) : name(nm), type(t) {}
+        virtual ~AttributeDef() {}
+    };
+
+    typedef QVector<AttributeDef> AttributeDefs;  ///< size is at most N_STEREOATTRS
+
+    void clearAttributeDefs();
+    void setAttributeDefs(const AttributeDefs& adefs);
+    const AttributeDefs& getAttributeDefs() const;
+    AttributeDefs& getAttributeDefs();
+
     void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    bool load1(QDomElement& element);
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
 protected:
     int m_refCount;
+    AttributeDefs m_attrDefs;
 
 };
 

@@ -2876,7 +2876,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
                 CodeGenerator *g = UMLApp::app()->setGenerator(pl);
                 g->loadFromXMI1(cgelement);
             } else
-                uError() << "failed to setup unsupported code generator" << lang;
+                uDebug() << "codegeneration : no setup performed for" << lang;
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
@@ -3470,13 +3470,16 @@ void UMLDoc::addDefaultDatatypes()
 {
     CodeGenerator *cg = UMLApp::app()->generator();
     if (cg == 0) {
-        DEBUG(DBG_SRC) << "CodeGenerator is still NULL";
-        return;
-    }
-    QStringList entries = cg->defaultDatatypes();
-    QStringList::Iterator end(entries.end());
-    for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
-        createDatatype(*it);
+        DEBUG(DBG_SRC) << "CodeGenerator is NULL : Assume UMLPrimitiveTypes";
+        for (int i = 0; i < Uml::PrimitiveTypes::n_types; i++) {
+            createDatatype(Uml::PrimitiveTypes::toString(i));
+        }
+    } else {
+        QStringList entries = cg->defaultDatatypes();
+        QStringList::Iterator end(entries.end());
+        for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
+            createDatatype(*it);
+        }
     }
     UMLApp::app()->listView()->closeDatatypesFolder();
 }

@@ -889,6 +889,33 @@ QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
     /* else
         qElement.setAttribute("ownerScope", "instance");
      *** ownerScope defaults to instance if not set **********/
+
+    // Save optional stereotype attributes
+    if (m_TaggedValues.count()) {
+        if (m_pStereotype == 0) {
+            uError() << m_name << " TaggedValues are set but pStereotype is null : clearing TaggedValues";
+            m_TaggedValues.clear();
+            return qElement;
+        }
+        QDomElement tvsElement = qDoc.createElement(QLatin1String("UML:ModelElement.taggedValues"));
+        tvsElement.setAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
+        const UMLStereotype::AttributeDefs& attrDefs = m_pStereotype->getAttributeDefs();
+        for (int i = 0; i < m_TaggedValues.count(); i++) {
+            if (i >= attrDefs.count()) {
+                uError() << m_name << ": stereotype " << m_pStereotype->name() << " defines "
+                         << attrDefs.count() << " attributes; ignoring excess TaggedValues";
+                break;
+            }
+            const QString& tv = m_TaggedValues.at(i);
+            QDomElement tvElem = qDoc.createElement(QLatin1String("UML:TaggedValue"));
+            tvElem.setAttribute(QLatin1String("tag"), attrDefs[i].name);
+            tvElem.setAttribute(QLatin1String("value"), tv);
+            tvsElement.appendChild(tvElem);
+        }
+        if (tvsElement.hasChildNodes()) {
+            qElement.appendChild(tvsElement);
+        }
+    }
     return qElement;
 }
 
@@ -1064,7 +1091,22 @@ bool UMLObject::loadFromXMI1(QDomElement & element)
         QDomElement elem = node.toElement();
         while (!elem.isNull()) {
             QString tag = elem.tagName();
-            if (UMLDoc::tagEq(tag, QLatin1String("name"))) {
+            if (UMLDoc::tagEq(tag, QLatin1String("ModelElement.taggedValues"))) {
+                QDomNode tvNode = element.firstChild();
+                QDomElement tvElem = tvNode.toElement();
+                while (!tvElem.isNull()) {
+                    tag = tvElem.tagName();
+                    if (UMLDoc::tagEq(tag, QLatin1String("TaggedValue"))) {
+                        QString value = elem.attribute(QLatin1String("value"));
+                        m_TaggedValues.append(value);
+                    } else {
+                        uDebug() << "loadFromXMI1(" << m_name
+                                 << "): Unknown ModelElement.taggedValues child " << tag;
+                    }
+                    tvNode = tvNode.nextSibling();
+                    tvElem = tvNode.toElement();
+                }
+            } else if (UMLDoc::tagEq(tag, QLatin1String("name"))) {
                 m_name = elem.attribute(QLatin1String("xmi.value"));
                 if (m_name.isEmpty())
                     m_name = elem.text();

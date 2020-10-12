@@ -787,7 +787,7 @@ bool isCommonDataType(QString type)
 {
     CodeGenerator *gen = UMLApp::app()->generator();
     if (gen == 0)
-        return false;
+        return true;   // gen == NULL means we use UMLPrimitiveTypes
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     const QStringList dataTypes = gen->defaultDatatypes();
     QStringList::ConstIterator end(dataTypes.end());
