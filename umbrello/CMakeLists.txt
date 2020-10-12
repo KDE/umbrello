@@ -525,13 +525,15 @@ if(NOT BUILD_KF5)
         Qt4::QtCore
         Qt4::QtGui
         Qt4::QtXml
-        Qt4::QtWebKit
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         ${KDE4_KTEXTEDITOR_LIBS}
         ${KDE4_KFILE_LIBS}
         codeimport
     )
+    if(WEBKIT_WELCOMEPAGE)
+        target_link_libraries(libumbrello Qt4::QtWebKit)
+    endif()
 
     kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
@@ -549,7 +551,6 @@ else()
         Qt5::Xml
         Qt5::PrintSupport
         Qt5::Svg
-        Qt5::WebKitWidgets
         KF5::Archive
         KF5::Completion
         KF5::CoreAddons
@@ -565,6 +566,9 @@ else()
         ${LIBXML2_LIBRARIES}
         codeimport
     )
+    if(WEBKIT_WELCOMEPAGE)
+        target_link_libraries(libumbrello Qt5::WebKitWidgets)
+    endif()
     ecm_add_app_icon(umbrello_SRCS
         ICONS
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png

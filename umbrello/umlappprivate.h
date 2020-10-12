@@ -37,7 +37,11 @@
 #include <QFileInfo>
 #include <QListWidget>
 #include <QObject>
+#ifdef WEBKIT_WELCOMEPAGE
 #include <QWebView>
+#else
+#include <QTextBrowser>
+#endif
 
 class QWidget;
 
@@ -155,6 +159,7 @@ public slots:
         // qDebug() << html;
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
         welcomeWindow->setObjectName(QLatin1String("WelcomeDock"));
+#ifdef WEBKIT_WELCOMEPAGE
         QWebView *view = new QWebView;
         view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         view->setContextMenuPolicy(Qt::NoContextMenu);
@@ -162,6 +167,14 @@ public slots:
         view->setHtml(html);
         view->show();
         welcomeWindow->setWidget(view);
+#else
+        QTextBrowser *tb = new QTextBrowser(dynamic_cast<QWidget*>(this));
+        tb->setOpenExternalLinks(true);
+        tb->setOpenLinks(false);
+        tb->setHtml(html);
+        connect(tb, SIGNAL(anchorClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
+        welcomeWindow->setWidget(tb);
+#endif
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
         viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_welcome"));

@@ -102,8 +102,13 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Test
     Widgets
     Xml
-    WebKitWidgets
 )
+
+find_package(Qt5WebKitWidgets ${QT_MIN_VERSION})
+if(Qt5WebKitWidgets_FOUND)
+    add_definitions(-DWEBKIT_WELCOMEPAGE)
+    set(WEBKIT_WELCOMEPAGE 1)
+endif()
 
 # search packages used by KDE
 find_package(KF5 REQUIRED COMPONENTS
