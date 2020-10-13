@@ -137,6 +137,8 @@ void UMLStereotype::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
             QDomElement attElement = qDoc.createElement(QLatin1String("UML:Attribute"));
             attElement.setAttribute(QLatin1String("name"), ad.name);
             attElement.setAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
+            if (!ad.defaultVal.isEmpty())
+                attElement.setAttribute(QLatin1String("initialValue"), ad.defaultVal);
             featureElement.appendChild(attElement);
         }
         stereotypeElement.appendChild(featureElement);
@@ -167,7 +169,8 @@ bool UMLStereotype::load1(QDomElement& element)
                     QString name = attElem.attribute(QLatin1String("name"));
                     QString typeStr = attElem.attribute(QLatin1String("type"));
                     Uml::PrimitiveTypes::Enum type = Uml::PrimitiveTypes::fromString(typeStr);
-                    AttributeDef ad(name, type);
+                    QString dfltVal = attElem.attribute(QLatin1String("initialValue"));
+                    AttributeDef ad(name, type, dfltVal);
                     m_attrDefs.append(ad);
                 } else {
                     uDebug() << "UMLStereotype::::load1(" << m_name

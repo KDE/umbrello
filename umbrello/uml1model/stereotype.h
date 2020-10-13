@@ -62,10 +62,12 @@ public:
     class AttributeDef
     {
     public:
-        QString name;
+        QString                   name;
         Uml::PrimitiveTypes::Enum type;
-        AttributeDef() : type(Uml::PrimitiveTypes::String) {}
-        AttributeDef(QString nm, Uml::PrimitiveTypes::Enum t) : name(nm), type(t) {}
+        QString                   defaultVal;
+        AttributeDef()            : type(Uml::PrimitiveTypes::String) {}
+        AttributeDef(QString nm, Uml::PrimitiveTypes::Enum t, QString dfltVal = QString())
+                                  : name(nm), type(t), defaultVal(dfltVal) {}
         virtual ~AttributeDef() {}
     };
 

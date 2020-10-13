@@ -77,7 +77,7 @@ void StereoAttributeDialog::setupDialog()
                                     m_pNameLabel[row], i18nc("attribute name", "&Name:"),
                                     m_pNameEdit[row]);        // columns 0, 1
 
-        m_pTypeLabel[row] = new QLabel(i18nc("attribute type", "Type:"));
+        m_pTypeLabel[row] = new QLabel(i18nc("attribute type", "&Type:"));
         valuesLayout->addWidget(m_pTypeLabel[row], row, 2);   // column 2
         m_pTypeCombo[row] = new QComboBox(this);
         for (int type = 0; type < Uml::PrimitiveTypes::n_types; type++) {
@@ -85,6 +85,10 @@ void StereoAttributeDialog::setupDialog()
         }
         valuesLayout->addWidget(m_pTypeCombo[row], row, 3);   // column 3
         m_pTypeLabel[row]->setBuddy(m_pTypeCombo[row]);
+
+        Dialog_Utils::makeLabeledEditField(valuesLayout, row,
+                                    m_pDefaultValueLabel[row], i18nc("default value", "&Default:"),
+                                    m_pDefaultValueEdit[row], QString(), 4);  // columns 4, 5
 
         if (adefs.count() > row) {
             const UMLStereotype::AttributeDef& adef = adefs.at(row);
@@ -95,6 +99,9 @@ void StereoAttributeDialog::setupDialog()
                     m_pTypeCombo[row]->setCurrentIndex(type);
                 else
                     uDebug() << "StereoAttributeDialog::setupDialog: Illegal type " << type;
+                const QString& dfltVal = adef.defaultVal;
+                if (!dfltVal.isEmpty())
+                    m_pDefaultValueEdit[row]->setText(dfltVal);
             }
         }
     }
@@ -114,7 +121,9 @@ bool StereoAttributeDialog::apply()
             int typeIndex = m_pTypeCombo[i]->currentIndex();
             if (typeIndex < 0)
                 typeIndex = 0;
-            UMLStereotype::AttributeDef attrDef(name, Uml::PrimitiveTypes::Enum(typeIndex));
+            Uml::PrimitiveTypes::Enum type = Uml::PrimitiveTypes::Enum(typeIndex);
+            QString dfltVal = m_pDefaultValueEdit[i]->text().trimmed();
+            UMLStereotype::AttributeDef attrDef(name, type, dfltVal);
             adefs.append(attrDef);
         }
     }
