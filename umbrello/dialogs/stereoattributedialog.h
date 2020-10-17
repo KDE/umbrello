@@ -12,6 +12,7 @@
 #define STEREOATTRIBUTEDIALOG_H
 
 #include "singlepagedialogbase.h"
+#include "n_stereoattrs.h"
 
 class QGroupBox;
 class QLabel;
@@ -38,8 +39,6 @@ protected:
      * The Stereotype to represent
      */
     UMLStereotype *m_pStereotype;
-
-#define N_STEREOATTRS 3
 
     //GUI Widgets
     QGroupBox * m_pValuesGB;

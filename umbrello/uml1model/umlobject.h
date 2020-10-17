@@ -296,7 +296,7 @@ protected:
                                            ///< stereotype is applied and has attributes.
                                            ///< The order of elements is the same as in
                                            ///< UMLStereotype::AttributeDefs.
-                                           ///< At most N_STEREOATTRS are used (see stereotype.h)
+                                           ///< At most N_STEREOATTRS are used (see dialogs/n_stereoattrs.h)
     UMLObjectPrivate *m_d;                 ///< private data
     friend class ObjectsModel;
 };
