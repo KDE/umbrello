@@ -13,6 +13,7 @@
 
 #include "umlobject.h"
 #include "widgetbase.h"
+#include "n_stereoattrs.h"
 
 #include <QString>
 
@@ -40,6 +41,20 @@ KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
                                 KLineEdit * &editField,
                                 const QString& editFieldText = QString(),
                                 int columnOffset = 0);
+
+void makeTagEditFields(UMLObject * o, QGridLayout * genLayout,
+                       QLabel * pTagLabel[N_STEREOATTRS],
+                       KLineEdit *pTagLineEdit[N_STEREOATTRS],
+                       int row = 1);
+
+void remakeTagEditFields(const QString &stereoText,
+                         UMLObject * o, QGridLayout * genLayout,
+                         QLabel * pTagLabel[N_STEREOATTRS],
+                         KLineEdit * pTagLineEdit[N_STEREOATTRS],
+                         int row = 1);
+
+void updateTagsFromEditFields(UMLObject * o,
+                              KLineEdit *pTagLineEdit[N_STEREOATTRS]);
 
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
