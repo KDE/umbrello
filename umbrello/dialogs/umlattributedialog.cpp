@@ -47,6 +47,10 @@ UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttrib
 {
     setCaption(i18n("Attribute Properties"));
     m_pAttribute = pAttribute;
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
     setupDialog();
 }
 
@@ -66,27 +70,30 @@ void UMLAttributeDialog::setupDialog()
     QVBoxLayout * mainLayout = new QVBoxLayout(frame);
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
-    QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
-    valuesLayout->setSpacing(10);
+    m_pValuesLayout = new QGridLayout(m_pValuesGB);
+    m_pValuesLayout->setMargin(margin);
+    m_pValuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pAttribute->asUMLClassifierListItem());
-    m_datatypeWidget->addToLayout(valuesLayout, 0);
+    m_datatypeWidget->addToLayout(m_pValuesLayout, 0);
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_pValuesLayout, 1,
                                     m_pNameL, i18nc("attribute name", "&Name:"),
                                     m_pNameLE, m_pAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField(m_pValuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, m_pAttribute->getInitialValue());
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAttribute);
-    m_stereotypeWidget->addToLayout(valuesLayout, 3);
+    m_stereotypeWidget->addToLayout(m_pValuesLayout, 3);
+    connect(m_stereotypeWidget->editField(), SIGNAL(currentTextChanged(const QString&)),
+                                       this, SLOT(slotStereoTextChanged(const QString&)));
+    Dialog_Utils::makeTagEditFields(m_pAttribute, m_pValuesLayout, m_pTagL, m_pTagLE, 3);
 
     m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pValuesGB);
     m_pStaticCB->setChecked(m_pAttribute->isStatic());
-    valuesLayout->addWidget(m_pStaticCB, 4, 0);
+    m_pValuesLayout->addWidget(m_pStaticCB, 4, 0);
 
     mainLayout->addWidget(m_pValuesGB);
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_pAttribute, this);
@@ -103,6 +110,11 @@ void UMLAttributeDialog::setupDialog()
 void UMLAttributeDialog::slotNameChanged(const QString &_text)
 {
     enableButtonOk(!_text.isEmpty());
+}
+
+void UMLAttributeDialog::slotStereoTextChanged(const QString &stereoText)
+{
+    Dialog_Utils::remakeTagEditFields(stereoText, m_pAttribute, m_pValuesLayout, m_pTagL, m_pTagLE);
 }
 
 /**
@@ -130,6 +142,7 @@ bool UMLAttributeDialog::apply()
     m_visibilityEnumWidget->apply();
     m_pAttribute->setInitialValue(m_pInitialLE->text());
     m_stereotypeWidget->apply();
+    Dialog_Utils::updateTagsFromEditFields(m_pAttribute, m_pTagLE);
     m_pAttribute->setStatic(m_pStaticCB->isChecked());
     m_datatypeWidget->apply();
     m_docWidget->apply();

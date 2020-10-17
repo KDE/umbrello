@@ -60,8 +60,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pWidget(0),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -79,6 +77,10 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         uWarning() << "Given UMLObject is NULL.";
         return;
     }
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
@@ -86,7 +88,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     UMLObject::ObjectType t = m_pObject->baseType();
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
@@ -107,12 +109,15 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         setFocusProxy(m_nameWidget);
     }
 
-    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
+    if (t != UMLObject::ot_Stereotype && t != UMLObject::ot_Instance) {
         m_stereotypeWidget = new UMLStereotypeWidget(m_pObject);
         if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
             m_stereotypeWidget->setEditable(false);
         }
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+        connect(m_stereotypeWidget->editField(), SIGNAL(currentTextChanged(const QString&)),
+                                          this, SLOT(slotStereoTextChanged(const QString&)));
+        Dialog_Utils::makeTagEditFields(m_pObject, m_pNameLayout, m_pTagL, m_pTagLE);
     }
 
     int row = 2;
@@ -174,8 +179,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pWidget(o),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -193,13 +196,17 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         uWarning() << "Given ObjectWidget is NULL.";
         return;
     }
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
 
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
     // setup name
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
@@ -243,8 +250,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pWidget(0),
     m_pInstanceWidget(widget),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -258,12 +263,17 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_artifactTypeWidget(0),
     m_visibilityEnumWidget(0)
 {
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
+
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
     // setup name
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
@@ -289,6 +299,11 @@ ClassGeneralPage::~ClassGeneralPage()
 {
 }
 
+void ClassGeneralPage::slotStereoTextChanged(const QString &stereoText)
+{
+    Dialog_Utils::remakeTagEditFields(stereoText, m_pObject, m_pNameLayout, m_pTagL, m_pTagLE);
+}
+
 /**
  * Will move information from the dialog into the object.
  * Call when the ok or apply button is pressed.
@@ -300,6 +315,9 @@ void ClassGeneralPage::apply()
 
     if (m_stereotypeWidget) {
         m_stereotypeWidget->apply();
+        if (m_pObject) {
+            Dialog_Utils::updateTagsFromEditFields(m_pObject, m_pTagLE);
+        }
     }
 
     if (m_pObject) {

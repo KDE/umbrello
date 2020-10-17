@@ -12,9 +12,11 @@
 #define CLASSGENERALPAGE_H
 
 #include "dialogpagebase.h"
+#include "n_stereoattrs.h"
 
 class DocumentationWidget;
 class QGroupBox;
+class QGridLayout;
 class QLabel;
 class QRadioButton;
 class QCheckBox;
@@ -84,13 +86,15 @@ private:
     UMLWidget * m_pInstanceWidget;
     UMLDoc * m_pUmldoc;
 
-    QLabel * m_pInstanceL, * m_pStereoTypeL;
+    QGridLayout * m_pNameLayout;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     QCheckBox * m_pExecutableCB;
     DocumentationWidget *m_docWidget;
     UMLObjectNameWidget *m_nameWidget;
     UMLObjectNameWidget *m_instanceNameWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
+    QLabel              *m_pTagL [N_STEREOATTRS];
+    KLineEdit           *m_pTagLE[N_STEREOATTRS];
     UMLPackageWidget *m_packageWidget;
     UMLArtifactTypeWidget *m_artifactTypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
@@ -99,6 +103,7 @@ private:
     void setInstanceWidgetNameIfApplicable(const QString& name) const;
 
 public slots:
+    void slotStereoTextChanged(const QString &);
     void slotActorToggled(bool state);
 };
 

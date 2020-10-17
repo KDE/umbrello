@@ -65,6 +65,10 @@ UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperati
     m_operation = pOperation;
     m_doc = UMLApp::app()->document();
     m_menu = 0;
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
     setupDialog();
 }
 
@@ -86,48 +90,50 @@ void UMLOperationDialog::setupDialog()
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
     m_pGenGB = new QGroupBox(i18n("General Properties"), frame);
-    QGridLayout * genLayout = new QGridLayout(m_pGenGB);
-    genLayout->setColumnStretch(1, 1);
-    genLayout->setColumnStretch(3, 1);
-    genLayout->addItem(new QSpacerItem(200, 0), 0, 1);
-    genLayout->addItem(new QSpacerItem(200, 0), 0, 3);
-    genLayout->setMargin(margin);
-    genLayout->setSpacing(10);
+    m_pGenLayout = new QGridLayout(m_pGenGB);
+    m_pGenLayout->setColumnStretch(1, 1);
+    m_pGenLayout->setColumnStretch(3, 1);
+    m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 1);
+    m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 3);
+    m_pGenLayout->setMargin(margin);
+    m_pGenLayout->setSpacing(10);
 
-    Dialog_Utils::makeLabeledEditField(genLayout, 0,
+    Dialog_Utils::makeLabeledEditField(m_pGenLayout, 0,
                                     m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_operation->name());
 
     m_datatypeWidget = new UMLDatatypeWidget(m_operation);
-    m_datatypeWidget->addToLayout(genLayout, 0, 2);
+    m_datatypeWidget->addToLayout(m_pGenLayout, 0, 2);
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_operation);
-    m_stereotypeWidget->addToLayout(genLayout, 1);
-
+    m_stereotypeWidget->addToLayout(m_pGenLayout, 1);
+    connect(m_stereotypeWidget->editField(), SIGNAL(currentTextChanged(const QString&)),
+                                       this, SLOT(slotStereoTextChanged(const QString&)));
+    Dialog_Utils::makeTagEditFields(m_operation, m_pGenLayout, m_pTagL, m_pTagLE);
     bool isInterface = m_operation->umlPackage()->asUMLClassifier()->isInterface();
     m_pAbstractCB = new QCheckBox(i18n("&Abstract operation"), m_pGenGB);
     m_pAbstractCB->setChecked(m_operation->isAbstract());
     m_pAbstractCB->setEnabled(!isInterface);
-    genLayout->addWidget(m_pAbstractCB, 2, 0);
+    m_pGenLayout->addWidget(m_pAbstractCB, 2, 0);
     m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pGenGB);
     m_pStaticCB->setChecked(m_operation->isStatic());
-    genLayout->addWidget(m_pStaticCB, 2, 1);
+    m_pGenLayout->addWidget(m_pStaticCB, 2, 1);
     m_pQueryCB = new QCheckBox(i18n("&Query (\"const\")"), m_pGenGB);
     m_pQueryCB->setChecked(m_operation->getConst());
-    genLayout->addWidget(m_pQueryCB, 2, 2);
+    m_pGenLayout->addWidget(m_pQueryCB, 2, 2);
     m_virtualCB = new QCheckBox(i18n("&virtual"), m_pGenGB);
     m_virtualCB->setChecked(m_operation->isVirtual());
     m_virtualCB->setEnabled(!isInterface);
-    genLayout->addWidget(m_virtualCB, 2, 3);
+    m_pGenLayout->addWidget(m_virtualCB, 2, 3);
     m_inlineCB = new QCheckBox(i18n("&inline"), m_pGenGB);
     m_inlineCB->setChecked(m_operation->isInline());
     m_inlineCB->setEnabled(!isInterface);
-    genLayout->addWidget(m_inlineCB, 2, 4);
+    m_pGenLayout->addWidget(m_inlineCB, 2, 4);
     if (Settings::optionState().codeImportState.supportCPP11) {
         m_pOverrideCB = new QCheckBox(i18n("&Override"), m_pGenGB);
         m_pOverrideCB->setChecked(m_operation->getOverride());
         m_pOverrideCB->setEnabled(!isInterface);
-        genLayout->addWidget(m_pOverrideCB, 2, 5);
+        m_pGenLayout->addWidget(m_pOverrideCB, 2, 5);
     }
 
     m_visibilityEnumWidget = new VisibilityEnumWidget(m_operation, this);
@@ -217,6 +223,11 @@ void UMLOperationDialog::setupDialog()
 void UMLOperationDialog::slotNameChanged(const QString &_text)
 {
     enableButtonOk(!_text.isEmpty());
+}
+
+void UMLOperationDialog::slotStereoTextChanged(const QString &stereoText)
+{
+    Dialog_Utils::remakeTagEditFields(stereoText, m_operation, m_pGenLayout, m_pTagL, m_pTagLE);
 }
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
@@ -434,6 +445,7 @@ bool UMLOperationDialog::apply()
     m_visibilityEnumWidget->apply();
     m_datatypeWidget->apply();
     m_stereotypeWidget->apply();
+    Dialog_Utils::updateTagsFromEditFields(m_operation, m_pTagLE);
 
     bool isAbstract = m_pAbstractCB->isChecked();
     m_operation->setAbstract(isAbstract);

@@ -13,11 +13,13 @@
 
 //kde includes
 #include "singlepagedialogbase.h"
+#include "n_stereoattrs.h"
 
 class DocumentationWidget;
 class KComboBox;
 class DialogsPopupMenu;
 class QAbstractButton;
+class QGridLayout;
 class QGroupBox;
 class QListWidget;
 class QListWidgetItem;
@@ -28,6 +30,7 @@ class QCheckBox;
 class QToolButton;
 class KLineEdit;
 class UMLDoc;
+class UMLObject;
 class UMLOperation;
 class UMLDatatypeWidget;
 class UMLStereotypeWidget;
@@ -58,6 +61,7 @@ protected:
     DialogsPopupMenu* m_menu;       ///< Menu used in parameter list box.
 
     //GUI widgets
+    QGridLayout*          m_pGenLayout;
     QGroupBox*            m_pParmsGB;
     QGroupBox*            m_pGenGB;
     QListWidget*          m_pParmsLW;
@@ -67,9 +71,11 @@ protected:
     QRadioButton*         m_pProtectedRB;
     QRadioButton*         m_pImplementationRB;
     QLabel*               m_pNameL;
+    QLabel*               m_pTagL[N_STEREOATTRS];
     UMLDatatypeWidget*    m_datatypeWidget;
     UMLStereotypeWidget*  m_stereotypeWidget;
     KLineEdit*            m_pNameLE;
+    KLineEdit*            m_pTagLE[N_STEREOATTRS];
     QCheckBox*            m_pAbstractCB;
     QCheckBox*            m_pStaticCB;
     QCheckBox*            m_pQueryCB;
@@ -93,6 +99,7 @@ public slots:
     void slotParameterUp();
     void slotParameterDown();
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
+    void slotStereoTextChanged(const QString &);
     void slotNameChanged(const QString &);
 };
 
