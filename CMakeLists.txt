@@ -35,6 +35,8 @@ option(BUILD_KF5 "Build for KDE Frameworks 5" ON)
 
 option(BUILD_PHP_IMPORT "Build with php import support" ON)
 
+option(BUILD_QCH "Build with QCH support" ON)
+
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
@@ -58,6 +60,7 @@ if(NOT BUILD_KF5)
     set(KDEV_MIN_VERSION 1.7.3)
     set(KDEV_SOURCE_DIR lib/kdev4-php)
     set(KDEV_COMPONENTS)
+    set(QTQCHDIR ${QT_DOC_DIR}/qch)
 else()
     set(APP_SUFFIX 5)
     set(LIB_PREFIX Qt5::)
@@ -265,13 +268,13 @@ if(DOXYGEN_FOUND AND BUILD_APIDOC)
     set(DOXYGEN_USE_PDFLATEX NO)
     set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/apidoc)
 
-    if(QHELPGENERATOR_EXECUTABLE)
+    if(BUILD_QCH AND QHELPGENERATOR_EXECUTABLE)
         set(DOXYGEN_GENERATE_QHP YES)
         set(DOXYGEN_QCH_FILE ${CMAKE_BINARY_DIR}/umbrello.qch)
         set(DOXYGEN_QHP_NAMESPACE org.kde.umbrello)
         set(DOXYGEN_QHG_LOCATION ${QHELPGENERATOR_EXECUTABLE})
         set(DOXYGEN_QHP_VIRTUAL_FOLDER doc)
-        install(FILES ${DOXYGEN_QCH_FILE} DESTINATION ${QT_DOC_DIR}/qch COMPONENT Devel)
+        install(FILES ${DOXYGEN_QCH_FILE} DESTINATION ${QTQCHDIR} COMPONENT Devel)
     endif()
 
     doxygen_add_docs(apidoc
