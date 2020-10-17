@@ -42,7 +42,15 @@ ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, const QString &post
 }
 
 /**
- * Add this widget to a given grid layout. Umbrello dialogs places labels in column 0
+ * Return pointer to the KComboBox edit field.
+ */
+KComboBox * ComboBoxWidgetBase::editField()
+{
+    return m_editField;
+}
+
+/**
+ * Add this widget to a given grid layout. Umbrello dialogs place labels in column 0
  * and the editable field in column 1.
  * @param layout The layout to which the widget should be added
  * @param row The row in the grid layout where the widget should be placed

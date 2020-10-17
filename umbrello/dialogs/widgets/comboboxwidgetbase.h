@@ -24,6 +24,8 @@ public:
     explicit ComboBoxWidgetBase(const QString &title, const QString &postLabel = QString(), QWidget *parent = nullptr);
     void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
 
+    KComboBox *editField();
+
 protected:
     QLabel *m_label;
     QLabel *m_postLabel;
