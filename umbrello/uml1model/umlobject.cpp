@@ -564,6 +564,13 @@ QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 }
 
 /**
+ * Returns the concrete values of stereotype attributes.
+ */
+QStringList & UMLObject::tags() {
+    return m_TaggedValues;
+}
+
+/**
  * Return the package(s) in which this UMLObject is contained
  * as a text.
  *
@@ -1092,13 +1099,15 @@ bool UMLObject::loadFromXMI1(QDomElement & element)
         while (!elem.isNull()) {
             QString tag = elem.tagName();
             if (UMLDoc::tagEq(tag, QLatin1String("ModelElement.taggedValues"))) {
-                QDomNode tvNode = element.firstChild();
+                QDomNode tvNode = elem.firstChild();
                 QDomElement tvElem = tvNode.toElement();
                 while (!tvElem.isNull()) {
                     tag = tvElem.tagName();
                     if (UMLDoc::tagEq(tag, QLatin1String("TaggedValue"))) {
-                        QString value = elem.attribute(QLatin1String("value"));
+                        QString value = tvElem.attribute(QLatin1String("value"));
                         m_TaggedValues.append(value);
+                        uDebug() << "loadFromXMI1(" << m_name
+                                 << "): Loaded " << tag << " value " << value;
                     } else {
                         uDebug() << "loadFromXMI1(" << m_name
                                  << "): Unknown ModelElement.taggedValues child " << tag;
