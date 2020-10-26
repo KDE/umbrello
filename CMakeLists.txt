@@ -81,6 +81,9 @@ else()
     set(KDEV_MIN_VERSION 5.1.2)
     set(KDEV_SOURCE_DIR lib/kdev5-php)
     set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
+    if(NOT QTQCHDIR)
+        set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
+    endif()
 endif()
 
 # search packages used by Qt
