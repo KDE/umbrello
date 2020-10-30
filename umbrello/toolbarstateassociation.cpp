@@ -245,7 +245,14 @@ void ToolBarStateAssociation::setSecondWidget()
                 cleanAssociation();
                 emit finished();
                 return;
-            } else if (type == Uml::AssociationType::Aggregation) {
+            }
+            /*  Activating this code will produce a DataType named as the Role B type
+                with a suffixed "*" to indicate it is a pointer type.
+                However, this is a non standard, C++ specific notation.
+                Further, if this code is activated then no Aggregation association to the
+                role B type will be shown. Instead, if the "B*" pointer type is dragged
+                to the diagram then a Composition to that type will be shown.
+            else if (type == Uml::AssociationType::Aggregation) {
                 UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
                 UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
                 attr->setTypeName(QString(QLatin1String("%1*")).arg(widgetB->umlObject()->name()));
@@ -253,7 +260,7 @@ void ToolBarStateAssociation::setSecondWidget()
                 cleanAssociation();
                 emit finished();
                 return;
-            }
+            } */
         }
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
