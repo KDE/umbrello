@@ -24,6 +24,7 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "operation.h"
+#include "optionstate.h"
 #include "template.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -72,15 +73,21 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         m_operationSignature = Uml::SignatureType::SigNoVis;
 
     setVisualPropertyCmd(ShowAttributes, ops.classState.showAtts);
-    setVisualPropertyCmd(ShowStereotype, ops.classState.showStereoType);
+
+    // Do not call setShowStereotype here, it is a virtual method
+    // and setup of the vtbl_ptr has not yet been finalized.
+    m_showStereotype = ops.classState.showStereoType;
+    if (m_showStereotype != Uml::ShowStereoType::None)
+        m_visualProperties |= ShowStereotype;
+
     setVisualPropertyCmd(DrawAsCircle, false);
 
     setShowAttSigs(ops.classState.showAttSig);
 
     if (c && c->isInterface()) {
         setBaseType(WidgetBase::wt_Interface);
-        m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
-        setShowStereotype(true);
+        m_visualProperties = ShowOperations | ShowVisibility;
+        setShowStereotype(Uml::ShowStereoType::Tags);
         updateSignatureTypes();
     }
 
@@ -121,7 +128,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLPackage *o)
         m_operationSignature = Uml::SignatureType::SigNoVis;
 
     setVisualPropertyCmd(ShowAttributes, ops.classState.showAtts);
-    setVisualPropertyCmd(ShowStereotype, ops.classState.showStereoType);
+    setShowStereotype(ops.classState.showStereoType);
     setVisualPropertyCmd(DrawAsPackage, true);
 
     setShowAttSigs(ops.classState.showAttSig);
@@ -147,6 +154,18 @@ ClassifierWidget::~ClassifierWidget()
 UMLClassifier *ClassifierWidget::classifier() const
 {
     return m_umlObject->asUMLClassifier();
+}
+
+/**
+ * Reimplement method from UMLWidget.
+ */
+void ClassifierWidget::setShowStereotype(Uml::ShowStereoType::Enum flag)
+{
+    if (flag == Uml::ShowStereoType::None)
+        m_visualProperties &= ~ShowStereotype;
+    else
+        m_visualProperties |= ShowStereotype;
+    UMLWidget::setShowStereotype(flag);
 }
 
 /**
@@ -186,9 +205,13 @@ bool ClassifierWidget::visualProperty(VisualProperty property) const
                 || m_attributeSignature == Uml::SignatureType::SigNoVis);
     }
 
-    else if(property == ShowOperationSignature) {
+    else if (property == ShowOperationSignature) {
         return (m_operationSignature == Uml::SignatureType::ShowSig
                 || m_operationSignature == Uml::SignatureType::SigNoVis);
+    }
+
+    else if (property == ShowStereotype) {
+        return (m_showStereotype != Uml::ShowStereoType::None);
     }
 
     return m_visualProperties.testFlag(property);
@@ -249,15 +272,10 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
         //:TODO: updateTextItemGroups();
         updateSignatureTypes();
     }
-
+ 
     else if (property == ShowStereotype) {
-        // Now just update flag and use base method for actual work.
-        if (enable) {
-            m_visualProperties |= property;
-        } else {
-            m_visualProperties &= ~property;
-        }
-        setShowStereotype(enable);
+        setShowStereotype(enable ? Uml::ShowStereoType::Tags
+                                 : Uml::ShowStereoType::None);
     }
 
     else if (property == DrawAsCircle) {
@@ -500,13 +518,24 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // width is the width of the longest 'word'
     int width = 0, height = 0;
     // consider stereotype
-    if (visualProperty(ShowStereotype) && !m_umlObject->stereotype().isEmpty()) {
+    if (m_showStereotype != Uml::ShowStereoType::None && !m_umlObject->stereotype().isEmpty()) {
         height += fontHeight;
+        QString taggedValues;
+        if (m_showStereotype == Uml::ShowStereoType::Tags) {
+            taggedValues = tags();
+            if (!taggedValues.isEmpty())
+                height += fontHeight;
+        }
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
         const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
+        if (!taggedValues.isEmpty()) {
+            const int tagsWidth = bfm.size(0, taggedValues).width();
+            if (tagsWidth > width)
+                width = tagsWidth;
+        }
     } else if (showNameOnly) {
         height += defaultMargin;
     }
@@ -769,7 +798,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         int y = defaultMargin;
         const int templateWidth = templatesBoxSize.width() - 2 * defaultMargin;
         foreach (UMLTemplate *t, tlist) {
-            QString text = t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype));
+            QString text = t->toString(Uml::SignatureType::NoSig, m_showStereotype != Uml::ShowStereoType::None);
             painter->drawText(x, y, templateWidth, fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
@@ -787,10 +816,17 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                               !visualProperty(ShowDocumentation);
 
     int nameHeight = fontHeight;
-    if (visualProperty(ShowStereotype) && !m_umlObject->stereotype().isEmpty()) {
+    if (m_showStereotype != Uml::ShowStereoType::None && !m_umlObject->stereotype().isEmpty()) {
         painter->setFont(font);
         painter->drawText(textX, bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
         bodyOffsetY += fontHeight;
+        if (m_showStereotype == Uml::ShowStereoType::Tags) {
+            QString taggedValues = tags();
+            if (!taggedValues.isEmpty()) {
+                painter->drawText(textX, bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, taggedValues);
+                bodyOffsetY += fontHeight;
+            }
+        }
     } else if (showNameOnly) {
         nameHeight = h;
     }
@@ -1216,7 +1252,7 @@ void ClassifierWidget::changeToClass()
     setVisualPropertyCmd(DrawAsCircle, false);
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualProperty(ShowAttributes, ops.classState.showAtts);
-    setVisualProperty(ShowStereotype, ops.classState.showStereoType);
+    setShowStereotype(ops.classState.showStereoType);
 
     updateGeometry();
     update();
@@ -1233,7 +1269,7 @@ void ClassifierWidget::changeToInterface()
     m_umlObject->setBaseType(UMLObject::ot_Interface);
 
     setVisualProperty(ShowAttributes, false);
-    setVisualProperty(ShowStereotype, true);
+    setShowStereotype(Settings::optionState().classState.showStereoType);
 
     updateGeometry();
     update();
@@ -1249,7 +1285,7 @@ void ClassifierWidget::changeToPackage()
     m_umlObject->setBaseType(UMLObject::ot_Package);
 
     setVisualProperty(ShowAttributes, false);
-    setVisualProperty(ShowStereotype, true);
+    setShowStereotype(Uml::ShowStereoType::Name);
 
     updateGeometry();
     update();
@@ -1286,7 +1322,7 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
         setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
         setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
         setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
-        setVisualPropertyCmd(ShowStereotype, (bool)showstereotype.toInt());
+        setShowStereotype((Uml::ShowStereoType::Enum)showstereotype.toInt());
         m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
         m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
     }
@@ -1355,7 +1391,7 @@ void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
         conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
         conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
-        conceptElement.setAttribute(QLatin1String("showstereotype"), visualProperty(ShowStereotype));
+        conceptElement.setAttribute(QLatin1String("showstereotype"), m_showStereotype);
     }
 #ifdef ENABLE_WIDGET_SHOW_DOC
     conceptElement.setAttribute(QLatin1String("showdocumentation"),visualProperty(ShowDocumentation));

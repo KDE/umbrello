@@ -105,7 +105,7 @@ void WidgetBasePopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     insert(mt_Show_Packages, show, i18n("Package"), CHECKABLE);
     setActionChecked(mt_Show_Packages, c->visualProperty(ClassifierWidget::ShowPackage));
     insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
-    setActionChecked(mt_Show_Stereotypes, c->visualProperty(ClassifierWidget::ShowStereotype));
+    setActionChecked(mt_Show_Stereotypes, c->showStereotype() != Uml::ShowStereoType::None);
     addMenu(show);
 }
 

@@ -42,6 +42,7 @@
 #include "signalwidget.h"
 #include "settingsdialog.h"
 #include "statewidget.h"
+#include "stereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -720,7 +721,7 @@ void UMLWidget::init()
         m_useFillColor = false;
         m_usesDiagramFillColor = false;
         m_usesDiagramUseFillColor = false;
-        m_showStereotype = false;
+        m_showStereotype = Uml::ShowStereoType::None;
     }
 
     m_resizable = true;
@@ -2013,9 +2014,9 @@ void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 /**
  * Set the status of whether to show Stereotype.
  *
- * @param flag   True if stereotype shall be shown.
+ * @param flag   Value of type Uml::ShowStereoType::Enum
  */
-void UMLWidget::setShowStereotype(bool flag)
+void UMLWidget::setShowStereotype(Uml::ShowStereoType::Enum flag)
 {
     m_showStereotype = flag;
     updateGeometry();
@@ -2023,11 +2024,52 @@ void UMLWidget::setShowStereotype(bool flag)
 }
 
 /**
+ * Return stereotype concrete attributes concatenated into single string
+ * with the attribute name given before each value and delimited by "{"
+ * at start and "}" at end.
+ * Example:
+ * For a stereotype with attribute 'foo' of type Double and attribute 'bar'
+ * of type String and concrete values 1.0 for 'foo' and "hello" for 'bar',
+ * the result is:  {foo=1.0,bar="hello"}
+ */
+QString UMLWidget::tags() const
+{
+    if (m_umlObject == 0)
+        return QString();
+    UMLStereotype *s = m_umlObject->umlStereotype();
+    if (s == 0)
+        return QString();
+    UMLStereotype::AttributeDefs adefs = s->getAttributeDefs();
+    if (adefs.isEmpty())
+        return QString();
+    const QStringList& umlTags = m_umlObject->tags();
+    QString taggedValues(QLatin1String("{"));
+    for (int i = 0; i < adefs.size(); i++) {
+        UMLStereotype::AttributeDef ad = adefs.at(i);
+        taggedValues.append(ad.name);
+        taggedValues.append(QLatin1String("="));
+        QString value = ad.defaultVal;
+        if (i < umlTags.size()) {
+            QString umlTag = umlTags.at(i);
+            if (!umlTag.isEmpty())
+                value = umlTag;
+        }
+        if (ad.type == Uml::PrimitiveTypes::String)
+            value = QLatin1String("\"") + value + QLatin1String("\"");
+        taggedValues.append(value);
+        if (i < adefs.size() - 1)
+            taggedValues.append(QLatin1String(","));
+     }
+     taggedValues.append(QLatin1String("}"));
+     return taggedValues;
+}
+
+/**
  * Returns the status of whether to show Stereotype.
  *
  * @return  True if stereotype is shown.
  */
-bool UMLWidget::showStereotype() const
+Uml::ShowStereoType::Enum UMLWidget::showStereotype() const
 {
     return m_showStereotype;
 }
@@ -2082,7 +2124,7 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute(QLatin1String("instancename"));
     QString showstereo = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
-    m_showStereotype = (bool)showstereo.toInt();
+    m_showStereotype = (Uml::ShowStereoType::Enum)showstereo.toInt();
 
     return true;
 }

@@ -100,7 +100,7 @@ void ClassOptionsPage::setDefaults()
     m_showDocumentationCB->setChecked(false);
 #endif
     m_showOpsCB->setChecked(true);
-    m_showStereotypeCB->setChecked(false);
+    m_showStereotypeCB->setCurrentIndex(2); // Tags
     m_showAttSigCB->setChecked(false);
     m_showOpSigCB->setChecked(false);
     m_showPackageCB->setChecked(false);
@@ -187,8 +187,8 @@ void ClassOptionsPage::setupPage()
         m_showAttsCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowAttributes));
         visibilityLayout->addWidget(m_showAttsCB, 3, 0);
 
-        m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
-        m_showStereotypeCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowStereotype));
+        m_showStereotypeCB = createShowStereotypeCB(m_visibilityGB);
+        m_showStereotypeCB->setCurrentIndex(m_pWidget->showStereotype());
         visibilityLayout->addWidget(m_showStereotypeCB, 3, 1);
 
         m_showAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_visibilityGB);
@@ -278,8 +278,8 @@ void ClassOptionsPage::setupClassPageOption()
     m_showPackageCB->setChecked(m_options->classState.showPackage);
     visibilityLayout->addWidget(m_showPackageCB, 2, 1);
 
-    m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
-    m_showStereotypeCB->setChecked(m_options->classState.showStereoType);
+    m_showStereotypeCB = createShowStereotypeCB(m_visibilityGB);
+    m_showStereotypeCB->setCurrentIndex(m_options->classState.showStereoType);
     visibilityLayout->addWidget(m_showStereotypeCB, 3, 1);
 
     m_showAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_visibilityGB);
@@ -345,8 +345,8 @@ void ClassOptionsPage::setupPageFromEntityWidget()
     m_showAttSigCB->setChecked(m_entityWidget->showAttributeSignature());
     visibilityLayout->addWidget(m_showAttSigCB, 1, 0);
 
-    m_showStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_visibilityGB);
-    m_showStereotypeCB->setChecked(m_entityWidget->showStereotype());
+    m_showStereotypeCB = createShowStereotypeCB(m_visibilityGB);
+    m_showStereotypeCB->setCurrentIndex(m_entityWidget->showStereotype());
     visibilityLayout->addWidget(m_showStereotypeCB, 2, 0);
 }
 
@@ -364,7 +364,7 @@ void ClassOptionsPage::applyWidget()
     m_pWidget->setVisualProperty(ClassifierWidget::ShowOperationSignature, m_showOpSigCB->isChecked());
     WidgetBase::WidgetType type = m_pWidget->baseType();
     if (type == WidgetBase::wt_Class) {
-        m_pWidget->setVisualProperty(ClassifierWidget::ShowStereotype, m_showStereotypeCB->isChecked());
+        m_pWidget->setShowStereotype(Uml::ShowStereoType::Enum(m_showStereotypeCB->currentIndex()));
         m_pWidget->setVisualProperty(ClassifierWidget::ShowAttributes, m_showAttsCB->isChecked());
         m_pWidget->setVisualProperty(ClassifierWidget::ShowAttributeSignature, m_showAttSigCB->isChecked());
         m_pWidget->setVisualProperty(ClassifierWidget::ShowPublicOnly, m_showPublicOnlyCB->isChecked());
@@ -387,7 +387,7 @@ void ClassOptionsPage::applyOptionState()
         m_options->classState.showAtts = m_showAttsCB->isChecked();
     m_options->classState.showOps = m_showOpsCB->isChecked();
     if (m_showStereotypeCB)
-        m_options->classState.showStereoType = m_showStereotypeCB->isChecked();
+        m_options->classState.showStereoType = Uml::ShowStereoType::Enum(m_showStereotypeCB->currentIndex());
     m_options->classState.showPackage = m_showPackageCB->isChecked();
     if (m_showAttribAssocsCB)
         m_options->classState.showAttribAssocs = m_showAttribAssocsCB->isChecked();
@@ -417,7 +417,7 @@ void ClassOptionsPage::applyScene()
 void ClassOptionsPage::applyEntityWidget()
 {
     Q_ASSERT(m_entityWidget);
-    m_entityWidget->setShowStereotype(m_showStereotypeCB->isChecked());
+    m_entityWidget->setShowStereotype(Uml::ShowStereoType::Enum(m_showStereotypeCB->currentIndex()));
     m_entityWidget->setShowAttributeSignature(m_showAttSigCB->isChecked());
 }
 
@@ -437,6 +437,19 @@ void ClassOptionsPage::init()
     m_showDocumentationCB = 0;
     m_showPublicOnlyCB = 0;
     m_drawAsCircleCB = 0;
+}
+
+/**
+ * This need not be a member method, it can be made "static" or be moved to Dialog_Utils
+ */
+KComboBox * ClassOptionsPage::createShowStereotypeCB(QGroupBox * grpBox)
+{
+    KComboBox * cobox = new KComboBox(grpBox);
+    cobox->setEditable(false);
+    cobox->addItem(i18n("None"));
+    cobox->addItem(i18n("Name"));
+    cobox->addItem(i18n("Tags"));
+    return cobox;
 }
 
 /**

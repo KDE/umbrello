@@ -145,7 +145,7 @@ namespace Settings {
         temp = element.attribute(QLatin1String("showscope"), QLatin1String("0"));
         showVisibility = (bool)temp.toInt();
         temp = element.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
-        showStereoType = (bool)temp.toInt();
+        showStereoType = (Uml::ShowStereoType::Enum)temp.toInt();
         return true;
     }
 

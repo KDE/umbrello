@@ -135,7 +135,7 @@ namespace Uml
         Enum fromInt(int item);
         bool hasUMLRepresentation(Enum item);
     }
-    
+
     /**
      * Layout types.
      */
@@ -153,7 +153,19 @@ namespace Uml
         Enum fromString(const QString& item);
         Enum fromInt(int item);
     }
-    
+
+    /**
+     * Diagram property controlling display of stereotypes.
+     */
+    namespace ShowStereoType
+    {
+        enum Enum {
+            None = 0,    ///< no display of stereotype
+            Name,        ///< stereotype name only
+            Tags         ///< stereotype name and tagged values
+        };
+    }
+
     /**
      * Signature types.
      */

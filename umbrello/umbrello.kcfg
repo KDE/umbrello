@@ -215,10 +215,15 @@
           <whatsthis>Enables/Disables showing of packages</whatsthis>
           <default>true</default>
        </entry> 
-       <entry name="showStereoType" type="Bool">
+       <entry name="showStereoType" type="Enum">
          <label>Show Stereotypes</label>
          <whatsthis>Show Stereotypes</whatsthis>
-         <default>true</default>
+         <choices name="Uml::ShowStereoType::Enum">
+            <choice name="None"/>
+            <choice name="Name"/>
+            <choice name="Tags"/>
+         </choices>
+         <default>Uml::ShowStereoType::Tags</default>
        </entry>
        <entry name="showAttribAssocs" type="Bool">
          <label>Show Attribute Associations</label>

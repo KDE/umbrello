@@ -40,7 +40,9 @@ public:
      * which stores all the flag status.
      */
     enum VisualProperty {
-        ShowStereotype         = 0x1,
+        ShowStereotype         = 0x1,   // DEPRECATED - see umlwidgets/widgetbase.cpp 
+                                        // WidgetBase::slotMenuSelection(QAction*)
+                                        // case ListPopupMenu::mt_{Show,Hide}_Stereotypes_Selection
         ShowOperations         = 0x2,
         ShowPublicOnly         = 0x4,
         ShowVisibility         = 0x8,
@@ -60,6 +62,8 @@ public:
     virtual ~ClassifierWidget();
 
     UMLClassifier *classifier() const;
+
+    void setShowStereotype(Uml::ShowStereoType::Enum flag);
 
     VisualProperties visualProperties() const;
     void setVisualProperties(VisualProperties properties);

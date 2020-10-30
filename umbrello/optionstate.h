@@ -100,7 +100,7 @@ public:
       : showVisibility(false),
         showAtts(false),
         showOps(false),
-        showStereoType(false),
+        showStereoType(Uml::ShowStereoType::None),
         showAttSig(false),
         showOpSig(false),
         showPackage(false),
@@ -121,7 +121,7 @@ public:
     bool showVisibility;
     bool showAtts;
     bool showOps;
-    bool showStereoType;
+    Uml::ShowStereoType::Enum showStereoType;
     bool showAttSig;
     bool showOpSig;
     bool showPackage;

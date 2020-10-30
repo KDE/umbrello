@@ -1086,6 +1086,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Show_Stereotypes_Selection:
     case ListPopupMenu::mt_Hide_Stereotypes_Selection:
+        // Bug73847 - ClassifierWidget::ShowStereotype boolean value is DEPRECATED
+        //     TODO - handle this differently, then delete ClassifierWidget::ShowStereotype
         umlScene()->selectionSetVisualProperty(
             ClassifierWidget::ShowStereotype, sel != ListPopupMenu::mt_Hide_Stereotypes_Selection
         );

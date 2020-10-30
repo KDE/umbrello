@@ -166,8 +166,9 @@ public:
         return m_instanceName;
     }
 
-    bool showStereotype() const;
-    virtual void setShowStereotype(bool flag);
+    Uml::ShowStereoType::Enum showStereotype() const;
+    virtual void setShowStereotype(Uml::ShowStereoType::Enum flag);
+    QString tags() const;
 
     virtual bool showPropertiesDialog();
 
@@ -294,7 +295,7 @@ protected:
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
     bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
-    bool m_showStereotype;   ///< should the stereotype be displayed
+    Uml::ShowStereoType::Enum m_showStereotype;   ///< if and how the stereotype should be displayed
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 

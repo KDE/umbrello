@@ -254,7 +254,8 @@ void EntityWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Show_Stereotypes:
-        setShowStereotype(!showStereotype());
+        setShowStereotype(showStereotype() == Uml::ShowStereoType::None ?
+                                              Uml::ShowStereoType::Tags : Uml::ShowStereoType::None);
         break;
 
     default:

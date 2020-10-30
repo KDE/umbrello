@@ -63,6 +63,7 @@ protected:
     void applyScene();
     void applyEntityWidget();
 
+    KComboBox * createShowStereotypeCB(QGroupBox * grpBox);
     void insertAttribScope(const QString& type, int index = -1);
     void insertOperationScope(const QString& type, int index = -1);
 
@@ -70,7 +71,8 @@ protected:
     QGroupBox * m_visibilityGB;
     QCheckBox * m_showVisibilityCB, * m_showAttSigCB;
     QCheckBox * m_showOpSigCB, * m_showAttsCB, * m_showOpsCB;
-    QCheckBox * m_showStereotypeCB, * m_showPackageCB, * m_showPublicOnlyCB;
+    KComboBox * m_showStereotypeCB;
+    QCheckBox * m_showPackageCB, * m_showPublicOnlyCB;
     QCheckBox * m_showAttribAssocsCB;
     QCheckBox * m_showDocumentationCB;
     QCheckBox * m_drawAsCircleCB;
