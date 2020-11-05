@@ -929,6 +929,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             return false;
         }
         saveToXMI1(tmpfile); // save the xmi stuff to it
+        tmpfile.close();
 
         // if it is a remote file, we have to upload the tmp file
         if (!url.isLocalFile()) {
