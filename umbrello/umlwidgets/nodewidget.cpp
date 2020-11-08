@@ -20,6 +20,7 @@
 // qt includes
 #include <QPainter>
 #include <QPolygon>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(NodeWidget)
 
@@ -147,10 +148,10 @@ QSizeF NodeWidget::minimumSize() const
  * Saves to the "nodewidget" XMI element.
  * Note: For loading we use the method inherited from UMLWidget.
  */
-void NodeWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void NodeWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("nodewidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("nodewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 

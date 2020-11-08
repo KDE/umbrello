@@ -14,6 +14,8 @@
 #include "umlwidget.h"
 #include "umlscene.h"
 
+#include <QXmlStreamWriter>
+
 AssociationWidgetRole::AssociationWidgetRole()
   : multiplicityWidget(nullptr)
   , changeabilityWidget(nullptr)
@@ -104,17 +106,17 @@ void AssociationWidgetRole::clipSize()
         changeabilityWidget->clipSize();
 }
 
-void AssociationWidgetRole::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement, const QString &suffix)
+void AssociationWidgetRole::saveToXMI1(QXmlStreamWriter& writer, const QString& suffix)
 {
-    qElement.setAttribute(QString(QLatin1String("index%1")).arg(suffix), m_nIndex);
-    qElement.setAttribute(QString(QLatin1String("totalcount%1")).arg(suffix), m_nTotalCount);
+    writer.writeAttribute(QString(QLatin1String("index%1")).arg(suffix), QString::number(m_nIndex));
+    writer.writeAttribute(QString(QLatin1String("totalcount%1")).arg(suffix), QString::number(m_nTotalCount));
 
     if (multiplicityWidget)
-        multiplicityWidget->saveToXMI1(qDoc, qElement);
+        multiplicityWidget->saveToXMI1(writer);
     if (roleWidget)
-        roleWidget->saveToXMI1(qDoc, qElement);
+        roleWidget->saveToXMI1(writer);
     if (changeabilityWidget)
-        changeabilityWidget->saveToXMI1(qDoc, qElement);
+        changeabilityWidget->saveToXMI1(writer);
 }
 
 bool AssociationWidgetRole::loadFromXMI1(QDomElement &qElement, const QString &suffix)

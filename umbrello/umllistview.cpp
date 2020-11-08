@@ -90,6 +90,7 @@
 #include <QPoint>
 #include <QRect>
 #include <QToolTip>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER(UMLListView)
 
@@ -2404,11 +2405,11 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 /**
  *
  */
-void UMLListView::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLListView::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement listElement = qDoc.createElement(QLatin1String("listview"));
-    m_rv->saveToXMI1(qDoc, listElement);
-    qElement.appendChild(listElement);
+    writer.writeStartElement(QLatin1String("listview"));
+    m_rv->saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

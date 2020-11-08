@@ -31,6 +31,7 @@ class CodeDocument;
 class CodeViewerDialog;
 class QDomDocument;
 class QDomElement;
+class QXmlStreamWriter;
 
 /**
  * This class collects together all of the code documents which form this project,
@@ -67,7 +68,7 @@ public:
 
     QString getUniqueID(CodeDocument * codeDoc);
 
-    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     CodeDocument * findCodeDocumentByID(const QString &id);
 

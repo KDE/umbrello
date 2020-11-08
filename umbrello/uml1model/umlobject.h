@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QString>
+#include <QXmlStreamWriter>
 
 class UMLActor;
 class UMLArtifact;
@@ -63,8 +64,8 @@ class UMLObjectPrivate;
  *
  * @ref saveToXMI1 saves the XMI attributes of each specific model class.
  * It needs to be implemented by each child class.
- * For creating the QDomElement and saving the common XMI parts,
- * it can use the save() method.
+ * For creating the XMI element and saving the common XMI parts,
+ * it can use the save1() method.
  *
  * @short The base class for UML objects.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -174,7 +175,7 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual bool loadFromXMI1(QDomElement & element);
 
     bool loadStereotype(QDomElement & element);
@@ -190,7 +191,7 @@ public:
     void setSecondaryFallback(const QString& id);
     QString secondaryFallback() const;
 
-    QDomElement save1(const QString &tag, QDomDocument & qDoc);
+    void save1(const QString& tag, QXmlStreamWriter& writer);
 
     friend QDebug operator<< (QDebug out, const UMLObject& obj);
 

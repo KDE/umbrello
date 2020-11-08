@@ -144,17 +144,17 @@ UMLAttribute *UMLInstance::createAttribute(const QString &name, UMLObject *type,
 /**
  * Creates the <UML:Instance> element including its entityliterals.
  */
-void UMLInstance::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void UMLInstance::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement instanceElement = UMLObject::save1(QLatin1String("UML:Instance"), qDoc);
-    instanceElement.setAttribute(QLatin1String("classifier"), Uml::ID::toString(m_classifier->id()));
+    UMLObject::save1(QLatin1String("UML:Instance"), writer);
+    writer.writeAttribute(QLatin1String("classifier"), Uml::ID::toString(m_classifier->id()));
     //save attributes
     UMLClassifierListItemList instanceAttributes = getFilteredList(UMLObject::ot_InstanceAttribute);
     UMLClassifierListItem* pInstanceAttribute = 0;
     foreach (pInstanceAttribute, instanceAttributes) {
-        pInstanceAttribute->saveToXMI1(qDoc, instanceElement);
+        pInstanceAttribute->saveToXMI1(writer);
     }
-    qElement.appendChild(instanceElement);
+    writer.writeEndElement();
 }
 
 /**

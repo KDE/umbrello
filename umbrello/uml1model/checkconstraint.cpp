@@ -115,14 +115,13 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLCheckConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLCheckConstraint::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement checkConstraintElement = UMLObject::save1(QLatin1String("UML:CheckConstraint"), qDoc);
+    UMLObject::save1(QLatin1String("UML:CheckConstraint"), writer);
 
-    QDomNode checkCondition = qDoc.createTextNode(m_CheckCondition);
-    checkConstraintElement.appendChild(checkCondition);
+    writer.writeTextElement(QString(), m_CheckCondition);
 
-    qElement.appendChild(checkConstraintElement);
+    writer.writeEndElement();
 }
 
 /**

@@ -148,22 +148,22 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLUniqueConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLUniqueConstraint::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement uniqueConstraintElement = UMLObject::save1(QLatin1String("UML:UniqueConstraint"), qDoc);
+    UMLObject::save1(QLatin1String("UML:UniqueConstraint"), writer);
 
     UMLEntity* parentEnt = umlParent()->asUMLEntity();
     if (parentEnt && parentEnt->isPrimaryKey(this)) {
-        uniqueConstraintElement.setAttribute(QLatin1String("isPrimary"), QLatin1String("1"));
+        writer.writeAttribute(QLatin1String("isPrimary"), QLatin1String("1"));
     } else {
-        uniqueConstraintElement.setAttribute(QLatin1String("isPrimary"), QLatin1String("0"));
+        writer.writeAttribute(QLatin1String("isPrimary"), QLatin1String("0"));
     }
 
     foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
-        att->saveToXMI1(qDoc, uniqueConstraintElement);
+        att->saveToXMI1(writer);
     }
 
-    qElement.appendChild(uniqueConstraintElement);
+    writer.writeEndElement();
 }
 
 /**

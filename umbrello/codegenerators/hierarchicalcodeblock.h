@@ -19,6 +19,8 @@
 #include <QMap>
 #include <QString>
 
+class QXmlStreamWriter;
+
 class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObjectWithTextBlocks
 {
     friend class CodeGenObjectWithTextBlocks;
@@ -45,7 +47,7 @@ public:
 
     QString getStartText () const;
 
-    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual void loadFromXMI1 (QDomElement & root);
 
@@ -64,7 +66,7 @@ protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode (QDomElement & element);
 

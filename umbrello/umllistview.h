@@ -21,6 +21,7 @@
 #include <QDomElement>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <QXmlStreamWriter>
 
 class QEvent;
 class QMouseEvent;
@@ -105,7 +106,7 @@ public:
 
     UMLListViewItem::ListViewType rootViewType(UMLListViewItem *item);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 

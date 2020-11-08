@@ -45,13 +45,13 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 /**
  * Save the XMI representation of this object
  */
-void CPPHeaderClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CPPHeaderClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("cppheaderclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("cppheaderclassdeclarationblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**

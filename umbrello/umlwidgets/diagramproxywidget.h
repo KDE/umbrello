@@ -25,6 +25,7 @@ class QAction;
 class QDomDocument;
 class QDomElement;
 class QStyleOptionGraphicsItem;
+class QXmlStreamWriter;
 
 class DiagramProxyWidget {
 public:
@@ -55,7 +56,7 @@ protected:
     DiagramProxyWidget& operator=(const DiagramProxyWidget& other);
     bool activate(IDChangeLog* changeLog = 0);
     bool loadFromXMI1(QDomElement &qElement);
-    void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     void setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF &pos);
     void setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF &pos);
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);

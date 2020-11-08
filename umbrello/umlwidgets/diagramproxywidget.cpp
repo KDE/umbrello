@@ -24,6 +24,9 @@
 #include "umlwidget.h"
 #include "selectdiagramdialog.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(DiagramProxyWidget)
 
 DiagramProxyWidget::DiagramProxyWidget(UMLWidget *widget, qreal borderWidth)
@@ -108,12 +111,10 @@ bool DiagramProxyWidget::loadFromXMI1(QDomElement &qElement)
     return true;
 }
 
-void DiagramProxyWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void DiagramProxyWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(qDoc);
-
     if (m_diagramLinkId != Uml::ID::None)
-        qElement.setAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
+        writer.writeAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
 }
 
 bool DiagramProxyWidget::isProxyWidget()

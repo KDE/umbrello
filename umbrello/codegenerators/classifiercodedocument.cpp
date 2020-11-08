@@ -30,6 +30,7 @@
 // qt includes
 #include <QList>
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -710,7 +711,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
 /**
  * Save the XMI representation of this object.
  */
-void ClassifierCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void ClassifierCodeDocument::saveToXMI1(QXmlStreamWriter& writer)
 {
 #if 0
     // avoid the creation of primitive data type
@@ -723,11 +724,11 @@ void ClassifierCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
            return;
     }
 #endif
-    QDomElement docElement = doc.createElement(QLatin1String("classifiercodedocument"));
+    writer.writeStartElement(QLatin1String("classifiercodedocument"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -746,22 +747,22 @@ void ClassifierCodeDocument::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void ClassifierCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void ClassifierCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // do super-class first
-    CodeDocument::setAttributesOnNode(doc, docElement);
+    CodeDocument::setAttributesOnNode(writer);
 
     // cache local attributes/fields
-    docElement.setAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
+    writer.writeAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block
-    QDomElement fieldsElement = doc.createElement(QLatin1String("classfields"));
+    writer.writeStartElement(QLatin1String("classfields"));
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)
-        (*it)->saveToXMI1(doc, fieldsElement);
-    docElement.appendChild(fieldsElement);
+        (*it)->saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

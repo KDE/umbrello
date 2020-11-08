@@ -17,6 +17,7 @@
 
 class ClassifierCodeDocument;
 class UMLObject;
+class QXmlStreamWriter;
 
 /**
  * class CodeParameter
@@ -57,7 +58,7 @@ public:
 
 protected:
 
-    virtual void setAttributesOnNode(QDomDocument& doc, QDomElement& blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
     virtual void setAttributesFromNode(QDomElement& element);
 
 private:

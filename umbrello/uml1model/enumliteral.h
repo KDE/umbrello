@@ -43,7 +43,7 @@ public:
 
     QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
 
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog(QWidget* parent = 0);
 

@@ -32,6 +32,7 @@
 #include <QPainter>
 #include <QPolygon>
 #include <QResizeEvent>
+#include <QXmlStreamWriter>
 
 //kde includes
 #include <KLocalizedString>
@@ -1369,33 +1370,33 @@ bool MessageWidget::showPropertiesDialog()
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void MessageWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
-    UMLWidget::saveToXMI1(qDoc, messageElement);
-    LinkWidget::saveToXMI1(qDoc, messageElement);
+    writer.writeStartElement(QLatin1String("messagewidget"));
+    UMLWidget::saveToXMI1(writer);
+    LinkWidget::saveToXMI1(writer);
     if (m_pOw[Uml::RoleType::A])
-        messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
+        writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
-        messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
+        writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
+        writer.writeAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
     else
-        messageElement.setAttribute(QLatin1String("operation"), m_CustomOp);
-    messageElement.setAttribute(QLatin1String("sequencemessagetype"), m_sequenceMessageType);
+        writer.writeAttribute(QLatin1String("operation"), m_CustomOp);
+    writer.writeAttribute(QLatin1String("sequencemessagetype"), QString::number(m_sequenceMessageType));
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        messageElement.setAttribute(QLatin1String("xclicked"), m_xclicked);
-        messageElement.setAttribute(QLatin1String("yclicked"), m_yclicked);
+        writer.writeAttribute(QLatin1String("xclicked"), QString::number(m_xclicked));
+        writer.writeAttribute(QLatin1String("yclicked"), QString::number(m_yclicked));
     }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
-        messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->saveToXMI1(qDoc, messageElement);
+        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
+        m_pFText->saveToXMI1(writer);
     }
 
-    qElement.appendChild(messageElement);
+    writer.writeEndElement();
 }
 
 /**

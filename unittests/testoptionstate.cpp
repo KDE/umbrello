@@ -42,10 +42,21 @@ void TestOptionState::test_saveAndLoad()
     options.classState.showOps = true;
     options.uiState.useFillColor = true;
 
-    QDomDocument doc;
-    QDomElement element = doc.createElement(QLatin1String("test"));
-    options.saveToXMI1(element);
+    // save
+    QString xml;
+    QXmlStreamWriter stream(&xml);
+    stream.writeStartElement(QLatin1String("test"));
+    options.saveToXMI1(stream);
+    stream.writeEndElement();
 
+    // convert XML string to QDomElement
+    QDomDocument doc;
+    QString error;
+    int line;
+    QVERIFY(doc.setContent(xml, &error, &line));
+    QDomElement element = doc.firstChild().toElement();
+
+    // load
     Settings::OptionState optionsB;
     QCOMPARE(optionsB.loadFromXMI1(element), true);
     QCOMPARE(optionsB.classState.showAtts, true);

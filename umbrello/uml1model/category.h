@@ -44,7 +44,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
     UMLCategory::Category_Type getType();
 

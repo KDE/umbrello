@@ -53,6 +53,7 @@
 #include <QPainterPath>
 #include <QPointer>
 #include <QApplication>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cmath>
@@ -3964,45 +3965,45 @@ void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 /**
  * Saves this widget to the "assocwidget" XMI element.
  */
-void AssociationWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement assocElement = qDoc.createElement(QLatin1String("assocwidget"));
+    writer.writeStartElement(QLatin1String("assocwidget"));
 
-    WidgetBase::saveToXMI1(qDoc, assocElement);
-    LinkWidget::saveToXMI1(qDoc, assocElement);
+    WidgetBase::saveToXMI1(writer);
+    LinkWidget::saveToXMI1(writer);
     if (m_umlObject) {
-        assocElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_umlObject->id()));
+        writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_umlObject->id()));
     }
-    assocElement.setAttribute(QLatin1String("type"), associationType());
+    writer.writeAttribute(QLatin1String("type"), QString::number(associationType()));
     if (!association()) {
-        assocElement.setAttribute(QLatin1String("visibilityA"), visibility(RoleType::A));
-        assocElement.setAttribute(QLatin1String("visibilityB"), visibility(RoleType::B));
-        assocElement.setAttribute(QLatin1String("changeabilityA"), changeability(RoleType::A));
-        assocElement.setAttribute(QLatin1String("changeabilityB"), changeability(RoleType::B));
+        writer.writeAttribute(QLatin1String("visibilityA"), QString::number(visibility(RoleType::A)));
+        writer.writeAttribute(QLatin1String("visibilityB"), QString::number(visibility(RoleType::B)));
+        writer.writeAttribute(QLatin1String("changeabilityA"), QString::number(changeability(RoleType::A)));
+        writer.writeAttribute(QLatin1String("changeabilityB"), QString::number(changeability(RoleType::B)));
         if (m_umlObject == 0) {
-            assocElement.setAttribute(QLatin1String("roleAdoc"), roleDocumentation(RoleType::A));
-            assocElement.setAttribute(QLatin1String("roleBdoc"), roleDocumentation(RoleType::B));
-            assocElement.setAttribute(QLatin1String("documentation"), documentation());
+            writer.writeAttribute(QLatin1String("roleAdoc"), roleDocumentation(RoleType::A));
+            writer.writeAttribute(QLatin1String("roleBdoc"), roleDocumentation(RoleType::B));
+            writer.writeAttribute(QLatin1String("documentation"), documentation());
         }
     }
-    assocElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
-    assocElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
-    m_associationLine->saveToXMI1(qDoc, assocElement);
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
+    writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
+    m_associationLine->saveToXMI1(writer);
 
     if (m_nameWidget) {
-        m_nameWidget->saveToXMI1(qDoc, assocElement);
+        m_nameWidget->saveToXMI1(writer);
     }
 
-    m_role[RoleType::A].saveToXMI1(qDoc, assocElement, QLatin1String("a"));
-    m_role[RoleType::B].saveToXMI1(qDoc, assocElement, QLatin1String("b"));
+    m_role[RoleType::A].saveToXMI1(writer, QLatin1String("a"));
+    m_role[RoleType::B].saveToXMI1(writer, QLatin1String("b"));
 
     if (m_associationClass) {
         QString acid = Uml::ID::toString(m_associationClass->id());
-        assocElement.setAttribute(QLatin1String("assocclass"), acid);
-        assocElement.setAttribute(QLatin1String("aclsegindex"), m_nLinePathSegmentIndex);
+        writer.writeAttribute(QLatin1String("assocclass"), acid);
+        writer.writeAttribute(QLatin1String("aclsegindex"), QString::number(m_nLinePathSegmentIndex));
     }
 
-    qElement.appendChild(assocElement);
+    writer.writeEndElement();  // assocwidget
 }
 
 /**

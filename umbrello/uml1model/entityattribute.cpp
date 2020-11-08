@@ -233,22 +233,22 @@ UMLObject* UMLEntityAttribute::clone() const
 /**
  * Creates the <UML:EntityAttribute> XMI element.
  */
-void UMLEntityAttribute::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLEntityAttribute::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement entityattributeElement = UMLObject::save1(QLatin1String("UML:EntityAttribute"), qDoc);
+    UMLObject::save1(QLatin1String("UML:EntityAttribute"), writer);
     if (m_pSecondary == 0) {
         uDebug() << name() << ": m_pSecondary is 0, using local name " << m_SecondaryId;
-        entityattributeElement.setAttribute(QLatin1String("type"), m_SecondaryId);
+        writer.writeAttribute(QLatin1String("type"), m_SecondaryId);
     } else {
-        entityattributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
-    entityattributeElement.setAttribute(QLatin1String("initialValue"), m_InitialValue);
-    entityattributeElement.setAttribute(QLatin1String("dbindex_type"), m_indexType);
-    entityattributeElement.setAttribute(QLatin1String("values"), m_values);
-    entityattributeElement.setAttribute(QLatin1String("attributes"), m_attributes);
-    entityattributeElement.setAttribute(QLatin1String("auto_increment"), m_autoIncrement);
-    entityattributeElement.setAttribute(QLatin1String("allow_null"), m_null);
-    qElement.appendChild(entityattributeElement);
+    writer.writeAttribute(QLatin1String("initialValue"), m_InitialValue);
+    writer.writeAttribute(QLatin1String("dbindex_type"), QString::number(m_indexType));
+    writer.writeAttribute(QLatin1String("values"), m_values);
+    writer.writeAttribute(QLatin1String("attributes"), m_attributes);
+    writer.writeAttribute(QLatin1String("auto_increment"), QString::number(m_autoIncrement));
+    writer.writeAttribute(QLatin1String("allow_null"), QString::number(m_null));
+    writer.writeEndElement();
 }
 
 /**

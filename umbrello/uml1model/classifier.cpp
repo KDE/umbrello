@@ -1358,7 +1358,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
  * Saves possible template parameters, generalizations, attributes,
  * operations, and contained objects to the given QDomElement.
  */
-void UMLClassifier::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLClassifier::saveToXMI1(QXmlStreamWriter& writer)
 {
     QString tag;
     switch (m_BaseType) {
@@ -1369,69 +1369,65 @@ void UMLClassifier::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
             tag = QLatin1String("UML:Interface");
             break;
         case UMLObject::ot_Package:
-            UMLPackage::saveToXMI1(qDoc, qElement);
+            UMLPackage::saveToXMI1(writer);
             return;
             break;
         default:
             uError() << "internal error: basetype is " << m_BaseType;
             return;
     }
-    QDomElement classifierElement = UMLObject::save1(tag, qDoc);
+    UMLObject::save1(tag, writer);
 
     //save templates
     UMLClassifierListItemList list = getFilteredList(UMLObject::ot_Template);
     if (list.count()) {
-        QDomElement tmplElement = qDoc.createElement(QLatin1String("UML:ModelElement.templateParameter"));
+        writer.writeStartElement(QLatin1String("UML:ModelElement.templateParameter"));
         foreach (UMLClassifierListItem *tmpl, list) {
-            tmpl->saveToXMI1(qDoc, tmplElement);
+            tmpl->saveToXMI1(writer);
         }
-        classifierElement.appendChild(tmplElement);
+        writer.writeEndElement();
     }
 
     //save generalizations (we are the subclass, the other end is the superclass)
     UMLAssociationList generalizations = getSpecificAssocs(AssociationType::Generalization);
     if (generalizations.count()) {
-        QDomElement genElement = qDoc.createElement(QLatin1String("UML:GeneralizableElement.generalization"));
+        writer.writeStartElement(QLatin1String("UML:GeneralizableElement.generalization"));
         foreach (UMLAssociation *a, generalizations) {
             // We are the subclass if we are at the role A end.
             if (m_nId != a->getObjectId(RoleType::A)) {
                 continue;
             }
-            QDomElement gElem = qDoc.createElement(QLatin1String("UML:Generalization"));
-            gElem.setAttribute(QLatin1String("xmi.idref"), Uml::ID::toString(a->id()));
-            genElement.appendChild(gElem);
+            writer.writeStartElement(QLatin1String("UML:Generalization"));
+            writer.writeAttribute(QLatin1String("xmi.idref"), Uml::ID::toString(a->id()));
+            writer.writeEndElement();
         }
-        if (genElement.hasChildNodes()) {
-            classifierElement.appendChild(genElement);
-        }
+        writer.writeEndElement();
     }
 
     // save attributes
-    QDomElement featureElement = qDoc.createElement(QLatin1String("UML:Classifier.feature"));
+    writer.writeStartElement(QLatin1String("UML:Classifier.feature"));
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
     foreach (UMLClassifierListItem *pAtt, attList) {
-        pAtt->saveToXMI1(qDoc, featureElement);
+        pAtt->saveToXMI1(writer);
     }
 
     // save operations
     UMLOperationList opList = getOpList();
     foreach (UMLOperation *pOp, opList) {
-        pOp->saveToXMI1(qDoc, featureElement);
+        pOp->saveToXMI1(writer);
     }
-    if (featureElement.hasChildNodes()) {
-        classifierElement.appendChild(featureElement);
-    }
+    writer.writeEndElement();
 
     // save contained objects
     if (m_objects.count()) {
-        QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
+        writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
         foreach (UMLObject* obj, m_objects) {
             uIgnoreZeroPointer(obj);
-            obj->saveToXMI1 (qDoc, ownedElement);
+            obj->saveToXMI1 (writer);
         }
-        classifierElement.appendChild(ownedElement);
+        writer.writeEndElement();
     }
-    qElement.appendChild(classifierElement);
+    writer.writeEndElement();
 }
 
 /**

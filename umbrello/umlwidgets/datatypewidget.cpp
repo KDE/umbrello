@@ -22,6 +22,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(DatatypeWidget)
 
@@ -91,11 +92,11 @@ bool DatatypeWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "datatypewidget" XMI element.
  */
-void DatatypeWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void DatatypeWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("datatypewidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("datatypewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

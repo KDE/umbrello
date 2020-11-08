@@ -30,11 +30,11 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("javaclassdeclarationblock"));
-    setAttributesOnNode(doc, blockElement);
-    root.appendChild(blockElement);
+    writer.writeStartElement(QLatin1String("javaclassdeclarationblock"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**

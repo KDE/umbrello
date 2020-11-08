@@ -18,6 +18,7 @@
 
 class TextBlock;
 class UMLObject;
+class QXmlStreamWriter;
 
 /**
  * Describes any codeblock which is 'owned' by a UMLobject of some sort and should
@@ -39,7 +40,7 @@ protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
     virtual void setAttributesFromNode (QDomElement & element);
     virtual void setAttributesFromObject (TextBlock * obj);
 

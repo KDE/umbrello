@@ -97,23 +97,23 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to XMI.
+     * @param stream The QXmlStreamWriter to save to.
      */
-    void ClassState::saveToXMI1(QDomElement &element)
+    void ClassState::saveToXMI1(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("showattribassocs"), showAttribAssocs);
-        element.setAttribute(QLatin1String("showatts"),         showAtts);
-        element.setAttribute(QLatin1String("showattsig"),       showAttSig);
-        element.setAttribute(QLatin1String("showops"),          showOps);
-        element.setAttribute(QLatin1String("showopsig"),        showOpSig);
-        element.setAttribute(QLatin1String("showpackage"),      showPackage);
-        element.setAttribute(QLatin1String("showpubliconly"),   showPublicOnly);
-        element.setAttribute(QLatin1String("showscope"),        showVisibility);
+        writer.writeAttribute(QLatin1String("showattribassocs"), QString::number(showAttribAssocs));
+        writer.writeAttribute(QLatin1String("showatts"),         QString::number(showAtts));
+        writer.writeAttribute(QLatin1String("showattsig"),       QString::number(showAttSig));
+        writer.writeAttribute(QLatin1String("showops"),          QString::number(showOps));
+        writer.writeAttribute(QLatin1String("showopsig"),        QString::number(showOpSig));
+        writer.writeAttribute(QLatin1String("showpackage"),      QString::number(showPackage));
+        writer.writeAttribute(QLatin1String("showpubliconly"),   QString::number(showPublicOnly));
+        writer.writeAttribute(QLatin1String("showscope"),        QString::number(showVisibility));
 #ifdef ENABLE_WIDGET_SHOW_DOC
-        element.setAttribute(QLatin1String("showdocumentation"),showDocumentation);
+        writer.writeAttribute(QLatin1String("showdocumentation"),QString::number(showDocumentation));
 #endif
-        element.setAttribute(QLatin1String("showstereotype"),   showStereoType);
+        writer.writeAttribute(QLatin1String("showstereotype"),   QString::number(showStereoType));
     }
 
     /**
@@ -177,16 +177,16 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void UIState::saveToXMI1(QDomElement &element)
+    void UIState::saveToXMI1(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
-        element.setAttribute(QLatin1String("fillcolor"),        fillColor.name());
-        element.setAttribute(QLatin1String("font"),             font.toString());
-        element.setAttribute(QLatin1String("griddotcolor"),     gridDotColor.name());
-        element.setAttribute(QLatin1String("linecolor"),        lineColor.name());
-        element.setAttribute(QLatin1String("linewidth"),        lineWidth);
-        element.setAttribute(QLatin1String("textcolor"),        textColor.name());
-        element.setAttribute(QLatin1String("usefillcolor"),     useFillColor);
+        writer.writeAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
+        writer.writeAttribute(QLatin1String("fillcolor"),        fillColor.name());
+        writer.writeAttribute(QLatin1String("font"),             font.toString());
+        writer.writeAttribute(QLatin1String("griddotcolor"),     gridDotColor.name());
+        writer.writeAttribute(QLatin1String("linecolor"),        lineColor.name());
+        writer.writeAttribute(QLatin1String("linewidth"),        QString::number(lineWidth));
+        writer.writeAttribute(QLatin1String("textcolor"),        textColor.name());
+        writer.writeAttribute(QLatin1String("usefillcolor"),     QString::number(useFillColor));
     }
 
     /**
@@ -241,14 +241,14 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to a QXml stream.
+     * @param stream The QXmlStreamWriter to use.
      */
-    void CodeImportState::saveToXMI1(QDomElement &element)
+    void CodeImportState::saveToXMI1(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
-        element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
-        element.setAttribute(QLatin1String("supportcpp11"), supportCPP11);
+        writer.writeAttribute(QLatin1String("createartifacts"), QString::number(createArtifacts));
+        writer.writeAttribute(QLatin1String("resolvedependencies"), QString::number(resolveDependencies));
+        writer.writeAttribute(QLatin1String("supportcpp11"), QString::number(supportCPP11));
     }
 
     /**
@@ -396,13 +396,13 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to a QXmlStreamWriter.
+     * @param writer The QXmlStreamWriter to save to.
      */
-    void OptionState::saveToXMI1(QDomElement& element)
+    void OptionState::saveToXMI1(QXmlStreamWriter& writer)
     {
-        uiState.saveToXMI1(element);
-        classState.saveToXMI1(element);
+        uiState.saveToXMI1(writer);
+        classState.saveToXMI1(writer);
     }
 
     /**

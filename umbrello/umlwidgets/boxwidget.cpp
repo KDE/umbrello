@@ -18,6 +18,7 @@
 
 // qt includes
 #include <QColorDialog>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(BoxWidget)
 
@@ -61,11 +62,11 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  * Saves the widget to the "boxwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void BoxWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void BoxWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement boxElement = qDoc.createElement(QLatin1String("boxwidget"));
-    UMLWidget::saveToXMI1(qDoc, boxElement);
-    qElement.appendChild(boxElement);
+    writer.writeStartElement(QLatin1String("boxwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

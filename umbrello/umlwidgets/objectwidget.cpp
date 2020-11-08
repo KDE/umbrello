@@ -32,12 +32,13 @@
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>
+#include <QXmlStreamWriter>
 
-#define O_MARGIN 5
-#define O_WIDTH 40
-#define A_WIDTH 20
+#define O_MARGIN  5
+#define O_WIDTH  40
+#define A_WIDTH  20
 #define A_HEIGHT 40
-#define A_MARGIN 5
+#define A_MARGIN  5
 
 DEBUG_REGISTER_DISABLED(ObjectWidget)
 
@@ -674,14 +675,14 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
 /**
  * Saves to the "objectwidget" XMI element.
  */
-void ObjectWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement objectElement = qDoc.createElement(QLatin1String("objectwidget"));
-    UMLWidget::saveToXMI1(qDoc, objectElement);
-    objectElement.setAttribute(QLatin1String("drawasactor"), m_drawAsActor);
-    objectElement.setAttribute(QLatin1String("multipleinstance"), m_multipleInstance);
-    objectElement.setAttribute(QLatin1String("decon"), m_showDestruction);
-    qElement.appendChild(objectElement);
+    writer.writeStartElement(QLatin1String("objectwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("drawasactor"), QString::number(m_drawAsActor));
+    writer.writeAttribute(QLatin1String("multipleinstance"), QString::number(m_multipleInstance));
+    writer.writeAttribute(QLatin1String("decon"), QString::number(m_showDestruction));
+    writer.writeEndElement();
 }
 
 /**

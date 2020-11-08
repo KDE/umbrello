@@ -63,6 +63,7 @@
 #include <QColor>
 #include <QPainter>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
 using namespace Uml;
 
@@ -2042,26 +2043,26 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
     /*
       Call after required actions in child class.
       Type must be set in the child class.
     */
-    WidgetBase::saveToXMI1(qDoc, qElement);
-    DiagramProxyWidget::saveToXMI1(qDoc, qElement);
+    WidgetBase::saveToXMI1(writer);
+    DiagramProxyWidget::saveToXMI1(writer);
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    qElement.setAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
-    qElement.setAttribute(QLatin1String("y"), QString::number(y() / dpiScale));
-    qElement.setAttribute(QLatin1String("width"), QString::number(width() / dpiScale));
-    qElement.setAttribute(QLatin1String("height"), QString::number(height() / dpiScale));
+    writer.writeAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
+    writer.writeAttribute(QLatin1String("y"), QString::number(y() / dpiScale));
+    writer.writeAttribute(QLatin1String("width"), QString::number(width() / dpiScale));
+    writer.writeAttribute(QLatin1String("height"), QString::number(height() / dpiScale));
 
-    qElement.setAttribute(QLatin1String("isinstance"), m_isInstance);
+    writer.writeAttribute(QLatin1String("isinstance"), QString::number(m_isInstance));
     if (!m_instanceName.isEmpty())
-        qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
+        writer.writeAttribute(QLatin1String("instancename"), m_instanceName);
     if (m_showStereotype)
-        qElement.setAttribute(QLatin1String("showstereotype"), m_showStereotype);
+        writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
 }
 
 bool UMLWidget::loadFromXMI1(QDomElement & qElement)

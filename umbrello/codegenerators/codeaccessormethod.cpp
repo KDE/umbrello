@@ -13,6 +13,7 @@
 #include "codeaccessormethod.h"
 
 // qt/kde includes
+#include <QXmlStreamWriter>
 
 // local includes
 #include "codeclassfield.h"
@@ -107,27 +108,27 @@ void CodeAccessorMethod::loadFromXMI1(QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeAccessorMethod::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeAccessorMethod::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codeaccessormethod"));
+    writer.writeStartElement(QLatin1String("codeaccessormethod"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & elem)
+void CodeAccessorMethod::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeMethodBlock::setAttributesOnNode(doc, elem);
+    CodeMethodBlock::setAttributesOnNode(writer);
 
     // set local class attributes
-    elem.setAttribute(QLatin1String("accessType"), getType());
-    elem.setAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
+    writer.writeAttribute(QLatin1String("accessType"), QString::number(getType()));
+    writer.writeAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
 }
 
 /**

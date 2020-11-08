@@ -42,7 +42,7 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     // For loading we can use the loadFromXMI1() inherited from UMLWidget.
 
 protected:

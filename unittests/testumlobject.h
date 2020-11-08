@@ -37,7 +37,7 @@ private slots:
     void test_resolveRef();
     void test_saveAndLoad();
     void test_setBaseType();
-    void test_setSterotype();
+    void test_setStereotype();
     void test_setUMLPackage();
     void test_setVisibility();
     void test_toString();

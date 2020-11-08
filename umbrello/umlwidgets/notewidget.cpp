@@ -33,6 +33,7 @@
 #if QT_VERSION >= 0x050000
 #include <QColorDialog>
 #endif
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(NoteWidget)
 
@@ -263,15 +264,15 @@ bool NoteWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "notewidget" XMI element.
  */
-void NoteWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void NoteWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement noteElement = qDoc.createElement(QLatin1String("notewidget"));
-    UMLWidget::saveToXMI1(qDoc, noteElement);
-    noteElement.setAttribute(QLatin1String("text"), documentation());
+    writer.writeStartElement(QLatin1String("notewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
-        noteElement.setAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
-    noteElement.setAttribute(QLatin1String("noteType"), m_noteType);
-    qElement.appendChild(noteElement);
+        writer.writeAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
+    writer.writeAttribute(QLatin1String("noteType"), QString::number(m_noteType));
+    writer.writeEndElement();
 }
 
 /**

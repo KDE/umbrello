@@ -36,7 +36,7 @@ public:
     void setAttributes(const QString& attributes);
     QString getAttributes() const;
 
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog(QWidget* parent = 0);
 

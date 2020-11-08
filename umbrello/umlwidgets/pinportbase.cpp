@@ -26,6 +26,7 @@
 // qt includes
 #include <QPainter>
 #include <QToolTip>
+#include <QXmlStreamWriter>
 
 // sys includes
 #include <cmath>
@@ -266,17 +267,18 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
 /**
  * Saves the widget to the "pinwidget" or "portwidget" XMI element.
  */
-void PinPortBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PinPortBase::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
-                                                                  : QLatin1String("portwidget"));
+    QString tag = (baseType() == wt_Pin ? QLatin1String("pinwidget")
+                                        : QLatin1String("portwidget"));
+    writer.writeStartElement(tag);
     Q_ASSERT(ownerWidget() != 0);
-    element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
-    UMLWidget::saveToXMI1(qDoc, element);
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
+    UMLWidget::saveToXMI1(writer);
     if (m_pName && !m_pName->text().isEmpty()) {
-        m_pName->saveToXMI1(qDoc, element);
+        m_pName->saveToXMI1(writer);
     }
-    qElement.appendChild(element);
+    writer.writeEndElement();
 }
 
 /**

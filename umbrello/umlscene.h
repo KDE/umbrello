@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QXmlStreamWriter>
 
 // forward declarations
 class ClassOptionsPage;
@@ -282,7 +283,7 @@ public:
 
     // Load/Save interface:
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual bool loadFromXMI1(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);

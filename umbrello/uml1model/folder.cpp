@@ -29,6 +29,7 @@
 
 // qt includes
 #include <QFile>
+#include <QXmlStreamWriter>
 
 /**
  * Sets up a Folder.
@@ -267,32 +268,33 @@ QString UMLFolder::folderFile() const
  * Can be used regardless of whether saving to the main model file
  * or to an external folder file (see m_folderFile.)
  */
-void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLFolder::saveContents1(QXmlStreamWriter& writer)
 {
-    QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
+    writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
     // Save contained objects if any.
     foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
-        obj->saveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (writer);
     }
     // Save associations if any.
     foreach (UMLObject *obj, subordinates()) {
-        obj->saveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (writer);
     }
-    qElement.appendChild(ownedElement);
+    writer.writeEndElement();
     // Save diagrams to `extension'.
     if (m_diagrams.count()) {
-        QDomElement diagramsElement = qDoc.createElement(QLatin1String("diagrams"));
-        if (UMLApp::app()->document()->resolution() != 0.0)
-            diagramsElement.setAttribute(QLatin1String("resolution"), UMLApp::app()->document()->resolution());
-
-        foreach (UMLView* pView, m_diagrams) {
-            pView->umlScene()->saveToXMI1(qDoc, diagramsElement);
+        writer.writeStartElement(QLatin1String("XMI.extension"));
+        writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
+        writer.writeStartElement(QLatin1String("diagrams"));
+        if (UMLApp::app()->document()->resolution() != 0.0) {
+            writer.writeAttribute(QLatin1String("resolution"),
+                                  QString::number(UMLApp::app()->document()->resolution()));
         }
-        QDomElement extension = qDoc.createElement(QLatin1String("XMI.extension"));
-        extension.setAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
-        extension.appendChild(diagramsElement);
-        qElement.appendChild(extension);
+        foreach (UMLView* pView, m_diagrams) {
+            pView->umlScene()->saveToXMI1(writer);
+        }
+        writer.writeEndElement();            // diagrams
+        writer.writeEndElement();   // XMI.extension
     }
 }
 
@@ -302,7 +304,7 @@ void UMLFolder::saveContents1(QDomDocument& qDoc, QDomElement& qElement)
  * user created folder. Invokes saveContents() with the newly created
  * element.
  */
-void UMLFolder::save1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLFolder::save1(QXmlStreamWriter& writer)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     QString elementName(QLatin1String("UML:Package"));
@@ -310,9 +312,9 @@ void UMLFolder::save1(QDomDocument& qDoc, QDomElement& qElement)
     if (mt != Uml::ModelType::N_MODELTYPES) {
         elementName = QLatin1String("UML:Model");
     }
-    QDomElement folderElement = UMLObject::save1(elementName, qDoc);
-    saveContents1(qDoc, folderElement);
-    qElement.appendChild(folderElement);
+    UMLObject::save1(elementName, writer);
+    saveContents1(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -320,10 +322,10 @@ void UMLFolder::save1(QDomDocument& qDoc, QDomElement& qElement)
  * UML:Model is created for the predefined fixed folders,
  * UML:Package with stereotype "folder" is created for all else.
  */
-void UMLFolder::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLFolder::saveToXMI1(QXmlStreamWriter& writer)
 {
     if (m_folderFile.isEmpty()) {
-        save1(qDoc, qElement);
+        save1(writer);
         return;
     }
     // See if we can create the external file.
@@ -339,37 +341,33 @@ void UMLFolder::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
         uError() << m_folderFile << QLatin1String(": ")
             << "cannot create file, contents will be saved in main model file";
         m_folderFile.clear();
-        save1(qDoc, qElement);
+        save1(writer);
         return;
     }
-    // Okay, external file is writable.  Wrap up main file.
-    QDomElement folderElement = UMLObject::save1(QLatin1String("UML:Package"), qDoc);
-    QDomElement extension = qDoc.createElement(QLatin1String("XMI.extension"));
-    extension.setAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
-    QDomElement fileElement = qDoc.createElement(QLatin1String("external_file"));
-    fileElement.setAttribute(QLatin1String("name"), m_folderFile);
-    extension.appendChild(fileElement);
-    folderElement.appendChild(extension);
-    qElement.appendChild(folderElement);
+    // External file is writable.  Create XMI.extension stub in main file.
+    UMLObject::save1(QLatin1String("UML:Package"), writer);
+    writer.writeStartElement(QLatin1String("XMI.extension"));
+    writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
+    writer.writeStartElement(QLatin1String("external_file"));
+    writer.writeAttribute(QLatin1String("name"), m_folderFile);
+    writer.writeEndElement();            // external_file
+    writer.writeEndElement();        // XMI.extension
+    writer.writeEndElement();    // UML:Package
 
-    // Save folder to external file.
-    QDomDocument folderDoc;
-    QDomElement folderRoot;
-    QDomProcessingInstruction xmlHeading =
-        folderDoc.createProcessingInstruction(QLatin1String("xml"),
-                                              QString::fromLatin1("version=\"1.0\" encoding=\"UTF-8\""));
-    folderDoc.appendChild(xmlHeading);
-    folderRoot = folderDoc.createElement(QLatin1String("external_file"));
-    folderRoot.setAttribute(QLatin1String("name"), name());
-    folderRoot.setAttribute(QLatin1String("filename"), m_folderFile);
-    folderRoot.setAttribute(QLatin1String("mainModel"), umldoc->url().fileName());
-    folderRoot.setAttribute(QLatin1String("parentId"), Uml::ID::toString(umlPackage()->id()));
-    folderRoot.setAttribute(QLatin1String("parent"), umlPackage()->fullyQualifiedName(QLatin1String("::"), true));
-    saveContents1(folderDoc, folderRoot);
-    folderDoc.appendChild(folderRoot);
-    QTextStream stream(&file);
-    stream.setCodec("UTF-8");
-    stream << folderDoc.toString();
+    // Write the external file.
+    QXmlStreamWriter xfWriter(&file);
+    xfWriter.setCodec("UTF-8");
+    xfWriter.setAutoFormatting(true);
+    xfWriter.setAutoFormattingIndent(2);
+    xfWriter.writeStartDocument();
+    xfWriter.writeStartElement(QLatin1String("external_file"));
+    xfWriter.writeAttribute(QLatin1String("name"), name());
+    xfWriter.writeAttribute(QLatin1String("filename"), m_folderFile);
+    xfWriter.writeAttribute(QLatin1String("mainModel"), umldoc->url().fileName());
+    xfWriter.writeAttribute(QLatin1String("parentId"), Uml::ID::toString(umlPackage()->id()));
+    xfWriter.writeAttribute(QLatin1String("parent"), umlPackage()->fullyQualifiedName(QLatin1String("::"), true));
+    saveContents1(xfWriter);
+    xfWriter.writeEndElement();
     file.close();
 }
 

@@ -30,6 +30,7 @@
 // qt includes
 #include <QEvent>
 #include <QPolygon>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(SignalWidget)
 
@@ -302,18 +303,18 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void SignalWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement signalElement = qDoc.createElement(QLatin1String("signalwidget"));
-    UMLWidget::saveToXMI1(qDoc, signalElement);
-    signalElement.setAttribute(QLatin1String("signalname"), m_Text);
-    signalElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    signalElement.setAttribute(QLatin1String("signaltype"), m_signalType);
+    writer.writeStartElement(QLatin1String("signalwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("signalname"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("signaltype"), QString::number(m_signalType));
     if (m_pName && !m_pName->text().isEmpty()) {
-        signalElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
-        m_pName -> saveToXMI1(qDoc, signalElement);
+        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
+        m_pName -> saveToXMI1(writer);
     }
-    qElement.appendChild(signalElement);
+    writer.writeEndElement();
 }
 
 /**

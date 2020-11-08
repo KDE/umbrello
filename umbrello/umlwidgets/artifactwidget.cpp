@@ -17,6 +17,9 @@
 #include "umlscene.h"
 #include "umlview.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(ArtifactWidget)
 
 /**
@@ -84,11 +87,11 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
  * Reimplemented from WidgetBase::saveToXMI1 to save the widget to
  * the "artifactwidget" XMI element.
  */
-void ArtifactWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ArtifactWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("artifactwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("artifactwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

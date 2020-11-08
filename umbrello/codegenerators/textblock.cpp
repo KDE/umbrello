@@ -319,25 +319,23 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
  * @param doc            the xmi document
  * @param blockElement   the xmi element holding the attributes
  */
-void TextBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
+void TextBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(doc);
-
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    blockElement.setAttribute(QLatin1String("tag"), getTag());
+    writer.writeAttribute(QLatin1String("tag"), getTag());
 
     // only write these if different from defaults
     const QString trueStr  = QLatin1String("true");
     const QString falseStr = QLatin1String("false");
     if (getIndentationLevel())
-        blockElement.setAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
+        writer.writeAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
     if (!m_text.isEmpty())
-        blockElement.setAttribute(QLatin1String("text"), encodeText(m_text, endLine));
+        writer.writeAttribute(QLatin1String("text"), encodeText(m_text, endLine));
     if (!getWriteOutText())
-        blockElement.setAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
+        writer.writeAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
     if (!canDelete())
-        blockElement.setAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
+        writer.writeAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
 }
 
 /**

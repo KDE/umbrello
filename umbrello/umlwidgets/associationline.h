@@ -23,6 +23,7 @@ class AssociationWidget;
 class QDomDocument;
 class QDomElement;
 class QPainter;
+class QXmlStreamWriter;
 
 /**
  * This class provides with various symbols that can be embedded in
@@ -140,7 +141,7 @@ public:
     void dumpPoints();
 
     bool loadFromXMI1(QDomElement &qElement);
-    void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
     QBrush brush() const;
     QPen pen() const;

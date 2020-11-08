@@ -45,6 +45,7 @@
 #include <QRegExp>
 #include <QPainter>
 #include <QValidator>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(FloatingTextWidget)
 
@@ -673,24 +674,24 @@ bool FloatingTextWidget::loadFromXMI1(QDomElement & qElement)
  * Reimplemented from UMLWidget::saveToXMI1 to save the widget
  * data into XMI 'floatingtext' element.
  */
-void FloatingTextWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingTextWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
     if (isEmpty())
         return;
 
-    QDomElement textElement = qDoc.createElement(QLatin1String("floatingtext"));
-    UMLWidget::saveToXMI1(qDoc, textElement);
-    textElement.setAttribute(QLatin1String("text"), m_Text);
-    textElement.setAttribute(QLatin1String("pretext"), m_preText);
-    textElement.setAttribute(QLatin1String("posttext"), m_postText);
+    writer.writeStartElement(QLatin1String("floatingtext"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("pretext"), m_preText);
+    writer.writeAttribute(QLatin1String("posttext"), m_postText);
 
     /* No need to save these - the messagewidget already did it.
     m_Operation  = qElement.attribute("operation");
     m_SeqNum = qElement.attribute("seqnum");
      */
 
-    textElement.setAttribute(QLatin1String("role"), m_textRole);
-    qElement.appendChild(textElement);
+    writer.writeAttribute(QLatin1String("role"), QString::number(m_textRole));
+    writer.writeEndElement();
 }
 
 /**

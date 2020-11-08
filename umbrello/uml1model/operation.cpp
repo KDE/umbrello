@@ -512,52 +512,50 @@ QString UMLOperation::getSourceCode() const
 /**
  * Saves to the <UML:Operation> XMI element.
  */
-void UMLOperation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLOperation::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement operationElement = UMLObject::save1(QLatin1String("UML:Operation"), qDoc);
-    operationElement.setAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
-    operationElement.setAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
-    operationElement.setAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
-    operationElement.setAttribute(QLatin1String("isInline"), m_inline ? QLatin1String("true") : QLatin1String("false"));
-    QDomElement featureElement = qDoc.createElement(QLatin1String("UML:BehavioralFeature.parameter"));
+    UMLObject::save1(QLatin1String("UML:Operation"), writer);
+    writer.writeAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isInline"), m_inline ? QLatin1String("true") : QLatin1String("false"));
+    writer.writeStartElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
-        QDomElement retElement = qDoc.createElement(QLatin1String("UML:Parameter"));
+        writer.writeStartElement(QLatin1String("UML:Parameter"));
         if (m_returnId == Uml::ID::None) {
             uDebug() << name() << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
-        retElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_returnId));
-        retElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
-        retElement.setAttribute(QLatin1String("kind"), QLatin1String("return"));
-        featureElement.appendChild(retElement);
+        writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_returnId));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("kind"), QLatin1String("return"));
+        writer.writeEndElement();
     } else {
         uDebug() << "m_SecondaryId is " << m_SecondaryId;
     }
 
     //save each attribute here, type different
     foreach(UMLAttribute* pAtt, m_List) {
-        QDomElement attElement = pAtt->UMLObject::save1(QLatin1String("UML:Parameter"), qDoc);
+        pAtt->UMLObject::save1(QLatin1String("UML:Parameter"), writer);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
-            attElement.setAttribute(QLatin1String("type"), Uml::ID::toString(attrType->id()));
+            writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(attrType->id()));
         } else {
-            attElement.setAttribute(QLatin1String("type"), pAtt->getTypeName());
+            writer.writeAttribute(QLatin1String("type"), pAtt->getTypeName());
         }
-        attElement.setAttribute(QLatin1String("value"), pAtt->getInitialValue());
+        writer.writeAttribute(QLatin1String("value"), pAtt->getInitialValue());
 
         Uml::ParameterDirection::Enum kind = pAtt->getParmKind();
         if (kind == Uml::ParameterDirection::Out)
-            attElement.setAttribute(QLatin1String("kind"), QLatin1String("out"));
+            writer.writeAttribute(QLatin1String("kind"), QLatin1String("out"));
         else if (kind == Uml::ParameterDirection::InOut)
-            attElement.setAttribute(QLatin1String("kind"), QLatin1String("inout"));
+            writer.writeAttribute(QLatin1String("kind"), QLatin1String("inout"));
         // The default for the parameter kind is "in".
 
-        featureElement.appendChild(attElement);
+        writer.writeEndElement();
     }
-    if (featureElement.hasChildNodes()) {
-        operationElement.appendChild(featureElement);
-    }
-    qElement.appendChild(operationElement);
+    writer.writeEndElement();            // UML:BehavioralFeature.parameter
+    writer.writeEndElement();  // UML:Operation
 }
 
 /**

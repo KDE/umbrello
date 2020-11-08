@@ -46,7 +46,7 @@ public:
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
 protected:
 

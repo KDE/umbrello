@@ -23,6 +23,7 @@
 
 // qt includes
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 JavaANTCodeDocument::JavaANTCodeDocument ()
 {
@@ -196,10 +197,10 @@ void JavaANTCodeDocument::loadFromXMI1 (QDomElement & root)
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
-void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void JavaANTCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    CodeDocument::setAttributesOnNode(doc, docElement);
+    CodeDocument::setAttributesOnNode(writer);
 
     // now set local attributes/fields
     //FIX
@@ -208,13 +209,13 @@ void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement &
 /**
  * Save the XMI representation of this object
  */
-void JavaANTCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaANTCodeDocument::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
+    writer.writeStartElement(QLatin1String("codedocument"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 // we add in our code blocks that describe how to generate

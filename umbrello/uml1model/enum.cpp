@@ -237,17 +237,17 @@ void UMLEnum::signalEnumLiteralRemoved(UMLClassifierListItem *elit)
 /**
  * Creates the <UML:Enum> element including its enumliterals.
  */
-void UMLEnum::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLEnum::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement enumElement = UMLObject::save1(QLatin1String("UML:Enumeration"), qDoc);
+    UMLObject::save1(QLatin1String("UML:Enumeration"), writer);
     // save enum literals
-    QDomElement literalElement = qDoc.createElement(QLatin1String("UML:Enumeration.literal"));
+    writer.writeStartElement(QLatin1String("UML:Enumeration.literal"));
     UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (UMLClassifierListItem* pEnumLiteral, enumLiterals) {
-        pEnumLiteral->saveToXMI1(qDoc, literalElement);
+        pEnumLiteral->saveToXMI1(writer);
     }
-    enumElement.appendChild(literalElement);
-    qElement.appendChild(enumElement);
+    writer.writeEndElement();            // UML:Enumeration.literal
+    writer.writeEndElement();    // UML:Enumeration
 }
 
 /**

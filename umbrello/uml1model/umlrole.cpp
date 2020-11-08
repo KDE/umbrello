@@ -174,59 +174,59 @@ Uml::RoleType::Enum UMLRole::role() const
 /**
  * Creates the <UML:AssociationEnd> XMI element.
  */
-void UMLRole::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLRole::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement roleElement = UMLObject::save1(QLatin1String("UML:AssociationEnd"), qDoc);
+    UMLObject::save1(QLatin1String("UML:AssociationEnd"), writer);
     if (m_pSecondary)
-        roleElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     else
         uError() << "id " << Uml::ID::toString(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
-        roleElement.setAttribute(QLatin1String("multiplicity"), m_Multi);
+        writer.writeAttribute(QLatin1String("multiplicity"), m_Multi);
     if (m_role == Uml::RoleType::A) {  // role aggregation based on parent type
         // role A
         switch (m_pAssoc->getAssocType()) {
         case Uml::AssociationType::Composition:
-            roleElement.setAttribute(QLatin1String("aggregation"), QLatin1String("composite"));
+            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("composite"));
             break;
         case Uml::AssociationType::Aggregation:
-            roleElement.setAttribute(QLatin1String("aggregation"), QLatin1String("aggregate"));
+            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("aggregate"));
             break;
         default:
-            roleElement.setAttribute(QLatin1String("aggregation"), QLatin1String("none"));
+            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("none"));
             break;
         }
         if (m_pAssoc->getAssocType() == Uml::AssociationType::UniAssociation) {
             // Normally the isNavigable attribute is "true".
             // We set it to false on role A to indicate that
             // role B gets an explicit arrowhead.
-            roleElement.setAttribute(QLatin1String("isNavigable"), QLatin1String("false"));
+            writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("false"));
         } else {
-            roleElement.setAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
+            writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
         }
     } else {
-        roleElement.setAttribute(QLatin1String("aggregation"), QLatin1String("none"));
-        roleElement.setAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
+        writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
         //FIXME obviously this isn't standard XMI
         if (m_pAssoc->getAssocType() == Uml::AssociationType::Relationship) {
-            roleElement.setAttribute(QLatin1String("relationship"), QLatin1String("true"));
+            writer.writeAttribute(QLatin1String("relationship"), QLatin1String("true"));
         }
     }
 
-    roleElement.setAttribute(QLatin1String("visibility"), Uml::Visibility::toString(visibility(), false));
+    writer.writeAttribute(QLatin1String("visibility"), Uml::Visibility::toString(visibility(), false));
 
     switch (m_Changeability) {
         case Uml::Changeability::Frozen:
-            roleElement.setAttribute(QLatin1String("changeability"), QLatin1String("frozen"));
+            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("frozen"));
             break;
         case Uml::Changeability::AddOnly:
-            roleElement.setAttribute(QLatin1String("changeability"), QLatin1String("addOnly"));
+            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("addOnly"));
             break;
         case Uml::Changeability::Changeable:
-            roleElement.setAttribute(QLatin1String("changeability"), QLatin1String("changeable"));
+            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("changeable"));
             break;
     }
-    qElement.appendChild(roleElement);
+    writer.writeEndElement();
 }
 
 /**

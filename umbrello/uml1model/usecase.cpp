@@ -50,10 +50,10 @@ UMLObject* UMLUseCase::clone() const
 /**
  * Creates the <UML:UseCase> element.
  */
-void UMLUseCase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLUseCase::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement usecaseElement = UMLObject::save1(QLatin1String("UML:UseCase"), qDoc);
-    qElement.appendChild(usecaseElement);
+    UMLObject::save1(QLatin1String("UML:UseCase"), writer);
+    writer.writeEndElement();
 }
 
 /**

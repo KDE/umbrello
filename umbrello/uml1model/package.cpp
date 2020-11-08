@@ -437,22 +437,22 @@ bool UMLPackage::resolveRef()
 /**
  * Creates the <UML:Package> XMI element.
  */
-void UMLPackage::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLPackage::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement packageElement = UMLObject::save1(QLatin1String("UML:Package"), qDoc);
-    QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
+    UMLObject::save1(QLatin1String("UML:Package"), writer);
+    writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
     // save classifiers etc.
     foreach (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
-        obj->saveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (writer);
     }
     // save associations
     foreach (UMLObject *obj, subordinates()) {
-        obj->saveToXMI1 (qDoc, ownedElement);
+        obj->saveToXMI1 (writer);
     }
 
-    packageElement.appendChild(ownedElement);
-    qElement.appendChild(packageElement);
+    writer.writeEndElement();            // UML:Namespace.ownedElement
+    writer.writeEndElement();    // UML:Package
 }
 
 /**

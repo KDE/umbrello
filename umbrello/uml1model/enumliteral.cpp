@@ -128,12 +128,12 @@ UMLObject* UMLEnumLiteral::clone() const
 /**
  * Creates the <UML:EnumLiteral> XMI element.
  */
-void UMLEnumLiteral::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLEnumLiteral::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement attributeElement = UMLObject::save1(QLatin1String("UML:EnumerationLiteral"), qDoc);
+    UMLObject::save1(QLatin1String("UML:EnumerationLiteral"), writer);
     if (! m_Value.isEmpty())
-        attributeElement.setAttribute(QLatin1String("value"), m_Value);
-    qElement.appendChild(attributeElement);
+        writer.writeAttribute(QLatin1String("value"), m_Value);
+    writer.writeEndElement();
 }
 
 /**

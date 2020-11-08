@@ -26,6 +26,7 @@
 // qt includes
 #include <QPainter>
 #include <QString>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(CombinedFragmentWidget)
 
@@ -324,20 +325,20 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void CombinedFragmentWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement combinedFragmentElement = qDoc.createElement(QLatin1String("combinedFragmentwidget"));
-    UMLWidget::saveToXMI1(qDoc, combinedFragmentElement);
-    combinedFragmentElement.setAttribute(QLatin1String("combinedFragmentname"), m_Text);
-    combinedFragmentElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    combinedFragmentElement.setAttribute(QLatin1String("CombinedFragmenttype"), m_CombinedFragment);
+    writer.writeStartElement(QLatin1String("combinedFragmentwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("combinedFragmentname"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("CombinedFragmenttype"), QString::number(m_CombinedFragment));
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI1(qDoc, combinedFragmentElement);
+        (*it)-> saveToXMI1(writer);
     }
 
-    qElement.appendChild(combinedFragmentElement);
+    writer.writeEndElement();
 }
 
 /**

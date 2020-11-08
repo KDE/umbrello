@@ -30,6 +30,7 @@
 // qt includes
 #include <QtGlobal>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(StateWidget)
 
@@ -507,26 +508,26 @@ bool StateWidget::showPropertiesDialog()
 /**
  * Creates the "statewidget" XMI element.
  */
-void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void StateWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement stateElement = qDoc.createElement(QLatin1String("statewidget"));
-    UMLWidget::saveToXMI1(qDoc, stateElement);
-    stateElement.setAttribute(QLatin1String("statename"), m_Text);
-    stateElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    stateElement.setAttribute(QLatin1String("statetype"), m_stateType);
+    writer.writeStartElement(QLatin1String("statewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("statename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("statetype"), QString::number(m_stateType));
     if (m_stateType == Fork || m_stateType == Join)
-        stateElement.setAttribute(QLatin1String("drawvertical"), m_drawVertical);
+        writer.writeAttribute(QLatin1String("drawvertical"), QString::number(m_drawVertical));
     //save states activities
-    QDomElement activitiesElement = qDoc.createElement(QLatin1String("Activities"));
+    writer.writeStartElement(QLatin1String("Activities"));
 
     QStringList::Iterator end(m_Activities.end());
-    for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
-        QDomElement tempElement = qDoc.createElement(QLatin1String("Activity"));
-        tempElement.setAttribute(QLatin1String("name"), *it);
-        activitiesElement.appendChild(tempElement);
-    }//end for
-    stateElement.appendChild(activitiesElement);
-    qElement.appendChild(stateElement);
+    for (QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
+        writer.writeStartElement(QLatin1String("Activity"));
+        writer.writeAttribute(QLatin1String("name"), *it);
+        writer.writeEndElement();
+    }
+    writer.writeEndElement();            // Activities
+    writer.writeEndElement();  // statewidget
 }
 
 /**

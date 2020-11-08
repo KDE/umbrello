@@ -63,14 +63,14 @@ public:
 
     bool showPropertiesDialog(QWidget *parent);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
     friend QDebug operator<<(QDebug out, const UMLFolder& item);
 
 protected:
-    void saveContents1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveContents1(QXmlStreamWriter& writer);
 
-    void save1(QDomDocument& qDoc, QDomElement& qElement);
+    void save1(QXmlStreamWriter& writer);
 
     bool loadDiagramsFromXMI1(QDomNode& node);
 

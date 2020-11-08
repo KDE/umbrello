@@ -15,8 +15,10 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QObject>
+#include <QXmlStreamWriter>
 
 class CodeDocument;
+class QXmlStreamWriter;
 
 /**
  * The fundamental unit of text within an output file containing code.
@@ -67,7 +69,7 @@ public:
      * @param doc    the xmi document
      * @param root   the starting point to append
      */
-    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root) = 0;
+    virtual void saveToXMI1(QXmlStreamWriter& writer) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
@@ -92,7 +94,7 @@ protected:
 
     virtual void release();
 
-    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
     virtual void setAttributesFromNode(QDomElement & root);
 
 private:

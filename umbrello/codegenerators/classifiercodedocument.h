@@ -80,14 +80,14 @@ public:
 
     virtual void updateContent() = 0;
 
-    virtual void saveToXMI1(QDomDocument &doc, QDomElement &root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual void loadFromXMI1(QDomElement &root);
 
 protected:
 
     void loadClassFieldsFromXMI(QDomElement &childElem);
 
-    virtual void setAttributesOnNode(QDomDocument &doc, QDomElement &blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
     virtual void setAttributesFromNode(QDomElement &element);
 
     TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag);

@@ -65,11 +65,11 @@ UMLObject* UMLCategory::clone() const
 /**
  * Creates the <UML:Category> XMI element.
  */
-void UMLCategory::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLCategory::saveToXMI1(QXmlStreamWriter& writer)
 {
-     QDomElement categoryElement = UMLObject::save1(QLatin1String("UML:Category"), qDoc);
-     categoryElement.setAttribute(QLatin1String("categoryType"), (int)m_CategoryType);
-     qElement.appendChild(categoryElement);
+     UMLObject::save1(QLatin1String("UML:Category"), writer);
+     writer.writeAttribute(QLatin1String("categoryType"), QString::number(m_CategoryType));
+     writer.writeEndElement();
 }
 
 /**

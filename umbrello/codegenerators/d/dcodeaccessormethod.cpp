@@ -28,6 +28,9 @@
 #include "dcodeclassfield.h"
 #include "dcodedocumentation.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 DCodeAccessorMethod::DCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
         : CodeAccessorMethod (field)
 {
@@ -42,10 +45,10 @@ DCodeAccessorMethod::~DCodeAccessorMethod ()
 {
 }
 
-void DCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void DCodeAccessorMethod::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
+    CodeAccessorMethod::setAttributesOnNode(writer);
 
     // set local attributes now
 }

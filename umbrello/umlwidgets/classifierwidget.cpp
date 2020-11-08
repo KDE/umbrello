@@ -32,6 +32,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(ClassifierWidget)
 
@@ -1330,43 +1331,45 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "classwidget" or "interfacewidget" XML element.
  */
-void ClassifierWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ClassifierWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement;
     bool saveShowAttributes = true;
     UMLClassifier *umlc = classifier();
-    if (umlObject() && umlObject()->baseType() == UMLObject::ot_Package) {
-        conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
+    QString tag;
+    if (umlObject()->baseType() == UMLObject::ot_Package) {
+        tag = QLatin1String("packagewidget");
         saveShowAttributes = false;
-    } else if(umlObject()->baseType() == UMLObject::ot_Instance) {
-        conceptElement = qDoc.createElement(QLatin1String("instancewidget"));
+    } else if (umlObject()->baseType() == UMLObject::ot_Instance) {
+        tag = QLatin1String("instancewidget");
         saveShowAttributes = false;
     } else if (umlc && umlc->isInterface()) {
-        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
+        tag = QLatin1String("interfacewidget");
     } else {
-        conceptElement = qDoc.createElement(QLatin1String("classwidget"));
+        tag = QLatin1String("classwidget");
     }
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
+    writer.writeStartElement(tag);
+
+    UMLWidget::saveToXMI1(writer);
     if (saveShowAttributes) {
-        conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
-        conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
-        conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
-        conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
-        conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
-        conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
-        conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
-        conceptElement.setAttribute(QLatin1String("showstereotype"), visualProperty(ShowStereotype));
+        writer.writeAttribute(QLatin1String("showoperations"), QString::number(visualProperty(ShowOperations)));
+        writer.writeAttribute(QLatin1String("showpubliconly"), QString::number(visualProperty(ShowPublicOnly)));
+        writer.writeAttribute(QLatin1String("showopsigs"),     QString::number(m_operationSignature));
+        writer.writeAttribute(QLatin1String("showpackage"),    QString::number(visualProperty(ShowPackage)));
+        writer.writeAttribute(QLatin1String("showscope"),      QString::number(visualProperty(ShowVisibility)));
+        writer.writeAttribute(QLatin1String("showattributes"), QString::number(visualProperty(ShowAttributes)));
+        writer.writeAttribute(QLatin1String("showattsigs"),    QString::number(m_attributeSignature));
+        writer.writeAttribute(QLatin1String("showstereotype"), QString::number(visualProperty(ShowStereotype)));
     }
 #ifdef ENABLE_WIDGET_SHOW_DOC
-    conceptElement.setAttribute(QLatin1String("showdocumentation"),visualProperty(ShowDocumentation));
+    writer.writeAttribute(QLatin1String("showdocumentation"), QString::number(visualProperty(ShowDocumentation)));
 #endif
     if (umlc && (umlc->isInterface() || umlc->isAbstract())) {
-        conceptElement.setAttribute(QLatin1String("drawascircle"), visualProperty(DrawAsCircle));
+        writer.writeAttribute(QLatin1String("drawascircle"), QString::number(visualProperty(DrawAsCircle)));
         if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
-            m_pInterfaceName->saveToXMI1(qDoc, conceptElement);
+            m_pInterfaceName->saveToXMI1(writer);
         }
     }
-    qElement.appendChild(conceptElement);
+    writer.writeEndElement();
 }
 
 /**

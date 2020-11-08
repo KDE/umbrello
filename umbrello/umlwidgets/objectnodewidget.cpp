@@ -28,9 +28,10 @@
 // qt includes
 #include <QPainter>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
-#define OBJECTNODE_MARGIN 5
-#define OBJECTNODE_WIDTH 30
+#define OBJECTNODE_MARGIN  5
+#define OBJECTNODE_WIDTH  30
 #define OBJECTNODE_HEIGHT 10
 
 DEBUG_REGISTER_DISABLED(ObjectNodeWidget)
@@ -272,15 +273,15 @@ bool ObjectNodeWidget::showPropertiesDialog()
 /**
  * Saves the widget to the "objectnodewidget" XMI element.
  */
-void ObjectNodeWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectNodeWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement objectNodeElement = qDoc.createElement(QLatin1String("objectnodewidget"));
-    UMLWidget::saveToXMI1(qDoc, objectNodeElement);
-    objectNodeElement.setAttribute(QLatin1String("objectnodename"), m_Text);
-    objectNodeElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    objectNodeElement.setAttribute(QLatin1String("objectnodetype"), m_objectNodeType);
-    objectNodeElement.setAttribute(QLatin1String("objectnodestate"), m_state);
-    qElement.appendChild(objectNodeElement);
+    writer.writeStartElement(QLatin1String("objectnodewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("objectnodename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("objectnodetype"), QString::number(m_objectNodeType));
+    writer.writeAttribute(QLatin1String("objectnodestate"), m_state);
+    writer.writeEndElement();
 }
 
 /**

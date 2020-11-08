@@ -19,6 +19,9 @@
 #include "umldoc.h"
 #include "umlobject.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 CodeOperation::CodeOperation (ClassifierCodeDocument * doc, UMLOperation * parentOp, const QString & body, const QString & comment)
         : CodeMethodBlock (doc, parentOp, body, comment)
 {
@@ -69,12 +72,12 @@ UMLOperation * CodeOperation::getParentOperation()
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeOperation::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("codeoperation"));
+    writer.writeStartElement(QLatin1String("codeoperation"));
     // set attributes
-    setAttributesOnNode(doc, blockElement);
-    root.appendChild(blockElement);
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -97,9 +100,9 @@ QString CodeOperation::findTag (UMLOperation * op)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeOperation::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
+void CodeOperation::setAttributesOnNode (QXmlStreamWriter& writer)
 {
-    CodeMethodBlock::setAttributesOnNode(doc, elem); // superclass
+    CodeMethodBlock::setAttributesOnNode(writer); // superclass
 }
 
 /**

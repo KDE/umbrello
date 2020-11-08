@@ -20,6 +20,7 @@
 class UMLClassifier;
 class UMLOperation;
 class FloatingTextWidget;
+class QXmlStreamWriter;
 
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
@@ -114,7 +115,7 @@ public:
     QString sequenceNumber() const;
 
     virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
 protected:
     QString m_SequenceNumber;

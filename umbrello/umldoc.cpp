@@ -91,6 +91,7 @@
 #endif
 #include <QTextStream>
 #include <QTimer>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER(UMLDoc)
 
@@ -2063,91 +2064,56 @@ Uml::ID::Type UMLDoc::modelID() const
  */
 void UMLDoc::saveToXMI1(QIODevice& file)
 {
-    QDomDocument doc;
-
-    QDomProcessingInstruction xmlHeading =
-        doc.createProcessingInstruction(QLatin1String("xml"),
-                                        QString::fromLatin1("version=\"1.0\" encoding=\"UTF-8\""));
-    doc.appendChild(xmlHeading);
-
-    QDomElement root = doc.createElement(QLatin1String("XMI"));
-    root.setAttribute(QLatin1String("xmi.version"), QLatin1String("1.2"));
+    QXmlStreamWriter writer(&file);
+    writer.setCodec("UTF-8");
+    writer.setAutoFormatting(true);
+    writer.setAutoFormattingIndent(1);
+    // writer.writeProcessingInstruction(QLatin1String("xml"));
+    writer.writeStartDocument();
+    writer.writeStartElement(QLatin1String("XMI"));
+    // writer.writeStartElement(QLatin1String("http://schema.omg.org/spec/UML/1.4"), QLatin1String("XMI"));
+    // writer.writeStartElement(QLatin1String("UML"), QLatin1String("XMI"));
+    // <XMI xmlns:UML="http://schema.omg.org/spec/UML/1.4" verified="false" xmi.version="1.2" timestamp="2020-10-10T14:53:06">
+    writer.writeAttribute(QLatin1String("xmi.version"), QLatin1String("1.2"));
     QDateTime now = QDateTime::currentDateTime();
-    root.setAttribute(QLatin1String("timestamp"), now.toString(Qt::ISODate));
-    root.setAttribute(QLatin1String("verified"), QLatin1String("false"));
-    root.setAttribute(QLatin1String("xmlns:UML"), QLatin1String("http://schema.omg.org/spec/UML/1.4"));
-    doc.appendChild(root);
+    writer.writeAttribute(QLatin1String("timestamp"), now.toString(Qt::ISODate));
+    writer.writeAttribute(QLatin1String("verified"), QLatin1String("false"));
 
-    QDomElement header = doc.createElement(QLatin1String("XMI.header"));
-    QDomElement meta = doc.createElement(QLatin1String("XMI.metamodel"));
-    meta.setAttribute(QLatin1String("xmi.name"), QLatin1String("UML"));
-    meta.setAttribute(QLatin1String("xmi.version"), QLatin1String("1.4"));
-    meta.setAttribute(QLatin1String("href"), QLatin1String("UML.xml"));
-    header.appendChild(meta);
+    writer.writeNamespace(QLatin1String("http://schema.omg.org/spec/UML/1.4"), QLatin1String("UML"));
+    writer.writeStartElement(QLatin1String("XMI.header"));
 
-    /**
-     * bugs.kde.org/56184 comment by M. Alanen 2004-12-19:
-     * " XMI.model requires xmi.version. (or leave the whole XMI.model out,
-     *   it's not required) "
-    QDomElement model = doc.createElement("XMI.model");
-    QFile* qfile = dynamic_cast<QFile*>(&file);
-    if (qfile) {
-        QString modelName = qfile->name();
-        modelName = modelName.section('/', -1);
-        modelName = modelName.section('.', 0, 0);
-        model.setAttribute("xmi.name", modelName);
-        model.setAttribute("href", qfile->name());
-    }
-     */
-
-    QDomElement documentation = doc.createElement(QLatin1String("XMI.documentation"));
-
-    // If we consider it useful we might add user and contact details
-    // QDomElement owner = doc.createElement("XMI.owner");
-    // owner.appendChild(doc.createTextNode("Jens Kruger")); // Add a User
-    // documentation.appendChild(owner);
-
-    // QDomElement contact = doc.createElement("XMI.contact");
-    // contact.appendChild(doc.createTextNode("je.krueger@web.de"));       // add a contact
-    // documentation.appendChild(contact);
-
-    QDomElement exporter = doc.createElement(QLatin1String("XMI.exporter"));
+    writer.writeStartElement(QLatin1String("XMI.documentation"));
     QString expoText(QLatin1String("umbrello uml modeller "));
     expoText += QLatin1String(umbrelloVersion());
     expoText += QLatin1String(" http://umbrello.kde.org");
-    exporter.appendChild(doc.createTextNode(expoText));
-    documentation.appendChild(exporter);
+    writer.writeTextElement(QLatin1String("XMI.exporter"), expoText);
 
-    QDomElement exporterVersion = doc.createElement(QLatin1String("XMI.exporterVersion"));
-    exporterVersion.appendChild(doc.createTextNode(QLatin1String(XMI_FILE_VERSION)));
-    documentation.appendChild(exporterVersion);
+    writer.writeTextElement(QLatin1String("XMI.exporterVersion"), QLatin1String(XMI_FILE_VERSION));
 
     // all files are now saved with correct Unicode encoding, we add this
     // information to the header, so that the file will be loaded correctly
-    QDomElement exporterEncoding = doc.createElement(QLatin1String("XMI.exporterEncoding"));
-    exporterEncoding.appendChild(doc.createTextNode(QLatin1String("UnicodeUTF8")));
-    documentation.appendChild(exporterEncoding);
+    writer.writeTextElement(QLatin1String("XMI.exporterEncoding"), QLatin1String("UnicodeUTF8"));
+    writer.writeEndElement();  // XMI.documentation
 
-    header.appendChild(documentation);
+    writer.writeStartElement(QLatin1String("XMI.metamodel"));
+    writer.writeAttribute(QLatin1String("xmi.name"), QLatin1String("UML"));
+    writer.writeAttribute(QLatin1String("xmi.version"), QLatin1String("1.4"));
+    writer.writeAttribute(QLatin1String("href"), QLatin1String("UML.xml"));
+    writer.writeEndElement();  // XMI.metamodel
 
-    // See comment on <XMI.model> above
-    // header.appendChild(model);
-    header.appendChild(meta);
-    root.appendChild(header);
+    writer.writeEndElement();  // XMI.header
 
-    QDomElement content = doc.createElement(QLatin1String("XMI.content"));
+    writer.writeStartElement(QLatin1String("XMI.content"));             // content
 
-    QDomElement contentNS = doc.createElement(QLatin1String("UML:Namespace.contents"));
+    writer.writeStartElement(QLatin1String("UML:Model"));               // objectsElement
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_modelID));
+    writer.writeAttribute(QLatin1String("name"), m_Name);
+    writer.writeAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isRoot"), QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
 
-    QDomElement objectsElement = doc.createElement(QLatin1String("UML:Model"));
-    objectsElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_modelID));
-    objectsElement.setAttribute(QLatin1String("name"), m_Name);
-    objectsElement.setAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
-    objectsElement.setAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
-    objectsElement.setAttribute(QLatin1String("isRoot"), QLatin1String("false"));
-    objectsElement.setAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
-
-    QDomElement ownedNS = doc.createElement(QLatin1String("UML:Namespace.ownedElement"));
+    writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));  // ownedNS
 
     // Save stereotypes and toplevel datatypes first so that upon loading
     // they are known first.
@@ -2157,51 +2123,49 @@ void UMLDoc::saveToXMI1(QIODevice& file)
     foreach (UMLStereotype *s, m_stereoList) {
         QString stName = s->name();
         if (!stereoNames.contains(stName)) {
-            s->saveToXMI1(doc, ownedNS);
+            s->saveToXMI1(writer);
             stereoNames.append(stName);
         }
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        m_root[i]->saveToXMI1(doc, ownedNS);
+        m_root[i]->saveToXMI1(writer);
     }
 
-    objectsElement.appendChild(ownedNS);
+    writer.writeEndElement();      // UML:Namespace.ownedElement
 
-    content.appendChild(objectsElement);
+    writer.writeEndElement();    // UML:Model
 
-    root.appendChild(content);
+    writer.writeEndElement();  // XMI.content
 
     // Save the XMI extensions: docsettings, diagrams, listview, and codegeneration.
-    QDomElement extensions = doc.createElement(QLatin1String("XMI.extensions"));
-    extensions.setAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
+    writer.writeStartElement(QLatin1String("XMI.extensions"));
+    writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
 
-    QDomElement docElement = doc.createElement(QLatin1String("docsettings"));
+    writer.writeStartElement(QLatin1String("docsettings"));
     Uml::ID::Type viewID = Uml::ID::None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
         viewID = currentView->umlScene()->ID();
     }
-    docElement.setAttribute(QLatin1String("viewid"), Uml::ID::toString(viewID));
-    docElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    docElement.setAttribute(QLatin1String("uniqueid"), Uml::ID::toString(UniqueID::get()));
-    extensions.appendChild(docElement);
+    writer.writeAttribute(QLatin1String("viewid"), Uml::ID::toString(viewID));
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("uniqueid"), Uml::ID::toString(UniqueID::get()));
+    writer.writeEndElement();  // docsettings
 
     //  save listview
-    UMLApp::app()->listView()->saveToXMI1(doc, extensions);
+    //UMLApp::app()->listView()->saveToXMI1(doc, extensions);
 
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
-        QDomElement codeGenElement = doc.createElement(QLatin1String("codegeneration"));
-        codegen->saveToXMI1(doc, codeGenElement);
-        extensions.appendChild(codeGenElement);
+        writer.writeStartElement(QLatin1String("codegeneration"));
+        //codegen->saveToXMI1(doc, codeGenElement);
+        writer.writeEndElement();  // codegeneration
     }
 
-    root.appendChild(extensions);
-
-    QTextStream stream(&file);
-    stream.setCodec("UTF-8");
-    stream << doc.toString();
+    writer.writeEndElement();  // XMI.extensions
+    writer.writeEndElement();  // XMI
+    writer.writeEndDocument();
 }
 
 /**

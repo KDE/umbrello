@@ -30,6 +30,7 @@
 
 // qt includes
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -55,10 +56,10 @@ RubyCodeAccessorMethod::~RubyCodeAccessorMethod()
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void RubyCodeAccessorMethod::setAttributesOnNode(QDomDocument& doc, QDomElement& blockElement)
+void RubyCodeAccessorMethod::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
+    CodeAccessorMethod::setAttributesOnNode(writer);
 
     // set local attributes now
 }

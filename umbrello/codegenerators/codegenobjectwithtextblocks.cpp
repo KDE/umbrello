@@ -22,6 +22,9 @@
 #include "uml.h"
 #include "umldoc.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 /**
  * Constructor
  * @param parent   parent code document
@@ -352,17 +355,17 @@ void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithText
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root)
+void CodeGenObjectWithTextBlocks::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set a section to hold document content
-    QDomElement tblockElement = doc.createElement(QLatin1String("textblocks"));
+    writer.writeStartElement(QLatin1String("textblocks"));
 
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
     foreach (TextBlock* block, *tbList) {
-        block->saveToXMI1(doc, tblockElement);
+        block->saveToXMI1(writer);
     }
-    root.appendChild(tblockElement);
+    writer.writeEndElement();
 }
 
 /**

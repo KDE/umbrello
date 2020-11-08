@@ -52,11 +52,11 @@ UMLObject* UMLArtifact::clone() const
  * @param qDoc       the xml document
  * @param qElement   the xml element
  */
-void UMLArtifact::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement) 
+void UMLArtifact::saveToXMI1(QXmlStreamWriter& writer) 
 {
-    QDomElement artifactElement = UMLObject::save1(QLatin1String("UML:Artifact"), qDoc);
-    artifactElement.setAttribute(QLatin1String("drawas"), m_drawAsType);
-    qElement.appendChild(artifactElement);
+    UMLObject::save1(QLatin1String("UML:Artifact"), writer);
+    writer.writeAttribute(QLatin1String("drawas"), QString::number(m_drawAsType));
+    writer.writeEndElement();
 }
 
 /**

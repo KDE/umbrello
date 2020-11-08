@@ -12,6 +12,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "debug_utils.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -28,18 +29,45 @@ namespace Uml
     {
         setText(i18n("Remove widget : %1", widget->name()));
 
+        // save "child" elements
         foreach(QGraphicsItem* item, widget->childItems()) {
             UMLWidget* child = dynamic_cast<UMLWidget*>(item);
-            if (child != nullptr) {
-                QDomDocument doc;
-                m_children.append(doc.createElement(QLatin1String("child")));
-                child->saveToXMI1(doc, m_children.back());
+            uIgnoreZeroPointer(child);
+            QString xmi;
+            QXmlStreamWriter kidStream(&xmi);
+            kidStream.writeStartElement(QLatin1String("child"));
+            child->saveToXMI1(kidStream);
+            kidStream.writeEndElement();  // child
+            QString error;
+            int line;
+            QDomDocument domDoc;
+            if (domDoc.setContent(xmi, &error, &line)) {
+                QDomElement domElem = domDoc.firstChild().firstChild().toElement();
+                if (domElem.isNull())
+                    uWarning() << "child QDomElement is null";
+                else
+                    m_children.append(domElem);
+            } else {
+                uWarning() << "Cannot set content:" << error << " line:" << line;
             }
         }
 
+        // save "widget" element
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("widget"));
+        widget->saveToXMI1(stream);
+        stream.writeEndElement();  // widget
+        QString error;
+        int line;
         QDomDocument doc;
-        m_element = doc.createElement(QLatin1String("widget"));
-        widget->saveToXMI1(doc, m_element);
+        if (doc.setContent(xmi, &error, &line)) {
+            m_element = doc.firstChild().firstChild().toElement();
+            if (m_element.isNull())
+                uWarning() << "widget QDomElement is null";
+        } else {
+            uWarning() << "Cannot set content:" << error << " line:" << line;
+        }
     }
 
     /**
@@ -50,9 +78,22 @@ namespace Uml
     {
         setText(i18n("Remove widget : %1", widget->name()));
 
+        // save "widget" element
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("widget"));
+        widget->saveToXMI1(stream);
+        stream.writeEndElement();  // widget
+        QString error;
+        int line;
         QDomDocument doc;
-        m_element = doc.createElement(QLatin1String("widget"));
-        widget->saveToXMI1(doc, m_element);
+        if (doc.setContent(xmi, &error, &line)) {
+            m_element = doc.firstChild().firstChild().toElement();
+            if (m_element.isNull())
+                uWarning() << "widget QDomElement is null";
+        } else {
+            uWarning() << "Cannot set content:" << error << " line:" << line;
+        }
     }
 
     /**

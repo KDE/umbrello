@@ -19,6 +19,7 @@
 
 // qt includes
 #include <QColorDialog>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(ForkJoinWidget)
 
@@ -103,16 +104,16 @@ bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
  * Reimplemented from UMLWidget::saveToXMI1 to save widget info
  * into XMI element - 'forkjoin'.
  */
-void ForkJoinWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ForkJoinWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement fjElement = qDoc.createElement(QLatin1String("forkjoin"));
-    UMLWidget::saveToXMI1(qDoc, fjElement);
+    writer.writeStartElement(QLatin1String("forkjoin"));
+    UMLWidget::saveToXMI1(writer);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;
     }
-    fjElement.setAttribute(QLatin1String("drawvertical"), drawVertical);
-    qElement.appendChild(fjElement);
+    writer.writeAttribute(QLatin1String("drawvertical"), QString::number(drawVertical));
+    writer.writeEndElement();
 }
 
 /**
