@@ -91,7 +91,7 @@ QSizeF RegionWidget::minimumSize() const
 void RegionWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("regionwidget"));
-    writer.writeEndElement();
+    UMLWidget::saveToXMI1(writer);
     writer.writeAttribute(QLatin1String("regionname"), name());
     writer.writeAttribute(QLatin1String("documentation"), documentation());
 

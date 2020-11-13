@@ -2046,7 +2046,8 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
 void UMLWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
     /*
-      Call after required actions in child class.
+      When calling this from child classes bear in mind that the call
+      must precede terminated XML subelements.
       Type must be set in the child class.
     */
     WidgetBase::saveToXMI1(writer);
