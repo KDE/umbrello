@@ -3988,20 +3988,33 @@ void AssociationWidget::saveToXMI1(QXmlStreamWriter& writer)
     }
     writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
     writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
-    m_associationLine->saveToXMI1(writer);
-
-    if (m_nameWidget) {
-        m_nameWidget->saveToXMI1(writer);
-    }
-
-    m_role[RoleType::A].saveToXMI1(writer, QLatin1String("a"));
-    m_role[RoleType::B].saveToXMI1(writer, QLatin1String("b"));
 
     if (m_associationClass) {
         QString acid = Uml::ID::toString(m_associationClass->id());
         writer.writeAttribute(QLatin1String("assocclass"), acid);
         writer.writeAttribute(QLatin1String("aclsegindex"), QString::number(m_nLinePathSegmentIndex));
     }
+
+    // save attributes of m_role[A]
+    const AssociationWidgetRole& roleA = m_role[RoleType::A];
+    writer.writeAttribute(QLatin1String("indexa"), QString::number(roleA.m_nIndex));
+    writer.writeAttribute(QLatin1String("totalcounta"), QString::number(roleA.m_nTotalCount));
+    // save attributes of m_role[B]
+    const AssociationWidgetRole& roleB = m_role[RoleType::B];
+    writer.writeAttribute(QLatin1String("indexb"), QString::number(roleB.m_nIndex));
+    writer.writeAttribute(QLatin1String("totalcountb"), QString::number(roleB.m_nTotalCount));
+
+    // Save subelements of m_role[A] and m_role[B].
+    m_role[RoleType::A].saveToXMI1(writer);
+    // This is separated from attributes because attributes may not follow
+    // elements, i.e. all attributes must be written before the first subelement.
+    m_role[RoleType::B].saveToXMI1(writer);
+
+    if (m_nameWidget) {
+        m_nameWidget->saveToXMI1(writer);
+    }
+
+    m_associationLine->saveToXMI1(writer);
 
     writer.writeEndElement();  // assocwidget
 }

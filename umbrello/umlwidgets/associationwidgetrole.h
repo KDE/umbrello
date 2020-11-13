@@ -58,7 +58,7 @@ public:
     void setSelected(bool select);
     void clipSize();
 
-    void saveToXMI1(QXmlStreamWriter& writer, const QString& suffix);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement &qElement, const QString &suffix);
     bool getStartMove();
 

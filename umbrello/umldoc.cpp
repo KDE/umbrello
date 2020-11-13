@@ -2153,13 +2153,13 @@ void UMLDoc::saveToXMI1(QIODevice& file)
     writer.writeEndElement();  // docsettings
 
     //  save listview
-    //UMLApp::app()->listView()->saveToXMI1(doc, extensions);
+    UMLApp::app()->listView()->saveToXMI1(writer);
 
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
         writer.writeStartElement(QLatin1String("codegeneration"));
-        //codegen->saveToXMI1(doc, codeGenElement);
+        codegen->saveToXMI1(writer);
         writer.writeEndElement();  // codegeneration
     }
 

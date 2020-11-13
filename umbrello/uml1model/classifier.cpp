@@ -1404,19 +1404,21 @@ void UMLClassifier::saveToXMI1(QXmlStreamWriter& writer)
         writer.writeEndElement();
     }
 
-    // save attributes
-    writer.writeStartElement(QLatin1String("UML:Classifier.feature"));
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
-    foreach (UMLClassifierListItem *pAtt, attList) {
-        pAtt->saveToXMI1(writer);
-    }
+    UMLOperationList          opList  = getOpList();
 
-    // save operations
-    UMLOperationList opList = getOpList();
-    foreach (UMLOperation *pOp, opList) {
-        pOp->saveToXMI1(writer);
+    if (attList.count() || opList.count()) {
+        writer.writeStartElement(QLatin1String("UML:Classifier.feature"));
+        // save attributes
+        foreach (UMLClassifierListItem *pAtt, attList) {
+            pAtt->saveToXMI1(writer);
+        }
+        // save operations
+        foreach (UMLOperation *pOp, opList) {
+            pOp->saveToXMI1(writer);
+        }
+        writer.writeEndElement();
     }
-    writer.writeEndElement();
 
     // save contained objects
     if (m_objects.count()) {
@@ -1427,7 +1429,7 @@ void UMLClassifier::saveToXMI1(QXmlStreamWriter& writer)
         }
         writer.writeEndElement();
     }
-    writer.writeEndElement();
+    writer.writeEndElement();   // from UMLObject::save1(tag)
 }
 
 /**

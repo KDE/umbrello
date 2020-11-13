@@ -106,11 +106,11 @@ void AssociationWidgetRole::clipSize()
         changeabilityWidget->clipSize();
 }
 
-void AssociationWidgetRole::saveToXMI1(QXmlStreamWriter& writer, const QString& suffix)
+void AssociationWidgetRole::saveToXMI1(QXmlStreamWriter& writer)
 {
-    writer.writeAttribute(QString(QLatin1String("index%1")).arg(suffix), QString::number(m_nIndex));
-    writer.writeAttribute(QString(QLatin1String("totalcount%1")).arg(suffix), QString::number(m_nTotalCount));
-
+    // For attributes index[ab] and totalcount[ab] see AssociationWidget::saveToXMI.
+    // They are not written here because attributes may not follow elements
+    // (in particular, attributes of role B may not follow elements of role A)
     if (multiplicityWidget)
         multiplicityWidget->saveToXMI1(writer);
     if (roleWidget)
