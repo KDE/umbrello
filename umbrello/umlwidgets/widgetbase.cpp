@@ -35,10 +35,20 @@
 #endif
 #include <QPointer>
 
+static unsigned eventCnt = 0;
+
 void QGraphicsObjectWrapper::setSelected(bool state)
 {
     if (!m_calledFromItemChange)
         QGraphicsObject::setSelected(state);
+    QString info;
+    WidgetBase *wb = dynamic_cast<WidgetBase*>(this);
+    if (wb)
+        info = wb->name();
+    if (info.isEmpty())
+        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
+    else
+        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
     m_calledFromItemChange = false;
 }
 
