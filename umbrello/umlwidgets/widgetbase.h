@@ -327,7 +327,7 @@ protected:
     Uml::ID::Type m_nId;
 
     /**
-     * This ID is only used when a widget could be added more then one time to a diagram
+     * This ID is only used when a widget could be added more than once to a diagram
      */
     Uml::ID::Type m_nLocalID;
 
