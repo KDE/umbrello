@@ -183,7 +183,7 @@ private:
 
     void createSplinePoints();
 
-    AssociationWidget *m_associationWidget;      ///< association widget for which this line represents
+    AssociationWidget *m_associationWidget;      ///< association widget which this line represents
     QVector<QPointF>   m_points;                 ///< points representing the association line
     int                m_activePointIndex;       ///< index of active point which can be dragged to modify association line
     int                m_activeSegmentIndex;     ///< index of active segment
