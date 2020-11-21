@@ -396,7 +396,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     m_shiftPressed = false;
 
-    int count = m_scene->selectedCount(true);
+    int count = m_scene->selectedCount();
     if (event->button() == Qt::LeftButton) {
         if (isSelected() && count > 1) {
             // single selection is made in release event if the widget wasn't moved
@@ -534,7 +534,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (!m_moved && !m_resized) {
-        if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
+        if (!m_shiftPressed && (m_scene->selectedCount() > 1)) {
             selectSingle(event);
         } else if (!isSelected()) {
             deselect(event);
@@ -557,6 +557,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
             m_autoResize = false;
             m_resized = false;
+            deselect(event);
         }
 
         if ((m_inMoveArea && wasPositionChanged()) ||
