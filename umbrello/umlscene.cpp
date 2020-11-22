@@ -1447,6 +1447,13 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
  */
 void UMLScene::clearSelected()
 {
+    QList<QGraphicsItem *> items = selectedItems();
+    foreach(QGraphicsItem *item, items) {
+        WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+        if (wb) {
+            wb->setSelected(false);
+        }
+    }
     clearSelection();
     //m_doc->enableCutCopy(false);
 }
