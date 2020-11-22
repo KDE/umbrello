@@ -519,6 +519,10 @@ void UMLOperation::saveToXMI1(QXmlStreamWriter& writer)
     writer.writeAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
     writer.writeAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
     writer.writeAttribute(QLatin1String("isInline"), m_inline ? QLatin1String("true") : QLatin1String("false"));
+    if (m_pSecondary == 0 && m_List.isEmpty()) {
+        writer.writeEndElement();  // UML:Operation
+        return;
+    }
     writer.writeStartElement(QLatin1String("UML:BehavioralFeature.parameter"));
     if (m_pSecondary) {
         writer.writeStartElement(QLatin1String("UML:Parameter"));
