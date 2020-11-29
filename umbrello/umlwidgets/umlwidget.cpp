@@ -367,8 +367,16 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         event->ignore();
         return;
     }
+    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr()
+                   << " event->scenePos = " << event->scenePos()
+                   << " pos = " << pos();
+    /*
+    if (! onWidget(event->scenePos())) {
+        DEBUG(DBG_SRC) << name() << " event->scenePos onWidget = false, ignoring event";
+        event->ignore();
+        return;
+    } */
     event->accept();
-    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
 
     toForeground();
 
@@ -1886,11 +1894,24 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // resize anchor would cover up most of the widget.
         if (m_resizable && w >= s+8 && h >= s+8) {
             brush.setColor(Qt::red);
-            const int right = 0 + w;
             const int bottom = 0 + h;
-            painter->drawLine(right - s, 0 + h - 1, 0 + w - 1, 0 + h - s);
-            painter->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2));
-            painter->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3));
+            int horSide = w;   // horizontal side default: right side
+            if (baseType() == wt_Message) {
+               MessageWidget *msg = asMessageWidget();
+               int x1 = msg->objectWidget(Uml::RoleType::A)->x();
+               int x2 = msg->objectWidget(Uml::RoleType::B)->x();
+               if (x1 > x2) {
+                   // On messages running right to left we use the left side for
+                   // placing the resize anchor because the message's execution
+                   // specification as at the left in this case.  Furthermore,
+                   // the right side may be covered up by another message's
+                   // execution specification.
+                   horSide = 17;  // execution box width
+               }
+            }
+            painter->drawLine(horSide - s, 0 + h - 1, 0 + w - 1, 0 + h - s);
+            painter->drawLine(horSide - (s*2), bottom - 1, horSide - 1, bottom - (s*2));
+            painter->drawLine(horSide - (s*3), bottom - 1, horSide - 1, bottom - (s*3));
         } else {
             painter->fillRect(0 + w - s, 0 + h - s, s, s, brush);
         }
