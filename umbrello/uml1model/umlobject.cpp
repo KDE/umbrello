@@ -1187,7 +1187,7 @@ QString UMLObject::toI18nString(ObjectType t)
 
     default:
         name = QLatin1String("<unknown> &name:");
-        uWarning() << "unknown object type";
+        uWarning() << "UMLObject::toI18nString unknown object type " << toString(t);
         break;
     }
     return name;
@@ -1254,7 +1254,7 @@ Icon_Utils::IconType UMLObject::toIcon(ObjectType t)
 
     default:
         icon = Icon_Utils::it_Home;
-        uWarning() << "unknown object type";
+        uWarning() << "UMLObject::toIcon unknown object type " << toString(t);
         break;
     }
     return icon;

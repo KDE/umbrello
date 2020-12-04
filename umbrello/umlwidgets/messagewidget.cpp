@@ -188,14 +188,51 @@ void MessageWidget::updateResizability()
 
 /**
  * Overridden from UMLWidget.
- * Returns the cursor to be shown when resizing the widget.
- * The cursor shown is KCursor::sizeVerCursor().
+ * Checks if the mouse is in resize area and sets the cursor accordingly.
+ * The resize area is usually at the right bottom corner of the widget
+ * except in case of a message widget running from right to left.
+ * In that case the resize area is at the left bottom corner in order
+ * to avoid overlap with an execution rectangle at the right.
  *
- * @return The cursor to be shown when resizing the widget.
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
  */
-QCursor MessageWidget::resizeCursor() const
+bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 {
-    return Qt::SizeVerCursor;
+    if (!m_resizable) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "!m_resizable";
+        return false;
+    }
+
+    qreal m = 7.0;
+    const qreal w = width();
+    const qreal h = height();
+
+    // If the widget itself is very small then make the resize area small, too.
+    // Reason: Else it becomes impossible to do a move instead of resize.
+    if (w - m < m || h - m < m) {
+        m = 2.0;
+    }
+
+    if (me->scenePos().y() < y() + h - m) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "Y condition not satisfied";
+        return false;
+    }
+
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    if (x1 < x2 && me->scenePos().x() >= x() + w - m ||
+        x1 > x2 && me->scenePos().x() >= x() - m) {
+        m_scene->activeView()->setCursor(Qt::SizeVerCursor);
+        DEBUG(DBG_SRC) << "X condition is satisfied";
+        return true;
+    } else {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "X condition not satisfied";
+        return false;
+    }
 }
 
 /**
@@ -232,9 +269,9 @@ void MessageWidget::resizeWidget(qreal newW, qreal newH)
 
 /**
  * Constrains the vertical position of the message widget so it doesn't go
- * upper than the bottom side of the lower object.
- * The height of the floating text widget in the message is taken in account
- * if there is any and isn't empty.
+ * above the bottom side of the lower object.
+ * The height of the floating text widget in the message is taken into account
+ * if there is any and it isn't empty.
  *
  * @param diffY The difference between current Y position and new Y position.
  * @return The new Y position, constrained.

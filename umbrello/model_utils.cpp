@@ -558,7 +558,7 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
         case UMLObject::ot_UseCase:             currentName = i18n("new_use case");               break;
         default:
             currentName = i18n("new_object");
-            uWarning() << "unknown object type";
+            uWarning() << "model_utils::uniqObjectName unknown object type" << UMLObject::toString(type);
         }
     }
     UMLDoc *doc = UMLApp::app()->document();
@@ -606,7 +606,7 @@ QString newTitle(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("New unique constraint");
     case UMLObject::ot_UseCase:             return i18n("New use case");
     default:
-        uWarning() << "unknown object type" << UMLObject::toString(type);
+        uWarning() << "model_utils::newTitle unknown object type" << UMLObject::toString(type);
         return i18n("New UML object");
     }
     return QString();
@@ -649,7 +649,7 @@ QString newText(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Enter the name of the new unique constraint:");
     case UMLObject::ot_UseCase:             return i18n("Enter the name of the new use case:");
     default:
-        uWarning() << "unknown object type" << UMLObject::toString(type);
+        uWarning() << "model_utils::newText unknown object type" << UMLObject::toString(type);
         return i18n("Enter the name of the new UML object");
     }
     return QString();
@@ -692,7 +692,7 @@ QString renameTitle(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Rename unique constraint");
     case UMLObject::ot_UseCase:             return i18n("Rename use case");
     default:
-        uWarning() << "unknown object type" << UMLObject::toString(type);
+        uWarning() << "model_utils::renameTitle unknown object type" << UMLObject::toString(type);
         return i18n("Rename UML object");
     }
     return QString();
@@ -735,7 +735,7 @@ QString renameText(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Enter the new name of the unique constraint:");
     case UMLObject::ot_UseCase:             return i18n("Enter the new name of the use case:");
     default:
-        uWarning() << "unknown object type" << UMLObject::toString(type);
+        uWarning() << "model_utils::renameText unknown object type" << UMLObject::toString(type);
         return i18n("Enter the new name of the UML object");
     }
     return QString();

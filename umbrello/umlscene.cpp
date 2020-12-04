@@ -1430,8 +1430,15 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
     UMLWidgetList widgets;
     foreach(QGraphicsItem *item, items) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
-        if (w)
+        if (w) {
             widgets.append(w);
+        } else {
+            WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+            QString name;
+            if (wb)
+                name = wb->name();
+            DEBUG(DBG_SRC) << name << " is not a MessageWidget";
+        }
     }
     return widgets;
 }
@@ -1441,6 +1448,13 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
  */
 void UMLScene::clearSelected()
 {
+    QList<QGraphicsItem *> items = selectedItems();
+    foreach(QGraphicsItem *item, items) {
+        WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+        if (wb) {
+            wb->setSelected(false);
+        }
+    }
     clearSelection();
     //m_doc->enableCutCopy(false);
 }
