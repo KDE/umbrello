@@ -20,7 +20,7 @@ class UMLScene;
 
 /**
  * A sequence lifeline consists of the object widget at the top and
- * a vertical line statring at the bottom edge of the object widget
+ * a vertical line starting at the bottom edge of the object widget
  * at half its width. The line grows downward when sequence messages
  * are added such that the line always extends far enough to act as
  * the background for all messages.
