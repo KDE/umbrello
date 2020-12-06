@@ -19,6 +19,9 @@
 #include "umlobject.h"
 #include "umlview.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(LinkWidget)
 
 LinkWidget::LinkWidget()
@@ -117,9 +120,7 @@ bool LinkWidget::loadFromXMI1(QDomElement &qElement)
 /**
  * Save data to XMI.
  */
-void LinkWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void LinkWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(qDoc);
-
-    qElement.setAttribute(QLatin1String("seqnum"), m_SequenceNumber);
+    writer.writeAttribute(QLatin1String("seqnum"), m_SequenceNumber);
 }

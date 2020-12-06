@@ -16,6 +16,9 @@
 #include "usecase.h"
 #include "umlview.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(UseCaseWidget)
 
 /**
@@ -86,11 +89,11 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UseCaseWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement usecaseElement = qDoc.createElement(QLatin1String("usecasewidget"));
-    UMLWidget::saveToXMI1(qDoc, usecaseElement);
-    qElement.appendChild(usecaseElement);
+    writer.writeStartElement(QLatin1String("usecasewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

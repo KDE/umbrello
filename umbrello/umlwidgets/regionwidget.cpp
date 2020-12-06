@@ -18,8 +18,11 @@
 // kde includes
 #include <KLocalizedString>
 
-#define REGION_MARGIN 5
-#define REGION_WIDTH 90
+// qt includes
+#include <QXmlStreamWriter>
+
+#define REGION_MARGIN  5
+#define REGION_WIDTH  90
 #define REGION_HEIGHT 45
 
 DEBUG_REGISTER_DISABLED(RegionWidget)
@@ -85,14 +88,14 @@ QSizeF RegionWidget::minimumSize() const
 /**
  * Saves region widget to XMI element.
  */
-void RegionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void RegionWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement regionElement = qDoc.createElement(QLatin1String("regionwidget"));
-    UMLWidget::saveToXMI1(qDoc, regionElement);
-    regionElement.setAttribute(QLatin1String("regionname"), name());
-    regionElement.setAttribute(QLatin1String("documentation"), documentation());
+    writer.writeStartElement(QLatin1String("regionwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("regionname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
 
-    qElement.appendChild(regionElement);
+    writer.writeEndElement();
 }
 
 /**

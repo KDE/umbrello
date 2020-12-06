@@ -26,6 +26,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)
 
@@ -280,15 +281,15 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
 /**
  * Saves the widget to the "preconditionwidget" XMI element.
  */
-void PreconditionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PreconditionWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement preconditionElement = qDoc.createElement(QLatin1String("preconditionwidget"));
-    UMLWidget::saveToXMI1(qDoc, preconditionElement);
+    writer.writeStartElement(QLatin1String("preconditionwidget"));
+    UMLWidget::saveToXMI1(writer);
 
-    preconditionElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
-    preconditionElement.setAttribute(QLatin1String("preconditionname"), name());
-    preconditionElement.setAttribute(QLatin1String("documentation"), documentation());
-    qElement.appendChild(preconditionElement);
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
+    writer.writeAttribute(QLatin1String("preconditionname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
+    writer.writeEndElement();
 }
 
 /**

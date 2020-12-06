@@ -34,6 +34,9 @@
 // kde includes
 #include <KLocalizedString>
 
+// qt includes
+#include <QXmlStreamWriter>
+
 //-----------------------------------------------------------------------------
 
 void TestUMLObject::test_copyInto()
@@ -162,8 +165,21 @@ void TestUMLObject::test_saveAndLoad()
     UMLObject a("Test A");
     a.setUMLPackage(&parent);
     a.setStereotypeCmd("test");
+
+    // save
+    QString xml;
+    QXmlStreamWriter writer(&xml);
+    a.save1("test", writer);
+    writer.writeEndElement();
+
+    // convert XML string to QDomElement
+    QString error;
+    int line;
     QDomDocument doc;
-    QDomElement save = a.save1("test", doc);
+    QVERIFY(doc.setContent(xml, &error, &line));
+    QDomElement save = doc.firstChild().toElement();
+
+    // load
     UMLObject b;
     b.setUMLPackage(&parent);
     QCOMPARE(b.loadFromXMI1(save), true);
@@ -178,7 +194,7 @@ void TestUMLObject::test_setBaseType()
     QCOMPARE(a.baseType(), UMLObject::ot_Class);
 }
 
-void TestUMLObject::test_setSterotype()
+void TestUMLObject::test_setStereotype()
 {
     UMLObject a("Test A");
     QCOMPARE(a.stereotype(), QLatin1String(""));

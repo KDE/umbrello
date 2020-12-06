@@ -39,7 +39,7 @@ public:
 
     void setOverallIndentationLevel (int level);
 
-    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual void loadFromXMI1 (QDomElement & root);
 
@@ -47,7 +47,7 @@ public:
 
 protected:
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode (QDomElement & element);
 

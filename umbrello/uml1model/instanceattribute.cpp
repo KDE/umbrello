@@ -67,18 +67,18 @@ QString UMLInstanceAttribute::getAttributes() const
 /**
  * Creates the <UML:InstanceAttribute> XMI element.
  */
-void UMLInstanceAttribute::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void UMLInstanceAttribute::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement instanceAttributeElement = UMLObject::save1(QLatin1String("UML:InstanceAttribute"), qDoc);
+    UMLObject::save1(QLatin1String("UML:InstanceAttribute"), writer);
     if (m_pSecondary == NULL) {
         uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
-        instanceAttributeElement.setAttribute(QLatin1String("type"), m_SecondaryId);
+        writer.writeAttribute(QLatin1String("type"), m_SecondaryId);
     } else {
-        instanceAttributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
-    instanceAttributeElement.setAttribute(QLatin1String("initialValue"), m_InitialValue);
-    instanceAttributeElement.setAttribute(QLatin1String("attributes"), m_attributes);
-    qElement.appendChild(instanceAttributeElement);
+    writer.writeAttribute(QLatin1String("initialValue"), m_InitialValue);
+    writer.writeAttribute(QLatin1String("attributes"), m_attributes);
+    UMLObject::save1end(writer);
 }
 
 /**

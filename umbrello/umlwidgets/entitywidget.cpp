@@ -27,6 +27,9 @@
 #include "umlview.h"
 #include "uniqueconstraint.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(EntityWidget)
 
 /**
@@ -194,13 +197,13 @@ bool EntityWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "entitywidget" XMI element.
  */
-void EntityWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void EntityWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("entitywidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    conceptElement.setAttribute(QLatin1String("showattsigs"), m_showAttributeSignatures);
+    writer.writeStartElement(QLatin1String("entitywidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("showattsigs"), QString::number(m_showAttributeSignatures));
 
-    qElement.appendChild(conceptElement);
+    writer.writeEndElement();
 }
 
 /**

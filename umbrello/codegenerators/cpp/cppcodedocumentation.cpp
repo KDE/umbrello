@@ -33,12 +33,12 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
 /**
  * Save the XMI representation of this object
  */
-void CPPCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CPPCodeDocumentation::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("cppcodedocumentation"));
-    setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+    writer.writeStartElement(QLatin1String("cppcodedocumentation"));
+    setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**

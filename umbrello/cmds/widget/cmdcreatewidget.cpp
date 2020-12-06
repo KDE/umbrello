@@ -12,6 +12,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "debug_utils.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umlscene.h"
@@ -19,6 +20,7 @@
 
 // kde includes
 #include <KLocalizedString>
+#include <QXmlStreamWriter>
 
 namespace Uml
 {
@@ -33,9 +35,19 @@ namespace Uml
 
         addWidgetToScene(widget);
 
-        QDomDocument doc;
-        m_element = doc.createElement(QLatin1String("widget"));
-        widget->saveToXMI1(doc, m_element);
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("widget"));
+        widget->saveToXMI1(stream);
+        stream.writeEndElement();  // widget
+        QString error;
+        int line;
+        QDomDocument domDoc;
+        if (domDoc.setContent(xmi, &error, &line)) {
+            m_element = domDoc.firstChild().firstChild().toElement();
+        } else {
+            uWarning() << "Cannot set content:" << error << " line:" << line;
+        }
     }
 
     /**
@@ -48,9 +60,19 @@ namespace Uml
 
         addWidgetToScene(widget);
 
-        QDomDocument doc;
-        m_element = doc.createElement(QLatin1String("widget"));
-        widget->saveToXMI1(doc, m_element);
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("widget"));
+        widget->saveToXMI1(stream);
+        stream.writeEndElement();  // widget
+        QString error;
+        int line;
+        QDomDocument domDoc;
+        if (domDoc.setContent(xmi, &error, &line)) {
+            m_element = domDoc.firstChild().firstChild().toElement();
+        } else {
+            uWarning() << "Cannot set content:" << error << " line:" << line;
+        }
     }
 
     /**

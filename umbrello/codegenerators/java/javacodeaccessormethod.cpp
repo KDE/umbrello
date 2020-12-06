@@ -27,6 +27,9 @@
 #include "javacodeclassfield.h"
 #include "javacodedocumentation.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 JavaCodeAccessorMethod::JavaCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
         : CodeAccessorMethod (field)
 {
@@ -41,10 +44,10 @@ JavaCodeAccessorMethod::~JavaCodeAccessorMethod ()
 {
 }
 
-void JavaCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void JavaCodeAccessorMethod::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
+    CodeAccessorMethod::setAttributesOnNode(writer);
 
     // set local attributes now
 }

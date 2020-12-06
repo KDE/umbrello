@@ -19,6 +19,13 @@ class ObjectWidget;
 class UMLScene;
 
 /**
+ * A sequence lifeline consists of the object widget at the top and
+ * a vertical line starting at the bottom edge of the object widget
+ * at half its width. The line grows downward when sequence messages
+ * are added such that the line always extends far enough to act as
+ * the background for all messages.
+ * This class represents only the line part of the lifeline.
+ *
  * @short Widget class for graphical representation of sequence lines
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org

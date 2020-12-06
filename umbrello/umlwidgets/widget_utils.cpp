@@ -25,6 +25,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QPolygonF>
+#include <QXmlStreamWriter>
 
 // c++ include
 #include <cmath>
@@ -302,21 +303,21 @@ namespace Widget_Utils
      *
      * @param pixmap The pixmap to be saved.
      */
-    void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
+    void savePixmapToXMI(QXmlStreamWriter& stream, const QPixmap& pixmap)
     {
-        QDomElement pixmapElement = qDoc.createElement(QLatin1String("pixmap"));
+        stream.writeStartElement(QLatin1String("pixmap"));
 
-        QDomElement xpmElement = qDoc.createElement(QLatin1String("xpm"));
-        pixmapElement.appendChild(xpmElement);
+        stream.writeStartElement(QLatin1String("xpm"));
+        stream.writeEndElement();
 
         QBuffer buffer;
         buffer.open(QIODevice::WriteOnly);
         pixmap.save(&buffer, "xpm");
         buffer.close();
 
-        xpmElement.appendChild(qDoc.createTextNode(QString::fromLatin1(buffer.data())));
+        stream.writeTextElement(QString(), QString::fromLatin1(buffer.data()));
 
-        qElement.appendChild(pixmapElement);
+        stream.writeEndElement();
     }
 
     /**
@@ -404,44 +405,44 @@ namespace Widget_Utils
      *
      * @param gradient The gradient to be saved.
      */
-    void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient)
+    void saveGradientToXMI(QXmlStreamWriter& stream, const QGradient *gradient)
     {
-        QDomElement gradientElement = qDoc.createElement(QLatin1String("gradient"));
+        stream.writeStartElement(QLatin1String("gradient"));
 
-        gradientElement.setAttribute(QLatin1String("type"), int(gradient->type()));
-        gradientElement.setAttribute(QLatin1String("spread"), int(gradient->spread()));
-        gradientElement.setAttribute(QLatin1String("coordinatemode"), int(gradient->coordinateMode()));
-
-        QDomElement stopsElement = qDoc.createElement(QLatin1String("stops"));
-        gradientElement.appendChild(stopsElement);
-
-        foreach(const QGradientStop& stop, gradient->stops()) {
-            QDomElement ele = qDoc.createElement(QLatin1String("stop"));
-            ele.setAttribute(QLatin1String("position"), stop.first);
-            ele.setAttribute(QLatin1String("color"), stop.second.name());
-            stopsElement.appendChild(ele);
-        }
+        stream.writeAttribute(QLatin1String("type"), QString::number(gradient->type()));
+        stream.writeAttribute(QLatin1String("spread"), QString::number(gradient->spread()));
+        stream.writeAttribute(QLatin1String("coordinatemode"), QString::number(gradient->coordinateMode()));
 
         QGradient::Type type = gradient->type();
 
         if(type == QGradient::LinearGradient) {
             const QLinearGradient *lg = static_cast<const QLinearGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("start"), pointToString(lg->start()));
-            gradientElement.setAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
+            stream.writeAttribute(QLatin1String("start"), pointToString(lg->start()));
+            stream.writeAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
         }
         else if(type == QGradient::RadialGradient) {
             const QRadialGradient *rg = static_cast<const QRadialGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("center"), pointToString(rg->center()));
-            gradientElement.setAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
-            gradientElement.setAttribute(QLatin1String("radius"), rg->radius());
+            stream.writeAttribute(QLatin1String("center"), pointToString(rg->center()));
+            stream.writeAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
+            stream.writeAttribute(QLatin1String("radius"), QString::number(rg->radius()));
         }
         else { //type == QGradient::ConicalGradient
             const QConicalGradient *cg = static_cast<const QConicalGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("center"), pointToString(cg->center()));
-            gradientElement.setAttribute(QLatin1String("angle"), cg->angle());
+            stream.writeAttribute(QLatin1String("center"), pointToString(cg->center()));
+            stream.writeAttribute(QLatin1String("angle"), QString::number(cg->angle()));
         }
 
-        qElement.appendChild(gradientElement);
+        stream.writeStartElement(QLatin1String("stops"));
+
+        foreach (const QGradientStop& stop, gradient->stops()) {
+            stream.writeStartElement(QLatin1String("stop"));
+            stream.writeAttribute(QLatin1String("position"), QString::number(stop.first));
+            stream.writeAttribute(QLatin1String("color"), stop.second.name());
+            stream.writeEndElement();
+        }
+
+        stream.writeEndElement();            // stops
+        stream.writeEndElement();   // gradient
     }
 
     /**
@@ -508,25 +509,24 @@ namespace Widget_Utils
      *
      * @param brush The QBrush whose details should be saved.
      */
-    void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
-                        const QBrush& brush)
+    void saveBrushToXMI(QXmlStreamWriter& stream, const QBrush& brush)
     {
-        QDomElement brushElement = qDoc.createElement(QLatin1String("brush"));
+        stream.writeStartElement(QLatin1String("brush"));
 
-        brushElement.setAttribute(QLatin1String("style"), (quint8)brush.style());
-        brushElement.setAttribute(QLatin1String("color"), brush.color().name());
+        stream.writeAttribute(QLatin1String("style"), QString::number(brush.style()));
+        stream.writeAttribute(QLatin1String("color"), brush.color().name());
 
         if(brush.style() == Qt::TexturePattern) {
-            savePixmapToXMI(qDoc, brushElement, brush.texture());
+            savePixmapToXMI(stream, brush.texture());
         }
         else if(brush.style() == Qt::LinearGradientPattern
                 || brush.style() == Qt::RadialGradientPattern
                 || brush.style() == Qt::ConicalGradientPattern) {
-            saveGradientToXMI(qDoc, brushElement, brush.gradient());
+            saveGradientToXMI(stream, brush.gradient());
         }
 
         //TODO: Check if transform of this brush needs to be saved.
-        qElement.appendChild(brushElement);
+        stream.writeEndElement();
     }
 
     /**

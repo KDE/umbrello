@@ -22,6 +22,7 @@ class UMLWidget;
 class QPointF;
 class QDomDocument;
 class QDomElement;
+class QXmlStreamWriter;
 
 /**
  * The AssociationWidgetRole struct gathers all information pertaining to the role.
@@ -57,7 +58,7 @@ public:
     void setSelected(bool select);
     void clipSize();
 
-    void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement, const QString &suffix);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement &qElement, const QString &suffix);
     bool getStartMove();
 

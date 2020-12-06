@@ -22,6 +22,7 @@
 // qt includes
 #include <QDateTime>
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -354,27 +355,27 @@ void CodeDocument::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void CodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    CodeGenObjectWithTextBlocks::setAttributesOnNode(doc, docElement);
+    CodeGenObjectWithTextBlocks::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    docElement.setAttribute(QLatin1String("fileName"), getFileName());
-    docElement.setAttribute(QLatin1String("fileExt"), getFileExtension());
+    writer.writeAttribute(QLatin1String("fileName"), getFileName());
+    writer.writeAttribute(QLatin1String("fileExt"), getFileExtension());
     Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
-    docElement.setAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
-    docElement.setAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
+    writer.writeAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
+    writer.writeAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
                                                                              : QLatin1String("false"));
-    docElement.setAttribute(QLatin1String("id"), ID());
+    writer.writeAttribute(QLatin1String("id"), ID());
 
     // set the a header
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getHeader()->saveToXMI1(doc, commElement); // comment
-    docElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getHeader()->saveToXMI1(writer); // comment
+    writer.writeEndElement();
 
     // doc codePolicy?
     // FIX: store ONLY if different from the parent generator
@@ -434,11 +435,11 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
  * @param doc   the xmi document
  * @param root  the starting point to append
  */
-void CodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeDocument::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
-    setAttributesOnNode(doc, docElement);
-    root.appendChild(docElement);
+    writer.writeStartElement(QLatin1String("codedocument"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**

@@ -31,6 +31,8 @@
 #include "umlobject.h"
 #include "umlrole.h"
 
+#include <QXmlStreamWriter>
+
 //-----------------------------------------------------------------------------
 
 void TestAssociation::test_equal()
@@ -221,12 +223,12 @@ void TestAssociation::test_saveAndLoad()
     TestUMLAssociation a1(Uml::AssociationType::Association, &c1, &c2);
     a1.setNameCmd("Test assoc");
     a1.setUMLPackage(&parent);
-    QDomDocument save = a1.testSave1();
+    QString save = a1.testSave1();
     //a1.testDump("save");
     TestUMLAssociation a2;
     a2.setUMLPackage(&parent);
     QCOMPARE(a2.testLoad1(save), true);
-    QCOMPARE(a2.testSave1().toString(), save.toString());
+    QCOMPARE(a2.testSave1(), save);
     //a2.testDump("load");
 }
 

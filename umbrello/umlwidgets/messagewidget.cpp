@@ -32,6 +32,7 @@
 #include <QPainter>
 #include <QPolygon>
 #include <QResizeEvent>
+#include <QXmlStreamWriter>
 
 //kde includes
 #include <KLocalizedString>
@@ -187,14 +188,51 @@ void MessageWidget::updateResizability()
 
 /**
  * Overridden from UMLWidget.
- * Returns the cursor to be shown when resizing the widget.
- * The cursor shown is KCursor::sizeVerCursor().
+ * Checks if the mouse is in resize area and sets the cursor accordingly.
+ * The resize area is usually at the right bottom corner of the widget
+ * except in case of a message widget running from right to left.
+ * In that case the resize area is at the left bottom corner in order
+ * to avoid overlap with an execution rectangle at the right.
  *
- * @return The cursor to be shown when resizing the widget.
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
  */
-QCursor MessageWidget::resizeCursor() const
+bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 {
-    return Qt::SizeVerCursor;
+    if (!m_resizable) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "!m_resizable";
+        return false;
+    }
+
+    qreal m = 7.0;
+    const qreal w = width();
+    const qreal h = height();
+
+    // If the widget itself is very small then make the resize area small, too.
+    // Reason: Else it becomes impossible to do a move instead of resize.
+    if (w - m < m || h - m < m) {
+        m = 2.0;
+    }
+
+    if (me->scenePos().y() < y() + h - m) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "Y condition not satisfied";
+        return false;
+    }
+
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    if (x1 < x2 && me->scenePos().x() >= x() + w - m ||
+        x1 > x2 && me->scenePos().x() >= x() - m) {
+        m_scene->activeView()->setCursor(Qt::SizeVerCursor);
+        DEBUG(DBG_SRC) << "X condition is satisfied";
+        return true;
+    } else {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG(DBG_SRC) << "X condition not satisfied";
+        return false;
+    }
 }
 
 /**
@@ -231,9 +269,9 @@ void MessageWidget::resizeWidget(qreal newW, qreal newH)
 
 /**
  * Constrains the vertical position of the message widget so it doesn't go
- * upper than the bottom side of the lower object.
- * The height of the floating text widget in the message is taken in account
- * if there is any and isn't empty.
+ * above the bottom side of the lower object.
+ * The height of the floating text widget in the message is taken into account
+ * if there is any and it isn't empty.
  *
  * @param diffY The difference between current Y position and new Y position.
  * @return The new Y position, constrained.
@@ -1369,33 +1407,33 @@ bool MessageWidget::showPropertiesDialog()
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void MessageWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
-    UMLWidget::saveToXMI1(qDoc, messageElement);
-    LinkWidget::saveToXMI1(qDoc, messageElement);
+    writer.writeStartElement(QLatin1String("messagewidget"));
+    UMLWidget::saveToXMI1(writer);
+    LinkWidget::saveToXMI1(writer);
     if (m_pOw[Uml::RoleType::A])
-        messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
+        writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
-        messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
+        writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
+        writer.writeAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
     else
-        messageElement.setAttribute(QLatin1String("operation"), m_CustomOp);
-    messageElement.setAttribute(QLatin1String("sequencemessagetype"), m_sequenceMessageType);
+        writer.writeAttribute(QLatin1String("operation"), m_CustomOp);
+    writer.writeAttribute(QLatin1String("sequencemessagetype"), QString::number(m_sequenceMessageType));
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        messageElement.setAttribute(QLatin1String("xclicked"), m_xclicked);
-        messageElement.setAttribute(QLatin1String("yclicked"), m_yclicked);
+        writer.writeAttribute(QLatin1String("xclicked"), QString::number(m_xclicked));
+        writer.writeAttribute(QLatin1String("yclicked"), QString::number(m_yclicked));
     }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
-        messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->saveToXMI1(qDoc, messageElement);
+        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
+        m_pFText->saveToXMI1(writer);
     }
 
-    qElement.appendChild(messageElement);
+    writer.writeEndElement();
 }
 
 /**

@@ -144,27 +144,27 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig, bool wit
 /**
  * Creates the <UML:ForeignKeyConstraint> XMI element.
  */
-void UMLForeignKeyConstraint::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLForeignKeyConstraint::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement foreignKeyConstraintElement = UMLObject::save1(QLatin1String("UML:ForeignKeyConstraint"), qDoc);
+    UMLObject::save1(QLatin1String("UML:ForeignKeyConstraint"), writer);
 
-    foreignKeyConstraintElement.setAttribute(QLatin1String("referencedEntity"), Uml::ID::toString(m_ReferencedEntity->id()));
+    writer.writeAttribute(QLatin1String("referencedEntity"), Uml::ID::toString(m_ReferencedEntity->id()));
 
     int updateAction = (int)m_UpdateAction;
     int deleteAction = (int)m_DeleteAction;
 
-    foreignKeyConstraintElement.setAttribute(QLatin1String("updateAction"), updateAction);
-    foreignKeyConstraintElement.setAttribute(QLatin1String("deleteAction"), deleteAction);
+    writer.writeAttribute(QLatin1String("updateAction"), QString::number(updateAction));
+    writer.writeAttribute(QLatin1String("deleteAction"), QString::number(deleteAction));
 
     QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
     for (i = m_AttributeMap.begin(); i!= m_AttributeMap.end() ; ++i) {
-        QDomElement mapElement = qDoc.createElement(QLatin1String("AttributeMap"));
-        mapElement.setAttribute(QLatin1String("key"), Uml::ID::toString((i.key())->id()));
-        mapElement.setAttribute(QLatin1String("value"), Uml::ID::toString((i.value())->id()));
-        foreignKeyConstraintElement.appendChild(mapElement);
+        writer.writeStartElement(QLatin1String("AttributeMap"));
+        writer.writeAttribute(QLatin1String("key"), Uml::ID::toString((i.key())->id()));
+        writer.writeAttribute(QLatin1String("value"), Uml::ID::toString((i.value())->id()));
+        writer.writeEndElement();
     }
 
-    qElement.appendChild(foreignKeyConstraintElement);
+    UMLObject::save1end(writer);
 }
 
 /**

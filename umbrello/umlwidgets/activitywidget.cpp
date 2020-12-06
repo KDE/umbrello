@@ -27,6 +27,7 @@
 
 // qt includes
 #include <QPointer>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(ActivityWidget)
 
@@ -333,16 +334,16 @@ bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActivityWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement activityElement = qDoc.createElement(QLatin1String("activitywidget"));
-    UMLWidget::saveToXMI1(qDoc, activityElement);
-    activityElement.setAttribute(QLatin1String("activityname"), name());
-    activityElement.setAttribute(QLatin1String("documentation"), documentation());
-    activityElement.setAttribute(QLatin1String("precondition"), preconditionText());
-    activityElement.setAttribute(QLatin1String("postcondition"), postconditionText());
-    activityElement.setAttribute(QLatin1String("activitytype"), m_activityType);
-    qElement.appendChild(activityElement);
+    writer.writeStartElement(QLatin1String("activitywidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("activityname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
+    writer.writeAttribute(QLatin1String("precondition"), preconditionText());
+    writer.writeAttribute(QLatin1String("postcondition"), postconditionText());
+    writer.writeAttribute(QLatin1String("activitytype"), QString::number(m_activityType));
+    writer.writeEndElement();
 }
 
 /**

@@ -95,6 +95,7 @@
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cmath>  // for ceil
@@ -1429,8 +1430,15 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
     UMLWidgetList widgets;
     foreach(QGraphicsItem *item, items) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
-        if (w)
+        if (w) {
             widgets.append(w);
+        } else {
+            WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+            QString name;
+            if (wb)
+                name = wb->name();
+            DEBUG(DBG_SRC) << name << " is not a MessageWidget";
+        }
     }
     return widgets;
 }
@@ -1440,6 +1448,13 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
  */
 void UMLScene::clearSelected()
 {
+    QList<QGraphicsItem *> items = selectedItems();
+    foreach(QGraphicsItem *item, items) {
+        WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+        if (wb) {
+            wb->setSelected(false);
+        }
+    }
     clearSelection();
     //m_doc->enableCutCopy(false);
 }
@@ -3735,33 +3750,33 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 /**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
-void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
 {
     resizeSceneToItems();
-    QDomElement viewElement = qDoc.createElement(QLatin1String("diagram"));
-    viewElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
-    viewElement.setAttribute(QLatin1String("name"), name());
-    viewElement.setAttribute(QLatin1String("type"), m_Type);
-    viewElement.setAttribute(QLatin1String("documentation"), m_Documentation);
+    writer.writeStartElement(QLatin1String("diagram"));
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
+    writer.writeAttribute(QLatin1String("name"), name());
+    writer.writeAttribute(QLatin1String("type"), QString::number(m_Type));
+    writer.writeAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
-    m_Options.saveToXMI1(viewElement);
+    m_Options.saveToXMI1(writer);
     //misc
-    viewElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
-    viewElement.setAttribute(QLatin1String("showgrid"), m_layoutGrid->isVisible());
-    viewElement.setAttribute(QLatin1String("snapgrid"), m_bUseSnapToGrid);
-    viewElement.setAttribute(QLatin1String("snapcsgrid"), m_bUseSnapComponentSizeToGrid);
-    viewElement.setAttribute(QLatin1String("snapx"), m_layoutGrid->gridSpacingX());
-    viewElement.setAttribute(QLatin1String("snapy"), m_layoutGrid->gridSpacingY());
+    writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+    writer.writeAttribute(QLatin1String("showgrid"), QString::number(m_layoutGrid->isVisible()));
+    writer.writeAttribute(QLatin1String("snapgrid"), QString::number(m_bUseSnapToGrid));
+    writer.writeAttribute(QLatin1String("snapcsgrid"), QString::number(m_bUseSnapComponentSizeToGrid));
+    writer.writeAttribute(QLatin1String("snapx"), QString::number(m_layoutGrid->gridSpacingX()));
+    writer.writeAttribute(QLatin1String("snapy"), QString::number(m_layoutGrid->gridSpacingY()));
     // FIXME: move to UMLView
-    viewElement.setAttribute(QLatin1String("zoom"), activeView()->zoom());
-    viewElement.setAttribute(QLatin1String("canvasheight"), QString::number(height()));
-    viewElement.setAttribute(QLatin1String("canvaswidth"), QString::number(width()));
-    viewElement.setAttribute(QLatin1String("isopen"), isOpen());
+    writer.writeAttribute(QLatin1String("zoom"), QString::number(activeView()->zoom()));
+    writer.writeAttribute(QLatin1String("canvasheight"), QString::number(height()));
+    writer.writeAttribute(QLatin1String("canvaswidth"), QString::number(width()));
+    writer.writeAttribute(QLatin1String("isopen"), QString::number(isOpen()));
     if (isSequenceDiagram() || isCollaborationDiagram())
-        viewElement.setAttribute(QLatin1String("autoincrementsequence"), autoIncrementSequence());
+        writer.writeAttribute(QLatin1String("autoincrementsequence"), QString::number(autoIncrementSequence()));
 
     //now save all the widgets
-    QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
+    writer.writeStartElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, widgetList()) {
         uIgnoreZeroPointer(widget);
         // do not save floating text widgets having a parent widget; they are saved as part of the parent
@@ -3775,17 +3790,17 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
              (widget->asFloatingTextWidget() && widget->asFloatingTextWidget()->link() == 0))
-            widget->saveToXMI1(qDoc, widgetElement);
+            widget->saveToXMI1(writer);
     }
-    viewElement.appendChild(widgetElement);
+    writer.writeEndElement();            // widgets
     //now save the message widgets
-    QDomElement messageElement = qDoc.createElement(QLatin1String("messages"));
+    writer.writeStartElement(QLatin1String("messages"));
     foreach(UMLWidget* widget, messageList()) {
-        widget->saveToXMI1(qDoc, messageElement);
+        widget->saveToXMI1(writer);
     }
-    viewElement.appendChild(messageElement);
+    writer.writeEndElement();            // messages
     //now save the associations
-    QDomElement assocElement = qDoc.createElement(QLatin1String("associations"));
+    writer.writeStartElement(QLatin1String("associations"));
     if (associationList().count()) {
         // We guard against (associationList().count() == 0) because
         // this code could be reached as follows:
@@ -3800,11 +3815,11 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         //
         AssociationWidget * assoc = 0;
         foreach(assoc, associationList()) {
-            assoc->saveToXMI1(qDoc, assocElement);
+            assoc->saveToXMI1(writer);
         }
     }
-    viewElement.appendChild(assocElement);
-    qElement.appendChild(viewElement);
+    writer.writeEndElement();            // associations
+    writer.writeEndElement();  // diagram
 }
 
 /**

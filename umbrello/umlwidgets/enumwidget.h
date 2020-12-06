@@ -38,7 +38,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual bool loadFromXMI1(QDomElement& qElement);
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

@@ -17,6 +17,9 @@
 #include "codegenfactory.h"
 #include "debug_utils.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 /**
  * Basic Constructor
  */
@@ -52,30 +55,30 @@ CodeComment * CodeBlockWithComments::getComment () const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeBlockWithComments::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("codeblockwithcomments"));
+    writer.writeStartElement(QLatin1String("codeblockwithcomments"));
 
     // set attributes
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void CodeBlockWithComments::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeBlock::setAttributesOnNode(doc, blockElement);
+    CodeBlock::setAttributesOnNode(writer);
 
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI1(doc, commElement); // comment
-    blockElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getComment()->saveToXMI1(writer); // comment
+    writer.writeEndElement();
 }
 
 /**

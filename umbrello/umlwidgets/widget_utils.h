@@ -24,6 +24,7 @@
 
 class QGraphicsItem;
 class QGraphicsRectItem;
+class QXmlStreamWriter;
 
 /**
  * General purpose widget utilities.
@@ -49,14 +50,13 @@ namespace Widget_Utils
     QPointF stringToPoint(const QString& str);
 
     bool loadPixmapFromXMI(QDomElement &qElement, QPixmap &pixmap);
-    void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap);
+    void savePixmapToXMI(QXmlStreamWriter& stream, const QPixmap& pixmap);
 
     bool loadGradientFromXMI(QDomElement &qElement, QGradient *&gradient);
-    void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient);
+    void saveGradientToXMI(QXmlStreamWriter& stream, const QGradient *gradient);
 
     bool loadBrushFromXMI(QDomElement &qElement, QBrush &brush);
-    void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
-                        const QBrush& brush);
+    void saveBrushToXMI(QXmlStreamWriter& stream, const QBrush& brush);
 
     bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
     bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);

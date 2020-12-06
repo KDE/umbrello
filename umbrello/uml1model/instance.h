@@ -39,7 +39,7 @@ public:
                                   UMLObject *type = 0, Uml::Visibility::Enum vis = Uml::Visibility::Private,
                                   const QString &init = QString());
 
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
 
 protected:

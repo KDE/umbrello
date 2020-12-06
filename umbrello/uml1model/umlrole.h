@@ -48,7 +48,7 @@ public:
 
     UMLObject* clone() const { return 0; }
 
-    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog(QWidget *parent = 0);
 

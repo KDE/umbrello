@@ -53,7 +53,7 @@ public:
 
     virtual void setY(qreal y);
 
-    //---------- LinkWidget Interface methods implemementation from now on.
+    //---------- LinkWidget Interface methods implementation from here on.
 
     virtual void lwSetFont (QFont font);
     virtual UMLClassifier *operationOwner();
@@ -74,7 +74,7 @@ public:
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                   Uml::TextRole::Enum tr);
 
-    //---------- End LinkWidget Interface methods implemementation.
+    //---------- End LinkWidget Interface methods implementation.
 
     /// @return Whether the message is synchronous or asynchronous
     Uml::SequenceMessage::Enum sequenceMessageType() const {
@@ -84,7 +84,7 @@ public:
     bool hasObjectWidget(ObjectWidget * w);
 
     ObjectWidget* objectWidget(Uml::RoleType::Enum role);
-    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role) ;
+    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role);
 
     bool isSelf() const;
 
@@ -136,7 +136,7 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual bool loadFromXMI1(QDomElement & qElement);
 
     void setxclicked(int xclick);
@@ -155,7 +155,7 @@ protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    virtual QCursor resizeCursor() const;
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     void setLinkAndTextPos();
 

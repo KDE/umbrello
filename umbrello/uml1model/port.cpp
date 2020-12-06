@@ -52,10 +52,10 @@ UMLObject* UMLPort::clone() const
 /**
  * Creates the <UML:Port> XMI element.
  */
-void UMLPort::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLPort::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement portElement = UMLObject::save1(QLatin1String("UML:Port"), qDoc);
-    qElement.appendChild(portElement);
+    UMLObject::save1(QLatin1String("UML:Port"), writer);
+    UMLObject::save1end(writer);
 }
 
 /**

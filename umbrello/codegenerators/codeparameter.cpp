@@ -23,6 +23,9 @@
 #include "uml.h"
 #include "codegenfactory.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 /**
  * Constructor.
  */
@@ -163,26 +166,26 @@ QString CodeParameter::ID()
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
+void CodeParameter::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set local attributes
-    blockElement.setAttribute(QLatin1String("parent_id"), ID());
+    writer.writeAttribute(QLatin1String("parent_id"), ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
     UMLRole * role = m_parentObject->asUMLRole();
     if (role)
-        blockElement.setAttribute(QLatin1String("role_id"), role->role());
+        writer.writeAttribute(QLatin1String("role_id"), QString::number(role->role()));
     else
-        blockElement.setAttribute(QLatin1String("role_id"), QLatin1String("-1"));
+        writer.writeAttribute(QLatin1String("role_id"), QLatin1String("-1"));
 
-    blockElement.setAttribute(QLatin1String("initialValue"), getInitialValue());
+    writer.writeAttribute(QLatin1String("initialValue"), getInitialValue());
 
     // a comment which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI1(doc, commElement); // comment
-    blockElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getComment()->saveToXMI1(writer); // comment
+    writer.writeEndElement();
 }
 
 /**

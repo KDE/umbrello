@@ -25,6 +25,7 @@
 
 // qt includes
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -235,24 +236,24 @@ void CodeClassField::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfElem)
+void CodeClassField::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // super class
-    CodeParameter::setAttributesOnNode(doc, cfElem);
+    CodeParameter::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    cfElem.setAttribute(QLatin1String("field_type"), m_classFieldType);
-    cfElem.setAttribute(QLatin1String("listClassName"), m_listClassName);
-    cfElem.setAttribute(QLatin1String("writeOutMethods"), getWriteOutMethods() ? QLatin1String("true")
-                                                                               : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("field_type"), QString::number(m_classFieldType));
+    writer.writeAttribute(QLatin1String("listClassName"), m_listClassName);
+    writer.writeAttribute(QLatin1String("writeOutMethods"), getWriteOutMethods() ? QLatin1String("true")
+                                                                                 : QLatin1String("false"));
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
-    m_declCodeBlock->saveToXMI1(doc, cfElem);
+    m_declCodeBlock->saveToXMI1(writer);
 
     // now record the tags on our accessormethods
     Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
-        method->saveToXMI1(doc, cfElem);
+        method->saveToXMI1(writer);
     }
 }
 
@@ -311,13 +312,13 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassField::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeClassField::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codeclassfield"));
+    writer.writeStartElement(QLatin1String("codeclassfield"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**

@@ -42,6 +42,7 @@
 #include <QPointer>
 #include <QRegExp>
 #include <QTextStream>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cstdlib>  // to get the user name
@@ -242,11 +243,11 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 /**
  * Save the XMI representation of this object
  */
-void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeGenerator::saveToXMI1(QXmlStreamWriter& writer)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
-    QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
-    docElement.setAttribute(QLatin1String("language"), langType);
+    writer.writeStartElement(QLatin1String("codegenerator"));
+    writer.writeAttribute(QLatin1String("language"), langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
@@ -259,10 +260,10 @@ void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
                 if (code.isEmpty()) {
                     continue;
                 }
-                QDomElement codeElement = doc.createElement(QLatin1String("sourcecode"));
-                codeElement.setAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
-                codeElement.setAttribute(QLatin1String("value"), code);
-                docElement.appendChild(codeElement);
+                writer.writeStartElement(QLatin1String("sourcecode"));
+                writer.writeAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
+                writer.writeAttribute(QLatin1String("value"), code);
+                writer.writeEndElement();
             }
         }
     }
@@ -271,10 +272,10 @@ void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
         CodeDocumentList::const_iterator it = docList->begin();
         CodeDocumentList::const_iterator end = docList->end();
         for (; it != end; ++it) {
-            (*it)->saveToXMI1(doc, docElement);
+            (*it)->saveToXMI1(writer);
         }
     }
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**

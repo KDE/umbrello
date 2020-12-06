@@ -127,23 +127,22 @@ UMLStereotype::AttributeDefs& UMLStereotype::getAttributeDefs()
 /**
  * Saves to the <UML:StereoType> XMI element.
  */
-void UMLStereotype::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLStereotype::saveToXMI1(QXmlStreamWriter& writer)
 {
     //FIXME: uml13.dtd compliance
-    QDomElement stereotypeElement = UMLObject::save1(QLatin1String("UML:Stereotype"), qDoc);
+    UMLObject::save1(QLatin1String("UML:Stereotype"), writer);
     if (!m_attrDefs.isEmpty()) {
-        QDomElement featureElement = qDoc.createElement(QLatin1String("UML:Stereotype.feature"));
+        writer.writeStartElement(QLatin1String("UML:Stereotype.feature"));
         foreach (AttributeDef ad, m_attrDefs) {
-            QDomElement attElement = qDoc.createElement(QLatin1String("UML:Attribute"));
-            attElement.setAttribute(QLatin1String("name"), ad.name);
-            attElement.setAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
+            writer.writeStartElement(QLatin1String("UML:Attribute"));
+            writer.writeAttribute(QLatin1String("name"), ad.name);
+            writer.writeAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
             if (!ad.defaultVal.isEmpty())
-                attElement.setAttribute(QLatin1String("initialValue"), ad.defaultVal);
-            featureElement.appendChild(attElement);
+                writer.writeAttribute(QLatin1String("initialValue"), ad.defaultVal);
         }
-        stereotypeElement.appendChild(featureElement);
+        writer.writeEndElement();
     }
-    qElement.appendChild(stereotypeElement);
+    writer.writeEndElement();
 }
 
 /**

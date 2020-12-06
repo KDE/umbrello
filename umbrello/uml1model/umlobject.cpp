@@ -838,39 +838,41 @@ bool UMLObject::resolveRef()
     return true;
 }
 
-void UMLObject::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void UMLObject::saveToXMI1(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(qDoc); Q_UNUSED(qElement);
+    Q_UNUSED(writer);
 }
 
 /**
  * Auxiliary to saveToXMI1.
- * Create a QDomElement with the given tag, and save the XMI attributes
+ * Create an XML element with the given tag, and save the XMI attributes
  * that are common to all child classes to the newly created element.
  * This method does not need to be overridden by child classes.
+ * It is public because UMLOperation::saveToXMI1 invokes it for its
+ * <UML:Parameter>s (cannot be done with protected access).
  */
-QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
+void UMLObject::save1(const QString& tag, QXmlStreamWriter& writer)
 {
     m_d->isSaved = true;
     /*
       Call as the first action of saveToXMI1() in child class:
-      This creates the QDomElement with which to work.
+      This creates the XML element with which to work.
     */
-    QDomElement qElement = qDoc.createElement(tag);
-    qElement.setAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
+    writer.writeStartElement(tag);
+    writer.writeAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
     if (m_BaseType != ot_Association &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute &&
         m_BaseType != ot_Instance) {
-        qElement.setAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
-        qElement.setAttribute(QLatin1String("isRoot"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isRoot"), QLatin1String("false"));
         if (m_bAbstract)
-            qElement.setAttribute(QLatin1String("isAbstract"), QLatin1String("true"));
+            writer.writeAttribute(QLatin1String("isAbstract"), QLatin1String("true"));
         else
-            qElement.setAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
+            writer.writeAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
     }
-    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
-    qElement.setAttribute(QLatin1String("name"), m_name);
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
+    writer.writeAttribute(QLatin1String("name"), m_name);
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
@@ -879,33 +881,41 @@ QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
             nmSpc = umlPackage()->id();
         else
             nmSpc = UMLApp::app()->document()->modelID();
-        qElement.setAttribute(QLatin1String("namespace"), Uml::ID::toString(nmSpc));
+        writer.writeAttribute(QLatin1String("namespace"), Uml::ID::toString(nmSpc));
     }
     if (! m_Doc.isEmpty())
-        qElement.setAttribute(QLatin1String("comment"), m_Doc);    //CHECK: uml13.dtd compliance
+        writer.writeAttribute(QLatin1String("comment"), m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
     if (umlParent()->asUMLPackage())             //FIXME: uml13.dtd compliance
-        qElement.setAttribute(QLatin1String("package"), umlParent()->asUMLPackage()->ID());
+        writer.writeAttribute(QLatin1String("package"), umlParent()->asUMLPackage()->ID());
 #endif
     QString visibility = Uml::Visibility::toString(m_visibility, false);
-    qElement.setAttribute(QLatin1String("visibility"), visibility);
+    writer.writeAttribute(QLatin1String("visibility"), visibility);
     if (m_pStereotype != 0)
-        qElement.setAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
+        writer.writeAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
     if (m_bStatic)
-        qElement.setAttribute(QLatin1String("ownerScope"), QLatin1String("classifier"));
+        writer.writeAttribute(QLatin1String("ownerScope"), QLatin1String("classifier"));
     /* else
-        qElement.setAttribute("ownerScope", "instance");
+        writer.writeAttribute("ownerScope", "instance");
      *** ownerScope defaults to instance if not set **********/
+}
 
+/**
+ * Auxiliary to saveToXMI1.
+ * Save possible stereotype tagged values stored in m_TaggedValues
+ * and write the XML end element created in save1().
+ */
+void UMLObject::save1end(QXmlStreamWriter& writer)
+{
     // Save optional stereotype attributes
     if (m_TaggedValues.count()) {
         if (m_pStereotype == 0) {
             uError() << m_name << " TaggedValues are set but pStereotype is null : clearing TaggedValues";
             m_TaggedValues.clear();
-            return qElement;
+            return;
         }
-        QDomElement tvsElement = qDoc.createElement(QLatin1String("UML:ModelElement.taggedValues"));
-        tvsElement.setAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
+        writer.writeStartElement(QLatin1String("UML:ModelElement.taggedValues"));
+        writer.writeAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
         const UMLStereotype::AttributeDefs& attrDefs = m_pStereotype->getAttributeDefs();
         for (int i = 0; i < m_TaggedValues.count(); i++) {
             if (i >= attrDefs.count()) {
@@ -914,16 +924,13 @@ QDomElement UMLObject::save1(const QString &tag, QDomDocument & qDoc)
                 break;
             }
             const QString& tv = m_TaggedValues.at(i);
-            QDomElement tvElem = qDoc.createElement(QLatin1String("UML:TaggedValue"));
-            tvElem.setAttribute(QLatin1String("tag"), attrDefs[i].name);
-            tvElem.setAttribute(QLatin1String("value"), tv);
-            tvsElement.appendChild(tvElem);
-        }
-        if (tvsElement.hasChildNodes()) {
-            qElement.appendChild(tvsElement);
+            writer.writeStartElement(QLatin1String("UML:TaggedValue"));
+            writer.writeAttribute(QLatin1String("tag"), attrDefs[i].name);
+            writer.writeAttribute(QLatin1String("value"), tv);
+            writer.writeEndElement();
         }
     }
-    return qElement;
+    writer.writeEndElement();
 }
 
 /**
@@ -1239,7 +1246,7 @@ QString UMLObject::toI18nString(ObjectType t)
 
     default:
         name = QLatin1String("<unknown> &name:");
-        uWarning() << "unknown object type";
+        uWarning() << "UMLObject::toI18nString unknown object type " << toString(t);
         break;
     }
     return name;
@@ -1306,7 +1313,7 @@ Icon_Utils::IconType UMLObject::toIcon(ObjectType t)
 
     default:
         icon = Icon_Utils::it_Home;
-        uWarning() << "unknown object type";
+        uWarning() << "UMLObject::toIcon unknown object type " << toString(t);
         break;
     }
     return icon;

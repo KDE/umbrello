@@ -29,13 +29,13 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void RubyClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("rubyclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("rubyclassdeclarationblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**

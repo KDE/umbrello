@@ -328,13 +328,13 @@ void TEST_classifier::test_saveAndLoad()
     c1.addOperation(&o1);
     UMLOperation o2(nullptr, "testop2");
     c1.addOperation(&o2);
-    QDomDocument save = c1.testSave1();
+    QString save = c1.testSave1();
     //c1.testDump("save");
     TestUMLClassifier c2;
     c2.setUMLPackage(&parent);
     QCOMPARE(c2.testLoad1(save), true);
     //c2.testDump("after load");
-    QCOMPARE(c2.testSave1().toString(), save.toString());
+    QCOMPARE(c2.testSave1(), save);
 }
 
 QTEST_MAIN(TEST_classifier)

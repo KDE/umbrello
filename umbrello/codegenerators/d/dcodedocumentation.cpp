@@ -30,12 +30,12 @@ DCodeDocumentation::~DCodeDocumentation()
 {
 }
 
-void DCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void DCodeDocumentation::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("dcodedocumentation"));
-    setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+    writer.writeStartElement(QLatin1String("dcodedocumentation"));
+    setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 QString DCodeDocumentation::toString() const

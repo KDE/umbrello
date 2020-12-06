@@ -11,12 +11,14 @@
 #include "cmdremovediagram.h"
 
 #include "basictypes.h"
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
 
 #include <KLocalizedString>
+#include <QXmlStreamWriter>
 
 namespace Uml
 {
@@ -37,12 +39,20 @@ namespace Uml
         setText(msg);
 
         // Save diagram XMI for undo
-        QDomDocument doc;
-        QDomElement container = doc.createElement(QLatin1String("diagram"));
-        scene->saveToXMI1(doc, container);
-
-        // The first child element contains the diagram XMI
-        m_element = container.firstChild().toElement();
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("diagram"));
+        scene->saveToXMI1(stream);
+        stream.writeEndElement();  // diagram
+        QString error;
+        int line;
+        QDomDocument domDoc;
+        if (domDoc.setContent(xmi, &error, &line)) {
+            // The first child element contains the diagram XMI
+            m_element = domDoc.firstChild().firstChild().toElement();  // CHECK was: container
+        } else {
+            uWarning() << "Cannot set content: " << error << " line:" << line;
+        }
     }
 
     CmdRemoveDiagram::~CmdRemoveDiagram()

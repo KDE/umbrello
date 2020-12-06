@@ -67,7 +67,7 @@ public:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     void constrain(qreal& width, qreal& height);
 

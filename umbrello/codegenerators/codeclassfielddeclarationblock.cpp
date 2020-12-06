@@ -14,6 +14,8 @@
 #include "codeclassfield.h"
 #include "umlrole.h"
 
+#include <QXmlStreamWriter>
+
 /**
  * Constructor.
  */
@@ -77,11 +79,11 @@ void CodeClassFieldDeclarationBlock::forceRelease()
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassFieldDeclarationBlock::saveToXMI1(QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("ccfdeclarationcodeblock"));
-    setAttributesOnNode(doc, docElement);
-    elem.appendChild(docElement);
+    writer.writeStartElement(QLatin1String("ccfdeclarationcodeblock"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -96,11 +98,11 @@ void CodeClassFieldDeclarationBlock::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeBlockWithComments::setAttributesOnNode(doc, elem);
-    OwnedCodeBlock::setAttributesOnNode(doc, elem);
+    CodeBlockWithComments::setAttributesOnNode(writer);
+    OwnedCodeBlock::setAttributesOnNode(writer);
 }
 
 /**

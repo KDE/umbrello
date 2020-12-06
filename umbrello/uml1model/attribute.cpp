@@ -261,18 +261,18 @@ UMLObject* UMLAttribute::clone() const
 /**
  * Creates the <UML:Attribute> XMI element.
  */
-void UMLAttribute::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLAttribute::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement attributeElement = UMLObject::save1(QLatin1String("UML:Attribute"), qDoc);
+    UMLObject::save1(QLatin1String("UML:Attribute"), writer);
     if (m_pSecondary == 0) {
         uDebug() << name() << ": m_pSecondary is 0, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
-        attributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
     if (! m_InitialValue.isEmpty())
-        attributeElement.setAttribute(QLatin1String("initialValue"), m_InitialValue);
-    qElement.appendChild(attributeElement);
+        writer.writeAttribute(QLatin1String("initialValue"), m_InitialValue);
+    UMLObject::save1end(writer);
 }
 
 /**

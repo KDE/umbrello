@@ -19,6 +19,7 @@
 #include <QString>
 
 class ClassifierCodeDocument;
+class QXmlStreamWriter;
 
 /**
  * class CodeMethodBlock
@@ -72,7 +73,7 @@ protected:
      */
     virtual void updateMethodDeclaration () = 0;
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode (QDomElement & element);
 

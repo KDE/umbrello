@@ -34,11 +34,22 @@
 #include <QFontDialog>
 #endif
 #include <QPointer>
+#include <QXmlStreamWriter>
+
+static unsigned eventCnt = 0;
 
 void QGraphicsObjectWrapper::setSelected(bool state)
 {
     if (!m_calledFromItemChange)
         QGraphicsObject::setSelected(state);
+    QString info;
+    WidgetBase *wb = dynamic_cast<WidgetBase*>(this);
+    if (wb)
+        info = wb->name();
+    if (info.isEmpty())
+        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
+    else
+        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
     m_calledFromItemChange = false;
 }
 
@@ -606,47 +617,44 @@ bool WidgetBase::showPropertiesDialog()
 
 /**
  * A virtual method to save the properties of this widget into a
- * QDomElement i.e xml.
+ * QXmlStreamWriter i.e. XML.
  *
  * Subclasses should first create a new dedicated element as the child
  * of \a qElement parameter passed.  Then this base method should be
  * called to save basic widget properties.
  *
- * @param qDoc A QDomDocument object representing the xml document.
- * @param qElement A QDomElement representing xml element data.
+ * @param writer The QXmlStreamWriter to write to.
  */
-void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void WidgetBase::saveToXMI1(QXmlStreamWriter& writer)
  {
-    Q_UNUSED(qDoc)
-
-    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
     // Unique identifier for widget (todo: id() should be unique, new attribute
     // should indicate the UMLObject's ID it belongs to)
-    qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+    writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 
-    qElement.setAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
+    writer.writeAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
                                                                              : m_textColor.name());
     if (m_usesDiagramLineColor) {
-        qElement.setAttribute(QLatin1String("linecolor"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("linecolor"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("linecolor"), m_lineColor.name());
+        writer.writeAttribute(QLatin1String("linecolor"), m_lineColor.name());
     }
     if (m_usesDiagramLineWidth) {
-        qElement.setAttribute(QLatin1String("linewidth"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("linewidth"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("linewidth"), m_lineWidth);
+        writer.writeAttribute(QLatin1String("linewidth"), QString::number(m_lineWidth));
     }
-    qElement.setAttribute(QLatin1String("usefillcolor"), m_useFillColor);
+    writer.writeAttribute(QLatin1String("usefillcolor"), QString::number(m_useFillColor));
     // for consistency the following attributes now use american spelling for "color"
-    qElement.setAttribute(QLatin1String("usesdiagramfillcolor"), m_usesDiagramFillColor);
-    qElement.setAttribute(QLatin1String("usesdiagramusefillcolor"), m_usesDiagramUseFillColor);
+    writer.writeAttribute(QLatin1String("usesdiagramfillcolor"), QString::number(m_usesDiagramFillColor));
+    writer.writeAttribute(QLatin1String("usesdiagramusefillcolor"), QString::number(m_usesDiagramUseFillColor));
     if (m_usesDiagramFillColor) {
-        qElement.setAttribute(QLatin1String("fillcolor"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("fillcolor"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("fillcolor"), m_fillColor.name());
+        writer.writeAttribute(QLatin1String("fillcolor"), m_fillColor.name());
     }
-    qElement.setAttribute(QLatin1String("font"), m_font.toString());
-    qElement.setAttribute(QLatin1String("autoresize"), m_autoResize ? 1 : 0);
+    writer.writeAttribute(QLatin1String("font"), m_font.toString());
+    writer.writeAttribute(QLatin1String("autoresize"), QString::number(m_autoResize ? 1 : 0));
 }
 
 

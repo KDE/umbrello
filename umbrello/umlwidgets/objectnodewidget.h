@@ -57,7 +57,7 @@ public:
     void askStateForWidget();
     void askForObjectNodeType(UMLWidget* &targetWidget);
 
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual bool loadFromXMI1(QDomElement& qElement);
 
 protected:

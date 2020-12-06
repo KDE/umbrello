@@ -39,6 +39,7 @@
 #include <QFile>
 #include <QRegExp>
 #include <QTextStream>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cstdlib>
@@ -888,21 +889,20 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
 /**
  * Saves the listview item to a "listitem" tag.
  */
-void UMLListViewItem::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLListViewItem::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement itemElement = qDoc.createElement(QLatin1String("listitem"));
+    writer.writeStartElement(QLatin1String("listitem"));
     Uml::ID::Type id = ID();
     QString idStr = Uml::ID::toString(id);
     //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
     if (id != Uml::ID::None)
-        itemElement.setAttribute(QLatin1String("id"), idStr);
-    itemElement.setAttribute(QLatin1String("type"), m_type);
-    UMLFolder *extFolder = 0;
+        writer.writeAttribute(QLatin1String("id"), idStr);
+    writer.writeAttribute(QLatin1String("type"), QString::number(m_type));
     if (m_object == 0) {
         if (! Model_Utils::typeIsDiagram(m_type) && m_type != lvt_View)
             uError() << text(0) << ": m_object is NULL";
         if (m_type != lvt_View)
-            itemElement.setAttribute(QLatin1String("label"), text(0));
+            writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->id() == Uml::ID::None) {
         if (text(0).isEmpty()) {
             DEBUG(DBG_LVI) << "Skipping empty item";
@@ -910,22 +910,21 @@ void UMLListViewItem::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         }
         DEBUG(DBG_LVI) << "saving local label " << text(0) << " because umlobject ID is not set";
         if (m_type != lvt_View)
-            itemElement.setAttribute(QLatin1String("label"), text(0));
+            writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
-        extFolder = m_object->asUMLFolder();
+        UMLFolder *extFolder = m_object->asUMLFolder();
         if (!extFolder->folderFile().isEmpty()) {
-            itemElement.setAttribute(QLatin1String("open"), QLatin1String("0"));
-            qElement.appendChild(itemElement);
+            writer.writeAttribute(QLatin1String("open"), QLatin1String("0"));
+            writer.writeEndElement();
             return;
         }
     }
-    itemElement.setAttribute(QLatin1String("open"), isExpanded());
-    QDomElement folderRoot;
-    for (int i=0; i < childCount(); i++) {
+    writer.writeAttribute(QLatin1String("open"), QString::number(isExpanded()));
+    for (int i = 0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
-        childItem->saveToXMI1(qDoc, itemElement);
+        childItem->saveToXMI1(writer);
     }
-    qElement.appendChild(itemElement);
+    writer.writeEndElement();
 }
 
 /**

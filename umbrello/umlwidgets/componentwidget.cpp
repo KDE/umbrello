@@ -21,6 +21,9 @@
 #include "package.h"
 #include "portwidget.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(ComponentWidget)
 
 /**
@@ -184,11 +187,11 @@ void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 /**
  * Saves to the "componentwidget" XMI element.
  */
-void ComponentWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ComponentWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("componentwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("componentwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

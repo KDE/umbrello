@@ -53,13 +53,13 @@ void TestPackage::test_saveAndLoad()
     p1.addObject(&c1);
     p1.addObject(&c2);
     p1.setStereotypeCmd("test");
-    QDomDocument save = p1.testSave1();
+    QString save = p1.testSave1();
     //p1.testDump("save");
     TestUMLPackage p2;
     p2.setUMLPackage(&parent);
     QCOMPARE(p2.testLoad1(save), true);
     //p2.testDump("load");
-    QCOMPARE(p2.testSave1().toString(), save.toString());
+    QCOMPARE(p2.testSave1(), save);
 }
 
 QTEST_MAIN(TestPackage)

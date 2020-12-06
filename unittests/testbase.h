@@ -124,6 +124,7 @@ protected:
 };
 
 #include <QDomDocument>
+#include <QXmlStreamWriter>
 #include "uml.h"
 #include "umldoc.h"
 
@@ -137,25 +138,31 @@ public:
     TestUML<T,N>() : T() {}
     TestUML<T,N>(N name) : T(name) {}
     TestUML<T,N>(N p1, UMLObject *p2, UMLObject *p3) : T(p1, p2, p3) {}
-    QDomDocument testSave1();
-    bool testLoad1(QDomDocument &qDoc);
+    QString testSave1();
+    bool testLoad1(const QString& xml);
     void testDump(const QString &title = QString());
     UMLObject *secondary() const;
 };
 
 template <class T, typename N>
-QDomDocument TestUML<T,N>::testSave1()
+QString TestUML<T,N>::testSave1()
 {
-    QDomDocument qDoc;
-    QDomElement root = qDoc.createElement("unittest");
-    qDoc.appendChild(root);
-    T::saveToXMI1(qDoc, root);
-    return qDoc;
+    QString xml;
+    QXmlStreamWriter stream(&xml);
+    stream.writeStartElement("unittest");
+    T::saveToXMI1(stream);
+    stream.writeEndElement();
+    return xml;
 }
 
 template <class T, typename N>
-bool TestUML<T,N>::testLoad1(QDomDocument &qDoc)
+bool TestUML<T,N>::testLoad1(const QString& xml)
 {
+    QDomDocument qDoc;
+    QString error;
+    int line;
+    if (!qDoc.setContent(xml, &error, &line))
+        return false;
     QDomElement root = qDoc.childNodes().at(0).toElement();
     QDomElement e = root.childNodes().at(0).toElement();
     bool result = T::loadFromXMI1(e);
@@ -169,9 +176,8 @@ bool TestUML<T,N>::testLoad1(QDomDocument &qDoc)
 template <class T, typename N>
 void TestUML<T,N>::testDump(const QString &title)
 {
-    QDomDocument doc = testSave1();
-    QString xml = doc.toString();
-    qDebug() << title << doc.toString();
+    QString xml = testSave1();
+    qDebug() << title << xml;
 }
 
 // used by resolveRef() tests
@@ -189,24 +195,30 @@ class TestWidget : public T
 {
 public:
     TestWidget<T,N>(UMLScene *scene, N w) : T(scene, w) {}
-    QDomDocument testSave1();
-    bool testLoad1(QDomDocument &qDoc);
+    QString testSave1();
+    bool testLoad1(const QString& xml);
     void testDump(const QString &title = QString());
 };
 
 template <class T, typename N>
-QDomDocument TestWidget<T,N>::testSave1()
+QString TestWidget<T,N>::testSave1()
 {
-    QDomDocument qDoc;
-    QDomElement root = qDoc.createElement("unittest");
-    qDoc.appendChild(root);
-    T::saveToXMI1(qDoc, root);
-    return qDoc;
+    QString xml;
+    QXmlStreamWriter stream(&xml);
+    stream.writeStartElement("unittest");
+    T::saveToXMI1(stream);
+    stream.writeEndElement();
+    return xml;
 }
 
 template <class T, typename N>
-bool TestWidget<T,N>::testLoad1(QDomDocument &qDoc)
+bool TestWidget<T,N>::testLoad1(const QString& xml)
 {
+    QDomDocument qDoc;
+    QString error;
+    int line;
+    if (!qDoc.setContent(xml, &error, &line))
+        return false;
     QDomElement root = qDoc.childNodes().at(0).toElement();
     QDomElement e = root.childNodes().at(0).toElement();
     bool result = T::loadFromXMI1(e);
@@ -220,9 +232,8 @@ bool TestWidget<T,N>::testLoad1(QDomDocument &qDoc)
 template <class T, typename N>
 void TestWidget<T,N>::testDump(const QString &title)
 {
-    QDomDocument doc = testSave1();
-    QString xml = doc.toString();
-    qDebug() << title << doc.toString();
+    QString xml = testSave1();
+    qDebug() << title << xml;
 }
 
 #endif // TESTBASE_H

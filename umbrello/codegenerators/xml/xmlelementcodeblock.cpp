@@ -18,6 +18,9 @@
 #include "debug_utils.h"
 #include "xmlcodecomment.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 XMLElementCodeBlock::XMLElementCodeBlock (CodeDocument * parentDoc, const QString & nodeName, const QString & comment)
         : HierarchicalCodeBlock(parentDoc)
 {
@@ -31,13 +34,13 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void XMLElementCodeBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("xmlelementblock"));
+    writer.writeStartElement(QLatin1String("xmlelementblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -52,13 +55,13 @@ void XMLElementCodeBlock::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void XMLElementCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void XMLElementCodeBlock::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    HierarchicalCodeBlock::setAttributesOnNode(doc, docElement);
+    HierarchicalCodeBlock::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    docElement.setAttribute(QLatin1String("nodeName"), getNodeName());
+    writer.writeAttribute(QLatin1String("nodeName"), getNodeName());
 }
 
 /**

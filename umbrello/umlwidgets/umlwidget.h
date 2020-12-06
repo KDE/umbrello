@@ -188,7 +188,7 @@ public:
     void forceUpdateFontMetrics(QFont &font, QPainter *painter);
 
     virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     QPointF startMovePosition() const;
     void setStartMovePosition(const QPointF &position);

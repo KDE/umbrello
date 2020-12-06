@@ -75,7 +75,7 @@ public:
     void setSourceCode(const QString& code);
     QString getSourceCode() const;
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
 protected:
     bool load1(QDomElement & element);

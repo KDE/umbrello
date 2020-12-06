@@ -146,51 +146,51 @@ bool UMLAssociation::resolveRef()
  * Creates the <UML:Generalization> or <UML:Association> XMI element
  * including its role objects.
  */
-void UMLAssociation::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLAssociation::saveToXMI1(QXmlStreamWriter& writer)
 {
     if (m_AssocType == Uml::AssociationType::Generalization) {
-        QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Generalization"), qDoc);
-        assocElement.setAttribute(QLatin1String("discriminator"), QString());
-        assocElement.setAttribute(QLatin1String("child"), Uml::ID::toString(getObjectId(RoleType::A)));
-        assocElement.setAttribute(QLatin1String("parent"), Uml::ID::toString(getObjectId(RoleType::B)));
-        qElement.appendChild(assocElement);
+        UMLObject::save1(QLatin1String("UML:Generalization"), writer);
+        writer.writeAttribute(QLatin1String("discriminator"), QString());
+        writer.writeAttribute(QLatin1String("child"), Uml::ID::toString(getObjectId(RoleType::A)));
+        writer.writeAttribute(QLatin1String("parent"), Uml::ID::toString(getObjectId(RoleType::B)));
+        writer.writeEndElement();
         return;
     }
     if (m_AssocType == Uml::AssociationType::Realization) {
-        QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Abstraction"), qDoc);
-        assocElement.setAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
-        assocElement.setAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
-        qElement.appendChild(assocElement);
+        UMLObject::save1(QLatin1String("UML:Abstraction"), writer);
+        writer.writeAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
+        writer.writeAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
+        writer.writeEndElement();
         return;
     }
     if (m_AssocType == Uml::AssociationType::Dependency) {
-        QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Dependency"), qDoc);
-        assocElement.setAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
-        assocElement.setAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
-        qElement.appendChild(assocElement);
+        UMLObject::save1(QLatin1String("UML:Dependency"), writer);
+        writer.writeAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
+        writer.writeAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
+        writer.writeEndElement();
         return;
     }
     if (m_AssocType == Uml::AssociationType::Child2Category) {
-        QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Child2Category"), qDoc);
-        assocElement.setAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
-        assocElement.setAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
-        qElement.appendChild(assocElement);
+        UMLObject::save1(QLatin1String("UML:Child2Category"), writer);
+        writer.writeAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
+        writer.writeAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
+        writer.writeEndElement();
         return;
     }
     if (m_AssocType == Uml::AssociationType::Category2Parent) {
-        QDomElement assocElement = UMLObject::save1(QLatin1String("UML:Category2Parent"), qDoc);
-        assocElement.setAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
-        assocElement.setAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
-        qElement.appendChild(assocElement);
+        UMLObject::save1(QLatin1String("UML:Category2Parent"), writer);
+        writer.writeAttribute(QLatin1String("client"), Uml::ID::toString(getObjectId(RoleType::A)));
+        writer.writeAttribute(QLatin1String("supplier"), Uml::ID::toString(getObjectId(RoleType::B)));
+        writer.writeEndElement();
         return;
     }
 
-    QDomElement associationElement = UMLObject::save1(QLatin1String("UML:Association"), qDoc);
-    QDomElement connElement = qDoc.createElement(QLatin1String("UML:Association.connection"));
-    getUMLRole(RoleType::A)->saveToXMI1 (qDoc, connElement);
-    getUMLRole(RoleType::B)->saveToXMI1 (qDoc, connElement);
-    associationElement.appendChild (connElement);
-    qElement.appendChild(associationElement);
+    UMLObject::save1(QLatin1String("UML:Association"), writer);
+    writer.writeStartElement(QLatin1String("UML:Association.connection"));
+    getUMLRole(RoleType::A)->saveToXMI1 (writer);
+    getUMLRole(RoleType::B)->saveToXMI1 (writer);
+    writer.writeEndElement();            // UML:Association.connection
+    writer.writeEndElement();  // UML:Association
 }
 
 bool UMLAssociation::showPropertiesDialog(QWidget *parent)

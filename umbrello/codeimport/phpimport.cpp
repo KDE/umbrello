@@ -39,18 +39,21 @@ QTextStream qout(stdout);
 QTextStream qerr(stderr);
 QTextStream qin(stdin);
 
-#include "parsesession.h"
-#include "phplexer.h"
-#include "phpparser.h"
-#include "phpdebugvisitor.h"
-#include "phpast.h"
-#include "tokenstream.h"
-#include "phptokentext.h"
+// kdevphp
+#include <parser/parsesession.h>
+#include <parser/phplexer.h>
+#include <parser/phpparser.h>
+#include <parser/phpdebugvisitor.h>
+#include <parser/phpast.h>
+#include <parser/tokenstream.h>
+#include <parser/phptokentext.h>
 
+// kdevplatform
 #include <tests/autotestshell.h>
 #include <language/duchain/duchain.h>
 #include <language/duchain/problem.h>
 #include <language/codegen/coderepresentation.h>
+#include <language/editor/documentrange.h>
 #include <tests/testcore.h>
 
 namespace Php {

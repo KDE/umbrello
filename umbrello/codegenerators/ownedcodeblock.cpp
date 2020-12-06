@@ -22,6 +22,9 @@
 #include "uml.h"
 #include "textblock.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 /**
  * Constructor
  */
@@ -78,7 +81,7 @@ void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj)
     }
 }
 
-void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& elem)
+void OwnedCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set local class attributes
     // setting ID's takes special treatment
@@ -86,15 +89,15 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // (change would break the XMI format..save for big version change)
     UMLRole * role = m_parentObject->asUMLRole();
     if (role) {
-        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
+        writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
         //          in order to maintain backward compatibility.
-        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
+        writer.writeAttribute(QLatin1String("role_id"), QString::number((role->role() == Uml::RoleType::A)));
     }
     else {
-        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(m_parentObject->id()));
+        writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(m_parentObject->id()));
         //elem.setAttribute(QLatin1String("role_id"),QLatin1String("-1"));
     }
 }

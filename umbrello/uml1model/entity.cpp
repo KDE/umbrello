@@ -434,22 +434,23 @@ bool UMLEntity::resolveRef()
 /**
  * Creates the <UML:Entity> element including its entityliterals.
  */
-void UMLEntity::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLEntity::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement entityElement = UMLObject::save1(QLatin1String("UML:Entity"), qDoc);
-    //save operations
+    UMLObject::save1(QLatin1String("UML:Entity"), writer);
+
+    // save entity attributes
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
     foreach (pEntityAttribute, entityAttributes) {
-        pEntityAttribute->saveToXMI1(qDoc, entityElement);
+        pEntityAttribute->saveToXMI1(writer);
     }
-
+    // save entity constraints
     UMLClassifierListItemList entityConstraints = getFilteredList(UMLObject::ot_EntityConstraint);
     foreach(UMLClassifierListItem* cli, entityConstraints) {
-        cli->saveToXMI1(qDoc, entityElement);
+        cli->saveToXMI1(writer);
     }
 
-    qElement.appendChild(entityElement);
+    UMLObject::save1end(writer);
 }
 
 /**

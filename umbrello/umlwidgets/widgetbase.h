@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
 // forward declarations
 class QAction;
@@ -221,7 +222,7 @@ public:
     virtual bool showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual void removeAssoc(AssociationWidget* pAssoc);
     virtual void addAssoc(AssociationWidget* pAssoc);
@@ -327,7 +328,7 @@ protected:
     Uml::ID::Type m_nId;
 
     /**
-     * This ID is only used when a widget could be added more then one time to a diagram
+     * This ID is only used when a widget could be added more than once to a diagram
      */
     Uml::ID::Type m_nLocalID;
 

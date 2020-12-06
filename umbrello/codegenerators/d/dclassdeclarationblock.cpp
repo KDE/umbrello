@@ -38,13 +38,13 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
     HierarchicalCodeBlock::setAttributesFromObject(obj);
 }
 
-void DClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void DClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("dclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("dclassdeclarationblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 void DClassDeclarationBlock::updateContent ()

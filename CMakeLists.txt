@@ -11,8 +11,8 @@ if(POLICY CMP0057)
 endif()
 
 # KDE Application Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "20")
-set (RELEASE_SERVICE_VERSION_MINOR "11")
+set (RELEASE_SERVICE_VERSION_MAJOR "21")
+set (RELEASE_SERVICE_VERSION_MINOR "03")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
@@ -81,6 +81,9 @@ else()
     set(KDEV_MIN_VERSION 5.1.2)
     set(KDEV_SOURCE_DIR lib/kdev5-php)
     set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
+    if(NOT QTQCHDIR)
+        set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
+    endif()
 endif()
 
 # search packages used by Qt
@@ -126,18 +129,26 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
     include_directories(
         ${KDEVPGQT_INCLUDE_DIR}
         ${KDEVPLATFORM_INCLUDE_DIR}
-        ${CMAKE_SOURCE_DIR}/${KDEV_SOURCE_DIR}/parser
-        ${CMAKE_BINARY_DIR}/${KDEV_SOURCE_DIR}/parser
     )
-    set(NO_INSTALL 1)
-    set(BUILD_PARSER_ONLY 1)
     set(BUILD_PHP_IMPORT 1)
     add_definitions(
-        -DKDEVPHPPARSER_EXPORT=
         -DENABLE_PHP_IMPORT
     )
     add_subdirectory(lib/kdevplatform)
-    add_subdirectory(${KDEV_SOURCE_DIR})
+    find_package(KDevPHP)
+    if(NOT KDevPHP_FOUND)
+        set(NO_INSTALL 1)
+        set(BUILD_PARSER_ONLY 1)
+        set(BUILD_PHP_IMPORT 1)
+        add_definitions(
+            -DKDEVPHPPARSER_EXPORT=
+        )
+        include_directories(
+            ${CMAKE_SOURCE_DIR}/${KDEV_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}/${KDEV_SOURCE_DIR}
+        )
+        add_subdirectory(${KDEV_SOURCE_DIR})
+    endif()
 else()
     set(BUILD_PHP_IMPORT 0)
 endif()

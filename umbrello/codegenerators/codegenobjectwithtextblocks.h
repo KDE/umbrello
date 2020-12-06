@@ -23,6 +23,7 @@ class CodeClassField;
 class CodeComment;
 class CodeDocument;
 class HierarchicalCodeBlock;
+class QXmlStreamWriter;
 class TextBlock;
 
 /**
@@ -76,7 +77,7 @@ public:
 
 protected:
 
-    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & elem);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode(QDomElement & element);
 

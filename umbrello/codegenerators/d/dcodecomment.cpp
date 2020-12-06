@@ -24,14 +24,14 @@ DCodeComment::~DCodeComment ()
 {
 }
 
-void DCodeComment::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void DCodeComment::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("dcodecomment"));
+    writer.writeStartElement(QLatin1String("dcodecomment"));
 
     // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    setAttributesOnNode(doc, blockElement);
-    root.appendChild(blockElement);
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 QString DCodeComment::toString () const

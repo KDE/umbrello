@@ -37,7 +37,7 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     /**
      * Load params from the appropriate XMI element node.
@@ -62,7 +62,7 @@ protected:
      * Set attributes of the node that represents this class
      * in the XMI document.
      */
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     /**
      * Set the class attributes of this object from

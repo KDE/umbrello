@@ -25,6 +25,9 @@
 #include "umlscene.h"
 #include "umlview.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(EnumWidget)
 
 /**
@@ -172,13 +175,13 @@ bool EnumWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "enumwidget" XMI element.
  */
-void EnumWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void EnumWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("enumwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
+    writer.writeStartElement(QLatin1String("enumwidget"));
+    UMLWidget::saveToXMI1(writer);
 
-    conceptElement.setAttribute(QLatin1String("showpackage"), m_showPackage);
-    qElement.appendChild(conceptElement);
+    writer.writeAttribute(QLatin1String("showpackage"), QString::number(m_showPackage));
+    writer.writeEndElement();
 }
 
 /**

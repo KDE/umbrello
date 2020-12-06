@@ -16,6 +16,7 @@
 #include "codegenerationpolicy.h"
 
 #include <QDomElement>
+#include <QXmlStreamWriter>
 
 namespace Settings {
 
@@ -81,7 +82,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     bool   useFillColor;
@@ -115,7 +116,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     bool showVisibility;
@@ -268,7 +269,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     bool createArtifacts;
@@ -287,7 +288,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     bool autoDotPath;  ///< determine path to dot executable automatically
@@ -305,7 +306,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     Uml::LayoutType::Enum  showExportLayout;  ///< flag for display export layout
@@ -318,7 +319,7 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& element);
 
     static OptionState &instance();

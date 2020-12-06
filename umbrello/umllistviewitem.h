@@ -19,6 +19,7 @@
 #include <QMap>
 #include <QPointer>
 #include <QTreeWidget>
+#include <QXmlStreamWriter>
 
 // forward declarations
 class UMLListView;
@@ -153,7 +154,7 @@ public:
 
     UMLListViewItem* childItem(int i);
 
-    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& qElement);
 
     bool isOpen() { return isExpanded(); }

@@ -38,7 +38,7 @@ public:
     virtual void adjustAssocs(qreal dx, qreal dy);
     virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
 signals:
     /**

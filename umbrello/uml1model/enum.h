@@ -54,7 +54,7 @@ public:
 
     void signalEnumLiteralRemoved(UMLClassifierListItem *elit);
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 

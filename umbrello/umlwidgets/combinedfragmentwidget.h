@@ -62,7 +62,7 @@ public:
     void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement & qElement);
     void removeDashLine(FloatingDashLineWidget *line);
 

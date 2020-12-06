@@ -47,7 +47,7 @@ protected:
      * Set attributes of the node that represents this class
      * in the XMI document.
      */
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     /**
      * Set the class attributes of this object from

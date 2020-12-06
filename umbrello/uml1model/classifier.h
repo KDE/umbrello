@@ -175,7 +175,7 @@ private:
 
 protected:
 
-    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
 
     virtual bool load1(QDomElement& element);
 

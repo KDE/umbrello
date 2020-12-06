@@ -48,7 +48,7 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI1 (QDomDocument & doc, QDomElement & root) = 0;
+    virtual void saveToXMI1(QXmlStreamWriter& writer) = 0;
 
     /**
      * load params from the appropriate XMI element node.
@@ -59,7 +59,7 @@ protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode (QDomElement & element);
 

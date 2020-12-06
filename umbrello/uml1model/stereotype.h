@@ -78,7 +78,7 @@ public:
     const AttributeDefs& getAttributeDefs() const;
     AttributeDefs& getAttributeDefs();
 
-    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI1(QXmlStreamWriter& writer);
     bool load1(QDomElement& element);
 
     virtual bool showPropertiesDialog(QWidget* parent);

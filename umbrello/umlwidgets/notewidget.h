@@ -62,7 +62,7 @@ public:
     virtual bool showPropertiesDialog();
 
     virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual QSizeF minimumSize() const;
 
     static QPointer<NoteWidget> s_pCurrentNote;

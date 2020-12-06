@@ -106,18 +106,17 @@ bool UMLDatatype::load1(QDomElement & element)
  * Creates the UML:Datatype XMI element.
  * Invokes UMLObject::save1() which does most of the work.
  *
- * @param qDoc       the xml document
- * @param qElement   the xml element
+ * @param writer     the QXmlStreamWriter to save to
  */
-void UMLDatatype::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLDatatype::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement classifierElement = UMLObject::save1(QLatin1String("UML:DataType"), qDoc);
+    UMLObject::save1(QLatin1String("UML:DataType"), writer);
 
     if (m_pSecondary != 0)
-        classifierElement.setAttribute(QLatin1String("elementReference"),
+        writer.writeAttribute(QLatin1String("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
     if (!m_isActive)
-        classifierElement.setAttribute(QLatin1String("isActive"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isActive"), QLatin1String("false"));
 
-    qElement.appendChild(classifierElement);
+    UMLObject::save1end(writer);
 }

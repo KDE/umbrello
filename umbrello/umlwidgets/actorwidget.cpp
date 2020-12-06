@@ -16,6 +16,9 @@
 #include "debug_utils.h"
 #include "umlview.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 DEBUG_REGISTER_DISABLED(ActorWidget)
 
 /**
@@ -82,11 +85,11 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void ActorWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActorWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement actorElement = qDoc.createElement(QLatin1String("actorwidget"));
-    UMLWidget::saveToXMI1(qDoc, actorElement);
-    qElement.appendChild(actorElement);
+    writer.writeStartElement(QLatin1String("actorwidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

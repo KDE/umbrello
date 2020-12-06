@@ -19,6 +19,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(CategoryWidget)
 
@@ -108,11 +109,11 @@ QSizeF CategoryWidget::minimumSize() const
 /**
  * Saves this Category to file.
  */
-void CategoryWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void CategoryWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement categoryElement = qDoc.createElement(QLatin1String("categorywidget"));
-    UMLWidget::saveToXMI1(qDoc, categoryElement);
-    qElement.appendChild(categoryElement);
+    writer.writeStartElement(QLatin1String("categorywidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeEndElement();
 }
 
 /**

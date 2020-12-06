@@ -25,6 +25,8 @@
 #include "objectwidget.h"
 #include "umlscene.h"
 
+#include <QXmlStreamWriter>
+
 typedef TestWidget<PreconditionWidget, ObjectWidget*> TestPreconditionWidgetClass;
 
 void TestPreconditionWidget::test_saveAndLoad()
@@ -36,11 +38,11 @@ void TestPreconditionWidget::test_saveAndLoad()
     scene.addWidgetCmd(&ow);
     TestPreconditionWidgetClass pw1(&scene, &ow);
     scene.addWidgetCmd(&pw1);
-    QDomDocument save = pw1.testSave1();
+    QString save = pw1.testSave1();
     //pw1.testDump("save");
     TestPreconditionWidgetClass pw2(&scene, nullptr);
     QCOMPARE(pw2.testLoad1(save), true);
-    QCOMPARE(pw2.testSave1().toString(), save.toString());
+    QCOMPARE(pw2.testSave1(), save);
     //pw2.testDump("load");
     QCOMPARE(pw2.objectWidget(), &ow);
 }

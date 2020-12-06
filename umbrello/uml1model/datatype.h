@@ -39,7 +39,7 @@ public:
     bool isActive() const;
 
     virtual bool load1(QDomElement & element);
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
 
 protected:
     bool m_isRef;

@@ -316,13 +316,13 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
  * @return      bool    status of save
  */
 /*
-void CPPHeaderCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CPPHeaderCodeDocument::saveToXMI1(QXmlStreamWriter& writer)
 {
-        QDomElement docElement = doc.createElement(QString());
+        writer.writeEmptyStartElement();
 
-        setAttributesOnNode(doc, docElement);
+        setAttributesOnNode(writer);
 
-        root.appendChild(docElement);
+        writer.writeEndElement();
 }
 */
 

@@ -54,14 +54,14 @@ void OwnedHierarchicalCodeBlock::setAttributesFromObject(TextBlock * obj)
  * set attributes of the node that represents this class
  * in the XMI document.
  */
-void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & elem)
+void OwnedHierarchicalCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    HierarchicalCodeBlock::setAttributesOnNode(doc, elem);
-    OwnedCodeBlock::setAttributesOnNode(doc, elem);
+    HierarchicalCodeBlock::setAttributesOnNode(writer);
+    OwnedCodeBlock::setAttributesOnNode(writer);
 
     // set local class attributes
-    elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(getParentObject()->id()));
+    writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(getParentObject()->id()));
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
@@ -69,7 +69,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomEle
     UMLRole * role = getParentObject()->asUMLRole();
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()
-        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
+        writer.writeAttribute(QLatin1String("role_id"), QString::number((role->role() == Uml::RoleType::A)));
     }
     /* else
             elem.setAttribute("role_id","-1");

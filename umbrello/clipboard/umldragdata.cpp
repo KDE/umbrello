@@ -39,6 +39,7 @@
 #include <QDomDocument>
 #include <QPixmap>
 #include <QTextStream>
+#include <QXmlStreamWriter>
 
 /**
  *  Constructor.
@@ -118,20 +119,21 @@ UMLDragData::~UMLDragData()
  */
 void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip1"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlobjects
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip1"), xmiClip.toUtf8());
 }
 
 /**
@@ -140,27 +142,28 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
  */
 void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(stream);
     }
 
-    QDomElement viewsTag = domDoc.createElement(QLatin1String("umlviews"));
-    xmiclip.appendChild(viewsTag);
+    stream.writeEndElement();  // umlobjects
+    stream.writeStartElement(QLatin1String("umlviews"));
 
     foreach(UMLView* view, diagrams) {
-        view->umlScene()->saveToXMI1(domDoc, viewsTag);
+        view->umlScene()->saveToXMI1(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip2"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlviews
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip2"), xmiClip.toUtf8());
 }
 
 /**
@@ -169,18 +172,18 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
  */
 void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-
-    QDomElement itemsTag = domDoc.createElement(QLatin1String("umllistviewitems"));
-    xmiclip.appendChild(itemsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umllistviewitems"));
 
     foreach(UMLListViewItem* item, umlListViewItems) {
-        item->saveToXMI1(domDoc, itemsTag);
+        item->saveToXMI1(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip3"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umllistviewitems
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip3"), xmiClip.toUtf8());
 }
 
 /**
@@ -189,36 +192,39 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
  * between only selected widgets will be copied and also
  * its respective ListView Items
  */
-void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
+void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
+                                  UMLWidgetList& widgets,
+                                  AssociationWidgetList& associations,
                                   QPixmap& pngImage, UMLScene *scene)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    xmiclip.setAttribute(QLatin1String("diagramtype"), scene->type());
-    xmiclip.setAttribute(QLatin1String("diagramid"), Uml::ID::toString(scene->ID()));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeAttribute(QLatin1String("diagramtype"), QString::number(scene->type()));
+    stream.writeAttribute(QLatin1String("diagramid"), Uml::ID::toString(scene->ID()));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(stream);
     }
 
-    QDomElement widgetsTag = domDoc.createElement(QLatin1String("widgets"));
-    xmiclip.appendChild(widgetsTag);
+    stream.writeEndElement();  // umlobjects
+    stream.writeStartElement(QLatin1String("widgets"));
 
     foreach (UMLWidget* widget, widgets) {
-        widget->saveToXMI1(domDoc, widgetsTag);
+        widget->saveToXMI1(stream);
     }
 
-    QDomElement associationWidgetsTag = domDoc.createElement(QLatin1String("associations"));
-    xmiclip.appendChild(associationWidgetsTag);
+    stream.writeEndElement();  // widgets
+    stream.writeStartElement(QLatin1String("associations"));
 
     foreach (AssociationWidget* association, associations) {
-        association->saveToXMI1(domDoc, associationWidgetsTag);
+        association->saveToXMI1(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip4"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // associations
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip4"), xmiClip.toUtf8());
 
     QImage img = pngImage.toImage();
     int l_size = img.byteCount();
@@ -236,17 +242,18 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
  */
 void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI1(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip5"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlobjects
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip5"), xmiClip.toUtf8());
 }
 
 /**

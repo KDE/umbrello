@@ -22,6 +22,7 @@
 // qt includes
 #include <QDomDocument>
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cstdlib>
@@ -379,33 +380,33 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
  * Saves association line information into XMI element named "linepath".
  * @note Stored as linepath for backward compatibility
  */
-void AssociationLine::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationLine::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
-    lineElement.setAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));
-    QDomElement startElement = qDoc.createElement(QLatin1String("startpoint"));
+    writer.writeStartElement(QLatin1String("linepath"));
+    writer.writeAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));
+    writer.writeStartElement(QLatin1String("startpoint"));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QPointF point = m_associationWidget->mapToScene(startPoint());
     point /= dpiScale;
-    startElement.setAttribute(QLatin1String("startx"), QString::number(point.x()));
-    startElement.setAttribute(QLatin1String("starty"), QString::number(point.y()));
-    lineElement.appendChild(startElement);
-    QDomElement endElement = qDoc.createElement(QLatin1String("endpoint"));
+    writer.writeAttribute(QLatin1String("startx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("starty"), QString::number(point.y()));
+    writer.writeEndElement();            // startpoint
+    writer.writeStartElement(QLatin1String("endpoint"));
     point = m_associationWidget->mapToScene(endPoint());
     point /= dpiScale;
-    endElement.setAttribute(QLatin1String("endx"), QString::number(point.x()));
-    endElement.setAttribute(QLatin1String("endy"), QString::number(point.y()));
-    lineElement.appendChild(endElement);
+    writer.writeAttribute(QLatin1String("endx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("endy"), QString::number(point.y()));
+    writer.writeEndElement();            // endpoint
     for(int i = 1; i < count()-1; ++i) {
-        QDomElement pointElement = qDoc.createElement(QLatin1String("point"));
+        writer.writeStartElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
         point /= dpiScale;
-        pointElement.setAttribute(QLatin1String("x"), QString::number(point.x()));
-        pointElement.setAttribute(QLatin1String("y"), QString::number(point.y()));
-        lineElement.appendChild(pointElement);
+        writer.writeAttribute(QLatin1String("x"), QString::number(point.x()));
+        writer.writeAttribute(QLatin1String("y"), QString::number(point.y()));
+        writer.writeEndElement();        // point
     }
-    qElement.appendChild(lineElement);
+    writer.writeEndElement();   // linepath
 }
 
 /**

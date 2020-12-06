@@ -50,10 +50,10 @@ UMLObject* UMLActor::clone() const
 /**
  * Creates the <UML:Actor> XMI element.
  */
-void UMLActor::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void UMLActor::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement actorElement = UMLObject::save1(QLatin1String("UML:Actor"), qDoc);
-    qElement.appendChild(actorElement);
+    UMLObject::save1(QLatin1String("UML:Actor"), writer);
+    UMLObject::save1end(writer);
 }
 
 /**

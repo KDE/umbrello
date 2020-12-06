@@ -16,6 +16,7 @@
 #include <QString>
 
 class CodeClassField;
+class QXmlStreamWriter;
 
 class CodeAccessorMethod : public CodeMethodBlock
 {
@@ -46,7 +47,7 @@ public:
 
     virtual void updateContent() = 0;
 
-    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual void loadFromXMI1(QDomElement & root);
 
     virtual void setAttributesFromObject(TextBlock * obj);
@@ -55,7 +56,7 @@ protected:
 
     virtual void release();
 
-    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
 
     virtual void setAttributesFromNode(QDomElement & element);
 

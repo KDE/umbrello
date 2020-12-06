@@ -28,12 +28,12 @@ CodeComment::~CodeComment()
 /**
  * Save the XMI representation of this object.
  */
-void CodeComment::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeComment::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("codecomment"));
-    setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+    writer.writeStartElement(QLatin1String("codecomment"));
+    setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**

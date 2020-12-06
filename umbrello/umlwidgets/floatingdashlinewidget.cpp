@@ -23,6 +23,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
 
@@ -159,15 +160,15 @@ qreal FloatingDashLineWidget::getDiffY() const
 /**
  * Creates the "floatingdashline" XMI element.
  */
-void FloatingDashLineWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingDashLineWidget::saveToXMI1(QXmlStreamWriter& writer)
 {
-    QDomElement textElement = qDoc.createElement(QLatin1String("floatingdashlinewidget"));
-    UMLWidget::saveToXMI1(qDoc, textElement);
-    textElement.setAttribute(QLatin1String("text"), m_Text);
-    textElement.setAttribute(QLatin1String("minY"), m_yMin);
-    textElement.setAttribute(QLatin1String("maxY"), m_yMax);
+    writer.writeStartElement(QLatin1String("floatingdashlinewidget"));
+    UMLWidget::saveToXMI1(writer);
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("minY"), QString::number(m_yMin));
+    writer.writeAttribute(QLatin1String("maxY"), QString::number(m_yMax));
 
-    qElement.appendChild(textElement);
+    writer.writeEndElement();
 }
 
 /**
