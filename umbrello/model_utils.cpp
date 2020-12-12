@@ -1592,9 +1592,9 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
     case UMLObject::ot_Folder:
         {
             UMLDoc *umldoc = UMLApp::app()->document();
-            UMLFolder *f = o->asUMLFolder();
+            UMLPackage *p = o->asUMLPackage();
             do {
-                const Uml::ModelType::Enum mt = umldoc->rootFolderType(f);
+                const Uml::ModelType::Enum mt = umldoc->rootFolderType(p);
                 if (mt != Uml::ModelType::N_MODELTYPES) {
                     switch (mt) {
                         case Uml::ModelType::Logical:
@@ -1617,7 +1617,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
                     }
                     return type;
                 }
-            } while ((f = f->umlPackage()->asUMLFolder()) != 0);
+            } while ((p = p->umlPackage()) != 0);
             uError() << "convert_OT_LVT(" << o->name()
                 << "): internal error - object is not properly nested in folder";
         }
