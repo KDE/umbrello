@@ -3455,12 +3455,18 @@ void UMLDoc::createDatatype(const QString &name)
     UMLObjectList datatypes = m_datatypeRoot->containedObjects(true);
     UMLObject* umlobject = Model_Utils::findUMLObject(datatypes, name,
                                                       UMLObject::ot_Datatype, m_datatypeRoot);
-    if (umlobject) {
-        UMLDatatype *dt = umlobject->asUMLDatatype();
+    UMLDatatype *dt = nullptr;
+    if (umlobject)
+        dt = umlobject->asUMLDatatype();
+    if (dt) {
         dt->setActive(true);
         signalUMLObjectCreated(umlobject);
         qApp->processEvents();
     } else {
+        if (umlobject) {
+            uWarning() << "UMLDoc::createDatatype(" << name
+                       << ") : Name already exists but is not a Datatype";
+        }
         Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
     }
 }
