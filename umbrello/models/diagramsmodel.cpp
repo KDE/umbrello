@@ -117,6 +117,16 @@ bool DiagramsModel::removeDiagram(UMLView *view)
     return true;
 }
 
+bool DiagramsModel::removeAllDiagrams()
+{
+    if (!m_views.count())
+        return false;
+    beginRemoveRows(QModelIndex(), 0, m_views.count() - 1);
+    m_views.clear();
+    endRemoveRows();
+    return true;
+}
+
 void DiagramsModel::emitDataChanged(const QModelIndex &index)
 {
     emit dataChanged(index, index);

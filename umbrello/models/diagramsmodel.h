@@ -36,6 +36,7 @@ public:
 
     bool addDiagram(UMLView *view);
     bool removeDiagram(UMLView *view);
+    bool removeAllDiagrams();
 
     void emitDataChanged(const QModelIndex &index);
     void emitDataChanged(int index);

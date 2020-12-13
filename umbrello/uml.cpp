@@ -27,6 +27,7 @@
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
+#include "models/diagramsmodel.h"
 
 // code generation
 #include "advancedcodegenerator.h"
@@ -1429,6 +1430,7 @@ bool UMLApp::slotFileSaveAs()
 void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
+    m_doc->diagramsModel()->removeAllDiagrams();
     slotFileNew();
 }
 
