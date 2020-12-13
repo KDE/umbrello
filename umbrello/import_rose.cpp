@@ -38,6 +38,12 @@ namespace Import_Rose {
  */
 QString dirPrefix;
 
+/**
+ * Set language if encountered in file.
+ * The last language encountered wins.
+ */
+Uml::ProgrammingLanguage::Enum progLang = Uml::ProgrammingLanguage::Reserved;
+
 uint nClosures; // Multiple closing parentheses may appear on a single
                 // line. The parsing is done line-by-line and using
                 // recursive descent. This means that we can only handle
@@ -375,6 +381,20 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
             bool seenClosing = checkClosing(tokens);
             PetalNode::NameValue attr(name, value);
             attrs.append(attr);
+            if (name == QLatin1String("language")) {
+                QString language(value.string);
+                language.remove(QLatin1Char('\"'));
+                if (language == QLatin1String("Analysis"))
+                    progLang = Uml::ProgrammingLanguage::Reserved;
+                else if (language == QLatin1String("CORBA"))
+                    progLang = Uml::ProgrammingLanguage::IDL;
+                else if (language == QLatin1String("C++") || language == QLatin1String("VC++"))
+                    progLang = Uml::ProgrammingLanguage::Cpp;
+                else if (language == QLatin1String("Java"))
+                    progLang = Uml::ProgrammingLanguage::Java;
+                else if (language == QLatin1String("Ada"))
+                    progLang = Uml::ProgrammingLanguage::Ada;
+            }
             if (seenClosing) {
                 break;
             }
@@ -496,6 +516,15 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     linum = linum_sav;
     if (root == 0)
         return 0;
+
+    if (progLang == Uml::ProgrammingLanguage::Reserved &&
+                    UMLApp::app()->generator() == nullptr) {
+        UMLApp::app()->setGenerator(Uml::ProgrammingLanguage::Cpp);
+    } else if (progLang != UMLApp::app()->activeLanguage()) {
+        uDebug() << "loadFromMDL: Setting active language to "
+                 << Uml::ProgrammingLanguage::toString(progLang);
+        UMLApp::app()->setGenerator(progLang);
+    }
 
     if (parentPkg) {
         UMLPackage *child = petalTree2Uml(root, parentPkg);
