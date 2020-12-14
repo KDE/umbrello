@@ -24,6 +24,9 @@
  * information.
  * It is not instantiated itself, it's just used as a super class for
  * actual model objects.
+ * It adds a member of type UMLObjectList containing subordinate objects.
+ * The subordinate objects could be associations, attributes, operations,
+ * or other items depending on the inheriting class.
  *
  * @short Non-graphical information for a UMLCanvasObject.
  * @author Jonathan Riddell

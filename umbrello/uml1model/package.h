@@ -71,6 +71,14 @@ protected:
     /**
      * References to the objects contained in this package.
      * The UMLPackage is the owner of the objects.
+     * The objects stored here are "standalone" objects which have an existence
+     * on their own (such as classifiers, packages).
+     * On the other hand, the objects stored in UMLCanvasObject::m_List are
+     * "subordinate" objects which cannot exist on their own (such as attributes,
+     * operations). They are always slaved to a "standalone" object.
+     *
+     * This design may be revisited - m_objects could be merged into
+     * UMLCanvasObject::m_List.
      */
     UMLObjectList m_objects;
 
