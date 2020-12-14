@@ -23,6 +23,8 @@
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
+#include "enum.h"
+#include "enumliteral.h"
 #include "association.h"
 #include "umlrole.h"
 #include "actor.h"
@@ -228,7 +230,8 @@ public:
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == 0) {
 #ifdef VERBOSE_DEBUGGING
-            uDebug() << name << ": no " << m_attributeTag << " found";
+            uDebug() << "petaltree2uml ClassifierListReader::read(" << name
+                     << "): no " << m_attributeTag << " found";
 #endif
             return;
         }
@@ -269,10 +272,36 @@ public:
         return new UMLAttribute(m_classifier);
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
+        uDebug() << "petaltree2uml : Adding attribute " << item->name();
         m_classifier->addAttribute(item->asUMLAttribute());
     }
 protected:
     UMLClassifier *m_classifier;
+};
+
+class LiteralsReader : public ClassifierListReader
+{
+public:
+    LiteralsReader(UMLEnum *e)
+      : ClassifierListReader("class_attributes", "ClassAttribute", "type") {
+        m_enum = e;
+    }
+    virtual ~LiteralsReader() {}
+    UMLObject *createListItem() {
+        return new UMLEnumLiteral(m_enum);
+    }
+    void insertAtParent(const PetalNode *, UMLObject *item) {
+        UMLEnumLiteral *el = item->asUMLEnumLiteral();
+        if (el) {
+            uDebug() << "petaltree2uml : Adding enumliteral " << item->name();
+            m_enum->addEnumLiteral(el);
+        } else {
+            uError() << "petaltree2uml LiteralsReader insertAtParent: Cannot cast "
+                     << item->name() << " to UMLEnumLiteral";
+        }
+    }
+protected:
+    UMLEnum *m_enum;
 };
 
 class ParametersReader : public ClassifierListReader
@@ -289,6 +318,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         if (item->id() == Uml::ID::None)
            item->setID(UniqueID::gen());
+        uDebug() << "petaltree2uml : Adding parameter " << item->name();
         m_operation->addParm(item->asUMLAttribute());
     }
 protected:
@@ -307,6 +337,7 @@ public:
         return new UMLOperation(m_classifier);
     }
     void insertAtParent(const PetalNode *node, UMLObject *item) {
+        uDebug() << "petaltree2uml : Adding operation " << item->name();
         UMLOperation *op = item->asUMLOperation();
         ParametersReader parmReader(op);
         parmReader.read(node, m_classifier->name());
@@ -615,6 +646,18 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         if (stereotype == QLatin1String("Actor")) {
             o = Object_Factory::createUMLObject(UMLObject::ot_Actor, name, parentPkg, false);
             o->setID(id);
+        } else if (stereotype.contains(QLatin1String("enum"), Qt::CaseInsensitive)) {
+            o = Object_Factory::createUMLObject(UMLObject::ot_Enum, name, parentPkg, false);
+            o->setID(id);
+            UMLEnum *e = o->asUMLEnum();
+            // set stereotype
+            if (stereotype.compare(QLatin1String("enumeration"), Qt::CaseInsensitive) &&
+                       stereotype.compare(QLatin1String("enum"), Qt::CaseInsensitive) ) {
+                e->setStereotypeCmd(stereotype);
+            }
+            // insert literals
+            LiteralsReader litReader(e);
+            litReader.read(node, e->name());
         } else {
             o = Object_Factory::createUMLObject(UMLObject::ot_Class, name, parentPkg, false);
             o->setID(id);
