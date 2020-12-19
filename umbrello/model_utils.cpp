@@ -1304,7 +1304,7 @@ bool typeIsProperties(UMLListViewItem::ListViewType type)
  * as child of type parentType
  */
 bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
-    UMLListViewItem::ListViewType parentType)
+                         UMLListViewItem::ListViewType parentType)
 {
     switch (childType) {
     case UMLListViewItem::lvt_Class:
@@ -1338,7 +1338,8 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
         return parentType == UMLListViewItem::lvt_Logical_Folder ||
                parentType == UMLListViewItem::lvt_Logical_View;
     case UMLListViewItem::lvt_Logical_Folder:
-        return parentType == UMLListViewItem::lvt_Logical_Folder ||
+        return parentType == UMLListViewItem::lvt_Package ||
+               parentType == UMLListViewItem::lvt_Logical_Folder ||
                parentType == UMLListViewItem::lvt_Logical_View;
     case UMLListViewItem::lvt_UseCase_Folder:
         return parentType == UMLListViewItem::lvt_UseCase_Folder ||

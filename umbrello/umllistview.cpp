@@ -1783,7 +1783,8 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     case UMLListViewItem::lvt_Sequence_Diagram:
     case UMLListViewItem::lvt_Logical_Folder:
     case UMLListViewItem::lvt_Object_Diagram:
-        if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
+        if (newParentType == UMLListViewItem::lvt_Package ||
+                newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
