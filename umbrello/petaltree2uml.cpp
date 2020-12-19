@@ -417,6 +417,41 @@ protected:
     UMLClassifier *m_classifier;
 };
 
+class UsesReader : public ClassifierListReader
+{
+public:
+    UsesReader(UMLClassifier *c)
+      : ClassifierListReader("used_nodes", "Uses_Relationship", "supplier") {
+        m_classifier = c;
+    }
+    virtual ~UsesReader() {}
+    UMLObject *createListItem() {
+        return new UMLAssociation(Uml::AssociationType::Dependency);
+    }
+    /**
+     * Override parent implementation: The secondary data is not for the
+     * UMLAssociation itself but for its role B object.
+     */
+    void setTypeReferences(UMLObject *item,
+                           const QString& quid, const QString& type) {
+        UMLAssociation *assoc = item->asUMLAssociation();
+        if (!quid.isEmpty()) {
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
+        }
+        if (!type.isEmpty()) {
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
+        }
+    }
+    void insertAtParent(const PetalNode *, UMLObject *item) {
+        UMLAssociation *assoc = item->asUMLAssociation();
+        assoc->setObject(m_classifier, Uml::RoleType::A);
+        assoc->setUMLPackage(m_classifier->umlPackage());
+        UMLApp::app()->document()->addAssociation(assoc);
+    }
+protected:
+    UMLClassifier *m_classifier;
+};
+
 /**
  * Handle a controlled unit.
  *
@@ -684,6 +719,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             // insert realizations
             RealizationsReader realReader(c);
             realReader.read(node, c->name());
+            // insert dependency associations
+            UsesReader usesReader(c);
+            usesReader.read(node, c->name());
         }
         o->setDoc(node->documentation());
         parentPkg->addObject(o);
@@ -811,7 +849,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 }
                 w->setSize(width, height);
             } else if (objType == QLatin1String("InheritView") ||
-                       objType == QLatin1String("RealizeView")) {
+                       objType == QLatin1String("RealizeView") ||
+                       objType == QLatin1String("UsesView")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
@@ -826,6 +865,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                             Uml::AssociationType::Enum t = Uml::AssociationType::Generalization;
                             if (objType == QLatin1String("RealizeView"))
                                 t = Uml::AssociationType::Realization;
+                            else if (objType == QLatin1String("UsesView"))
+                                t = Uml::AssociationType::Dependency;
                             handleAssocView(attr, atts, t, view, o);
                         }
                     } else {
@@ -845,16 +886,13 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                     handleAssocView(attr, atts, t, view, o);
                 }
                 continue;
-            } else if (objType == QLatin1String("AttachView") || objType == QLatin1String("UsesView")) {
+            } else if (objType == QLatin1String("AttachView")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
                     uError() << "AttachView has illegal id " << idStr;
                 } else {
-                    Uml::AssociationType::Enum assocType = Uml::AssociationType::Anchor;
-                    if (objType == QLatin1String("UsesView"))
-                        assocType = Uml::AssociationType::Dependency;
-                    handleAssocView(attr, atts, assocType, view);
+                    handleAssocView(attr, atts, Uml::AssociationType::Anchor, view);
                 }
                 continue;
             } else if (objType == QLatin1String("NoteView")) {
