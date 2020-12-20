@@ -949,15 +949,11 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
  */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
-#if QT_VERSION < 0x050000
     if (m_d->inMouseMoveEvent)
         return;
     m_d->inMouseMoveEvent = true;
     m_d->toolBarState->mouseMove(ome);
     m_d->inMouseMoveEvent = false;
-#else
-    m_d->toolBarState->mouseMove(ome);
-#endif
 }
 
 /**

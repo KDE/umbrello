@@ -24,7 +24,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
     UMLListViewItem::ListViewType type = item->type();
     switch(type) {
         case UMLListViewItem::lvt_Logical_View:
-            insertContainerItems(true);
+            insertContainerItems(true, true, true);
             addSeparator();
             insert(mt_Paste);
             addSeparator();
@@ -74,7 +74,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             break;
 
         case UMLListViewItem::lvt_Logical_Folder:
-            insertContainerItems(true);
+            insertContainerItems(true, true, true);
             insertStdItems();
             insert(mt_Import_Project);
             insertSubmodelAction();
@@ -165,7 +165,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             break;
 
         case UMLListViewItem::lvt_Package:
-            insertContainerItems(false);
+            insertContainerItems(true, false, true);
             insertStdItems();
             insert(mt_Show);
             insert(mt_Properties);
@@ -344,7 +344,7 @@ void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type, 
             insert(mt_Attribute, menu);
             insert(mt_Operation, menu);
             insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
+            insertContainerItems(menu, false, false, false);
             break;
         case UMLListViewItem::lvt_Component:
             insert(mt_Component, menu);
@@ -355,7 +355,7 @@ void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type, 
         case UMLListViewItem::lvt_Interface:
             insert(mt_Operation, menu);
             insert(mt_Template, menu);
-            insertContainerItems(menu, false, false);
+            insertContainerItems(menu, false, false, false);
             break;
         case UMLListViewItem::lvt_Entity:
             insert(mt_EntityAttribute, menu);

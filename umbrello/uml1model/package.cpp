@@ -482,8 +482,9 @@ bool UMLPackage::load1(QDomElement& element)
                    UMLDoc::tagEq(type, QLatin1String("ownedElement"))) {
             type = tempElement.attribute(QLatin1String("xmi:type"));
         }
-        UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if(!pObject) {
+        QString stereoID = tempElement.attribute(QLatin1String("stereotype"));
+        UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
+        if (!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }

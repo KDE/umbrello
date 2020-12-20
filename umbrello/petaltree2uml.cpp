@@ -23,6 +23,8 @@
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
+#include "enum.h"
+#include "enumliteral.h"
 #include "association.h"
 #include "umlrole.h"
 #include "actor.h"
@@ -228,7 +230,8 @@ public:
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == 0) {
 #ifdef VERBOSE_DEBUGGING
-            uDebug() << name << ": no " << m_attributeTag << " found";
+            uDebug() << "petaltree2uml ClassifierListReader::read(" << name
+                     << "): no " << m_attributeTag << " found";
 #endif
             return;
         }
@@ -269,10 +272,36 @@ public:
         return new UMLAttribute(m_classifier);
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
+        uDebug() << "petaltree2uml : Adding attribute " << item->name();
         m_classifier->addAttribute(item->asUMLAttribute());
     }
 protected:
     UMLClassifier *m_classifier;
+};
+
+class LiteralsReader : public ClassifierListReader
+{
+public:
+    LiteralsReader(UMLEnum *e)
+      : ClassifierListReader("class_attributes", "ClassAttribute", "type") {
+        m_enum = e;
+    }
+    virtual ~LiteralsReader() {}
+    UMLObject *createListItem() {
+        return new UMLEnumLiteral(m_enum);
+    }
+    void insertAtParent(const PetalNode *, UMLObject *item) {
+        UMLEnumLiteral *el = item->asUMLEnumLiteral();
+        if (el) {
+            uDebug() << "petaltree2uml : Adding enumliteral " << item->name();
+            m_enum->addEnumLiteral(el);
+        } else {
+            uError() << "petaltree2uml LiteralsReader insertAtParent: Cannot cast "
+                     << item->name() << " to UMLEnumLiteral";
+        }
+    }
+protected:
+    UMLEnum *m_enum;
 };
 
 class ParametersReader : public ClassifierListReader
@@ -289,6 +318,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         if (item->id() == Uml::ID::None)
            item->setID(UniqueID::gen());
+        uDebug() << "petaltree2uml : Adding parameter " << item->name();
         m_operation->addParm(item->asUMLAttribute());
     }
 protected:
@@ -307,6 +337,7 @@ public:
         return new UMLOperation(m_classifier);
     }
     void insertAtParent(const PetalNode *node, UMLObject *item) {
+        uDebug() << "petaltree2uml : Adding operation " << item->name();
         UMLOperation *op = item->asUMLOperation();
         ParametersReader parmReader(op);
         parmReader.read(node, m_classifier->name());
@@ -361,6 +392,41 @@ public:
     virtual ~RealizationsReader() {}
     UMLObject *createListItem() {
         return new UMLAssociation(Uml::AssociationType::Realization);
+    }
+    /**
+     * Override parent implementation: The secondary data is not for the
+     * UMLAssociation itself but for its role B object.
+     */
+    void setTypeReferences(UMLObject *item,
+                           const QString& quid, const QString& type) {
+        UMLAssociation *assoc = item->asUMLAssociation();
+        if (!quid.isEmpty()) {
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
+        }
+        if (!type.isEmpty()) {
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
+        }
+    }
+    void insertAtParent(const PetalNode *, UMLObject *item) {
+        UMLAssociation *assoc = item->asUMLAssociation();
+        assoc->setObject(m_classifier, Uml::RoleType::A);
+        assoc->setUMLPackage(m_classifier->umlPackage());
+        UMLApp::app()->document()->addAssociation(assoc);
+    }
+protected:
+    UMLClassifier *m_classifier;
+};
+
+class UsesReader : public ClassifierListReader
+{
+public:
+    UsesReader(UMLClassifier *c)
+      : ClassifierListReader("used_nodes", "Uses_Relationship", "supplier") {
+        m_classifier = c;
+    }
+    virtual ~UsesReader() {}
+    UMLObject *createListItem() {
+        return new UMLAssociation(Uml::AssociationType::Dependency);
     }
     /**
      * Override parent implementation: The secondary data is not for the
@@ -615,6 +681,18 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         if (stereotype == QLatin1String("Actor")) {
             o = Object_Factory::createUMLObject(UMLObject::ot_Actor, name, parentPkg, false);
             o->setID(id);
+        } else if (stereotype.contains(QLatin1String("enum"), Qt::CaseInsensitive)) {
+            o = Object_Factory::createUMLObject(UMLObject::ot_Enum, name, parentPkg, false);
+            o->setID(id);
+            UMLEnum *e = o->asUMLEnum();
+            // set stereotype
+            if (stereotype.compare(QLatin1String("enumeration"), Qt::CaseInsensitive) &&
+                       stereotype.compare(QLatin1String("enum"), Qt::CaseInsensitive) ) {
+                e->setStereotypeCmd(stereotype);
+            }
+            // insert literals
+            LiteralsReader litReader(e);
+            litReader.read(node, e->name());
         } else {
             o = Object_Factory::createUMLObject(UMLObject::ot_Class, name, parentPkg, false);
             o->setID(id);
@@ -641,6 +719,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             // insert realizations
             RealizationsReader realReader(c);
             realReader.read(node, c->name());
+            // insert dependency associations
+            UsesReader usesReader(c);
+            usesReader.read(node, c->name());
         }
         o->setDoc(node->documentation());
         parentPkg->addObject(o);
@@ -768,7 +849,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 }
                 w->setSize(width, height);
             } else if (objType == QLatin1String("InheritView") ||
-                       objType == QLatin1String("RealizeView")) {
+                       objType == QLatin1String("RealizeView") ||
+                       objType == QLatin1String("UsesView")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
@@ -783,6 +865,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                             Uml::AssociationType::Enum t = Uml::AssociationType::Generalization;
                             if (objType == QLatin1String("RealizeView"))
                                 t = Uml::AssociationType::Realization;
+                            else if (objType == QLatin1String("UsesView"))
+                                t = Uml::AssociationType::Dependency;
                             handleAssocView(attr, atts, t, view, o);
                         }
                     } else {
@@ -802,16 +886,13 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                     handleAssocView(attr, atts, t, view, o);
                 }
                 continue;
-            } else if (objType == QLatin1String("AttachView") || objType == QLatin1String("UsesView")) {
+            } else if (objType == QLatin1String("AttachView")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
                     uError() << "AttachView has illegal id " << idStr;
                 } else {
-                    Uml::AssociationType::Enum assocType = Uml::AssociationType::Anchor;
-                    if (objType == QLatin1String("UsesView"))
-                        assocType = Uml::AssociationType::Dependency;
-                    handleAssocView(attr, atts, assocType, view);
+                    handleAssocView(attr, atts, Uml::AssociationType::Anchor, view);
                 }
                 continue;
             } else if (objType == QLatin1String("NoteView")) {

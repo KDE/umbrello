@@ -301,8 +301,8 @@ protected:
     void insert(const MenuType m, const QIcon & icon, const QString & text);
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
-    void insertContainerItems(bool folderAndDiagrams, bool packages=true);
-    void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
+    void insertContainerItems(bool folders, bool diagrams, bool packages);
+    void insertContainerItems(KMenu* menu, bool folders, bool diagrams, bool packages);
     void insertAssociationTextItem(const QString &label, MenuType mt);
 
     KMenu *makeNewMenu();

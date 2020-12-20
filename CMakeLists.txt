@@ -47,10 +47,13 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
     # TODO: after removing kdelibs4support this could also be removed
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(NOT BUILD_KF5)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    endif()
+
     set(APP_SUFFIX)
     set(LIB_PREFIX Qt4::Qt)
     set(CMAKE_AUTOMOC ON)
@@ -62,6 +65,10 @@ if(NOT BUILD_KF5)
     set(KDEV_COMPONENTS)
     set(QTQCHDIR ${QT_DOC_DIR}/qch)
 else()
+    cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED YES)
+
     set(APP_SUFFIX 5)
     set(LIB_PREFIX Qt5::)
     # we need some parts of the ECM CMake helpers

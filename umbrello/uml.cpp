@@ -27,6 +27,7 @@
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
+#include "models/diagramsmodel.h"
 
 // code generation
 #include "advancedcodegenerator.h"
@@ -1431,6 +1432,7 @@ bool UMLApp::slotFileSaveAs()
 void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
+    m_doc->diagramsModel()->removeAllDiagrams();
     slotFileNew();
 }
 
@@ -3198,7 +3200,7 @@ QString UMLApp::imageMimeType() const
 void UMLApp::slotTabChanged(int index)
 {
     UMLView* view = (UMLView*)m_tabWidget->widget(index);
-    if (view) {
+    if (view && !s_shuttingDown) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
@@ -3210,7 +3212,7 @@ void UMLApp::slotTabChanged(int index)
 void UMLApp::slotTabChanged(QWidget* tab)
 {
     UMLView* view = (UMLView*)tab;
-    if (view) {
+    if (view && !s_shuttingDown) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
