@@ -442,7 +442,7 @@ void UMLDoc::closeDocument()
 
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
-        // this creates to much items only Logical View should be created
+        // this creates too many items, only Logical View should be created
         listView->init();
     }
     m_bClosing = false;
@@ -1928,51 +1928,49 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 uError() << "umlobject has unexpected type " << type;
             }
         }
+    } else if (type == UMLObject::ot_Association) {
+        UMLAssociation *a = umlobject->asUMLAssociation();
+        removeAssociation(a, false);  // don't call setModified here, it's done below
+        emit sigObjectRemoved(umlobject);
+        if (deleteObject)
+            delete a;
     } else {
-        if (type == UMLObject::ot_Association) {
-            UMLAssociation *a = umlobject->asUMLAssociation();
-            removeAssociation(a, false);  // don't call setModified here, it's done below
-            emit sigObjectRemoved(umlobject);
-            if (deleteObject)
-                delete a;
-        } else {
-            UMLPackage* pkg = umlobject->umlPackage();
-            if (pkg) {
-                // Remove associations that this object may participate in.
-                UMLCanvasObject *c = umlobject->asUMLCanvasObject();
-                if (c) {
-                    // In the current implementation, all associations live in the
-                    // root folder.
-                    UMLPackage* rootPkg = Model_Utils::rootPackage(c);
-                    if (rootPkg == 0) {
-                        uError() << umlobject->name() << ": root package is not set !";
-                        return;
-                    }
-                    UMLObjectList rootObjects = rootPkg->containedObjects();
-                    // Store the associations to remove in a buffer because we
-                    // should not remove elements from m_objectList while it is
-                    // being iterated over.
-                    UMLAssociationList assocsToRemove;
-                    foreach (UMLObject *obj, rootObjects) {
-                        uIgnoreZeroPointer(obj);
-                        if (obj->baseType() == UMLObject::ot_Association) {
-                            UMLAssociation *assoc = obj->asUMLAssociation();
-                            if (c->hasAssociation(assoc)) {
-                                assocsToRemove.append(assoc);
-                            }
+        UMLPackage* pkg = umlobject->umlPackage();
+        if (pkg) {
+            // Remove associations that this object may participate in.
+            UMLCanvasObject *c = umlobject->asUMLCanvasObject();
+            if (c) {
+                // In the current implementation, all associations live in the
+                // root folder.
+                UMLPackage* rootPkg = Model_Utils::rootPackage(c);
+                if (rootPkg == 0) {
+                    uError() << umlobject->name() << ": root package is not set !";
+                    return;
+                }
+                UMLObjectList rootObjects = rootPkg->containedObjects();
+                // Store the associations to remove in a buffer because we
+                // should not remove elements from m_objectList while it is
+                // being iterated over.
+                UMLAssociationList assocsToRemove;
+                foreach (UMLObject *obj, rootObjects) {
+                    uIgnoreZeroPointer(obj);
+                    if (obj->baseType() == UMLObject::ot_Association) {
+                        UMLAssociation *assoc = obj->asUMLAssociation();
+                        if (c->hasAssociation(assoc)) {
+                            assocsToRemove.append(assoc);
                         }
                     }
-                    foreach (UMLAssociation *a, assocsToRemove) {
-                        removeAssociation(a, false);
-                    }
                 }
-                pkg->removeObject(umlobject);
-                emit sigObjectRemoved(umlobject);
-                if (deleteObject)
-                    delete umlobject;
-            } else {
-                uError() << umlobject->name() << ": parent package is not set !";
+                foreach (UMLAssociation *a, assocsToRemove) {
+                    removeAssociation(a, false);
+                }
             }
+            pkg->removeObject(umlobject);
+            emit sigObjectRemoved(umlobject);
+            if (deleteObject)
+                delete umlobject;
+        } else {
+            uError() << umlobject->name() << ": parent package is not set !";
         }
     }
     setModified(true);
