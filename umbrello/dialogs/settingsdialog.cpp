@@ -179,6 +179,7 @@ void SettingsDialog::slotOk()
     applyPage(pageCodeGen);
     applyPage(pageFont);
     applyPage(pageAutoLayout);
+    m_pOptionState->save();
     accept();
 }
 
