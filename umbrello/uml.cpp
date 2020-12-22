@@ -27,6 +27,7 @@
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
+#include "folder.h"
 #include "models/diagramsmodel.h"
 
 // code generation
@@ -2315,14 +2316,22 @@ CodeGenPolicyExt *UMLApp::policyExt() const
 CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
 {
     if (m_codegen) {
-        // Do not return a possible preexisting code generator:
-        //    if (m_codegen->language() == pl) return m_codegen;
-        // Some languages depend on a new generator instance being created
-        // for each run.
-        QStringList entries = m_codegen->defaultDatatypes();
-        QStringList::Iterator end(entries.end());
-        for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
-            m_doc->removeDatatype(*it);
+        UMLFolder *dtFolder = m_doc->datatypeFolder();
+        UMLObjectList dataTypes = dtFolder->containedObjects();
+        UMLObjectList::Iterator end(dataTypes.end());
+        if (m_codegen->language() == pl) {
+            const QStringList predefTypes = m_codegen->defaultDatatypes();
+            const Qt::CaseSensitivity cs =
+                (activeLanguageIsCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
+            for (UMLObjectList::Iterator it = dataTypes.begin(); it != end; ++it) {
+                if (!predefTypes.contains((*it)->name(), cs)) {
+                    m_doc->removeUMLObject(*it);
+                }
+            }
+            return m_codegen;
+        }
+        for (UMLObjectList::Iterator it = dataTypes.begin(); it != end; ++it) {
+            m_doc->removeUMLObject(*it);
         }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
         m_codegen = 0;
