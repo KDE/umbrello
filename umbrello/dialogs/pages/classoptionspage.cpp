@@ -446,9 +446,9 @@ KComboBox * ClassOptionsPage::createShowStereotypeCB(QGroupBox * grpBox)
 {
     KComboBox * cobox = new KComboBox(grpBox);
     cobox->setEditable(false);
-    cobox->addItem(i18n("None"));
-    cobox->addItem(i18n("Name"));
-    cobox->addItem(i18n("Tags"));
+    cobox->addItem(i18n("No Stereotype"));
+    cobox->addItem(i18n("Stereotype Name"));
+    cobox->addItem(i18n("Stereotype with Tags"));
     return cobox;
 }
 
