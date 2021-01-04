@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2018-2020                                               *
+ *   copyright (C) 2018-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -202,7 +202,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
         case UMLListViewItem::lvt_UseCase:
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
-        case UMLListViewItem::lvt_InstanteAttribute:
+        case UMLListViewItem::lvt_InstanceAttribute:
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_Template:
             insertStdItems(false);

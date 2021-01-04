@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2020                                                *
+ *  copyright (C) 2002-2021                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -469,7 +469,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         addNewItem(currItem, UMLListViewItem::lvt_EntityAttribute);
         break;
     case ListPopupMenu::mt_InstanceAttribute:
-        addNewItem(currItem, UMLListViewItem::lvt_InstanteAttribute);
+        addNewItem(currItem, UMLListViewItem::lvt_InstanceAttribute);
         break;
     case ListPopupMenu::mt_Operation:
         addNewItem(currItem, UMLListViewItem::lvt_Operation);
@@ -2380,7 +2380,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Template:
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
-    case UMLListViewItem::lvt_InstanteAttribute:
+    case UMLListViewItem::lvt_InstanceAttribute:
     case UMLListViewItem::lvt_Operation:
     case UMLListViewItem::lvt_EnumLiteral:
     case UMLListViewItem::lvt_UniqueConstraint:
@@ -2556,7 +2556,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             break;
         case UMLListViewItem::lvt_Attribute:
         case UMLListViewItem::lvt_EntityAttribute:
-        case UMLListViewItem::lvt_InstanteAttribute:
+        case UMLListViewItem::lvt_InstanceAttribute:
         case UMLListViewItem::lvt_Template:
         case UMLListViewItem::lvt_Operation:
         case UMLListViewItem::lvt_EnumLiteral:

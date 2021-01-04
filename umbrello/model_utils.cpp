@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2020                                               *
+ *   copyright (C) 2004-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -1255,7 +1255,7 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
         type == UMLListViewItem::lvt_PrimaryKeyConstraint ||
         type == UMLListViewItem::lvt_CheckConstraint  ||
         type == UMLListViewItem::lvt_EnumLiteral ||
-        type == UMLListViewItem::lvt_InstanteAttribute) {
+        type == UMLListViewItem::lvt_InstanceAttribute) {
         return true;
     } else {
         return false;
@@ -1318,7 +1318,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
                parentType == UMLListViewItem::lvt_Logical_Folder;
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
-    case UMLListViewItem::lvt_InstanteAttribute:
+    case UMLListViewItem::lvt_InstanceAttribute:
         return parentType == UMLListViewItem::lvt_Entity;
     case UMLListViewItem::lvt_Operation:
         return parentType == UMLListViewItem::lvt_Class ||
@@ -1708,7 +1708,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_InstanceAttribute:
-        type = UMLListViewItem::lvt_InstanteAttribute;
+        type = UMLListViewItem::lvt_InstanceAttribute;
         break;
 
     default:
@@ -1821,7 +1821,7 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
         ot = UMLObject::ot_Instance;
         break;
 
-    case UMLListViewItem::lvt_InstanteAttribute:
+    case UMLListViewItem::lvt_InstanceAttribute:
         ot = UMLObject::ot_InstanceAttribute;
         break;
 
@@ -2002,7 +2002,7 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Instance:
             icon = Icon_Utils::it_Instance;
         break;
-        case UMLListViewItem::lvt_InstanteAttribute:
+        case UMLListViewItem::lvt_InstanceAttribute:
             icon = Icon_Utils::it_Private_Attribute;
         break;
         default:

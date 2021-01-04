@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -103,7 +103,7 @@ public:
         lvt_Association,
         lvt_Object_Diagram,
         lvt_Instance,
-        lvt_InstanteAttribute,
+        lvt_InstanceAttribute,
         // enter new values above
         lvt_Max,
         lvt_Unknown = -1

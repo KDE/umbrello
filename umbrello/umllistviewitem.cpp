@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -575,7 +575,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
 
     case lvt_Attribute:
     case lvt_EntityAttribute:
-    case lvt_InstanteAttribute: {
+    case lvt_InstanceAttribute: {
         if (m_object == 0) {
             cancelRenameWithMsg();
             return;
@@ -1065,7 +1065,7 @@ QString UMLListViewItem::toString(ListViewType type)
             return QLatin1String("lvt_Unknown");
         case lvt_Instance:
             return QLatin1String("lvt_Instance");
-        case lvt_InstanteAttribute:
+        case lvt_InstanceAttribute:
             return QLatin1String("lvt_InstanceAttribute");
         default:
             return QLatin1String("? ListViewType ?");
