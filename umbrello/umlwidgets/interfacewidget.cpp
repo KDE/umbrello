@@ -4,12 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2019-2020                                               *
+ *   copyright (C) 2019-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #include "interfacewidget.h"
 
+#include "classifier.h"
 #include "debug_utils.h"
 
 DEBUG_REGISTER_DISABLED(InterfaceWidget)

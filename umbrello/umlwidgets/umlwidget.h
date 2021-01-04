@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -303,7 +303,7 @@ protected:
     QPointF        m_startMovePostion;
     QSizeF         m_startResizeSize;
     int            m_nPosX;
-    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
+    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->document()
     bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
     QSizeF         m_minimumSize;

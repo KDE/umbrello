@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -375,7 +375,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
             }
         }
         if (count != 0) {
-            //The template is ill-formatted, let's quit
+            //The template is ill-formed, let's quit
             return;
         }
         setTemplateParams(type.mid(start + 1, end - start - 1), templateParamList);

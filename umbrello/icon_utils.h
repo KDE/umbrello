@@ -37,7 +37,7 @@
 
 /**
  * This class is a gateway to KIconLoader for for handling all the
- * used icons in umbrello. Identification is done with an enum and
+ * icons used in umbrello. Identification is done with an enum and
  * then a translation to the icon name.
  * @author  Andreas Fischer
  */
