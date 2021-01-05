@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -250,11 +250,14 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             break;
+        /* TODO  It is not clear that we need associations to InstanceAttribute,
+                 associations to Attribute should suffice ?
         case UMLObject::ot_InstanceAttribute:
             connect(obj->umlParent(), SIGNAL(attributeRemoved()), this, SLOT(slotClassifierListItemRemoved()));
             attr = obj->asUMLInstanceAttribute();
             connect(attr, SIGNAL(attributeChanged()), this, SLOT(slotAttributeChanged()));
             break;
+         */
         default:
             uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
             break;
