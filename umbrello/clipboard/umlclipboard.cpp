@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -327,7 +327,10 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
                 if (Model_Utils::typeIsCanvasWidget(type)) {
-                    m_ObjectList.append(item->umlObject());
+                    if (item->umlObject() == nullptr)
+                        uError() << "UMLClipboard::fillSelectionLists: selected lvitem has no umlObject";
+                    else
+                        m_ObjectList.append(item->umlObject());
                 }
                 insertItemChildren(item, selectedItems);
             }
