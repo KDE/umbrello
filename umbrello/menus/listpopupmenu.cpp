@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -377,6 +377,7 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folders, bool diagram
     insert(mt_Interface, menu);
     insert(mt_Datatype, menu);
     insert(mt_Enum, menu);
+    insert(mt_Instance, menu);
     if (packages)
         insert(mt_Package, menu);
     if (diagrams) {
