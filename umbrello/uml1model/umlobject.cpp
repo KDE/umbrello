@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -1304,9 +1304,34 @@ Icon_Utils::IconType UMLObject::toIcon(ObjectType t)
     case  UMLObject::ot_Port:
         icon = Icon_Utils::it_Port;
         break;
-//    case  UMLObject::ot_Stereotype:
-//        icon = Icon_Utils::it_Stereotype;
-//        break;
+    case  UMLObject::ot_EnumLiteral:
+        icon = Icon_Utils::it_Enum_Literal;
+        break;
+    case  UMLObject::ot_Attribute:
+    case  UMLObject::ot_InstanceAttribute:
+        icon = Icon_Utils::it_Public_Attribute;
+        break;
+    case  UMLObject::ot_Operation:
+        icon = Icon_Utils::it_Public_Method;
+        break;
+    case  UMLObject::ot_Template:
+        icon = Icon_Utils::it_Template;
+        break;
+    case  UMLObject::ot_Category:
+        icon = Icon_Utils::it_Category;
+        break;
+    case  UMLObject::ot_EntityAttribute:
+        icon = Icon_Utils::it_Entity_Attribute;
+        break;
+    case  UMLObject::ot_UniqueConstraint:
+        icon = Icon_Utils::it_Unique_Constraint;
+        break;
+    case  UMLObject::ot_ForeignKeyConstraint:
+        icon = Icon_Utils::it_ForeignKey_Constraint;
+        break;
+    case  UMLObject::ot_CheckConstraint:
+        icon = Icon_Utils::it_Check_Constraint;
+        break;
     case  UMLObject::ot_UseCase:
         icon = Icon_Utils::it_UseCase;
         break;
