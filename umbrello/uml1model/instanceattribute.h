@@ -4,37 +4,51 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2016-2020                                               *
+ *   copyright (C) 2016-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef UMLINSTANCEATTRIBUTE_H
 #define UMLINSTANCEATTRIBUTE_H
 
-#include "attribute.h"
-#include "basictypes.h"
+#include "umlobject.h"
+
+class UMLInstance;
+class UMLAttribute;
 
 /**
  * This class is used to set up information for an instanceattribute.
- * It has type, name, and default value.
+ * It has a pointer to the attribute which it represents and a value.
+ * Member UMLObject::m_pSecondary is used for storing the pointer to the
+ * UMLAttribute.
+ * Member m_value is used for storing the value.
+ * If the value is empty but the associated UMLAttribute has a non empty
+ * initial value then the attribute initial value is copied to m_value.
+ * A UMLInstanceAttribute is strictly slaved to its corresponding
+ * UMLClassifier attribute.  This means that a UMLInstanceAttribute is
+ * not created or removed by the user; instead, it is created or removed
+ * automatically when the UMLClassifier attribute is created or removed.
  *
  * @short Sets up instanceattribute information
  * @author Lays Rodrigues
+ * @author Ralf Habacker
+ * @author Oliver Kellogg
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class UMLInstanceAttribute : public UMLAttribute
+class UMLInstanceAttribute : public UMLObject
 {
     Q_OBJECT
 public:
-    UMLInstanceAttribute(UMLObject* parent, const QString& name,
-                         Uml::ID::Type id = Uml::ID::None,
-                         Uml::Visibility::Enum s = Uml::Visibility::Private,
-                         UMLObject *type = 0, const QString& value = QString());
+    UMLInstanceAttribute(UMLInstance *parent,
+                         UMLAttribute *umlAttr, const QString& value = QString());
 
-    explicit UMLInstanceAttribute(UMLObject *parent);
+    void setAttribute(UMLAttribute *umlAttr);
+    UMLAttribute *getAttribute() const;
 
-    void setAttributes(const QString& attributes);
-    QString getAttributes() const;
+    void setValue(const QString& value);
+    QString getValue() const;
+
+    QString toString();
 
     virtual void saveToXMI1(QXmlStreamWriter& writer);
 
@@ -45,7 +59,7 @@ protected:
 
 private:
     void init();
-    QString m_attributes;
+    QString m_value;
 };
 
 #endif // UMLINSTANCEATTRIBUTE_H

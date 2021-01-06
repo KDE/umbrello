@@ -140,16 +140,16 @@ public:
 
     void setIcon(Icon_Utils::IconType iconType);
 
-    void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
+    void addChildItem(UMLObject *child, UMLListViewItem *childItem);
 
-    void deleteChildItem(UMLClassifierListItem *child);
+    void deleteChildItem(UMLObject *child);
 
     //virtual int compare(UMLListViewItem *other, int col, bool ascending) const;
 
     UMLListViewItem* deepCopy(UMLListViewItem *newParent);
 
     UMLListViewItem* findUMLObject(const UMLObject *o);
-    UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
+    UMLListViewItem* findChildObject(UMLObject *child);
     UMLListViewItem* findItem(Uml::ID::Type id);
 
     UMLListViewItem* childItem(int i);
@@ -169,12 +169,12 @@ protected:
     void cancelRenameWithMsg();
 
     /**
-     * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
+     * Auxiliary map of child UMLListViewItems keyed by UMLObject.
      * Used by findChildObject() for efficiency instead of looping using
      * firstChild()/nextSibling() because the latter incur enforceItemVisible()
      * and thus expensive sorting.
      */
-    typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
+    typedef QMap<UMLObject*, UMLListViewItem*> ChildObjectMap;
 
     ListViewType       m_type;
     Uml::ID::Type      m_id;

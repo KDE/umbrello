@@ -21,6 +21,7 @@
 #include "folder.h"
 #include "classifier.h"
 #include "enum.h"
+#include "instance.h"
 #include "entity.h"
 #include "template.h"
 #include "operation.h"
@@ -101,11 +102,15 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Interface:
         case UMLObject::ot_Class:
         case UMLObject::ot_Enum:
-        case UMLObject::ot_Instance:
             o = obj->asUMLClassifier()->findChildObjectById(id);
             if (o == nullptr &&
                     (t == UMLObject::ot_Interface || t == UMLObject::ot_Class))
                 o = obj->asUMLPackage()->findObjectById(id);
+            if (o)
+                return o;
+            break;
+        case UMLObject::ot_Instance:
+            o = obj->asUMLInstance()->findChildObjectById(id);
             if (o)
                 return o;
             break;
@@ -814,8 +819,9 @@ bool isClassifierListitem(UMLObject::ObjectType type)
         type == UMLObject::ot_EnumLiteral ||
         type == UMLObject::ot_UniqueConstraint ||
         type == UMLObject::ot_ForeignKeyConstraint  ||
-        type == UMLObject::ot_CheckConstraint ||
-        type == UMLObject::ot_InstanceAttribute ) {
+        type == UMLObject::ot_CheckConstraint) {
+        // UMLObject::ot_InstanceAttribute needs to be handled separately
+        // because UMLInstanceAttribute is not a UMLClassifierListItem.
         return true;
     } else {
         return false;
@@ -1197,6 +1203,7 @@ bool typeIsCanvasWidget(UMLListViewItem::ListViewType type)
         case UMLListViewItem::lvt_Interface:
         case UMLListViewItem::lvt_Datatype:
         case UMLListViewItem::lvt_Enum:
+        case UMLListViewItem::lvt_Instance:
         case UMLListViewItem::lvt_Entity:
         case UMLListViewItem::lvt_Category:
             return true;
@@ -1246,7 +1253,6 @@ bool typeIsContainer(UMLListViewItem::ListViewType type)
 bool typeIsClassifierList(UMLListViewItem::ListViewType type)
 {
     if (type == UMLListViewItem::lvt_Attribute ||
-        type == UMLListViewItem::lvt_Instance ||
         type == UMLListViewItem::lvt_Operation ||
         type == UMLListViewItem::lvt_Template ||
         type == UMLListViewItem::lvt_EntityAttribute ||
@@ -1254,8 +1260,9 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
         type == UMLListViewItem::lvt_ForeignKeyConstraint ||
         type == UMLListViewItem::lvt_PrimaryKeyConstraint ||
         type == UMLListViewItem::lvt_CheckConstraint  ||
-        type == UMLListViewItem::lvt_EnumLiteral ||
-        type == UMLListViewItem::lvt_InstanceAttribute) {
+        type == UMLListViewItem::lvt_EnumLiteral) {
+        //  UMLListViewItem::lvt_InstanceAttribute must be handled separately
+        //  because UMLInstanceAttribute is not a UMLClassifierListItem.
         return true;
     } else {
         return false;
@@ -1317,9 +1324,11 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
                parentType == UMLListViewItem::lvt_Package ||
                parentType == UMLListViewItem::lvt_Logical_Folder;
     case UMLListViewItem::lvt_Attribute:
+        return parentType == UMLListViewItem::lvt_Class;
     case UMLListViewItem::lvt_EntityAttribute:
-    case UMLListViewItem::lvt_InstanceAttribute:
         return parentType == UMLListViewItem::lvt_Entity;
+    case UMLListViewItem::lvt_InstanceAttribute:
+        return parentType == UMLListViewItem::lvt_Instance;
     case UMLListViewItem::lvt_Operation:
         return parentType == UMLListViewItem::lvt_Class ||
                parentType == UMLListViewItem::lvt_Interface;
@@ -1402,7 +1411,7 @@ bool typeIsDiagram(UMLListViewItem::ListViewType type)
             type == UMLListViewItem::lvt_Component_Diagram ||
             type == UMLListViewItem::lvt_Deployment_Diagram ||
             type == UMLListViewItem::lvt_EntityRelationship_Diagram ||
-            type == UMLListViewItem::lvt_Object_Diagram ){
+            type == UMLListViewItem::lvt_Object_Diagram) {
         return true;
     } else {
         return false;
@@ -2187,18 +2196,25 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
              ot != UMLObject::ot_Package &&
              ot != UMLObject::ot_Interface &&
              ot != UMLObject::ot_Enum &&
-             ot != UMLObject::ot_Datatype)) {
+             ot != UMLObject::ot_Datatype &&
+             ot != UMLObject::ot_Instance)) {
             bAccept = false;
         }
         break;
     case Uml::DiagramType::Object:
-        if( scene->widgetOnDiagram(id) || (ot != UMLObject::ot_Instance))
-                bAccept = false;
+        if (scene->widgetOnDiagram(id) || ot != UMLObject::ot_Instance)
+            bAccept = false;
         break;
     case Uml::DiagramType::Sequence:
+        if (ot != UMLObject::ot_Class &&
+            ot != UMLObject::ot_Interface &&
+            ot != UMLObject::ot_Actor)
+            bAccept = false;
+        break;
     case Uml::DiagramType::Collaboration:
         if (ot != UMLObject::ot_Class &&
             ot != UMLObject::ot_Interface &&
+            ot != UMLObject::ot_Instance &&
             ot != UMLObject::ot_Actor)
             bAccept = false;
         break;

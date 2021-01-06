@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -91,7 +91,7 @@ void WorkToolBar::insertBasicAssociations()
         m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
         insertHotBtn(tbb_UniAssociation);
     }
-    if(m_Type != Uml::DiagramType::Object){
+    if (m_Type != Uml::DiagramType::Object) {
         insertHotBtn(tbb_Dependency);
         insertHotBtn(tbb_Generalization);
     }
@@ -156,6 +156,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Collaboration:
         insertHotBtn(tbb_Object);
+        insertHotBtn(tbb_Instance);
         insertHotBtn(tbb_Coll_Mesg_Async);
         insertHotBtn(tbb_Coll_Mesg_Sync);
         break;

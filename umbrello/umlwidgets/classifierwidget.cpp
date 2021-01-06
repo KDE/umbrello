@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2020                                               *
+ *   copyright (C) 2004-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -44,9 +44,9 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  * Constructs a ClassifierWidget.
  *
  * @param scene   The parent of this ClassifierWidget.
- * @param c       The UMLClassifier to represent.
+ * @param c       The UMLClassifier or UMLInstance to represent.
  */
-ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
+ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLObject *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
     m_pAssocWidget(nullptr),
     m_pInterfaceName(nullptr)
@@ -85,14 +85,16 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
 
     setShowAttSigs(ops.classState.showAttSig);
 
-    if (c && c->isInterface()) {
+    UMLClassifier *umlc = (c ? c->asUMLClassifier() : nullptr);
+    if (umlc && umlc->isInterface()) {
         setBaseType(WidgetBase::wt_Interface);
         m_visualProperties = ShowOperations | ShowVisibility;
         setShowStereotype(Uml::ShowStereoType::Tags);
         updateSignatureTypes();
     }
 
-    if (c && scene->isObjectDiagram()) {
+    UMLInstance *umli = (c ? c->asUMLInstance() : nullptr);
+    if (umli) {
         setBaseType(WidgetBase::wt_Instance);
         m_visualProperties =  ShowAttributes;
         updateSignatureTypes();
@@ -471,11 +473,13 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot) const
 {
     int count = 0;
     UMLClassifier *umlc = this->classifier();
+    if (!umlc && m_umlObject && m_umlObject->isUMLInstance() && ot == UMLObject::ot_Attribute)
+        umlc = m_umlObject->asUMLInstance()->classifier();
     if (!umlc)
         return count;
     UMLClassifierListItemList list = umlc->getFilteredList(ot);
     foreach (UMLClassifierListItem *m, list) {
-      if (!(visualProperty(ShowPublicOnly) && m->visibility() != Uml::Visibility::Public))
+        if (!(visualProperty(ShowPublicOnly) && m->visibility() != Uml::Visibility::Public))
             count++;
     }
     return count;
@@ -502,12 +506,11 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         return calculateAsPackageSize();
     }
     UMLClassifier *umlc = this->classifier();
-    if (!umlc) {
-        uError() << "Internal error - classifier() returns NULL";
-        return UMLWidget::minimumSize();
-    }
-    if (umlc->isInterface() && visualProperty(DrawAsCircle)) {
-        return calculateAsCircleSize();
+    if (umlc) {
+        if (umlc->isInterface() && visualProperty(DrawAsCircle))
+            return calculateAsCircleSize();
+    } else if (m_umlObject && m_umlObject->isUMLInstance()) {
+       umlc = m_umlObject->asUMLInstance()->classifier();
     }
 
     const bool showNameOnly = !visualProperty(ShowAttributes) &&
@@ -519,7 +522,8 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // width is the width of the longest 'word'
     int width = 0, height = 0;
     // consider stereotype
-    if (m_showStereotype != Uml::ShowStereoType::None && !m_umlObject->stereotype().isEmpty()) {
+    if (m_showStereotype != Uml::ShowStereoType::None &&
+                             m_umlObject && !m_umlObject->stereotype().isEmpty()) {
         height += fontHeight;
         QString taggedValues;
         if (m_showStereotype == Uml::ShowStereoType::Tags) {
@@ -546,25 +550,24 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     // ... width
     QString name;
     UMLObject *o;
-    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
-        o = m_umlObject->asUMLInstance()->classifier();
+    if (m_umlObject && m_umlObject->isUMLInstance() && umlc)
+        o = umlc;
     else
         o = m_umlObject;
     if (!o)
         name = m_Text;
-    else
-    if (visualProperty(ShowPackage))
+    else if (visualProperty(ShowPackage))
         name = o->fullyQualifiedName();
     else
         name = o->name();
 
     QString displayedName;
-    if (m_umlObject->isUMLInstance())
+    if (m_umlObject && m_umlObject->isUMLInstance())
         displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 
-    const UMLWidget::FontType nft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
+    const UMLWidget::FontType nft = (m_umlObject && m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0, displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
@@ -591,8 +594,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (numAtts > 0) {
             height += fontHeight * numAtts;
             // calculate width of the attributes
-            UMLClassifierListItemList list = umlc->getFilteredList(
-                        m_umlObject->isUMLInstance() ? UMLObject::ot_InstanceAttribute : UMLObject::ot_Attribute);
+            UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
             foreach (UMLClassifierListItem *a, list) {
                 if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                     continue;
@@ -695,9 +697,6 @@ int ClassifierWidget::displayedAttributes() const
 {
     if (!visualProperty(ShowAttributes))
         return 0;
-    if(baseType() == WidgetBase::wt_Instance)
-        return displayedMembers(UMLObject::ot_InstanceAttribute);
-    else
     return displayedMembers(UMLObject::ot_Attribute);
 }
 
@@ -718,7 +717,7 @@ int ClassifierWidget::displayedOperations() const
 void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
 {
     if (!classifier()) {
-        uError() << "Class association cannot be applied to package";
+        uError() << "Class association cannot be applied to non classifier";
         return;
     }
     m_pAssocWidget = assocwidget;
@@ -755,10 +754,14 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
     UMLClassifier *umlc = this->classifier();
     if (!umlc) {
-        uError() << "Internal error - classifier() returns NULL";
-        return;
+        if (m_umlObject && m_umlObject->isUMLInstance()) {
+            umlc = m_umlObject->asUMLInstance()->classifier();
+        } else {
+            uError() << "ClassifierWidget::paint internal error - classifier() returns NULL";
+            return;
+        }
     }
-    if (umlc->isInterface() && visualProperty(DrawAsCircle)) {
+    if (umlc && umlc->isInterface() && visualProperty(DrawAsCircle)) {
         drawAsCircle(painter, option);
         UMLWidget::paint(painter, option, widget);
         return;
@@ -784,7 +787,9 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     const int fontHeight = fm.lineSpacing();
 
     //If there are any templates then draw them
-    UMLTemplateList tlist = umlc->getTemplateList();
+    UMLTemplateList tlist;
+    if (umlc)
+        tlist = umlc->getTemplateList();
     if (tlist.count() > 0) {
         setPenFromSettings(painter);
         QPen pen = painter->pen();
@@ -833,24 +838,25 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 
     // draw name
-    QString name;
-    UMLObject *o;
-    if (m_umlObject && m_umlObject->isUMLInstance() && m_umlObject->asUMLInstance()->classifier())
-        o = m_umlObject->asUMLInstance()->classifier();
-    else
-        o = m_umlObject;
-    if (!o)
-        name = m_Text;
-    else if (visualProperty(ShowPackage))
-        name = o->fullyQualifiedName();
-    else
-        name = o->name();
-
     QString displayedName;
-    if (m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
-    else
-        displayedName = name;
+    if (!m_umlObject) {
+        displayedName = m_Text;
+    } else if (m_umlObject->isUMLInstance()) {
+        displayedName = m_umlObject->name() + QLatin1String(" : ");
+        if (umlc) {
+            if (visualProperty(ShowPackage))
+                displayedName.append(umlc->fullyQualifiedName());
+            else
+                displayedName.append(umlc->name());
+        }
+    } else if (visualProperty(ShowPackage)) {
+        displayedName = m_umlObject->fullyQualifiedName();
+    } else {
+        displayedName = m_umlObject->name();
+    }
+
+    if (baseType() == WidgetBase::wt_Object || baseType() == WidgetBase::wt_Instance)
+        font.setUnderline(true);
 
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
@@ -858,6 +864,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     bodyOffsetY += fontHeight;
     font.setBold(false);
     font.setItalic(false);
+    font.setUnderline(false);
     painter->setFont(font);
 
 #ifdef ENABLE_WIDGET_SHOW_DOC
@@ -888,13 +895,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
         const int numAtts = displayedAttributes();
         if (numAtts > 0) {
-            if (baseType() == WidgetBase::wt_Instance) {
-                drawMembers(painter, UMLObject::ot_InstanceAttribute, m_attributeSignature, textX,
-                            bodyOffsetY, textWidth, fontHeight);
-            } else {
-                drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
-                            bodyOffsetY, textWidth, fontHeight);
-            }
+            drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
+                        bodyOffsetY, textWidth, fontHeight);
             bodyOffsetY += fontHeight * numAtts;
         }
         else
@@ -1115,22 +1117,43 @@ QSize ClassifierWidget::calculateAsPackageSize() const
  * @param width      The text width.
  * @param height     The text height.
  */
-void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
+void ClassifierWidget::drawMembers(QPainter * painter,
+                                   UMLObject::ObjectType ot,
+                                   Uml::SignatureType::Enum sigType,
                                    int x, int y, int width, int height)
 {
     UMLClassifier *umlc = classifier();
-    if (!umlc) {
+    const bool drawInstanceAttributes = (!umlc && m_umlObject && m_umlObject->isUMLInstance()
+                                                            && ot == UMLObject::ot_Attribute);
+    if (!umlc && !drawInstanceAttributes) {
         return;
     }
     QFont f = UMLWidget::font();
     f.setBold(false);
-    UMLClassifierListItemList list = umlc->getFilteredList(ot);
     painter->setClipping(true);
     painter->setClipRect(rect());
-    foreach (UMLClassifierListItem *obj, list) {
-          if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
+    UMLInstance::AttributeValues ialist;
+    if (drawInstanceAttributes) {
+        UMLInstance *umlinst = m_umlObject->asUMLInstance();
+        umlc = umlinst->classifier();
+        ialist = umlinst->getAttrValues();
+    }
+    UMLClassifierListItemList list = umlc->getFilteredList(ot);
+    for (int i = 0; i < list.count(); i++) {
+        UMLClassifierListItem *obj = list.at(i);
+        if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
-        QString text = obj->toString(sigType, visualProperty(ShowStereotype));
+        QString text;
+        if (drawInstanceAttributes) {
+            UMLInstanceAttribute *iatt = ialist.at(i);
+            /* CHECK: Do we want visibility indication on instance attributes?
+            if (sigType == Uml::SignatureType::ShowSig || sigType == Uml::SignatureType::NoSig)
+                text = Uml::Visibility::toString(obj->visibility(), true) + QLatin1Char(' ');
+             */
+            text.append(iatt->toString());
+        } else {
+            text = obj->toString(sigType, visualProperty(ShowStereotype));
+        }
         f.setItalic(obj->isAbstract());
         f.setUnderline(obj->isStatic());
         painter->setFont(f);
@@ -1417,11 +1440,11 @@ void ClassifierWidget::saveToXMI1(QXmlStreamWriter& writer)
 void ClassifierWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
+    uDebug() << "ClassifierWidget::slotMenuSelection sel = " << sel;
     switch (sel) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
-    case ListPopupMenu::mt_InstanceAttribute:
         {
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             UMLClassifier *umlc = classifier();

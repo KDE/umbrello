@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2020                                                *
+ *  copyright (C) 2006-2021                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -138,6 +138,11 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         }
         case UMLObject::ot_Instance:
             o = new UMLInstance(name, g_predefinedId);
+            if (parentPkg->isUMLClassifier()) {
+                UMLClassifier *c = parentPkg->asUMLClassifier();
+                o->asUMLInstance()->setClassifierCmd(c, false);
+                parentPkg = c->umlPackage();
+            }
             break;
         case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
@@ -154,8 +159,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         case UMLObject::ot_SubSystem: {
             o = new UMLPackage(name, g_predefinedId);
             o->setStereotypeCmd(QLatin1String("subsystem"));
-        break;
-    }
+            break;
+        }
         default:
             uWarning() << "error unknown type: " << UMLObject::toString(type);
             return 0;
@@ -314,13 +319,6 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
          }
          break;
         }
-    case UMLObject::ot_InstanceAttribute: {
-        UMLInstance *c = parent->asUMLInstance();
-        if(c){
-            returnObject = c->createAttribute(name);
-        }
-        break;
-    }
     case UMLObject::ot_Operation: {
             UMLClassifier *c = parent->asUMLClassifier();
             if (c)
@@ -362,9 +360,18 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
             break;
         }
     default:
-        uDebug() << "ERROR UMLDoc::createChildObject type:" << UMLObject::toString(type);
+        break;
     }
-    return returnObject->asUMLClassifierListItem();
+    if (!returnObject) {
+        uError() << "Object_Factory::createChildObject type:" << UMLObject::toString(type);
+        return nullptr;
+    }
+    UMLClassifierListItem *ucli = returnObject->asUMLClassifierListItem();
+    if (!ucli) {
+        uError() << "Object_Factory::createChildObject internal: result is "
+                 << "not a UMLClassifierListItem";
+    }
+    return ucli;
 }
 
 /**

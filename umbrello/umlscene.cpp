@@ -853,35 +853,39 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned false";
         return;
     }
+    const DiagramType::Enum diagramType = type();
+
+    bool bAccept = true;
     for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
         UMLListViewItem::ListViewType lvtype = (*it)->type;
         Uml::ID::Type id = (*it)->id;
 
-        DiagramType::Enum diagramType = type();
-
         UMLObject* temp = 0;
         //if dragging diagram - might be a drag-to-note
         if (Model_Utils::typeIsDiagram(lvtype)) {
-            e->accept();
-            continue;
+            break;
         }
         //can't drag anything onto state/activity diagrams
         if (diagramType == DiagramType::State || diagramType == DiagramType::Activity) {
-            e->ignore();
-            continue;
+            bAccept = false;
+            break;
         }
         //make sure can find UMLObject
         if (!(temp = m_doc->findObjectById(id))) {
             DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
-            e->ignore();
-            continue;
+            bAccept = false;
+            break;
         }
-        bool bAccept = Model_Utils::typeIsAllowedInDiagram(temp, this);
-        if (bAccept) {
-            e->accept();
-        } else {
-            e->ignore();
+        if (!Model_Utils::typeIsAllowedInDiagram(temp, this)) {
+            DEBUG(DBG_SRC) << temp->name() << " is not allowed in diagram type " << diagramType;
+            bAccept = false;
+            break;
         }
+    }
+    if (bAccept) {
+        e->accept();
+    } else {
+        e->ignore();
     }
 }
 

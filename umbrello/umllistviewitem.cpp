@@ -19,6 +19,7 @@
 #include "template.h"
 #include "attribute.h"
 #include "operation.h"
+#include "instanceattribute.h"
 #include "entityconstraint.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -106,7 +107,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
  * @param t        The type of this instance.
  * @param o        The object it represents.
  */
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject*o)
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject *o)
   : QTreeWidgetItem(parent)
 {
     init();
@@ -116,9 +117,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         m_id = Uml::ID::None;
         updateFolder();
     } else {
-        UMLClassifierListItem *umlchild = o->asUMLClassifierListItem();
-        if (umlchild)
-            parent->addClassifierListItem(umlchild, this);
+        parent->addChildItem(o, this);
         updateObject();
         m_id = o->id();
     }
@@ -238,18 +237,26 @@ UMLListViewItem::ListViewType UMLListViewItem::type() const
 }
 
 /**
- * Adds the child listview item representing the given UMLClassifierListItem.
+ * Adds the child listview item representing the given UMLObject.
  */
-void UMLListViewItem::addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem)
+void UMLListViewItem::addChildItem(UMLObject *child, UMLListViewItem *childItem)
 {
+    if (!child) {
+        uError() << "UMLListViewItem::addChildItem called with null child";
+        return;
+    }
     m_comap[child] = childItem;
 }
 
 /**
- * Deletes the child listview item representing the given UMLClassifierListItem.
+ * Deletes the child listview item representing the given UMLObject.
  */
-void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
+void UMLListViewItem::deleteChildItem(UMLObject *child)
 {
+    if (!child) {
+        uError() << "UMLListViewItem::deleteChildItem called with null child";
+        return;
+    }
     UMLListViewItem *childItem = findChildObject(child);
     if (childItem == 0) {
         uError() << child->name() << ": child listview item not found";
@@ -344,7 +351,8 @@ void UMLListViewItem::updateObject()
 
     // check if parent has been changed, remap parent if so
     UMLListViewItem *oldParent = dynamic_cast<UMLListViewItem*>(parent());
-    if (oldParent && oldParent->m_object != m_object->umlPackage()) {
+    if (oldParent && oldParent->m_object != m_object->parent() &&
+                                dynamic_cast<UMLPackage*>(m_object->parent())) {
         UMLListViewItem *newParent = UMLApp::app()->listView()->findUMLObject(m_object->umlPackage());
         if (newParent) {
             oldParent->removeChild(this);
@@ -358,6 +366,9 @@ void UMLListViewItem::updateObject()
     if (Model_Utils::isClassifierListitem(ot)) {
         UMLClassifierListItem *pNarrowed = m_object->asUMLClassifierListItem();
         modelObjText = pNarrowed->toString(Uml::SignatureType::SigNoVis);
+    } else if (ot == UMLObject::ot_InstanceAttribute) {
+        UMLInstanceAttribute *pNarrowed = m_object->asUMLInstanceAttribute();
+        modelObjText = pNarrowed->toString();
     }
     setText(modelObjText);
 
@@ -849,14 +860,13 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 }
 
 /**
- * Find the UMLListViewItem that represents the given UMLClassifierListItem
- * in the children of the current UMLListViewItem.  (Only makes sense if
- * the current UMLListViewItem represents a UMLClassifier.)
+ * Find the UMLListViewItem that represents the given UMLObject in the
+ * children of the current UMLListViewItem.
  * Return a pointer to the item or NULL if not found.
  */
-UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
+UMLListViewItem* UMLListViewItem::findChildObject(UMLObject *child)
 {
-    ChildObjectMap::iterator it = m_comap.find(cli);
+    ChildObjectMap::iterator it = m_comap.find(child);
     if (it != m_comap.end()) {
         return *it;
     }

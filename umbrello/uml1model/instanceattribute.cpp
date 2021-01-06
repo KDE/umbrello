@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2016-2020                                               *
+ *   copyright (C) 2016-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -12,28 +12,37 @@
 #include "instanceattribute.h"
 
 //local includes
+#include "instance.h"
+#include "attribute.h"
 #include "debug_utils.h"
+#include "model_utils.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlinstanceattributedialog.h"
+#include "uniqueid.h"
 #include "object_factory.h"
 
 //kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
 
-UMLInstanceAttribute::UMLInstanceAttribute(UMLObject *parent, const QString &name, Uml::ID::Type id, Uml::Visibility::Enum s, UMLObject *type, const QString &value)
-    : UMLAttribute(parent, name, id, s, type, value)
+/**
+ * Constructor
+ * @param parent   The UMLInstance to which this instance attribute belongs.
+ * @param umlAttr  The UMLAttribute which this instance attribute reifies.
+ *                 It is expected that umlAttr be a non null pointer.
+ *                 If umlAttr is passed in as nullptr then the setAttribute
+ *                 method shall be used for setting a non null pointer
+ *                 before the instance attribute is used by the application.
+ * @param value    The value of the instance attribute.
+ */
+UMLInstanceAttribute::UMLInstanceAttribute(UMLInstance *parent,
+                                           UMLAttribute *umlAttr, const QString& value)
+    : UMLObject(parent)
 {
-    init();
-    if(m_pSecondary){
-        m_pSecondary->setBaseType(UMLObject::ot_Instance);
-    }
-}
-
-UMLInstanceAttribute::UMLInstanceAttribute(UMLObject *parent)
-    : UMLAttribute(parent)
-{
+    m_nId = UniqueID::gen();
+    m_pSecondary = umlAttr;
+    m_value = value;
     init();
 }
 
@@ -47,21 +56,52 @@ void UMLInstanceAttribute::init()
 }
 
 /**
- * Sets the UMLInstanceAttribute's attributes property.
- * @param attributes  The new value for the attributes property.
+ * Sets the UMLInstanceAttribute's UML attribute.
+ * @param umlAttr  Non null pointer to UMLAttribute.
  */
-void UMLInstanceAttribute::setAttributes(const QString &attributes)
+void UMLInstanceAttribute::setAttribute(UMLAttribute *umlAttr)
 {
-    m_attributes = attributes;
+    Q_ASSERT(umlAttr);
+    m_pSecondary = umlAttr;
 }
 
 /**
- * Returns the value of the UMLInstanceAttribute's attributes property.
- * @return  The value of the UMLInstanceAttribute's attributes property.
+ * Returns the UMLInstanceAttribute's UML attribute.
+ * @return  The UMLInstanceAttribute's UML attribute.
  */
-QString UMLInstanceAttribute::getAttributes() const
+UMLAttribute * UMLInstanceAttribute::getAttribute() const
 {
-    return m_attributes;
+    if (m_pSecondary == nullptr)
+        return nullptr;
+    return m_pSecondary->asUMLAttribute();
+}
+
+/**
+ * Sets the UMLInstanceAttribute's value.
+ * @param value  The value to set.
+ */
+void UMLInstanceAttribute::setValue(const QString& value)
+{
+    m_value = value;
+}
+
+/**
+ * Returns the UMLInstanceAttribute's value.
+ * @return  The UMLInstanceAttribute's value.
+ */
+QString UMLInstanceAttribute::getValue() const
+{
+    return m_value;
+}
+
+/**
+ * Returns the textual notation for instance attribute.
+ * @return  Stringified attribute name and value.
+ */
+QString UMLInstanceAttribute::toString()
+{
+    QString result(m_pSecondary->name() + QLatin1String(" = ") + m_value);
+    return result;
 }
 
 /**
@@ -69,27 +109,36 @@ QString UMLInstanceAttribute::getAttributes() const
  */
 void UMLInstanceAttribute::saveToXMI1(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(QLatin1String("UML:InstanceAttribute"), writer);
-    if (m_pSecondary == NULL) {
-        uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
-        writer.writeAttribute(QLatin1String("type"), m_SecondaryId);
-    } else {
-        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
-    }
-    writer.writeAttribute(QLatin1String("initialValue"), m_InitialValue);
-    writer.writeAttribute(QLatin1String("attributes"), m_attributes);
-    UMLObject::save1end(writer);
+    writer.writeStartElement(QLatin1String("slot"));
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
+    Q_ASSERT(m_pSecondary);
+    writer.writeAttribute(QLatin1String("attribute"), Uml::ID::toString(m_pSecondary->id()));
+    writer.writeAttribute(QLatin1String("value"), m_value);
+    writer.writeEndElement();
 }
 
 /**
- * Loads the <UML:InstanceAttribute> XMI element.
+ * Loads the UMLInstance <slot> XMI element.
  */
 bool UMLInstanceAttribute::load1(QDomElement & element)
 {
-    if (! UMLAttribute::load1(element))
+    QString id = Model_Utils::getXmiId(element);
+    if (id.isEmpty() || id == QLatin1String("-1")) {
+        uWarning() << "UMLInstanceAttribute::load1: xmi.id not present, generating a new one";
+        m_nId = UniqueID::gen();
+    } else {
+        m_nId = Uml::ID::fromString(id);
+    }
+    m_SecondaryId = element.attribute(QLatin1String("attribute"));
+    if (m_SecondaryId.isEmpty() || m_SecondaryId == QLatin1String("-1")) {
+        uError() << "UMLInstanceAttribute::load1: element 'attribute' not set or empty";
         return false;
-    m_attributes = element.attribute(QLatin1String("attributes"));
-    m_InitialValue = element.attribute(QLatin1String("initialValue"));
+    }
+    UMLDoc *pDoc = UMLApp::app()->document();
+    m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
+    if (m_pSecondary)
+        m_SecondaryId.clear();
+    m_value = element.attribute(QLatin1String("value"));
     return true;
 }
 

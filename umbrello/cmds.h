@@ -4,8 +4,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2020                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                   *
+ *  copyright (C) 2002-2021                                                *
+ *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
 #ifndef CMDS_H
@@ -26,7 +26,6 @@
  ************************************************************/
 #include "cmds/generic/cmdcreateumlobject.h"
 #include "cmds/generic/cmdremoveumlobject.h"
-#include "cmds/generic/cmdrenameumlinstancetype.h"
 #include "cmds/generic/cmdrenameumlobject.h"
 
 /************************************************************

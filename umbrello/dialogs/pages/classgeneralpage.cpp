@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -332,7 +332,6 @@ void ClassGeneralPage::apply()
 
         if(m_instanceNameWidget && m_pObject->isUMLInstance()) {
             m_pObject->asUMLInstance()->setName(m_instanceNameWidget->text());
-            m_pObject->asUMLInstance()->setClassifierName(m_nameWidget->text());
         }
 
         //make sure unique name

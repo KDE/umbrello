@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 #include "classifier.h"
@@ -1231,16 +1231,6 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
             }
             break;
         }
-    case UMLObject::ot_InstanceAttribute: {
-        UMLInstanceAttribute *ia = subordinates().takeAt(index)->asUMLInstanceAttribute();
-        if(ia) {
-            emit attributeRemoved(ia);
-            UMLObject::emitModified();
-        } else {
-            index = -1;
-        }
-        break;
-    }
         default:
             index = -1;
             break;

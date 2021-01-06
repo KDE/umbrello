@@ -424,6 +424,10 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         addNewItem(currItem, UMLListViewItem::lvt_Entity);
         break;
 
+    case ListPopupMenu::mt_Instance:
+        addNewItem(currItem, UMLListViewItem::lvt_Instance);
+        break;
+
     case ListPopupMenu::mt_Category:
         addNewItem(currItem, UMLListViewItem::lvt_Category);
         break;
@@ -942,7 +946,9 @@ bool UMLListView::mayHaveChildItems(UMLObject::ObjectType type)
     switch (type) {
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface:
-    case UMLObject::ot_Instance:
+    // case UMLObject::ot_Instance:
+    //   Must be handled separately because UMLInstanceAttribute is not a
+    //   UMLClassifierListItem.
     case UMLObject::ot_Enum:
     case UMLObject::ot_Entity:  // CHECK: more?
         retval = true;
@@ -1050,10 +1056,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     }
     break;
-    case UMLObject::ot_Instance:{
-        UMLInstance *c = object->asUMLInstance();
-        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)), this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)), this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+    case UMLObject::ot_Instance: {
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     }
     break;
@@ -1270,7 +1273,7 @@ UMLDragData* UMLListView::getDragData()
 }
 
 /**
- * This method looks for an object in a folder an its subfolders recursive.
+ * This method looks for an object in a folder an its subfolders recursively.
  * @param folder   The folder entry of the list view.
  * @param obj      The object to be found in the folder.
  * @return The object if found else a NULL pointer.
@@ -1799,6 +1802,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     case UMLListViewItem::lvt_Interface:
     case UMLListViewItem::lvt_Enum:
     case UMLListViewItem::lvt_Datatype:
+    case UMLListViewItem::lvt_Instance:
         if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Datatype_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View ||
@@ -1865,7 +1869,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                                            att->visibility(),
                                            att->getInitialValue());
                     newItem->setUMLObject(newAtt);
-                    newParent->addClassifierListItem(newAtt, newItem);
+                    newParent->addChildItem(newAtt, newItem);
 
                     connectNewObjectsSlots(newAtt);
                     // Let's not forget to update the DocWindow::m_pObject
@@ -1901,7 +1905,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                         newOp->addParm(newParm);
                     }
                     newItem->setUMLObject(newOp);
-                    newParent->addClassifierListItem(newOp, newItem);
+                    newParent->addChildItem(newOp, newItem);
 
                     connectNewObjectsSlots(newOp);
 
@@ -2277,7 +2281,8 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             }
         }
     } else {
-        UMLPackage* package = parent->asUMLPackage();
+        bool instanceOfClass = (type == UMLListViewItem::lvt_Instance && parent->isUMLClassifier());
+        UMLPackage* package = (instanceOfClass ? parent->umlPackage() : parent->asUMLPackage());
         QString name = Model_Utils::uniqObjectName(objectType, package);
         UMLObject* object = Object_Factory::createUMLObject(objectType, name, package);
 
@@ -2290,6 +2295,26 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             object->setStereotypeCmd(QLatin1String("subsystem"));
         } else if (Model_Utils::typeIsFolder(type)) {
             object->setStereotypeCmd(QLatin1String("folder"));
+        } else if (instanceOfClass) {
+            qApp->processEvents();
+            UMLInstance *inst = object->asUMLInstance();
+            inst->setClassifierCmd(parent->asUMLClassifier());
+            UMLListViewItem *instanceItem = findUMLObject(inst);
+            if (instanceItem == 0) {
+                uError() << "listviewitem for " << inst->name() << " not found";
+                return;
+            }
+            scrollToItem(instanceItem);
+            clearSelection();
+            instanceItem->setSelected(true);
+            UMLInstance::AttributeValues& values = inst->getAttrValues();
+            foreach (UMLInstanceAttribute *child, values) {
+                connectNewObjectsSlots(child);
+                const QString text = child->toString();
+                UMLListViewItem *childItem =
+                    new UMLListViewItem(instanceItem, text, UMLListViewItem::lvt_InstanceAttribute , child);
+                Q_UNUSED(childItem);
+            }
         }
     }
 }
@@ -2347,6 +2372,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Node:
     case UMLListViewItem::lvt_Artifact:
     case UMLListViewItem::lvt_Category:
+    case UMLListViewItem::lvt_Instance:
         return !m_doc->findUMLObject(name, Model_Utils::convert_LVT_OT(type));
         break;
 
@@ -2462,7 +2488,6 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
         Uml::ID::Type nID = Uml::ID::fromString(id);
-        UMLObject * pObject = 0;
         UMLListViewItem * item = 0;
         if (nID != Uml::ID::None) {
             // The following is an ad hoc hack for the copy/paste code.
@@ -2482,7 +2507,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             }
             /************ End of hack for copy/paste code ************/
 
-            pObject = m_doc->findObjectById(nID);
+            UMLObject *pObject = m_doc->findObjectById(nID);
             if (pObject) {
                 if (label.isEmpty())
                     label = pObject->name();
@@ -2575,6 +2600,21 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 }
                 if (nID == Uml::ID::None) {
                     uWarning() << "lvtype " << UMLListViewItem::toString(lvType) << " has id -1";
+                } else if (lvType == UMLListViewItem::lvt_InstanceAttribute) {
+                    UMLInstance *instance = umlObject->asUMLInstance();
+                    if (instance) {
+                        UMLInstanceAttribute *instAttr = instance->findChildObjectById(nID);
+                        if (instAttr) {
+                            connectNewObjectsSlots(instAttr);
+                            label = instAttr->toString();
+                            item = new UMLListViewItem(parent, label, lvType, instAttr);
+                        } else {
+                            DEBUG(DBG_SRC) << umlObject->name() << " lvt_InstanceAttribute child "
+                                           << " object " << Uml::ID::toString(nID) << " not found";
+                        }
+                    } else {
+                        DEBUG(DBG_SRC) << "cast to instance object failed";
+                    }
                 } else {
                     UMLClassifier *classifier = umlObject->asUMLClassifier();
                     if (classifier) {

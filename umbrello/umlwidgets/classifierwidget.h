@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2020                                               *
+ *   copyright (C) 2004-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -57,7 +57,7 @@ public:
 
     Q_DECLARE_FLAGS(VisualProperties, VisualProperty)
 
-    ClassifierWidget(UMLScene * scene, UMLClassifier * o);
+    ClassifierWidget(UMLScene * scene, UMLObject * c);
     ClassifierWidget(UMLScene * scene, UMLPackage * o);
     virtual ~ClassifierWidget();
 
