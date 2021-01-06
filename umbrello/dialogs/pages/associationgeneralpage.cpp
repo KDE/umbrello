@@ -139,8 +139,8 @@ void AssociationGeneralPage::constructWidget()
 
         // UMLScene based checks
         if (m_pAssociationWidget->umlScene()->type() == Uml::DiagramType::Collaboration
-                && !(assocType == Uml::AssociationType::Coll_Message_Asynchronous
-                    || assocType == Uml::AssociationType::Coll_Message_Synchronous
+                && !(assocType == Uml::AssociationType::Coll_Mesg_Async
+                    || assocType == Uml::AssociationType::Coll_Mesg_Sync
                     || assocType == Uml::AssociationType::Anchor))
             continue;
 

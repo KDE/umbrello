@@ -109,9 +109,9 @@ namespace Uml
             Dependency,
             Association,
             Association_Self,
-            Coll_Message_Asynchronous,
+            Coll_Mesg_Async,
             Seq_Message,
-            Coll_Message_Self,
+            Coll_Mesg_Self,
             Seq_Message_Self,
             Containment,
             Composition,
@@ -124,7 +124,7 @@ namespace Uml
             Category2Parent,
             Child2Category,
             Relationship,
-            Coll_Message_Synchronous,
+            Coll_Mesg_Sync,
             // enter new entries before this line
             Reserved,
             Unknown  =  - 1

@@ -62,8 +62,8 @@ public:
         tbb_Dependency,
         tbb_Association,
         tbb_Containment,
-        tbb_Coll_Message_Synchronous,
-        tbb_Coll_Message_Asynchronous,
+        tbb_Coll_Mesg_Sync,
+        tbb_Coll_Mesg_Async,
         tbb_Seq_Message_Creation,
         tbb_Seq_Message_Destroy,
         tbb_Seq_Message_Synchronous,
@@ -170,8 +170,8 @@ public slots:
     void slotDependency();
     void slotAssociation();
     void slotContainment();
-    void slotColl_Message_Synchronous();
-    void slotColl_Message_Asynchronous();
+    void slotColl_Mesg_Sync();
+    void slotColl_Mesg_Async();
     void slotSeq_Message_Creation();
     void slotSeq_Message_Destroy();
     void slotSeq_Message_Synchronous();

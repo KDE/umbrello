@@ -919,7 +919,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_MessageDestroy:
     case ListPopupMenu::mt_MessageSynchronous:
 //        MessageWidget *widget = new MessageWidget(umlScene(), this);
-//        addConnectedWidget(widget, Uml::AssociationType::Coll_Message_Synchronous);
+//        addConnectedWidget(widget, Uml::AssociationType::Coll_Mesg_Sync);
     case ListPopupMenu::mt_MessageAsynchronous:
     case ListPopupMenu::mt_MessageFound:
     case ListPopupMenu::mt_MessageLost:

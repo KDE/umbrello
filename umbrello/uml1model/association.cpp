@@ -399,7 +399,7 @@ bool UMLAssociation::load1(QDomElement & element)
                     "associationself",  // Uml::AssociationType::Association_Self
                     "collmessage",      // Uml::AssociationType::Coll_Message
                     "seqmessage",       // Uml::AssociationType::Seq_Message
-                    "collmessageself",  // Uml::AssociationType::Coll_Message_Self
+                    "collmessageself",  // Uml::AssociationType::Coll_Mesg_Self
                     "seqmessageself",   // Uml::AssociationType::Seq_Message_Self
                     "implementation",   // Uml::AssociationType::Implementation
                     "composition",      // Uml::AssociationType::Composition

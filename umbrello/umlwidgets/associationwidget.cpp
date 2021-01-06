@@ -144,7 +144,7 @@ AssociationWidget* AssociationWidget::create
                         case Uml::AssociationType::Generalization:
                         case Uml::AssociationType::Dependency:
                         case Uml::AssociationType::Association_Self:
-                        case Uml::AssociationType::Coll_Message_Self:
+                        case Uml::AssociationType::Coll_Mesg_Self:
                         case Uml::AssociationType::Seq_Message_Self:
                         case Uml::AssociationType::Containment:
                         case Uml::AssociationType::Realization:
@@ -1384,9 +1384,9 @@ bool AssociationWidget::containsAsEndpoint(UMLWidget* widget)
 bool AssociationWidget::isCollaboration() const
 {
     Uml::AssociationType::Enum at = associationType();
-    return (at == AssociationType::Coll_Message_Synchronous
-            || at == AssociationType::Coll_Message_Asynchronous
-            || at == AssociationType::Coll_Message_Self);
+    return (at == AssociationType::Coll_Mesg_Sync
+            || at == AssociationType::Coll_Mesg_Async
+            || at == AssociationType::Coll_Mesg_Self);
 }
 
 /**

@@ -293,14 +293,14 @@ QString toString(Enum item)
             return QLatin1String("Association");
         case Association_Self:
             return QLatin1String("Association_Self");
-        case Coll_Message_Asynchronous:
-            return QLatin1String("Coll_Message_Asynchronous");
-        case Coll_Message_Synchronous:
-            return QLatin1String("Coll_Message_Synchronous");
+        case Coll_Mesg_Async:
+            return QLatin1String("Coll_Mesg_Async");
+        case Coll_Mesg_Sync:
+            return QLatin1String("Coll_Mesg_Sync");
         case Seq_Message:
             return QLatin1String("Seq_Message");
-        case Coll_Message_Self:
-            return QLatin1String("Coll_Message_Self");
+        case Coll_Mesg_Self:
+            return QLatin1String("Coll_Mesg_Self");
         case Seq_Message_Self:
             return QLatin1String("Seq_Message_Self");
         case Containment:
@@ -349,13 +349,13 @@ QString toStringI18n(Enum item)
               return i18n("Association");
           case Association_Self:
               return i18n("Self Association");
-          case Coll_Message_Asynchronous:
+          case Coll_Mesg_Async:
               return i18n("Collaboration Asynchronous Message");
-          case Coll_Message_Synchronous:
+          case Coll_Mesg_Sync:
               return i18n("Collaboration Synchronous Message");
           case Seq_Message:
               return i18n("Sequence Message");
-          case Coll_Message_Self:
+          case Coll_Mesg_Self:
               return i18n("Collaboration Self Message");
           case Seq_Message_Self:
               return i18n("Sequence Self Message");
@@ -405,14 +405,14 @@ Enum fromString(const QString& item)
         return Association;
     else if (item == QLatin1String("Association_Self"))
         return Association_Self;
-    else if (item == QLatin1String("Coll_Message_Asynchronous"))
-        return Coll_Message_Asynchronous;
-    else if (item == QLatin1String("Coll_Message_Synchronous"))
-        return Coll_Message_Synchronous;
+    else if (item == QLatin1String("Coll_Mesg_Async"))
+        return Coll_Mesg_Async;
+    else if (item == QLatin1String("Coll_Mesg_Sync"))
+        return Coll_Mesg_Sync;
     else if (item == QLatin1String("Seq_Message"))
         return Seq_Message;
-    else if (item == QLatin1String("Coll_Message_Self"))
-        return Coll_Message_Self;
+    else if (item == QLatin1String("Coll_Mesg_Self"))
+        return Coll_Mesg_Self;
     else if (item == QLatin1String("Seq_Message_Self"))
         return Seq_Message_Self;
     else if (item == QLatin1String("Containment"))

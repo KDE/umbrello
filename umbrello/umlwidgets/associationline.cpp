@@ -574,9 +574,9 @@ void AssociationLine::reconstructSymbols()
             removeCollaborationLine();
             break;
 
-        case Uml::AssociationType::Coll_Message_Synchronous:
-        case Uml::AssociationType::Coll_Message_Asynchronous:
-        case Uml::AssociationType::Coll_Message_Self:
+        case Uml::AssociationType::Coll_Mesg_Sync:
+        case Uml::AssociationType::Coll_Mesg_Async:
+        case Uml::AssociationType::Coll_Mesg_Self:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::None);
             removeSubsetSymbol();
@@ -670,7 +670,7 @@ void AssociationLine::createCollaborationLine()
     m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
     m_collaborationLineItem->setPen(p);
 
-    if (m_associationWidget->associationType() == Uml::AssociationType::Coll_Message_Synchronous) {
+    if (m_associationWidget->associationType() == Uml::AssociationType::Coll_Mesg_Sync) {
         m_collaborationLineHead = new Symbol(Symbol::ClosedArrow, m_associationWidget);
         m_collaborationLineHead->setBrush(p.color());
     }
