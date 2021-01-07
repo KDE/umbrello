@@ -169,7 +169,7 @@ void ToolBarStateOneWidget::mouseReleaseEmpty()
 
 /**
  * Sets the first object of the message using the specified object.
- * The temporal visual message is created and mouse tracking enabled, so
+ * The temporary visual message is created and mouse tracking enabled, so
  * mouse events will be delivered.
  *
  * @param firstObject The first object of the message.

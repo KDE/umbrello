@@ -270,7 +270,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
-    // the fileName is the name of a temporal local file to export the image to, and then
+    // the fileName is the name of a temporary local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
 #if QT_VERSION >= 0x050000

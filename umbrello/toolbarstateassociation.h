@@ -21,7 +21,7 @@ class QGraphicsLineItem;
  * With association tool, two widgets are selected clicking with left button on
  * them and an association of the needed type (depending on the association
  * button selected) is created between the widgets. When the first widget is
- * selected, a temporal visual association that follows the cursor movement is
+ * selected, a temporary visual association that follows the cursor movement is
  * created until the second widget is selected or the association cancelled.
  *
  * Also, association tool can create association class: a classifier widget

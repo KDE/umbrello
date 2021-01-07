@@ -167,7 +167,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
  * Sets the first widget in the association using the current widget.
  * If the widget can't be associated using the current type of association,
  * an error is shown and the widget isn't set.
- * Otherwise, the temporal visual association is created and the mouse
+ * Otherwise, the temporary visual association is created and the mouse
  * tracking is enabled, so move events will be delivered.
  */
 void ToolBarStateAssociation::setFirstWidget()
@@ -346,7 +346,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
 }
 
 /**
- * Cleans the first widget and the temporal association line, if any.
+ * Cleans the first widget and the temporary association line, if any.
  * Both are set to null, and the association line is also deleted.
  */
 void ToolBarStateAssociation::cleanAssociation()

@@ -228,7 +228,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
 /**
  * Sets the first object of the message using the specified object.
- * The temporal visual message is created and mouse tracking enabled, so
+ * The temporary visual message is created and mouse tracking enabled, so
  * mouse events will be delivered.
  *
  * @param firstObject The first object of the message.
@@ -318,7 +318,7 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
 }
 
 /**
- * Cleans the first widget and the temporal message line, if any.
+ * Cleans the first widget and the temporary message line, if any.
  * Both are set to null, and the message line is also deleted.
  */
 void ToolBarStateMessages::cleanMessage()

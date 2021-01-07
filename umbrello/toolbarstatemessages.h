@@ -23,7 +23,7 @@ class QGraphicsLineItem;
  * With messages tool, two objects are selected clicking with left button on
  * them and a message of the needed type (depending on the message button
  * selected) is created between the objects. When the first object is selected,
- * a temporal visual message that follows the cursor movement is created until
+ * a temporary visual message that follows the cursor movement is created until
  * the second object is selected or the message cancelled.
  *
  * A message can be cancelled using right button, which also returns to default
