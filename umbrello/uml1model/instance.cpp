@@ -37,7 +37,7 @@
  */
 UMLInstance::UMLInstance(const QString &instanceName, Uml::ID::Type id,
                          UMLClassifier *c /* = nullptr */)
-  : UMLObject(instanceName, id)
+  : UMLCanvasObject(instanceName, id)
 {
     m_BaseType = UMLObject::ot_Instance;
     setClassifierCmd(c, false);  // Signal shall not be emitted here
@@ -68,7 +68,7 @@ void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /*
         return;
 
     if (m_pSecondary) {
-        m_attrValues.clear();
+        subordinates().clear();
         disconnect(m_pSecondary, SIGNAL(attributeAdded(UMLClassifierListItem*)),
                    this, SLOT(attributeAdded(UMLClassifierListItem*)));
         disconnect(m_pSecondary, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
@@ -82,7 +82,7 @@ void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /*
             UMLAttribute *umla = item->asUMLAttribute();
             if (umla) {
                 UMLInstanceAttribute *ia = new UMLInstanceAttribute(this, umla, umla->getInitialValue());
-                m_attrValues.append(ia);
+                subordinates().append(ia);
             } else {
                 uError() << "UMLInstance::setClassifierCmd : item is not an attriubte";
             }
@@ -102,26 +102,6 @@ UMLClassifier *UMLInstance::classifier()
 }
 
 /**
- * Find an instance attribute.
- *
- * @param id        ID of the UMLInstanceAttribute to find.
- * @return  Pointer to the object found (NULL if not found.)
- */
-UMLInstanceAttribute* UMLInstance::findChildObjectById(Uml::ID::Type id)
-{
-    foreach (UMLInstanceAttribute *o, m_attrValues) {
-        if (o->id() == id)
-            return o;
-    }
-    return 0;
-}
-
-UMLInstance::AttributeValues& UMLInstance::getAttrValues()
-{
-    return m_attrValues;
-}
-
-/**
  * Creates the <UML:Instance> element including its slots.
  */
 void UMLInstance::saveToXMI1(QXmlStreamWriter& writer)
@@ -130,8 +110,8 @@ void UMLInstance::saveToXMI1(QXmlStreamWriter& writer)
     if (m_pSecondary) {
         writer.writeAttribute(QLatin1String("classifier"), Uml::ID::toString(m_pSecondary->id()));
         //save attributes
-        foreach (UMLInstanceAttribute *pInstanceAttribute, m_attrValues) {
-            pInstanceAttribute->saveToXMI1(writer);
+        foreach (UMLObject *pObject, subordinates()) {
+            pObject->saveToXMI1(writer);
         }
     }
     UMLObject::save1end(writer);
@@ -156,7 +136,7 @@ bool UMLInstance::load1(QDomElement &element)
             if (!pInstanceAttribute->loadFromXMI1(tempElement)) {
                 return false;
             }
-            m_attrValues.append(pInstanceAttribute);
+            subordinates().append(pInstanceAttribute);
         }
         node = node.nextSibling();
     } // end while
@@ -199,9 +179,9 @@ bool UMLInstance::showPropertiesDialog(QWidget* parent)
 
 void UMLInstance::attributeAdded(UMLClassifierListItem *item)
 {
-    for (int i = 0; i < m_attrValues.count(); i++) {
-        UMLInstanceAttribute *ia = m_attrValues.at(i);
-        if (ia->parent() == item) {
+    for (int i = 0; i < subordinates().count(); i++) {
+        UMLObject *o = subordinates().at(i);
+        if (o->parent() == item) {
             uDebug() << "UMLInstance::attributeAdded(" << item->name()
                      << ") : instanceAttribute already present";
             return;
@@ -212,7 +192,7 @@ void UMLInstance::attributeAdded(UMLClassifierListItem *item)
         uDebug() << "UMLInstance::attributeAdded(" << item->name()
                  << ") : creating UMLInstanceAttribute";
         UMLInstanceAttribute *ia = new UMLInstanceAttribute(this, umla, umla->getInitialValue());
-        m_attrValues.append(ia);
+        subordinates().append(ia);
     } else {
         uError() << "UMLInstance::attributeAdded(" << item->name()
                  << ") : item is not a UMLAttribute";
@@ -221,12 +201,12 @@ void UMLInstance::attributeAdded(UMLClassifierListItem *item)
 
 void UMLInstance::attributeRemoved(UMLClassifierListItem *item)
 {
-    for (int i = 0; i < m_attrValues.count(); i++) {
-        UMLInstanceAttribute *ia = m_attrValues.at(i);
-        if (ia->parent() == item) {
+    for (int i = 0; i < subordinates().count(); i++) {
+        UMLObject *o = subordinates().at(i);
+        if (o->parent() == item) {
             uDebug() << "UMLInstance::attributeRemoved(" << item->name()
                      << ") : removing instanceAttribute at index " << i;
-            m_attrValues.removeAt(i);
+            subordinates().removeAt(i);
             return;
         }
     }

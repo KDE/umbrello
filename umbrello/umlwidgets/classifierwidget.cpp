@@ -1132,23 +1132,29 @@ void ClassifierWidget::drawMembers(QPainter * painter,
     f.setBold(false);
     painter->setClipping(true);
     painter->setClipRect(rect());
-    UMLInstance::AttributeValues ialist;
+    UMLObjectList ialist;
     if (drawInstanceAttributes) {
         UMLInstance *umlinst = m_umlObject->asUMLInstance();
         umlc = umlinst->classifier();
-        ialist = umlinst->getAttrValues();
+        ialist = umlinst->subordinates();
     }
     UMLClassifierListItemList list = umlc->getFilteredList(ot);
     for (int i = 0; i < list.count(); i++) {
         UMLClassifierListItem *obj = list.at(i);
+        uIgnoreZeroPointer(obj);
         if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
         QString text;
         if (drawInstanceAttributes) {
-            UMLInstanceAttribute *iatt = ialist.at(i);
+            UMLInstanceAttribute *iatt = ialist.at(i)->asUMLInstanceAttribute();
+            if (!iatt) {
+                uDebug() << "ClassifierWidget::drawMembers(" << obj->name()
+                         << ") : skipping non InstanceAttribute subordinate";
+                continue;
+            }
             /* CHECK: Do we want visibility indication on instance attributes?
             if (sigType == Uml::SignatureType::ShowSig || sigType == Uml::SignatureType::NoSig)
-                text = Uml::Visibility::toString(obj->visibility(), true) + QLatin1Char(' ');
+                text = Uml::Visibility::toString(iatt->visibility(), true) + QLatin1Char(' ');
              */
             text.append(iatt->toString());
         } else {

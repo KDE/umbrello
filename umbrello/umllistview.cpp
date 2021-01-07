@@ -1039,49 +1039,53 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     UMLObject::ObjectType type = object->baseType();
     switch (type) {
     case UMLObject::ot_Class:
-    case UMLObject::ot_Interface: {
-        UMLClassifier *c = object->asUMLClassifier();
-        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(c, SIGNAL(templateAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(c, SIGNAL(templateRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+    case UMLObject::ot_Interface:
+        {
+            UMLClassifier *c = object->asUMLClassifier();
+            connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(c, SIGNAL(templateRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+        }
+        break;
+    case UMLObject::ot_Instance:
+        {
+            connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
+        }
+        break;
+    case UMLObject::ot_Enum:
+        {
+            UMLEnum *e = object->asUMLEnum();
+            connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(e, SIGNAL(enumLiteralRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        }
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
-    }
-    break;
-    case UMLObject::ot_Instance: {
+        break;
+    case UMLObject::ot_Entity:
+        {
+            UMLEntity *ent = object->asUMLEntity();
+            connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+            connect(ent, SIGNAL(entityConstraintAdded(UMLClassifierListItem*)),
+                    this, SLOT(childObjectAdded(UMLClassifierListItem*)));
+            connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
+                    this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
+        }
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
-    }
-    break;
-    case UMLObject::ot_Enum: {
-        UMLEnum *e = object->asUMLEnum();
-        connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(e, SIGNAL(enumLiteralRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-    }
-    connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
-    break;
-    case UMLObject::ot_Entity: {
-        UMLEntity *ent = object->asUMLEntity();
-        connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityConstraintAdded(UMLClassifierListItem*)),
-                this, SLOT(childObjectAdded(UMLClassifierListItem*)));
-        connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
-                this, SLOT(childObjectRemoved(UMLClassifierListItem*)));
-    }
-    connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
-    break;
+        break;
     case UMLObject::ot_Datatype:
     case UMLObject::ot_Attribute:
     case UMLObject::ot_Operation:
@@ -2307,10 +2311,12 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             scrollToItem(instanceItem);
             clearSelection();
             instanceItem->setSelected(true);
-            UMLInstance::AttributeValues& values = inst->getAttrValues();
-            foreach (UMLInstanceAttribute *child, values) {
+            UMLObjectList& values = inst->subordinates();
+            foreach (UMLObject *child, values) {
+                if (!child->isUMLInstanceAttribute())
+                    continue;
                 connectNewObjectsSlots(child);
-                const QString text = child->toString();
+                const QString text = child->asUMLInstanceAttribute()->toString();
                 UMLListViewItem *childItem =
                     new UMLListViewItem(instanceItem, text, UMLListViewItem::lvt_InstanceAttribute , child);
                 Q_UNUSED(childItem);
@@ -2603,8 +2609,9 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 } else if (lvType == UMLListViewItem::lvt_InstanceAttribute) {
                     UMLInstance *instance = umlObject->asUMLInstance();
                     if (instance) {
-                        UMLInstanceAttribute *instAttr = instance->findChildObjectById(nID);
-                        if (instAttr) {
+                        umlObject = instance->findChildObjectById(nID);
+                        if (umlObject) {
+                            UMLInstanceAttribute *instAttr = umlObject->asUMLInstanceAttribute();
                             connectNewObjectsSlots(instAttr);
                             label = instAttr->toString();
                             item = new UMLListViewItem(parent, label, lvType, instAttr);
