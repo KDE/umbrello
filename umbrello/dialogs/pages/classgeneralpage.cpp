@@ -92,14 +92,18 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    if( t == UMLObject::ot_Instance) {
-        Q_ASSERT(m_pObject->asUMLInstance());
+    if (t == UMLObject::ot_Instance) {
+        UMLInstance *inst = m_pObject->asUMLInstance();
+        Q_ASSERT(inst);
         QString name = UMLObject::toI18nString(t);
         m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
         setFocusProxy(m_instanceNameWidget);
-        QString className = UMLObject::toI18nString(UMLObject::ot_Class);
-        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->asUMLInstance()->classifier()->name());
+        QString classNameLabel = UMLObject::toI18nString(UMLObject::ot_Class);
+        QString className;
+        if (inst->classifier())
+            className = inst->classifier()->name();
+        m_nameWidget = new UMLObjectNameWidget(classNameLabel, className);
         m_nameWidget->addToLayout(m_pNameLayout, 1);
     }
     else {
