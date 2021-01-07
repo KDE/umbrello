@@ -151,18 +151,19 @@ bool UMLInstance::load1(QDomElement &element)
  */
 bool UMLInstance::resolveRef()
 {
-    if (m_SecondaryId.isEmpty())
+    if (m_SecondaryId.isEmpty()) {
+        maybeSignalObjectCreated();
         return true;
+    }
     if (m_pSecondary) {
         m_SecondaryId.clear();
+        maybeSignalObjectCreated();
         return true;
     }
     if (!UMLObject::resolveRef()) {
         return false;
     }
-    if (!m_pSecondary)
-        return false;
-    return true;
+    return (m_pSecondary != nullptr);
 }
 
 /**
