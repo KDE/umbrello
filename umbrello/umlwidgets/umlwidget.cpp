@@ -440,14 +440,14 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * widget resize constraint can be applied), and then the associations are
  * adjusted.
  * The resizing can be constrained also to a specific axis using control
- * and shift buttons. If on or another is pressed, it's constrained to X axis.
+ * and shift buttons. If one or another is pressed, it's constrained to X axis.
  * If both are pressed, it's constrained to Y axis.
  *
  * If not resizing, the widget is being moved. If the move is being started,
  * the selection bounds are set (which includes updating the list of selected
  * widgets).
  * The difference between the previous position of the selection and the new
- * one is got (taking in account the selection bounds so widgets don't go
+ * one is calculated (taking in account the selection bounds so widgets don't go
  * beyond the scene limits). Then, it's constrained to X or Y axis depending
  * on shift and control buttons.
  * A further constraint is made using constrainMovementForAllWidgets (for example,
@@ -470,7 +470,8 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     if (!m_moved) {
-        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
+        UMLApp::app()->document()->writeToStatusBar
+          (i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
 
         m_moved = true;
         //Maybe needed by AssociationWidget
