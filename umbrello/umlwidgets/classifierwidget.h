@@ -57,7 +57,8 @@ public:
 
     Q_DECLARE_FLAGS(VisualProperties, VisualProperty)
 
-    ClassifierWidget(UMLScene * scene, UMLObject * c);
+    ClassifierWidget(UMLScene * scene, UMLClassifier * umlc);
+    ClassifierWidget(UMLScene * scene, UMLInstance * umli);
     ClassifierWidget(UMLScene * scene, UMLPackage * o);
     virtual ~ClassifierWidget();
 

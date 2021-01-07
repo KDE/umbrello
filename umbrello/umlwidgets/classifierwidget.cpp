@@ -41,13 +41,13 @@ const int ClassifierWidget::CIRCLE_SIZE = 30;
 const int ClassifierWidget::SOCKET_INCREMENT = 10;
 
 /**
- * Constructs a ClassifierWidget.
+ * Constructs a ClassifierWidget for a UMLClassifier.
  *
  * @param scene   The parent of this ClassifierWidget.
- * @param c       The UMLClassifier or UMLInstance to represent.
+ * @param umlc    The UMLClassifier to represent.
  */
-ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLObject *c)
-  : UMLWidget(scene, WidgetBase::wt_Class, c),
+ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *umlc)
+  : UMLWidget(scene, WidgetBase::wt_Class, umlc),
     m_pAssocWidget(nullptr),
     m_pInterfaceName(nullptr)
 {
@@ -85,15 +85,36 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLObject *c)
 
     setShowAttSigs(ops.classState.showAttSig);
 
-    UMLClassifier *umlc = (c ? c->asUMLClassifier() : nullptr);
     if (umlc && umlc->isInterface()) {
         setBaseType(WidgetBase::wt_Interface);
         m_visualProperties = ShowOperations | ShowVisibility;
         setShowStereotype(Uml::ShowStereoType::Tags);
         updateSignatureTypes();
     }
+}
 
-    UMLInstance *umli = (c ? c->asUMLInstance() : nullptr);
+/**
+ * Constructs a ClassifierWidget for a UMLInstance.
+ *
+ * @param scene   The parent of this ClassifierWidget.
+ * @param umli    The UMLInstance to represent.
+ */
+ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLInstance * umli)
+  : UMLWidget(scene, WidgetBase::wt_Instance, umli),
+    m_pAssocWidget(nullptr),
+    m_pInterfaceName(nullptr)
+{
+    DiagramProxyWidget::setShowLinkedDiagram(false);
+    const Settings::OptionState& ops = m_scene->optionState();
+    setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
+    setVisualPropertyCmd(ShowPublicOnly, ops.classState.showPublicOnly);
+    setVisualPropertyCmd(ShowPackage,    ops.classState.showPackage);
+    m_attributeSignature = Uml::SignatureType::ShowSig;
+
+    setVisualPropertyCmd(ShowAttributes, ops.classState.showAtts);
+
+    setShowAttSigs(ops.classState.showAttSig);
+
     if (umli) {
         setBaseType(WidgetBase::wt_Instance);
         m_visualProperties =  ShowAttributes;
@@ -102,7 +123,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLObject *c)
 }
 
 /**
- * Constructs a ClassifierWidget.
+ * Constructs a ClassifierWidget for a UMLPackage.
  *
  * @param scene   The parent of this ClassifierWidget.
  * @param o       The UMLPackage to represent.
