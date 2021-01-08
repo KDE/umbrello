@@ -69,10 +69,15 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
         UMLView *view = UMLApp::app()->currentView();
         if (view && view->umlScene()->isComponentDiagram() &&
             widgetType == WidgetBase::wt_Package &&
-            (assocType == Uml::AssociationType::Generalization || assocType == Uml::AssociationType::Realization))
-            ;
-        else
+                (assocType == Uml::AssociationType::Generalization ||
+                    assocType == Uml::AssociationType::Realization)) {
+            uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                     << ") : Exception for subsystem realizing interface in component diagram";
+        } else {
+            uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                     << ") : no permission rule found";
             return false;
+        }
     }
     AssociationWidgetList list = widget->associationWidgetList();
 
@@ -96,8 +101,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
 
     case Uml::AssociationType::Realization:  // one connected to widget only (a or b)
         foreach (AssociationWidget* assoc, list) {
-            if(assoc->associationType() == Uml::AssociationType::Realization)
+            if (assoc->associationType() == Uml::AssociationType::Realization) {
+                uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                         << ") : disallowing more than one realization to object";
                 return false;
+            }
         }
         return true;
         break;
@@ -105,7 +113,10 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::State:
         {
             StateWidget *pState = widget->asStateWidget();
-            return (pState == 0 || pState->stateType() != StateWidget::End);
+            if (pState == 0 || pState->stateType() != StateWidget::End)
+                return true;
+            uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                     << ") : disallowing because state type is not 'End'";
         }
         break;
 
@@ -113,7 +124,10 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Exception:
         {
             ActivityWidget *pActivity = widget->asActivityWidget();
-            return (pActivity == 0 || pActivity->activityType() != ActivityWidget::End);
+            if (pActivity == 0 || pActivity->activityType() != ActivityWidget::End)
+                return true;
+            uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                     << ") : disallowing because activity type is not 'End'";
         }
         break;
 
@@ -124,11 +138,15 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Category2Parent:
         if (widgetType == WidgetBase::wt_Category)
             return true;
+        uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                 << ") : disallowing because widget is not Category";
         break;
 
     case Uml::AssociationType::Child2Category:
         if (widgetType == WidgetBase::wt_Entity)
             return true;
+        uDebug() << "allowAssociation(widget " << widgetType << ", assoc " << assocType
+                 << ") : disallowing because widget is not Entity";
         break;
 
     default:
