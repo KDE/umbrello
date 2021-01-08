@@ -46,10 +46,11 @@ void QGraphicsObjectWrapper::setSelected(bool state)
     WidgetBase *wb = dynamic_cast<WidgetBase*>(this);
     if (wb)
         info = wb->name();
-    if (info.isEmpty())
+    if (info.isEmpty()) {
         DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
-    else
+    } else {
         DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
+    }
     m_calledFromItemChange = false;
 }
 
@@ -682,7 +683,7 @@ bool WidgetBase::widgetHasUMLObject(WidgetBase::WidgetType type)
 }
 
 /**
- * Activate the object after serializing it from a QDataStream
+ * Activate the object after deserializing it from XMI
  *
  * @param ChangeLog
  * @return  true for success
