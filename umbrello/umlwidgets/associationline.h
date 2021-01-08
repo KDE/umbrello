@@ -26,9 +26,8 @@ class QPainter;
 class QXmlStreamWriter;
 
 /**
- * This class provides with various symbols that can be embedded in
- * AssociationLine.  It also provides with convenience methods to align
- * the symbol to AssociationLine.
+ * This class provides various symbols that can be embedded in AssociationLine.
+ * It also provides convenience methods to align the symbol to AssociationLine.
  */
 class Symbol : public QGraphicsItem
 {
