@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -1686,6 +1686,39 @@ void UMLWidget::setScene(UMLScene *scene)
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
+}
+
+/**
+ * Gets the x-coordinate.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The x-coordinate.
+ */
+qreal UMLWidget::getX() const
+{
+    return QGraphicsObjectWrapper::x();
+}
+
+/**
+ * Gets the y-coordinate.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The y-coordinate.
+ */
+qreal UMLWidget::getY() const
+{
+    return QGraphicsObjectWrapper::y();
+}
+
+/**
+ * Gets the position.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The QGraphicsObject position.
+ */
+QPointF UMLWidget::getPos() const
+{
+    return QGraphicsObjectWrapper::pos();
 }
 
 /**

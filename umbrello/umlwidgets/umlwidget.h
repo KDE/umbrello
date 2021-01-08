@@ -105,6 +105,9 @@ public:
         return m_startMove;
     }
 
+    virtual qreal getX() const;
+    virtual qreal getY() const;
+    virtual QPointF getPos() const;
     virtual void setX(qreal x);
     virtual void setY(qreal y);
 

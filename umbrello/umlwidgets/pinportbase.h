@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2014-2020                                               *
+ *   copyright (C) 2014-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -38,6 +38,10 @@ public:
     virtual UMLWidget* ownerWidget() const;
 
     void setInitialPosition(const QPointF &scenePos);
+
+    qreal getX() const;
+    qreal getY() const;
+    QPointF getPos() const;
 
     void updateWidget();
     void setName(const QString &strName);

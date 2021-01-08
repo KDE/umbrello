@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2020                                               *
+ *   copyright (C) 2004-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -263,6 +263,11 @@ void ToolBarStateAssociation::setSecondWidget()
             } */
         }
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
+        if (widgetA->baseType() == UMLWidget::wt_Port) {
+            QPointF lineStart = widgetA->getPos();
+            uDebug() << "ToolBarStateAssociation::setSecondWidget : lineStart = " << lineStart;
+            temp->associationLine()->setPoint(0, lineStart);
+        }
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)
             wt->showOperationDialog();

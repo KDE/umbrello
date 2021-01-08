@@ -1193,8 +1193,8 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
 //    QPointF lpStart = m_associationLine->point(0);
 //    int startX = lpStart.x();
 //    int startY = lpStart.y();
-//    int wX = widget->x();
-//    int wY = widget->y();
+//    int wX = widget->getX();
+//    int wY = widget->getY();
 //    int wWidth = widget->width();
 //    int wHeight = widget->height();
 //    bool result = (startX >= wX && startX <= wX + wWidth &&
@@ -1649,8 +1649,8 @@ void AssociationWidget::calculateEndingPoints()
 
     int size = m_associationLine->count();
     if (size < 2) {
-        QPointF pA = pWidgetA->pos();
-        QPointF pB = pWidgetB->pos();
+        QPointF pA = pWidgetA->getPos();
+        QPointF pB = pWidgetB->getPos();
         QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
         QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
@@ -1681,8 +1681,8 @@ void AssociationWidget::calculateEndingPoints()
 
     // If the line has more than one segment change the values to calculate
     // from widget to point 1.
-    qreal xB = pWidgetB->x() + pWidgetB->width() / 2;
-    qreal yB = pWidgetB->y() + pWidgetB->height() / 2;
+    qreal xB = pWidgetB->getX() + pWidgetB->width() / 2;
+    qreal yB = pWidgetB->getY() + pWidgetB->height() / 2;
     if (size > 2) {
         QPointF p = m_associationLine->point(1);
         xB = p.x();
@@ -1693,8 +1693,8 @@ void AssociationWidget::calculateEndingPoints()
     // Now do the same for widgetB.
     // If the line has more than one segment change the values to calculate
     // from widgetB to the last point away from it.
-    qreal xA = pWidgetA->x() + pWidgetA->width() / 2;
-    qreal yA = pWidgetA->y() + pWidgetA->height() / 2;
+    qreal xA = pWidgetA->getX() + pWidgetA->width() / 2;
+    qreal yA = pWidgetA->getY() + pWidgetA->height() / 2;
     if (size > 2 ) {
         QPointF p = m_associationLine->point(size - 2);
         xA = p.x();
@@ -1713,7 +1713,7 @@ void AssociationWidget::doUpdates(const QPointF &otherP, RoleType::Enum role)
     // Find widget region.
     Uml::Region::Enum oldRegion = m_role[role].m_WidgetRegion;
     UMLWidget *pWidget = m_role[role].umlWidget;
-    QRectF rc(pWidget->x(), pWidget->y(),
+    QRectF rc(pWidget->getX(), pWidget->getY(),
               pWidget->width(), pWidget->height());
     Uml::Region::Enum region = m_role[role].m_WidgetRegion;  // alias for brevity
     region = findPointRegion(rc, otherP);
@@ -3633,7 +3633,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
                  polyA = polyA.united(polyListA.at(i));
             }
         }
-        polyA = polyA.translated(pWidgetA->pos());
+        polyA = polyA.translated(pWidgetA->getPos());
         QList<QPolygonF> polyListB = pWidgetB->shape().toSubpathPolygons();
         QPolygonF polyB = polyListB.at(0);
         if (polyListB.size() > 1) {
@@ -3641,7 +3641,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
                  polyB = polyB.united(polyListB.at(i));
             }
         }
-        polyB = polyB.translated(pWidgetB->pos());
+        polyB = polyB.translated(pWidgetB->getPos());
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
         if (nearestPoints.isNull()) {
             uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2014-2020                                               *
+ *   copyright (C) 2014-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -92,6 +92,21 @@ UMLWidget* PinPortBase::ownerWidget() const
 void PinPortBase::setInitialPosition(const QPointF &scenePos)
 {
     m_childPlacement->setInitialPosition(scenePos);
+}
+
+qreal PinPortBase::getX() const
+{
+    return parentItem()->x() + UMLWidget::getX();
+}
+
+qreal PinPortBase::getY() const
+{
+    return parentItem()->y() + UMLWidget::getY();
+}
+
+QPointF PinPortBase::getPos() const
+{
+    return parentItem()->pos() + UMLWidget::getPos();
 }
 
 /**
