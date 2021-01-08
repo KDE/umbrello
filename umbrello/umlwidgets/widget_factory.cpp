@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2020                                               *
+ *   copyright (C) 2006-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -250,8 +250,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == 0) {
-            uDebug() << "makeWidgetFromXMI: cannot find object with id "
-                << Uml::ID::toString(id);
+            uError() << "makeWidgetFromXMI: cannot find object with id " << Uml::ID::toString(id);
+            delete widget;
+            return 0;
         }
 
         if (tag == QLatin1String("actorwidget") || tag == QLatin1String("UML:ActorWidget")) {
