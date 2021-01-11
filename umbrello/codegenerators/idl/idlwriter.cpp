@@ -38,14 +38,13 @@ IDLWriter::~IDLWriter()
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
-    if (stype == QLatin1String("CORBAConstant") || stype == QLatin1String("CORBAEnum") ||
-            stype == QLatin1String("CORBAStruct") || stype == QLatin1String("CORBAUnion") ||
-            stype == QLatin1String("CORBASequence") || stype == QLatin1String("CORBAArray") ||
-            stype == QLatin1String("CORBATypedef"))
+    QRegExp nonOO(QLatin1String("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
+                  Qt::CaseInsensitive);
+    if (stype.contains(nonOO))
         return false;
 
-    // CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
-    // assumed to be OO classes.
+    // idlValue/CORBAValue, idlInterface/CORBAInterface, and empty/unknown stereotypes are
+    // assumed to designate OO classes.
     return true;
 }
 
@@ -198,7 +197,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
-        if (stype == QLatin1String("CORBAConstant")) {
+        if (stype.contains(QLatin1String("Constant"))) {
             uError() << "The stereotype " << stype << " cannot be applied to "
                      << c->name() << ", but only to attributes.";
             return;
@@ -209,7 +208,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                      << ", but only to classes.";
             return;
         }
-        if (stype == QLatin1String("CORBAEnum")) {
+        if (stype.contains(QLatin1String("Enum"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "enum " << classname << " {" << m_endl;
@@ -224,7 +223,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBAStruct")) {
+        } else if (stype.contains(QLatin1String("Struct"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "struct " << classname << " {" << m_endl;
@@ -254,10 +253,10 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBAUnion")) {
+        } else if (stype.contains(QLatin1String("Union"))) {
             idl << indent() << "// " << stype << " " << c->name()
                 << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBATypedef")) {
+        } else if (stype.contains(QLatin1String("Typedef"))) {
             UMLClassifierList superclasses = c->getSuperClasses();
             UMLClassifier* firstParent = superclasses.first();
             idl << indent() << "typedef " << firstParent->name() << " "
@@ -276,7 +275,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     idl << indent();
     if (c->isAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->stereotype() == QLatin1String("CORBAValue"));
+    bool isValuetype = (c->stereotype().contains(QLatin1String("Value")));
     if (isValuetype)
         idl << "valuetype ";
     else
@@ -444,8 +443,11 @@ QStringList IDLWriter::defaultDatatypes()
     l.append(QLatin1String("unsigned short"));
     l.append(QLatin1String("long"));
     l.append(QLatin1String("unsigned long"));
+    l.append(QLatin1String("long long"));
+    l.append(QLatin1String("unsigned long long"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("double"));
+    l.append(QLatin1String("long double"));
     l.append(QLatin1String("string"));
     l.append(QLatin1String("any"));
     return l;
