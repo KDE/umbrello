@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2015                                                    *
+ *   copyright (C) 2015-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -25,7 +25,7 @@ class StereotypesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit StereotypesModel(UMLStereotypeList *stereotypes);
+    explicit StereotypesModel(UMLStereotypeList& stereotypes);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -41,7 +41,7 @@ public:
 
 protected:
     int m_count;
-    UMLStereotypeList *m_stereotypes;
+    UMLStereotypeList& m_stereotypes;
 };
 
 #endif // STEREOTYPESMODEL_H

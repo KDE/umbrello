@@ -131,7 +131,7 @@ UMLDoc::UMLDoc()
     m_bClosing(false),
     m_diagramsModel(new DiagramsModel),
     m_objectsModel(new ObjectsModel),
-    m_stereotypesModel(new StereotypesModel(&m_stereoList)),
+    m_stereotypesModel(new StereotypesModel(m_stereoList)),
     m_resolution(0.0)
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
