@@ -139,8 +139,9 @@ void UMLStereotype::saveToXMI1(QXmlStreamWriter& writer)
             writer.writeAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
             if (!ad.defaultVal.isEmpty())
                 writer.writeAttribute(QLatin1String("initialValue"), ad.defaultVal);
+            writer.writeEndElement();            // UML:Attribute
         }
-        writer.writeEndElement();
+        writer.writeEndElement();            // UML:Stereotype.feature
     }
     writer.writeEndElement();
 }

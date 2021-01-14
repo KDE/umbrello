@@ -927,8 +927,9 @@ void UMLObject::save1end(QXmlStreamWriter& writer)
             writer.writeStartElement(QLatin1String("UML:TaggedValue"));
             writer.writeAttribute(QLatin1String("tag"), attrDefs[i].name);
             writer.writeAttribute(QLatin1String("value"), tv);
-            writer.writeEndElement();
+            writer.writeEndElement();            // UML:TaggedValue
         }
+        writer.writeEndElement();            // UML:ModelElement.taggedValues
     }
     writer.writeEndElement();
 }
