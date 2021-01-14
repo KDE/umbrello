@@ -17,8 +17,10 @@
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
+#include "object_factory.h"
 #include "operation.h"
 #include "package.h"
+#include "stereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"
@@ -44,6 +46,7 @@ bool IDLImport::m_preProcessorChecked = false;
 
 IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//"), thread)
 {
+    m_doc = UMLApp::app()->document();
     m_isOneway = m_isReadonly = m_isAttribute = m_isUnionDefault = false;
     setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
 
@@ -435,21 +438,38 @@ bool IDLImport::parseStmt()
             }
             const QString& newType = advance();
             skipStmt();
-            UMLObject *dt = Import_Utils::createUMLObject(UMLObject::ot_Datatype,
-                                                          newType, currentScope(), m_comment);
+            UMLObject::ObjectType ot = (oldType.length() ? UMLObject::ot_Class : UMLObject::ot_Datatype);
+            UMLObject *pOld = m_doc->findUMLObject(oldType, UMLObject::ot_UMLObject, currentScope());
+            if (pOld == 0) {
+                pOld = Import_Utils::createUMLObject(ot, oldType, currentScope());
+            }
+            UMLObject *dt = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment);
             if (!dt) {
                 uError() << "importIDL(typedef " << keyword << "): Could not create datatype "
                          << newType;
                 return true;
             }
+            QString stereoName = (oldType.length() ? QLatin1String("idlSequence") : QLatin1String("idlString"));
+            UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
+            if (pStereo == 0) {
+                pStereo = m_doc->createStereotype(stereoName);
+                UMLStereotype::AttributeDef tagDef(QLatin1String("bound"), Uml::PrimitiveTypes::UnlimitedNatural);
+                // Empty bound stands for "unbounded".
+                pStereo->getAttributeDefs().append(tagDef);
+            }
             if (oldType.length()) {
-                dt->setStereotype(QLatin1String("idlSequence"));
-            } else {
-                dt->setStereotype(QLatin1String("idlString"));
+                UMLAttribute *typeAttr = Object_Factory::createAttribute(dt, QLatin1String("members"), pOld);
+                Q_UNUSED(typeAttr);
+                /*
+                UMLClassifier *cl = dt->asUMLClassifier();
+                if (cl == 0) {
+                    uError() << "IDLImport::parseStmt(typedef " << newType
+                             << ") internal error: object returned by Import_Utils::createUMLObject is not a Class";
+                    return false;
+                } */
             }
-            if (bound.length()) {
-                uDebug() << "IDLImport::parseStmt TODO: typedef " << keyword << " bound " << bound;
-            }
+            dt->setUMLStereotype(pStereo);
+            dt->tags().append(bound);
             return true;
         }
         m_srcIndex++;

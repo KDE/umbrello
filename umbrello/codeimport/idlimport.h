@@ -13,6 +13,8 @@
 
 #include "nativeimportbase.h"
 
+class UMLDoc;
+
 /**
  * CORBA IDL code import
  * @author Oliver Kellogg
@@ -37,6 +39,7 @@ public:
 
 protected:
     QString joinTypename();
+    UMLDoc *m_doc;
     bool m_isOneway, m_isReadonly, m_isAttribute, m_isUnionDefault;
     QStringList m_unionCases;
     static QString m_preProcessor;
