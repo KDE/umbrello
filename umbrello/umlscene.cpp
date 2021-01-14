@@ -1324,7 +1324,22 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
 
     o->cleanup();
-    o->setSelectedFlag(false);
+    if (!UMLApp::app()->shuttingDown()) {
+        /* Manipulating the Selected flag during shutdown may crash:
+           UMLWidget::setSelectedFlag ->
+             WidgetBase::setSelected ->
+                QGraphicsObjectWrapper::setSelected ->
+                  QGraphicsItem::setSelected ->
+                    QGraphicsObjectWrapper::itemChange ->
+                      UMLWidget::setSelected ->
+                        UMLApp::slotCopyChanged ->
+                          UMLListView::selectedItemsCount ->
+                            UMLListView::selectedItems ->
+                              Crash somewhere in qobject_cast
+                              (listview already destructed?)
+         */
+        o->setSelectedFlag(false);
+    }
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
