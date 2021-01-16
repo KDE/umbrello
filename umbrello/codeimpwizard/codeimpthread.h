@@ -36,7 +36,7 @@ class CodeImpThread : public QObject
 {
     Q_OBJECT
 public:
-    explicit CodeImpThread(QFileInfo file, QObject* parent = 0);
+    explicit CodeImpThread(QFileInfo& file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
 public slots:
@@ -58,7 +58,7 @@ private slots:
     void questionAsked(const QString& question, int& answer);
 
 private:
-    QFileInfo         m_file;
+    QFileInfo&        m_file;
     //QWaitCondition    m_waitCondition;
     //QMutex            m_mutex;
 };

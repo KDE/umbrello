@@ -30,7 +30,7 @@
  * Constructor.
  * @param file  File to import for which the thread shall be spawned
  */
-CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
+CodeImpThread::CodeImpThread(QFileInfo& file, QObject* parent)
   : QObject(parent),
     m_file(file)
 {
@@ -101,7 +101,11 @@ int CodeImpThread::emitAskQuestion(const QString& question)
  */
 void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 {
-    emit messageToLog(file, text);
+    if (file.isEmpty()) {
+        emit messageToLog(m_file.fileName(), text);
+    } else {
+        emit messageToLog(file, text);
+    }
 }
 
 /**
