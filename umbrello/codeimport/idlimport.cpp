@@ -249,7 +249,7 @@ bool IDLImport::isValidScopedName(QString text) {
  * Implement abstract operation from NativeImportBase.
  * The function only returns false if an error is encountered from which
  * no recovery is possible.
- * On these non fatal syntax errors, the function issues an error message,
+ * On recoverable syntax errors, the function issues an error message,
  * skips to the end of the offending declaration, and returns true.
  * Returning true in spite of a local syntax error is done in the interest
  * of best effort (returning false would abort the entire code import).
@@ -612,8 +612,17 @@ bool IDLImport::parseStmt()
             m_isReadonly = false;
         }
         if (m_unionCases.count()) {
-            attr->setStereotype(QLatin1String("idlCase"));
-            // TODO add tag "label" with m_unionCases
+            const QString stereoName = QLatin1String("idlCase");
+            UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
+            if (pStereo == 0) {
+                pStereo = m_doc->createStereotype(stereoName);
+                UMLStereotype::AttributeDef tagDef(QLatin1String("label"), Uml::PrimitiveTypes::String);
+                pStereo->getAttributeDefs().append(tagDef);
+            }
+            attr->setUMLStereotype(pStereo);
+            const QString caseLabels = m_unionCases.join(QChar(' '));
+            attr->tags().append(caseLabels);
+            m_unionCases.clear();
         } else if (m_isUnionDefault) {
             attr->setStereotype(QLatin1String("idlDefault"));
             m_isUnionDefault = false;
