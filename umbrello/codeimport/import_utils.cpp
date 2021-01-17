@@ -614,9 +614,17 @@ UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent
         association = Uml::AssociationType::Realization;
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
-    UMLDoc *umldoc = UMLApp::app()->document();
-    assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
-    umldoc->addAssociation(assoc);
+    if (child->umlPackage()) {
+        assoc->setUMLPackage(child->umlPackage());
+        child->addAssociationEnd(assoc);
+    } else {
+        uDebug() << "Import_Utils::createGeneralization(child " << child->name()
+                 << ", parent " << parent->name() << ") : Package is not set on child";
+        UMLDoc *umldoc = UMLApp::app()->document();
+        UMLPackage *owningPackage = umldoc->rootFolder(Uml::ModelType::Logical);
+        assoc->setUMLPackage(owningPackage);
+        umldoc->addAssociation(assoc);
+    }
     return assoc;
 }
 

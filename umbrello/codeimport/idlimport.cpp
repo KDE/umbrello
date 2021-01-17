@@ -235,7 +235,7 @@ bool IDLImport::parseFile(const QString& filename)
 bool IDLImport::skipStructure()
 {
     bool status = skipToClosing(QLatin1Char('{'));  // skip to '}'
-    skipStmt();  // IDL blocks are terminated using "};". Skip ';' after '}'
+    // Skipping of ';' after '}' is done by NativeImportBase::parseFile
     return status;
 }
 
@@ -486,9 +486,26 @@ bool IDLImport::parseStmt()
         uDebug() << "parseStmt(typedef) : oldType is " << oldType
                  << ", newType is " << newType
                  << ", scopeIndex is " << scopeIndex();
-        Import_Utils::createUMLObject(UMLObject::ot_Class, newType, currentScope(),
-                                     m_comment, QLatin1String("idlTypedef") /* stereotype */);
-        // @todo How do we convey the existingType ?
+        UMLObject::ObjectType ot = UMLObject::ot_Class;
+        UMLObject *pOld = m_doc->findUMLObject(oldType, UMLObject::ot_UMLObject, currentScope());
+        if (pOld) {
+            ot = pOld->baseType();
+        } else {
+            pOld = Import_Utils::createUMLObject(ot, oldType, currentScope());
+        }
+        UMLClassifier *oldClassifier = pOld->asUMLClassifier();
+        UMLObject *pNew = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment,
+                                                        QLatin1String("idlTypedef")); /* stereotype */
+        UMLClassifier *newClassifier = pNew->asUMLClassifier();
+        if (oldClassifier == 0) {
+            log(QLatin1String("Error: importIDL(typedef ") + newType +
+                QLatin1String("): Origin type ") + oldType + QLatin1String(" is not a classifier"));
+        } else if (newClassifier == 0) {
+            log(QLatin1String("Error: importIDL(typedef ") + newType +
+                QLatin1String(") internal error: Import_Utils::createUMLObject did not return a classifier"));
+        } else {
+            Import_Utils::createGeneralization(newClassifier, oldClassifier);
+        }
         skipStmt();
         return true;
     }
@@ -508,6 +525,7 @@ bool IDLImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
+        m_klass->setStereotype(QLatin1String("idlValue"));
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         if (advance() == QLatin1String(";"))   // forward declaration
