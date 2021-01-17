@@ -254,13 +254,47 @@ void IDLWriter::writeClass(UMLClassifier *c)
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
         } else if (stype.contains(QLatin1String("Union"))) {
-            idl << indent() << "// " << stype << " " << c->name()
-                << " is Not Yet Implemented" << m_endl << m_endl;
+            // idl << indent() << "// " << stype << " " << c->name() << " is Not Yet Implemented" << m_endl << m_endl;
+            UMLAttributeList atl = c->getAttributeList();
+            if (atl.count()) {
+                UMLAttribute *discrim = atl.front();
+                idl << indent() << "union " << c->name() << " switch (" << discrim->getTypeName()
+                                << ") {"  << m_endl << m_endl;
+                atl.pop_front();
+                m_indentLevel++;
+                foreach (UMLAttribute *at, atl) {
+                    QString attName = cleanName(at->name());
+                    const QStringList& tags = at->tags();
+                    if (tags.count()) {
+                        const QString& caseVals = tags.front();
+                        foreach (QString caseVal, caseVals.split(QLatin1Char(' '))) {
+                            idl << indent() << "case " << caseVal << ":" << m_endl;
+                        }
+                    } else {
+                        // uError() << "missing 'case' tag at union attribute " << attName;
+                        idl << indent() << "default:" << m_endl;
+                    }
+                    idl << indent() << m_indentation << at->getTypeName() << " " << attName << ";"
+                        << m_endl << m_endl;
+                }
+                m_indentLevel--;
+                idl << indent() << "};" << m_endl << m_endl;
+            } else {
+                uError() << "Empty <<union>> " << c->name();
+                idl << indent() << "// <<union>> " << c->name() << " is empty, please check model" << m_endl;
+                idl << indent() << "union " << c->name() << ";" << m_endl << m_endl;
+            }
         } else if (stype.contains(QLatin1String("Typedef"))) {
             UMLClassifierList superclasses = c->getSuperClasses();
-            UMLClassifier* firstParent = superclasses.first();
-            idl << indent() << "typedef " << firstParent->name() << " "
-                << c->name() << ";" << m_endl << m_endl;
+            if (superclasses.count()) {
+                UMLClassifier* firstParent = superclasses.first();
+                idl << indent() << "typedef " << firstParent->name() << " "
+                    << c->name() << ";" << m_endl << m_endl;
+            } else {
+                uError() << "typedef " << c->name() << " parent (origin type) is missing";
+                idl << indent() << "// typedef origin type is missing, please check model" << m_endl;
+                idl << indent() << "typedef long " << c->name() << ";" << m_endl << m_endl;
+            }
         } else {
             idl << indent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
