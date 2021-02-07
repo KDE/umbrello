@@ -266,7 +266,10 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
-        h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+        if (!c->doc().isEmpty()) {
+            h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+            h << m_endl;
+        }
         h << m_indentation << ":version:" << m_endl;
         h << m_indentation << ":author:" << m_endl;
         h << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -305,7 +308,10 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
         return;
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at, atList) {
-        py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+        if (!at->doc().isEmpty()) {
+            py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+            py << m_endl;
+        }
         Uml::Visibility::Enum vis = at->visibility();
         py << m_indentation << cleanName(at->name()) << "  ("
             << Uml::Visibility::toString(vis) << ")" << m_endl << m_endl ;
