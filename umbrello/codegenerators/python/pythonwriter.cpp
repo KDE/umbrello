@@ -220,7 +220,6 @@ void PythonWriter::writeClass(UMLClassifier *c)
         h<<str<<m_endl;
     }
 
-    h << "# coding=" << h.codec()->name() << m_endl;
     // generate import statement for superclasses and take packages into account
     str = cleanName(c->name());
     QString pkg = cleanName(c->package());
