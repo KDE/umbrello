@@ -205,6 +205,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
         return;
     }
     QTextStream h(&fileh);
+    h.setCodec("UTF-8");
 
     //////////////////////////////
     //Start generating the code!!
