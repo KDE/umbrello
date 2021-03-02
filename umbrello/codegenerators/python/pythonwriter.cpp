@@ -194,6 +194,13 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     //find an appropriate name for our file
     QString fileName = findFileName(c, QLatin1String(".py"));
+
+    // Do not generate files for classes that has a container
+    if (hasContainer(fileName)) {
+        emit codeGenerated(c, CodeGenerator::Skipped);
+        return;
+    }
+
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -437,6 +444,16 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         }
         m_bNeedPass = false;
     }//end for
+}
+
+/**
+ * Check if type is a container
+ * @param string      type that will be used
+ * @return            true if is a container
+ */
+bool PythonWriter::hasContainer(const QString &string)
+{
+    return string.contains(QStringLiteral("<")) && string.contains(QStringLiteral(">"));
 }
 
 /**

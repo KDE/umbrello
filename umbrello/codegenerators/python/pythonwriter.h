@@ -47,6 +47,8 @@ private:
     void writeOperations(const QString& classname, UMLOperationList &opList,
                          QTextStream &h, Uml::Visibility::Enum access);
 
+    static bool hasContainer(const QString &string);
+
     bool m_bNeedPass;  ///< True as long as no "pass" has been written
 };
 
