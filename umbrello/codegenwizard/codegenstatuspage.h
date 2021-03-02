@@ -17,6 +17,7 @@
 #include "basictypes.h"
 #include "classifier.h"
 #include "codegenerationpolicy.h"
+#include "codegenerator.h"
 
 // kde includes
 #include <kled.h>
@@ -46,6 +47,7 @@ private:
 protected slots:
     void generateCode();
     void classGenerated(UMLClassifier* concept, bool generated);
+    void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);
     void populateStatusList();
     void showFileGenerated(const QString& filename);
     void loggerClear();

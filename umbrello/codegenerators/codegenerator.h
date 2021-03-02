@@ -58,6 +58,7 @@ class CodeGenerator : public QObject
 {
     Q_OBJECT
 public:
+    typedef enum {Generated, Failed, Skipped } GenerationState;
     CodeGenerator();
     virtual ~CodeGenerator();
 
@@ -159,6 +160,7 @@ public slots:
 
 signals:
     void codeGenerated(UMLClassifier* concept, bool generated);
+    void codeGenerated(UMLClassifier* concept, CodeGenerator::GenerationState result);
     void showGeneratedFile(const QString& filename);
 };
 

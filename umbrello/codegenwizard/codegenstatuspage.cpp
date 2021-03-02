@@ -116,6 +116,8 @@ void CodeGenStatusPage::generateCode()
     if (codeGenerator) {
         connect(codeGenerator, SIGNAL(codeGenerated(UMLClassifier*,bool)),
                 this, SLOT(classGenerated(UMLClassifier*,bool)));
+        connect(codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, CodeGenerator::GenerationState)),
+                this, SLOT(classGenerated(UMLClassifier*, CodeGenerator::GenerationState)));
         connect(codeGenerator, SIGNAL(showGeneratedFile(QString)),
                 this, SLOT(showFileGenerated(QString)));
 
@@ -155,7 +157,17 @@ bool CodeGenStatusPage::isComplete() const
  */
 void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
 {
-    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(concept->fullyQualifiedName(), Qt::MatchFixedString);
+    classGenerated(concept, generated ? CodeGenerator::Generated : CodeGenerator::Failed);
+}
+
+/**
+ * Updates the status of the code generation in the status table.
+ * @param concept     the class for which the code was generated
+ * @param state   the state of the generation
+ */
+void CodeGenStatusPage::classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state)
+{
+    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(classifier->fullyQualifiedName(), Qt::MatchFixedString);
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
         if (!item) {
@@ -165,13 +177,18 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
             int row = ui_tableWidgetStatus->row(item);
             QTableWidgetItem* status = ui_tableWidgetStatus->item(row, 1);
             LedStatus* led = (LedStatus*)ui_tableWidgetStatus->cellWidget(row, 2);
-            if (generated) {
+            if (state == CodeGenerator::Generated) {
                 status->setText(i18n("Code Generated"));
                 led->setOn(true);
             }
-            else {
+            else if (state == CodeGenerator::Failed) {
                 status->setText(i18n("Not Generated"));
                 led->setColor(Qt::red);
+                led->setOn(true);
+            }
+            else if (state == CodeGenerator::Skipped) {
+                status->setText(i18n("Skipped"));
+                led->setColor(Qt::gray);
                 led->setOn(true);
             }
         }
