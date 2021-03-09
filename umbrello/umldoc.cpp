@@ -91,6 +91,7 @@
 #endif
 #include <QTextStream>
 #include <QTimer>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER(UMLDoc)
 
@@ -2054,6 +2055,73 @@ Uml::ID::Type UMLDoc::modelID() const
     return m_modelID;
 }
 
+
+bool saveNodeCanonically(QXmlStreamWriter &stream, const QDomNode &domNode)
+{
+    if (stream.hasError()) {
+        return false;
+    }
+
+    if (domNode.isElement()) {
+      const QDomElement domElement = domNode.toElement();
+      if (!domElement.isNull()) {
+          stream.writeStartElement(domElement.tagName());
+
+          if (domElement.hasAttributes()) {
+              QMap<QString, QString> attributes;
+              const QDomNamedNodeMap attributeMap = domElement.attributes();
+              for (int i = 0; i < attributeMap.count(); ++i)
+              {
+                  const QDomNode attribute = attributeMap.item(i);
+                  attributes.insert(attribute.nodeName(), attribute.nodeValue());
+              }
+
+              QMap<QString, QString>::const_iterator i = attributes.constBegin();
+              while (i != attributes.constEnd())
+              {
+                  stream.writeAttribute(i.key(), i.value());
+                  ++i;
+              }
+          }
+
+          if (domElement.hasChildNodes()) {
+              QDomNode elementChild = domElement.firstChild();
+              while (!elementChild.isNull())
+              {
+                  saveNodeCanonically(stream, elementChild);
+                  elementChild = elementChild.nextSibling();
+              }
+          }
+          stream.writeEndElement();
+      }
+    }
+    else if (domNode.isComment()) {
+        stream.writeComment(domNode.nodeValue());
+    }
+    else if (domNode.isText()) {
+        stream.writeCharacters(domNode.nodeValue());
+    }
+    return true;
+}
+
+bool saveCanonicalXML(const QDomNode &doc, QIODevice *file, int indent)
+{
+    QXmlStreamWriter stream(file);
+    stream.setAutoFormatting(true);
+    stream.setAutoFormattingIndent(indent);
+    stream.writeStartDocument();
+
+    QDomNode root = doc;
+    while (!root.isNull())
+    {
+        if (!saveNodeCanonically(stream, root))
+            break;
+        root = root.nextSibling();
+    }
+    stream.writeEndDocument();
+    return !stream.hasError();
+}
+
 /**
  * This method is called for saving the given model as a XMI file.
  * It is virtual and calls the corresponding saveToXMI1() functions
@@ -2199,9 +2267,13 @@ void UMLDoc::saveToXMI1(QIODevice& file)
 
     root.appendChild(extensions);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    saveCanonicalXML(doc.documentElement(), &file, 1);
+#else
     QTextStream stream(&file);
     stream.setCodec("UTF-8");
     stream << doc.toString();
+#endif
 }
 
 /**
