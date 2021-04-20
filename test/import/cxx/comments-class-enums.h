@@ -2,7 +2,7 @@
 // class comments_class_enum_test
 class comments_class_enum_test {
 public:
-    // enim test c++ style single line comment
+    // enum test c++ style single line comment
     enum test1 { A, B, C};
 
     /*
