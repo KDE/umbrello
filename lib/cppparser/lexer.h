@@ -254,12 +254,18 @@ public:
 
     inline const CHARTYPE* offset(int offset) const
     {
+        Q_ASSERT(offset >= 0);
+        Q_ASSERT(offset <= m_source.length());
         return m_source.unicode() + offset;
     }
 
     inline int getOffset(const QChar* p) const
     {
-        return int(p - (m_source.unicode()));
+        const QChar* src = m_source.unicode();
+        Q_ASSERT(p >= src);
+        int result = int(p - src);
+        Q_ASSERT(result <= m_source.length());
+        return result;
     }
 
 private:
@@ -552,6 +558,10 @@ inline int Lexer::tokenPosition(const Token& token) const
 
 inline void Lexer::nextChar()
 {
+    if (m_ptr >= m_endPtr) {
+        m_currentChar = QChar();
+        return;
+    }
     if (*m_ptr == QLatin1Char('\n')) {
         ++m_currentLine;
         m_currentColumn = 0;
@@ -569,6 +579,11 @@ inline void Lexer::nextChar()
 
 inline void Lexer::nextChar(int n)
 {
+    if (m_ptr + n >= m_endPtr) {
+        m_ptr = m_endPtr;
+        m_currentChar = QChar();
+        return;
+    }
     m_currentColumn += n;
     m_ptr += n;
 
