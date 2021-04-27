@@ -492,7 +492,7 @@ void Lexer::tokenize()
     m_startLine = true;
     m_size = 0;
 
-    for (;;) {
+    while (!eof()) {
         Token tk(m_source);
         nextToken(tk);
 
