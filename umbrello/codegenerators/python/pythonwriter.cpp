@@ -453,7 +453,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
  */
 bool PythonWriter::hasContainer(const QString &string)
 {
-    return string.contains(QStringLiteral("<")) && string.contains(QStringLiteral(">"));
+    return string.contains(QLatin1String("<")) && string.contains(QLatin1String(">"));
 }
 
 /**
