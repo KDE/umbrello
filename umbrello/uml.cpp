@@ -1207,7 +1207,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
+            setCaption(_url.fileName() + QLatin1String(" [*]"), true);
         } else {
             enablePrint(false);
         }
