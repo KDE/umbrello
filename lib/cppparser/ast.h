@@ -757,6 +757,16 @@ public:
 public:
     EnumSpecifierAST();
 
+    void setClass(bool b);
+    bool isClass() const {
+        return m_isClass;
+    }
+
+    void setEnumBase(TypeSpecifierAST::Node& enumBase);
+    TypeSpecifierAST *enumBase() {
+        return m_enumBase.get();
+    }
+
     void addEnumerator(EnumeratorAST::Node& enumerator);
     QList<EnumeratorAST*> enumeratorList()
     {
@@ -764,6 +774,8 @@ public:
     }
 
 private:
+    bool m_isClass;
+    TypeSpecifierAST::Node m_enumBase;
     QList<EnumeratorAST*> m_enumeratorList;
 
 private:

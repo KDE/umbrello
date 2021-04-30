@@ -529,6 +529,18 @@ void ClassSpecifierAST::setBaseClause(BaseClauseAST::Node& baseClause)
 // ------------------------------------------------------------------------
 EnumSpecifierAST::EnumSpecifierAST()
 {
+    m_isClass = false;
+}
+
+void EnumSpecifierAST::setClass(bool b)
+{
+    m_isClass = b;
+}
+
+void EnumSpecifierAST::setEnumBase(TypeSpecifierAST::Node& enumBase)
+{
+    m_enumBase = std::move(enumBase);
+    if (m_enumBase.get()) m_enumBase->setParent(this);
 }
 
 void EnumSpecifierAST::addEnumerator(EnumeratorAST::Node& enumerator)
