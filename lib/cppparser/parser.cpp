@@ -1441,6 +1441,7 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 {
     PARSER_DEBUG_METHOD;
 
+    bool isClass = false;
     int start = m_lexer->index();
 
     if (m_lexer->lookAhead(0) != Token_enum) {
@@ -1449,45 +1450,64 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 
     nextToken();
 
+    int tk = m_lexer->lookAhead(0);
+    if (tk == Token_class || tk == Token_struct) {
+        isClass = true;
+        nextToken();
+    }
+
     Comment c = comment();
     clearComment();
     NameAST::Node name;
     parseName(name);
 
-    if (m_lexer->lookAhead(0) != '{') {
-        m_lexer->setIndex(start);
-        return false;
-    }
-    nextToken();
-
-    EnumSpecifierAST::Node ast = CreateNode<EnumSpecifierAST>();
-    ast->setName(name);
-
-    ast->setComment(c);
-
-    EnumeratorAST::Node enumerator;
-    if (parseEnumerator(enumerator)) {
-        ast->addEnumerator(enumerator);
-
-        while (m_lexer->lookAhead(0) == ',') {
-            nextToken();
-
-            if (!parseEnumerator(enumerator)) {
-                //reportError(i18n("Enumerator expected"));
-                break;
-            }
-
-            ast->addEnumerator(enumerator);
+    TypeSpecifierAST::Node enumBase;
+    if (m_lexer->lookAhead(0) == ':') {
+        nextToken();
+        if (!parseSimpleTypeSpecifier(enumBase)) {
+            syntaxError();
+            return false;
         }
     }
 
-    clearComment();
+    tk = m_lexer->lookAhead(0);
+    if (tk != ';' && tk != '{') {
+        m_lexer->setIndex(start);
+        return false;
+    }
 
-    if (m_lexer->lookAhead(0) != '}')
-        reportError(i18n("} missing"));
-    else
+    EnumSpecifierAST::Node ast = CreateNode<EnumSpecifierAST>();
+    ast->setClass(isClass);
+    ast->setName(name);
+    ast->setComment(c);
+    ast->setEnumBase(enumBase);
+
+    if (tk == '{') {
         nextToken();
 
+        EnumeratorAST::Node enumerator;
+        if (parseEnumerator(enumerator)) {
+            ast->addEnumerator(enumerator);
+
+            while (m_lexer->lookAhead(0) == ',') {
+                nextToken();
+
+                if (!parseEnumerator(enumerator)) {
+                    //reportError(i18n("Enumerator expected"));
+                    break;
+                }
+
+                ast->addEnumerator(enumerator);
+            }
+        }
+
+        clearComment();
+
+        if (m_lexer->lookAhead(0) != '}')
+            reportError(i18n("} missing"));
+        else
+            nextToken();
+    }
 
     UPDATE_POS(ast, start, m_lexer->index());
     node = std::move(ast);
