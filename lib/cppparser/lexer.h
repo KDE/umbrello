@@ -322,6 +322,7 @@ private:
     int m_size;
     int m_index;
     QString m_source;
+    const QChar* m_src;
     const QChar* m_ptr;
     const QChar* m_endPtr;
     QChar m_currentChar;

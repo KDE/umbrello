@@ -699,14 +699,15 @@ void Lexer::setSource(const QString& source)
 {
     reset();
     m_source = source;
+    m_src = m_source.unicode();
     m_ptr = offset(0);
     m_endPtr = offset(m_source.length());
     m_inPreproc = false;
-    if (!source.isEmpty()) {
-        m_currentChar = m_source[0];
-    } else {
+    if (m_source.isEmpty()) {
         m_currentChar = QChar();
+        return;
     }
+    m_currentChar = m_source[0];
 
     tokenize();
 }
@@ -723,6 +724,7 @@ void Lexer::reset()
     m_size = 0;
     m_tokens.clear();
     m_source = QString();
+    m_src = 0;
     m_ptr = 0;
     m_endPtr = 0;
     m_startLine = false;
@@ -776,7 +778,7 @@ const CHARTYPE* Lexer::offset(int offset) const
 {
     Q_ASSERT(offset >= 0);
     Q_ASSERT(offset <= m_source.length());
-    return m_source.unicode() + offset;
+    return m_src + offset;
 }
 
 /**
@@ -784,10 +786,9 @@ const CHARTYPE* Lexer::offset(int offset) const
  */
 int Lexer::getOffset(const QChar* p) const
 {
-    const QChar* src = m_source.unicode();
-    if (p < src)
+    if (p < m_src)
         return -1;
-    int result = int(p - src);
+    int result = int(p - m_src);
     Q_ASSERT(result <= m_source.length());
     return result;
 }
