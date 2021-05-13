@@ -298,37 +298,37 @@ int Lexer::tokenPosition(const Token& token) const
 
 void Lexer::nextChar()
 {
-    if (m_ptr >= m_endPtr) {
+    if (m_idx >= m_endIdx) {
         m_currentChar = QChar();
         return;
     }
-    if (*m_ptr == QLatin1Char('\n')) {
+    if (m_source[m_idx] == QLatin1Char('\n')) {
         ++m_currentLine;
         m_currentColumn = 0;
         m_startLine = true;
     } else {
         ++m_currentColumn;
     }
-    ++m_ptr;
+    ++m_idx;
 
-    if (m_ptr <  m_endPtr)
-        m_currentChar = *m_ptr;
+    if (m_idx < m_endIdx)
+        m_currentChar = m_source[m_idx];
     else
         m_currentChar = QChar();
 }
 
 void Lexer::nextChar(int n)
 {
-    if (m_ptr + n >= m_endPtr) {
-        m_ptr = m_endPtr;
+    if (m_idx + n >= m_endIdx) {
+        m_idx = m_endIdx;
         m_currentChar = QChar();
         return;
     }
     m_currentColumn += n;
-    m_ptr += n;
+    m_idx += n;
 
-    if (m_ptr <  m_endPtr)
-        m_currentChar = *m_ptr;
+    if (m_idx < m_endIdx)
+        m_currentChar = m_source[m_idx];
     else
         m_currentChar = QChar();
 }
@@ -490,7 +490,7 @@ void Lexer::readCharLiteral()
     while (!currentChar().isNull()) {
         if (currentPosition() < 0)
             break;
-        int len = getOffset(m_endPtr) - currentPosition();
+        int len = m_endIdx - m_idx;
 
         if (len>=2 && (currentChar() == QLatin1Char('\\') && peekChar() == QLatin1Char('\''))) {
             nextChar(2);
@@ -515,7 +515,7 @@ void Lexer::readStringLiteral()
     while (!currentChar().isNull()) {
         if (currentPosition() < 0)
             break;
-        int len = getOffset(m_endPtr) - currentPosition();
+        int len = m_endIdx - m_idx;
 
         if (len>=2 && currentChar() == QLatin1Char('\\') && peekChar() == QLatin1Char('"')) {
             nextChar(2);
@@ -540,7 +540,7 @@ int Lexer::findOperator3() const
 {
     if (currentPosition() < 0)
         return -1;
-    int n = getOffset(m_endPtr) - currentPosition();
+    int n = m_endIdx - m_idx;
 
     if (n >= 3) {
         char ch  = currentChar().toLatin1();
@@ -560,7 +560,7 @@ int Lexer::findOperator2() const
 {
     if (currentPosition() < 0)
         return -1;
-    int n = getOffset(m_endPtr) - currentPosition();
+    int n = m_endIdx - m_idx;
 
     if (n>=2) {
         char ch = currentChar().toLatin1(), ch1 = peekChar().toLatin1();
@@ -614,7 +614,7 @@ void Lexer::setPreprocessorEnabled(bool enabled)
 
 int Lexer::currentPosition() const
 {
-    return getOffset(m_ptr);
+    return m_idx;
 }
 
 const QChar Lexer::currentChar() const
@@ -624,17 +624,14 @@ const QChar Lexer::currentChar() const
 
 QChar Lexer::peekChar(int n) const
 {
-    const QChar* p = m_ptr + n;
-
-    if (p <  m_endPtr)
-        return *p;
-    else
+    if (m_idx + n >= m_endIdx)
         return QChar();
+    return m_source[m_idx + n];
 }
 
 bool Lexer::eof() const
 {
-    return m_ptr >= m_endPtr;
+    return m_idx >= m_endIdx;
 }
 
 bool Lexer::reportWarnings() const
@@ -661,15 +658,10 @@ void Lexer::insertCurrent(const QString& str)
 {
     if (currentPosition() < 0)
         return;
-    int posi = currentPosition();
-    m_source.insert(posi, str);
+    m_source.insert(m_idx, str);
 
-    m_ptr = offset(posi);
-    m_endPtr = offset(m_source.length());
-    if (m_ptr < m_endPtr)
-        m_currentChar = *m_ptr;
-    else
-        m_currentChar = QChar();
+    m_endIdx = m_source.length();
+    m_currentChar = m_source[m_idx];
 }
 
 Lexer::Lexer(Driver* driver)
@@ -699,9 +691,8 @@ void Lexer::setSource(const QString& source)
 {
     reset();
     m_source = source;
-    m_src = m_source.unicode();
-    m_ptr = offset(0);
-    m_endPtr = offset(m_source.length());
+    m_idx = 0;
+    m_endIdx = m_source.length();
     m_inPreproc = false;
     if (m_source.isEmpty()) {
         m_currentChar = QChar();
@@ -724,9 +715,8 @@ void Lexer::reset()
     m_size = 0;
     m_tokens.clear();
     m_source = QString();
-    m_src = 0;
-    m_ptr = 0;
-    m_endPtr = 0;
+    m_idx = 0;
+    m_endIdx = 0;
     m_startLine = false;
     m_ifLevel = 0;
     m_skipping.resize(200);
@@ -772,25 +762,6 @@ int Lexer::toInt(const Token& token)
     } else {
         return 0;
     }
-}
-
-const CHARTYPE* Lexer::offset(int offset) const
-{
-    Q_ASSERT(offset >= 0);
-    Q_ASSERT(offset <= m_source.length());
-    return m_src + offset;
-}
-
-/**
- * Returns -1 in case of error.
- */
-int Lexer::getOffset(const QChar* p) const
-{
-    if (p < m_src)
-        return -1;
-    int result = int(p - m_src);
-    Q_ASSERT(result <= m_source.length());
-    return result;
 }
 
 void Lexer::getTokenPosition(const Token& token, int* line, int* col)
@@ -884,7 +855,6 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
         if (m_preprocessorEnabled && m_driver->hasMacro(ide) &&
             (k == -1 || !m_driver->macro(ide).body().isEmpty())) {
 
-
             bool preproc = m_preprocessorEnabled;
             m_preprocessorEnabled = false;
 
@@ -960,7 +930,7 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
 
             QString textToInsert;
 
-            setEndPtr(offset(currentPosition() + m.body().length()));
+            m_endIdx = m_idx + m.body().length();
 
             while (!currentChar().isNull()) {
 
