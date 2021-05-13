@@ -252,18 +252,7 @@ public:
         return m_currentColumn;
     }
 
-    const CHARTYPE* offset(int offset) const;
-    int getOffset(const QChar* p) const;
-
 private:
-    void setEndPtr(const QChar* c)
-    {
-        m_endPtr = c;
-        if (m_ptr <  m_endPtr)
-            m_currentChar = *m_ptr;
-        else
-            m_currentChar = 0;
-    }
     const QChar currentChar() const;
     QChar peekChar(int n=1) const;
     int currentPosition() const;
@@ -322,9 +311,8 @@ private:
     int m_size;
     int m_index;
     QString m_source;
-    const QChar* m_src;
-    const QChar* m_ptr;
-    const QChar* m_endPtr;
+    int m_idx;
+    int m_endIdx;
     QChar m_currentChar;
     bool m_recordComments;
     bool m_recordWhiteSpaces;
