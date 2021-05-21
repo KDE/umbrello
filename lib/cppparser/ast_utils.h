@@ -1,7 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2002 Roberto Raggi
-    roberto@kdevelop.org
-
+    SPDX-FileCopyrightText: 2002 Roberto Raggi <roberto@kdevelop.org>
     SPDX-License-Identifier: GPL-2.0-or-later
 
 */

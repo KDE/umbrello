@@ -2,9 +2,7 @@
     Based on kdevelop-3.0 languages/cpp/store_walker.cpp by Roberto Raggi
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
-    copyright (C) 2004-2014
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header

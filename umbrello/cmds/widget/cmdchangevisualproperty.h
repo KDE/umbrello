@@ -1,8 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-
-    copyright (C) 2002-2014
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CMDCHANGEVISUALPROPERTY_H

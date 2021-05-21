@@ -2,8 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
-    copyright (C) 2003-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "adawriter.h"

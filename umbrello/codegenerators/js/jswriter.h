@@ -2,8 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Alexander Blum <blum@kewbee.de>
-    copyright (C) 2004-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef JSWRITER_H

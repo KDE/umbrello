@@ -1,10 +1,8 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
 
-    copyright (C) 2005
-    Richard Dale  <Richard_Dale@tipitina.demon.co.uk>
-    copyright (C) 2006-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
+    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef RUBYCLASSDECLARATIONBLOCK_H

@@ -1,8 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-
-    copyright (C) 2014-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     @author Ralf Habacker <ralf.habacker@freenet.de>
 

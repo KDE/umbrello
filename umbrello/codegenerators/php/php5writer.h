@@ -3,8 +3,7 @@
 
     SPDX-FileCopyrightText: 2002 Heiko Nardmann <h.nardmann@secunet.de>
     Thorsten Kunz   <tk AT bytecrash DOT net>
-    copyright (C) 2003-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef PHP5WRITER_H

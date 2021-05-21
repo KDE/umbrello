@@ -1,10 +1,8 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
 
-    copyright (C) 2002
-    Paul Hensgen <phensgen@users.sourceforge.net>
-    copyright (C) 2003-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002 Paul Hensgen <phensgen@users.sourceforge.net>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header

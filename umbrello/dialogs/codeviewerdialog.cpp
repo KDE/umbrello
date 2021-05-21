@@ -1,10 +1,8 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
 
-    copyright (C) 2003-2020
-    Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    copyright (C) 2004-2020
-    Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
