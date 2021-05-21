@@ -1,9 +1,8 @@
 
-/***************************************************************************
- *   SPDX-FileCopyrightText: 2008 Andreas Pakulat <apaku@gmx.de>                         *
- *                                                                         *
+/*
+ *   SPDX-FileCopyrightText: 2008 Andreas Pakulat <apaku@gmx.de>
  *   SPDX-License-Identifier: LGPL-2.0-or-later
- ***************************************************************************/
+ */
 
 #ifndef KDEVPLATFORM_PLATFORM_CORE_P_H
 #define KDEVPLATFORM_PLATFORM_CORE_P_H

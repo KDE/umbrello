@@ -1,10 +1,9 @@
 <?php
-/***************************************************************************
- * SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>                      *
- * SPDX-FileCopyrightText: 2010 Milian Wolff <mail@milianw.de>                       *
- *                                                                         *
- *   SPDX-License-Identifier: LGPL-2.0-or-later
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
+    SPDX-FileCopyrightText: 2010 Milian Wolff <mail@milianw.de>
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
 
 if (!isset($_SERVER['argv'][1])) {
