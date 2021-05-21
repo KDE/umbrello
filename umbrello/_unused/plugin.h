@@ -1,20 +1,7 @@
-/***************************************************************************
-                          plugin.h
-                             -------------------
-    begin                : Mon Jan 13 2003
-    copyright            : (C) 2003 by Andrew Sutton
-    email                : ansutton@kent.edu
-  Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2003 Andrew Sutton <ansutton@kent.edu>
+    Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
+*/
 
 #ifndef UMBRELLO_PLUGIN_H
 #define UMBRELLO_PLUGIN_H

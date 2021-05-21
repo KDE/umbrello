@@ -1,21 +1,7 @@
-/***************************************************************************
-                          codegenerationpolicypage.h  -  description
-                             -------------------
-    begin                : Tue Jul 29 2003
-    copyright            : (C) 2003 by Brian Thomas
-    email                : brian.thomas@gsfc.nasa.gov
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef CODEGENERATIONPOLICYPAGE_H
 #define CODEGENERATIONPOLICYPAGE_H

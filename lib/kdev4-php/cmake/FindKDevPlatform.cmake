@@ -34,7 +34,7 @@
 #    Use this to get packaged template archives for the given templates.
 #    Parameters should be the directories containing the templates.
 #
-# Copyright 2007 Andreas Pakulat <apaku@gmx.de>
+# SPDX-FileCopyrightText: 2007 Andreas Pakulat <apaku@gmx.de>
 # Redistribution and use is allowed according to the terms of the BSD license.
 
 set(_KDevPlatform_FIND_QUIETLY ${KDevPlatform_FIND_QUIETLY})
