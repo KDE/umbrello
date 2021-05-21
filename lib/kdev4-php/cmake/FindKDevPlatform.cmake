@@ -35,7 +35,7 @@
 #    Parameters should be the directories containing the templates.
 #
 # SPDX-FileCopyrightText: 2007 Andreas Pakulat <apaku@gmx.de>
-# Redistribution and use is allowed according to the terms of the BSD license.
+# SPDX-License-Identifier: BSD-2-Clause
 
 set(_KDevPlatform_FIND_QUIETLY ${KDevPlatform_FIND_QUIETLY})
 find_package( KDevPlatform ${KDevPlatform_FIND_VERSION} NO_MODULE )

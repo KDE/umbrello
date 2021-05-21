@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Heiko Nardmann <h.nardmann@secunet.de>
-    Thorsten Kunz   <tk AT bytecrash DOT net>
+    SPDX-FileCopyrightText: 2004 Thorsten Kunz <tk AT bytecrash DOT net>
     SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
