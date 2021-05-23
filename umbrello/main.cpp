@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2020                                               *
+ *   copyright (C) 2002-2021                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
                          KAboutData::License_GPL,
-                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2020 Umbrello UML Modeller Authors"),
+                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2021 Umbrello UML Modeller Authors"),
                          KLocalizedString(),
                          "http://umbrello.kde.org/");
     aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
