@@ -171,7 +171,7 @@ if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
         set(ENABLE_LLVM_TESTCASES 1)
     endif()
 endif()
-if(ENABLE_LLVM_TESTCASES AND NOT MSVC)
+if(ENABLE_LLVM_TESTCASES AND (NOT WIN32))
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
