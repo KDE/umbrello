@@ -1,4 +1,3 @@
-
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
 
@@ -172,7 +171,7 @@ if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
         set(ENABLE_LLVM_TESTCASES 1)
     endif()
 endif()
-if(ENABLE_LLVM_TESTCASES)
+if(ENABLE_LLVM_TESTCASES AND NOT MSVC)
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
