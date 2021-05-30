@@ -56,7 +56,7 @@
         "Description[pt]": "Procura e executa os testes do PHPUnit.",
         "Description[pt_BR]": "Procura e executa os testes do PHPUnit.",
         "Description[sk]": "Nájde a spustí PHPUnit testy.",
-        "Description[sl]": "Najde in zažene preizkuse PHPUnit",
+        "Description[sl]": "Najde in zažene preizkuse PHPUnit.",
         "Description[sv]": "Söker efter och kör PHPUnit-tester.",
         "Description[uk]": "Знаходить і запускає перевірки PHPUnit.",
         "Description[x-test]": "xxFinds and runs PHPUnit tests.xx",
