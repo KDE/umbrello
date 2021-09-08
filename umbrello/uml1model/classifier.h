@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
@@ -76,13 +76,13 @@ public:
 
     UMLOperation * checkOperationSignature(const QString& name,
                                            UMLAttributeList opParams,
-                                           UMLOperation *exemptOp = 0);
+                                           UMLOperation *exemptOp = 0) const;
 
     int removeOperation(UMLOperation *op);
 
-    int operations();
+    int operations() const;
 
-    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet *alreadyTraversed = 0);
+    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet *alreadyTraversed = 0) const;
 
     UMLObject* createTemplate(const QString& name = QString());
 
@@ -93,9 +93,9 @@ public:
 
     int removeTemplate(UMLTemplate* umltemplate);
 
-    UMLTemplate *findTemplate(const QString& name);
+    UMLTemplate *findTemplate(const QString& name) const;
 
-    int templates();
+    int templates() const;
 
     UMLTemplateList getTemplateList() const;
 
@@ -105,31 +105,31 @@ public:
 
     virtual bool resolveRef();
 
-    UMLOperationList findOperations(const QString &n);
+    UMLOperationList findOperations(const QString &n) const;
 
     virtual UMLObject* findChildObjectById(Uml::ID::Type id, bool considerAncestors = false);
 
     UMLOperation* findOperation(const QString& name,
-                                Model_Utils::NameAndType_List params);
+                                Model_Utils::NameAndType_List params) const;
 
-    UMLClassifierList findSuperClassConcepts(ClassifierType type = ALL);
+    UMLClassifierList findSuperClassConcepts(ClassifierType type = ALL) const;
 
-    UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
+    UMLClassifierList findSubClassConcepts(ClassifierType type = ALL) const;
 
-    virtual bool acceptAssociationType(Uml::AssociationType::Enum type);
+    virtual bool acceptAssociationType(Uml::AssociationType::Enum type) const;
 
     void setBaseType(UMLObject::ObjectType ot);
 
     bool isInterface() const;
 
-    bool hasAbstractOps();
-    bool hasAssociations();
-    bool hasAttributes();
-    bool hasStaticAttributes();
-    bool hasMethods();
-    bool hasAccessorMethods();
-    bool hasOperationMethods();
-    bool hasVectorFields();
+    bool hasAbstractOps()      const;
+    bool hasAssociations()     const;
+    bool hasAttributes()       const;
+    bool hasStaticAttributes() const;
+    bool hasMethods()          const;
+    bool hasAccessorMethods()  const;
+    bool hasOperationMethods() const;
+    bool hasVectorFields()     const;
 
     /**
      * utility functions to allow easy determination of what classifiers
@@ -142,7 +142,7 @@ public:
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
-    virtual UMLAssociationList  getUniAssociationToBeImplemented();
+    virtual UMLAssociationList  getUniAssociationToBeImplemented() const;
 
 signals:
 

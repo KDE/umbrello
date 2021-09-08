@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "mysqlwriter.h"
@@ -35,7 +35,7 @@ Uml::ProgrammingLanguage::Enum MySQLWriter::language() const
 /**
  * Reimplement method from CodeGenerator.
  */
-QStringList MySQLWriter::defaultDatatypes()
+QStringList MySQLWriter::defaultDatatypes() const
 {
     QStringList l;
 

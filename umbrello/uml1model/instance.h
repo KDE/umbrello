@@ -49,7 +49,7 @@ public:
 
     void setClassifier(UMLClassifier *classifier);
     void setClassifierCmd(UMLClassifier *classifier, bool emitSignal = true);
-    UMLClassifier *classifier();
+    UMLClassifier *classifier() const;
 
     virtual void saveToXMI1(QXmlStreamWriter& writer);
 

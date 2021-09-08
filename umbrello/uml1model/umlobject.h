@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLOBJECT_H
@@ -180,7 +180,7 @@ public:
     void setStatic(bool bStatic);
     bool isStatic() const;
 
-    virtual bool acceptAssociationType(Uml::AssociationType::Enum);  //:TODO: check if this is really needed here
+    virtual bool acceptAssociationType(Uml::AssociationType::Enum) const;  //:TODO: check if this is really needed here
 
     void setSecondaryId(const QString& id);
     QString secondaryId() const;
@@ -192,35 +192,35 @@ public:
 
     friend QDebug operator<< (QDebug out, const UMLObject& obj);
 
-    bool isUMLActor() { return baseType() == ot_Actor; }
-    bool isUMLArtifact() { return baseType() == ot_Artifact; }
-    bool isUMLAssociation() { return baseType() == ot_Association; }
-    bool isUMLAttribute() { return baseType() == ot_Attribute; }
-    //bool isUMLCanvasObject() { return baseType() == ot_CanvasObject; }
-    bool isUMLCategory() { return baseType() == ot_Category; }
-    bool isUMLCheckConstraint() { return baseType() == ot_CheckConstraint; }
-    bool isUMLClassifier() { return baseType() == ot_Class; }
-    bool isUMLComponent() { return baseType() == ot_Component; }
-    bool isUMLDatatype() { return baseType() == ot_Datatype; }
-    bool isUMLEntity() { return baseType() == ot_Entity; }
-    bool isUMLEntityAttribute() { return baseType() == ot_EntityAttribute; }
-    bool isUMLEntityConstraint() { return baseType() == ot_EntityConstraint; }
-    bool isUMLEnum() { return baseType() == ot_Enum; }
-    bool isUMLEnumLiteral() { return baseType() == ot_EnumLiteral; }
-    bool isUMLFolder() { return baseType() == ot_Folder; }
-    bool isUMLForeignKeyConstraint() { return baseType() == ot_ForeignKeyConstraint; }
-    bool isUMLInstance() { return baseType() == ot_Instance; }
-    bool isUMLInstanceAttribute() { return baseType() == ot_InstanceAttribute; }
-    bool isUMLNode() { return baseType() == ot_Node; }
-    bool isUMLObject() { return baseType() == ot_UMLObject; }
-    bool isUMLOperation() { return baseType() == ot_Operation; }
-    bool isUMLPackage() { return baseType() == ot_Package; }
-    bool isUMLPort() { return baseType() == ot_Port; }
-    bool isUMLRole() { return baseType() == ot_Role; }
-    bool isUMLStereotype() { return baseType() == ot_Stereotype; }
-    bool isUMLTemplate() { return baseType() == ot_Template; }
-    bool isUMLUniqueConstraint() { return baseType() == ot_UniqueConstraint; }
-    bool isUMLUseCase() { return baseType() == ot_UseCase; }
+    bool isUMLActor()                const { return baseType() == ot_Actor; }
+    bool isUMLArtifact()             const { return baseType() == ot_Artifact; }
+    bool isUMLAssociation()          const { return baseType() == ot_Association; }
+    bool isUMLAttribute()            const { return baseType() == ot_Attribute; }
+    //bool isUMLCanvasObject()         const { return baseType() == ot_CanvasObject; }
+    bool isUMLCategory()             const { return baseType() == ot_Category; }
+    bool isUMLCheckConstraint()      const { return baseType() == ot_CheckConstraint; }
+    bool isUMLClassifier()           const { return baseType() == ot_Class; }
+    bool isUMLComponent()            const { return baseType() == ot_Component; }
+    bool isUMLDatatype()             const { return baseType() == ot_Datatype; }
+    bool isUMLEntity()               const { return baseType() == ot_Entity; }
+    bool isUMLEntityAttribute()      const { return baseType() == ot_EntityAttribute; }
+    bool isUMLEntityConstraint()     const { return baseType() == ot_EntityConstraint; }
+    bool isUMLEnum()                 const { return baseType() == ot_Enum; }
+    bool isUMLEnumLiteral()          const { return baseType() == ot_EnumLiteral; }
+    bool isUMLFolder()               const { return baseType() == ot_Folder; }
+    bool isUMLForeignKeyConstraint() const { return baseType() == ot_ForeignKeyConstraint; }
+    bool isUMLInstance()             const { return baseType() == ot_Instance; }
+    bool isUMLInstanceAttribute()    const { return baseType() == ot_InstanceAttribute; }
+    bool isUMLNode()                 const { return baseType() == ot_Node; }
+    bool isUMLObject()               const { return baseType() == ot_UMLObject; }
+    bool isUMLOperation()            const { return baseType() == ot_Operation; }
+    bool isUMLPackage()              const { return baseType() == ot_Package; }
+    bool isUMLPort()                 const { return baseType() == ot_Port; }
+    bool isUMLRole()                 const { return baseType() == ot_Role; }
+    bool isUMLStereotype()           const { return baseType() == ot_Stereotype; }
+    bool isUMLTemplate()             const { return baseType() == ot_Template; }
+    bool isUMLUniqueConstraint()     const { return baseType() == ot_UniqueConstraint; }
+    bool isUMLUseCase()              const { return baseType() == ot_UseCase; }
 
     UMLActor* asUMLActor();
     UMLArtifact* asUMLArtifact();

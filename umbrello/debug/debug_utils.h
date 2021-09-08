@@ -62,7 +62,7 @@ public:
 
     ~Tracer();
 
-    bool isEnabled(const QString& name);
+    bool isEnabled(const QString& name) const;
     void enable(const QString& name);
     void disable(const QString& name);
 

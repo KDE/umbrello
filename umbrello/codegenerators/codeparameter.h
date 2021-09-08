@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CODEPARAMETER_H
@@ -48,7 +48,7 @@ public:
     CodeComment* getComment();
 
     // the id of this parameter is the same as the parent UMLObject id.
-    QString ID();
+    QString ID() const;
 
     virtual void updateContent() = 0;
 

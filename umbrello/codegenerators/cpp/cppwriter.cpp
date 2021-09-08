@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2003 Brian Thomas
     <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2014 Umbrello UML Modeller Authors
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors
     <umbrello-devel@kde.org>
 */
 
@@ -1422,7 +1422,7 @@ QString CppWriter::getAttributeMethodBaseName(const QString &fieldName)
  * Add C++ primitives as datatypes.
  * @return   the list of default datatypes
  */
-QStringList CppWriter::defaultDatatypes()
+QStringList CppWriter::defaultDatatypes() const
 {
     return Codegen_Utils::cppDatatypes();
 }

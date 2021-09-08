@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef OPERATION_H
@@ -42,21 +42,22 @@ public:
 
     UMLAttributeList getParmList() const;
 
-    UMLAttribute * findParm(const QString &name);
+    UMLAttribute * findParm(const QString &name) const;
 
-    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig,
+                     bool withStereotype=false) const;
 
     void addParm(UMLAttribute *parameter, int position = -1);
 
     bool resolveRef();
 
-    QString getUniqueParameterName();
+    QString getUniqueParameterName() const;
 
     virtual bool showPropertiesDialog(QWidget* parent = 0);
 
-    bool isConstructorOperation();
-    bool isDestructorOperation();
-    bool isLifeOperation();
+    bool isConstructorOperation() const;
+    bool isDestructorOperation() const;
+    bool isLifeOperation() const;
 
     void setConst(bool b);
     bool getConst() const;

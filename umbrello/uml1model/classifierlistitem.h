@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CLASSIFIERLISTITEM_H
@@ -38,7 +38,8 @@ public:
     void setTypeName(const QString &type);
     virtual QString getTypeName() const;
 
-    virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
+    virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig,
+                             bool withStereotype=false) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 /**
@@ -42,7 +42,7 @@ JavaClassifierCodeDocument::~JavaClassifierCodeDocument ()
 }
 
 // Make it easier on ourselves
-JavaCodeGenerationPolicy * JavaClassifierCodeDocument::getJavaPolicy()
+JavaCodeGenerationPolicy * JavaClassifierCodeDocument::getJavaPolicy() const
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     JavaCodeGenerationPolicy * policy = dynamic_cast<JavaCodeGenerationPolicy*>(pe);
@@ -65,7 +65,7 @@ bool JavaClassifierCodeDocument::forceDoc ()
 }
 
 // We overwritten by Java language implementation to get lowercase path
-QString JavaClassifierCodeDocument::getPath ()
+QString JavaClassifierCodeDocument::getPath () const
 {
     QString path = getPackage();
 
@@ -81,7 +81,7 @@ QString JavaClassifierCodeDocument::getPath ()
     return path.toLower();
 }
 
-QString JavaClassifierCodeDocument::getJavaClassName (const QString &name)
+QString JavaClassifierCodeDocument::getJavaClassName (const QString &name) const
 {
     return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "adawriter.h"
@@ -495,7 +495,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 /**
  * Returns the default datatypes.
  */
-QStringList AdaWriter::defaultDatatypes()
+QStringList AdaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("Boolean"));

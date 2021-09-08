@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CODEEDITOR_H
@@ -59,7 +59,7 @@ public:
     void setParent(UMLObject *p = 0) { m_parent = p; }
     UMLObject * parent() { return m_parent; }
     void setDisplayName(const QString& name) { m_displayName = name; }
-    QString displayName() { return m_displayName; }
+    QString displayName() const { return m_displayName; }
 };
 
 

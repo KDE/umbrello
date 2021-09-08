@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef JAVACLASSIFIERCODEDOCUMENT_H
@@ -47,11 +47,11 @@ public:
     //CodeDocumentDialog getDialog ();
 
     // Make it easier on ourselves
-    JavaCodeGenerationPolicy * getJavaPolicy();
+    JavaCodeGenerationPolicy * getJavaPolicy() const;
 
-    QString getJavaClassName (const QString &name);
+    QString getJavaClassName (const QString &name) const;
 
-    QString getPath();
+    QString getPath() const;
 
     /**
      * Add a code operation to this java classifier code document.

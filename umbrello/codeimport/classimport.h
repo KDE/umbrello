@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CLASSIMPORT_H
@@ -32,7 +32,7 @@ public:
      * missing dependencies for example. 
      * @return false - disabled, true - enabled
     */
-    bool enabled() { return m_enabled; }
+    bool enabled() const { return m_enabled; }
 
     static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = 0);
 

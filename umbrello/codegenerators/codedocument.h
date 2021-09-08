@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CODEDOCUMENT_H
@@ -44,22 +44,22 @@ public:
     void setPackage (UMLPackage *new_var);
     QString getPackage () const;
 
-    virtual QString getPath ();
+    virtual QString getPath () const;
 
     void setID (const QString &new_id);
     QString ID () const;
 
     void setWriteOutCode (bool new_var);
-    bool getWriteOutCode ();
+    bool getWriteOutCode () const;
 
     void setHeader (CodeComment * comment);
-    CodeComment * getHeader ();
+    CodeComment * getHeader () const;
 
     bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
-    TextBlock * findTextBlockByTag(const QString &tag, bool descendIntoChildren = false);
+    TextBlock * findTextBlockByTag(const QString &tag, bool descendIntoChildren = false) const;
 
-    virtual QString toString ();
+    virtual QString toString () const;
 
     virtual void saveToXMI1(QXmlStreamWriter& writer);
     virtual void loadFromXMI1 (QDomElement & root);

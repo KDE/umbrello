@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ENTITYATTRIBUTE_H
@@ -58,7 +58,8 @@ public:
     void setNull(const bool null);
     bool getNull() const;
 
-    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig, bool withStereotype=false);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig,
+                     bool withStereotype=false) const;
 
     virtual void saveToXMI1(QXmlStreamWriter& writer);
 

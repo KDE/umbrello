@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -731,7 +731,7 @@ QString JavaWriter::fixTypeName(const QString& string)
  * Overrides method from class CodeGenerator.
  * @return   the list of default datatypes
  */
-QStringList JavaWriter::defaultDatatypes()
+QStringList JavaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("int"));

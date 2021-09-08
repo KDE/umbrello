@@ -29,10 +29,12 @@ CodeGenerationPolicyPage::~CodeGenerationPolicyPage()
     this->disconnect();
 }
 
-void CodeGenerationPolicyPage::apply() {
+void CodeGenerationPolicyPage::apply()
+{
     // do nothing in vanilla version
 }
 
-void CodeGenerationPolicyPage::setDefaults() { }
-
+void CodeGenerationPolicyPage::setDefaults()
+{
+}
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef PACKAGE_H
@@ -40,21 +40,21 @@ public:
 
     virtual void removeAllObjects();
 
-    UMLObjectList containedObjects(bool includeInactive = false);
+    UMLObjectList containedObjects(bool includeInactive = false) const;
 
     void addAssocToConcepts(UMLAssociation* assoc);
     void removeAssocFromConcepts(UMLAssociation *assoc);
 
-    UMLObject * findObject(const QString &name);
-    UMLObject * findObjectById(Uml::ID::Type id);
+    UMLObject * findObject(const QString &name) const;
+    UMLObject * findObjectById(Uml::ID::Type id) const;
 
-    void appendPackages(UMLPackageList& packages, bool includeNested = true);
+    void appendPackages(UMLPackageList& packages, bool includeNested = true) const;
     void appendClassifiers(UMLClassifierList& classifiers,
-                            bool includeNested = true);
+                            bool includeNested = true) const;
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
-                                    bool includeNested = true);
+                                    bool includeNested = true) const;
     void appendEntities(UMLEntityList& entities,
-                        bool includeNested = true);
+                        bool includeNested = true) const;
 
     virtual bool resolveRef();
 

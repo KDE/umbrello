@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -48,7 +48,8 @@ ClassifierCodeDocument::~ClassifierCodeDocument()
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -64,7 +65,8 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -81,7 +83,9 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility::Enum visibility)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType,
+                                                Uml::Visibility::Enum visibility) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -98,7 +102,9 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility::Enum visibility)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType,
+                                                bool isStatic, Uml::Visibility::Enum visibility) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -118,15 +124,15 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 /**
  * Tell if any of the accessor classfields will be of lists of objects.
  */
-bool ClassifierCodeDocument::hasObjectVectorClassFields()
+bool ClassifierCodeDocument::hasObjectVectorClassFields() const
 {
-    CodeClassFieldList::Iterator it = m_classfieldVector.begin();
-    CodeClassFieldList::Iterator end = m_classfieldVector.end();
+    CodeClassFieldList::const_iterator it = m_classfieldVector.begin();
+    CodeClassFieldList::const_iterator end = m_classfieldVector.end();
     for (; it != end; ++it)
     {
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
-            UMLRole * role = (*it)->getParentObject()->asUMLRole();
+            const UMLRole * role = (*it)->getParentObject()->asUMLRole();
             if (!role) {
                 uError() << "invalid parent object type";
                 return false;
@@ -145,7 +151,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
 /**
  * Does this object have any classfields declared?
  */
-bool ClassifierCodeDocument::hasClassFields()
+bool ClassifierCodeDocument::hasClassFields() const
 {
     if(m_classfieldVector.count() > 0)
         return true;
@@ -155,7 +161,7 @@ bool ClassifierCodeDocument::hasClassFields()
 /**
  * Tell if one or more codeclassfields are derived from associations.
  */
-bool ClassifierCodeDocument::hasAssociationClassFields()
+bool ClassifierCodeDocument::hasAssociationClassFields() const
 {
     CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
     return (m_classfieldVector.count() - list.count()) > 0 ? true : false;
@@ -164,7 +170,7 @@ bool ClassifierCodeDocument::hasAssociationClassFields()
 /**
  * Tell if one or more codeclassfields are derived from attributes.
  */
-bool ClassifierCodeDocument::hasAttributeClassFields()
+bool ClassifierCodeDocument::hasAttributeClassFields() const
 {
     CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
     return list.count() > 0 ? true : false;
@@ -269,7 +275,7 @@ CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ()
  * Get the value of m_parentclassifier
  * @return the value of m_parentclassifier
  */
-UMLClassifier * ClassifierCodeDocument::getParentClassifier ()
+UMLClassifier * ClassifierCodeDocument::getParentClassifier () const
 {
     return m_parentclassifier;
 }
@@ -278,14 +284,14 @@ UMLClassifier * ClassifierCodeDocument::getParentClassifier ()
  * Get a list of codeoperation objects held by this classifiercodedocument.
  * @return      QList<CodeOperation>
  */
-QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
+QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
 {
-    QList<CodeOperation*> list;
+    QList<const CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
     foreach (TextBlock* tb, *tlist)
     {
-        CodeOperation * cop = dynamic_cast<CodeOperation*>(tb);
+        const CodeOperation * cop = dynamic_cast<const CodeOperation*>(tb);
         if (cop) {
             list.append(cop);
         }
@@ -404,7 +410,7 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list,
 /**
  * Return if the parent classifier is a class
  */
-bool ClassifierCodeDocument::parentIsClass()
+bool ClassifierCodeDocument::parentIsClass() const
 {
     return (m_parentclassifier->baseType() == UMLObject::ot_Class);
 }
@@ -412,7 +418,7 @@ bool ClassifierCodeDocument::parentIsClass()
 /**
  * Return if the parent classifier is an interface
  */
-bool ClassifierCodeDocument::parentIsInterface()
+bool ClassifierCodeDocument::parentIsInterface() const
 {
     return (m_parentclassifier->baseType() == UMLObject::ot_Interface);
 }
@@ -644,7 +650,7 @@ void ClassifierCodeDocument::setAttributesFromNode (QDomElement & elem)
 // by parent object ID and Role ID (needed for self-association CF's)
 CodeClassField *
 ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
-        int role_id)
+                                                        int role_id)
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
@@ -667,7 +673,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
              << Uml::ID::toString(id) << " (role id:" << role_id
              << ") Do you have a corrupt classifier code document?";
 
-    return (CodeClassField*) 0; // not found
+    return nullptr; // not found
 }
 
 /**

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Nikolaus Gradwohl <guru@local-guru.net>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef SQLWRITER_H
@@ -34,7 +34,7 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    virtual QStringList defaultDatatypes();
+    virtual QStringList defaultDatatypes() const;
 
     virtual QStringList reservedKeywords() const;
 

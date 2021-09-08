@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //own header
@@ -104,7 +104,8 @@ UMLObject* UMLUniqueConstraint::clone() const
  * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig, bool withStereotype)
+QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig,
+                                      bool withStereotype) const
 {
     Q_UNUSED(withStereotype);
     QString s;
@@ -218,7 +219,7 @@ bool UMLUniqueConstraint::load1(QDomElement & element)
  * @param attr The Entity Attribute to check for existence in list
  * @return true if it exists in the list, else false
  */
-bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
+bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr) const
 {
     if (m_EntityAttributeList.indexOf(attr) == -1) {
         //not present

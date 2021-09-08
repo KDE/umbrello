@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -158,7 +158,8 @@ void UMLEntityAttribute::setNull(const bool nullIn)
  * @param sig   If true will show the entityattribute type and initial value.
  * @return  Returns a string representation of the UMLEntityAttribute.
  */
-QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype)
+QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig,
+                                     bool withStereotype) const
 {
     Q_UNUSED(withStereotype);
     QString s;

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DCODEGENERATOR_H
@@ -43,7 +43,7 @@ public:
 
     Uml::ProgrammingLanguage::Enum language() const;
 
-    virtual QStringList defaultDatatypes();
+    virtual QStringList defaultDatatypes() const;
 
     static QString fixTypeName(const QString &item);
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CANVASOBJECT_H
@@ -53,18 +53,18 @@ public:
 
     int associations();
 
-    UMLAssociationList getAssociations();
+    UMLAssociationList getAssociations() const;
 
-    UMLAssociationList getSpecificAssocs(Uml::AssociationType::Enum assocType);
+    UMLAssociationList getSpecificAssocs(Uml::AssociationType::Enum assocType) const;
 
-    UMLClassifierList getSuperClasses(bool withRealizations = true);
-    UMLClassifierList getSubClasses();
+    UMLClassifierList getSuperClasses(bool withRealizations = true) const;
+    UMLClassifierList getSubClasses() const;
 
-    virtual UMLAssociationList getRealizations();
+    virtual UMLAssociationList getRealizations() const;
 
-    UMLAssociationList getAggregations();
-    UMLAssociationList getCompositions();
-    UMLAssociationList getRelationships();
+    UMLAssociationList getAggregations() const;
+    UMLAssociationList getCompositions() const;
+    UMLAssociationList getRelationships() const;
 
     virtual UMLObject *findChildObject(const QString &n,
                                        UMLObject::ObjectType t = UMLObject::ot_UMLObject);

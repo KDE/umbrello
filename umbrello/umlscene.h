@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLSCENE_H
@@ -309,16 +309,16 @@ public:
 
     UMLSceneItemList collisions(const QPointF &p, int delta = 3);
 
-    bool isClassDiagram()              { return type() == Uml::DiagramType::Class;  }
-    bool isUseCaseDiagram()            { return type() == Uml::DiagramType::UseCase; }
-    bool isSequenceDiagram()           { return type() == Uml::DiagramType::Sequence; }
-    bool isCollaborationDiagram()      { return type() == Uml::DiagramType::Collaboration; }
-    bool isStateDiagram()              { return type() == Uml::DiagramType::State; }
-    bool isActivityDiagram()           { return type() == Uml::DiagramType::Activity; }
-    bool isComponentDiagram()          { return type() == Uml::DiagramType::Component; }
-    bool isDeploymentDiagram()         { return type() == Uml::DiagramType::Deployment; }
-    bool isEntityRelationshipDiagram() { return type() == Uml::DiagramType::EntityRelationship; }
-    bool isObjectDiagram()             { return type() == Uml::DiagramType::Object; }
+    bool isClassDiagram()              const { return type() == Uml::DiagramType::Class;  }
+    bool isUseCaseDiagram()            const { return type() == Uml::DiagramType::UseCase; }
+    bool isSequenceDiagram()           const { return type() == Uml::DiagramType::Sequence; }
+    bool isCollaborationDiagram()      const { return type() == Uml::DiagramType::Collaboration; }
+    bool isStateDiagram()              const { return type() == Uml::DiagramType::State; }
+    bool isActivityDiagram()           const { return type() == Uml::DiagramType::Activity; }
+    bool isComponentDiagram()          const { return type() == Uml::DiagramType::Component; }
+    bool isDeploymentDiagram()         const { return type() == Uml::DiagramType::Deployment; }
+    bool isEntityRelationshipDiagram() const { return type() == Uml::DiagramType::EntityRelationship; }
+    bool isObjectDiagram()             const { return type() == Uml::DiagramType::Object; }
 
     void setWidgetLink(WidgetBase *w);
     WidgetBase *widgetLink();

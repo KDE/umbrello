@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -778,7 +778,7 @@ bool CodeGenerator::forceSections() const
  * Return the default datatypes for your language (bool, int etc).
  * Default implementation returns empty list.
  */
-QStringList CodeGenerator::defaultDatatypes()
+QStringList CodeGenerator::defaultDatatypes() const
 {
     return QStringList();
     //empty by default, override in your code generator

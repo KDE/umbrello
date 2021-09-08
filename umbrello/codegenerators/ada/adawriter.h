@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ADAWRITER_H
@@ -37,7 +37,7 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
     virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
 

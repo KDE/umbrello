@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CLASSIFIERCODEDOCUMENT_H
@@ -44,24 +44,27 @@ public:
 
     // some Utility methods
 
-    bool parentIsInterface();
-    bool parentIsClass();
+    bool parentIsInterface() const;
+    bool parentIsClass() const;
 
-    bool hasAssociationClassFields();
-    bool hasAttributeClassFields();
-    bool hasObjectVectorClassFields();
-    bool hasClassFields();
+    bool hasAssociationClassFields() const;
+    bool hasAttributeClassFields() const;
+    bool hasObjectVectorClassFields() const;
+    bool hasClassFields() const;
 
-    QList<CodeOperation*> getCodeOperations();
+    QList<const CodeOperation*> getCodeOperations() const;
 
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, Uml::Visibility::Enum visibility);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility::Enum visibility);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              bool isStatic) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              Uml::Visibility::Enum visibility) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              bool isStatic, Uml::Visibility::Enum visibility) const;
 
     CodeClassField * findCodeClassFieldFromParentID (Uml::ID::Type id, int role_id = -1);
 
-    UMLClassifier * getParentClassifier();
+    UMLClassifier * getParentClassifier() const;
 
     void addCodeClassFieldMethods(CodeClassFieldList &list);
 

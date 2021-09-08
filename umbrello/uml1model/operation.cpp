@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -181,7 +181,7 @@ UMLAttributeList UMLOperation::getParmList() const
  * @param name      the parameter name to search for
  * @return          the found parameter, 0 if not found
  */
-UMLAttribute* UMLOperation::findParm(const QString &name)
+UMLAttribute* UMLOperation::findParm(const QString &name) const
 {
     UMLAttribute * obj=0;
     foreach (obj, m_List) {
@@ -197,7 +197,7 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
  * @param sig       what type of operation string to show
  * @return          the string representation of the operation
  */
-QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype)
+QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype) const
 {
     QString s;
 
@@ -281,7 +281,7 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position)
 /**
  * Returns an unused parameter name for a new parameter.
  */
-QString UMLOperation::getUniqueParameterName()
+QString UMLOperation::getUniqueParameterName() const
 {
     QString currentName = i18n("new_parameter");
     QString name = currentName;
@@ -361,7 +361,7 @@ bool UMLOperation::resolveRef()
  *
  * @return  true if this operation is a constructor
  */
-bool UMLOperation::isConstructorOperation()
+bool UMLOperation::isConstructorOperation() const
 {
     // if an operation has the stereotype constructor
     // return true
@@ -383,7 +383,7 @@ bool UMLOperation::isConstructorOperation()
  *
  * @return  true if this operation is a destructor
  */
-bool UMLOperation::isDestructorOperation()
+bool UMLOperation::isDestructorOperation() const
 {
     if (stereotype() == QLatin1String("destructor"))
         return true;
@@ -406,7 +406,7 @@ bool UMLOperation::isDestructorOperation()
  *
  * @return  true if this operation is a constructor or destructor
  */
-bool UMLOperation::isLifeOperation()
+bool UMLOperation::isLifeOperation() const
 {
     return (isConstructorOperation() || isDestructorOperation());
 }

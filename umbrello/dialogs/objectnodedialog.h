@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef OBJECTNODEDIALOG_H
@@ -30,7 +30,7 @@ class ObjectNodeDialog : public MultiPageDialogBase
 public:
     ObjectNodeDialog(QWidget *parent, ObjectNodeWidget * pWidget);
 
-    bool getChangesMade() {
+    bool getChangesMade() const {
         return m_bChangesMade;
     }
 

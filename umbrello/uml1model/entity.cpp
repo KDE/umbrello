@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -384,7 +384,7 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
  * Returns the number of entityAttributes for the class.
  * @return  The number of entityAttributes for the class.
  */
-int UMLEntity::entityAttributes()
+int UMLEntity::entityAttributes() const
 {
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
     return entityAttributes.count();
@@ -672,7 +672,7 @@ UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) c
  * @param uConstr   a Unique Constraint
  * @return bool true if passed parameter is a primary key of this entity
  */
-bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const
+bool UMLEntity::isPrimaryKey(const UMLUniqueConstraint* uConstr) const
 {
     if (uConstr == m_PrimaryKey) {
         return true;

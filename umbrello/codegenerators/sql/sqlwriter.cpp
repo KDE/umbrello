@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Nikolaus Gradwohl <guru@local-guru.net>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "sqlwriter.h"
@@ -326,7 +326,7 @@ Uml::ProgrammingLanguage::Enum SQLWriter::language() const
 /**
  * Reimplement method from CodeGenerator.
  */
-QStringList SQLWriter::defaultDatatypes()
+QStringList SQLWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("blob"));

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ACTIVITYDIALOG_H
@@ -29,7 +29,7 @@ class ActivityDialog : public MultiPageDialogBase
 public:
     ActivityDialog(QWidget * parent, ActivityWidget * pWidget);
 
-    bool getChangesMade() {
+    bool getChangesMade() const {
         return m_bChangesMade;
     }
 

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -41,7 +41,7 @@ RubyClassifierCodeDocument::~RubyClassifierCodeDocument()
 /**
  * Make it easier on ourselves.
  */
-RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy()
+RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy() const
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     RubyCodeGenerationPolicy * policy = dynamic_cast<RubyCodeGenerationPolicy*>(pe);
@@ -61,7 +61,7 @@ CodeDocumentDialog RubyClassifierCodeDocument::getDialog()
 /**
  * Overwritten by Ruby language implementation to get lowercase path.
  */
-QString RubyClassifierCodeDocument::getPath()
+QString RubyClassifierCodeDocument::getPath() const
 {
     QString path = getPackage();
 
@@ -79,7 +79,7 @@ QString RubyClassifierCodeDocument::getPath()
     return path;
 }
 
-QString RubyClassifierCodeDocument::getRubyClassName(const QString &name)
+QString RubyClassifierCodeDocument::getRubyClassName(const QString &name) const
 {
     CodeGenerator *g = UMLApp::app()->generator();
     return Codegen_Utils::capitalizeFirstLetter(g->cleanName(name));

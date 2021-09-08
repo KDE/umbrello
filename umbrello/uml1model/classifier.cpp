@@ -42,7 +42,7 @@ using namespace Uml;
 /**
  * @brief holds set of classifiers for recursive loop detection
  */
-class UMLClassifierSet: public QSet<UMLClassifier *> {
+class UMLClassifierSet: public QSet<const UMLClassifier *> {
 public:
     UMLClassifierSet() : level(0)
     {
@@ -129,7 +129,7 @@ bool UMLClassifier::isInterface() const
 UMLOperation * UMLClassifier::checkOperationSignature(
         const QString& name,
         UMLAttributeList opParams,
-        UMLOperation *exemptOp)
+        UMLOperation *exemptOp) const
 {
     UMLOperationList list = findOperations(name);
     if (list.count() == 0) {
@@ -172,7 +172,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
  * @return  The operation found.  Will return 0 if none found.
  */
 UMLOperation* UMLClassifier::findOperation(const QString& name,
-                                           Model_Utils::NameAndType_List params)
+                                           Model_Utils::NameAndType_List params) const
 {
     UMLOperationList list = findOperations(name);
     if (list.count() == 0) {
@@ -514,7 +514,7 @@ UMLAttributeList UMLClassifier::getAttributeListStatic(Visibility::Enum scope) c
  * @param n   The name of the operation to find.
  * @return    The list of objects found; will be empty if none found.
  */
-UMLOperationList UMLClassifier::findOperations(const QString &n)
+UMLOperationList UMLClassifier::findOperations(const QString &n) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLOperationList list;
@@ -562,7 +562,7 @@ UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id, bool considerAnc
  * @param type   The ClassifierType to seek.
  * @return       List of UMLClassifiers that inherit from us.
  */
-UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
+UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) const
 {
     UMLClassifierList list = getSubClasses();
     UMLAssociationList rlist = getRealizations();
@@ -601,7 +601,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
  * @param type   The ClassifierType to seek.
  * @return       List of UMLClassifiers we inherit from.
  */
-UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
+UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) const
 {
     UMLClassifierList list = getSuperClasses();
     UMLAssociationList rlist = getRealizations();
@@ -718,7 +718,7 @@ bool UMLClassifier::resolveRef()
 /**
  * Reimplemented from UMLObject.
  */
-bool UMLClassifier::acceptAssociationType(AssociationType::Enum type)
+bool UMLClassifier::acceptAssociationType(AssociationType::Enum type) const
 {
     switch(type)
     {
@@ -901,7 +901,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
 /**
  * Return true if this classifier has abstract operations.
  */
-bool UMLClassifier::hasAbstractOps ()
+bool UMLClassifier::hasAbstractOps () const
 {
     UMLOperationList opl(getOpList());
     foreach(UMLOperation *op, opl) {
@@ -918,7 +918,7 @@ bool UMLClassifier::hasAbstractOps ()
  *
  * @return   The number of operations for the Classifier.
  */
-int UMLClassifier::operations()
+int UMLClassifier::operations() const
 {
     return getOpList().count();
 }
@@ -931,7 +931,7 @@ int UMLClassifier::operations()
  * @param alreadyTraversed   internal used object to avoid recursive loops
  * @return   The list of operations for the Classifier.
  */
-UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed)
+UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed) const
 {
     UMLOperationList ops;
     foreach (UMLObject* li, subordinates()) {
@@ -1111,7 +1111,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
  * @param name   the template name
  * @return       the found template or 0
  */
-UMLTemplate *UMLClassifier::findTemplate(const QString& name)
+UMLTemplate *UMLClassifier::findTemplate(const QString& name) const
 {
     UMLTemplateList templParams = getTemplateList();
     foreach (UMLTemplate *templt, templParams) {
@@ -1127,7 +1127,7 @@ UMLTemplate *UMLClassifier::findTemplate(const QString& name)
  *
  * @return  The number of templates for the class.
  */
-int UMLClassifier::templates()
+int UMLClassifier::templates() const
 {
     UMLClassifierListItemList tempList = getFilteredList(UMLObject::ot_Template);
     return tempList.count();
@@ -1237,7 +1237,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
  * Return true if this classifier has associations.
  * @return   true if classifier has associations
  */
-bool UMLClassifier::hasAssociations()
+bool UMLClassifier::hasAssociations() const
 {
     return getSpecificAssocs(AssociationType::Association).count() > 0
             || getAggregations().count() > 0
@@ -1248,7 +1248,7 @@ bool UMLClassifier::hasAssociations()
 /**
  * Return true if this classifier has attributes.
  */
-bool UMLClassifier::hasAttributes()
+bool UMLClassifier::hasAttributes() const
 {
     return getAttributeList(Uml::Visibility::Public).count() > 0
             || getAttributeList(Uml::Visibility::Protected).count() > 0
@@ -1261,7 +1261,7 @@ bool UMLClassifier::hasAttributes()
 /**
  * Return true if this classifier has static attributes.
  */
-bool UMLClassifier::hasStaticAttributes()
+bool UMLClassifier::hasStaticAttributes() const
 {
     return getAttributeListStatic(Uml::Visibility::Public).count() > 0
             || getAttributeListStatic(Uml::Visibility::Protected).count() > 0
@@ -1271,7 +1271,7 @@ bool UMLClassifier::hasStaticAttributes()
 /**
  * Return true if this classifier has accessor methods.
  */
-bool UMLClassifier::hasAccessorMethods()
+bool UMLClassifier::hasAccessorMethods() const
 {
     return hasAttributes() || hasAssociations();
 }
@@ -1279,7 +1279,7 @@ bool UMLClassifier::hasAccessorMethods()
 /**
  * Return true if this classifier has operation methods.
  */
-bool UMLClassifier::hasOperationMethods()
+bool UMLClassifier::hasOperationMethods() const
 {
     return getOpList().count() > 0 ? true : false;
 }
@@ -1287,7 +1287,7 @@ bool UMLClassifier::hasOperationMethods()
 /**
  * Return true if this classifier has methods.
  */
-bool UMLClassifier::hasMethods()
+bool UMLClassifier::hasMethods() const
 {
     return hasOperationMethods() || hasAccessorMethods();
 }
@@ -1299,7 +1299,7 @@ bool UMLClassifier::hasMethods()
 /**
  * Return true if this classifier has vector fields.
  */
-bool UMLClassifier::hasVectorFields()
+bool UMLClassifier::hasVectorFields() const
 {
     return hasAssociations();
 }
@@ -1307,7 +1307,7 @@ bool UMLClassifier::hasVectorFields()
 /**
  * Return the list of unidirectional association that should show up in the code
  */
-UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
+UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() const
 {
     UMLAssociationList associations = getSpecificAssocs(AssociationType::UniAssociation);
     UMLAssociationList uniAssocListToBeImplemented;

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -258,7 +258,7 @@ void UMLPackage::removeAllObjects()
 /**
  * Returns the list of objects contained in this package.
  */
-UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */)
+UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */) const
 {
     UMLObjectList result;
     foreach (UMLObject *obj, m_objects) {
@@ -284,7 +284,7 @@ UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */)
  * @param name   The name to seek.
  * @return  Pointer to the UMLObject found or NULL if not found.
  */
-UMLObject * UMLPackage::findObject(const QString &name)
+UMLObject * UMLPackage::findObject(const QString &name) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     foreach (UMLObject *obj, m_objects) {
@@ -306,7 +306,7 @@ UMLObject * UMLPackage::findObject(const QString &name)
  * @param id   The ID to seek.
  * @return  Pointer to the UMLObject found or NULL if not found.
  */
-UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
+UMLObject * UMLPackage::findObjectById(Uml::ID::Type id) const
 {
     return Model_Utils::findObjectInList(id, m_objects);
 }
@@ -319,7 +319,7 @@ UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
  * @param includeNested   Whether to include the packages from nested packages
  *                        (default:true)
  */
-void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
+void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested) const
 {
     foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
@@ -343,7 +343,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
  *                        nested packages (default: true.)
  */
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
-                                   bool includeNested /* = true */)
+                                   bool includeNested /* = true */) const
 {
     foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
@@ -367,7 +367,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
  *                        nested packages (default: true.)
  */
 void UMLPackage::appendEntities(UMLEntityList& entities,
-                                 bool includeNested /* = true */)
+                                 bool includeNested /* = true */) const
 {
     foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
@@ -391,7 +391,7 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
  *                        nested packages (default: true.)
  */
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
-        bool includeNested /* = true */)
+        bool includeNested /* = true */) const
 {
     foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);

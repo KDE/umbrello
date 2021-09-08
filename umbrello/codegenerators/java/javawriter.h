@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2003 Brian Thomas
     <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2014 Umbrello UML Modeller Authors
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors
     <umbrello-devel@kde.org>
 */
 
@@ -36,7 +36,7 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
 private:
     void writeClassDecl(UMLClassifier *c, QTextStream &java);

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef PETALNODE__H
@@ -45,7 +45,7 @@ public:
         PetalNode *node;
         StringOrNode() { node = 0; }
         virtual ~StringOrNode() { }
-        bool isEmpty() { return (string.isEmpty() && node == 0); }
+        bool isEmpty() const { return (string.isEmpty() && node == 0); }
     };
     typedef QPair<QString, StringOrNode> NameValue;
     typedef QList<NameValue> NameValueList;

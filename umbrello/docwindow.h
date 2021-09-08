@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DOCWINDOW_H
@@ -37,7 +37,7 @@ public:
 
     void reset();
 
-    bool isTyping();
+    bool isTyping() const;
     void setFocus();
 
 public slots:
@@ -75,7 +75,7 @@ private:
     KTextEdit *m_docTE;          ///< documentation widget
     bool m_focusEnabled;
 
-    bool isModified();
+    bool isModified() const;
     QLabel* createPixmapLabel();
     void updateLabel(const QString &name = QString());
     void toForeground();

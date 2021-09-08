@@ -125,7 +125,7 @@ Uml::ParameterDirection::Enum UMLAttribute::getParmKind() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype)
+QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype) const
 {
     QString s;
 

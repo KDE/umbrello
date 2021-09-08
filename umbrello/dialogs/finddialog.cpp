@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "finddialog.h"
@@ -24,7 +24,7 @@ FindDialog::~FindDialog()
  * return entered text.
  * @return text
  */
-QString FindDialog::text()
+QString FindDialog::text() const
 {
     return ui_searchTerm->text();
 }
@@ -33,7 +33,7 @@ QString FindDialog::text()
  * Return user selected filter.
  * @return filter enum
  */
-UMLFinder::Filter FindDialog::filter()
+UMLFinder::Filter FindDialog::filter() const
 {
     if (ui_treeView->isChecked())
         return UMLFinder::TreeView;
@@ -47,7 +47,7 @@ UMLFinder::Filter FindDialog::filter()
  * Return user selected category.
  * @return category enum
  */
-UMLFinder::Category FindDialog::category()
+UMLFinder::Category FindDialog::category() const
 {
     if (ui_categoryAll->isChecked())
         return UMLFinder::All;

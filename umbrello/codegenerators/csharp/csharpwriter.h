@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2007-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2007-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CSHARPWRITER_H
@@ -30,7 +30,7 @@ public:
 
     virtual QStringList reservedKeywords() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
 private:
 

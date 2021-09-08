@@ -53,7 +53,7 @@ UMLCanvasObject::~UMLCanvasObject()
  * @param assocType   The AssociationType::Enum to match.
  * @return   The list of associations that match assocType.
  */
-UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType)
+UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType) const
 {
     UMLAssociationList list;
     foreach (UMLObject *o, subordinates()) {
@@ -321,7 +321,7 @@ int UMLCanvasObject::associations()
  *
  * @return   The list of associations for the CanvasObject.
  */
-UMLAssociationList UMLCanvasObject::getAssociations()
+UMLAssociationList UMLCanvasObject::getAssociations() const
 {
     UMLAssociationList assocs;
     foreach (UMLObject *o, subordinates()) {
@@ -341,7 +341,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
  * @param withRealizations include realizations in the returned list (default=yes)
  * @return  The list of superclasses for the concept.
  */
-UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations)
+UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
@@ -369,7 +369,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations)
  *
  * @return  The list of classes inheriting from the concept.
  */
-UMLClassifierList UMLCanvasObject::getSubClasses()
+UMLClassifierList UMLCanvasObject::getSubClasses() const
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
@@ -394,7 +394,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
  *
  * @return  The list of realizations for the Concept.
  */
-UMLAssociationList UMLCanvasObject::getRealizations()
+UMLAssociationList UMLCanvasObject::getRealizations() const
 {
     return getSpecificAssocs(Uml::AssociationType::Realization);
 }
@@ -404,17 +404,17 @@ UMLAssociationList UMLCanvasObject::getRealizations()
  *
  * @return  The list of aggregations for the Concept.
  */
-UMLAssociationList UMLCanvasObject::getAggregations()
+UMLAssociationList UMLCanvasObject::getAggregations() const
 {
     return getSpecificAssocs(Uml::AssociationType::Aggregation);
 }
 
 /**
- * Shorthand for getSpecificAssocs(Uml::at_Composition)
+ * Shorthand for getSpecificAssocs(Uml::at_Composition) const
  *
  * @return  The list of compositions for the Concept.
  */
-UMLAssociationList UMLCanvasObject::getCompositions()
+UMLAssociationList UMLCanvasObject::getCompositions() const
 {
     return getSpecificAssocs(Uml::AssociationType::Composition);
 }
@@ -424,7 +424,7 @@ UMLAssociationList UMLCanvasObject::getCompositions()
  *
  * @return  The list of relationships for the entity.
  */
-UMLAssociationList UMLCanvasObject::getRelationships()
+UMLAssociationList UMLCanvasObject::getRelationships() const
 {
     return getSpecificAssocs(Uml::AssociationType::Relationship);
 }

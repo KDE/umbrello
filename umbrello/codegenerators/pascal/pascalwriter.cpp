@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "pascalwriter.h"
@@ -407,7 +407,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
  * Returns the default datatypes in a list.
  * @return  the list of default datatypes
  */
-QStringList PascalWriter::defaultDatatypes()
+QStringList PascalWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("AnsiString"));

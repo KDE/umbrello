@@ -165,7 +165,7 @@ bool UMLObject::showPropertiesDialog(QWidget *parent)
  * is not valid and will not be created.  The default accepts
  * nothing (returns false)
  */
-bool UMLObject::acceptAssociationType(Uml::AssociationType::Enum type)
+bool UMLObject::acceptAssociationType(Uml::AssociationType::Enum type) const
 {
     Q_UNUSED(type);
     // A UMLObject accepts nothing. This should be reimplemented by the subclasses
@@ -561,7 +561,8 @@ QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 /**
  * Returns the concrete values of stereotype attributes.
  */
-QStringList & UMLObject::tags() {
+QStringList & UMLObject::tags()
+{
     return m_TaggedValues;
 }
 

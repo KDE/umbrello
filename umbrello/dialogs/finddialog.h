@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef FINDDIALOG_H
@@ -22,9 +22,9 @@ class FindDialog : public SinglePageDialogBase, private Ui::FindDialog
 public:
     explicit FindDialog(QWidget *parent = 0);
     ~FindDialog();
-    QString text();
-    UMLFinder::Filter filter();
-    UMLFinder::Category category();
+    QString text() const;
+    UMLFinder::Filter filter() const;
+    UMLFinder::Category category() const;
 
 protected:
     void showEvent(QShowEvent *event);

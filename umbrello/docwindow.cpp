@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -315,7 +315,7 @@ void DocWindow::reset()
 /**
  * Checks if the user is typing in the documentation edit window.
  */
-bool DocWindow::isTyping()
+bool DocWindow::isTyping() const
 {
     if (m_docTE->hasFocus())
         return true;
@@ -332,7 +332,7 @@ void DocWindow::setFocus()
 /**
  * Checks if the user is typing in the documentation edit window.
  */
-bool DocWindow::isModified()
+bool DocWindow::isModified() const
 {
     bool modified = false;
     const QString currentText = m_docTE->toPlainText();

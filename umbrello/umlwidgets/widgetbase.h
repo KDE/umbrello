@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef WIDGETBASE_H
@@ -234,35 +234,35 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    bool isActivityWidget()         { return baseType() == wt_Activity; }
-    bool isActorWidget()            { return baseType() == wt_Actor; }
-    bool isArtifactWidget()         { return baseType() == wt_Artifact; }
-    bool isAssociationWidget()      { return baseType() == wt_Association; }
-    bool isBoxWidget()              { return baseType() == wt_Box; }
-    bool isCategoryWidget()         { return baseType() == wt_Category; }
-    bool isClassWidget()            { return baseType() == wt_Class; }
-    bool isCombinedFragmentWidget() { return baseType() == wt_CombinedFragment; }
-    bool isComponentWidget()        { return baseType() == wt_Component; }
-    bool isDatatypeWidget()         { return baseType() == wt_Datatype; }
-    bool isEntityWidget()           { return baseType() == wt_Entity; }
-    bool isEnumWidget()             { return baseType() == wt_Enum; }
-    bool isFloatingDashLineWidget() { return baseType() == wt_FloatingDashLine; }
-    bool isForkJoinWidget()         { return baseType() == wt_ForkJoin; }
-    bool isInterfaceWidget()        { return baseType() == wt_Interface; }
-    bool isMessageWidget()          { return baseType() == wt_Message; }
-    bool isNodeWidget()             { return baseType() == wt_Node; }
-    bool isNoteWidget()             { return baseType() == wt_Note; }
-    bool isObjectNodeWidget()       { return baseType() == wt_ObjectNode; }
-    bool isObjectWidget()           { return baseType() == wt_Object; }
-    bool isPackageWidget()          { return baseType() == wt_Package; }
-    bool isPinWidget()              { return baseType() == wt_Pin; }
-    bool isPortWidget()             { return baseType() == wt_Port; }
-    bool isPreconditionWidget()     { return baseType() == wt_Precondition; }
-    bool isRegionWidget()           { return baseType() == wt_Region; }
-    bool isSignalWidget()           { return baseType() == wt_Signal; }
-    bool isStateWidget()            { return baseType() == wt_State; }
-    bool isTextWidget()             { return baseType() == wt_Text; }
-    bool isUseCaseWidget()          { return baseType() == wt_UseCase; }
+    bool isActivityWidget()         const { return baseType() == wt_Activity; }
+    bool isActorWidget()            const { return baseType() == wt_Actor; }
+    bool isArtifactWidget()         const { return baseType() == wt_Artifact; }
+    bool isAssociationWidget()      const { return baseType() == wt_Association; }
+    bool isBoxWidget()              const { return baseType() == wt_Box; }
+    bool isCategoryWidget()         const { return baseType() == wt_Category; }
+    bool isClassWidget()            const { return baseType() == wt_Class; }
+    bool isCombinedFragmentWidget() const { return baseType() == wt_CombinedFragment; }
+    bool isComponentWidget()        const { return baseType() == wt_Component; }
+    bool isDatatypeWidget()         const { return baseType() == wt_Datatype; }
+    bool isEntityWidget()           const { return baseType() == wt_Entity; }
+    bool isEnumWidget()             const { return baseType() == wt_Enum; }
+    bool isFloatingDashLineWidget() const { return baseType() == wt_FloatingDashLine; }
+    bool isForkJoinWidget()         const { return baseType() == wt_ForkJoin; }
+    bool isInterfaceWidget()        const { return baseType() == wt_Interface; }
+    bool isMessageWidget()          const { return baseType() == wt_Message; }
+    bool isNodeWidget()             const { return baseType() == wt_Node; }
+    bool isNoteWidget()             const { return baseType() == wt_Note; }
+    bool isObjectNodeWidget()       const { return baseType() == wt_ObjectNode; }
+    bool isObjectWidget()           const { return baseType() == wt_Object; }
+    bool isPackageWidget()          const { return baseType() == wt_Package; }
+    bool isPinWidget()              const { return baseType() == wt_Pin; }
+    bool isPortWidget()             const { return baseType() == wt_Port; }
+    bool isPreconditionWidget()     const { return baseType() == wt_Precondition; }
+    bool isRegionWidget()           const { return baseType() == wt_Region; }
+    bool isSignalWidget()           const { return baseType() == wt_Signal; }
+    bool isStateWidget()            const { return baseType() == wt_State; }
+    bool isTextWidget()             const { return baseType() == wt_Text; }
+    bool isUseCaseWidget()          const { return baseType() == wt_UseCase; }
 
     ActivityWidget* asActivityWidget();
     ActorWidget* asActorWidget();

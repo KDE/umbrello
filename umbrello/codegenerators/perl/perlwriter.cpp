@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 David Hugh-Jones <hughjonesd@yahoo.co.uk>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "perlwriter.h"
@@ -714,7 +714,7 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
  * Get list of default datatypes.
  * @return   the list of default datatypes
  */
-QStringList PerlWriter::defaultDatatypes()
+QStringList PerlWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("$"));

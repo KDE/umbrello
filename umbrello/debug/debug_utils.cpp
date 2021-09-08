@@ -62,7 +62,7 @@ Tracer::~Tracer()
  * Return debugging state for a given class
  * @param name   the class name to check 
  */
-bool Tracer::isEnabled(const QString& name)
+bool Tracer::isEnabled(const QString& name) const
 {
     return (*m_classes)[name].state;
 }

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef RUBYCLASSIFIERCODEDOCUMENT_H
@@ -38,11 +38,11 @@ public:
 
     //CodeDocumentDialog getDialog();
 
-    RubyCodeGenerationPolicy * getRubyPolicy();
+    RubyCodeGenerationPolicy * getRubyPolicy() const;
 
-    QString getRubyClassName(const QString &name);
+    QString getRubyClassName(const QString &name) const;
 
-    QString getPath();
+    QString getPath() const;
 
     bool addCodeOperation(CodeOperation * op);
 

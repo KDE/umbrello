@@ -91,7 +91,7 @@ void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /*
         emitModified();
 }
 
-UMLClassifier *UMLInstance::classifier()
+UMLClassifier *UMLInstance::classifier() const
 {
     return (m_pSecondary ? m_pSecondary->asUMLClassifier() : nullptr);
 }

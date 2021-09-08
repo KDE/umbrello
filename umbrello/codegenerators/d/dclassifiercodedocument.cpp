@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -62,7 +62,7 @@ bool DClassifierCodeDocument::forceDoc()
 }
 
 // We overwritten by D language implementation to get lowercase path
-QString DClassifierCodeDocument::getPath()
+QString DClassifierCodeDocument::getPath() const
 {
     QString path = getPackage();
 
@@ -80,7 +80,7 @@ QString DClassifierCodeDocument::getPath()
     return path;
 }
 
-QString DClassifierCodeDocument::getDClassName(const QString &name)
+QString DClassifierCodeDocument::getDClassName(const QString &name) const
 {
     return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }

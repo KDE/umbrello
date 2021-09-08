@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -94,7 +94,7 @@ void CodeDocument::setPackage (UMLPackage *new_var)
  * Get the value of the path to this code document.
  * @return the value of m_pathName
  */
-QString CodeDocument::getPath ()
+QString CodeDocument::getPath () const
 {
     QString path = getPackage();
 
@@ -159,7 +159,7 @@ void CodeDocument::setWriteOutCode (bool new_var)
  * owns.
  * @return   the value of m_writeOutCode
  */
-bool CodeDocument::getWriteOutCode ()
+bool CodeDocument::getWriteOutCode () const
 {
     return m_writeOutCode;
 }
@@ -177,7 +177,7 @@ void CodeDocument::setHeader (CodeComment * comment)
  * Get the Header comment object.
  * @return   the comment for the header
  */
-CodeComment * CodeDocument::getHeader ()
+CodeComment * CodeDocument::getHeader () const
 {
     return m_header;
 }
@@ -187,7 +187,7 @@ CodeComment * CodeDocument::getHeader ()
  * @param prefix   the prefix to add
  * @return         the just created unique tag
  */
-QString CodeDocument::getUniqueTag (const QString& prefix)
+QString CodeDocument::getUniqueTag (const QString& prefix) 
 {
     QString tag = prefix ;
     if(tag.isEmpty())
@@ -296,7 +296,7 @@ void CodeDocument::updateHeader ()
  * Create the string representation of this object.
  * @return   the created string
  */
-QString CodeDocument::toString ()
+QString CodeDocument::toString () const
 {
     // IF the whole document is turned "Off" then don't bother
     // checking individual code blocks, just send back empty string
@@ -497,7 +497,7 @@ void CodeDocument::addChildTagToMap (const QString &tag, TextBlock * tb)
  * @param descendIntoChildren   look down the hierarchy
  * @return                      the found text block
  */
-TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendIntoChildren)
+TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendIntoChildren) const
 {
     //if we already know to which file this class was written/should be written, just return it.
     if (m_textBlockTagMap.contains(tag))

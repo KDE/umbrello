@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2009-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2009-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //
@@ -120,7 +120,7 @@ ValaWriter::~ValaWriter()
  * Get list of predefined data types.
  * @return  the list of default data types
  */
-QStringList ValaWriter::defaultDatatypes()
+QStringList ValaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("bool"));
