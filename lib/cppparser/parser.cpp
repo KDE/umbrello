@@ -203,9 +203,10 @@ bool Parser::skipUntilDeclaration()
         case Token_export:
 
         case Token_const:       // cv
-        case Token_const_expr:       // cv
+        case Token_noexcept:
+        case Token_const_expr:  // cv
         case Token_volatile:    // cv
-        case Token_mutable:    // cv
+        case Token_mutable:     // cv
 
         case Token_public:
         case Token_protected:
@@ -235,6 +236,7 @@ bool Parser::skipUntilStatement()
         case Token_const_expr:
         case Token_volatile:
         case Token_mutable:
+        case Token_noexcept:
         case Token_identifier:
         case Token_case:
         case Token_default:
@@ -2199,6 +2201,17 @@ bool Parser::parseDeclaratorId(NameAST::Node& node)
 bool Parser::parseExceptionSpecification(GroupAST::Node& node)
 {
     PARSER_DEBUG_METHOD;
+
+    if (m_lexer->lookAhead(0) == Token_noexcept) {
+        GroupAST::Node ast = CreateNode<GroupAST>();
+        int start = m_lexer->index();
+        nextToken();
+        AST::Node word = CreateNode<AST>();
+        UPDATE_POS(word, start, m_lexer->index());
+        ast->addNode(word);
+        node = std::move(ast);
+        return true;
+    }
 
     if (m_lexer->lookAhead(0) != Token_throw) {
         return false;
