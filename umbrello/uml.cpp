@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -2121,7 +2121,7 @@ bool UMLApp::isCutCopyState() const
  *
  * @return  True if undo is enabled.
  */
-bool UMLApp::isUndoEnabled()
+bool UMLApp::isUndoEnabled() const
 {
     return m_undoEnabled;
 
@@ -2217,7 +2217,7 @@ bool UMLApp::editCutCopy(bool bFromView)
  * Not in @ref readOptions as it needs to be read earlier than some
  * of the other options, before some items are created.
  */
-void UMLApp::readOptionState()
+void UMLApp::readOptionState() const
 {
     Settings::OptionState& optionState = Settings::optionState();
 
@@ -2362,7 +2362,7 @@ CodeGenerator* UMLApp::generator() const
  *
  * @return  true if SimpleCodeGenerator is active.
  */
-bool UMLApp::isSimpleCodeGeneratorActive()
+bool UMLApp::isSimpleCodeGeneratorActive() const
 {
     if (m_codegen && dynamic_cast<SimpleCodeGenerator*>(m_codegen)) {
         return true;
@@ -2537,7 +2537,7 @@ Uml::ProgrammingLanguage::Enum UMLApp::activeLanguage() const
 /**
  * Return true if the active language is case sensitive.
  */
-bool UMLApp::activeLanguageIsCaseSensitive()
+bool UMLApp::activeLanguageIsCaseSensitive() const
 {
     Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     return Uml::ProgrammingLanguage::isCaseSensitive(pl);
@@ -2546,7 +2546,7 @@ bool UMLApp::activeLanguageIsCaseSensitive()
 /**
  * Return the target language depedent scope separator.
  */
-QString UMLApp::activeLanguageScopeSeparator()
+QString UMLApp::activeLanguageScopeSeparator() const
 {
     Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     return Uml::ProgrammingLanguage::scopeSeparator(pl);
@@ -2915,7 +2915,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
  * If the activeLanguage is not found in the KConfig then use Uml::ProgrammingLanguage::Cpp
  * as the default.
  */
-Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage()
+Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage() const
 {
     Settings::OptionState& optionState = Settings::optionState();
     return optionState.generalState.defaultLanguage;
@@ -3066,7 +3066,7 @@ void UMLApp::newDocument()
  * Returns the widget used as the parent for UMLViews.
  * @return  The main view widget.
  */
-QWidget* UMLApp::mainViewWidget()
+QWidget* UMLApp::mainViewWidget() const
 {
     Settings::OptionState& optionState = Settings::optionState();
     if (optionState.generalState.tabdiagrams) {
@@ -3378,7 +3378,7 @@ KTabWidget* UMLApp::tabWidget()
  *
  * @return The text in the status bar.
  */
-QString UMLApp::statusBarMsg()
+QString UMLApp::statusBarMsg() const
 {
     return m_statusBarMessage->text();
 }
@@ -3502,7 +3502,7 @@ void UMLApp::endMacro()
 /**
  * Return the config data.
  */
-KConfig* UMLApp::config()
+KConfig* UMLApp::config() const
 {
     return m_config.data();
 }

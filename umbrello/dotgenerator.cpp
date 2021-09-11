@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // self includes
@@ -186,7 +186,7 @@ void DotGenerator::setGeneratorName(const QString &name)
     uDebug() << "found graphviz generator at " << generatorFullPath() << " with version " << m_version;
 }
 
-QString DotGenerator::generatorFullPath()
+QString DotGenerator::generatorFullPath() const
 {
     return m_dotPath + QLatin1Char('/') + m_generator;
 }
@@ -196,7 +196,7 @@ QString DotGenerator::generatorFullPath()
  *
  * @return true if position are used
  */
-bool DotGenerator::usePosition()
+bool DotGenerator::usePosition() const
 {
     return m_usePosition;
 }
@@ -216,7 +216,7 @@ void DotGenerator::setUsePosition(bool state)
  *
  * @return true if position are used
  */
-bool DotGenerator::useFullNodeLabels()
+bool DotGenerator::useFullNodeLabels() const
 {
     return m_useFullNodeLabels;
 }
@@ -577,7 +577,7 @@ QString DotGenerator::fixID(const QString &_id)
  * get generator version
  * @return version for example 20130928
  */
-int DotGenerator::generatorVersion()
+int DotGenerator::generatorVersion() const
 {
     QProcess p;
     QStringList args;

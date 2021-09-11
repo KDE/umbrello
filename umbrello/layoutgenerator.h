@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef LAYOUTGENERATOR_H
@@ -40,7 +40,7 @@ public:
 
     LayoutGenerator();
 
-    bool isEnabled();
+    bool isEnabled() const;
     bool generate(UMLScene *scene, const QString &variant = QString());
     bool apply(UMLScene *scene);
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);

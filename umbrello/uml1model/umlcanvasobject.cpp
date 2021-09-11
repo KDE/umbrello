@@ -93,7 +93,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
  *
  * @param assoc   The association to check.
  */
-bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
+bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) const
 {
     uint cnt = subordinates().count(assoc);
     DEBUG(DBG_SRC) << "count is " << cnt;
@@ -173,7 +173,7 @@ void UMLCanvasObject::removeAllChildObjects()
  * @return  Unique name string for the ObjectType given.
  */
 QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
-                                        const QString &prefix /* = QString() */)
+                                       const QString &prefix /* = QString() */) const
 {
     QString currentName;
     currentName = prefix;
@@ -230,7 +230,7 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
  *           any object type will match.
  * @return  Pointer to the object found; NULL if none found.
  */
-UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t)
+UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     foreach (UMLObject *obj, subordinates()) {
@@ -253,7 +253,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
  * @param considerAncestors boolean switch to consider ancestors while searching
  * @return  Pointer to the object found (NULL if not found.)
  */
-UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors)
+UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors) const
 {
     Q_UNUSED(considerAncestors);
     foreach (UMLObject *o, subordinates()) {
@@ -306,7 +306,7 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
  *
  * @return  The number of associations for the Concept.
  */
-int UMLCanvasObject::associations()
+int UMLCanvasObject::associations() const
 {
     int count = 0;
     foreach (UMLObject *obj, subordinates()) {

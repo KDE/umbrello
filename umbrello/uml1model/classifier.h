@@ -107,7 +107,8 @@ public:
 
     UMLOperationList findOperations(const QString &n) const;
 
-    virtual UMLObject* findChildObjectById(Uml::ID::Type id, bool considerAncestors = false);
+    virtual UMLObject* findChildObjectById(Uml::ID::Type id,
+                                           bool considerAncestors = false) const;
 
     UMLOperation* findOperation(const QString& name,
                                 Model_Utils::NameAndType_List params) const;

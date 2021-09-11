@@ -143,12 +143,12 @@ public:
     QString stereotype(bool includeAdornments = false) const;
 
     void setUMLStereotype(UMLStereotype *stereo);
-    UMLStereotype *umlStereotype();
+    UMLStereotype *umlStereotype() const;
 
     QStringList& tags();
 
     QString package(const QString& separator = QString(),
-                    bool includeRoot = false);
+                    bool includeRoot = false) const;
 
     UMLPackageList packages(bool includeRoot = false) const;
 
@@ -222,37 +222,37 @@ public:
     bool isUMLUniqueConstraint()     const { return baseType() == ot_UniqueConstraint; }
     bool isUMLUseCase()              const { return baseType() == ot_UseCase; }
 
-    UMLActor* asUMLActor();
-    UMLArtifact* asUMLArtifact();
-    UMLAssociation* asUMLAssociation();
-    UMLAttribute* asUMLAttribute();
-    UMLCanvasObject* asUMLCanvasObject();
-    UMLCategory* asUMLCategory();
-    UMLCheckConstraint* asUMLCheckConstraint();
-    UMLClassifier* asUMLClassifier();
-    UMLClassifierListItem* asUMLClassifierListItem();
-    UMLClassifierSet* asUMLClassifierSet();
-    UMLComponent* asUMLComponent();
-    UMLDatatype* asUMLDatatype();
-    UMLEntity* asUMLEntity();
-    UMLEntityAttribute* asUMLEntityAttribute();
-    UMLEntityConstraint* asUMLEntityConstraint();
-    UMLEnum* asUMLEnum();
-    UMLEnumLiteral* asUMLEnumLiteral();
-    UMLFolder* asUMLFolder();
-    UMLForeignKeyConstraint* asUMLForeignKeyConstraint();
-    UMLInstance* asUMLInstance();
-    UMLInstanceAttribute* asUMLInstanceAttribute();
-    UMLNode* asUMLNode();
-    UMLObject* asUMLObject();
-    UMLOperation* asUMLOperation();
-    UMLPackage* asUMLPackage();
-    UMLPort* asUMLPort();
-    UMLRole* asUMLRole();
-    UMLStereotype* asUMLStereotype();
-    UMLTemplate* asUMLTemplate();
-    UMLUniqueConstraint* asUMLUniqueConstraint();
-    UMLUseCase* asUMLUseCase();
+    UMLActor                 * asUMLActor();
+    UMLArtifact              * asUMLArtifact();
+    UMLAssociation           * asUMLAssociation();
+    UMLAttribute             * asUMLAttribute();
+    UMLCanvasObject          * asUMLCanvasObject();
+    UMLCategory              * asUMLCategory();
+    UMLCheckConstraint       * asUMLCheckConstraint();
+    UMLClassifier            * asUMLClassifier();
+    UMLClassifierListItem    * asUMLClassifierListItem();
+    UMLClassifierSet         * asUMLClassifierSet();
+    UMLComponent             * asUMLComponent();
+    UMLDatatype              * asUMLDatatype();
+    UMLEntity                * asUMLEntity();
+    UMLEntityAttribute       * asUMLEntityAttribute();
+    UMLEntityConstraint      * asUMLEntityConstraint();
+    UMLEnum                  * asUMLEnum();
+    UMLEnumLiteral           * asUMLEnumLiteral();
+    UMLFolder                * asUMLFolder();
+    UMLForeignKeyConstraint  * asUMLForeignKeyConstraint();
+    UMLInstance              * asUMLInstance();
+    UMLInstanceAttribute     * asUMLInstanceAttribute();
+    UMLNode                  * asUMLNode();
+    UMLObject                * asUMLObject();
+    UMLOperation             * asUMLOperation();
+    UMLPackage               * asUMLPackage();
+    UMLPort                  * asUMLPort();
+    UMLRole                  * asUMLRole();
+    UMLStereotype            * asUMLStereotype();
+    UMLTemplate              * asUMLTemplate();
+    UMLUniqueConstraint      * asUMLUniqueConstraint();
+    UMLUseCase               * asUMLUseCase();
 
 public slots:
     void emitModified();

@@ -45,13 +45,13 @@ public:
 
     bool addAssociationEnd(UMLAssociation* assoc);
 
-    bool hasAssociation(UMLAssociation* assoc);
+    bool hasAssociation(UMLAssociation* assoc) const;
 
     int removeAssociationEnd(UMLAssociation *assoc);
 
     void removeAllAssociationEnds();
 
-    int associations();
+    int associations() const;
 
     UMLAssociationList getAssociations() const;
 
@@ -67,12 +67,11 @@ public:
     UMLAssociationList getRelationships() const;
 
     virtual UMLObject *findChildObject(const QString &n,
-                                       UMLObject::ObjectType t = UMLObject::ot_UMLObject);
-    virtual UMLObject *findChildObjectById(Uml::ID::Type id, bool considerAncestors = false);
+                                       UMLObject::ObjectType t = UMLObject::ot_UMLObject) const;
+    virtual UMLObject *findChildObjectById(Uml::ID::Type id, bool considerAncestors = false) const;
 
     virtual QString uniqChildName(const UMLObject::ObjectType type,
-                                  const QString &prefix = QString());
-
+                                  const QString &prefix = QString()) const;
     virtual void removeAllChildObjects();
 
     UMLObjectList &subordinates() const {

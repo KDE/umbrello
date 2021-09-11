@@ -818,7 +818,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
  *             Diagram_Type is returned.
  * @return  Pointer to the parent UMLListViewItem for the diagram.
  */
-UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType::Enum dt)
+UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType::Enum dt) const
 {
     UMLListViewItem *p = static_cast<UMLListViewItem*>(currentItem());
     if (p && Model_Utils::typeIsFolder(p->type())
@@ -1962,10 +1962,11 @@ void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* target)
  * Get selected items.
  * @return   the list of selected items
  */
-UMLListViewItemList UMLListView::selectedItems()
+UMLListViewItemList UMLListView::selectedItems() const
 {
     UMLListViewItemList itemList;
-    UMLListViewItemIterator it(this);
+    // There is no QTreeWidgetItemConstIterator, hence we const_cast :/
+    UMLListViewItemIterator it(const_cast<UMLListView*>(this));
     // iterate through all items of the list view
     for (; *it; ++it) {
         if ((*it)->isSelected()) {
@@ -1982,11 +1983,11 @@ UMLListViewItemList UMLListView::selectedItems()
  * Get selected items, but only root elements selected (without children).
  * @return   the list of selected root items
  */
-UMLListViewItemList UMLListView::selectedItemsRoot()
+UMLListViewItemList UMLListView::selectedItemsRoot() const
 {
     UMLListViewItemList itemList;
-    QTreeWidgetItemIterator it(this);
-
+    // There is no QTreeWidgetItemConstIterator, hence we const_cast :/
+    UMLListViewItemIterator it(const_cast<UMLListView*>(this));
     // iterate through all items of the list view
     for (; *it; ++it) {
         if ((*it)->isSelected()) {
@@ -2077,7 +2078,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType 
 /**
  *  Return the amount of items selected.
  */
-int UMLListView::selectedItemsCount()
+int UMLListView::selectedItemsCount() const
 {
     UMLListViewItemList items = selectedItems();
     return items.count();
@@ -2323,7 +2324,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
 /**
  * Returns if the given name is unique for the given items type.
  */
-bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
+bool UMLListView::isUnique(UMLListViewItem * item, const QString &name) const
 {
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
     UMLListViewItem::ListViewType type = item->type();

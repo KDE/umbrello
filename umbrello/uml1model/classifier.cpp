@@ -538,7 +538,8 @@ UMLOperationList UMLClassifier::findOperations(const QString &n) const
  * @param considerAncestors   flag whether the ancestors should be considered during search
  * @return                    the found child object or NULL
  */
-UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id, bool considerAncestors /* =false */)
+UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id,
+                                              bool considerAncestors /* =false */) const
 {
     UMLObject *o = UMLCanvasObject::findChildObjectById(id);
     if (o) {

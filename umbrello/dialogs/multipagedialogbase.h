@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef MULTIPAGEDIALOGBASE_H
@@ -68,13 +68,13 @@ public:
     void setCaption(const QString &caption);
     void accept();
     void reject();
-    KPageWidgetItem *currentPage();
+    KPageWidgetItem *currentPage() const;
     void addPage(KPageWidgetItem *page);
     void setCurrentPage(KPageWidgetItem *page);
     static int spacingHint();
     int exec();
 
-    virtual bool isModified();
+    virtual bool isModified() const;
 
 signals:
     void okClicked();

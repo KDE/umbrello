@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -177,7 +177,7 @@ void MultiPageDialogBase::reject()
         m_pageDialog->reject();
 }
 
-KPageWidgetItem *MultiPageDialogBase::currentPage()
+KPageWidgetItem *MultiPageDialogBase::currentPage() const
 {
     if (m_pageDialog)
         return m_pageDialog->currentPage();
@@ -229,7 +229,7 @@ int MultiPageDialogBase::exec()
  *
  * @return true data has been changed
  */
-bool MultiPageDialogBase::isModified()
+bool MultiPageDialogBase::isModified() const
 {
     return m_isModified;
 }

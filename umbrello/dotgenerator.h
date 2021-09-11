@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DOTGENERATOR_H
@@ -21,10 +21,10 @@ class DotGenerator
 public:
     DotGenerator();
 
-    bool usePosition();
+    bool usePosition() const;
     void setUsePosition(bool state);
 
-    bool useFullNodeLabels();
+    bool useFullNodeLabels() const;
     void setUseFullNodeLabels(bool state);
 
     static bool availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles);
@@ -34,12 +34,12 @@ public:
 
     static QString currentDotPath();
     void setGeneratorName(const QString &name);
-    QString generatorFullPath();
+    QString generatorFullPath() const;
 
 protected:
     bool findItem(QStringList &params, const QString &search);
     QString fixID(const QString &_id);
-    int generatorVersion();
+    int generatorVersion() const;
 
     double m_scale;        ///< scale factor
     QString m_configFileName; ///< template filename

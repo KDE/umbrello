@@ -131,7 +131,7 @@ public:
     QString getSavedText() const;
     void setVisible(bool state);
 
-    QString toolTip();
+    QString toolTip() const;
 
     void setIcon(Icon_Utils::IconType iconType);
 
@@ -152,7 +152,7 @@ public:
     void saveToXMI1(QXmlStreamWriter& writer);
     bool loadFromXMI1(QDomElement& qElement);
 
-    bool isOpen() { return isExpanded(); }
+    bool isOpen() const { return isExpanded(); }
     void setOpen(bool state);
 
 public slots:

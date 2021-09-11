@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLLISTVIEW_H
@@ -56,15 +56,15 @@ public:
 
     void setTitle(int column, const QString &text);
 
-    UMLListViewItemList selectedItems();
-    UMLListViewItemList selectedItemsRoot();
-    int selectedItemsCount();
+    UMLListViewItemList selectedItems() const;
+    UMLListViewItemList selectedItemsRoot() const;
+    int selectedItemsCount() const;
 
     UMLListViewItem* createDiagramItem(UMLView *view);
 
     bool createItem(UMLListViewItem *item);
 
-    UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt);
+    UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt) const;
 
     UMLListViewItem* determineParentItem(UMLObject* object) const;
     UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
@@ -81,7 +81,7 @@ public:
 
     void changeIconOf(UMLObject *o, Icon_Utils::IconType to);
 
-    bool isUnique(UMLListViewItem * item, const QString &name);
+    bool isUnique(UMLListViewItem * item, const QString &name) const;
 
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UML_H
@@ -115,7 +115,7 @@ public:
     DocWindow * docWindow() const;
     QListWidget *logWindow() const;
 
-    QCursor defaultCursor();
+    QCursor defaultCursor() const;
 
     void setModified(bool _m);
 
@@ -124,7 +124,7 @@ public:
     bool isPasteState() const;
     bool isCutCopyState() const;
 
-    bool isUndoEnabled();
+    bool isUndoEnabled() const;
     void enableUndo(bool enable);
 
     bool isUndoActionEnabled() const;
@@ -133,7 +133,7 @@ public:
     bool isRedoActionEnabled() const;
     void enableRedoAction(bool enable);
 
-    bool isSimpleCodeGeneratorActive();
+    bool isSimpleCodeGeneratorActive() const;
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
     CodeGenerator* setGenerator(Uml::ProgrammingLanguage::Enum pl);
@@ -148,7 +148,7 @@ public:
 
     void setDiagramMenuItemsState(bool bState);
 
-    QWidget* mainViewWidget();
+    QWidget* mainViewWidget() const;
 
     void setCurrentView(UMLView* view, bool updateTreeView = true);
     UMLView* currentView() const;
@@ -164,7 +164,7 @@ public:
     KTabWidget *tabWidget();
 #endif
 
-    QString statusBarMsg();
+    QString statusBarMsg() const;
 
     CodeGenerationPolicy *commonPolicy() const;
 
@@ -183,13 +183,13 @@ public:
 
     void setActiveLanguage(Uml::ProgrammingLanguage::Enum pl);
     Uml::ProgrammingLanguage::Enum activeLanguage() const;
-    Uml::ProgrammingLanguage::Enum defaultLanguage();
+    Uml::ProgrammingLanguage::Enum defaultLanguage() const;
 
-    bool activeLanguageIsCaseSensitive();
+    bool activeLanguageIsCaseSensitive() const;
 
-    QString activeLanguageScopeSeparator();
+    QString activeLanguageScopeSeparator() const;
 
-    KConfig* config();
+    KConfig* config() const;
     void importFiles(QStringList& fileList, const QString &rootPath = QString());
 
     static bool shuttingDown();
@@ -365,7 +365,7 @@ private:
 
     static bool canDecode(const QMimeData* mimeSource);
 
-    void readOptionState();
+    void readOptionState() const;
 
     void initClip();
     void initSavedCodeGenerators();

@@ -195,7 +195,7 @@ void UMLListViewItem::init()
  * Returns the signature of items that are operations.
  * @return signature of an operation item, else an empty string
  */
-QString UMLListViewItem::toolTip()
+QString UMLListViewItem::toolTip() const
 {
     UMLObject *obj = umlObject();
     if (obj) {

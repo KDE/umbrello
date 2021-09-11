@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -998,7 +998,7 @@ void UMLDoc::setupSignals()
  * @param id   The ID of the view to search for.
  * @return  Pointer to the view found, or NULL if not found.
  */
-UMLView * UMLDoc::findView(Uml::ID::Type id)
+UMLView * UMLDoc::findView(Uml::ID::Type id) const
 {
     UMLView *v = 0;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -1019,7 +1019,7 @@ UMLView * UMLDoc::findView(Uml::ID::Type id)
  * @return  Pointer to the view found, or NULL if not found.
  */
 UMLView * UMLDoc::findView(Uml::DiagramType::Enum type, const QString &name,
-                           bool searchAllScopes /* =false */)
+                           bool searchAllScopes /* =false */) const
 {
     Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(type);
     return m_root[mt]->findView(type, name, searchAllScopes);
@@ -1227,7 +1227,7 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)
  * @param name   The name to check.
  * @return  True if name is unique.
  */
-bool UMLDoc::isUnique(const QString &name)
+bool UMLDoc::isUnique(const QString &name) const
 {
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
@@ -1269,7 +1269,7 @@ bool UMLDoc::isUnique(const QString &name)
  * @param package   The UMLPackage in which we have to determine the unique-ness
  * @return      True if name is unique.
  */
-bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
+bool UMLDoc::isUnique(const QString &name, UMLPackage *package) const
 {
     // if a package, then only do check in that
     if (package) {
@@ -1305,7 +1305,7 @@ UMLStereotype* UMLDoc::createStereotype(const QString &name)
  * @param name   The name of the UMLStereotype to find.
  * @return  Pointer to the UMLStereotype found, or NULL if not found.
  */
-UMLStereotype* UMLDoc::findStereotype(const QString &name)
+UMLStereotype* UMLDoc::findStereotype(const QString &name) const
 {
     foreach (UMLStereotype *s, m_stereoList) {
         if (s->name() == name) {
@@ -1334,7 +1334,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
  * @param id   the unique ID
  * @return the found stereotype or NULL
  */
-UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id)
+UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id) const
 {
     foreach (UMLStereotype *s, m_stereoList) {
         if (s->id() == id)
@@ -1425,7 +1425,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
 UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         const UMLObject *roleAObj,
         const UMLObject *roleBObj,
-        bool *swap)
+        bool *swap) const
 {
     UMLAssociationList assocs = associations();
     UMLAssociation *ret = 0;
@@ -1516,7 +1516,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
  * @param type   the diagram type
  * @return the unique view name
  */
-QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
+QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type) const
 {
     QString dname;
     switch (type) {
@@ -1839,7 +1839,7 @@ void UMLDoc::removeDiagramCmd(Uml::ID::Type id)
  * This will be an element from the m_root[] array.
  * @return the currently selected root folder or NULL
  */
-UMLFolder *UMLDoc::currentRoot()
+UMLFolder *UMLDoc::currentRoot() const
 {
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == 0) {
@@ -2548,12 +2548,12 @@ void UMLDoc::addDiagramToLoad(UMLFolder *folder, QDomNode node)
         m_diagramsToLoad[folder] = QList<QDomNode>() << node;
 }
 
-DiagramsModel *UMLDoc::diagramsModel()
+DiagramsModel *UMLDoc::diagramsModel() const
 {
     return m_diagramsModel;
 }
 
-ObjectsModel *UMLDoc::objectsModel()
+ObjectsModel *UMLDoc::objectsModel() const
 {
     return m_objectsModel;
 }
@@ -2563,7 +2563,7 @@ void UMLDoc::setLoadingError(const QString &text)
     m_d->errors << text;
 }
 
-StereotypesModel *UMLDoc::stereotypesModel()
+StereotypesModel *UMLDoc::stereotypesModel() const
 {
     return m_stereotypesModel;
 }
@@ -2930,7 +2930,7 @@ void UMLDoc::removeAllObjects()
  *
  * @return List of UMLPackages.
  */
-UMLPackageList UMLDoc::packages(bool includeNested /* = true */, Uml::ModelType::Enum model)
+UMLPackageList UMLDoc::packages(bool includeNested /* = true */, Uml::ModelType::Enum model) const
 {
     UMLPackageList packageList;
     m_root[model]->appendPackages(packageList, includeNested);
@@ -2954,7 +2954,7 @@ UMLFolder * UMLDoc::datatypeFolder() const
  *                        nested packages (default: true.)
  * @return  List of UML concepts.
  */
-UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */) const
 {
     UMLClassifierList conceptList;
     m_root[Uml::ModelType::Logical]->appendClassifiers(conceptList, includeNested);
@@ -2968,7 +2968,7 @@ UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */)
  *                        nested packages (default: true.)
  * @return  List of UML concepts.
  */
-UMLClassifierList UMLDoc::classesAndInterfaces(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::classesAndInterfaces(bool includeNested /* =true */) const
 {
     UMLClassifierList conceptList;
     m_root[Uml::ModelType::Logical]->appendClassesAndInterfaces(conceptList, includeNested);
@@ -2982,7 +2982,7 @@ UMLClassifierList UMLDoc::classesAndInterfaces(bool includeNested /* =true */)
  *                        nested packages (default: true.)
  * @return  List of UML Entities.
  */
-UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
+UMLEntityList UMLDoc::entities(bool includeNested /* =true */) const
 {
     UMLEntityList entityList;
     m_root[Uml::ModelType::EntityRelationship]->appendEntities(entityList, includeNested);
@@ -2996,7 +2996,7 @@ UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
  *                         changing the active programming language.
  * @return  List of datatypes.
  */
-UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */)
+UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */) const
 {
     UMLObjectList objects = m_datatypeRoot->containedObjects(includeInactive);
     UMLClassifierList datatypeList;
@@ -3014,7 +3014,7 @@ UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */)
  *
  * @return  List of UML associations.
  */
-UMLAssociationList UMLDoc::associations()
+UMLAssociationList UMLDoc::associations() const
 {
     UMLAssociationList associationList;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -3059,7 +3059,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
  *
  * @return  List of UML views.
  */
-UMLViewList UMLDoc::viewIterator()
+UMLViewList UMLDoc::viewIterator() const
 {
     UMLViewList accumulator;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -3074,7 +3074,7 @@ UMLViewList UMLDoc::viewIterator()
  * @param type diagram type to filter
  * @return  List of UML views.
  */
-UMLViewList UMLDoc::views(Uml::DiagramType::Enum type)
+UMLViewList UMLDoc::views(Uml::DiagramType::Enum type) const
 {
     UMLViewList result;
     foreach(UMLView *v, viewIterator()) {
@@ -3105,7 +3105,7 @@ void UMLDoc::setModified(bool modified /*=true*/)
  *
  * @return  True if this UMLDoc is modified.
  */
-bool UMLDoc::isModified()
+bool UMLDoc::isModified() const
 {
     return m_modified;
 }
@@ -3159,7 +3159,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 /**
  * Return the predefined root folder of the given type.
  */
-UMLFolder *UMLDoc::rootFolder(Uml::ModelType::Enum mt)
+UMLFolder *UMLDoc::rootFolder(Uml::ModelType::Enum mt) const
 {
     if (mt < Uml::ModelType::Logical || mt >= Uml::ModelType::N_MODELTYPES) {
         uError() << "illegal input value " << Uml::ModelType::toString(mt);
@@ -3174,7 +3174,7 @@ UMLFolder *UMLDoc::rootFolder(Uml::ModelType::Enum mt)
  * When the given object is not one of the root folders then
  * return Uml::ModelType::N_MODELTYPES.
  */
-Uml::ModelType::Enum UMLDoc::rootFolderType(UMLObject *obj)
+Uml::ModelType::Enum UMLDoc::rootFolderType(UMLObject *obj) const
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         const Uml::ModelType::Enum m = Uml::ModelType::fromInt(i);
@@ -3190,7 +3190,7 @@ Uml::ModelType::Enum UMLDoc::rootFolderType(UMLObject *obj)
  *
  * @return  Pointer to the IDChangeLog object.
  */
-IDChangeLog* UMLDoc::changeLog()
+IDChangeLog* UMLDoc::changeLog() const
 {
     return m_pChangeLog;
 }
