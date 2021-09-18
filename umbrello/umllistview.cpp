@@ -879,6 +879,8 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
  */
 UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 {
+    if (object == nullptr)
+        return nullptr;
     UMLListViewItem* parentItem = 0;
     UMLPackage*      pkg = 0;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
@@ -923,7 +925,11 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
             parentItem = m_datatypeFolder;
         } else {
             Uml::ModelType::Enum guess = Model_Utils::guessContainer(object);
-            parentItem = m_lv[guess];
+            if (guess != Uml::ModelType::N_MODELTYPES)
+                parentItem = m_lv[guess];
+            else
+                uWarning() << "UMLListView::determineParentItem: cannot guess container for object"
+                           << object->name();
         }
         break;
     }

@@ -609,7 +609,6 @@ QString newTitle(UMLObject::ObjectType type)
         uWarning() << "model_utils::newTitle unknown object type" << UMLObject::toString(type);
         return i18n("New UML object");
     }
-    return QString();
 }
 
 /**
@@ -652,7 +651,6 @@ QString newText(UMLObject::ObjectType type)
         uWarning() << "model_utils::newText unknown object type" << UMLObject::toString(type);
         return i18n("Enter the name of the new UML object");
     }
-    return QString();
 }
 
 /**
@@ -695,7 +693,6 @@ QString renameTitle(UMLObject::ObjectType type)
         uWarning() << "model_utils::renameTitle unknown object type" << UMLObject::toString(type);
         return i18n("Rename UML object");
     }
-    return QString();
 }
 
 /**
@@ -738,7 +735,6 @@ QString renameText(UMLObject::ObjectType type)
         uWarning() << "model_utils::renameText unknown object type" << UMLObject::toString(type);
         return i18n("Enter the new name of the UML object");
     }
-    return QString();
 }
 
 /**

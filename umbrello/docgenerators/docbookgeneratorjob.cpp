@@ -91,7 +91,7 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
         newURL = xmlStrdup((const xmlChar *) paths[i]);
         newURL = xmlStrcat(newURL, (const xmlChar *) "/");
         newURL = xmlStrcat(newURL, (const xmlChar *) lastsegment);
-        if (newURL != NULL) {
+        if (newURL != NULL && defaultEntityLoader != NULL) {
             ret = defaultEntityLoader((const char *)newURL, ID, ctxt);
             if (ret != NULL) {
                 if (warning != NULL)

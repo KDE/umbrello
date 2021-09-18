@@ -1780,13 +1780,13 @@ bool UMLWidget::getIgnoreSnapToGrid() const
 
 /**
  * Sets the size.
- * If m_scene->snapComponentSizeToGrid() is true, then
+ * If m_scene->snapComponentSizeToGrid() is true then
  * set the next larger size that snaps to the grid.
  */
 void UMLWidget::setSize(qreal width, qreal height)
 {
     // snap to the next larger size that is a multiple of the grid
-    if (!m_ignoreSnapComponentSizeToGrid
+    if (!m_ignoreSnapComponentSizeToGrid && m_scene
             && m_scene->snapComponentSizeToGrid()) {
         // integer divisions
         int numX = width / m_scene->snapX();

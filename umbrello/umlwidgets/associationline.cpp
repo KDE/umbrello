@@ -522,6 +522,7 @@ void AssociationLine::reconstructSymbols()
     switch( m_associationWidget->associationType() ) {
         case Uml::AssociationType::Exception:
             setLayout(Uml::LayoutType::Polyline);
+            // fall through
         case Uml::AssociationType::State:
         case Uml::AssociationType::Activity:
         case Uml::AssociationType::UniAssociation:

@@ -865,7 +865,6 @@ namespace Widget_Utils
             return i18n("new widget");
             break;
         }
-        return QString();
     }
 
     /**
@@ -911,7 +910,6 @@ namespace Widget_Utils
             uWarning() << "unknown widget type:" << WidgetBase::toString(type);
             return i18n("New widget");
         }
-        return QString();
     }
 
     /**
@@ -957,7 +955,6 @@ namespace Widget_Utils
             uWarning() << "unknown widget type:" << WidgetBase::toString(type);
             return i18n("Enter the name of the new widget:");
         }
-        return QString();
     }
 
     /**
@@ -1003,7 +1000,6 @@ namespace Widget_Utils
             uWarning() << "unknown widget type:" << WidgetBase::toString(type);
             return i18n("Rename widget");
         }
-        return QString();
     }
 
     /**
@@ -1049,6 +1045,5 @@ namespace Widget_Utils
             uWarning() << "unknown widget type:" << WidgetBase::toString(type);
             return i18n("Enter the new name of the widget:");
         }
-        return QString();
     }
 }

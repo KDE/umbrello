@@ -1022,6 +1022,11 @@ UMLView * UMLDoc::findView(Uml::DiagramType::Enum type, const QString &name,
                            bool searchAllScopes /* =false */) const
 {
     Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(type);
+    if (mt == Uml::ModelType::N_MODELTYPES) {
+        uWarning() << "UMLDoc::findView : Returning null because DiagramType "
+                   << type << " cannot be mapped to ModelType";
+        return nullptr;
+    }
     return m_root[mt]->findView(type, name, searchAllScopes);
 }
 
@@ -2011,7 +2016,11 @@ QString UMLDoc::name() const
 void UMLDoc::setResolution(qreal resolution)
 {
     m_resolution = resolution;
-    uDebug() << "screen dpi:" << qApp->desktop()->logicalDpiX() << "file dpi:" <<  resolution << "scale:" << qApp->desktop()->logicalDpiX() / resolution;
+    if (!qFuzzyIsNull(resolution)) {
+        uDebug() << "screen dpi:" << qApp->desktop()->logicalDpiX()
+                 << "file dpi:" <<  resolution
+                 << "scale:" << qApp->desktop()->logicalDpiX() / resolution;
+    }
 }
 
 /**
@@ -2887,9 +2896,14 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
             // Put diagram in default predefined folder.
             // @todo pass in the parent folder - it might be a user defined one.
             Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
-            pView->umlScene()->setFolder(m_root[mt]);
-            pView->hide();
-            addView(pView);
+            if (mt != Uml::ModelType::N_MODELTYPES) {
+                pView->umlScene()->setFolder(m_root[mt]);
+                pView->hide();
+                addView(pView);
+            } else {
+                uWarning() << "cannot add " << tag << " because umlScene type "
+                           << pView->umlScene()->type() << " cannot be mapped to ModelType";
+            }
             emit sigSetStatusbarProgress(++count);
             qApp->processEvents();  // give UI events a chance
         }

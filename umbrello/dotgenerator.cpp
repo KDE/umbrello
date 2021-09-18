@@ -449,6 +449,10 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         // add associations for child items
         foreach(QGraphicsItem *item, widget->childItems()) {
             UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
+            if (!w2) {
+                uWarning() << "child item of widget " << key << " is null";
+                continue;
+            }
             QString type2 = dotType(w2);
             QString id2 = fixID(Uml::ID::toString(w2->localID()));
             QStringList params2;
