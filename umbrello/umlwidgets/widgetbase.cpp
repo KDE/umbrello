@@ -1001,11 +1001,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Line_Color_Selection:
 #if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(lineColor());
-        if (newColor != lineColor()) {
+        if (newColor.isValid() && newColor != lineColor())
 #else
         newColor = lineColor();
-        if (KColorDialog::getColor(newColor)) {
+        if (KColorDialog::getColor(newColor))
 #endif
+        {
             if (sel == ListPopupMenu::mt_Line_Color_Selection) {
                 umlScene()->selectionSetLineColor(newColor);
             } else {
@@ -1020,11 +1021,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Fill_Color_Selection:
 #if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(fillColor());
-        if (newColor != fillColor()) {
+        if (newColor.isValid() && newColor != fillColor())
 #else
         newColor = fillColor();
-        if (KColorDialog::getColor(newColor)) {
+        if (KColorDialog::getColor(newColor))
 #endif
+        {
             if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
                 umlScene()->selectionSetFillColor(newColor);
             } else {
@@ -1128,11 +1130,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 #if QT_VERSION >= 0x050000
         bool ok = false;
         QFont newFont = QFontDialog::getFont(&ok, font());
-        if (ok) {
+        if (ok)
 #else
         QFont newFont = font();
-        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
+        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted)
 #endif
+        {
             if (sel == ListPopupMenu::mt_Change_Font_Selection) {
                 m_scene->selectionSetFont(newFont);
             } else {

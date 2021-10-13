@@ -3051,11 +3051,12 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         {
 #if QT_VERSION >= 0x050000
             QColor newColor = QColorDialog::getColor(lineColor());
-            if (newColor != lineColor()) {
+            if (newColor.isValid() && newColor != lineColor())
 #else
             QColor newColor;
-            if (KColorDialog::getColor(newColor)) {
+            if (KColorDialog::getColor(newColor))
 #endif
+            {
                 m_scene->selectionSetLineColor(newColor);
                 umlDoc()->setModified(true);
             }
