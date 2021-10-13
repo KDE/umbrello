@@ -151,12 +151,12 @@
        <entry name="fillColor" type="Color">
          <label>Fill Color</label>
          <whatsthis>The Fill Color to be used</whatsthis>
-         <default>yellow</default>
+         <default>#ffffc0</default>
        </entry>
        <entry name="lineColor" type="Color">
          <label>Line Color</label>
          <whatsthis>The Color of the Lines</whatsthis>
-         <default>red</default>
+         <default>#550000</default>
        </entry>
        <entry name="lineWidth" type="UInt">
          <label>Line Width</label>
