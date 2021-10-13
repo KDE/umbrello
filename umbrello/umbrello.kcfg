@@ -156,7 +156,7 @@
        <entry name="lineColor" type="Color">
          <label>Line Color</label>
          <whatsthis>The Color of the Lines</whatsthis>
-         <default>#550000</default>
+         <default>#990000</default>
        </entry>
        <entry name="lineWidth" type="UInt">
          <label>Line Width</label>
