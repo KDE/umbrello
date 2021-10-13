@@ -228,7 +228,6 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Node:                       LPMISI(it_Node,                  i18n("Node")); break;
     //case mt_Node:                       LPMISI(it_Node,                  i18n("Node...")); break;
     case mt_Note:                       LPMISI(it_Note,                  i18n("Note...")); break;
-    //case mt_Note:                       LPMISI(it_Note,                  i18n("Note...")); break;
     case mt_Object:                     LPMISI(it_Object,                i18n("Object...")); break;
     case mt_Object_Node:                LPMISI(it_Object_Node,           i18n("Object Node")); break;
     case mt_Open_File:                  LPMISI(it_File_Open,             i18n("Open file")); break;
