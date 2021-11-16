@@ -128,7 +128,7 @@ bool UMLDatatypeWidget::applyAttribute()
         obj = pDoc->findUMLObject(typeName);
     }
 
-    UMLClassifier *classifier = obj->asUMLClassifier();
+    UMLClassifier *classifier = obj ? obj->asUMLClassifier() : 0;
     if (classifier == 0) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
