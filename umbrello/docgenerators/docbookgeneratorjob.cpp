@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "docbookgeneratorjob.h"
@@ -91,14 +91,16 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
         newURL = xmlStrdup((const xmlChar *) paths[i]);
         newURL = xmlStrcat(newURL, (const xmlChar *) "/");
         newURL = xmlStrcat(newURL, (const xmlChar *) lastsegment);
-        if (newURL != NULL && defaultEntityLoader != NULL) {
-            ret = defaultEntityLoader((const char *)newURL, ID, ctxt);
-            if (ret != NULL) {
-                if (warning != NULL)
-                    ctxt->sax->warning = warning;
-                qDebug() << "Loaded URL=\"" << newURL << "\" ID=\"" << ID << "\"";
-                xmlFree(newURL);
-                return(ret);
+        if (newURL != NULL) {
+            if (defaultEntityLoader != NULL) {
+                ret = defaultEntityLoader((const char *)newURL, ID, ctxt);
+                if (ret != NULL) {
+                    if (warning != NULL)
+                        ctxt->sax->warning = warning;
+                    qDebug() << "Loaded URL=\"" << newURL << "\" ID=\"" << ID << "\"";
+                    xmlFree(newURL);
+                    return(ret);
+                }
             }
             xmlFree(newURL);
         }

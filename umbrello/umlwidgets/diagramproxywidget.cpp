@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2019-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2019-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "diagramproxywidget.h"
@@ -362,10 +362,11 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
             } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
             if (ok) {
                 Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(UMLApp::app()->document(), Uml::DiagramType::State, name);
+                UMLScene *scene = d->view()->umlScene();
                 UMLApp::app()->executeCommand(d);
                 setShowLinkedDiagram(false);
-                setDiagramLink(d->view()->umlScene()->ID());
-                d->view()->umlScene()->setWidgetLink(m_widget);
+                setDiagramLink(scene->ID());
+                scene->setWidgetLink(m_widget);
             }
         }
         break;
