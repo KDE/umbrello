@@ -96,7 +96,7 @@ void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
  * UMLStereotype.
  */
 void remakeTagEditFields(const QString &stereoText,
-                         UMLObject * o, QGridLayout * genLayout,
+                         UMLObject *, QGridLayout * genLayout,
                          QLabel    * pTagLabel[N_STEREOATTRS],
                          KLineEdit * pTagLineEdit[N_STEREOATTRS],
                          int row /* = 1 */)
