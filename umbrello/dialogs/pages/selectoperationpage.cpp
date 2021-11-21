@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -49,7 +49,8 @@ SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, Link
     m_id(CUSTOM),
     m_pView(parent),
     m_classifier(c),
-    m_widget(widget)
+    m_widget(widget),
+    m_enableAutoIncrement(false)
 {
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
@@ -149,6 +150,7 @@ void SelectOperationPage::setCustomOp(const QString &op)
  */
 void SelectOperationPage::slotAutoIncrementChecked(bool state)
 {
+    m_enableAutoIncrement = state;
     if (state && m_pSeqLE->text().isEmpty())
         m_pSeqLE->setText(m_pView->umlScene()->autoIncrementSequenceValue());
 }
