@@ -254,6 +254,38 @@ public:
     UMLUniqueConstraint      * asUMLUniqueConstraint();
     UMLUseCase               * asUMLUseCase();
 
+    const UMLActor                 * asUMLActor()                const;
+    const UMLArtifact              * asUMLArtifact()             const;
+    const UMLAssociation           * asUMLAssociation()          const;
+    const UMLAttribute             * asUMLAttribute()            const;
+    const UMLCanvasObject          * asUMLCanvasObject()         const;
+    const UMLCategory              * asUMLCategory()             const;
+    const UMLCheckConstraint       * asUMLCheckConstraint()      const;
+    const UMLClassifier            * asUMLClassifier()           const;
+    const UMLClassifierListItem    * asUMLClassifierListItem()   const;
+    const UMLClassifierSet         * asUMLClassifierSet()        const;
+    const UMLComponent             * asUMLComponent()            const;
+    const UMLDatatype              * asUMLDatatype()             const;
+    const UMLEntity                * asUMLEntity()               const;
+    const UMLEntityAttribute       * asUMLEntityAttribute()      const;
+    const UMLEntityConstraint      * asUMLEntityConstraint()     const;
+    const UMLEnum                  * asUMLEnum()                 const;
+    const UMLEnumLiteral           * asUMLEnumLiteral()          const;
+    const UMLFolder                * asUMLFolder()               const;
+    const UMLForeignKeyConstraint  * asUMLForeignKeyConstraint() const;
+    const UMLInstance              * asUMLInstance()             const;
+    const UMLInstanceAttribute     * asUMLInstanceAttribute()    const;
+    const UMLNode                  * asUMLNode()                 const;
+    const UMLObject                * asUMLObject()               const;
+    const UMLOperation             * asUMLOperation()            const;
+    const UMLPackage               * asUMLPackage()              const;
+    const UMLPort                  * asUMLPort()                 const;
+    const UMLRole                  * asUMLRole()                 const;
+    const UMLStereotype            * asUMLStereotype()           const;
+    const UMLTemplate              * asUMLTemplate()             const;
+    const UMLUniqueConstraint      * asUMLUniqueConstraint()     const;
+    const UMLUseCase               * asUMLUseCase()              const;
+
 public slots:
     void emitModified();
 

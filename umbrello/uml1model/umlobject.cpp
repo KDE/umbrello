@@ -1378,7 +1378,6 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "uniqueconstraint.h"
 #include "usecase.h"
 
-
 UMLActor                * UMLObject::asUMLActor()                { return dynamic_cast<UMLActor*>(this); }
 UMLArtifact             * UMLObject::asUMLArtifact()             { return dynamic_cast<UMLArtifact*>(this); }
 UMLAssociation          * UMLObject::asUMLAssociation()          { return dynamic_cast<UMLAssociation*>(this); }
@@ -1409,4 +1408,35 @@ UMLStereotype           * UMLObject::asUMLStereotype()           { return dynami
 UMLTemplate             * UMLObject::asUMLTemplate()             { return dynamic_cast<UMLTemplate*>(this); }
 UMLUniqueConstraint     * UMLObject::asUMLUniqueConstraint()     { return dynamic_cast<UMLUniqueConstraint*>(this); }
 UMLUseCase              * UMLObject::asUMLUseCase()              { return dynamic_cast<UMLUseCase*>(this); }
+
+const UMLActor                * UMLObject::asUMLActor()                const { return dynamic_cast<const UMLActor*>(this); }
+const UMLArtifact             * UMLObject::asUMLArtifact()             const { return dynamic_cast<const UMLArtifact*>(this); }
+const UMLAssociation          * UMLObject::asUMLAssociation()          const { return dynamic_cast<const UMLAssociation*>(this); }
+const UMLAttribute            * UMLObject::asUMLAttribute()            const { return dynamic_cast<const UMLAttribute*>(this); }
+const UMLCanvasObject         * UMLObject::asUMLCanvasObject()         const { return dynamic_cast<const UMLCanvasObject*>(this); }
+const UMLCategory             * UMLObject::asUMLCategory()             const { return dynamic_cast<const UMLCategory*>(this); }
+const UMLCheckConstraint      * UMLObject::asUMLCheckConstraint()      const { return dynamic_cast<const UMLCheckConstraint*>(this); }
+const UMLClassifier           * UMLObject::asUMLClassifier()           const { return dynamic_cast<const UMLClassifier*>(this); }
+const UMLClassifierListItem   * UMLObject::asUMLClassifierListItem()   const { return dynamic_cast<const UMLClassifierListItem*>(this); }
+const UMLComponent            * UMLObject::asUMLComponent()            const { return dynamic_cast<const UMLComponent*>(this); }
+const UMLDatatype             * UMLObject::asUMLDatatype()             const { return dynamic_cast<const UMLDatatype*>(this); }
+const UMLEntity               * UMLObject::asUMLEntity()               const { return dynamic_cast<const UMLEntity*>(this); }
+const UMLEntityAttribute      * UMLObject::asUMLEntityAttribute()      const { return dynamic_cast<const UMLEntityAttribute*>(this); }
+const UMLEntityConstraint     * UMLObject::asUMLEntityConstraint()     const { return dynamic_cast<const UMLEntityConstraint*>(this); }
+const UMLEnum                 * UMLObject::asUMLEnum()                 const { return dynamic_cast<const UMLEnum*>(this); }
+const UMLEnumLiteral          * UMLObject::asUMLEnumLiteral()          const { return dynamic_cast<const UMLEnumLiteral*>(this); }
+const UMLFolder               * UMLObject::asUMLFolder()               const { return dynamic_cast<const UMLFolder*>(this); }
+const UMLForeignKeyConstraint * UMLObject::asUMLForeignKeyConstraint() const { return dynamic_cast<const UMLForeignKeyConstraint*>(this); }
+const UMLInstance             * UMLObject::asUMLInstance()             const { return dynamic_cast<const UMLInstance*>(this); }
+const UMLInstanceAttribute    * UMLObject::asUMLInstanceAttribute()    const { return dynamic_cast<const UMLInstanceAttribute*>(this); }
+const UMLNode                 * UMLObject::asUMLNode()                 const { return dynamic_cast<const UMLNode*>(this); }
+const UMLObject               * UMLObject::asUMLObject()               const { return dynamic_cast<const UMLObject*>(this); }
+const UMLOperation            * UMLObject::asUMLOperation()            const { return dynamic_cast<const UMLOperation*>(this); }
+const UMLPackage              * UMLObject::asUMLPackage()              const { return dynamic_cast<const UMLPackage*>(this); }
+const UMLPort                 * UMLObject::asUMLPort()                 const { return dynamic_cast<const UMLPort*>(this); }
+const UMLRole                 * UMLObject::asUMLRole()                 const { return dynamic_cast<const UMLRole*>(this); }
+const UMLStereotype           * UMLObject::asUMLStereotype()           const { return dynamic_cast<const UMLStereotype*>(this); }
+const UMLTemplate             * UMLObject::asUMLTemplate()             const { return dynamic_cast<const UMLTemplate*>(this); }
+const UMLUniqueConstraint     * UMLObject::asUMLUniqueConstraint()     const { return dynamic_cast<const UMLUniqueConstraint*>(this); }
+const UMLUseCase              * UMLObject::asUMLUseCase()              const { return dynamic_cast<const UMLUseCase*>(this); }
 
