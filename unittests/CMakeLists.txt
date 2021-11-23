@@ -59,13 +59,15 @@ else()
         Qt5::Xml
         Qt5::Test
         Qt5::Widgets
-        Qt5::WebKitWidgets
         KF5::I18n
         KF5::Crash
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         libumbrello
     )
+    if(WEBKIT_WELCOMEPAGE)
+        list(APPEND LIBS Qt5::WebKitWidgets)
+    endif()
 endif()
 
 ecm_add_test(
