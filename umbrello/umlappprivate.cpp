@@ -103,8 +103,16 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     html.replace(QLatin1String("</FILENAME>"),QLatin1String(""));
 //#define WITH_HEADER
 #ifndef WITH_HEADER
+#ifdef WEBKIT_WELCOMEPAGE
     html.replace(QLatin1String("<div id=\"header\""),QLatin1String("<div id=\"header\" hidden"));
     html.replace(QLatin1String("<div class=\"navCenter\""),QLatin1String("<div id=\"navCenter\" hidden"));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<div id=\"footer\" hidden"));
+#else
+    html.replace(QLatin1String("<div id=\"header\""), QLatin1String("<!-- <div id=\"header\""));
+    html.replace(QLatin1String("<div id=\"contentBody\""), QLatin1String("--> <div id=\"contentBody\""));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<!-- <div id=\"footer\""));
+    html.replace(QLatin1String("</div></body>"), QLatin1String("--> </div></body>"));
+#endif
 #else
     // replace help:/ urls in html file to be able to find css files and images from kde help system
 #if QT_VERSION >= 0x050000
