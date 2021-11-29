@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
+
+Dependencies:
+- 'on': ['@all']
+  'require':
+    'frameworks/extra-cmake-modules': '@stable'
+    'frameworks/karchive': '@stable'
+    'frameworks/kcompletion': '@stable'
+    'frameworks/kconfig': '@stable'
+    'frameworks/kcoreaddons': '@stable'
+    'frameworks/kcrash': '@stable'
+    'frameworks/kdoctools': '@stable'
+    'frameworks/ki18n': '@stable'
+    'frameworks/kiconthemes': '@stable'
+    'frameworks/kdelibs4support': '@stable'
+    'frameworks/kio': '@stable'
+    'frameworks/ktexteditor': '@stable'
+    'frameworks/kwidgetaddons': '@stable'
+    'frameworks/kwindowsystem': '@stable'
+    'frameworks/kxmlgui': '@stable'
+    'kdevelop/kdevelop-pg-qt': '@stable'
+    'kdevelop/kdevelop': '@same'
+    'kdevelop/kdev-php': '@same'
