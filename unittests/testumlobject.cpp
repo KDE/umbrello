@@ -221,7 +221,7 @@ void TestUMLObject::test_toString()
 void TestUMLObject::test_dynamic_cast()
 {
     QScopedPointer<UMLObject> a1(new UMLClassifier);
-    UMLClassifier *b = a1->asUMLClassifier();
+    const UMLClassifier *b = a1->asUMLClassifier();
     QVERIFY(b);
     UMLObject *a2 = 0;
     b = a2->asUMLClassifier();

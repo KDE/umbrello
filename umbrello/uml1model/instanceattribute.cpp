@@ -93,7 +93,7 @@ QString UMLInstanceAttribute::getValue() const
  * Returns the textual notation for instance attribute.
  * @return  Stringified attribute name and value.
  */
-QString UMLInstanceAttribute::toString()
+QString UMLInstanceAttribute::toString() const
 {
     QString result(m_pSecondary->name() + QLatin1String(" = ") + m_value);
     return result;

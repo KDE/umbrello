@@ -146,12 +146,12 @@ UMLObject * CodeParameter::getParentObject()
 // this is kind of broken for UMLRoles.
 QString CodeParameter::ID() const
 {
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role)
     {
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
-        UMLAssociation *assoc = role->parentAssociation();
+        const UMLAssociation *assoc = role->parentAssociation();
         return Uml::ID::toString(assoc->id());
     } else
         return Uml::ID::toString(m_parentObject->id());
@@ -170,7 +170,7 @@ void CodeParameter::setAttributesOnNode(QXmlStreamWriter& writer)
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role)
         writer.writeAttribute(QLatin1String("role_id"), QString::number(role->role()));
     else

@@ -608,7 +608,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                     a->setInitialValue(constraints.defaultValue);
                 else if (index > 0) {
                     index--; // 0 is empty
-                    UMLEnum *_enum = type->asUMLEnum();
+                    const UMLEnum *_enum = type->asUMLEnum();
                     UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
                     if (index < enumLiterals.size())
                         a->setInitialValue(enumLiterals.at(index)->name());

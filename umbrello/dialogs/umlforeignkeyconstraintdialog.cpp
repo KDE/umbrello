@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlforeignkeyconstraintdialog.h"
@@ -424,7 +424,7 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
                                                   m_GeneralWidgets.referencedEntityCB->currentText(),
                                                   UMLObject::ot_Entity);
 
-    UMLEntity* ue = uo->asUMLEntity();
+    const UMLEntity* ue = uo->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
@@ -440,7 +440,7 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     m_pLocalAttributeList.clear();
     m_ColumnWidgets.localColumnCB->clear();
     // fill the combo boxes
-    UMLEntity* ue = m_pForeignKeyConstraint->umlParent()->asUMLEntity();
+    const UMLEntity* ue = m_pForeignKeyConstraint->umlParent()->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);

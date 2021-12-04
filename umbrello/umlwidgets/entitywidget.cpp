@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -74,17 +74,17 @@ QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
         width = nameWidth;
     height += fontHeight;
 
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     foreach (UMLClassifierListItem* entityattribute, list) {
         QString text = entityattribute->name();
-        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QLatin1String(" : ") + casted->getTypeName());
-            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QLatin1String(" ") + casted->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
         const int nameWidth = bfm.size(0, text).width();
         if (nameWidth > width)
@@ -151,21 +151,21 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     foreach (entityattribute, list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
-        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        const UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QLatin1String(" : ") + casted->getTypeName());
-            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QLatin1String(" ") + casted->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
-        if(casted && casted->indexType() == UMLEntityAttribute::Primary)
+        if (umlEA && umlEA->indexType() == UMLEntityAttribute::Primary)
         {
             font.setUnderline(true);
             painter->setFont(font);

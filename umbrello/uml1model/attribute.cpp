@@ -141,7 +141,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
             // the UMLClassifier:
             owningObject = owningObject->umlParent();
         }
-        UMLClassifier *ownParent = owningObject->asUMLClassifier();
+        const UMLClassifier *ownParent = owningObject->asUMLClassifier();
         if (ownParent == 0) {
             uError() << "parent " << owningObject->name()
                 << " is not a UMLClassifier";
@@ -183,7 +183,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
 QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
-    UMLOperation *op = 0;
+    const UMLOperation *op = 0;
     UMLObject *owningObject = umlParent();
     if (owningObject->baseType() == UMLObject::ot_Operation) {
         op = owningObject->asUMLOperation();

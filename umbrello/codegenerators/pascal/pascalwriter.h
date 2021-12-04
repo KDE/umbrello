@@ -41,7 +41,7 @@ private:
 
     void computeAssocTypeAndRole (UMLAssociation *a, QString& typeName, QString& roleName);
 
-    bool isOOClass (UMLClassifier *c);
+    bool isOOClass (const UMLClassifier *c);
 
     QString qualifiedName (UMLPackage *p, bool withType = false, bool byValue = false);
 

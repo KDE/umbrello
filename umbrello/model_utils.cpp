@@ -309,7 +309,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                      << " is not a package (?)";
             continue;
         }
-        UMLPackage *pkg = obj->asUMLPackage();
+        const UMLPackage *pkg = obj->asUMLPackage();
         return findUMLObject(pkg->containedObjects(),
                               nameWithoutFirstPrefix, type);
     }
@@ -364,7 +364,7 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
     foreach(UMLObject *obj, inList) {
         if (obj->name() == name && type == obj->baseType())
             return obj;
-        UMLPackage *pkg = obj->asUMLPackage();
+        const UMLPackage *pkg = obj->asUMLPackage();
         if (pkg && pkg->containedObjects().size() > 0) {
             UMLObject *o = findUMLObjectRecursive(pkg->containedObjects(), name, type);
             if (o)
@@ -1669,8 +1669,8 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_UniqueConstraint: {
-         UMLEntity* ent = o->umlParent()->asUMLEntity();
-         UMLUniqueConstraint* uc = o->asUMLUniqueConstraint();
+         const UMLEntity* ent = o->umlParent()->asUMLEntity();
+         const UMLUniqueConstraint* uc = o->asUMLUniqueConstraint();
          if (ent->isPrimaryKey(uc)) {
              type = UMLListViewItem::lvt_PrimaryKeyConstraint;
          } else {

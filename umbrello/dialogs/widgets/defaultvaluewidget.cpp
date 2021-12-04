@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "defaultvaluewidget.h"
@@ -57,7 +57,7 @@ public:
         if (type && type->isUMLEnum()) {
             listWidget->clear();
             listWidget->addItem(new QListWidgetItem);
-            UMLEnum *e = type->asUMLEnum();
+            const UMLEnum *e = type->asUMLEnum();
             UMLClassifierListItemList enumLiterals = e->getFilteredList(UMLObject::ot_EnumLiteral);
             foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
                 QListWidgetItem *item = new QListWidgetItem(enumLiteral->name());

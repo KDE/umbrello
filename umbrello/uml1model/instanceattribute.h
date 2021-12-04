@@ -43,7 +43,7 @@ public:
     void setValue(const QString& value);
     QString getValue() const;
 
-    QString toString();
+    QString toString() const;
 
     virtual void saveToXMI1(QXmlStreamWriter& writer);
 

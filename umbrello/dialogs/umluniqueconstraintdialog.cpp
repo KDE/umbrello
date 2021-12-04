@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 #include "umluniqueconstraintdialog.h"
 
@@ -122,7 +122,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     comboButtonHBoxLayout->addWidget(buttonBox);
 
     // We first insert all attributes to the combo box
-    UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
+    const UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
     uDebug() << ue;
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);

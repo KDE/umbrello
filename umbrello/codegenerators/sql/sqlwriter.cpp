@@ -234,7 +234,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     if (language() == Uml::ProgrammingLanguage::PostgreSQL) {
         foreach(UMLEntityAttribute *at, entAttList) {
             if (at->getType()->baseType() == UMLObject::ot_Enum) {
-                UMLEnum *_enum = at->getType()->asUMLEnum();
+                const UMLEnum *_enum = at->getType()->asUMLEnum();
                 if (m_enumsGenerated.contains(at->getTypeName()))
                     continue;
                 m_enumsGenerated.append(at->getTypeName());
@@ -404,7 +404,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         // the datatype
         if (language() == Uml::ProgrammingLanguage::MySQL &&
                 at->getType() && at->getType()->baseType() == UMLObject::ot_Enum) {
-            UMLEnum *_enum = at->getType()->asUMLEnum();
+            const UMLEnum *_enum = at->getType()->asUMLEnum();
             sql << " ENUM(";
             QString delimiter(QLatin1String(""));
             UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
@@ -456,7 +456,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach(UMLClassifierListItem* cli, constrList) {
-       UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
+       const UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
        if (!uuc) {
            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLUniqueConstraint*";
            return;
@@ -630,7 +630,7 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
 void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     foreach(UMLClassifierListItem* cli, constrList) {
-        UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
+        const UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
         if (!chConstr) {
             uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLCheckConstraint*";
             return;

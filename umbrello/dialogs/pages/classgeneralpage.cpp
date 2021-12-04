@@ -88,7 +88,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addLayout(m_pNameLayout, 4);
 
     if (t == UMLObject::ot_Instance) {
-        UMLInstance *inst = m_pObject->asUMLInstance();
+        const UMLInstance *inst = m_pObject->asUMLInstance();
         Q_ASSERT(inst);
         QString name = UMLObject::toI18nString(t);
         m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
@@ -121,7 +121,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     int row = 2;
     if (m_pObject->isUMLDatatype()) {
-        UMLDatatype *d = m_pObject->asUMLDatatype();
+        const UMLDatatype *d = m_pObject->asUMLDatatype();
         if (d && d->isReference() && d->originType()) {
             QLabel *label = new QLabel(i18n("Reference:"), this);
             m_pNameLayout->addWidget(label, row, 0);

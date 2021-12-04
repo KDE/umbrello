@@ -55,7 +55,7 @@ Uml::ProgrammingLanguage::Enum PascalWriter::language() const
 /**
  *
  */
-bool PascalWriter::isOOClass(UMLClassifier *c)
+bool PascalWriter::isOOClass(const UMLClassifier *c)
 {
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
@@ -84,7 +84,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = 0;
 
-    UMLClassifier *c = p->asUMLClassifier();
+    const UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == 0) {
         retval = className;
         if (c == 0 || !isOOClass(c))
@@ -122,7 +122,7 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append(QLatin1String("_Vector"));
         }
     }
-    UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
+    const UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
     if (c == 0)
         return;
     typeName = cleanName(c->name());
@@ -195,7 +195,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     pas << "type" << m_endl;
     m_indentLevel++;
     if (c->baseType() == UMLObject::ot_Enum) {
-        UMLEnum *ue = c->asUMLEnum();
+        const UMLEnum *ue = c->asUMLEnum();
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;

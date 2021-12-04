@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -168,7 +168,7 @@ bool UMLEntityAttributeDialog::apply()
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }
-    UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
+    const UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
     UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),

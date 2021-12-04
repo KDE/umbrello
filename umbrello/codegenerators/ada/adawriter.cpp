@@ -58,7 +58,7 @@ Uml::ProgrammingLanguage::Enum AdaWriter::language() const
 /**
  * Return true if `c' is a tagged type or Ada2005 interface.
  */
-bool AdaWriter::isOOClass(UMLClassifier *c)
+bool AdaWriter::isOOClass(const UMLClassifier *c)
 {
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
@@ -118,7 +118,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = 0;
 
-    UMLClassifier *c = p->asUMLClassifier();
+    const UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == 0) {
         retval = className;
         if (c == 0 || !isOOClass(c))

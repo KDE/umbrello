@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-3.0-or-later
 
     SPDX-FileCopyrightText: 2015 Tzvetelin Katchov <katchov@gmail.com>
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -85,7 +85,7 @@ bool UMLEnumLiteralDialog::apply()
         m_pNameLE->setText(m_pEnumLiteral->name());
         return false;
     }
-    UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
+    const UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
     if (!pConcept) {
         uError() << "Could not get parent of enum literal '" << m_pEnumLiteral->name() << "'";
         return false;

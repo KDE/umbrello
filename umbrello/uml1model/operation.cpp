@@ -233,7 +233,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     } else if (parameterlessOpNeedsParentheses) {
         s.append(QLatin1String("()"));
     }
-    UMLClassifier *ownParent = umlParent()->asUMLClassifier();
+    const UMLClassifier *ownParent = umlParent()->asUMLClassifier();
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
     if (retType) {
@@ -368,7 +368,7 @@ bool UMLOperation::isConstructorOperation() const
     if (stereotype() == QLatin1String("constructor"))
         return true;
 
-    UMLClassifier * c = umlParent()->asUMLClassifier();
+    const UMLClassifier * c = umlParent()->asUMLClassifier();
     if (!c)
         return false;
     QString cName = c->name();
@@ -387,7 +387,7 @@ bool UMLOperation::isDestructorOperation() const
 {
     if (stereotype() == QLatin1String("destructor"))
         return true;
-    UMLClassifier * c = umlParent()->asUMLClassifier();
+    const UMLClassifier * c = umlParent()->asUMLClassifier();
     if (!c)
         return false;
     QString cName = c->name();

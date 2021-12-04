@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "rubycodeclassfielddeclarationblock.h"
@@ -77,7 +77,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
         body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
-        UMLRole * role = cf->getParentObject()->asUMLRole();
+        const UMLRole * role = cf->getParentObject()->asUMLRole();
         if (role && role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instantiate an interface

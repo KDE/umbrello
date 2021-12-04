@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umldatatypewidget.h"
@@ -346,7 +346,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // function.
     types << QLatin1String("void");
     // add template parameters
-    UMLClassifier *classifier = m_parent->asUMLClassifier();
+    const UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
         foreach (UMLClassifierListItem* li, tmplParams) {
@@ -367,7 +367,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = m_parent->asUMLClassifier();
+    const UMLClassifier *pConcept = m_parent->asUMLClassifier();
     if (pConcept == 0) {
         uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
                  << " is not a UMLClassifier";

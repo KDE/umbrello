@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -55,7 +55,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    UMLComponent *umlcomp = m_umlObject->asUMLComponent();
+    const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
     if (umlcomp == 0)
         return;
     setPenFromSettings(painter);
@@ -146,7 +146,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
         return;
     }
     UMLWidget::adjustAssocs(dx, dy);
-    UMLPackage *comp = m_umlObject->asUMLPackage();
+    const UMLPackage *comp = m_umlObject->asUMLPackage();
     foreach (UMLObject *o, comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
@@ -168,7 +168,7 @@ void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
         return;
     }
     UMLWidget::adjustUnselectedAssocs(dx, dy);
-    UMLPackage *comp = m_umlObject->asUMLPackage();
+    const UMLPackage *comp = m_umlObject->asUMLPackage();
     foreach (UMLObject *o, comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
@@ -218,7 +218,7 @@ QSizeF ComponentWidget::minimumSize() const
 
     int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    UMLComponent *umlcomp = m_umlObject->asUMLComponent();
+    const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
     if (umlcomp && umlcomp->getExecutable()) {
         width  += 2;
         height += 2;

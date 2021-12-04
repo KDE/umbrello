@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "classifierlistpage.h"
@@ -369,7 +369,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         // now update screen
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* o = listItem->asUMLOperation();
+            const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
                 uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
                 return;
@@ -399,7 +399,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     if (!m_bSigWaiting) {
         return;
     }
-    UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
+    const UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
     if (listItem == 0)  {
         return;
     }
@@ -707,7 +707,7 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
         m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* o = listItem->asUMLOperation();
+            const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
                 uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
                 return;

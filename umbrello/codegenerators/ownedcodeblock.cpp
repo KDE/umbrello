@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -83,7 +83,7 @@ void OwnedCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role) {
         writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
@@ -124,7 +124,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
         // might ripple throughout the code and cause problems. Thus, since the
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
-        UMLAssociation * assoc = obj->asUMLAssociation();
+        const UMLAssociation * assoc = obj->asUMLAssociation();
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;

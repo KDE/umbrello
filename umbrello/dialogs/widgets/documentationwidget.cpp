@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "documentationwidget.h"
@@ -97,7 +97,7 @@ void DocumentationWidget::init(const QString &text)
     setFocusProxy(m_editField);
     QHBoxLayout *layout = new QHBoxLayout(m_box);
     if (m_object && m_object->isUMLOperation()) {
-        UMLOperation *o = m_object->asUMLOperation();
+        const UMLOperation *o = m_object->asUMLOperation();
         m_codeEditField = new CodeTextEdit();
         m_codeEditField->setPlainText(o->getSourceCode());
 #if QT_VERSION >= 0x050000

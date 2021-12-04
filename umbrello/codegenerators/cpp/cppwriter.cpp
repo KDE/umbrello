@@ -1152,7 +1152,7 @@ void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitSco
             continue;
         if (!o->isUMLDatatype())
             continue;
-        UMLDatatype *d = o->asUMLDatatype();
+        const UMLDatatype *d = o->asUMLDatatype();
         if (d && d->isReference() && d->originType()) {
             stream << indent() << "typedef " << d->originType()->name() << " " << d->name() << ";" << m_endl;
         }

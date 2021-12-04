@@ -204,12 +204,12 @@ QString UMLListViewItem::toolTip() const
                 return obj->doc();
             case UMLObject::ot_Operation:
             {
-                UMLOperation *op = obj->asUMLOperation();
+                const UMLOperation *op = obj->asUMLOperation();
                 return op->toString(Uml::SignatureType::ShowSig);
             }
             case UMLObject::ot_Attribute:
             {
-                UMLAttribute *at = obj->asUMLAttribute();
+                const UMLAttribute *at = obj->asUMLAttribute();
                 return at->toString(Uml::SignatureType::ShowSig);
             }
             default:
@@ -359,10 +359,10 @@ void UMLListViewItem::updateObject()
     UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();
     if (Model_Utils::isClassifierListitem(ot)) {
-        UMLClassifierListItem *pNarrowed = m_object->asUMLClassifierListItem();
+        const UMLClassifierListItem *pNarrowed = m_object->asUMLClassifierListItem();
         modelObjText = pNarrowed->toString(Uml::SignatureType::SigNoVis);
     } else if (ot == UMLObject::ot_InstanceAttribute) {
-        UMLInstanceAttribute *pNarrowed = m_object->asUMLInstanceAttribute();
+        const UMLInstanceAttribute *pNarrowed = m_object->asUMLInstanceAttribute();
         modelObjText = pNarrowed->toString();
     }
     setText(modelObjText);
@@ -917,7 +917,7 @@ void UMLListViewItem::saveToXMI1(QXmlStreamWriter& writer)
         if (m_type != lvt_View)
             writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
-        UMLFolder *extFolder = m_object->asUMLFolder();
+        const UMLFolder *extFolder = m_object->asUMLFolder();
         if (!extFolder->folderFile().isEmpty()) {
             writer.writeAttribute(QLatin1String("open"), QLatin1String("0"));
             writer.writeEndElement();

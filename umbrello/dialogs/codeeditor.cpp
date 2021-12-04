@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -464,7 +464,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QChar::fromLatin1(')');
         }
         else {
-            UMLRole * role = parentObj->asUMLRole();
+            const UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QChar::fromLatin1(')');
         }
         bgcolor = state().umlObjectColor;
@@ -527,7 +527,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QString::fromLatin1(") accessor method");
         }
         else {
-            UMLRole * role = parentObj->asUMLRole();
+            const UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QString::fromLatin1(") accessor method");
         }
     }
@@ -578,7 +578,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     QColor paperColor = state().nonEditBlockColor;
     if (test) {
         parentObj = test->getParentObject();
-        UMLClassifier *c = parentObj->asUMLClassifier();
+        const UMLClassifier *c = parentObj->asUMLClassifier();
         if (c) {
             QString typeStr;
             if (c->isInterface())

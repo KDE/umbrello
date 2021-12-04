@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -62,7 +62,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()
         writer.writeAttribute(QLatin1String("role_id"), QString::number((role->role() == Uml::RoleType::A)));

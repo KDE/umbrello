@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "objectsmodel.h"
@@ -128,7 +128,7 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
         return o->m_d->isSaved;
    case 5:
         if (o->umlPackage()) {
-            UMLFolder *f = o->umlPackage()->asUMLFolder();
+            const UMLFolder *f = o->umlPackage()->asUMLFolder();
             if (f) {
                 UMLObjectList content = f->containedObjects();
                 if (content.contains(o))
@@ -141,13 +141,13 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
                 return QLatin1String("package -");
         } else if (o->umlParent()) {
             if (o->isUMLAttribute()) {
-                UMLOperation *op = o->umlParent()->asUMLOperation();
+                const UMLOperation *op = o->umlParent()->asUMLOperation();
                 if (op && op->getParmList().contains(o->asUMLAttribute()))
                     return QLatin1String("parent +");
                 else
                     return QLatin1String("parent -");
             } else if (o->isUMLOperation()) {
-                UMLClassifier *c = o->umlParent()->asUMLClassifier();
+                const UMLClassifier *c = o->umlParent()->asUMLClassifier();
                 if (c && c->getOpList().contains(o->asUMLOperation()))
                     return QLatin1String("parent +");
                 else

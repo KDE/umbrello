@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -477,7 +477,7 @@ void CPPHeaderCodeDocument::updateContent()
     if (!isInterface) {
         QString enumStatement;
         QString indent = UMLApp::app()->commonPolicy()->getIndentation();
-        UMLEnum* e = c->asUMLEnum();
+        const UMLEnum* e = c->asUMLEnum();
         if (e) {
             enumStatement.append(indent + QLatin1String("enum ") + cppClassName + QLatin1String(" {") + endLine);
 

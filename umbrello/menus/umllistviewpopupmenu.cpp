@@ -406,7 +406,7 @@ void UMLListViewPopupMenu::insertSubmodelAction()
         uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
         return;
     }
-    UMLFolder *f = o->asUMLFolder();
+    const UMLFolder *f = o->asUMLFolder();
     if (f == 0) {
         uError() << o->name() << " is not a Folder";
         return;

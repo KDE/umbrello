@@ -113,7 +113,7 @@ QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig,
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + QLatin1Char(':');
 
-        UMLEntity *e = umlParent()->asUMLEntity();
+        const UMLEntity *e = umlParent()->asUMLEntity();
         if (e && e->isPrimaryKey(this)) {
            s += QLatin1String("Primary Key (");
         } else {
@@ -148,7 +148,7 @@ void UMLUniqueConstraint::saveToXMI1(QXmlStreamWriter& writer)
 {
     UMLObject::save1(QLatin1String("UML:UniqueConstraint"), writer);
 
-    UMLEntity* parentEnt = umlParent()->asUMLEntity();
+    const UMLEntity* parentEnt = umlParent()->asUMLEntity();
     if (parentEnt && parentEnt->isPrimaryKey(this)) {
         writer.writeAttribute(QLatin1String("isPrimary"), QLatin1String("1"));
     } else {
@@ -240,7 +240,7 @@ bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr) const
  */
 bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 {
-    UMLEntity *owningParent = umlParent()->asUMLEntity();
+    const UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (hasEntityAttribute(attr)) {
         uDebug() << "Unique Constraint already contains" << attr->name();
@@ -273,7 +273,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
  */
 bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
 {
-    UMLEntity *owningParent = umlParent()->asUMLEntity();
+    const UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (owningParent == 0) {
         uError() << name() << ": parent is not a UMLEntity";

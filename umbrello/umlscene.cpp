@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -141,7 +141,7 @@ public:
         }
 
         foreach(UMLWidget *cw, components) {
-            UMLComponent *c = cw->umlObject()->asUMLComponent();
+            const UMLComponent *c = cw->umlObject()->asUMLComponent();
             if (!c)
                 continue;
             // iterate through related ports for this component widget
@@ -1724,7 +1724,7 @@ bool UMLScene::isSavedInSeparateFile()
     const UMLListViewItem::ListViewType lvt = parentItem->type();
     if (! Model_Utils::typeIsFolder(lvt))
         return false;
-    UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
+    const UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
     if (modelFolder == 0) {
         uError() << msgPrefix
                  << "parent model object is not a UMLFolder (?)";
@@ -2458,7 +2458,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == 0)
         return;
-    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
+    const UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == 0)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
@@ -2556,7 +2556,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (t == UMLObject::ot_Package || t == UMLObject::ot_Class ||
         t == UMLObject::ot_Interface || t == UMLObject::ot_Component) {
         // for each of the object's containedObjects
-        UMLPackage *umlPkg = umlObj->asUMLPackage();
+        const UMLPackage *umlPkg = umlObj->asUMLPackage();
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             uIgnoreZeroPointer(obj);
@@ -2645,7 +2645,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
         return;
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->isUMLDatatype()) {
-        UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
+        const UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
         while (dt && dt->originType() != 0) {
             tmpUmlObj = dt->originType();
             if (!tmpUmlObj->isUMLDatatype())
@@ -2655,7 +2655,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     }
     if (tmpUmlObj->baseType() != UMLObject::ot_Class)
         return;
-    UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
+    const UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
     // for each of the UMLClassifier's UMLAttributes
     UMLAttributeList attrList = klass->getAttributeList();
     foreach(UMLAttribute* attr, attrList) {
@@ -2711,7 +2711,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     }
     // if the attribute type is a Datatype then
     if (type->isUMLDatatype()) {
-        UMLDatatype *dt = type->asUMLDatatype();
+        const UMLDatatype *dt = type->asUMLDatatype();
         // if the Datatype is a reference (pointer) type
         if (dt && dt->isReference()) {
             UMLClassifier *c = dt->originType();
@@ -2759,14 +2759,14 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
     if (tmpUmlObj == 0)
         return;
     // check if the underlying model object is really a UMLEntity
-    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
+    const UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == 0)
         return;
     // finished checking whether this widget has a UMLCanvas Object
 
     if (tmpUmlObj->baseType() != UMLObject::ot_Entity)
         return;
-    UMLEntity *entity = tmpUmlObj->asUMLEntity();
+    const UMLEntity *entity = tmpUmlObj->asUMLEntity();
 
     // for each of the UMLEntity's UMLForeignKeyConstraints
     UMLClassifierListItemList constrList = entity->getFilteredList(UMLObject::ot_ForeignKeyConstraint);

@@ -295,7 +295,7 @@ bool UMLForeignKeyConstraint::load1(QDomElement & element)
             Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
             Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 
-            UMLEntity* parentEntity = umlParent()->asUMLEntity();
+            const UMLEntity* parentEntity = umlParent()->asUMLEntity();
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
             UMLEntityAttribute* key = keyObj->asUMLEntityAttribute();
 

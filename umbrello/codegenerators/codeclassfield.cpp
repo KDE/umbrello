@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -70,9 +70,9 @@ CodeClassField::~CodeClassField ()
  */
 void CodeClassField::setParentUMLObject (UMLObject * obj)
 {
-    UMLRole *role = obj->asUMLRole();
+    const UMLRole *role = obj->asUMLRole();
     if(role) {
-        UMLAssociation * parentAssoc = role->parentAssociation();
+        const UMLAssociation * parentAssoc = role->parentAssociation();
         Uml::AssociationType::Enum atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
@@ -110,7 +110,7 @@ QString CodeClassField::getListObjectType()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (role)
             return getUMLObjectName(role->object());
     }
@@ -327,7 +327,7 @@ int CodeClassField::minimumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
             uError() << "no valid parent object";
             return -1;
@@ -355,7 +355,7 @@ int CodeClassField::maximumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
             uError() << "no valid parent object";
             return -1;
@@ -439,7 +439,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // design.
         Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
         {
-            UMLRole * role = m->getParentObject()->asUMLRole();
+            const UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
                 uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
             if(role && m->getType() == type && role->role() == role_id)
@@ -524,7 +524,7 @@ void CodeClassField::updateContent()
             method->setWriteOutText(m_writeOutMethods);
         return;
     }
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if (!role)
         return;
     Uml::Changeability::Enum changeType = role->changeability();
@@ -619,7 +619,7 @@ bool CodeClassField::fieldIsSingleValue ()
     if(parentIsAttribute())
         return true;
 
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if(!role)
         return true; // it is really an attribute
 

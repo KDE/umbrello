@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -91,7 +91,7 @@ bool UMLTemplateDialog::apply()
         return false;
     }
 
-    UMLClassifier * pClass = m_pTemplate->umlParent()->asUMLClassifier();
+    const UMLClassifier * pClass = m_pTemplate->umlParent()->asUMLClassifier();
     if (pClass) {
         UMLObject *o = pClass->findChildObject(name);
         if (o && o != m_pTemplate) {

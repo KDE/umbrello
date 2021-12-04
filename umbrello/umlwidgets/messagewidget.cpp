@@ -864,7 +864,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
     updateResizability();
 
-    UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
+    const UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
     UMLOperation *op = 0;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -138,7 +138,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral, list) {
@@ -247,7 +247,7 @@ QSizeF EnumWidget::minimumSize() const
 
     width = w > width?w:width;
 
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem, list) {

@@ -634,7 +634,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
     case ListPopupMenu::mt_Open_File: {
         UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-        UMLArtifact *artifact = current->umlObject()->asUMLArtifact();
+        const UMLArtifact *artifact = current->umlObject()->asUMLArtifact();
         if (artifact == nullptr) {
             uError() << "artifact is 0";
             return;
@@ -1000,7 +1000,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         return;
     UMLObject::ObjectType type = object->baseType();
     if (type == UMLObject::ot_Datatype) {
-        UMLDatatype *dt = object->asUMLDatatype();
+        const UMLDatatype *dt = object->asUMLDatatype();
         if (!dt->isActive()) {
             DEBUG(DBG_SRC) << object->name() << " is not active. Refusing to create UMLListViewItem";
             return;
@@ -1011,7 +1011,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(object);
     QString name = object->name();
     if (type == UMLObject::ot_Folder) {
-        UMLFolder *f = object->asUMLFolder();
+        const UMLFolder *f = object->asUMLFolder();
         QString folderFile = f->folderFile();
         if (!folderFile.isEmpty())
             name.append(QLatin1String(" (") + folderFile + QLatin1Char(')'));
@@ -2401,7 +2401,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name) const
         UMLListViewItem::ListViewType lvt = parentItem->type();
         if (!Model_Utils::typeIsContainer(lvt))
             return (m_doc->findUMLObject(name) == 0);
-        UMLPackage *pkg = parentItem->umlObject()->asUMLPackage();
+        const UMLPackage *pkg = parentItem->umlObject()->asUMLPackage();
         if (pkg == 0) {
             uError() << "internal error - "
                      << "parent listviewitem is package but has no UMLObject";
@@ -2421,7 +2421,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name) const
     case UMLListViewItem::lvt_PrimaryKeyConstraint:
     case UMLListViewItem::lvt_ForeignKeyConstraint:
     case UMLListViewItem::lvt_CheckConstraint: {
-        UMLClassifier *parent = parentItem->umlObject()->asUMLClassifier();
+        const UMLClassifier *parent = parentItem->umlObject()->asUMLClassifier();
         if (parent == 0) {
             uError() << "internal error - "
                      << "parent listviewitem is package but has no UMLObject";

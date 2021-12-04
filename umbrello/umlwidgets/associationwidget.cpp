@@ -998,7 +998,7 @@ QString AssociationWidget::roleDocumentation(Uml::RoleType::Enum role) const
 {
     if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return QString();
-    UMLAssociation *umla = m_umlObject->asUMLAssociation();
+    const UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getRoleDoc(role);
 }
 
@@ -1121,7 +1121,7 @@ Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum ro
 {
     if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
-    UMLAssociation *umla = m_umlObject->asUMLAssociation();
+    const UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->changeability(role);
 }
 
@@ -1401,7 +1401,7 @@ Uml::AssociationType::Enum AssociationWidget::associationType() const
 {
     if (m_umlObject == 0 || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
-    UMLAssociation *umla = m_umlObject->asUMLAssociation();
+    const UMLAssociation *umla = m_umlObject->asUMLAssociation();
     return umla->getAssocType();
 }
 
@@ -1450,7 +1450,7 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
 {
     if (m_role[role].umlWidget == 0) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = m_umlObject->asUMLAssociation();
+            const UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
@@ -1469,7 +1469,7 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
 {
     if (m_role[role].umlWidget == 0) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = m_umlObject->asUMLAssociation();
+            const UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";

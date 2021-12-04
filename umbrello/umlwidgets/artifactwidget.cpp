@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -53,7 +53,7 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     }
 
     if (umlObject()) {
-        UMLArtifact *umlart = m_umlObject->asUMLArtifact();
+        const UMLArtifact *umlart = m_umlObject->asUMLArtifact();
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
@@ -97,7 +97,7 @@ QSizeF ArtifactWidget::minimumSize() const
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
-    UMLArtifact *umlart = m_umlObject->asUMLArtifact();
+    const UMLArtifact *umlart = m_umlObject->asUMLArtifact();
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
         return calculateNormalSize();
     } else {

@@ -53,7 +53,7 @@ private:
                                  UMLAssociation *a,
                                  QString& typeName, QString& roleName);
 
-    static bool isOOClass(UMLClassifier *c);
+    static bool isOOClass(const UMLClassifier *c);
 
     QString className(UMLClassifier *c, bool inOwnScope = true);
 
