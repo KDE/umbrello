@@ -2611,9 +2611,9 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 } else if (lvType == UMLListViewItem::lvt_InstanceAttribute) {
                     UMLInstance *instance = umlObject->asUMLInstance();
                     if (instance) {
-                        umlObject = instance->findChildObjectById(nID);
-                        if (umlObject) {
-                            UMLInstanceAttribute *instAttr = umlObject->asUMLInstanceAttribute();
+                        UMLObject *attrObj = instance->findChildObjectById(nID);
+                        if (attrObj) {
+                            UMLInstanceAttribute *instAttr = attrObj->asUMLInstanceAttribute();
                             connectNewObjectsSlots(instAttr);
                             label = instAttr->toString();
                             item = new UMLListViewItem(parent, label, lvType, instAttr);

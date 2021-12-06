@@ -2647,8 +2647,13 @@ bool UMLDoc::loadUMLObjectsFromXMI1(QDomElement& element)
             QString name = tempElement.attribute(QLatin1String("name"));
             for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
                 if (name == m_root[i]->name()) {
+                    UMLFolder *curRootSave = m_pCurrentRoot;
                     m_pCurrentRoot = m_root[i];
-                    m_root[i]->loadFromXMI1(tempElement);
+                    if (!m_pCurrentRoot->loadFromXMI1(tempElement)) {
+                        uWarning() << "failed load on " << name;
+                        m_pCurrentRoot = curRootSave;
+                        return false;
+                    }
                     foundUmbrelloRootFolder = true;
                     break;
                 }

@@ -60,7 +60,9 @@ class PHPIncludeFileVisitor : public DefaultVisitor
 public:
     PHPIncludeFileVisitor(TokenStream *str, const QString& content = QString())
       : m_str (str),
-        m_content(content)
+        m_content(content),
+        m_indent(0),
+        m_dependencies(0)
     {}
     void setFilePath(const QString &path)
     {
@@ -523,6 +525,7 @@ public:
     DebugLanguageParserHelper(const bool printAst, const bool printTokens)
         : m_printAst(printAst),
           m_printTokens(printTokens),
+          m_ast(0),
           m_isFed(false)
     {
         m_session.setDebug(printAst);
@@ -569,12 +572,12 @@ public:
         return m_ast;
     }
 
-    void setFeeded(bool state)
+    void setFed(bool state)
     {
         m_isFed = state;
     }
 
-    bool isFeeded()
+    bool wasFed()
     {
         return m_isFed;
     }
@@ -767,10 +770,10 @@ void PHPImport::feedTheModel(const QString& fileName)
         PhpParser *p = m_d->m_parsers[file];
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
         visitor.setFileName(file);
-        if (p->ast() && !p->isFeeded()) {
+        if (p->ast() && !p->wasFed()) {
             uDebug() << "feeding" << file;
             visitor.visitStart(p->ast());
-            p->setFeeded(true);
+            p->setFed(true);
         }
     }
 }

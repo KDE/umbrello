@@ -407,8 +407,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
                 AssociationWidget* aw = AssociationWidget::create(scene, w1, type, w2, assoc);
                 scene->addAssociation(aw);
             } else {
-                if (assoc)
-                    delete assoc;
+                // in case of error, assoc remains nullptr
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(lineNumber)
                         .arg(1).arg(line).arg(QLatin1String("error:could not add association"));
