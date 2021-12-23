@@ -45,6 +45,9 @@ private:
 
     static bool hasContainer(const QString &string);
 
+    static QString fixTypeName(const QString &string);
+    QString findIncludeFromType(const QString &string);
+
     bool m_bNeedPass;  ///< True as long as no "pass" has been written
 };
 

@@ -249,23 +249,27 @@ void PythonWriter::writeClass(UMLClassifier *c)
         QString headerName = findFileName(conc, QLatin1String(".py"));
         if (!headerName.isEmpty()) {
             headerName.remove(QRegExp(QLatin1String(".py$")));
-            str = headerName.replace(QLatin1Char('/'), QLatin1Char('.'));
-            if (includesList.indexOf(str) < 0)  // not yet imported
+            str = findIncludeFromType(headerName.replace(QLatin1Char('/'), QLatin1Char('.')));
+            // not yet imported
+            if (includesList.indexOf(str) < 0)  {
+                includesList.append(str);
                 h << "from " << str << " import *" << m_endl;
+            }
         }
     }
     h << m_endl;
 
-    h << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" (") : QLatin1String("(object)"));
-    i = superclasses.count();
-
-    foreach (UMLClassifier *obj, superclasses) {
-
-        h << cleanName(obj->name()) << (i>1 ? QLatin1String(", ") : QString());
-        i--;
+    h << "class " << classname;
+    if (superclasses.count()) {
+        h << QLatin1String("(");
+        h << cleanName(superclasses.front()->name());
+        for (auto superclass = std::next(std::begin(superclasses)); superclass != std::end(superclasses); superclass++) {
+            h << QStringLiteral(", ") << cleanName((*superclass)->name());
+        }
+        h << QLatin1String(")");
     }
 
-    h << (superclasses.count() > 0 ? QLatin1String(")") : QString()) << ":" << m_endl << m_endl;
+    h << ":" << m_endl << m_endl;
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
@@ -406,7 +410,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
 
         int j=0;
         foreach (UMLAttribute* at, atl) {
-            h << ", " << cleanName(at->name())
+            h << ", " << cleanName(at->name()) << ": " << PythonWriter::fixTypeName(at->getTypeName())
               << (!(at->getInitialValue().isEmpty()) ?
                   (QLatin1String(" = ") + at->getInitialValue()) : QString());
             j++;
@@ -450,6 +454,77 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
 bool PythonWriter::hasContainer(const QString &string)
 {
     return string.contains(QLatin1String("<")) && string.contains(QLatin1String(">"));
+}
+
+/**
+ * Fix types to be compatible with Python
+ * @param string      type that will be used
+ * @return            fixed type
+ */
+QString PythonWriter::fixTypeName(const QString &string)
+{
+    static const QMap<QString, QString> fixSimpleTypes {
+        {QStringLiteral("string"), QStringLiteral("str")},
+    };
+
+    if (fixSimpleTypes.contains(string)) {
+        return fixSimpleTypes[string];
+    }
+
+    struct fixContainerTypeStruct {
+        QRegularExpression re;
+        std::function<QString(const QString&)> fix;
+    };
+
+    static const QVector<fixContainerTypeStruct> fixContainerTypes {
+        {
+            QRegularExpression(QStringLiteral(R"(^vector<(.*)>$)")), [](const QString& match) {
+                return QStringLiteral("List[%1]").arg(fixTypeName(match));
+            }
+        },
+    };
+
+    for (const auto& fixer: fixContainerTypes) {
+        auto result = fixer.re.match(string).captured(1);
+        if (!result.isEmpty()) {
+            return fixer.fix(result);
+        }
+    }
+
+    return string;
+}
+
+QString PythonWriter::findIncludeFromType(const QString &string)
+{
+    const auto fixedTypeName = fixTypeName(string);
+
+    struct TypeToImport {
+        QStringList types;
+        QString import;
+    };
+
+    static const QVector<TypeToImport> findIncludeVector {
+        {
+            {
+                QStringLiteral("Any["),
+                QStringLiteral("Dict["),
+                QStringLiteral("List["),
+                QStringLiteral("Tuple[")
+
+            },
+            QStringLiteral("typing")
+        },
+    };
+
+    for (const auto& typeToImport: findIncludeVector) {
+        for (const auto& type: typeToImport.types) {
+            if (fixedTypeName.contains(type)) {
+                return typeToImport.import;
+            }
+        }
+    }
+
+    return string;
 }
 
 /**
