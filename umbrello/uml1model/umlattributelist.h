@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLATTRIBUTELIST_H
@@ -22,8 +22,6 @@ class UMLAttributeList : public QList<UMLAttribute*>
 public:
 
     UMLAttributeList();
-
-    UMLAttributeList(const UMLAttributeList&);
 
     virtual ~UMLAttributeList();
 

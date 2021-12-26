@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlentityconstraintlist.h"
@@ -10,11 +10,6 @@
 #include <KLocalizedString>
 
 UMLEntityConstraintList::UMLEntityConstraintList()
-{
-}
-
-UMLEntityConstraintList::UMLEntityConstraintList(const UMLEntityConstraintList& other)
-    : QList<UMLEntityConstraint*>(other)
 {
 }
 
