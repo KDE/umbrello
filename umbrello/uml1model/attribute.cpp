@@ -406,9 +406,9 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     UMLClassifierList templateParamList;
     QString type = getType()->name();
     QString templateParam;
-    // Handle C++/D/Java template/generic parameters
+    // Handle C++/C#/D/Java template/generic parameters
     const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-    if (pl == Uml::ProgrammingLanguage::Cpp  ||
+    if (pl == Uml::ProgrammingLanguage::Cpp || pl == Uml::ProgrammingLanguage::CSharp ||
         pl == Uml::ProgrammingLanguage::Java || pl == Uml::ProgrammingLanguage::D) {
         int start = type.indexOf(QLatin1Char('<'));
         if (start >= 0) {
