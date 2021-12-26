@@ -1275,10 +1275,11 @@ void UMLApp::slotFileOpen()
 #else
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
 #endif
-            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
+                 "*.uml|Eclipse PapyrusUML files (*.uml)\n"
                  "*.mdl|Rose model files (*.mdl)\n"
                  "*.zargo|Compressed argo Files(*.zargo)\n"
                  )

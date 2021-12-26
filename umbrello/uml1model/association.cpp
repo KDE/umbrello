@@ -145,7 +145,6 @@ void UMLAssociation::saveToXMI1(QXmlStreamWriter& writer)
 {
     if (m_AssocType == Uml::AssociationType::Generalization) {
         UMLObject::save1(QLatin1String("UML:Generalization"), writer);
-        writer.writeAttribute(QLatin1String("discriminator"), QString());
         writer.writeAttribute(QLatin1String("child"), Uml::ID::toString(getObjectId(RoleType::A)));
         writer.writeAttribute(QLatin1String("parent"), Uml::ID::toString(getObjectId(RoleType::B)));
         writer.writeEndElement();
@@ -197,7 +196,7 @@ bool UMLAssociation::showPropertiesDialog(QWidget *parent)
 }
 
 /**
- * Creates the <UML:Generalization> or <UML:Association> XMI element
+ * Loads the <UML:Generalization> or <UML:Association> XMI element
  * including its role objects.
  */
 bool UMLAssociation::load1(QDomElement & element)
@@ -264,13 +263,13 @@ bool UMLAssociation::load1(QDomElement & element)
                 // Permitted tag names:
                 //  roleA: "child" "subtype" "client"
                 //  roleB: "parent" "supertype" "supplier"
-                QString idStr = tempElement.attribute(QLatin1String("xmi.id"));
+                QString idStr = Model_Utils::getXmiId(tempElement);
                 if (idStr.isEmpty())
                     idStr = tempElement.attribute(QLatin1String("xmi.idref"));
                 if (idStr.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
-                    idStr = tmpElem.attribute(QLatin1String("xmi.id"));
+                    idStr = Model_Utils::getXmiId(tmpElem);
                     if (idStr.isEmpty())
                         idStr = tmpElem.attribute(QLatin1String("xmi.idref"));
                 }
@@ -308,15 +307,14 @@ bool UMLAssociation::load1(QDomElement & element)
         QString tag = tempElement.tagName();
         if (Model_Utils::isCommonXMI1Attribute(tag))
             continue;
-        if (!UMLDoc::tagEq(tag, QLatin1String("Association.connection")) &&
-                !UMLDoc::tagEq(tag, QLatin1String("Association.end")) &&  // Embarcadero's Describe
-                !UMLDoc::tagEq(tag, QLatin1String("Namespace.ownedElement")) &&
-                !UMLDoc::tagEq(tag, QLatin1String("Namespace.contents"))) {
-            uWarning() << "unknown child node " << tag;
-            continue;
+        QDomNode nodeA = node;
+        if (UMLDoc::tagEq(tag, QLatin1String("Association.connection")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Association.end")) ||  // Embarcadero's Describe
+                UMLDoc::tagEq(tag, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Namespace.contents"))) {
+            nodeA = tempElement.firstChild();
         }
         // Load role A.
-        QDomNode nodeA = tempElement.firstChild();
         while (nodeA.isComment())
             nodeA = nodeA.nextSibling();
         tempElement = nodeA.toElement();
@@ -327,8 +325,9 @@ bool UMLAssociation::load1(QDomElement & element)
         tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, QLatin1String("NavigableEnd"))) {  // Embarcadero's Describe
             m_AssocType = Uml::AssociationType::UniAssociation;
-        } else if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
-                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
+        } else if (!UMLDoc::tagEq(tag, QLatin1String("ownedEnd")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole"))) {
             uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
@@ -346,8 +345,9 @@ bool UMLAssociation::load1(QDomElement & element)
         tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, QLatin1String("NavigableEnd"))) {  // Embarcadero's Describe
             m_AssocType = Uml::AssociationType::UniAssociation;
-        } else if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
-                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
+        } else if (!UMLDoc::tagEq(tag, QLatin1String("ownedEnd")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole"))) {
             uWarning() << "unknown child (B) tag " << tag;
             return false;
         }
