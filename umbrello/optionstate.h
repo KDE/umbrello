@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef OPTIONSTATE_H
@@ -77,8 +77,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool   useFillColor;
     QColor fillColor;
@@ -111,8 +111,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool showVisibility;
     bool showAtts;
@@ -264,8 +264,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool createArtifacts;
     bool resolveDependencies;
@@ -283,8 +283,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool autoDotPath;  ///< determine path to dot executable automatically
     QString dotPath;  ///< path to dot executable
@@ -301,8 +301,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     Uml::LayoutType::Enum  showExportLayout;  ///< flag for display export layout
 };
@@ -314,8 +314,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     static OptionState &instance();
 

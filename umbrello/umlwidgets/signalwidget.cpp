@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -248,9 +248,9 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 /**
  * Loads a "signalwidget" XMI element.
  */
-bool SignalWidget::loadFromXMI1(QDomElement & qElement)
+bool SignalWidget::loadFromXMI(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("signalname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -281,7 +281,7 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
-            if(! m_pName->loadFromXMI1(element)) {
+            if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = 0;
@@ -298,16 +298,16 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::saveToXMI1(QXmlStreamWriter& writer)
+void SignalWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("signalwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("signalname"), m_Text);
     writer.writeAttribute(QLatin1String("documentation"), m_Doc);
     writer.writeAttribute(QLatin1String("signaltype"), QString::number(m_signalType));
     if (m_pName && !m_pName->text().isEmpty()) {
         writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
-        m_pName -> saveToXMI1(writer);
+        m_pName -> saveToXMI(writer);
     }
     writer.writeEndElement();
 }

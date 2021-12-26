@@ -182,10 +182,10 @@ void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 /**
  * Saves to the "componentwidget" XMI element.
  */
-void ComponentWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ComponentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("componentwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DCODECOMMENT_H
@@ -35,7 +35,7 @@ public:
     /**
      * Save the XMI representation of this object.
      */
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     /**
      * Creates a comment block.

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "cmdremovediagram.h"
@@ -37,7 +37,7 @@ namespace Uml
         QString xmi;
         QXmlStreamWriter stream(&xmi);
         stream.writeStartElement(QLatin1String("diagram"));
-        scene->saveToXMI1(stream);
+        scene->saveToXMI(stream);
         stream.writeEndElement();  // diagram
         QString error;
         int line;
@@ -64,7 +64,7 @@ namespace Uml
         UMLDoc* doc = UMLApp::app()->document();
         UMLView* view = doc->createDiagram(m_folder, m_type, m_name, m_sceneId);
 
-        view->umlScene()->loadFromXMI1(m_element);
+        view->umlScene()->loadFromXMI(m_element);
     }
 
 }

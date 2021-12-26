@@ -1340,9 +1340,9 @@ void ClassifierWidget::changeToPackage()
 /**
  * Loads the "classwidget" or "interfacewidget" XML element.
  */
-bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
+bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     if (DiagramProxyWidget::linkedDiagram())
@@ -1393,7 +1393,7 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
                                                           name(), Uml::ID::Reserved);
                 m_pInterfaceName->setParentItem(this);
             }
-            if (!m_pInterfaceName->loadFromXMI1(element)) {
+            if (!m_pInterfaceName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pInterfaceName;
                 m_pInterfaceName = nullptr;
@@ -1412,7 +1412,7 @@ bool ClassifierWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "classwidget" or "interfacewidget" XML element.
  */
-void ClassifierWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ClassifierWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     bool saveShowAttributes = true;
     UMLClassifier *umlc = classifier();
@@ -1430,7 +1430,7 @@ void ClassifierWidget::saveToXMI1(QXmlStreamWriter& writer)
     }
     writer.writeStartElement(tag);
 
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     if (saveShowAttributes) {
         writer.writeAttribute(QLatin1String("showoperations"), QString::number(visualProperty(ShowOperations)));
         writer.writeAttribute(QLatin1String("showpubliconly"), QString::number(visualProperty(ShowPublicOnly)));
@@ -1447,7 +1447,7 @@ void ClassifierWidget::saveToXMI1(QXmlStreamWriter& writer)
     if (umlc && (umlc->isInterface() || umlc->isAbstract())) {
         writer.writeAttribute(QLatin1String("drawascircle"), QString::number(visualProperty(DrawAsCircle)));
         if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
-            m_pInterfaceName->saveToXMI1(writer);
+            m_pInterfaceName->saveToXMI(writer);
         }
     }
     writer.writeEndElement();

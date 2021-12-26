@@ -321,7 +321,7 @@ void AssociationLine::dumpPoints()
 /**
  * Loads AssociationLine information saved in \a qElement XMI element.
  */
-bool AssociationLine::loadFromXMI1(QDomElement &qElement)
+bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
     QString layout = qElement.attribute(QLatin1String("layout"), QLatin1String("polyline"));
     m_layout = Uml::LayoutType::fromString(layout);
@@ -375,7 +375,7 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
  * Saves association line information into XMI element named "linepath".
  * @note Stored as linepath for backward compatibility
  */
-void AssociationLine::saveToXMI1(QXmlStreamWriter& writer)
+void AssociationLine::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("linepath"));
     writer.writeAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));

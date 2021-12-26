@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -30,7 +30,7 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::saveToXMI1(QXmlStreamWriter& writer)
+void XMLElementCodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("xmlelementblock"));
 
@@ -42,7 +42,7 @@ void XMLElementCodeBlock::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * load params from the appropriate XMI element node.
  */
-void XMLElementCodeBlock::loadFromXMI1 (QDomElement & root)
+void XMLElementCodeBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

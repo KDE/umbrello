@@ -134,8 +134,8 @@ public:
 
     void dumpPoints();
 
-    bool loadFromXMI1(QDomElement &qElement);
-    void saveToXMI1(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement &qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
 
     QBrush brush() const;
     QPen pen() const;

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "cmdcreatewidget.h"
@@ -33,7 +33,7 @@ namespace Uml
         QString xmi;
         QXmlStreamWriter stream(&xmi);
         stream.writeStartElement(QLatin1String("widget"));
-        widget->saveToXMI1(stream);
+        widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;
         int line;
@@ -58,7 +58,7 @@ namespace Uml
         QString xmi;
         QXmlStreamWriter stream(&xmi);
         stream.writeStartElement(QLatin1String("widget"));
-        widget->saveToXMI1(stream);
+        widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;
         int line;
@@ -106,7 +106,7 @@ namespace Uml
             // widget back from the saved XMI state.
             QDomElement widgetElement = m_element.firstChild().toElement();
             widget = AssociationWidget::create(scene());
-            if (widget->loadFromXMI1(widgetElement)) {
+            if (widget->loadFromXMI(widgetElement)) {
                 addWidgetToScene(widget);
                 m_assocWidget = widget;
                 m_widgetId = widget->id();

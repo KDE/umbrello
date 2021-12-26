@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -80,10 +80,10 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void ActorWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ActorWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("actorwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

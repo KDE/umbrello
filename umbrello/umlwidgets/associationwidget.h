@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCIATIONWIDGET_H
@@ -175,10 +175,10 @@ public:
 
     void clipSize();
 
-    bool loadFromXMI1(QDomElement& qElement, const UMLWidgetList& widgets,
+    bool loadFromXMI(QDomElement& qElement, const UMLWidgetList& widgets,
                      const MessageWidgetList* messages);
-    virtual bool loadFromXMI1(QDomElement& qElement);
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     void cleanup();
 

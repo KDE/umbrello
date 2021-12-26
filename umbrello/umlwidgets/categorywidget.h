@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CATEGORYWIDGET_H
@@ -37,8 +37,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    // For loading we can use the loadFromXMI1() inherited from UMLWidget.
+    void saveToXMI(QXmlStreamWriter& writer);
+    // For loading we can use the loadFromXMI() inherited from UMLWidget.
 
 protected:
     QSizeF minimumSize() const;

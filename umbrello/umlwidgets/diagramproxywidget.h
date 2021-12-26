@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2019-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2019-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DIAGRAMPROXYWIDGET_H
@@ -50,8 +50,8 @@ public:
 protected:
     DiagramProxyWidget& operator=(const DiagramProxyWidget& other);
     bool activate(IDChangeLog* changeLog = 0);
-    bool loadFromXMI1(QDomElement &qElement);
-    void saveToXMI1(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement &qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
     void setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF &pos);
     void setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF &pos);
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);

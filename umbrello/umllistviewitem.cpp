@@ -70,7 +70,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
 }
 
 /**
- * Sets up an instance for subsequent loadFromXMI1().
+ * Sets up an instance for subsequent loadFromXMI().
  *
  * @param parent   The parent to this instance.
  */
@@ -84,7 +84,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
 }
 
 /**
- * Sets up an instance for subsequent loadFromXMI1().
+ * Sets up an instance for subsequent loadFromXMI().
  *
  * @param parent   The parent to this instance.
  */
@@ -894,7 +894,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
 /**
  * Saves the listview item to a "listitem" tag.
  */
-void UMLListViewItem::saveToXMI1(QXmlStreamWriter& writer)
+void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("listitem"));
     Uml::ID::Type id = ID();
@@ -927,7 +927,7 @@ void UMLListViewItem::saveToXMI1(QXmlStreamWriter& writer)
     writer.writeAttribute(QLatin1String("open"), QString::number(isExpanded()));
     for (int i = 0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
-        childItem->saveToXMI1(writer);
+        childItem->saveToXMI(writer);
     }
     writer.writeEndElement();
 }
@@ -935,7 +935,7 @@ void UMLListViewItem::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads a "listitem" tag, this is only used by the clipboard currently.
  */
-bool UMLListViewItem::loadFromXMI1(QDomElement& qElement)
+bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 {
     QString id = qElement.attribute(QLatin1String("id"), QLatin1String("-1"));
     QString type = qElement.attribute(QLatin1String("type"), QLatin1String("-1"));

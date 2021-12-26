@@ -2137,15 +2137,15 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::saveToXMI1(QXmlStreamWriter& writer)
+void UMLWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     /*
       When calling this from child classes bear in mind that the call
       must precede terminated XML subelements.
       Type must be set in the child class.
     */
-    WidgetBase::saveToXMI1(writer);
-    DiagramProxyWidget::saveToXMI1(writer);
+    WidgetBase::saveToXMI(writer);
+    DiagramProxyWidget::saveToXMI(writer);
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     writer.writeAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
@@ -2160,10 +2160,10 @@ void UMLWidget::saveToXMI1(QXmlStreamWriter& writer)
         writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
 }
 
-bool UMLWidget::loadFromXMI1(QDomElement & qElement)
+bool UMLWidget::loadFromXMI(QDomElement & qElement)
 {
-    WidgetBase::loadFromXMI1(qElement);
-    DiagramProxyWidget::loadFromXMI1(qElement);
+    WidgetBase::loadFromXMI(qElement);
+    DiagramProxyWidget::loadFromXMI(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));

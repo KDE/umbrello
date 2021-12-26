@@ -170,15 +170,15 @@ public:
 
     static bool tagEq (const QString& tag, const QString& pattern);
 
-    virtual void saveToXMI1(QIODevice& file);
+    virtual void saveToXMI(QIODevice& file);
 
     short encoding(QIODevice & file);
 
-    virtual bool loadFromXMI1(QIODevice& file, short encode = ENC_UNKNOWN);
+    virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
 
     bool validateXMI1Header(QDomNode& headerNode);
 
-    bool loadUMLObjectsFromXMI1(QDomElement & element);
+    bool loadUMLObjectsFromXMI(QDomElement & element);
     void loadExtensionsFromXMI1(QDomNode & node);
     bool loadDiagramsFromXMI1(QDomNode & node);
 

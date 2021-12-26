@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -83,10 +83,10 @@ QSizeF RegionWidget::minimumSize() const
 /**
  * Saves region widget to XMI element.
  */
-void RegionWidget::saveToXMI1(QXmlStreamWriter& writer)
+void RegionWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("regionwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("regionname"), name());
     writer.writeAttribute(QLatin1String("documentation"), documentation());
 
@@ -96,9 +96,9 @@ void RegionWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads region widget from XMI element.
  */
-bool RegionWidget::loadFromXMI1(QDomElement& qElement)
+bool RegionWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     setName(qElement.attribute(QLatin1String("regionname")));

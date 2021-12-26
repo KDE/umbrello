@@ -99,14 +99,14 @@ bool DiagramProxyWidget::activate(IDChangeLog *changeLog)
     return true;
 }
 
-bool DiagramProxyWidget::loadFromXMI1(QDomElement &qElement)
+bool DiagramProxyWidget::loadFromXMI(QDomElement &qElement)
 {
     QString linkID = qElement.attribute(QLatin1String("diagramlinkid"), QLatin1String("-1"));
     m_diagramLinkId = Uml::ID::fromString(linkID);
     return true;
 }
 
-void DiagramProxyWidget::saveToXMI1(QXmlStreamWriter& writer)
+void DiagramProxyWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     if (m_diagramLinkId != Uml::ID::None)
         writer.writeAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));

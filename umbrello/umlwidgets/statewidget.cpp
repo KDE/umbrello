@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -503,10 +503,10 @@ bool StateWidget::showPropertiesDialog()
 /**
  * Creates the "statewidget" XMI element.
  */
-void StateWidget::saveToXMI1(QXmlStreamWriter& writer)
+void StateWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("statewidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("statename"), m_Text);
     writer.writeAttribute(QLatin1String("documentation"), m_Doc);
     writer.writeAttribute(QLatin1String("statetype"), QString::number(m_stateType));
@@ -528,9 +528,9 @@ void StateWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads a "statewidget" XMI element.
  */
-bool StateWidget::loadFromXMI1(QDomElement & qElement)
+bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("statename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));

@@ -179,9 +179,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
                 if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new RubyCodeComment(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeComment to :"<<this;
+                        uError()<<"loadFromXMI : unable to add codeComment to :"<<this;
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -192,25 +192,25 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"loadFromXMI1 : unable to add codeclassfield child method to:"<<this;
+                        uError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this;
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlock to :"<<this;
+                        uError()<<"loadFromXMI : unable to add codeBlock to :"<<this;
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlockwithcomments to:"<<this;
+                        uError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this;
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -219,7 +219,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // do nothing.. this is treated elsewhere
                 } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
                         uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
                         delete block;
@@ -233,7 +233,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = new RubyCodeOperation(this, op);
-                        block->loadFromXMI1(element);
+                        block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
@@ -245,7 +245,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     }
                 } else if (name == QLatin1String("rubyclassdeclarationblock")) {
                     RubyClassDeclarationBlock * block = getClassDecl();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
                         uError()<<"Unable to add ruby code declaration block to:"<<this;
                         // DON'T delete.

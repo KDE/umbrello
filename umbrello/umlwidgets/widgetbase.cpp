@@ -621,7 +621,7 @@ bool WidgetBase::showPropertiesDialog()
  *
  * @param writer The QXmlStreamWriter to write to.
  */
-void WidgetBase::saveToXMI1(QXmlStreamWriter& writer)
+void WidgetBase::saveToXMI(QXmlStreamWriter& writer)
  {
     writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
     // Unique identifier for widget (todo: id() should be unique, new attribute
@@ -727,7 +727,7 @@ void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
  *
  * @todo Add support to load older version.
  */
-bool WidgetBase::loadFromXMI1(QDomElement& qElement)
+bool WidgetBase::loadFromXMI(QDomElement& qElement)
 {
     QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nId = Uml::ID::fromString(id);

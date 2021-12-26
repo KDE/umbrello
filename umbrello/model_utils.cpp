@@ -742,9 +742,9 @@ QString renameText(UMLObject::ObjectType type)
  */
 QString getXmiId(QDomElement element)
 {
-    QString idStr = element.attribute(QLatin1String("xmi.id"));
+    QString idStr = element.attribute(QLatin1String("xmi:id"));
     if (idStr.isEmpty())
-        idStr = element.attribute(QLatin1String("xmi:id"));
+        idStr = element.attribute(QLatin1String("xmi.id"));
     return idStr;
 }
 

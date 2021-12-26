@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -84,10 +84,10 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI1(QXmlStreamWriter& writer)
+void UseCaseWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("usecasewidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

@@ -3,7 +3,7 @@ include_directories(
     ../codegenerators
     ../codeimpwizard
     ../debug
-    ../uml1model
+    ../umlmodel
     ../umlwidgets
     ../dialogs
     ../dialogs

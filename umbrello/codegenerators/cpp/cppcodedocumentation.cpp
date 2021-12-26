@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -29,7 +29,7 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
 /**
  * Save the XMI representation of this object
  */
-void CPPCodeDocumentation::saveToXMI1(QXmlStreamWriter& writer)
+void CPPCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("cppcodedocumentation"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "rubyclassdeclarationblock.h"
@@ -24,7 +24,7 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
+void RubyClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("rubyclassdeclarationblock"));
 
@@ -36,7 +36,7 @@ void RubyClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * load params from the appropriate XMI element node.
  */
-void RubyClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void RubyClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

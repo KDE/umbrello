@@ -102,8 +102,8 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QPainterPath shape() const;
 
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
-    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     virtual bool showPropertiesDialog();
     void setUMLObject(UMLObject *obj);

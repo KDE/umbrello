@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -242,9 +242,9 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 /**
  * Loads a "notewidget" XMI element.
  */
-bool NoteWidget::loadFromXMI1(QDomElement & qElement)
+bool NoteWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
     setDocumentation(qElement.attribute(QLatin1String("text")));
@@ -259,10 +259,10 @@ bool NoteWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "notewidget" XMI element.
  */
-void NoteWidget::saveToXMI1(QXmlStreamWriter& writer)
+void NoteWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("notewidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
         writer.writeAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));

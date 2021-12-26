@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -359,7 +359,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QXmlStreamWriter& writer)
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
     foreach (TextBlock* block, *tbList) {
-        block->saveToXMI1(writer);
+        block->saveToXMI(writer);
     }
     writer.writeEndElement();
 }
@@ -411,7 +411,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             if (name == QLatin1String("codecomment")) {
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
-                block->loadFromXMI1(element);
+                block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeComment to :" << this;
                     delete block;
@@ -432,7 +432,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("codeblock")) {
                 CodeBlock * block = newCodeBlock();
-                block->loadFromXMI1(element);
+                block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeBlock to :" << this;
                     delete block;
@@ -441,7 +441,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("codeblockwithcomments")) {
                 CodeBlockWithComments * block = newCodeBlockWithComments();
-                block->loadFromXMI1(element);
+                block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add codeBlockwithcomments to:" << this;
                     delete block;
@@ -453,7 +453,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
 
             } else if (name == QLatin1String("hierarchicalcodeblock")) {
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
-                block->loadFromXMI1(element);
+                block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
                     uError() << "unable to add hierarchicalcodeBlock to:" << this;
                     delete block;
@@ -467,7 +467,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 UMLOperation * op = obj->asUMLOperation();
                 if (op) {
                     CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (addTextBlock(block))
                         loadCheckForChildrenOK = true;
                     else {

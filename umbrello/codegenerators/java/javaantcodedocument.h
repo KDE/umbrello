@@ -41,12 +41,12 @@ public:
     /**
      * Save the XMI representation of this object.
      */
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     /**
      * Load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI1 (QDomElement & root);
+    virtual void loadFromXMI (QDomElement & root);
 
     /**
      * Create a new HierarchicalCodeBlock object belonging to this CodeDocument.

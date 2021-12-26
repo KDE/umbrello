@@ -697,7 +697,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
                 m_classFieldMap.remove(cf->getParentObject());
 
                 // configure from XMI
-                cf->loadFromXMI1(childElem);
+                cf->loadFromXMI(childElem);
 
                 // now add back in
                 m_classFieldMap.insert(cf->getParentObject(), cf);
@@ -713,7 +713,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
 /**
  * Save the XMI representation of this object.
  */
-void ClassifierCodeDocument::saveToXMI1(QXmlStreamWriter& writer)
+void ClassifierCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
 #if 0
     // avoid the creation of primitive data type
@@ -736,7 +736,7 @@ void ClassifierCodeDocument::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Load params from the appropriate XMI element node.
  */
-void ClassifierCodeDocument::loadFromXMI1 (QDomElement & root)
+void ClassifierCodeDocument::loadFromXMI (QDomElement & root)
 {
     // set attributes/fields
     setAttributesFromNode(root);
@@ -763,7 +763,7 @@ void ClassifierCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)
-        (*it)->saveToXMI1(writer);
+        (*it)->saveToXMI(writer);
     writer.writeEndElement();
 }
 

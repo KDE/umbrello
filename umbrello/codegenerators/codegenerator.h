@@ -65,7 +65,7 @@ public:
 
     QString getUniqueID(CodeDocument * codeDoc);
 
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     CodeDocument * findCodeDocumentByID(const QString &id);
 
@@ -100,7 +100,7 @@ public:
      * A series of accessor method constructors that we need to define
      * for any particular language.
      */
-    virtual void loadFromXMI1(QDomElement & element);
+    virtual void loadFromXMI(QDomElement & element);
 
     /**
      * Return the unique language enum that identifies this type of code generator.

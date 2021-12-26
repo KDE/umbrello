@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCIATIONWIDGETROLE_H
@@ -53,8 +53,8 @@ public:
     void setSelected(bool select);
     void clipSize();
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement &qElement, const QString &suffix);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement &qElement, const QString &suffix);
     bool getStartMove();
 
 private:

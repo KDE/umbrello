@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -670,10 +670,10 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
 /**
  * Saves to the "objectwidget" XMI element.
  */
-void ObjectWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ObjectWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("objectwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("drawasactor"), QString::number(m_drawAsActor));
     writer.writeAttribute(QLatin1String("multipleinstance"), QString::number(m_multipleInstance));
     writer.writeAttribute(QLatin1String("decon"), QString::number(m_showDestruction));
@@ -683,9 +683,9 @@ void ObjectWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads from a "objectwidget" XMI element.
  */
-bool ObjectWidget::loadFromXMI1(QDomElement& qElement)
+bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     QString draw = qElement.attribute(QLatin1String("drawasactor"), QLatin1String("0"));
     QString multi = qElement.attribute(QLatin1String("multipleinstance"), QLatin1String("0"));

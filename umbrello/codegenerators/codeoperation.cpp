@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -68,7 +68,7 @@ UMLOperation * CodeOperation::getParentOperation()
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::saveToXMI1(QXmlStreamWriter& writer)
+void CodeOperation::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("codeoperation"));
     // set attributes
@@ -79,7 +79,7 @@ void CodeOperation::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeOperation::loadFromXMI1 (QDomElement & root)
+void CodeOperation::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

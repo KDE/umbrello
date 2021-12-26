@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -57,10 +57,10 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  * Saves the widget to the "boxwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void BoxWidget::saveToXMI1(QXmlStreamWriter& writer)
+void BoxWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("boxwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

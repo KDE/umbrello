@@ -371,7 +371,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
 
 /**
  * Make a new UMLObject according to the given XMI tag.
- * Used by loadFromXMI1 and clipboard paste.
+ * Used by loadFromXMI and clipboard paste.
  */
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
@@ -428,7 +428,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
                UMLDoc::tagEq(xmiTag, QLatin1String("generalization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Generalization);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Realization")) ||
-               UMLDoc::tagEq(xmiTag, QLatin1String("Abstraction"))) {
+               UMLDoc::tagEq(xmiTag, QLatin1String("Abstraction")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("interfaceRealization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Realization);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Dependency"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Dependency);

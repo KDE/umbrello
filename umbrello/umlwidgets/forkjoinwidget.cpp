@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -74,12 +74,12 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
- * Reimplemented from UMLWidget::loadFromXMI1 to load widget
+ * Reimplemented from UMLWidget::loadFromXMI to load widget
  * info from XMI element - 'forkjoin'.
  */
-bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
+bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
 
@@ -96,13 +96,13 @@ bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI1 to save widget info
+ * Reimplemented from UMLWidget::saveToXMI to save widget info
  * into XMI element - 'forkjoin'.
  */
-void ForkJoinWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ForkJoinWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("forkjoin"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;

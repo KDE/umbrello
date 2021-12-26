@@ -60,7 +60,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
-  ${CMAKE_CURRENT_SOURCE_DIR}/uml1model/
+  ${CMAKE_CURRENT_SOURCE_DIR}/umlmodel/
   ${CMAKE_CURRENT_SOURCE_DIR}/umlwidgets/
   ${CMAKE_CURRENT_SOURCE_DIR}/menus
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
@@ -400,41 +400,41 @@ set(libfinder_SRCS
 )
 
 set(libuml_SRCS
-    uml1model/actor.cpp
-    uml1model/artifact.cpp
-    uml1model/association.cpp
-    uml1model/attribute.cpp
-    uml1model/category.cpp
-    uml1model/checkconstraint.cpp
-    uml1model/classifier.cpp
-    uml1model/classifierlistitem.cpp
-    uml1model/component.cpp
-    uml1model/datatype.cpp
-    uml1model/entity.cpp
-    uml1model/entityattribute.cpp
-    uml1model/entityconstraint.cpp
-    uml1model/enum.cpp
-    uml1model/enumliteral.cpp
-    uml1model/folder.cpp
-    uml1model/foreignkeyconstraint.cpp
-    uml1model/node.cpp
-    uml1model/operation.cpp
-    uml1model/package.cpp
-    uml1model/port.cpp
-    uml1model/stereotype.cpp
-    uml1model/template.cpp
-    uml1model/umlattributelist.cpp
-    uml1model/umlcanvasobject.cpp
-    uml1model/umlclassifierlistitemlist.cpp
-    uml1model/umlentityattributelist.cpp
-    uml1model/umlentityconstraintlist.cpp
-    uml1model/umlobject.cpp
-    uml1model/umlobjectlist.cpp
-    uml1model/umlrole.cpp
-    uml1model/usecase.cpp
-    uml1model/uniqueconstraint.cpp
-    uml1model/instance.cpp
-    uml1model/instanceattribute.cpp
+    umlmodel/actor.cpp
+    umlmodel/artifact.cpp
+    umlmodel/association.cpp
+    umlmodel/attribute.cpp
+    umlmodel/category.cpp
+    umlmodel/checkconstraint.cpp
+    umlmodel/classifier.cpp
+    umlmodel/classifierlistitem.cpp
+    umlmodel/component.cpp
+    umlmodel/datatype.cpp
+    umlmodel/entity.cpp
+    umlmodel/entityattribute.cpp
+    umlmodel/entityconstraint.cpp
+    umlmodel/enum.cpp
+    umlmodel/enumliteral.cpp
+    umlmodel/folder.cpp
+    umlmodel/foreignkeyconstraint.cpp
+    umlmodel/node.cpp
+    umlmodel/operation.cpp
+    umlmodel/package.cpp
+    umlmodel/port.cpp
+    umlmodel/stereotype.cpp
+    umlmodel/template.cpp
+    umlmodel/umlattributelist.cpp
+    umlmodel/umlcanvasobject.cpp
+    umlmodel/umlclassifierlistitemlist.cpp
+    umlmodel/umlentityattributelist.cpp
+    umlmodel/umlentityconstraintlist.cpp
+    umlmodel/umlobject.cpp
+    umlmodel/umlobjectlist.cpp
+    umlmodel/umlrole.cpp
+    umlmodel/usecase.cpp
+    umlmodel/uniqueconstraint.cpp
+    umlmodel/instance.cpp
+    umlmodel/instanceattribute.cpp
 )
 
 set(umbrellobase_SRCS

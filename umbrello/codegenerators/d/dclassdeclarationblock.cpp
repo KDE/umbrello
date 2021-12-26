@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "dclassdeclarationblock.h"
@@ -24,7 +24,7 @@ DClassDeclarationBlock::~DClassDeclarationBlock ()
 {
 }
 
-void DClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void DClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -34,7 +34,7 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
     HierarchicalCodeBlock::setAttributesFromObject(obj);
 }
 
-void DClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
+void DClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("dclassdeclarationblock"));
 

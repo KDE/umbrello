@@ -216,8 +216,8 @@ public:
 
     virtual bool showPropertiesDialog();
 
-    virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     virtual void removeAssoc(AssociationWidget* pAssoc);
     virtual void addAssoc(AssociationWidget* pAssoc);
@@ -264,38 +264,38 @@ public:
     bool isTextWidget()             const { return baseType() == wt_Text; }
     bool isUseCaseWidget()          const { return baseType() == wt_UseCase; }
 
-    ActivityWidget* asActivityWidget();
-    ActorWidget* asActorWidget();
-    ArtifactWidget* asArtifactWidget();
-    AssociationWidget* asAssociationWidget();
-    BoxWidget* asBoxWidget();
-    CategoryWidget* asCategoryWidget();
-    ClassifierWidget* asClassifierWidget();
+    ActivityWidget*         asActivityWidget();
+    ActorWidget*            asActorWidget();
+    ArtifactWidget*         asArtifactWidget();
+    AssociationWidget*      asAssociationWidget();
+    BoxWidget*              asBoxWidget();
+    CategoryWidget*         asCategoryWidget();
+    ClassifierWidget*       asClassifierWidget();
     CombinedFragmentWidget* asCombinedFragmentWidget();
-    ComponentWidget* asComponentWidget();
-    DatatypeWidget* asDatatypeWidget();
-    EntityWidget* asEntityWidget();
-    EnumWidget* asEnumWidget();
+    ComponentWidget*        asComponentWidget();
+    DatatypeWidget*         asDatatypeWidget();
+    EntityWidget*           asEntityWidget();
+    EnumWidget*             asEnumWidget();
     FloatingDashLineWidget* asFloatingDashLineWidget();
-    ForkJoinWidget* asForkJoinWidget();
-    InterfaceWidget* asInterfaceWidget();
-    MessageWidget* asMessageWidget();
-    NodeWidget* asNodeWidget();
-    NoteWidget* asNoteWidget();
-    ObjectNodeWidget* asObjectNodeWidget();
-    ObjectWidget* asObjectWidget();
-    PackageWidget* asPackageWidget();
-    PinWidget* asPinWidget();
-    PinPortBase* asPinPortBase();
-    PortWidget* asPortWidget();
-    PreconditionWidget* asPreconditionWidget();
-    RegionWidget* asRegionWidget();
-    SignalWidget* asSignalWidget();
-    StateWidget* asStateWidget();
-    FloatingTextWidget* asFloatingTextWidget();
-//    TextWidget* asTextWidget();
-    UseCaseWidget* asUseCaseWidget();
-    UMLWidget* asUMLWidget();
+    ForkJoinWidget*         asForkJoinWidget();
+    InterfaceWidget*        asInterfaceWidget();
+    MessageWidget*          asMessageWidget();
+    NodeWidget*             asNodeWidget();
+    NoteWidget*             asNoteWidget();
+    ObjectNodeWidget*       asObjectNodeWidget();
+    ObjectWidget*           asObjectWidget();
+    PackageWidget*          asPackageWidget();
+    PinWidget*              asPinWidget();
+    PinPortBase*            asPinPortBase();
+    PortWidget*             asPortWidget();
+    PreconditionWidget*     asPreconditionWidget();
+    RegionWidget*           asRegionWidget();
+    SignalWidget*           asSignalWidget();
+    StateWidget*            asStateWidget();
+    FloatingTextWidget*     asFloatingTextWidget();
+//    TextWidget*               asTextWidget();
+    UseCaseWidget*          asUseCaseWidget();
+    UMLWidget*              asUMLWidget();
 
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
     virtual bool activate(IDChangeLog *changeLog = 0);

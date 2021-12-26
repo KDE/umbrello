@@ -79,13 +79,13 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
- * Reimplemented from WidgetBase::saveToXMI1 to save the widget to
+ * Reimplemented from WidgetBase::saveToXMI to save the widget to
  * the "artifactwidget" XMI element.
  */
-void ArtifactWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ArtifactWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("artifactwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

@@ -50,7 +50,7 @@ public:
 
     QStringList defaultDatatypes() const;
 
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     virtual QStringList reservedKeywords() const;
 

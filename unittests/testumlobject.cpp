@@ -155,7 +155,7 @@ void TestUMLObject::test_saveAndLoad()
     // save
     QString xml;
     QXmlStreamWriter writer(&xml);
-    a.save1("test", writer);
+    a.save1(writer, "test");
     writer.writeEndElement();
 
     // convert XML string to QDomElement
@@ -168,7 +168,7 @@ void TestUMLObject::test_saveAndLoad()
     // load
     UMLObject b;
     b.setUMLPackage(&parent);
-    QCOMPARE(b.loadFromXMI1(save), true);
+    QCOMPARE(b.loadFromXMI(save), true);
     QCOMPARE(a, b);
 }
 

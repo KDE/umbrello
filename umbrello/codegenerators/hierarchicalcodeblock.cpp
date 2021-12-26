@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -236,7 +236,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list)
 /**
  * Save the XMI representation of this object
  */
-void HierarchicalCodeBlock::saveToXMI1(QXmlStreamWriter& writer)
+void HierarchicalCodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("hierarchicalcodeblock"));
     setAttributesOnNode(writer);
@@ -265,7 +265,7 @@ void HierarchicalCodeBlock::setAttributesOnNode (QXmlStreamWriter& writer)
 /**
  * load params from the appropriate XMI element node.
  */
-void HierarchicalCodeBlock::loadFromXMI1 (QDomElement & root)
+void HierarchicalCodeBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

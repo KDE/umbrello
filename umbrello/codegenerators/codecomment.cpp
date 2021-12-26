@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "codecomment.h"
@@ -24,7 +24,7 @@ CodeComment::~CodeComment()
 /**
  * Save the XMI representation of this object.
  */
-void CodeComment::saveToXMI1(QXmlStreamWriter& writer)
+void CodeComment::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("codecomment"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may
@@ -35,7 +35,7 @@ void CodeComment::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeComment::loadFromXMI1(QDomElement & root)
+void CodeComment::loadFromXMI(QDomElement & root)
 {
     setAttributesFromNode(root);
 }

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "optionstate.h"
@@ -95,7 +95,7 @@ namespace Settings {
      * Save instance to XMI.
      * @param stream The QXmlStreamWriter to save to.
      */
-    void ClassState::saveToXMI1(QXmlStreamWriter& writer)
+    void ClassState::saveToXMI(QXmlStreamWriter& writer)
     {
         writer.writeAttribute(QLatin1String("showattribassocs"), QString::number(showAttribAssocs));
         writer.writeAttribute(QLatin1String("showatts"),         QString::number(showAtts));
@@ -117,7 +117,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool ClassState::loadFromXMI1(QDomElement &element)
+    bool ClassState::loadFromXMI(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("showattribassocs"), QLatin1String("0"));
         showAttribAssocs = (bool)temp.toInt();
@@ -172,7 +172,7 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void UIState::saveToXMI1(QXmlStreamWriter& writer)
+    void UIState::saveToXMI(QXmlStreamWriter& writer)
     {
         writer.writeAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
         writer.writeAttribute(QLatin1String("fillcolor"),        fillColor.name());
@@ -190,7 +190,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool UIState::loadFromXMI1(QDomElement &element)
+    bool UIState::loadFromXMI(QDomElement &element)
     {
         QString backgroundColor = element.attribute(QLatin1String("backgroundcolor"));
         if (!backgroundColor.isEmpty())
@@ -239,7 +239,7 @@ namespace Settings {
      * Save instance to a QXml stream.
      * @param stream The QXmlStreamWriter to use.
      */
-    void CodeImportState::saveToXMI1(QXmlStreamWriter& writer)
+    void CodeImportState::saveToXMI(QXmlStreamWriter& writer)
     {
         writer.writeAttribute(QLatin1String("createartifacts"), QString::number(createArtifacts));
         writer.writeAttribute(QLatin1String("resolvedependencies"), QString::number(resolveDependencies));
@@ -252,7 +252,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool CodeImportState::loadFromXMI1(QDomElement &element)
+    bool CodeImportState::loadFromXMI(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("createartifacts"), QLatin1String("0"));
         createArtifacts = (bool)temp.toInt();
@@ -394,10 +394,10 @@ namespace Settings {
      * Save instance to a QXmlStreamWriter.
      * @param writer The QXmlStreamWriter to save to.
      */
-    void OptionState::saveToXMI1(QXmlStreamWriter& writer)
+    void OptionState::saveToXMI(QXmlStreamWriter& writer)
     {
-        uiState.saveToXMI1(writer);
-        classState.saveToXMI1(writer);
+        uiState.saveToXMI(writer);
+        classState.saveToXMI(writer);
     }
 
     /**
@@ -406,10 +406,10 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool OptionState::loadFromXMI1(QDomElement& element)
+    bool OptionState::loadFromXMI(QDomElement& element)
     {
-        uiState.loadFromXMI1(element);
-        classState.loadFromXMI1(element);
+        uiState.loadFromXMI(element);
+        classState.loadFromXMI(element);
 
         return true;
     }

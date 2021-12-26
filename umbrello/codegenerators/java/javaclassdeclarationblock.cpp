@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "javaclassdeclarationblock.h"
@@ -26,7 +26,7 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
+void JavaClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("javaclassdeclarationblock"));
     setAttributesOnNode(writer);
@@ -36,7 +36,7 @@ void JavaClassDeclarationBlock::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void JavaClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

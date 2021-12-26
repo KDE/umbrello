@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -25,7 +25,7 @@ RubyCodeDocumentation::~RubyCodeDocumentation()
 {
 }
 
-void RubyCodeDocumentation::saveToXMI1(QXmlStreamWriter& writer)
+void RubyCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("rubycodedocumentation"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may

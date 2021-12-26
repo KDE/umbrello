@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef TEXTBLOCK_H
@@ -65,13 +65,13 @@ public:
      * @param doc    the xmi document
      * @param root   the starting point to append
      */
-    virtual void saveToXMI1(QXmlStreamWriter& writer) = 0;
+    virtual void saveToXMI(QXmlStreamWriter& writer) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
      * @param root   the starting point in the xmi document to load from
      */
-    virtual void loadFromXMI1(QDomElement & root) = 0;
+    virtual void loadFromXMI(QDomElement & root) = 0;
 
     bool canDelete() const;
 

@@ -1402,11 +1402,11 @@ bool MessageWidget::showPropertiesDialog()
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::saveToXMI1(QXmlStreamWriter& writer)
+void MessageWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("messagewidget"));
-    UMLWidget::saveToXMI1(writer);
-    LinkWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
+    LinkWidget::saveToXMI(writer);
     if (m_pOw[Uml::RoleType::A])
         writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
@@ -1425,7 +1425,7 @@ void MessageWidget::saveToXMI1(QXmlStreamWriter& writer)
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
         writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->saveToXMI1(writer);
+        m_pFText->saveToXMI(writer);
     }
 
     writer.writeEndElement();
@@ -1434,12 +1434,12 @@ void MessageWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads from the "messagewidget" XMI element.
  */
-bool MessageWidget::loadFromXMI1(QDomElement& qElement)
+bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
-    if (!LinkWidget::loadFromXMI1(qElement)) {
+    if (!LinkWidget::loadFromXMI(qElement)) {
         return false;
     }
     QString textid = qElement.attribute(QLatin1String("textid"), QLatin1String("-1"));
@@ -1469,7 +1469,7 @@ bool MessageWidget::loadFromXMI1(QDomElement& qElement)
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
             m_scene->addFloatingTextWidget(m_pFText);
-            if(! m_pFText->loadFromXMI1(element)) {
+            if(! m_pFText->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
                 m_pFText = 0;

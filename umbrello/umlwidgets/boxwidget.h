@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef BOXWIDGET_H
@@ -26,7 +26,7 @@ public:
     virtual ~BoxWidget();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog();
 

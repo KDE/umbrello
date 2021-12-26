@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -268,10 +268,10 @@ bool ObjectNodeWidget::showPropertiesDialog()
 /**
  * Saves the widget to the "objectnodewidget" XMI element.
  */
-void ObjectNodeWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ObjectNodeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("objectnodewidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("objectnodename"), m_Text);
     writer.writeAttribute(QLatin1String("documentation"), m_Doc);
     writer.writeAttribute(QLatin1String("objectnodetype"), QString::number(m_objectNodeType));
@@ -282,9 +282,9 @@ void ObjectNodeWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads the widget from the "objectnodewidget" XMI element.
  */
-bool ObjectNodeWidget::loadFromXMI1(QDomElement& qElement)
+bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement) )
+    if(!UMLWidget::loadFromXMI(qElement) )
         return false;
     m_Text = qElement.attribute(QLatin1String("objectnodename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DATATYPEWIDGET_H
@@ -30,8 +30,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    bool loadFromXMI1(QDomElement& qElement);
-    void saveToXMI1(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
 
 public Q_SLOTS:
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -311,9 +311,9 @@ void ActivityWidget::moveWidgetBy(qreal diffX, qreal diffY)
 /**
  * Loads the widget from the "activitywidget" XMI element.
  */
-bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
+bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     setName(qElement.attribute(QLatin1String("activityname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
@@ -329,10 +329,10 @@ bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::saveToXMI1(QXmlStreamWriter& writer)
+void ActivityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("activitywidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("activityname"), name());
     writer.writeAttribute(QLatin1String("documentation"), documentation());
     writer.writeAttribute(QLatin1String("precondition"), preconditionText());

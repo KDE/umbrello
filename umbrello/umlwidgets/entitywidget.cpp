@@ -180,9 +180,9 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     UMLWidget::paint(painter, option, widget);
 }
 
-bool EntityWidget::loadFromXMI1(QDomElement & qElement)
+bool EntityWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     QString showAttributeSignatures = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("0"));
     m_showAttributeSignatures = (bool)showAttributeSignatures.toInt();
@@ -192,10 +192,10 @@ bool EntityWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "entitywidget" XMI element.
  */
-void EntityWidget::saveToXMI1(QXmlStreamWriter& writer)
+void EntityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("entitywidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("showattsigs"), QString::number(m_showAttributeSignatures));
 
     writer.writeEndElement();

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -123,7 +123,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(stream);
+        obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
@@ -146,14 +146,14 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(stream);
+        obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QLatin1String("umlviews"));
 
     foreach(UMLView* view, diagrams) {
-        view->umlScene()->saveToXMI1(stream);
+        view->umlScene()->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlviews
@@ -173,7 +173,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     stream.writeStartElement(QLatin1String("umllistviewitems"));
 
     foreach(UMLListViewItem* item, umlListViewItems) {
-        item->saveToXMI1(stream);
+        item->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umllistviewitems
@@ -200,21 +200,21 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
     stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(stream);
+        obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QLatin1String("widgets"));
 
     foreach (UMLWidget* widget, widgets) {
-        widget->saveToXMI1(stream);
+        widget->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // widgets
     stream.writeStartElement(QLatin1String("associations"));
 
     foreach (AssociationWidget* association, associations) {
-        association->saveToXMI1(stream);
+        association->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // associations
@@ -243,7 +243,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
     stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(stream);
+        obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
@@ -463,7 +463,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         UMLListViewItem::ListViewType t = (UMLListViewItem::ListViewType)(type.toInt());
         UMLListViewItem* parent = parentListView->determineParentItem(t);
         UMLListViewItem* itemData = new UMLListViewItem(parent);
-        if (itemData->loadFromXMI1(listItemElement))
+        if (itemData->loadFromXMI(listItemElement))
             umlListViewItems.append(itemData);
         else
             delete itemData;
@@ -645,7 +645,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while (!associationWidgetElement.isNull()) {
         AssociationWidget* associationWidget = AssociationWidget::create(view->umlScene());
-        if (associationWidget->loadFromXMI1(associationWidgetElement, widgets, 0))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
             associations.append(associationWidget);
         else {
             delete associationWidget;
@@ -705,7 +705,7 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
             uWarning() << "Given wrong type of umlobject to create:" << type;
             return false;
         }
-        if(!pObject->loadFromXMI1(element)) {
+        if(!pObject->loadFromXMI(element)) {
             uWarning() << "Failed to load object from XMI.";
             return false;
         }
@@ -741,7 +741,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     while (!element.isNull()) {
         pObject = 0;
         QString type = element.tagName();
-        Uml::ID::Type elmId = Uml::ID::fromString(element.attribute(QLatin1String("xmi.id")));
+        Uml::ID::Type elmId = Uml::ID::fromString(Model_Utils::getXmiId(element));
         QString stereotype = element.attribute(QLatin1String("stereotype"));
 
         bool objectExists = (doc->findObjectById(elmId) != 0);
@@ -762,7 +762,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
             type == QLatin1String("UML:Interface") ||
             type == QLatin1String("UML:Component")) {
             QDomNodeList list = element.childNodes();
-            for (int i=(list.length() - 1); i>=0; i--) {
+            for (int i = list.length() - 1; i >= 0; i--) {
                 QDomNode child = list.at(i);
                 QString tagName = child.toElement().tagName();
                 if (tagName == QLatin1String("UML:Namespace.ownedElement") ||
@@ -804,9 +804,9 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
 
         pObject->setUMLPackage(newParent);
 
-        // Note: element should not be used after calling loadFromXMI1() because
+        // Note: element should not be used after calling loadFromXMI() because
         // it can point to an arbitrary child node
-        if(!pObject->loadFromXMI1(element)) {
+        if(!pObject->loadFromXMI(element)) {
             uWarning() << "Failed to load object of type " << type << " from XMI";
             delete pObject;
             return false;
@@ -866,7 +866,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
         }
         UMLFolder *f = po->asUMLFolder();
         UMLView* view = new UMLView(f);
-        view->umlScene()->loadFromXMI1(diagramElement);
+        view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);
         diagramNode = diagramNode.nextSibling();
         diagramElement = diagramNode.toElement();

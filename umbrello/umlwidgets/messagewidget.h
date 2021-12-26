@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef MESSAGEWIDGET_H
@@ -131,8 +131,8 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
-    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     void setxclicked(int xclick);
     void setyclicked(int yclick);
@@ -190,7 +190,7 @@ private:
     int m_yclicked;
 
     /**
-     * The following variables are used by loadFromXMI1() as an intermediate
+     * The following variables are used by loadFromXMI() as an intermediate
      * store. activate() resolves the IDs, i.e. after activate() the variables
      * m_pOw[] and m_pFText can be used.
      */

@@ -49,8 +49,8 @@ public:
     FloatingTextWidget *floatingTextWidget();
     void setFloatingTextWidget(FloatingTextWidget *ft);
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement& qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& qElement);
 
 public slots:
     virtual void slotMenuSelection(QAction* action);

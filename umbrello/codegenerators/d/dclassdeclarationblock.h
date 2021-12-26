@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DCLASSDECLARATIONBLOCK_H
@@ -31,12 +31,12 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     /**
      * Load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI1 (QDomElement & root);
+    virtual void loadFromXMI (QDomElement & root);
 
     /**
      * Update the start and end text for this hierarchical codeblock.

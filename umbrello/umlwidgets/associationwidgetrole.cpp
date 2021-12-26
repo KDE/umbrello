@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "associationwidgetrole.h"
@@ -101,20 +101,20 @@ void AssociationWidgetRole::clipSize()
         changeabilityWidget->clipSize();
 }
 
-void AssociationWidgetRole::saveToXMI1(QXmlStreamWriter& writer)
+void AssociationWidgetRole::saveToXMI(QXmlStreamWriter& writer)
 {
     // For attributes index[ab] and totalcount[ab] see AssociationWidget::saveToXMI.
     // They are not written here because attributes may not follow elements
     // (in particular, attributes of role B may not follow elements of role A)
     if (multiplicityWidget)
-        multiplicityWidget->saveToXMI1(writer);
+        multiplicityWidget->saveToXMI(writer);
     if (roleWidget)
-        roleWidget->saveToXMI1(writer);
+        roleWidget->saveToXMI(writer);
     if (changeabilityWidget)
-        changeabilityWidget->saveToXMI1(writer);
+        changeabilityWidget->saveToXMI(writer);
 }
 
-bool AssociationWidgetRole::loadFromXMI1(QDomElement &qElement, const QString &suffix)
+bool AssociationWidgetRole::loadFromXMI(QDomElement &qElement, const QString &suffix)
 {
     QString index = qElement.attribute(QString(QLatin1String("index%1")).arg(suffix), QLatin1String("0"));
     QString totalcount = qElement.attribute(QString(QLatin1String("totalcount%1")).arg(suffix), QLatin1String("0"));

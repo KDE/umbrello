@@ -32,7 +32,7 @@ void TestOptionState::test_saveAndLoad()
     QString xml;
     QXmlStreamWriter stream(&xml);
     stream.writeStartElement(QLatin1String("test"));
-    options.saveToXMI1(stream);
+    options.saveToXMI(stream);
     stream.writeEndElement();
 
     // convert XML string to QDomElement
@@ -44,7 +44,7 @@ void TestOptionState::test_saveAndLoad()
 
     // load
     Settings::OptionState optionsB;
-    QCOMPARE(optionsB.loadFromXMI1(element), true);
+    QCOMPARE(optionsB.loadFromXMI(element), true);
     QCOMPARE(optionsB.classState.showAtts, true);
     QCOMPARE(optionsB.classState.showOps, true);
     QCOMPARE(optionsB.uiState.useFillColor, true);

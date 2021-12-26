@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -129,7 +129,7 @@ bool Import_Argo::loadFromXMIFile(const KZip &zipFile, const QString &fileName)
     if(!xmiFile.open(QIODevice::ReadOnly)) {
         return false;
     }
-    return UMLApp::app()->document()->loadFromXMI1(xmiFile, 0);
+    return UMLApp::app()->document()->loadFromXMI(xmiFile, 0);
 }
 
 bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)

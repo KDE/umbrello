@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "codeblock.h"
@@ -57,7 +57,7 @@ CodeBlock::ContentType CodeBlock::contentType() const
  * @param doc    the xmi document
  * @param root   the starting point to append
  */
-void CodeBlock::saveToXMI1(QXmlStreamWriter& writer)
+void CodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("codeblock"));
     // set attributes
@@ -84,7 +84,7 @@ void CodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
  * Load params from the appropriate XMI element node.
  * @param root   the starting point to load from
  */
-void CodeBlock::loadFromXMI1(QDomElement & root)
+void CodeBlock::loadFromXMI(QDomElement & root)
 {
     setAttributesFromNode(root);
 }

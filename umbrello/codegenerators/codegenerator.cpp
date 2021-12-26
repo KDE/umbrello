@@ -172,7 +172,7 @@ CodeDocumentList * CodeGenerator::getCodeDocumentList()
  * Load codegenerator data from xmi.
  * @param qElement   the element from which to load
  */
-void CodeGenerator::loadFromXMI1(QDomElement & qElement)
+void CodeGenerator::loadFromXMI(QDomElement & qElement)
 {
     // look for our particular child element
     QDomNode node = qElement.firstChild();
@@ -196,7 +196,7 @@ void CodeGenerator::loadFromXMI1(QDomElement & qElement)
         else if (docTag == QLatin1String("codedocument") || docTag == QLatin1String("classifiercodedocument")) {
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if (codeDoc) {
-                codeDoc->loadFromXMI1(codeDocElement);
+                codeDoc->loadFromXMI(codeDocElement);
             }
             else {
                 uWarning() << "missing code document for id:" << id;
@@ -239,7 +239,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 /**
  * Save the XMI representation of this object
  */
-void CodeGenerator::saveToXMI1(QXmlStreamWriter& writer)
+void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
     writer.writeStartElement(QLatin1String("codegenerator"));
@@ -268,7 +268,7 @@ void CodeGenerator::saveToXMI1(QXmlStreamWriter& writer)
         CodeDocumentList::const_iterator it = docList->begin();
         CodeDocumentList::const_iterator end = docList->end();
         for (; it != end; ++it) {
-            (*it)->saveToXMI1(writer);
+            (*it)->saveToXMI(writer);
         }
     }
     writer.writeEndElement();

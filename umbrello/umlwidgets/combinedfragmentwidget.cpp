@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -320,17 +320,17 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::saveToXMI1(QXmlStreamWriter& writer)
+void CombinedFragmentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("combinedFragmentwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeAttribute(QLatin1String("combinedFragmentname"), m_Text);
     writer.writeAttribute(QLatin1String("documentation"), m_Doc);
     writer.writeAttribute(QLatin1String("CombinedFragmenttype"), QString::number(m_CombinedFragment));
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI1(writer);
+        (*it)-> saveToXMI(writer);
     }
 
     writer.writeEndElement();
@@ -339,9 +339,9 @@ void CombinedFragmentWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads the widget from the "CombinedFragmentwidget" XMI element.
  */
-bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
+bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("combinedFragmentname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -355,7 +355,7 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
         if (tag == QLatin1String("floatingdashlinewidget")) {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
-            if (!fdlwidget->loadFromXMI1(element)) {
+            if (!fdlwidget->loadFromXMI(element)) {
               // Most likely cause: The FloatingTextWidget is empty.
                 delete m_dashLines.back();
                 return false;

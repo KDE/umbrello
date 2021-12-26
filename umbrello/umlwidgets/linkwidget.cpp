@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -106,7 +106,7 @@ QString LinkWidget::sequenceNumber() const
 /**
  * Load data from XMI.
  */
-bool LinkWidget::loadFromXMI1(QDomElement &qElement)
+bool LinkWidget::loadFromXMI(QDomElement &qElement)
 {
     m_SequenceNumber = qElement.attribute(QLatin1String("seqnum"));
     return true;
@@ -115,7 +115,7 @@ bool LinkWidget::loadFromXMI1(QDomElement &qElement)
 /**
  * Save data to XMI.
  */
-void LinkWidget::saveToXMI1(QXmlStreamWriter& writer)
+void LinkWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeAttribute(QLatin1String("seqnum"), m_SequenceNumber);
 }

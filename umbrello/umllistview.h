@@ -101,8 +101,8 @@ public:
 
     UMLListViewItem::ListViewType rootViewType(UMLListViewItem *item);
 
-    void saveToXMI1(QXmlStreamWriter& writer);
-    bool loadFromXMI1(QDomElement & element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
     friend QDebug operator<<(QDebug out, const UMLListView& view);

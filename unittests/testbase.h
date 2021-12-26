@@ -136,7 +136,7 @@ QString TestUML<T,N>::testSave1()
     QString xml;
     QXmlStreamWriter stream(&xml);
     stream.writeStartElement("unittest");
-    T::saveToXMI1(stream);
+    T::saveToXMI(stream);
     stream.writeEndElement();
     return xml;
 }
@@ -151,7 +151,7 @@ bool TestUML<T,N>::testLoad1(const QString& xml)
         return false;
     QDomElement root = qDoc.childNodes().at(0).toElement();
     QDomElement e = root.childNodes().at(0).toElement();
-    bool result = T::loadFromXMI1(e);
+    bool result = T::loadFromXMI(e);
     if (result) {
         const SignalBlocker sb(UMLApp::app()->document());
         result = T::resolveRef();
@@ -192,7 +192,7 @@ QString TestWidget<T,N>::testSave1()
     QString xml;
     QXmlStreamWriter stream(&xml);
     stream.writeStartElement("unittest");
-    T::saveToXMI1(stream);
+    T::saveToXMI(stream);
     stream.writeEndElement();
     return xml;
 }
@@ -207,7 +207,7 @@ bool TestWidget<T,N>::testLoad1(const QString& xml)
         return false;
     QDomElement root = qDoc.childNodes().at(0).toElement();
     QDomElement e = root.childNodes().at(0).toElement();
-    bool result = T::loadFromXMI1(e);
+    bool result = T::loadFromXMI(e);
     if (result) {
         const SignalBlocker sb(UMLApp::app()->document());
         result = T::activate(nullptr);

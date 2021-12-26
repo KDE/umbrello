@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -276,10 +276,10 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
 /**
  * Saves the widget to the "preconditionwidget" XMI element.
  */
-void PreconditionWidget::saveToXMI1(QXmlStreamWriter& writer)
+void PreconditionWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("preconditionwidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
 
     writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
     writer.writeAttribute(QLatin1String("preconditionname"), name());
@@ -290,9 +290,9 @@ void PreconditionWidget::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads the widget from the "preconditionwidget" XMI element.
  */
-bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
+bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     setName(qElement.attribute(QLatin1String("preconditionname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));

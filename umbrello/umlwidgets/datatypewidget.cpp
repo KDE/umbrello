@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -79,18 +79,18 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 /**
  * Loads from a "datatypewidget" XMI element.
  */
-bool DatatypeWidget::loadFromXMI1(QDomElement & qElement)
+bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
 {
-    return UMLWidget::loadFromXMI1(qElement);
+    return UMLWidget::loadFromXMI(qElement);
 }
 
 /**
  * Saves to the "datatypewidget" XMI element.
  */
-void DatatypeWidget::saveToXMI1(QXmlStreamWriter& writer)
+void DatatypeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("datatypewidget"));
-    UMLWidget::saveToXMI1(writer);
+    UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
 

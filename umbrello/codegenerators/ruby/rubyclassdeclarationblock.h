@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef RUBYCLASSDECLARATIONBLOCK_H
@@ -36,12 +36,12 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     /**
      * load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI1 (QDomElement & root);
+    virtual void loadFromXMI (QDomElement & root);
 
 private:
 

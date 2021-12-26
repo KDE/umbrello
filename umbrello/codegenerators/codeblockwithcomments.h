@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CODEBLOCKWITHCOMMENTS_H
@@ -35,9 +35,9 @@ public:
 
     void setOverallIndentationLevel (int level);
 
-    virtual void saveToXMI1(QXmlStreamWriter& writer);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual void loadFromXMI1 (QDomElement & root);
+    virtual void loadFromXMI (QDomElement & root);
 
     virtual void setAttributesFromObject (TextBlock * obj);
 

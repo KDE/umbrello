@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -51,7 +51,7 @@ CodeComment * CodeBlockWithComments::getComment () const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::saveToXMI1(QXmlStreamWriter& writer)
+void CodeBlockWithComments::saveToXMI(QXmlStreamWriter& writer)
 {
     writer.writeStartElement(QLatin1String("codeblockwithcomments"));
 
@@ -73,7 +73,7 @@ void CodeBlockWithComments::setAttributesOnNode (QXmlStreamWriter& writer)
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
     writer.writeStartElement(QLatin1String("header"));
-    getComment()->saveToXMI1(writer); // comment
+    getComment()->saveToXMI(writer); // comment
     writer.writeEndElement();
 }
 
@@ -93,7 +93,7 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeBlockWithComments::loadFromXMI1 (QDomElement & root)
+void CodeBlockWithComments::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -117,7 +117,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getComment()->loadFromXMI1(celem);
+            getComment()->loadFromXMI(celem);
             gotComment = true;
             break;
         }
@@ -126,7 +126,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment) {
-        uWarning() << " loadFromXMI1 : Warning: unable to initialize CodeComment in block:" << getTag();
+        uWarning() << " loadFromXMI : Warning: unable to initialize CodeComment in block:" << getTag();
     }
 }
 

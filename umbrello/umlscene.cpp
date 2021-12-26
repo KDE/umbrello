@@ -2167,7 +2167,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     foreach(AssociationWidget* assocwidget, associationList()) {
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
-            // for duplicate, but loadFromXMI1 needs 'false' value
+            // for duplicate, but loadFromXMI needs 'false' value
             return (isPasteOperation ? true : false);
     }
 
@@ -3760,7 +3760,7 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 /**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
-void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
+void UMLScene::saveToXMI(QXmlStreamWriter& writer)
 {
     resizeSceneToItems();
     writer.writeStartElement(QLatin1String("diagram"));
@@ -3769,7 +3769,7 @@ void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
     writer.writeAttribute(QLatin1String("type"), QString::number(m_Type));
     writer.writeAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
-    m_Options.saveToXMI1(writer);
+    m_Options.saveToXMI(writer);
     //misc
     writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
     writer.writeAttribute(QLatin1String("showgrid"), QString::number(m_layoutGrid->isVisible()));
@@ -3800,13 +3800,13 @@ void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
              (widget->asFloatingTextWidget() && widget->asFloatingTextWidget()->link() == 0))
-            widget->saveToXMI1(writer);
+            widget->saveToXMI(writer);
     }
     writer.writeEndElement();            // widgets
     //now save the message widgets
     writer.writeStartElement(QLatin1String("messages"));
     foreach(UMLWidget* widget, messageList()) {
-        widget->saveToXMI1(writer);
+        widget->saveToXMI(writer);
     }
     writer.writeEndElement();            // messages
     //now save the associations
@@ -3814,8 +3814,8 @@ void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
     if (associationList().count()) {
         // We guard against (associationList().count() == 0) because
         // this code could be reached as follows:
-        //  ^  UMLScene::saveToXMI1()
-        //  ^  UMLDoc::saveToXMI1()
+        //  ^  UMLScene::saveToXMI()
+        //  ^  UMLDoc::saveToXMI()
         //  ^  UMLDoc::addToUndoStack()
         //  ^  UMLDoc::setModified()
         //  ^  UMLDoc::createDiagram()
@@ -3825,7 +3825,7 @@ void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
         //
         AssociationWidget * assoc = 0;
         foreach(assoc, associationList()) {
-            assoc->saveToXMI1(writer);
+            assoc->saveToXMI(writer);
         }
     }
     writer.writeEndElement();            // associations
@@ -3835,7 +3835,7 @@ void UMLScene::saveToXMI1(QXmlStreamWriter& writer)
 /**
  * Loads the "diagram" tag.
  */
-bool UMLScene::loadFromXMI1(QDomElement & qElement)
+bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nID = Uml::ID::fromString(id);
@@ -3846,7 +3846,7 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     m_Documentation = qElement.attribute(QLatin1String("documentation"));
     QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
     // option state
-    m_Options.loadFromXMI1(qElement);
+    m_Options.loadFromXMI(qElement);
     setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
@@ -3969,7 +3969,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
             widget->clipSize();
             // In the interest of best-effort loading, in case of a
             // (widget == 0) we still go on.
-            // The individual widget's loadFromXMI1 method should
+            // The individual widget's loadFromXMI method should
             // already have generated an error message to tell the
             // user that something went wrong.
         }
@@ -3981,7 +3981,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 }
 
 /**
- * Loads a "widget" element from XMI, used by loadFromXMI1() and the clipboard.
+ * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
  */
 UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
@@ -3996,7 +3996,7 @@ UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 
     if (widget == 0)
         return 0;
-    if (!widget->loadFromXMI1(widgetElement)) {
+    if (!widget->loadFromXMI(widgetElement)) {
         widget->cleanup();
         delete widget;
         return 0;
@@ -4016,7 +4016,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             tag == QLatin1String("UML:MessageWidget")) {   // for bkwd compatibility
             message = new MessageWidget(this, SequenceMessage::Asynchronous,
                                         Uml::ID::Reserved);
-            if (!message->loadFromXMI1(messageElement)) {
+            if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
             }
@@ -4042,8 +4042,8 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             tag == QLatin1String("UML:AssocWidget")) {  // for bkwd compatibility
             countr++;
             AssociationWidget *assoc = AssociationWidget::create(this);
-            if (!assoc->loadFromXMI1(assocElement)) {
-                uError() << "could not loadFromXMI1 association widget:"
+            if (!assoc->loadFromXMI(assocElement)) {
+                uError() << "could not loadFromXMI association widget:"
                          << assoc << ", bad XMI file? Deleting from UMLScene.";
                 delete assoc;
                 /* return false;
