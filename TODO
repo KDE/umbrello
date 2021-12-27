@@ -1,19 +1,20 @@
 Immediate TODO:
 
-* Clean up showProperties() / showPropertiesDialog() methods
-  (Normalize signatures, factor into virtual methods)
+* Document file organization: source files, icons, gui xmls
+  UseCase: "I want to add a new GUI item, e.g. a single button or icon or menu item or toolbar item or entire new dialog.
+            Which are the XML and/or C++ file(s) to change or add?"
 
 --
 
 There is always something to do for Umbrello UML Modeller. You can find an
 up-to-date list of remaining bugs in the bug tracker system at:
 
-https://bugs.kde.org/
+https://bugs.kde.org/buglist.cgi?bug_status=UNCONFIRMED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&product=umbrello
 
 If you do not like chasing bugs you can add an incredible new feature. To get
 an idea what might be good feature look at the feature tracker system:
 
-https://bugs.kde.org/
+https://bugs.kde.org/buglist.cgi?bug_severity=wishlist&bug_status=UNCONFIRMED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&product=umbrello
 
 You can discuss a solution for a problem with the Umbrello developers at the
 Umbrello developer's mailing list:
