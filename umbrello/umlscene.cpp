@@ -610,6 +610,7 @@ const UMLWidgetList UMLScene::widgetList() const
 void UMLScene::addWidgetCmd(UMLWidget* widget)
 {
     Q_ASSERT(0 != widget);
+    uDebug() << "UMLScene::addWidgetCmd : x =" << widget->x() << " , y = " << widget->y();
     addItem(widget);
 }
 
@@ -711,9 +712,9 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
     if (setPosition &&
-        (!w->isPinWidget()) &&
-        (!w->isPortWidget()) &&
-        (!w->isObjectWidget())) {
+            !w->isPinWidget() &&
+            !w->isPortWidget() &&
+            !w->isObjectWidget()) {
         // ObjectWidget's position is handled by the widget
         w->setX(m_pos.x());
         w->setY(m_pos.y());
@@ -819,6 +820,12 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         createAutoAttributeAssociations2(newWidget);
     }
     resizeSceneToItems();
+
+    UMLView* cv = activeView();
+    if (cv) {
+        // this should activate the bird view:
+        UMLApp::app()->setCurrentView(cv, false);
+    }
 }
 
 /**
@@ -935,7 +942,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
             continue;
         }
 
-        setupNewWidget(newWidget);
+        setupNewWidget(newWidget, true);
         m_pos += QPointF(UMLWidget::DefaultMinimumSize.width(), UMLWidget::DefaultMinimumSize.height());
         createAutoAssociations(newWidget);
         createAutoAttributeAssociations2(newWidget);
@@ -2034,7 +2041,7 @@ int UMLScene::selectedCount(bool filterText) const
  * The list can be filled with all the selected widgets, or be filtered to prevent
  * text widgets other than tr_Floating to be append.
  *
- * @param filterText Don't append the text, unless their role is tr_Floating
+ * @param filterText Don't append the text unless their role is TextRole::Floating
  * @return           The UMLWidgetList to fill.
  */
 UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
@@ -3466,8 +3473,8 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 /**
  * Returns the type of the selected widget or widgets.
  *
- * If multiple widgets of different types are selected. WidgetType::UMLWidget
- * is returned.
+ * If multiple widgets of different types are selected then WidgetType
+ * wt_UMLWidget is returned.
  */
 WidgetBase::WidgetType UMLScene::getUniqueSelectionType()
 {
@@ -3700,7 +3707,7 @@ void UMLScene::fileLoaded()
 void UMLScene::resizeSceneToItems()
 {
     // let QGraphicsScene handle scene size by itself
-    setSceneRect(itemsBoundingRect());
+    // setSceneRect(itemsBoundingRect());
 }
 
 /**
