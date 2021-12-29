@@ -1046,4 +1046,25 @@ namespace Widget_Utils
             return i18n("Enter the new name of the widget:");
         }
     }
+
+    /**
+     * Prevent nested widget(s) located inside the area of a larger widget from disappearing.
+     *
+     * @param self        The widget against which to test the other widgets of the diagram
+     * @param widgetList  The widgets of the diagram
+     */
+    void ensureNestedVisible(UMLWidget *self, UMLWidgetList widgetList)
+    {
+        foreach (UMLWidget* other, widgetList) {
+            if (other == self)
+                continue;
+            if (other->isLocatedIn(self)) {
+                if (other->zValue() <= self->zValue())
+                    other->setZValue(other->zValue() + 1.0);
+            } else if (self->isLocatedIn(other)) {
+                if (self->zValue() <= other->zValue())
+                    self->setZValue(self->zValue() + 1.0);
+            }
+        }
+    }
 }

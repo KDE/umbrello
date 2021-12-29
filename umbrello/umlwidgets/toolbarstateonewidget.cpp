@@ -8,6 +8,7 @@
 
 // app includes
 #include "activitywidget.h"
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
@@ -130,17 +131,25 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
         m_firstObject = 0;
     }
 
-    if (m_pMouseEvent->button() != Qt::LeftButton ||
-               (!currentWidget()->isObjectWidget() &&
-                !currentWidget()->isActivityWidget() &&
-                !currentWidget()->isComponentWidget() &&
-                !currentWidget()->isRegionWidget())) {
+    if (m_pMouseEvent->button() != Qt::LeftButton) {
+        return;
+    }
+
+    UMLWidget *currWgt = currentWidget();
+
+    // Prevent widget nested in a larger widget from disappearing.
+    Widget_Utils::ensureNestedVisible(currWgt, m_pUMLScene->widgetList());
+
+    if (!currWgt->isObjectWidget() &&
+            !currWgt->isActivityWidget() &&
+            !currWgt->isComponentWidget() &&
+            !currWgt->isRegionWidget()) {
         return;
     }
 
     if (!m_firstObject && (type == WidgetBase::wt_Pin || type == WidgetBase::wt_Port)) {
-        setWidget(currentWidget());
-        return ;
+        setWidget(currWgt);
+        return;
     }
 
     if (!m_isObjectWidgetLine && !m_firstObject) {
@@ -148,7 +157,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (!m_firstObject) {
-        setWidget(currentWidget());
+        setWidget(currWgt);
     }
 
 }

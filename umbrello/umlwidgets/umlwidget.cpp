@@ -540,21 +540,26 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    uDebug() << "UMLWidget::mouseReleaseEvent";
     if (!m_moved && !m_resized) {
         if (!m_shiftPressed && (m_scene->selectedCount() > 1)) {
             selectSingle(event);
         } else if (!isSelected()) {
             deselect(event);
+        } else {
+            Widget_Utils::ensureNestedVisible(this, umlScene()->widgetList());
         }
     } else {
         // Commands
         if (m_moved) {
-            int selectionCount = umlScene()->selectedWidgets().count();
+            UMLWidgetList selectedWidgets = umlScene()->selectedWidgets();
+            int selectionCount = selectedWidgets.count();
             if (selectionCount > 1) {
                 UMLApp::app()->beginMacro(i18n("Move widgets"));
             }
-            foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
+            foreach (UMLWidget* widget, selectedWidgets) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
+                Widget_Utils::ensureNestedVisible(widget, umlScene()->widgetList());
             }
             if (selectionCount > 1) {
                 UMLApp::app()->endMacro();
@@ -1411,6 +1416,46 @@ void UMLWidget::setPenFromSettings(QPainter *p)
 }
 
 /**
+ * Return true if `this' is located in the bounding rectangle of `other'.
+ */
+bool UMLWidget::isLocatedIn(const UMLWidget *other) const
+{
+    const QPointF pos = scenePos();
+    const QPointF otherPos = other->scenePos();
+    const QString msgProlog = QLatin1String("UMLWidget ") + name() +
+                              QLatin1String(" isLocatedIn(") + other->name() + QLatin1String(")");
+
+    if (otherPos.x() > pos.x() || otherPos.y() > pos.y()) {
+        uDebug() << msgProlog << " returns false due to x or y out of range";
+        return false;
+    }
+
+    const int endX = pos.x() + width();
+    const int endY = pos.y() + height();
+
+    if (otherPos.x() > endX || otherPos.y() > endY) {
+        uDebug() << msgProlog << " returns false due to endX or endY out of range";
+        return false;
+    }
+
+    const int otherEndX = otherPos.x() + other->width();
+    if (otherEndX < pos.x() || otherEndX < endX) {
+        uDebug() << msgProlog << " returns false due to otherEndX out of range";
+        return false;
+    }
+
+    const int otherEndY = otherPos.y() + other->height();
+    if (otherEndY < pos.y() || otherEndY < endY) {
+        uDebug() << msgProlog << " returns false due to otherEndY out of range";
+        return false;
+    }
+
+    uDebug() << "UMLWidget " << name() << " isLocatedIn(" << other->name() <<") returns true";
+    return true;
+}
+
+
+/**
  * Returns the cursor to be shown when resizing the widget.
  * Default cursor is KCursor::sizeFDiagCursor().
  *
@@ -1601,6 +1646,9 @@ void UMLWidget::setSelected(bool _select)
     }
 
     WidgetBase::setSelected(_select);
+
+    uDebug() << "UMLWidget::setSelected(" << _select << ") : Prevent obscuring";
+    Widget_Utils::ensureNestedVisible(this, umlScene()->widgetList());
 
     update();
 

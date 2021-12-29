@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef WIDGET_UTILS_H
@@ -63,6 +63,8 @@ namespace Widget_Utils
     QString newText(WidgetBase::WidgetType type);
     QString renameTitle(WidgetBase::WidgetType type);
     QString renameText(WidgetBase::WidgetType type);
+
+    void ensureNestedVisible(UMLWidget *self, UMLWidgetList widgetList);
 }
 
 #endif

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -15,6 +15,7 @@
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
+#include "widget_utils.h"
 
 // qt includes
 #include <QMatrix> // need for inverseWorldMatrix.map
@@ -114,12 +115,15 @@ void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
     m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
 
     if (currentWidget()) {
+        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseWidget";
         mouseReleaseWidget();
         setCurrentWidget(0);
     } else if (currentAssociation()) {
+        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseAssociation";
         mouseReleaseAssociation();
         setCurrentAssociation(0);
     } else {
+        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseEmpty";
         mouseReleaseEmpty();
     }
 
@@ -358,6 +362,10 @@ void ToolBarState::mouseReleaseWidget()
  */
 void ToolBarState::mouseReleaseEmpty()
 {
+    if (m_currentWidget) {
+        uDebug() << "ToolBarState::mouseReleaseEmpty : m_currentWidget is set => ensureNestedVisible";
+        Widget_Utils::ensureNestedVisible(m_currentWidget, m_pUMLScene->widgetList());
+    }
 }
 
 /**

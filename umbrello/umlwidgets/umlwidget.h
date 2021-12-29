@@ -129,6 +129,8 @@ public:
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
+    virtual bool isLocatedIn(const UMLWidget *other) const;
+
     void moveByLocal(qreal dx, qreal dy);
 
     virtual void removeAssoc(AssociationWidget* pAssoc);
