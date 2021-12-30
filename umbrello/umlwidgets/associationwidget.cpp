@@ -125,13 +125,10 @@ AssociationWidget* AssociationWidget::create
             UMLObject* umlRoleB = pWidgetB->umlObject();
             if (umlRoleA != 0 && umlRoleB != 0) {
                 bool swap;
-
-                // This is not correct. We could very easily have more than one
-                // of the same type of association between the same two objects.
-                // Just create the association. This search should have been
-                // done BEFORE creation of the widget, if it mattered to the code.
-                // But lets leave check in here for the time being so that debugging
-                // output is shown, in case there is a collision with code elsewhere.
+                // Check that we are not attempting to create the same Generalization /
+                // Dependency / Association_Self / Coll_Mesg_Self / Seq_Message_Self /
+                // Containment / Realization between the same two objects when such an
+                // association already exists.
                 UMLDoc *doc = UMLApp::app()->document();
                 UMLAssociation *myAssoc = doc->findAssociation(assocType, umlRoleA, umlRoleB, &swap);
                 if (myAssoc != 0) {
@@ -145,7 +142,7 @@ AssociationWidget* AssociationWidget::create
                         case Uml::AssociationType::Realization:
                             DBG_AW() << "Ignoring second construction of same assoctype "
                                      << assocType << " between " << umlRoleA->name()
-                                     << " and " << umlRoleB->name();
+                                     << " and " << umlRoleB->name() << " (swap=" << swap << ")";
                             break;
                         default:
                             DBG_AW() << "constructing a similar or exact same assoctype "
