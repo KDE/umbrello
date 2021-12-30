@@ -313,7 +313,7 @@ protected:
     QPointer<UMLObject> m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
     QString     m_Text;
-    QRectF      m_rect;  ///< widget size
+    QRectF      m_rect;  ///< Widget size. In this rectangle, the x and y coordinates are always 0.
 
     /**
      * This ID is only used when the widget does not have a
