@@ -844,10 +844,7 @@ void WidgetBase::setRect(const QRectF& rect)
 {
     if (m_rect == rect)
         return;
-    if ((rect.x() >= -1.0e-6 && rect.x() <= 1.0e6) ||
-        (rect.y() >= -1.0e-6 && rect.y() <= 1.0e6)) {
-        uDebug() << "WidgetBase::setRect(" << name() << ") : x = " << rect.x() << " , y = " << rect.y();
-    }
+    uDebug() << "WidgetBase::setRect(" << name() << ") : x = " << rect.x() << " , y = " << rect.y();
     prepareGeometryChange();
     m_rect = rect;
     update();
