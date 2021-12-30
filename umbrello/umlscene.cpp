@@ -2574,7 +2574,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
                 if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
-                if (widget->rect().contains(w->rect()))
+                if (w->isLocatedIn(widget))
                     continue;
                 // create the containment AssocWidget
                 AssociationWidget *a = AssociationWidget::create(this, widget,
@@ -2602,7 +2602,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             break;
         }
     }
-    if (!breakFlag || pWidget->rect().contains(widget->rect()))
+    if (!breakFlag || widget->isLocatedIn(pWidget))
         return;
     // create the containment AssocWidget
     AssociationWidget *a = AssociationWidget::create(this, pWidget, Uml::AssociationType::Containment, widget);
