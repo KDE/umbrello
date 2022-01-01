@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "layoutgenerator.h"
@@ -190,7 +190,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
 bool LayoutGenerator::apply(UMLScene *scene)
 {
     foreach(AssociationWidget *assoc, scene->associationList()) {
-        AssociationLine *path = assoc->associationLine();
+        AssociationLine& path = assoc->associationLine();
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = QLatin1String("type::") + type;
 
@@ -203,10 +203,9 @@ bool LayoutGenerator::apply(UMLScene *scene)
         // adjust associations not used in the dot file
         if (!m_edges.contains(id)) {
             // shorten line path
-            AssociationLine *path = assoc->associationLine();
-            if (path->count() > 2 && assoc->widgetLocalIDForRole(Uml::RoleType::A) != assoc->widgetLocalIDForRole(Uml::RoleType::B)) {
-                while(path->count() > 2)
-                    path->removePoint(1);
+            if (path.count() > 2 && assoc->widgetLocalIDForRole(Uml::RoleType::A) != assoc->widgetLocalIDForRole(Uml::RoleType::B)) {
+                while (path.count() > 2)
+                    path.removePoint(1);
             }
             continue;
         }
@@ -234,29 +233,29 @@ bool LayoutGenerator::apply(UMLScene *scene)
         s_debugItems->setPath(s_path);
 #endif
         if (m_version <= 20130928) {
-            path->setLayout(Uml::LayoutType::Direct);
-            path->cleanup();
-            path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+            path.setLayout(Uml::LayoutType::Direct);
+            path.cleanup();
+            path.setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
         } else {
-            path->setLayout(Settings::optionState().generalState.layoutType);
-            path->cleanup();
+            path.setLayout(Settings::optionState().generalState.layoutType);
+            path.cleanup();
 
             if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Polyline) {
                 for (int i = 0; i < len; i++) {
                     if (i > 0 && p[i] == p[i-1])
                         continue;
-                    path->addPoint(mapToScene(p[i]));
+                    path.addPoint(mapToScene(p[i]));
                 }
             } else if(Settings::optionState().generalState.layoutType == Uml::LayoutType::Spline) {
                 for (int i = 0; i < len; i++) {
-                    path->addPoint(mapToScene(p[i]));
+                    path.addPoint(mapToScene(p[i]));
                 }
             } else if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Orthogonal) {
                 for (int i = 0; i < len; i++) {
-                    path->addPoint(mapToScene(p[i]));
+                    path.addPoint(mapToScene(p[i]));
                 }
             } else
-                path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+                path.setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
         }
     }
 
@@ -286,8 +285,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
         assoc->calculateEndingPoints();
-        if (assoc->associationLine())
-            assoc->associationLine()->update();
+        assoc->associationLine().update();
         assoc->resetTextPositions();
         assoc->saveIdealTextPositions();
     }

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -116,7 +116,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
 
     currentAssociation()->createAssocClassLine(
             static_cast<ClassifierWidget*>(m_firstWidget),
-            currentAssociation()->associationLine()->closestSegmentIndex(m_pMouseEvent->scenePos()));
+            currentAssociation()->associationLine().closestSegmentIndex(m_pMouseEvent->scenePos()));
     m_firstWidget->addAssoc(currentAssociation());
     cleanAssociation();
 }
@@ -261,7 +261,7 @@ void ToolBarStateAssociation::setSecondWidget()
         if (widgetA->baseType() == UMLWidget::wt_Port) {
             QPointF lineStart = widgetA->getPos();
             uDebug() << "ToolBarStateAssociation::setSecondWidget : lineStart = " << lineStart;
-            temp->associationLine()->setPoint(0, lineStart);
+            temp->associationLine().setPoint(0, lineStart);
         }
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)

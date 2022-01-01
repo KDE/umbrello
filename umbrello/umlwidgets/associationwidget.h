@@ -1,11 +1,12 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
+#include "associationline.h"
 #include "associationwidgetlist.h"
 #include "associationwidgetrole.h"
 #include "linkwidget.h"
@@ -13,7 +14,6 @@
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 
-class AssociationLine;
 class ClassifierWidget;
 class UMLScene;
 class UMLAssociation;
@@ -137,7 +137,8 @@ public:
     bool isActivated() const;
     void setActivated(bool active);
 
-    AssociationLine* associationLine() const;
+    const AssociationLine& associationLine() const;
+    AssociationLine& associationLine();
 
     virtual bool activate(IDChangeLog *changeLog = 0);
     virtual QRectF boundingRect() const;
@@ -290,7 +291,7 @@ private:
     QGraphicsRectItem *m_pAssocClassLineSel0;  ///< selection decoration for the start point of the assoc. class line
     QGraphicsRectItem *m_pAssocClassLineSel1;  ///< selection decoration for the end point of the assoc. class line
 
-    AssociationLine *m_associationLine;      ///< the definition points for the association line
+    AssociationLine   m_associationLine;     ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
     AssociationWidgetRole  m_role[2];

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlwidgetstylepage.h"
@@ -209,7 +209,7 @@ void UMLWidgetStylePage::init()
         layoutAssocs->setMargin(margin);
         topLayout->addWidget(boxMisc);
 
-        m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Layout of the line:"), aw->associationLine()->layout(), boxMisc);
+        m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Layout of the line:"), aw->associationLine().layout(), boxMisc);
         m_layoutTypeW->addToLayout(layoutAssocs, 1);
     }
     topLayout->addStretch(1);
@@ -290,7 +290,7 @@ void UMLWidgetStylePage::apply()
             m_pUMLWidget->setFillColor(m_pFillColorB->color());
         m_pUMLWidget->setLineWidth(m_lineWidthB->value());
         if (m_layoutTypeW) {
-            m_pUMLWidget->asAssociationWidget()->associationLine()->setLayout(m_layoutTypeW->currentLayout());
+            m_pUMLWidget->asAssociationWidget()->associationLine().setLayout(m_layoutTypeW->currentLayout());
         }
     }
     else if (m_options) {

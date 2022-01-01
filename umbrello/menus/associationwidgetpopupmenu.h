@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCIATIONWIDGETPOPUPMENU_H
@@ -19,7 +19,7 @@ public:
     AssociationWidgetPopupMenu(QWidget *parent, Uml::AssociationType::Enum type, AssociationWidget *widget);
 
 protected:
-    void insertSubMenuLayout(AssociationLine *associationLine);
+    void insertSubMenuLayout(const AssociationLine& associationLine);
     void insertSubmodelAction();
 };
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "associationwidgetpopupmenu.h"
@@ -89,14 +89,14 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
 /**
  * Inserts a sub menu for association layouts.
  */
-void AssociationWidgetPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
+void AssociationWidgetPopupMenu::insertSubMenuLayout(const AssociationLine& associationLine)
 {
     KMenu* layout = newMenu(i18nc("Layout menu", "Layout"), this);
     insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     insert(mt_LayoutDirect, layout, i18n("Direct"), true);
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);
     insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
-    switch(associationLine->layout()) {
+    switch (associationLine.layout()) {
     case Uml::LayoutType::Direct:
         m_actions[mt_LayoutDirect]->setChecked(true);
         break;

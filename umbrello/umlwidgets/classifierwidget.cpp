@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -1005,8 +1005,8 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
         const qreal cY = center.y();
 
         foreach (AssociationWidget *aw, requiredAssocs) {
-            AssociationLine *assocLine = aw->associationLine();
-            const QPointF p(assocLine->endPoint());
+            const AssociationLine& assocLine = aw->associationLine();
+            const QPointF p(assocLine.endPoint());
             const qreal tolerance = 18.0;
             bool drawArc = true;
             qreal midAngle;
