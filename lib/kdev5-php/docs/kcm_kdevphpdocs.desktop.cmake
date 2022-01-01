@@ -24,6 +24,7 @@ Name[eu]=PHP dokumentazioa
 Name[fi]=PHP:n dokumentaatio
 Name[fr]=Documentation PHP
 Name[gl]=Documentación de PHP
+Name[hu]=PHP dokumentáció
 Name[it]=Documentazione PHP
 Name[ko]=PHP 문서
 Name[nb]=PHP-dokumentasjon
