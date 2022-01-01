@@ -14,6 +14,7 @@
   <name xml:lang="eu">KDevelop-en PHP euskarria</name>
   <name xml:lang="fr">Prise en charge de PHP pour KDevelop</name>
   <name xml:lang="gl">Compatibilidade con PHP para KDevelop</name>
+  <name xml:lang="hu">KDevelop PHP-támogatás</name>
   <name xml:lang="it">Supporto PHP per KDevelop</name>
   <name xml:lang="ko">KDevelop PHP 지원</name>
   <name xml:lang="nl">PHP ondersteuning in KDevelop</name>
@@ -40,6 +41,7 @@
   <summary xml:lang="eu">KDevelop-erako PHP lengoaiaren euskarria</summary>
   <summary xml:lang="fr">Prise en charge du langage PHP pour KDevelop</summary>
   <summary xml:lang="gl">Compatibilidade coa linguaxe PHP para KDevelop</summary>
+  <summary xml:lang="hu">PHP nyelvi támogatás a KDevelophoz</summary>
   <summary xml:lang="it">Supporto al linguaggio PHP per KDevelop</summary>
   <summary xml:lang="ko">KDevelop의 PHP 언어 지원</summary>
   <summary xml:lang="nl">Ondersteuning van PHP-taal voor KDevelop</summary>

@@ -17,6 +17,7 @@
   <name xml:lang="fi">Umbrello</name>
   <name xml:lang="fr">Umbrello</name>
   <name xml:lang="gl">Umbrello</name>
+  <name xml:lang="hu">Umbrello</name>
   <name xml:lang="id">Umbrello</name>
   <name xml:lang="it">Umbrello</name>
   <name xml:lang="ko">Umbrello</name>
@@ -47,6 +48,7 @@
   <summary xml:lang="fi">UML-mallinnusohjelma</summary>
   <summary xml:lang="fr">Modeleur UML</summary>
   <summary xml:lang="gl">Modelador de UML</summary>
+  <summary xml:lang="hu">UML modellező</summary>
   <summary xml:lang="id">Pemodel UML</summary>
   <summary xml:lang="it">Modellatore UML</summary>
   <summary xml:lang="ko">UML 모델러</summary>
@@ -81,6 +83,7 @@
     <p xml:lang="fi">Umbrello on UML-mallinnusohjelma. Umbrellolla voi luoda kaavioita ohjelmistoista ja muista järjestelmistä käyttäen standardia UML-muotoa. Sillä voi myös luoda koodin UML-kaavioiden perusteella useille ohjelmointikielille.</p>
     <p xml:lang="fr">Umbrello est un outil de modélisation est de génération de code utilisant Unified Modelling Language (UML). Il peut créer des diagrammes de logiciels et d'autres systèmes dans le format standard de l'industrie UML, il peut également générer du code à partir de diagrammes UML dans de nombreux langages de programmation.</p>
     <p xml:lang="gl">Umbrello é unha ferramenta de modelaxe e xerador de código baseado na linguaxe de modelaxe UML. Pode crear diagramas de software e doutros sistemas usando o formato estándar da industria, UML, e pode tamén xerar código a partir de diagramas UML en varios linguaxes de programación.</p>
+    <p xml:lang="hu">Az Umbrello egy UML (Unified Modelling Language) modellező eszköz és kódgeneráló. Képes létrehozni szoftverek és egyéb rendszerek diagramjait az iparági szabvány UML-formátumban, továbbá kódot generálni ezekből az UML-diagramokból számos programozási nyelven.</p>
     <p xml:lang="id">Umbrello adalah sebuah alat pemodelan Unified Modelling Language (UML) dan penghasil kode. Ini bisa menciptakan diagram perangkat lunak dan sistem lain dalam format UML industri standar, dan juga bisa menghasilkan kode dari diagram UML dalam bermacam bahasa pemrograman.</p>
     <p xml:lang="it">Umbrello è uno strumento per diagrammi UML e un generatore di codice. Può creare diagrammi di software e altri sistemi nello standard industriale UML, e può anche generare codice partendo dai diagrammi UML in diversi linguaggi di programmazione.</p>
     <p xml:lang="ko">Umbrello는 통합 모델링 언어(UML) 모델링 도구 및 코드 생성기입니다. 산업 표준 UML 포맷으로 소프트웨어 및 기타 시스템 다이어그램을 생성할 수 있으며, UML 다이어그램에서 여러 프로그래밍 언어로 코드를 생성할 수 있습니다.</p>
@@ -110,6 +113,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
@@ -141,6 +145,7 @@
       <li xml:lang="fi">Tukee XMI-tiedostomuotoa</li>
       <li xml:lang="fr">Formats pris en charge : XMI</li>
       <li xml:lang="gl">Formatos compatíbeis: XMI.</li>
+      <li xml:lang="hu">Támogatott formátumok: XMI-</li>
       <li xml:lang="id">Format yang didukung: XMI</li>
       <li xml:lang="it">Formati supportati: XMI</li>
       <li xml:lang="ko">지원하는 형식: XMI</li>
@@ -169,6 +174,7 @@
       <li xml:lang="fi">Tukee monenlaisia kaavioita: käyttötapauskaavio, luokkakaavio, sekvenssikaavio, kommunikointikaavio, tilakaavio, aktiviteettikaavio, komponenttikaavio, sijoittelukaavio, käsitekaavio</li>
       <li xml:lang="fr">Différents types de diagrammes sont gérés : cas d'utilisations, classes, séquences, communications, états, activités, composants, déploiements, relations entre entités</li>
       <li xml:lang="gl">Permite traballar con varios tipos de diagramas: caso de uso, clase, secuencia, comunicación, estado, actividade, compoñente, distribución, e entidade-relación.</li>
+      <li xml:lang="hu">Többféle diagramtípus támogatott: használati eset, osztály, szekvencia, kommunikáció, állapot, tevékenység, komponens, központi telepítés, entitáskapcsolat</li>
       <li xml:lang="id">Beberapa tipe diagram yang didukung: penggunaan huruf, kelas, rentetan, komunikasi, keadaan, aktivitas, komponen, penyebaran, hubungan entitas</li>
       <li xml:lang="it">Diversi tipi di diagrammi supportati: casi d'uso, classe, sequenza, comunicazione, stato, attività, componente, dispiegamento, relazione tra entità</li>
       <li xml:lang="ko">지원하는 다이어그램 종류: 사용 예시, 클래스, 시퀀스, 통신, 상태, 활동, 구성 요소, 배포, 엔티티 관계</li>
@@ -203,6 +209,7 @@
       <caption xml:lang="eu">Klase-diagrama erakusten</caption>
       <caption xml:lang="fr">Affichage du diagramme de classe</caption>
       <caption xml:lang="gl">Mostra un diagrama de clases</caption>
+      <caption xml:lang="hu">Osztálydiagram megjelenítése</caption>
       <caption xml:lang="id">Menampilkan diagram kelas</caption>
       <caption xml:lang="it">Mostrando il diagramma delle classi</caption>
       <caption xml:lang="ko">클래스 다이어그램 표시</caption>
