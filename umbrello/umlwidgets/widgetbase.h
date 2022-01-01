@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef WIDGETBASE_H
@@ -169,7 +169,7 @@ public:
     UMLDoc* umlDoc() const;
 
     QString documentation() const;
-    bool hasDocumentation();
+    bool hasDocumentation() const;
     virtual void setDocumentation(const QString& doc);
 
     QString name() const;
@@ -193,7 +193,7 @@ public:
     bool usesDiagramLineWidth() const;
     void setUsesDiagramLineWidth(bool state);
 
-    bool useFillColor();
+    bool useFillColor() const;
     virtual void setUseFillColor(bool state);
 
     bool usesDiagramTextColor() const;
@@ -208,10 +208,10 @@ public:
     virtual QFont font() const;
     virtual void setFont(const QFont& font);
 
-    bool autoResize();
+    bool autoResize() const;
     void setAutoResize(bool state);
 
-    bool changesShape();
+    bool changesShape() const;
     void setChangesShape(bool state);
 
     virtual bool showPropertiesDialog();
@@ -296,6 +296,39 @@ public:
 //    TextWidget*               asTextWidget();
     UseCaseWidget*          asUseCaseWidget();
     UMLWidget*              asUMLWidget();
+
+    const ActivityWidget*         asActivityWidget()         const;
+    const ActorWidget*            asActorWidget()            const;
+    const ArtifactWidget*         asArtifactWidget()         const;
+    const AssociationWidget*      asAssociationWidget()      const;
+    const BoxWidget*              asBoxWidget()              const;
+    const CategoryWidget*         asCategoryWidget()         const;
+    const ClassifierWidget*       asClassifierWidget()       const;
+    const CombinedFragmentWidget* asCombinedFragmentWidget() const;
+    const ComponentWidget*        asComponentWidget()        const;
+    const DatatypeWidget*         asDatatypeWidget()         const;
+    const EntityWidget*           asEntityWidget()           const;
+    const EnumWidget*             asEnumWidget()             const;
+    const FloatingDashLineWidget* asFloatingDashLineWidget() const;
+    const ForkJoinWidget*         asForkJoinWidget()         const;
+    const InterfaceWidget*        asInterfaceWidget()        const;
+    const MessageWidget*          asMessageWidget()          const;
+    const NodeWidget*             asNodeWidget()             const;
+    const NoteWidget*             asNoteWidget()             const;
+    const ObjectNodeWidget*       asObjectNodeWidget()       const;
+    const ObjectWidget*           asObjectWidget()           const;
+    const PackageWidget*          asPackageWidget()          const;
+    const PinWidget*              asPinWidget()              const;
+    const PinPortBase*            asPinPortBase()            const;
+    const PortWidget*             asPortWidget()             const;
+    const PreconditionWidget*     asPreconditionWidget()     const;
+    const RegionWidget*           asRegionWidget()           const;
+    const SignalWidget*           asSignalWidget()           const;
+    const StateWidget*            asStateWidget()            const;
+    const FloatingTextWidget*     asFloatingTextWidget()     const;
+//    const TextWidget*               asTextWidget()             const;
+    const UseCaseWidget*          asUseCaseWidget()          const;
+    const UMLWidget*              asUMLWidget()              const;
 
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
     virtual bool activate(IDChangeLog *changeLog = 0);

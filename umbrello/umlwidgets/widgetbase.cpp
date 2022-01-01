@@ -285,7 +285,7 @@ QString WidgetBase::documentation() const
  *
  * @return false if documentation is empty
  */
-bool WidgetBase::hasDocumentation()
+bool WidgetBase::hasDocumentation() const
 {
     if (m_umlObject)
         return m_umlObject->hasDoc();
@@ -423,7 +423,7 @@ void WidgetBase::setLineWidth(uint width)
  *
  * @return True if fill color is used
  */
-bool WidgetBase::useFillColor()
+bool WidgetBase::useFillColor() const
 {
     return m_useFillColor;
 }
@@ -564,7 +564,7 @@ void WidgetBase::setFont(const QFont& font)
  * Return state of auto resize property
  * @return the auto resize state
  */
-bool WidgetBase::autoResize()
+bool WidgetBase::autoResize() const
 {
     return m_autoResize;
 }
@@ -582,7 +582,7 @@ void WidgetBase::setAutoResize(bool state)
  * Return changes state property
  * @return the changes shape state
  */
-bool WidgetBase::changesShape()
+bool WidgetBase::changesShape() const
 {
     return m_changesShape;
 }
@@ -806,6 +806,9 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
  */
 WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 {
+    if (&other == this)
+        return *this;
+
     m_baseType = other.m_baseType;
     m_scene = other.m_scene;
     m_umlObject = other.m_umlObject;
@@ -864,7 +867,7 @@ void WidgetBase::setRect(qreal x, qreal y, qreal width, qreal height)
  */
 QRectF WidgetBase::boundingRect() const
 {
-    int halfWidth = lineWidth()/2;
+    qreal halfWidth = lineWidth() / 2.0;
     return m_rect.adjusted(-halfWidth, -halfWidth, halfWidth, halfWidth);
 }
 
@@ -1472,35 +1475,69 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
 #include  "statewidget.h"
 #include  "usecasewidget.h"
 
-ActivityWidget* WidgetBase::asActivityWidget() { return dynamic_cast<ActivityWidget* >(this); }
-ActorWidget* WidgetBase::asActorWidget() { return dynamic_cast<ActorWidget* >(this); }
-ArtifactWidget* WidgetBase::asArtifactWidget() { return dynamic_cast<ArtifactWidget* >(this); }
-AssociationWidget* WidgetBase::asAssociationWidget() { return dynamic_cast<AssociationWidget* >(this); }
-BoxWidget* WidgetBase::asBoxWidget() { return dynamic_cast<BoxWidget* >(this); }
-CategoryWidget* WidgetBase::asCategoryWidget() { return dynamic_cast<CategoryWidget* >(this); }
-ClassifierWidget* WidgetBase::asClassifierWidget() { return dynamic_cast<ClassifierWidget* >(this); }
+ActivityWidget*         WidgetBase::asActivityWidget()         { return dynamic_cast<ActivityWidget* >       (this); }
+ActorWidget*            WidgetBase::asActorWidget()            { return dynamic_cast<ActorWidget* >          (this); }
+ArtifactWidget*         WidgetBase::asArtifactWidget()         { return dynamic_cast<ArtifactWidget* >       (this); }
+AssociationWidget*      WidgetBase::asAssociationWidget()      { return dynamic_cast<AssociationWidget* >    (this); }
+BoxWidget*              WidgetBase::asBoxWidget()              { return dynamic_cast<BoxWidget* >            (this); }
+CategoryWidget*         WidgetBase::asCategoryWidget()         { return dynamic_cast<CategoryWidget* >       (this); }
+ClassifierWidget*       WidgetBase::asClassifierWidget()       { return dynamic_cast<ClassifierWidget* >     (this); }
 CombinedFragmentWidget* WidgetBase::asCombinedFragmentWidget() { return dynamic_cast<CombinedFragmentWidget*>(this); }
-ComponentWidget* WidgetBase::asComponentWidget() { return dynamic_cast<ComponentWidget* >(this); }
-DatatypeWidget* WidgetBase::asDatatypeWidget() { return dynamic_cast<DatatypeWidget* >(this); }
-EntityWidget* WidgetBase::asEntityWidget() { return dynamic_cast<EntityWidget* >(this); }
-EnumWidget* WidgetBase::asEnumWidget() { return dynamic_cast<EnumWidget* >(this); }
+ComponentWidget*        WidgetBase::asComponentWidget()        { return dynamic_cast<ComponentWidget* >      (this); }
+DatatypeWidget*         WidgetBase::asDatatypeWidget()         { return dynamic_cast<DatatypeWidget* >       (this); }
+EntityWidget*           WidgetBase::asEntityWidget()           { return dynamic_cast<EntityWidget* >         (this); }
+EnumWidget*             WidgetBase::asEnumWidget()             { return dynamic_cast<EnumWidget* >           (this); }
 FloatingDashLineWidget* WidgetBase::asFloatingDashLineWidget() { return dynamic_cast<FloatingDashLineWidget*>(this); }
-ForkJoinWidget* WidgetBase::asForkJoinWidget() { return dynamic_cast<ForkJoinWidget* >(this); }
-InterfaceWidget* WidgetBase::asInterfaceWidget() { return dynamic_cast<InterfaceWidget* >(this); }
-MessageWidget* WidgetBase::asMessageWidget() { return dynamic_cast<MessageWidget* >(this); }
-NodeWidget* WidgetBase::asNodeWidget() { return dynamic_cast<NodeWidget* >(this); }
-NoteWidget* WidgetBase::asNoteWidget() { return dynamic_cast<NoteWidget* >(this); }
-ObjectNodeWidget* WidgetBase::asObjectNodeWidget() { return dynamic_cast<ObjectNodeWidget* >(this); }
-ObjectWidget* WidgetBase::asObjectWidget() { return dynamic_cast<ObjectWidget* >(this); }
-PackageWidget* WidgetBase::asPackageWidget() { return dynamic_cast<PackageWidget* >(this); }
-PinWidget* WidgetBase::asPinWidget() { return dynamic_cast<PinWidget* >(this); }
-PinPortBase *WidgetBase::asPinPortBase() { return dynamic_cast<PinPortBase*>(this); }
-PortWidget* WidgetBase::asPortWidget() { return dynamic_cast<PortWidget* >(this); }
-PreconditionWidget* WidgetBase::asPreconditionWidget() { return dynamic_cast<PreconditionWidget* >(this); }
-RegionWidget* WidgetBase::asRegionWidget() { return dynamic_cast<RegionWidget* >(this); }
-SignalWidget* WidgetBase::asSignalWidget() { return dynamic_cast<SignalWidget* >(this); }
-StateWidget* WidgetBase::asStateWidget() { return dynamic_cast<StateWidget* >(this); }
-FloatingTextWidget* WidgetBase::asFloatingTextWidget() { return dynamic_cast<FloatingTextWidget* >(this); }
-//TextWidget* WidgetBase::asTextWidget() { return dynamic_cast<TextWidget* >(this); }
-UseCaseWidget* WidgetBase::asUseCaseWidget() { return dynamic_cast<UseCaseWidget* >(this); }
-UMLWidget *WidgetBase::asUMLWidget() { return dynamic_cast<UMLWidget*>(this); }
+ForkJoinWidget*         WidgetBase::asForkJoinWidget()         { return dynamic_cast<ForkJoinWidget* >       (this); }
+InterfaceWidget*        WidgetBase::asInterfaceWidget()        { return dynamic_cast<InterfaceWidget* >      (this); }
+MessageWidget*          WidgetBase::asMessageWidget()          { return dynamic_cast<MessageWidget* >        (this); }
+NodeWidget*             WidgetBase::asNodeWidget()             { return dynamic_cast<NodeWidget* >           (this); }
+NoteWidget*             WidgetBase::asNoteWidget()             { return dynamic_cast<NoteWidget* >           (this); }
+ObjectNodeWidget*       WidgetBase::asObjectNodeWidget()       { return dynamic_cast<ObjectNodeWidget* >     (this); }
+ObjectWidget*           WidgetBase::asObjectWidget()           { return dynamic_cast<ObjectWidget* >         (this); }
+PackageWidget*          WidgetBase::asPackageWidget()          { return dynamic_cast<PackageWidget* >        (this); }
+PinWidget*              WidgetBase::asPinWidget()              { return dynamic_cast<PinWidget* >            (this); }
+PinPortBase*            WidgetBase::asPinPortBase()            { return dynamic_cast<PinPortBase*>           (this); }
+PortWidget*             WidgetBase::asPortWidget()             { return dynamic_cast<PortWidget* >           (this); }
+PreconditionWidget*     WidgetBase::asPreconditionWidget()     { return dynamic_cast<PreconditionWidget* >   (this); }
+RegionWidget*           WidgetBase::asRegionWidget()           { return dynamic_cast<RegionWidget* >         (this); }
+SignalWidget*           WidgetBase::asSignalWidget()           { return dynamic_cast<SignalWidget* >         (this); }
+StateWidget*            WidgetBase::asStateWidget()            { return dynamic_cast<StateWidget* >          (this); }
+FloatingTextWidget*     WidgetBase::asFloatingTextWidget()     { return dynamic_cast<FloatingTextWidget* >   (this); }
+//TextWidget*             WidgetBase::asTextWidget()             { return dynamic_cast<TextWidget* >           (this); }
+UseCaseWidget*          WidgetBase::asUseCaseWidget()          { return dynamic_cast<UseCaseWidget* >        (this); }
+UMLWidget*              WidgetBase::asUMLWidget()              { return dynamic_cast<UMLWidget*>             (this); }
+
+const ActivityWidget*         WidgetBase::asActivityWidget()         const { return dynamic_cast<const ActivityWidget* >       (this); }
+const ActorWidget*            WidgetBase::asActorWidget()            const { return dynamic_cast<const ActorWidget* >          (this); }
+const ArtifactWidget*         WidgetBase::asArtifactWidget()         const { return dynamic_cast<const ArtifactWidget* >       (this); }
+const AssociationWidget*      WidgetBase::asAssociationWidget()      const { return dynamic_cast<const AssociationWidget* >    (this); }
+const BoxWidget*              WidgetBase::asBoxWidget()              const { return dynamic_cast<const BoxWidget* >            (this); }
+const CategoryWidget*         WidgetBase::asCategoryWidget()         const { return dynamic_cast<const CategoryWidget* >       (this); }
+const ClassifierWidget*       WidgetBase::asClassifierWidget()       const { return dynamic_cast<const ClassifierWidget* >     (this); }
+const CombinedFragmentWidget* WidgetBase::asCombinedFragmentWidget() const { return dynamic_cast<const CombinedFragmentWidget*>(this); }
+const ComponentWidget*        WidgetBase::asComponentWidget()        const { return dynamic_cast<const ComponentWidget* >      (this); }
+const DatatypeWidget*         WidgetBase::asDatatypeWidget()         const { return dynamic_cast<const DatatypeWidget* >       (this); }
+const EntityWidget*           WidgetBase::asEntityWidget()           const { return dynamic_cast<const EntityWidget* >         (this); }
+const EnumWidget*             WidgetBase::asEnumWidget()             const { return dynamic_cast<const EnumWidget* >           (this); }
+const FloatingDashLineWidget* WidgetBase::asFloatingDashLineWidget() const { return dynamic_cast<const FloatingDashLineWidget*>(this); }
+const ForkJoinWidget*         WidgetBase::asForkJoinWidget()         const { return dynamic_cast<const ForkJoinWidget* >       (this); }
+const InterfaceWidget*        WidgetBase::asInterfaceWidget()        const { return dynamic_cast<const InterfaceWidget* >      (this); }
+const MessageWidget*          WidgetBase::asMessageWidget()          const { return dynamic_cast<const MessageWidget* >        (this); }
+const NodeWidget*             WidgetBase::asNodeWidget()             const { return dynamic_cast<const NodeWidget* >           (this); }
+const NoteWidget*             WidgetBase::asNoteWidget()             const { return dynamic_cast<const NoteWidget* >           (this); }
+const ObjectNodeWidget*       WidgetBase::asObjectNodeWidget()       const { return dynamic_cast<const ObjectNodeWidget* >     (this); }
+const ObjectWidget*           WidgetBase::asObjectWidget()           const { return dynamic_cast<const ObjectWidget* >         (this); }
+const PackageWidget*          WidgetBase::asPackageWidget()          const { return dynamic_cast<const PackageWidget* >        (this); }
+const PinWidget*              WidgetBase::asPinWidget()              const { return dynamic_cast<const PinWidget* >            (this); }
+const PinPortBase*            WidgetBase::asPinPortBase()            const { return dynamic_cast<const PinPortBase*>           (this); }
+const PortWidget*             WidgetBase::asPortWidget()             const { return dynamic_cast<const PortWidget* >           (this); }
+const PreconditionWidget*     WidgetBase::asPreconditionWidget()     const { return dynamic_cast<const PreconditionWidget* >   (this); }
+const RegionWidget*           WidgetBase::asRegionWidget()           const { return dynamic_cast<const RegionWidget* >         (this); }
+const SignalWidget*           WidgetBase::asSignalWidget()           const { return dynamic_cast<const SignalWidget* >         (this); }
+const StateWidget*            WidgetBase::asStateWidget()            const { return dynamic_cast<const StateWidget* >          (this); }
+const FloatingTextWidget*     WidgetBase::asFloatingTextWidget()     const { return dynamic_cast<const FloatingTextWidget* >   (this); }
+//const TextWidget*             WidgetBase::asTextWidget()             const { return dynamic_cast<const TextWidget* >           (this); }
+const UseCaseWidget*          WidgetBase::asUseCaseWidget()          const { return dynamic_cast<const UseCaseWidget* >        (this); }
+const UMLWidget*              WidgetBase::asUMLWidget()              const { return dynamic_cast<const UMLWidget*>             (this); }
+
