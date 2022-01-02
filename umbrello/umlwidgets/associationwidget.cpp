@@ -3363,9 +3363,9 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
  * constant.)
  * @todo This is buggy. Try replacing by intersect()
  */
-qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
+bool AssociationWidget::findInterceptOnEdge (const QRectF &rect,
                                              Uml::Region::Enum region,
-                                             const QPointF &point)
+                                             const QPointF &point, qreal &result)
 {
     uDebug() << "AssociationWidget::findInterceptOnEdge : rect.x =" << rect.x() << ", rect.y =" << rect.y();
     // The Qt coordinate system has (0, 0) in the top left corner.
@@ -3397,12 +3397,14 @@ qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
     // Now we have regular coordinates with the point (0, 0) in the
     // bottom left corner.
     if (region == Uml::Region::North || region == Uml::Region::South) {
-        if (dX == 0)
-            return rectMidY;
+        if (dX == 0) {
+            result = rectMidY;
+            return true;
+        }
         // should be rectMidX, but we go back to Qt coord.sys.
         if (dY == 0) {
             uError() << "usage error: " << "North/South (dY == 0)";
-            return -1.0;
+            return false;
         }
         const qreal m = dY / dX;
         qreal relativeX;
@@ -3410,23 +3412,26 @@ qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
             relativeX = rectHalfHeight / m;
         else
             relativeX = -rectHalfHeight / m;
-        return (rectMidY + relativeX);
+        result = rectMidY + relativeX;
         // should be rectMidX, but we go back to Qt coord.sys.
     } else {
-        if (dY == 0)
-            return rectMidX;
+        if (dY == 0) {
+            result = rectMidX;
+            return true;
+        }
         // should be rectMidY, but we go back to Qt coord.sys.
         if (dX == 0) {
             uError() << "usage error: " << "East/West (dX == 0)";
-            return -1.0;
+            return false;
         }
         const qreal m = dY / dX;
         qreal relativeY = m * rectHalfWidth;
         if (region == Uml::Region::West)
             relativeY = -relativeY;
-        return (rectMidX + relativeY);
+        result = rectMidX + relativeY;
         // should be rectMidY, but we go back to Qt coord.sys.
     }
+    return true;
 }
 
 /**
@@ -3493,7 +3498,8 @@ void AssociationWidget::updateAssociations(int totalCount,
         UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
         const AssociationLine& linepath = assocwidget->associationLine();
         QPointF refpoint;
-        if (assocwidget->linePathStartsAt(otherWidget))
+        bool startsAtOther = assocwidget->linePathStartsAt(otherWidget);
+        if (startsAtOther)
             refpoint = linepath.point(linepath.count() - 2);
         else
             refpoint = linepath.point(1);
@@ -3509,24 +3515,30 @@ void AssociationWidget::updateAssociations(int totalCount,
         QRectF rect = ownWidget->rect();
         rect.setX(ownWidget->scenePos().x());
         rect.setY(ownWidget->scenePos().y());
-        qreal intercept = findInterceptOnEdge(rect, region, refpoint);
-        if (intercept < 0) {
-            DEBUG(DBG_SRC) << "error from findInterceptOnEdge for"
+        DEBUG(DBG_SRC) << "updateAssociations totalCount=" << totalCount
+            << ", region=" << region << ", role=" << role << ", own=" << ownWidget->name()
+            << ", other=" << otherWidget->name() << ", inWidgetARegion=" << inWidgetARegion
+            << ", inWidgetBRegion=" << inWidgetBRegion << ", startsAtOther=" << startsAtOther
+            << ", pointIsAuthoritative=" << pointIsAuthoritative << ", rectX=" << rect.x()
+            << ", rectY=" << rect.y() << ", refX=" << refpoint.x() << ", refY=" << refpoint.y();
+        qreal intercept = 0.0;
+        if (findInterceptOnEdge(rect, region, refpoint, intercept)) {
+            insertIntoLists(intercept, assocwidget);
+        } else {
+            uWarning() << "error from findInterceptOnEdge for"
                            << " assocType=" << assocwidget->associationType()
                            << " ownWidget=" << ownWidget->name()
                            << " otherWidget=" << otherWidget->name();
-            continue;
         }
-        insertIntoLists(intercept, assocwidget);
-    } // while ((assocwidget = assoc_it.current()))
+    } // foreach
 
     // we now have an ordered list and we only have to call updateRegionLineCount
-    int index = 1;
+    int index = 0;
     foreach (AssociationWidget* assocwidget, m_ordered ) {
         if (ownWidget == assocwidget->widgetForRole(RoleType::A)) {
-            assocwidget->updateRegionLineCount(index++, totalCount, region, RoleType::A);
+            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::A);
         } else if (ownWidget == assocwidget->widgetForRole(RoleType::B)) {
-            assocwidget->updateRegionLineCount(index++, totalCount, region, RoleType::B);
+            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::B);
         }
     } // for (assocwidget = ordered.first(); ...)
 }
@@ -3674,6 +3686,11 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
             else
                 pt = nearestPoints.p2();
         }
+        DEBUG(DBG_SRC) << "index " << index << ", totalCount " << totalCount
+                       << ", region " << region << ", role " << role << " [ wA="
+                       << pWidgetA->name() << ", wB=" << pWidgetB->name()
+                       << ", position=" << m_positions[index-1]
+                       << " ] : setting point (" << pt.x() << "," << pt.y() << ")";
     }
     if (role == RoleType::A) {
         m_associationLine.setPoint(0, pt);

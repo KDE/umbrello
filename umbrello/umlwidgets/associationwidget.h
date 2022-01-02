@@ -222,7 +222,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
-    static qreal findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
+    static bool findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point, qreal &result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
