@@ -3361,75 +3361,48 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
  * constant.)
  * When the region is East or West, the Y value is returned (X is
  * constant.)
- * @todo This is buggy. Try replacing by intersect()
  */
-bool AssociationWidget::findInterceptOnEdge (const QRectF &rect,
-                                             Uml::Region::Enum region,
-                                             const QPointF &point, qreal &result)
+bool AssociationWidget::findInterceptOnEdge(const QRectF &rect,
+                                            Uml::Region::Enum region,
+                                            const QPointF &point, qreal &result)
 {
     uDebug() << "AssociationWidget::findInterceptOnEdge : rect.x =" << rect.x() << ", rect.y =" << rect.y();
-    // The Qt coordinate system has (0, 0) in the top left corner.
-    // In order to go to the regular XY coordinate system with (0, 0)
-    // in the bottom left corner, we swap the X and Y axis.
-    // That's why the following assignments look twisted.
-    const qreal rectHalfWidth = rect.height() / 2.0;
-    const qreal rectHalfHeight = rect.width() / 2.0;
-    const qreal rectMidX = rect.y() + rectHalfWidth;
-    const qreal rectMidY = rect.x() + rectHalfHeight;
-    const qreal dX = rectMidX - point.y();
-    const qreal dY = rectMidY - point.x();
+    const QPointF midPoint(rect.center());
+    const QLineF line(midPoint, point);
+    QLineF regionLine;
     switch (region) {
-    case Uml::Region::West:
-        region = Uml::Region::South;
-        break;
-    case Uml::Region::North:
-        region = Uml::Region::West;
-        break;
-    case Uml::Region::East:
-        region = Uml::Region::North;
-        break;
-    case Uml::Region::South:
-        region = Uml::Region::East;
-        break;
-    default:
-        break;
+        case Uml::Region::North :
+            regionLine.setPoints(rect.topLeft(), rect.topRight());
+            break;
+        case Uml::Region::South :
+            regionLine.setPoints(rect.bottomLeft(), rect.bottomRight());
+            break;
+        case Uml::Region::West :
+            regionLine.setPoints(rect.topLeft(), rect.bottomLeft());
+            break;
+        case Uml::Region::East :
+            regionLine.setPoints(rect.topRight(), rect.bottomRight());
+            break;
+        default:
+            uError() << "findInterceptOnEdge: region " << region << " is not yet implemented";
+            break;
     }
-    // Now we have regular coordinates with the point (0, 0) in the
-    // bottom left corner.
+    QPointF intersectionPoint;
+    QLineF::IntersectionType xType = line.intersects(regionLine, &intersectionPoint);
+    if (xType == QLineF::NoIntersection) {
+        uError() << "findInterceptOnEdge: line from rect midpoint " << midPoint
+                 << " to point " << point << " does not intersect on region " << region;
+        return false;
+    }
+    if (xType == QLineF::UnboundedIntersection) {
+        uWarning() << "findInterceptOnEdge: line from rect midpoint " << midPoint
+                   << " to point " << point << " gives unbounded intersection on region " << region;
+        return false;
+    }
     if (region == Uml::Region::North || region == Uml::Region::South) {
-        if (dX == 0) {
-            result = rectMidY;
-            return true;
-        }
-        // should be rectMidX, but we go back to Qt coord.sys.
-        if (dY == 0) {
-            uError() << "usage error: " << "North/South (dY == 0)";
-            return false;
-        }
-        const qreal m = dY / dX;
-        qreal relativeX;
-        if (region == Uml::Region::North)
-            relativeX = rectHalfHeight / m;
-        else
-            relativeX = -rectHalfHeight / m;
-        result = rectMidY + relativeX;
-        // should be rectMidX, but we go back to Qt coord.sys.
+        result = intersectionPoint.x();
     } else {
-        if (dY == 0) {
-            result = rectMidX;
-            return true;
-        }
-        // should be rectMidY, but we go back to Qt coord.sys.
-        if (dX == 0) {
-            uError() << "usage error: " << "East/West (dX == 0)";
-            return false;
-        }
-        const qreal m = dY / dX;
-        qreal relativeY = m * rectHalfWidth;
-        if (region == Uml::Region::West)
-            relativeY = -relativeY;
-        result = rectMidX + relativeY;
-        // should be rectMidY, but we go back to Qt coord.sys.
+        result = intersectionPoint.y();
     }
     return true;
 }
@@ -3479,6 +3452,8 @@ void AssociationWidget::updateAssociations(int totalCount,
     m_ordered.clear();
     // we order the AssociationWidget list by region and x/y value
     foreach (AssociationWidget* assocwidget, list) {
+        if (assocwidget == this)
+            continue;
         AssociationWidgetRole *roleA = &assocwidget->m_role[RoleType::A];
         AssociationWidgetRole *roleB = &assocwidget->m_role[RoleType::B];
         UMLWidget *wA = roleA->umlWidget;
@@ -3496,25 +3471,46 @@ void AssociationWidget::updateAssociations(int totalCount,
             continue;
         // Determine intercept position on the edge indicated by `region'.
         UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
+        Uml::Region::Enum regionAdjustedToRole = region;
         const AssociationLine& linepath = assocwidget->associationLine();
         QPointF refpoint;
         bool startsAtOther = assocwidget->linePathStartsAt(otherWidget);
-        if (startsAtOther)
+        if (startsAtOther) {
             refpoint = linepath.point(linepath.count() - 2);
-        else
+            // flip region
+            switch (region) {
+                case Uml::Region::North :
+                    regionAdjustedToRole = Uml::Region::South;
+                    break;
+                case Uml::Region::South :
+                    regionAdjustedToRole = Uml::Region::North;
+                    break;
+                case Uml::Region::West :
+                    regionAdjustedToRole = Uml::Region::East;
+                    break;
+                case Uml::Region::East :
+                    regionAdjustedToRole = Uml::Region::West;
+                    break;
+                default:
+                    uWarning() << "findInterceptOnEdge startsAtOther: Unhandled region " << region;
+                    break;
+            }
+        } else {
             refpoint = linepath.point(1);
+        }
         // The point is authoritative if we're called for the second time
         // (i.e. role==B) or it is a waypoint on the line path.
         bool pointIsAuthoritative = (role == RoleType::B || linepath.count() > 2);
         if (! pointIsAuthoritative) {
             // If the point is not authoritative then we use the other
             // widget's center.
-            refpoint.setX(otherWidget->scenePos().x() + otherWidget->width() / 2);
-            refpoint.setY(otherWidget->scenePos().y() + otherWidget->height() / 2);
+            refpoint.setX(otherWidget->scenePos().x() + otherWidget->width() / 2.0);
+            refpoint.setY(otherWidget->scenePos().y() + otherWidget->height() / 2.0);
         }
         QRectF rect = ownWidget->rect();
         rect.setX(ownWidget->scenePos().x());
         rect.setY(ownWidget->scenePos().y());
+        // Regions:   West=1, North=2, East=3, South=4
         DEBUG(DBG_SRC) << "updateAssociations totalCount=" << totalCount
             << ", region=" << region << ", role=" << role << ", own=" << ownWidget->name()
             << ", other=" << otherWidget->name() << ", inWidgetARegion=" << inWidgetARegion
@@ -3522,7 +3518,7 @@ void AssociationWidget::updateAssociations(int totalCount,
             << ", pointIsAuthoritative=" << pointIsAuthoritative << ", rectX=" << rect.x()
             << ", rectY=" << rect.y() << ", refX=" << refpoint.x() << ", refY=" << refpoint.y();
         qreal intercept = 0.0;
-        if (findInterceptOnEdge(rect, region, refpoint, intercept)) {
+        if (findInterceptOnEdge(rect, regionAdjustedToRole, refpoint, intercept)) {
             insertIntoLists(intercept, assocwidget);
         } else {
             uWarning() << "error from findInterceptOnEdge for"
