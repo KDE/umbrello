@@ -193,7 +193,7 @@ private:
     static QPainterPath createBezierCurve(QVector<QPointF> points);
     static QPainterPath createOrthogonalPath(QVector<QPointF> points);
 
-    qreal              c1dx{0.0}, c1dy{0.0}, c2dx{0.0}, c2dy{0.0};
+    qreal              m_c1dx{0.0}, m_c1dy{0.0}, m_c2dx{0.0}, m_c2dy{0.0};
     static const qreal Delta;  ///< default delta for fuzzy recognition of points closer to point
     static const qreal SelectedPointDiameter;         ///< radius of circles drawn to show "selection"
     static const qreal SelfAssociationMinimumHeight;  ///< minimum height for self association's loop

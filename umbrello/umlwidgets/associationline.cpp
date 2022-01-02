@@ -756,9 +756,11 @@ void AssociationLine::alignSymbols()
  */
 QPainterPath AssociationLine::path() const
 {
-    if (m_points.count() > 0) {
-        QPainterPath path;
-        switch (m_layout) {
+    if (m_points.count() == 0) {
+        return QPainterPath();
+    }
+    QPainterPath path;
+    switch (m_layout) {
         case Uml::LayoutType::Direct:
             path.moveTo(m_points.first());
             path.lineTo(m_points.last());
@@ -777,12 +779,8 @@ QPainterPath AssociationLine::path() const
             QPolygonF polygon(m_points);
             path.addPolygon(polygon);
             break;
-        }
-        return path;
     }
-    else {
-        return QPainterPath();
-    }
+    return path;
 }
 
 /**
@@ -879,35 +877,35 @@ void AssociationLine::createSplinePoints()
         qreal oneHalfX = 0.5 * dx;
         qreal oneHalfY = 0.5 * dy;
         if (dx > dy) {
-            c1dx = oneHalfX;
-            c1dy = 0;
-            c2dx = -oneHalfX;
-            c2dy = 0;
+            m_c1dx = oneHalfX;
+            m_c1dy = 0;
+            m_c2dx = -oneHalfX;
+            m_c2dy = 0;
         }
         else {
-            c1dx = 0;
-            c1dy = oneHalfY;
-            c2dx = 0;
-            c2dy = -oneHalfY;
+            m_c1dx = 0;
+            m_c1dy = oneHalfY;
+            m_c2dx = 0;
+            m_c2dy = -oneHalfY;
         }
         
-        c1 = QPointF(p1.x() + c1dx,  // control point 1
-                p1.y() + c1dy);
-        c2 = QPointF(p2.x() + c2dx,  // control point 2
-                p2.y() + c2dy);
+        c1 = QPointF(p1.x() + m_c1dx,  // control point 1
+                     p1.y() + m_c1dy);
+        c2 = QPointF(p2.x() + m_c2dx,  // control point 2
+                     p2.y() + m_c2dy);
     } else {
         //c1 = m_points[1];
         //c2 = m_points[2];
         
-        //c1dx = c1.x() - p1.x();
-        //c1dy = c1.y() - p1.y();
-        //c2dx = c2.x() - p2.x();
-        //c2dy = c2.y() - p2.y();
+        //m_c1dx = c1.x() - p1.x();
+        //m_c1dy = c1.y() - p1.y();
+        //m_c2dx = c2.x() - p2.x();
+        //m_c2dy = c2.y() - p2.y();
         
-        c1 = QPointF(p1.x() + c1dx,  // control point 1
-                    p1.y() + c1dy);
-        c2 = QPointF(p2.x() + c2dx,  // control point 2
-                    p2.y() + c2dy);
+        c1 = QPointF(p1.x() + m_c1dx,  // control point 1
+                     p1.y() + m_c1dy);
+        c2 = QPointF(p2.x() + m_c2dx,  // control point 2
+                     p2.y() + m_c2dy);
     }
     if (m_points.size() == 2) {  // create two points
         insertPoint(1, c1);
@@ -1193,13 +1191,14 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 
     if (m_activePointIndex != -1) {
+        const int nPoints = m_points.size();
         // Move a single point (snap behaviour)
         if (m_activePointIndex == 1) {
-            c1dx = newPos.x() - m_points.at(0).x();
-            c1dy = newPos.y() - m_points.at(0).y();
-        } else if (m_activePointIndex == 2) {
-            c2dx = newPos.x() - m_points.at(3).x();
-            c2dy = newPos.y() - m_points.at(3).y();
+            m_c1dx = newPos.x() - m_points.at(0).x();
+            m_c1dy = newPos.y() - m_points.at(0).y();
+        } else if (nPoints > 3 && m_activePointIndex == nPoints - 2) {
+            m_c2dx = newPos.x() - m_points.at(nPoints-1).x();
+            m_c2dy = newPos.y() - m_points.at(nPoints-1).y();
         }
         setPoint(m_activePointIndex, newPos);
         m_autoLayoutSpline = false;
