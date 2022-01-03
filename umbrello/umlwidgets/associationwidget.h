@@ -222,7 +222,6 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
-    static bool findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point, qreal &result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
@@ -260,12 +259,6 @@ private:
     bool checkAutoLayoutSpline();
 
     bool linePathStartsAt(const UMLWidget* widget);
-
-    void insertIntoLists(qreal position, const AssociationWidget* assoc);
-
-    qreal m_positions[100];           ///< auxiliary variable for updateAssociations()
-    int m_positions_len;              ///< auxiliary variable for updateAssociations()
-    AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
     bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 
