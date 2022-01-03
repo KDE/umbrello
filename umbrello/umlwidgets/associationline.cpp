@@ -1135,10 +1135,6 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
     DEBUG(DBG_SRC) << "at " << event->scenePos();
     if (event->buttons() & Qt::LeftButton) {
         m_activePointIndex = closestPointIndex(event->scenePos());
-        if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
-            // end points are not drawn and hence not active
-            m_activePointIndex = -1;
-        }
         // calculate only if active point index is -1
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
     }
@@ -1223,7 +1219,7 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * Calculates the "to be highlighted" point and segment indicies
+ * Calculates the "to be highlighted" point and segment indices
  * and updates if necessary.
  */
 void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -1247,7 +1243,7 @@ void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 }
 
 /**
- * Calculates the "to be highlighted" point and segment indicies
+ * Calculates the "to be highlighted" point and segment indices
  * and updates if necessary.
  */
 void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -1270,7 +1266,7 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 }
 
 /**
- * Reset active indicies and updates.
+ * Reset active indices and updates.
  */
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {

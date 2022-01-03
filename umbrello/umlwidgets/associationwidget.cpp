@@ -694,7 +694,11 @@ bool AssociationWidget::activate(IDChangeLog *changeLog)
         return false;
     }
 
-    calculateEndingPoints();
+    if (!umlDoc()->loading()) {
+        // Not calling this during activation after loadFromXMI because
+        // doing so destroys manual adjustments to associationLine end points.
+        calculateEndingPoints();
+    }
 
     if (AssocRules::allowRole(type)) {
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
@@ -1561,16 +1565,16 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
     if ( movingPoint == 1 || (movingPoint == pos-1) ) {
         calculateEndingPoints();
     }
-    if (m_role[RoleType::A].changeabilityWidget && (movingPoint == 1)) {
+    if (m_role[RoleType::A].changeabilityWidget && movingPoint == 1) {
         setTextPositionRelatively(TextRole::ChangeA, oldChangeAPoint);
     }
-    if (m_role[RoleType::B].changeabilityWidget && (movingPoint == 1)) {
+    if (m_role[RoleType::B].changeabilityWidget && movingPoint == pos-1) {
         setTextPositionRelatively(TextRole::ChangeB, oldChangeBPoint);
     }
-    if (m_role[RoleType::A].multiplicityWidget && (movingPoint == 1)) {
+    if (m_role[RoleType::A].multiplicityWidget && movingPoint == 1) {
         setTextPositionRelatively(TextRole::MultiA, oldMultiAPoint);
     }
-    if (m_role[RoleType::B].multiplicityWidget && (movingPoint == pos-1)) {
+    if (m_role[RoleType::B].multiplicityWidget && movingPoint == pos-1) {
         setTextPositionRelatively(TextRole::MultiB, oldMultiBPoint);
     }
 
@@ -3227,7 +3231,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
             else
                 pt = nearestPoints.p2();
         }
-        DEBUG(DBG_SRC) << "index " << index << ", totalCount " << totalCount
+        DEBUG(DBG_SRC) << "updateRegionLineCount index " << index << ", totalCount " << totalCount
                        << ", region " << region << ", role " << role << " [ wA="
                        << pWidgetA->name() << ", wB=" << pWidgetB->name()
                        << " ] : setting point (" << pt.x() << "," << pt.y() << ")";
