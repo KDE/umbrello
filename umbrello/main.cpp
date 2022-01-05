@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
     options.add("languages", i18n("list supported languages"));
     options.add("use-folders", i18n("keep the tree structure used to store the views in the document in the target directory"));
     options.add("import-directory <dir>", i18n("import files from directory <dir>"));
-    for (int i = Uml::ProgrammingLanguage::ActionScript; i <= Uml::ProgrammingLanguage::Reserved; i++) {
+    for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; i++) {
         Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
         QByteArray optionString = "set-language-" + Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
         options.add(optionString, i18n("set active language"));
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
         } else if (args->isSet("languages")) {
-            for (int i = Uml::ProgrammingLanguage::ActionScript; i <= Uml::ProgrammingLanguage::Reserved; i++) {
+            for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; i++) {
                 Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
                 fprintf(stdout, "%s\n", qPrintable(Uml::ProgrammingLanguage::toString(pl)));
             }
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
         }
 
         Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
-        for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+        for(int i = 0; i < Uml::ProgrammingLanguage::Reserved; i++) {
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
             QByteArray langString = "set-language-";
             langString += Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
