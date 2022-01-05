@@ -205,7 +205,10 @@ bool UMLListView::event(QEvent *e)
 void UMLListView::mousePressEvent(QMouseEvent *me)
 {
     UMLView *currentView = UMLApp::app()->currentView();
-    Q_ASSERT(currentView);
+    if (!currentView) {
+        uWarning() << "UMLListView::mousePressEvent: ignoring because currentView is not set";
+        return;
+    }
     UMLScene *scene = currentView->umlScene();
     Q_ASSERT(scene);
     scene->clearSelected();
