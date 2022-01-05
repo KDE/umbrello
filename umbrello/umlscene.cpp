@@ -2079,6 +2079,14 @@ AssociationWidgetList UMLScene::selectedAssocs()
  */
 void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
 {
+    /* We cannot do the range check like this:
+       pWidget's x() and y() can legitimately be negative.
+       The scene's origin point (0,0) is somewhere in the middle of the diagram
+       area. QGraphicsItems located left or up from the scene's origin have
+       negative coordinates.
+       sceneRect() returns non negative coordinates such as (0,0,5000,5000).
+       That does not fit with the negative widget coordinates. */
+#if 0
     int wX = pWidget->x();
     int wY = pWidget->y();
     bool xIsOutOfRange = (wX < sceneRect().left() || wX > sceneRect().right());
@@ -2101,7 +2109,7 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
             wY = 0;
         }
     }
-
+#endif
     addWidgetCmd(pWidget);
 }
 
