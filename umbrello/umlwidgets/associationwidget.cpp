@@ -88,8 +88,8 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 }
 
 /**
- * This constructor is really only for loading from XMI, otherwise it
- * should not be allowed as it creates an incomplete associationwidget.
+ * This constructor is only for loading from XMI, otherwise it
+ * should not be used as it creates an incomplete associationwidget.
   *
   * @param scene   The parent view of this widget.
  */
@@ -1934,7 +1934,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
 
 /**
  * Creates the points of the self association.
- * Method called when a widget end points are calculated by calculateEndingPoints().
+ * Method called when widget end points are calculated by calculateEndingPoints().
  */
 void AssociationWidget::createPointsSelfAssociation()
 {
@@ -2085,15 +2085,15 @@ void AssociationWidget::updatePointsException()
 /**
  * Finds out which region of rectangle 'rect' contains the point 'pos' and returns the region
  * number:
- * 1 = Region 1
- * 2 = Region 2
- * 3 = Region 3
- * 4 = Region 4
- * 5 = On diagonal 2 between Region 1 and 2
- * 6 = On diagonal 1 between Region 2 and 3
- * 7 = On diagonal 2 between Region 3 and 4
- * 8 = On diagonal 1 between Region 4 and 1
- * 9 = On diagonal 1 and On diagonal 2 (the center)
+ * 1 = Region 1 (West)
+ * 2 = Region 2 (North)
+ * 3 = Region 3 (East)
+ * 4 = Region 4 (South)
+ * 5 = On diagonal 2 between Region 1 and 2 (NorthWest)
+ * 6 = On diagonal 1 between Region 2 and 3 (NorthEast)
+ * 7 = On diagonal 2 between Region 3 and 4 (SouthEast)
+ * 8 = On diagonal 1 between Region 4 and 1 (SouthWest)
+ * 9 = On diagonal 1 and on diagonal 2 (Center)
  */
 Uml::Region::Enum AssociationWidget::findPointRegion(const QRectF& rect, const QPointF &pos)
 {
@@ -3013,7 +3013,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  */
 int AssociationWidget::getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
+    if (region == Uml::Region::Error || umlScene() == 0) {
         return 0;
     }
     int widgetCount = 0;
