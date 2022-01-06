@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -3503,7 +3503,7 @@ void UMLApp::endMacro()
 /**
  * Return the config data.
  */
-KConfig* UMLApp::config() const
+KConfig* UMLApp::config()
 {
     return m_config.data();
 }

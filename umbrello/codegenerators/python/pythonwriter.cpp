@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Vincent Decorges <vincent.decorges@eivd.ch>
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "pythonwriter.h"
@@ -264,7 +264,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
         h << QLatin1String("(");
         h << cleanName(superclasses.front()->name());
         for (auto superclass = std::next(std::begin(superclasses)); superclass != std::end(superclasses); superclass++) {
-            h << QStringLiteral(", ") << cleanName((*superclass)->name());
+            h << QLatin1String(", ") << cleanName((*superclass)->name());
         }
         h << QLatin1String(")");
     }
@@ -458,72 +458,29 @@ bool PythonWriter::hasContainer(const QString &string)
 
 /**
  * Fix types to be compatible with Python
- * @param string      type that will be used
+ * @param string      type as defined in model
  * @return            fixed type
  */
 QString PythonWriter::fixTypeName(const QString &string)
 {
-    static const QMap<QString, QString> fixSimpleTypes {
-        {QStringLiteral("string"), QStringLiteral("str")},
-    };
-
-    if (fixSimpleTypes.contains(string)) {
-        return fixSimpleTypes[string];
+    if (string == QLatin1String("string")) {
+        return QLatin1String("str");
     }
-
-    struct fixContainerTypeStruct {
-        QRegularExpression re;
-        std::function<QString(const QString&)> fix;
-    };
-
-    static const QVector<fixContainerTypeStruct> fixContainerTypes {
-        {
-            QRegularExpression(QStringLiteral(R"(^vector<(.*)>$)")), [](const QString& match) {
-                return QStringLiteral("List[%1]").arg(fixTypeName(match));
-            }
-        },
-    };
-
-    for (const auto& fixer: fixContainerTypes) {
-        auto result = fixer.re.match(string).captured(1);
-        if (!result.isEmpty()) {
-            return fixer.fix(result);
-        }
+    QRegExp re(QLatin1String("^vector<(.*)>$"));
+    if (re.indexIn(string) >= 0) {
+        const QString listOf(QLatin1String("List[%1]"));
+        return listOf.arg(fixTypeName(re.cap(1)));
     }
-
     return string;
 }
 
 QString PythonWriter::findIncludeFromType(const QString &string)
 {
-    const auto fixedTypeName = fixTypeName(string);
-
-    struct TypeToImport {
-        QStringList types;
-        QString import;
-    };
-
-    static const QVector<TypeToImport> findIncludeVector {
-        {
-            {
-                QStringLiteral("Any["),
-                QStringLiteral("Dict["),
-                QStringLiteral("List["),
-                QStringLiteral("Tuple[")
-
-            },
-            QStringLiteral("typing")
-        },
-    };
-
-    for (const auto& typeToImport: findIncludeVector) {
-        for (const auto& type: typeToImport.types) {
-            if (fixedTypeName.contains(type)) {
-                return typeToImport.import;
-            }
-        }
+    const QString fixedTypeName = fixTypeName(string);
+    QRegExp re(QLatin1String("^(Any|Dict|List|Tuple)\\["));
+    if (re.indexIn(fixedTypeName) >= 0) {
+        return QLatin1String("typing");
     }
-
     return string;
 }
 
