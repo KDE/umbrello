@@ -55,6 +55,14 @@
 #define DBG_AW() DEBUG(QLatin1String("AssociationWidget"))
 DEBUG_REGISTER_DISABLED(AssociationWidget)
 
+// For bug 447866, commit 3361008 added permission to manually modify m_associationLine
+// start and end point.  Currently, no movement constraint is implemented, which means
+// that the user may slightly misplace the start/end point to be off the widget edge by
+// a few pixels.
+// PIXEL_TOLERANCE defines this tolerance.
+// It is a temporary workaround until movement constraint is implemented.
+#define PIXEL_TOLERANCE 2
+
 using namespace Uml;
 
 /**
@@ -929,7 +937,7 @@ void AssociationWidget::setStereotype(const QString &stereo) {
             m_nameWidget->setText(umlassoc->stereotype(true));
         }
     } else {
-        uDebug() << "not setting " << stereo << " because association is NULL";
+        DEBUG(DBG_SRC) << "AssociationWidget::setStereotype : not setting " << stereo << " because association is NULL";
     }
 }
 
@@ -1179,7 +1187,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
 /**
  * Returns true if the line path starts at the given widget.
  */
-bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
+bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) const
 {
     QPointF lpStart = m_associationLine.point(0);
     int startX = lpStart.x();
@@ -1188,12 +1196,29 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
     int wY = widget->scenePos().y();
     int wWidth = widget->width();
     int wHeight = widget->height();
-    bool result1 = (startX >= wX && startX <= wX + wWidth &&
-                    startY >= wY && startY <= wY + wHeight);
+    bool result = (startX >= wX - PIXEL_TOLERANCE && startX <= wX + wWidth + PIXEL_TOLERANCE &&
+                   startY >= wY - PIXEL_TOLERANCE && startY <= wY + wHeight + PIXEL_TOLERANCE);
+    DEBUG(DBG_SRC) << "linePathStartsAt widget=" << widget->name() << ": result=" << result;
+    return result;
+}
 
-    bool result = widget->contains(m_associationLine.point(0));
-    DEBUG(DBG_SRC) << "widget=" << widget->name() << " : result1=" << result1 << " / result=" << result;
-    return result || result1;
+/**
+ * Returns true if the line path ends at the given widget.
+ */
+bool AssociationWidget::linePathEndsAt(const UMLWidget* widget) const
+{
+    int lastIndex = m_associationLine.count() - 1;
+    QPointF lpEnd = m_associationLine.point(lastIndex);
+    int endX = lpEnd.x();
+    int endY = lpEnd.y();
+    int wX = widget->scenePos().x();
+    int wY = widget->scenePos().y();
+    int wWidth = widget->width();
+    int wHeight = widget->height();
+    bool result = (endX >= wX - PIXEL_TOLERANCE && endX <= wX + wWidth + PIXEL_TOLERANCE &&
+                   endY >= wY - PIXEL_TOLERANCE && endY <= wY + wHeight + PIXEL_TOLERANCE);
+    DEBUG(DBG_SRC) << "linePathEndsAt widget=" << widget->name() << ": result=" << result;
+    return result;
 }
 
 /**
@@ -1514,7 +1539,7 @@ QString AssociationWidget::toString() const
 void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+        DEBUG(DBG_SRC) << "AssociationWidget::mouseDoubleClickEvent : widget = " << name() << " / type = " << baseTypeStr();
         showPropertiesDialog();
         event->accept();
     }

@@ -258,7 +258,8 @@ private:
     bool checkRemovePoint(const QPointF &scenePos);
     bool checkAutoLayoutSpline();
 
-    bool linePathStartsAt(const UMLWidget* widget);
+    bool linePathStartsAt(const UMLWidget* widget) const;
+    bool linePathEndsAt  (const UMLWidget* widget) const;
 
     bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 
