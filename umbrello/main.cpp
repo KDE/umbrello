@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // app includes
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
                          KAboutData::License_GPL,
-                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2021 Umbrello UML Modeller Authors"),
+                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
                          KLocalizedString(),
                          "http://umbrello.kde.org/");
     aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
