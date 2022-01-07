@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "widgetbase.h"
@@ -847,7 +847,7 @@ void WidgetBase::setRect(const QRectF& rect)
 {
     if (m_rect == rect)
         return;
-    uDebug() << "WidgetBase::setRect(" << name() << ") : x = " << rect.x() << " , y = " << rect.y();
+    DEBUG(DBG_SRC) << "WidgetBase::setRect(" << name() << ") : setting " << rect;
     prepareGeometryChange();
     m_rect = rect;
     update();

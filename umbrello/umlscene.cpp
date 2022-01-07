@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -610,7 +610,8 @@ const UMLWidgetList UMLScene::widgetList() const
 void UMLScene::addWidgetCmd(UMLWidget* widget)
 {
     Q_ASSERT(0 != widget);
-    uDebug() << "UMLScene::addWidgetCmd : x =" << widget->x() << " , y = " << widget->y();
+    DEBUG(DBG_SRC) << "UMLScene::addWidgetCmd(" << widget->name() << ") : x=" << widget->x()
+                   << ", y=" << widget->y() << ", w=" << widget->width() << ", h=" << widget->height();
     addItem(widget);
 }
 

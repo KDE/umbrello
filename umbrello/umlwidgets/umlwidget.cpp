@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlwidget.h"
@@ -701,6 +701,8 @@ void UMLWidget::constrain(qreal& width, qreal& height)
     if (fixedAspectRatio()) {
         QSizeF size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
+        DEBUG(DBG_SRC) << "UMLWidget::constrain(" << name() << ") : Changing input height "
+                       << height << " to " << (width * aspectRatio) << " due to fixedAspectRatio";
         height = width * aspectRatio;
     }
 }
@@ -1322,7 +1324,8 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
-    qDebug() << this;
+    DEBUG(DBG_SRC) << "UMLWidget::adjustAssocs(" << name() << ") : w="
+                                      << width() << ", h=" << height();
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
@@ -1847,6 +1850,7 @@ void UMLWidget::setSize(qreal width, qreal height)
     }
 
     const QRectF newRect(rect().x(), rect().y(), width, height);
+    DEBUG(DBG_SRC) << "UMLWidget::setSize(" << name() << ") : setting " << newRect;
     setRect(newRect);
     foreach(QGraphicsItem* child, childItems()) {
         UMLWidget* umlChild = static_cast<UMLWidget*>(child);
@@ -1880,6 +1884,8 @@ void UMLWidget::updateGeometry(bool withAssocs)
     qreal clipWidth = size.width();
     qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
+    DEBUG(DBG_SRC) << "UMLWidget::updateGeometry(" << name() << ") : oldW=" << oldW << ", oldH="
+                   << oldH << ", clipWidth=" << clipWidth << ", clipHeight =" << clipHeight;
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
     if (withAssocs)
