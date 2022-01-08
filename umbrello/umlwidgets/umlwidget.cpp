@@ -1362,7 +1362,9 @@ void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
     }
 
     foreach(AssociationWidget* assocwidget, associationWidgetList()) {
-        if (!assocwidget->isSelected()) {
+        if (!assocwidget->isSelected() &&
+               (this == assocwidget->widgetForRole(Uml::RoleType::A) ||
+                this == assocwidget->widgetForRole(Uml::RoleType::B))) {
             assocwidget->widgetMoved(this, dx, dy);
         }
     }
