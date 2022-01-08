@@ -144,9 +144,9 @@ public:
     Settings::OptionState& optionState();
     void setOptionState(const Settings::OptionState& options);
 
-    const AssociationWidgetList associationList() const;
-    const MessageWidgetList messageList() const;
-    const UMLWidgetList widgetList() const;
+    AssociationWidgetList associationList() const;
+    MessageWidgetList messageList() const;
+    UMLWidgetList widgetList() const;
     void addWidgetCmd(UMLWidget* widget);
     void addWidgetCmd(AssociationWidget *widget);
 

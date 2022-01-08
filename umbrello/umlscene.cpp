@@ -580,9 +580,9 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
 }
 
 /**
- * Returns a reference to the association list.
+ * Returns the association list.
  */
-const AssociationWidgetList UMLScene::associationList() const
+AssociationWidgetList UMLScene::associationList() const
 {
     AssociationWidgetList result;
     foreach(QGraphicsItem *item, items()) {
@@ -594,9 +594,9 @@ const AssociationWidgetList UMLScene::associationList() const
 }
 
 /**
- * Returns a reference to the widget list.
+ * Returns the widget list.
  */
-const UMLWidgetList UMLScene::widgetList() const
+UMLWidgetList UMLScene::widgetList() const
 {
     UMLWidgetList result;
     foreach(QGraphicsItem *item, items()) {
@@ -622,9 +622,9 @@ void UMLScene::addWidgetCmd(AssociationWidget* widget)
 }
 
 /**
- * Returns a reference to the message list.
+ * Returns the message list.
  */
-const MessageWidgetList UMLScene::messageList() const
+MessageWidgetList UMLScene::messageList() const
 {
     MessageWidgetList result;
     foreach(QGraphicsItem *item, items()) {
