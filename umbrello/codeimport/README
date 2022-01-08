@@ -1,0 +1,4 @@
+When adding a new importer, be sure to adapt
+  ../codeimpwizard/codeimpselectpage.cpp
+function CodeImpSelectPage::changeLanguage()
+with the applicable file extension(s).
