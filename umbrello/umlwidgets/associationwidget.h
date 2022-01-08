@@ -172,7 +172,7 @@ public:
     virtual void setLineColor(const QColor &color);
     virtual void setLineWidth(uint width);
 
-    void calculateEndingPoints();
+    void calculateEndingPoints(UMLWidget *pWidget = 0);
 
     void clipSize();
 
@@ -222,6 +222,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
+    static bool findIntercept(const QRectF& rect, const QPointF& point, QPointF& result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
@@ -231,11 +232,6 @@ private:
 
     static QPointF swapXY(const QPointF &p);
 
-    // not used at the moment
-    // static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
-    // static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
-    // static float perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
-
     static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
     void createPointsSelfAssociation();
@@ -243,14 +239,9 @@ private:
     void createPointsException();
     void updatePointsException();
 
-    void updateRegionLineCount(int index, int totalCount,
-                               Uml::Region::Enum region, Uml::RoleType::Enum role);
-
-    void updateAssociations(int totalCount, Uml::Region::Enum region, Uml::RoleType::Enum role);
+    static void updateAssociations(UMLWidget *pWidget, AssociationWidgetList list);
 
     int getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role);
-
-    void doUpdates(const QPointF &otherP, Uml::RoleType::Enum role);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 

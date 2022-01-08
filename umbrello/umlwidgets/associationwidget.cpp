@@ -178,7 +178,7 @@ AssociationWidget* AssociationWidget::create
 
     instance->setAssociationType(assocType);
 
-    instance->calculateEndingPoints();
+    // instance->calculateEndingPoints();
 
     instance->associationLine().calculateInitialEndPoints();
     instance->associationLine().reconstructSymbols();
@@ -705,7 +705,7 @@ bool AssociationWidget::activate(IDChangeLog *changeLog)
     if (!umlDoc()->loading()) {
         // Not calling this during activation after loadFromXMI because
         // doing so destroys manual adjustments to associationLine end points.
-        calculateEndingPoints();
+        // calculateEndingPoints();
     }
 
     if (AssocRules::allowRole(type)) {
@@ -1259,12 +1259,6 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::RoleType::Enum role) const
  */
 void AssociationWidget::cleanup()
 {
-    //let any other associations know we are going so they can tidy their positions up
-    if (m_role[RoleType::A].m_nTotalCount > 2)
-        updateAssociations(m_role[RoleType::A].m_nTotalCount - 1, m_role[RoleType::A].m_WidgetRegion, RoleType::A);
-    if (m_role[RoleType::B].m_nTotalCount > 2)
-        updateAssociations(m_role[RoleType::B].m_nTotalCount - 1, m_role[RoleType::B].m_WidgetRegion, RoleType::B);
-
     m_role[RoleType::A].cleanup();
     m_role[RoleType::B].cleanup();
 
@@ -1587,9 +1581,9 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
         m_associationLine.setPoint(movingPoint, me->scenePos());
     int pos = m_associationLine.count() - 1;//set to last point for widget b
 
-    if ( movingPoint == 1 || (movingPoint == pos-1) ) {
-        calculateEndingPoints();
-    }
+    // if ( movingPoint == 1 || (movingPoint == pos-1) ) {
+    //     calculateEndingPoints();
+    // }
     if (m_role[RoleType::A].changeabilityWidget && movingPoint == 1) {
         setTextPositionRelatively(TextRole::ChangeA, oldChangeAPoint);
     }
@@ -1623,39 +1617,20 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
 }
 
 /**
- * Calculates and sets the first and last point in the Association's AssociationLine.
- * Each point is a middle point of its respecting UMLWidget's Bounding rectangle
- * or a corner of it.
- * This method picks which sides to use for the association.
+ * This function acts as delegator to the static method updateAssociations()
+ * but additionally handles object bound special cases (self association,
+ * exception association, associationline insufficient points, association class
+ * connecting line).
+ *
+ * @param pWidget Pointer to one of the two role widgets of this association,
+ *                or null pointer :
+ *                - If non null then pWidget is passed into updateAssociations().
+ *                - If null then updateAssociations() will be called twice,
+ *                  once providing this->widgetForRole(Uml::RoleType::A) as arg,
+ *                  again providing this->widgetForRole(Uml::RoleType::B).
  */
-void AssociationWidget::calculateEndingPoints()
+void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
 {
-    /*
-     * For each UMLWidget the diagram is divided in four regions by its diagonals
-     * as indicated below
-     *                              Region 2
-     *                         \                /
-     *                           \            /
-     *                             +--------+
-     *                             | \    / |
-     *                Region 1     |   ><   |    Region 3
-     *                             | /    \ |
-     *                             +--------+
-     *                           /            \
-     *                         /                \
-     *                              Region 4
-     *
-     * Each diagonal is defined by two corners of the bounding rectangle
-     *
-     * To calculate the first point in the AssociationLine we have to find out in which
-     * Region (defined by WidgetA's diagonals) is WidgetB's center
-     * (let's call it Region M.) After that the first point will be the middle
-     * point of the rectangle's side contained in Region M.
-     *
-     * To calculate the last point in the AssociationLine we repeat the above but
-     * in the opposite direction (from widgetB to WidgetA)
-     */
-
     UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
     UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
     if (!pWidgetA || !pWidgetB) {
@@ -1664,20 +1639,6 @@ void AssociationWidget::calculateEndingPoints()
     }
 
     int size = m_associationLine.count();
-    if (size < 2) {
-        QPointF pA = pWidgetA->scenePos();
-        QPointF pB = pWidgetB->scenePos();
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
-        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
-        if (nearestPoints.isNull()) {
-            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
-        } else {
-            pA = nearestPoints.p1();
-            pB = nearestPoints.p2();
-        }
-        m_associationLine.setEndPoints(pA, pB);
-    }
 
     // See if an association to self.
     // See if it needs to be set up before we continue:
@@ -1695,73 +1656,30 @@ void AssociationWidget::calculateEndingPoints()
         return;
     }
 
-    // If the line has more than one segment change the values to calculate
-    // from widget to point 1.
-    qreal xB = pWidgetB->scenePos().x() + pWidgetB->width() / 2;
-    qreal yB = pWidgetB->scenePos().y() + pWidgetB->height() / 2;
-    if (size > 2) {
-        QPointF p = m_associationLine.point(1);
-        xB = p.x();  // m_associationLine points are scene positions,
-        yB = p.y();  // therefore we don't need to call scenePos() here
+    if (size < 2 || (m_associationLine.startPoint().isNull()
+                 &&  m_associationLine.endPoint().isNull())) {
+        QPointF pA = pWidgetA->scenePos();
+        QPointF pB = pWidgetB->scenePos();
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
+        } else {
+            pA = nearestPoints.p1();
+            pB = nearestPoints.p2();
+        }
+        m_associationLine.setEndPoints(pA, pB);
     }
-    doUpdates(QPointF(xB, yB), RoleType::A);
 
-    // Now do the same for widgetB.
-    // If the line has more than one segment change the values to calculate
-    // from widgetB to the last point away from it.
-    qreal xA = pWidgetA->scenePos().x() + pWidgetA->width() / 2;
-    qreal yA = pWidgetA->scenePos().y() + pWidgetA->height() / 2;
-    if (size > 2 ) {
-        QPointF p = m_associationLine.point(size - 2);
-        xA = p.x();
-        yA = p.y();
-    }
-    doUpdates(QPointF(xA, yA), RoleType::B);
-
-    computeAssocClassLine();
-}
-
-/**
- * Used by @ref calculateEndingPoints.
- */
-void AssociationWidget::doUpdates(const QPointF &otherP, RoleType::Enum role)
-{
-    // Find widget region.
-    Uml::Region::Enum oldRegion = m_role[role].m_WidgetRegion;
-    UMLWidget *pWidget = m_role[role].umlWidget;
-    QRectF rc(pWidget->scenePos().x(), pWidget->scenePos().y(),
-              pWidget->width(), pWidget->height());
-    Uml::Region::Enum& region = m_role[role].m_WidgetRegion;  // alias for brevity
-    region = findPointRegion(rc, otherP);
-    // Move some regions to the standard ones.
-    switch( region ) {
-    case Uml::Region::NorthWest:
-        region = Uml::Region::North;
-        break;
-    case Uml::Region::NorthEast:
-        region = Uml::Region::East;
-        break;
-    case Uml::Region::SouthEast:
-        region = Uml::Region::South;
-        break;
-    case Uml::Region::SouthWest:
-    case Uml::Region::Center:
-        region = Uml::Region::West;
-        break;
-    default:
-        break;
-    }
-    int regionCount = getRegionCount(region, role) + 2; //+2 = (1 for this one and one to halve it)
-    int totalCount = m_role[role].m_nTotalCount;
-    if (oldRegion != region) {
-        updateRegionLineCount(regionCount - 1, regionCount, region, role);
-        updateAssociations(totalCount - 1, oldRegion, role);
-    } else if (totalCount != regionCount) {
-        updateRegionLineCount(regionCount - 1, regionCount, region, role);
+    AssociationWidgetList assocList(m_scene->associationList());
+    if (pWidget) {
+        updateAssociations(pWidget, assocList);
     } else {
-        updateRegionLineCount(m_role[role].m_nIndex, totalCount, region, role);
+        updateAssociations(m_role[RoleType::A].umlWidget, assocList);
+        updateAssociations(m_role[RoleType::B].umlWidget, assocList);
     }
-    updateAssociations(regionCount, region, role);
+    computeAssocClassLine();
 }
 
 /**
@@ -1906,7 +1824,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         setTextPosition(TextRole::Name);
     }
     else {
-        calculateEndingPoints();
+        calculateEndingPoints(widget);
         computeAssocClassLine();
     }
 
@@ -2980,7 +2898,6 @@ bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
     if (m_nLinePathSegmentIndex >= numberOfLines) {
         m_nLinePathSegmentIndex = numberOfLines - 1;
     }
-    calculateEndingPoints();
 
     // select the line path
     m_associationLine.setSelected(true);
@@ -3091,182 +3008,164 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
 }
 
 /**
- * Tells all the other view associations the new count for the
- * given widget on a certain region. And also what index they should be.
+ * Used by @ref calculateEndingPoints.
+ * For all association widgets of the scene, if one of the assocwidget's
+ * role widgets is the passed in widget then
+ * - if the AssociationLine starts at the role widget then the AssociationLine
+ *   start point is recalculated and set;
+ * - if the AssociationLine ends at the role widget then the AssociationLine
+ *   end point is recalculated and set.
+ *
+ * @param pWidget Pointer to the widget to seek as the role A or B widget
+ *                in all association widgets of the scene.
  */
-void AssociationWidget::updateAssociations(int totalCount,
-                                           Uml::Region::Enum region,
-                                           Uml::RoleType::Enum role)
+void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidgetList list)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
-        return;
-    }
-    AssociationWidgetList list = m_scene->associationList();
-    UMLWidget *ownWidget = m_role[role].umlWidget;
-    int index = 0;
+    const QRectF rect(pWidget->scenePos().x(), pWidget->scenePos().y(),
+                      pWidget->width(), pWidget->height());
+
     foreach (AssociationWidget* assocwidget, list) {
-        if (ownWidget == assocwidget->widgetForRole(RoleType::A)) {
-            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::A);
-        } else if (ownWidget == assocwidget->widgetForRole(RoleType::B)) {
-            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::B);
+        AssociationWidgetRole *roleA = &assocwidget->m_role[RoleType::A];
+        AssociationWidgetRole *roleB = &assocwidget->m_role[RoleType::B];
+        UMLWidget *wA = roleA->umlWidget;
+        UMLWidget *wB = roleB->umlWidget;
+        // Skip self associations.
+        if (wA == wB)
+            continue;
+        // Now we must find out with which end the assocwidget connects
+        // to the input widget (pWidget).
+        if (pWidget != wA && pWidget != wB)
+            continue;
+        // Determine intercept position
+        UMLWidget * otherWidget = (pWidget == wA ? wB : wA);
+        AssociationLine& linepath = assocwidget->associationLine();
+        int pointIndex = 0;  // start point; will be changed to end point if startsAtOther
+        QPointF refpoint;
+        bool startsAtOther = assocwidget->linePathStartsAt(otherWidget);
+        if (startsAtOther) {
+            if (!assocwidget->linePathEndsAt(pWidget)) {
+                uWarning() << "AssociationWidget::findIntercept : linepath starts at "
+                       << "other widget but does not end at own (assocType="
+                       << assocwidget->associationType() << " pWidget="
+                       << pWidget->name() << " otherWidget=" << otherWidget->name()
+                       << ")";
+                continue;
+            }
+            pointIndex = linepath.count() - 1;
+            refpoint = linepath.point(pointIndex - 1);
+        } else if (!assocwidget->linePathStartsAt(pWidget)) {
+            uWarning() << "AssociationWidget::findIntercept : linepath starts at "
+                       << "neither own nor other widget (assocType="
+                       << assocwidget->associationType() << " pWidget="
+                       << pWidget->name() << " otherWidget=" << otherWidget->name()
+                       << ")";
+            continue;
+        } else if (!assocwidget->linePathEndsAt(otherWidget)) {
+            uWarning() << "AssociationWidget::findIntercept : linepath starts at "
+                   << "own widget but does not end at other (assocType="
+                   << assocwidget->associationType() << " pWidget="
+                   << pWidget->name() << " otherWidget=" << otherWidget->name()
+                   << ")";
+            continue;
+        } else {
+            refpoint = linepath.point(1);
         }
-    }
+        // The point is authoritative if it is a waypoint on the line path.
+        bool pointIsAuthoritative = (linepath.count() > 2);
+        if (! pointIsAuthoritative) {
+            // If the point is not authoritative then we use the other
+            // widget's center.
+            refpoint.setX(otherWidget->scenePos().x() + (otherWidget->width() / 2.0));
+            refpoint.setY(otherWidget->scenePos().y() + (otherWidget->height() / 2.0));
+        }
+        uDebug() << "updateAssociations(own=" << pWidget->name() << ") : ownW="
+                       << pWidget->width() << ", ownH=" << pWidget->height();
+        uDebug() << "updateAssociations : own=" << pWidget->name()
+            << ", other=" << otherWidget->name() << ", (ownWidget==wa)=" << (pWidget == wA)
+            << ", startsAtOther=" << startsAtOther << ", pointIsAuthoritative="
+            << pointIsAuthoritative << ", rectX=" << rect.x() << ", rectY=" << rect.y()
+            << ", rectWidth=" << rect.width() << ", rectHeight=" << rect.height()
+            << ", refX=" << refpoint.x() << ", refY=" << refpoint.y();
+        QPointF intercept;
+        if (! findIntercept(rect, refpoint, intercept)) {
+            uWarning() << "error from findIntercept for"
+                           << " assocType=" << assocwidget->associationType()
+                           << " ownWidget=" << pWidget->name()
+                           << " otherWidget=" << otherWidget->name();
+            continue;
+        }
+        linepath.setPoint(pointIndex, intercept);
+        if (pointIsAuthoritative)
+            continue;
+        //--------------------------------------------------------------------------------
+        // Determine intercept at other widget if this is a straight connecting line
+        // without waypoint (pointIsAuthoritative is false).
+        const QRectF otherRect(otherWidget->scenePos().x(), otherWidget->scenePos().y(),
+                               otherWidget->width(), otherWidget->height());
+        int otherPtIndex = linepath.count() - 1;
+        QPointF otherRefpoint;
+        if (startsAtOther) {
+            otherPtIndex = 0;
+            otherRefpoint = linepath.point(1);
+        } else {
+            otherRefpoint = linepath.point(0);
+        }
+        if (findIntercept(otherRect, otherRefpoint, intercept)) {
+            linepath.setPoint(otherPtIndex, intercept);
+        } else {
+            uWarning() << "error from reverse findIntercept for"
+                           << " assocType=" << assocwidget->associationType()
+                           << " ownWidget=" << pWidget->name()
+                           << " otherWidget=" << otherWidget->name();
+        }
+    } // foreach
 }
 
 /**
- * Called to tell the association that another association has added
- * a line to the region of one of its widgets. The widget is identified
- * by its role (A or B).
+ * Given a rectangle and a point, compute the connecting line between the
+ * middle point of the rectangle and the point, and return the intersection
+ * point of this line with one of the sides of the rectangle.
  *
- * Called by @ref updateAssociations which is called by
- * @ref calculateEndingPoints when required.
+ * @param rect rolewidget's rectangle with scene x and y values
+ * @param point ending point of the line that starts at rect's center
+ * @param result return value: intersection point with one of rect's sides
+ * @return false if none of rect's sides intersects with point; in this case,
+ *               \a result will remain at the value passed in.
  */
-void AssociationWidget::updateRegionLineCount(int index, int totalCount,
-                                              Uml::Region::Enum region,
-                                              Uml::RoleType::Enum role)
+bool AssociationWidget::findIntercept(const QRectF& rect, const QPointF& point,
+                                                               QPointF& result)
 {
-    if ((region == Uml::Region::Error) | (umlScene() == 0)) {
-        return;
+    const QPointF rectCenter(rect.center());
+    const QLineF line(rectCenter, point);
+    const QLineF eastSide (rect.bottomLeft(),  rect.topLeft());
+    const QLineF northSide(rect.topLeft(),     rect.topRight());
+    const QLineF westSide (rect.topRight(),    rect.bottomRight());
+    const QLineF southSide(rect.bottomRight(), rect.bottomLeft());
+    QVector<QLineF> edges;
+    edges << eastSide << northSide << westSide << southSide;
+    Uml::Region::Enum xSide = Uml::Region::Error;
+    for (int i = 0; i < 4; i++) {
+        const QLineF& regionLine = edges.at(i);
+        QPointF intersectionPoint;
+        QLineF::IntersectionType xType = regionLine.intersects(line, &intersectionPoint);
+        if (xType == QLineF::BoundedIntersection) {
+            result = intersectionPoint;
+            xSide = static_cast<Uml::Region::Enum>(i + 1);
+            break;
+        }
+        /* else if (xType == QLineF::UnboundedIntersection)
+            uWarning() << "findIntercept: line from rect midpoint " << midPoint
+                       << " to point " << point << " gives unbounded intersection on region " << region;
+         */
     }
-    // If the association is to self and the line ends are on the same region then
-    // use a different calculation.
-    if (isSelf() &&
-            m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
-        UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
-        qreal x = pWidget->scenePos().x();
-        qreal y = pWidget->scenePos().y();
-        qreal wh = pWidget->height();
-        qreal ww = pWidget->width();
-        int size = m_associationLine.count();
-        // See if above widget ok to place assoc.
-        switch( m_role[RoleType::A].m_WidgetRegion ) {
-        case Uml::Region::North:
-            m_associationLine.setPoint( 0, QPointF( x + ( ww / 4 ), y ) );
-            m_associationLine.setPoint( size - 1, QPointF(x + ( ww * 3 / 4 ), y ) );
-            break;
-
-        case Uml::Region::South:
-            m_associationLine.setPoint( 0, QPointF( x + ( ww / 4 ), y + wh ) );
-            m_associationLine.setPoint( size - 1, QPointF( x + ( ww * 3 / 4 ), y + wh ) );
-            break;
-
-        case Uml::Region::East:
-            m_associationLine.setPoint( 0, QPointF( x + ww, y + ( wh / 4 ) ) );
-            m_associationLine.setPoint( size - 1, QPointF( x + ww, y + ( wh * 3 / 4 ) ) );
-            break;
-
-        case Uml::Region::West:
-            m_associationLine.setPoint( 0, QPointF( x, y + ( wh / 4 ) ) );
-            m_associationLine.setPoint( size - 1, QPointF( x, y + ( wh * 3 / 4 ) ) );
-            break;
-        default:
-            break;
-        }//end switch
-
-        return;
-    }
-
-    AssociationWidgetRole& robj = m_role[role];
-    UMLWidget * pWidget = robj.umlWidget;
-
-    robj.m_nIndex = index;
-    robj.m_nTotalCount = totalCount;
-    qreal x = pWidget->scenePos().x();
-    qreal y = pWidget->scenePos().y();
-    qreal ww = pWidget->width();
-    qreal wh = pWidget->height();
-    const bool angular = Settings::optionState().generalState.angularlines;
-    qreal ch = 0;
-    qreal cw = 0;
-    if (angular) {
-        uint nind = (role == RoleType::A ? 1 : m_associationLine.count() - 2);
-        QPointF neighbour = m_associationLine.point(nind);
-        if (neighbour.x() < x)
-            cw = 0;
-        else if (neighbour.x() > x + ww)
-            cw = 0 + ww;
-        else
-            cw = neighbour.x() - x;
-        if (neighbour.y() < y)
-            ch = 0;
-        else if (neighbour.y() > y + wh)
-            ch = 0 + wh;
-        else
-            ch = neighbour.y() - y;
+    if (xSide != Uml::Region::Error) {
+        uDebug() << "AssociationWidget::findIntercept (rect =" << rect << ", center =" << rectCenter
+                 << ", point = " << point << ") : intercept at " << result << " " << Uml::Region::toString(xSide);
     } else {
-        ch = wh * index / totalCount;
-        cw = ww * index / totalCount;
+        uDebug() << "AssociationWidget::findIntercept (rect =" << rect << ", center =" << rectCenter
+                 << ", point = " << point << ") : no intercept with " << edges;
     }
-
-    qreal newX = x + cw;
-    qreal newY = y + ch;
-
-    QPointF pt;
-    if (angular) {
-        pt = QPointF(newX, newY);
-    } else {
-        UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
-        UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
-        QList<QPolygonF> polyListA = pWidgetA->shape().toSubpathPolygons();
-        QPolygonF polyA = polyListA.at(0);
-        if (polyListA.size() > 1) {
-            for (int i = 1; i < polyListA.size(); i++) {
-                 polyA = polyA.united(polyListA.at(i));
-            }
-        }
-        polyA = polyA.translated(pWidgetA->getPos());
-        QList<QPolygonF> polyListB = pWidgetB->shape().toSubpathPolygons();
-        QPolygonF polyB = polyListB.at(0);
-        if (polyListB.size() > 1) {
-            for (int i = 1; i < polyListB.size(); i++) {
-                 polyB = polyB.united(polyListB.at(i));
-            }
-        }
-        polyB = polyB.translated(pWidgetB->getPos());
-        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
-        if (nearestPoints.isNull()) {
-            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
-            switch(region) {
-                case Uml::Region::West:
-                    pt.setX(x);
-                    pt.setY(newY);
-                    break;
-                case Uml::Region::North:
-                    pt.setX(newX);
-                    pt.setY(y);
-                    break;
-                case Uml::Region::East:
-                    pt.setX(x + ww);
-                    pt.setY(newY);
-                    break;
-                case Uml::Region::South:
-                    pt.setX(newX);
-                    pt.setY(y + wh);
-                    break;
-                case Uml::Region::Center:
-                    pt.setX(x + ww / 2);
-                    pt.setY(y + wh / 2);
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            if (role == RoleType::A)
-                pt = nearestPoints.p1();
-            else
-                pt = nearestPoints.p2();
-        }
-        DEBUG(DBG_SRC) << "updateRegionLineCount index " << index << ", totalCount " << totalCount
-                       << ", region " << region << ", role " << role << " [ wA="
-                       << pWidgetA->name() << ", wB=" << pWidgetB->name()
-                       << " ] : setting point (" << pt.x() << "," << pt.y() << ")";
-    }
-    if (role == RoleType::A) {
-        m_associationLine.setPoint(0, pt);
-    }
-    else {
-        m_associationLine.setPoint(m_associationLine.count() - 1, pt);
-    }
+    return (xSide != Uml::Region::Error);
 }
 
 /**
