@@ -2212,8 +2212,7 @@ void UMLWidget::saveToXMI(QXmlStreamWriter& writer)
     writer.writeAttribute(QLatin1String("isinstance"), QString::number(m_isInstance));
     if (!m_instanceName.isEmpty())
         writer.writeAttribute(QLatin1String("instancename"), m_instanceName);
-    if (m_showStereotype)
-        writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
+    writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
 }
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)

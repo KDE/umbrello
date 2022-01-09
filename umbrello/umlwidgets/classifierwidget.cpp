@@ -1442,7 +1442,6 @@ void ClassifierWidget::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(QLatin1String("showscope"),      QString::number(visualProperty(ShowVisibility)));
         writer.writeAttribute(QLatin1String("showattributes"), QString::number(visualProperty(ShowAttributes)));
         writer.writeAttribute(QLatin1String("showattsigs"),    QString::number(m_attributeSignature));
-        writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
     }
 #ifdef ENABLE_WIDGET_SHOW_DOC
     writer.writeAttribute(QLatin1String("showdocumentation"), QString::number(visualProperty(ShowDocumentation)));

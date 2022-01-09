@@ -3458,9 +3458,6 @@ void AssociationWidget::saveToXMI(QXmlStreamWriter& writer)
 
     WidgetBase::saveToXMI(writer);
     LinkWidget::saveToXMI(writer);
-    if (m_umlObject) {
-        writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_umlObject->id()));
-    }
     writer.writeAttribute(QLatin1String("type"), QString::number(associationType()));
     if (!association()) {
         writer.writeAttribute(QLatin1String("visibilityA"), QString::number(visibility(RoleType::A)));
@@ -3757,14 +3754,12 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
 bool AssociationWidget::loadFromXMI(QDomElement& qElement)
 {
     UMLScene *scene = umlScene();
-    if (scene) {
-        const UMLWidgetList& widgetList = scene->widgetList();
-        const MessageWidgetList& messageList = scene->messageList();
-        return loadFromXMI(qElement, widgetList, &messageList);
-    }
-    else {
+    if (scene == 0) {
         DEBUG(DBG_SRC) << "This isn't on UMLScene yet, so can neither fetch"
             "messages nor widgets on umlscene";
         return false;
     }
+    const UMLWidgetList& widgetList = scene->widgetList();
+    const MessageWidgetList& messageList = scene->messageList();
+    return loadFromXMI(qElement, widgetList, &messageList);
 }
