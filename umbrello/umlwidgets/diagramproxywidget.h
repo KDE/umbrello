@@ -29,15 +29,15 @@ public:
     Uml::ID::Type diagramLink() const;
     UMLScene *linkedDiagram() const;
     bool setDiagramLink(const Uml::ID::Type &id);
-    const QRectF &clientRect();
-    const QRectF &sceneRect();
+    const QRectF &clientRect() const;
+    const QRectF &sceneRect() const;
     void setClientRect(const QRectF &rect);
 
-    bool isProxyWidget();
-    UMLWidget *getProxiedWidget(const QPointF &p);
-    QPointF mapFromClient(const QPointF &p);
-    QRectF mapFromClient(const QRectF &r);
-    QPointF mapToClient(const QPointF &pos);
+    bool isProxyWidget() const;
+    UMLWidget *getProxiedWidget(const QPointF &p) const;
+    QPointF mapFromClient(const QPointF &p) const;
+    QRectF  mapFromClient(const QRectF &r) const;
+    QPointF mapToClient(const QPointF &pos) const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
@@ -52,8 +52,10 @@ protected:
     bool activate(IDChangeLog* changeLog = 0);
     bool loadFromXMI(QDomElement &qElement);
     void saveToXMI(QXmlStreamWriter& writer);
-    void setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF &pos);
-    void setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF &pos);
+    void setupEvent(QGraphicsSceneMouseEvent &e,
+                    const QGraphicsSceneMouseEvent *event, const QPointF &pos) const;
+    void setupEvent(QGraphicsSceneContextMenuEvent &e,
+                    const QGraphicsSceneContextMenuEvent *event, const QPointF &pos) const;
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

@@ -65,7 +65,7 @@ bool DiagramProxyWidget::setDiagramLink(const Uml::ID::Type &id)
  *
  * @return area in current item coordinates
  */
-const QRectF &DiagramProxyWidget::clientRect()
+const QRectF &DiagramProxyWidget::clientRect() const
 {
     return m_clientRect;
 }
@@ -75,7 +75,7 @@ const QRectF &DiagramProxyWidget::clientRect()
  *
  * @return scene rectangle
  */
-const QRectF &DiagramProxyWidget::sceneRect()
+const QRectF &DiagramProxyWidget::sceneRect() const
 {
     return m_sceneRect;
 }
@@ -112,12 +112,12 @@ void DiagramProxyWidget::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
 }
 
-bool DiagramProxyWidget::isProxyWidget()
+bool DiagramProxyWidget::isProxyWidget() const
 {
     return m_linkedDiagram;
 }
 
-UMLWidget *DiagramProxyWidget::getProxiedWidget(const QPointF &p)
+UMLWidget *DiagramProxyWidget::getProxiedWidget(const QPointF &p) const
 {
     QPointF pos = m_widget->mapFromScene(p);
     if (!m_linkedDiagram || !m_clientRect.contains(pos))
@@ -129,7 +129,7 @@ UMLWidget *DiagramProxyWidget::getProxiedWidget(const QPointF &p)
     return nullptr;
 }
 
-QPointF DiagramProxyWidget::mapFromClient(const QPointF &pos)
+QPointF DiagramProxyWidget::mapFromClient(const QPointF &pos) const
 {
     QPointF p1 = pos - m_sceneRect.topLeft();
     qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - m_borderWidth);
@@ -139,7 +139,7 @@ QPointF DiagramProxyWidget::mapFromClient(const QPointF &pos)
     return m_widget->mapToScene(p3);
 }
 
-QRectF DiagramProxyWidget::mapFromClient(const QRectF &r)
+QRectF DiagramProxyWidget::mapFromClient(const QRectF &r) const
 {
     return QRectF(mapFromClient(r.topLeft()), mapFromClient(r.bottomRight()));
 }
@@ -150,7 +150,7 @@ QRectF DiagramProxyWidget::mapFromClient(const QRectF &r)
  * @param pos item coordinated
  * @return point in client scene coordinate system
  */
-QPointF DiagramProxyWidget::mapToClient(const QPointF &pos)
+QPointF DiagramProxyWidget::mapToClient(const QPointF &pos) const
 {
     QPointF p1 = pos - m_clientRect.topLeft();
     qreal scaleW = m_sceneRect.width() / (m_clientRect.width() - m_borderWidth);
@@ -177,7 +177,8 @@ DiagramProxyWidget &DiagramProxyWidget::operator=(const DiagramProxyWidget &othe
  * @param event event source
  * @param pos position in item coordinates
  */
-void DiagramProxyWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneMouseEvent *event, const QPointF & pos)
+void DiagramProxyWidget::setupEvent(QGraphicsSceneMouseEvent &e,
+                                    const QGraphicsSceneMouseEvent *event, const QPointF & pos) const
 {
     QPointF p = mapToClient(pos);
     e.setScenePos(p);
@@ -197,7 +198,8 @@ void DiagramProxyWidget::setupEvent(QGraphicsSceneMouseEvent &e, QGraphicsSceneM
  * @param event event source
  * @param pos position in item coordinates
  */
-void DiagramProxyWidget::setupEvent(QGraphicsSceneContextMenuEvent &e, QGraphicsSceneContextMenuEvent *event, const QPointF & pos)
+void DiagramProxyWidget::setupEvent(QGraphicsSceneContextMenuEvent &e,
+                                    const QGraphicsSceneContextMenuEvent *event, const QPointF & pos) const
 {
     QPointF p = mapToClient(pos);
     e.setScenePos(p);
