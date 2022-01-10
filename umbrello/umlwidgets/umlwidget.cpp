@@ -1333,7 +1333,7 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
     //   as file is only partly loaded -> reposition
     //   could be misguided)
     /// @todo avoid trigger of this event during load
-    if (m_doc->loading()) {
+    if (m_doc->loading() || (qFuzzyIsNull(dx) && qFuzzyIsNull(dy))) {
         // don't recalculate the assocs during load of XMI
         // -> return immediately without action
         return;
