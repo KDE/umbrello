@@ -3147,7 +3147,7 @@ bool AssociationWidget::findIntercept(const QRectF& rect, const QPointF& point,
     for (int i = 0; i < 4; i++) {
         const QLineF& regionLine = edges.at(i);
         QPointF intersectionPoint;
-        QLineF::IntersectionType xType = regionLine.intersects(line, &intersectionPoint);
+        QLineF::IntersectType xType = regionLine.intersect(line, &intersectionPoint);
         if (xType == QLineF::BoundedIntersection) {
             result = intersectionPoint;
             xSide = static_cast<Uml::Region::Enum>(i + 1);
