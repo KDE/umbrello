@@ -2498,10 +2498,6 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     resolveTypes();
     loadDiagrams1();
 
-    // set a default code generator if no <XMI.extensions><codegeneration> tag seen
-    if (UMLApp::app()->generator() == 0) {
-        UMLApp::app()->setGenerator(UMLApp::app()->defaultLanguage());
-    }
     emit sigWriteToStatusBar(i18n("Setting up the document..."));
     qApp->processEvents();  // give UI events a chance
     activateAllViews();
