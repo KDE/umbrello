@@ -309,7 +309,6 @@ protected:
     Uml::Visibility::Enum  m_visibility;   ///< objects visibility
     bool                   m_bAbstract;    ///< state of whether the object is abstract or not
     bool                   m_bStatic;      ///< flag for instance scope
-    bool                   m_bInPaste;     ///< caller sets this true when in paste operation
     bool        m_bCreationWasSignalled;   ///< auxiliary to maybeSignalObjectCreated()
     QPointer<UMLObject>    m_pSecondary;   ///< pointer to an associated object
                                            ///< Only a few of the classes inheriting from UMLObject use this.
