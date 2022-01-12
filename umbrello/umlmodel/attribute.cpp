@@ -306,8 +306,6 @@ bool UMLAttribute::load1(QDomElement & element)
                 m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
             if (m_SecondaryId.isEmpty()) {
                 QString href = tempElement.attribute(QLatin1String("href"));
-                // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
-                // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                 if (href.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
@@ -316,9 +314,13 @@ bool UMLAttribute::load1(QDomElement & element)
                         m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
                 } else {
                     int hashpos = href.lastIndexOf(QChar(QLatin1Char('#')));
-                    if (hashpos < 0) {
-                        uDebug() << name() << ": cannot find type " << href;
+                    if (hashpos < 0 || !href.contains(QLatin1String("PrimitiveTypes"))) {
+                        uWarning() << "UMLAttribute::load1(" << name()
+                                   << ") : resolving of href is not yet implemented: " << href;
                     } else {
+                        // Examples from PapyrusUML:
+                        // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
+                        // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                         QString typeName = href.mid(hashpos + 1);
                         UMLFolder *dtFolder = UMLApp::app()->document()->datatypeFolder();
                         UMLObjectList dataTypes = dtFolder->containedObjects();

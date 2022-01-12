@@ -105,8 +105,11 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
 QStringList CodeTextHighlighter::keywords()
 {
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+    QStringList keywordList;
+    if (pl == Uml::ProgrammingLanguage::Reserved)
+        return keywordList;  // empty
     CodeGenerator* generator = CodeGenFactory::createObject(pl);
-    QStringList keywordList = generator->reservedKeywords();
+    keywordList = generator->reservedKeywords();
     delete generator;
 
 //     if (keywordList.size() <= 0) {

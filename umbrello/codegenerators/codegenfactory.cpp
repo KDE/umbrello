@@ -92,6 +92,8 @@ namespace CodeGenFactory
 
 CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
 {
+    if (pl == Uml::ProgrammingLanguage::Reserved)
+        return 0;
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
