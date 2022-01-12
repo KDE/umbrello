@@ -306,6 +306,8 @@ bool UMLAttribute::load1(QDomElement & element)
                 m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
             if (m_SecondaryId.isEmpty()) {
                 QString href = tempElement.attribute(QLatin1String("href"));
+                // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
+                // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                 if (href.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
@@ -319,7 +321,10 @@ bool UMLAttribute::load1(QDomElement & element)
                     } else {
                         QString typeName = href.mid(hashpos + 1);
                         UMLFolder *dtFolder = UMLApp::app()->document()->datatypeFolder();
-                        m_pSecondary = Model_Utils::findUMLObject(dtFolder->containedObjects(),
+                        UMLObjectList dataTypes = dtFolder->containedObjects();
+                        uDebug() << "UMLAttribute::load1(" << name() << ") : href type =" << typeName
+                                 << ", number of datatypes =" << dataTypes.size();
+                        m_pSecondary = Model_Utils::findUMLObject(dataTypes,
                                                                   typeName, UMLObject::ot_Datatype);
                         if (!m_pSecondary) {
                             m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype,
@@ -330,7 +335,7 @@ bool UMLAttribute::load1(QDomElement & element)
             }
             break;
         }
-        if (m_SecondaryId.isEmpty()) {
+        if (m_SecondaryId.isEmpty() && !m_pSecondary) {
             uDebug() << name() << ": cannot find type.";
         }
     }
