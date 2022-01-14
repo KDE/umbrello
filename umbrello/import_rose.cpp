@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -512,10 +512,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     if (root == 0)
         return 0;
 
-    if (progLang == Uml::ProgrammingLanguage::Reserved &&
-                    UMLApp::app()->generator() == nullptr) {
-        UMLApp::app()->setGenerator(Uml::ProgrammingLanguage::Cpp);
-    } else if (progLang != UMLApp::app()->activeLanguage()) {
+    if (progLang != UMLApp::app()->activeLanguage()) {
         uDebug() << "loadFromMDL: Setting active language to "
                  << Uml::ProgrammingLanguage::toString(progLang);
         UMLApp::app()->setGenerator(progLang);
