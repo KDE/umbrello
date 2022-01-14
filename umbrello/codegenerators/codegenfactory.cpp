@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2002 Luis De la Parra Blum <luis@delaparra.org>
     Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header

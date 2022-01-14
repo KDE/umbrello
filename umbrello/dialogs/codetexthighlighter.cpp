@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2010 Nokia Corporation and /or its subsidiary(-ies) <qt-info@nokia.com>
     Code based on examples of the Qt Toolkit under BSD license,
     <http://doc.qt.nokia.com/4.6/richtext-syntaxhighlighter.html>.
-    SPDX-FileCopyrightText: 2010-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2010-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
