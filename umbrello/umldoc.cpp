@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -2189,8 +2189,13 @@ void UMLDoc::saveToXMI(QIODevice& file)
 }
 
 /**
- * Checks the given XMI file if it was saved with correct Unicode
- * encoding set or not.
+ * If the given XMI file has a processing instruction then extract the
+ * encoding info from the processing instruction.  If that info is unrecognized
+ * then return ENC_OLD_ENC, else return the encoding found.
+ * If the file does not have a processing instruction then give a warning but
+ * return ENC_UNICODE.  This is an optimistic assumption in the interest of
+ * best effort loading.
+ * The value ENC_UNKNOWN is only returned in case of a grave error.
  *
  * @param file   The file to be checked.
  */
@@ -2203,7 +2208,7 @@ short UMLDoc::encoding(QIODevice & file)
     int line;
     QDomDocument doc;
     if (!doc.setContent(data, false, &error, &line)) {
-        uWarning() << "Cannot set content: " << error << " Line: " << line;
+        uWarning() << "UMLDoc::encoding : Cannot set content: " << error << " Line: " << line;
         return ENC_UNKNOWN;
     }
 
@@ -2223,73 +2228,18 @@ short UMLDoc::encoding(QIODevice & file)
                 } else if (encData == QLatin1String("windows-1252")) {
                     enc = ENC_WINDOWS;
                 } else {
-                    uDebug() << "ProcessingInstruction encoding=" << encData << " is not yet implemented";
+                    uDebug() << "UMLDoc::encoding : ProcessingInstruction encoding=" << encData << " is not yet implemented";
                     enc = ENC_OLD_ENC;
                 }
             }
         }
         node = node.nextSibling();
     }
-    QDomElement root = node.toElement();
-    if (root.isNull()) {
-        uDebug() << "Null element at " << node.nodeName() << " : " << node.nodeValue();
-        return enc;
+    if (enc == ENC_UNKNOWN) {
+        uWarning() << "UMLDoc::encoding : No ProcessingInstruction found, assuming ENC_UNICODE";
+        enc = ENC_UNICODE;
     }
-    //  make sure it is an XMI file
-    if (root.tagName() != QLatin1String("XMI") && root.tagName() != QLatin1String("xmi:XMI")) {
-        uDebug() << "Unknown tag at " << root.tagName();
-        return enc;
-    }
-
-    if (node.firstChild().isNull()) {
-        uDebug() << "No child at " << node.nodeName() << " : " << node.nodeValue();
-        return enc;
-    }
-    node = node.firstChild();
-
-    QDomElement element = node.toElement();
-    // check header
-    if (element.isNull()) {
-        uDebug() << "No element at " << node.nodeName() << " : " << node.nodeValue();
-        return enc;
-    }
-    if (element.tagName() == QLatin1String("xmi:Documentation")) {
-        // UML2 format
-        return ENC_UNICODE;
-    }
-    if (element.tagName() != QLatin1String("XMI.header")) {
-        uDebug() << "Expecting XMI.header at " << element.tagName();
-        return enc;
-    }
-
-    QDomNode headerNode = node.firstChild();
-    while (!headerNode.isNull()) {
-        QDomElement headerElement = headerNode.toElement();
-        // the information if Unicode was used is now stored in the
-        // XMI.documentation section of the header
-        if (headerElement.isNull() ||
-                headerElement.tagName() != QLatin1String("XMI.documentation")) {
-            headerNode = headerNode.nextSibling();
-            continue;
-        }
-        QDomNode docuNode = headerNode.firstChild();
-        while (!docuNode.isNull()) {
-            QDomElement docuElement = docuNode.toElement();
-            // a tag XMI.exporterEncoding was added since version 1.2 to
-            // mark a file as saved with Unicode
-            if (! docuElement.isNull() &&
-                    docuElement.tagName() == QLatin1String("XMI.exporterEncoding")) {
-                // at the moment this isn't really necessary but maybe
-                // later we will have other encoding standards
-                if (docuElement.text() == QLatin1String("UnicodeUTF8")) {
-                    return ENC_UNICODE; // stop here
-                }
-            }
-            docuNode = docuNode.nextSibling();
-        }
-        break;
-    }
-    return ENC_OLD_ENC;
+    return enc;
 }
 
 /**
@@ -2340,81 +2290,52 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     if (root.isNull()) {
         return false;
     }
-    //  make sure it is an XMI file
-    if (root.tagName() != QLatin1String("XMI") && root.tagName() != QLatin1String("xmi:XMI")) {
-        return false;
-    }
-
-    QString versionString = root.attribute(QLatin1String("xmi.version"));
-    if (versionString.isEmpty())
-        versionString = root.attribute(QLatin1String("xmi:version"));
-    if (! versionString.isEmpty()) {
-        double version = versionString.toDouble();
-        if (version < 1.0) {
-            QString error = i18n("Unsupported xmi file version: %1", versionString);
-            m_d->errors << error;
-            DEBUG(DBG_SRC) << error;
-            return false;
-        }
-    }
 
     m_nViewID = Uml::ID::None;
-    for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
-        if (node.isComment()) {
-            continue;
-        }
-        QDomElement element = node.toElement();
-        if (element.isNull()) {
-            DEBUG(DBG_SRC) << "loadFromXMI: skip empty elem";
-            continue;
-        }
-        bool recognized = false;
-        QString outerTag = element.tagName();
-        //check header
-        if (outerTag == QLatin1String("XMI.header")) {
-            QDomNode headerNode = node.firstChild();
-            if (!validateXMI1Header(headerNode)) {
+
+    QString outerTag = root.tagName();
+    // The element <XMI> / <xmi:XMI> is optional
+    if (outerTag == QLatin1String("XMI") || outerTag == QLatin1String("xmi:XMI")) {
+        QString versionString = root.attribute(QLatin1String("xmi.version"));
+        if (versionString.isEmpty())
+            versionString = root.attribute(QLatin1String("xmi:version"));
+        if (! versionString.isEmpty()) {
+            double version = versionString.toDouble();
+            if (version < 1.0) {
+                QString error = i18n("Unsupported xmi file version: %1", versionString);
+                m_d->errors << error;
+                DEBUG(DBG_SRC) << error;
                 return false;
             }
-            recognized = true;
-        } else if (outerTag == QLatin1String("XMI.extensions") ||
-                   outerTag == QLatin1String("xmi:Extension")) {
-            QDomNode extensionsNode = node.firstChild();
-            while (! extensionsNode.isNull()) {
-                loadExtensionsFromXMI1(extensionsNode);
-                extensionsNode = extensionsNode.nextSibling();
-            }
-            recognized = true;
-        } else if (tagEq(outerTag, QLatin1String("Model")) ||
-                   tagEq(outerTag, QLatin1String("Package"))) {
-            if(!loadUMLObjectsFromXMI(element)) {
-                uWarning() << "failed load on objects";
-                return false;
-            }
-            m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
-            UMLListView *lv = UMLApp::app()->listView();
-            lv->setTitle(0, m_Name);
-            recognized = true;
         }
-        if (outerTag != QLatin1String("XMI.content")) {
-            if (!recognized) {
-                DEBUG(DBG_SRC) << "skipping <" << outerTag << ">";
-            }
-            continue;
-        }
-        bool seen_UMLObjects = false;
-        //process content
-        for (QDomNode child = node.firstChild(); !child.isNull();
-                child = child.nextSibling()) {
-            if (child.isComment()) {
+        for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
+            if (node.isComment()) {
                 continue;
             }
-            element = child.toElement();
-            QString tag = element.tagName();
-            if (tag == QLatin1String("umlobjects")  // for bkwd compat.
-                    || tagEq(tag, QLatin1String("Subsystem"))
-                    || tagEq(tag, QLatin1String("Project"))  // Embarcadero's Describe
-                    || tagEq(tag, QLatin1String("Model"))) {
+            QDomElement element = node.toElement();
+            if (element.isNull()) {
+                DEBUG(DBG_SRC) << "loadFromXMI: skip empty elem";
+                continue;
+            }
+            bool recognized = false;
+            outerTag = element.tagName();
+            //check header
+            if (outerTag == QLatin1String("XMI.header")) {
+                QDomNode headerNode = node.firstChild();
+                if (!validateXMI1Header(headerNode)) {
+                    return false;
+                }
+                recognized = true;
+            } else if (outerTag == QLatin1String("XMI.extensions") ||
+                       outerTag == QLatin1String("xmi:Extension")) {
+                QDomNode extensionsNode = node.firstChild();
+                while (! extensionsNode.isNull()) {
+                    loadExtensionsFromXMI1(extensionsNode);
+                    extensionsNode = extensionsNode.nextSibling();
+                }
+                recognized = true;
+            } else if (tagEq(outerTag, QLatin1String("Model")) ||
+                       tagEq(outerTag, QLatin1String("Package"))) {
                 if(!loadUMLObjectsFromXMI(element)) {
                     uWarning() << "failed load on objects";
                     return false;
@@ -2422,77 +2343,118 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
                 UMLListView *lv = UMLApp::app()->listView();
                 lv->setTitle(0, m_Name);
-                seen_UMLObjects = true;
-            } else if (tagEq(tag, QLatin1String("Package")) ||
-                       tagEq(tag, QLatin1String("Class")) ||
-                       tagEq(tag, QLatin1String("Interface"))) {
-                // These tests are only for foreign XMI files that
-                // are missing the <Model> tag (e.g. NSUML)
-                QString stID = element.attribute(QLatin1String("stereotype"));
-                UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
-                if (!pObject) {
-                    uWarning() << "Unknown type of umlobject to create: " << tag;
-                    // We want a best effort, therefore this is handled as a
-                    // soft error.
+                recognized = true;
+            }
+            if (outerTag != QLatin1String("XMI.content")) {
+                if (!recognized) {
+                    DEBUG(DBG_SRC) << "skipping <" << outerTag << ">";
+                }
+                continue;
+            }
+            bool seen_UMLObjects = false;
+            //process content
+            for (QDomNode child = node.firstChild(); !child.isNull();
+                    child = child.nextSibling()) {
+                if (child.isComment()) {
                     continue;
                 }
-                UMLObject::ObjectType ot = pObject->baseType();
-                // Set the parent root folder.
-                UMLPackage *pkg = 0;
-                if (ot != UMLObject::ot_Stereotype) {
-                    if (ot == UMLObject::ot_Datatype) {
-                        pkg = m_datatypeRoot;
-                    } else {
-                        Uml::ModelType::Enum guess = Model_Utils::guessContainer(pObject);
-                        if (guess != Uml::ModelType::N_MODELTYPES) {
-                            pkg = m_root[guess];
-                        }
-                        else {
-                            uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                                     << pObject->name() << " / base type " << pObject->baseTypeStr();
-                            pkg = m_root[Uml::ModelType::Logical];
+                element = child.toElement();
+                QString tag = element.tagName();
+                if (tag == QLatin1String("umlobjects")  // for bkwd compat.
+                        || tagEq(tag, QLatin1String("Subsystem"))
+                        || tagEq(tag, QLatin1String("Project"))  // Embarcadero's Describe
+                        || tagEq(tag, QLatin1String("Model"))) {
+                    if (!loadUMLObjectsFromXMI(element)) {
+                        uWarning() << "failed load on objects";
+                        return false;
+                    }
+                    m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
+                    UMLListView *lv = UMLApp::app()->listView();
+                    lv->setTitle(0, m_Name);
+                    seen_UMLObjects = true;
+                } else if (tagEq(tag, QLatin1String("Package")) ||
+                           tagEq(tag, QLatin1String("Class")) ||
+                           tagEq(tag, QLatin1String("Interface"))) {
+                    // These tests are only for foreign XMI files that
+                    // are missing the <Model> tag (e.g. NSUML)
+                    QString stID = element.attribute(QLatin1String("stereotype"));
+                    UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
+                    if (!pObject) {
+                        uWarning() << "Unknown type of umlobject to create: " << tag;
+                        // We want a best effort, therefore this is handled as a
+                        // soft error.
+                        continue;
+                    }
+                    UMLObject::ObjectType ot = pObject->baseType();
+                    // Set the parent root folder.
+                    UMLPackage *pkg = 0;
+                    if (ot != UMLObject::ot_Stereotype) {
+                        if (ot == UMLObject::ot_Datatype) {
+                            pkg = m_datatypeRoot;
+                        } else {
+                            Uml::ModelType::Enum guess = Model_Utils::guessContainer(pObject);
+                            if (guess != Uml::ModelType::N_MODELTYPES) {
+                                pkg = m_root[guess];
+                            }
+                            else {
+                                uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
+                                         << pObject->name() << " / base type " << pObject->baseTypeStr();
+                                pkg = m_root[Uml::ModelType::Logical];
+                            }
                         }
                     }
+                    pObject->setUMLPackage(pkg);
+                    bool status = pObject->loadFromXMI(element);
+                    if (!status) {
+                        delete pObject;
+                        return false;
+                    }
+                    seen_UMLObjects = true;
+                } else if (tagEq(tag, QLatin1String("TaggedValue"))) {
+                    // This tag is produced here, i.e. outside of <UML:Model>,
+                    // by the Unisys.JCR.1 Rose-to-XMI tool.
+                    if (! seen_UMLObjects) {
+                        DEBUG(DBG_SRC) << "skipping TaggedValue because not seen_UMLObjects";
+                        continue;
+                    }
+                    tag = element.attribute(QLatin1String("tag"));
+                    if (tag != QLatin1String("documentation")) {
+                        continue;
+                    }
+                    QString modelElement = element.attribute(QLatin1String("modelElement"));
+                    if (modelElement.isEmpty()) {
+                        DEBUG(DBG_SRC) << "skipping TaggedValue(documentation) because "
+                                       << "modelElement.isEmpty()";
+                        continue;
+                    }
+                    UMLObject *o = findObjectById(Uml::ID::fromString(modelElement));
+                    if (o == 0) {
+                        DEBUG(DBG_SRC) << "TaggedValue(documentation): cannot find object"
+                                       << " for modelElement " << modelElement;
+                        continue;
+                    }
+                    QString value = element.attribute(QLatin1String("value"));
+                    if (! value.isEmpty()) {
+                        o->setDoc(value);
+                    }
+                } else {
+                    // for backward compatibility
+                    loadExtensionsFromXMI1(child);
                 }
-                pObject->setUMLPackage(pkg);
-                bool status = pObject->loadFromXMI(element);
-                if (!status) {
-                    delete pObject;
-                    return false;
-                }
-                seen_UMLObjects = true;
-            } else if (tagEq(tag, QLatin1String("TaggedValue"))) {
-                // This tag is produced here, i.e. outside of <UML:Model>,
-                // by the Unisys.JCR.1 Rose-to-XMI tool.
-                if (! seen_UMLObjects) {
-                    DEBUG(DBG_SRC) << "skipping TaggedValue because not seen_UMLObjects";
-                    continue;
-                }
-                tag = element.attribute(QLatin1String("tag"));
-                if (tag != QLatin1String("documentation")) {
-                    continue;
-                }
-                QString modelElement = element.attribute(QLatin1String("modelElement"));
-                if (modelElement.isEmpty()) {
-                    DEBUG(DBG_SRC) << "skipping TaggedValue(documentation) because "
-                                   << "modelElement.isEmpty()";
-                    continue;
-                }
-                UMLObject *o = findObjectById(Uml::ID::fromString(modelElement));
-                if (o == 0) {
-                    DEBUG(DBG_SRC) << "TaggedValue(documentation): cannot find object"
-                                   << " for modelElement " << modelElement;
-                    continue;
-                }
-                QString value = element.attribute(QLatin1String("value"));
-                if (! value.isEmpty()) {
-                    o->setDoc(value);
-                }
-            } else {
-                // for backward compatibility
-                loadExtensionsFromXMI1(child);
             }
         }
+    } else if (tagEq(outerTag, QLatin1String("Model")) ||
+               tagEq(outerTag, QLatin1String("Package"))) {
+        if (!loadUMLObjectsFromXMI(root)) {
+            uWarning() << "UMLDoc::loadFromXMI failed load on objects";
+            return false;
+        }
+        m_Name = root.attribute(QLatin1String("name"), i18n("UML Model"));
+        UMLListView *lv = UMLApp::app()->listView();
+        lv->setTitle(0, m_Name);
+    } else {
+        uError() << "UMLDoc::loadFromXMI failed load: Unrecognized outer element " << outerTag;
+        return false;
     }
 
     resolveTypes();

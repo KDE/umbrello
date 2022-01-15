@@ -18,6 +18,9 @@
 #include "object_factory.h"
 #include "optionstate.h"
 
+// qt includes
+#include <QApplication>
+
 /**
  * Sets up an attribute.
  *
@@ -304,35 +307,49 @@ bool UMLAttribute::load1(QDomElement & element)
             m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
                 m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
-            if (m_SecondaryId.isEmpty()) {
-                QString href = tempElement.attribute(QLatin1String("href"));
-                if (href.isEmpty()) {
-                    QDomNode inner = node.firstChild();
-                    QDomElement tmpElem = inner.toElement();
-                    m_SecondaryId = Model_Utils::getXmiId(tmpElem);
-                    if (m_SecondaryId.isEmpty())
-                        m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
-                } else {
+            if (!m_SecondaryId.isEmpty())
+                break;
+            QString href = tempElement.attribute(QLatin1String("href"));
+            if (href.isEmpty()) {
+                QDomNode inner = node.firstChild();
+                QDomElement tmpElem = inner.toElement();
+                m_SecondaryId = Model_Utils::getXmiId(tmpElem);
+                if (m_SecondaryId.isEmpty())
+                    m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
+            } else {
+                QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
+                if (xmiType.contains(QLatin1String("PrimitiveType")) &&
+                       href.contains(QRegExp(QLatin1String("#[A-Za-z][a-z]+$")))) {
+                    // Example from OMG XMI:
+                    //   <type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20090901/UML.xmi#Boolean"/>
+                    // Examples from PapyrusUML:
+                    //   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                    //   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
                     int hashpos = href.lastIndexOf(QChar(QLatin1Char('#')));
-                    if (hashpos < 0 || !href.contains(QLatin1String("PrimitiveTypes"))) {
-                        uWarning() << "UMLAttribute::load1(" << name()
-                                   << ") : resolving of href is not yet implemented: " << href;
-                    } else {
-                        // Examples from PapyrusUML:
-                        // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
-                        // <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-                        QString typeName = href.mid(hashpos + 1);
-                        UMLFolder *dtFolder = UMLApp::app()->document()->datatypeFolder();
-                        UMLObjectList dataTypes = dtFolder->containedObjects();
+                    QString typeName = href.mid(hashpos + 1);
+                    UMLFolder *dtFolder = UMLApp::app()->document()->datatypeFolder();
+                    UMLObjectList dataTypes = dtFolder->containedObjects();
+                    m_pSecondary = Model_Utils::findUMLObject(dataTypes,
+                                                              typeName, UMLObject::ot_Datatype);
+                    if (m_pSecondary) {
                         uDebug() << "UMLAttribute::load1(" << name() << ") : href type =" << typeName
-                                 << ", number of datatypes =" << dataTypes.size();
+                                 << ", number of datatypes =" << dataTypes.size()
+                                 << ", found existing " << m_pSecondary;
+                    } else {
+                        UMLDoc *pDoc = UMLApp::app()->document();
+                        pDoc->createDatatype(typeName);
+                        /* m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype,
+                                                                       typeName, dtFolder);  */
+                        qApp->processEvents();
                         m_pSecondary = Model_Utils::findUMLObject(dataTypes,
                                                                   typeName, UMLObject::ot_Datatype);
-                        if (!m_pSecondary) {
-                            m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype,
-                                                                           typeName, dtFolder);
-                        }
+                        uDebug() << "UMLAttribute::load1(" << name() << ") : href type =" << typeName
+                                 << ", number of datatypes =" << dataTypes.size()
+                                 << ", did not find it so created it now, " << m_pSecondary;
                     }
+                } else {
+                    uWarning() << "UMLAttribute::load1(" << name()
+                               << ") : resolving of href is not yet implemented: " << href;
                 }
             }
             break;
