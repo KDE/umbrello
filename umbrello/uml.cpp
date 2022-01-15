@@ -1383,28 +1383,31 @@ bool UMLApp::slotFileSaveAs()
         url = KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 #endif
         if (url.isEmpty()) {
-            cont = false;
+            break;
         }
-        else {
-            if (url.isLocalFile()) {
+        if (!url.isLocalFile()) {
+            break;
+        }
 #if QT_VERSION >= 0x050000
-                QString file = url.toLocalFile();
+        QString file = url.toLocalFile();
 #else
-                QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
+        QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
 #endif
-                if (QFile::exists(file)) {
-                    int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.toLocalFile()), 
-                                                                       i18n("Warning"), KGuiItem(i18n("Overwrite")));
-                    if (want_save == KMessageBox::Continue) {
-                        cont = false;
-                    }
-                }
-                else {
-                    cont = false;
-                }
-            } else {
-                cont = false;
-            }
+        if (!file.contains(QLatin1String("."))) {
+            file.append(QLatin1String(".xmi"));
+#if QT_VERSION >= 0x050000
+            url = QUrl::fromLocalFile(file);
+#else
+            url = KUrl::fromPath(file);
+#endif
+        }
+        if (!QFile::exists(file)) {
+            break;
+        }
+        int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", file),
+                                                           i18n("Warning"), KGuiItem(i18n("Overwrite")));
+        if (want_save == KMessageBox::Continue) {
+            cont = false;
         }
     }
     if (!url.isEmpty()) {
