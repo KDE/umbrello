@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2019-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2019-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "diagramproxywidget.h"
@@ -398,7 +398,8 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
     // state widget
     case ListPopupMenu::mt_EditCombinedState:
         if (!linkedDiagram()) {
-            uError() << "no diagram id defined at widget '" << Uml::ID::toString(m_widget->id()) << "'";
+            logError1("DiagramProxyWidget::slotMenuSelection: no diagram id defined at widget id=%1",
+                      Uml::ID::toString(m_widget->id()));
             break;
         }
         linkedDiagram()->setWidgetLink(m_widget);

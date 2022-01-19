@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -365,7 +365,7 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
                 fdlwidget->clipSize();
             }
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("CombinedFragmentWidget::loadFromXMI: unknown tag %1", tag);
         }
         node = node.nextSibling();
         element = node.toElement();

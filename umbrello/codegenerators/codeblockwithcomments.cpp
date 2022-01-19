@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -11,7 +11,7 @@
 // local includes
 #include "codedocument.h"
 #include "codegenfactory.h"
-#include "debug_utils.h"
+#include "uml.h"
 
 // qt/kde includes
 #include <QXmlStreamWriter>
@@ -126,7 +126,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment) {
-        uWarning() << " loadFromXMI : Warning: unable to initialize CodeComment in block:" << getTag();
+        logWarn1("CodeBlockWithComments::loadFromXMI : unable to initialize CodeComment in block %1", getTag());
     }
 }
 

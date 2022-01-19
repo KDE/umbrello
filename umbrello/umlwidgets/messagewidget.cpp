@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // onw header
@@ -350,7 +350,8 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         paintFound(painter, option);
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::paint: Unknown message type %1",
+                 m_sequenceMessageType);
     }
 }
 
@@ -1071,7 +1072,8 @@ void MessageWidget::calculateDimensions()
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         calculateDimensionsFound();
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::calculateDimensions: Unknown message type %1",
+                 m_sequenceMessageType);
     }
     if (! UMLApp::app()->document()->loading()) {
         adjustAssocs(x(), y());  // adjust assoc lines
@@ -1334,7 +1336,8 @@ QSizeF MessageWidget::minimumSize() const
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         return QSizeF(width(), 10);
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::minimumSize: Unknown message type %1",
+                 m_sequenceMessageType);
     }
     return QSize(width(), height());
 }
@@ -1383,7 +1386,7 @@ void MessageWidget::setyclicked(int yclick)
 bool MessageWidget::showPropertiesDialog()
 {
     if (!lwClassifier()) {
-        uError() << "lwClassifier() returns a NULL classifier";
+        logError0("MessageWidget::showPropertiesDialog: lwClassifier() returns a NULL classifier");
         return false;
     }
     bool result = false;
@@ -1477,7 +1480,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
             else
                 m_pFText->setSequenceNumber(m_SequenceNumber);
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("MessageWidget::loadFromXMI: unknown tag %1", tag);
         }
     }
     return true;

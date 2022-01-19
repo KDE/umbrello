@@ -342,8 +342,8 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
 #endif
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-        uError() << m_folderFile << QLatin1String(": ")
-            << "cannot create file, contents will be saved in main model file";
+        logError1("UMLFolder::saveToXMI(%1) : cannot create file. Content will be saved in main model file",
+                  m_folderFile);
         m_folderFile.clear();
         save1(writer);
         return;
@@ -454,7 +454,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
     QString error;
     int line;
     if (!doc.setContent(data, false, &error, &line)) {
-        uError() << "Cannot set content:" << error << " line:" << line;
+        logError2("UMLFolder::loadFolderFile cannot set content: error %1 line %2", error, line);
         return false;
     }
     QDomNode rootNode = doc.firstChild();
@@ -462,13 +462,13 @@ bool UMLFolder::loadFolderFile(const QString& path)
         rootNode = rootNode.nextSibling();
     }
     if (rootNode.isNull()) {
-        uError() << "Root node is Null";
+        logError0("UMLFolder::loadFolderFile: Root node is null");
         return false;
     }
     QDomElement element = rootNode.toElement();
     QString type = element.tagName();
     if (type != QLatin1String("external_file")) {
-        uError() << "Root node has unknown type " << type;
+        logError1("UMLFolder::loadFolderFile: Root node has unknown type %1", type);
         return false;
     }
     return load1(element);
@@ -570,7 +570,7 @@ bool UMLFolder::load1(QDomElement& element)
             QString stereoID = tempElement.attribute(QLatin1String("stereotype"));
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {
-                uWarning() << "Unknown type of umlobject to create: " << type;
+                logWarn1("UMLFolder::load1 unknown type of umlobject to create: %1", type);
                 continue;
             }
         }

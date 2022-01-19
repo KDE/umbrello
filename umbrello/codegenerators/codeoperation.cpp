@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -123,7 +123,7 @@ void CodeOperation::setAttributesFromNode (QDomElement & element)
     if (op)
         init(op);
     else
-        uError() << "ERROR: could not load code operation because of missing UMLoperation, corrupt savefile?";
+        logError0("could not load code operation because of missing UMLoperation, corrupt savefile?");
 }
 
 /**

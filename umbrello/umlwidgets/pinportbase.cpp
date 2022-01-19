@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -11,6 +11,7 @@
 #include "package.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
@@ -201,7 +202,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
             m_pName->activate();
             UMLWidget* owner = ownerWidget();
             if (owner == 0) {
-                uError() << "PinPortBase::slotMenuSelection: ownerWidget() returns NULL";
+                logError0("PinPortBase::slotMenuSelection: ownerWidget() returns null");
                 setX(x());
                 setY(y());
             } else {
@@ -326,7 +327,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
                 m_pName->update();
             }
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("PinPortBase::loadFromXMI: unknown tag %1", tag);
         }
     }
     return true;

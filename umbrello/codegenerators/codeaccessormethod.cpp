@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -154,7 +154,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
         if (newCF)
                 initFields(newCF);
         else
-                uError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
+                logError0("code accessor method cant load parent codeclassfield, corrupt file?");
 
     */
     // now load/set other local attributes

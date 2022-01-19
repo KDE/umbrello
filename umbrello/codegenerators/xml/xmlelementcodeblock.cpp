@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -11,7 +11,7 @@
 // local includes
 #include "attribute.h"
 #include "codedocument.h"
-#include "debug_utils.h"
+#include "uml.h"
 #include "xmlcodecomment.h"
 
 // qt includes
@@ -110,7 +110,7 @@ void XMLElementCodeBlock::updateContent ()
     foreach (UMLAttribute *at, *alist)
     {
         if(at->getInitialValue().isEmpty())
-            uWarning() << " XMLElementCodeBlock : cant print out attribute that lacks an initial value";
+            logWarn0("XMLElementCodeBlock : cant print out attribute that lacks an initial value");
         else {
             startText.append(QLatin1String(" ") + at->name() + QLatin1String("=\""));
             startText.append(at->getInitialValue() + QLatin1String("\""));

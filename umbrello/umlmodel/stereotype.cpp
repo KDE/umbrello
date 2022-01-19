@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -29,7 +29,7 @@ UMLStereotype::UMLStereotype(const QString &name, Uml::ID::Type id /* = Uml::id_
     m_BaseType = UMLObject::ot_Stereotype;
     UMLStereotype * existing = UMLApp::app()->document()->findStereotype(name);
     if (existing) {
-        uError() << "UMLStereotype constructor: " << name << " already exists";
+        logError1("UMLStereotype constructor: %1 already exists", name);
     }
     m_refCount = 0;
 }

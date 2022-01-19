@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -12,6 +12,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
 
@@ -165,7 +166,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                     rebuildView(para);
                 }
             } else {
-                uError() << "UNKNOWN parent for textBlock";
+                logError0("UNKNOWN parent for textBlock");
             }
         }
     }
@@ -890,7 +891,7 @@ void CodeEditor::slotCopyTextBlock()
     else if (dynamic_cast<CodeComment*>(m_selectedTextBlock))
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else {
-        uError() << " ERROR: CodeEditor cannot copy selected block:" << m_selectedTextBlock << " of unknown type";
+        logError0("CodeEditor cannot copy selected block of unknown type");
         m_textBlockToPaste = 0;
         return; // error!
     }
@@ -1093,14 +1094,14 @@ void CodeEditor::slotCursorPositionChanged()
     if (editPara) {
         TextBlock * tBlock = m_textBlockList.at(para);
         if (!tBlock) {
-            uWarning() << "no text block found in list at position " << para;
+            logWarn1("no text block found in list at position %1", para);
             return;
         }
         DEBUG(DBG_SRC) << tBlock;
 
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(tBlock);
         if (!cmb) {
-            uWarning() << "cast to CodeMethodBlock failed";
+            logWarn0("cast to CodeMethodBlock failed");
             return;
         }
 
@@ -1306,7 +1307,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
     if (tBlock) {
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         if (!info) {
-            uWarning() << "zero TextBlockInfo instance";
+            logWarn0("zero TextBlockInfo instance");
             return;
         }
         QList<ParaInfo*> list = info->m_paraList;

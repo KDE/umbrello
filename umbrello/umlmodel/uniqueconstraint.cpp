@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //own header
@@ -206,7 +206,7 @@ bool UMLUniqueConstraint::load1(QDomElement & element)
             m_EntityAttributeList.append(entAtt);
 
         } else {
-            uWarning() << "unknown child type in UMLUniqueConstraint::load";
+            logWarn0("unknown child type in UMLUniqueConstraint::load");
         }
 
         node = node.nextSibling();
@@ -251,14 +251,14 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 
     }
     if (owningParent == 0) {
-        uError() << name() << ": parent is not a UMLEntity";
+        logError1("UMLUniqueConstraint::addEntityAttribute(%1) : parent is not a UMLEntity",
+                  name());
         return false;
     }
 
     if (owningParent->findChildObjectById(attr->id()) == 0) {
-        uError()
-            << " parent " << owningParent->name()
-            << " does not contain attribute " << attr->name();
+        logError3("UMLUniqueConstraint::addEntityAttribute(%1) parent %2 does not contain attribute %3",
+                  name(), owningParent->name(), attr->name());
         return false;
     }
 
@@ -279,7 +279,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
     const UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (owningParent == 0) {
-        uError() << name() << ": parent is not a UMLEntity";
+        logError1("UMLUniqueConstraint::removeEntityAttribute(%1) : parent is not a UMLEntity", name());
         return false;
     }
 

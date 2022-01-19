@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -199,11 +199,11 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
                 codeDoc->loadFromXMI(codeDocElement);
             }
             else {
-                uWarning() << "missing code document for id:" << id;
+                logWarn1("missing code document for id %1", id);
             }
         }
         else {
-            uWarning() << "got strange codegenerator child node:" << docTag << ", ignoring.";
+            logWarn1("got strange codegenerator child node %1, ignoring.", docTag);
         }
         codeDocNode = codeDocElement.nextSibling();
         codeDocElement = codeDocNode.toElement();
@@ -228,11 +228,11 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
             op->setSourceCode(value);
         }
         else {
-            uError() << "sourcecode id " << idStr << " has unexpected type " << UMLObject::toString(t);
+            logError2("sourcecode id %1 has unexpected type %2", idStr, UMLObject::toString(t));
         }
     }
     else {
-        uError() << "unknown sourcecode id " << idStr;
+        logError1("unknown sourcecode id %1", idStr);
     }
 }
 
@@ -359,7 +359,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
                 emit showGeneratedFile(file.fileName());
             }
             else {
-                uWarning() << "Cannot open file :" << file.fileName() << " for writing!";
+                logWarn1("Cannot open file %1 for writing", file.fileName());
                 codeGenSuccess = false;
             }
         }
@@ -521,7 +521,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 {
     //open files for writing.
     if (fileName.isEmpty()) {
-        uWarning() << "cannot find a file name";
+        logWarn0("cannot find a file name");
         return false;
     }
     else {

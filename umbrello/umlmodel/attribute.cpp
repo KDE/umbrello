@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -147,8 +147,8 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
         }
         const UMLClassifier *ownParent = owningObject->asUMLClassifier();
         if (ownParent == 0) {
-            uError() << "parent " << owningObject->name()
-                << " is not a UMLClassifier";
+            logError2("UMLAttribute::toString(%1): parent %2 is not a UMLClassifier",
+                      name(), owningObject->name());
             return QString();
         }
         QString typeName;
@@ -195,8 +195,8 @@ QString UMLAttribute::getFullyQualifiedName(const QString& separator,
     }
     UMLClassifier *ownParent = owningObject->asUMLClassifier();
     if (ownParent == 0) {
-        uError() << name() << ": parent " << owningObject->name()
-            << " is not a UMLClassifier";
+        logError2("UMLAttribute::getFullyQualifiedName(%1): parent %2 is not a UMLClassifier",
+                  name(), owningObject->name());
         return QString();
     }
     QString tempSeparator = separator;
@@ -348,8 +348,8 @@ bool UMLAttribute::load1(QDomElement & element)
                                  << ", did not find it so created it now, " << m_pSecondary;
                     }
                 } else {
-                    uWarning() << "UMLAttribute::load1(" << name()
-                               << ") : resolving of href is not yet implemented: " << href;
+                    logWarn2("UMLAttribute::load1(%1) : resolving of href is not yet implemented (%2)",
+                             name(), href);
                 }
             }
             break;

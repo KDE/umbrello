@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -130,11 +130,11 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
  */
 bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true */) {
     if (pObject == 0) {
-        uError() << "is called with a NULL object";
+        logError0("UMLPackage::addObject is called with a null object");
         return false;
     }
     if (pObject == this) {
-        uError() << "adding myself as child is not allowed";
+        logError0("UMLPackage::addObject: adding self as child is not allowed");
         return false;
     }
 
@@ -150,8 +150,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
         if (assoc->getObject(Uml::RoleType::A) && assoc->getObject(Uml::RoleType::B)) {
             UMLPackage *pkg = pObject->umlPackage();
             if (pkg != this) {
-               uError() << "UMLPackage " << name() << " addObject: "
-                        << "assoc's UMLPackage is " << pkg->name();
+               logError2("UMLPackage %1 addObject: assoc's UMLPackage is %2", name(), pkg->name());
             }
             addAssocToConcepts(assoc);
         }
@@ -206,12 +205,11 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
 void UMLPackage::removeObject(UMLObject *pObject)
 {
     if (pObject->baseType() == UMLObject::ot_Association) {
-        UMLObject *o = const_cast<UMLObject*>(pObject);
-        UMLAssociation *assoc = o->asUMLAssociation();
+        UMLAssociation *assoc = pObject->asUMLAssociation();
         if (assoc)
-	        removeAssocFromConcepts(assoc);
+	    removeAssocFromConcepts(assoc);
         else
-            uError() << "invalid cast found";
+            logError0("UMLPackage::removeObject: object asserts to be UMLAssociation but is not");
     }
     if (m_objects.indexOf(pObject) == -1) {
         uDebug() << name() << " removeObject: object with id="
@@ -219,6 +217,7 @@ void UMLPackage::removeObject(UMLObject *pObject)
         return;
     }
     // Do not delete a datatype from its root folder but just mark it as inactive.
+    //   https://bugs.kde.org/show_bug.cgi?id=427532
     // We need this special handling because of the possibility of switching
     // the active programming language.  Without it,
     // - switching the active language could create dangling references on all
@@ -230,8 +229,8 @@ void UMLPackage::removeObject(UMLObject *pObject)
         if (dt) {
             dt->setActive(false);
         } else {
-            uWarning() << "UMLPackage::removeObject(" << pObject->name()
-                       << ") : Expected Datatype, found " << pObject->baseTypeStr();
+            logWarn2("UMLPackage::removeObject(%1) : Expected Datatype, found %2",
+                     pObject->name(), pObject->baseTypeStr());
         }
     } else {
         m_objects.removeAll(pObject);
@@ -484,7 +483,7 @@ bool UMLPackage::load1(QDomElement& element)
         QString stereoID = tempElement.attribute(QLatin1String("stereotype"));
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
         if (!pObject) {
-            uWarning() << "Unknown type of umlobject to create: " << type;
+            logWarn1("UMLPackage::load1 unknown type of umlobject to create: %1", type);
             continue;
         }
         pObject->setUMLPackage(this);

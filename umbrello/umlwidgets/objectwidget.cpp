@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -559,7 +559,7 @@ int ObjectWidget::getEndLineY()
 void ObjectWidget::messageAdded(MessageWidget* message)
 {
     if (m_messages.count(message)) {
-        uError() << message->name() << ": duplicate entry !";
+        logError1("ObjectWidget::messageAdded(%1) duplicate entry", message->name());
         return ;
     }
     m_messages.append(message);
@@ -573,7 +573,7 @@ void ObjectWidget::messageAdded(MessageWidget* message)
 void ObjectWidget::messageRemoved(MessageWidget* message)
 {
     if (m_messages.removeAll(message) == false) {
-        uError() << message->name() << ": missing entry !";
+        logError1("ObjectWidget::messageAdded(%1) missing entry", message->name());
         return ;
     }
 }

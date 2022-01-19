@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -66,13 +66,13 @@ UMLAssociation::UMLAssociation(Uml::AssociationType::Enum type)
 UMLAssociation::~UMLAssociation()
 {
     if (m_pRole[RoleType::A] == 0) {
-        uError() << "UMLAssociation destructor: m_pRole[A] is NULL already";
+        logError0("UMLAssociation destructor: m_pRole[A] is null already");
     } else {
         delete m_pRole[RoleType::A];
         m_pRole[RoleType::A] = 0;
     }
     if (m_pRole[RoleType::B] == 0) {
-        uError() << "UMLAssociation destructor: m_pRole[B] is NULL already";
+        logError0("UMLAssociation destructor: m_pRole[B] is null already");
     } else {
         delete m_pRole[RoleType::B];
         m_pRole[RoleType::B] = 0;
@@ -226,8 +226,8 @@ bool UMLAssociation::load1(QDomElement & element)
         if (!general.isEmpty()) {
             UMLClassifier *owningClassifier = umlParent()->asUMLClassifier();
             if (owningClassifier == 0){
-                uWarning() << "Cannot load UML2 generalization: m_pUMLPackage is expected "
-                           << "to be the owning classifier (=client)";
+                logWarn1("Cannot load UML2 generalization: m_pUMLPackage (%1) is expected "
+                         "to be the owning classifier (=client)", umlParent()->name());
                 return false;
             }
             m_pRole[RoleType::A]->setObject(owningClassifier);
@@ -285,9 +285,8 @@ bool UMLAssociation::load1(QDomElement & element)
                         idStr = tmpElem.attribute(QLatin1String("xmi.idref"));
                 }
                 if (idStr.isEmpty()) {
-                    uError() << "type " << m_AssocType
-                        << ", id " << Uml::ID::toString(id()) << ": "
-                        << "xmi id not given for " << tag;
+                    logError3("UMLAssociation::load1 type %1, id %2 : xmi id not given for %3",
+                              m_AssocType, Uml::ID::toString(id()), tag);
                     continue;
                 }
                 // Since we know for sure that we're dealing with a non
@@ -330,7 +329,7 @@ bool UMLAssociation::load1(QDomElement & element)
             nodeA = nodeA.nextSibling();
         tempElement = nodeA.toElement();
         if (tempElement.isNull()) {
-            uWarning() << "UML:Association : element (A) is Null";
+            logWarn0("UMLAssociation::load1 : element (A) is null");
             return false;
         }
         tag = tempElement.tagName();
@@ -339,7 +338,7 @@ bool UMLAssociation::load1(QDomElement & element)
         } else if (!UMLDoc::tagEq(tag, QLatin1String("ownedEnd")) &&
                    !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd")) &&
                    !UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole"))) {
-            uWarning() << "unknown child (A) tag " << tag;
+            logWarn1("UMLAssociation::load1: unknown child (A) tag %1", tag);
             return false;
         }
         if (! getUMLRole(RoleType::A)->loadFromXMI(tempElement))
@@ -350,7 +349,7 @@ bool UMLAssociation::load1(QDomElement & element)
             nodeB = nodeB.nextSibling();
         tempElement = nodeB.toElement();
         if (tempElement.isNull()) {
-            uWarning() << "UML:Association : element (B) is Null";
+            logWarn0("UMLAssociation::load1 : element (B) is null");
             return false;
         }
         tag = tempElement.tagName();
@@ -359,7 +358,7 @@ bool UMLAssociation::load1(QDomElement & element)
         } else if (!UMLDoc::tagEq(tag, QLatin1String("ownedEnd")) &&
                    !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd")) &&
                    !UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole"))) {
-            uWarning() << "unknown child (B) tag " << tag;
+            logWarn1("UMLAssociation::load1: unknown child (B) tag %1", tag);
             return false;
         }
         if (! getUMLRole(RoleType::B)->loadFromXMI(tempElement))
@@ -432,7 +431,8 @@ bool UMLAssociation::load1(QDomElement & element)
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)Uml::AssociationType::Generalization ||   // first enum
             assocTypeNum >= (int)Uml::AssociationType::Reserved) {     // last enum
-            uWarning() << "bad assoctype of UML:AssociationType::Enum " << Uml::ID::toString(id());
+            logWarn1("UMLAssociation::load1: bad assoctype of UML:AssociationType::Enum %1",
+                     Uml::ID::toString(id()));
             return false;
         }
         assocType = Uml::AssociationType::fromInt(assocTypeNum);
@@ -520,7 +520,8 @@ Uml::ID::Type UMLAssociation::getObjectId(Uml::RoleType::Enum role) const
     if (o == 0) {
         QString auxID = roleObj->secondaryId();
         if (auxID.isEmpty()) {
-            uError() << "role " << role << ": getObject returns NULL";
+            logError1("UMLAssociation::getObjectId role %1 : getObject returns null",
+                      Uml::RoleType::toString(role));
             return Uml::ID::None;
         } else {
             DEBUG(DBG_SRC) << "role " << role << ": using secondary ID " << auxID;

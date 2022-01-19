@@ -221,12 +221,12 @@ UMLDoc::~UMLDoc()
 void UMLDoc::addView(UMLView *view)
 {
     if (view == 0) {
-        uError() << "argument is NULL";
+        uError() << "UMLDoc::addView argument is NULL";
         return;
     }
     UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
-        uError() << "view folder is not set";
+        logError0("UMLDoc::addView view folder is not set");
         return;
     }
     DEBUG(DBG_SRC) << view->umlScene()->name() << " to folder " << *f << " (" << f->name() << ")";
@@ -260,7 +260,7 @@ void UMLDoc::addView(UMLView *view)
 void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
 {
     if (!view) {
-        uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
+        logWarn0("UMLDoc::removeView(UMLView *view) called with view = 0");
         return;
     }
     DEBUG(DBG_SRC) << "<" << view->umlScene()->name() << ">";
@@ -271,7 +271,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
     view->hide();
     UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
-        uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
+        logWarn1("UMLDoc::removeView %1 : view->getFolder() returns NULL", view->umlScene()->name());
         return;
     }
     m_diagramsModel->removeDiagram(view);
@@ -824,7 +824,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now check if we can write to the file
         if (archive->open(QIODevice::WriteOnly) == false) {
-            uError() << "could not open" << archive->fileName();
+            logError1("UMLDoc::saveDocument could not open %1", archive->fileName());
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -843,7 +843,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
         tmp_xmi_file.setAutoRemove(false);
         if (!tmp_xmi_file.open()) {
-            uError() << "could not open" << tmp_xmi_file.fileName();
+            logError1("UMLDoc::saveDocument could not open %1", tmp_xmi_file.fileName());
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -865,7 +865,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
         if (!archive->close()) {
-            uError() << "could not close" << archive->fileName();
+            logError1("UMLDoc::saveDocument could not close %1", archive->fileName());
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -888,7 +888,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
 #endif
             if (!uploaded)
-                uError() << "could not upload file" << tmp_tgz_file.fileName() << "to" << url;
+                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmp_tgz_file.fileName(),
+                          url.toString());
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -916,7 +917,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // lets open the file for writing
         if (!tmpfile.open()) {
-            uError() << "could not open" << tmpfile.fileName();
+            logError1("UMLDoc::saveDocument could not open %1", tmpfile.fileName());
 #if QT_VERSION >= 0x050000
             KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
@@ -938,7 +939,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
 #endif
             if (!uploaded)
-                uError() << "could not upload file" << tmpfile.fileName() << "to" << url;
+                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmpfile.fileName(), url.toString());
         }
         else {
             // now remove the original file
@@ -960,7 +961,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
             if (fcj->error()) {
-                uError() << "Could not move" << tmpfile.fileName() << "to" << url;
+                logError2("UMLDoc::saveDocument Could not move %1 to %2", tmpfile.fileName(), url.toString());
                 KMessageBox::error(0, i18n("There was a problem saving: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
 #else
             if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
@@ -1023,8 +1024,7 @@ UMLView * UMLDoc::findView(Uml::DiagramType::Enum type, const QString &name,
 {
     Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(type);
     if (mt == Uml::ModelType::N_MODELTYPES) {
-        uWarning() << "UMLDoc::findView : Returning null because DiagramType "
-                   << type << " cannot be mapped to ModelType";
+        logWarn1("UMLDoc::findView : Returning null because DiagramType %1 cannot be mapped to ModelType", type);
         return nullptr;
     }
     return m_root[mt]->findView(type, name, searchAllScopes);
@@ -1220,7 +1220,7 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)
     //m_objectList.remove(object);
     UMLPackage *pkg = object->umlPackage();
     if (pkg == 0) {
-        uError() << object->name() << ": parent package is not set !";
+        logError1("UMLDoc::slotRemoveUMLObject %1 : parent package is not set", object->name());
         return;
     }
     pkg->removeObject(object);
@@ -1256,7 +1256,7 @@ bool UMLDoc::isUnique(const QString &name) const
         return isUnique(name, parentPkg);
     }
 
-    uError() << name << ": Not currently in a package";
+    logError1("UMLDoc::isUnique %1: Not currently in a package", name);
     /* Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
@@ -1282,7 +1282,7 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package) const
     }
 
     // Not currently in a package: ERROR
-    uError() << name << " (2): Not currently in a package";
+    logError1("UMLDoc::isUnique %1 (2): Not currently in a package", name);
     /* Check against all objects that _don't_ have a parent package.
     for (UMLObjectListIt oit(m_objectList); oit.current(); ++oit) {
         UMLObject *obj = oit.current();
@@ -1405,7 +1405,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
     // Remove the UMLAssociation from m_objectList.
     UMLPackage *pkg = assoc->umlPackage();
     if (pkg == 0) {
-        uError() << assoc->name() << ": parent package is not set !";
+        logError1("UMLDoc::removeAssociation %1: parent package is not set", assoc->name());
         return;
     }
     pkg->removeObject(assoc);
@@ -1503,7 +1503,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     // Add the UMLAssociation at the owning UMLPackage.
     UMLPackage *pkg = assoc->umlPackage();
     if (pkg == 0) {
-        uError() << assoc->name() << ": parent package is not set !";
+        logError1("UMLDoc::addAssociation %1: parent package is not set", assoc->name());
         return;
     }
     pkg->addObject(assoc);
@@ -1556,7 +1556,7 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type) const
             dname = i18n("entity relationship diagram");
             break;
         default:
-            uWarning() << "called with unknown diagram type";
+            logWarn0("UMLDoc::uniqueViewName called with unknown diagram type");
             break;
     }
     QString name = dname;
@@ -1790,7 +1790,7 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
         UMLApp::app()->docWindow()->showDocumentation(scene);
     }
     else {
-        uWarning() << "New current view was not found with id=" << Uml::ID::toString(id) << "!";
+        logWarn1("UMLDoc::changeCurrentView: New current view was not found with id %1", Uml::ID::toString(id));
     }
 }
 
@@ -1805,7 +1805,7 @@ void UMLDoc::removeDiagram(Uml::ID::Type id)
 {
     UMLView* umlView = findView(id);
     if (!umlView) {
-        uError() << "Request to remove diagram " << Uml::ID::toString(id) << ": Diagram not found!";
+        logError1("UMLDoc::removeDiagram : diagram with id %1 not found", Uml::ID::toString(id));
         return;
     }
 
@@ -1830,7 +1830,7 @@ void UMLDoc::removeDiagramCmd(Uml::ID::Type id)
     UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLView* umlview = findView(id);
     if (!umlview) {
-        uError() << "Request to remove diagram " << Uml::ID::toString(id) << ": Diagram not found!";
+        logError1("UMLDoc::removeDiagramCmd : diagram with id %1 not found", Uml::ID::toString(id));
         return;
     }
 
@@ -1851,7 +1851,7 @@ UMLFolder *UMLDoc::currentRoot() const
         if (m_pCurrentRoot) {
             return m_pCurrentRoot;
         }
-        uError() << "m_pCurrentRoot is NULL";
+        logError0("UMLDoc::currentRoot : m_pCurrentRoot is NULL");
         return 0;
     }
     UMLFolder *f = currentView->umlScene()->folder();
@@ -1884,7 +1884,7 @@ void UMLDoc::setCurrentRoot(Uml::ModelType::Enum rootType)
 void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
 {
     if (umlobject == 0) {
-        uError() << "called with NULL parameter";
+        logError0("UMLDoc::removeUMLObject called with NULL parameter");
         return;
     }
     UMLApp::app()->docWindow()->updateDocumentation(true);
@@ -1894,7 +1894,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
     if (umlobject->asUMLClassifierListItem())  {
         UMLClassifier* parent = umlobject->umlParent()->asUMLClassifier();
         if (parent == 0) {
-            uError() << "parent of umlobject is NULL";
+            logError0("UMLDoc::removeUMLObject: parent of umlobject is NULL");
             return;
         }
         if (type == UMLObject::ot_Operation) {
@@ -1914,8 +1914,8 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
         } else {
             UMLClassifier* pClass = parent->asUMLClassifier();
             if (pClass == 0)  {
-                uError() << "parent of umlobject has unexpected type "
-                         << parent->baseType();
+                logError1("UMLDoc::removeUMLObject: parent of umlobject has unexpected type %1",
+                          parent->baseType());
                 return;
             }
             if (type == UMLObject::ot_Attribute) {
@@ -1925,7 +1925,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 if (deleteObject)
                     delete umlobject->asUMLTemplate();
             } else {
-                uError() << "umlobject has unexpected type " << type;
+                logError1("UMLDoc::removeUMLObject: umlobject has unexpected type %1", type);
             }
         }
     } else if (type == UMLObject::ot_Association) {
@@ -1944,7 +1944,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 // root folder.
                 UMLPackage* rootPkg = Model_Utils::rootPackage(c);
                 if (rootPkg == 0) {
-                    uError() << umlobject->name() << ": root package is not set !";
+                    logError1("UMLDoc::removeUMLObject %1: root package is not set", umlobject->name());
                     return;
                 }
                 UMLObjectList rootObjects = rootPkg->containedObjects();
@@ -1970,7 +1970,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
             if (deleteObject)
                 delete umlobject;
         } else {
-            uError() << umlobject->name() << ": parent package is not set !";
+            logError1("UMLDoc::removeUMLObject %1: parent package is not set", umlobject->name());
         }
     }
     setModified(true);
@@ -2208,7 +2208,7 @@ short UMLDoc::encoding(QIODevice & file)
     int line;
     QDomDocument doc;
     if (!doc.setContent(data, false, &error, &line)) {
-        uWarning() << "UMLDoc::encoding : Cannot set content: " << error << " Line: " << line;
+        logWarn2("UMLDoc::encoding cannot set content : Error %1, line %2", error, line);
         return ENC_UNKNOWN;
     }
 
@@ -2236,7 +2236,7 @@ short UMLDoc::encoding(QIODevice & file)
         node = node.nextSibling();
     }
     if (enc == ENC_UNKNOWN) {
-        uWarning() << "UMLDoc::encoding : No ProcessingInstruction found, assuming ENC_UNICODE";
+        logWarn0("UMLDoc::encoding : No ProcessingInstruction found, assuming ENC_UNICODE");
         enc = ENC_UNICODE;
     }
     return enc;
@@ -2275,7 +2275,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     int line;
     QDomDocument doc;
     if (!doc.setContent(data, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDoc::loadFromXMI cannot set content : Error %1, line %2", error, line);
         return false;
     }
     qApp->processEvents();  // give UI events a chance
@@ -2337,7 +2337,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             } else if (tagEq(outerTag, QLatin1String("Model")) ||
                        tagEq(outerTag, QLatin1String("Package"))) {
                 if(!loadUMLObjectsFromXMI(element)) {
-                    uWarning() << "failed load on objects";
+                    logWarn0("failed load on objects");
                     return false;
                 }
                 m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
@@ -2365,7 +2365,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                         || tagEq(tag, QLatin1String("Project"))  // Embarcadero's Describe
                         || tagEq(tag, QLatin1String("Model"))) {
                     if (!loadUMLObjectsFromXMI(element)) {
-                        uWarning() << "failed load on objects";
+                        logWarn0("UMLDoc::loadFromXMI failed load on objects");
                         return false;
                     }
                     m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
@@ -2380,7 +2380,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     QString stID = element.attribute(QLatin1String("stereotype"));
                     UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
                     if (!pObject) {
-                        uWarning() << "Unknown type of umlobject to create: " << tag;
+                        logWarn1("UMLDoc::loadFromXMI Unknown type of umlobject to create: %1", tag);
                         // We want a best effort, therefore this is handled as a
                         // soft error.
                         continue;
@@ -2397,8 +2397,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                                 pkg = m_root[guess];
                             }
                             else {
-                                uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                                         << pObject->name() << " / base type " << pObject->baseTypeStr();
+                                logError2("UMLDoc::loadFromXMI: guessContainer failed - package not set correctly for %1 / base type %2",
+                                          pObject->name(), pObject->baseTypeStr());
                                 pkg = m_root[Uml::ModelType::Logical];
                             }
                         }
@@ -2446,14 +2446,14 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     } else if (tagEq(outerTag, QLatin1String("Model")) ||
                tagEq(outerTag, QLatin1String("Package"))) {
         if (!loadUMLObjectsFromXMI(root)) {
-            uWarning() << "UMLDoc::loadFromXMI failed load on objects";
+            logWarn0("UMLDoc::loadFromXMI (without XMI element) failed load on objects");
             return false;
         }
         m_Name = root.attribute(QLatin1String("name"), i18n("UML Model"));
         UMLListView *lv = UMLApp::app()->listView();
         lv->setTitle(0, m_Name);
     } else {
-        uError() << "UMLDoc::loadFromXMI failed load: Unrecognized outer element " << outerTag;
+        logError1("UMLDoc::loadFromXMI failed load: Unrecognized outer element %1", outerTag);
         return false;
     }
 
@@ -2631,7 +2631,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                     UMLFolder *curRootSave = m_pCurrentRoot;
                     m_pCurrentRoot = m_root[i];
                     if (!m_pCurrentRoot->loadFromXMI(tempElement)) {
-                        uWarning() << "failed load on " << name;
+                        logWarn1("UMLDoc::loadUMLObjectsFromXMI failed load on %1", name);
                         m_pCurrentRoot = curRootSave;
                         return false;
                     }
@@ -2655,7 +2655,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // tests do not become true for Umbrello native files, only for
             // some foreign XMI files.
             if (!loadUMLObjectsFromXMI(tempElement)) {
-                uWarning() << "failed load on " << type;
+                logWarn1("UMLDoc::loadUMLObjectsFromXMI failed load on type %1", type);
                 return false;
             }
             continue;
@@ -2675,15 +2675,15 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 DEBUG(DBG_SRC) << "resolution of xmi.idref " << idref
                                << " is not yet implemented";
             } else {
-                uError() << "Cannot load " << type
-                         << " because xmi.id is missing";
+                logError1("UMLDoc::loadUMLObjectsFromXMI cannot load type %1 because xmi.id is missing",
+                          type);
             }
             continue;
         }
         QString stID = tempElement.attribute(QLatin1String("stereotype"));
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
         if (!pObject) {
-            uWarning() << "Unknown type of umlobject to create: " << type;
+            logWarn1("UMLDoc::loadUMLObjectsFromXMI unknown type of umlobject to create: %1", type);
             // We want a best effort, therefore this is handled as a
             // soft error.
             continue;
@@ -2700,8 +2700,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                     pkg = m_root[guess];
                 }
                 else {
-                    uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                             << pObject->name() << " / base type " << pObject->baseTypeStr();
+                    logError2("UMLDoc::loadUMLObjectsFromXMI guessContainer failed - package not set correctly for %1 / base type %2",
+                              pObject->name(), pObject->baseTypeStr());
                     pkg = m_root[Uml::ModelType::Logical];
                 }
             }
@@ -2743,7 +2743,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
         }
         else if (ot != UMLObject::ot_Stereotype) {
-            uError() << "Package is NULL for " << pObject->name();
+            logError1("UMLDoc::loadUMLObjectsFromXMI: Package is NULL for %1", pObject->name());
             return false;
         }
 
@@ -2789,7 +2789,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             element = diagramNode.toElement();
             tag = element.tagName();
             if (tag != QLatin1String("uisOwnedDiagram")) {
-                uError() << "unknown child node " << tag;
+                logError1("UMLDoc::loadExtensionsFromXMI1 unknown child node %1", tag);
                 return;
             }
             diagramNode = diagramNode.firstChild();
@@ -2807,7 +2807,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             }
         }
         if (!loadDiagramsFromXMI1(diagramNode)) {
-            uWarning() << "failed load on diagrams";
+            logWarn0("UMLDoc::loadExtensionsFromXMI1 failed load on diagrams");
         }
 
     } else if (tag == QLatin1String("listview")) {
@@ -2815,7 +2815,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
         //       else listview items are duplicated.
         resolveTypes();
         if (!UMLApp::app()->listView()->loadFromXMI(element)) {
-            uWarning() << "failed load on listview";
+            logWarn0("UMLDoc::loadExtensionsFromXMI1 failed load on listview");
         }
 
     } else if (tag == QLatin1String("codegeneration")) {
@@ -2875,7 +2875,7 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
                 success = pView->umlScene()->loadFromXMI(element);
             }
             if (!success) {
-                uWarning() << "failed load on viewdata loadfromXMI";
+                logWarn0("UMLDoc::loadDiagramsFromXMI failed load on viewdata loadfromXMI");
                 delete pView;
                 return false;
             }
@@ -2887,8 +2887,8 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
                 pView->hide();
                 addView(pView);
             } else {
-                uWarning() << "cannot add " << tag << " because umlScene type "
-                           << pView->umlScene()->type() << " cannot be mapped to ModelType";
+                logWarn2("UMLDoc::loadDiagramsFromXMI cannot add %1 because scene type %2 cannot be mapped to ModelType",
+                         tag, pView->umlScene()->type());
             }
             emit sigSetStatusbarProgress(++count);
             qApp->processEvents();  // give UI events a chance

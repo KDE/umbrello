@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -652,7 +652,7 @@ bool UMLOperation::load1(QDomElement & element)
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        uError() << name() << ": cannot find return type.";
+                        logError1("UMLOperation::load1(%1) : cannot find return type", name());
                     }
                 }
                 // Use deferred xmi.id resolution.

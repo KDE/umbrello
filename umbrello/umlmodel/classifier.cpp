@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 #include "classifier.h"
 
@@ -102,7 +102,7 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
             newIcon = Icon_Utils::it_Package;
             break;
         default:
-            uError() << "cannot set to type " << ot;
+            logError2("UMLClassifier %1 setBaseType : cannot set to type %2", name(), ot);
             return;
     }
     Model_Utils::treeViewChangeIcon(this, newIcon);
@@ -956,7 +956,8 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
         UMLClassifierList parents = findSuperClassConcepts();
         foreach(UMLClassifier *c, parents) {
             if (alreadyTraversed->contains(c)) {
-                uError() << "class " << c->name() << " is starting a dependency loop!";
+                logError2("UMLClassifier::getOpList(%1) : class %2 is starting a dependency loop!",
+                          name(), c->name());
                 continue;
             }
             // get operations for each parent by recursive call
@@ -1099,7 +1100,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
 int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
 {
     if (!subordinates().removeAll(umltemplate)) {
-        uWarning() << "cannot find att given in list";
+        logWarn1("UMLClassifier::removeTemplate(%1) : cannot find att given in list", name());
         return -1;
     }
     emit templateRemoved(umltemplate);
@@ -1360,7 +1361,8 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
             return;
             break;
         default:
-            uError() << "internal error: basetype is " << m_BaseType;
+            logError2("UMLClassifier::saveToXMI(%1) internal error: basetype is %2",
+                      name(), m_BaseType);
             return;
     }
     UMLObject::save1(writer, tag);
@@ -1504,7 +1506,7 @@ bool UMLClassifier::load1(QDomElement& element)
                         break;
                     case UMLObject::ot_Operation:
                         if (! addOperation(child->asUMLOperation())) {
-                            uError() << "error from addOperation(op)";
+                            logError1("UMLClassifier::load1(%1) : error from addOperation(op)", name());
                             delete child;
                             totalSuccess = false;
                         }
@@ -1517,7 +1519,7 @@ bool UMLClassifier::load1(QDomElement& element)
                         break;
                 }
             } else {
-                uWarning() << "failed to load " << tag;
+                logWarn2("UMLClassifier::load1(%1): failed to load %2", name(), tag);
                 delete child;
                 totalSuccess = false;
             }

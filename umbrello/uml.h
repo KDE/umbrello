@@ -114,6 +114,12 @@ public:
     WorkToolBar* workToolBar() const;
     DocWindow * docWindow() const;
     QListWidget *logWindow() const;
+    bool logToConsole() const;
+    void log(const QString& s);
+    void logDebug(const QString& s);
+    void logInfo(const QString& s);
+    void logWarn(const QString& s);
+    void logError(const QString& s);
 
     QCursor defaultCursor() const;
 
@@ -514,6 +520,7 @@ private:
     bool m_hasBegunMacro;  ///< Macro creation flag.
 
     QPointer<DiagramPrintPage> m_printSettings; ///< printer diagram settings
+    bool m_logToConsole;   ///< Is set true if env var UMBRELLO_LOG_TO_CONSOLE is 1 or logDock invisible
     QPrinter *m_printer;               ///< print instance
     static bool s_shuttingDown;
 
@@ -523,5 +530,30 @@ signals:
     friend class UMLAppPrivate;
     friend class UMLView;
 };
+
+#define logDebug0(s) UMLApp::app()->logDebug(QLatin1String(s))
+#define logInfo0(s)  UMLApp::app()->logInfo(QLatin1String(s))
+#define logWarn0(s)  UMLApp::app()->logWarn(QLatin1String(s))
+#define logError0(s) UMLApp::app()->logError(QLatin1String(s))
+
+#define logDebug1(s, a) do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo1(s, a)  do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn1(s, a)  do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError1(s, a) do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug2(s, a, b) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo2(s, a, b)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn2(s, a, b)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError2(s, a, b) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug3(s, a, b, c) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo3(s, a, b, c)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn3(s, a, b, c)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError3(s, a, b, c) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug4(s, a, b, c, d) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo4(s, a, b, c, d)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn4(s, a, b, c, d)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError4(s, a, b, c, d) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logError(fmt); } while (0)
 
 #endif // UML_H

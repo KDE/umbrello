@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "instance.h"
@@ -79,7 +79,7 @@ void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /*
                 UMLInstanceAttribute *ia = new UMLInstanceAttribute(this, umla, umla->getInitialValue());
                 subordinates().append(ia);
             } else {
-                uError() << "UMLInstance::setClassifierCmd : item is not an attriubte";
+                logError1("UMLInstance::setClassifierCmd : item %1 is not an attribute", item->name());
             }
         }
         connect(classifier, SIGNAL(attributeAdded(UMLClassifierListItem*)),
@@ -190,8 +190,7 @@ void UMLInstance::attributeAdded(UMLClassifierListItem *item)
         UMLInstanceAttribute *ia = new UMLInstanceAttribute(this, umla, umla->getInitialValue());
         subordinates().append(ia);
     } else {
-        uError() << "UMLInstance::attributeAdded(" << item->name()
-                 << ") : item is not a UMLAttribute";
+        logError1("UMLInstance::attributeAdded(%1) : item is not a UMLAttribute", item->name());
     }
 }
 
@@ -206,7 +205,6 @@ void UMLInstance::attributeRemoved(UMLClassifierListItem *item)
             return;
         }
     }
-    uWarning() << "UMLInstance::attributeRemoved(" << item->name()
-               << ") : instanceAttribute not found";
+    logWarn1("UMLInstance::attributeRemoved(%1) : instanceAttribute not found", item->name());
 }
 

@@ -195,6 +195,8 @@ UMLApp::UMLApp(QWidget* parent)
 {
     s_instance = this;
     m_doc->init();
+    QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
+    m_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
     m_printer->setFullPage(true);
     layout()->setSizeConstraint(QLayout::SetNoConstraint);
 
@@ -1909,6 +1911,82 @@ DocWindow* UMLApp::docWindow() const
 QListWidget* UMLApp::logWindow() const
 {
     return m_d->logWindow;
+}
+
+/**
+ * Returns true if the environment variable UMBRELLO_LOG_TO_CONSOLE is
+ * set to 1 or if the log dock is not visible.
+ * The default is to print info/warnings/error messages to the log dock.
+ *
+ * @return True if warnings/errors shall be logged to the console.
+ */
+bool UMLApp::logToConsole() const
+{
+    return (m_logToConsole || !m_logDock || !m_logDock->isVisible());
+}
+
+/**
+ * Adds a line to the log window.
+ */
+void UMLApp::log(const QString& s)
+{
+    logWindow()->addItem(s);
+}
+
+/**
+ * Logs a debug message, either to the log window or to the console.
+ * @todo This is not yet hooked up.
+ *       Hooking it up entails vast changes because currently Umbrello uses
+ *       the uDebug() stream and the stream usages (<<) need to be changed
+ *       to normal function call syntax.
+ */
+void UMLApp::logDebug(const QString& s)
+{
+    QString fmt = QLatin1String("[D] ") + s;
+    if (logToConsole())
+        uDebug() << fmt;
+    else
+        log(fmt);
+}
+
+/**
+ * Logs an info message, either to the log window or to the console.
+ * @todo This is not yet hooked up but only because Umbrello does not have
+ *       a uInfo() stream analogous to uDebug / uWarning / uError, i.e.
+ *       hooking up does not imply a change avalanche in the existing code
+ *       and can be done as needed.
+ */
+void UMLApp::logInfo(const QString& s)
+{
+    QString fmt = QLatin1String("[I] ") + s;
+    if (logToConsole())
+        qInfo() << fmt;   // @todo add Umbrello uInfo(), see uWarning etc
+    else
+        log(fmt);
+}
+
+/**
+ * Logs a warning message, either to the log window or to the console.
+ */
+void UMLApp::logWarn(const QString& s)
+{
+    QString fmt = QLatin1String("[W] ") + s;
+    if (logToConsole())
+        uWarning() << fmt;
+    else
+        log(fmt);
+}
+
+/**
+ * Logs an error message, either to the log window or to the console.
+ */
+void UMLApp::logError(const QString& s)
+{
+    QString fmt = QLatin1String("[E] ") + s;
+    if (logToConsole())
+        uError() << fmt;
+    else
+        log(fmt);
 }
 
 /**

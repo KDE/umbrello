@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -292,13 +292,13 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
                 if (method)
                     method->loadFromXMI(element);
                 else
-                    uError()<<"Cannot load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
+                    logError1("Cannot load code accessor method for type %1 which does not exist in this codeclassfield. Is XMI out-dated or corrupt?", type);
 
             } else
                 if (tag == QLatin1String("header")) {
                     // this is treated in parent.. skip over here
                 } else
-                    uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
+                    logWarn1("bad savefile? code classfield loadFromXMI got child element with unknown tag %1, ignoring node.", tag);
 
         node = element.nextSibling();
         element = node.toElement();
@@ -329,7 +329,7 @@ int CodeClassField::minimumListOccurances()
     {
         const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
-            uError() << "no valid parent object";
+            logError0("no valid parent object");
             return -1;
         }
         QString multi = role->multiplicity();
@@ -357,7 +357,7 @@ int CodeClassField::maximumListOccurances()
     {
         const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
-            uError() << "no valid parent object";
+            logError0("no valid parent object");
             return -1;
         }
         QString multi = role->multiplicity();
@@ -441,7 +441,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         {
             const UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
-                uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
+                logError1("FindMethodByType() cant create role for method type %1", m->getType());
             if(role && m->getType() == type && role->role() == role_id)
                 return m;
         }

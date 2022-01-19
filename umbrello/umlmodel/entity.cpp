@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -494,7 +494,7 @@ bool UMLEntity::load1(QDomElement& element)
         } else if (tag == QLatin1String("stereotype")) {
             uDebug() << name() << ": losing old-format stereotype.";
         } else {
-            uWarning() << "unknown child type in UMLEntity::load";
+            logWarn1("UMLEntity::load1: unknown child type %1", tag);
         }
         node = node.nextSibling();
     }//end while

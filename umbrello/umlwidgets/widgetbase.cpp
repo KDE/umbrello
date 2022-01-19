@@ -105,7 +105,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
         setLineWidth(optionState.uiState.lineWidth);
         m_font = optionState.uiState.font;
     } else {
-        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
+        logError0("WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL");
     }
 }
 
@@ -208,8 +208,8 @@ void WidgetBase::setID(Uml::ID::Type id)
 {
     if (m_umlObject) {
         if (m_umlObject->id() != Uml::ID::None)
-            uWarning() << "changing old UMLObject " << Uml::ID::toString(m_umlObject->id())
-                << " to " << Uml::ID::toString(id);
+            logWarn2("WidgetBase::setID changing old UMLObject %1 to %2",
+                     Uml::ID::toString(m_umlObject->id()), Uml::ID::toString(id));
         m_umlObject->setID(id);
     }
     m_nId = id;
@@ -690,7 +690,8 @@ bool WidgetBase::activate(IDChangeLog* changeLog)
     if (widgetHasUMLObject(baseType()) && m_umlObject == nullptr) {
         m_umlObject =  UMLApp::app()->document()->findObjectById(m_nId);
         if (m_umlObject == nullptr) {
-            uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
+            logError1("WidgetBase::activate: cannot find UMLObject with id=%1",
+                      Uml::ID::toString(m_nId));
             return false;
         }
     }
@@ -792,8 +793,8 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
         newFont.fromString(font);
         m_font = newFont;
     } else {
-        uWarning() << "Using default font " << m_font.toString()
-                   << " for widget with xmi.id " << Uml::ID::toString(m_nId);
+        logWarn2("WidgetBase::loadFromXMI: Using default font %1 for widget with xmi.id %2", 
+                 m_font.toString(), Uml::ID::toString(m_nId));
     }
     QString autoResize = qElement.attribute(QLatin1String("autoresize"), QLatin1String("1"));
     m_autoResize = (bool)autoResize.toInt();
@@ -997,7 +998,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         } else if (wt == WidgetBase::wt_Object) {
             m_umlObject->showPropertiesDialog();
         } else {
-            uWarning() << "making properties dialog for unknown widget type";
+            logWarn1("WidgetBase::slotMenuSelection: making properties dialog for unknown widget type %1", sel);
         }
         break;
 
@@ -1332,7 +1333,7 @@ QString WidgetBase::toI18nString(WidgetType wt)
         break;
     default:
         name = QLatin1String("<unknown> &name:");
-        uWarning() << "unknown widget type";
+        logWarn1("WidgetBase::toI18nString: unknown widget type %1", wt);
         break;
     }
     return name;
@@ -1440,7 +1441,7 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
         break;
     default:
         icon = Icon_Utils::it_Home;
-        uWarning() << "unknown widget type";
+        logWarn1("WidgetBase::toIcon: unknown widget type %1", wt);
         break;
     }
     return icon;

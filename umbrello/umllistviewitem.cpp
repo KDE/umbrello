@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -237,7 +237,7 @@ UMLListViewItem::ListViewType UMLListViewItem::type() const
 void UMLListViewItem::addChildItem(UMLObject *child, UMLListViewItem *childItem)
 {
     if (!child) {
-        uError() << "UMLListViewItem::addChildItem called with null child";
+        logError0("UMLListViewItem::addChildItem called with null child");
         return;
     }
     m_comap[child] = childItem;
@@ -249,12 +249,12 @@ void UMLListViewItem::addChildItem(UMLObject *child, UMLListViewItem *childItem)
 void UMLListViewItem::deleteChildItem(UMLObject *child)
 {
     if (!child) {
-        uError() << "UMLListViewItem::deleteChildItem called with null child";
+        logError0("UMLListViewItem::deleteChildItem called with null child");
         return;
     }
     UMLListViewItem *childItem = findChildObject(child);
     if (childItem == 0) {
-        uError() << child->name() << ": child listview item not found";
+        logError1("UMLListViewItem::deleteChildItem: child listview item %1 not found", child->name());
         return;
     }
     m_comap.remove(child);
@@ -326,7 +326,8 @@ bool UMLListViewItem::isOwnParent(Uml::ID::Type listViewItemID)
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
     if (lvi == 0) {
-        uError() << "ListView->findItem(" << Uml::ID::toString(listViewItemID) << ") returns NULL";
+        logError1("UMLListViewItem::isOwnParent: listView->findItem(%1) returns null",
+                  Uml::ID::toString(listViewItemID));
         return true;
     }
     for (QTreeWidgetItem *self = static_cast<QTreeWidgetItem*>(this); self; self = self->parent()) {
@@ -802,12 +803,12 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     int otherIndex = items.indexOf(otherUmlItem);
     if (myIndex < 0) {
         retval = (subItem ? -1 : alphaOrder);
-        uError() << dbgPfx << retval << " because (myIndex < 0)";
+        logError2("UMLListViewItem::%1 %2 because (myIndex < 0)", dbgPfx, retval);
         return retval;
     }
     if (otherIndex < 0) {
         retval = (subItem ? 1 : alphaOrder);
-        uError() << dbgPfx << retval << " because (otherIndex < 0)";
+        logError2("UMLListViewItem::%1 %2 because (otherIndex < 0)", dbgPfx, retval);
         return retval;
     }
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
@@ -905,7 +906,7 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
     writer.writeAttribute(QLatin1String("type"), QString::number(m_type));
     if (m_object == 0) {
         if (! Model_Utils::typeIsDiagram(m_type) && m_type != lvt_View)
-            uError() << text(0) << ": m_object is NULL";
+            logError1("UMLListViewItem::saveToXMI(%1) : m_object is NULL", text(0));
         if (m_type != lvt_View)
             writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->id() == Uml::ID::None) {
@@ -944,7 +945,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
     if (!label.isEmpty())
         setText(label);
     else if (id == QLatin1String("-1")) {
-        uError() << "Item of type " << type << " has neither ID nor label";
+        logError1("UMLListViewItem::saveToXMI: Item of type %1 has neither ID nor label", type);
         return false;
     }
 

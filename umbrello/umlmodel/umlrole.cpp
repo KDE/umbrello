@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -125,8 +125,8 @@ void UMLRole::setObject(UMLObject *obj)
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
     if (obj && obj->asUMLRole()) {
-        uError() << "UMLRole(" << Uml::ID::toString(m_nId) << ") cannot setObject() to another UMLRole("
-            << Uml::ID::toString(obj->id()) << ")";
+        logError2("UMLRole(%1) cannot setObject() to another UMLRole(%2)",
+                  Uml::ID::toString(m_nId), Uml::ID::toString(obj->id()));
         return;
     }
 
@@ -177,7 +177,7 @@ void UMLRole::saveToXMI(QXmlStreamWriter& writer)
     if (m_pSecondary)
         writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     else
-        uError() << "id " << Uml::ID::toString(m_nId) << ": m_pSecondary is NULL";
+        logError1("UMLRole::saveToXMI(id %1) : m_pSecondary is null", Uml::ID::toString(m_nId));
     if (!m_Multi.isEmpty())
         writer.writeAttribute(QLatin1String("multiplicity"), m_Multi);
     if (m_role == Uml::RoleType::A) {  // role aggregation based on parent type
@@ -250,8 +250,8 @@ bool UMLRole::load1(QDomElement & element)
     QString type = element.attribute(QLatin1String("type"));
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
-            uWarning() << "overwriting old m_SecondaryId \"" << m_SecondaryId
-                << " with new value \"" << type << "\"";
+            logWarn2("UMLRole::load1 overwriting old m_SecondaryId %1 with new value %2",
+                     m_SecondaryId, type);
         m_SecondaryId = type;
     }
     // Inspect child nodes - for multiplicity (and type if not set above.)
@@ -341,7 +341,7 @@ bool UMLRole::load1(QDomElement & element)
     if (!m_Multi.isEmpty())
         uDebug() << name() << ": m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
-        uError() << name() << ": type not given or illegal";
+        logError1("UMLRole::load1(%1) : type not given or illegal", name());
         return false;
     }
     UMLObject * obj;

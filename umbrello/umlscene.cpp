@@ -189,7 +189,7 @@ public:
                 } else if (w->y() < 3 * h2) { // top
                     w->setY(-h2);
                 } else
-                    uWarning() << "unhandled widget position of" << w->name();
+                    logWarn1("UMLScenePrivate::fixPortPositions unhandled widget %1 position", w->name());
             }
         }
     }
@@ -939,7 +939,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 
         UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
         if (!newWidget) {
-            uWarning() << "could not create widget for uml object" << o->name();
+            logWarn1("UMLScene::dropEvent could not create widget for uml object %1", o->name());
             continue;
         }
 
@@ -1023,8 +1023,8 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == 0) {
-            uError() << "SeqLineWidget of " << ow->name()
-            << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
+            logError2("UMLScene::onWidgetLine: SeqLineWidget of %1 (id %2) is null",
+                      ow->name(), Uml::ID::toString(ow->localID()));
             continue;
         }
         if (pLine->onWidget(point))
@@ -1048,8 +1048,8 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == 0) {
-            uError() << "SeqLineWidget of " << ow->name()
-                     << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
+            logError2("UMLScene::onWidgetDestructionBox: SeqLineWidget of %1 (id %2) is null",
+                      ow->name(), Uml::ID::toString(ow->localID()));
             continue;
         }
         if (pLine->onDestructionBox(point))
@@ -1719,14 +1719,14 @@ bool UMLScene::isSavedInSeparateFile()
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == 0) {
-        uError() << msgPrefix
-                 << "listView->findUMLObject(this) returns false";
+        logError2("UMLScene::isSavedInSeparateFile(%1) : listView->findItem(%2) returns false",
+                  name(), Uml::ID::toString(m_nID));
         return false;
     }
     UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>(lvItem->parent());
     if (parentItem == 0) {
-        uError() << msgPrefix
-                 << "parent item in listview is not a UMLListViewItem (?)";
+        logError1("UMLScene::isSavedInSeparateFile(%1) : parent item in listview is not a UMLListViewItem (?)",
+                  name());
         return false;
     }
     const UMLListViewItem::ListViewType lvt = parentItem->type();
@@ -1734,8 +1734,8 @@ bool UMLScene::isSavedInSeparateFile()
         return false;
     const UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
     if (modelFolder == 0) {
-        uError() << msgPrefix
-                 << "parent model object is not a UMLFolder (?)";
+        logError1("UMLScene::isSavedInSeparateFile(%1) : parent model object is not a UMLFolder (?)",
+                  name());
         return false;
     }
     QString folderFile = modelFolder->folderFile();
@@ -2820,7 +2820,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
             if (aw->roleWidget(Uml::RoleType::B))
                 aw->roleWidget(Uml::RoleType::B)->setName(fkConstraint->name());
             else
-                uError() << "could not find role widget B and therefore cannot rename constraint";
+                logError0("UMLScene::createAutoConstraintAssociation could not find role widget B -> cannot rename constraint");
         // if the current diagram type permits relationships
         } else if (AssocRules::allowAssociation(assocType, w, widget)) {
             // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
@@ -3380,7 +3380,8 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
+        logWarn1("UMLScene::slotMenuSelection: unknown ListPopupMenu::MenuType %1",
+                 ListPopupMenu::toString(sel));
         break;
     }
 }
@@ -3953,15 +3954,15 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     }
 
     if (!widgetsLoaded) {
-        uWarning() << "failed UMLScene load on widgets";
+        logWarn0("UMLScene::loadFromXMI failed on widgets");
         return false;
     }
     if (!messagesLoaded) {
-        uWarning() << "failed UMLScene load on messages";
+        logWarn0("UMLScene::loadFromXMI failed on messages");
         return false;
     }
     if (!associationsLoaded) {
-        uWarning() << "failed UMLScene load on associations";
+        logWarn0("UMLScene::loadFromXMI failed on associations");
         return false;
     }
 
@@ -4002,7 +4003,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
     if (!m_doc) {
-        uWarning() << "m_doc is NULL";
+        logWarn0("UMLScene::loadWidgetFromXMI: m_doc is NULL");
         return 0L;
     }
 
@@ -4059,8 +4060,8 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             countr++;
             AssociationWidget *assoc = AssociationWidget::create(this);
             if (!assoc->loadFromXMI(assocElement)) {
-                uError() << "could not loadFromXMI association widget:"
-                         << assoc << ", bad XMI file? Deleting from UMLScene.";
+                logError1("UMLScene::loadAssociationsFromXMI could not load association widget %1",
+                          Uml::ID::toString(assoc->id()));
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -4069,7 +4070,8 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             } else {
                 assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
-                    uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
+                    logError1("UMLScene::loadAssociationsFromXMI could not addAssociation(%1) to scene",
+                              Uml::ID::toString(assoc->id()));
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }
@@ -4099,7 +4101,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         QDomElement elem = node.toElement();
         QString tag = elem.tagName();
         if (! UMLDoc::tagEq(tag, QLatin1String("Presentation"))) {
-            uError() << "ignoring unknown UisDiagramPresentation tag " << tag;
+            logError1("ignoring unknown UisDiagramPresentation tag %1", tag);
             continue;
         }
         QDomNode n = elem.firstChild();
@@ -4133,7 +4135,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLObject *o = m_doc->findObjectById(id);
         if (o == 0) {
-            uError() << "Cannot find object for id " << idStr;
+            logError1("loadUisDiagramPresentation: Cannot find object for id %1", idStr);
         } else {
             UMLObject::ObjectType ot = o->baseType();
             DEBUG(DBG_SRC) << "Create widget for model object of type " << UMLObject::toString(ot);
@@ -4148,7 +4150,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 UMLObject* objA = umla->getObject(Uml::RoleType::A);
                 UMLObject* objB = umla->getObject(Uml::RoleType::B);
                 if (objA == 0 || objB == 0) {
-                    uError() << "intern err 1";
+                    logError0("loadUisDiagramPresentation(association) intern err 1");
                     return false;
                 }
                 UMLWidget *wA = findWidget(objA->id());
@@ -4159,7 +4161,10 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     aw->syncToModel();
                     addWidgetCmd(aw);
                 } else {
-                    uError() << "cannot create assocwidget from (" ; //<< wA << ", " << wB << ")";
+                    const QString nullRole = (!wA && !wB ? QLatin1String("both roles") :
+                                              !wA ? QLatin1String("role A") : QLatin1String("role B"));
+                    logError1("loadUisDiagramPresentation cannot create assocwidget due to null widget at %1",
+                              nullRole);
                 }
                 break;
             }
@@ -4173,7 +4178,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 break;
             }
             default:
-                uError() << "Cannot create widget of type " << ot;
+                logError1("loadUisDiagramPresentation cannot create widget of type %1", ot);
             }
             if (widget) {
                 DEBUG(DBG_SRC) << "Widget: x=" << x << ", y=" << y
@@ -4210,7 +4215,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
         } else if (tag == QLatin1String("uisDiagramStyle")) {
             QString diagramStyle = elem.text();
             if (diagramStyle != QLatin1String("ClassDiagram")) {
-                uError() << "diagram style " << diagramStyle << " is not yet implemented";
+                logError1("loadUISDiagram: style %1 is not yet implemented", diagramStyle);
                 continue;
             }
             m_doc->setMainViewID(m_nID);

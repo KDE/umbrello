@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -774,7 +774,7 @@ bool UMLObject::resolveRef()
         }
     }
     if (m_SecondaryFallback.isEmpty()) {
-        uError() << m_name << ": cannot find type with id " << m_SecondaryId;
+        logError2("UMLObject::resolveRef(%1) : cannot find type with id %2", m_name, m_SecondaryId);
         return false;
     }
 #ifdef VERBOSE_DEBUGGING
@@ -809,8 +809,8 @@ bool UMLObject::resolveRef()
             m_SecondaryId = QString();
             return true;
         }
-        uError() << "Import_Utils::createUMLObject() failed to create a new type for "
-                 << m_SecondaryId;
+        logError2("UMLObject::resolveRef(%1) : Import_Utils::createUMLObject failed to create type for %2",
+                  m_name, m_SecondaryId);
         return false;
     }
     uDebug() << "Creating new type for " << m_SecondaryId;
@@ -865,7 +865,8 @@ void UMLObject::save1(QXmlStreamWriter& writer, const QString& type, const QStri
     */
     const bool uml2 = Settings::optionState().generalState.uml2;
     if (type.indexOf(QLatin1String(":")) >= 0) {
-        uWarning() << m_name << " : save1 should not be called with hard coded UML namespace";
+        logWarn1("UMLObject::save1(%1) should not be called with hard coded UML namespace",
+                 m_name);
         writer.writeStartElement(type);
     } else if (tag == QLatin1String("<use_type_as_tag>")) {
         const QString nmSpc = (uml2 ?  QLatin1String("uml") : QLatin1String("UML"));
@@ -936,7 +937,8 @@ void UMLObject::save1end(QXmlStreamWriter& writer)
     // Save optional stereotype attributes
     if (m_TaggedValues.count()) {
         if (m_pStereotype == 0) {
-            uError() << m_name << " TaggedValues are set but pStereotype is null : clearing TaggedValues";
+            logError1("UMLObject::save1end(%1) TaggedValues are set but pStereotype is null : clearing TaggedValues",
+                      m_name);
             m_TaggedValues.clear();
             return;
         }
@@ -945,8 +947,8 @@ void UMLObject::save1end(QXmlStreamWriter& writer)
         const UMLStereotype::AttributeDefs& attrDefs = m_pStereotype->getAttributeDefs();
         for (int i = 0; i < m_TaggedValues.count(); i++) {
             if (i >= attrDefs.count()) {
-                uError() << m_name << ": stereotype " << m_pStereotype->name() << " defines "
-                         << attrDefs.count() << " attributes; ignoring excess TaggedValues";
+                logError3("UMLObject::save1end(%1) : stereotype %2 defines %3 attributes; ignoring excess TaggedValues",
+                          m_name, m_pStereotype->name(), attrDefs.count());
                 break;
             }
             const QString& tv = m_TaggedValues.at(i);
@@ -1024,7 +1026,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
 {
     UMLDoc* umldoc = UMLApp::app()->document();
     if (umldoc == 0) {
-        uError() << "umldoc is NULL";
+        logError0("UMLObject::loadFromXMI: umldoc is NULL");
         return false;
     }
     // Read the name first so that if we encounter a problem, the error
@@ -1035,7 +1037,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         // Before version 1.4, Umbrello did not save the xmi.id of UMLRole objects.
         // Some tools (such as Embarcadero's) do not have an xmi.id on all attributes.
         m_nId = UniqueID::gen();
-        uWarning() << m_name << ": xmi.id not present, generating a new one";
+        logWarn1("UMLObject::loadFromXMI(%1) : xmi.id not present, generating a new one", m_name);
     } else {
         Uml::ID::Type nId = Uml::ID::fromString(id);
         if (m_BaseType == ot_Role) {
@@ -1045,8 +1047,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             // If the xmi.id is already being used then we generate a new one.
             UMLObject *o = umldoc->findObjectById(nId);
             if (o) {
-                uError() << "loadFromXMI(UMLRole): id " << id
-                         << " is already in use!!! Please fix your XMI file.";
+                logError1("UMLObject::loadFromXMI(UMLRole): id %1 is already in use! Please fix your XMI file",
+                          id);
             }
         }
         m_nId = nId;
@@ -1077,7 +1079,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
                 m_visibility = Uml::Visibility::Protected;
                 break;
             default:
-                uError() << m_name << ": illegal scope " << nScope;
+                logError2("UMLObject::loadFromXMI(%1) : illegal scope %2", m_name, nScope);
             }
         }
     } else {
@@ -1273,7 +1275,7 @@ QString UMLObject::toI18nString(ObjectType t)
 
     default:
         name = QLatin1String("<unknown> &name:");
-        uWarning() << "UMLObject::toI18nString unknown object type " << toString(t);
+        logWarn1("UMLObject::toI18nString unknown object type %1", toString(t));
         break;
     }
     return name;
@@ -1365,7 +1367,7 @@ Icon_Utils::IconType UMLObject::toIcon(ObjectType t)
 
     default:
         icon = Icon_Utils::it_Home;
-        uWarning() << "UMLObject::toIcon unknown object type " << toString(t);
+        logWarn1("UMLObject::toIcon unknown object type %1", toString(t));
         break;
     }
     return icon;

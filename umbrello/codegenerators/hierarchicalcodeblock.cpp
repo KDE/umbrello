@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -128,8 +128,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
             if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
                 return true; // found, and inserted, otherwise keep going
         }
-        uWarning() << "Warning: couldnt insert text block (tag:" << newBlock->getTag() <<
-                      "). Reference text block (tag:" << existingBlock->getTag() << ") not found.";
+        logWarn2("couldnt insert text block (tag %1). Reference text block (tag %2) not found.", newBlock->getTag(), existingBlock->getTag());
         return false;
     }
 
@@ -364,7 +363,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QStri
     if(cdoc)
         return cdoc->findCodeClassFieldTextBlockByTag(tag);
     else
-        uError() << "HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?!?";
+        logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
 
     // if we get here, we failed.
     return (TextBlock*) 0;

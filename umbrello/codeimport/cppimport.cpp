@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -152,7 +152,7 @@ bool CppImport::parseFile(const QString& fileName)
         QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                 .arg(problem.fileName()).arg(problem.line()+1)
                 .arg(problem.column()).arg(level).arg(problem.text());
-        UMLApp::app()->logWindow()->addItem(item);
+        UMLApp::app()->log(item);
     }
     if (!result)
         return false;

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2017-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2017-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -238,7 +238,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(index)
                         .arg(1).arg(line).arg(error);
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
             continue;
         }
@@ -411,7 +411,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(lineNumber)
                         .arg(1).arg(line).arg(QLatin1String("error:could not add association"));
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
         } else if (l[0].isEmpty() && c && l.size() == 2) {
             QString name = l.last();
@@ -443,7 +443,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                     .arg(fileName).arg(lineNumber)
                     .arg(1).arg(line).arg(QLatin1String("syntax error"));
-            UMLApp::app()->logWindow()->addItem(item);
+            UMLApp::app()->log(item);
         }
     }
     return true;

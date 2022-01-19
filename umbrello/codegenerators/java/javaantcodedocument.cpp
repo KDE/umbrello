@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -76,7 +76,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     block->loadFromXMI(element);
                     if (!addTextBlock(block))
                     {
-                        uError()<<"Unable to add codeComment to :"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeComment");
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
@@ -86,7 +86,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"Unable to add codeclassfield child method to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
@@ -95,7 +95,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     CodeBlock * block = newCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add codeBlock to :"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -104,7 +104,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     CodeBlockWithComments * block = newCodeBlockWithComments();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add codeBlockwithcomments to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -115,7 +115,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -127,24 +127,24 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     const UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = 0;
-                        uError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument";
+                        logWarn0("TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument");
                         break;  // remove when above is implemented
                         block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("JavaANTCodeDocument: Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("xmlelementblock")) {
                     QString xmltag = element.attribute(QLatin1String("nodeName"),QLatin1String("UNKNOWN"));
                     XMLElementCodeBlock * block = new XMLElementCodeBlock(this, xmltag);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add XMLelement to Java ANT document:"<<this;
+                        logError0("Unable to add XMLelement to Java ANT document");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -165,7 +165,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        uWarning() << " loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc %1", getFileName());
     }
 
 }

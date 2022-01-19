@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //own header
@@ -182,30 +182,30 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (pAttr == 0 || rAttr == 0) {
-        uError() << "null values passed to function";
+        logError0("UMLForeignKeyConstraint::addEntityAttributePair: null value passed to function");
         return false;
     }
     // check for sanity of pAttr (parent entity attribute)
     if (owningParent == 0) {
-        uError() << name() << ": parent is not a UMLEntity";
+        logError1("UMLForeignKeyConstraint::addEntityAttributePair(%1) : parent is not a UMLEntity", name());
         return false;
     }
 
     if (owningParent->findChildObjectById(pAttr->id()) == 0) {
-        uError() << " parent " << owningParent->name()
-                 << " does not contain attribute " << pAttr->name();
+        logError2("UMLForeignKeyConstraint::addEntityAttributePair: parent %1 does not contain attribute %2",
+                  owningParent->name(), pAttr->name());
         return false;
     }
 
     //check for sanity of rAttr (referenced entity attribute)
     if (m_ReferencedEntity != 0) {
        if (m_ReferencedEntity->findChildObjectById(rAttr->id()) == 0) {
-        uError() << " parent " << m_ReferencedEntity->name()
-                 << " does not contain attribute " << rAttr->name();
+        logError2("UMLForeignKeyConstraint::addEntityAttributePair parent %1 does not contain attribute %2",
+                  m_ReferencedEntity->name(), rAttr->name());
         return false;
        }
     } else {
-        uError() << "Referenced Table Not set. Not Adding Pair ";
+        logError0("UMLForeignKeyConstraint::addEntityAttributePair: Referenced Table Not set. Not Adding Pair");
         return false;
     }
 
@@ -300,7 +300,8 @@ bool UMLForeignKeyConstraint::load1(QDomElement & element)
             UMLEntityAttribute* key = keyObj->asUMLEntityAttribute();
 
             if (keyObj == 0) {
-                uWarning() << "unable to resolve foreign key referencing attribute " << xmiKey;
+                logWarn1("UMLForeignKeyConstraint::load1 unable to resolve foreign key referencing attribute %1",
+                         xmiKey);
             } else if (m_ReferencedEntity == 0) {
                 // if referenced entity is null, then we won't find its attributes even
                 // save for resolving later
@@ -308,14 +309,15 @@ bool UMLForeignKeyConstraint::load1(QDomElement & element)
             } else {
                 UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
                 if (valueObj == 0) {
-                    uWarning() << "unable to resolve foreign key referenced attribute" << xmiValue;
+                    logWarn1("UMLForeignKeyConstraint::load1 unable to resolve foreign key referenced attribute %1",
+                             xmiValue);
                 } else {
                     m_AttributeMap[key] = valueObj->asUMLEntityAttribute();
                 }
             }
 
         } else {
-            uWarning() << "unknown child type in UMLForeignKeyConstraint::load";
+            logWarn1("UMLForeignKeyConstraint::load1: unknown child type %1", tag);
         }
 
         node = node.nextSibling();

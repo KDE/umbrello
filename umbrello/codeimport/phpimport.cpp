@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2017-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2017-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -642,7 +642,7 @@ private:
                         .arg(p->finalLocation().start.column)
 #endif
                         .arg(p->severityString()).arg(p->description());
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
         } else {
             qout << "no problems encountered during parsing" << endl;

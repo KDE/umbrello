@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -224,11 +224,11 @@ void FloatingTextWidget::showChangeTextDialog()
 bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 {
     if (!m_linkWidget) {
-        uError() << "m_linkWidget is NULL";
+        logError0("FloatingTextWidget::showOperationDialog: m_linkWidget is NULL");
         return false;
     }
     if (!m_linkWidget->lwClassifier()) {
-        uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
+        logError0("FloatingTextWidget::showOperationDialog: m_linkWidget->lwClassifier() returns a NULL classifier");
         return false;
     }
     bool result = false;

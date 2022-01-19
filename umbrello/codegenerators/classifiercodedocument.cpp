@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -134,7 +134,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields() const
         {
             const UMLRole * role = (*it)->getParentObject()->asUMLRole();
             if (!role) {
-                uError() << "invalid parent object type";
+                logError0("invalid parent object type");
                 return false;
             }
             QString multi = role->multiplicity();
@@ -306,7 +306,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
     if (op == 0) {
-        uError() << "arg is not a UMLOperation";
+        logError0("arg is not a UMLOperation");
         return;
     }
     QString tag = CodeOperation::findTag(op);
@@ -340,11 +340,11 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op)
         if(removeTextBlock(tb)) // wont add if already present
             delete tb; // delete unused operations
         else
-            uError() << "Cant remove CodeOperation from ClassCodeDocument!";
+            logError0("Cant remove CodeOperation from ClassCodeDocument!");
 
     }
     else
-        uError() << "Cant Find codeOperation for deleted operation!";
+        logError0("Cant Find codeOperation for deleted operation!");
 }
 
 // Other methods
@@ -669,9 +669,9 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
     }
 
     // shouldn't happen..
-    uError() << "Failed to find codeclassfield for parent uml id:"
-             << Uml::ID::toString(id) << " (role id:" << role_id
-             << ") Do you have a corrupt classifier code document?";
+    logError2(
+      "Failed to find codeclassfield for parent uml id %1 (role id %2) Do you have a corrupt classifier code document?",
+      Uml::ID::toString(id), role_id);
 
     return nullptr; // not found
 }
@@ -703,7 +703,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
                 m_classFieldMap.insert(cf->getParentObject(), cf);
 
             } else
-                uError()<<" LoadFromXMI: cannot load classfield parent_id:"<<id<<" do you have a corrupt savefile?";
+                logError1("LoadFromXMI: cannot load classfield parent_id %1, do you have a corrupt savefile?", id);
         }
         node = childElem.nextSibling();
         childElem= node.toElement();

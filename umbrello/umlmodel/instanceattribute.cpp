@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //own header
@@ -124,14 +124,14 @@ bool UMLInstanceAttribute::load1(QDomElement & element)
 {
     QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == QLatin1String("-1")) {
-        uWarning() << "UMLInstanceAttribute::load1: xmi.id not present, generating a new one";
+        logWarn0("UMLInstanceAttribute::load1: xmi.id not present, generating a new one");
         m_nId = UniqueID::gen();
     } else {
         m_nId = Uml::ID::fromString(id);
     }
     m_SecondaryId = element.attribute(QLatin1String("attribute"));
     if (m_SecondaryId.isEmpty() || m_SecondaryId == QLatin1String("-1")) {
-        uError() << "UMLInstanceAttribute::load1: element 'attribute' not set or empty";
+        logError0("UMLInstanceAttribute::load1: element 'attribute' not set or empty");
         return false;
     }
     UMLDoc *pDoc = UMLApp::app()->document();

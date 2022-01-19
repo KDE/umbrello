@@ -35,6 +35,7 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QFileInfo>
+#include <QFont>
 #include <QListWidget>
 #include <QObject>
 #ifdef WEBKIT_WELCOMEPAGE
@@ -95,6 +96,9 @@ public:
         editor = KTextEditor::EditorChooser::editor();
 #endif
         logWindow = new QListWidget;
+        QFont mono;
+        mono.setFamily(QLatin1String("Monospace"));
+        logWindow->setFont(mono);
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
 

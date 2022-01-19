@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -154,7 +154,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
         break;
     default:
-        uWarning() << "Unknown signal type:" << m_signalType;
+        logWarn1("SignalWidget::paint: Unknown signal type %1", m_signalType);
         break;
     }
 
@@ -289,7 +289,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
             else
                 connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("SignalWidget::loadFromXMI: unknown tag %1", tag);
         }
     }
    return true;

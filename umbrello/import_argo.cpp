@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -28,7 +28,7 @@
 
 static void reportError(const QXmlStreamReader &xml, const KZip &zipFile, const QString &fileName)
 {
-    uError() << xml.name() << "in file" << zipFile.fileName() << ":" << fileName;
+    logError3("Import_Argo %1 in file %2 : %3", xml.name(), zipFile.fileName(), fileName);
 }
 
 bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)

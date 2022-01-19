@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -169,7 +169,8 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
     if (view == 0) {
-        uError() << "no view found for viewID " << Uml::ID::toString(viewID);
+        logError1("NoteWidget::setDiagramLink: no view found for viewID %1",
+                  Uml::ID::toString(viewID));
         return;
     }
     QString linkText(QLatin1String("Diagram: ") + view->umlScene()->name());

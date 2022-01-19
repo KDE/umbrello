@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -230,8 +230,8 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
                 return true; // found, and inserted, otherwise keep going
         }
         // ugh. where is the child block?
-        uWarning() << " Warning: couldnt insert text block (tag:" << newBlock->getTag()
-                   << "). Reference text block (tag:" << existingBlock->getTag() << ") not found.";
+        logWarn2("couldnt insert text block (tag %1). Reference text block (tag %2) not found.",
+                 newBlock->getTag(), existingBlock->getTag());
         return false;
     }
 
@@ -516,7 +516,7 @@ TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendInt
  */
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
-    uWarning() << "Called findCodeClassFieldMethodByTag(" << tag << ") for a regular CodeDocument";
+    logWarn1("Called findCodeClassFieldMethodByTag(%1) for a regular CodeDocument", tag);
     return 0;
 }
 

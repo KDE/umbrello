@@ -247,7 +247,8 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
             break;
         default:
-            uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
+            logError1("AssociationWidget::setUMLObject cannot associate UMLObject of type %1",
+                      UMLObject::toString(ot));
             break;
     }
 }
@@ -278,7 +279,8 @@ UMLClassifier *AssociationWidget::operationOwner()
     }
     UMLClassifier *c = o->asUMLClassifier();
     if (!c) {
-        uError() << "widgetForRole(" << role << ") is not a classifier";
+        logError1("AssociationWidget::operationOwner: widgetForRole(%1) is not a classifier",
+                  Uml::RoleType::toString(role));
     }
     return c;
 }
@@ -399,7 +401,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
             setMultiplicity(text, RoleType::B);
             break;
         default:
-            uWarning() << "Unhandled TextRole: " << Uml::TextRole::toString(role);
+            logWarn1("AssociationWidget::setText unhandled TextRole %1", Uml::TextRole::toString(role));
             break;
     }
 }
@@ -673,7 +675,7 @@ bool AssociationWidget::activate(IDChangeLog *changeLog)
         AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = umlDoc()->findObjectById(m_nId);
         if (myObj == 0) {
-            uError() << "cannot find UMLObject " << Uml::ID::toString(m_nId);
+            logError1("AssociationWidget::activate cannot find UMLObject %1", Uml::ID::toString(m_nId));
             return false;
         } else {
             const UMLObject::ObjectType ot = myObj->baseType();
@@ -1468,7 +1470,8 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
             const UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
-        uError() << "umlWidget is NULL";
+        logError1("AssociationWidget::widgetIDForRole(%1) : umlWidget is null",
+                  Uml::RoleType::toString(role));
         return Uml::ID::None;
     }
     if (m_role[role].umlWidget->isObjectWidget())
@@ -1487,7 +1490,8 @@ Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) 
             const UMLAssociation *umla = m_umlObject->asUMLAssociation();
             return umla->getObjectId(role);
         }
-        uError() << "umlWidget is NULL";
+        logError1("AssociationWidget::widgetLocalIDForRole(%1) : umlWidget is null",
+                  Uml::RoleType::toString(role));
         return Uml::ID::None;
     }
     Uml::ID::Type id = m_role[role].umlWidget->localID();
@@ -1553,8 +1557,8 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
-        uWarning() << "called during load of XMI for ViewType: "
-            << m_scene->type() << ", and BaseType: " << baseType();
+        logWarn2("AssociationWidget::moveEvent called during load of XMI for ViewType %1 and BaseType %2",
+                 m_scene->type(), baseType());
         return;
     }
     /*to be here a line segment has moved.
@@ -1634,7 +1638,7 @@ void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
     UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
     UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
     if (!pWidgetA || !pWidgetB) {
-        uWarning() << "Returning - one of the role widgets is not set.";
+        logWarn0("AssociationWidget::calculateEndingPoints: Returning - one of the role widgets is not set.");
         return;
     }
 
@@ -1664,7 +1668,8 @@ void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
         QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
         if (nearestPoints.isNull()) {
-            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
+            logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
+                      "falling back to simple widget positions");
         } else {
             pA = nearestPoints.p1();
             pB = nearestPoints.p2();
@@ -2122,7 +2127,8 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole::Enum role)
         p = m_associationLine.point(lastSegment);
         q = m_associationLine.point(lastSegment - 1);
     } else if (role != TextRole::Name) {
-        uError() << "called with unsupported TextRole::Enum " << role;
+        logError1("AssociationWidget::calculateTextPosition called with unsupported TextRole %1",
+                  Uml::TextRole::toString(role));
         return QPointF(-1, -1);
     }
 
@@ -2172,7 +2178,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole::Enum role)
 
         calculateNameTextSegment();
         if (m_unNameLineSegment == -1) {
-            uWarning() << "TODO:negative line segment index";
+            logWarn0("AssociationWidget::calculateTextPosition TODO: negative line segment index");
             m_unNameLineSegment = 0;
         }
         x = ( m_associationLine.point(m_unNameLineSegment).x() +
@@ -2269,7 +2275,8 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
             }
             break;
         default:
-            uError() << "unexpected TextRole::Enum " << tr;
+            logError1("AssociationWidget::constrainTextPos: unexpected TextRole %1",
+                      Uml::TextRole::toString(tr));
             return;
             break;
     }
@@ -2487,7 +2494,7 @@ void AssociationWidget::computeAssocClassLine()
         return;
     }
     if (m_nLinePathSegmentIndex < 0) {
-        uError() << "m_nLinePathSegmentIndex is not set";
+        logError0("AssociationWidget::computeAssocClassLine: m_nLinePathSegmentIndex is not set");
         return;
     }
 
@@ -3044,28 +3051,22 @@ void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidget
         bool startsAtOther = assocwidget->linePathStartsAt(otherWidget);
         if (startsAtOther) {
             if (!assocwidget->linePathEndsAt(pWidget)) {
-                uWarning() << "AssociationWidget::findIntercept : linepath starts at "
-                       << "other widget but does not end at own (assocType="
-                       << assocwidget->associationType() << " pWidget="
-                       << pWidget->name() << " otherWidget=" << otherWidget->name()
-                       << ")";
+                logWarn3("AssociationWidget::findIntercept : linepath starts at other widget "
+                         "but does not end at own (assocType=%1 pWidget=%2 otherWidget=%3)",
+                         assocwidget->associationType(), pWidget->name(), otherWidget->name());
                 continue;
             }
             pointIndex = linepath.count() - 1;
             refpoint = linepath.point(pointIndex - 1);
         } else if (!assocwidget->linePathStartsAt(pWidget)) {
-            uWarning() << "AssociationWidget::findIntercept : linepath starts at "
-                       << "neither own nor other widget (assocType="
-                       << assocwidget->associationType() << " pWidget="
-                       << pWidget->name() << " otherWidget=" << otherWidget->name()
-                       << ")";
+            logWarn3("AssociationWidget::findIntercept : linepath starts at neither own "
+                     "nor other widget (assocType=%1 pWidget=%2 otherWidget=%3)",
+                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
             continue;
         } else if (!assocwidget->linePathEndsAt(otherWidget)) {
-            uWarning() << "AssociationWidget::findIntercept : linepath starts at "
-                   << "own widget but does not end at other (assocType="
-                   << assocwidget->associationType() << " pWidget="
-                   << pWidget->name() << " otherWidget=" << otherWidget->name()
-                   << ")";
+            logWarn3("AssociationWidget::findIntercept : linepath starts at own widget but "
+                     "does not end at other (assocType=%1 pWidget=%2 otherWidget=%3)",
+                         assocwidget->associationType(), pWidget->name(), otherWidget->name());
             continue;
         } else {
             refpoint = linepath.point(1);
@@ -3088,10 +3089,9 @@ void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidget
             << ", refX=" << refpoint.x() << ", refY=" << refpoint.y();
         QPointF intercept;
         if (! findIntercept(rect, refpoint, intercept)) {
-            uWarning() << "error from findIntercept for"
-                           << " assocType=" << assocwidget->associationType()
-                           << " ownWidget=" << pWidget->name()
-                           << " otherWidget=" << otherWidget->name();
+            logWarn3("AssociationWidget::updateAssociations error from findIntercept for "
+                     "assocType=%1 pWidget=%2 otherWidget=%3",
+                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
             continue;
         }
         linepath.setPoint(pointIndex, intercept);
@@ -3113,10 +3113,9 @@ void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidget
         if (findIntercept(otherRect, otherRefpoint, intercept)) {
             linepath.setPoint(otherPtIndex, intercept);
         } else {
-            uWarning() << "error from reverse findIntercept for"
-                           << " assocType=" << assocwidget->associationType()
-                           << " ownWidget=" << pWidget->name()
-                           << " otherWidget=" << otherWidget->name();
+            logWarn3("AssociationWidget::updateAssociations error from reverse findIntercept for "
+                     "assocType=%1 pWidget=%2 otherWidget=%3",
+                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
         }
     } // foreach
 }
@@ -3154,8 +3153,8 @@ bool AssociationWidget::findIntercept(const QRectF& rect, const QPointF& point,
             break;
         }
         /* else if (xType == QLineF::UnboundedIntersection)
-            uWarning() << "findIntercept: line from rect midpoint " << midPoint
-                       << " to point " << point << " gives unbounded intersection on region " << region;
+            logWarn3("AssociationWidget::findIntercept: line from rect midpoint %1 to point %2 " <<
+                     "gives unbounded intersection on region %3", midPoint, point, region);
          */
     }
     if (xSide != Uml::Region::Error) {
@@ -3378,7 +3377,7 @@ void AssociationWidget::slotAttributeChanged()
 {
     UMLAttribute *attr = attribute();
     if (attr == 0) {
-        uError() << "attribute() returns NULL";
+        logError0("AssociationWidget::slotAttributeChanged attribute() returns null");
         return;
     }
     setVisibility(attr->visibility(), RoleType::B);
@@ -3528,12 +3527,14 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     Uml::ID::Type bId = Uml::ID::fromString(widgetbid);
     UMLWidget *pWidgetA = Widget_Utils::findWidget(aId, widgets, messages);
     if (!pWidgetA) {
-        uError() << "cannot find widget for roleA id " << Uml::ID::toString(aId);
+        logError1("AssociationWidget::loadFromXMI cannot find widget for roleA id %1",
+                  Uml::ID::toString(aId));
         return false;
     }
     UMLWidget *pWidgetB = Widget_Utils::findWidget(bId, widgets, messages);
     if (!pWidgetB) {
-        uError() << "cannot find widget for roleB id " << Uml::ID::toString(bId);
+        logError1("AssociationWidget::loadFromXMI cannot find widget for roleB id %1",
+                  Uml::ID::toString(bId));
         return false;
     }
     setWidgetForRole(pWidgetA, RoleType::A);
@@ -3563,7 +3564,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             if (!m_umlObject && umlRoleA && umlRoleB) {
                 oldStyleLoad = true; // flag for further special config below
                 if (aType == AssociationType::Aggregation || aType == AssociationType::Composition) {
-                    uWarning()<<" Old Style save file? swapping roles on association widget"<<this;
+                    logWarn0("AssociationWidget::loadFromXMI: Old Style save file? swapping roles on "
+                             "association widget");
                     // We have to swap the A and B widgets to compensate
                     // for the long standing bug in AssociationLine of drawing
                     // the diamond at the wrong end which was fixed
@@ -3655,7 +3657,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             QString aclSegIndex = qElement.attribute(QLatin1String("aclsegindex"), QLatin1String("0"));
             createAssocClassLine(aclWidget, aclSegIndex.toInt());
         } else {
-            uError() << "cannot find assocclass " << assocclassid;
+            logError1("AssociationWidget::loadFromXMI cannot find assocclass %1", assocclassid);
         }
     }
 

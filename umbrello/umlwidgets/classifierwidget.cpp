@@ -736,7 +736,8 @@ int ClassifierWidget::displayedOperations() const
 void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
 {
     if (!classifier()) {
-        uError() << "Class association cannot be applied to non classifier";
+        logError0("ClassifierWidget::setClassAssociationWidget: "
+                  "Class association cannot be applied to non classifier");
         return;
     }
     m_pAssocWidget = assocwidget;
@@ -776,7 +777,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         if (m_umlObject && m_umlObject->isUMLInstance()) {
             umlc = m_umlObject->asUMLInstance()->classifier();
         } else {
-            uError() << "ClassifierWidget::paint internal error - classifier() returns NULL";
+            logError0("ClassifierWidget::paint internal error - classifier() returns null");
             return;
         }
     }
@@ -1041,8 +1042,8 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
                 //          << ", midAngle: " << midAngle << ", angleSpan: " << angleSpan;
                 painter->drawArc(requireArc, 16 * (midAngle - angleSpan/2), 16 * angleSpan);
             } else {
-                uError() << "socket: assocLine endPoint " << p
-                         << " too close to own center" << center;
+                logError4("ClassifierWidget::drawAsCircle socket: assocLine endPoint (%1,%2) is "
+                          "too close to own center (%3,%4)", p.x(), p.y(), cX, cY);
             }
         }
     }
@@ -1405,7 +1406,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
                 m_pInterfaceName->update();
             }
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("ClassifierWidget::loadFromXMI: unknown tag %1", tag);
         }
     }
 
@@ -1473,7 +1474,8 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             UMLClassifier *umlc = classifier();
             if (!umlc) {
-                uError() << "Internal error - classifier() returns NULL";
+                logError1("ClassifierWidget::slotMenuSelection(%1) internal error - classifier() returns null",
+                          sel);
                 return;
             }
             if (Object_Factory::createChildObject(umlc, ot)) {
@@ -1492,7 +1494,8 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             UMLClassifier *umlc = classifier();
             if (!umlc) {
-                uError() << "Internal error - classifier() returns NULL";
+                logError1("ClassifierWidget::slotMenuSelection(%1) internal error - classifier() returns null",
+                          sel);
                 return;
             }
             umlScene()->setCreateObject(true);

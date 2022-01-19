@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -71,7 +71,8 @@ AssociationLine::~AssociationLine()
 QPointF AssociationLine::point(int index) const
 {
     if ((index < 0) | (index >= m_points.size())) {
-        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        logWarn2("AssociationLine::point: Index %1 out of range [0..%2]",
+                 index, m_points.size() - 1);
         return QPointF(-1.0, -1.0);
     }
     return m_points.at(index);
@@ -83,7 +84,8 @@ QPointF AssociationLine::point(int index) const
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
     if ((index < 0) | (index >= m_points.size())) {
-        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        logWarn2("AssociationLine::setPoint: Index %1 out of range [0..%2]",
+                 index, m_points.size() - 1);
         return false;
     }
     if (m_points.at(index) == point) {
@@ -484,8 +486,9 @@ void AssociationLine::calculateInitialEndPoints()
         }
         UMLWidget *wid = m_associationWidget->widgetForRole(Uml::RoleType::B);
         if (!wid) {
-            uError() << "AssociationWidget is partially constructed."
-                "UMLWidget for role B is null.";
+            logError0("AssociationLine::calculateInitialEndPoints: "
+                      "AssociationWidget is partially constructed."
+                      "UMLWidget for role B is null.");
             return;
         }
         const QRectF rect = m_associationWidget->mapFromScene(

@@ -731,7 +731,7 @@ void UMLWidget::init()
         m_fillColor = optionState.uiState.fillColor;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
-        uError() << "SERIOUS PROBLEM - m_scene is NULL";
+        logError0("UMLWidget::init SERIOUS PROBLEM - m_scene is null");
         m_useFillColor = false;
         m_usesDiagramFillColor = false;
         m_usesDiagramUseFillColor = false;
