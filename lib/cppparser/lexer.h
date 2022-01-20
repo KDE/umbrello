@@ -20,7 +20,7 @@
 #include <hashedstring.h>
 
 #define CHARTYPE QChar
-#define DBG_LEXER DEBUG(QLatin1String("Lexer"))
+#define DBG_LEXER DEBUG_N(QLatin1String("Lexer"))
 
 enum Type {
     Token_eof = 0,

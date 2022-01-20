@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "singlepagedialogbase.h"
@@ -76,7 +76,7 @@ SinglePageDialogBase::~SinglePageDialogBase()
  */
 bool SinglePageDialogBase::apply()
 {
-    DEBUG(DBG_SRC) << "no derived apply() method present, called empty base implementation";
+    DEBUG() << "no derived apply() method present, called empty base implementation";
     return true;
 }
 

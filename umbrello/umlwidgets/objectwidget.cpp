@@ -318,7 +318,7 @@ void ObjectWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
 void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     if (m_inResizeArea) {
-        DEBUG(DBG_SRC) << "resizing...";
+        DEBUG() << "resizing...";
         resize(me);
         moveEvent(0);
         return;

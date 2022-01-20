@@ -6,7 +6,7 @@
 */
 
 #define CACHELEXER
-#define DBG_DRV DEBUG(QLatin1String("Driver"))
+#define DBG_DRV DEBUG_N(QLatin1String("Driver"))
 
 #include "driver.h"
 #include "lexer.h"

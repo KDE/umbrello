@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -563,7 +563,7 @@ void ListPopupMenu::setActionChecked(MenuType idx, bool value)
         action->setChecked(value);
     }
     else {
-        DEBUG(DBG_SRC) << "called on unknown MenuType " << toString(idx);
+        DEBUG() << "called on unknown MenuType " << toString(idx);
     }
 }
 
@@ -580,7 +580,7 @@ void ListPopupMenu::setActionEnabled(MenuType idx, bool value)
         action->setEnabled(value);
     }
     else {
-        DEBUG(DBG_SRC) << "called on unknown MenuType " << toString(idx);
+        DEBUG() << "called on unknown MenuType " << toString(idx);
     }
 }
 

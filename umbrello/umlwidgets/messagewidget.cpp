@@ -153,7 +153,7 @@ MessageWidget::~MessageWidget()
 void MessageWidget::setY(qreal y)
 {
     if (y < getMinY()) {
-        DEBUG(DBG_SRC) << "got out of bounds y position, check the reason" << this->y() << getMinY();
+        DEBUG() << "got out of bounds y position, check the reason" << this->y() << getMinY();
         return;
     }
 
@@ -196,7 +196,7 @@ bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 {
     if (!m_resizable) {
         m_scene->activeView()->setCursor(Qt::ArrowCursor);
-        DEBUG(DBG_SRC) << "!m_resizable";
+        DEBUG() << "!m_resizable";
         return false;
     }
 
@@ -212,7 +212,7 @@ bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 
     if (me->scenePos().y() < y() + h - m) {
         m_scene->activeView()->setCursor(Qt::ArrowCursor);
-        DEBUG(DBG_SRC) << "Y condition not satisfied";
+        DEBUG() << "Y condition not satisfied";
         return false;
     }
 
@@ -221,11 +221,11 @@ bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
     if ((x1 < x2 && me->scenePos().x() >= x() + w - m) ||
         (x1 > x2 && me->scenePos().x() >= x() - m)) {
         m_scene->activeView()->setCursor(Qt::SizeVerCursor);
-        DEBUG(DBG_SRC) << "X condition is satisfied";
+        DEBUG() << "X condition is satisfied";
         return true;
     } else {
         m_scene->activeView()->setCursor(Qt::ArrowCursor);
-        DEBUG(DBG_SRC) << "X condition not satisfied";
+        DEBUG() << "X condition not satisfied";
         return false;
     }
 }
@@ -676,7 +676,7 @@ UMLWidget* MessageWidget::onWidget(const QPointF& p)
 void MessageWidget::setTextPosition()
 {
     if (m_pFText == 0) {
-        DEBUG(DBG_SRC) << "m_pFText is NULL";
+        DEBUG() << "m_pFText is NULL";
         return;
     }
     if (m_pFText->displayText().isEmpty()) {
@@ -770,7 +770,7 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
     const Uml::ID::Type idA = m_pOw[Uml::RoleType::A]->localID();
     const Uml::ID::Type idB = m_pOw[Uml::RoleType::B]->localID();
     if (idA != id && idB != id) {
-        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA)
+        DEBUG() << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA)
             << ", idB=" << Uml::ID::toString(idB);
         return;
     }
@@ -840,12 +840,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::A] == 0) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == 0) {
-            DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
+            DEBUG() << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::A] = pWA->asObjectWidget();
         if (m_pOw[Uml::RoleType::A] == 0) {
-            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
+            DEBUG() << "role A widget " << Uml::ID::toString(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
@@ -853,12 +853,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::B] == 0) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == 0) {
-            DEBUG(DBG_SRC) << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
+            DEBUG() << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::B] = pWB->asObjectWidget();
         if (m_pOw[Uml::RoleType::B] == 0) {
-            DEBUG(DBG_SRC) << "role B widget " << Uml::ID::toString(m_widgetBId)
+            DEBUG() << "role B widget " << Uml::ID::toString(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
         }

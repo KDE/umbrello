@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -440,7 +440,7 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
     DotGenerator dot;
     bool result = dot.createDotFile(scene, fileName, QLatin1String("export"));
 
-    DEBUG(DBG_IEM) << "saving to file " << fileName << result;
+    DEBUG_N(DBG_IEM) << "saving to file " << fileName << result;
     return result;
 }
 
@@ -547,7 +547,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 //    scene->forceUpdateWidgetFontMetrics(0);
     //Note: See comment above.
 
-    DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
+    DEBUG_N(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
 }
 
@@ -578,7 +578,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
-    DEBUG(DBG_IEM) << "saving to file " << fileName
+    DEBUG_N(DBG_IEM) << "saving to file " << fileName
                    << ", imageType=" << imageType
                    << ", width=" << rect.width()
                    << ", height=" << rect.height()

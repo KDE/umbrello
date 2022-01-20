@@ -304,7 +304,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
     if (owner == 0) {
-        DEBUG(DBG_SRC) << "owner object " << Uml::ID::toString(aId) << " not found";
+        DEBUG() << "owner object " << Uml::ID::toString(aId) << " not found";
         return false;
     }
     setParentItem(owner);

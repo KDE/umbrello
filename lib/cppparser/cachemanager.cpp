@@ -71,14 +71,14 @@ void CacheManager::increaseFrame()
     QString dbg_src(QLatin1String("CacheManager"));
     m_currentFrame ++;
     if (m_set.size() > m_maxNodes) {
-        DEBUG(dbg_src) << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
+        DEBUG_N(dbg_src) << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
         int mustErase = m_set.size() - m_maxNodes;
         while (!m_set.empty() && mustErase != 0) {
             --mustErase;
             SetType::iterator it = m_set.begin();
             erase(*it);
         }
-        DEBUG(dbg_src) << "Have " << m_set.size() << " nodes after erasing." << endl;
+        DEBUG_N(dbg_src) << "Have " << m_set.size() << " nodes after erasing." << endl;
     }
 }
 

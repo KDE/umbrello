@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -44,7 +44,7 @@ UMLCanvasObject::~UMLCanvasObject()
     //  It should have been called explicitly before destructing the
     //  UMLCanvasObject.
     if (associations())
-        DEBUG(DBG_SRC) << "UMLCanvasObject destructor: FIXME: there are still associations()";
+        DEBUG() << "UMLCanvasObject destructor: FIXME: there are still associations()";
 }
 
 /**
@@ -96,7 +96,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) const
 {
     uint cnt = subordinates().count(assoc);
-    DEBUG(DBG_SRC) << "count is " << cnt;
+    DEBUG() << "count is " << cnt;
     return (cnt > 0);
 }
 
@@ -109,7 +109,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc) const
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
     if (!hasAssociation(assoc) || !subordinates().removeAll(assoc)) {
-        DEBUG(DBG_SRC) << "cannot find given assoc " << assoc << " in list";
+        DEBUG() << "cannot find given assoc " << assoc << " in list";
         return -1;
     }
     UMLApp::app()->document()->removeAssociation(assoc, false);
@@ -135,16 +135,16 @@ void UMLCanvasObject::removeAllAssociationEnds()
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA) {
-            DEBUG(DBG_SRC) << name() << ": objA " << objA->name() << " is not a UMLCanvasObject";
+            DEBUG() << name() << ": objA " << objA->name() << " is not a UMLCanvasObject";
         } else
-            DEBUG(DBG_SRC) << name() << "): objA is NULL";
+            DEBUG() << name() << "): objA is NULL";
         UMLCanvasObject *roleBObj = objB->asUMLCanvasObject();
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB) {
-            DEBUG(DBG_SRC) << name() << "): objB " << objB->name() << " is not a UMLCanvasObject";
+            DEBUG() << name() << "): objB " << objB->name() << " is not a UMLCanvasObject";
         } else
-            DEBUG(DBG_SRC) << name() << "): objB is NULL";
+            DEBUG() << name() << "): objB is NULL";
     }
 }
 
@@ -356,7 +356,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
         if (c)
             list.append(c);
         else
-            DEBUG(DBG_SRC) << name() << ": generalization's other end is not a "
+            DEBUG() << name() << ": generalization's other end is not a "
                 << "UMLClassifier (id= " << Uml::ID::toString(a->getObjectId(Uml::RoleType::B)) << ")";
     }
     return list;
@@ -383,7 +383,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() const
         if (c)
             list.append(c);
         else
-            DEBUG(DBG_SRC) << "specialization's other end is not a UMLClassifier"
+            DEBUG() << "specialization's other end is not a UMLClassifier"
                 << " (id=" << Uml::ID::toString(a->getObjectId(Uml::RoleType::A)) << ")";
     }
     return list;

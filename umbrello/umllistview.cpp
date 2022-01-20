@@ -164,7 +164,7 @@ void UMLListView::slotItemSelectionChanged()
 {
     UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
     if (currItem && currItem->isSelected()) {
-        DEBUG(DBG_SRC) << "UMLListView selection changed to" << currItem->text(0);
+        DEBUG() << "UMLListView selection changed to" << currItem->text(0);
         // Update current view to selected object's view
         if (Model_Utils::typeIsDiagram(currItem->type())) {
             // If the user navigates to a diagram, load the diagram just like what
@@ -218,10 +218,10 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
     if (item) {
-        DEBUG(DBG_SRC) << "QMouseEvent on" << UMLListViewItem::toString(item->type());
+        DEBUG() << "QMouseEvent on" << UMLListViewItem::toString(item->type());
     }
     else {
-        DEBUG(DBG_SRC) << "QMouseEvent on empty space";
+        DEBUG() << "QMouseEvent on empty space";
     }
 
     const Qt::MouseButton button = me->button();
@@ -251,16 +251,16 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
 void UMLListView::mouseMoveEvent(QMouseEvent* me)
 {
     if (!(me->buttons() & Qt::LeftButton)) {
-        DEBUG(DBG_SRC) << "not LeftButton (no action)";
+        DEBUG() << "not LeftButton (no action)";
         return;
     }
     if ((me->pos() - m_dragStartPosition).manhattanLength()
             < QApplication::startDragDistance()) {
-        DEBUG(DBG_SRC) << "pos change since dragStart is below startDragDistance threshold (no action)";
+        DEBUG() << "pos change since dragStart is below startDragDistance threshold (no action)";
         return;
     }
 
-    DEBUG(DBG_SRC) << "initiating drag";
+    DEBUG() << "initiating drag";
 
     // Store a copy of selected list items in case the user
     // will ctrl-drag (basically just copy/paste) an item
@@ -330,7 +330,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 {
     UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
     if (!currItem) {
-        DEBUG(DBG_SRC) << "Invoked without currently selectedItem!";
+        DEBUG() << "Invoked without currently selectedItem!";
         return;
     }
     UMLListViewItem::ListViewType lvt = currItem->type();
@@ -980,7 +980,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     UMLListViewItem* newItem = findUMLObject(object);
 
     if (newItem) {
-        DEBUG(DBG_SRC) << object->name() << ", type=" << newItem->type()
+        DEBUG() << object->name() << ", type=" << newItem->type()
                        << ", id=" << Uml::ID::toString(object->id())
                        << ": item already exists.";
         Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type());
@@ -1003,7 +1003,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (type == UMLObject::ot_Datatype) {
         const UMLDatatype *dt = object->asUMLDatatype();
         if (!dt->isActive()) {
-            DEBUG(DBG_SRC) << object->name() << " is not active. Refusing to create UMLListViewItem";
+            DEBUG() << object->name() << " is not active. Refusing to create UMLListViewItem";
             return;
         }
     }
@@ -1160,7 +1160,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
     UMLListViewItem *childItem = 0;
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == 0) {
-        DEBUG(DBG_SRC) << child->name() << ": parent " << parent->name()
+        DEBUG() << child->name() << ": parent " << parent->name()
                        << " does not yet exist, creating it now.";
         const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(parent);
         parentItem = new UMLListViewItem(m_lv[Uml::ModelType::Logical], parent->name(), lvt, parent);
@@ -1382,7 +1382,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         }
     }
     if (m_doc->loading()) {
-        DEBUG(DBG_SRC) << "could not find " << v->umlScene()->name() << " in " << *item;
+        DEBUG() << "could not find " << v->umlScene()->name() << " in " << *item;
     } else {
         logWarn2("UMLListView::findView could not find %1 in %2", v->umlScene()->name(), item->text(0));
     }
@@ -1552,7 +1552,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
 {
     UMLListViewItem* target = (UMLListViewItem*)itemAt(event->pos());
     if (!target) {
-        DEBUG(DBG_SRC) << "itemAt(mouse position) returns 0";
+        DEBUG() << "itemAt(mouse position) returns 0";
         return false;
     }
 
@@ -1621,7 +1621,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
 {
     UMLCanvasObject *o = item->umlObject()->asUMLCanvasObject();
     if (o == 0) {
-        DEBUG(DBG_SRC) << item->text(0) << ": item's UMLObject is null";
+        DEBUG() << item->text(0) << ": item's UMLObject is null";
     } else if (Model_Utils::typeIsContainer(parent->type())) {
         /**** TBC: Do this here?
                    If yes then remove that logic at the callers
@@ -1693,7 +1693,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     }
 
     UMLListViewItem::ListViewType newParentType = newParent->type();
-    DEBUG(DBG_SRC) << "newParentType is " << UMLListViewItem::toString(newParentType);
+    DEBUG() << "newParentType is " << UMLListViewItem::toString(newParentType);
     UMLListViewItem *newItem = 0;
 
     //make sure trying to place in correct location
@@ -1824,7 +1824,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 delete move;
             UMLCanvasObject *o = newItem->umlObject()->asUMLCanvasObject();
             if (o == 0) {
-                DEBUG(DBG_SRC) << "moveObject: newItem's UMLObject is null";
+                DEBUG() << "moveObject: newItem's UMLObject is null";
             } else if (newParentObj == 0) {
                 logError1("UMLListView::moveObject(%1): newParentObj is null", o->name());
             } else {
@@ -1939,7 +1939,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
  */
 void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* target)
 {
-    DEBUG(DBG_SRC) << "Dropping on target " << target->text(0);
+    DEBUG() << "Dropping on target " << target->text(0);
 
     // Copy or move tree items
     if (de->dropAction() == Qt::CopyAction) {
@@ -1983,7 +1983,7 @@ UMLListViewItemList UMLListView::selectedItems() const
             itemList.append(item);
         }
     }
-    // DEBUG(DBG_SRC) << "selected items = " << itemList.count();
+    // DEBUG() << "selected items = " << itemList.count();
 
     return itemList;
 }
@@ -2032,7 +2032,7 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
             logError2("UMLListView::createDiagramItem in scene %1 : findUMLObject(%2) returns null",
                       view->umlScene()->name(), f->name());
     } else {
-        DEBUG(DBG_SRC) << view->umlScene()->name() << ": no parent folder set, using predefined folder";
+        DEBUG() << view->umlScene()->name() << ": no parent folder set, using predefined folder";
     }
     if (parent == 0) {
         parent = determineParentItem(lvt);
@@ -2510,7 +2510,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             if (idchanges) {
                 Uml::ID::Type newID = idchanges->findNewID(nID);
                 if (newID != Uml::ID::None) {
-                    DEBUG(DBG_SRC) << " using id " << Uml::ID::toString(newID)
+                    DEBUG() << " using id " << Uml::ID::toString(newID)
                                    << " instead of " << Uml::ID::toString(nID);
                     nID = newID;
                 }
@@ -2584,7 +2584,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 // by the loading of the corresponding model object from the
                 // XMI file.
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
-                DEBUG(DBG_SRC) << "Loaded <listview> entry does not match uml model"
+                DEBUG() << "Loaded <listview> entry does not match uml model"
                                << item->text(0) << " parent "
                                << parent->text(0) << " (" << parent << ") != "
                                << (itmParent ? itmParent->text(0) : QLatin1String(""))
@@ -2603,11 +2603,11 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_CheckConstraint:
             item = findItem(nID);
             if (item == 0) {
-                DEBUG(DBG_SRC) << "item " << Uml::ID::toString(nID) << " (of type "
+                DEBUG() << "item " << Uml::ID::toString(nID) << " (of type "
                                << UMLListViewItem::toString(lvType) << ") does not yet exist...";
                 UMLObject* umlObject = parent->umlObject();
                 if (!umlObject) {
-                    DEBUG(DBG_SRC) << "And also the parent->umlObject() does not exist";
+                    DEBUG() << "And also the parent->umlObject() does not exist";
                     return false;
                 }
                 if (nID == Uml::ID::None) {
@@ -2623,11 +2623,11 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             label = instAttr->toString();
                             item = new UMLListViewItem(parent, label, lvType, instAttr);
                         } else {
-                            DEBUG(DBG_SRC) << umlObject->name() << " lvt_InstanceAttribute child "
+                            DEBUG() << umlObject->name() << " lvt_InstanceAttribute child "
                                            << " object " << Uml::ID::toString(nID) << " not found";
                         }
                     } else {
-                        DEBUG(DBG_SRC) << "cast to instance object failed";
+                        DEBUG() << "cast to instance object failed";
                     }
                 } else {
                     UMLClassifier *classifier = umlObject->asUMLClassifier();
@@ -2638,11 +2638,11 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             label = umlObject->name();
                             item = new UMLListViewItem(parent, label, lvType, umlObject);
                         } else {
-                            DEBUG(DBG_SRC) << "lvtype " << UMLListViewItem::toString(lvType)
+                            DEBUG() << "lvtype " << UMLListViewItem::toString(lvType)
                                            << " child object " << Uml::ID::toString(nID) << " not found";
                         }
                     } else {
-                        DEBUG(DBG_SRC) << "cast to classifier object failed";
+                        DEBUG() << "cast to classifier object failed";
                     }
                 }
             }
@@ -2899,7 +2899,7 @@ void UMLListView::dropEvent(QDropEvent* event)
     else {
         UMLListViewItem* target = static_cast<UMLListViewItem*>(itemAt(event->pos()));
         if (!target) {
-            DEBUG(DBG_SRC) << "itemAt(mousePoint) returns 0";
+            DEBUG() << "itemAt(mousePoint) returns 0";
             event->ignore();
             return;
         }
@@ -2920,7 +2920,7 @@ void UMLListView::commitData(QWidget *editor)
     editor->removeEventFilter(delegate);
     QByteArray n = editor->metaObject()->userProperty().name();
     if (n.isEmpty()) {
-        DEBUG(DBG_SRC) << "no name property found in list view item editor";
+        DEBUG() << "no name property found in list view item editor";
         return;
     }
 
@@ -2928,7 +2928,7 @@ void UMLListView::commitData(QWidget *editor)
 
     UMLListViewItem *item = dynamic_cast<UMLListViewItem *>(currentItem());
     if (!item) {
-        DEBUG(DBG_SRC) << "no item found after editing model index" << index;
+        DEBUG() << "no item found after editing model index" << index;
         return;
     }
     item->slotEditFinished(newText);

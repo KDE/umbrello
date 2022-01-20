@@ -52,7 +52,7 @@
 // system includes
 #include <cmath>
 
-#define DBG_AW() DEBUG(QLatin1String("AssociationWidget"))
+#define DBG_AW() DEBUG_N(QLatin1String("AssociationWidget"))
 DEBUG_REGISTER_DISABLED(AssociationWidget)
 
 // For bug 447866, commit 3361008 added permission to manually modify m_associationLine
@@ -700,7 +700,7 @@ bool AssociationWidget::activate(IDChangeLog *changeLog)
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(RoleType::B)), RoleType::B);
 
     if (!m_role[RoleType::A].umlWidget || !m_role[RoleType::B].umlWidget) {
-        DEBUG(DBG_SRC) << "Cannot make association!";
+        DEBUG() << "Cannot make association!";
         return false;
     }
 
@@ -939,7 +939,7 @@ void AssociationWidget::setStereotype(const QString &stereo) {
             m_nameWidget->setText(umlassoc->stereotype(true));
         }
     } else {
-        DEBUG(DBG_SRC) << "AssociationWidget::setStereotype : not setting " << stereo << " because association is NULL";
+        DEBUG() << "AssociationWidget::setStereotype : not setting " << stereo << " because association is NULL";
     }
 }
 
@@ -1200,7 +1200,7 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) const
     int wHeight = widget->height();
     bool result = (startX >= wX - PIXEL_TOLERANCE && startX <= wX + wWidth + PIXEL_TOLERANCE &&
                    startY >= wY - PIXEL_TOLERANCE && startY <= wY + wHeight + PIXEL_TOLERANCE);
-    DEBUG(DBG_SRC) << "linePathStartsAt widget=" << widget->name() << ": result=" << result;
+    DEBUG() << "linePathStartsAt widget=" << widget->name() << ": result=" << result;
     return result;
 }
 
@@ -1219,7 +1219,7 @@ bool AssociationWidget::linePathEndsAt(const UMLWidget* widget) const
     int wHeight = widget->height();
     bool result = (endX >= wX - PIXEL_TOLERANCE && endX <= wX + wWidth + PIXEL_TOLERANCE &&
                    endY >= wY - PIXEL_TOLERANCE && endY <= wY + wHeight + PIXEL_TOLERANCE);
-    DEBUG(DBG_SRC) << "linePathEndsAt widget=" << widget->name() << ": result=" << result;
+    DEBUG() << "linePathEndsAt widget=" << widget->name() << ": result=" << result;
     return result;
 }
 
@@ -1537,7 +1537,7 @@ QString AssociationWidget::toString() const
 void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        DEBUG(DBG_SRC) << "AssociationWidget::mouseDoubleClickEvent : widget = " << name() << " / type = " << baseTypeStr();
+        DEBUG() << "AssociationWidget::mouseDoubleClickEvent : widget = " << name() << " / type = " << baseTypeStr();
         showPropertiesDialog();
         event->accept();
     }
@@ -1818,12 +1818,12 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
-        DEBUG(DBG_SRC) << "called during load of XMI for ViewType: " << m_scene->type()
+        DEBUG() << "called during load of XMI for ViewType: " << m_scene->type()
                        << ", and BaseType: " << baseTypeStr();
         return;
     }
 
-    DEBUG(DBG_SRC) << "association type=" << Uml::AssociationType::toString(associationType());
+    DEBUG() << "association type=" << Uml::AssociationType::toString(associationType());
     if (associationType() == AssociationType::Exception) {
         updatePointsException();
         setTextPosition(TextRole::Name);
@@ -2510,7 +2510,7 @@ void AssociationWidget::computeAssocClassLine()
     QLineF::IntersectType type = intersect(m_associationClass->mapRectToScene(m_associationClass->boundingRect()),
                                            possibleAssocLine,
                                            &intersectionPoint);
-    // DEBUG(DBG_SRC) << "intersect type=" << type << " / point=" << intersectionPoint;
+    // DEBUG() << "intersect type=" << type << " / point=" << intersectionPoint;
 
     if (type == QLineF::BoundedIntersection) {
         m_pAssocClassLine->setLine(midSegX, midSegY,
@@ -2582,7 +2582,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     Uml::AssociationType::Enum atype = associationType();
     Uml::RoleType::Enum r = RoleType::B;
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    DEBUG(DBG_SRC) << "menu selection = " << ListPopupMenu::toString(sel);
+    DEBUG() << "menu selection = " << ListPopupMenu::toString(sel);
 
     // if it's a collaboration message we now just use the code in floatingtextwidget
     // this means there's some redundant code below but that's better than duplicated code
@@ -2598,7 +2598,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // don't worry about here, I don't think it can get here as
             // line is widget on seq. diagram
             // here just in case - remove later after testing
-            DEBUG(DBG_SRC) << "mt_Properties: assoctype is " << atype;
+            DEBUG() << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
             UMLApp::app()->docWindow()->updateDocumentation(false);
             showPropertiesDialog();
@@ -2750,7 +2750,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        DEBUG() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
         break;
     }//end switch
 }
@@ -2843,7 +2843,7 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
     if (m_associationLine.closestPointIndex(scenePos) < 0) {
         int i = m_associationLine.closestSegmentIndex(scenePos);
         if (i < 0) {
-            DEBUG(DBG_SRC) << "no closest segment found!";
+            DEBUG() << "no closest segment found!";
             return false;
         }
         // switch type to see additional points by default
@@ -2856,13 +2856,13 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
             const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
             /*
-            DEBUG(DBG_SRC) << "segStart=" << segStart << ", segEnd=" << segEnd
+            DEBUG() << "segStart=" << segStart << ", segEnd=" << segEnd
                            << ", midSeg=(" << midSegX << "," << midSegY
                            << "), mp=" << mp;
              */
             if (midSegX > scenePos.x() || midSegY < scenePos.y()) {
                 m_nLinePathSegmentIndex++;
-                DEBUG(DBG_SRC) << "setting m_nLinePathSegmentIndex to "
+                DEBUG() << "setting m_nLinePathSegmentIndex to "
                                << m_nLinePathSegmentIndex;
                 computeAssocClassLine();
             }
@@ -2874,7 +2874,7 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
         return true;
     }
     else {
-        DEBUG(DBG_SRC) << "found point already close enough!";
+        DEBUG() << "found point already close enough!";
         return false;
     }
 }
@@ -3248,7 +3248,7 @@ bool AssociationWidget::onAssocClassLine(const QPointF &point)
             }
         }
     }
-    DEBUG(DBG_SRC) << onLine;
+    DEBUG() << onLine;
     return onLine;
 }
 
@@ -3264,13 +3264,13 @@ bool AssociationWidget::onAssociation(const QPointF& point)
     const qreal diameter(4.0);
     QPainterPath path = m_associationLine.shape();
     if (path.contains(point)) {
-        DEBUG(DBG_SRC) << "on path";
+        DEBUG() << "on path";
         return true;
     }
     // check also the points
     if (m_associationLine.layout() == Uml::LayoutType::Spline) {
         if (m_associationLine.closestPointIndex(point, diameter) > -1) {
-            DEBUG(DBG_SRC) << "on spline point";
+            DEBUG() << "on spline point";
             return true;
         }
     }
@@ -3362,7 +3362,7 @@ QPainterPath AssociationWidget::shape() const
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj)
 {
     if (obj != m_umlObject) {
-        DEBUG(DBG_SRC) << "obj=" << obj << ": m_umlObject=" << m_umlObject;
+        DEBUG() << "obj=" << obj << ": m_umlObject=" << m_umlObject;
         return;
     }
     m_umlObject = 0;
@@ -3737,7 +3737,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                 setRoleName(ft->text(), RoleType::B);
                 break;
             default:
-                DEBUG(DBG_SRC) << "unexpected FloatingTextWidget (TextRole::Enum " << role << ")";
+                DEBUG() << "unexpected FloatingTextWidget (TextRole::Enum " << role << ")";
                 delete ft;
                 break;
             }
@@ -3757,7 +3757,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement)
 {
     UMLScene *scene = umlScene();
     if (scene == 0) {
-        DEBUG(DBG_SRC) << "This isn't on UMLScene yet, so can neither fetch"
+        DEBUG() << "This isn't on UMLScene yet, so can neither fetch"
             "messages nor widgets on umlscene";
         return false;
     }

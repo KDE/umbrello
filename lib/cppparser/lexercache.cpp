@@ -8,7 +8,7 @@
 #include "debug_utils.h"
 #include "driver.h"
 
-#define DBG_LXC DEBUG(QLatin1String("LexerCache"))
+#define DBG_LXC DEBUG_N(QLatin1String("LexerCache"))
 
 DEBUG_REGISTER_DISABLED(LexerCache)
 
@@ -47,9 +47,9 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
     ///@todo optimize with standard-algorithms(by first computing the intersection)
 
     /*  if(files.first != files.second)
-          DEBUG(DBG_SRC) << "LexerCache: cache for file " << fileName.str() << " is not empty" << endl;
+          DBG_LXC << "LexerCache: cache for file " << fileName.str() << " is not empty" << endl;
       else
-          DEBUG(DBG_SRC) << "LexerCache: cache for file " << fileName.str() << " is empty" << endl;*/
+          DBG_LXC << "LexerCache: cache for file " << fileName.str() << " is empty" << endl;*/
 
     while (files.first != files.second) {
         const CachedLexedFile& file(*(*(files.first)).second);

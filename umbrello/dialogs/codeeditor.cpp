@@ -171,7 +171,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
         }
     }
     else {
-        DEBUG(DBG_SRC) << "TextBlock is NULL!";
+        DEBUG() << "TextBlock is NULL!";
     }
 }
 
@@ -195,7 +195,7 @@ bool CodeEditor::isNonBlank(const QString &str)
  */
 void CodeEditor::keyPressEvent(QKeyEvent * e)
 {
-    DEBUG(DBG_SRC) << "KEY PRESS EVENT:[" << e->text().toLatin1() << "] ascii CODE:" << e->key();
+    DEBUG() << "KEY PRESS EVENT:[" << e->text().toLatin1() << "] ascii CODE:" << e->key();
 
     if (e->key() == 8) {  // || (e->key() == 127))  // what about delete?
         m_backspacePressed = true;
@@ -218,20 +218,20 @@ void CodeEditor::loadFromDocument()
     // set caption on tool
     QString caption = m_parentDoc->getFileName() + m_parentDoc->getFileExtension();
     setWindowTitle(i18n(caption.toUtf8().constData()));
-    DEBUG(DBG_SRC) << "set window title to: " << caption;
+    DEBUG() << "set window title to: " << caption;
 
     // header for document
     QString header = m_parentDoc->getHeader()->toString();
     QString componentName = QString::fromLatin1("header for file ") + caption;
     if (isNonBlank(header)) {
-        DEBUG(DBG_SRC) << "header for document: " << header;
+        DEBUG() << "header for document: " << header;
         insertText(header, m_parentDoc->getHeader(), false, state().fontColor,
                state().nonEditBlockColor, 0, componentName);
     }
 
     // now all the text blocks in the document
     TextBlockList * items = m_parentDoc->getTextBlockList();
-    DEBUG(DBG_SRC) << "TextBlockList: " << items->count();
+    DEBUG() << "TextBlockList: " << items->count();
     appendText(items);
 
     textCursor().setPosition(0);
@@ -319,7 +319,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
     item->fgcolor = fgcolor;
     item->bgcolor = bgcolor;
     item->isEditable = editable;
-    DEBUG(DBG_SRC) << "startLine: "<< item->start << " / endLine: " << item->end
+    DEBUG() << "startLine: "<< item->start << " / endLine: " << item->end
                    << " / size: " << item->size << " /\ntext: " << text;
 
     if (isInsert) {
@@ -363,7 +363,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
  */
 void CodeEditor::appendText(TextBlockList * items)
 {
-    DEBUG(DBG_SRC) << "text block list";
+    DEBUG() << "text block list";
     foreach (TextBlock* tb, *items) {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
@@ -403,7 +403,7 @@ void CodeEditor::appendText(TextBlockList * items)
  */
 void CodeEditor::appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj, const QString & componentName)
 {
-    DEBUG(DBG_SRC) << "comment";
+    DEBUG() << "comment";
     if (!comment->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -423,7 +423,7 @@ void CodeEditor::appendText(CodeComment * comment, TextBlock * parent, UMLObject
  */
 void CodeEditor::appendText(CodeBlockWithComments * cb)
 {
-    DEBUG(DBG_SRC) << "code block with comments";
+    DEBUG() << "code block with comments";
     if (!cb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -448,7 +448,7 @@ void CodeEditor::appendText(CodeBlockWithComments * cb)
  */
 void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
 {
-    DEBUG(DBG_SRC) << "code class field declaration block";
+    DEBUG() << "code class field declaration block";
     if (!db->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -486,7 +486,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
  */
 void CodeEditor::appendText(CodeMethodBlock * mb)
 {
-    DEBUG(DBG_SRC) << "code  method block";
+    DEBUG() << "code  method block";
     // Note: IF CodeAccessors are hidden, we DON'T show
     // it even when requested as the hiddeness of these methods
     // should be controlled by the class fields, not the user in the editor.
@@ -551,7 +551,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
  */
 void CodeEditor::appendText(TextBlock * tb)
 {
-    DEBUG(DBG_SRC) << "text block";
+    DEBUG() << "text block";
     if (!tb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -569,7 +569,7 @@ void CodeEditor::appendText(TextBlock * tb)
  */
 void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 {
-    DEBUG(DBG_SRC) << "hierarchical code block";
+    DEBUG() << "hierarchical code block";
     if (!hblock->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -750,7 +750,7 @@ QMenu * CodeEditor::createPopup()
 KMenu * CodeEditor::createPopup()
 #endif
 {
-    DEBUG(DBG_SRC) << "called...";
+    DEBUG() << "called...";
 
 #if QT_VERSION >= 0x050000
     QMenu * menu = new QMenu(this);
@@ -1097,7 +1097,7 @@ void CodeEditor::slotCursorPositionChanged()
             logWarn1("no text block found in list at position %1", para);
             return;
         }
-        DEBUG(DBG_SRC) << tBlock;
+        DEBUG() << tBlock;
 
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(tBlock);
         if (!cmb) {
@@ -1262,7 +1262,7 @@ bool CodeEditor::isParaEditable(int para)
         }
     }
     if ((para < 0) || (para >= document()->characterCount())) {
-        DEBUG(DBG_SRC) << "para:" << para << " not in range 0.." << document()->characterCount();
+        DEBUG() << "para:" << para << " not in range 0.." << document()->characterCount();
         return false;
     }
 
@@ -1290,11 +1290,11 @@ bool CodeEditor::isParaEditable(int para)
             }
         }
         else {
-            DEBUG(DBG_SRC) << "TextBlockInfo not found in info map!";
+            DEBUG() << "TextBlockInfo not found in info map!";
         }
     }
     else {
-        DEBUG(DBG_SRC) << "TextBlock not found at position " << para;
+        DEBUG() << "TextBlock not found at position " << para;
     }
     return false;
 }
@@ -1469,7 +1469,7 @@ void CodeEditor::mouseDoubleClickEvent(QMouseEvent * e)
         editTextBlock(tBlock, para);
     }
     else {
-        DEBUG(DBG_SRC) << "para:" << para << " not in range 0.." << document()->characterCount();
+        DEBUG() << "para:" << para << " not in range 0.." << document()->characterCount();
     }
 }
 

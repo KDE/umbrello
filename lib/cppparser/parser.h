@@ -314,7 +314,7 @@ public:
 };
 
 
-#define PARSER_DEBUG_METHOD DEBUG(DBG_SRC) << "token=" << m_lexer->lookAhead(0).text() << endl
+#define PARSER_DEBUG_METHOD DEBUG() << "token=" << m_lexer->lookAhead(0).text() << endl
 
 class Parser : public QObject
 {

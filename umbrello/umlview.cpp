@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -72,7 +72,7 @@ void UMLView::setZoom(qreal zoom)
         zoom = 500;
     }
 
-    DEBUG(DBG_SRC) << "setZoom" << zoom;
+    DEBUG() << "setZoom" << zoom;
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setMatrix(wm);

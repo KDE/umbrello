@@ -148,7 +148,7 @@ QMenu* UMLApp::findMenu(const QString& name)
     if (widget) {
         return dynamic_cast<QMenu*>(widget);
     }
-    DEBUG(DBG_SRC) << "factory()->container(" << name << ") returns NULL";
+    DEBUG() << "factory()->container(" << name << ") returns NULL";
     return 0;
 }
 
@@ -1161,14 +1161,14 @@ void UMLApp::readOptions()
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
 #if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    DEBUG() << "******************** UNUSED?";
     Q_UNUSED(cfg);
 #else
     if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
         QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.toString());
         cfg.writeEntry("modified", m_doc->isModified());
-        DEBUG(DBG_SRC) << "Save properties - filenam: " << url << " | modified: " << m_doc->isModified();
+        DEBUG() << "Save properties - filenam: " << url << " | modified: " << m_doc->isModified();
 
         // saving to tempfile necessary
         QTemporaryFile tmpfile(url.toString());
@@ -1190,13 +1190,13 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
 #if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    DEBUG() << "******************** UNUSED?";
     Q_UNUSED(cfg);
 #else
     QString filename = cfg.readPathEntry("filename", QString());
     QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
-    DEBUG(DBG_SRC) << "Read properties - filename: " << url << " | modified: " << modified;
+    DEBUG() << "Read properties - filename: " << url << " | modified: " << modified;
     if (modified) {
         QTemporaryFile tmpfile(filename);
         if (tmpfile.open()) {
@@ -2008,11 +2008,11 @@ void UMLApp::setModified(bool modified)
 
     if (m_loading == false)  {
         if (m_doc) {
-            DEBUG(DBG_SRC) << "Modified file=" << m_doc->url().fileName();
+            DEBUG() << "Modified file=" << m_doc->url().fileName();
             setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
         }
         else {
-            DEBUG(DBG_SRC) << "m_doc is NULL!";
+            DEBUG() << "m_doc is NULL!";
         }
     }
 }
@@ -2130,7 +2130,7 @@ void UMLApp::slotApplyPrefs()
 
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
-        DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
+        DEBUG() << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
 
         if (stackBrowsing != tabBrowsing) {
             // Diagram Representation Modified
@@ -3183,7 +3183,7 @@ void UMLApp::slotBirdViewChanged(const QPointF& delta)
     QPointF oldCenter = view->mapToScene(view->viewport()->rect().center());
     QPointF newCenter = oldCenter + delta;
     view->centerOn(newCenter);
-    // DEBUG(DBG_SRC) << "view moved with: " << delta;
+    // DEBUG() << "view moved with: " << delta;
     m_birdView->setSlotsEnabled(true);
 }
 
@@ -3198,7 +3198,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
     if (view == 0) {
-        DEBUG(DBG_SRC) << "view is NULL";
+        DEBUG() << "view is NULL";
         docWindow()->reset();
         return;
     }
@@ -3244,7 +3244,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
             m_listView->setCurrentItem(lvitem);
         }
     }
-    DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
+    DEBUG() << "Changed view to" << view->umlScene();
 
     createBirdView(view);
 }
@@ -3309,7 +3309,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
  */
 void UMLApp::slotChangeTabLeft()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() - 1);
         return;
@@ -3339,7 +3339,7 @@ void UMLApp::slotChangeTabLeft()
  */
 void UMLApp::slotChangeTabRight()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() + 1);
         return;
@@ -3367,7 +3367,7 @@ static void showTabTexts(KTabWidget* tabWidget)
     for (int i = 0; i < tabWidget->count(); ++i) {
         out += " <" + tabWidget->tabText(i) + '>';
     }
-    DEBUG(DBG_SRC) << out;
+    DEBUG() << out;
 }
 */
 
@@ -3376,7 +3376,7 @@ static void showTabTexts(KTabWidget* tabWidget)
  */
 void UMLApp::slotMoveTabLeft()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -3398,7 +3398,7 @@ void UMLApp::slotMoveTabLeft()
  */
 void UMLApp::slotMoveTabRight()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -3486,7 +3486,7 @@ void UMLApp::undo()
     if (!isUndoEnabled())
         return;
 
-    DEBUG(DBG_SRC) << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if (m_pUndoStack->canUndo()) {
@@ -3510,7 +3510,7 @@ void UMLApp::redo()
     if (!isUndoEnabled())
         return;
 
-    DEBUG(DBG_SRC) << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if (m_pUndoStack->canRedo()) {
@@ -3535,7 +3535,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
         return;
     if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);
-        DEBUG(DBG_SRC) << cmd->text() << " [" << m_pUndoStack->count() << "]";
+        DEBUG() << cmd->text() << " [" << m_pUndoStack->count() << "]";
         UMLApp::app()->enableUndoAction(true);
     } else {
         cmd->redo();

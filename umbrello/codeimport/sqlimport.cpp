@@ -590,7 +590,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         QStringList fieldType = parseFieldType(token);
         SQLImport::ColumnConstraints constraints = parseColumnConstraints(token);
 
-        DEBUG(DBG_SRC) << "field" << fieldName << fieldType.at(0);
+        DEBUG() << "field" << fieldName << fieldType.at(0);
         if (entity && !fieldName.isEmpty()) {
             UMLObject *type = addDatatype(fieldType);
             UMLEntityAttribute *a = new UMLEntityAttribute(0, fieldName,
@@ -659,7 +659,7 @@ bool SQLImport::parseCreateTable(QString &token)
 {
     bool returnValue = true;
     QString tableName = parseIdentifier(token);
-    DEBUG(DBG_SRC) << "parsing create table" << tableName;
+    DEBUG() << "parsing create table" << tableName;
 
     UMLFolder *folder = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Entity,
@@ -846,7 +846,7 @@ bool SQLImport::parseStmt()
 QString SQLImport::advance()
 {
     QString token = NativeImportBase::advance();
-    DEBUG(DBG_SRC) << m_srcIndex << token;
+    DEBUG() << m_srcIndex << token;
     return token;
 }
 

@@ -107,7 +107,7 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     wm.scale(scale, scale);
     m_birdView->setMatrix(wm);
 #if VERBOSE_DBG_OUT
-    DEBUG(DBG_SRC) << "setting the size to the scene: " << itemsRect
+    DEBUG() << "setting the size to the scene: " << itemsRect
                    << " / to the frame: " << frameRect
                    << " / scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
 #endif
@@ -202,7 +202,7 @@ void BirdView::keyPressEvent(QKeyEvent *event)
     if (doMove) {
         event->accept();
 #if VERBOSE_DBG_OUT
-        DEBUG(DBG_SRC) << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
+        DEBUG() << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
 #endif
         QMouseEvent* e = new QMouseEvent(QEvent::MouseMove, newPoint, mapToGlobal(newPoint),
                                          Qt::NoButton, Qt::NoButton, Qt::NoModifier);

@@ -58,7 +58,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
 {
     init();
     if (parent == 0) {
-        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
+        DEBUG_N(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
     }
     m_type = t;
     m_object = o;
@@ -79,7 +79,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
 {
     init();
     if (parent == 0) {
-        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a NULL listview parent";
+        DEBUG_N(DBG_LVI) << "UMLListViewItem constructor called with a NULL listview parent";
     }
 }
 
@@ -290,7 +290,7 @@ void UMLListViewItem::setID(Uml::ID::Type id)
     if (m_object) {
         Uml::ID::Type oid = m_object->id();
         if (id != Uml::ID::None && oid != id) {
-            DEBUG(DBG_LVI) << "new id " << Uml::ID::toString(id) << " does not agree with object id "
+            DEBUG_N(DBG_LVI) << "new id " << Uml::ID::toString(id) << " does not agree with object id "
                 << Uml::ID::toString(oid);
         }
     }
@@ -488,7 +488,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
 {
     m_label = text(0);
 
-    DEBUG(DBG_LVI) << this << "text=" << newText;
+    DEBUG_N(DBG_LVI) << this << "text=" << newText;
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     UMLDoc* doc = listView->document();
     if (newText == m_label) {
@@ -714,7 +714,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
  */
 void UMLListViewItem::cancelRenameWithMsg()
 {
-    DEBUG(DBG_LVI) << this << " - column=" << ":TODO:col" << ", text=" << text(0);
+    DEBUG_N(DBG_LVI) << this << " - column=" << ":TODO:col" << ", text=" << text(0);
     KMessageBox::error(0,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
@@ -748,14 +748,14 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (m_object == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (m_object==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (m_object==0)";
 #endif
         return retval;
     }
     if (otherObj == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherObj==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (otherObj==0)";
 #endif
         return retval;
     }
@@ -764,21 +764,21 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (ourParent == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (ourParent==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (ourParent==0)";
 #endif
         return retval;
     }
     if (otherParent == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherParent==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (otherParent==0)";
 #endif
         return retval;
     }
     if (ourParent != otherParent) {
         retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (ourParent != otherParent)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (ourParent != otherParent)";
 #endif
         return retval;
     }
@@ -787,14 +787,14 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (thisUmlItem == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (thisUmlItem==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (thisUmlItem==0)";
 #endif
         return retval;
     }
     if (otherUmlItem == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherUmlItem==0)";
+        DEBUG_N(DBG_LVI) << dbgPfx << retval << " because (otherUmlItem==0)";
 #endif
         return retval;
     }
@@ -900,7 +900,7 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
     writer.writeStartElement(QLatin1String("listitem"));
     Uml::ID::Type id = ID();
     QString idStr = Uml::ID::toString(id);
-    //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
+    //DEBUG_N(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
     if (id != Uml::ID::None)
         writer.writeAttribute(QLatin1String("id"), idStr);
     writer.writeAttribute(QLatin1String("type"), QString::number(m_type));
@@ -911,10 +911,10 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
             writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->id() == Uml::ID::None) {
         if (text(0).isEmpty()) {
-            DEBUG(DBG_LVI) << "Skipping empty item";
+            DEBUG_N(DBG_LVI) << "Skipping empty item";
             return;
         }
-        DEBUG(DBG_LVI) << "saving local label " << text(0) << " because umlobject ID is not set";
+        DEBUG_N(DBG_LVI) << "saving local label " << text(0) << " because umlobject ID is not set";
         if (m_type != lvt_View)
             writer.writeAttribute(QLatin1String("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {

@@ -349,7 +349,7 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
         oppositeStatus = !visualProperty(property);
     }
 
-    DEBUG(DBG_SRC) << "VisualProperty: " << property << " to opposite status " << oppositeStatus;
+    DEBUG() << "VisualProperty: " << property << " to opposite status " << oppositeStatus;
     setVisualProperty(property, oppositeStatus);
 }
 
@@ -668,7 +668,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     if (DiagramProxyWidget::linkedDiagram() || DiagramProxyWidget::diagramLink() != Uml::ID::None)
         width += 2 * DiagramProxyWidget::iconRect().width();
 
-    DEBUG(DBG_SRC) << "ClassifierWidget::calculateSize(" << name << ") : rectWidth" << this->width()
+    DEBUG() << "ClassifierWidget::calculateSize(" << name << ") : rectWidth" << this->width()
                    << ", rectHeight" << this->height() << "; calcWidth" << width << ", calcHeight"
                    << height;
     return QSizeF(width, height);

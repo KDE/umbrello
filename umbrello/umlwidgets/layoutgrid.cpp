@@ -13,7 +13,7 @@
 #include <QPainter>
 #include <QVarLengthArray>
 
-#define DBG_LOG() DEBUG(QLatin1String("LayoutGrid"))
+#define DBG_LOG() DEBUG_N(QLatin1String("LayoutGrid"))
 DEBUG_REGISTER_DISABLED(LayoutGrid)
 
 /**

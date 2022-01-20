@@ -13,7 +13,7 @@
 #include <kdebug.h>
 #endif
 
-#define DBG_TPAR  DEBUG(QLatin1String("TreeParser"))
+#define DBG_TPAR  DEBUG_N(QLatin1String("TreeParser"))
 DEBUG_REGISTER_DISABLED(TreeParser)
 
 TreeParser::TreeParser()

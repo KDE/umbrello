@@ -316,7 +316,7 @@ void AssociationLine::dumpPoints()
 {
     for (int i = 1; i < m_points.size(); ++i) {
         QPointF p = m_points.at(i);
-        DEBUG(DBG_SRC) << i << ". point x:" << p.x() << " / y:" << p.y();
+        DEBUG() << i << ". point x:" << p.x() << " / y:" << p.y();
     }
 }
 
@@ -850,7 +850,7 @@ void AssociationLine::setLayout(Uml::LayoutType::Enum layout)
 {
     prepareGeometryChange();
     m_layout = layout;
-    DEBUG(DBG_SRC) << "new layout = " << Uml::LayoutType::toString(m_layout);
+    DEBUG() << "new layout = " << Uml::LayoutType::toString(m_layout);
     if (m_layout == Uml::LayoutType::Spline) {
         createSplinePoints();
     }
@@ -973,7 +973,7 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
         QPointF end    = points.last();
         qreal deltaX = fabs(start.x() - end.x());
         qreal deltaY = fabs(start.y() - end.y());
-        // DEBUG("AssociationLine") << "start=" << start << " / end=" << end
+        // DEBUG() << "start=" << start << " / end=" << end
         //               << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
         QVector<QPointF> vector;
         for (int i = 0; i < points.size() - 1; ++i) {
@@ -1135,14 +1135,14 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
  */
 void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     if (event->buttons() & Qt::LeftButton) {
         m_activePointIndex = closestPointIndex(event->scenePos());
         // calculate only if active point index is -1
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
     }
     else if (event->buttons() & Qt::RightButton) {
-        DEBUG(DBG_SRC) << "call context menu of association widget at " << event->scenePos();
+        DEBUG() << "call context menu of association widget at " << event->scenePos();
     }
     else {
         m_activePointIndex   = -1;
@@ -1227,7 +1227,7 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
  */
 void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
 
@@ -1273,7 +1273,7 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
  */
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     //Q_UNUSED(event)
     m_activePointIndex   = -1;
     m_activeSegmentIndex = -1;

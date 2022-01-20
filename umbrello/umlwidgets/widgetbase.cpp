@@ -42,9 +42,9 @@ void QGraphicsObjectWrapper::setSelected(bool state)
     if (wb)
         info = wb->name();
     if (info.isEmpty()) {
-        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
+        DEBUG() << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
     } else {
-        DEBUG(DBG_SRC) << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
+        DEBUG() << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
     }
     m_calledFromItemChange = false;
 }
@@ -848,7 +848,7 @@ void WidgetBase::setRect(const QRectF& rect)
 {
     if (m_rect == rect)
         return;
-    DEBUG(DBG_SRC) << "WidgetBase::setRect(" << name() << ") : setting " << rect;
+    DEBUG() << "WidgetBase::setRect(" << name() << ") : setting " << rect;
     prepareGeometryChange();
     m_rect = rect;
     update();

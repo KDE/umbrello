@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -156,7 +156,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
         UMLWidget *w = umlScene()->findWidget(m_widgetAId);
         m_objectWidget  = w->asObjectWidget();
         if (!m_objectWidget) {
-            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId) << " could not be found";
+            DEBUG() << "role A widget " << Uml::ID::toString(m_widgetAId) << " could not be found";
             return false;
         }
         connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
@@ -206,7 +206,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
     const Uml::ID::Type idA = m_objectWidget ? m_objectWidget->localID() : Uml::ID::None;
     if (idA != id) {
-        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
+        DEBUG() << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
     }
     m_nY = y();

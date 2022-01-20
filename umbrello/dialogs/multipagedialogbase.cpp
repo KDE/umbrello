@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -264,7 +264,7 @@ void MultiPageDialogBase::slotDefaultClicked()
  */
 void MultiPageDialogBase::slotHelpClicked()
 {
-    DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
+    DEBUG()  << "HELP clicked...directly handled";
     KHelpClient::invokeHelp(QLatin1String("settings"), QLatin1String("umbrello"));
 }
 
@@ -275,22 +275,22 @@ void MultiPageDialogBase::slotHelpClicked()
 void MultiPageDialogBase::slotButtonClicked(QAbstractButton *button)
 {
     if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
-        DEBUG(DBG_SRC)  << "APPLY clicked...";
+        DEBUG()  << "APPLY clicked...";
         slotApplyClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Ok)) {
-        DEBUG(DBG_SRC)  << "OK clicked...";
+        DEBUG()  << "OK clicked...";
         slotOkClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Cancel)) {
-        DEBUG(DBG_SRC)  << "CANCEL clicked...";
+        DEBUG()  << "CANCEL clicked...";
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
-        DEBUG(DBG_SRC)  << "HELP clicked...";
+        DEBUG()  << "HELP clicked...";
         slotHelpClicked();
     }
     else {
-        DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
+        DEBUG()  << "Button clicked with unhandled role.";
     }
 }
 #endif

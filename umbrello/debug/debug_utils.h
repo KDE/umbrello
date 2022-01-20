@@ -48,11 +48,11 @@ Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
  *
  * - QObject based classes
  *
- *      DEBUG(DBG_SRC) << ...
+ *      DEBUG() << ...
  *
- * - other classes
+ * - other classes (Debug with given Name)
  *
- *      DEBUG("class name") << ...
+ *      DEBUG_N("class name") << ...
  */
 class Tracer : public QTreeWidget
 {
@@ -112,10 +112,17 @@ private:
 
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
-#define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
+#define DEBUG_N(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
+#define DEBUG()       DEBUG_N(DBG_SRC)
 #define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(QString::fromLatin1(#src))
-#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
-#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
+#define DBG_REG_IMPL(src, enabled) \
+        class src##Tracer { \
+          public:           \
+            src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), enabled, QLatin1String(__FILE__)); } \
+        };                  \
+        static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER(src)          DBG_REG_IMPL(src, true)
+#define DEBUG_REGISTER_DISABLED(src) DBG_REG_IMPL(src, false)
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 

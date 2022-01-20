@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -170,7 +170,7 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_imageMimeType = dialog->currentMimeFilter();
 #endif
         UMLApp::app()->setImageMimeType(m_imageMimeType);
-        DEBUG(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
+        DEBUG_N(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
     }
     delete dialog;
     return success;

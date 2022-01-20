@@ -182,15 +182,15 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     if (parentPkg == 0) {
-        // DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
+        // DEBUG() << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is 0, assuming Logical View";
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Artifact) {
-        DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
+        DEBUG() << "Import_Utils::createUMLObject(" << name
                        << "): Artifact as parent package is not supported yet, using Logical View";
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Association) {
-        DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
+        DEBUG() << "Import_Utils::createUMLObject(" << name
                        << "): Association as parent package is not supported yet, using Logical View";
         parentPkg = logicalView;
     } else if (name.startsWith(UMLApp::app()->activeLanguageScopeSeparator())) {
@@ -429,7 +429,7 @@ UMLAttribute* insertAttribute(UMLClassifier *owner,
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (! (ot == UMLObject::ot_Class ||
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
-        DEBUG(DBG_SRC) << "insertAttribute: Don not know what to do with "
+        DEBUG() << "insertAttribute: Don not know what to do with "
                  << owner->name() << " (object type " << UMLObject::toString(ot) << ")";
         return 0;
     }
@@ -664,7 +664,7 @@ UMLObject *createArtifactFolder(const QString& name,
     o = Object_Factory::createUMLObject(type, name, componentView, false);
     UMLFolder *a = o->asUMLFolder();
     a->setDoc(comment);
-    DEBUG(DBG_SRC) << name << comment;
+    DEBUG() << name << comment;
     return o;
 }
 
@@ -688,7 +688,7 @@ UMLObject *createArtifact(const QString& name,
     UMLArtifact *a = o->asUMLArtifact();
     a->setDrawAsType(UMLArtifact::file);
     a->setDoc(comment);
-    DEBUG(DBG_SRC) << name << comment;
+    DEBUG() << name << comment;
     return o;
 }
 
@@ -752,12 +752,12 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
         currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
     UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
     if (!o) {
-        DEBUG(DBG_SRC) << name << " : Object_Factory::createNewUMLObject(ot_Enum) returns null";
+        DEBUG() << name << " : Object_Factory::createNewUMLObject(ot_Enum) returns null";
         return 0;
     }
     UMLEnum *e = o->asUMLEnum();
     if (!e) {
-        DEBUG(DBG_SRC) << name << " : object returned by Object_Factory::createNewUMLObject is not Enum";
+        DEBUG() << name << " : object returned by Object_Factory::createNewUMLObject is not Enum";
         return 0;
     }
     e->setDoc(comment);
@@ -766,7 +766,7 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
     // add to parents child list
     if (currentScope->addObject(e, false))  // false => non interactively
         return e;
-    DEBUG(DBG_SRC) << name << " : name is already present in " << currentScope->name();
+    DEBUG() << name << " : name is already present in " << currentScope->name();
     return 0;
 }
 
