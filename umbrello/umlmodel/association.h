@@ -80,6 +80,13 @@ protected:
 
     bool load1(QDomElement& element);
 
+    // keep track of number of parent widgets
+    // @todo The UMLAssocation should continue to exist when no AssociationWidget exists.
+    //       We do not yet have the means to delete the UMLAssocation because it is not
+    //       represented in the list view. For the time being it is deleted when the last
+    //       AssociationWidget representing it is deleted.
+    int nrof_parent_widgets;
+
     void init(Uml::AssociationType::Enum type, UMLObject *roleAObj, UMLObject *roleBObj);
 
     UMLRole *                    m_pRole[2];
