@@ -724,7 +724,6 @@ void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, 
     m_BaseType = ot_Association;
     m_Name = QString();
     m_bOldLoadMode = false;
-    nrof_parent_widgets = -1;
     if (!UMLApp::app()->document()->loading()) {
         setUMLPackage(UMLApp::app()->document()->currentRoot());
     }

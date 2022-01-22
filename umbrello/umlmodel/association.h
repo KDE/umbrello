@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCIATION_H
@@ -79,9 +79,6 @@ public:
 protected:
 
     bool load1(QDomElement& element);
-
-    // keep track of number of parent widgets
-    int nrof_parent_widgets;
 
     void init(Uml::AssociationType::Enum type, UMLObject *roleAObj, UMLObject *roleBObj);
 
