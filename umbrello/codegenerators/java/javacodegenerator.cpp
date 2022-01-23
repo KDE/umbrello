@@ -167,7 +167,7 @@ static const char *reserved_words[] = {
     "typedef",
     "union",
     "UnknownError",
-    "UnsatisfiedLinuError",
+    "UnsatisfiedLinkError",
     "unsigned",
     "UnsupportedClassVersionError",
     "UnsupportedOperationException",
