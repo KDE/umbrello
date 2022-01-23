@@ -149,7 +149,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     CodeComment * block = new DCodeComment(this);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI : unable to add codeComment to :"<<this;
+                        logError0("loadFromXMI : unable to add codeComment");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -160,7 +160,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"loadFromXMI : unable to add codeclassfield child method to:"<<this;
+                        logError0("loadFromXMI : unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
@@ -169,7 +169,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     CodeBlock * block = newCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI : unable to add codeBlock to :"<<this;
+                        logError0("loadFromXMI : unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -178,7 +178,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     CodeBlockWithComments * block = newCodeBlockWithComments();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI : unable to add codeBlockwithcomments to:"<<this;
+                        logError0("loadFromXMI : unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -189,7 +189,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -205,17 +205,17 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("dclassdeclarationblock")) {
                     DClassDeclarationBlock * block = getClassDecl();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add d code declaration block to:"<<this;
+                        logError0("Unable to add d code declaration block");
                         // DON'T delete.
                         // block->deleteLater();
                     } else {
@@ -236,7 +236,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        uWarning() << "loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc: %1", getFileName());
     }
 }
 

@@ -413,7 +413,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeComment to :" << this;
+                    logError0("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to add codeComment");
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -424,8 +424,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 // search for our method in the
                 TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                 if (!tb || !addTextBlock(tb)) {
-                    uError() << "unable to add code accessor/decl method block (tag:"
-                        << acctag << ") to:" << this;
+                    logError1("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to "
+                              "add code accessor/decl method block (tag: %1)", acctag);
                     // DON'T delete
                 } else
                     loadCheckForChildrenOK = true;
@@ -434,7 +434,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 CodeBlock * block = newCodeBlock();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeBlock to :" << this;
+                    logError0("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to add codeBlock");
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -443,7 +443,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 CodeBlockWithComments * block = newCodeBlockWithComments();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeBlockwithcomments to:" << this;
+                    logError0("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to add codeBlockwithcomments");
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -455,7 +455,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add hierarchicalcodeBlock to:" << this;
+                    logError0("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to add hierarchicalcodeBlock");
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -471,13 +471,15 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                     if (addTextBlock(block))
                         loadCheckForChildrenOK = true;
                     else {
-                        uError() << "unable to add codeoperation to:" << this;
+                        logError0("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to add codeoperation");
                         delete block;
                     }
                 } else
-                    uError() << "unable to create codeoperation for obj id:" << id;
+                    logError1("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to create "
+                              "codeoperation for obj id: %1", id);
             } else
-                uWarning() << "Got strange tag in text block stack: name=" << name << ", ignoring";
+                logWarn1("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: Got strange tag in text block stack: "
+                         "name=%1, ignoring", name);
 
             node = element.nextSibling();
             element = node.toElement();
@@ -489,11 +491,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
     if (!loadCheckForChildrenOK) {
         CodeDocument * test = dynamic_cast<CodeDocument*>(this);
         if (test) {
-            uWarning() << "unable to initialize any child blocks in doc: " << test->getFileName() << " " << this;
+            logWarn1("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to initialize any child blocks "
+                     "in doc: %1", test->getFileName());
         } else {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(this);
             if (hb)
-                uWarning() << "unable to initialize any child blocks in Hblock: "<< hb->getTag() << " " << this;
+                logWarn1("CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode: unable to initialize any child "
+                         "blocks in Hblock: %1", hb->getTag());
             else
                 uDebug() << "unable to initialize any child blocks in UNKNOWN OBJ:" << this;
         }

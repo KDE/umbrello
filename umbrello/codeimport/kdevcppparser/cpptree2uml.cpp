@@ -135,7 +135,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back(nsName);
     if (++m_nsCnt > STACKSIZE) {
-        uError() << "excessive namespace nesting";
+        logError0("CppTree2Uml::parseNamespace: excessive namespace nesting");
         m_nsCnt = STACKSIZE;
     }
     m_currentNamespace[m_nsCnt] = ns;
@@ -201,7 +201,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                     dt->setOriginType(inner->asUMLClassifier());
                 }
                 else {
-                    uError() << "Could not create datatype from" << id;
+                    logError1("CppTree2Uml::parseTypedef: Could not create datatype from id %1", id);
                 }
             } else {
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
@@ -231,7 +231,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
                 Model_Utils::NameAndType nt(typeName, 0);
                 m_templateParams.append(nt);
             } else {
-                uError() << "nameNode is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration: nameNode is NULL");
             }
         }
 
@@ -239,7 +239,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
         if (valueNode) {
             TypeSpecifierAST* typeSpec = valueNode->typeSpec();
             if (typeSpec == 0) {
-                uError() << "typeSpec is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration: typeSpec is NULL");
                 continue;
             }
             QString typeName = typeSpec->name()->text();
@@ -248,8 +248,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
             DeclaratorAST* declNode = valueNode->declarator();
             NameAST* nameNode = declNode->declaratorId();
             if (nameNode == 0) {
-                uError() << "CppTree2Uml::parseTemplateDeclaration(value):"
-                         << " nameNode is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration(value): nameNode is NULL");
                 continue;
             }
             QString paramName = nameNode->unqualifiedName()->text();
@@ -455,12 +454,12 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     m_currentScope.push_back(className);
     if (++m_clsCnt > STACKSIZE) {
-        uError() << "excessive class nesting";
+        logError0("CppTree2Uml::parseClassSpecifier: excessive class nesting");
         m_clsCnt = STACKSIZE;
     }
     m_currentClass[m_clsCnt] = klass;
     if (++m_nsCnt > STACKSIZE) {
-        uError() << "excessive namespace nesting";
+        logError0("CppTree2Uml::parseClassSpecifier: excessive namespace nesting");
         m_nsCnt = STACKSIZE;
     }
     m_currentNamespace[m_nsCnt] = (UMLPackage*)klass;

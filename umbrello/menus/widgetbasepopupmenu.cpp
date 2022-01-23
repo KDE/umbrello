@@ -517,7 +517,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         }
         break;
     default:
-        uWarning() << "unhandled WidgetType " << WidgetBase::toString(type);
+        logWarn1("WidgetBasePopupMenu::insertSingleSelectionMenu unhandled WidgetType %1",
+                 WidgetBase::toString(type));
         break;
     }//end switch
 }

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -466,8 +466,8 @@ bool IDLImport::parseStmt()
                 /*
                 UMLClassifier *cl = dt->asUMLClassifier();
                 if (cl == 0) {
-                    uError() << "parseStmt(typedef " << newType
-                             << ") internal error: object returned by Import_Utils::createUMLObject is not a Class";
+                    logError1("parseStmt(typedef %1) internal error: object returned by "
+                              "Import_Utils::createUMLObject is not a Class", newType);
                     return false;
                 } */
             }

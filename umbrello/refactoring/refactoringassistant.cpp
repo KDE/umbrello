@@ -17,6 +17,7 @@
 #include "umlattributedialog.h"
 #include "umldoc.h"
 #include "umloperationdialog.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -102,7 +103,8 @@ UMLObject* RefactoringAssistant::findUMLObject(const QTreeWidgetItem *item)
     }
     QTreeWidgetItem *i = const_cast<QTreeWidgetItem*>(item);
     if (m_umlObjectMap.find(i) == m_umlObjectMap.end()) {
-        uWarning() << "Item with text " << item->text(0) << "not found in uml map!";
+        logWarn1("RefactoringAssistant::findUMLObject: Item with text %1 not found in uml map",
+                 item->text(0));
         return 0;
     }
     return m_umlObjectMap[i];
@@ -122,7 +124,8 @@ QTreeWidgetItem* RefactoringAssistant::findListViewItem(const UMLObject *obj)
             return it.key();
         }
     }
-    uWarning() << "Object id " << Uml::ID::toString(obj->id()) << "does not have an item in the tree";
+    logWarn1("RefactoringAssistant::findUMLObject: Object id %1 does not have an item in the tree",
+             Uml::ID::toString(obj->id()));
     return 0;
 }
 
@@ -215,7 +218,8 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
     DEBUG() << "operation = " << op->name();  //:TODO:
     UMLClassifier *parent = op->umlParent()->asUMLClassifier();
     if (!parent) {
-        uWarning() << op->name() << " - Parent of operation is not a classifier!";
+        logWarn1("RefactoringAssistant::operationAdded(%1): Parent of operation is not a classifier",
+                 op->name());
         return;
     }
     QTreeWidgetItem *item = findListViewItem(parent);
@@ -261,12 +265,13 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
     DEBUG() << "attribute = " << att->name();  //:TODO:
     UMLClassifier *parent = att->umlParent()->asUMLClassifier();
     if (!parent) {
-        uWarning() << att->name() << " - Parent of attribute is not a classifier!";
+        logWarn1("RefactoringAssistant::attributeAdded(%1): Parent of attribute is not a classifier",
+                 att->name());
         return;
     }
     QTreeWidgetItem *item = findListViewItem(parent);
     if (!item) {
-        uWarning() << "Parent is not in tree!";
+        logWarn1("RefactoringAssistant::attributeAdded(%1): Parent is not in tree", att->name());
         return;
     }
     for (int i = 0; i < item->childCount(); ++i) {
@@ -292,7 +297,7 @@ void RefactoringAssistant::attributeRemoved(UMLClassifierListItem *listItem)
     DEBUG() << "attribute = " << att->name();  //:TODO:
     QTreeWidgetItem *item = findListViewItem(att);
     if (!item) {
-        uWarning() << "Attribute is not in tree!";
+        logWarn1("RefactoringAssistant::attributeRemoved(%1): Attribute is not in tree", att->name());
         return;
     }
     disconnect(att, SIGNAL(modified()), this, SLOT(objectModified()));
@@ -341,7 +346,7 @@ void RefactoringAssistant::editProperties(UMLObject *obj)
         dia = new UMLAttributeDialog(this, obj->asUMLAttribute());
     }
     else {
-        uWarning() << "Called for unknown type " << typeid(*obj).name();
+        logWarn1("RefactoringAssistant::editProperties called for unknown type %1", UMLObject::toString(t));
         return;
     }
     if (dia && dia->exec()) {
@@ -381,7 +386,7 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
             QTreeWidgetItem *parent = opNode->parent();
             UMLClassifier* c = findUMLObject(parent)->asUMLClassifier();
             if (!c) {
-                uWarning() << "No classifier - cannot delete!";
+                logWarn0("No classifier - cannot delete!");
                 return;
             }
             UMLOperation* op = obj->asUMLOperation();
@@ -394,7 +399,7 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
             QTreeWidgetItem *parent = attrNode->parent();
             UMLClassifier* c = findUMLObject(parent)->asUMLClassifier();
             if (!c) {
-                uWarning() << "No classifier - cannot delete!";
+                logWarn0("No classifier - cannot delete!");
                 return;
             }
             UMLAttribute* attr = obj->asUMLAttribute();
@@ -402,7 +407,7 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
         }
     }
     else {
-        uWarning() << "Called for unknown type " << typeid(*obj).name();
+        logWarn1("RefactoringAssistant::deleteItem called for unknown type %1", UMLObject::toString(t));
     }
 }
 
@@ -466,7 +471,7 @@ void RefactoringAssistant::showContextMenu(const QPoint& p)
             m_menu->addAction(createAction(i18n("Add Attribute"), SLOT(createAttribute()), Icon_Utils::it_Public_Attribute));
         }
         else {
-            uWarning() << "Called for unsupported item.";
+            logWarn0("Called for unsupported item.");
             return;
         }
     }
@@ -480,12 +485,12 @@ void RefactoringAssistant::addBaseClassifier()
 {
     QTreeWidgetItem *item = currentItem();
     if (!item) {
-        uWarning() << "Called with no item selected";
+        logWarn0("Called with no item selected");
         return;
     }
     UMLObject *obj = findUMLObject(item);
     if (!obj->asUMLClassifier()) {
-        uWarning() << "Called for a non-classifier object.";
+        logWarn0("Called for a non-classifier object.");
         return;
     }
 
@@ -503,7 +508,7 @@ void RefactoringAssistant::addBaseClassifier()
     for (int i = 0; i < item->childCount(); ++i) {
         baseFolder = item->child(i);
         if (!baseFolder) {
-            uWarning() << "Cannot find base folder!";
+            logWarn0("Cannot find base folder!");
             return;
         }
         if (baseFolder->text(0) == i18n("Base Classifiers")) {
@@ -525,12 +530,12 @@ void RefactoringAssistant::addDerivedClassifier()
 {
     QTreeWidgetItem *item = currentItem();
     if (!item) {
-        uWarning() << "Called with no item selected.";
+        logWarn0("Called with no item selected.");
         return;
     }
     UMLObject *obj = findUMLObject(item);
     if (!obj->asUMLClassifier()) {
-        uWarning() << "Called for a non-classifier object.";
+        logWarn0("Called for a non-classifier object.");
         return;
     }
 
@@ -548,7 +553,7 @@ void RefactoringAssistant::addDerivedClassifier()
     for (int i = 0; i < item->childCount(); ++i) {
         derivedFolder = item->child(i);
         if (!derivedFolder) {
-            uWarning() << "Cannot find derived folder!";
+            logWarn0("Cannot find derived folder!");
             return;
         }
         if (derivedFolder->text(0) == i18n("Derived Classifiers")) {
@@ -568,7 +573,7 @@ void RefactoringAssistant::addDerivedClassifier()
  */
 void RefactoringAssistant::addInterfaceImplementation()
 {
-    uWarning() << "Not implemented... finish addSuperClassifier() first!!";
+    logWarn0("Not implemented... finish addSuperClassifier() first!!");
     return;
     //  QTreeWidgetItem *item = selectedListViewItem();
     //  UMLObject *obj = findUMLObject(item);
@@ -589,7 +594,7 @@ void RefactoringAssistant::createOperation()
 {
     QTreeWidgetItem *item = currentItem();
     if (!item) {
-        uWarning() << "Called with no item selected.";
+        logWarn0("Called with no item selected.");
         return;
     }
     UMLClassifier *c = findUMLObject(item)->asUMLClassifier();
@@ -597,7 +602,7 @@ void RefactoringAssistant::createOperation()
         QTreeWidgetItem *parent = item->parent();
         c = findUMLObject(parent)->asUMLClassifier();
         if (!c) {
-            uWarning() << "No classifier - cannot create!";
+            logWarn0("No classifier - cannot create!");
             return;
         }
     }
@@ -611,7 +616,7 @@ void RefactoringAssistant::createAttribute()
 {
     QTreeWidgetItem *item = currentItem();
     if (!item) {
-        uWarning() << "Called with no item selected.";
+        logWarn0("Called with no item selected.");
         return;
     }
     UMLClassifier *c = findUMLObject(item)->asUMLClassifier();
@@ -619,7 +624,7 @@ void RefactoringAssistant::createAttribute()
         QTreeWidgetItem *parent = item->parent();
         c = findUMLObject(parent)->asUMLClassifier();
         if (!c) {
-            uWarning() << "No classifier - cannot create!";
+            logWarn0("No classifier - cannot create!");
             return;
         }
     }
@@ -637,7 +642,7 @@ void RefactoringAssistant::createAttribute()
 void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetItem *parent, bool addSuper, bool addSub, bool recurse)
 {
     if (!classifier) {
-        uWarning() << "No classifier given - do nothing!";
+        logWarn0("No classifier given - do nothing!");
         return;
     }
     DEBUG() << classifier->name() << " added.";
@@ -786,7 +791,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
 
     QTreeWidgetItem* afterme = itemAt(event->pos());
     if (!afterme) {
-        uWarning() << "Drop target not found - aborting drop!";
+        logWarn0("Drop target not found - aborting drop!");
         return;
     }
     DEBUG() << "Dropping after item = " << afterme->text(0);  //:TODO:fischer
@@ -796,7 +801,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
     UMLClassifier *newClassifier;
 
     if ((movingItem == afterme) || !(movingObject = findUMLObject(movingItem))) {
-        uWarning() << "Moving item not found or dropping after itself or item not found in uml obj map. aborting. (drop had already been accepted)";
+        logWarn0("Moving item not found or dropping after itself or item not found in uml obj map. aborting. (drop had already been accepted)");
         return;
     }
     QTreeWidgetItem* parentItem = afterme->parent();
@@ -809,7 +814,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
             newClassifier = findUMLObject(parentItem->parent())->asUMLClassifier();
         }
         if (!newClassifier) {
-            uWarning() << "New parent of object is not a Classifier - Drop had already been accepted - check!";
+            logWarn0("New parent of object is not a Classifier - Drop had already been accepted - check!");
             return;
         }
     }

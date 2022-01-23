@@ -217,8 +217,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         break;
 
     default:
-        uWarning() << "slotCheckToolBar() on unknown diagram type:"
-                   << Uml::DiagramType::toString(m_Type);
+        logWarn1("WorkToolBar::insertBasicAssociations on unknown diagram type: %1",
+                 Uml::DiagramType::toString(m_Type));
         break;
     }
 }

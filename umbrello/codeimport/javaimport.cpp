@@ -328,7 +328,7 @@ bool JavaImport::parseStmt()
             pushScope(ns->asUMLPackage());
         }
         if (advance() != QLatin1String(";")) {
-            uError() << "importJava: unexpected: " << m_source[m_srcIndex];
+            logError1("JavaImport::parseStmt: unexpected: %1", m_source[m_srcIndex]);
             skipStmt();
         }
         return true;
@@ -369,13 +369,13 @@ bool JavaImport::parseStmt()
             // @todo implement all template arg syntax
             uint start = m_srcIndex;
             if (! skipToClosing(QLatin1Char('<'))) {
-                uError() << "importJava(" << name << "): template syntax error";
+                logError1("JavaImport::parseStmt(%1): template syntax error", name);
                 return false;
             }
             while (1) {
                 const QString arg = m_source[++start];
                 if (! arg.contains(QRegExp(QLatin1String("^[A-Za-z_]")))) {
-                    uDebug() << "importJava(" << name << "): cannot handle template syntax ("
+                    uDebug() << "JavaImport::parseStmt(" << name << "): cannot handle template syntax ("
                         << arg << ")";
                     break;
                 }
@@ -384,7 +384,7 @@ bool JavaImport::parseStmt()
                 if (next == QLatin1String(">"))
                     break;
                 if (next != QLatin1String(",")) {
-                    uDebug() << "importJava(" << name << "): cannot handle template syntax ("
+                    uDebug() << "JavaImport::parseStmt(" << name << "): cannot handle template syntax ("
                         << next << ")";
                     break;
                 }
@@ -423,8 +423,7 @@ bool JavaImport::parseStmt()
             }
         }
         if (m_source[m_srcIndex] != QLatin1String("{")) {
-            uError() << "importJava: ignoring excess chars at " << name
-                << " (" << m_source[m_srcIndex] << ")";
+            logError2("JavaImport::parseStmt: ignoring excess chars at %1 (%2)", name, m_source[m_srcIndex]);
             skipStmt(QLatin1String("{"));
         }
         return true;
@@ -521,12 +520,12 @@ bool JavaImport::parseStmt()
             m_klass = popScope()->asUMLClassifier();
         }
         else
-            uError() << "importJava: too many }";
+            logError1("JavaImport::parseStmt: too many } at index %1", m_srcIndex);
         return true;
     }
     if (keyword == QLatin1String("<")) {  // @todo generic parameters
         if (! skipToClosing(QLatin1Char('<'))) {
-            uError() << "importJava(" << keyword << "): template syntax error";
+            logError1("JavaImport::parseStmt(%1): template syntax error", keyword);
             return false;
         }
         advance();
@@ -540,11 +539,11 @@ bool JavaImport::parseStmt()
     // or operation.
     if (! keyword.contains(QRegExp(QLatin1String("^\\w")))) {
         if (m_klass) {
-            uError() << "importJava: ignoring " << keyword <<
-                " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->name();
+            logError4("JavaImport::parseStmt: ignoring %1 at index %2 of %3 in %4",
+                      keyword, m_srcIndex, m_source.count(), m_klass->name());
         } else {
-            uError() << "importJava: ignoring " << keyword <<
-                " at " << m_srcIndex << ", " << m_source.count() << " (outside class)";
+            logError3("JavaImport::parseStmt: ignoring %1 at index %2 of %3 (outside class)",
+                      keyword, m_srcIndex, m_source.count());
         }
         return false;
     }
@@ -552,7 +551,7 @@ bool JavaImport::parseStmt()
     typeName = joinTypename(typeName);
     // At this point we need a class.
     if (m_klass == 0) {
-        uError() << "importJava: no class set for " << typeName;
+        logError1("JavaImport::parseStmt: no class set for %1", typeName);
         return false;
     }
     QString name = advance();
@@ -566,7 +565,7 @@ bool JavaImport::parseStmt()
         nextToken = advance();
     }
     if (name.contains(QRegExp(QLatin1String("\\W")))) {
-        uError() << "importJava: expecting name in " << name;
+        logError1("JavaImport::parseStmt: expecting name in %1", name);
         return false;
     }
     if (nextToken == QLatin1String("(")) {
@@ -671,12 +670,12 @@ bool JavaImport::parseStmt()
     m_currentAccess = m_defaultCurrentAccess;
     if (m_srcIndex < m_source.count()) {
         if (m_source[m_srcIndex] != QLatin1String(";")) {
-            uError() << "importJava: ignoring trailing items at " << name;
+            logError1("JavaImport::parseStmt: ignoring trailing items at %1", name);
             skipStmt();
         }
     }
     else {
-        uError() << "index out of range: ignoring statement " << name;
+        logError1("JavaImport::parseStmt index out of range: ignoring statement %1", name);
         skipStmt();
     }
     return true;

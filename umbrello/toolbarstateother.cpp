@@ -333,7 +333,8 @@ bool ToolBarStateOther::newWidget()
         }
         break;
     default:
-        uWarning() << "Unknown ToolBar_Buttons: " << QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton()));
+        logWarn1("ToolBarStateOther::newWidget unknown ToolBar_Buttons: %1",
+                 QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton())));
         break;
     }
 

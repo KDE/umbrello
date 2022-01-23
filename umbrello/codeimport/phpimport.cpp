@@ -189,7 +189,7 @@ public:
             if (a)
                 a->setDrawAsType(UMLArtifact::file);
             else
-                uError() << "could not add artifact" << m_fileName;
+                logError1("PHPImportVisitor::visitStart could not add artifact %1", m_fileName);
             //a->setDoc(comment);
         }
         DefaultVisitor::visitStart(node);
@@ -215,7 +215,7 @@ public:
             if (!o)
                 o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
             if (++m_nsCnt > NamespaceSize) {
-                uError() << "excessive namespace nesting";
+                logError0("PHPImportVisitor::visitSimpleNamespaceDeclarationStatement: excessive namespace nesting");
                 m_nsCnt = NamespaceSize;
             }
             UMLPackage *ns = o->asUMLPackage();
@@ -244,7 +244,7 @@ public:
             if (!o)
                 o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
             if (++m_nsCnt > NamespaceSize) {
-                uError() << "excessive namespace nesting";
+                logError0("PHPImportVisitor::visitStapledNamespaceDeclarationStatement: excessive namespace nesting");
                 m_nsCnt = NamespaceSize;
             }
             UMLPackage *ns = o->asUMLPackage();
@@ -313,7 +313,7 @@ public:
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
         } else {
-            uError() << "no parent class found for method" << methodName;
+            logError1("PHPImportVisitor::visitClassStatement: no parent class found for method %1", methodName);
         }
         if (m) {
             if (node->parameters && node->parameters->parametersSequence) {
@@ -381,7 +381,7 @@ public:
                                               QString()/*ast->comment()*/, QString(), true);
         m_currentScope.push_back(interfaceName);
         if (++m_nsCnt > NamespaceSize) {
-            uError() << "excessive namespace nesting";
+            logError0("PHPImportVisitor::visitInterfaceDeclarationStatement: excessive namespace nesting");
             m_nsCnt = NamespaceSize;
         }
         UMLPackage *ns = o->asUMLPackage();
@@ -406,7 +406,7 @@ public:
                                               QString()/*ast->comment()*/, QString(), true);
         m_currentScope.push_back(className);
         if (++m_nsCnt > NamespaceSize) {
-            uError() << "excessive namespace nesting";
+            logError0("PHPImportVisitor::visitClassDeclarationStatement: excessive namespace nesting");
             m_nsCnt = NamespaceSize;
         }
         UMLPackage *ns = o->asUMLPackage();
@@ -436,8 +436,9 @@ public:
         UMLOperation *m = 0;
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
-        }else {
-            uError() << "no parent class found for method" << methodName;
+        } else {
+            logError1("PHPImportVisitor::visitFunctionDeclarationStatement: no parent class found for method %1",
+                      methodName);
         }
 
         if (m) {
@@ -701,7 +702,8 @@ public:
                 QFileInfo ei(di.isAbsolute() ? dependency : fi.canonicalPath() + "/" + dependency);
                 QString usePath = ei.canonicalFilePath();
                 if (usePath.isEmpty()) {
-                    uError() << "could not parse empty file path for dependency" << dependency;
+                    logError1("PHPImportPrivate::parseFile could not parse empty file path for dependency %1",
+                              dependency);
                     continue;
                 }
                 if (!m_parsers.contains(usePath)) {

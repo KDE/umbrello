@@ -8,6 +8,7 @@
 #include "folder.h"
 #include "optionstate.h"
 #include "model_utils.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -403,12 +404,13 @@ void UMLListViewPopupMenu::insertSubmodelAction()
     }
     UMLObject *o = Model_Utils::treeViewGetCurrentObject();
     if (o == 0) {
-        uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
+        logError0("UMLListViewPopupMenu::insertSubmodelAction: "
+                  "Model_Utils::treeViewGetCurrentObject() returns NULL");
         return;
     }
     const UMLFolder *f = o->asUMLFolder();
     if (f == 0) {
-        uError() << o->name() << " is not a Folder";
+        logError1("UMLListViewPopupMenu::insertSubmodelAction: %1 is not a Folder", o->name());
         return;
     }
     QString submodelFile = f->folderFile();

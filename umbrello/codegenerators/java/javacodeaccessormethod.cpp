@@ -124,7 +124,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     QString strVis = Uml::Visibility::toString(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
     if (fieldName.isEmpty()) {
-        uError() << "empty FieldName in ParentClassField";
+        logError0("empty FieldName in ParentClassField");
         return;
     }
     QString fieldType = javafield->getTypeName();
@@ -185,7 +185,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning()<<"Warning: cant generate JavaCodeAccessorMethod for type: "<<getType();
+        logWarn1("Warning: cant generate JavaCodeAccessorMethod for type: %1", getType());
         break;
     }
 

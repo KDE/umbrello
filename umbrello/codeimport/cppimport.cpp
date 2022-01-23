@@ -78,7 +78,7 @@ void CppImport::feedTheModel(const QString& fileName)
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {
-                uError() << fileName << ": " << it.value().first << " not found";
+                logError2("CppImport::feedTheModel(%1) : %2 not found", fileName, it.value().first);
                 continue;
             }
             uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
@@ -89,7 +89,7 @@ void CppImport::feedTheModel(const QString& fileName)
     }
     ParsedFilePointer ast = ms_driver->translationUnit(fileName);
     if (!ast) {
-        uError() << fileName << " not found in list of parsed files";
+        logError1("CppImport::feedTheModel: %1 not found in list of parsed files", fileName);
         return;
     }
     ms_seenFiles.append(fileName);

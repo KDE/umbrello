@@ -11,6 +11,7 @@
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // qt includes
 #include <QXmlStreamWriter>
@@ -69,12 +70,12 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             paintAsTable(painter, option);
             break;
         default:
-            uWarning() << "Artifact drawn as unknown type";
+            logWarn1("ArtifactWidget::paint: Artifact drawn as unknown type %1", drawType);
             break;
         }
     }
     else {
-        uWarning() << "Cannot draw as there is no UMLArtifact for this widget.";
+        logWarn0("ArtifactWidget::paint: Cannot draw as there is no UMLArtifact for this widget.");
     }
 }
 

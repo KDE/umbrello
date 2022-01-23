@@ -54,7 +54,8 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
             else if (type == QLatin1String("todo") && loadFromTodoFile(zipFile, name))
                 result = false;
             else {
-                uError() << "unknown file type" << type << "in file" << zipFile.fileName() << ":" << fileName;
+                logError3("loadFromArgoFile unknown file type %1 in file %2 : %3",
+                          type, zipFile.fileName(), fileName);
                 result = false;
             }
         }
@@ -147,7 +148,7 @@ bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)
         if (entry->isFile()) {
             const KArchiveFile *file = static_cast<const KArchiveFile*>(entry);
             if (file == 0) {
-                uError() << "Could not read file from" << file;
+                logError1("loadFromZArgoFile: Could not read file from %1", name);
                 continue;
             }
             if (name.endsWith(QLatin1String(".argo")))

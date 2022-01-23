@@ -13,6 +13,7 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>
@@ -87,7 +88,8 @@ bool UMLEnumLiteralDialog::apply()
     }
     const UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
     if (!pConcept) {
-        uError() << "Could not get parent of enum literal '" << m_pEnumLiteral->name() << "'";
+        logError1("UMLEnumLiteralDialog::apply: Could not get parent of enum literal '%1'",
+                  m_pEnumLiteral->name());
         return false;
     }
     UMLObject *o = pConcept->findChildObject(name);

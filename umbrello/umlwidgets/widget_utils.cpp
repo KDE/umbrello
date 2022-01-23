@@ -11,6 +11,7 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 
@@ -861,7 +862,8 @@ namespace Widget_Utils
         case WidgetBase::wt_UMLWidget:        return i18n("new UML widget");
         case WidgetBase::wt_UseCase:          return i18n("new use case");
         default:
-            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            logWarn1("Widget_Utils::defaultWidgetName unknown widget type: %1",
+                     WidgetBase::toString(type));
             return i18n("new widget");
             break;
         }
@@ -907,7 +909,8 @@ namespace Widget_Utils
         case WidgetBase::wt_UMLWidget:        return i18n("New UML widget");
         case WidgetBase::wt_UseCase:          return i18n("New use case");
         default:
-            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            logWarn1("Widget_Utils::newTitle unknown widget type: %1",
+                     WidgetBase::toString(type));
             return i18n("New widget");
         }
     }
@@ -952,7 +955,7 @@ namespace Widget_Utils
         case WidgetBase::wt_UMLWidget:        return i18n("Enter the name of the new uml widget:");
         case WidgetBase::wt_UseCase:          return i18n("Enter the name of the new use case:");
         default:
-            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            logWarn1("Widget_Utils::newText unknown widget type: %1", WidgetBase::toString(type));
             return i18n("Enter the name of the new widget:");
         }
     }
@@ -997,7 +1000,8 @@ namespace Widget_Utils
         case WidgetBase::wt_UMLWidget:        return i18n("Rename UML widget");
         case WidgetBase::wt_UseCase:          return i18n("Rename use case");
         default:
-            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            logWarn1("Widget_Utils::renameTitle unknown widget type: %1",
+                     WidgetBase::toString(type));
             return i18n("Rename widget");
         }
     }
@@ -1042,7 +1046,7 @@ namespace Widget_Utils
         case WidgetBase::wt_UMLWidget:        return i18n("Enter the new name of the uml widget:");
         case WidgetBase::wt_UseCase:          return i18n("Enter the new name of the use case:");
         default:
-            uWarning() << "unknown widget type:" << WidgetBase::toString(type);
+            logWarn1("Widget_Utils::renameText unknown widget type: %1", WidgetBase::toString(type));
             return i18n("Enter the new name of the widget:");
         }
     }

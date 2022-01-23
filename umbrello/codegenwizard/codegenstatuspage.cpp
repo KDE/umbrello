@@ -122,8 +122,8 @@ void CodeGenStatusPage::generateCode()
             QTableWidgetItem* item = ui_tableWidgetStatus->item(row, 0);
             UMLClassifier *concept = doc->findUMLClassifier(item->text());
             if (concept == 0) {
-                uError() << "Could not find classifier " << item->text()
-                         << " - not included in generated code.";
+                logError1("CodeGenStatusPage::generateCode: Could not find classifier %1 "
+                          "(not included in generated code)", item->text());
                 continue;
             }
             cList.append(concept);
@@ -166,7 +166,7 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* classifier, CodeGenerator:
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
         if (!item) {
-            uError() << "Code Generation Status Page::Error finding class in list view!";
+            logError0("Code Generation Status Page: Error finding class in list view!");
         }
         else {
             int row = ui_tableWidgetStatus->row(item);

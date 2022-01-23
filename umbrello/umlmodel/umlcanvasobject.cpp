@@ -210,7 +210,8 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
                 currentName = i18n("new_object");
             break;
             default:
-                uWarning() << "uniqChildName() called for unknown child type " << UMLObject::toString(type);
+                logWarn1("UMLCanvasObject::uniqChildName() called for unknown child type %1",
+                         UMLObject::toString(type));
                 return QLatin1String("ERROR_in_UMLCanvasObject_uniqChildName");
         }
     }

@@ -10,6 +10,7 @@
 #include "codetextedit.h"
 #include "debug_utils.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 #include "classifier.h"
 #include "enum.h"
 #include "entity.h"
@@ -139,7 +140,8 @@ void ClassifierListPage::setupListGroup(int margin)
         newItemType = i18n("N&ew Instance Attribute...");
         break;
     default:
-        uWarning() << "unknown listItem type in ClassifierListPage";
+        logWarn1("ClassifierListPage::setupListGroup: unknown listItem type %1",
+                 UMLObject::toString(m_itemType));
         break;
     }
 
@@ -371,7 +373,8 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         if (m_itemType == UMLObject::ot_Operation) {
             const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                logError1("ClassifierListPage::slotActivateItem Dynamic cast to UMLOperation failed for %1",
+                          listItem->name());
                 return;
             }
             m_pCodeTE->setPlainText(o->getSourceCode());
@@ -457,7 +460,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
         } else if(m_itemType == UMLObject::ot_InstanceAttribute){
             type = DialogsPopupMenu::tt_InstanceAttribute_Selected;
         } else {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::slotRightButtonPressed(selected): unknown type %1", m_itemType);
         }
     } else { //pressed into fresh air
         if (m_itemType == UMLObject::ot_Attribute) {
@@ -473,7 +476,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
         } else if( m_itemType == UMLObject::ot_InstanceAttribute) {
             type = DialogsPopupMenu::tt_New_InstanceAttribute;
         } else {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::slotRightButtonPressed: unknown type %1", m_itemType);
         }
     }
 
@@ -709,7 +712,8 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
         if (m_itemType == UMLObject::ot_Operation) {
             const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                logError1("ClassifierListPage::slotDoubleClick: Dynamic cast to UMLOperation failed for %1",
+                          listItem->name());
                 return;
             }
             m_pCodeTE->setPlainText(o->getSourceCode());
@@ -804,7 +808,8 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_Attribute: {
             UMLAttribute *att = listitem->asUMLAttribute();
             if (!att) {
-                uError() << "Dynamic cast to UMLAttribute failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLAttribute failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addAttribute(att, 0, position);
@@ -812,7 +817,8 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_Operation: {
             UMLOperation *op = listitem->asUMLOperation();
             if (!op) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLOperation failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addOperation(op, position);
@@ -820,7 +826,8 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_Template: {
             UMLTemplate* t = listitem->asUMLTemplate();
             if (!t) {
-                uError() << "Dynamic cast to UMLTemplate failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLTemplate failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addTemplate(t, position);
@@ -828,12 +835,14 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EnumLiteral: {
             UMLEnum* c = m_pClassifier->asUMLEnum();
             if (!c) {
-                uError() << "Dynamic cast to UMLEnum failed for" << m_pClassifier->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEnum failed for %1",
+                          m_pClassifier->name());
                 return false;
             }
             UMLEnumLiteral *l = listitem->asUMLEnumLiteral();
             if (!l) {
-                uError() << "Dynamic cast to UMLEnumLiteral failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEnumLiteral failed for %1",
+                          listitem->name());
                 return false;
             }
             return c->addEnumLiteral(l, position);
@@ -842,23 +851,25 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EntityAttribute: {
             UMLEntity* c = m_pClassifier->asUMLEntity();
             if (!c) {
-                uError() << "Dynamic cast to UMLEntity failed for" << m_pClassifier->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEntity failed for %1",
+                          m_pClassifier->name());
                 return false;
             }
             UMLEntityAttribute *a = listitem->asUMLEntityAttribute();
             if (!a) {
-                uError() << "Dynamic cast to UMLEntityAttribute failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEntityAttribute failed for %1",
+                          listitem->name());
                 return false;
             }
             return c->addEntityAttribute(a, position);
             break;
         }
     default: {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::addClassifier: unknown type %1", UMLObject::toString(m_itemType));
             return false;
         }
     }
-    uError() << "unable to handle listitem type in current state";
+    logError0("ClassifierListPage::addClassifier: unable to handle listitem type in current state");
     return false;
 }
 

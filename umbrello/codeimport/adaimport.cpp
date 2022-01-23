@@ -261,7 +261,7 @@ bool AdaImport::parseStmt()
         } else if (m_source[m_srcIndex] == QLatin1String("renames")) {
             m_renaming[name] = advance();
         } else {
-            uError() << "unexpected: " << m_source[m_srcIndex];
+            logError1("AdaImport::parseStmt unexpected: %1", m_source[m_srcIndex]);
             skipStmt(QLatin1String("is"));
         }
         if (m_inGenericFormalPart) {
@@ -315,7 +315,7 @@ bool AdaImport::parseStmt()
             return true;
         }
         if (next != QLatin1String("is")) {
-            uError() << "expecting \"is\"";
+            logError1("AdaImport::parseStmt: expecting \"is\" at %1", next);
             return false;
         }
         next = advance();
@@ -434,21 +434,21 @@ bool AdaImport::parseStmt()
     if (keyword == QLatin1String("end")) {
         if (m_klass) {
             if (advance() != QLatin1String("record")) {
-                uError() << "end: expecting \"record\" at "
-                          << m_source[m_srcIndex];
+                logError1("AdaImport::parseStmt end: expecting \"record\" at %1",
+                          m_source[m_srcIndex]);
             }
             m_klass = 0;
         } else if (scopeIndex()) {
             if (advance() != QLatin1String(";")) {
                 QString scopeName = currentScope()->fullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
-                    uError() << "end: expecting " << scopeName << ", found "
-                              << m_source[m_srcIndex];
+                    logError2("AdaImport::parseStmt end: expecting %1, found %2",
+                              scopeName, m_source[m_srcIndex]);
             }
             popScope();
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
         } else {
-            uError() << "importAda: too many \"end\"";
+            logError1("AdaImport::parseStmt: too many \"end\" at index %1", m_srcIndex);
         }
         skipStmt();
         return true;
@@ -478,13 +478,14 @@ bool AdaImport::parseStmt()
             uint parNameCount = 0;
             do {
                 if (parNameCount >= MAX_PARNAMES) {
-                    uError() << "MAX_PARNAMES is exceeded at " << name;
+                    logError1("AdaImport::parseStmt: MAX_PARNAMES is exceeded at %1", name);
                     break;
                 }
                 parName[parNameCount++] = advance();
             } while (advance() == QLatin1String(","));
             if (m_source[m_srcIndex] != QLatin1String(":")) {
-                uError() << "importAda: expecting ':'";
+                logError2("AdaImport::parseStmt: expecting ':' at %1 (index %2)",
+                          m_source[m_srcIndex], m_srcIndex);
                 skipStmt();
                 break;
             }
@@ -543,8 +544,9 @@ bool AdaImport::parseStmt()
         if (keyword == QLatin1String("function")) {
             if (advance() != QLatin1String("return")) {
                 if (klass)
-                    uError() << "importAda: expecting \"return\" at function "
-                        << name;
+                    logError1("AdaImport::parseStmt: expecting \"return\" at function %1", name);
+                else
+                    logError1("AdaImport::parseStmt: expecting \"return\" at %1", m_source[m_srcIndex]);
                 return false;
             }
             returnType = expand(advance());
@@ -586,8 +588,7 @@ bool AdaImport::parseStmt()
             if (advance() == QLatin1String("record"))
                 skipStmt(QLatin1String("end"));
         } else {
-            uError() << "importAda: expecting \"use\" at rep spec of "
-                      << typeName;
+            logError1("AdaImport::parseStmt: expecting \"use\" at rep spec of %1", typeName);
         }
         skipStmt();
         return true;
@@ -599,8 +600,7 @@ bool AdaImport::parseStmt()
     }
     const QString& name = keyword;
     if (advance() != QLatin1String(":")) {
-        uError() << "adaImport: expecting \":\" at " << name << " "
-                  << m_source[m_srcIndex];
+        logError2("AdaImport::parseStmt:: expecting \":\" at %1 %2", name, m_source[m_srcIndex]);
         skipStmt();
         return true;
     }

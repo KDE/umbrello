@@ -6,6 +6,8 @@
 #include "idlwriter.h"
 
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
+#include "debug_utils.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "enum.h"
@@ -193,14 +195,13 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
         if (stype.contains(QLatin1String("Constant"))) {
-            uError() << "The stereotype " << stype << " cannot be applied to "
-                     << c->name() << ", but only to attributes.";
+            logError2("The stereotype %1 cannot be applied to %2 but only to attributes",
+                      stype, c->name());
             return;
         }
         if (!isClass) {
-            uError() << "The stereotype " << stype
-                     << " cannot be applied to " << c->name()
-                     << ", but only to classes.";
+            logError2("The stereotype %1 cannot be applied to %2 but only to classes",
+                     stype, c->name());
             return;
         }
         if (stype.contains(QLatin1String("Enum"))) {
@@ -275,7 +276,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 m_indentLevel--;
                 idl << indent() << "};" << m_endl << m_endl;
             } else {
-                uError() << "Empty <<union>> " << c->name();
+                logError1("Empty <<union>> %1", c->name());
                 idl << indent() << "// <<union>> " << c->name() << " is empty, please check model" << m_endl;
                 idl << indent() << "union " << c->name() << ";" << m_endl << m_endl;
             }
@@ -286,7 +287,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 idl << indent() << "typedef " << firstParent->name() << " "
                     << c->name() << ";" << m_endl << m_endl;
             } else {
-                uError() << "typedef " << c->name() << " parent (origin type) is missing";
+                logError1("typedef %1 parent (origin type) is missing", c->name());
                 idl << indent() << "// typedef origin type is missing, please check model" << m_endl;
                 idl << indent() << "typedef long " << c->name() << ";" << m_endl << m_endl;
             }

@@ -311,19 +311,15 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
  */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders /* = false */) const
 {
-    if (scene) {
-        if (useFolders) {
-            qApp->processEvents();  //:TODO: still needed ???
-            return Model_Utils::treeViewBuildDiagramName(scene->ID()) + QLatin1Char('.') + imageType.toLower();
-        }
-        else {
-            return scene->name() + QLatin1Char('.') + imageType.toLower();
-        }
-    }
-    else {
-        uWarning() << "Scene is null!";
+    if (scene == 0) {
+        logWarn0("UMLViewImageExporterModel::getDiagramFileName: Scene is null!");
         return QString();
     }
+    if (useFolders) {
+        qApp->processEvents();  //:TODO: still needed ???
+        return Model_Utils::treeViewBuildDiagramName(scene->ID()) + QLatin1Char('.') + imageType.toLower();
+    }
+    return scene->name() + QLatin1Char('.') + imageType.toLower();
 }
 
 /**
@@ -393,7 +389,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewTo: Scene is null!");
         return false;
     }
 
@@ -433,7 +429,7 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
 bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToDot: Scene is null!");
         return false;
     }
 
@@ -455,7 +451,7 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToEps: Scene is null!");
         return false;
     }
 
@@ -511,7 +507,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToSvg: Scene is null!");
         return false;
     }
 
@@ -564,7 +560,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToPixmap: Scene is null!");
         return false;
     }
 

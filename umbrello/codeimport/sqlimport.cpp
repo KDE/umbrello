@@ -574,7 +574,8 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                 cc->setCheckCondition(tableConstraints.checkExpression);
                 entity->addConstraint(cc);
             } else {
-                uError() << "Could not add check constraint '" << tableConstraints.constraintName << "' because of zero entity.";
+                logError1("SQLImport::parseCreateDefinition: Could not add check constraint '%1' because of zero entity.",
+                          tableConstraints.constraintName);
             }
         }
 
@@ -637,7 +638,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
 
             entity->addEntityAttribute(a);
         } else if (!entity) {
-            uError() << "Could not add field '" << fieldName << "' because of zero entity.";
+            logError1("SQLImport::parseCreateDefinition: Could not add field '%1' because of zero entity.", fieldName);
         }
         if (token == QLatin1String(","))
             continue;
@@ -685,7 +686,8 @@ bool SQLImport::parseCreateTable(QString &token)
         if (entity)
             entity->addAssocToConcepts(a);
         else {
-            uError() << "Could not add generalization '" << baseTable << "' because of zero entity.";
+            logError1("SQLImport::parseCreateTable: Could not add generalization '%1' because of zero entity.",
+                      baseTable);
             returnValue = false;
         }
     }
@@ -865,7 +867,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
                 Import_Utils::addEnumLiteral(enumType, type.at(i));
             }
         } else {
-            uError() << "Invalid dynamic cast to UMLEnum from datatype.";
+            logError0("SQLImport::addDatatype: Invalid dynamic cast to UMLEnum from datatype.");
         }
     } else {
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Datatype, type.at(0), parent);
@@ -876,7 +878,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
 bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
     if (!entity) {
-        uError() << "Could not add primary key '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addPrimaryKey: Could not add primary key '%1' because of zero entity.", _name);
         return false;
     }
 
@@ -920,7 +922,8 @@ bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QSt
 bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
     if (!entity) {
-        uError() << "Could not add unique constraint '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addUniqueConstraint: Could not add unique constraint '%1' because of zero entity.",
+                  _name);
         return false;
     }
 
@@ -956,10 +959,12 @@ bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, con
  * @return true on success
  * @return false on error
  */
-bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, const QStringList &fieldNames, const QString &referencedTable, const QStringList &referencedFields)
+bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, const QStringList &fieldNames,
+                                     const QString &referencedTable, const QStringList &referencedFields)
 {
     if (!entityA) {
-        uError() << "Could not add foreign constraint '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addForeignConstraint: Could not add foreign constraint '%1' because of zero entity.",
+                  _name);
         return false;
     }
 

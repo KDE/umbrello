@@ -69,7 +69,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_visibilityEnumWidget(0)
 {
     if (!m_pObject) {
-        uWarning() << "Given UMLObject is NULL.";
+        logWarn0("ClassGeneralPage: Given UMLObject is NULL.");
         return;
     }
     for (int i = 0; i < N_STEREOATTRS; i++) {
@@ -192,7 +192,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_visibilityEnumWidget(0)
 {
     if (!m_pWidget) {
-        uWarning() << "Given ObjectWidget is NULL.";
+        logWarn0("ClassGeneralPage: Given ObjectWidget is NULL.");
         return;
     }
     for (int i = 0; i < N_STEREOATTRS; i++) {
@@ -370,7 +370,7 @@ void ClassGeneralPage::apply()
         }
         UMLObject * o = m_pWidget->umlObject();
         if (!o) {
-            uError() << "UML object of widget is zero.";
+            logError0("ClassGeneralPage::apply: UML object of widget is null");
             return;
         }
         UMLObject * old = m_pUmldoc->findUMLObject(name);
@@ -386,7 +386,7 @@ void ClassGeneralPage::apply()
         m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
         UMLObject* o = m_pInstanceWidget->umlObject();
         if (!o) {
-            uError() << "UML object of instance widget is zero.";
+            logError0("ClassGeneralPage::apply: UML object of instance widget is null");
             setInstanceWidgetNameIfApplicable(name);
             return;
         }

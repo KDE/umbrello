@@ -658,7 +658,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
 
         UMLObject *o = a->getObject(Uml::RoleType::B);
         if (o == 0) {
-            uError() << "composition role B object is NULL";
+            logError0("composition role B object is NULL");
             continue;
         }
         // Take name and documentation from Role, take type name from the referenced object

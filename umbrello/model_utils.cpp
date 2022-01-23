@@ -204,9 +204,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 }
             }
             if (seenPkgs.indexOf(pkg) != -1) {
-                uError() << "findUMLObject(" << name << "): "
-                    << "breaking out of cycle involving "
-                    << pkg->name();
+                logError2("Model_Utils::findUMLObject(%1): breaking out of cycle involving %2",
+                          name, pkg->name());
                 break;
             }
             seenPkgs.append(pkg);
@@ -508,7 +507,8 @@ QString treeViewBuildDiagramName(Uml::ID::Type id)
         return name;
     }
     else {
-        uWarning() << "diagram not found - returning empty name!";
+        logWarn1("Model_Utils::treeViewBuildDiagramName: diagram with id %1 not found",
+                 Uml::ID::toString(id));
         return QString();
     }
 }
@@ -558,7 +558,7 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
         case UMLObject::ot_UseCase:             currentName = i18n("new_use case");               break;
         default:
             currentName = i18n("new_object");
-            uWarning() << "model_utils::uniqObjectName unknown object type" << UMLObject::toString(type);
+            logWarn1("Model_Utils::uniqObjectName unknown object type %1", UMLObject::toString(type));
         }
     }
     UMLDoc *doc = UMLApp::app()->document();
@@ -606,7 +606,7 @@ QString newTitle(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("New unique constraint");
     case UMLObject::ot_UseCase:             return i18n("New use case");
     default:
-        uWarning() << "model_utils::newTitle unknown object type" << UMLObject::toString(type);
+        logWarn1("Model_Utils::newTitle unknown object type %1", UMLObject::toString(type));
         return i18n("New UML object");
     }
 }
@@ -648,7 +648,7 @@ QString newText(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Enter the name of the new unique constraint:");
     case UMLObject::ot_UseCase:             return i18n("Enter the name of the new use case:");
     default:
-        uWarning() << "model_utils::newText unknown object type" << UMLObject::toString(type);
+        logWarn1("Model_utilS::newText unknown object type %1", UMLObject::toString(type));
         return i18n("Enter the name of the new UML object");
     }
 }
@@ -690,7 +690,7 @@ QString renameTitle(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Rename unique constraint");
     case UMLObject::ot_UseCase:             return i18n("Rename use case");
     default:
-        uWarning() << "model_utils::renameTitle unknown object type" << UMLObject::toString(type);
+        logWarn1("Model_Utils::renameTitle unknown object type %1", UMLObject::toString(type));
         return i18n("Rename UML object");
     }
 }
@@ -732,7 +732,7 @@ QString renameText(UMLObject::ObjectType type)
     case UMLObject::ot_UniqueConstraint:    return i18n("Enter the new name of the unique constraint:");
     case UMLObject::ot_UseCase:             return i18n("Enter the new name of the use case:");
     default:
-        uWarning() << "model_utils::renameText unknown object type" << UMLObject::toString(type);
+        logWarn1("Model_Utils::renameText unknown object type %1", UMLObject::toString(type));
         return i18n("Enter the new name of the UML object");
     }
 }
@@ -1437,7 +1437,7 @@ Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt)
             mt = Uml::ModelType::EntityRelationship;
             break;
         default:
-            uError() << "Model_Utils::convert_DT_MT: illegal input value " << dt;
+            logError1("Model_Utils::convert_DT_MT: illegal input value %1", dt);
             mt = Uml::ModelType::N_MODELTYPES;
             break;
     }
@@ -1550,7 +1550,7 @@ UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt)
         break;
 
     default:
-        uWarning() << "convert_DT_LVT() called on unknown diagram type";
+        logWarn1("Model_Utils::convert_DT_LVT() called on unknown diagram type %1", dt);
     }
     return type;
 }
@@ -1619,8 +1619,8 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
                     return type;
                 }
             } while ((p = p->umlPackage()) != 0);
-            uError() << "convert_OT_LVT(" << o->name()
-                << "): internal error - object is not properly nested in folder";
+            logError1("Model_Utils::convert_OT_LVT(%1): internal error - "
+                      "object is not properly nested in folder", o->name());
         }
         break;
 

@@ -113,7 +113,8 @@ void UMLScenePopupMenu::insertLayoutItems()
         }
     }
     else {
-        uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
+        logWarn0("UMLScenePopupMenu::insertLayoutItems could not add autolayout entries "
+                 "because graphviz was not found.");
     }
 }
 

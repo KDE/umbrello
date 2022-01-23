@@ -79,7 +79,7 @@ void RubyCodeAccessorMethod::updateContent()
     // Check for dynamic casting failure!
     if (rubyfield == 0)
     {
-        uError() << "rubyfield: invalid dynamic cast";
+        logError0("rubyfield: invalid dynamic cast");
         return;
     }
 
@@ -144,7 +144,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     // Check for dynamic casting failure!
     if (rubyfield == 0)
     {
-        uError() << "rubyfield: invalid dynamic cast";
+        logError0("rubyfield: invalid dynamic cast");
         return;
     }
 
@@ -221,7 +221,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning() << "Warning: cannot generate RubyCodeAccessorMethod for type: " << getType();
+        logWarn1("Warning: cannot generate RubyCodeAccessorMethod for type: %1", getType());
         break;
     }
 

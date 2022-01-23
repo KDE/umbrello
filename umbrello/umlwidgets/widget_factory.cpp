@@ -157,7 +157,8 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new CategoryWidget(scene, o->asUMLCategory());
         break;
     default:
-        uWarning() << "trying to create an invalid widget (" << UMLObject::toString(type) << ")";
+        logWarn2("Widget_Factory trying to create an invalid widget (%1) for %2",
+                 UMLObject::toString(type), o->name());
     }
 
     if (newWidget) {
@@ -189,9 +190,8 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
     UMLObject::ObjectType actual = o->baseType();
     if (actual == expected)
         return true;
-    uError() << "validateObjType(" << o->name()
-        << "): expected type " << UMLObject::toString(expected) << ", actual type "
-        << UMLObject::toString(actual);
+    logError3("Widget_Factory::validateObjType(%1): expected type %2, actual type %3",
+              o->name(), UMLObject::toString(expected), UMLObject::toString(actual));
     return false;
 }
 
@@ -245,7 +245,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == 0) {
-            uError() << "makeWidgetFromXMI: cannot find object with id " << Uml::ID::toString(id);
+            logError1("Widget_Factory::makeWidgetFromXMI: cannot find object with id %1",
+                      Uml::ID::toString(id));
             delete widget;
             return 0;
         }
@@ -297,7 +298,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ClassifierWidget(scene, o->asUMLInstance());
         }
         else {
-            uWarning() << "Trying to create an unknown widget:" << tag;
+            logWarn1("Widget_Factory::makeWidgetFromXMI: Trying to create an unknown widget %1", tag);
         }
     }
     return widget;

@@ -10,6 +10,7 @@
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlwidget.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -39,11 +40,12 @@ namespace Uml
             if (domDoc.setContent(xmi, &error, &line)) {
                 QDomElement domElem = domDoc.firstChild().firstChild().toElement();
                 if (domElem.isNull())
-                    uWarning() << "child QDomElement is null";
+                    logWarn1("CmdRemoveWidget(%1): child QDomElement is null", widget->name());
                 else
                     m_children.append(domElem);
             } else {
-                uWarning() << "Cannot set content:" << error << " line:" << line;
+                logWarn3("CmdRemoveWidget(%1): Cannot set child content. Error %2 line %3",
+                         widget->name(), error, line);
             }
         }
 
@@ -59,9 +61,10 @@ namespace Uml
         if (doc.setContent(xmi, &error, &line)) {
             m_element = doc.firstChild().firstChild().toElement();
             if (m_element.isNull())
-                uWarning() << "widget QDomElement is null";
+                logWarn0("widget QDomElement is null");
         } else {
-            uWarning() << "Cannot set content:" << error << " line:" << line;
+            logWarn3("CmdRemoveWidget(%1): Cannot set content. Error %2 line %3",
+                     widget->name(), error, line);
         }
     }
 
@@ -85,9 +88,10 @@ namespace Uml
         if (doc.setContent(xmi, &error, &line)) {
             m_element = doc.firstChild().firstChild().toElement();
             if (m_element.isNull())
-                uWarning() << "widget QDomElement is null";
+                logWarn1("CmdRemoveWidget(%1): widget QDomElement is null", widget->name());
         } else {
-            uWarning() << "Cannot set content:" << error << " line:" << line;
+            logWarn3("CmdRemoveWidget(%1): Cannot set content. Error %2 line %3",
+                     widget->name(), error, line);
         }
     }
 

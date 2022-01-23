@@ -11,7 +11,7 @@
 #include "entity.h"
 #include "entityattribute.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umlattributedialog.h"
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
@@ -206,7 +206,7 @@ bool UMLUniqueConstraint::load1(QDomElement & element)
             m_EntityAttributeList.append(entAtt);
 
         } else {
-            logWarn0("unknown child type in UMLUniqueConstraint::load");
+            logWarn1("UMLUniqueConstraint::load: unknown child type %1", tag);
         }
 
         node = node.nextSibling();

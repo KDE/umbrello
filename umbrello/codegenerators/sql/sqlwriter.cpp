@@ -20,6 +20,7 @@
 #include "uniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -188,7 +189,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     UMLEntity* e = c->asUMLEntity();
 
     if (!e) {
-        uError() << "Invalid cast from" << c->baseTypeStr() << "'" << c->name() << "' to UMLEntity*";
+        logError2("SQLWriter::writeClass: Invalid cast from '%1' to UMLEntity* %2",
+                  c->name(), c->baseTypeStr());
         return;
     }
 
@@ -458,7 +460,8 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
    foreach(UMLClassifierListItem* cli, constrList) {
        const UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
        if (!uuc) {
-           uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLUniqueConstraint*";
+           logError2("SQLWriter::printUniqueConstraints: Invalid cast from '%1' to UMLUniqueConstraint* %2",
+                     cli->name(), cli->baseTypeStr());
            return;
        }
        sql << m_endl;
@@ -505,7 +508,8 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
    foreach(UMLClassifierListItem* cli, constrList) {
        UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
        if (!fkc) {
-           uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLForeignKeyConstraint*";
+           logError2("SQLWriter::printForeignKeyConstraints: Invalid cast from '%1' to UMLForeignKeyConstraint* %2",
+                     cli->name(), cli->baseTypeStr());
            return;
        }
        sql << m_endl;
@@ -632,7 +636,8 @@ void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemLis
     foreach(UMLClassifierListItem* cli, constrList) {
         const UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
         if (!chConstr) {
-            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLCheckConstraint*";
+            logError2("SQLWriter::printCheckConstraints: Invalid cast from '%1' to UMLCheckConstraint* %2",
+                      cli->name(), cli->baseTypeStr());
             return;
         }
 

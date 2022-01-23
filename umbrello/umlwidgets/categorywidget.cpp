@@ -9,8 +9,9 @@
 // local includes
 #include "category.h"
 #include "debug_utils.h"
-#include "umlview.h"
 #include "listpopupmenu.h"
+#include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // qt includes
 #include <QPainter>
@@ -121,7 +122,8 @@ void CategoryWidget::slotMenuSelection(QAction* action)
 {
     UMLCategory* catObj = umlObject()->asUMLCategory();
     if (!catObj) {
-        uWarning() << "No UMLCategory for this widget.";
+        logWarn1("CategoryWidget::slotMenuSelection(%1): No UMLCategory for this widget",
+                 umlObject()->name());
         return;
     }
 

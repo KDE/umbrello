@@ -101,7 +101,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
-                        uError()<<"Unable to add codeComment to :"<<this;
+                        logError0("CPPHeaderCodeDocument: Unable to add codeComment");
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
@@ -113,7 +113,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
                         {
-                            uError()<<"Unable to add codeclassfield child method to:"<<this;
+                            logError0("CPPHeaderCodeDocument: Unable to add codeclassfield child method");
                             // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
@@ -124,7 +124,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
                             {
-                                uError()<<"Unable to add codeBlock to :"<<this;
+                                logError0("CPPHeaderCodeDocument: Unable to add codeBlock");
                                 delete block;
                             } else
                                 loadCheckForChildrenOK= true;
@@ -134,7 +134,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
                                 {
-                                    uError()<<"Unable to add codeBlockwithcomments to:"<<this;
+                                    logError0("CPPHeaderCodeDocument: Unable to add codeBlockwithcomments");
                                     delete block;
                                 } else
                                     loadCheckForChildrenOK= true;
@@ -147,7 +147,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                            uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                                            logError0("CPPHeaderCodeDocument: Unable to add hierarchicalcodeBlock");
                                             delete block;
                                         } else
                                             loadCheckForChildrenOK= true;
@@ -166,11 +166,11 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
-                                                    uError()<<"Unable to add codeoperation to:"<<this;
+                                                    logError0("CPPHeaderCodeDocument: Unable to add codeoperation");
                                                     block->deleteLater();
                                                 }
                                             } else
-                                                uError()<<"Unable to find operation create codeoperation for:"<<this;
+                                                logError0("CPPHeaderCodeDocument: Unable to find operation create codeoperation");
                                         }
                                         else
                                             if(name == QLatin1String("cppheaderclassdeclarationblock"))
@@ -183,7 +183,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
                                                 if(!m_namespaceBlock || !m_namespaceBlock->addTextBlock(block))
                                                 {
-                                                    uError()<<"Error:cant add class declaration codeblock";
+                                                    logError0("Error:cant add class declaration codeblock");
                                                     // DON'T delete/release block
                                                     // block->release();
                                                 } else
@@ -206,7 +206,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
     if(!loadCheckForChildrenOK)
     {
-        uWarning() << "loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc: %1", getFileName());
     }
 
 }

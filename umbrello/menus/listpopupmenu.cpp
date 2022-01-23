@@ -273,7 +273,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_UseCase_Folder:             LPMIBI(it_Folder,                i18n("Folder")); break;
 
     default:
-        uWarning() << "called on unimplemented MenuType " << toString(m);
+        logWarn1("ListPopupMenu::insert called on unimplemented MenuType %1", toString(m));
         break;
     }
 #undef LPMISI
@@ -410,7 +410,7 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
         return menu->getMenuType(action);
     }
     else {
-        uError() << "Action's data field does not contain ListPopupMenu pointer!";
+        logError0("typeFromAction: Action's data field does not contain ListPopupMenu pointer!");
         return mt_Undefined;
     }
 }

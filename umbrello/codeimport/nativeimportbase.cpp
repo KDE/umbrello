@@ -10,6 +10,7 @@
 #include "codeimpthread.h"
 #include "debug_utils.h"
 #include "import_utils.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -106,7 +107,7 @@ bool NativeImportBase::skipToClosing(QChar opener)
             closing = QLatin1String(">");
             break;
         default:
-            uError() << "opener='" << opener << "': illegal input character";
+            logError1("NativeImportBase::skipToClosing opener='%1': illegal input character", opener);
             return false;
     }
     const QString opening(opener);
@@ -427,7 +428,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     if (!QFile::exists(filename)) {
         QFileInfo fi(filename);
         if (fi.isAbsolute()) {
-            uError() << msgPrefix << "cannot find file";
+            logError1("NativeImportBase::parseFile: cannot find file %1", filename);
             return false;
         }
         bool found = false;
@@ -445,13 +446,13 @@ bool NativeImportBase::parseFile(const QString& filename)
             }
         }
         if (! found) {
-            uError() << msgPrefix << "cannot find file";
+            logError1("NativeImportBase::parseFile: cannot find file %1 (2)", filename);
             return false;
         }
     }
     QFile file(fname);
     if (! file.open(QIODevice::ReadOnly)) {
-        uError() << msgPrefix << "cannot open file";
+        logError1("NativeImportBase::parseFile: cannot open file %1", fname);
         return false;
     }
     log(nameWithoutPath, QLatin1String("parsing..."));

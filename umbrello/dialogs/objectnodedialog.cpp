@@ -9,10 +9,11 @@
 // local includes
 #include "debug_utils.h"
 #include "documentationwidget.h"
-#include "umlview.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 #include "objectnodewidget.h"
+#include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>
@@ -140,9 +141,9 @@ void ObjectNodeDialog::setupGeneralPage()
     QString objType;
     if (type < types.count()) {
         objType = types.at((int)type);
-    }
-    else {
-        uWarning() << "type of ObjectNodeWidget is out of range! Value = " << type;
+    } else {
+        logWarn1("ObjectNodeDialog::setupGeneralPage: type of ObjectNodeWidget is out of range! "
+                 "Value=%1", type);
     }
     Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Object Node type:"),

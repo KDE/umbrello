@@ -83,7 +83,7 @@ bool PythonImport::preprocess(QString& line)
     int leadingWhite = line.left(pos).count(QRegExp(QLatin1String("\\s")));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            uError() << "internal error";
+            logError0("PythonImport::preprocess internal error");
             return true;
         }
         if (m_braceWasOpened) {
@@ -397,12 +397,12 @@ bool PythonImport::parseStmt()
         }
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != QLatin1String("(")) {
-            uError() << "importPython def " << name << ": expecting \"(\"";
+            logError1("PythonImport::parseStmt def %1: expecting \" (\"",  name);
             skipBody();
             return true;
         }
         if (!parseMethodParameters(op)) {
-            uError() << "importPython error on parsing method parameter for method " << name;
+            logError1("PythonImport::parseStmt error on parsing method parameter for method %1", name);
             skipBody();
             return true;
         }
@@ -457,7 +457,8 @@ bool PythonImport::parseStmt()
             m_klass = popScope()->asUMLClassifier();
         }
         else
-            uError() << "parsing: too many }";
+            logError2("PythonImport::parseStmt: too many } at index %1 of %2",
+                      m_srcIndex, m_source.count());
         return true;
     }
     return false;  // @todo parsing of attributes

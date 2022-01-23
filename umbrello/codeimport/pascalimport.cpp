@@ -217,7 +217,8 @@ bool PascalImport::parseStmt()
             popScope();
             m_currentAccess = Uml::Visibility::Public;
         } else {
-            uError() << "importPascal: too many \"end\"";
+            logError2("PascalImport::parseStmt: too many \"end\" at index %1 of %2",
+                      m_srcIndex, m_source.count());
         }
         skipStmt();
         return true;
@@ -254,13 +255,13 @@ bool PascalImport::parseStmt()
                 uint parNameCount = 0;
                 do {
                     if (parNameCount >= MAX_PARNAMES) {
-                        uError() << "MAX_PARNAMES is exceeded at " << name;
+                        logError1("PascalImport::parseStmt: MAX_PARNAMES is exceeded at %1", name);
                         break;
                     }
                     parName[parNameCount++] = advance();
                 } while (advance() == QLatin1String(","));
                 if (m_source[m_srcIndex] != QLatin1String(":")) {
-                    uError() << "importPascal: expecting ':' at " << m_source[m_srcIndex];
+                    logError1("PascalImport::parseStmt: expecting ':' at %1", m_source[m_srcIndex]);
                     skipStmt();
                     break;
                 }
@@ -268,8 +269,7 @@ bool PascalImport::parseStmt()
                 if (nextToken.toLower() == QLatin1String("array")) {
                     nextToken = advance().toLower();
                     if (nextToken != QLatin1String("of")) {
-                        uError() << "importPascal(" << name << "): expecting 'array OF' at "
-                                  << nextToken;
+                        logError2("PascalImport::parseStmt(%1) : expecting 'array OF' at %2", name, nextToken);
                         skipStmt();
                         return false;
                     }
@@ -288,8 +288,7 @@ bool PascalImport::parseStmt()
         QString returnType;
         if (keyword == QLatin1String("function")) {
             if (advance() != QLatin1String(":")) {
-                uError() << "importPascal: expecting \":\" at function "
-                        << name;
+                logError1("PascalImport::parseStmt: expecting \":\" at function %1", name);
                 return false;
             }
             returnType = advance();
@@ -369,8 +368,7 @@ bool PascalImport::parseStmt()
                     Import_Utils::createGeneralization(klass, parent);
                 } while (advance() == QLatin1String(","));
                 if (m_source[m_srcIndex] != QLatin1String(")")) {
-                    uError() << "PascalImport: expecting \")\" at "
-                        << m_source[m_srcIndex];
+                    logError1("PascalImport::parseStmt: expecting \")\" at %1", m_source[m_srcIndex]);
                     return false;
                 }
                 lookAhead = m_source[m_srcIndex + 1];
@@ -419,8 +417,7 @@ bool PascalImport::parseStmt()
         name = m_source[m_srcIndex];
     }
     if (advance() != QLatin1String(":")) {
-        uError() << "PascalImport: expecting \":\" at " << name << " "
-                 << m_source[m_srcIndex];
+        logError2("PascalImport::parseStmt: expecting ':' at %1 %2", name, m_source[m_srcIndex]);
         skipStmt();
         return true;
     }

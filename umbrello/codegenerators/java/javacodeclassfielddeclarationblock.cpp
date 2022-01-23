@@ -41,7 +41,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
 
     if (!jcf){
-        uError() << "jcf: invalid dynamic cast";
+        logError0("JavaCodeClassFieldDeclarationBlock::updateContent: invalid dynamic cast");
         return;
     }
 
@@ -90,7 +90,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
         // Check for dynamic casting failure
         if (role == 0)
         {
-            uError() << "role: invalid dynamic cast";
+            logError0("JavaCodeClassFieldDeclarationBlock::updateContent role: invalid dynamic cast");
             return;
         }
 

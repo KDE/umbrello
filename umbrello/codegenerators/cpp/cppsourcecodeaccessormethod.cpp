@@ -46,7 +46,7 @@ void CPPSourceCodeAccessorMethod::updateContent()
     // Check for dynamic casting failure!
     if(cppfield == 0)
     {
-        uError() << "cppfield: invalid dynamic cast";
+        logError0("cppfield: invalid dynamic cast");
         return;
     }
 
@@ -56,7 +56,7 @@ void CPPSourceCodeAccessorMethod::updateContent()
     // Check for dynamic casting failure!
     if(policy == 0)
     {
-        uError() << "policy: invalid dynamic cast";
+        logError0("policy: invalid dynamic cast");
         return;
     }
 
@@ -99,7 +99,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     // Check for dynamic casting failure!
     if (policy == 0)
     {
-        uError() << "policy: invalid dynamic cast";
+        logError0("policy: invalid dynamic cast");
         return;
     }
 
@@ -108,7 +108,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     // Check for dynamic casting failure!
     if (cppfield == 0)
     {
-        uError() << "cppfield: invalid dynamic cast";
+        logError0("cppfield: invalid dynamic cast");
         return;
     }
 

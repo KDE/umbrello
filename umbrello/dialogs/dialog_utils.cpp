@@ -146,8 +146,8 @@ void updateTagsFromEditFields(UMLObject * o,
     tags.clear();
     for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
         if (pTagLineEdit[i] == 0) {
-            uError() << "updateTagsFromEditFields(" << o->name() << "): " << stereo->name(true)
-                     << " pTagLineEdit[" << i << "] is null";
+            logError3("updateTagsFromEditFields(%1): %2 pTagLineEdit[%3] is null",
+                      o->name(), stereo->name(true), i);
             break;
         }
         QString tag = pTagLineEdit[i]->text();

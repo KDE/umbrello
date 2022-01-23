@@ -110,7 +110,7 @@ int JavaCodeOperation::lastEditableLine()
     // Check for dynamic casting failure
     if (doc == 0)
     {
-        uError() << "doc: invalid dynamic cast";
+        logError0("JavaCodeOperation::lastEditableLine doc: invalid dynamic cast");
         return -1;
     }
 

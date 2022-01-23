@@ -284,7 +284,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                     // Check whether it's a data type.
                     UMLClassifier *typeObj = t->getType();
                     if (typeObj == 0) {
-                        uError() << "template_param " << typeName << ": typeObj is NULL";
+                        logError1("template_param %1: typeObj is NULL", typeName);
                         ada << indent() << "type " << formalName << " is new " << typeName
                             << " with private;  -- CHECK: codegen error"
                             << m_endl;

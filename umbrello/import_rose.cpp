@@ -199,21 +199,21 @@ QString collectVerbatimText(QTextStream& stream)
         if (line.isEmpty() || line.startsWith(QLatin1Char(')')))
             break;
         if (line[0] != QLatin1Char('|')) {
-            uError() << loc() << "expecting '|' at start of verbatim text";
+            logError1("%1 expecting '|' at start of verbatim text", loc());
             return QString();
         } else {
             result += line.mid(1) + QLatin1Char('\n');
         }
     }
     if (line.isNull()) {
-        uError() << loc() << "premature EOF";
+        logError1("%1 premature EOF", loc());
         return QString();
     }
     if (! line.isEmpty()) {
         for (int i = 0; i < line.length(); ++i) {
             const QChar& clParenth = line[i];
             if (clParenth != QLatin1Char(')')) {
-                uError() << loc() << "expected ')', found: " << clParenth;
+                logError2("%1 expected ')', found: %2", loc(), clParenth);
                 return QString();
             }
             nClosures++;
@@ -261,7 +261,7 @@ QString extractValue(QStringList& l, QTextStream& stream)
     } else {
         result = shift(l);
         if (l.first() != QLatin1String(")")) {
-            uError() << loc() << "expecting closing parenthesis";
+            logError1("%1 expecting closing parenthesis", loc());
             return result;
         }
         l.pop_front();
@@ -284,7 +284,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
 {
     methodName(QLatin1String("readAttributes"));
     if (initialArgs.count() == 0) {
-        uError() << loc() << "initialArgs is empty";
+        logError1("%1 initialArgs is empty", loc());
         return 0;
     }
     PetalNode::NodeType nt;
@@ -294,7 +294,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     else if (type == QLatin1String("list"))
         nt = PetalNode::nt_list;
     else {
-        uError() << loc() << "unknown node type " << type;
+        logError2("%1 unknown node type %2", loc(), type);
         return 0;
     }
     PetalNode *node = new PetalNode(nt);
@@ -313,7 +313,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
-            uError() << loc() << "unexpected line " << line;
+            logError2("%1 unexpected line %2", loc(), line);
             delete node;
             return 0;
         }
@@ -411,6 +411,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  */
 UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
+    methodName(QLatin1String("loadFromMDL"));
     if (parentPkg == 0) {
         QString fName = file.fileName();
         int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
@@ -441,7 +442,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                 if (a.size() == 2 && a[0] == QLatin1String("charSet")) {
                     const QString& charSet = a[1];
                     if (!charSet.contains(QRegExp(QLatin1String("^\\d+$")))) {
-                        uWarning() << "Unimplemented charSet " << charSet;
+                        logWarn2("%1 Unimplemented charSet %2", loc(), charSet);
                         if (finish)
                             break;
                         continue;
@@ -487,7 +488,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                         case 255:  // OEM (extended ASCII)
                             SETCODEC("windows-1252");
                         default:
-                            uWarning() << "Unimplemented charSet number" << charSetNum;
+                            logWarn2("%1 Unimplemented charSet number %2", loc(), charSetNum);
                     }
                 }
                 if (finish)
@@ -525,7 +526,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     }
 
     if (root->name() != QLatin1String("Design")) {
-        uError() << "expecting root name Design";
+        logError1("%1 expecting root name Design", loc());
         delete root;
         return 0;
     }

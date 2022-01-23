@@ -221,7 +221,7 @@ UMLDoc::~UMLDoc()
 void UMLDoc::addView(UMLView *view)
 {
     if (view == 0) {
-        uError() << "UMLDoc::addView argument is NULL";
+        logError0("UMLDoc::addView argument is NULL");
         return;
     }
     UMLFolder *f = view->umlScene()->folder();
@@ -3162,7 +3162,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 UMLFolder *UMLDoc::rootFolder(Uml::ModelType::Enum mt) const
 {
     if (mt < Uml::ModelType::Logical || mt >= Uml::ModelType::N_MODELTYPES) {
-        uError() << "illegal input value " << Uml::ModelType::toString(mt);
+        logError1("UMLDoc::rootFolder: illegal model type value %1", mt);
         return 0;
     }
     return m_root[mt];
@@ -3417,7 +3417,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
         emit sigDiagramRenamed(view->umlScene()->ID());
     }
     else {
-      uError() << "Cannot signal diagram renamed - view is NULL!";
+      logError0("Cannot signal diagram renamed - view is NULL!");
     }
 }
 
@@ -3460,8 +3460,7 @@ void UMLDoc::createDatatype(const QString &name)
         qApp->processEvents();
     } else {
         if (umlobject) {
-            uWarning() << "UMLDoc::createDatatype(" << name
-                       << ") : Name already exists but is not a Datatype";
+            logWarn1("UMLDoc::createDatatype(%1) : Name already exists but is not a Datatype", name);
         }
         Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
     }
@@ -3532,7 +3531,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         break;
 
     default:
-        uWarning() << "unknown diagram type " << view->umlScene()->type();
+        logWarn1("UMLDoc::slotDiagramPopupMenu: unknown diagram type %1", view->umlScene()->type());
         return;
     }//end switch
 

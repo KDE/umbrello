@@ -10,6 +10,7 @@
 #include "cppcodeclassfield.h"
 #include "cppheadercodedocument.h"
 #include "debug_utils.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock (CodeClassField * parent)
         : CodeClassFieldDeclarationBlock (parent)
@@ -34,7 +35,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
     // Check for dynamic casting failure!
     if (hcppcf == 0)
     {
-        uError() << "hcppcf: invalid dynamic cast";
+        logError0("hcppcf: invalid dynamic cast");
         return;
     }
 

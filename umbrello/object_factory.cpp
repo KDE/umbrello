@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -91,7 +91,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg, bool undoable /* = true */)
 {
     if (parentPkg == 0) {
-        uError() << name << ": parentPkg is NULL";
+        logError1("Object_Factory::createNewUMLObject(%1): parentPkg is NULL", name);
         return 0;
     }
     QPointer<UMLObject> o = 0;
@@ -157,7 +157,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         }
         default:
-            uWarning() << "error unknown type: " << UMLObject::toString(type);
+            logWarn2("Object_Factory::createNewUMLObject(%1) error unknown type: %2",
+                     name, UMLObject::toString(type));
             return 0;
     }
 
@@ -227,10 +228,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                 uDebug() << o->name() << " already known - returning existing object";
                 return o;
             }
-            uWarning() << o->name() << " exists but is of type "
-                       << UMLObject::toString(o->baseType())
-                       << " - creating new object of type "
-                       << UMLObject::toString(type);
+            logWarn3("Object_Factory::createUMLObject(%1) exists but is of type %2 - creating new object of type %3",
+                          o->name(), UMLObject::toString(o->baseType()), UMLObject::toString(type));
             o = createNewUMLObject(type, n, parentPkg, false);
             return o;
         }
@@ -358,13 +357,13 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
         break;
     }
     if (!returnObject) {
-        uError() << "Object_Factory::createChildObject type:" << UMLObject::toString(type);
+        logError2("Object_Factory::createChildObject(%1) type %2: no object created",
+                  name, UMLObject::toString(type));
         return nullptr;
     }
     UMLClassifierListItem *ucli = returnObject->asUMLClassifierListItem();
     if (!ucli) {
-        uError() << "Object_Factory::createChildObject internal: result is "
-                 << "not a UMLClassifierListItem";
+        logError0("Object_Factory::createChildObject internal: result is not a UMLClassifierListItem");
     }
     return ucli;
 }

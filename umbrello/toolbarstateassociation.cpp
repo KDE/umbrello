@@ -343,7 +343,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
         }
         return true;
     } else {
-        uError() << "cannot addAssocInViewAndDoc(), deleting";
+        logError0("ToolBarStateAssociation: cannot addAssocInViewAndDoc(), deleting");
         delete assoc;
         return false;
     }

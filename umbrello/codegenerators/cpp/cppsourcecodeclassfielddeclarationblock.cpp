@@ -10,6 +10,7 @@
 #include "cppcodeclassfield.h"
 #include "debug_utils.h"
 #include "model_utils.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock (CodeClassField * parent)
         : CodeClassFieldDeclarationBlock (parent)
@@ -29,7 +30,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
     // Check for dynamic casting failure!
     if (jcf == 0)
     {
-        uError() << "jcf: invalid dynamic cast";
+        logError0("jcf: invalid dynamic cast");
         return;
     }
 

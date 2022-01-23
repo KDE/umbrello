@@ -201,7 +201,7 @@ int RubyCodeOperation::lastEditableLine()
     // Check for dynamic casting failure
     if (doc == 0)
     {
-        uError() << "doc: invalid dynamic cast";
+        logError0("RubyCodeOperation::lastEditableLine doc: invalid dynamic cast");
         return -1;
     }
 

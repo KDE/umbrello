@@ -13,7 +13,7 @@
 #include "signalwidget.h"
 #include "statewidget.h"
 #include "debug_utils.h"
-#include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KConfigGroup>
@@ -293,7 +293,13 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     }
 
     if (configFileName.isEmpty()) {
-        uError() << "could not find layout config file name for diagram type" << diagramType << "and variant" << variant;
+        if (variant.isEmpty()) {
+            logError1("DotGenerator::readConfigFile could not find layout config file name "
+                      "for diagram type %1 and empty variant", diagramType);
+        } else {
+            logError2("DotGenerator::readConfigFile could not find layout config file name "
+                      "for diagram type %1 and variant %2", diagramType, variant);
+        }
         return false;
     }
     uDebug() << "reading config file" << configFileName;
@@ -346,7 +352,8 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     if (a.size() == 2)
         m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
     else
-        uError() << "illegal format of entry 'origin'" << value;
+        logError1("DotGenerator::readConfigFile illegal format of entry 'origin' value %1",
+                  value);
 
     setGeneratorName(settings.readEntry("generator", "dot"));
 
@@ -450,7 +457,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         foreach(QGraphicsItem *item, widget->childItems()) {
             UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
             if (!w2) {
-                uWarning() << "child item of widget " << key << " is null";
+                logWarn1("DotGenerator::createDotFile: child item of widget %1 is null", key);
                 continue;
             }
             QString type2 = dotType(w2);

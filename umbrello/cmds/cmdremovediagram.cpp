@@ -46,7 +46,8 @@ namespace Uml
             // The first child element contains the diagram XMI
             m_element = domDoc.firstChild().firstChild().toElement();  // CHECK was: container
         } else {
-            uWarning() << "Cannot set content: " << error << " line:" << line;
+            logWarn3("CmdRemoveDiagram(%1): Cannot set content. Error %2 line %3",
+                     scene->name(), error, line);
         }
     }
 

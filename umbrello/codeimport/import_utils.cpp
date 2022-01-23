@@ -287,8 +287,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             if (dt && c)
                 dt->setOriginType(c);
             else
-                uError() << "createUMLObject(" << name << "): "
-                    << "origType " << typeName << " is not a UMLClassifier";
+                logError2("Import_Utils::createUMLObject(%1): origType %2 is not a UMLClassifier", name, typeName);
             if (dt && (isRef || isPointer))
                 dt->setIsReference();
             /*
@@ -308,8 +307,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             if (existingPkg)
                 existingPkg->removeObject(o);
             else
-                uError() << "createUMLObject(" << name << "): "
-                    << "o->getUMLPackage() was NULL";
+                logError1("Import_Utils::createUMLObject(%1): o->getUMLPackage() was NULL", name);
             parentPkg->addObject(o);
             o->setUMLPackage(parentPkg);
             // setUMLPackage() triggers tree view item update if not loading by default
@@ -352,7 +350,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         umldoc->addAssociation(assoc);
     }
     if (o == 0) {
-        uError() << "is NULL!";
+        logError1("Import_Utils::createUMLObject(%1) : operation failed", inName);
     }
     return o;
 }

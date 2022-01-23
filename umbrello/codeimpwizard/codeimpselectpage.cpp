@@ -265,7 +265,7 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
         emit selectionChanged();
     }
     else {
-        uWarning() << "Index not valid!";
+        logWarn0("CodeImpSelectPage::treeClicked: Index not valid!");
     }
 }
 
@@ -363,25 +363,24 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
 void CodeImpSelectPage::selectAll()
 {
     QModelIndex currIndex = ui_treeView->selectionModel()->currentIndex();
-    if (currIndex.isValid()) {
-        QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
-        QFileInfo fileInfo = model->fileInfo(currIndex);
-        if (fileInfo.isDir()) {
-            QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
-            Q_UNUSED(selectionModel);
+    if (!currIndex.isValid()) {
+        logWarn0("CodeImpSelectPage::selectAll: Invalid index");
+        return;
+    }
+    QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
+    QFileInfo fileInfo = model->fileInfo(currIndex);
+    if (fileInfo.isDir()) {
+        QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
+        Q_UNUSED(selectionModel);
+        //...
+        if (ui_subdirCheckBox->isChecked()) {
             //...
-            if (ui_subdirCheckBox->isChecked()) {
-                //...
-                ui_treeView->selectAll();
-                updateSelectionCounter();
-            }
-        }
-        else {
-            uWarning() << "No directory was selected!";
+            ui_treeView->selectAll();
+            updateSelectionCounter();
         }
     }
     else {
-        uWarning() << "No directory was selected!";
+        logWarn0("CodeImpSelectPage::selectAll: No directory was selected");
     }
 }
 

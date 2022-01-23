@@ -290,7 +290,7 @@ void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
         if (!item) {
-            uError() << "Code Importing Status Page::Error finding class <" << file << "> in list view!";
+            logError1("CodeImpStatusPage::updateStatus(%1): Error finding class in list view", file);
         }
         else {
             int row = ui_tableWidgetStatus->row(item);

@@ -203,7 +203,8 @@ bool UMLDatatypeWidget::applyParameter()
     // set the type name
     QString typeName = m_editField->currentText();
     if (m_parent == 0) {
-        uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
+        logError1("UMLDatatypeWidget::applyParameter: grandparent of %1 is not a UMLClassifier",
+                  m_attribute->name());
     } else {
         UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
         if (tmplParam) {
@@ -369,8 +370,8 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
     // add template parameters
     const UMLClassifier *pConcept = m_parent->asUMLClassifier();
     if (pConcept == 0) {
-        uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
-                 << " is not a UMLClassifier";
+        logError1("UMLDatatypeWidget::insertTypesSortedParameter: grandparent of %1 "
+                  " is not a UMLClassifier", m_attribute->name());
     } else {
         UMLTemplateList tmplParams(pConcept->getTemplateList());
         foreach(UMLTemplate* t, tmplParams) {

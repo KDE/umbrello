@@ -122,7 +122,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     // Check for dynamic casting failure!
     if (dfield == 0)
     {
-        uError() << "dfield: invalid dynamic cast";
+        logError0("dfield: invalid dynamic cast");
         return;
     }
 
@@ -191,7 +191,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning()<<"Warning: cant generate DCodeAccessorMethod for type: "<<getType();
+        logWarn1("Cannot generate DCodeAccessorMethod for type: %1", getType());
         break;
     }
 

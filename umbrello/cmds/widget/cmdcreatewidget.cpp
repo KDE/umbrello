@@ -41,7 +41,7 @@ namespace Uml
         if (domDoc.setContent(xmi, &error, &line)) {
             m_element = domDoc.firstChild().firstChild().toElement();
         } else {
-            uWarning() << "Cannot set content:" << error << " line:" << line;
+            logWarn2("CmdCreateWidget: Cannot set content. Error %1 line %2", error, line);
         }
     }
 
@@ -66,7 +66,7 @@ namespace Uml
         if (domDoc.setContent(xmi, &error, &line)) {
             m_element = domDoc.firstChild().firstChild().toElement();
         } else {
-            uWarning() << "Cannot set content:" << error << " line:" << line;
+            logWarn2("CmdCreateWidget(assocwidget): Cannot set content. Error %1 line %2", error, line);
         }
     }
 

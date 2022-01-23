@@ -344,7 +344,7 @@ bool CSharpImport::parseStmt()
         if (scopeIndex())
             m_klass = popScope()->asUMLClassifier();
         else
-            uError() << "too many }";
+            logError0("CSharpImport::parseStmt: too many }");
         return true;
     }
 
@@ -353,8 +353,12 @@ bool CSharpImport::parseStmt()
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains(QRegExp(QLatin1String("^\\w")))) {
-        uError() << "ignoring " << keyword << " at "
-                 << m_srcIndex << ", " << m_source.count() << " in " << m_klass;  //:TODO: ->name();
+        if (m_klass)
+            logError4("CSharpImport::parseStmt: ignoring keyword %1 at index %2 of %3 (%4)",
+                      keyword, m_srcIndex, m_source.count(), m_klass->name());
+        else
+            logError3("CSharpImport::parseStmt: ignoring keyword %1 at index %2 of %3",
+                      keyword, m_srcIndex, m_source.count());
         return false;
     }
 
@@ -362,7 +366,7 @@ bool CSharpImport::parseStmt()
     typeName = joinTypename(typeName);
     // At this point we need a class.
     if (m_klass == 0) {
-        uError() << "no class set for " << typeName;
+        logError1("CSharpImport::parseStmt: no class set for %1", typeName);
         return false;
     }
     QString name = advance();
@@ -376,7 +380,7 @@ bool CSharpImport::parseStmt()
         nextToken = advance();
     }
     if (name.contains(QRegExp(QLatin1String("\\W")))) {
-        uError() << "expecting name in " << name;
+        logError1("CSharpImport::parseStmt: expecting name at %1", name);
         return false;
     }
     if (nextToken == QLatin1String("(")) {
@@ -479,11 +483,11 @@ bool CSharpImport::parseStmt()
     m_currentAccess = m_defaultCurrentAccess;
     if (m_srcIndex < m_source.count()) {
         if (m_source[m_srcIndex] != QLatin1String(";")) {
-            uError() << "ignoring trailing items at " << name;
+            logError1("CSharpImport::parseStmt: ignoring trailing items at %1", name);
             skipStmt();
         }
     } else {
-        uError() << "index out of range: ignoring statement " << name;
+        logError1("CSharpImport::parseStmt index out of range: ignoring statement %1", name);
         skipStmt();
     }
     return true;
@@ -713,7 +717,7 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
         // @todo implement all template arg syntax
         uint start = m_srcIndex;
         if (! skipToClosing(QLatin1Char('<'))) {
-            uError() << "import C# (" << name << "): template syntax error";
+            logError1("CSharpImport::parseClassDeclaration (%1): template syntax error", name);
             return false;
         }
         while(1) {
@@ -755,8 +759,8 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
     }
 
     if (m_source[m_srcIndex] != QLatin1String("{")) {
-        uError() << "ignoring excess chars at " << name
-                 << " (" << m_source[m_srcIndex] << ")";
+        logError2("CSharpImport::parseClassDeclaration ignoring excess chars at %1 (index %2)",
+                  name, m_source[m_srcIndex]);
         skipStmt(QLatin1String("{"));
     }
     return true;

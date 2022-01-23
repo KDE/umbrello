@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 /**
@@ -55,12 +55,12 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op)
         if (m_constructorBlock)
             retval = m_constructorBlock->addTextBlock(op);
         else
-            uError() << "m_constructorBlock is NULL";
+            logError0("m_constructorBlock is NULL");
     } else {
         if (m_methodsBlock)
             retval = m_methodsBlock->addTextBlock(op);
         else
-            uError() << "m_methodsBlock is NULL";
+            logError0("m_methodsBlock is NULL");
     }
     return retval;
 }

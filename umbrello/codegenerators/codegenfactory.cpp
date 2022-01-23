@@ -174,9 +174,8 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
             obj = new XMLSchemaWriter();
             break;
         default:
-            uWarning() << "cannot create object of type "
-                       << Uml::ProgrammingLanguage::toString(pl)
-                       << ". Type unknown";
+            logWarn1("CodeGenFactory::createObject: cannot create object of type %1 (unknown)",
+                     Uml::ProgrammingLanguage::toString(pl));
             break;
     }
 

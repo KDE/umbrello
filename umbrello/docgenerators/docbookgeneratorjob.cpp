@@ -138,7 +138,8 @@ void DocbookGeneratorJob::run()
 
     // lets open the file for writing
     if (!file.open()) {
-        uError() << "There was a problem saving file" << file.fileName();
+        logError1("DocbookGeneratorJob::run: There was a problem saving file %1",
+                  file.fileName());
         return;
     }
 

@@ -17,6 +17,7 @@
 #include "operation.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 #include "uniqueconstraint.h"
 
 #if QT_VERSION < 0x050000
@@ -127,7 +128,8 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     UMLEntity* ent = m_pClassifier->asUMLEntity();
 
     if (ent == 0) {
-        uError() << "Could not set Primary Key. Entity Value is Null";
+        logError0("ConstraintListPage::slotNewPrimaryKeyConstraint: Could not set Primary Key. "
+                  "Entity Value is Null");
         return;
     }
 

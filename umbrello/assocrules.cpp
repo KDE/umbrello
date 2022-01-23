@@ -145,7 +145,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
         break;
 
     default:
-        uWarning() << "allowAssociation() on unknown type";
+        logWarn1("AssocRules::allowAssociation() on unknown type %1", assocType);
         break;
     }
     return false;
@@ -330,7 +330,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         break;
 
     default:
-        uWarning() << "allowAssociation() on unknown type";
+        logWarn1("AssocRules::allowAssociation(2) on unknown type %1", assocType);
         break;
     }
     return false;

@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "icon_utils.h"
-#include "uml.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -283,7 +283,8 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
         } else if (m_Showing == st_Project) {
             m_pUMLDoc->setDocumentation(m_docTE->toPlainText());
         } else {
-            uError() << "could not update documentation because of unknown type and object combination";
+            logError1("DocWindow: Could not update doc due to unknown type and object combination "
+                      "(m_Showing=%1)", m_Showing);
         }
 
         // now do the setModified call

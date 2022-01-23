@@ -7,8 +7,9 @@
 
 // app includes
 #include "classifierwidget.h"
-#include "umlwidget.h"
 #include "debug_utils.h"
+#include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -39,7 +40,8 @@ namespace Uml
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_newValue);
         else
-            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
+            logWarn1("CmdChangeVisualProperty::redo: could not find classifier widget with id %1",
+                     Uml::ID::toString(m_widgetId));
     }
 
     void CmdChangeVisualProperty::undo()
@@ -48,6 +50,7 @@ namespace Uml
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_oldValue);
         else
-            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
+            logWarn1("CmdChangeVisualProperty::undo: could not find classifier widget with id %1",
+                     Uml::ID::toString(m_widgetId));
     }
 }

@@ -42,7 +42,7 @@ void DCodeClassFieldDeclarationBlock::updateContent()
 
     if (!jcf)
     {
-       uError() << "jcf: invalid dynamic cast";
+       logError0("jcf: invalid dynamic cast");
        return;
     }
 
@@ -91,7 +91,7 @@ void DCodeClassFieldDeclarationBlock::updateContent()
         // Check for dynamic casting failure!
         if (role == 0)
         {
-            uError() << "role: invalid dynamic cast";
+            logError0("role: invalid dynamic cast");
             return;
         }
 

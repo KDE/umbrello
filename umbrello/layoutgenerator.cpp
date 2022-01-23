@@ -107,7 +107,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     QTemporaryFile out;
     QTemporaryFile xdotOut;
     if (!isEnabled()) {
-        uWarning() << "Could not apply autolayout because graphviz installation has not been found.";
+        logWarn0("LayoutGenerator::generate: Could not apply autolayout because graphviz not found.");
         return false;
     }
 

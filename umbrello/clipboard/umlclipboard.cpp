@@ -77,12 +77,12 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         m_type = clip4;
         UMLView *view = UMLApp::app()->currentView();
         if (view == 0) {
-            uError() << "UMLApp::app()->currentView() is NULL";
+            logError0("UMLApp::app()->currentView() is NULL");
             return 0;
         }
         UMLScene *scene = view->umlScene();
         if (scene == 0) {
-            uError() << "currentView umlScene() is NULL";
+            logError0("UMLClipboard::copy: currentView umlScene() is NULL");
             return 0;
         }
         m_WidgetList = scene->selectedWidgetsExt();
@@ -125,7 +125,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             foreach (UMLView* view, m_ViewList) {
                 UMLScene *scene = view->umlScene();
                 if (scene == 0) {
-                    uError() << "currentView umlScene() is NULL";
+                    logError0("UMLClipboard::copy: currentView umlScene() is NULL");
                     continue;
                 }
                 fillObjectListForWidgets(scene->widgetList());
@@ -323,7 +323,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
             if (!Model_Utils::typeIsClassifierList(type)) {
                 if (Model_Utils::typeIsCanvasWidget(type)) {
                     if (item->umlObject() == nullptr)
-                        uError() << "UMLClipboard::fillSelectionLists: selected lvitem has no umlObject";
+                        logError0("UMLClipboard::fillSelectionLists: selected lvitem has no umlObject");
                     else
                         m_ObjectList.append(item->umlObject());
                 }
@@ -401,7 +401,8 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
         if (view)
             m_ViewList.append(view);
         else
-            uError() << "doc->findView(" << Uml::ID::toString(item->ID()) << ") returns NULL";
+            logError1("UMLClipboard::checkItemForCopyType: doc->findView(%1) returns NULL",
+                      Uml::ID::toString(item->ID()));
     } else if (Model_Utils::typeIsFolder(type)) {
         onlyAttsOps = false;
         for (int i =0; i < item->childCount(); i++) {
@@ -556,8 +557,8 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         Uml::ID::Type newId = idchanges->findNewID(oldId);
         // how should findWidget find ::None id, which is returned for the first entry ?
         if (currentScene->findWidget(newId)) {
-            uError() << "widget (oldID=" << Uml::ID::toString(oldId) << ", newID="
-                << Uml::ID::toString(newId) << ") already exists in target view.";
+            logError2("UMLClipboard::pasteClip4 widget (oldID=%1, newID=%2) already exists in target view",
+                      Uml::ID::toString(oldId), Uml::ID::toString(newId));
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
@@ -609,7 +610,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     UMLClassifier *parent = lvitem->umlObject()->asUMLClassifier();
 
     if (parent == 0) {
-        uError() << "parent is not a UMLClassifier";
+        logError0("UMLClipboard::pasteClip5: parent is not a UMLClassifier");
         return false;
     }
 
@@ -642,8 +643,8 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << parent->name() << "->addAttribute("
-                             << att->name() << ") failed";
+                    logError2("UMLClipboard::pasteClip5 %1->addAttribute(%2) failed",
+                              parent->name(), att->name());
                 }
                 break;
             }
@@ -658,8 +659,8 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addOperation(op, idchanges)) {
                     result = true;
                 } else {
-                    uError() << parent->name() << "->addOperation("
-                             << op->name() << ") failed";
+                    logError2("UMLClipboard::pasteClip5 %1->addOperation(%2) failed",
+                              parent->name(), op->name());
                 }
                 break;
             }
@@ -674,8 +675,8 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addTemplate(tp, idchanges)) {
                     result = true;
                 } else {
-                    uError() << parent->name() << "->addTemplate("
-                             << tp->name() << ") failed";
+                    logError2("UMLClipboard::pasteClip5 %1->addTemplate(%2) failed",
+                              parent->name(), tp->name());
                 }
                 break;
             }
@@ -685,7 +686,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                // if parent is not a UMLEnum, bail out immediately;
                if (!enumParent) {
                    result = false;
-                   uError() << "Parent is not a UMLEnum";
+                   logError0("UMLClipboard::pasteClip5: Parent is not a UMLEnum");
                    break;
                }
 
@@ -699,8 +700,8 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                if (enumParent->addEnumLiteral(enl, idchanges)) {
                    result = true;
                } else {
-                   uError() << enumParent->name() << "->addEnumLiteral("
-                            << enl->name() << ") failed";
+                   logError2("UMLClipboard::pasteClip5 %1->addEnumLiteral(%2) failed",
+                              parent->name(), enl->name());
                }
                break;
            }
@@ -710,7 +711,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 // if parent is not a UMLEntity, bail out immediately;
                 if (!entityParent) {
                     result = false;
-                    uError() << "Parent is not a UMLEntity";
+                    logError0("UMLClipboard::pasteClip5: Parent is not a UMLEntity");
                     break;
                 }
                 UMLObject *exist = entityParent->findChildObject(obj->name(), UMLObject::ot_EntityAttribute);
@@ -723,12 +724,13 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (entityParent->addEntityAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << parent->name() << "->addEntityAttribute(" << att->name() << ") failed";
+                   logError2("UMLClipboard::pasteClip5 %1->addEntityAttribute(%2) failed",
+                              parent->name(), att->name());
                 }
                 break;
             }
         default :
-            uWarning() << "pasting unknown children type in clip type 5";
+            logWarn0("pasting unknown children type in clip type 5");
             return false;
         }
     }

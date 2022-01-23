@@ -544,7 +544,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     if (!getIncludeHeadings() || str.isEmpty())
         return QString();
     if (str.contains(QLatin1String(" ")) || str.contains(QLatin1String(";"))) {
-        uWarning() << "File folder must not have spaces or semi colons!";
+        logWarn0("CodeGenerationPolicy::getHeadingFile: File folder must not have spaces or semicolons!");
         return QString();
     }
     //if we only get the extension, then we look for the default

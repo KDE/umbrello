@@ -69,9 +69,9 @@ void CmdLineExportAllViewsEvent::exportAllViews()
     UMLViewList views = UMLApp::app()->document()->viewIterator();
     QStringList errors = UMLViewImageExporterModel().exportViews(views, m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
-        uError() << "CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:";
+        logError0("CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:");
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
-            uError() << *it;
+            logError1("- %1", *it);
         }
     }
 

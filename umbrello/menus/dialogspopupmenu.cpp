@@ -7,6 +7,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -97,7 +98,7 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
         break;
 
     default:
-        uWarning() << "unknown menu type " << type;
+        logWarn1("DialogsPopupMenu: unknown menu type %1", type);
         break;
     }//end switch
     setupActionsData();

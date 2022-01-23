@@ -14,6 +14,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 #include <QRegExp>
 #include <QTextStream>
@@ -3091,7 +3092,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             //which container to use.
             UMLObject *o = a->getObject(Uml::RoleType::A);
             if (o == 0) {
-                uError() << "aggregation role A object is NULL" << endl;
+                logError0("Php5Writer::writeClass: aggregation role A object is NULL");
                 continue;
             }
             //:UNUSED: QString typeName = cleanName(o->name());
@@ -3109,7 +3110,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::RoleType::A);
             if (o == 0) {
-                uError() << "composition role A object is NULL";
+                logError0("Php5Writer::writeClass: composition role A object is NULL");
                 continue;
             }
             //:UNUSED: QString typeName = cleanName(o->name());
