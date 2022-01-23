@@ -212,9 +212,13 @@ AssociationWidget::~AssociationWidget()
  * Overriding the method from WidgetBase because we need to do
  * something extra in case this AssociationWidget represents
  * an attribute of a classifier.
+ * @todo Change WidgetBase::setUMLObject and reimplementers to return bool
+ *       where `false` indicates failure.  Currently, if setting the UML
+ *       object fails the callers have no immediate way of knowing.
  */
 void AssociationWidget::setUMLObject(UMLObject *obj)
 {
+    UMLObject *umlSave = WidgetBase::umlObject();
     WidgetBase::setUMLObject(obj);
     if (obj == 0)
         return;
@@ -249,6 +253,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
         default:
             logError1("AssociationWidget::setUMLObject cannot associate UMLObject of type %1",
                       UMLObject::toString(ot));
+            WidgetBase::setUMLObject(umlSave);
             break;
     }
 }
@@ -2486,7 +2491,6 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
 /**
  * Compute the end points of m_pAssocClassLine in case this
  * association has an attached association class.
- * TODO: The decoration points make no sense for now, because they are not movable.
  */
 void AssociationWidget::computeAssocClassLine()
 {

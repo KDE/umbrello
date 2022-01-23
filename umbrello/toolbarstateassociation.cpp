@@ -114,10 +114,14 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
         return;
     }
 
-    currentAssociation()->createAssocClassLine(
-            static_cast<ClassifierWidget*>(m_firstWidget),
+    ClassifierWidget *classifier = dynamic_cast<ClassifierWidget*>(m_firstWidget);
+    if (classifier) {
+        currentAssociation()->createAssocClassLine(classifier,
             currentAssociation()->associationLine().closestSegmentIndex(m_pMouseEvent->scenePos()));
-    m_firstWidget->addAssoc(currentAssociation());
+        m_firstWidget->addAssoc(currentAssociation());
+    } else {
+        logError0("ToolBarStateAssociation::mouseReleaseAssociation: dynamic_cast to ClassifierWidget* failed");
+    }
     cleanAssociation();
 }
 

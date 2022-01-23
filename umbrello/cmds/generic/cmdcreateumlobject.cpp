@@ -47,12 +47,11 @@ namespace Uml
         // This object was removed from its package when it was deleted
         // so add it back to its package (if it belonged to one)
         if (m_package) {
-            if (m_package->baseType() != UMLObject::ot_Association) {
-                // add this object to its parent package
-                m_package->addObject(m_obj);
-            }
-            else
-                uError() << "Try to use an unsupported Association as parent";
+            Q_ASSERT(m_package->baseType() != UMLObject::ot_Association);
+            // add this object to its parent package
+            m_package->addObject(m_obj);
+        } else {
+            logError1("CmdCreateUMLObject::redo: UMLPackage of %1 is not set", m_obj->name());
         }
 
         // The first call to redo, the object was created and signalled by the
