@@ -91,6 +91,7 @@
     <p xml:lang="pl">Umbrello jest Unified Modelling Language (UML) (z ang. Językiem do Jednolitego Modelowania)  i generatorem kodu. Może tworzyć diagramy oprogramowania i innych systemów w formacie standardu przemysłowego UML, a także generować kod z diagramów UML w wielu językach programowania.</p>
     <p xml:lang="pt">O Umbrello é uma ferramenta de modelação em UML (Unified Modelling Language) e gerador de código. Poderá criar diagramas de aplicações e outros sistemas, usando o formato-padrão da indústria UML, podendo também gerar código a partir de diagramas UML, numa grande variedade de linguagens de programação.</p>
     <p xml:lang="pt-BR">Umbrello é uma ferramenta de modelação de UML (Unified Modelling Language) e gerador de código. Ele pode criar diagramas de softwares e outros sistemas, usando o formato de UML padrão da indústria, assim como gerar código a partir de diagramas UML, em uma grande variedade de linguagens de programação.</p>
+    <p xml:lang="ru">Umbrello — это программа для моделирования на универсальном языке моделирования (UML) и генерации кода. Она позволяет создавать диаграммы программного обеспечения и других систем в формате UML, а также генерировать из диаграмм UML код на различных языках программирования.</p>
     <p xml:lang="sk">Umbrello je nástroj na modelovania v UML a generátor kódu. Dokáže vytvárať diagramy softvéru a iných systémov v priemyselnom štandarde UML a tiež generovať kód z UML diagramov v množstve programovacích jazykov.</p>
     <p xml:lang="sl">Umbrello je orodje za modeliranje v poenotenem jeziku za modeliranje (UML) in generator kode. Ustvari lahko diagrame programov in drugih sistemov v industrijski standardizirani obliki UML, iz diagramov UML pa lahko ustvari tudi kodo v različnih programskih jezikih.</p>
     <p xml:lang="sv">Umbrello är ett modelleringsverktyg för Unified Modelling Language och kodgenerator. Det kan skapa diagram av programvara och andra system med industristandardformatet UML, och kan också skapa kod från UML-diagram på ett antal olika programspråk.</p>
@@ -153,6 +154,7 @@
       <li xml:lang="pl">Obsługiwane formaty: XMI</li>
       <li xml:lang="pt">Formatos suportados: XMI</li>
       <li xml:lang="pt-BR">Formatos suportados: XMI</li>
+      <li xml:lang="ru">Поддерживаемые форматы: XMI</li>
       <li xml:lang="sk">Podporované formáty: XMI</li>
       <li xml:lang="sl">Podprte vrste: XMI</li>
       <li xml:lang="sv">Format som stöds: XMI</li>
@@ -182,6 +184,7 @@
       <li xml:lang="pl">Kilka obsługiwanych rodzajów diagramów: przypadki użycia, klasy, sekwencje, komunikacja, stany, aktywności, składniki, zastosowanie, współzależności obiektów</li>
       <li xml:lang="pt">Diversos tipos de diagramas suportados: casos de uso, classe, sequência, comunicação, estado, actividade, componente, entrada em produção, entidade-associação</li>
       <li xml:lang="pt-BR">Há suporte para diversos tipos de diagramas: casos de uso, classe, sequência, comunicação, estado, atividade, componente, distribuição, relacionamento de entidade</li>
+      <li xml:lang="ru">Поддерживаются несколько типов диаграмм: вариант использования, класс, последовательность, коммуникация, состояние, активность, компонент, развёртывание, отношения сущностей</li>
       <li xml:lang="sk">Podporovaných je niekoľko typov diagramov: prípady použitia, triedy, sekvencie, stavy, aktivity, nasadenie, vzťahy entít</li>
       <li xml:lang="sl">Podprte so številne vrste diagramov: primer uporabe, razred, zaporedje, sporazumevanje, stanje, dejavnost, sestavni del, namestitev, odvisnost entitet</li>
       <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, kommunikation, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
@@ -217,6 +220,7 @@
       <caption xml:lang="pl">Pokazywanie diagramu klasy</caption>
       <caption xml:lang="pt">A mostrar um diagrama de classes</caption>
       <caption xml:lang="pt-BR">Mostrando um diagrama de classes</caption>
+      <caption xml:lang="ru">Диаграмма классов</caption>
       <caption xml:lang="sk">Zobraziť diagram tried</caption>
       <caption xml:lang="sl">Prikazuje diagram razredov</caption>
       <caption xml:lang="sv">Visa klassdiagram</caption>
