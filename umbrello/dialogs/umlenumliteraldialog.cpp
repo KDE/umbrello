@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-3.0-or-later
 
     SPDX-FileCopyrightText: 2015 Tzvetelin Katchov <katchov@gmail.com>
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
