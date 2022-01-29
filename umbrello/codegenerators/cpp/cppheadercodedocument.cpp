@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -273,8 +273,8 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
 {
     if (op == 0) {
-        uDebug() << "CodeOperation is null!";
-        return false;;
+        logWarn0("CPPHeaderCodeDocument::addCodeOperation: CodeOperation is null!");
+        return false;
     }
     Uml::Visibility::Enum scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isLifeOperation())

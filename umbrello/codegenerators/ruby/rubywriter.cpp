@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "rubywriter.h"
@@ -14,6 +14,7 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -37,7 +38,7 @@ RubyWriter::~RubyWriter()
 void RubyWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("RubyWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

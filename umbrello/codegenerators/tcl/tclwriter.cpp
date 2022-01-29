@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Rene Meyer <rene.meyer@sturmit.de>
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -20,6 +20,7 @@
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // qt includes
 #include <QFile>
@@ -101,7 +102,7 @@ Uml::ProgrammingLanguage::Enum TclWriter::language() const
 void TclWriter::writeClass(UMLClassifier * c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("TclWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
     QFile fileh, filetcl;

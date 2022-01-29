@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "pascalwriter.h"
@@ -63,7 +63,7 @@ bool PascalWriter::isOOClass(const UMLClassifier *c)
     if (ot == UMLObject::ot_Enum || ot == UMLObject::ot_Datatype)
         return false;
     if (ot != UMLObject::ot_Class) {
-        uDebug() << "unknown object type " << UMLObject::toString(ot);
+        logWarn1("PascalWriter::isOOClass: unknown object type %1", UMLObject::toString(ot));
         return false;
     }
     QString stype = c->stereotype();
@@ -137,7 +137,7 @@ void PascalWriter::computeAssocTypeAndRole
 void PascalWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("PascalWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

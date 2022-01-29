@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -17,6 +17,7 @@
 #include "association.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"
 
 // qt includes
@@ -56,7 +57,7 @@ Uml::ProgrammingLanguage::Enum JavaWriter::language() const
 void JavaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!\n";
+        logWarn0("JavaWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

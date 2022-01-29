@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -17,6 +17,7 @@
 #include "operation.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"
 
 // qt includes
@@ -97,7 +98,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
 void DWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("DWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

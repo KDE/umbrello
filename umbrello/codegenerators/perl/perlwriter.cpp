@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 David Hugh-Jones <hughjonesd@yahoo.co.uk>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "perlwriter.h"
@@ -327,11 +327,10 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
  */
 void PerlWriter::writeClass(UMLClassifier *c)
 {
-  /*  if (!c) {
-      uDebug() << "Cannot write class of NULL concept!";
+  if (!c) {
+      logWarn0("PerlWriter::writeClass: Cannot write class of NULL concept");
       return;
-      }
-  */
+  }
   QString classname = cleanName(c->name());// this is fine: cleanName is "::-clean"
   QString packageName =  c->package(QLatin1String("."));
   QString fileName;

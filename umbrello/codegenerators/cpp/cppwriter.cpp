@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2003 Brian Thomas
     <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors
     <umbrello-devel@kde.org>
 */
 
@@ -93,7 +93,7 @@ CPPCodeGenerationPolicy *CppWriter::policyExt()
 void CppWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("CppWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
 

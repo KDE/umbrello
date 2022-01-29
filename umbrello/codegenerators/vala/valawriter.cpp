@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2009-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2009-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //
@@ -179,7 +179,7 @@ QStringList ValaWriter::defaultDatatypes() const
 void ValaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("ValaWriter::writeClassL Cannot write class of NULL concept");
         return;
     }
 

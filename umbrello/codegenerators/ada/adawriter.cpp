@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "adawriter.h"
@@ -66,7 +66,7 @@ bool AdaWriter::isOOClass(const UMLClassifier *c)
     if (ot == UMLObject::ot_Enum)
         return false;
     if (ot != UMLObject::ot_Class) {
-        uDebug() << "unknown object type " << UMLObject::toString(ot);
+        logWarn1("AdaWriter::isOOClass unexpected object type %1", UMLObject::toString(ot));
         return false;
     }
     QString stype = c->stereotype();
@@ -207,7 +207,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
 void AdaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("AdaWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
     if (m_classesGenerated.contains(c))

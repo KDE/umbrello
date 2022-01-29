@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "idlwriter.h"
@@ -108,7 +108,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
 void IDLWriter::writeClass(UMLClassifier *c) 
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("IDLWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

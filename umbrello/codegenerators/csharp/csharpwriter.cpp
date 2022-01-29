@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2007-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2007-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "csharpwriter.h"
@@ -141,7 +141,7 @@ QStringList CSharpWriter::defaultDatatypes() const
 void CSharpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("CSharpWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 

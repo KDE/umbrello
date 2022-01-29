@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2002 Heiko Nardmann <h.nardmann@secunet.de>
     SPDX-FileCopyrightText: 2004 Thorsten Kunz <tk AT bytecrash DOT net>
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "php5writer.h"
@@ -2993,7 +2993,7 @@ Php5Writer::~Php5Writer()
 void Php5Writer::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug()<<"Cannot write class of NULL concept!";
+        logWarn0("Php5Writer::writeClass: Cannot write class of NULL concept");
         return;
     }
 

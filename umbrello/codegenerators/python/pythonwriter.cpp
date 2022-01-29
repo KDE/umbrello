@@ -14,6 +14,7 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -176,7 +177,7 @@ PythonWriter::~PythonWriter()
 void PythonWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("PythonWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
 
