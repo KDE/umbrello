@@ -43,8 +43,9 @@ UMLCanvasObject::~UMLCanvasObject()
     // No! This is way too late to do that.
     //  It should have been called explicitly before destructing the
     //  UMLCanvasObject.
-    if (associations())
+    if (associations()) {
         DEBUG() << "UMLCanvasObject destructor: FIXME: there are still associations()";
+    }
 }
 
 /**
@@ -136,15 +137,17 @@ void UMLCanvasObject::removeAllAssociationEnds()
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA) {
             DEBUG() << name() << ": objA " << objA->name() << " is not a UMLCanvasObject";
-        } else
+        } else {
             DEBUG() << name() << "): objA is NULL";
+        }
         UMLCanvasObject *roleBObj = objB->asUMLCanvasObject();
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB) {
             DEBUG() << name() << "): objB " << objB->name() << " is not a UMLCanvasObject";
-        } else
+        } else {
             DEBUG() << name() << "): objB is NULL";
+        }
     }
 }
 
@@ -354,11 +357,12 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
                 a->getObjectId(Uml::RoleType::A) != id())
             continue;
         UMLClassifier *c = a->getObject(Uml::RoleType::B)->asUMLClassifier();
-        if (c)
+        if (c) {
             list.append(c);
-        else
+        } else {
             DEBUG() << name() << ": generalization's other end is not a "
                 << "UMLClassifier (id= " << Uml::ID::toString(a->getObjectId(Uml::RoleType::B)) << ")";
+        }
     }
     return list;
 }
@@ -381,11 +385,12 @@ UMLClassifierList UMLCanvasObject::getSubClasses() const
                 a->getObjectId(Uml::RoleType::B) != id())
             continue;
         UMLClassifier *c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
-        if (c)
+        if (c) {
             list.append(c);
-        else
+        } else {
             DEBUG() << "specialization's other end is not a UMLClassifier"
                 << " (id=" << Uml::ID::toString(a->getObjectId(Uml::RoleType::A)) << ")";
+        }
     }
     return list;
 }
