@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "xmlschemawriter.h"
@@ -11,6 +11,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -52,7 +53,7 @@ Uml::ProgrammingLanguage::Enum XMLSchemaWriter::language() const
 void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL classifier!";
+        logWarn0("XMLSchemaWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
