@@ -11,6 +11,7 @@
 #include "kdevcppparser/cpptree2uml.h"
 
 // app includes
+#define DBG_SRC QLatin1String("CppImport")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "uml.h"
@@ -41,6 +42,8 @@ public:
         lexer->setRecordComments(true);
     }
 };
+
+DEBUG_REGISTER(CppImport)
 
 /**
  * Constructor.
@@ -81,7 +84,7 @@ void CppImport::feedTheModel(const QString& fileName)
                 logError2("CppImport::feedTheModel(%1) : %2 not found", fileName, it.value().first);
                 continue;
             }
-            uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
+            logDebug3("CppImport::feedTheModel(%1): %2 => %3", fileName, includeFile, it.value().first);
             if (ms_seenFiles.indexOf(includeFile) == -1)
                 ms_seenFiles.append(includeFile);
             feedTheModel(includeFile);

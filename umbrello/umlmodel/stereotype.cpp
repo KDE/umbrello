@@ -16,6 +16,7 @@
 // kde includes
 #include <KLocalizedString>
 
+DEBUG_REGISTER(UMLStereotype)
 
 /**
  * Sets up a stereotype.
@@ -175,8 +176,8 @@ bool UMLStereotype::load1(QDomElement& element)
                     AttributeDef ad(name, type, dfltVal);
                     m_attrDefs.append(ad);
                 } else {
-                    uDebug() << "UMLStereotype::::load1(" << m_name
-                             << "): Unknown Stereotype.feature child " << tag;
+                    logDebug2("UMLStereotype::load1(%1): Unknown Stereotype.feature child %2",
+                              m_name, tag);
                 }
                 attNode = attNode.nextSibling();
                 attElem = attNode.toElement();

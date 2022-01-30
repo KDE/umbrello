@@ -8,6 +8,7 @@
 #include "associationline.h"
 #include "associationwidget.h"
 #include "cmds.h"
+#define DBG_SRC QLatin1String("LayoutGenerator")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "uml.h"
@@ -76,6 +77,9 @@ static QString textViewer()
 static QGraphicsPathItem *s_debugItems;
 static QPainterPath s_path;
 #endif
+
+// Currently this file is not using debug statements. Activate this line when inserting them:
+//DEBUG_REGISTER(LayoutGenerator)
 
 /**
  * constructor
@@ -341,14 +345,14 @@ QPointF LayoutGenerator::origin(const QString &id)
     QString key = fixID(id);
     if (!m_nodes.contains(key)) {
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-        uDebug() << key;
+        DEBUG() << "LayoutGenerator::origin(" << id << "): " << key;
 #endif
         return QPoint(0,0);
     }
     QRectF &r = m_nodes[key];
     QPointF p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-    uDebug() << r << p;
+    DEBUG() << r << p;
 #endif
     return p;
 }
@@ -507,10 +511,10 @@ bool LayoutGenerator::parseLine(const QString &line)
 
     QString keyword = m_cols.cap(1).trimmed();
     QString attributeString = m_cols.cap(2);
-    uDebug() << keyword << attributeString;
+    DEBUG() << "LayoutGenerator::parseLine " <<  keyword << attributeString;
     ParameterList attributes;
     splitParameters(attributes, attributeString);
-    uDebug() << attributes;
+    DEBUG() << attributes;
 
     if (keyword == QLatin1String("graph")) {
         if (attributes.contains(QLatin1String("bb"))) {
@@ -580,7 +584,7 @@ bool LayoutGenerator::parseLine(const QString &line)
             QStringList &a = attributes[QLatin1String("width")];
             f.setWidth(a[0].toDouble()*scale);
         }
-        uDebug() << "adding" << id << f;
+        DEBUG() << "LayoutGenerator::parseLine adding " << id << f;
         m_nodes[id] = f;
     }
 return true;

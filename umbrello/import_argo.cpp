@@ -7,6 +7,7 @@
 #include "import_argo.h"
 
 // app includes
+#define DBG_SRC QLatin1String("Import_Argo")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -25,6 +26,8 @@
 #include <QTemporaryDir>
 #endif
 #include <QXmlStreamReader>
+
+DEBUG_REGISTER(Import_Argo)
 
 static void reportError(const QXmlStreamReader &xml, const KZip &zipFile, const QString &fileName)
 {
@@ -78,7 +81,8 @@ bool Import_Argo::loadFromPGMLFile(const KZip &zipFile, const QString &fileName)
 
     while (!xml.atEnd()) {
         xml.readNext();
-        uDebug() << "unhandled tag" << xml.name() << "in file" <<  zipFile.fileName() << ":" << fileName;
+        logDebug3("Import_Argo::loadFromPGMLFile unhandled tag %1 in file %2:%3",
+                  xml.name(), zipFile.fileName(), fileName);
     }
     if (xml.hasError()) {
         reportError(xml, zipFile, fileName);
@@ -98,7 +102,8 @@ bool Import_Argo::loadFromTodoFile(const KZip &zipFile, const QString &fileName)
 
     while (!xml.atEnd()) {
         xml.readNext();
-        uDebug() << "unhandled tag" << xml.name() << "in file" << zipFile.fileName() << ":" << fileName;
+        logDebug3("Import_Argo::loadFromTodoFile unhandled tag %1 in file %2:%3",
+                  xml.name(), zipFile.fileName(), fileName);
     }
     if (xml.hasError()) {
         reportError(xml, zipFile, fileName);

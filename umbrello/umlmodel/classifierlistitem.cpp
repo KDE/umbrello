@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,6 +16,8 @@
 
 // kde includes
 #include <KLocalizedString>
+
+DEBUG_REGISTER(UMLClassifierListItem)
 
 /**
  * Constructor.
@@ -147,7 +149,7 @@ void UMLClassifierListItem::setTypeName(const QString &type)
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains(QLatin1Char('*'))) {
             m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);
-            uDebug() << "created datatype for " << type;
+            logDebug1("UMLClassifierListItem::setTypeName: created datatype for %1", type);
         } else {
             m_SecondaryId = type;
         }

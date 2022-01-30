@@ -4,6 +4,7 @@
 */
 
 // app includes
+#define DBG_SRC QLatin1String("main")
 #include "debug_utils.h"
 #include "uml.h"
 #include "version.h"
@@ -34,6 +35,8 @@
 #define i18n ki18n
 
 #include <stdio.h>
+
+DEBUG_REGISTER(main)
 
 void getFiles(QStringList& files, const QString& path, QStringList& filters);
 
@@ -88,7 +91,7 @@ void initDocument(KCmdLineArgs *args, Uml::ProgrammingLanguage::Enum progLang)
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 {
     QString extension(exportOpt.last());
-    uDebug() << "extension: " << extension;
+    logDebug1("exportAllViews extension: %1", extension);
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
@@ -103,7 +106,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 
     bool useFolders = args->isSet("use-folders");
 
-    uDebug() << "directory: " << directory;
+    logDebug1("exportAllViews directory: %1", directory.path());
 
     // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

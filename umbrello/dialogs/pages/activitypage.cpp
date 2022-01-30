@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "activitypage.h"
@@ -27,6 +27,8 @@
 #include <QStringList>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(ActivityPage)
 
 /**
  * Constructor.
@@ -175,7 +177,8 @@ void ActivityPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        logDebug1("ActivityPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(sel));
     }
 }
 

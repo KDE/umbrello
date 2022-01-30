@@ -7,6 +7,7 @@
 #include "umlviewimageexporter.h"
 
 // application specific includes
+#define DBG_SRC QLatin1String("UMLViewImageExporter")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "umlfiledialog.h"
@@ -35,7 +36,6 @@
 #include <QString>
 #include <QStringList>
 
-#define DBG_IE QLatin1String("UMLViewImageExporter")
 DEBUG_REGISTER_DISABLED(UMLViewImageExporter)
 
 /**
@@ -170,7 +170,8 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_imageMimeType = dialog->currentMimeFilter();
 #endif
         UMLApp::app()->setImageMimeType(m_imageMimeType);
-        DEBUG_N(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
+        logDebug2("UMLViewImageExporter::getParametersFromUser: image mime type=%1"
+                  " / URL=%2", m_imageMimeType, m_imageURL.path());
     }
     delete dialog;
     return success;

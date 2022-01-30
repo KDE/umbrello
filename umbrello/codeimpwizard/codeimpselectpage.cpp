@@ -10,6 +10,8 @@
 #include "model_utils.h"
 #include "uml.h"
 
+DEBUG_REGISTER(CodeImpSelectPage)
+
 // kde includes
 #include <KLocalizedString>
 
@@ -171,7 +173,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
         foreach (const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
             if (matchFilter(file)) {
                 m_fileList.append(file);
-                uDebug() << "file = " << file.absoluteFilePath();
+                logDebug1("CodeImpSelectPage::files: file = %1", file.absoluteFilePath());
             }
         }
         if (ui_subdirCheckBox->isChecked()) {
@@ -183,7 +185,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
         }
     }
     else {
-        uDebug() << "searchDir does not exist: " << searchDir.path();
+        logDebug1("CodeImpSelectPage::files: searchDir does not exist: %1", searchDir.path());
     }
 }*/
 
@@ -205,7 +207,7 @@ void CodeImpSelectPage::subdirStateChanged(int state)
         strState = QLatin1String("not known");
         break;
     }
-    uDebug() << "state set to " << strState;
+    logDebug1("CodeImpSelectPage::subdirStateChanged: state set to %1", strState);
 }
 
 /**
@@ -215,8 +217,8 @@ void CodeImpSelectPage::fileExtChanged()
 {
     QString inputStr = ui_fileExtLineEdit->text();
     m_fileExtensions = inputStr.split(QRegExp(QLatin1String("[,;: ]*")));
-    uDebug() << "editing of file extension line edit finished and set to "
-             << m_fileExtensions;
+    logDebug1("CodeImpSelectPage: editing of file extension line edit finished and set to %1",
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
@@ -229,12 +231,14 @@ void CodeImpSelectPage::fileExtChanged()
 void CodeImpSelectPage::treeClicked(const QModelIndex& index)
 {
     if (index.isValid()) {
-        uDebug() << "item at row=" << index.row() << " / column=" << index.column();
+        logDebug2("CodeImpSelectPage::treeClicked: item at row=%1 / column=%2",
+                  index.row(), index.column());
         QFileSystemModel* indexModel = (QFileSystemModel*)index.model();
         QFileInfo fileInfo = indexModel->fileInfo(index);
         if (fileInfo.isDir()) {
             int rows = indexModel->rowCount(index);
-            uDebug() << "item has directory and has children = " << rows;
+            logDebug1("CodeImpSelectPage::treeClicked: item has directory and has %1 children",
+                      rows);
             QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
             for(int row = 0; row < rows; ++row) {
                 QModelIndex childIndex = indexModel->index(row, 0, index);
@@ -281,8 +285,8 @@ void CodeImpSelectPage::treeEntered(const QModelIndex &index)
  */
 bool CodeImpSelectPage::validatePage()
 {
-    uDebug() << "entered...";
-    uDebug() << "recent root path: " << s_recentPath;
+    logDebug1("CodeImpSelectPage::validatePage is entered... recent root path: %1",
+              s_recentPath);
 
     return true;
 }
@@ -315,7 +319,8 @@ void CodeImpSelectPage::changeLanguage()
      */
     // set the file extension pattern with which the files are filtered
     m_fileExtensions = Uml::ProgrammingLanguage::toExtensions(pl);
-    uDebug() << "File extensions " << m_fileExtensions;
+    logDebug1("CodeImpSelectPage::changeLanguage: File extensions %1",
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);

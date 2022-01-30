@@ -27,6 +27,8 @@
 // sys includes
 #include <cmath>
 
+DEBUG_REGISTER(PinPortBase)
+
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, UMLObject *o)
   : UMLWidget(scene, type, o),
     m_childPlacement(createPlacement(type))
@@ -114,7 +116,7 @@ QPointF PinPortBase::getPos() const
 void PinPortBase::updateWidget()
 {
     QString strName = name();
-    uDebug() << " port name is " << strName;
+    logDebug1("PinPortBase::updateWidget: port name is %1", strName);
     if (m_pName) {
         m_pName->setText(strName);
     } else {
@@ -185,7 +187,7 @@ QRectF PinPortBase::boundingRect() const
  */
 void PinPortBase::slotMenuSelection(QAction* action)
 {
-    uDebug() << "PinPortBase::slotMenuSelection";
+    logDebug0("PinPortBase::slotMenuSelection");
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_NameAsTooltip:
@@ -256,7 +258,7 @@ UMLWidget* PinPortBase::onWidget(const QPointF &p)
     if (UMLWidget::onWidget(p) != 0)
         return this;
     if (m_pName) {
-        uDebug() << "floatingtext: " << m_pName->text();
+        logDebug1("PinPortBase::onWidget floatingtext: %1", m_pName->text());
         return m_pName->onWidget(p);
     }
     return 0;
@@ -304,7 +306,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
     if (owner == 0) {
-        DEBUG() << "owner object " << Uml::ID::toString(aId) << " not found";
+        logDebug1("PinPortBase::loadFromXMI: owner object %1 not found", Uml::ID::toString(aId));
         return false;
     }
     setParentItem(owner);

@@ -1,12 +1,13 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
 #include "widget_utils.h"
 
 // app includes
+#define DBG_SRC QLatin1String("Widget_Utils")
 #include "debug_utils.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
@@ -25,6 +26,8 @@
 
 // c++ include
 #include <cmath>
+
+DEBUG_REGISTER(Widget_Utils)
 
 namespace Widget_Utils
 {

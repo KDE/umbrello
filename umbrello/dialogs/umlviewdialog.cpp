@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -25,6 +25,8 @@
 // qt includes
 #include <QFrame>
 #include <QHBoxLayout>
+
+DEBUG_REGISTER(UMLViewDialog)
 
 /**
  * Constructor.
@@ -130,7 +132,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == m_pageStyleItem)
     {
-        uDebug() << "setting colors ";
+        logDebug0("UMLViewDialog::applyPage setting colors");
         m_pStylePage->apply();
     }
     else if (item == m_pageFontItem)

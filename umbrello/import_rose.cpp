@@ -10,6 +10,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "folder.h"
+#define DBG_SRC QLatin1String("Import_Rose")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "petalnode.h"
@@ -24,6 +25,8 @@
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
+
+DEBUG_REGISTER(Import_Rose)
 
 namespace Import_Rose {
 
@@ -341,8 +344,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
             attr.second = value;
             attrs.append(attr);
             if (tokens.count() && tokens.first() != QLatin1String(")")) {
-                uDebug() << loc()
-                    << "NYI - immediate list entry with more than one item";
+                logDebug1("%1 NYI - immediate list entry with more than one item", loc());
             }
             if (checkClosing(tokens))
                 break;
@@ -514,8 +516,8 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
         return 0;
 
     if (progLang != UMLApp::app()->activeLanguage()) {
-        uDebug() << "loadFromMDL: Setting active language to "
-                 << Uml::ProgrammingLanguage::toString(progLang);
+        logDebug1("loadFromMDL: Setting active language to %1",
+                  Uml::ProgrammingLanguage::toString(progLang));
         UMLApp::app()->setGenerator(progLang);
     }
 

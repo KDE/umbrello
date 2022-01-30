@@ -18,6 +18,7 @@
 #include "codegenerator.h"
 #include "component.h"
 #include "datatype.h"
+#define DBG_SRC QLatin1String("Object_Factory")
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "enum.h"
@@ -49,6 +50,8 @@
 #include <QApplication>
 #include <QRegExp>
 #include <QStringList>
+
+DEBUG_REGISTER(Object_Factory)
 
 namespace Object_Factory {
 
@@ -211,9 +214,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             parentPkg = doc->datatypeFolder();
         } else {
             Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(type);
-            uDebug() << "Object_Factory::createUMLObject(" << n << "): "
-                << "parentPkg is not set, assuming Model_Type "
-                << Uml::ModelType::toString(mt);
+            logDebug2("Object_Factory::createUMLObject(%1): parentPkg is not set, assuming Model_Type %2",
+                      n, Uml::ModelType::toString(mt));
             parentPkg = doc->rootFolder(mt);
         }
     }
@@ -225,7 +227,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         }
         if (!solicitNewName) {
             if (type == UMLObject::ot_UMLObject || o->baseType() == type) {
-                uDebug() << o->name() << " already known - returning existing object";
+                logDebug1("Object_Factory::createUMLObject(%1) : already known - returning existing object",
+                          o->name());
                 return o;
             }
             logWarn3("Object_Factory::createUMLObject(%1) exists but is of type %2 - creating new object of type %3",

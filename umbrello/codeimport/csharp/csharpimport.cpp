@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2011-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2011-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -10,6 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("CSharpImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -24,6 +25,8 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QTextStream>
+
+DEBUG_REGISTER(CSharpImport)
 
 QStringList CSharpImport::s_filesAlreadyParsed;
 int CSharpImport::s_parseDepth = 0;
@@ -143,7 +146,7 @@ UMLObject* CSharpImport::findObject(const QString& name, UMLPackage *parentPkg)
  */
 UMLObject* CSharpImport::resolveClass(const QString& className)
 {
-    uDebug() << "trying to resolve " << className;
+    logDebug1("CSharpImport::resolveClass trying to resolve %1", className);
     // keep track if we are dealing with an array
     bool isArray = className.contains(QLatin1Char('['));
     // remove any [] so that the class itself can be resolved
@@ -227,7 +230,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
  */
 bool CSharpImport::parseFile(const QString& filename)
 {
-    uDebug() << filename;
+    logDebug1("CSharpImport::parseFile %1", filename);
     m_currentFileName = filename;
     m_imports.clear();
     // default visibility is Impl, unless we are an interface, then it is
@@ -320,7 +323,7 @@ bool CSharpImport::parseStmt()
 
     if (keyword == QLatin1String("#")) {   // preprocessor directives
         QString ppdKeyword = advance();
-        uDebug() << "found preprocessor directive " << ppdKeyword;
+        logDebug1("CSharpImport::parseStmt found preprocessor directive %1", ppdKeyword);
         //:TODO: anything to do here?
         return true;
     }
@@ -723,8 +726,7 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
         while(1) {
             const QString arg = m_source[++start];
             if (! arg.contains(QRegExp(QLatin1String("^[A-Za-z_]")))) {
-                uDebug() << "import C# (" << name << "): "
-                         << "cannot handle template syntax (" << arg << ")";
+                logDebug2("import C# (%1): cannot handle template syntax (%2)", name, arg);
                 break;
             }
             /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
@@ -732,8 +734,7 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
             if (next == QLatin1String(">"))
                 break;
             if (next != QLatin1String(",")) {
-                uDebug() << "import C# (" << name << "): "
-                         << "cannot handle template syntax (" << next << ")";
+                logDebug2("import C# (%1): cannot handle template syntax (%2)", name, next);
                 break;
             }
         }
@@ -749,8 +750,8 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
             if (interface) {
                 Import_Utils::createGeneralization(m_klass, interface->asUMLClassifier());
             } else {
-                uDebug() << "implementing interface " << baseName
-                         << " is not resolvable. Creating placeholder";
+                logDebug1("CSharpImport::parseClassDeclaration: implementing interface %1 "
+                          "is not resolvable. Creating placeholder", baseName);
                 Import_Utils::createGeneralization(m_klass, baseName);
             }
             if (advance() != QLatin1String(","))

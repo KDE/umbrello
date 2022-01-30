@@ -2,11 +2,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2006 Gael de Chalendar (aka Kleag) kleag@free.fr
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "xhtmlgenerator.h"
 
+#define DBG_SRC QLatin1String("XhtmlGenerator")
 #include "debug_utils.h"
 #include "docbook2xhtmlgeneratorjob.h"
 #include "uml.h"
@@ -32,6 +33,8 @@
 #include <QStandardPaths>
 #endif
 #include <QTextStream>
+
+DEBUG_REGISTER(XhtmlGenerator)
 
 /**
  * Constructor.
@@ -74,7 +77,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
 #else
     url.setFileName(fileName);
 #endif
-    uDebug() << "Exporting to directory: " << url;
+    logDebug1("XhtmlGenerator::generateXhtmlForProject: Exporting to directory %1", url.path());
     return generateXhtmlForProjectInto(url);
 }
 
@@ -91,13 +94,13 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const QUrl& destDir)
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 #endif
 {
-    uDebug() << "First convert to docbook";
+    logDebug0("XhtmlGenerator::generateXhtmlForProjectInto: First convert to docbook");
     m_destDir = destDir;
 //    KUrl url(QString("file://")+m_tmpDir.name());
     DocbookGenerator* docbookGenerator = new DocbookGenerator;
     docbookGenerator->generateDocbookForProjectInto(destDir);
 
-    uDebug() << "Connecting...";
+    logDebug0("XhtmlGenerator::generateXhtmlForProjectInto: Connecting...");
     connect(docbookGenerator, SIGNAL(finished(bool)), this, SLOT(slotDocbookToXhtml(bool)));
     return true;
 }
@@ -108,9 +111,9 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
  */
 void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
-    uDebug() << "Now convert docbook to html...";
+    logDebug0("XhtmlGenerator::slotDocbookToXhtml: Now convert docbook to html...");
     if (!status) {
-        uDebug() << "Error in converting to docbook";
+        logWarn0("XhtmlGenerator::slotDocbookToXhtml: Error in converting to docbook");
         m_pStatus = false;
         return;
     }
@@ -133,7 +136,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
         connect(m_d2xg, SIGNAL(xhtmlGenerated(QString)),
                 this, SLOT(slotHtmlGenerated(QString)));
         connect(m_d2xg, SIGNAL(finished()), this, SLOT(threadFinished()));
-        uDebug() << "Threading";
+        logDebug0("XhtmlGenerator::slotDocbookToXhtml: Threading.");
         m_d2xg->start();
     }
 }
@@ -145,7 +148,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
  */
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
-    uDebug() << "HTML Generated " << tmpFileName;
+    logDebug1("XhtmlGenerator: HTML generated %1", tmpFileName);
 #if QT_VERSION >= 0x050000
     QUrl url = m_umlDoc->url();
 #else
@@ -243,6 +246,6 @@ QString XhtmlGenerator::customXslFile()
   if (xsltFileName.isEmpty())
       xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
-  uDebug() << "XSLT file is'" << xsltFileName << "'";
+  logDebug1("XhtmlGenerator::customXslFile returning %1", xsltFileName);
   return xsltFileName;
 }

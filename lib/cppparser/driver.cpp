@@ -6,11 +6,12 @@
 */
 
 #define CACHELEXER
-#define DBG_DRV DEBUG_N(QLatin1String("Driver"))
+#define DBG_SRC QLatin1String("Driver")
 
 #include "driver.h"
 #include "lexer.h"
 #include "parser.h"
+#include "debug_utils.h"
 
 #include <KLocalizedString>
 #include <stdlib.h>
@@ -313,7 +314,7 @@ public:
 
         m_lex.setReportMessages(m_reportMessages);
 
-        DBG_DRV << "lexing file " << m_fileName << endl;
+        DEBUG() << "lexing file " << m_fileName << endl;
         m_fileContent = m_driver->sourceProvider()->contents(m_fileName);
         m_lex.setSource(m_fileContent);
         if (m_previousCachedLexedFile)
@@ -434,7 +435,7 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
 
     IntIncreaser i(m_dependenceDepth);
     if (m_dependenceDepth > m_maxDependenceDepth) {
-        DBG_DRV << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
+        DEBUG() << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
         return;
     }
 

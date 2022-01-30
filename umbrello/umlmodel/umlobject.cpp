@@ -328,7 +328,7 @@ void UMLObject::copyInto(UMLObject *lhs) const
 
     // Hope that the parent from QObject is okay.
     if (lhs->umlParent() != umlParent())
-        uDebug() << "copyInto has a wrong parent";
+        logDebug0("UMLObject::copyInto: new parent differs from existing");
 }
 
 UMLObject *UMLObject::clone() const
@@ -620,7 +620,7 @@ UMLPackageList UMLObject::packages(bool includeRoot) const
 bool UMLObject::setUMLPackage(UMLPackage *pPkg)
 {
     if (pPkg == this) {
-        uDebug() << "setting parent to myself is not allowed";
+        logDebug0("UMLObject::setUMLPackage: setting parent to myself is not allowed");
         return false;
     }
 
@@ -631,7 +631,8 @@ bool UMLObject::setUMLPackage(UMLPackage *pPkg)
     }
 
     if (pPkg->umlPackage() == this) {
-        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
+        logDebug0("UMLObject::setUMLPackage: setting parent to an object of which I'm "
+                  "already the parent is not allowed");
         return false;
     }
 
@@ -747,7 +748,7 @@ bool UMLObject::resolveRef()
         return true;
     }
 #ifdef VERBOSE_DEBUGGING
-    uDebug() << m_name << ": m_SecondaryId is " << m_SecondaryId;
+    logDebug2("UMLObject %1 resolveRef: m_SecondaryId is %2", m_name, m_SecondaryId);
 #endif
     UMLDoc *pDoc = UMLApp::app()->document();
     // In the new, XMI standard compliant save format,
@@ -767,7 +768,8 @@ bool UMLObject::resolveRef()
             return true;
         }
         if (m_SecondaryFallback.isEmpty()) {
-            uDebug() << "object with xmi.id=" << m_SecondaryId << " not found, setting to undef";
+            logDebug2("UMLObject %1 resolveRef: object with xmi.id=%2 not found, setting to undef",
+                      m_name, m_SecondaryId);
             UMLFolder *datatypes = pDoc->datatypeFolder();
             m_pSecondary = Object_Factory::createUMLObject(ot_Datatype, QLatin1String("undef"), datatypes, false);
             return true;
@@ -778,8 +780,8 @@ bool UMLObject::resolveRef()
         return false;
     }
 #ifdef VERBOSE_DEBUGGING
-    uDebug() << m_name << ": could not resolve secondary ID " << m_SecondaryId
-             << ", using secondary fallback " << m_SecondaryFallback;
+    logDebug3("UMLObject %1 resolveRef: could not resolve secondary ID %2, using secondary fallback %3",
+              m_name, m_SecondaryId, m_SecondaryFallback);
 #endif
     m_SecondaryId = m_SecondaryFallback;
     // Assume we're dealing with the older Umbrello format where
@@ -800,20 +802,20 @@ bool UMLObject::resolveRef()
             if (Import_Utils::newUMLObjectWasCreated()) {
                 maybeSignalObjectCreated();
                 qApp->processEvents();
-                uDebug() << "Import_Utils::createUMLObject() created a new type for "
-                         << m_SecondaryId;
+                logDebug2("UMLObject %1 resolveRef: Import_Utils::createUMLObject created a new type for id=%2",
+                          m_name, m_SecondaryId);
             } else {
-                uDebug() << "Import_Utils::createUMLObject() returned an existing type for "
-                         << m_SecondaryId;
+                logDebug2("UMLObject %1 resolveRef: Import_Utils::createUMLObject returned an existing type for id=%2",
+                          m_name, m_SecondaryId);
             }
             m_SecondaryId = QString();
             return true;
         }
-        logError2("UMLObject::resolveRef(%1) : Import_Utils::createUMLObject failed to create type for %2",
+        logError2("UMLObject %1 resolveRef: Import_Utils::createUMLObject failed to create type for id=%2",
                   m_name, m_SecondaryId);
         return false;
     }
-    uDebug() << "Creating new type for " << m_SecondaryId;
+    logDebug2("UMLObject %1 resolveRef: Creating new type for %2", m_name, m_SecondaryId);
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
     // typedefs of ref types.
@@ -1103,8 +1105,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         if (m_pStereotype) {
             m_pStereotype->incrRefCount();
         } else {
-            uDebug() << m_name << ": UMLStereotype " << Uml::ID::toString(stereoID)
-                     << " not found, creating now.";
+            logDebug2("UMLObject::loadFromXMI(%1) : UMLStereotype %2 not found, creating now.",
+                      m_name, Uml::ID::toString(stereoID));
             setStereotypeCmd(stereo);
         }
     }
@@ -1142,11 +1144,9 @@ bool UMLObject::loadFromXMI(QDomElement & element)
                     if (UMLDoc::tagEq(tag, QLatin1String("TaggedValue"))) {
                         QString value = tvElem.attribute(QLatin1String("value"));
                         m_TaggedValues.append(value);
-                        uDebug() << "loadFromXMI(" << m_name
-                                 << "): Loaded " << tag << " value " << value;
+                        logDebug3("UMLObject::loadFromXMI(%1): Loaded %2 value %3", m_name, tag, value);
                     } else {
-                        uDebug() << "loadFromXMI(" << m_name
-                                 << "): Unknown ModelElement.taggedValues child " << tag;
+                        logDebug2("loadFromXMI(%1): Unknown ModelElement.taggedValues child %2", m_name, tag);
                     }
                     tvNode = tvNode.nextSibling();
                     tvElem = tvNode.toElement();
@@ -1197,7 +1197,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             umlPackage()->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {
             // umlPackage() is not set on the root folders.
-            uDebug() << m_name << ": umlPackage() is not set";
+            logDebug1("UMLObject::loadFromXMI(%1): umlPackage() is not set", m_name);
         }
     }
     return load1(element);

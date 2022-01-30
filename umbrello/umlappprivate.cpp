@@ -1,13 +1,16 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlappprivate.h"
 
+#define DBG_SRC QLatin1String("UMLAppPrivate")
 #include "debug_utils.h"
 
 #include <KFilterDev>
+
+DEBUG_REGISTER(UMLAppPrivate)
 
 /**
  * Find welcome.html file for displaying in the welcome window.
@@ -57,10 +60,10 @@ QString UMLAppPrivate::findWelcomeFile()
         QString filePath = dir + QLatin1String("/index.cache.bz2");
         QFileInfo fi(filePath);
         if (fi.exists()) {
-            uDebug() << "searching for" << filePath << "found";
+            DEBUG() << "UMLAppPrivate::findWelcomeFile found " << filePath;
             return filePath;
-        } else
-            uDebug() << "searching for" << filePath;
+        }
+        DEBUG() << "UMLAppPrivate::findWelcomeFile tried " << filePath << " (not found)";
     }
     return QString();
 }

@@ -713,7 +713,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
         {
             if (m_linkWidget == 0) {
-                DEBUG() << "mt_Operation: m_linkWidget is NULL";
+                logDebug0("FloatingTextWidget::slotMenuSelection(mt_Operation): m_linkWidget is NULL");
                 return;
             }
             UMLClassifier* c = m_linkWidget->operationOwner();

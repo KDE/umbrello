@@ -29,6 +29,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+DEBUG_REGISTER(ToolBarStateAssociation)
+
 /**
  * Creates a new ToolBarStateAssociation.
  *
@@ -264,7 +266,8 @@ void ToolBarStateAssociation::setSecondWidget()
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         if (widgetA->baseType() == UMLWidget::wt_Port) {
             QPointF lineStart = widgetA->getPos();
-            uDebug() << "ToolBarStateAssociation::setSecondWidget : lineStart = " << lineStart;
+            logDebug2("ToolBarStateAssociation::setSecondWidget : lineStart = (%1,%2)",
+                      lineStart.x(), lineStart.y());
             temp->associationLine().setPoint(0, lineStart);
         }
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);

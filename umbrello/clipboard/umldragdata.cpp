@@ -10,6 +10,7 @@
 #include "associationwidget.h"
 #include "classifier.h"
 #include "cmds.h"
+#define DBG_SRC QLatin1String("UMLDragData")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
@@ -35,6 +36,8 @@
 #include <QPixmap>
 #include <QTextStream>
 #include <QXmlStreamWriter>
+
+DEBUG_REGISTER(UMLDragData)
 
 /**
  *  Constructor.
@@ -390,12 +393,12 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     while (!listItemElement.isNull()) {
         QString typeStr = listItemElement.attribute(QLatin1String("type"), QLatin1String("-1"));
         if (typeStr == QLatin1String("-1")) {
-            uDebug() << "getClip3Type: bad type.";
+            logDebug0("UMLDragData::getClip3TypeAndID: bad type.");
             return false;
         }
         QString idStr = listItemElement.attribute(QLatin1String("id"), QLatin1String("-1"));
         if (idStr == QLatin1String("-1")) {
-            uDebug() << "getClip3Type: bad id";
+            logDebug0("UMLDragData::getClip3TypeAndID: bad id");
             return false;
         }
         LvTypeAndID * pData = new LvTypeAndID;
@@ -455,7 +458,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         // UMLListViewItem instance.
         QString type = listItemElement.attribute(QLatin1String("type"), QLatin1String("-1"));
         if (type == QLatin1String("-1")) {
-            uDebug() << "Type not found.";
+            logDebug0("UMLDragData::decodeClip3: Type not found.");
             listItems = listItems.nextSibling();
             listItemElement = listItems.toElement();
             continue;
@@ -848,7 +851,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
             QString idStr = diagramElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
             Uml::ID::Type id = Uml::ID::fromString(idStr);
             if (id == Uml::ID::None) {
-                uDebug() << "Cannot paste diagram hyperlink to note because decoding of xmi.id failed";
+                logDebug0("UMLDragData::decodeViews: Cannot paste diagram hyperlink to note because decoding of xmi.id failed");
                 return false;
             }
             NoteWidget::s_pCurrentNote->setDiagramLink(id);

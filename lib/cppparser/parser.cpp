@@ -10,6 +10,9 @@
 #include "lexer.h"
 #include "errors.h"
 #include "optionstate.h"
+#define DBG_SRC  QLatin1String("Parser")
+#include "debug_utils.h"
+#include "uml.h"
 
 // qt
 #include <QString>

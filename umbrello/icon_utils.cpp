@@ -1,18 +1,22 @@
 /*
     SPDX-FileCopyrightText: 2008 Andreas Fischer <andi.fischer@hispeed.ch>
-    SPDX-FileCopyrightText: 2009-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2009-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "icon_utils.h"
 
 #include "basictypes.h"
+#define DBG_SRC QLatin1String("Icon_Utils")
 #include "debug_utils.h"
 #include "optionstate.h"
+#include "uml.h"  // Only needed for logDebug
 
 #include <kiconloader.h>
 
 #include <QFile>
+
+DEBUG_REGISTER(Icon_Utils)
 
 namespace Icon_Utils {
 
@@ -133,8 +137,8 @@ QPixmap iconSet(Uml::DiagramType::Enum dt)
         case Uml::DiagramType::EntityRelationship:
             return DesktopIcon(it_Diagram_EntityRelationship);
         default:
-            uDebug() << "Widget_Utils::iconSet: unknown diagram type "
-                     << Uml::DiagramType::toString(dt);
+            logDebug1("Icon_Utils::iconSet: unknown diagram type %1",
+                      Uml::DiagramType::toString(dt));
             return QPixmap();
     }
 }
@@ -168,8 +172,8 @@ QPixmap smallIcon(Uml::DiagramType::Enum dt)
         case Uml::DiagramType::EntityRelationship:
             return SmallIcon(it_Diagram_EntityRelationship);
         default:
-            uDebug() << "Widget_Utils::smallIcon: unknown diagram type "
-                     << Uml::DiagramType::toString(dt);
+            logDebug1("Icon_Utils::smallIcon: unknown diagram type %1",
+                      Uml::DiagramType::toString(dt));
             return QPixmap();
     }
 }

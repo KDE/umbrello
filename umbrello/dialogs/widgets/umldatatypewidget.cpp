@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umldatatypewidget.h"
@@ -24,6 +24,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
+
+DEBUG_REGISTER(UMLDatatypeWidget)
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
@@ -227,8 +229,8 @@ bool UMLDatatypeWidget::applyParameter()
         // Nothing found: Create a new type on the fly.
         // @todo There should be an extra dialog to decide whether to
         // create a datatype or a class. For now, we create a class.
-        uDebug() << typeName << " not found."
-            << " Creating a new class for the type.";
+        logDebug1("UMLDatatypeWidget::applyParameter: %1 not found. Creating a new class for the type.",
+                  typeName);
         UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
         m_attribute->setType(newObj);
     }

@@ -19,6 +19,8 @@
 #include <QPointer>
 #include <QRegExp>
 
+DEBUG_REGISTER(UMLRole)
+
 /**
  * Sets up an association.
  *
@@ -339,7 +341,7 @@ bool UMLRole::load1(QDomElement & element)
         }
     }
     if (!m_Multi.isEmpty())
-        uDebug() << name() << ": m_Multi is " << m_Multi;
+        logDebug2("UMLRole::load1 %1: m_Multi is %2", name(), m_Multi);
     if (m_SecondaryId.isEmpty()) {
         logError1("UMLRole::load1(%1) : type not given or illegal", name());
         return false;

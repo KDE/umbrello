@@ -16,6 +16,8 @@
 #include "umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
 
+DEBUG_REGISTER(UMLForeignKeyConstraint)
+
 /**
  * Sets up a constraint.
  * @param parent    The parent of this UMLForeignKeyConstraint.
@@ -223,10 +225,11 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     m_AttributeMap.insert(pAttr, rAttr);
 
      QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
+     logDebug0("UMLForeignKeyConstraint::addEntityAttributePair: AttributeMap after insertion "
+               "(keyName keyType  valueName valueType)");
      for (i = m_AttributeMap.begin(); i != m_AttributeMap.end(); ++i)
-         uDebug() << i.key()->name() << QLatin1String(" ") << i.key()->baseType()
-                 << QLatin1String(" ") << i.value()->name() << QLatin1String(" ") << i.value()->baseType();
-
+         logDebug4("- %1 %2  %3 %4", i.key()->name(), i.key()->baseType(),
+                                     i.value()->name(), i.value()->baseType());
      return true;
 }
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -8,6 +8,7 @@
 
 // app includes
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("NativeImportBase")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "uml.h"  // only needed for log{Warn,Error}
@@ -19,6 +20,8 @@
 #include <QFile>
 #include <QRegExp>
 #include <QTextStream>
+
+DEBUG_REGISTER(NativeImportBase)
 
 QStringList NativeImportBase::m_parsedFiles;  // static, see nativeimportbase.h
 
@@ -422,7 +425,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
         path.remove(QRegExp(QLatin1String("/[^/]+$")));
-        uDebug() << msgPrefix << "adding path " << path;
+        logDebug2("NativeImportBase::parseFile %1 adding path %2", msgPrefix, path);
         Import_Utils::addIncludePath(path);
     }
     if (!QFile::exists(filename)) {

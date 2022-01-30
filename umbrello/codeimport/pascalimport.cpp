@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -9,6 +9,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#define DBG_SRC QLatin1String("PascalImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -21,6 +22,8 @@
 #include <QRegExp>
 
 #include <stdio.h>
+
+DEBUG_REGISTER(PascalImport)
 
 /**
  * Constructor.
@@ -314,7 +317,7 @@ bool PascalImport::parseStmt()
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != QLatin1String("=")) {
-            uDebug() << name << ": expecting '=' at " << nextToken;
+            logDebug2("PascalImport::parseStmt %1: expecting '=' at %2", name, nextToken);
             return false;
         }
         keyword = advance().toLower();
@@ -405,7 +408,7 @@ bool PascalImport::parseStmt()
     }
     // At this point we need a class because we're expecting its member attributes.
     if (m_klass == 0) {
-        uDebug() << "importPascal: skipping " << m_source[m_srcIndex];
+        logDebug1("PascalImport::parseStmt: skipping %1", m_source[m_srcIndex]);
         skipStmt();
         return true;
     }

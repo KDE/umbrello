@@ -310,16 +310,16 @@ void UMLWidget::toForeground()
 {
     QRectF rect = QRectF(scenePos(), QSizeF(width(), height()));
     QList<QGraphicsItem*> items = scene()->items(rect, Qt::IntersectsItemShape, Qt::DescendingOrder);
-    DEBUG() << "items at " << rect << " = " << items.count();
+    logDebug2("UMLWidget %1 toForeground: items at rect = %2", name(), items.count());
     if (items.count() > 1) {
         foreach(QGraphicsItem* i, items) {
             UMLWidget* w = dynamic_cast<UMLWidget*>(i);
             if (w) {
-                DEBUG() << "item=" << w->name() << " with zValue=" << w->zValue();
+                logDebug2("- item=%1 with zValue=%2", w->name(), w->zValue());
                 if (w->name() != name()) {
                     if (w->zValue() >= zValue()) {
                         setZValue(w->zValue() + 1.0);
-                        DEBUG() << "bring to foreground with zValue: " << zValue();
+                        logDebug1("-- bring to foreground with zValue: %1", zValue());
                     }
                 }
             }
@@ -328,7 +328,7 @@ void UMLWidget::toForeground()
     else {
         setZValue(0.0);
     }
-    DEBUG() << "zValue is " << zValue();
+    logDebug2("UMLWidget %1 toForeground: zValue is %1", name(), zValue());
 }
 
 /**
@@ -364,17 +364,12 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         event->ignore();
         return;
     }
-    DEBUG() << "widget = " << name() << " / type = " << baseTypeStr()
-                   << " event->scenePos = " << event->scenePos()
-                   << " pos = " << pos();
     /*
-    if (! onWidget(event->scenePos())) {
-        DEBUG() << name() << " event->scenePos onWidget = false, ignoring event";
-        event->ignore();
-        return;
-    } */
+    logDebug4("UMLWidget::mousePressEvent: widget=%1 / type=%2 / event->scenePos=%3 / pos=%4",
+              name(), baseTypeStr(), event->scenePos(), pos());
+     */
     event->accept();
-    DEBUG() << "widget = " << name() << " / type = " << baseTypeStr();
+    logDebug2("UMLWidget::mousePressEvent: widget = %1 / type = %2", name(), baseTypeStr());
 
     toForeground();
 
@@ -383,7 +378,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     // saving the values of the widget
     m_pressOffset = event->scenePos() - pos();
-    DEBUG() << "press offset=" << m_pressOffset;
+    logDebug2("UMLWidget::mousePressEvent: press offset x=%1, y=%2", m_pressOffset.x(), m_pressOffset.y());
 
     m_oldStatusBarMsg = UMLApp::app()->statusBarMsg();
 
@@ -496,7 +491,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
     QPointF delta = event->scenePos() - event->lastScenePos();
 
-    DEBUG() << "diffX=" << diffX << " / diffY=" << diffY;
+    logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
         if ((widget->parentItem() == 0) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
@@ -540,7 +535,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    uDebug() << "UMLWidget::mouseReleaseEvent";
+    logDebug0("UMLWidget::mouseReleaseEvent");
     if (!m_moved && !m_resized) {
         if (!m_shiftPressed && (m_scene->selectedCount() > 1)) {
             selectSingle(event);
@@ -598,7 +593,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        DEBUG() << "widget = " << name() << " / type = " << baseTypeStr();
+        logDebug2("UMLWidget::mouseDoubleClickEvent: widget = %1 / type = %2", name(), baseTypeStr());
         showPropertiesDialog();
         event->accept();
     }
@@ -701,8 +696,8 @@ void UMLWidget::constrain(qreal& width, qreal& height)
     if (fixedAspectRatio()) {
         QSizeF size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
-        DEBUG() << "UMLWidget::constrain(" << name() << ") : Changing input height "
-                       << height << " to " << (width * aspectRatio) << " due to fixedAspectRatio";
+        logDebug3("UMLWidget::constrain(%1) : Changing input height %2 to %3 due to fixedAspectRatio",
+                  name(), height, (width * aspectRatio));
         height = width * aspectRatio;
     }
 }
@@ -1324,8 +1319,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
-    DEBUG() << "UMLWidget::adjustAssocs(" << name() << ") : w="
-                                      << width() << ", h=" << height();
+    logDebug3("UMLWidget::adjustAssocs(%1) : w=%2, h=%3", name(), width(), height());
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
@@ -1431,7 +1425,7 @@ bool UMLWidget::isLocatedIn(const UMLWidget *other) const
                               QLatin1String(" isLocatedIn(") + other->name() + QLatin1String(")");
 
     if (otherPos.x() > pos.x() || otherPos.y() > pos.y()) {
-        uDebug() << msgProlog << " returns false due to x or y out of range";
+        logDebug1("%1 returns false due to x or y out of range", msgProlog);
         return false;
     }
 
@@ -1439,23 +1433,23 @@ bool UMLWidget::isLocatedIn(const UMLWidget *other) const
     const int endY = pos.y() + height();
 
     if (otherPos.x() > endX || otherPos.y() > endY) {
-        uDebug() << msgProlog << " returns false due to endX or endY out of range";
+        logDebug1("%1 returns false due to endX or endY out of range", msgProlog);
         return false;
     }
 
     const int otherEndX = otherPos.x() + other->width();
     if (otherEndX < pos.x() || otherEndX < endX) {
-        uDebug() << msgProlog << " returns false due to otherEndX out of range";
+        logDebug1("%1 returns false due to otherEndX out of range", msgProlog);
         return false;
     }
 
     const int otherEndY = otherPos.y() + other->height();
     if (otherEndY < pos.y() || otherEndY < endY) {
-        uDebug() << msgProlog << " returns false due to otherEndY out of range";
+        logDebug1("%1 returns false due to otherEndY out of range", msgProlog);
         return false;
     }
 
-    uDebug() << "UMLWidget " << name() << " isLocatedIn(" << other->name() <<") returns true";
+    logDebug2("UMLWidget %1 isLocatedIn(%2) returns true", name(), other->name());
     return true;
 }
 
@@ -1542,7 +1536,7 @@ void UMLWidget::resize()
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
-    DEBUG() << "size=" << size;
+    logDebug3("UMLWidget::resize(%1) w=%2, h=%3", name(), size.width(), size.height());
     adjustAssocs(size.width()-oldW, size.height()-oldH);
 }
 
@@ -1652,7 +1646,7 @@ void UMLWidget::setSelected(bool _select)
 
     WidgetBase::setSelected(_select);
 
-    uDebug() << "UMLWidget::setSelected(" << _select << ") : Prevent obscuring";
+    logDebug1("UMLWidget::setSelected(%1) : Prevent obscuring", _select);
     Widget_Utils::ensureNestedVisible(this, umlScene()->widgetList());
 
     update();
@@ -1852,7 +1846,7 @@ void UMLWidget::setSize(qreal width, qreal height)
     }
 
     const QRectF newRect(rect().x(), rect().y(), width, height);
-    DEBUG() << "UMLWidget::setSize(" << name() << ") : setting " << newRect;
+    logDebug3("UMLWidget::setSize(%1): setting w=%2, h=%3", name(), newRect.width(), newRect.height());
     setRect(newRect);
     foreach(QGraphicsItem* child, childItems()) {
         UMLWidget* umlChild = static_cast<UMLWidget*>(child);
@@ -1886,8 +1880,8 @@ void UMLWidget::updateGeometry(bool withAssocs)
     qreal clipWidth = size.width();
     qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
-    DEBUG() << "UMLWidget::updateGeometry(" << name() << ") : oldW=" << oldW << ", oldH="
-                   << oldH << ", clipWidth=" << clipWidth << ", clipHeight =" << clipHeight;
+    logDebug5("UMLWidget::updateGeometry(%1) : oldW=%2, oldH=%3, clipWidth=%4, clipHeight=%5",
+             name(), oldW, oldH, clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
     if (withAssocs)

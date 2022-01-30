@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -8,6 +8,7 @@
 
 // local includes
 #include "associationwidget.h"
+#include "association.h"
 #include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
@@ -15,7 +16,7 @@
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
-#include "association.h"
+#include "uml.h"
 
 // kde includes
 #include <kcombobox.h>
@@ -32,6 +33,8 @@
 #include <QLabel>
 #include <QLayout>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(AssociationGeneralPage)
 
 /**
  *  Sets up the AssociationGeneralPage.
@@ -123,7 +126,8 @@ void AssociationGeneralPage::constructWidget()
     m_AssocTypes.clear();
 
     m_AssocTypes << currentType;
-    uDebug() << "current type = " << Uml::AssociationType::toString(currentType);
+    logDebug1("AssociationGeneralPage::constructWidget: current type = %1",
+              Uml::AssociationType::toString(currentType));
 
     // dynamically load all allowed associations
     for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Reserved;  ++i) {
@@ -143,7 +147,8 @@ void AssociationGeneralPage::constructWidget()
                                          m_pAssociationWidget->widgetForRole(Uml::RoleType::A),
                                          m_pAssociationWidget->widgetForRole(Uml::RoleType::B))) {
             m_AssocTypes << assocType;
-            uDebug() << "to type list = " << Uml::AssociationType::toString(assocType);
+            logDebug1("AssociationGeneralPage::constructWidget: adding %1 to assoctype list",
+                      Uml::AssociationType::toString(assocType));
         }
     }
 

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -18,6 +18,8 @@
 #include "rubycodeclassfielddeclarationblock.h"
 #include "rubycodeoperation.h"
 #include "uml.h"
+
+DEBUG_REGISTER(RubyClassifierCodeDocument)
 
 // qt includes
 #include <QRegExp>
@@ -254,7 +256,8 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack: %1, ignoring", name);
                 }
 
                 node = element.nextSibling();

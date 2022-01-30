@@ -1,12 +1,13 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
 #include "cmdlineexportallviewsevent.h"
 
 // app includes
+#define DBG_SRC QLatin1String("CmdLineExportAllViewsEvent")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -23,6 +24,8 @@
 #endif
 #include <QCloseEvent>
 #include <QStringList>
+
+DEBUG_REGISTER(CmdLineExportAllViewsEvent)
 
 const QEvent::Type CmdLineExportAllViewsEvent::type_ =
     (QEvent::Type)QEvent::registerEventType(QEvent::User + 1);
@@ -49,7 +52,7 @@ CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType,
     m_directory(directory),
     m_useFolders(useFolders)
 {
-    uDebug() << "created with type value " << type_;
+    logDebug1("CmdLineExportAllViewsEvent created with type value %1", type_);
 }
 
 /**

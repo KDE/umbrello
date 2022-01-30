@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -82,7 +82,7 @@ bool DiagramPropertiesPage::checkUniqueDiagramName()
             ui_diagramName->setText(m_scene->name());
         }
         else {
-            // uDebug() << "Cannot find view with name " << newName;
+            // logDebug1("Cannot find view with name %1", newName);
             m_scene->setName(newName);
             doc->signalDiagramRenamed(m_scene->activeView());
             return true;

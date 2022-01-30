@@ -40,6 +40,8 @@
 
 using namespace Uml;
 
+DEBUG_REGISTER(UMLClassifier)
+
 /**
  * @brief holds set of classifiers for recursive loop detection
  */
@@ -307,23 +309,24 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
 {
     Q_ASSERT(op);
     if (subordinates().indexOf(op) != -1) {
-        uDebug() << "findRef(" << op->name() << ") finds op (bad)";
+        logDebug1("UMLClassifier::addOperation: findRef(%1) finds op (bad)", op->name());
         return false;
     }
     if (checkOperationSignature(op->name(), op->getParmList())) {
-        uDebug() << "checkOperationSignature(" << op->name() << ") op is non-unique";
+        logDebug1("UMLClassifier::addOperation: checkOperationSignature(%1) op is non-unique",
+                  op->name());
         return false;
     }
 
     if (position >= 0 && position <= subordinates().count()) {
-        uDebug() << op->name() << ": inserting at position " << position;
+        logDebug2("UMLClassifier::addOperation(%1): inserting at position %2", op->name(), position);
         subordinates().insert(position, op);
         UMLClassifierListItemList itemList = getFilteredList(UMLObject::ot_Operation);
         QString buf;
         foreach (UMLClassifierListItem* currentAtt, itemList) {
             buf.append(QLatin1Char(' ') + currentAtt->name());
         }
-        uDebug() << "  list after change: " << buf;
+        logDebug1("UMLClassifier::addOperation list after change:%1", buf);
     }
     else {
         subordinates().append(op);
@@ -366,11 +369,11 @@ bool UMLClassifier::addOperation(UMLOperation* op, IDChangeLog* log)
 int UMLClassifier::removeOperation(UMLOperation *op)
 {
     if (op == 0) {
-        uDebug() << "called on NULL op";
+        logDebug0("UMLClassifier::removeOperation called on NULL op");
         return -1;
     }
     if (!subordinates().removeAll(op)) {
-        uDebug() << "cannot find op " << op->name() << " in list";
+        logDebug1("UMLClassifier::removeOperation cannot find op %1 in list", op->name());
         return -1;
     }
     // disconnection needed.
@@ -890,7 +893,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
 int UMLClassifier::removeAttribute(UMLAttribute* att)
 {
     if (!subordinates().removeAll(att)) {
-        uDebug() << "cannot find att given in list";
+        logDebug0("UMLClassifier::removeAttribute cannot find att given in list");
         return -1;
     }
     // note that we don't delete the attribute, just remove it from the Classifier
@@ -1168,13 +1171,15 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
     QString buf;
     foreach (UMLObject* currentAtt, subordinates()) {
         uIgnoreZeroPointer(currentAtt);
+#if 0
         QString txt = currentAtt->name();
         if (txt.isEmpty()) {
            txt = QLatin1String("Type-") + QString::number((int) currentAtt->baseType());
         }
+#endif
         buf.append(QLatin1Char(' ') + currentAtt->name());
     }
-    uDebug() << "  UMLClassifier::takeItem (before): subordinates() is " << buf;
+    logDebug1("UMLClassifier::takeItem (before): subordinates() is %1", buf);
 
     int index = subordinates().indexOf(item);
     if (index == -1) {

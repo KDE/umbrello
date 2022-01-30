@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -8,6 +8,7 @@
 
 // app includes
 #include "floatingtextwidget.h"
+#define DBG_SRC QLatin1String("Model_Utils")
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
@@ -37,6 +38,8 @@
 // qt includes
 #include <QRegExp>
 #include <QStringList>
+
+DEBUG_REGISTER(Model_Utils)
 
 namespace Model_Utils {
 
@@ -234,10 +237,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 UMLObject::ObjectType foundType = obj->baseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != UMLObject::ot_UMLObject && type != foundType) {
-                        uDebug() << "type mismatch for "
-                            << name << " (seeking type: "
-                            << UMLObject::toString(type) << ", found type: "
-                            << UMLObject::toString(foundType) << ")";
+                        logDebug3("findUMLObject type mismatch for %1 (seeking type: %2, found type: %3)",
+                                  name, UMLObject::toString(type), UMLObject::toString(foundType));
                         // Class, Interface, and Datatype are all Classifiers
                         // and are considered equivalent.
                         // The caller must be prepared to handle possible mismatches.
@@ -263,8 +264,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != UMLObject::ot_Class &&
                     foundType != UMLObject::ot_Interface &&
                     foundType != UMLObject::ot_Component) {
-                    uDebug() << "found " << UMLObject::toString(foundType) << name
-                             << " is not a package (?)";
+                    logDebug2("findUMLObject found %1 %2 is not a package (?)", UMLObject::toString(foundType), name);
                     continue;
                 }
                 UMLPackage *pkg = obj->asUMLPackage();
@@ -291,10 +291,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     && obj->stereotype() == QLatin1String("class-or-package")) {
                     return obj;
                 }
-                uDebug() << "type mismatch for "
-                    << name << " (seeking type: "
-                    << UMLObject::toString(type) << ", found type: "
-                    << UMLObject::toString(foundType) << ")";
+                logDebug3("findUMLObject type mismatch for %1 (seeking type: %1, found type: %3)",
+                          name, UMLObject::toString(type), UMLObject::toString(foundType));
                 continue;
             }
             return obj;
@@ -304,8 +302,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != UMLObject::ot_Class &&
             foundType != UMLObject::ot_Interface &&
             foundType != UMLObject::ot_Component) {
-            uDebug() << "found " << name << "(" << UMLObject::toString(foundType) << ")"
-                     << " is not a package (?)";
+            logDebug2("findUMLObject found %1 (%2) is not a package (?)", name, UMLObject::toString(foundType));
             continue;
         }
         const UMLPackage *pkg = obj->asUMLPackage();
@@ -449,7 +446,9 @@ void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
 UMLObject* treeViewGetCurrentObject()
 {
     UMLListView *listView = UMLApp::app()->listView();
-    UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
+    UMLListViewItem *current = dynamic_cast<UMLListViewItem*>(listView->currentItem());
+    if (current == nullptr)
+        return nullptr;
     return current->umlObject();
 }
 

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -10,6 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("JavaImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -25,6 +26,8 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QTextStream>
+
+DEBUG_REGISTER(DBG_SRC)
 
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
@@ -153,7 +156,7 @@ UMLObject* JavaImport::findObject(const QString& name, UMLPackage *parentPkg)
  */
 UMLObject* JavaImport::resolveClass (const QString& className)
 {
-    uDebug() << "importJava trying to resolve " << className;
+    logDebug1("importJava trying to resolve %1", className);
     // keep track if we are dealing with an array
     //
     bool isArray = className.contains(QLatin1Char('['));
@@ -375,8 +378,8 @@ bool JavaImport::parseStmt()
             while (1) {
                 const QString arg = m_source[++start];
                 if (! arg.contains(QRegExp(QLatin1String("^[A-Za-z_]")))) {
-                    uDebug() << "JavaImport::parseStmt(" << name << "): cannot handle template syntax ("
-                        << arg << ")";
+                    logDebug2("JavaImport::parseStmt(%1): cannot handle template syntax (%2)",
+                              name, arg);
                     break;
                 }
                 /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
@@ -384,8 +387,8 @@ bool JavaImport::parseStmt()
                 if (next == QLatin1String(">"))
                     break;
                 if (next != QLatin1String(",")) {
-                    uDebug() << "JavaImport::parseStmt(" << name << "): cannot handle template syntax ("
-                        << next << ")";
+                    logDebug2("JavaImport::parseStmt(%1): cannot handle template syntax (%2)",
+                              name, next);
                     break;
                 }
             }
@@ -399,8 +402,8 @@ bool JavaImport::parseStmt()
             if (parent) {
                 Import_Utils::createGeneralization(m_klass, parent->asUMLClassifier());
             } else {
-                uDebug() << "importJava parentClass " << baseName
-                    << " is not resolveable. Creating placeholder";
+                logDebug1("importJava parentClass %1 is not resolveable. Creating placeholder",
+                          baseName);
                 Import_Utils::createGeneralization(m_klass, baseName);
             }
             advance();
@@ -414,8 +417,8 @@ bool JavaImport::parseStmt()
                 if (interface) {
                      Import_Utils::createGeneralization(m_klass, interface->asUMLClassifier());
                 } else {
-                    uDebug() << "importJava implementing interface "<< baseName
-                        <<" is not resolvable. Creating placeholder";
+                    logDebug1("importJava implementing interface %1 is not resolvable. "
+                              "Creating placeholder", baseName);
                     Import_Utils::createGeneralization(m_klass, baseName);
                 }
                 if (advance() != QLatin1String(","))

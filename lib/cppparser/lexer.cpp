@@ -6,6 +6,8 @@
 
 #include "lexer.h"
 #include "lookup.h"
+#define DBG_SRC QLatin1String("Lexer")
+#include "debug_utils.h"
 
 #include <KLocalizedString>
 
@@ -61,7 +63,7 @@ Token::Token(int type, int position, int length, const QString& text)
       m_endColumn(0),
       m_text(text)
 {
-    DBG_LEXER << type << position << length << text.mid(position, length);
+    DEBUG() << type << position << length << text.mid(position, length);
 }
 
 Token::Token(const Token& source)
@@ -275,7 +277,7 @@ const Token& Lexer::tokenAt(int n) const
 const Token& Lexer::lookAhead(int n) const
 {
     Token &t = *m_tokens[ qMin(m_index + n, m_size-1) ];
-    DBG_LEXER << t;
+    DEBUG() << t;
     return t;
 }
 

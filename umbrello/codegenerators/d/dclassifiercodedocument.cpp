@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -21,6 +21,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(DClassifierCodeDocument)
 
 /**
  * Constructor.
@@ -222,7 +224,8 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("loadChildTextBlocksFromNode: Got strange tag in text block stack: %1, ignoring",
+                              name);
                 }
                 node = element.nextSibling();
                 element = node.toElement();
@@ -236,7 +239,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc: %1", getFileName());
+        logWarn1("loadChildTextBlocksFromNode : unable to initialize any child blocks in doc: %1", getFileName());
     }
 }
 

@@ -1,7 +1,7 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
 
-    SPDX-FileCopyrightText: 2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -30,6 +30,8 @@
 #include <QGroupBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
+
+DEBUG_REGISTER(StereoAttributeDialog)
 
 StereoAttributeDialog::StereoAttributeDialog(QWidget *parent, UMLStereotype *stereotype)
   : SinglePageDialogBase(parent)
@@ -94,7 +96,7 @@ void StereoAttributeDialog::setupDialog()
                 if (type >= 0 && type < m_pTypeCombo[row]->count())
                     m_pTypeCombo[row]->setCurrentIndex(type);
                 else
-                    uDebug() << "StereoAttributeDialog::setupDialog: Illegal type " << type;
+                    logDebug1("StereoAttributeDialog::setupDialog: Illegal type %1", type);
                 const QString& dfltVal = adef.defaultVal;
                 if (!dfltVal.isEmpty())
                     m_pDefaultValueEdit[row]->setText(dfltVal);

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 /**
@@ -30,6 +30,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(JavaClassifierCodeDocument)
 
 JavaClassifierCodeDocument::JavaClassifierCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
@@ -217,7 +219,8 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("JavaClassifierCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack:%1, ignoring", name);
                 }
 
                 node = element.nextSibling();

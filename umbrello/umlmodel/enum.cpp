@@ -19,6 +19,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+DEBUG_REGISTER(UMLEnum)
+
 /**
  * Sets up an enum.
  * @param name  The name of the Enum.
@@ -129,7 +131,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != 0) {
-        uDebug() << name << " is already present";
+        logDebug1("UMLEnum::addEnumLiteral: %1 is already present", name);
         return el;
     }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id, value);
@@ -201,7 +203,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
 {
     if (!subordinates().removeAll(literal)) {
-        uDebug() << "cannot find att given in list";
+        logDebug0("UMLEnum::removeEnumLiteral: cannot find att given in list");
         return -1;
     }
     emit enumLiteralRemoved(literal);
@@ -275,7 +277,7 @@ bool UMLEnum::load1(QDomElement& element)
             if (! load1(tempElement))
                 return false;
         } else if (tag == QLatin1String("stereotype")) {
-            uDebug() << name() << ": losing old-format stereotype.";
+            logDebug1("UMLEnum::load1 %1: losing old-format stereotype.", name());
         } else {
             logWarn1("UMLEnum::load1: unknown child type %1", tag);
         }

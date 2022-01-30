@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -22,6 +22,8 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
+
+DEBUG_REGISTER(ToolBarStateMessages)
 
 /**
  * Creates a new ToolBarStateMessages.
@@ -109,13 +111,14 @@ void ToolBarStateMessages::setCurrentElement()
     m_isObjectWidgetLine = false;
 
     ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
+    const QString funcInfo(QString::fromLatin1(Q_FUNC_INFO));
     if (objectWidgetLine) {
-        uDebug() << Q_FUNC_INFO << "Object detected";
+        logDebug1("ToolBarStateMessages::setCurrentElement %1 Object detected", funcInfo);
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
-    uDebug() << Q_FUNC_INFO << "Object NOT detected";
+    logDebug1("ToolBarStateMessages::setCurrentElement %1 Object NOT detected", funcInfo);
     //commit 515177 fixed a setting creation messages only working properly at 100% zoom
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the

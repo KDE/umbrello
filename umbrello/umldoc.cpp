@@ -229,7 +229,7 @@ void UMLDoc::addView(UMLView *view)
         logError0("UMLDoc::addView view folder is not set");
         return;
     }
-    DEBUG() << view->umlScene()->name() << " to folder " << *f << " (" << f->name() << ")";
+    logDebug2("UMLDoc::addView %1 to folder %2", view->umlScene()->name(), f->name());
     f->addView(view);
     m_diagramsModel->addDiagram(view);
 
@@ -263,7 +263,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
         logWarn0("UMLDoc::removeView(UMLView *view) called with view = 0");
         return;
     }
-    DEBUG() << "<" << view->umlScene()->name() << ">";
+    logDebug1("UMLDoc::removeView %1", view->umlScene()->name());
     if (UMLApp::app()->listView()) {
         disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
@@ -513,16 +513,16 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     QTemporaryFile tmpfile;
     tmpfile.open();
     QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
-    DEBUG() << "UMLDoc::openDocument: copy from " << url << " to " << dest << ".";
+    logDebug2("UMLDoc::openDocument: copy from %1 to %2", url.path(), dest.path());
     KIO::FileCopyJob *job = KIO::file_copy(url, dest, -1, KIO::Overwrite);
     KJobWidgets::setWindow(job, UMLApp::app());
     job->exec();
     QFile file(tmpfile.fileName());
     if (job->error() || !file.exists()) {
         if (!file.exists())
-            DEBUG() << "UMLDoc::openDocument: temporary file <" << file.fileName() << "> failed!";
+            logDebug1("UMLDoc::openDocument: temporary file <%1> failed", file.fileName());
         if (job->error())
-           DEBUG() << "UMLDoc::openDocument: " << job->errorString();
+           logDebug1("UMLDoc::openDocument: %1", job->errorString());
         KMessageBox::error(0, i18n("The file <%1> does not exist.", url.toString()), i18n("Load Error"));
         setUrlUntitled();
         m_bLoading = false;
@@ -1181,14 +1181,15 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
 bool UMLDoc::addUMLObject(UMLObject* object)
 {
     if (object->isUMLStereotype()) {
-        DEBUG() << object->name() << ": not adding type " << object->baseTypeStr();
+        logDebug2("UMLDoc::addUMLObject %1: not adding type %2",
+                  object->name(), object->baseTypeStr());
         return false;
     }
     UMLPackage *pkg = object->umlPackage();
     if (pkg == 0) {
         pkg = currentRoot();
-        DEBUG() << object->name() << ": no parent package set, assuming "
-                       << pkg->name();
+        logDebug2("UMLDoc::addUMLObject %1: no parent package set, assuming %2",
+                 object->name(), pkg->name());
         object->setUMLPackage(pkg);
     }
 
@@ -1493,7 +1494,8 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == assoc) {
-            DEBUG() << "duplicate addition attempted";
+            logDebug1("UMLDoc::addAssociation(%1) duplicate addition attempted",
+                      assoc->name());
             return;
         }
     }
@@ -1648,9 +1650,8 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
  */
 UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name, Uml::ID::Type id)
 {
-    DEBUG() << "folder=" << folder->name()
-                   << " / type=" << Uml::DiagramType::toString(type)
-                   << " / name=" << name;
+    logDebug3("UMLDoc::createDiagram folder=%1 / type=%2 / name=%3",
+             folder->name(), Uml::DiagramType::toString(type), name);
 
     if (id == Uml::ID::None) {
         id = UniqueID::gen();
@@ -1742,7 +1743,8 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 {
     UMLClassifier* p = o->umlParent()->asUMLClassifier();
     if (!p) {
-        DEBUG() << "Cannot create object, no parent found.";
+        logDebug1("UMLDoc::renameChildUMLObject: Cannot process object, invalid parent %1",
+                  o->umlParent()->name());
         return;
     }
 
@@ -1776,7 +1778,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
  */
 void UMLDoc::changeCurrentView(Uml::ID::Type id)
 {
-    DEBUG() << "id=" << Uml::ID::toString(id);
+    logDebug1("UMLDoc::changeCurrentView id=%1", Uml::ID::toString(id));
     UMLView* view = findView(id);
     if (view) {
         UMLScene* scene = view->umlScene();
@@ -2017,9 +2019,9 @@ void UMLDoc::setResolution(qreal resolution)
 {
     m_resolution = resolution;
     if (!qFuzzyIsNull(resolution)) {
-        uDebug() << "screen dpi:" << qApp->desktop()->logicalDpiX()
-                 << "file dpi:" <<  resolution
-                 << "scale:" << qApp->desktop()->logicalDpiX() / resolution;
+        const int logicalDpiX = qApp->desktop()->logicalDpiX();
+        logDebug3("UMLDoc::setResolution screen dpi: %1, file dpi: %2, scale: %3",
+                  logicalDpiX, resolution, logicalDpiX / resolution);
     }
 }
 
@@ -2228,7 +2230,8 @@ short UMLDoc::encoding(QIODevice & file)
                 } else if (encData == QLatin1String("windows-1252")) {
                     enc = ENC_WINDOWS;
                 } else {
-                    uDebug() << "UMLDoc::encoding : ProcessingInstruction encoding=" << encData << " is not yet implemented";
+                    logDebug1("UMLDoc::encoding : ProcessingInstruction encoding=%1 is not yet implemented",
+                              encData);
                     enc = ENC_OLD_ENC;
                 }
             }
@@ -2304,7 +2307,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             if (version < 1.0) {
                 QString error = i18n("Unsupported xmi file version: %1", versionString);
                 m_d->errors << error;
-                DEBUG() << error;
+                logDebug1("UMLDoc::loadFromXMI %1", error);
                 return false;
             }
         }
@@ -2314,7 +2317,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             }
             QDomElement element = node.toElement();
             if (element.isNull()) {
-                DEBUG() << "loadFromXMI: skip empty elem";
+                logDebug0("loadFromXMI: skip empty elem");
                 continue;
             }
             bool recognized = false;
@@ -2347,7 +2350,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             }
             if (outerTag != QLatin1String("XMI.content")) {
                 if (!recognized) {
-                    DEBUG() << "skipping <" << outerTag << ">";
+                    logDebug1("UMLDoc::loadFromXMI skipping <%1>", outerTag);
                 }
                 continue;
             }
@@ -2414,7 +2417,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     // This tag is produced here, i.e. outside of <UML:Model>,
                     // by the Unisys.JCR.1 Rose-to-XMI tool.
                     if (! seen_UMLObjects) {
-                        DEBUG() << "skipping TaggedValue because not seen_UMLObjects";
+                        logDebug0("skipping TaggedValue because not seen_UMLObjects");
                         continue;
                     }
                     tag = element.attribute(QLatin1String("tag"));
@@ -2423,14 +2426,13 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     }
                     QString modelElement = element.attribute(QLatin1String("modelElement"));
                     if (modelElement.isEmpty()) {
-                        DEBUG() << "skipping TaggedValue(documentation) because "
-                                       << "modelElement.isEmpty()";
+                        logDebug0("skipping TaggedValue(documentation) because modelElement.isEmpty()");
                         continue;
                     }
                     UMLObject *o = findObjectById(Uml::ID::fromString(modelElement));
                     if (o == 0) {
-                        DEBUG() << "TaggedValue(documentation): cannot find object"
-                                       << " for modelElement " << modelElement;
+                        logDebug1("TaggedValue(documentation): cannot find object for modelElement %1",
+                                  modelElement);
                         continue;
                     }
                     QString value = element.attribute(QLatin1String("value"));
@@ -2493,8 +2495,8 @@ void UMLDoc::resolveTypes()
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
-        DEBUG() << "UMLDoc: invoking resolveRef() for " << obj->name()
-                       << " (id=" << Uml::ID::toString(obj->id()) << ")";
+        logDebug2("UMLDoc::resolveTypes calling resolveRef for %1 (id=%2)",
+                  obj->name(), Uml::ID::toString(obj->id()));
 #endif
         obj->resolveRef();
     }
@@ -2672,8 +2674,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             !tempElement.hasAttribute(QLatin1String("xmi:id"))) {
             QString idref = tempElement.attribute(QLatin1String("xmi.idref"));
             if (! idref.isEmpty()) {
-                DEBUG() << "resolution of xmi.idref " << idref
-                               << " is not yet implemented";
+                logDebug1("UMLDoc::loadUMLObjectsFromXMI resolution of xmi.idref %1"
+                          " is not yet implemented", idref);
             } else {
                 logError1("UMLDoc::loadUMLObjectsFromXMI cannot load type %1 because xmi.id is missing",
                           type);
@@ -2721,10 +2723,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 if (exist->id() == pObject->id()) {
                     delete pObject;
                 } else {
-                    DEBUG() << "Stereotype " << pObject->name()
-                                   << "(id=" << Uml::ID::toString(pObject->id())
-                                   << ") already exists with id="
-                                   << Uml::ID::toString(exist->id());
+                    logDebug3("UMLDoc::loadUMLObjectsFromXMI Stereotype %1 (id=%2) "
+                              "already exists with id=%3", pObject->name(),
+                              Uml::ID::toString(pObject->id()), Uml::ID::toString(exist->id()));
                     addStereotype(s);
                 }
             } else {
@@ -2735,10 +2736,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (pkg) {
             UMLObjectList objects = pkg->containedObjects();
             if (! objects.contains(pObject)) {
-                DEBUG() << "CHECK: adding " << pObject->name()
-                               << " to " << pkg->name();
+                logDebug2("UMLDoc::loadUMLObjectsFromXMI CHECK: adding %1 to %2",
+                          pObject->name(), pkg->name());
                 if (!pkg->addObject(pObject)) {
-                    DEBUG() << "pkg->addObject failed";
+                    logDebug0("- pkg->addObject failed");
                 }
             }
         }
@@ -2829,7 +2830,8 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
                 CodeGenerator *g = UMLApp::app()->setGenerator(pl);
                 g->loadFromXMI(cgelement);
             } else
-                uDebug() << "codegeneration : no setup performed for" << lang;
+                logDebug0("UMLDoc::loadExtensionsFromXMI1 codegeneration : "
+                          "no setup required for UML primitive types");
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
@@ -3121,7 +3123,7 @@ bool UMLDoc::isModified() const
 bool UMLDoc::assignNewIDs(UMLObject* obj)
 {
     if (!obj || !m_pChangeLog) {
-        DEBUG() << "no obj || Changelog";
+        logDebug0("UMLDoc::assignNewIDs: no obj || Changelog");
         return false;
     }
     Uml::ID::Type result = assignNewID(obj->id());
@@ -3428,7 +3430,7 @@ void UMLDoc::addDefaultDatatypes()
 {
     CodeGenerator *cg = UMLApp::app()->generator();
     if (cg == 0) {
-        DEBUG() << "CodeGenerator is NULL : Assume UMLPrimitiveTypes";
+        logDebug0("CodeGenerator is NULL : Assume UMLPrimitiveTypes");
         for (int i = 0; i < Uml::PrimitiveTypes::n_types; i++) {
             createDatatype(Uml::PrimitiveTypes::toString(i));
         }

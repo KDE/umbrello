@@ -31,6 +31,8 @@
 #include <QPointer>
 #include <QXmlStreamWriter>
 
+DEBUG_REGISTER(WidgetBase)
+
 static unsigned eventCnt = 0;
 
 void QGraphicsObjectWrapper::setSelected(bool state)
@@ -42,9 +44,11 @@ void QGraphicsObjectWrapper::setSelected(bool state)
     if (wb)
         info = wb->name();
     if (info.isEmpty()) {
-        DEBUG() << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
-    } else {
-        DEBUG() << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
+        DEBUG()
+            << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
+    } else {   // @todo convert DEBUG() stream to logDebug3 macro (uml.h)
+        DEBUG()
+            << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
     }
     m_calledFromItemChange = false;
 }
@@ -848,7 +852,7 @@ void WidgetBase::setRect(const QRectF& rect)
 {
     if (m_rect == rect)
         return;
-    DEBUG() << "WidgetBase::setRect(" << name() << ") : setting " << rect;
+    logDebug3("WidgetBase::setRect(%1) : setting w=%2, h=%3", name(), rect.width(), rect.height());
     prepareGeometryChange();
     m_rect = rect;
     update();
@@ -923,7 +927,7 @@ void WidgetBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->accept();
-    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+    logDebug2("WidgetBase::contextMenuEvent: widget = %1 / type = %2", name(), baseTypeStr());
 
     UMLScene *scene = umlScene();
 
@@ -1215,7 +1219,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlScene()->alignHorizontalDistribute();
         break;
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        logDebug1("WidgetBase::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(sel));
         break;
     }
 }

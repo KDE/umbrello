@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -48,6 +48,8 @@
 #include <QRadioButton>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(UMLOperationDialog)
 
 /**
  * Constructor.
@@ -319,7 +321,8 @@ void UMLOperationDialog::slotParameterProperties()
     int position = m_pParmsLW->row(m_pParmsLW->currentItem());
     pOldAtt = m_operation->getParmList().at(position);
     if (!pOldAtt) {
-        uDebug() << "THE impossible has occurred for:" << m_pParmsLW->currentItem()->text();
+        logDebug1("UMLOperationDialog::slotParameterProperties: The impossible has occurred for: %1",
+                  m_pParmsLW->currentItem()->text());
         return;
     } // should never occur
 
@@ -367,7 +370,7 @@ void UMLOperationDialog::slotParameterUp()
         slotParamsBoxClicked(item);
     }
     else {
-        uDebug() << "No current item in list widget!?";
+        logDebug0("UMLOperationDialog::slotParameterUp: No current item in list widget!?");
     }
 }
 
@@ -386,7 +389,7 @@ void UMLOperationDialog::slotParameterDown()
         slotParamsBoxClicked(item);
     }
     else {
-        uDebug() << "No current item in list widget!?";
+        logDebug0("UMLOperationDialog::slotParameterDown: No current item in list widget!?");
     }
 }
 

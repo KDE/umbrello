@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // self includes
@@ -12,6 +12,7 @@
 #include "classifierwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
+#define DBG_SRC QLatin1String("DotGenerator")
 #include "debug_utils.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 
@@ -34,6 +35,8 @@
 #include <QString>
 #include <QTemporaryFile>
 #include <QTextStream>
+
+DEBUG_REGISTER(DotGenerator)
 
 QString dotType(WidgetBase *widget)
 {
@@ -183,7 +186,8 @@ void DotGenerator::setGeneratorName(const QString &name)
 {
     m_generator = name;
     m_version = generatorVersion();
-    uDebug() << "found graphviz generator at " << generatorFullPath() << " with version " << m_version;
+    logDebug3("DotGenerator::setGeneratorName(%1) found graphviz generator at %2 with version %3",
+              name, generatorFullPath(), m_version);
 }
 
 QString DotGenerator::generatorFullPath() const
@@ -302,7 +306,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
         }
         return false;
     }
-    uDebug() << "reading config file" << configFileName;
+    logDebug1("DotGenerator::readConfigFile reading config file %1", configFileName);
     m_configFileName = configFileName;
     KDesktopFile desktopFile(configFileName);
     KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
@@ -358,9 +362,9 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     setGeneratorName(settings.readEntry("generator", "dot"));
 
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-    uDebug() << m_edgeParameters;
-    uDebug() << m_nodeParameters;
-    uDebug() << m_dotParameters;
+    DEBUG() << m_edgeParameters;
+    DEBUG() << m_nodeParameters;
+    DEBUG() << m_dotParameters;
 #endif
     return true;
 }
@@ -429,7 +433,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
         if (label.contains(QLatin1String("\""))) {
             label = label.replace(QLatin1Char('"'), QLatin1String("\\\""));
-            uDebug() << "replaced \" in" << label;
+            logDebug2("DotGenerator::createDotFile(%1) replaced \" in %2", fileName, label);
         }
 
         if (m_nodeParameters.contains(key))
@@ -447,7 +451,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << QString::fromLatin1("height=\"%1\"").arg(widget->height()/m_scale);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
-        uDebug() << type << params;
+        DEBUG() << type << params;
 #endif
         QString id = fixID(Uml::ID::toString(widget->localID()));
         if (!widget->isTextWidget())
@@ -467,14 +471,15 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             if (m_edgeParameters.contains(vkey)) {
                 params2 << m_edgeParameters[vkey];
             } else {
-                uDebug() << "key" << vkey << "not found; skipping association";
+                logDebug2("DotGenerator::createDotFile(%1) key %2 not found; skipping association",
+                          fileName, vkey);
                 continue;
             }
             vkey = QString(QLatin1String("ranking::type::%1::%2")).arg(type).arg(type2);
             if (m_edgeParameters.contains(vkey)) {
                 params2 << m_edgeParameters[vkey];
             } else {
-                uDebug() << "key" << vkey << "not found";
+                logDebug2("DotGenerator::createDotFile(%1) key %2 not found", fileName, vkey);
             }
             out << "\"" << id << "\" -> \"" << id2 << "\""
                 << " [" << params2.join(QLatin1String(",")) << "];\n";
@@ -536,7 +541,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << QString::fromLatin1("taillabel=\"%1\"").arg(tailLabel);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
-        uDebug() << type << params;
+        DEBUG() << type << params;
 #endif
         QString aID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
         QString bID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));

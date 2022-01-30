@@ -30,6 +30,8 @@
 // qt includes
 #include <QPointer>
 
+DEBUG_REGISTER(UMLEntity)
+
 /**
  * Constructor.
  */
@@ -368,7 +370,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
 {
     if (!subordinates().removeAll((UMLEntityAttribute*)att)) {
-        uDebug() << "cannot find att given in list";
+        logDebug0("UMLEntity::removeEntityAttribute cannot find att given in list");
         return -1;
     }
     emit entityAttributeRemoved(att);
@@ -492,7 +494,7 @@ bool UMLEntity::load1(QDomElement& element)
 
             addConstraint(pCheckConstraint);
         } else if (tag == QLatin1String("stereotype")) {
-            uDebug() << name() << ": losing old-format stereotype.";
+            logDebug1("UMLEntity::load1 %1: losing old-format stereotype.", name());
         } else {
             logWarn1("UMLEntity::load1: unknown child type %1", tag);
         }
@@ -511,15 +513,15 @@ bool UMLEntity::load1(QDomElement& element)
 bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 {
     if (uconstr == 0) {
-        uDebug() << "NULL value passed. To unset a Primary Key use "
-                 << "unsetPrimaryKey()";
+        logWarn0("UMLEntity::setAsPrimaryKey: NULL value passed. To unset a Primary Key use "
+                  "unsetPrimaryKey()");
         return false;
     }
 
     if (uconstr->umlParent()->asUMLEntity() != this) {
 
-        uDebug() << "Parent of " << uconstr->name()
-                 << " does not match with current entity";
+        logDebug1("UMLEntity::setAsPrimaryKey: Parent of %1 does not match with current entity",
+                  uconstr->name());
         return false;
     }
 
@@ -575,8 +577,8 @@ bool UMLEntity::hasPrimaryKey() const
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 {
     if (findChildObjectById(constr->id()) != 0) {
-        uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
-                 << " already exists ";
+        logDebug1("UMLEntity::addConstraint: Constraint with id %1 already exists",
+                  Uml::ID::toString(constr->id()));
         return false;
     }
 
@@ -598,8 +600,8 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
 {
      if (findChildObjectById(constr->id()) == 0) {
-        uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
-                 << " does not exist ";
+        logDebug1("UMLEntity::removeConstraint: Constraint with id %1 does not exist",
+                  Uml::ID::toString(constr->id()));
         return false;
     }
 

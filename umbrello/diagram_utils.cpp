@@ -9,6 +9,7 @@
 // app includes
 #include "associationwidget.h"
 #include "association.h"
+#define DBG_SRC QLatin1String("Diagram_Utils")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "messagewidget.h"
@@ -27,9 +28,8 @@
 #include <QMimeData>
 #include <QRegExp>
 
+// Currently this file is not using debug statements. Activate this line when inserting them:
 DEBUG_REGISTER_DISABLED(Diagram_Utils)
-#undef DBG_SRC
-#define DBG_SRC QLatin1String("Diagram_Utils")
 
 namespace Diagram_Utils {
 

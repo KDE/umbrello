@@ -11,7 +11,6 @@
 #undef QT_NO_CAST_FROM_ASCII
 
 #include "driver.h"
-#include "debug_utils.h"
 
 #include <qglobal.h>
 #include <QString>
@@ -20,7 +19,6 @@
 #include <hashedstring.h>
 
 #define CHARTYPE QChar
-#define DBG_LEXER DEBUG_N(QLatin1String("Lexer"))
 
 enum Type {
     Token_eof = 0,

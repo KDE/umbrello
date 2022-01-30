@@ -349,7 +349,8 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
         oppositeStatus = !visualProperty(property);
     }
 
-    DEBUG() << "VisualProperty: " << property << " to opposite status " << oppositeStatus;
+    logDebug2("ClassifierWidget::toggleVisualProperty property: %1 to opposite status: %2",
+              property, oppositeStatus);
     setVisualProperty(property, oppositeStatus);
 }
 
@@ -668,9 +669,9 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     if (DiagramProxyWidget::linkedDiagram() || DiagramProxyWidget::diagramLink() != Uml::ID::None)
         width += 2 * DiagramProxyWidget::iconRect().width();
 
-    DEBUG() << "ClassifierWidget::calculateSize(" << name << ") : rectWidth" << this->width()
-                   << ", rectHeight" << this->height() << "; calcWidth" << width << ", calcHeight"
-                   << height;
+    logDebug5("ClassifierWidget::calculateSize(%1) : "
+              "rectWidth %2, rectHeight %3 ; calcWidth %4, calcHeight %5",
+              name, this->width(), this->height(), width, height);
     return QSizeF(width, height);
 }
 
@@ -1168,8 +1169,8 @@ void ClassifierWidget::drawMembers(QPainter * painter,
         if (drawInstanceAttributes) {
             UMLInstanceAttribute *iatt = ialist.at(i)->asUMLInstanceAttribute();
             if (!iatt) {
-                uDebug() << "ClassifierWidget::drawMembers(" << obj->name()
-                         << ") : skipping non InstanceAttribute subordinate";
+                logDebug1("ClassifierWidget::drawMembers(%1) : skipping non InstanceAttribute subordinate",
+                          obj->name());
                 continue;
             }
             /* CHECK: Do we want visibility indication on instance attributes?
@@ -1206,7 +1207,7 @@ UMLWidget* ClassifierWidget::onWidget(const QPointF &p)
     if (UMLWidget::onWidget(p) != nullptr)
         return this;
     if (getDrawAsCircle() && m_pInterfaceName) {
-        uDebug() << "floatingtext: " << m_pInterfaceName->text();
+        logDebug1("ClassifierWidget::onWidget: floatingtext %1", m_pInterfaceName->text());
         return m_pInterfaceName->onWidget(p);
     }
     return nullptr;
@@ -1465,7 +1466,7 @@ void ClassifierWidget::saveToXMI(QXmlStreamWriter& writer)
 void ClassifierWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    uDebug() << "ClassifierWidget::slotMenuSelection sel = " << sel;
+    logDebug1("ClassifierWidget::slotMenuSelection sel = %1", sel);
     switch (sel) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:

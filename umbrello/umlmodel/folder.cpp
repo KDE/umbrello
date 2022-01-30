@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -25,6 +25,8 @@
 // qt includes
 #include <QFile>
 #include <QXmlStreamWriter>
+
+DEBUG_REGISTER(UMLFolder)
 
 /**
  * Sets up a Folder.
@@ -234,7 +236,7 @@ void UMLFolder::removeAllViews()
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
-        uDebug() << "removing " << v->umlScene()->name();
+        logDebug1("UMLFolder::removeAllViews: removing %1", v->umlScene()->name());
         UMLApp::app()->document()->removeView(v, false);
     }
 
@@ -410,7 +412,7 @@ bool UMLFolder::loadDiagramsFromXMI1(QDomNode& node)
          diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
         QString tag = diagram.tagName();
         if (tag != QLatin1String("diagram")) {
-            uDebug() << "ignoring " << tag << " in <diagrams>";
+            logDebug1("UMLFolder::loadDiagramsFromXMI1: ignoring %1 in <diagrams>", tag);
             continue;
         }
         UMLView * pView = new UMLView(this);
@@ -495,8 +497,7 @@ bool UMLFolder::load1(QDomElement& element)
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
             if (! load1(tempElement)) {
-                uDebug() << "An error happened while loading the " << type
-                    << " of the " << name();
+                logDebug2("UMLFolder::load1 %1: An error happened while loading %2", name(), type);
                 totalSuccess = false;
             }
             continue;
@@ -522,7 +523,7 @@ bool UMLFolder::load1(QDomElement& element)
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {
-                    uDebug() << name() << ": ignoring XMI.extension " << xtag;
+                    logDebug2("UMLFolder::load1 %1: ignoring XMI.extension %2", name(), xtag);
                     continue;
                 }
             }
@@ -547,7 +548,7 @@ bool UMLFolder::load1(QDomElement& element)
             Uml::ID::Type id = Uml::ID::fromString(idStr);
             pObject = umldoc->findObjectById(id);
             if (pObject) {
-                uDebug() << "object " << idStr << "already exists";
+                logDebug1("UMLFolder::load1: object %1 already exists", idStr);
             }
         }
         // Avoid duplicate creation of datatype

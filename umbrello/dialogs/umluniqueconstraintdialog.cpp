@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 #include "umluniqueconstraintdialog.h"
 
@@ -33,6 +33,8 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(UMLUniqueConstraintDialog)
 
 /**
  *  Sets up the UMLUniqueConstraintDialog.
@@ -123,7 +125,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     // We first insert all attributes to the combo box
     const UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
-    uDebug() << ue;
+    logDebug1("UMLUniqueConstraintDialog::setupDialog: UniqueConstraint parent=%1", ue->name());
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
        foreach(UMLClassifierListItem* att, ual) {

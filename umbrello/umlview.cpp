@@ -72,7 +72,7 @@ void UMLView::setZoom(qreal zoom)
         zoom = 500;
     }
 
-    DEBUG() << "setZoom" << zoom;
+    logDebug1("UMLView::setZoom %1", zoom);
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setMatrix(wm);

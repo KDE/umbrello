@@ -34,6 +34,8 @@
 #include <QTimer>
 #include <QScrollBar>
 
+DEBUG_REGISTER(CodeImpStatusPage)
+
 /**
  * Constructor.
  * @param parent   the parent (wizard) of this wizard page
@@ -95,7 +97,7 @@ void CodeImpStatusPage::populateStatusList()
     ui_tableWidgetStatus->setRowCount(m_files.count());
     for (int index = 0; index < m_files.count(); ++index) {
         QFileInfo file = m_files.at(index);
-        uDebug() << file.fileName();
+        logDebug1("CodeImpStatusPage::populateStatusList: file %1", file.fileName());
         ui_tableWidgetStatus->setItem(index, 0, new QTableWidgetItem(file.fileName()));
         ui_tableWidgetStatus->setItem(index, 1, new QTableWidgetItem(i18n("Not Yet Generated")));
         CodeImport::LedStatus* led = new CodeImport::LedStatus(70, 70);
@@ -183,7 +185,7 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     QMetaObject::invokeMethod(worker, "run", Qt::QueuedConnection);
     // FIXME: when to delete worker and m_thread
 #endif
-    uDebug() << "****** starting task for " << m_file.fileName();
+    logDebug1("****** CodeImpStatusPage::importCodeFile starting task for %1", m_file.fileName());
 }
 
 void CodeImpStatusPage::importNextFile(bool noError)
@@ -285,7 +287,7 @@ void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
  */
 void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
 {
-    uDebug() << file << " : " << text;
+    logDebug2("CodeImpStatusPage::updateStatus %1 : %2", file, text);
     QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(file, Qt::MatchFixedString);
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);

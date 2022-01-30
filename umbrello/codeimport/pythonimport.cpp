@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -10,6 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("PythonImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -21,6 +22,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(PythonImport)
 
 /**
  * Constructor.
@@ -366,7 +369,7 @@ bool PythonImport::parseStmt()
     }
     if (keyword == QLatin1String("@")) {
         const QString& annotation = m_source[++m_srcIndex];
-        uDebug() << "annotation:" << annotation;
+        logDebug1("PythonImport::parseStmt annotation: %1", annotation);
         if (annotation == QLatin1String("staticmethod"))
             m_isStatic = true;
         return true;

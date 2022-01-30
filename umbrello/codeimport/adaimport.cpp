@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -10,6 +10,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#define DBG_SRC QLatin1String("AdaImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
@@ -23,6 +24,8 @@
 #include <QRegExp>
 
 #include <stdio.h>
+
+DEBUG_REGISTER(AdaImport)
 
 /**
  * Constructor.
@@ -297,7 +300,7 @@ bool AdaImport::parseStmt()
         QString name = advance();
         QString next = advance();
         if (next == QLatin1String("(")) {
-            uDebug() << name << ": discriminant handling is not yet implemented";
+            logDebug1("AdaImport::parseStmt %1: discriminant handling is not yet implemented", name);
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
             Import_Utils::createUMLObject(UMLObject::ot_Class, name, currentScope(),
@@ -466,7 +469,7 @@ bool AdaImport::parseStmt()
             // subprograms.
             // In order to map those, we would need to create a UML
             // class with stereotype <<utility>> for the Ada package.
-            uDebug() << "ignoring parameterless " << keyword << " " << name;
+            logDebug2("AdaImport::parseStmt(%1): ignoring parameterless %2", keyword, name);
             skipStmt();
             return true;
         }

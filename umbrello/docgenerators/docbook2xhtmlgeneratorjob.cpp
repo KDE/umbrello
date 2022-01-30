@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2007-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2007-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "docbook2xhtmlgeneratorjob.h"
@@ -39,6 +39,8 @@
 
 #include <QTextStream>
 
+DEBUG_REGISTER(Docbook2XhtmlGeneratorJob)
+
 extern int xmlLoadExtDtdDefaultValue;
 
 /**
@@ -75,11 +77,11 @@ void Docbook2XhtmlGeneratorJob::run()
 
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  uDebug() << "Parsing stylesheet " << xsltFileName;
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing stylesheet %1", xsltFileName);
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
-  uDebug() << "Parsing file " << m_docbookUrl.path();
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing file %1", m_docbookUrl.path());
   doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
-  uDebug() << "Applying stylesheet ";
+  logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
   res = xsltApplyStylesheet(cur, doc, params);
 
 #if QT_VERSION >= 0x050000
@@ -90,7 +92,8 @@ void Docbook2XhtmlGeneratorJob::run()
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
-  uDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName();
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Writing HTML result to temp file: %1",
+            tmpXhtml.fileName());
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
 
   xsltFreeStylesheet(cur);

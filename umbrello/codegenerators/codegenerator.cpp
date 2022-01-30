@@ -43,6 +43,8 @@
 // system includes
 #include <cstdlib>  // to get the user name
 
+DEBUG_REGISTER(CodeGenerator)
+
 /**
  * Constructor for a code generator.
  */
@@ -219,7 +221,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
     Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
-        uDebug() << "found UMLObject for id:" << idStr;
+        logDebug1("CodeGenerator::loadCodeForOperation found UMLObject for id: %1", idStr);
         QString value = codeDocElement.attribute(QLatin1String("value"));
 
         UMLObject::ObjectType t = obj->baseType();

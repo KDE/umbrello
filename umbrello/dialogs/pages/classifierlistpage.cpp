@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "classifierlistpage.h"
@@ -8,6 +8,7 @@
 #include "basictypes.h"
 #include "classifierlistitem.h"
 #include "codetextedit.h"
+#define DBG_SRC QLatin1String("ClassifierListPage")
 #include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
@@ -39,6 +40,8 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(ClassifierListPage)
 
 /**
  *  Sets up the ClassifierListPage.
@@ -382,7 +385,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         enableWidgets(true);
         m_pOldListItem = listItem;
     } else {
-        uDebug() << "Cannot find item in list.";
+        logDebug0("ClassifierListPage::slotActivateItem: Cannot find item in list.");
     }
 }
 
@@ -512,7 +515,7 @@ void ClassifierListPage::slotMenuSelection(QAction* action)
                 return;
             UMLClassifierListItem* listItem = getItemList().at(currentItemIndex);
             if (!listItem && id != ListPopupMenu::mt_New_Attribute) {
-                uDebug() << "cannot find att from selection";
+                logDebug0("ClassifierListPage::slotMenuSelection: cannot find att from selection");
                 return;
             }
             m_bSigWaiting = true;
@@ -525,7 +528,8 @@ void ClassifierListPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
+        logDebug1("ClassifierListPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(id));
     }
 }
 
@@ -543,7 +547,7 @@ void ClassifierListPage::printItemList(const QString &prologue)
         item = it.next();
         buf.append(' ' + item->getName());
     }
-    uDebug() << prologue << buf;
+    logDebug1("%1 %2", prologue, buf);
 #else
     Q_UNUSED(prologue);
 #endif
@@ -577,7 +581,8 @@ void ClassifierListPage::slotTopClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotTopClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     addClassifier(currentAtt, 0);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
@@ -612,7 +617,8 @@ void ClassifierListPage::slotUpClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotUpClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     if (index == -1)
         index = 0;
     addClassifier(currentAtt, index);
@@ -648,7 +654,8 @@ void ClassifierListPage::slotDownClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotDownClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
@@ -684,7 +691,8 @@ void ClassifierListPage::slotBottomClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotBottomClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     addClassifier(currentAtt, getItemList().count());
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
@@ -699,9 +707,10 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
         return;
     }
 
-    UMLClassifierListItem* listItem  = getItemList().at(m_pItemListLB->row(item));
+    int row = m_pItemListLB->row(item);
+    UMLClassifierListItem* listItem  = getItemList().at(row);
     if (!listItem) {
-        uDebug() << "cannot find att from selection";
+        logDebug1("ClassifierListPage::slotDoubleClick: cannot find att from selection (row %1)", row);
         return;
     }
 

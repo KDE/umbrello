@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "packagecontentspage.h"
@@ -20,6 +20,8 @@
 #include <QLayout>
 #include <QListWidget>
 #include <QPointer>
+
+DEBUG_REGISTER(PackageContentsPage)
 
 /**
  * Constructs an instance of PackageContentsPage.
@@ -128,7 +130,8 @@ void PackageContentsPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
+        logDebug1("PackageContentsPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(id));
     }
 }
 

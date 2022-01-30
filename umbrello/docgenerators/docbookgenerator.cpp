@@ -2,11 +2,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2006 Gael de Chalendar (aka Kleag) kleag@free.fr
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "docbookgenerator.h"
 
+#define DBG_SRC QLatin1String("DocbookGenerator")
 #include "debug_utils.h"
 #include "docbookgeneratorjob.h"
 #include "uml.h"
@@ -28,6 +29,8 @@
 #include <QFile>
 #include <QRegExp>
 #include <QTextStream>
+
+DEBUG_REGISTER(DocbookGenerator)
 
 /**
  * Constructor.
@@ -70,7 +73,7 @@ bool DocbookGenerator::generateDocbookForProject()
 #else
   url.setFileName(fileName);
 #endif
-  uDebug() << "Exporting to directory: " << url;
+  logDebug1("DocbookGenerator::generateDocbookForProject: Exporting to directory %1", url.path());
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -104,13 +107,13 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     docbookGeneratorJob = new DocbookGeneratorJob(this);
     connect(docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
     connect(docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
-    uDebug()<<"Threading";
+    logDebug0("DocbookGenerator::generateDocbookForProjectInto: Threading.");
     docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    uDebug() << "Generation Finished" << tmpFileName;
+    logDebug1("DocbookGenerator: Generation finished (%1)", tmpFileName);
 #if QT_VERSION >= 0x050000
     QUrl url = umlDoc->url();
 #else
@@ -171,7 +174,7 @@ QString DocbookGenerator::customXslFile()
     if (xsltFile.isEmpty())
         xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
-    uDebug() << "XSLT file is'" << xsltFile << "'";
+    logDebug1("DocbookGenerator::customXslFile returning %1", xsltFile);
     return xsltFile;
 }
 

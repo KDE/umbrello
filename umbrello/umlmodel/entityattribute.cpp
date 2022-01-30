@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,6 +16,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(UMLEntityAttribute)
 
 /**
  * Sets up an entityattribute.
@@ -233,7 +235,8 @@ void UMLEntityAttribute::saveToXMI(QXmlStreamWriter& writer)
 {
     UMLObject::save1(writer, QLatin1String("EntityAttribute"), QLatin1String("ownedAttribute"));
     if (m_pSecondary == 0) {
-        uDebug() << name() << ": m_pSecondary is 0, using local name " << m_SecondaryId;
+        logDebug2("UMLEntityAttribute::saveToXMI %1: m_pSecondary is null, using local name %1",
+                  name(), m_SecondaryId);
         writer.writeAttribute(QLatin1String("type"), m_SecondaryId);
     } else {
         writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));

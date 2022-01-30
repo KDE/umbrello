@@ -1,12 +1,13 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
 #include "petaltree2uml.h"
 
 // app includes
+#define DBG_SRC QLatin1String("Import_Rose")
 #include "debug_utils.h"
 #include "petalnode.h"
 #include "model_utils.h"
@@ -39,6 +40,8 @@
 #include <QtGlobal>
 #include <QFile>
 #include <QRegExp>
+
+DEBUG_REGISTER(Import_Rose)
 
 namespace Import_Rose {
 
@@ -225,8 +228,8 @@ public:
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == 0) {
 #ifdef VERBOSE_DEBUGGING
-            uDebug() << "petaltree2uml ClassifierListReader::read(" << name
-                     << "): no " << m_attributeTag << " found";
+            logDebug2("petaltree2uml ClassifierListReader::read(%1): no %2 found",
+                      name, m_attributeTag);
 #endif
             return;
         }
@@ -235,8 +238,8 @@ public:
             PetalNode *attNode = attributeList[i].second.node;
             QStringList initialArgs = attNode->initialArgs();
             if (attNode->name() != m_elementName) {
-                uDebug() << name << ": expecting " << m_elementName
-                         << ", " << "found " << initialArgs[0];
+                logDebug3("petaltree2uml ClassifierListReader::read(%1): expecting %2, found %3",
+                          name, m_elementName, initialArgs[0]);
                 continue;
             }
             UMLObject *item = createListItem();
@@ -267,7 +270,8 @@ public:
         return new UMLAttribute(m_classifier);
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
-        uDebug() << "petaltree2uml : Adding attribute " << item->name();
+        logDebug2("petaltree2uml AttributesReader::insertAtParent(%1): Adding attribute %2",
+                  m_classifier->name(), item->name());
         m_classifier->addAttribute(item->asUMLAttribute());
     }
 protected:
@@ -288,7 +292,8 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLEnumLiteral *el = item->asUMLEnumLiteral();
         if (el) {
-            uDebug() << "petaltree2uml : Adding enumliteral " << item->name();
+            logDebug2("petaltree2uml LiteralsReader::insertAtParent(%1): Adding enumliteral %2",
+                      m_enum->name(), item->name());
             m_enum->addEnumLiteral(el);
         } else {
             logError1("petaltree2uml LiteralsReader insertAtParent: Cannot cast %1 to UMLEnumLiteral",
@@ -313,7 +318,8 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         if (item->id() == Uml::ID::None)
            item->setID(UniqueID::gen());
-        uDebug() << "petaltree2uml : Adding parameter " << item->name();
+        logDebug2("petaltree2uml ParametersReader::insertAtParent(%1): Adding parameter %2",
+                  m_operation->name(), item->name());
         m_operation->addParm(item->asUMLAttribute());
     }
 protected:
@@ -332,7 +338,8 @@ public:
         return new UMLOperation(m_classifier);
     }
     void insertAtParent(const PetalNode *node, UMLObject *item) {
-        uDebug() << "petaltree2uml : Adding operation " << item->name();
+        logDebug2("petaltree2uml OperationsReader::insertAtParent(%1): Adding operation %2",
+                  m_classifier->name(), item->name());
         UMLOperation *op = item->asUMLOperation();
         ParametersReader parmReader(op);
         parmReader.read(node, m_classifier->name());
@@ -493,7 +500,7 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
             return 0;
         }
         QString envVar(QString::fromLatin1(envVarBA));
-        uDebug() << name << ": envVar " << envVarName << " contains " << envVar;
+        logDebug3("handleControlledUnit(%1) : envVar %2 contains %3", name, envVarName, envVar);
         if (envVar.endsWith(QLatin1Char('/')))
             envVar.chop(1);
         if (firstSlash < 0)
@@ -752,8 +759,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 return false;
             }
             if (roleNode->name() != QLatin1String("Role")) {
-                uDebug() << name << ": expecting Role, found \""
-                         << roleNode->name();
+                logDebug2("umbrellify(%1): expecting Role, found '%2'", name, roleNode->name());
                 continue;
             }
             // index 0 corresponds to Umbrello roleB
@@ -926,7 +932,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 w->setSize(width, height);
             }
             else {
-                uDebug() << "unsupported object type" << objType;
+                logDebug2("umbrellify(%1) unsupported object type %2", name, objType);
                 continue;
             }
 
@@ -950,8 +956,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             view->umlScene()->setupNewWidget(w, false);
         }
     } else {
-        uDebug() << "umbrellify: object type " << objType
-                 << " is not yet implemented";
+        logDebug2("umbrellify(%1): object type %2 is not yet implemented", name, objType);
     }
     return true;
 }
@@ -968,7 +973,7 @@ bool importView(PetalNode *root,
 {
     PetalNode *viewRoot = root->findAttribute(rootName).node;
     if (viewRoot == 0) {
-        uDebug() << "cannot find " << rootName;
+        logDebug1("petaltree2uml importView: cannot find %1", rootName);
         return false;
     }
     if (viewRoot->name() != firstNodeName) {

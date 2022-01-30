@@ -28,6 +28,8 @@
 
 using namespace Uml;
 
+DEBUG_REGISTER(UMLPackage)
+
 /**
  * Sets up a Package.
  * @param name   The name of the Concept.
@@ -88,10 +90,12 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
         if (c == 0)
             continue;
         if (AId == c->id() || (BId == c->id())) {
-            if (c->hasAssociation(assoc))
-                uDebug() << c->name() << " already has association id=" << Uml::ID::toString(assoc->id());
-            else
+            if (c->hasAssociation(assoc)) {
+                logDebug2("UMLPackage::addAssocToConcepts: %1 already has association id=%2",
+                          c->name(), Uml::ID::toString(assoc->id()));
+            } else {
                c->addAssociationEnd(assoc);
+            }
         }
         UMLPackage *pkg = c->asUMLPackage();
         if (pkg)
@@ -139,7 +143,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
     }
 
     if (m_objects.indexOf(pObject) != -1) {
-        uDebug() << pObject->name() << " object is already there";
+        logDebug1("UMLPackage::addObject %1: object is already there", pObject->name());
         return false;
     }
     if (pObject->baseType() == UMLObject::ot_Association) {
@@ -188,7 +192,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
             }
         }
         if (found) {
-            uDebug() << "package " << name() << " : " << nameToAdd << " name is already there";
+            logDebug2("UMLPackage %1 addObject: name %2 is already there", name(), nameToAdd);
             return false;
         }
     }
@@ -212,8 +216,8 @@ void UMLPackage::removeObject(UMLObject *pObject)
             logError0("UMLPackage::removeObject: object asserts to be UMLAssociation but is not");
     }
     if (m_objects.indexOf(pObject) == -1) {
-        uDebug() << name() << " removeObject: object with id="
-                 << Uml::ID::toString(pObject->id()) << "not found.";
+        logDebug2("UMLPackage %1 removeObject: object with id=%2 not found.",
+                  name(), Uml::ID::toString(pObject->id()));
         return;
     }
     // Do not delete a datatype from its root folder but just mark it as inactive.

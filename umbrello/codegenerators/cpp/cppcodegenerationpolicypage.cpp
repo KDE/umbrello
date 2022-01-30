@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -19,6 +19,8 @@
 // qt includes
 #include <QCheckBox>
 #include <QLabel>
+
+DEBUG_REGISTER(CPPCodeGenerationPolicyPage)
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)
@@ -72,7 +74,8 @@ void CPPCodeGenerationPolicyPage::apply()
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->ui_selectCommentStyle->currentIndex());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
-    uDebug() << form->getGenerateAccessorMethods();
+    bool accMethodGen = form->getGenerateAccessorMethods();
+    logDebug1("CPPCodeGenerationPolicyPage::apply: form->getGenerateAccessorMethods returns %1", accMethodGen);
 
     parent->setDestructorsAreVirtual(form->getVirtualDestructors());
     parent->setPackageIsNamespace(form->getPackageIsANamespace());

@@ -10,6 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("IDLImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -35,6 +36,8 @@
 #include <QStringList>
 
 #include <stdio.h>
+
+DEBUG_REGISTER(IDLImport)
 
 QString IDLImport::m_preProcessor;
 QStringList IDLImport::m_preProcessorArguments;
@@ -157,7 +160,7 @@ bool IDLImport::parseFile(const QString& filename)
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
         path.remove(QRegExp(QLatin1String("/[^/]+$")));
-        uDebug() << "adding path " << path;
+        logDebug1("IDLImport::parseFile adding path %1", path);
         Import_Utils::addIncludePath(path);
     }
     const QStringList includePaths = Import_Utils::includePathList();
@@ -175,7 +178,7 @@ bool IDLImport::parseFile(const QString& filename)
         arguments << QLatin1String("-I") + path;
     }
     arguments << filename;
-    uDebug() << "importIDL: " << m_preProcessor << arguments;
+    logDebug2("importIDL::parseFile: %1 %2", m_preProcessor, arguments.join(QLatin1String(" ")));
     p.start(m_preProcessor, arguments);
     if (!p.waitForStarted()) {
         log("Error: could not run preprocessor");
@@ -257,7 +260,7 @@ bool IDLImport::parseStmt()
 {
     QString keyword = m_source[m_srcIndex];
     const int srcLength = m_source.count();
-    uDebug() << "keyword is " << keyword;
+    logDebug1("IDLImport::parseStmt: keyword is %1", keyword);
     if (keyword == QLatin1String("module")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
@@ -478,9 +481,8 @@ bool IDLImport::parseStmt()
         m_srcIndex++;
         const QString& oldType = joinTypename();
         const QString& newType = advance();
-        uDebug() << "parseStmt(typedef) : oldType is " << oldType
-                 << ", newType is " << newType
-                 << ", scopeIndex is " << scopeIndex();
+        logDebug3("IDLImport::parseStmt(typedef) : oldType is %1, newType is %2, scopeIndex is %3",
+                  oldType, newType, scopeIndex());
         UMLObject::ObjectType ot = UMLObject::ot_Class;
         UMLObject *pOld = m_doc->findUMLObject(oldType, UMLObject::ot_UMLObject, currentScope());
         if (pOld) {

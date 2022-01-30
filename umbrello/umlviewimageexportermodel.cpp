@@ -7,6 +7,7 @@
 #include "umlviewimageexportermodel.h"
 
 // application specific includes
+#define DBG_SRC QLatin1String("UMLViewImageExporterModel")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "model_utils.h"
@@ -46,8 +47,6 @@
 
 // system includes
 #include <cmath>
-
-#define DBG_IEM QLatin1String("UMLViewImageExporterModel")
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
@@ -436,7 +435,8 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
     DotGenerator dot;
     bool result = dot.createDotFile(scene, fileName, QLatin1String("export"));
 
-    DEBUG_N(DBG_IEM) << "saving to file " << fileName << result;
+    logDebug2("UMLViewImageExporterModel::exportViewToDot saving to file %1 : %2",
+              fileName, result);
     return result;
 }
 
@@ -543,7 +543,8 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 //    scene->forceUpdateWidgetFontMetrics(0);
     //Note: See comment above.
 
-    DEBUG_N(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
+    logDebug2("UMLViewImageExporterModel::exportViewToSvg saving to file %1 "
+              "successful=%2", fileName, exportSuccessful);
     return exportSuccessful;
 }
 
@@ -574,10 +575,8 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
-    DEBUG_N(DBG_IEM) << "saving to file " << fileName
-                   << ", imageType=" << imageType
-                   << ", width=" << rect.width()
-                   << ", height=" << rect.height()
-                   << ", successful=" << exportSuccessful;
+    logDebug5("UMLViewImageExporterModel::exportViewToPixmap saving to file %1, "
+              "imageType=%2, width=%3, height=%4, successful=%5",
+              fileName, imageType, rect.width(), rect.height(), exportSuccessful);
     return exportSuccessful;
 }

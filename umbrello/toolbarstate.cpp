@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -20,6 +20,8 @@
 // qt includes
 #include <QMatrix> // need for inverseWorldMatrix.map
 #include <QScrollBar>
+
+DEBUG_REGISTER(ToolBarState)
 
 /**
  * Destroys this ToolBarState.
@@ -115,15 +117,15 @@ void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
     m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
 
     if (currentWidget()) {
-        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseWidget";
+        logDebug0("ToolBarState::mouseRelease calling mouseReleaseWidget");
         mouseReleaseWidget();
         setCurrentWidget(0);
     } else if (currentAssociation()) {
-        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseAssociation";
+        logDebug0("ToolBarState::mouseRelease calling mouseReleaseAssociation");
         mouseReleaseAssociation();
         setCurrentAssociation(0);
     } else {
-        uDebug() << "ToolBarState::mouseRelease calling mouseReleaseEmpty";
+        logDebug0("ToolBarState::mouseRelease calling mouseReleaseEmpty");
         mouseReleaseEmpty();
     }
 
@@ -204,10 +206,13 @@ void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
 //             << "visibleArea [x, y, w, h] = [ " << visibleArea.x() << ", " << visibleArea.y() << ", " << visibleArea.width() << ", " << visibleArea.height() << "] / "
 //             << "maxArea [x, y, w, h] = [ " << maxArea.x() << ", " << maxArea.y() << ", " << maxArea.width() << ", " << maxArea.height() << "] / "
 //             << "delta right=" << dtr << ", bottom=" << dtb << ", top=" << dtt << ", left=" << dtl;
-    if (dtr < 30) { uDebug() << "translate RIGHT";  view->ensureVisible(vx, vy, 0.1 /*30-dtr*/, 0, 2, 2); }
+    if (dtr < 30) {
+        logDebug0("ToolBarState::mouseMove translate RIGHT");
+        view->ensureVisible(vx, vy, 0.1 /*30-dtr*/, 0, 2, 2);
+    }
     if (dtb < 30) {
         mouseCount++;
-        uDebug() << "translate BOTTOM " << mouseCount;
+        logDebug1("ToolBarState::mouseMove translate BOTTOM %1", mouseCount);
 //        view->ensureVisible(vx, vy, 0, 0.1 /*30-dtb*/, 2,  2);
         if (mouseCount > 30) {
             view->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
@@ -363,7 +368,7 @@ void ToolBarState::mouseReleaseWidget()
 void ToolBarState::mouseReleaseEmpty()
 {
     if (m_currentWidget) {
-        uDebug() << "ToolBarState::mouseReleaseEmpty : m_currentWidget is set => ensureNestedVisible";
+        logDebug0("ToolBarState::mouseReleaseEmpty : m_currentWidget is set => ensureNestedVisible");
         Widget_Utils::ensureNestedVisible(m_currentWidget, m_pUMLScene->widgetList());
     }
 }

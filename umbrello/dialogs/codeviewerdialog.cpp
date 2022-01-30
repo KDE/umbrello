@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003-2020 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -19,6 +19,8 @@
 #include <KLocalizedString>
 #include <QString>
 #include <QTabWidget>
+
+DEBUG_REGISTER(CodeViewerDialog)
 
 CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state)
@@ -55,7 +57,7 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     CodeEditor * page = new CodeEditor(this, doc);
     QString name = doc->getFileName();
     QString ext = doc->getFileExtension();
-    uDebug() << "name=" << name << " / ext=" << ext;
+    logDebug2("CodeViewerDialog::addCodeDocument: name=%1 / ext=%2", name, ext);
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 
     connect(ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));

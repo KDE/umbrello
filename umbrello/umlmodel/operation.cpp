@@ -25,6 +25,8 @@
 // qt includes
 #include <QRegExp>
 
+DEBUG_REGISTER(UMLOperation)
+
 /**
  * Constructs a UMLOperation.
  * Not intended for general use: The operation is not tied in with
@@ -101,14 +103,14 @@ void UMLOperation::setType(UMLObject* type)
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
     if (a == 0) {
-        uDebug() << "called on NULL attribute";
+        logDebug0("UMLOperation::moveParmLeft called on NULL attribute");
         return;
     }
-    uDebug() << "called for " << a->name();
+    logDebug1("UMLOperation::moveParmLeft called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
-    if ((idx=m_List.indexOf(a)) == -1) {
-        uDebug() << "Error move parm left " << a->name();
+    if ((idx = m_List.indexOf(a)) == -1) {
+        logDebug1("UMLOperation::moveParmLeftError move parm left %1", a->name());
         return;
     }
     if (idx == 0)
@@ -125,14 +127,14 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
     if (a == 0) {
-        uDebug() << "called on NULL attribute";
+        logDebug0("UMLOperation::moveParmRight called on NULL attribute");
         return;
     }
-    uDebug() << "called for " << a->name();
+    logDebug1("UMLOperation::moveParmRight called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
     if ((idx=m_List.indexOf(a)) == -1) {
-        uDebug() << "Error move parm right " << a->name();
+        logDebug1("UMLOperation::moveParmRight: Error move parm right %1", a->name());
         return;
     }
     int count = m_List.count();
@@ -153,13 +155,13 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
     if (a == 0) {
-        uDebug() << "called on NULL attribute";
+        logDebug0("UMLOperation::removeParm called on NULL attribute");
         return;
     }
-    uDebug() << "called for " << a->name();
+    logDebug1("UMLOperation::removeParm called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     if(!m_List.removeAll(a))
-        uDebug() << "Error removing parm " << a->name();
+        logDebug1("UMLOperation::removeParm: Error removing parm %1", a->name());
 
     if (emitModifiedSignal)
         emit modified();
@@ -525,7 +527,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
                                  QLatin1String("direction") : QLatin1String("kind"));
     if (m_pSecondary) {
         if (m_returnId == Uml::ID::None) {
-            uDebug() << name() << ": m_returnId is not set, setting it now.";
+            logDebug1("UMLOperation::saveToXMI %1: m_returnId is not set, setting it now.", name());
             m_returnId = UniqueID::gen();
         }
         if (Settings::optionState().generalState.uml2) {
@@ -540,7 +542,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(dirAttrName, QLatin1String("return"));
         writer.writeEndElement();
     } else {
-        uDebug() << "m_SecondaryId is " << m_SecondaryId;
+        logDebug1("UMLOperation::saveToXMI: m_SecondaryId is %1", m_SecondaryId);
     }
 
     //save each attribute here, type different
@@ -682,10 +684,11 @@ bool UMLOperation::load1(QDomElement & element)
         /*
         CodeGenerator* codegen = UMLApp::app()->getGenerator();
         if (codegen) {
-            uDebug() << "CodeDocument searching with id=" << Uml::ID::toString(UMLObject::ID());
+            logDebug1("UMLOperation::load1: CodeDocument searching with id=%1",
+                      Uml::ID::toString(UMLObject::ID());
             CodeDocument* codeDoc = codegen->findCodeDocumentByID(Uml::ID::toString(UMLObject::ID()));
             if (codeDoc) {
-                uDebug() << "CodeDocument found:\n" << codeDoc;
+                logDebug0("UMLOperation::load1: CodeDocument was found");
             }
         }
         */

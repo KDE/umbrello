@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -11,6 +11,7 @@
 #include "artifact.h"
 #include "classifier.h"
 #include "datatype.h"
+#define DBG_SRC QLatin1String("Import_Utils")
 #include "debug_utils.h"
 #include "folder.h"
 #include "enum.h"
@@ -27,6 +28,9 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 
+// qt includes
+#include <QtGlobal>
+
 #ifdef Q_OS_WIN
 #define PATH_SEPARATOR QLatin1Char(';')
 #else
@@ -34,8 +38,6 @@
 #endif
 
 DEBUG_REGISTER_DISABLED(Import_Utils)
-#undef DBG_SRC
-#define DBG_SRC QLatin1String("Import_Utils")
 
 namespace Import_Utils {
 
@@ -182,16 +184,20 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     if (parentPkg == 0) {
-        // DEBUG() << "Import_Utils::createUMLObject(" << name
-        //     << "): parentPkg is 0, assuming Logical View";
+        // logDebug1("Import_Utils::createUMLObject(%1): parentPkg is 0, assuming Logical View", name);
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Artifact) {
-        DEBUG() << "Import_Utils::createUMLObject(" << name
-                       << "): Artifact as parent package is not supported yet, using Logical View";
+        logDebug1("Import_Utils::createUMLObject(%1): Artifact as parent package is not supported yet, "
+                  "using Logical View", name);
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Association) {
-        DEBUG() << "Import_Utils::createUMLObject(" << name
-                       << "): Association as parent package is not supported yet, using Logical View";
+#ifdef QT_NO_DEBUG
+        logError1("Import_Utils::createUMLObject(%1) grave error: "
+                  "Attempt to use Association as parent package", name);
+#else
+        qFatal("Import_Utils::createUMLObject(%s): Attempt to use Association as parent package",
+               qPrintable(name));
+#endif
         parentPkg = logicalView;
     } else if (name.startsWith(UMLApp::app()->activeLanguageScopeSeparator())) {
         name = name.mid(2);
@@ -427,8 +433,8 @@ UMLAttribute* insertAttribute(UMLClassifier *owner,
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (! (ot == UMLObject::ot_Class ||
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
-        DEBUG() << "insertAttribute: Don not know what to do with "
-                 << owner->name() << " (object type " << UMLObject::toString(ot) << ")";
+        logDebug2("Import_Utils::insertAttribute: Don't know what to do with %1 (object type %2)",
+                  owner->name(), UMLObject::toString(ot));
         return 0;
     }
     UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);
@@ -611,8 +617,8 @@ UMLAssociation *createGeneralization(UMLClassifier *child, UMLClassifier *parent
         assoc->setUMLPackage(child->umlPackage());
         child->addAssociationEnd(assoc);
     } else {
-        uDebug() << "Import_Utils::createGeneralization(child " << child->name()
-                 << ", parent " << parent->name() << ") : Package is not set on child";
+        logDebug2("Import_Utils::createGeneralization(child %1, parent %2) : "
+                  "Package is not set on child", child->name(), parent->name());
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLPackage *owningPackage = umldoc->rootFolder(Uml::ModelType::Logical);
         assoc->setUMLPackage(owningPackage);
@@ -662,7 +668,7 @@ UMLObject *createArtifactFolder(const QString& name,
     o = Object_Factory::createUMLObject(type, name, componentView, false);
     UMLFolder *a = o->asUMLFolder();
     a->setDoc(comment);
-    DEBUG() << name << comment;
+    logDebug2("Import_Utils::createArtifactFolder %1 %2", name, comment);
     return o;
 }
 
@@ -686,7 +692,7 @@ UMLObject *createArtifact(const QString& name,
     UMLArtifact *a = o->asUMLArtifact();
     a->setDrawAsType(UMLArtifact::file);
     a->setDoc(comment);
-    DEBUG() << name << comment;
+    logDebug2("Import_Utils::createArtifact %1 %2", name, comment);
     return o;
 }
 
@@ -750,12 +756,14 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
         currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
     UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
     if (!o) {
-        DEBUG() << name << " : Object_Factory::createNewUMLObject(ot_Enum) returns null";
+        logDebug1("Import_Utils::remapUMLEnum(%1) : Object_Factory::createNewUMLObject(ot_Enum) returns null",
+                  name);
         return 0;
     }
     UMLEnum *e = o->asUMLEnum();
     if (!e) {
-        DEBUG() << name << " : object returned by Object_Factory::createNewUMLObject is not Enum";
+        logDebug1("Import_Utils::remapUMLEnum(%1) : object returned by Object_Factory::createNewUMLObject "
+                  "is not Enum", name);
         return 0;
     }
     e->setDoc(comment);
@@ -764,7 +772,7 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
     // add to parents child list
     if (currentScope->addObject(e, false))  // false => non interactively
         return e;
-    DEBUG() << name << " : name is already present in " << currentScope->name();
+    logDebug2("Import_Utils::remapUMLEnum(%1) : name is already present in %2", name, currentScope->name());
     return 0;
 }
 

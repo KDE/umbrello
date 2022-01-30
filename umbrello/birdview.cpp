@@ -16,7 +16,8 @@
 #include <QScrollBar>
 #include <QTimer>
 
-DEBUG_REGISTER_DISABLED(BirdView)
+// Currently this file is not using debug statements. Activate this line when inserting them:
+//DEBUG_REGISTER_DISABLED(BirdView)
 
 #define VERBOSE_DBG_OUT 0
 

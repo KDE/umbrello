@@ -21,6 +21,8 @@
 #include <QRegExp>
 #include <QXmlStreamWriter>
 
+DEBUG_REGISTER(JavaANTCodeDocument)
+
 JavaANTCodeDocument::JavaANTCodeDocument ()
 {
     setFileName(QLatin1String("build")); // default name
@@ -150,7 +152,8 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("JavaANTCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack: %1, ignoring", name);
                 }
 
                 node = element.nextSibling();

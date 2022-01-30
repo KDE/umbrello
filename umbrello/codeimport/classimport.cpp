@@ -1,12 +1,13 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
 #include "classimport.h"
 
 // app includes
+#define DBG_SRC QLatin1String("ClassImport")
 #include "debug_utils.h"
 #include "folder.h"
 #include "uml.h"
@@ -129,9 +130,12 @@ void ClassImport::log(const QString& file, const QString& text)
 {
     if (m_thread) {
         m_thread->emitMessageToLog(file, text);
-    }
-    else {
-        uDebug() << file << " - " << text;
+    } else {
+        QString msg;
+        if (!file.isEmpty())
+            msg.append(file).append(QLatin1String(" - "));
+        msg.append(text);
+        UMLApp::app()->log(msg);
     }
 }
 

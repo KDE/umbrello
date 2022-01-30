@@ -21,6 +21,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+DEBUG_REGISTER(UMLInstance)
+
 /**
  * Construct UMLInstance
  * @param instanceName Name of the instance
@@ -178,19 +180,20 @@ void UMLInstance::attributeAdded(UMLClassifierListItem *item)
     for (int i = 0; i < subordinates().count(); i++) {
         UMLObject *o = subordinates().at(i);
         if (o->parent() == item) {
-            uDebug() << "UMLInstance::attributeAdded(" << item->name()
-                     << ") : instanceAttribute already present";
+            logDebug2("UMLInstance %1 attributeAdded(%2) : instanceAttribute already present",
+                      name(), item->name());
             return;
         }
     }
     UMLAttribute *umla = item->asUMLAttribute();
     if (umla) {
-        uDebug() << "UMLInstance::attributeAdded(" << item->name()
-                 << ") : creating UMLInstanceAttribute";
+        logDebug2("UMLInstance %1 attributeAdded(%2) : creating UMLInstanceAttribute",
+                  name(), item->name());
         UMLInstanceAttribute *ia = new UMLInstanceAttribute(this, umla, umla->getInitialValue());
         subordinates().append(ia);
     } else {
-        logError1("UMLInstance::attributeAdded(%1) : item is not a UMLAttribute", item->name());
+        logError2("UMLInstance %1 attributeAdded(%2) : item is not a UMLAttribute",
+                  name(), item->name());
     }
 }
 
@@ -199,8 +202,8 @@ void UMLInstance::attributeRemoved(UMLClassifierListItem *item)
     for (int i = 0; i < subordinates().count(); i++) {
         UMLObject *o = subordinates().at(i);
         if (o->parent() == item) {
-            uDebug() << "UMLInstance::attributeRemoved(" << item->name()
-                     << ") : removing instanceAttribute at index " << i;
+            logDebug3("UMLInstance %1 attributeRemoved(%2) : removing instanceAttribute at index %3",
+                      name(), item->name(), i);
             subordinates().removeAt(i);
             return;
         }

@@ -124,6 +124,8 @@
 
 #include <cmath>
 
+DEBUG_REGISTER(UMLApp)
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -148,11 +150,9 @@ QMenu* UMLApp::findMenu(const QString& name)
     if (widget) {
         return dynamic_cast<QMenu*>(widget);
     }
-    DEBUG() << "factory()->container(" << name << ") returns NULL";
+    logDebug1("UMLApp::findMenu factory()->container(%1) returns NULL", name);
     return 0;
 }
-
-DEBUG_REGISTER(UMLApp)
 
 /**
  * Constructor. Calls all init functions to create the application.

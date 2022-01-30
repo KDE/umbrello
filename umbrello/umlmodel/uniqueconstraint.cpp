@@ -16,6 +16,8 @@
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
 
+DEBUG_REGISTER(UMLUniqueConstraint)
+
 /**
  * Sets up a constraint.
  *
@@ -82,8 +84,9 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
     }
 
     if (!valid) {
+        logDebug0("UMLUniqueConstraint::copyInto: Copying Attributes failed. "
+                  "Clearing target list.");
         target->m_EntityAttributeList.clear();
-        uDebug() <<"Copying Attributes Failed : Target list cleared instead";
     }
 }
 
@@ -246,7 +249,8 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
     const UMLEntity *owningParent = umlParent()->asUMLEntity();
 
     if (hasEntityAttribute(attr)) {
-        uDebug() << "Unique Constraint already contains" << attr->name();
+        logDebug1("UMLUniqueConstraint::addEntityAttribute: Constraint already contains %2",
+                  attr->name());
         return false;
 
     }

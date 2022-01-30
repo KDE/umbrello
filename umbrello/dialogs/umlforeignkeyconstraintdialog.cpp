@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlforeignkeyconstraintdialog.h"
@@ -40,6 +40,8 @@
 #include <QPushButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(UMLForeignKeyConstraintDialog)
 
 /**
  *  Sets up the UMLForeignKeyConstraintDialog
@@ -131,13 +133,14 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_pReferencedAttributeList.append(pair.second);
 
     // add them to the view (combo boxes)
-    uDebug() << (pair.first) << (pair.second);
+    logDebug2("UMLForeignKeyConstraintDialog::slotDeletePair: %1 %2",
+              pair.first->name(), pair.second->name());
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::SignatureType::SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::SignatureType::SigNoVis));
 
     foreach(const EntityAttributePair& p, m_pAttributeMapList) {
-        uDebug() << (p.first)->name() << " " << (p.first)->baseType() << " "
-                 << (p.second)->name() << " " << (p.second)->baseType();
+        logDebug4("UMLForeignKeyConstraintDialog::slotDeletePair: AttributeMapList %1 %2 / %3 %4",
+                  p.first->name(), p.first->baseType(), p.second->name(), p.second->baseType());
     }
 
     slotResetWidgetState();
@@ -158,7 +161,8 @@ bool UMLForeignKeyConstraintDialog::apply()
     UMLEntity* ue = uo->asUMLEntity();
 
     if (ue == 0) {
-        uDebug() << " Could not find UML Entity with name " << entityName;
+        logDebug1("UMLForeignKeyConstraintDialog::apply: Could not find UML Entity with name %1",
+                  entityName);
         return false;
     }
 

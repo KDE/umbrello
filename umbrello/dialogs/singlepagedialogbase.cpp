@@ -6,7 +6,10 @@
 #include "singlepagedialogbase.h"
 
 // app include
-#include <debug_utils.h>
+#include "debug_utils.h"
+#include "uml.h"
+
+// kde include
 #include <KLocalizedString>
 
 DEBUG_REGISTER(SinglePageDialogBase)
@@ -76,7 +79,8 @@ SinglePageDialogBase::~SinglePageDialogBase()
  */
 bool SinglePageDialogBase::apply()
 {
-    DEBUG() << "no derived apply() method present, called empty base implementation";
+    logDebug0("SinglePageDialogBase::apply: no derived apply() method present, "
+              "called empty base implementation");
     return true;
 }
 

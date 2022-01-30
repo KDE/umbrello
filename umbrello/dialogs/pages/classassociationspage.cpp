@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "classassociationspage.h"
@@ -12,12 +12,15 @@
 #include "dialogspopupmenu.h"
 #include "umlobject.h"
 #include "umlscene.h"
+#include "uml.h"
 
 #include <KLocalizedString>
 
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QListWidgetItem>
+
+DEBUG_REGISTER(ClassAssociationsPage)
 
 /**
  *  Constructs an instance of AssocPage.
@@ -122,7 +125,7 @@ void ClassAssociationsPage::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         //:TODO:
-        uDebug() << "MenuType mt_Line_Color not yet implemented!";
+        logDebug0("ClassAssociationsPage::slotMenuSelection: MenuType mt_Line_Color not yet implemented!");
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -130,7 +133,8 @@ void ClassAssociationsPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
+        logDebug1("ClassAssociationsPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(id));
     }
 }
 

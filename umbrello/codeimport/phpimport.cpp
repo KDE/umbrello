@@ -11,6 +11,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#define DBG_SRC QLatin1String("PHPImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -50,6 +51,8 @@ QTextStream qin(stdin);
 #include <language/codegen/coderepresentation.h>
 #include <language/editor/documentrange.h>
 #include <tests/testcore.h>
+
+DEBUG_REGISTER(PHPImport)
 
 namespace Php {
 
@@ -283,7 +286,7 @@ public:
             o = Import_Utils::createUMLObject(UMLObject::ot_Class, names, parent);
         if (o) {
             m_usingClasses.append(o->asUMLClassifier());
-            uDebug() << "using class" << names;
+            logDebug1("using class %1", names);
         }
         DefaultVisitor::visitUseNamespace(node);
     }
@@ -773,7 +776,7 @@ void PHPImport::feedTheModel(const QString& fileName)
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
         visitor.setFileName(file);
         if (p->ast() && !p->wasFed()) {
-            uDebug() << "feeding" << file;
+            logDebug1("feeding %1", file);
             visitor.visitStart(p->ast());
             p->setFed(true);
         }

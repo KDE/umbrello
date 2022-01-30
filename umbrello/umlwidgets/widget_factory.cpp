@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -23,6 +23,7 @@
 #include "component.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
+#define DBG_SRC QLatin1String("Widget_Factory")
 #include "debug_utils.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -56,6 +57,8 @@
 #include "umlview.h"
 #include "usecase.h"
 #include "usecasewidget.h"
+
+DEBUG_REGISTER(Widget_Factory)
 
 namespace Widget_Factory {
 
@@ -162,7 +165,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     }
 
     if (newWidget) {
-        uDebug() << "Widget_Factory::createWidget(" << newWidget->baseType() << ")";
+        logDebug1("Widget_Factory::createWidget(%1)", newWidget->baseType());
         if (newWidget->baseType() != WidgetBase::wt_Pin &&
             newWidget->baseType() != WidgetBase::wt_Port) {
             newWidget->setX(pos.x());
@@ -176,8 +179,8 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
     if (o == 0) {
-        uDebug() << "Widget_Factory::validateObjType: creating new object of type "
-                 << expected;
+        logDebug1("Widget_Factory::validateObjType: creating new object of type %1",
+                  expected);
         QString artificialName = QLatin1String("LOST_") + Uml::ID::toString(id);
         o = Object_Factory::createUMLObject(expected, artificialName, 0, false);
         if (o == 0)

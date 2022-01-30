@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -40,6 +40,8 @@
 // qt includes
 #include <QMimeData>
 #include <QPixmap>
+
+DEBUG_REGISTER(UMLClipboard)
 
 /**
  * Constructor.
@@ -196,7 +198,7 @@ bool UMLClipboard::paste(const QMimeData* data)
         return Diagram_Utils::importGraph(data, UMLApp::app()->currentView()->umlScene());
     }
     QString mimeType = QLatin1String("application/x-uml-clip") + QString::number(codingType);
-    uDebug() << "Pasting mimeType=" << mimeType << "data=" << data->data(mimeType);
+    logDebug1("UMLClipboard::paste: Pasting mimeType %1", mimeType);
 
     bool result = false;
     doc->beginPaste();
@@ -465,7 +467,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     UMLViewList         views;
 
     if (!UMLDragData::decodeClip2(data, objects, views)) {
-        uDebug() << "UMLDragData::decodeClip2 returned error";
+        logDebug0("UMLClipboard::pasteClip2: UMLDragData::decodeClip2 returned error");
         return false;
     }
 

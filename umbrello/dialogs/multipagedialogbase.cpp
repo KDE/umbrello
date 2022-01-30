@@ -264,7 +264,7 @@ void MultiPageDialogBase::slotDefaultClicked()
  */
 void MultiPageDialogBase::slotHelpClicked()
 {
-    DEBUG()  << "HELP clicked...directly handled";
+    logDebug0("MultiPageDialogBase::slotHelpClicked is handled directly");
     KHelpClient::invokeHelp(QLatin1String("settings"), QLatin1String("umbrello"));
 }
 
@@ -275,22 +275,22 @@ void MultiPageDialogBase::slotHelpClicked()
 void MultiPageDialogBase::slotButtonClicked(QAbstractButton *button)
 {
     if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
-        DEBUG()  << "APPLY clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: APPLY...");
         slotApplyClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Ok)) {
-        DEBUG()  << "OK clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: OK...");
         slotOkClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Cancel)) {
-        DEBUG()  << "CANCEL clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: CANCEL...");
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
-        DEBUG()  << "HELP clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: HELP...");
         slotHelpClicked();
     }
     else {
-        DEBUG()  << "Button clicked with unhandled role.";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: unhandled button role");
     }
 }
 #endif

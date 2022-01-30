@@ -21,6 +21,8 @@
 // qt includes
 #include <QApplication>
 
+DEBUG_REGISTER(UMLAttribute)
+
 /**
  * Sets up an attribute.
  *
@@ -268,8 +270,8 @@ void UMLAttribute::saveToXMI(QXmlStreamWriter& writer)
         UMLObject::save1(writer, QLatin1String("Attribute"));
     }
     if (m_pSecondary == 0) {
-        uDebug() << name() << ": m_pSecondary is 0, m_SecondaryId is '"
-            << m_SecondaryId << "'";
+        logDebug2("UMLAttribute::saveToXMI(%1) : m_pSecondary is null, m_SecondaryId is '%2'",
+                  name(), m_SecondaryId);
     } else {
         writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
@@ -332,9 +334,8 @@ bool UMLAttribute::load1(QDomElement & element)
                     m_pSecondary = Model_Utils::findUMLObject(dataTypes,
                                                               typeName, UMLObject::ot_Datatype);
                     if (m_pSecondary) {
-                        uDebug() << "UMLAttribute::load1(" << name() << ") : href type =" << typeName
-                                 << ", number of datatypes =" << dataTypes.size()
-                                 << ", found existing " << m_pSecondary;
+                        logDebug3("UMLAttribute::load1(%1) : href type = %2, number of datatypes = %3, "
+                                  "found existing type.", name(), typeName, dataTypes.size());
                     } else {
                         UMLDoc *pDoc = UMLApp::app()->document();
                         pDoc->createDatatype(typeName);
@@ -343,9 +344,8 @@ bool UMLAttribute::load1(QDomElement & element)
                         qApp->processEvents();
                         m_pSecondary = Model_Utils::findUMLObject(dataTypes,
                                                                   typeName, UMLObject::ot_Datatype);
-                        uDebug() << "UMLAttribute::load1(" << name() << ") : href type =" << typeName
-                                 << ", number of datatypes =" << dataTypes.size()
-                                 << ", did not find it so created it now, " << m_pSecondary;
+                        logDebug3("UMLAttribute::load1(%1) : href type = %2, number of datatypes = %3, "
+                                  "did not find it so created it now.", name(), typeName, dataTypes.size());
                     }
                 } else {
                     logWarn2("UMLAttribute::load1(%1) : resolving of href is not yet implemented (%2)",
@@ -355,7 +355,7 @@ bool UMLAttribute::load1(QDomElement & element)
             break;
         }
         if (m_SecondaryId.isEmpty() && !m_pSecondary) {
-            uDebug() << name() << ": cannot find type.";
+            logDebug1("UMLAttribute::load1(%1): cannot find type.", name());
         }
     }
     m_InitialValue = element.attribute(QLatin1String("initialValue"));
