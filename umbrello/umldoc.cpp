@@ -3012,6 +3012,30 @@ UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */) const
 }
 
 /**
+ * Seek the datatype of the given name in the Datatypes folder.
+ *
+ * @param name             Name of the datatype
+ * @param includeInactive  Include inactive datatypes in the search.
+ * @return  List of datatypes.
+ */
+UMLDatatype * UMLDoc::findDatatype(QString name, bool includeInactive /* = false */)
+{
+    const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
+    foreach (UMLClassifier *c, datatypes(includeInactive)) {
+        UMLDatatype *type = dynamic_cast<UMLDatatype*>(c);
+        if (!type)
+            continue;
+        if (caseSensitive) {
+            if (type->name() == name)
+                return type;
+        } else if (type->name().toLower() == name.toLower()) {
+            return type;
+        }
+    }
+    return nullptr;
+}
+
+/**
  * Returns a list of the associations in this UMLDoc.
  *
  * @return  List of UML associations.
@@ -3448,7 +3472,7 @@ void UMLDoc::addDefaultDatatypes()
  * Add a datatype if it doesn't already exist.
  * Used by addDefaultDatatypes().
  */
-void UMLDoc::createDatatype(const QString &name)
+UMLDatatype * UMLDoc::createDatatype(const QString &name)
 {
     UMLObjectList datatypes = m_datatypeRoot->containedObjects(true);
     UMLObject* umlobject = Model_Utils::findUMLObject(datatypes, name,
@@ -3464,8 +3488,10 @@ void UMLDoc::createDatatype(const QString &name)
         if (umlobject) {
             logWarn1("UMLDoc::createDatatype(%1) : Name already exists but is not a Datatype", name);
         }
-        Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
+        umlobject = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
+        dt = dynamic_cast<UMLDatatype*>(umlobject);
     }
+    return dt;
 }
 
 /**

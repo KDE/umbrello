@@ -24,6 +24,8 @@ protected:
 
     bool parseStmt();
 
+    QStringList split(const QString& line);
+
     void fillSource(const QString& word);
 
     void checkModifiers(bool& isVirtual, bool& isAbstract);

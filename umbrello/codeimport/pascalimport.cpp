@@ -9,6 +9,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "datatype.h"
 #define DBG_SRC QLatin1String("PascalImport")
 #include "debug_utils.h"
 #include "enum.h"
@@ -50,6 +51,18 @@ void PascalImport::initVars()
     m_inInterface = false;
     m_section = sect_NONE;
     NativeImportBase::m_currentAccess = Uml::Visibility::Public;
+}
+
+/**
+ * We need to reimplement the split operation from NativeImportBase
+ * because Delphi appears to support UUIDs with syntax such as
+ *    ['{23170F69-40C1-278A-0000-000500100000}']
+ * which the NativeImportBase implementation does not split properly.
+ */
+QStringList PascalImport::split(const QString& line)
+{
+    // @todo implement this properly
+    return NativeImportBase::split(line);
 }
 
 /**
@@ -114,8 +127,10 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
 bool PascalImport::parseStmt()
 {
     const int srcLength = m_source.count();
-    QString keyword = m_source[m_srcIndex].toLower();
-    //uDebug() << '"' << keyword << '"';
+    QString token   = m_source[m_srcIndex];
+    QString nextTok = (m_srcIndex < srcLength-1 ? m_source[m_srcIndex + 1] : QLatin1String("!END!"));
+    QString keyword = token.toLower();
+    logDebug3("PascalImport::parseStmt : %1 (%2) index %3", token, nextTok, m_srcIndex);
     if (keyword == QLatin1String("uses")) {
         while (m_srcIndex < srcLength - 1) {
             QString unit = advance();
@@ -147,6 +162,7 @@ bool PascalImport::parseStmt()
             if (advance() != QLatin1String(","))
                 break;
         }
+        skipStmt();
         return true;
     }
     if (keyword == QLatin1String("unit")) {
@@ -210,7 +226,15 @@ bool PascalImport::parseStmt()
         return true;  // TBC: perhaps this could be stored in a TaggedValue
     }
     if (keyword == QLatin1String("[")) {
-        skipStmt(QLatin1String("]"));
+        //skipStmt(QLatin1String("]"));
+        //  Not using skipStmt here because the closing bracket may be glued on to
+        //  some other character(s), e.g. ']  (quote)
+        // This is an imperfection in the token splitter.
+        // @todo flesh out function split() which should be reimplemented from NativeImportBase
+        while (m_srcIndex < m_source.count()) {
+            if (advance().endsWith("]"))
+                break;
+        }
         return true;
     }
     if (keyword == QLatin1String("end")) {
@@ -235,6 +259,7 @@ bool PascalImport::parseStmt()
             bool dummyVirtual = false;
             bool dummyAbstract = false;
             checkModifiers(dummyVirtual, dummyAbstract);
+            skipStmt();
             return true;
         }
         const QString& name = advance();
@@ -320,7 +345,8 @@ bool PascalImport::parseStmt()
             logDebug2("PascalImport::parseStmt %1: expecting '=' at %2", name, nextToken);
             return false;
         }
-        keyword = advance().toLower();
+        QString rhsName = advance();
+        keyword = rhsName.toLower();
         if (keyword == QLatin1String("(")) {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
@@ -403,8 +429,28 @@ bool PascalImport::parseStmt()
             skipStmt();
             return true;
         }
-        // Datatypes: TO BE DONE
-        return false;
+        // Datatypes
+        UMLObject *o = nullptr;
+        UMLDoc *umldoc = UMLApp::app()->document();
+        UMLDatatype *newType = umldoc->findDatatype(name);
+        if (!newType) {
+            o = Import_Utils::createUMLObject(UMLObject::ot_Datatype, name,
+                                              currentScope(), m_comment);
+            newType = dynamic_cast<UMLDatatype*>(o);
+        }
+        if (!newType) {
+            logError1("PascalImport::parseStmt: Finding/creating datatype %1 failed", name);
+            skipStmt();
+            return false;
+        }
+        /* TODO: Create <<typedef>> from originType to newType
+        UMLDatatype *originType = umldoc->findDatatype(rhsName);
+        if (originType) {
+           ....
+        } */
+        o = newType;
+        skipStmt();
+        return true;
     }
     // At this point we need a class because we're expecting its member attributes.
     if (m_klass == 0) {
@@ -435,7 +481,17 @@ bool PascalImport::parseStmt()
     }
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                  typeName, m_comment);
+    if (!o) {
+        logDebug2("PascalImport::parseStmt: Could not insert attribute %1 in class %2",
+                  name, m_klass->name());
+        return false;
+    }
     UMLAttribute *attr = o->asUMLAttribute();
+    if (!attr) {
+        logDebug2("PascalImport::parseStmt: insertAttribute returned different object named %1 in class %2",
+                  name, m_klass->name());
+        return false;
+    }
     attr->setStereotype(stereotype);
     attr->setInitialValue(initialValue);
     skipStmt();

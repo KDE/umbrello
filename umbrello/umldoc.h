@@ -190,6 +190,7 @@ public:
     UMLEntityList entities(bool includeNested = true) const;
     UMLFolder * datatypeFolder() const;
     UMLClassifierList datatypes(bool includeInactive = false) const;
+    UMLDatatype * findDatatype(QString name, bool includeInactive = false);
     UMLAssociationList associations() const;
     UMLPackageList packages(bool includeNested = true, Uml::ModelType::Enum model = Uml::ModelType::Logical) const;
 
@@ -232,7 +233,7 @@ public:
     bool closing() const;
 
     void addDefaultDatatypes();
-    void createDatatype(const QString &name);
+    UMLDatatype * createDatatype(const QString &name);
     void removeDatatype(const QString &name);
 
     UMLStereotype *createStereotype(const QString &name);
