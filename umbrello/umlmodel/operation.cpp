@@ -248,7 +248,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     if (returnType.length() > 0 && returnType != QLatin1String("void")) {
         s.append(QLatin1String(" : "));
 
-        if (returnType.startsWith(QLatin1String(QLatin1String("virtual ")))) {
+        if (returnType.startsWith(QLatin1String("virtual "))) {
             s += returnType.mid(8);
         } else {
             s += returnType;
