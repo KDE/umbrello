@@ -36,7 +36,7 @@ protected:
 
     QString indentation(int level);
 
-    QString skipBody();
+    QString skipBody(bool *foundReturn = 0);
 
     /**
      * Buffer for number of indentation characters (whitespace,

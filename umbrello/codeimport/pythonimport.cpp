@@ -162,9 +162,14 @@ QString PythonImport::indentation(int level)
 
 /**
  * Skip ahead to outermost closing brace.
+ * @param foundReturn  Optional pointer to bool.
+ *                     If given then the variable pointed to will be set true if
+ *                     a 'return' statement is encountered while skipping.
+ *                     If no 'return' statement was encountered then the variable
+ *                     is set to false.
  * @return  body contents skipped
  */
-QString PythonImport::skipBody()
+QString PythonImport::skipBody(bool *foundReturn)
 {
     /* During input preprocessing, changes in indentation were replaced by
        braces, and a semicolon was appended to each line ending.
@@ -172,6 +177,8 @@ QString PythonImport::skipBody()
        syntax by reverting those changes.
      */
     QString body;
+    if (foundReturn != nullptr)
+        *foundReturn = false;
     if (m_source[m_srcIndex] != QLatin1String("{"))
         skipStmt(QLatin1String("{"));
     bool firstTokenAfterNewline = true;
@@ -195,6 +202,8 @@ QString PythonImport::skipBody()
             if (firstTokenAfterNewline) {
                 body += indentation(braceNesting);
                 firstTokenAfterNewline = false;
+                if (foundReturn != nullptr && token == QLatin1String("return"))
+                    *foundReturn = true;
             } else if (body.contains(QRegExp(QLatin1String("\\w$"))) &&
                        token.contains(QRegExp(QLatin1String("^\\w")))) {
                 body += QLatin1Char(' ');
@@ -410,12 +419,17 @@ bool PythonImport::parseStmt()
             return true;
         }
 
-        Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
+        int srcIndex = m_srcIndex;
+        bool foundReturn = false;
+        const QString bodyCode(skipBody(&foundReturn));
+        QString returnTypeName;
+        if (foundReturn)
+            returnTypeName = QLatin1String("string");
+        Import_Utils::insertMethod(m_klass, op, visibility, returnTypeName,
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    isConstructor, false, m_comment);
+        op->setSourceCode(bodyCode);
         m_isStatic = false;
-        int srcIndex = m_srcIndex;
-        op->setSourceCode(skipBody());
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
             op->setDoc(m_comment);
