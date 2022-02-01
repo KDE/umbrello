@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef PYTHONIMPORT_H
@@ -36,7 +36,7 @@ protected:
 
     QString indentation(int level);
 
-    QString skipBody(bool *foundReturn = 0);
+    QString skipBody(Uml::PrimitiveTypes::Enum *foundReturn = 0);
 
     /**
      * Buffer for number of indentation characters (whitespace,

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef NATIVEIMPORTBASE_H
@@ -78,6 +78,7 @@ protected:
     void skipStmt(const QString& until = QLatin1String(";"));
     bool skipToClosing(QChar opener);
 
+    QString current();
     QString lookAhead();
     virtual QString advance();
 

@@ -127,7 +127,18 @@ void PythonImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; ++i) {
+    uint i = 0;
+    if (word[0] == QLatin1Char('-') && len > 1) {
+        const QChar& c1 = word[1];
+        if (c1 == QLatin1Char('>')) {
+            m_source.append(QLatin1String("->"));
+            i = 2;
+        } else if (c1.isDigit()) {
+            lexeme.append(word[0]).append(word[1]);
+            i = 2;
+        }
+    }
+    for (; i < len; ++i) {
         const QChar& c = word[i];
         if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('.')) {
             lexeme += c;
@@ -137,7 +148,8 @@ void PythonImport::fillSource(const QString& word)
                 m_srcIndex++;
                 lexeme.clear();
             }
-            m_source.append(QString(c));
+            QString tok(c);
+            m_source.append(tok);
             m_srcIndex++;
         }
     }
@@ -162,14 +174,21 @@ QString PythonImport::indentation(int level)
 
 /**
  * Skip ahead to outermost closing brace.
- * @param foundReturn  Optional pointer to bool.
- *                     If given then the variable pointed to will be set true if
- *                     a 'return' statement is encountered while skipping.
- *                     If no 'return' statement was encountered then the variable
- *                     is set to false.
+ * @param foundReturn  Optional pointer to Uml::PrimitiveTypes::Enum.
+ *                     If given then the variable pointed to will be set if
+ *                     a 'return' statement is encountered while skipping:
+ *                     - If after 'return' there is a value True or False then
+ *                       *foundReturn is set to Boolean;
+ *                     - elsif after 'return' there is a number without decimal
+ *                       point then *foundReturn is set to Integer;
+ *                     - elsif after 'return' there is a number with decimal
+ *                       point then *foundReturn is set to Real;
+ *                     - else *foundReturn is set to String.
+ *                     If no 'return' statement was encountered then
+ *                     *foundReturn is set to Reserved.
  * @return  body contents skipped
  */
-QString PythonImport::skipBody(bool *foundReturn)
+QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
 {
     /* During input preprocessing, changes in indentation were replaced by
        braces, and a semicolon was appended to each line ending.
@@ -178,7 +197,7 @@ QString PythonImport::skipBody(bool *foundReturn)
      */
     QString body;
     if (foundReturn != nullptr)
-        *foundReturn = false;
+        *foundReturn = Uml::PrimitiveTypes::Reserved;
     if (m_source[m_srcIndex] != QLatin1String("{"))
         skipStmt(QLatin1String("{"));
     bool firstTokenAfterNewline = true;
@@ -202,8 +221,20 @@ QString PythonImport::skipBody(bool *foundReturn)
             if (firstTokenAfterNewline) {
                 body += indentation(braceNesting);
                 firstTokenAfterNewline = false;
-                if (foundReturn != nullptr && token == QLatin1String("return"))
-                    *foundReturn = true;
+                if (foundReturn != nullptr && token == QLatin1String("return") &&
+                        (*foundReturn == Uml::PrimitiveTypes::Reserved ||
+                         *foundReturn == Uml::PrimitiveTypes::String)) {
+                    QString next = lookAhead();
+                    if (next == QLatin1String("False") || next == QLatin1String("True")) {
+                        *foundReturn = Uml::PrimitiveTypes::Boolean;
+                    } else if (next.contains(QRegExp("^-?\\d+$"))) {
+                        *foundReturn = Uml::PrimitiveTypes::Integer;
+                    } else if (next.contains(QRegExp("^-?\\d+\\."))) {
+                        *foundReturn = Uml::PrimitiveTypes::Real;
+                    } else if (next != QLatin1String("None")) {
+                        *foundReturn = Uml::PrimitiveTypes::String;
+                    }
+                }
             } else if (body.contains(QRegExp(QLatin1String("\\w$"))) &&
                        token.contains(QRegExp(QLatin1String("^\\w")))) {
                 body += QLatin1Char(' ');
@@ -246,7 +277,7 @@ bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QStr
         for (int i = index; i <= m_srcIndex; i++)
             value += m_source[i];
     } else if (keyword.startsWith(QLatin1String("\""))) {
-        type = QLatin1String("string");
+        type = QLatin1String("str");
         value = keyword;
     } else if (keyword == QLatin1String("True") || keyword == QLatin1String("False")) {
         type = QLatin1String("bool");
@@ -335,11 +366,11 @@ bool PythonImport::parseMethodParameters(UMLOperation *op)
             if (firstParam) {
                 if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) != 0) {
                     m_isStatic = true;
-                    attr = Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
+                    attr = Import_Utils::addMethodParameter(op, QLatin1String("str"), parName);
                 }
                 firstParam = false;
             } else {
-                attr = Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
+                attr = Import_Utils::addMethodParameter(op, QLatin1String("str"), parName);
             }
         }
         if (lookAhead() == QLatin1String(","))
@@ -418,13 +449,35 @@ bool PythonImport::parseStmt()
             skipBody();
             return true;
         }
-
-        int srcIndex = m_srcIndex;
-        bool foundReturn = false;
-        const QString bodyCode(skipBody(&foundReturn));
+        // m_srcIndex is now at ")"
+        int srcIndex = ++m_srcIndex;
         QString returnTypeName;
-        if (foundReturn)
-            returnTypeName = QLatin1String("string");
+        if (current() == QLatin1String("->")) {  // type hint
+            returnTypeName = advance();
+            if (returnTypeName == QLatin1String("None"))
+                returnTypeName.clear();
+            ++m_srcIndex;
+        }
+        Uml::PrimitiveTypes::Enum foundReturn;
+        const QString bodyCode(skipBody(&foundReturn));
+        if (returnTypeName.isEmpty() && foundReturn != Uml::PrimitiveTypes::Reserved) {
+            switch (foundReturn) {
+            case Uml::PrimitiveTypes::Boolean :
+                returnTypeName = QLatin1String("bool");
+                break;
+            case Uml::PrimitiveTypes::Integer :
+                returnTypeName = QLatin1String("int");
+                break;
+            case Uml::PrimitiveTypes::Real :
+                returnTypeName = QLatin1String("float");
+                break;
+            case Uml::PrimitiveTypes::String :
+                returnTypeName = QLatin1String("str");
+                break;
+            default:
+                break;
+            }
+        }
         Import_Utils::insertMethod(m_klass, op, visibility, returnTypeName,
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    isConstructor, false, m_comment);

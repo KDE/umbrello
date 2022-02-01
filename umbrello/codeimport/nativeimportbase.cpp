@@ -178,6 +178,17 @@ int NativeImportBase::scopeIndex()
 }
 
 /**
+ * Get the current lexeme.
+ * @return  the current lexeme
+ */
+QString NativeImportBase::current()
+{
+    if (m_srcIndex < m_source.count() - 1)
+        return m_source[m_srcIndex];
+    return QString();
+}
+
+/**
  * Get the next lexeme without advancing.
  * @return  the next lexeme or an empty string
  */
