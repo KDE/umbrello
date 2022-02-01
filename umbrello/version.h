@@ -23,7 +23,12 @@ inline QByteArray umbrelloVersion()
 #if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
     versionStr.append(QLatin1String(" (experimental)"));
 #endif
+#ifdef APPLICATIONS_VERSION_STRING
+    versionStr.append(QLatin1String(" (Applications "));
+    versionStr.append(QString::fromLatin1(APPLICATIONS_VERSION_STRING));
+    versionStr.append(QLatin1String(")"));
     return versionStr.toLatin1();
+#endif
 }
 
 // Update this version and dtd's in doc/xml when changing the XMI file format
