@@ -510,7 +510,7 @@ QStringList PythonWriter::defaultDatatypes() const
     l.append(QLatin1String("dict"));
     l.append(QLatin1String("object"));
     l.append(QLatin1String("set"));
-    l.append(QLatin1String("string"));
+    l.append(QLatin1String("str"));
     return l;
 }
 
