@@ -535,7 +535,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
     QFile file(tmpfile);
     if (!file.exists()) {
+#if QT_VERSION >= 0x050000
+        KMessageBox::error(0, i18n("The file %1 does not exist.", url.toString()), i18n("Load Error"));
+#else
         KMessageBox::error(0, i18n("The file %1 does not exist.", url.pathOrUrl()), i18n("Load Error"));
+#endif
         setUrlUntitled();
         m_bLoading = false;
         newDocument();
@@ -887,9 +891,15 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #else
             uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
 #endif
-            if (!uploaded)
+            if (!uploaded) {
+#if QT_VERSION >= 0x050000
+                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmp_tgz_file.fileName(),
+                          url.toString());
+#else
                 logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmp_tgz_file.fileName(),
                           url.pathOrUrl());
+#endif
+            }
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -935,11 +945,13 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
+            if (!uploaded)
+                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmpfile.fileName(), url.toString());
 #else
             uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
-#endif
             if (!uploaded)
                 logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmpfile.fileName(), url.pathOrUrl());
+#endif
         }
         else {
             // now remove the original file
