@@ -1960,7 +1960,7 @@ void UMLApp::logInfo(const QString& s)
 {
     QString fmt = QLatin1String("[I] ") + s;
     if (logToConsole())
-        qInfo() << fmt;   // @todo add Umbrello uInfo(), see uWarning etc
+        uDebug() << fmt;   // @todo add Umbrello uInfo(), see uWarning etc
     else
         log(fmt);
 }

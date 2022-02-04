@@ -31,7 +31,7 @@ DEBUG_REGISTER(Import_Argo)
 
 static void reportError(const QXmlStreamReader &xml, const KZip &zipFile, const QString &fileName)
 {
-    logError3("Import_Argo %1 in file %2 : %3", xml.name(), zipFile.fileName(), fileName);
+    logError3("Import_Argo %1 in file %2 : %3", xml.name().toString(), zipFile.fileName(), fileName);
 }
 
 bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
@@ -82,7 +82,7 @@ bool Import_Argo::loadFromPGMLFile(const KZip &zipFile, const QString &fileName)
     while (!xml.atEnd()) {
         xml.readNext();
         logDebug3("Import_Argo::loadFromPGMLFile unhandled tag %1 in file %2:%3",
-                  xml.name(), zipFile.fileName(), fileName);
+                  xml.name().toString(), zipFile.fileName(), fileName);
     }
     if (xml.hasError()) {
         reportError(xml, zipFile, fileName);
@@ -103,7 +103,7 @@ bool Import_Argo::loadFromTodoFile(const KZip &zipFile, const QString &fileName)
     while (!xml.atEnd()) {
         xml.readNext();
         logDebug3("Import_Argo::loadFromTodoFile unhandled tag %1 in file %2:%3",
-                  xml.name(), zipFile.fileName(), fileName);
+                  xml.name().toString(), zipFile.fileName(), fileName);
     }
     if (xml.hasError()) {
         reportError(xml, zipFile, fileName);

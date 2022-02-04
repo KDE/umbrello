@@ -889,7 +889,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
             if (!uploaded)
                 logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmp_tgz_file.fileName(),
-                          url.toString());
+                          url.pathOrUrl());
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -939,7 +939,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
 #endif
             if (!uploaded)
-                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmpfile.fileName(), url.toString());
+                logError2("UMLDoc::saveDocument could not upload file %1 to %2", tmpfile.fileName(), url.pathOrUrl());
         }
         else {
             // now remove the original file
