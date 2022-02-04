@@ -43,6 +43,8 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *umlc)
   : UMLWidget(scene, WidgetBase::wt_Class, umlc),
+    m_attributeSignature(Uml::SignatureType::NoSigNoVis),
+    m_operationSignature(Uml::SignatureType::NoSigNoVis),
     m_pAssocWidget(nullptr),
     m_pInterfaceName(nullptr)
 {
