@@ -100,6 +100,8 @@
 const qreal UMLScene::defaultCanvasSize = 5000;
 bool UMLScene::m_showDocumentationIndicator = false;
 
+static const qreal maxCanvasSize = 100000.0;
+
 using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLScene)
@@ -3756,6 +3758,21 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
  */
 void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    /* For some reason the incoming rect may contain invalid data.
+       Seen on loading the XMI file attached to bug 449393 :
+       (gdb) p rect
+       $2 = (const QRectF &) @0x7fffffffa3d0: {xp = -4160651296.6437497, yp = -18968990857.816666,
+                                               w = 4026436738.6874995, h = 33643115861.033333}
+    */
+    const bool validX = (rect.x() >= -maxCanvasSize && rect.x() <= maxCanvasSize);
+    const bool validY = (rect.y() >= -maxCanvasSize && rect.y() <= maxCanvasSize);
+    const bool validW = (rect.width()  >= 0.0 && rect.width()  <= maxCanvasSize);
+    const bool validH = (rect.height() >= 0.0 && rect.height() <= maxCanvasSize);
+    if (!validX || !validY || !validW || !validH) {
+        logError4("UMLScene::drawBackground rejecting event due to invalid data: "
+                  "validX=%1, validY=%2, validW=%3, validH=%4", validX, validY, validW, validH);
+        return;
+    }
     QGraphicsScene::drawBackground(painter, rect);
     m_layoutGrid->paint(painter, rect);
     // debug info
