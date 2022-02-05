@@ -3399,7 +3399,7 @@ bool AssociationWidget::findInterceptOnEdge(const QRectF &rect,
             break;
     }
     QPointF intersectionPoint;
-    QLineF::IntersectionType xType = line.intersects(regionLine, &intersectionPoint);
+    QLineF::IntersectType xType = regionLine.intersect(line, &intersectionPoint);
     if (xType == QLineF::NoIntersection) {
         logError5("findInterceptOnEdge: line from rect midpoint (%1,%2) to point (%3,%4) "
                   "does not intersect on region %5",
