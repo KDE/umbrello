@@ -562,7 +562,14 @@ signals:
 #define logError4(s, a, b, c, d) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logError(fmt); } while (0)
 
 #define logDebug5(s, a, b, c, d, e) if (Tracer::instance()->isEnabled(DBG_SRC)) \
-        do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); UMLApp::app()->logDebug(fmt); } while (0)
+                                    do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo5(s, a, b, c, d, e)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn5(s, a, b, c, d, e)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError5(s, a, b, c, d, e) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logError(fmt); } while (0)
 
 #define logDebug6(s, a, b, c, d, e, f) if (Tracer::instance()->isEnabled(DBG_SRC)) \
         do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e).arg(f); UMLApp::app()->logDebug(fmt); } while (0)
