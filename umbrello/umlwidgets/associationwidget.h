@@ -172,7 +172,7 @@ public:
     virtual void setLineColor(const QColor &color);
     virtual void setLineWidth(uint width);
 
-    void calculateEndingPoints(UMLWidget *pWidget = 0);
+    void calculateEndingPoints();
 
     void clipSize();
 
@@ -222,7 +222,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
-    static bool findIntercept(const QRectF& rect, const QPointF& point, QPointF& result);
+    static bool findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point, qreal &result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
@@ -239,9 +239,14 @@ private:
     void createPointsException();
     void updatePointsException();
 
-    static void updateAssociations(UMLWidget *pWidget, AssociationWidgetList list);
+    void updateRegionLineCount(int index, int totalCount,
+                               Uml::Region::Enum region, Uml::RoleType::Enum role);
+
+    void updateAssociations(int totalCount, Uml::Region::Enum region, Uml::RoleType::Enum role);
 
     int getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role);
+
+    void doUpdates(const QPointF &otherP, Uml::RoleType::Enum role);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
@@ -250,7 +255,12 @@ private:
     bool checkAutoLayoutSpline();
 
     bool linePathStartsAt(const UMLWidget* widget) const;
-    bool linePathEndsAt  (const UMLWidget* widget) const;
+
+    void insertIntoLists(qreal position, const AssociationWidget* assoc);
+
+    qreal m_positions[100];           ///< auxiliary variable for updateAssociations()
+    int m_positions_len;              ///< auxiliary variable for updateAssociations()
+    AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
     bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 

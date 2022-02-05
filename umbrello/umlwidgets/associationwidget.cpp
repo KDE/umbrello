@@ -55,14 +55,6 @@
 
 DEBUG_REGISTER_DISABLED(AssociationWidget)
 
-// For bug 447866, commit 3361008 added permission to manually modify m_associationLine
-// start and end point.  Currently, no movement constraint is implemented, which means
-// that the user may slightly misplace the start/end point to be off the widget edge by
-// a few pixels.
-// PIXEL_TOLERANCE defines this tolerance.
-// It is a temporary workaround until movement constraint is implemented.
-#define PIXEL_TOLERANCE 2
-
 using namespace Uml;
 
 /**
@@ -73,6 +65,7 @@ using namespace Uml;
   */
 AssociationWidget::AssociationWidget(UMLScene *scene)
   : WidgetBase(scene, WidgetBase::wt_Association),
+    m_positions_len(0),
     m_activated(false),
     m_unNameLineSegment(-1),
     m_nLinePathSegmentIndex(-1),
@@ -176,7 +169,7 @@ AssociationWidget* AssociationWidget::create
 
     instance->setAssociationType(assocType);
 
-    // instance->calculateEndingPoints();
+    instance->calculateEndingPoints();
 
     instance->associationLine().calculateInitialEndPoints();
     instance->associationLine().reconstructSymbols();
@@ -707,11 +700,7 @@ bool AssociationWidget::activate(IDChangeLog *changeLog)
         return false;
     }
 
-    if (!umlDoc()->loading()) {
-        // Not calling this during activation after loadFromXMI because
-        // doing so destroys manual adjustments to associationLine end points.
-        // calculateEndingPoints();
-    }
+    calculateEndingPoints();
 
     if (AssocRules::allowRole(type)) {
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
@@ -1201,29 +1190,13 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) const
     int wY = widget->scenePos().y();
     int wWidth = widget->width();
     int wHeight = widget->height();
-    bool result = (startX >= wX - PIXEL_TOLERANCE && startX <= wX + wWidth + PIXEL_TOLERANCE &&
-                   startY >= wY - PIXEL_TOLERANCE && startY <= wY + wHeight + PIXEL_TOLERANCE);
-    logDebug2("AssociationWidget::linePathStartsAt widget=%1 : result=%2", widget->name(), result);
-    return result;
-}
+    bool result1 = (startX >= wX && startX <= wX + wWidth &&
+                    startY >= wY && startY <= wY + wHeight);
 
-/**
- * Returns true if the line path ends at the given widget.
- */
-bool AssociationWidget::linePathEndsAt(const UMLWidget* widget) const
-{
-    int lastIndex = m_associationLine.count() - 1;
-    QPointF lpEnd = m_associationLine.point(lastIndex);
-    int endX = lpEnd.x();
-    int endY = lpEnd.y();
-    int wX = widget->scenePos().x();
-    int wY = widget->scenePos().y();
-    int wWidth = widget->width();
-    int wHeight = widget->height();
-    bool result = (endX >= wX - PIXEL_TOLERANCE && endX <= wX + wWidth + PIXEL_TOLERANCE &&
-                   endY >= wY - PIXEL_TOLERANCE && endY <= wY + wHeight + PIXEL_TOLERANCE);
-    DEBUG() << "linePathEndsAt widget=" << widget->name() << ": result=" << result;
-    return result;
+    bool result = widget->contains(m_associationLine.point(0));
+    logDebug3("AssociationWidget::linePathStartsAt widget=%1 : result1=%3 / result=%3",
+              widget->name(), result1, result);
+    return result || result1;
 }
 
 /**
@@ -1264,6 +1237,14 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::RoleType::Enum role) const
  */
 void AssociationWidget::cleanup()
 {
+    //let any other associations know we are going so they can tidy their positions up
+    // CHECK this code may lead to crash because updateAssociations may call caculateEndingPoints
+    //       on `this` AssociationWidget
+    if (m_role[RoleType::A].m_nTotalCount > 2)
+        updateAssociations(m_role[RoleType::A].m_nTotalCount - 1, m_role[RoleType::A].m_WidgetRegion, RoleType::A);
+    if (m_role[RoleType::B].m_nTotalCount > 2)
+        updateAssociations(m_role[RoleType::B].m_nTotalCount - 1, m_role[RoleType::B].m_WidgetRegion, RoleType::B);
+
     m_role[RoleType::A].cleanup();
     m_role[RoleType::B].cleanup();
 
@@ -1588,13 +1569,13 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
         m_associationLine.setPoint(movingPoint, me->scenePos());
     int pos = m_associationLine.count() - 1;//set to last point for widget b
 
-    // if ( movingPoint == 1 || (movingPoint == pos-1) ) {
-    //     calculateEndingPoints();
-    // }
+    if (movingPoint == 1 || movingPoint == pos-1) {
+        calculateEndingPoints();
+    }
     if (m_role[RoleType::A].changeabilityWidget && movingPoint == 1) {
         setTextPositionRelatively(TextRole::ChangeA, oldChangeAPoint);
     }
-    if (m_role[RoleType::B].changeabilityWidget && movingPoint == pos-1) {
+    if (m_role[RoleType::B].changeabilityWidget && movingPoint == 1) {
         setTextPositionRelatively(TextRole::ChangeB, oldChangeBPoint);
     }
     if (m_role[RoleType::A].multiplicityWidget && movingPoint == 1) {
@@ -1624,20 +1605,39 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
 }
 
 /**
- * This function acts as delegator to the static method updateAssociations()
- * but additionally handles object bound special cases (self association,
- * exception association, associationline insufficient points, association class
- * connecting line).
- *
- * @param pWidget Pointer to one of the two role widgets of this association,
- *                or null pointer :
- *                - If non null then pWidget is passed into updateAssociations().
- *                - If null then updateAssociations() will be called twice,
- *                  once providing this->widgetForRole(Uml::RoleType::A) as arg,
- *                  again providing this->widgetForRole(Uml::RoleType::B).
+ * Calculates and sets the first and last point in the Association's AssociationLine.
+ * Each point is a middle point of its respecting UMLWidget's Bounding rectangle
+ * or a corner of it.
+ * This method picks which sides to use for the association.
  */
-void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
+void AssociationWidget::calculateEndingPoints()
 {
+    /*
+     * For each UMLWidget the diagram is divided in four regions by its diagonals
+     * as indicated below
+     *                              Region 2
+     *                         \                /
+     *                           \            /
+     *                             +--------+
+     *                             | \    / |
+     *                Region 1     |   ><   |    Region 3
+     *                             | /    \ |
+     *                             +--------+
+     *                           /            \
+     *                         /                \
+     *                              Region 4
+     *
+     * Each diagonal is defined by two corners of the bounding rectangle
+     *
+     * To calculate the first point in the AssociationLine we have to find out in which
+     * Region (defined by WidgetA's diagonals) is WidgetB's center
+     * (let's call it Region M.) After that the first point will be the middle
+     * point of the rectangle's side contained in Region M.
+     *
+     * To calculate the last point in the AssociationLine we repeat the above but
+     * in the opposite direction (from widgetB to WidgetA)
+     */
+
     UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
     UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
     if (!pWidgetA || !pWidgetB) {
@@ -1646,6 +1646,21 @@ void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
     }
 
     int size = m_associationLine.count();
+    if (size < 2) {
+        QPointF pA = pWidgetA->scenePos();
+        QPointF pB = pWidgetB->scenePos();
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
+                      "falling back to simple widget positions");
+        } else {
+            pA = nearestPoints.p1();
+            pB = nearestPoints.p2();
+        }
+        m_associationLine.setEndPoints(pA, pB);
+    }
 
     // See if an association to self.
     // See if it needs to be set up before we continue:
@@ -1663,31 +1678,73 @@ void AssociationWidget::calculateEndingPoints(UMLWidget *pWidget)
         return;
     }
 
-    if (size < 2 || (m_associationLine.startPoint().isNull()
-                 &&  m_associationLine.endPoint().isNull())) {
-        QPointF pA = pWidgetA->scenePos();
-        QPointF pB = pWidgetB->scenePos();
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
-        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
-        if (nearestPoints.isNull()) {
-            logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
-                      "falling back to simple widget positions");
-        } else {
-            pA = nearestPoints.p1();
-            pB = nearestPoints.p2();
-        }
-        m_associationLine.setEndPoints(pA, pB);
+    // If the line has more than one segment change the values to calculate
+    // from widget to point 1.
+    qreal xB = pWidgetB->scenePos().x() + pWidgetB->width() / 2;
+    qreal yB = pWidgetB->scenePos().y() + pWidgetB->height() / 2;
+    if (size > 2) {
+        QPointF p = m_associationLine.point(1);
+        xB = p.x();  // m_associationLine points are scene positions,
+        yB = p.y();  // therefore we don't need to call scenePos() here
     }
+    doUpdates(QPointF(xB, yB), RoleType::A);
 
-    AssociationWidgetList assocList(m_scene->associationList());
-    if (pWidget) {
-        updateAssociations(pWidget, assocList);
-    } else {
-        updateAssociations(m_role[RoleType::A].umlWidget, assocList);
-        updateAssociations(m_role[RoleType::B].umlWidget, assocList);
+    // Now do the same for widgetB.
+    // If the line has more than one segment change the values to calculate
+    // from widgetB to the last point away from it.
+    qreal xA = pWidgetA->scenePos().x() + pWidgetA->width() / 2;
+    qreal yA = pWidgetA->scenePos().y() + pWidgetA->height() / 2;
+    if (size > 2 ) {
+        QPointF p = m_associationLine.point(size - 2);
+        xA = p.x();
+        yA = p.y();
     }
+    doUpdates(QPointF(xA, yA), RoleType::B);
+
     computeAssocClassLine();
+}
+
+/**
+ * Used by @ref calculateEndingPoints.
+ */
+void AssociationWidget::doUpdates(const QPointF &otherP, RoleType::Enum role)
+{
+    // Find widget region.
+    Uml::Region::Enum oldRegion = m_role[role].m_WidgetRegion;
+    UMLWidget *pWidget = m_role[role].umlWidget;
+    QRectF rc(pWidget->scenePos().x(), pWidget->scenePos().y(),
+              pWidget->width(), pWidget->height());
+    Uml::Region::Enum& region = m_role[role].m_WidgetRegion;  // alias for brevity
+    region = findPointRegion(rc, otherP);
+    // Move some regions to the standard ones.
+    switch( region ) {
+    case Uml::Region::NorthWest:
+        region = Uml::Region::North;
+        break;
+    case Uml::Region::NorthEast:
+        region = Uml::Region::East;
+        break;
+    case Uml::Region::SouthEast:
+        region = Uml::Region::South;
+        break;
+    case Uml::Region::SouthWest:
+    case Uml::Region::Center:
+        region = Uml::Region::West;
+        break;
+    default:
+        break;
+    }
+    int regionCount = getRegionCount(region, role) + 2; //+2 = (1 for this one and one to halve it)
+    int totalCount = m_role[role].m_nTotalCount;
+    if (oldRegion != region) {
+        updateRegionLineCount(regionCount - 1, regionCount, region, role);
+        updateAssociations(totalCount - 1, oldRegion, role);
+    } else if (totalCount != regionCount) {
+        updateRegionLineCount(regionCount - 1, regionCount, region, role);
+    } else {
+        updateRegionLineCount(m_role[role].m_nIndex, totalCount, region, role);
+    }
+    updateAssociations(regionCount, region, role);
 }
 
 /**
@@ -1826,14 +1883,13 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         return;
     }
 
-    logDebug1("AssociationWidget::widgetMoved: association type=%1",
-              Uml::AssociationType::toString(associationType()));
+    DEBUG() << "association type=" << Uml::AssociationType::toString(associationType());
     if (associationType() == AssociationType::Exception) {
         updatePointsException();
         setTextPosition(TextRole::Name);
     }
     else {
-        calculateEndingPoints(widget);
+        calculateEndingPoints();
         computeAssocClassLine();
     }
 
@@ -2109,6 +2165,296 @@ QPointF AssociationWidget::swapXY(const QPointF &p)
     QPointF swapped( p.y(), p.x() );
     return swapped;
 }
+
+#if 0  // not used at the moment
+/**
+ * Calculates which point of segment P1P2 has a distance equal to
+ * Distance from P1.
+ * Let's say such point is PX, the distance from P1 to PX must be equal
+ * to Distance and if PX is not a point of the segment P1P2 then the
+ * function returns (-1, -1).
+ */
+QPointF AssociationWidget::calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance)
+{
+    /*
+      the distance D between points (x1, y1) and (x3, y3) has the following formula:
+          ---     ------------------------------
+      D =    \   /         2         2
+              \ /   (x3 - x1)  +  (y3 - y1)
+
+      D, x1 and y1 are known and the point (x3, y3) is inside line (x1, y1)(x2, y2), so if the
+      that line has the formula y = mx + b
+      then y3 = m*x3 + b
+
+       2             2             2
+      D   = (x3 - x1)  +  (y3 - y1)
+
+       2       2                 2      2                 2
+      D    = x3    - 2*x3*x1 + x1   + y3   - 2*y3*y1  + y1
+
+       2       2       2       2                  2
+      D    - x1    - y1    = x3    - 2*x3*x1  + y3   - 2*y3*y1
+
+       2       2       2       2                          2
+      D    - x1    - y1    = x3    - 2*x3*x1  + (m*x3 + b)  - 2*(m*x3 + b)*y1
+
+       2       2       2              2       2 2
+      D    - x1    - y1   + 2*b*y1 - b   =  (m  + 1)*x3   + (-2*x1 + 2*m*b -2*m*y1)*x3
+
+       2      2       2       2
+      C  = - D    + x1    + y1   - 2*b*y1 + b
+
+
+       2
+      A  = (m    + 1)
+
+      B  = (-2*x1 + 2*m*b -2*m*y1)
+
+      and we have
+       2
+      A * x3 + B * x3 - C = 0
+
+                         ---------------
+             -B +  ---  /  2
+                      \/  B   - 4*A*C
+      sol_1  = --------------------------------
+                       2*A
+
+
+                         ---------------
+             -B -  ---  /  2
+                      \/  B   - 4*A*C
+      sol_2  = --------------------------------
+                       2*A
+
+
+      then in the distance formula we have only one variable x3 and that is easy
+      to calculate
+    */
+    int x1 = P1.y();
+    int y1 = P1.x();
+    int x2 = P2.y();
+    int y2 = P2.x();
+
+    if (x2 == x1) {
+        return QPointF(x1, y1 + (int)Distance);
+    }
+    float slope = ((float)y2 - (float)y1) / ((float)x2 - (float)x1);
+    float b = (y1 - slope*x1);
+    float A = (slope * slope) + 1;
+    float B = (2*slope*b) - (2*x1)  - (2*slope*y1);
+    float C = (b*b) - (Distance*Distance) + (x1*x1) + (y1*y1) - (2*b*y1);
+    float t = B*B - 4*A*C;
+
+    if (t < 0) {
+        return QPointF(-1, -1);
+    }
+    float sol_1 = ((-1* B) + sqrt(t)) / (2*A);
+    float sol_2 = ((-1*B) - sqrt(t)) / (2*A);
+
+    if (sol_1 < 0.0 && sol_2 < 0.0) {
+        return QPointF(-1, -1);
+    }
+    QPointF sol1Point((int)(slope*sol_1 + b), (int)(sol_1));
+    QPointF sol2Point((int)(slope*sol_2 + b), (int)(sol_2));
+    if (sol_1 < 0 && sol_2 >=0) {
+        if (x2 > x1) {
+            if (x1 <= sol_2 && sol_2 <= x2)
+                return sol2Point;
+        } else {
+            if (x2 <= sol_2 && sol_2 <= x1)
+                return sol2Point;
+        }
+    } else if (sol_1 >= 0 && sol_2 < 0) {
+        if (x2 > x1) {
+            if (x1 <= sol_1 && sol_1 <= x2)
+                return sol1Point;
+        } else {
+            if (x2 <= sol_1 && sol_1 <= x1)
+                return sol1Point;
+        }
+    } else {
+        if (x2 > x1) {
+            if (x1 <= sol_1 && sol_1 <= x2)
+                return sol1Point;
+            if (x1 <= sol_2 && sol_2 <= x2)
+                return sol2Point;
+        } else {
+            if (x2 <= sol_1 && sol_1 <= x1)
+                return sol1Point;
+            if (x2 <= sol_2 && sol_2 <= x1)
+                return sol2Point;
+        }
+    }
+    return QPointF(-1, -1);
+}
+
+/**
+ * Calculates which point of a perpendicular line to segment P1P2 that contains P2
+ *  has a distance equal to Distance from P2,
+ * Lets say such point is P3,  the distance from P2 to P3 must be equal to Distance
+ */
+QPointF AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance)
+{
+    /*
+      the distance D between points (x2, y2) and (x3, y3) has the following formula:
+
+          ---     ------------------------------
+      D =    \   /         2             2
+              \ / (x3 - x2)  +  (y3 - y2)
+
+      D, x2 and y2 are known and line P2P3 is perpendicular to line (x1, y1)(x2, y2), so if the
+      line P1P2 has the formula y = m*x + b,
+      then      (x1 - x2)
+          m =  -----------, because it is perpendicular to line P1P2
+                (y2 - y1)
+
+      also y2 = m*x2 + b
+      => b = y2 - m*x2
+
+      then P3 = (x3, m*x3 + b)
+
+       2            2            2
+      D  = (x3 - x2)  + (y3 - y2)
+
+       2     2               2     2               2
+      D  = x3  - 2*x3*x2 + x2  + y3  - 2*y3*y2 + y2
+
+       2     2     2     2               2
+      D  - x2  - y2  = x3  - 2*x3*x2 + y3  - 2*y3*y2
+
+
+
+       2     2     2     2                       2
+      D  - x2  - y2  = x3  - 2*x3*x2 + (m*x3 + b)  - 2*(m*x3 + b)*y2
+
+       2     2     2                   2        2       2
+      D  - x2  - y2  + 2*b*y2 - b  = (m  + 1)*x3  + (-2*x2 + 2*m*b -2*m*y2)*x3
+
+              2       2       2              2
+      C  = - D    + x2    + y2   - 2*b*y2 + b
+
+             2
+      A  = (m  + 1)
+
+      B  = (-2*x2 + 2*m*b -2*m*y2)
+
+      and we have
+       2
+      A * x3 + B * x3 - C = 0
+
+
+                           ---------------
+                     ---  /  2
+                -B +    \/  B   - 4*A*C
+      sol_1 = --------------------------------
+                        2*A
+
+
+                           ---------------
+                     ---  /  2
+                -B -    \/  B   - 4*A*C
+      sol_2 = --------------------------------
+                        2*A
+
+      then in the distance formula we have only one variable x3 and that is easy
+      to calculate
+    */
+    if (P1.x() == P2.x()) {
+        return QPointF((int)(P2.x() + Distance), P2.y());
+    }
+    const int x1 = P1.y();
+    const int y1 = P1.x();
+    const int x2 = P2.y();
+    const int y2 = P2.x();
+
+    float slope = ((float)x1 - (float)x2) / ((float)y2 - (float)y1);
+    float b = (y2 - slope*x2);
+    float A = (slope * slope) + 1;
+    float B = (2*slope*b) - (2*x2) - (2*slope*y2);
+    float C = (b*b) - (Distance*Distance) + (x2*x2) + (y2*y2) - (2*b*y2);
+    float t = B*B - 4*A*C;
+    if (t < 0) {
+        return QPointF(-1, -1);
+    }
+    float sol_1 = ((-1* B) + sqrt(t)) / (2*A);
+
+    float sol_2 = ((-1*B) - sqrt(t)) / (2*A);
+
+    if (sol_1 < 0 && sol_2 < 0) {
+        return QPointF(-1, -1);
+    }
+    QPointF sol1Point((int)(slope*sol_1 + b), (int)sol_1);
+    QPointF sol2Point((int)(slope*sol_2 + b), (int)sol_2);
+    if (sol_1 < 0 && sol_2 >=0) {
+        return sol2Point;
+    } else if (sol_1 >= 0 && sol_2 < 0) {
+        return sol1Point;
+    } else {    // Choose one solution, either will work fine
+        if (slope >= 0) {
+            if (sol_1 <= sol_2)
+                return sol2Point;
+            else
+                return sol1Point;
+        } else {
+            if (sol_1 <= sol_2)
+                return sol1Point;
+            else
+                return sol2Point;
+        }
+
+    }
+    return QPointF(-1, -1);  // never reached, just keep compilers happy
+}
+
+/** 
+ * Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
+ * P3, the result is returned in ResultingPoint. and result value represents the distance
+ * between ResultingPoint and P3; if this value is negative an error occurred. 
+ */
+float AssociationWidget::perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3,
+        QPointF& ResultingPoint)
+{
+    //line P1P2 is Line 1 = y=slope1*x + b1
+
+    //line P3PS is Line 1 = y=slope2*x + b2
+
+    float slope2 = 0;
+    float slope1 = 0;
+    float sx = 0, sy = 0;
+    int y2 = P2.x();
+    int y1 = P1.x();
+    int x2 = P2.y();
+    int x1 = P1.y();
+    int y3 = P3.x();
+    int x3 = P3.y();
+    float distance = 0;
+    float b1 = 0;
+
+    float b2 = 0;
+
+    if (x2 == x1) {
+        sx = x2;
+        sy = y3;
+    } else if (y2 == y1) {
+        sy = y2;
+        sx = x3;
+    } else {
+        slope1 = (y2 - y1)/ (x2 - x1);
+        slope2 = (x1 - x2)/ (y2 - y1);
+        b1 = y2 - (slope1 * x2);
+        b2 = y3 - (slope2 * x3);
+        sx = (b2 - b1) / (slope1 - slope2);
+        sy = slope1*sx + b1;
+    }
+    distance = (int)(sqrt(((x3 - sx)*(x3 - sx)) + ((y3 - sy)*(y3 - sy))));
+
+    ResultingPoint.setX((int)sy);
+    ResultingPoint.setY((int)sx);
+
+    return distance;
+}
+#endif
 
 /**
  * Calculates the position of the text widget depending on the role
@@ -2490,6 +2836,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
 /**
  * Compute the end points of m_pAssocClassLine in case this
  * association has an attached association class.
+ * TODO: Bring decoration points to life (https://bugs.kde.org/show_bug.cgi?id=447866)
  */
 void AssociationWidget::computeAssocClassLine()
 {
@@ -2906,6 +3253,7 @@ bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
     if (m_nLinePathSegmentIndex >= numberOfLines) {
         m_nLinePathSegmentIndex = numberOfLines - 1;
     }
+    calculateEndingPoints();
 
     // select the line path
     m_associationLine.setSelected(true);
@@ -3016,23 +3364,109 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
 }
 
 /**
- * Used by @ref calculateEndingPoints.
- * For all association widgets of the scene, if one of the assocwidget's
- * role widgets is the passed in widget then
- * - if the AssociationLine starts at the role widget then the AssociationLine
- *   start point is recalculated and set;
- * - if the AssociationLine ends at the role widget then the AssociationLine
- *   end point is recalculated and set.
- *
- * @param pWidget Pointer to the widget to seek as the role A or B widget
- *                in all association widgets of the scene.
+ * Given a rectangle and a point, findInterceptOnEdge computes the
+ * connecting line between the middle point of the rectangle and
+ * the point, and returns the intercept of this line with the
+ * edge of the rectangle identified by `region'.
+ * When the region is North or South, the X value is returned (Y is
+ * constant.)
+ * When the region is East or West, the Y value is returned (X is
+ * constant.)
  */
-void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidgetList list)
+bool AssociationWidget::findInterceptOnEdge(const QRectF &rect,
+                                            Uml::Region::Enum region,
+                                            const QPointF &point, qreal &result)
 {
-    const QRectF rect(pWidget->scenePos().x(), pWidget->scenePos().y(),
-                      pWidget->width(), pWidget->height());
+    logDebug2("AssociationWidget::findInterceptOnEdge : rect.x =%1, rect.y=%2", rect.x(), rect.y());
+    const QPointF midPoint(rect.center());
+    const QLineF line(midPoint, point);
+    QLineF regionLine;
+    switch (region) {
+        case Uml::Region::North :
+            regionLine.setPoints(rect.topLeft(), rect.topRight());
+            break;
+        case Uml::Region::South :
+            regionLine.setPoints(rect.bottomLeft(), rect.bottomRight());
+            break;
+        case Uml::Region::West :
+            regionLine.setPoints(rect.topLeft(), rect.bottomLeft());
+            break;
+        case Uml::Region::East :
+            regionLine.setPoints(rect.topRight(), rect.bottomRight());
+            break;
+        default:
+            logError1("findInterceptOnEdge: region %1 is not yet implemented", region);
+            break;
+    }
+    QPointF intersectionPoint;
+    QLineF::IntersectionType xType = line.intersects(regionLine, &intersectionPoint);
+    if (xType == QLineF::NoIntersection) {
+        logError5("findInterceptOnEdge: line from rect midpoint (%1,%2) to point (%3,%4) "
+                  "does not intersect on region %5",
+                  midPoint.x(), midPoint.y(), point.x(), point.y(), (int)region);
+        return false;
+    }
+    if (xType == QLineF::UnboundedIntersection) {
+        logWarn5("findInterceptOnEdge: line from rect midpoint (%1,%2) to point (%3,%4) "
+                 "gives unbounded intersection on region %5",
+                 midPoint.x(), midPoint.y(), point.x(), point.y(), (int)region);
+        return false;
+    }
+    if (region == Uml::Region::North || region == Uml::Region::South) {
+        result = intersectionPoint.x();
+    } else {
+        result = intersectionPoint.y();
+    }
+    return true;
+}
 
+/**
+ * Auxiliary method for updateAssociations():
+ * Put position into m_positions and assoc into m_ordered at the
+ * correct index.
+ * m_positions and m_ordered move in parallel and are sorted by
+ * ascending position.
+ */
+void AssociationWidget::insertIntoLists(qreal position, const AssociationWidget* assoc)
+{
+    bool did_insertion = false;
+    for (int index = 0; index < m_positions_len; ++index) {
+        if (position < m_positions[index]) {
+            for (int moveback = m_positions_len; moveback > index; moveback--)
+                m_positions[moveback] = m_positions[moveback - 1];
+            m_positions[index] = position;
+            m_ordered.insert(index, const_cast<AssociationWidget*>(assoc));
+            did_insertion = true;
+            break;
+        }
+    }
+    if (! did_insertion) {
+        m_positions[m_positions_len] = position;
+        m_ordered.append(const_cast<AssociationWidget*>(assoc));
+    }
+    m_positions_len++;
+}
+
+/**
+ * Tells all the other view associations the new count for the
+ * given widget on a certain region. And also what index they should be.
+ */
+void AssociationWidget::updateAssociations(int totalCount,
+                                           Uml::Region::Enum region,
+                                           Uml::RoleType::Enum role)
+{
+    if (region == Uml::Region::Error || umlScene() == 0) {
+        return;
+    }
+    AssociationWidgetList list = m_scene->associationList();
+
+    UMLWidget *ownWidget = m_role[role].umlWidget;
+    m_positions_len = 0;
+    m_ordered.clear();
+    // we order the AssociationWidget list by region and x/y value
     foreach (AssociationWidget* assocwidget, list) {
+        if (assocwidget == this)
+            continue;
         AssociationWidgetRole *roleA = &assocwidget->m_role[RoleType::A];
         AssociationWidgetRole *roleB = &assocwidget->m_role[RoleType::B];
         UMLWidget *wA = roleA->umlWidget;
@@ -3041,127 +3475,238 @@ void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidget
         if (wA == wB)
             continue;
         // Now we must find out with which end the assocwidget connects
-        // to the input widget (pWidget).
-        if (pWidget != wA && pWidget != wB)
+        // to the input widget (ownWidget).
+        bool inWidgetARegion = (ownWidget == wA &&
+                                 region == roleA->m_WidgetRegion);
+        bool inWidgetBRegion = (ownWidget == wB &&
+                                 region == roleB->m_WidgetRegion);
+        if (!inWidgetARegion && !inWidgetBRegion)
             continue;
-        // Determine intercept position
-        UMLWidget * otherWidget = (pWidget == wA ? wB : wA);
-        AssociationLine& linepath = assocwidget->associationLine();
-        int pointIndex = 0;  // start point; will be changed to end point if startsAtOther
+        // Determine intercept position on the edge indicated by `region'.
+        UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
+        Uml::Region::Enum regionAdjustedToRole = region;
+        const AssociationLine& linepath = assocwidget->associationLine();
         QPointF refpoint;
         bool startsAtOther = assocwidget->linePathStartsAt(otherWidget);
         if (startsAtOther) {
-            if (!assocwidget->linePathEndsAt(pWidget)) {
-                logWarn3("AssociationWidget::findIntercept : linepath starts at other widget "
-                         "but does not end at own (assocType=%1 pWidget=%2 otherWidget=%3)",
-                         assocwidget->associationType(), pWidget->name(), otherWidget->name());
-                continue;
+            refpoint = linepath.point(linepath.count() - 2);
+            // flip region
+            switch (region) {
+                case Uml::Region::North :
+                    regionAdjustedToRole = Uml::Region::South;
+                    break;
+                case Uml::Region::South :
+                    regionAdjustedToRole = Uml::Region::North;
+                    break;
+                case Uml::Region::West :
+                    regionAdjustedToRole = Uml::Region::East;
+                    break;
+                case Uml::Region::East :
+                    regionAdjustedToRole = Uml::Region::West;
+                    break;
+                default:
+                    logWarn1("findInterceptOnEdge startsAtOther: Unhandled region %1", (int)region);
+                    break;
             }
-            pointIndex = linepath.count() - 1;
-            refpoint = linepath.point(pointIndex - 1);
-        } else if (!assocwidget->linePathStartsAt(pWidget)) {
-            logWarn3("AssociationWidget::findIntercept : linepath starts at neither own "
-                     "nor other widget (assocType=%1 pWidget=%2 otherWidget=%3)",
-                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
-            continue;
-        } else if (!assocwidget->linePathEndsAt(otherWidget)) {
-            logWarn3("AssociationWidget::findIntercept : linepath starts at own widget but "
-                     "does not end at other (assocType=%1 pWidget=%2 otherWidget=%3)",
-                         assocwidget->associationType(), pWidget->name(), otherWidget->name());
-            continue;
         } else {
             refpoint = linepath.point(1);
         }
-        // The point is authoritative if it is a waypoint on the line path.
-        bool pointIsAuthoritative = (linepath.count() > 2);
+        // The point is authoritative if we're called for the second time
+        // (i.e. role==B) or it is a waypoint on the line path.
+        bool pointIsAuthoritative = (role == RoleType::B || linepath.count() > 2);
         if (! pointIsAuthoritative) {
             // If the point is not authoritative then we use the other
             // widget's center.
-            refpoint.setX(otherWidget->scenePos().x() + (otherWidget->width() / 2.0));
-            refpoint.setY(otherWidget->scenePos().y() + (otherWidget->height() / 2.0));
+            refpoint.setX(otherWidget->scenePos().x() + otherWidget->width() / 2.0);
+            refpoint.setY(otherWidget->scenePos().y() + otherWidget->height() / 2.0);
         }
-        logDebug4("AssociationWidget::updateAssociations(own=%1) : ownW=%2, ownH=%3, other=%4",
-                   pWidget->name(), pWidget->width(), pWidget->height(), otherWidget->name());
-#ifdef VERBOSE_DEBUGGING
-        logDebug4("- startsAtOther=%1, pointIsAuthoritative=%2, refX=%3, refY=%4",
-                  startsAtOther, pointIsAuthoritative, refpoint.x(), refpoint.y());
-#endif
-        QPointF intercept;
-        if (! findIntercept(rect, refpoint, intercept)) {
-            logWarn3("AssociationWidget::updateAssociations error from findIntercept for "
-                     "assocType=%1 pWidget=%2 otherWidget=%3",
-                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
-            continue;
-        }
-        linepath.setPoint(pointIndex, intercept);
-        if (pointIsAuthoritative)
-            continue;
-        //--------------------------------------------------------------------------------
-        // Determine intercept at other widget if this is a straight connecting line
-        // without waypoint (pointIsAuthoritative is false).
-        const QRectF otherRect(otherWidget->scenePos().x(), otherWidget->scenePos().y(),
-                               otherWidget->width(), otherWidget->height());
-        int otherPtIndex = linepath.count() - 1;
-        QPointF otherRefpoint;
-        if (startsAtOther) {
-            otherPtIndex = 0;
-            otherRefpoint = linepath.point(1);
+        QRectF rect = ownWidget->rect();
+        rect.setX(ownWidget->scenePos().x());
+        rect.setY(ownWidget->scenePos().y());
+        // Regions:   West=1, North=2, East=3, South=4
+        DEBUG() << "updateAssociations totalCount=" << totalCount
+            << ", region=" << region << ", role=" << role << ", own=" << ownWidget->name()
+            << ", other=" << otherWidget->name() << ", inWidgetARegion=" << inWidgetARegion
+            << ", inWidgetBRegion=" << inWidgetBRegion << ", startsAtOther=" << startsAtOther
+            << ", pointIsAuthoritative=" << pointIsAuthoritative << ", rectX=" << rect.x()
+            << ", rectY=" << rect.y() << ", refX=" << refpoint.x() << ", refY=" << refpoint.y();
+        qreal intercept = 0.0;
+        if (findInterceptOnEdge(rect, regionAdjustedToRole, refpoint, intercept)) {
+            insertIntoLists(intercept, assocwidget);
         } else {
-            otherRefpoint = linepath.point(0);
-        }
-        if (findIntercept(otherRect, otherRefpoint, intercept)) {
-            linepath.setPoint(otherPtIndex, intercept);
-        } else {
-            logWarn3("AssociationWidget::updateAssociations error from reverse findIntercept for "
-                     "assocType=%1 pWidget=%2 otherWidget=%3",
-                     assocwidget->associationType(), pWidget->name(), otherWidget->name());
+            logWarn3("updateAssociations error from findInterceptOnEdge for assocType=%1, "
+                     "ownWidget=%2, otherWidget=%3",
+                     assocwidget->associationType(), ownWidget->name(), otherWidget->name());
         }
     } // foreach
+
+    // we now have an ordered list and we only have to call updateRegionLineCount
+    int index = 0;
+    foreach (AssociationWidget* assocwidget, m_ordered ) {
+        if (ownWidget == assocwidget->widgetForRole(RoleType::A)) {
+            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::A);
+        } else if (ownWidget == assocwidget->widgetForRole(RoleType::B)) {
+            assocwidget->updateRegionLineCount(++index, totalCount, region, RoleType::B);
+        }
+    } // for (assocwidget = ordered.first(); ...)
 }
 
 /**
- * Given a rectangle and a point, compute the connecting line between the
- * middle point of the rectangle and the point, and return the intersection
- * point of this line with one of the sides of the rectangle.
+ * Called to tell the association that another association has added
+ * a line to the region of one of its widgets. The widget is identified
+ * by its role (A or B).
  *
- * @param rect rolewidget's rectangle with scene x and y values
- * @param point ending point of the line that starts at rect's center
- * @param result return value: intersection point with one of rect's sides
- * @return false if none of rect's sides intersects with point; in this case,
- *               \a result will remain at the value passed in.
+ * Called by @ref updateAssociations which is called by
+ * @ref calculateEndingPoints when required.
  */
-bool AssociationWidget::findIntercept(const QRectF& rect, const QPointF& point,
-                                                               QPointF& result)
+void AssociationWidget::updateRegionLineCount(int index, int totalCount,
+                                              Uml::Region::Enum region,
+                                              Uml::RoleType::Enum role)
 {
-    const QPointF rectCenter(rect.center());
-    const QLineF line(rectCenter, point);
-    const QLineF eastSide (rect.bottomLeft(),  rect.topLeft());
-    const QLineF northSide(rect.topLeft(),     rect.topRight());
-    const QLineF westSide (rect.topRight(),    rect.bottomRight());
-    const QLineF southSide(rect.bottomRight(), rect.bottomLeft());
-    QVector<QLineF> edges;
-    edges << eastSide << northSide << westSide << southSide;
-    Uml::Region::Enum xSide = Uml::Region::Error;
-    for (int i = 0; i < 4; i++) {
-        const QLineF& regionLine = edges.at(i);
-        QPointF intersectionPoint;
-        QLineF::IntersectType xType = regionLine.intersect(line, &intersectionPoint);
-        if (xType == QLineF::BoundedIntersection) {
-            result = intersectionPoint;
-            xSide = static_cast<Uml::Region::Enum>(i + 1);
+    if (region == Uml::Region::Error || umlScene() == 0) {
+        return;
+    }
+    // If the association is to self and the line ends are on the same region then
+    // use a different calculation.
+    if (isSelf() &&
+            m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
+        UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
+        qreal x = pWidget->scenePos().x();
+        qreal y = pWidget->scenePos().y();
+        qreal wh = pWidget->height();
+        qreal ww = pWidget->width();
+        int size = m_associationLine.count();
+        // See if above widget ok to place assoc.
+        switch( m_role[RoleType::A].m_WidgetRegion ) {
+        case Uml::Region::North:
+            m_associationLine.setPoint( 0, QPointF( x + ( ww / 4 ), y ) );
+            m_associationLine.setPoint( size - 1, QPointF(x + ( ww * 3 / 4 ), y ) );
             break;
-        }
+
+        case Uml::Region::South:
+            m_associationLine.setPoint( 0, QPointF( x + ( ww / 4 ), y + wh ) );
+            m_associationLine.setPoint( size - 1, QPointF( x + ( ww * 3 / 4 ), y + wh ) );
+            break;
+
+        case Uml::Region::East:
+            m_associationLine.setPoint( 0, QPointF( x + ww, y + ( wh / 4 ) ) );
+            m_associationLine.setPoint( size - 1, QPointF( x + ww, y + ( wh * 3 / 4 ) ) );
+            break;
+
+        case Uml::Region::West:
+            m_associationLine.setPoint( 0, QPointF( x, y + ( wh / 4 ) ) );
+            m_associationLine.setPoint( size - 1, QPointF( x, y + ( wh * 3 / 4 ) ) );
+            break;
+        default:
+            break;
+        }//end switch
+
+        return;
     }
-#if 0
-    if (xSide != Uml::Region::Error) {
-        logDebug5("AssociationWidget::findIntercept (rect=%1, center=%2, point=%3) : intercept at %4 %5",
-                  rect, rectCenter, point, result, Uml::Region::toString(xSide));
+
+    AssociationWidgetRole& robj = m_role[role];
+    UMLWidget * pWidget = robj.umlWidget;
+
+    robj.m_nIndex = index;
+    robj.m_nTotalCount = totalCount;
+    qreal x = pWidget->scenePos().x();
+    qreal y = pWidget->scenePos().y();
+    qreal ww = pWidget->width();
+    qreal wh = pWidget->height();
+    const bool angular = Settings::optionState().generalState.angularlines;
+    qreal ch = 0;
+    qreal cw = 0;
+    if (angular) {
+        uint nind = (role == RoleType::A ? 1 : m_associationLine.count() - 2);
+        QPointF neighbour = m_associationLine.point(nind);
+        if (neighbour.x() < x)
+            cw = 0;
+        else if (neighbour.x() > x + ww)
+            cw = 0 + ww;
+        else
+            cw = neighbour.x() - x;
+        if (neighbour.y() < y)
+            ch = 0;
+        else if (neighbour.y() > y + wh)
+            ch = 0 + wh;
+        else
+            ch = neighbour.y() - y;
     } else {
-        logDebug4("AssociationWidget::findIntercept (rect=%1, center=%2, point=%3) : no intercept with %4",
-                   rect, rectCenter, point, edges);
+        ch = wh * index / totalCount;
+        cw = ww * index / totalCount;
     }
-#endif
-    return (xSide != Uml::Region::Error);
+
+    qreal newX = x + cw;
+    qreal newY = y + ch;
+
+    QPointF pt;
+    if (angular) {
+        pt = QPointF(newX, newY);
+    } else {
+        UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
+        UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
+        QList<QPolygonF> polyListA = pWidgetA->shape().toSubpathPolygons();
+        QPolygonF polyA = polyListA.at(0);
+        if (polyListA.size() > 1) {
+            for (int i = 1; i < polyListA.size(); i++) {
+                 polyA = polyA.united(polyListA.at(i));
+            }
+        }
+        polyA = polyA.translated(pWidgetA->getPos());
+        QList<QPolygonF> polyListB = pWidgetB->shape().toSubpathPolygons();
+        QPolygonF polyB = polyListB.at(0);
+        if (polyListB.size() > 1) {
+            for (int i = 1; i < polyListB.size(); i++) {
+                 polyB = polyB.united(polyListB.at(i));
+            }
+        }
+        polyB = polyB.translated(pWidgetB->getPos());
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            logError0("updateRegionLineCount: Widget_Utils::closestPoints failed, "
+                      "falling back to simple widget positions");
+            switch(region) {
+                case Uml::Region::West:
+                    pt.setX(x);
+                    pt.setY(newY);
+                    break;
+                case Uml::Region::North:
+                    pt.setX(newX);
+                    pt.setY(y);
+                    break;
+                case Uml::Region::East:
+                    pt.setX(x + ww);
+                    pt.setY(newY);
+                    break;
+                case Uml::Region::South:
+                    pt.setX(newX);
+                    pt.setY(y + wh);
+                    break;
+                case Uml::Region::Center:
+                    pt.setX(x + ww / 2);
+                    pt.setY(y + wh / 2);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            if (role == RoleType::A)
+                pt = nearestPoints.p1();
+            else
+                pt = nearestPoints.p2();
+        }
+        DEBUG() << "index " << index << ", totalCount " << totalCount
+                       << ", region " << region << ", role " << role << " [ wA="
+                       << pWidgetA->name() << ", wB=" << pWidgetB->name()
+                       << ", position=" << m_positions[index-1]
+                       << " ] : setting point (" << pt.x() << "," << pt.y() << ")";
+    }
+    if (role == RoleType::A) {
+        m_associationLine.setPoint(0, pt);
+    }
+    else {
+        m_associationLine.setPoint(m_associationLine.count() - 1, pt);
+    }
 }
 
 /**
