@@ -2237,9 +2237,9 @@ short UMLDoc::encoding(QIODevice & file)
             const int pos = rx.indexIn(pi.data());
             if (pos >= 0) {
                 const QString& encData = rx.cap(1);
-                if (encData == QLatin1String("UTF-8")) {
+                if (QString::compare(encData, QLatin1String("UTF-8"), Qt::CaseInsensitive)) {
                     enc = ENC_UNICODE;
-                } else if (encData == QLatin1String("windows-1252")) {
+                } else if (QString::compare(encData, QLatin1String("windows-1252"), Qt::CaseInsensitive)) {
                     enc = ENC_WINDOWS;
                 } else {
                     logDebug1("UMLDoc::encoding : ProcessingInstruction encoding=%1 is not yet implemented",
@@ -2350,7 +2350,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 }
                 recognized = true;
             } else if (tagEq(outerTag, QLatin1String("Model")) ||
-                       tagEq(outerTag, QLatin1String("Package"))) {
+                       tagEq(outerTag, QLatin1String("Package")) ||
+                       tagEq(outerTag, QLatin1String("packagedElement"))) {
                 if(!loadUMLObjectsFromXMI(element)) {
                     logWarn0("failed load on objects");
                     return false;
