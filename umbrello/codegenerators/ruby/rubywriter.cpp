@@ -156,7 +156,7 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
 /**
  * Convert C++ names such as 'm_foobar' or pFoobar to
  * just 'foobar' for ruby.
- * @param cppName the C++ name to be converted
+ * @param nameStr the C++ name to be converted
  */
 QString RubyWriter::cppToRubyName(const QString &nameStr)
 {

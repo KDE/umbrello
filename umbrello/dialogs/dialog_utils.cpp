@@ -42,6 +42,7 @@ namespace Dialog_Utils {
  * @param labelText             The label text.
  * @param editField             The KLineEdit object allocated (return value)
  * @param editFieldText         Initialization text in the editField (optional.)
+ * @param columnOffset          Optional column number within the QGridLayout (default: 0)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
 KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,

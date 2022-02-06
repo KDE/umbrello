@@ -219,6 +219,8 @@ int AssociationLine::closestPointIndex(const QPointF &point, qreal delta) const
  * Return index of closest segment.
  *
  * @param point The point which is to be tested for closeness.
+ * @param delta The distance in pixels that the point may be removed from
+ 8              a segment but is still considered to be on the segment.
  *
  * @return Index of the line segment closest to the \a point passed;
  *         -1 if no line segment is closer to passed in \a point.

@@ -1142,7 +1142,7 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
  * Write all datatypes for a given class.
  * @param c                the class for which we are generating code
  * @param permitScope      what type of method to write (by Scope)
- * @param cpp              the stream associated with the output file
+ * @param stream           QTextStream serialization target
  */
 void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {

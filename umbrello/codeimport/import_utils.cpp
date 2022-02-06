@@ -364,8 +364,8 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
 /**
  * Create hierarchical tree of UML objects
  *
- * This method creates the UML object specified by #type and #name including an optional namespace hierarchy
- * if included in the #name e.g. NamespaceA::ClassA in C++.
+ * This method creates the UML object specified by @p type and @p name including an optional namespace hierarchy
+ * if included in the @p name e.g. NamespaceA::ClassA in C++.
  *
  * @param type  type of UML object to create
  * @param name  name of UML object

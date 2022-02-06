@@ -115,9 +115,8 @@ UMLObject* UMLForeignKeyConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig, bool withStereotype) const
+QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig, bool /*withStereotype*/) const
 {
-    Q_UNUSED(withStereotype);
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {

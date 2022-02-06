@@ -855,7 +855,7 @@ void UMLObject::saveToXMI(QXmlStreamWriter& writer)
  *                In UML2 mode, it is used as the xmi:type attribute.
  * @param tag     In UML2 mode, it is used as the XML tag.
  *                When given the special value "<use_type_as_tag>", the
- *                @ref type is used as the XML tag just as in UML1 mode.
+ *                @p type is used as the XML tag just as in UML1 mode.
  *                In this case, no xmi:type attribute is generated.
  */
 void UMLObject::save1(QXmlStreamWriter& writer, const QString& type, const QString& tag)

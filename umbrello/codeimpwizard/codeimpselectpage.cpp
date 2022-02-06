@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -158,13 +159,13 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
     return found;
 }
 
+#if 0    // :TODO: still in use?
 /**
  * Recursively get all the sources files that matches the filters from the given path.
- * :TODO: still in use?
  * @param path      path to the parent directory
  * @param filters   file extensions of the wanted files
  */
-/*void CodeImpSelectPage::files(const QString& path, QStringList& filters)
+void CodeImpSelectPage::files(const QString& path, QStringList& filters)
 {
     //uDebug() << "files from path " << path;
     QDir searchDir(path);
@@ -187,7 +188,8 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
     else {
         logDebug1("CodeImpSelectPage::files: searchDir does not exist: %1", searchDir.path());
     }
-}*/
+}
+#endif
 
 /**
  * Slot for the stateChanged event of the subdirectory check box.

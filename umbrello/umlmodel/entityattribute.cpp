@@ -161,9 +161,8 @@ void UMLEntityAttribute::setNull(const bool nullIn)
  * @return  Returns a string representation of the UMLEntityAttribute.
  */
 QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig,
-                                     bool withStereotype) const
+                                     bool /*withStereotype*/) const
 {
-    Q_UNUSED(withStereotype);
     QString s;
     //FIXME
 

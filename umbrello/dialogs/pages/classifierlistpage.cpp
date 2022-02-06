@@ -583,7 +583,7 @@ void ClassifierListPage::slotTopClicked()
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
     logDebug2("ClassifierListPage::slotTopClicked %1: peer index in UMLCanvasItem::m_List is %2",
               currentAtt->name(), index);
-    addClassifier(currentAtt, 0);
+    addToClassifier(currentAtt, 0);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -621,7 +621,7 @@ void ClassifierListPage::slotUpClicked()
               currentAtt->name(), index);
     if (index == -1)
         index = 0;
-    addClassifier(currentAtt, index);
+    addToClassifier(currentAtt, index);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -658,7 +658,7 @@ void ClassifierListPage::slotDownClicked()
               currentAtt->name(), index);
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
-    addClassifier(currentAtt, index);
+    addToClassifier(currentAtt, index);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -693,7 +693,7 @@ void ClassifierListPage::slotBottomClicked()
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
     logDebug2("ClassifierListPage::slotBottomClicked %1: peer index in UMLCanvasItem::m_List is %2",
               currentAtt->name(), index);
-    addClassifier(currentAtt, getItemList().count());
+    addToClassifier(currentAtt, getItemList().count());
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -805,13 +805,13 @@ UMLClassifierListItemList ClassifierListPage::getItemList()
 }
 
 /**
- * Attempts to add classifier to the appropriate list.
- * @param classifier   Pointer to the classifier to add.
+ * Attempts to add a @ref UMLClassifierListItem to @ref m_pClassifier.
+ * @param listitem     Pointer to the classifier list item to add.
  * @param position     Index at which to insert into the list.
  * @return             true if the classifier could be added
  *
  */
-bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position)
+bool ClassifierListPage::addToClassifier(UMLClassifierListItem* listitem, int position)
 {
     switch (m_itemType) {
     case UMLObject::ot_Attribute: {

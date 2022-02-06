@@ -506,6 +506,11 @@ public:
 } // namespace
 
 /**
+ * Auxiliary type for template class @ref DebugLanguageParserHelper
+ */
+typedef QString (*TokenTextFunc)(int);
+
+/**
  * This class is a pure helper to use for binaries that you can
  * run on short snippets of test code or whole files and let
  * it print the generated tokens or AST.
@@ -521,7 +526,6 @@ public:
  * @param DebugVisitorT the debug visitor for your language.
  * @param TokenToTextT function pointer to the function that returns a string representation for an integral token.
  */
-typedef QString (*TokenTextFunc)(int);
 template<class SessionT, class TokenStreamT, class TokenT, class LexerT,
          class StartAstT, class DebugVisitorT, TokenTextFunc TokenTextT>
 class DebugLanguageParserHelper {

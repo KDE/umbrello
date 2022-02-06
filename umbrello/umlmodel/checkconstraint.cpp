@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 //own header
@@ -88,10 +88,8 @@ UMLObject* UMLCheckConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLCheckConstraint::toString(Uml::SignatureType::Enum sig,
-                                     bool withStereotype) const
+QString UMLCheckConstraint::toString(Uml::SignatureType::Enum sig, bool) const
 {
-    Q_UNUSED(withStereotype);
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {

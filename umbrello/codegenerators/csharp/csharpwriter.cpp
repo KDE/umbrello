@@ -453,10 +453,10 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
 
 /**
  * Write a list of class operations.
- * @param opList the list of operations
- * @param cs output stream
- * @param interface indicates if the operation is an interface member
- * @param isOverride implementation of an inherited abstract function
+ * @param opList            the list of operations
+ * @param cs                output stream
+ * @param isInterface       indicates if the operation is an interface member
+ * @param isOverride        implementation of an inherited abstract function
  * @param generateErrorStub flag whether an exception should be thrown
  */
 void CSharpWriter::writeOperations(UMLOperationList opList,

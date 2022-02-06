@@ -344,6 +344,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
  * Write one operation.
  * @param op the class for which we are generating code
  * @param pas the stream associated with the output file
+ * @param is_comment  specifying true generates the operation as commented out
  */
 void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_comment)
 {

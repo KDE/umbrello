@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -31,8 +31,9 @@ DEBUG_REGISTER_DISABLED(PortWidget)
 /**
  * Constructs a PortWidget.
  *
- * @param scene   The parent of this PortWidget.
+ * @param scene   The parent scene of this PortWidget.
  * @param d       The UMLPort this will be representing.
+ * @param owner   The owning widget to which this PortWidget is attached.
  */
 PortWidget::PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner)
   : PinPortBase(scene, WidgetBase::wt_Port, owner, d)

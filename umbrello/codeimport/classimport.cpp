@@ -32,8 +32,9 @@
 #include <QRegExp>
 
 /**
- * Factory method.
+ * Factory method for creating a ClassImport concretization by file extension
  * @param fileName  name of imported file
+ * @param thread    pointer to @ref CodeImpThread within which the importer runs
  * @return the class import object
  */
 ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeImpThread* thread)

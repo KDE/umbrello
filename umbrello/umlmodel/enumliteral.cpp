@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "enumliteral.h"
@@ -14,7 +14,10 @@
  * @param parent    The parent of this UMLEnumLiteral.
  * @param name      The name of this UMLEnumLiteral.
  * @param id        The unique id given to this UMLEnumLiteral.
- * @param v         The value fo this UMLEnumLiteral.
+ * @param v         The numeric representation value of this UMLEnumLiteral.
+ *                  CAVEAT: 1) This does not conform to the UML standard.
+ *                          2) Programming language specific:
+ *                             Not all languages support enum representations.
  */
 UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
                                const QString& name, Uml::ID::Type id,
@@ -72,11 +75,10 @@ void UMLEnumLiteral::setValue(const QString &v)
  * @return  Returns a string representation of the UMLEnumLiteral.
  */
 QString UMLEnumLiteral::toString(Uml::SignatureType::Enum sig,
-                                 bool withStereotype) const
+                                 bool /*withStereotype*/) const
 {
     QString s;
     Q_UNUSED(sig);
-    Q_UNUSED(withStereotype);
 
     s = name();
     if (m_Value.length() > 0)

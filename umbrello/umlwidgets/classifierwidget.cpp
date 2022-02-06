@@ -1132,7 +1132,7 @@ QSize ClassifierWidget::calculateAsPackageSize() const
  * Auxiliary method for draw() of child classes:
  * Draw the attributes or operations.
  *
- * @param p          QPainter to paint to.
+ * @param painter    QPainter to paint to.
  * @param ot         Object type to draw, either ot_Attribute or ot_Operation.
  * @param sigType    Governs details of the member display.
  * @param x          X coordinate at which to draw the texts.

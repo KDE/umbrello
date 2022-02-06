@@ -198,6 +198,7 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
  * existing file with the same path as one to be created overwrites it without asking.
  * The url used can be local or remote, using supported KIO slaves.
  *
+ * @param views     The list of views to export.
  * @param imageType The type of the images the views will be exported to.
  * @param directory The url of the directory where the images will be saved.
  * @param useFolders If the tree structure of the views in the document must be created

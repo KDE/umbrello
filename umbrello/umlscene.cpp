@@ -1302,9 +1302,9 @@ void UMLScene::removeWidget(UMLWidget * o)
 }
 
 /**
- * Remove a widget from view (undo command)
+ * Remove an associationwidget from view (undo command)
  *
- * @param o  The widget to remove.
+ * @param w  The associationwidget to remove.
  */
 void UMLScene::removeWidget(AssociationWidget* w)
 {

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -278,7 +278,7 @@ void CPPCodeGenerationForm::setGetterWithoutGetPrefix(bool bFlag)
 
 /**
  * Set the display state of the related checkbox
- * @param flag   the flag to set
+ * @param bFlag   the flag to set
  */
 void CPPCodeGenerationForm::setRemovePrefixFromAccessorMethodName(bool bFlag)
 {
@@ -287,7 +287,7 @@ void CPPCodeGenerationForm::setRemovePrefixFromAccessorMethodName(bool bFlag)
 
 /**
  * Set the display state of the related checkbox
- * @param flag   the flag to set
+ * @param bFlag   the flag to set
  */
 void CPPCodeGenerationForm::setAccessorMethodsStartWithUpperCase(bool bFlag)
 {

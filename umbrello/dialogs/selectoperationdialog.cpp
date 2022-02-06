@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -41,6 +41,7 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *
  *  @param  parent  The parent to this instance.
  *  @param  c       The concept to get the operations from.
+ *  @param  widget  The @ref LinkWidget with which the operation may be associated on diagram
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, LinkWidget *widget, bool enableAutoIncrement)

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "codeblock.h"
@@ -54,8 +54,7 @@ CodeBlock::ContentType CodeBlock::contentType() const
 
 /**
  * Save the XMI representation of this object.
- * @param doc    the xmi document
- * @param root   the starting point to append
+ * @param writer QXmlStreamWriter serialization target
  */
 void CodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
@@ -68,8 +67,7 @@ void CodeBlock::saveToXMI(QXmlStreamWriter& writer)
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
- * @param doc            the xmi document
- * @param blockElement   the xmi element holding the attributes
+ * @param writer QXmlStreamWriter serialization target
  */
 void CodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {

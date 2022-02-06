@@ -3225,7 +3225,8 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
  * @param classname   the name of the class
  * @param opList      the list of operations
  * @param php         output stream for the PHP file
- * @param interface   indicates if the operation is an interface member
+ * @param isInterface indicates if the operation is an interface member
+ * @param generateErrorStub  true generates trigger_error("Implement " . __FUNCTION__)
  */
 void Php5Writer::writeOperations(const QString & classname, UMLOperationList &opList,
                                  QTextStream &php, bool isInterface /* = false */,

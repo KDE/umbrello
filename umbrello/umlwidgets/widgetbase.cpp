@@ -69,6 +69,7 @@ QVariant QGraphicsObjectWrapper::itemChange(GraphicsItemChange change, const QVa
  * @param scene   The view to be displayed on.
  * @param type    The WidgetType to construct.  This must be set to the appropriate
  *                value by the constructors of inheriting classes.
+ * @param id      The XMI ID to use. The value Uml::ID::None will trigger generation of a new ID.
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
   : QGraphicsObjectWrapper(),

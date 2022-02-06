@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef TEXTBLOCK_H
@@ -62,8 +62,7 @@ public:
 
     /**
      * Save the XMI representation of this object
-     * @param doc    the xmi document
-     * @param root   the starting point to append
+     * @param writer the QXmlStreamWriter serialization target
      */
     virtual void saveToXMI(QXmlStreamWriter& writer) = 0;
 

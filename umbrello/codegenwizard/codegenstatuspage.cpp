@@ -157,7 +157,7 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
 
 /**
  * Updates the status of the code generation in the status table.
- * @param concept     the class for which the code was generated
+ * @param classifier  the class for which the code was generated
  * @param state   the state of the generation
  */
 void CodeGenStatusPage::classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state)

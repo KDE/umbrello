@@ -125,6 +125,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
  * @param name  The name of the enumliteral.
  * @param id  The id of the enumliteral (optional.)
  *            If omitted a new ID is assigned internally.
+ * @param value  Optional numeric representation of the enumliteral.
  * @return  Pointer to the UMLEnumliteral created.
  */
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const QString& value)

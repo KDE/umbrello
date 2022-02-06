@@ -279,6 +279,7 @@ void UMLDatatypeWidget::initTypesBox(QStringList &types, const QString& type)
 /**
  * Add classes and interfaces from document instance to the given string list.
  * @param types list to store the classes and interfaces
+ * @param fullName if true then insert names including their package path
  */
 void UMLDatatypeWidget::insertTypesFromConcepts(QStringList& types, bool fullName)
 {

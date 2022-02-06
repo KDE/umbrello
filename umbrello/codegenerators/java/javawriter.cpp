@@ -833,7 +833,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 /**
  * Get all operations which a given class inherit from all its super interfaces and that should be implemented.
  * @param c     the class for which we are generating code
- * @param opl   the list of operations used to append the operations
+ * @param opList  the list of operations used to append the operations
  */
 void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList)
 {
@@ -850,7 +850,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
 /**
  * Write all operations for a given class.
  * @param c   the class for which we are generating code
- * @param j   the stream associated with the output file
+ * @param java  the stream associated with the output file
  */
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
@@ -909,8 +909,8 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 /**
  * Write a list of operations for a given class.
- * @param list   the list of operations you want to write
- * @param j      the stream associated with the output file
+ * @param opList the list of operations you want to write
+ * @param java   the stream associated with the output file
  */
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
 {

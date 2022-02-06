@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -14,6 +15,7 @@
 
 /**
  * Constructor.
+ * @param parent  QObject wihch acts as parent to this CodeImpThread
  * @param file  File to import for which the thread shall be spawned
  */
 CodeImpThread::CodeImpThread(QFileInfo& file, QObject* parent)

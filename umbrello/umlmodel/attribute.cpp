@@ -128,7 +128,8 @@ Uml::ParameterDirection::Enum UMLAttribute::getParmKind() const
 /**
  * Returns a string representation of the UMLAttribute.
  *
- * @param sig   If true will show the attribute type and initial value.
+ * @param sig             If true will show the attribute type and initial value.
+ * @param withStereotype  If true will show a possible stereotype applied to the attribute.
  * @return  Returns a string representation of the UMLAttribute.
  */
 QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype) const

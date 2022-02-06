@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DWRITER_H
@@ -124,7 +124,7 @@ private:
     /**
      * Writes attribute declarations with a specific
      * protection modifier.
-     * @param prot     the protection modifier
+     * @param visibility  the protection modifier
      * @param atlist   attribute list
      * @param d        text stream
      */

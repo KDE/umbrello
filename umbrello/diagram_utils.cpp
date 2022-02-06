@@ -77,6 +77,7 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
  * @param sequence return of sequence number
  * @param package return of package
  * @param method return of method
+ * @param error  return of error string if error happened
  * @return true line could be parsed and return variable has been filled
  * @return false line could not be parsed, no return variable has been filled
  */

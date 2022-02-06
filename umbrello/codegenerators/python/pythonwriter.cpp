@@ -307,7 +307,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
 /**
  * Write all attributes for a given class.
- * @param c    the concept we are generating code for
+ * @param atList  the attribute list we are generating code for
  * @param py   output stream for the header file
  */
 void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)

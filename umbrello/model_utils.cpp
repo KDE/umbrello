@@ -1836,6 +1836,9 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
  * Return the IconType which corresponds to the given listview type.
  *
  * @param lvt  ListViewType to convert.
+ * @param o    Optional UMLObject pointer is only used if @p lvt is lvt_Class:
+ *             If the stereotype <<class-or-package>> is applied on the object
+ *             then Icon_Utils::it_ClassOrPackage is returned.
  * @return  The Icon_Utils::IconType corresponding to the lvt.
  *          Returns it_Home in case no mapping to IconType exists.
  */

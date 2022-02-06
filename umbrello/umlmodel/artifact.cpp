@@ -44,8 +44,7 @@ UMLObject* UMLArtifact::clone() const
 /**
  * Creates the UML:Artifact element including its operations,
  * attributes and templates
- * @param qDoc       the xml document
- * @param qElement   the xml element
+ * @param writer   the QXmlStreamWriter serialization target
  */
 void UMLArtifact::saveToXMI(QXmlStreamWriter& writer) 
 {

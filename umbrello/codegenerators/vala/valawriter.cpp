@@ -500,8 +500,9 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
  * Write a list of class operations.
  * @param opList the list of operations
  * @param cs output stream
- * @param interface indicates if the operation is an interface member
+ * @param isInterface indicates if the operation is an interface member
  * @param isOverride implementation of an inherited abstract function
+ * @param generateErrorStub  true generates a comment "The method or operation is not implemented"
  */
 void ValaWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
@@ -813,7 +814,7 @@ void ValaWriter::writeAttribute(const QString& doc,
 
 /**
  * Find the type in used namespaces, if namespace found return short name, complete otherwise.
- * @param at Operation or Attribute to check type
+ * @param cl Operation or Attribute to check type
  * @return   the local type name
  */
 QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)

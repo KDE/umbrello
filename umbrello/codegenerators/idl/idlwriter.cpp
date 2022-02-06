@@ -427,6 +427,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
  * Write one operation.
  * @param op the class for which we are generating code
  * @param idl the stream associated with the output file
+ * @param is_comment  specifying true generates the operation as commented out
  */
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment)
 {

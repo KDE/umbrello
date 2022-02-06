@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -312,8 +312,7 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
- * @param doc            the xmi document
- * @param blockElement   the xmi element holding the attributes
+ * @param writer the QXmlStreamWriter serialization target
  */
 void TextBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {

@@ -428,8 +428,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
 
 /**
  * Save the XMI representation of this object.
- * @param doc   the xmi document
- * @param root  the starting point to append
+ * @param writer QXmlStreamWriter serialization target
  */
 void CodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {

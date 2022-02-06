@@ -424,9 +424,8 @@ bool ClassifierCodeDocument::parentIsInterface() const
 }
 
 /**
- * Init from a UMLClassifier object.
- * @param       classifier
- * @param       package
+ * Initialize from a UMLClassifier object.
+ * @param c    Classifier from which to initialize this CodeDocument
  */
 void ClassifierCodeDocument::init (UMLClassifier * c)
 {

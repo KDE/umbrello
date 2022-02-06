@@ -62,6 +62,7 @@ bool showGUI(KCmdLineArgs *args)
  * in the configuration.
  *
  * @param args The command line arguments given.
+ * @param progLang The programming language to set if no existing file was opened.
  */
 void initDocument(KCmdLineArgs *args, Uml::ProgrammingLanguage::Enum progLang)
 {

@@ -197,6 +197,7 @@ UMLAttribute* UMLOperation::findParm(const QString &name) const
  * Returns a string representation of the operation.
  *
  * @param sig       what type of operation string to show
+ * @param withStereotype  if true will show a possible stereotype applied to the operation
  * @return          the string representation of the operation
  */
 QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype) const

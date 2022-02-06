@@ -266,7 +266,7 @@ void UMLClipboard::addRelatedWidgets()
 /**
  * Fills object list based on a selection of widgets
  *
- * @param UMLWidgetList& widgets
+ * @param widgets  the UMLWidgetList to fill
  */
 void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
 {

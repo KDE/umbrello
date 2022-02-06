@@ -1004,7 +1004,7 @@ QString AssociationWidget::roleDocumentation(Uml::RoleType::Enum role) const
 /**
  * Change, create, or delete the FloatingTextWidget indicated by the given TextRole::Enum.
  *
- * @param tr    TextRole::Enum of the FloatingTextWidget to change or create.
+ * @param role  TextRole::Enum of the FloatingTextWidget to change or create.
  * @param text  Text string that controls the action:
  *              If empty and ft is NULL then setFloatingText() is a no-op.
  *              If empty and ft is non-NULL then the existing ft is deleted.
@@ -3344,7 +3344,7 @@ int AssociationWidget::getRegionCount(Uml::Region::Enum region, Uml::RoleType::E
  * @param rect   rect of a classifier
  * @param line   a line to the rect
  * @param intersectionPoint   the intercept point on the border of the rect
- * @return   the type of the intersection @ref QLineF::IntersectType
+ * @return   the QLineF::IntersectType of the intersection
  */
 QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLineF &line,
                                                    QPointF* intersectionPoint)

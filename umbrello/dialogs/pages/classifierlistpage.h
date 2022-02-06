@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CLASSIFIERLISTPAGE_H
@@ -57,7 +57,7 @@ private:
 
     virtual UMLClassifierListItemList getItemList();
 
-    bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
+    bool addToClassifier(UMLClassifierListItem* classifier, int position = -1);
 
     bool takeItem(UMLClassifierListItem* listitem,
                   bool seekPeerBefore, int &peerIndex);

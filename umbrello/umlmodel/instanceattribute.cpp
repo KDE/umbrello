@@ -118,7 +118,7 @@ void UMLInstanceAttribute::saveToXMI(QXmlStreamWriter& writer)
 }
 
 /**
- * Loads the UMLInstance <slot> XMI element.
+ * Loads the UMLInstance "slot" XMI element.
  */
 bool UMLInstanceAttribute::load1(QDomElement & element)
 {
