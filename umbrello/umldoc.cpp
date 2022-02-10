@@ -2055,7 +2055,7 @@ qreal UMLDoc::resolution() const
 qreal UMLDoc::dpiScale() const
 {
 #ifdef ENABLE_XMIRESOLUTION
-    if (resolution() != 0.0)
+    if (!qFuzzyIsNull(resolution()))
         return (qreal)qApp->desktop()->logicalDpiX() / resolution();
     else
 #endif
@@ -2813,7 +2813,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             if (!res.isEmpty()) {
                resolution = res.toDouble();
             }
-            if (resolution != 0.0) {
+            if (!qFuzzyIsNull(resolution)) {
                UMLApp::app()->document()->setResolution(resolution);
             } else {
                // see UMLFolder::loadDiagramsFromXMI()

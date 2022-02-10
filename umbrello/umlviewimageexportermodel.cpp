@@ -571,7 +571,8 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
         rect = QRectF(0,0, 10, 10);
     }
 
-    float scale = m_resolution != 0.0 ? m_resolution / qApp->desktop()->logicalDpiX() : 72.0f / qApp->desktop()->logicalDpiX();
+    float scale = !qFuzzyIsNull(m_resolution) ? m_resolution / qApp->desktop()->logicalDpiX()
+                                              : 72.0f / qApp->desktop()->logicalDpiX();
     QSizeF size = rect.size() * scale;
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);

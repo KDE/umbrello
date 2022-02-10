@@ -134,7 +134,9 @@ void UMLFolder::activateViews()
     }
 
     foreach (UMLView* v, m_diagrams) {
-        v->umlScene()->activateAfterLoad();
+        UMLScene *scene = v->umlScene();
+        scene->activateAfterLoad();
+        uDebug() << "UMLFolder::activateViews: " << scene->name() << " sceneRect = " << scene->sceneRect();
     }
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
@@ -292,7 +294,7 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
             writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
         }
         writer.writeStartElement(QLatin1String("diagrams"));
-        if (UMLApp::app()->document()->resolution() != 0.0) {
+        if (!qFuzzyIsNull(UMLApp::app()->document()->resolution())) {
             writer.writeAttribute(QLatin1String("resolution"),
                                   QString::number(UMLApp::app()->document()->resolution()));
         }
@@ -393,7 +395,7 @@ bool UMLFolder::loadDiagramsFromXMI1(QDomNode& node)
     if (!res.isEmpty()) {
        resolution = res.toDouble();
     }
-    if (resolution != 0.0) {
+    if (!qFuzzyIsNull(resolution)) {
        UMLApp::app()->document()->setResolution(resolution);
     } else {
        /* FIXME how to get dpi ?
