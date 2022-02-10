@@ -67,7 +67,6 @@ void ToolBarStateOther::setCurrentElement()
  * If the widget is the visual representation of a UMLObject, the object
  * factory handles its creation. Otherwise, the widget is created using
  * newWidget().
- * The UMLView is resized to fit on all the items.
  */
 void ToolBarStateOther::mouseReleaseEmpty()
 {
@@ -78,8 +77,6 @@ void ToolBarStateOther::mouseReleaseEmpty()
             m_pUMLScene->setCreateObject(true);
             Object_Factory::createUMLObject(getObjectType());
         }
-
-        m_pUMLScene->resizeSceneToItems();
     }
 }
 

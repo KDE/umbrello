@@ -506,8 +506,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             aw->moveEntireAssoc(diffX, diffY);
         }
     }
-
-    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -572,7 +570,6 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             umlDoc()->setModified(true);
             umlScene()->invalidate();
         }
-        umlScene()->resizeSceneToItems();
 
         UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
     }
@@ -1579,8 +1576,6 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
     DEBUG() << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
     QPointF delta = me->scenePos() - me->lastScenePos();
     adjustAssocs(delta.x(), delta.y());
-
-    m_scene->resizeSceneToItems();
 }
 
 /**

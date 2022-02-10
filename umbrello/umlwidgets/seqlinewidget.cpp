@@ -192,7 +192,6 @@ void SeqLineWidget::setEndOfLine(int yPosition)
     }
     setLine(sp.x(), sp.y(), sp.x(), newY);
     moveDestructionBox();
-    m_scene->resizeSceneToItems();
 }
 
 void SeqLineWidget::setLineColorCmd(const QColor &color)

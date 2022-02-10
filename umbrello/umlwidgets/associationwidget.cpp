@@ -3284,7 +3284,6 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     m_associationLine.mouseMoveEvent(me);
     moveEvent(me);
-    m_scene->resizeSceneToItems();
 }
 
 /**

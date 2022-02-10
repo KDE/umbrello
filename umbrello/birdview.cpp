@@ -91,7 +91,6 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     if (!m_view)
         return;
     QRectF itemsRect = m_birdView->scene()->itemsBoundingRect();
-    m_birdView->scene()->setSceneRect(itemsRect);
     m_birdView->setSceneRect(itemsRect);
     m_birdView->fitInView(itemsRect, Qt::KeepAspectRatio);
 

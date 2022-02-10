@@ -732,7 +732,6 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
     w->slotLineWidthChanged(ID());
-    resizeSceneToItems();
     m_doc->setModified();
 
     if (m_doc->loading()) {  // do not emit signals while loading
@@ -826,7 +825,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         // widget might saturate some latent attribute assocs.
         createAutoAttributeAssociations2(newWidget);
     }
-    resizeSceneToItems();
 
     UMLView* cv = activeView();
     if (cv) {
@@ -3530,7 +3528,6 @@ void UMLScene::applyLayout(const QString &variant)
     LayoutGenerator r;
     r.generate(this, variant);
     r.apply(this);
-    resizeSceneToItems();
     UMLApp::app()->slotZoomFit();
 }
 
@@ -3712,16 +3709,6 @@ void UMLScene::setShowOpSig(bool bShowOpSig)
 void UMLScene::fileLoaded()
 {
     m_view->setZoom(m_view->zoom());
-    resizeSceneToItems();
-}
-
-/**
- * Sets the size of the scene to just fit on all the items
- */
-void UMLScene::resizeSceneToItems()
-{
-    // let QGraphicsScene handle scene size by itself
-    // setSceneRect(itemsBoundingRect());
 }
 
 /**
@@ -3798,7 +3785,6 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
  */
 void UMLScene::saveToXMI(QXmlStreamWriter& writer)
 {
-    resizeSceneToItems();
     writer.writeStartElement(QLatin1String("diagram"));
     writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
     writer.writeAttribute(QLatin1String("name"), name());
@@ -3901,7 +3887,6 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
     QString zoom = qElement.attribute(QLatin1String("zoom"), QLatin1String("100"));
     activeView()->setZoom(zoom.toInt());
-    resizeSceneToItems();
 
     QString isOpen = qElement.attribute(QLatin1String("isopen"), QLatin1String("1"));
     m_isOpen = (bool)isOpen.toInt();

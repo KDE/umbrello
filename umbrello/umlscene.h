@@ -274,8 +274,6 @@ public:
 
     void fileLoaded();
 
-    void resizeSceneToItems();
-
     // Load/Save interface:
 
     virtual void saveToXMI(QXmlStreamWriter& writer);

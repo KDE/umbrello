@@ -76,8 +76,6 @@ void UMLView::setZoom(qreal zoom)
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setMatrix(wm);
-
-    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -106,13 +104,12 @@ void UMLView::zoomOut()
 }
 
 /**
- * Overrides standard method from QWidget to resize scene when
- * it's shown.
+ * Overrides standard method from QWidget for possible additional actions.
+ * TBC can we remove this?
  */
 void UMLView::show()
 {
     QWidget::show();
-    umlScene()->resizeSceneToItems();
 }
 
 /**

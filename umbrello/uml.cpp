@@ -700,7 +700,6 @@ void UMLApp::slotZoomFit()
         setZoom(100);
         return;
     }
-    currentView()->umlScene()->setSceneRect(items);
     // TODO: QGraphicsView seems not to be informed about the scene rect update
     currentView()->setSceneRect(items);
 
