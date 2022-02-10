@@ -1772,7 +1772,10 @@ QPointF UMLWidget::getPos() const
  */
 void UMLWidget::setX(qreal x)
 {
-    QGraphicsObjectWrapper::setX(x);
+    if (x < -umlScene()->maxCanvasSize() || x > umlScene()->maxCanvasSize())
+        logError1("UMLWidget::setX refusing to set X to %1", x);
+    else
+        QGraphicsObjectWrapper::setX(x);
 }
 
 /**
@@ -1784,7 +1787,10 @@ void UMLWidget::setX(qreal x)
  */
 void UMLWidget::setY(qreal y)
 {
-    QGraphicsObjectWrapper::setY(y);
+    if (y < -umlScene()->maxCanvasSize() || y > umlScene()->maxCanvasSize())
+        logError1("UMLWidget::setY refusing to set Y to %1", y);
+    else
+        QGraphicsObjectWrapper::setY(y);
 }
 
 /**

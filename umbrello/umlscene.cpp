@@ -98,9 +98,9 @@
 
 // static members
 const qreal UMLScene::defaultCanvasSize = 5000;
+const qreal UMLScene::s_maxCanvasSize = 100000.0;
 bool UMLScene::m_showDocumentationIndicator = false;
 
-static const qreal maxCanvasSize = 100000.0;
 
 using namespace Uml;
 
@@ -3764,10 +3764,10 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
        $2 = (const QRectF &) @0x7fffffffa3d0: {xp = -4160651296.6437497, yp = -18968990857.816666,
                                                w = 4026436738.6874995, h = 33643115861.033333}
     */
-    const bool validX = (rect.x() >= -maxCanvasSize && rect.x() <= maxCanvasSize);
-    const bool validY = (rect.y() >= -maxCanvasSize && rect.y() <= maxCanvasSize);
-    const bool validW = (rect.width()  >= 0.0 && rect.width()  <= maxCanvasSize);
-    const bool validH = (rect.height() >= 0.0 && rect.height() <= maxCanvasSize);
+    const bool validX = (rect.x() >= -s_maxCanvasSize && rect.x() <= s_maxCanvasSize);
+    const bool validY = (rect.y() >= -s_maxCanvasSize && rect.y() <= s_maxCanvasSize);
+    const bool validW = (rect.width()  >= 0.0 && rect.width()  <= s_maxCanvasSize);
+    const bool validH = (rect.height() >= 0.0 && rect.height() <= s_maxCanvasSize);
     if (!validX || !validY || !validW || !validH) {
         logError4("UMLScene::drawBackground rejecting event due to invalid data: "
                   "validX=%1, validY=%2, validW=%3, validH=%4", validX, validY, validW, validH);

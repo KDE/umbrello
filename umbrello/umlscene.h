@@ -323,6 +323,8 @@ public:
     void setWidgetLink(WidgetBase *w);
     WidgetBase *widgetLink();
 
+    qreal maxCanvasSize() { return s_maxCanvasSize; }
+
 protected:
     // Methods and members related to loading/saving
 
@@ -391,13 +393,14 @@ protected:
 private:
     UMLScenePrivate *m_d;
     static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.
+    static const qreal s_maxCanvasSize;         ///< The maximum supported canvas size.
     static bool m_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
-    bool m_isActivated;             ///< True if the view was activated after the serialization(load).
+    bool m_isActivated;             ///< True if the view was activated after the deserialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
     QPointF m_PastePoint;     ///< The offset at which to paste the clipboard.
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
