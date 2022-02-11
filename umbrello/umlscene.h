@@ -323,6 +323,11 @@ public:
 
     qreal maxCanvasSize() { return s_maxCanvasSize; }
 
+    void updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h);
+
+    qreal fixX() const;
+    qreal fixY() const;
+
 protected:
     // Methods and members related to loading/saving
 
@@ -390,9 +395,10 @@ protected:
 
 private:
     UMLScenePrivate *m_d;
-    static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.
+    static const qreal s_defaultCanvasWidth;    ///< The default width of a diagram in pixels.
+    static const qreal s_defaultCanvasHeight;   ///< The default height of a diagram in pixels.
     static const qreal s_maxCanvasSize;         ///< The maximum supported canvas size.
-    static bool m_showDocumentationIndicator; ///< Status of documentation indicator
+    static bool s_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
@@ -405,6 +411,10 @@ private:
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
     bool m_autoIncrementSequence; ///< state of auto increment sequence
+    qreal m_minX, m_minY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
+    qreal m_maxX, m_maxY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
+    qreal m_fixX;             ///< Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+    qreal m_fixY;             ///< Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,

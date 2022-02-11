@@ -338,11 +338,12 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     if(startElement.isNull() || startElement.tagName() != QLatin1String("startpoint")) {
         return false;
     }
+    UMLScene* umlScene = m_associationWidget->umlScene();
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
-    qreal nX = toDoubleFromAnyLocale(x);
+    qreal nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
-    qreal nY = toDoubleFromAnyLocale(y);
+    qreal nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();

@@ -97,9 +97,10 @@
 #include <cmath>  // for ceil
 
 // static members
-const qreal UMLScene::defaultCanvasSize = 5000;
+const qreal UMLScene::s_defaultCanvasWidth  = 1100;
+const qreal UMLScene::s_defaultCanvasHeight =  800;
 const qreal UMLScene::s_maxCanvasSize = 100000.0;
-bool UMLScene::m_showDocumentationIndicator = false;
+bool UMLScene::s_showDocumentationIndicator = false;
 
 
 using namespace Uml;
@@ -262,7 +263,7 @@ public:
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
-  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
+  : QGraphicsScene(0, 0, s_defaultCanvasWidth, s_defaultCanvasHeight),
     m_nLocalID(Uml::ID::None),
     m_nID(Uml::ID::None),
     m_Type(Uml::DiagramType::Undefined),
@@ -283,7 +284,10 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pIDChangesLog(0),
     m_isActivated(false),
     m_bPopupShowing(false),
-    m_autoIncrementSequence(false)
+    m_autoIncrementSequence(false),
+    m_minX(s_maxCanvasSize), m_minY(s_maxCanvasSize),
+    m_maxX(0.0), m_maxY(0.0),
+    m_fixX(0.0), m_fixY(0.0)
 {
     m_PastePoint = QPointF(0, 0);
 
@@ -683,7 +687,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     QRect page = pPrinter->pageRect();
 
     // use the painter font metrics, not the screen fm!
-    QFontMetrics fm = pPainter.fontMetrics(); 
+    QFontMetrics fm = pPainter.fontMetrics();
     int fontHeight  = fm.lineSpacing();
 
     if (paper == page) {
@@ -3675,7 +3679,7 @@ void UMLScene::setSnapGridVisible(bool bShow)
  */
 bool UMLScene::isShowDocumentationIndicator() const
 {
-    return m_showDocumentationIndicator;
+    return s_showDocumentationIndicator;
 }
 
 /**
@@ -3683,7 +3687,7 @@ bool UMLScene::isShowDocumentationIndicator() const
  */
 void UMLScene::setShowDocumentationIndicator(bool bShow)
 {
-    m_showDocumentationIndicator = bShow;
+    s_showDocumentationIndicator = bShow;
 }
 
 /**
@@ -3885,6 +3889,26 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString snapy = qElement.attribute(QLatin1String("snapy"), QLatin1String("10"));
     m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
+    QString canvheight = qElement.attribute(QLatin1String("canvasheight"), QString());
+    QString canvwidth  = qElement.attribute(QLatin1String("canvaswidth"), QString());
+    qreal canvasWidth  = 0.0;
+    qreal canvasHeight = 0.0;
+    if (!canvwidth.isEmpty()) {
+        canvasWidth = toDoubleFromAnyLocale(canvwidth);
+        if (canvasWidth <= 0.0 || canvasWidth > s_maxCanvasSize) {
+            canvasWidth = 0.0;
+        }
+    }
+    if (!canvheight.isEmpty()) {
+        canvasHeight = toDoubleFromAnyLocale(canvheight);
+        if (canvasHeight <= 0.0 || canvasHeight > s_maxCanvasSize) {
+            canvasHeight = 0.0;
+        }
+    }
+    if (!qFuzzyIsNull(canvasWidth) && !qFuzzyIsNull(canvasHeight)) {
+        setSceneRect(0, 0, canvasWidth, canvasHeight);
+    }
+
     QString zoom = qElement.attribute(QLatin1String("zoom"), QLatin1String("100"));
     activeView()->setZoom(zoom.toInt());
 
@@ -3943,6 +3967,96 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     }
 
     QDomNode node = qElement.firstChild();
+    /*
+      https://bugs.kde.org/show_bug.cgi?id=449622
+      In order to compensate for QGraphicsScene offsets we make an extra loop in which
+      negative or positive X / Y offsets are determined.
+      The problem stems from the time when the QGraphicsScene coordinates were derived
+      from the coordinates of its widgets (function resizeSceneToItems prior to v2.34).
+     */
+    m_fixX = m_fixY = 0.0;
+    qreal xNegOffset = 0.0;
+    qreal yNegOffset = 0.0;
+    qreal xPosOffset = 1.0e6;
+    qreal yPosOffset = 1.0e6;
+
+    // If an offset fix is applied then add a margin on the fix so that the leftmost
+    // or topmost widgets have some separation from the scene border.
+    const qreal marginIfFixIsApplied = 50.0;
+
+    // If all widgets have a positive X or Y offset exceeding this value
+    // then the fix will be applied.
+    const qreal xTriggerValueForPositiveFix = s_defaultCanvasWidth / 2.0;
+    const qreal yTriggerValueForPositiveFix = s_defaultCanvasHeight / 2.0;
+
+    while (!node.isNull()) {
+        QDomElement element = node.toElement();
+        if (element.isNull()) {
+            node = node.nextSibling();
+            continue;
+        }
+        if (element.tagName() == QLatin1String("widgets")) {
+            QDomNode wNode = element.firstChild();
+            QDomElement widgetElement = wNode.toElement();
+            while (!widgetElement.isNull()) {
+                QString tag  = widgetElement.tagName();
+                if ((tag.endsWith(QLatin1String("widget")) && tag != QLatin1String("pinwidget")
+                                                           && tag != QLatin1String("portwidget"))
+                                                         || tag == QLatin1String("floatingtext")) {
+                    QString xStr = widgetElement.attribute(QLatin1String("x"), QLatin1String("0"));
+                    qreal x = toDoubleFromAnyLocale(xStr);
+                    if (x < -s_maxCanvasSize || x > s_maxCanvasSize) {
+                        QString wName = widgetElement.attribute(QLatin1String("name"), QString());
+                        logWarn3("UMLScene::loadFromXMI(%1) ignoring widget %2 due to invalid X value %3",
+                                 name(), wName, xStr);
+                        wNode = widgetElement.nextSibling();
+                        widgetElement = wNode.toElement();
+                        continue;
+                    }
+                    QString yStr = widgetElement.attribute(QLatin1String("y"), QLatin1String("0"));
+                    qreal y = toDoubleFromAnyLocale(yStr);
+                    if (y < -s_maxCanvasSize || y > s_maxCanvasSize) {
+                        QString wName = widgetElement.attribute(QLatin1String("name"), QString());
+                        logWarn3("UMLScene::loadFromXMI(%1) ignoring widget %2 due to invalid Y value %3",
+                                 name(), wName, yStr);
+                        wNode = widgetElement.nextSibling();
+                        widgetElement = wNode.toElement();
+                        continue;
+                    }
+                    if (x < 0.0) {
+                        if (x < xNegOffset)
+                            xNegOffset = x;
+                    } else if (x < xPosOffset) {
+                        xPosOffset = x;
+                    }
+                    if (y < 0.0) {
+                        if (y < yNegOffset)
+                            yNegOffset = y;
+                    } else if (y < yPosOffset) {
+                        yPosOffset = y;
+                    }
+                    // QString hStr = widgetElement.attribute(QLatin1String("height"), QLatin1String("0"));
+                    // QString wStr = widgetElement.attribute(QLatin1String("width"), QLatin1String("0"));
+                }
+                wNode = widgetElement.nextSibling();
+                widgetElement = wNode.toElement();
+            }
+        }
+        node = node.nextSibling();
+    }
+    if (xNegOffset < 0.0)
+        m_fixX = -xNegOffset + marginIfFixIsApplied;
+    else if (xPosOffset > xTriggerValueForPositiveFix)
+        m_fixX = -xPosOffset + marginIfFixIsApplied;
+    if (yNegOffset < 0.0)
+        m_fixY = -yNegOffset + marginIfFixIsApplied;
+    else if (yPosOffset > yTriggerValueForPositiveFix)
+        m_fixY = -yPosOffset + marginIfFixIsApplied;
+    if (!qFuzzyIsNull(m_fixX) || !qFuzzyIsNull(m_fixY)) {
+        logDebug3("UMLScene::loadFromXMI(%1) : fixX = %2, fixY = %3", name(), m_fixX, m_fixY);
+    }
+
+    node = qElement.firstChild();
     bool widgetsLoaded = false, messagesLoaded = false, associationsLoaded = false;
     while (!node.isNull()) {
         QDomElement element = node.toElement();
@@ -3975,6 +4089,26 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
         m_d->fixPortPositions();
     }
     m_d->removeDuplicatedFloatingTextInstances();
+
+    /*
+      During loadWidgetsFromXMI(), the required QGraphicsScene size was calculated
+      by finding the minimum (x, y) and maximum (x+width, y+height) values of the
+      widgets loaded.
+      These are stored in members m_minX, m_minY and m_maxX, m_maxY respectively.
+      This extra step in necessary because the XMI attributes "canvaswidth" and
+      "canvasheight" may contain invalid values.  See updateCanvasSizeEstimate().
+     */
+    if (m_maxX > canvasWidth || m_maxY > canvasHeight) {
+        if (m_minX < 0.0 || m_minY < 0.0) {
+            logWarn3("UMLScene::loadFromXMI(%1): Setting canvas size with strange values x=%2, y=%3",
+                     name(), m_minX, m_minY);
+            setSceneRect(m_minX, m_minY, m_maxX, m_maxY);
+        } else {
+            logDebug5("UMLScene::loadFromXMI(%1) : Setting canvas size with w=%2, h=%3 (minX=%4, minY=%5)",
+                      name(), m_maxX, m_maxY, m_minX, m_minY);
+            setSceneRect(0.0, 0.0, m_maxX, m_maxY);
+        }
+    }
     return true;
 }
 
@@ -4446,3 +4580,47 @@ WidgetBase *UMLScene::widgetLink()
 {
     return m_d->widgetLink;
 }
+
+/**
+ * Unfortunately the XMI attributes "canvaswidth" and "canvasheight" cannot be
+ * relied on, in versions before 2.34 they sometimes contain bogus values.
+ * We work around this problem by gathering the minimum and maximum values
+ * of the widgets x, x+width, y, y+height into the variables m_minX, m_maxX,
+ * m_minY, m_maxY.
+ * These values are gathered, and the new scene rectangle is set if required,
+ * during loadFromXMI().
+ *
+ * @param x  If value is less than m_minX then m_minX is set to this value.
+ * @param y  If value is less than m_minY then m_minY is set to this value.
+ * @param w  If @p x plus this value is greater than m_maxX then m_maxX is set to their sum.
+ * @param h  If @p y plus this value is greater than m_maxY then m_maxY is set to their sum.
+ */
+void UMLScene::updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h)
+{
+    if (x < m_minX)
+        m_minX = x;
+    else if (x + w > m_maxX)
+        m_maxX = x + w;
+    if (y < m_minY)
+        m_minY = y;
+    else if (y + h > m_maxY)
+        m_maxY = y + h;
+}
+
+/**
+ * Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+ */
+qreal UMLScene::fixX() const
+{
+    return m_fixX;
+}
+
+/**
+ * Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+ */
+qreal UMLScene::fixY() const
+{
+    return m_fixY;
+}
+
+

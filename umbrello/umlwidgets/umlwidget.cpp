@@ -2218,11 +2218,19 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));
     QString w = qElement.attribute(QLatin1String("width"), QLatin1String("0"));
-    qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    setSize(toDoubleFromAnyLocale(w) * dpiScale,
-            toDoubleFromAnyLocale(h) * dpiScale);
-    setX(toDoubleFromAnyLocale(x) * dpiScale);
-    setY(toDoubleFromAnyLocale(y) * dpiScale);
+    const qreal dpiScale = UMLApp::app()->document()->dpiScale();
+    const qreal scaledW = toDoubleFromAnyLocale(w) * dpiScale;
+    const qreal scaledH = toDoubleFromAnyLocale(h) * dpiScale;
+    setSize(scaledW, scaledH);
+    const qreal nX = toDoubleFromAnyLocale(x);
+    const qreal nY = toDoubleFromAnyLocale(y);
+    const qreal fixedX = nX + umlScene()->fixX();  // bug 449622
+    const qreal fixedY = nY + umlScene()->fixY();
+    const qreal scaledX = fixedX * dpiScale;
+    const qreal scaledY = fixedY * dpiScale;
+    umlScene()->updateCanvasSizeEstimate(scaledX, scaledY, scaledW, scaledH);
+    setX(scaledX);
+    setY(scaledY);
 
     QString isinstance = qElement.attribute(QLatin1String("isinstance"), QLatin1String("0"));
     m_isInstance = (bool)isinstance.toInt();
