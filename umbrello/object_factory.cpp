@@ -203,6 +203,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
  *                        If set to false and the name already exists
  *                        then the existing object is returned.
  *                        The default is to ask for the new name.
+ * @return          Pointer to object or nullptr if object creation was
+ *                  canceled by the user.
  */
 UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                            UMLPackage *parentPkg /* = 0 */,

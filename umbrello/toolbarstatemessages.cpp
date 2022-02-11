@@ -184,13 +184,15 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         m_pUMLScene->setCreateObject(false);
         UMLObject *object = Object_Factory::createUMLObject(UMLObject::ot_Class);
         m_pUMLScene->setCreateObject(state);
-        ObjectWidget *widget = (ObjectWidget *)Widget_Factory::createWidget(m_pUMLScene, object);
-        widget->setX(xclick);
-        widget->activate();
-        m_pUMLScene->addWidgetCmd(widget);
+        if (object) {
+            ObjectWidget *widget = (ObjectWidget *)Widget_Factory::createWidget(m_pUMLScene, object);
+            widget->setX(xclick);
+            widget->activate();
+            m_pUMLScene->addWidgetCmd(widget);
 
-        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, widget, yclick, msgType);
-        setupMessageWidget(message, false);
+            MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, widget, yclick, msgType);
+            setupMessageWidget(message, false);
+        }
         cleanMessage();
         xclick = 0;
         yclick = 0;
@@ -323,8 +325,10 @@ void ToolBarStateMessages::cleanMessage()
 {
     m_firstObject = 0;
 
-    delete m_messageLine;
-    m_messageLine = 0;
+    if (m_messageLine) {
+        delete m_messageLine;
+        m_messageLine = 0;
+    }
 }
 
 void ToolBarStateMessages::setupMessageWidget(MessageWidget *message, bool showOperationDialog)
