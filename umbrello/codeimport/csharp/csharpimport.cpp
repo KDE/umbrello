@@ -299,28 +299,6 @@ bool CSharpImport::parseStmt()
         }
     }
 
-
-/*
-    if (keyword == QLatin1String("static")) {
-        m_isStatic = true;
-        return true;
-    }
-
-    // if we detected static previously and keyword is { then this is a static block
-    if (m_isStatic && keyword == QLatin1String("{")) {
-        // reset static flag and jump to end of static block
-        m_isStatic = false;
-        return skipToClosing(QLatin1Char('{'));
-    }
-
-    if ((keyword == QLatin1String("override")) ||
-            (keyword == QLatin1String("virtual")) ||
-            (keyword == QLatin1String("sealed"))) {
-        //:TODO: anything to do here?
-        return true;
-    }
-*/
-
     if (keyword == QLatin1String("#")) {   // preprocessor directives
         QString ppdKeyword = advance();
         logDebug1("CSharpImport::parseStmt found preprocessor directive %1", ppdKeyword);
@@ -576,18 +554,15 @@ bool CSharpImport::isTypeDeclaration(const QString& keyword)
  */
 bool CSharpImport::isClassModifier(const QString& keyword)
 {
-    if (isCommonModifier(keyword)  ||
-        keyword == QLatin1String("abstract")    ||
+    if (isCommonModifier(keyword) ||
         keyword == QLatin1String("sealed")) {
-        // log("class-modifier: " + keyword);
-        if (keyword == QLatin1String("abstract")) {
-            m_isAbstract = true;
-        }
         return true;
     }
-    else {
-        return false;
+    if (keyword == QLatin1String("abstract")) {
+        m_isAbstract = true;
+        return true;
     }
+    return false;
 }
 
 /**
@@ -596,25 +571,35 @@ bool CSharpImport::isClassModifier(const QString& keyword)
  */
 bool CSharpImport::isCommonModifier(const QString& keyword)
 {
-    if (keyword == QLatin1String("new")       ||
-        keyword == QLatin1String("public")    ||
-        keyword == QLatin1String("protected") ||
-        keyword == QLatin1String("internal")  ||
-        keyword == QLatin1String("private")) {
-        if (keyword == QLatin1String("public")) {
-            m_currentAccess = Uml::Visibility::Public;
-        }
-        if (keyword == QLatin1String("protected")) {
-            m_currentAccess = Uml::Visibility::Protected;
-        }
-        if (keyword == QLatin1String("private")) {
-            m_currentAccess = Uml::Visibility::Private;
-        }
+    if (keyword == QLatin1String("public")) {
+        m_currentAccess = Uml::Visibility::Public;
         return true;
     }
-    else {
-        return false;
+    if (keyword == QLatin1String("protected")) {
+        m_currentAccess = Uml::Visibility::Protected;
+        return true;
     }
+    if (keyword == QLatin1String("private")) {
+        m_currentAccess = Uml::Visibility::Private;
+        return true;
+    }
+    if (keyword == QLatin1String("static")) {
+        m_isStatic = true;
+        return true;
+    }
+    if (keyword == QLatin1String("new")       ||
+        keyword == QLatin1String("internal")  ||
+        keyword == QLatin1String("readonly")  ||
+        keyword == QLatin1String("volatile")  ||
+        keyword == QLatin1String("virtual")   ||
+        keyword == QLatin1String("override")  ||
+        keyword == QLatin1String("unsafe")    ||
+        keyword == QLatin1String("extern")    ||
+        keyword == QLatin1String("partial")   ||
+        keyword == QLatin1String("async")) {
+        return true;
+    }
+    return false;
 }
 
 /**
