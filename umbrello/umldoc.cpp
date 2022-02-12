@@ -2083,7 +2083,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     QXmlStreamWriter writer(&file);
     writer.setCodec("UTF-8");
     writer.setAutoFormatting(true);
-    writer.setAutoFormattingIndent(1);
+    writer.setAutoFormattingIndent(2);
     // writer.writeProcessingInstruction(QLatin1String("xml"));
     writer.writeStartDocument();
     QString expoText(QLatin1String("umbrello uml modeller "));
