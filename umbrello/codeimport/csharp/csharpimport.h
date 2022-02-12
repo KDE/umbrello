@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2011-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2011-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CSHARPIMPORT_H
@@ -12,7 +12,7 @@ class UMLObject;
 
 /**
  * C# code import.
- * Grammar of C# can be found at http://msdn.microsoft.com/en-us/library/Aa664812 .
+ * Grammar of C# can be found at https://github.com/antlr/grammars-v4/tree/master/csharp
  * @author Andi Fischer (copied from JavaImport)
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
@@ -28,6 +28,8 @@ protected:
     bool parseStmt();
 
     void fillSource(const QString& word);
+
+    bool preprocess(QString& line);
 
     bool parseFile(const QString& filename);
 
