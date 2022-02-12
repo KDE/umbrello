@@ -234,7 +234,7 @@ void UMLEntityAttribute::saveToXMI(QXmlStreamWriter& writer)
 {
     UMLObject::save1(writer, QLatin1String("EntityAttribute"), QLatin1String("ownedAttribute"));
     if (m_pSecondary == 0) {
-        logDebug2("UMLEntityAttribute::saveToXMI %1: m_pSecondary is null, using local name %1",
+        logDebug2("UMLEntityAttribute::saveToXMI %1: m_pSecondary is null, using local name %2",
                   name(), m_SecondaryId);
         writer.writeAttribute(QLatin1String("type"), m_SecondaryId);
     } else {

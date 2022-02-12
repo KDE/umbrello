@@ -328,7 +328,7 @@ void UMLWidget::toForeground()
     else {
         setZValue(0.0);
     }
-    logDebug2("UMLWidget %1 toForeground: zValue is %1", name(), zValue());
+    logDebug2("UMLWidget %1 toForeground: zValue is %2", name(), zValue());
 }
 
 /**

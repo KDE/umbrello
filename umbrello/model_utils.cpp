@@ -291,7 +291,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     && obj->stereotype() == QLatin1String("class-or-package")) {
                     return obj;
                 }
-                logDebug3("findUMLObject type mismatch for %1 (seeking type: %1, found type: %3)",
+                logDebug3("findUMLObject type mismatch for %1 (seeking type: %2, found type: %3)",
                           name, UMLObject::toString(type), UMLObject::toString(foundType));
                 continue;
             }

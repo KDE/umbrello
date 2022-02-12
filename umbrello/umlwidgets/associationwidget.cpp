@@ -1194,7 +1194,7 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) const
                     startY >= wY && startY <= wY + wHeight);
 
     bool result = widget->contains(m_associationLine.point(0));
-    logDebug3("AssociationWidget::linePathStartsAt widget=%1 : result1=%3 / result=%3",
+    logDebug3("AssociationWidget::linePathStartsAt widget=%1 : result1=%2 / result=%3",
               widget->name(), result1, result);
     return result || result1;
 }
