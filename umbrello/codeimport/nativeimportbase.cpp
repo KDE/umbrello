@@ -442,7 +442,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     if (!QFile::exists(filename)) {
         QFileInfo fi(filename);
         if (fi.isAbsolute()) {
-            logError1("NativeImportBase::parseFile: cannot find file %1", filename);
+            logError1("NativeImportBase::parseFile: cannot find absolute file %1", filename);
             return false;
         }
         bool found = false;
@@ -460,7 +460,7 @@ bool NativeImportBase::parseFile(const QString& filename)
             }
         }
         if (! found) {
-            logError1("NativeImportBase::parseFile: cannot find file %1 (2)", filename);
+            logError1("NativeImportBase::parseFile: cannot find file %1", filename);
             return false;
         }
     }
@@ -488,13 +488,13 @@ bool NativeImportBase::parseFile(const QString& filename)
     m_klass = 0;
     m_currentAccess = Uml::Visibility::Public;
     m_scope.clear();
-    pushScope(Import_Utils::globalScope()); // index 0 is reserverd for the global scope
+    pushScope(Import_Utils::globalScope()); // index 0 is reserved for the global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& firstToken = m_source[m_srcIndex];
         //uDebug() << '"' << firstToken << '"';
         if (firstToken.startsWith(m_singleLineCommentIntro)) {
-            m_comment = firstToken.mid(m_singleLineCommentIntro.length());
+            m_comment += firstToken.mid(m_singleLineCommentIntro.length());
             continue;
         }
         if (! parseStmt())
