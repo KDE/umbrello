@@ -352,21 +352,21 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     x = endElement.attribute(QLatin1String("endx"), QLatin1String("0"));
-    nX = toDoubleFromAnyLocale(x);
+    nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
-    nY = toDoubleFromAnyLocale(y);
+    nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF endPoint(nX, nY);
     setEndPoints(startPoint * dpiScale, endPoint * dpiScale);
     QPointF point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
     int i = 1;
-    while(!element.isNull()) {
-        if(element.tagName() == QLatin1String("point")) {
+    while (!element.isNull()) {
+        if (element.tagName() == QLatin1String("point")) {
             x = element.attribute(QLatin1String("x"), QLatin1String("0"));
             y = element.attribute(QLatin1String("y"), QLatin1String("0"));
-            point.setX(toDoubleFromAnyLocale(x));
-            point.setY(toDoubleFromAnyLocale(y));
+            point.setX(toDoubleFromAnyLocale(x) + umlScene->fixX());
+            point.setY(toDoubleFromAnyLocale(y) + umlScene->fixY());
             insertPoint(i++, point * dpiScale);
         }
         node = element.nextSibling();
