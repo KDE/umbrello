@@ -71,7 +71,7 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
     KAction *action = m_actions[tbb];
 #endif
     addAction(action);
-    action->setChecked(true);
+    action->setCheckable(true);
     return action;
 }
 
