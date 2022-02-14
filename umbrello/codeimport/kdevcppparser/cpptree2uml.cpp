@@ -309,7 +309,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     bool isExplicit = false;
     bool isConstExpression = false;
 
-    if (funSpec){
+    if (funSpec) {
         QList<AST*> l = funSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
@@ -322,12 +322,14 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         }
     }
 
-    if (storageSpec){
+    if (storageSpec) {
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("friend")) isFriend = true;
-            else if (text == QLatin1String("static")) isStatic = true;
+            if (text == QLatin1String("friend"))
+                isFriend = true;
+            else if (text == QLatin1String("static"))
+                isStatic = true;
             else if (text == QLatin1String("constexpr"))
                 isConstExpression = true;
         }
@@ -474,7 +476,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     m_currentScope.pop_back();
 
-    // check is class is an interface
+    // check if class is an interface
     bool isInterface = true;
     foreach(UMLOperation *op, klass->getOpList()) {
         if (!op->isDestructorOperation() && op->isAbstract() == false)
@@ -651,14 +653,13 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     }
 
     QString returnType = typeOfDeclaration(typeSpec, d);
-    // if a class has no return type, it could de a constructor or
-    // a destructor
+    // if a class has no return type it could be a constructor or a destructor
     if (d && returnType.isEmpty()) {
-        if (id.indexOf(QLatin1Char('~')) == -1)
-            isConstructor = true;
-        else {
+        if (id.contains(QLatin1Char('~'))) {
             isDestructor = true;
             id.remove(QLatin1String(" "));
+        } else {
+            isConstructor = true;
         }
     }
     UMLOperation *m = Import_Utils::makeOperation(c, id);
