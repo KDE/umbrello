@@ -520,7 +520,6 @@ private:
     bool m_hasBegunMacro;  ///< Macro creation flag.
 
     QPointer<DiagramPrintPage> m_printSettings; ///< printer diagram settings
-    bool m_logToConsole;   ///< Is set true if env var UMBRELLO_LOG_TO_CONSOLE is 1 or logDock invisible
     QPrinter *m_printer;               ///< print instance
     static bool s_shuttingDown;
 

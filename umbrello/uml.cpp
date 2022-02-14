@@ -195,8 +195,6 @@ UMLApp::UMLApp(QWidget* parent)
 {
     s_instance = this;
     m_doc->init();
-    QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
-    m_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
     m_printer->setFullPage(true);
     layout()->setSizeConstraint(QLayout::SetNoConstraint);
 
@@ -1921,7 +1919,7 @@ QListWidget* UMLApp::logWindow() const
  */
 bool UMLApp::logToConsole() const
 {
-    return (m_logToConsole || !m_logDock || !m_logDock->isVisible());
+    return (Tracer::instance()->logToConsole() || !m_logDock || !m_logDock->isVisible());
 }
 
 /**

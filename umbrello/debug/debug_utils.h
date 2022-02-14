@@ -75,6 +75,8 @@ public:
     void enableAll();
     void disableAll();
 
+    bool logToConsole();
+
     static void registerClass(const char * name, bool state=true, const char * filePath=0);
 
 protected:
@@ -101,6 +103,7 @@ private:
     static Tracer* s_instance;
     static MapType s_classes;
     static StateMap s_states;
+    static bool s_logToConsole;
 
     explicit Tracer(QWidget *parent = 0);
 };
@@ -120,7 +123,7 @@ private:
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())
 #endif
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
-#define DEBUG_N(latin1str)  if (Tracer::instance()->isEnabled(latin1str)) uDebug()
+#define DEBUG_N(latin1str)  if (Tracer::instance()->logToConsole() || Tracer::instance()->isEnabled(latin1str)) uDebug()
 #define DEBUG()       DEBUG_N(DBG_SRC)
 #define IS_DEBUG_ENABLED() Tracer::instance()->isEnabled(DBG_SRC)
 #define DEBUG_REGISTER(src)          \

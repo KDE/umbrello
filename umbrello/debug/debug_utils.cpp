@@ -19,6 +19,7 @@ Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 Tracer* Tracer::s_instance = nullptr;
 Tracer::MapType Tracer::s_classes;
 Tracer::StateMap Tracer::s_states;
+bool Tracer::s_logToConsole;
 
 #define MAX_TRACERCLIENTS 500
 
@@ -118,6 +119,8 @@ Tracer* Tracer::instance()
             QString name = QString::fromLatin1(cli.name);
             s_classes[name] = MapEntry(path, cli.state);
         }
+        QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
+        s_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
     }
     return s_instance;
 }
@@ -190,6 +193,11 @@ void Tracer::enableAll()
 void Tracer::disableAll()
 {
     //:TODO:
+}
+
+bool Tracer::logToConsole()
+{
+    return s_logToConsole;
 }
 
 /**
