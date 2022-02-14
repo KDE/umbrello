@@ -40,6 +40,8 @@ namespace Import_Utils {
                               UMLFolder *parentPkg = NULL,
                               const QString &comment = QString());
 
+    void checkStdString(QString& typeName);
+
     UMLObject* createUMLObject(UMLObject::ObjectType type,
                                const QString& name,
                                UMLPackage *parentPkg = 0,
