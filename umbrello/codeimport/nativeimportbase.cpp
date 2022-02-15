@@ -158,6 +158,7 @@ UMLPackage *NativeImportBase::popScope()
 
 /**
  * Return current scope.
+ * If the scope stack is empty then return nullptr.
  *
  * @return scope
  */
@@ -179,6 +180,7 @@ int NativeImportBase::scopeIndex()
 
 /**
  * Get the current lexeme.
+ * If the end of parse was reached then return an empty string.
  * @return  the current lexeme
  */
 QString NativeImportBase::current()
