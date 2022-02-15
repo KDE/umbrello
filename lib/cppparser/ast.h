@@ -691,11 +691,19 @@ public:
     }
     void addDeclaration(DeclarationAST::Node& declaration);
 
+    AST* final_()
+    {
+        return m_final.get();
+    }
+
+    void setFinal(AST::Node& final_);
+
 private:
     GroupAST::Node m_winDeclSpec;
     AST::Node m_classKey;
     BaseClauseAST::Node m_baseClause;
     QList<DeclarationAST*> m_declarationList;
+    AST::Node m_final;
 
 private:
     ClassSpecifierAST(const ClassSpecifierAST& source);
@@ -1037,12 +1045,19 @@ public:
     }
     void setConstant(AST::Node& constant);
 
-    AST* override()
+    AST* override_()
     {
         return m_override.get();
     }
 
-    void setOverride(AST::Node& override);
+    void setOverride(AST::Node& override_);
+
+    AST* final_()
+    {
+        return m_final.get();
+    }
+
+    void setFinal(AST::Node& final_);
 
     GroupAST* exceptionSpecification()
     {
@@ -1059,6 +1074,7 @@ private:
     AUTO_PTR<class ParameterDeclarationClauseAST> m_parameterDeclarationClause;
     AST::Node m_constant;
     AST::Node m_override;
+    AST::Node m_final;
     GroupAST::Node m_exceptionSpecification;
 
 private:

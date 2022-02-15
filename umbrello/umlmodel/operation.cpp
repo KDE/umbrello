@@ -42,8 +42,8 @@ DEBUG_REGISTER(UMLOperation)
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::ID::Type id, Uml::Visibility::Enum s, UMLObject *rt)
   : UMLClassifierListItem(parent, name, id),
-    m_virtual(false),
-    m_inline(false)
+    m_bVirtual(false),
+    m_bInline(false)
 {
     if (rt)
         m_returnId = UniqueID::gen();
@@ -53,7 +53,8 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_visibility = s;
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
-    m_Override = false;
+    m_bOverride = false;
+    m_bFinal = false;
     m_Code.clear();
 }
 
@@ -67,12 +68,13 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
  */
 UMLOperation::UMLOperation(UMLClassifier * parent)
   : UMLClassifierListItem (parent),
-    m_virtual(false),
-    m_inline(false)
+    m_bVirtual(false),
+    m_bInline(false)
 {
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
-    m_Override = false;
+    m_bOverride = false;
+    m_bFinal = false;
     m_Code.clear();
 }
 
@@ -435,7 +437,7 @@ bool UMLOperation::getConst() const
  */
 void UMLOperation::setOverride(bool b)
 {
-    m_Override = b;
+    m_bOverride = b;
 }
 
 /**
@@ -443,7 +445,23 @@ void UMLOperation::setOverride(bool b)
  */
 bool UMLOperation::getOverride() const
 {
-    return m_Override;
+    return m_bOverride;
+}
+
+/**
+ * Sets whether this operation has final flag.
+ */
+void UMLOperation::setFinal(bool b)
+{
+    m_bFinal = b;
+}
+
+/**
+ * Returns whether this operation has final flag.
+ */
+bool UMLOperation::getFinal() const
+{
+    return m_bFinal;
 }
 
 /**
@@ -451,7 +469,7 @@ bool UMLOperation::getOverride() const
  */
 void UMLOperation::setVirtual(bool b)
 {
-    m_virtual = b;
+    m_bVirtual = b;
 }
 
 /**
@@ -459,7 +477,7 @@ void UMLOperation::setVirtual(bool b)
  */
 bool UMLOperation::isVirtual() const
 {
-    return m_virtual;
+    return m_bVirtual;
 }
 
 /**
@@ -467,7 +485,7 @@ bool UMLOperation::isVirtual() const
  */
 void UMLOperation::setInline(bool b)
 {
-    m_inline = b;
+    m_bInline = b;
 }
 
 /**
@@ -475,7 +493,7 @@ void UMLOperation::setInline(bool b)
  */
 bool UMLOperation::isInline() const
 {
-    return m_inline;
+    return m_bInline;
 }
 
 /**
@@ -513,10 +531,16 @@ QString UMLOperation::getSourceCode() const
 void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
 {
     UMLObject::save1(writer, QLatin1String("Operation"), QLatin1String("ownedOperation"));
-    writer.writeAttribute(QLatin1String("isQuery"), m_bConst ? QLatin1String("true") : QLatin1String("false"));
-    writer.writeAttribute(QLatin1String("isOverride"), m_Override ? QLatin1String("true") : QLatin1String("false"));
-    writer.writeAttribute(QLatin1String("isVirtual"), m_virtual ? QLatin1String("true") : QLatin1String("false"));
-    writer.writeAttribute(QLatin1String("isInline"), m_inline ? QLatin1String("true") : QLatin1String("false"));
+    if (m_bConst)
+        writer.writeAttribute(QLatin1String("isQuery"), QLatin1String("true"));
+    if (m_bOverride)
+        writer.writeAttribute(QLatin1String("isOverride"), QLatin1String("true"));
+    if (m_bFinal)
+        writer.writeAttribute(QLatin1String("isFinal"), QLatin1String("true"));
+    if (m_bVirtual)
+        writer.writeAttribute(QLatin1String("isVirtual"), QLatin1String("true"));
+    if (m_bInline)
+        writer.writeAttribute(QLatin1String("isInline"), QLatin1String("true"));
     if (m_pSecondary == 0 && m_List.isEmpty()) {
         writer.writeEndElement();  // UML:Operation
         return;
@@ -585,11 +609,13 @@ bool UMLOperation::load1(QDomElement & element)
         m_bConst = (isQuery == QLatin1String("true"));
     }
     QString isOverride = element.attribute(QLatin1String("isOverride"));
-    m_Override = (isOverride == QLatin1String("true"));
+    m_bOverride = (isOverride == QLatin1String("true"));
+    QString isFinal = element.attribute(QLatin1String("isFinal"));
+    m_bFinal = (isFinal == QLatin1String("true"));
     QString isVirtual = element.attribute(QLatin1String("isVirtual"));
-    m_virtual = (isVirtual == QLatin1String("true"));
+    m_bVirtual = (isVirtual == QLatin1String("true"));
     QString isInline = element.attribute(QLatin1String("isInline"));
-    m_inline = (isInline == QLatin1String("true"));
+    m_bInline = (isInline == QLatin1String("true"));
     QDomNode node = element.firstChild();
     if (node.isComment())
         node = node.nextSibling();

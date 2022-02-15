@@ -9,7 +9,6 @@
 #include "driver.h"
 #include "lexer.h"
 #include "errors.h"
-#include "optionstate.h"
 #define DBG_SRC  QLatin1String("Parser")
 #include "debug_utils.h"
 #include "uml.h"
@@ -1282,22 +1281,19 @@ bool Parser::parseDeclarator(DeclaratorAST::Node& node)
 
             nextToken();  // skip ')'
 
-            int startConstant = m_lexer->index();
-            if (m_lexer->lookAhead(0) == Token_const) {
+            int tk;
+            while ((tk = m_lexer->lookAhead(0)) == Token_const
+                   || tk == Token_override || tk == Token_final) {
+                int start = m_lexer->index();
                 nextToken();
-                AST::Node constant = CreateNode<AST>();
-                UPDATE_POS(constant, startConstant, m_lexer->index());
-                ast->setConstant(constant);
-            }
-
-            if (Settings::optionState().codeImportState.supportCPP11) {
-                int startOverride = m_lexer->index();
-                if (m_lexer->lookAhead(0) == Token_override) {
-                    nextToken();
-                    AST::Node override = CreateNode<AST>();
-                    UPDATE_POS(override, startOverride, m_lexer->index());
-                    ast->setOverride(override);
-                }
+                AST::Node n = CreateNode<AST>();
+                UPDATE_POS(n, start, m_lexer->index());
+                if (tk == Token_const)
+                    ast->setConstant(n);
+                else if (tk == Token_override)
+                    ast->setOverride(n);
+                else
+                    ast->setFinal(n);
             }
 
             GroupAST::Node except;
@@ -1389,22 +1385,19 @@ bool Parser::parseAbstractDeclarator(DeclaratorAST::Node& node)
             } else
                 nextToken();
 
-            int startConstant = m_lexer->index();
-            if (m_lexer->lookAhead(0) == Token_const) {
+            int tk;
+            while ((tk = m_lexer->lookAhead(0)) == Token_const
+                   || tk == Token_override || tk == Token_final) {
+                int start = m_lexer->index();
                 nextToken();
-                AST::Node constant = CreateNode<AST>();
-                UPDATE_POS(constant, startConstant, m_lexer->index());
-                ast->setConstant(constant);
-            }
-
-            if (Settings::optionState().codeImportState.supportCPP11) {
-                int startOverride = m_lexer->index();
-                if (m_lexer->lookAhead(0) == Token_override) {
-                    nextToken();
-                    AST::Node override = CreateNode<AST>();
-                    UPDATE_POS(override, startOverride, m_lexer->index());
-                    ast->setOverride(override);
-                }
+                AST::Node n = CreateNode<AST>();
+                UPDATE_POS(n, start, m_lexer->index());
+                if (tk == Token_const)
+                    ast->setConstant(n);
+                else if (tk == Token_override)
+                    ast->setOverride(n);
+                else
+                    ast->setFinal(n);
             }
 
             GroupAST::Node except;
@@ -1992,6 +1985,14 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
     NameAST::Node name;
     parseName(name);
 
+    AST::Node final_;
+    int finalStart = m_lexer->index();
+    if (m_lexer->lookAhead(0) == Token_final) {
+        final_ = std::move(CreateNode<AST>());
+        nextToken();
+        UPDATE_POS(final_, finalStart, m_lexer->index());
+    }
+
     BaseClauseAST::Node bases;
     if (m_lexer->lookAhead(0) == ':') {
         if (!parseBaseClause(bases)) {
@@ -2010,12 +2011,11 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
 
     ADVANCE('{', "{");
 
-
     ast->setWinDeclSpec(winDeclSpec);
     ast->setClassKey(classKey);
     ast->setName(name);
     ast->setBaseClause(bases);
-
+    ast->setFinal(final_);
 
     while (!m_lexer->lookAhead(0).isNull()) {
         if (m_lexer->lookAhead(0) == '}')

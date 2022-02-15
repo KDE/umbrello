@@ -713,10 +713,16 @@ void DeclaratorAST::setConstant(AST::Node& constant)
     if (m_constant.get()) m_constant->setParent(this);
 }
 
-void DeclaratorAST::setOverride(AST::Node& override)
+void DeclaratorAST::setOverride(AST::Node& override_)
 {
-    m_override = std::move(override);
+    m_override = std::move(override_);
     if (m_override.get()) m_override->setParent(this);
+}
+
+void DeclaratorAST::setFinal(AST::Node& final_)
+{
+    m_final = std::move(final_);
+    if (m_final.get()) m_final->setParent(this);
 }
 
 void DeclaratorAST::setExceptionSpecification(GroupAST::Node& exceptionSpecification)
@@ -1230,3 +1236,10 @@ void ClassSpecifierAST::setWinDeclSpec(GroupAST::Node & winDeclSpec)
     m_winDeclSpec = std::move(winDeclSpec);
     if (m_winDeclSpec.get()) m_winDeclSpec->setParent(this);
 }
+
+void ClassSpecifierAST::setFinal(AST::Node& final_)
+{
+    m_final = std::move(final_);
+    if (m_final.get()) m_final->setParent(this);
+}
+

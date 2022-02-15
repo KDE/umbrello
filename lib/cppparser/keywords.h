@@ -46,6 +46,7 @@ INSERT("enum",             Token_enum);
 INSERT("explicit",         Token_explicit);
 INSERT("export",           Token_export);
 INSERT("extern",           Token_extern);
+INSERT("final",            Token_final);
 INSERT("float",            Token_float);
 INSERT("for",              Token_for);
 INSERT("friend",           Token_friend);

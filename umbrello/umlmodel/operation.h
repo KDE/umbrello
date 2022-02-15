@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef OPERATION_H
@@ -63,6 +63,8 @@ public:
     bool getConst() const;
     void setOverride(bool b);
     bool getOverride() const;
+    void setFinal(bool b);
+    bool getFinal() const;
     void setVirtual(bool b);
     bool isVirtual() const;
     void setInline(bool b);
@@ -80,9 +82,10 @@ private:
     Uml::ID::Type    m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
     UMLAttributeList m_List;      ///< Parameter list
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
-    bool             m_Override;  ///< Holds the override attribute of the <UML:Operation>
-    bool             m_virtual;   ///< Holds the virtual attribute of the <UML:Operation>
-    bool             m_inline;    ///< Holds the inline attribute of the <UML:Operation>
+    bool             m_bOverride; ///< Holds the override attribute of the <UML:Operation>
+    bool             m_bFinal;    ///< Holds the final attribute of the <UML:Operation>
+    bool             m_bVirtual;  ///< Holds the virtual attribute of the <UML:Operation>
+    bool             m_bInline;   ///< Holds the inline attribute of the <UML:Operation>
     QString          m_Code;      ///< Holds the entered source code
 };
 

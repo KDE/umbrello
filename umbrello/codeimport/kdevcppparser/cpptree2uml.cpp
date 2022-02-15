@@ -355,7 +355,9 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         m->setVirtual(true);
     if (isInline)
         m->setInline(true);
-    if (d->override())
+    if (d->final_())
+        m->setFinal(true);
+    if (d->override_())
         m->setOverride(true);
     if (d->constant())
         m->setConst(true);
@@ -663,7 +665,9 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         }
     }
     UMLOperation *m = Import_Utils::makeOperation(c, id);
-    if (d->override())
+    if (d->final_())
+        m->setFinal(true);
+    if (d->override_())
         m->setOverride(true);
     if (d->constant())
         m->setConst(true);
