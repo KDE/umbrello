@@ -299,10 +299,12 @@ bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QStr
             skipToClosing(QLatin1Char('('));
             for (int i = index; i <= m_srcIndex; i++)
                 value += m_source[i];
-        } else
+        } else {
             type = QLatin1String("object");
-    } else
+        }
+    } else {
         type = QLatin1String("object");
+    }
     return true;
 }
 
@@ -354,25 +356,41 @@ bool PythonImport::parseAssignmentStmt(const QString &keyword)
 bool PythonImport::parseMethodParameters(UMLOperation *op)
 {
     bool firstParam = true;
-    UMLAttribute *attr = nullptr;
     while (m_srcIndex < m_source.count() && advance() != QLatin1String(")")) {
         const QString& parName = m_source[m_srcIndex];
-        if (attr && parName == QLatin1String("=")) {
-            QString type, value;
-            parseInitializer(advance(), type, value);
-            attr->setInitialValue(value);
-            attr->setTypeName(type);
-        } else {
-            if (firstParam) {
-                if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) != 0) {
-                    m_isStatic = true;
-                    attr = Import_Utils::addMethodParameter(op, QLatin1String("str"), parName);
-                }
-                firstParam = false;
-            } else {
-                attr = Import_Utils::addMethodParameter(op, QLatin1String("str"), parName);
+        if (firstParam) {
+            firstParam = false;
+            if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) == 0) {
+                if (lookAhead() == QLatin1String(","))
+                    advance();
+                continue;
             }
+            m_isStatic = true;
         }
+        QString type, value;
+        QString next = lookAhead();
+        if (next == QLatin1String(":")) {
+            advance();
+            type = advance();
+            if (lookAhead() == QLatin1String("[")) {
+                 int index = ++m_srcIndex;
+                 skipToClosing(QLatin1Char('['));
+                 for (int i = index; i <= m_srcIndex; i++) {
+                     type += m_source[i];
+                 }
+             }
+             next = lookAhead();
+        }
+        if (next == QLatin1String("=")) {
+            advance();
+            QString iniType;
+            parseInitializer(advance(), iniType, value);
+            if (type.isEmpty())
+                type = iniType;
+        }
+        UMLAttribute *attr = Import_Utils::addMethodParameter(op, type, parName);
+        if (!value.isEmpty())
+            attr->setInitialValue(value);
         if (lookAhead() == QLatin1String(","))
             advance();
     }
