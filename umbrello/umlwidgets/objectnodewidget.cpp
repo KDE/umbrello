@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,6 +16,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -82,15 +83,19 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     case Buffer :
         {
             painter->setPen(textColor());
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, QLatin1String("<< centralBuffer >>"));
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter,
+                              Widget_Utils::adornStereo(QLatin1String("centralBuffer")));
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight,
+                              Qt::AlignHCenter, name());
         }
         break;
     case Data :
         {
             painter->setPen(textColor());
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, QLatin1String("<< datastore >>"));
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter,
+                              Widget_Utils::adornStereo(QLatin1String("datastore")));
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, 
+                              Qt::AlignHCenter, name());
         }
         break;
     case Flow :
@@ -108,7 +113,8 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             painter->drawLine(10, h/2, w-10, h/2);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
-            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight,
+                              Qt::AlignHCenter, name());
             painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
         break;
@@ -126,7 +132,7 @@ QSizeF ObjectNodeWidget::minimumSize() const
     if (m_objectNodeType == Buffer) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(QLatin1String("<< centralBuffer >>"));
+        const int textWidth = fm.width(Widget_Utils::adornStereo(QLatin1String("centralBuffer")));
         const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
@@ -137,7 +143,7 @@ QSizeF ObjectNodeWidget::minimumSize() const
     } else if (m_objectNodeType == Data) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(QLatin1String("<< datastore >>"));
+        const int textWidth = fm.width(Widget_Utils::adornStereo(QLatin1String("datastore")));
         const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;

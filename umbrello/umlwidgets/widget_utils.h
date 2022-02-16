@@ -65,6 +65,8 @@ namespace Widget_Utils
     QString renameText(WidgetBase::WidgetType type);
 
     void ensureNestedVisible(UMLWidget *self, UMLWidgetList widgetList);
+
+    QString adornStereo(QString name, bool appendSpace = true);
 }
 
 #endif

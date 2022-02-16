@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,6 +16,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -280,8 +281,8 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
-            QString preCond= QLatin1String("<<precondition>> ") + preconditionText();
-            QString postCond= QLatin1String("<<postcondition>> ") + postconditionText();
+            QString preCond = Widget_Utils::adornStereo(QLatin1String("precondition")) + preconditionText();
+            QString postCond = Widget_Utils::adornStereo(QLatin1String("postcondition")) + postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
