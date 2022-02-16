@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "widgetbase.h"
 
@@ -20,6 +15,7 @@
 #include "umlobject.h"
 #include "umlscene.h"
 #include "widgetbasepopupmenu.h"
+#include "uniqueid.h"
 
 #if QT_VERSION < 0x050000
 #include <kcolordialog.h>
@@ -33,6 +29,39 @@
 #include <QFontDialog>
 #endif
 #include <QPointer>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER(WidgetBase)
+
+static unsigned eventCnt = 0;
+
+void QGraphicsObjectWrapper::setSelected(bool state)
+{
+    if (!m_calledFromItemChange)
+        QGraphicsObject::setSelected(state);
+    QString info;
+    WidgetBase *wb = dynamic_cast<WidgetBase*>(this);
+    if (wb)
+        info = wb->name();
+    if (info.isEmpty()) {
+        DEBUG()
+            << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << this;
+    } else {   // @todo convert DEBUG() stream to logDebug3 macro (uml.h)
+        DEBUG()
+            << ++eventCnt << " new state=" << state << ", fromItemChange=" << m_calledFromItemChange << " " << info;
+    }
+    m_calledFromItemChange = false;
+}
+
+QVariant QGraphicsObjectWrapper::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemSelectedChange && scene()) {
+        bool state = value.toBool();
+        m_calledFromItemChange = true;
+        setSelected(state);
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
 
 /**
  * Creates a WidgetBase object.
@@ -40,12 +69,15 @@
  * @param scene   The view to be displayed on.
  * @param type    The WidgetType to construct.  This must be set to the appropriate
  *                value by the constructors of inheriting classes.
+ * @param id      The XMI ID to use. The value Uml::ID::None will trigger generation of a new ID.
  */
-WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
-  : QGraphicsObject(),
+WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
+  : QGraphicsObjectWrapper(),
     m_baseType(type),
     m_scene(scene),
     m_umlObject(0),
+    m_nId(id == Uml::ID::None ? UniqueID::gen() : id),
+    m_nLocalID(UniqueID::gen()),
     m_textColor(QColor("black")),
     m_fillColor(QColor("yellow")),
     m_brush(m_fillColor),
@@ -56,17 +88,18 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineWidth(true),
     m_usesDiagramTextColor(true),
     m_usesDiagramUseFillColor(true),
-    m_autoResize(true)
+    m_autoResize(true),
+    m_changesShape(false)
 {
     Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
+    setFlags(ItemIsSelectable);
+    //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
+
     // Note: no virtual methods from derived classes available,
     // this operation need to be finished in derived class constructor.
     setLineColor(QColor("black"));
     setSelected(false);
 
-    // TODO 310283
-    setFlags(ItemIsSelectable);
-    //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     if (m_scene) {
         m_usesDiagramLineColor = true;
         m_usesDiagramLineWidth  = true;
@@ -77,7 +110,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
         setLineWidth(optionState.uiState.lineWidth);
         m_font = optionState.uiState.font;
     } else {
-        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
+        logError0("WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL");
     }
 }
 
@@ -115,6 +148,15 @@ QLatin1String WidgetBase::baseTypeStr() const
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
+/**
+ * @return The type as string without 'wt_' prefix.
+ */
+QString WidgetBase::baseTypeStrWithoutPrefix() const
+{
+    QString rawType = baseTypeStr();
+    return rawType.remove(QLatin1String("wt_"));
+}
+
 /*
  * Sets the state of whether the widget is selected.
  *
@@ -122,7 +164,7 @@ QLatin1String WidgetBase::baseTypeStr() const
  */
 void WidgetBase::setSelected(bool select)
 {
-    QGraphicsObject::setSelected(select);
+    QGraphicsObjectWrapper::setSelected(select);
 }
 
 /**
@@ -171,8 +213,8 @@ void WidgetBase::setID(Uml::ID::Type id)
 {
     if (m_umlObject) {
         if (m_umlObject->id() != Uml::ID::None)
-            uWarning() << "changing old UMLObject " << Uml::ID::toString(m_umlObject->id())
-                << " to " << Uml::ID::toString(id);
+            logWarn2("WidgetBase::setID changing old UMLObject %1 to %2",
+                     Uml::ID::toString(m_umlObject->id()), Uml::ID::toString(id));
         m_umlObject->setID(id);
     }
     m_nId = id;
@@ -186,6 +228,49 @@ Uml::ID::Type WidgetBase::id() const
     if (m_umlObject)
         return m_umlObject->id();
     return m_nId;
+}
+
+/**
+ * Sets the local id of the object.
+ *
+ * @param id   The local id of the object.
+ */
+void WidgetBase::setLocalID(Uml::ID::Type id)
+{
+    m_nLocalID = id;
+}
+
+/**
+ * Returns the local ID for this object.  This ID is used so that
+ * many objects of the same @ref UMLObject instance can be on the
+ * same diagram.
+ *
+ * @return  The local ID.
+ */
+Uml::ID::Type WidgetBase::localID() const
+{
+    return m_nLocalID;
+}
+
+/**
+ * Returns the widget with the given ID.
+ * The default implementation tests the following IDs:
+ * - m_nLocalID
+ * - if m_umlObject is non NULL: m_umlObject->id()
+ * - m_nID
+ * Composite widgets override this function to test further owned widgets.
+ *
+ * @param id  The ID to test this widget against.
+ * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
+ *           else NULL.
+ */
+UMLWidget* WidgetBase::widgetWithID(Uml::ID::Type id)
+{
+    if (id == m_nLocalID ||
+            (m_umlObject != nullptr && id == m_umlObject->id()) ||
+            id == m_nId)
+        return this->asUMLWidget();
+    return nullptr;
 }
 
 /**
@@ -205,7 +290,7 @@ QString WidgetBase::documentation() const
  *
  * @return false if documentation is empty
  */
-bool WidgetBase::hasDocumentation()
+bool WidgetBase::hasDocumentation() const
 {
     if (m_umlObject)
         return m_umlObject->hasDoc();
@@ -228,7 +313,7 @@ void WidgetBase::setDocumentation(const QString& doc)
 
 /**
  * Gets the name from the corresponding UMLObject if this widget has an
- * underlying UMLObject; if it does not, then it returns the local
+ * underlying UMLObject; if it does not then it returns the local
  * m_Text (notably the case for FloatingTextWidget.)
  *
  * @return the currently set name
@@ -343,7 +428,7 @@ void WidgetBase::setLineWidth(uint width)
  *
  * @return True if fill color is used
  */
-bool WidgetBase::useFillColor()
+bool WidgetBase::useFillColor() const
 {
     return m_useFillColor;
 }
@@ -464,7 +549,7 @@ void WidgetBase::setUsesDiagramLineWidth(bool state)
 }
 
 /**
- * Returns the font used for diaplaying any text.
+ * Returns the font used for displaying any text.
  * @return the font
  */
 QFont WidgetBase::font() const
@@ -484,7 +569,7 @@ void WidgetBase::setFont(const QFont& font)
  * Return state of auto resize property
  * @return the auto resize state
  */
-bool WidgetBase::autoResize()
+bool WidgetBase::autoResize() const
 {
     return m_autoResize;
 }
@@ -499,8 +584,26 @@ void WidgetBase::setAutoResize(bool state)
 }
 
 /**
+ * Return changes state property
+ * @return the changes shape state
+ */
+bool WidgetBase::changesShape() const
+{
+    return m_changesShape;
+}
+
+/**
+ * set changes shape property
+ * @param state
+ */
+void WidgetBase::setChangesShape(bool state)
+{
+    m_changesShape = state;
+}
+
+/**
  * A virtual method for the widget to display a property dialog box.
- * Subclasses should reimplment this appropriately.
+ * Subclasses should reimplement this appropriately.
  * In case the user cancels the dialog or there are some requirements
  * not fulfilled the method returns false; true otherwise.
  *
@@ -515,49 +618,114 @@ bool WidgetBase::showPropertiesDialog()
 
 /**
  * A virtual method to save the properties of this widget into a
- * QDomElement i.e xml.
+ * QXmlStreamWriter i.e. XML.
  *
  * Subclasses should first create a new dedicated element as the child
  * of \a qElement parameter passed.  Then this base method should be
  * called to save basic widget properties.
  *
- * @param qDoc A QDomDocument object representing the xml document.
- * @param qElement A QDomElement representing xml element data.
+ * @param writer The QXmlStreamWriter to write to.
  */
-void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void WidgetBase::saveToXMI(QXmlStreamWriter& writer)
  {
-    Q_UNUSED(qDoc)
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
+    // Unique identifier for widget (todo: id() should be unique, new attribute
+    // should indicate the UMLObject's ID it belongs to)
+    writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 
-    qElement.setAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
+    writer.writeAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
                                                                              : m_textColor.name());
     if (m_usesDiagramLineColor) {
-        qElement.setAttribute(QLatin1String("linecolor"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("linecolor"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("linecolor"), m_lineColor.name());
+        writer.writeAttribute(QLatin1String("linecolor"), m_lineColor.name());
     }
     if (m_usesDiagramLineWidth) {
-        qElement.setAttribute(QLatin1String("linewidth"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("linewidth"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("linewidth"), m_lineWidth);
+        writer.writeAttribute(QLatin1String("linewidth"), QString::number(m_lineWidth));
     }
-    qElement.setAttribute(QLatin1String("usefillcolor"), m_useFillColor);
+    writer.writeAttribute(QLatin1String("usefillcolor"), QString::number(m_useFillColor));
     // for consistency the following attributes now use american spelling for "color"
-    qElement.setAttribute(QLatin1String("usesdiagramfillcolor"), m_usesDiagramFillColor);
-    qElement.setAttribute(QLatin1String("usesdiagramusefillcolor"), m_usesDiagramUseFillColor);
+    writer.writeAttribute(QLatin1String("usesdiagramfillcolor"), QString::number(m_usesDiagramFillColor));
+    writer.writeAttribute(QLatin1String("usesdiagramusefillcolor"), QString::number(m_usesDiagramUseFillColor));
     if (m_usesDiagramFillColor) {
-        qElement.setAttribute(QLatin1String("fillcolor"), QLatin1String("none"));
+        writer.writeAttribute(QLatin1String("fillcolor"), QLatin1String("none"));
     } else {
-        qElement.setAttribute(QLatin1String("fillcolor"), m_fillColor.name());
+        writer.writeAttribute(QLatin1String("fillcolor"), m_fillColor.name());
     }
-    qElement.setAttribute(QLatin1String("font"), m_font.toString());
-    qElement.setAttribute(QLatin1String("autoresize"), m_autoResize ? 1 : 0);
+    writer.writeAttribute(QLatin1String("font"), m_font.toString());
+    writer.writeAttribute(QLatin1String("autoresize"), QString::number(m_autoResize ? 1 : 0));
+}
+
+
+/**
+ * Returns whether the widget type has an associated UMLObject
+ */
+bool WidgetBase::widgetHasUMLObject(WidgetBase::WidgetType type)
+{
+    if (type == WidgetBase::wt_Actor         ||
+            type == WidgetBase::wt_UseCase   ||
+            type == WidgetBase::wt_Class     ||
+            type == WidgetBase::wt_Interface ||
+            type == WidgetBase::wt_Enum      ||
+            type == WidgetBase::wt_Datatype  ||
+            type == WidgetBase::wt_Package   ||
+            type == WidgetBase::wt_Component ||
+            type == WidgetBase::wt_Port ||
+            type == WidgetBase::wt_Node      ||
+            type == WidgetBase::wt_Artifact  ||
+            type == WidgetBase::wt_Object) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Activate the object after deserializing it from XMI
+ *
+ * @param ChangeLog
+ * @return  true for success
+ */
+bool WidgetBase::activate(IDChangeLog* changeLog)
+{
+    Q_UNUSED(changeLog);
+
+    if (widgetHasUMLObject(baseType()) && m_umlObject == nullptr) {
+        m_umlObject =  UMLApp::app()->document()->findObjectById(m_nId);
+        if (m_umlObject == nullptr) {
+            logError1("WidgetBase::activate: cannot find UMLObject with id=%1",
+                      Uml::ID::toString(m_nId));
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Adds an already created association to the list of
+ * associations that include this UMLWidget
+ */
+void WidgetBase::addAssoc(AssociationWidget *pAssoc)
+{
+    Q_UNUSED(pAssoc);
+}
+
+/**
+ * Removes an already created association from the list of
+ * associations that include this UMLWidget
+ */
+void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
+{
+    Q_UNUSED(pAssoc);
 }
 
 /**
  * A virtual method to load the properties of this widget from a
  * QDomElement into this widget.
  *
- * Subclasses should reimplement this to load addtional properties
+ * Subclasses should reimplement this to load additional properties
  * required, calling this base method to load the basic properties of
  * the widget.
  *
@@ -565,8 +733,16 @@ void WidgetBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
  *
  * @todo Add support to load older version.
  */
-bool WidgetBase::loadFromXMI1(QDomElement& qElement)
+bool WidgetBase::loadFromXMI(QDomElement& qElement)
 {
+    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
+    m_nId = Uml::ID::fromString(id);
+
+    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
+    if (localid != QLatin1String("0")) {
+        m_nLocalID = Uml::ID::fromString(localid);
+    }
+
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
     // earlier versions of Umbrello
@@ -622,8 +798,8 @@ bool WidgetBase::loadFromXMI1(QDomElement& qElement)
         newFont.fromString(font);
         m_font = newFont;
     } else {
-        uWarning() << "Using default font " << m_font.toString()
-                   << " for widget with xmi.id " << Uml::ID::toString(m_nId);
+        logWarn2("WidgetBase::loadFromXMI: Using default font %1 for widget with xmi.id %2", 
+                 m_font.toString(), Uml::ID::toString(m_nId));
     }
     QString autoResize = qElement.attribute(QLatin1String("autoresize"), QLatin1String("1"));
     m_autoResize = (bool)autoResize.toInt();
@@ -636,12 +812,16 @@ bool WidgetBase::loadFromXMI1(QDomElement& qElement)
  */
 WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 {
+    if (&other == this)
+        return *this;
+
     m_baseType = other.m_baseType;
     m_scene = other.m_scene;
     m_umlObject = other.m_umlObject;
     m_Doc = other.m_Doc;
     m_Text = other.m_Text;
     m_nId = other.m_nId;
+    m_nLocalID = other.m_nLocalID;
     m_textColor = other.m_textColor;
     setLineColor(other.lineColor());
     m_fillColor = other.m_fillColor;
@@ -673,6 +853,7 @@ void WidgetBase::setRect(const QRectF& rect)
 {
     if (m_rect == rect)
         return;
+    logDebug3("WidgetBase::setRect(%1) : setting w=%2, h=%3", name(), rect.width(), rect.height());
     prepareGeometryChange();
     m_rect = rect;
     update();
@@ -692,7 +873,7 @@ void WidgetBase::setRect(qreal x, qreal y, qreal width, qreal height)
  */
 QRectF WidgetBase::boundingRect() const
 {
-    int halfWidth = lineWidth()/2;
+    qreal halfWidth = lineWidth() / 2.0;
     return m_rect.adjusted(-halfWidth, -halfWidth, halfWidth, halfWidth);
 }
 
@@ -747,7 +928,7 @@ void WidgetBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->accept();
-    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+    logDebug2("WidgetBase::contextMenuEvent: widget = %1 / type = %2", name(), baseTypeStr());
 
     UMLScene *scene = umlScene();
 
@@ -815,14 +996,14 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
             wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact  ||
             wt == WidgetBase::wt_Enum      || wt == WidgetBase::wt_Entity    ||
             wt == WidgetBase::wt_Port      || wt == WidgetBase::wt_Instance ||
-            (wt == WidgetBase::wt_Class && umlScene()->type() == Uml::DiagramType::Class)) {
+            (wt == WidgetBase::wt_Class && umlScene()->isClassDiagram())) {
 
             showPropertiesDialog();
 
         } else if (wt == WidgetBase::wt_Object) {
             m_umlObject->showPropertiesDialog();
         } else {
-            uWarning() << "making properties dialog for unknown widget type";
+            logWarn1("WidgetBase::slotMenuSelection: making properties dialog for unknown widget type %1", sel);
         }
         break;
 
@@ -830,11 +1011,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Line_Color_Selection:
 #if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(lineColor());
-        if (newColor != lineColor()) {
+        if (newColor.isValid() && newColor != lineColor())
 #else
         newColor = lineColor();
-        if (KColorDialog::getColor(newColor)) {
+        if (KColorDialog::getColor(newColor))
 #endif
+        {
             if (sel == ListPopupMenu::mt_Line_Color_Selection) {
                 umlScene()->selectionSetLineColor(newColor);
             } else {
@@ -849,11 +1031,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Fill_Color_Selection:
 #if QT_VERSION >= 0x050000
         newColor = QColorDialog::getColor(fillColor());
-        if (newColor != fillColor()) {
+        if (newColor.isValid() && newColor != fillColor())
 #else
         newColor = fillColor();
-        if (KColorDialog::getColor(newColor)) {
+        if (KColorDialog::getColor(newColor))
 #endif
+        {
             if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
                 umlScene()->selectionSetFillColor(newColor);
             } else {
@@ -919,6 +1102,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Show_Stereotypes_Selection:
     case ListPopupMenu::mt_Hide_Stereotypes_Selection:
+        // Bug73847 - ClassifierWidget::ShowStereotype boolean value is DEPRECATED
+        //     TODO - handle this differently, then delete ClassifierWidget::ShowStereotype
         umlScene()->selectionSetVisualProperty(
             ClassifierWidget::ShowStereotype, sel != ListPopupMenu::mt_Hide_Stereotypes_Selection
         );
@@ -955,11 +1140,12 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 #if QT_VERSION >= 0x050000
         bool ok = false;
         QFont newFont = QFontDialog::getFont(&ok, font());
-        if (ok) {
+        if (ok)
 #else
         QFont newFont = font();
-        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
+        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted)
 #endif
+        {
             if (sel == ListPopupMenu::mt_Change_Font_Selection) {
                 m_scene->selectionSetFont(newFont);
             } else {
@@ -1034,7 +1220,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlScene()->alignHorizontalDistribute();
         break;
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        logDebug1("WidgetBase::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(sel));
         break;
     }
 }
@@ -1152,7 +1339,7 @@ QString WidgetBase::toI18nString(WidgetType wt)
         break;
     default:
         name = QLatin1String("<unknown> &name:");
-        uWarning() << "unknown widget type";
+        logWarn1("WidgetBase::toI18nString: unknown widget type %1", wt);
         break;
     }
     return name;
@@ -1260,7 +1447,7 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
         break;
     default:
         icon = Icon_Utils::it_Home;
-        uWarning() << "unknown widget type";
+        logWarn1("WidgetBase::toIcon: unknown widget type %1", wt);
         break;
     }
     return icon;
@@ -1280,7 +1467,7 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
 #include  "enumwidget.h"
 #include  "floatingdashlinewidget.h"
 #include  "forkjoinwidget.h"
-//#include  "interfacewidget.h"
+#include  "interfacewidget.h"
 #include  "messagewidget.h"
 #include  "nodewidget.h"
 #include  "notewidget.h"
@@ -1293,38 +1480,71 @@ Icon_Utils::IconType WidgetBase::toIcon(WidgetBase::WidgetType wt)
 #include  "regionwidget.h"
 #include  "signalwidget.h"
 #include  "statewidget.h"
-#include  "floatingtextwidget.h"
 #include  "usecasewidget.h"
 
-ActivityWidget* WidgetBase::asActivityWidget() { return dynamic_cast<ActivityWidget* >(this); }
-ActorWidget* WidgetBase::asActorWidget() { return dynamic_cast<ActorWidget* >(this); }
-ArtifactWidget* WidgetBase::asArtifactWidget() { return dynamic_cast<ArtifactWidget* >(this); }
-AssociationWidget* WidgetBase::asAssociationWidget() { return dynamic_cast<AssociationWidget* >(this); }
-BoxWidget* WidgetBase::asBoxWidget() { return dynamic_cast<BoxWidget* >(this); }
-CategoryWidget* WidgetBase::asCategoryWidget() { return dynamic_cast<CategoryWidget* >(this); }
-ClassifierWidget* WidgetBase::asClassifierWidget() { return dynamic_cast<ClassifierWidget* >(this); }
+ActivityWidget*         WidgetBase::asActivityWidget()         { return dynamic_cast<ActivityWidget* >       (this); }
+ActorWidget*            WidgetBase::asActorWidget()            { return dynamic_cast<ActorWidget* >          (this); }
+ArtifactWidget*         WidgetBase::asArtifactWidget()         { return dynamic_cast<ArtifactWidget* >       (this); }
+AssociationWidget*      WidgetBase::asAssociationWidget()      { return dynamic_cast<AssociationWidget* >    (this); }
+BoxWidget*              WidgetBase::asBoxWidget()              { return dynamic_cast<BoxWidget* >            (this); }
+CategoryWidget*         WidgetBase::asCategoryWidget()         { return dynamic_cast<CategoryWidget* >       (this); }
+ClassifierWidget*       WidgetBase::asClassifierWidget()       { return dynamic_cast<ClassifierWidget* >     (this); }
 CombinedFragmentWidget* WidgetBase::asCombinedFragmentWidget() { return dynamic_cast<CombinedFragmentWidget*>(this); }
-ComponentWidget* WidgetBase::asComponentWidget() { return dynamic_cast<ComponentWidget* >(this); }
-DatatypeWidget* WidgetBase::asDatatypeWidget() { return dynamic_cast<DatatypeWidget* >(this); }
-EntityWidget* WidgetBase::asEntityWidget() { return dynamic_cast<EntityWidget* >(this); }
-EnumWidget* WidgetBase::asEnumWidget() { return dynamic_cast<EnumWidget* >(this); }
+ComponentWidget*        WidgetBase::asComponentWidget()        { return dynamic_cast<ComponentWidget* >      (this); }
+DatatypeWidget*         WidgetBase::asDatatypeWidget()         { return dynamic_cast<DatatypeWidget* >       (this); }
+EntityWidget*           WidgetBase::asEntityWidget()           { return dynamic_cast<EntityWidget* >         (this); }
+EnumWidget*             WidgetBase::asEnumWidget()             { return dynamic_cast<EnumWidget* >           (this); }
 FloatingDashLineWidget* WidgetBase::asFloatingDashLineWidget() { return dynamic_cast<FloatingDashLineWidget*>(this); }
-ForkJoinWidget* WidgetBase::asForkJoinWidget() { return dynamic_cast<ForkJoinWidget* >(this); }
-//InterfaceWidget* WidgetBase::asInterfaceWidget() { return dynamic_cast<InterfaceWidget* >(this); }
-MessageWidget* WidgetBase::asMessageWidget() { return dynamic_cast<MessageWidget* >(this); }
-NodeWidget* WidgetBase::asNodeWidget() { return dynamic_cast<NodeWidget* >(this); }
-NoteWidget* WidgetBase::asNoteWidget() { return dynamic_cast<NoteWidget* >(this); }
-ObjectNodeWidget* WidgetBase::asObjectNodeWidget() { return dynamic_cast<ObjectNodeWidget* >(this); }
-ObjectWidget* WidgetBase::asObjectWidget() { return dynamic_cast<ObjectWidget* >(this); }
-PackageWidget* WidgetBase::asPackageWidget() { return dynamic_cast<PackageWidget* >(this); }
-PinWidget* WidgetBase::asPinWidget() { return dynamic_cast<PinWidget* >(this); }
-PinPortBase *WidgetBase::asPinPortBase() { return dynamic_cast<PinPortBase*>(this); }
-PortWidget* WidgetBase::asPortWidget() { return dynamic_cast<PortWidget* >(this); }
-PreconditionWidget* WidgetBase::asPreconditionWidget() { return dynamic_cast<PreconditionWidget* >(this); }
-RegionWidget* WidgetBase::asRegionWidget() { return dynamic_cast<RegionWidget* >(this); }
-SignalWidget* WidgetBase::asSignalWidget() { return dynamic_cast<SignalWidget* >(this); }
-StateWidget* WidgetBase::asStateWidget() { return dynamic_cast<StateWidget* >(this); }
-FloatingTextWidget* WidgetBase::asFloatingTextWidget() { return dynamic_cast<FloatingTextWidget* >(this); }
-//TextWidget* WidgetBase::asTextWidget() { return dynamic_cast<TextWidget* >(this); }
-UseCaseWidget* WidgetBase::asUseCaseWidget() { return dynamic_cast<UseCaseWidget* >(this); }
-UMLWidget *WidgetBase::asUMLWidget() { return dynamic_cast<UMLWidget*>(this); }
+ForkJoinWidget*         WidgetBase::asForkJoinWidget()         { return dynamic_cast<ForkJoinWidget* >       (this); }
+InterfaceWidget*        WidgetBase::asInterfaceWidget()        { return dynamic_cast<InterfaceWidget* >      (this); }
+MessageWidget*          WidgetBase::asMessageWidget()          { return dynamic_cast<MessageWidget* >        (this); }
+NodeWidget*             WidgetBase::asNodeWidget()             { return dynamic_cast<NodeWidget* >           (this); }
+NoteWidget*             WidgetBase::asNoteWidget()             { return dynamic_cast<NoteWidget* >           (this); }
+ObjectNodeWidget*       WidgetBase::asObjectNodeWidget()       { return dynamic_cast<ObjectNodeWidget* >     (this); }
+ObjectWidget*           WidgetBase::asObjectWidget()           { return dynamic_cast<ObjectWidget* >         (this); }
+PackageWidget*          WidgetBase::asPackageWidget()          { return dynamic_cast<PackageWidget* >        (this); }
+PinWidget*              WidgetBase::asPinWidget()              { return dynamic_cast<PinWidget* >            (this); }
+PinPortBase*            WidgetBase::asPinPortBase()            { return dynamic_cast<PinPortBase*>           (this); }
+PortWidget*             WidgetBase::asPortWidget()             { return dynamic_cast<PortWidget* >           (this); }
+PreconditionWidget*     WidgetBase::asPreconditionWidget()     { return dynamic_cast<PreconditionWidget* >   (this); }
+RegionWidget*           WidgetBase::asRegionWidget()           { return dynamic_cast<RegionWidget* >         (this); }
+SignalWidget*           WidgetBase::asSignalWidget()           { return dynamic_cast<SignalWidget* >         (this); }
+StateWidget*            WidgetBase::asStateWidget()            { return dynamic_cast<StateWidget* >          (this); }
+FloatingTextWidget*     WidgetBase::asFloatingTextWidget()     { return dynamic_cast<FloatingTextWidget* >   (this); }
+//TextWidget*             WidgetBase::asTextWidget()             { return dynamic_cast<TextWidget* >           (this); }
+UseCaseWidget*          WidgetBase::asUseCaseWidget()          { return dynamic_cast<UseCaseWidget* >        (this); }
+UMLWidget*              WidgetBase::asUMLWidget()              { return dynamic_cast<UMLWidget*>             (this); }
+
+const ActivityWidget*         WidgetBase::asActivityWidget()         const { return dynamic_cast<const ActivityWidget* >       (this); }
+const ActorWidget*            WidgetBase::asActorWidget()            const { return dynamic_cast<const ActorWidget* >          (this); }
+const ArtifactWidget*         WidgetBase::asArtifactWidget()         const { return dynamic_cast<const ArtifactWidget* >       (this); }
+const AssociationWidget*      WidgetBase::asAssociationWidget()      const { return dynamic_cast<const AssociationWidget* >    (this); }
+const BoxWidget*              WidgetBase::asBoxWidget()              const { return dynamic_cast<const BoxWidget* >            (this); }
+const CategoryWidget*         WidgetBase::asCategoryWidget()         const { return dynamic_cast<const CategoryWidget* >       (this); }
+const ClassifierWidget*       WidgetBase::asClassifierWidget()       const { return dynamic_cast<const ClassifierWidget* >     (this); }
+const CombinedFragmentWidget* WidgetBase::asCombinedFragmentWidget() const { return dynamic_cast<const CombinedFragmentWidget*>(this); }
+const ComponentWidget*        WidgetBase::asComponentWidget()        const { return dynamic_cast<const ComponentWidget* >      (this); }
+const DatatypeWidget*         WidgetBase::asDatatypeWidget()         const { return dynamic_cast<const DatatypeWidget* >       (this); }
+const EntityWidget*           WidgetBase::asEntityWidget()           const { return dynamic_cast<const EntityWidget* >         (this); }
+const EnumWidget*             WidgetBase::asEnumWidget()             const { return dynamic_cast<const EnumWidget* >           (this); }
+const FloatingDashLineWidget* WidgetBase::asFloatingDashLineWidget() const { return dynamic_cast<const FloatingDashLineWidget*>(this); }
+const ForkJoinWidget*         WidgetBase::asForkJoinWidget()         const { return dynamic_cast<const ForkJoinWidget* >       (this); }
+const InterfaceWidget*        WidgetBase::asInterfaceWidget()        const { return dynamic_cast<const InterfaceWidget* >      (this); }
+const MessageWidget*          WidgetBase::asMessageWidget()          const { return dynamic_cast<const MessageWidget* >        (this); }
+const NodeWidget*             WidgetBase::asNodeWidget()             const { return dynamic_cast<const NodeWidget* >           (this); }
+const NoteWidget*             WidgetBase::asNoteWidget()             const { return dynamic_cast<const NoteWidget* >           (this); }
+const ObjectNodeWidget*       WidgetBase::asObjectNodeWidget()       const { return dynamic_cast<const ObjectNodeWidget* >     (this); }
+const ObjectWidget*           WidgetBase::asObjectWidget()           const { return dynamic_cast<const ObjectWidget* >         (this); }
+const PackageWidget*          WidgetBase::asPackageWidget()          const { return dynamic_cast<const PackageWidget* >        (this); }
+const PinWidget*              WidgetBase::asPinWidget()              const { return dynamic_cast<const PinWidget* >            (this); }
+const PinPortBase*            WidgetBase::asPinPortBase()            const { return dynamic_cast<const PinPortBase*>           (this); }
+const PortWidget*             WidgetBase::asPortWidget()             const { return dynamic_cast<const PortWidget* >           (this); }
+const PreconditionWidget*     WidgetBase::asPreconditionWidget()     const { return dynamic_cast<const PreconditionWidget* >   (this); }
+const RegionWidget*           WidgetBase::asRegionWidget()           const { return dynamic_cast<const RegionWidget* >         (this); }
+const SignalWidget*           WidgetBase::asSignalWidget()           const { return dynamic_cast<const SignalWidget* >         (this); }
+const StateWidget*            WidgetBase::asStateWidget()            const { return dynamic_cast<const StateWidget* >          (this); }
+const FloatingTextWidget*     WidgetBase::asFloatingTextWidget()     const { return dynamic_cast<const FloatingTextWidget* >   (this); }
+//const TextWidget*             WidgetBase::asTextWidget()             const { return dynamic_cast<const TextWidget* >           (this); }
+const UseCaseWidget*          WidgetBase::asUseCaseWidget()          const { return dynamic_cast<const UseCaseWidget* >        (this); }
+const UMLWidget*              WidgetBase::asUMLWidget()              const { return dynamic_cast<const UMLWidget*>             (this); }
+

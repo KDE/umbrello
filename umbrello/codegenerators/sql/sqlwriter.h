@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Nikolaus Gradwohl <guru@local-guru.net>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef SQLWRITER_H
 #define SQLWRITER_H
@@ -38,12 +34,12 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    virtual QStringList defaultDatatypes();
+    virtual QStringList defaultDatatypes() const;
 
     virtual QStringList reservedKeywords() const;
 
 protected:
-
+    QStringList m_enumsGenerated;
     UMLEntity* m_pEntity;
 
     virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);

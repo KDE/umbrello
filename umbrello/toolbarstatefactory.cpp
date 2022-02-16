@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 #include "toolbarstatefactory.h"
 
 #include "toolbarstate.h"
@@ -58,7 +53,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
     }
 
     // Make explicit the selected button. This is only necessary for states with a pool.
-    if (key != 3) ((ToolBarStatePool *) m_states[key])->setButton(toolbarButton);
+    if (key != 3) ((ToolBarStatePool*) m_states[key].data())->setButton(toolbarButton);
 
     return m_states[key];
 }
@@ -78,8 +73,8 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_Composition:              return 1;
     case WorkToolBar::tbb_Containment:              return 1;
     case WorkToolBar::tbb_Anchor:                   return 1;
-    case WorkToolBar::tbb_Coll_Message_Synchronous: return 1;
-    case WorkToolBar::tbb_Coll_Message_Asynchronous: return 1;
+    case WorkToolBar::tbb_Coll_Mesg_Sync: return 1;
+    case WorkToolBar::tbb_Coll_Mesg_Async: return 1;
     case WorkToolBar::tbb_State_Transition:         return 1;
     case WorkToolBar::tbb_Activity_Transition:      return 1;
     case WorkToolBar::tbb_Exception:                return 1;
@@ -87,6 +82,8 @@ int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButto
     case WorkToolBar::tbb_Child2Category:           return 1;
 
         // Messages
+    case WorkToolBar::tbb_Seq_Message_Creation:     return 2;
+    case WorkToolBar::tbb_Seq_Message_Destroy:      return 2;
     case WorkToolBar::tbb_Seq_Message_Synchronous:  return 2;
     case WorkToolBar::tbb_Seq_Message_Asynchronous: return 2;
     case WorkToolBar::tbb_Seq_Message_Found:        return 2;

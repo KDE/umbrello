@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005                                                    *
- *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "rubyclassdeclarationblock.h"
 #include "rubycodedocumentation.h"
@@ -29,19 +24,19 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void RubyClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("rubyclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("rubyclassdeclarationblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void RubyClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void RubyClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

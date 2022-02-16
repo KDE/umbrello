@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef ASSOCIATIONLINE_H
 #define ASSOCIATIONLINE_H
@@ -23,11 +18,11 @@ class AssociationWidget;
 class QDomDocument;
 class QDomElement;
 class QPainter;
+class QXmlStreamWriter;
 
 /**
- * This class provides with various symbols that can be embedded in
- * AssociationLine.  It also provides with convenience methods to align
- * the symbol to AssociationLine.
+ * This class provides various symbols that can be embedded in AssociationLine.
+ * It also provides convenience methods to align the symbol to AssociationLine.
  */
 class Symbol : public QGraphicsItem
 {
@@ -100,22 +95,14 @@ class Symbol : public QGraphicsItem
  *
  * @author Gopala Krishna
  * @author Andi Fischer
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to uml-devel@lists.sf.net or https://bugs.kde.org
  */
 class AssociationLine : public QGraphicsObject
 {
     Q_OBJECT
-    Q_ENUMS(LayoutType)
 public:
-    enum LayoutType {
-        Direct = 1,
-        Orthogonal,
-        Polyline,
-        Spline
-    };
-
-    static QString toString(LayoutType layout);
-    static LayoutType fromString(const QString& layout);
+    static QString toString(Uml::LayoutType::Enum layout);
+    static Uml::LayoutType::Enum fromString(const QString& layout);
 
     explicit AssociationLine(AssociationWidget *association);
     virtual ~AssociationLine();
@@ -125,6 +112,7 @@ public:
     QPointF startPoint() const;
     QPointF endPoint() const;
 
+    void addPoint(const QPointF& point);
     void insertPoint(int index, const QPointF& point);
     void removePoint(int index);
 
@@ -138,13 +126,16 @@ public:
 
     bool isEndPointIndex(int index) const;
     bool isEndSegmentIndex(int index) const;
+    bool isAutoLayouted() const;
+    
+    bool enableAutoLayout();
 
     bool setEndPoints(const QPointF &start, const QPointF &end);
 
     void dumpPoints();
 
-    bool loadFromXMI1(QDomElement &qElement);
-    void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    bool loadFromXMI(QDomElement &qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
 
     QBrush brush() const;
     QPen pen() const;
@@ -158,8 +149,8 @@ public:
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
-    LayoutType layout() const;
-    void setLayout(LayoutType layout);
+    Uml::LayoutType::Enum  layout() const;
+    void setLayout(Uml::LayoutType::Enum layout);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -187,7 +178,7 @@ private:
 
     void createSplinePoints();
 
-    AssociationWidget *m_associationWidget;      ///< association widget for which this line represents
+    AssociationWidget *m_associationWidget;      ///< association widget which this line represents
     QVector<QPointF>   m_points;                 ///< points representing the association line
     int                m_activePointIndex;       ///< index of active point which can be dragged to modify association line
     int                m_activeSegmentIndex;     ///< index of active segment
@@ -196,12 +187,13 @@ private:
     Symbol            *m_subsetSymbol;           ///< subset symbol
     QGraphicsLineItem *m_collaborationLineItem;  ///< parallel arrow line drawn in case of collaboration message
     Symbol            *m_collaborationLineHead;  ///< arrow head drawn at end of m_collaborationLineItem
-    LayoutType         m_layout;
+    Uml::LayoutType::Enum m_layout;
     QPen               m_pen;                    ///< pen used to draw an association line
-
+    bool               m_autoLayoutSpline;
     static QPainterPath createBezierCurve(QVector<QPointF> points);
     static QPainterPath createOrthogonalPath(QVector<QPointF> points);
 
+    qreal              m_c1dx{0.0}, m_c1dy{0.0}, m_c2dx{0.0}, m_c2dy{0.0};
     static const qreal Delta;  ///< default delta for fuzzy recognition of points closer to point
     static const qreal SelectedPointDiameter;         ///< radius of circles drawn to show "selection"
     static const qreal SelfAssociationMinimumHeight;  ///< minimum height for self association's loop

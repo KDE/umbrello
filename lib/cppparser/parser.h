@@ -1,19 +1,7 @@
 /* This file is part of KDevelop
-    Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+    SPDX-FileCopyrightText: 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, see
-    <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #ifndef PARSER_H
@@ -27,6 +15,7 @@
 #include <QStringList>
 #include <QList>
 #include <set>
+#include <vector>
 #include <iostream>
 
 struct ParserPrivateData;
@@ -168,7 +157,7 @@ public:
     {
         format();
         rhs.format();
-        m_text += QLatin1String(" ") + rhs.m_text;
+        m_text += QLatin1String("\n") + rhs.m_text;
     }
 
     operator bool() const
@@ -234,6 +223,53 @@ public:
         }
     }
 
+    /**
+     * Returns the comments between "end" (inclusive) and "start" and removes it
+     * @param end last line to return
+     * @param classInit protects against independent comments which are further away of the class
+     * @param start start line to return
+     * @return instance of class Comment with combined comment
+     */
+    Comment getCommentsInRange(int end, bool classInit = false, int start = 0)
+    {
+        std::vector<Comment> tempStorage; // The vector is required in order to output the comments in the correct order since the iterator goes reverse
+        Comment ret;
+
+        if (m_comments.empty())
+            return ret;
+
+        // The following lines will look ahead if there is a independent comment.
+        CommentSet::iterator it = m_comments.end();
+        --it; // .end() points to an element behind the container, so it's safe to move it to the actual last element
+        int tempLine = (*it).line();
+        if(tempLine < (end-2) && classInit) { // protects against independent comments which are further away of the class
+            m_comments.clear();
+            return ret;
+        }
+        tempStorage.push_back(*it);
+
+        while (it != m_comments.begin() && (*it).line() >= start && (*it).line() <= end) { // goes reverse through the comments because the required comments are at the end of m_comments
+            --it;
+            if(tempLine == ((*it).line() + 1)) {
+                tempLine--;
+                tempStorage.push_back(*it);
+            } else { // as soons as first independent comment is found the rest isn't interesting anymore (protects against multiline independent comments)
+               m_comments.clear();
+               break;
+            }
+        }
+
+        for (auto it2 = tempStorage.rbegin(); it2 != tempStorage.rend(); ++it2) { // outputs the comments in the correct order
+            if(it2 == tempStorage.rbegin()) {
+                ret = (*it2);
+            }
+            else {
+                ret += (*it2);
+            }
+        }
+        return ret;
+    }
+
     ///Returns and removes the comment in the line
     Comment getComment(int line)
     {
@@ -278,7 +314,7 @@ public:
 };
 
 
-#define PARSER_DEBUG_METHOD DEBUG(DBG_SRC) << "token=" << m_lexer->lookAhead(0).text() << endl
+#define PARSER_DEBUG_METHOD DEBUG() << "token=" << m_lexer->lookAhead(0).text() << endl
 
 class Parser : public QObject
 {

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CPPCODEGENERATIONPOLICY_H
 #define CPPCODEGENERATIONPOLICY_H
@@ -50,6 +46,15 @@ public:
     void setAccessorsArePublic(bool var);
     bool getAccessorsArePublic();
 
+    void setGetterWithGetPrefix(bool var);
+    bool getGetterWithGetPrefix();
+
+    void setRemovePrefixFromAccessorMethods(bool var);
+    bool getRemovePrefixFromAccessorMethods();
+
+    bool getAccessorMethodsStartWithUpperCase();
+    void setAccessorMethodsStartWithUpperCase(bool var);
+
     /**
      * We want to be flexible about which classes are allowed for generation
      * of the CPP code. In the next 4 method pairs, we give accessors that allow setting and getting
@@ -63,6 +68,9 @@ public:
     QString getVectorClassName();
     void setVectorClassNameInclude(const QString &value);
     QString getVectorClassNameInclude();
+
+    void setClassMemberPrefix(const QString &value);
+    QString getClassMemberPrefix();
 
     void setDocToolTag(const QString &value);
     QString getDocToolTag();
@@ -88,7 +96,6 @@ public:
     CodeGenerationPolicyPage * createPage (QWidget *parent = 0, const char * name = 0);
 
 protected:
-
     void init();
 
 private:

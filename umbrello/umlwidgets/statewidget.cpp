@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "statewidget.h"
 
 // app includes
+#include "cmds/cmdcreatediagram.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
@@ -27,7 +23,11 @@
 #include <KLocalizedString>
 
 // qt includes
+#include <QtGlobal>
 #include <QPointer>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(StateWidget)
 
 /**
  * Creates a State widget.
@@ -39,9 +39,8 @@
 StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
-    m_stateType = stateType;
+    setStateType(stateType);
     m_drawVertical = true;
-    setAspectRatioMode();
     m_Text = QLatin1String("State");
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
@@ -181,8 +180,37 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->drawPolygon(polygon);
         }
         break;
+    case StateWidget::Combined:
+        {
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight = fm.lineSpacing();
+            setPenFromSettings(painter);
+            QPainterPath path;
+            path.addRoundedRect(rect(), STATE_MARGIN, STATE_MARGIN);
+            if (useFillColor())
+                painter->fillPath(path, UMLWidget::fillColor());
+            painter->drawPath(path);
+            painter->drawLine(QPointF(0, fontHeight), QPointF(w, fontHeight));
+            painter->setPen(textColor());
+            QFont font = UMLWidget::font();
+            font.setBold(false);
+            painter->setFont(font);
+            painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
+                              Qt::AlignCenter, name());
+            if (!linkedDiagram()) {
+                m_size = QSizeF(fm.width(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
+            } else {
+                DiagramProxyWidget::setClientRect(rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN));
+                DiagramProxyWidget::paint(painter, option, widget);
+                QSizeF size = DiagramProxyWidget::sceneRect().size();
+                m_size = QSizeF(qMax<qreal>(fm.width(linkedDiagram()->name()), size.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + size.height());
+                setSize(m_size);
+            }
+            setPenFromSettings(painter);
+        }
+        break;
     default:
-        uWarning() << "Unknown state type: " << stateTypeStr();
+        logWarn1("StateWidget::paint: Unknown state type %1", stateTypeStr());
         break;
     }
 
@@ -244,6 +272,8 @@ QSizeF StateWidget::minimumSize() const
             width = 25;
             height = 25;
             break;
+        case StateWidget::Combined:
+            return m_size;
         default:
             break;
     }
@@ -271,6 +301,8 @@ QSizeF StateWidget::maximumSize()
                 return QSizeF(fontHeight + 10, fontHeight + 10);
             }
             break;
+        case StateWidget::Combined:
+            return m_size;
         default:
             break;
     }
@@ -300,6 +332,56 @@ void StateWidget::setAspectRatioMode()
     }
 }
 
+void StateWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
+    if (m_stateType == Combined)
+        DiagramProxyWidget::contextMenuEvent(event);
+    if (event->isAccepted())
+#endif
+        UMLWidget::contextMenuEvent(event);
+}
+
+void StateWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseDoubleClickEvent(event);
+    if (event->isAccepted())
+#endif
+        UMLWidget::mouseDoubleClickEvent(event);
+}
+
+void StateWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mousePressEvent(event);
+    if (event->isAccepted())
+#endif
+        UMLWidget::mousePressEvent(event);
+}
+
+void StateWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseMoveEvent(event);
+    if (event->isAccepted())
+#endif
+        UMLWidget::mouseMoveEvent(event);
+}
+
+void StateWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+#ifdef ENABLE_COMBINED_STATE_DIRECT_EDIT
+    if (m_stateType == Combined)
+        DiagramProxyWidget::mouseReleaseEvent(event);
+    if (event->isAccepted())
+#endif
+        UMLWidget::mouseReleaseEvent(event);
+}
+
 /**
  * Returns the type of state.
  * @return StateType
@@ -324,6 +406,10 @@ void StateWidget::setStateType(StateType stateType)
 {
     m_stateType = stateType;
     setAspectRatioMode();
+    if (stateType == Combined) {
+        setAutoResize(false);
+        setResizable(false);
+    }
 }
 
 /**
@@ -417,39 +503,39 @@ bool StateWidget::showPropertiesDialog()
 /**
  * Creates the "statewidget" XMI element.
  */
-void StateWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void StateWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement stateElement = qDoc.createElement(QLatin1String("statewidget"));
-    UMLWidget::saveToXMI1(qDoc, stateElement);
-    stateElement.setAttribute(QLatin1String("statename"), m_Text);
-    stateElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    stateElement.setAttribute(QLatin1String("statetype"), m_stateType);
+    writer.writeStartElement(QLatin1String("statewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("statename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("statetype"), QString::number(m_stateType));
     if (m_stateType == Fork || m_stateType == Join)
-        stateElement.setAttribute(QLatin1String("drawvertical"), m_drawVertical);
+        writer.writeAttribute(QLatin1String("drawvertical"), QString::number(m_drawVertical));
     //save states activities
-    QDomElement activitiesElement = qDoc.createElement(QLatin1String("Activities"));
+    writer.writeStartElement(QLatin1String("Activities"));
 
     QStringList::Iterator end(m_Activities.end());
-    for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
-        QDomElement tempElement = qDoc.createElement(QLatin1String("Activity"));
-        tempElement.setAttribute(QLatin1String("name"), *it);
-        activitiesElement.appendChild(tempElement);
-    }//end for
-    stateElement.appendChild(activitiesElement);
-    qElement.appendChild(stateElement);
+    for (QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
+        writer.writeStartElement(QLatin1String("Activity"));
+        writer.writeAttribute(QLatin1String("name"), *it);
+        writer.writeEndElement();
+    }
+    writer.writeEndElement();            // Activities
+    writer.writeEndElement();  // statewidget
 }
 
 /**
  * Loads a "statewidget" XMI element.
  */
-bool StateWidget::loadFromXMI1(QDomElement & qElement)
+bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("statename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
     QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
-    m_stateType = (StateType)type.toInt();
+    setStateType((StateType)type.toInt());
     setAspectRatioMode();
     QString drawVertical = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("1"));
     m_drawVertical = (bool)drawVertical.toInt();
@@ -484,9 +570,7 @@ void StateWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         nameNew = name();
-        ok = Dialog_Utils::askName(i18n("Enter State Name"),
-                                   i18n("Enter the name of the new state:"),
-                                   nameNew);
+        ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, nameNew);
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }
@@ -506,12 +590,15 @@ void StateWidget::slotMenuSelection(QAction* action)
         }
         break;
 
-    case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
+    case ListPopupMenu::mt_FlipHorizontal:
+        setDrawVertical(false);
+        break;
+    case ListPopupMenu::mt_FlipVertical:
+        setDrawVertical(true);
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        DiagramProxyWidget::slotMenuSelection(action);
         break;
     }
 }

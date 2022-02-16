@@ -1,4 +1,3 @@
-
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
 
@@ -38,7 +37,7 @@ include_directories(
       ${SRC_PATH}/docgenerators
       ${SRC_PATH}/menus/
       ${SRC_PATH}/refactoring
-      ${SRC_PATH}/uml1model/
+      ${SRC_PATH}/umlmodel/
       ${SRC_PATH}/umlwidgets/
       ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -60,13 +59,15 @@ else()
         Qt5::Xml
         Qt5::Test
         Qt5::Widgets
-        Qt5::WebKitWidgets
         KF5::I18n
         KF5::Crash
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         libumbrello
     )
+    if(WEBKIT_WELCOMEPAGE)
+        list(APPEND LIBS Qt5::WebKitWidgets)
+    endif()
 endif()
 
 ecm_add_test(
@@ -82,12 +83,26 @@ ecm_add_test(
     TEST_NAME testumlobject
 )
 
-#ecm_add_test(
-#    testclassifier.cpp
-#    testbase.cpp
-#    LINK_LIBRARIES ${LIBS}
-#    TEST_NAME testclassifier
-#)
+ecm_add_test(
+    testassociation.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testassociation
+)
+
+ecm_add_test(
+    testclassifier.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testclassifier
+)
+
+ecm_add_test(
+    testpackage.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testpackage
+)
 
 ecm_add_test(
     testcppwriter.cpp
@@ -110,27 +125,55 @@ ecm_add_test(
     TEST_NAME testoptionstate
 )
 
+ecm_add_test(
+    testumlcanvasobject.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testumlcanvasobject
+)
+
+ecm_add_test(
+    testpreconditionwidget.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testpreconditionwidget
+)
+
+ecm_add_test(
+    testwidgetbase.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testwidgetbase
+)
+
 set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )
 
-ecm_add_executable(testumlroledialog ${testumlroledialog_SRCS})
+add_executable(testumlroledialog ${testumlroledialog_SRCS})
 target_link_libraries(testumlroledialog ${LIBS})
 
-ecm_add_executable(testcrashhandler testcrashhandler.cpp)
+add_executable(testcrashhandler testcrashhandler.cpp)
 target_link_libraries(testcrashhandler ${LIBS})
 
-ecm_add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
+add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
 target_link_libraries(testlistpopupmenu ${LIBS})
 
 find_package(LLVM CONFIG)
-find_package(CLANG QUIET)
-if(LLVM_FOUND AND CLANG_FOUND)
+find_package(Clang CONFIG)
+if(NOT Clang_FOUND)
+    find_package(CLANG QUIET)
+endif()
+if(LLVM_FOUND AND (Clang_FOUND OR CLANG_FOUND))
     message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
     message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
     message(STATUS "Found CLANG ${CLANG_PACKAGE_VERSION}")
-
+    if(LLVM_PACKAGE_VERSION VERSION_LESS "9.0.0")
+        set(ENABLE_LLVM_TESTCASES 1)
+    endif()
+endif()
+if(ENABLE_LLVM_TESTCASES AND (NOT WIN32))
     include_directories(${LLVM_INCLUDE_DIRS})
     add_definitions(${LLVM_DEFINITIONS})
 
@@ -142,14 +185,20 @@ if(LLVM_FOUND AND CLANG_FOUND)
 
     # Find the libraries that correspond to the LLVM components
     # that we wish to use
-    llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
+    if(LLVM_PACKAGE_VERSION VERSION_GREATER_EQUAL "7.0.0")
+        set(llvm_libs LLVM)
+    else()
+        llvm_map_components_to_libnames(llvm_libs support core irreader analysis)
+    endif()
 
     # Link against LLVM libraries
-    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling)
+    target_link_libraries(testllvm ${llvm_libs} clangFrontend clangTooling clangBasic clangSerialization)
 
     add_executable(testllvmparser testllvmparser.cpp)
-    llvm_map_components_to_libnames(llvm_libs support)
-    target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic ${LIBS})
+    if(LLVM_PACKAGE_VERSION VERSION_LESS "7.0.0")
+        llvm_map_components_to_libnames(llvm_libs support)
+    endif()
+    target_link_libraries(testllvmparser ${llvm_libs} clangFrontend clangTooling clangAST clangBasic clangSerialization ${LIBS})
     ecm_mark_nongui_executable(testllvm testllvmparser)
 endif()
 

@@ -1,0 +1,124 @@
+[Desktop Entry]
+Type=Service
+Name=Horizontal Layout
+Name[bs]=Horizontalni raspored
+Name[ca]=Disposició horitzontal
+Name[ca@valencia]=Disposició horitzontal
+Name[cs]=Vodorovné rozložení
+Name[da]=Vandret layout
+Name[de]=Horizontales Layout
+Name[el]=Οριζόντια διάταξη
+Name[en_GB]=Horizontal Layout
+Name[es]=Disposición horizontal
+Name[et]=Rõhtne paigutus
+Name[eu]=Antolamendu horizontala
+Name[fi]=Vaakasuuntainen asettelu
+Name[fr]=Disposition horizontale
+Name[gl]=Disposición horizontal
+Name[hu]=Vízszintes elrendezés
+Name[it]=Disposizione orizzontale
+Name[kk]=Жатық орналасуы
+Name[ko]=수평 레이아웃
+Name[lt]=Horizontalus išdėstymas
+Name[mr]=आडवी रचना
+Name[nb]=Vannrett utforming
+Name[nl]=Horizontale indeling
+Name[nn]=Vassrett utforming
+Name[pa]=ਹਰੀਜੱਟਲ ਲੇਆਉਟ
+Name[pl]=Układ poziomy
+Name[pt]=Disposição Horizontal
+Name[pt_BR]=Layout horizontal
+Name[ru]=Горизонтальный шаблон
+Name[sk]=Vodorovné rozloženie
+Name[sl]=Vodoravna postavitev
+Name[sr]=Водоравни распоред
+Name[sr@ijekavian]=Водоравни распоред
+Name[sr@ijekavianlatin]=Vodoravni raspored
+Name[sr@latin]=Vodoravni raspored
+Name[sv]=Horisontell layout
+Name[tr]=Yatay Düzen
+Name[uk]=Горизонтальне компонування
+Name[x-test]=xxHorizontal Layoutxx
+Name[zh_CN]=水平布局
+Name[zh_TW]=水平佈局
+Comment=Layout which renders horizontal
+Comment[ca]=Disposició que renderitza horitzontalment
+Comment[ca@valencia]=Disposició que renderitza horitzontalment
+Comment[de]=Layout, das horizontal gerendert wird
+Comment[en_GB]=Layout which renders horizontal
+Comment[es]=Diseño que se organiza de forma horizontal
+Comment[et]=Rõhtsalt renderdatud paigutus
+Comment[eu]=Horizontalean errendatzen den antolamendua
+Comment[fi]=Vaakasuuntainen asettelu
+Comment[fr]=Disposition permettant un rendu horizontal
+Comment[gl]=Disposición que renderiza de maneira horizontal.
+Comment[hu]=Elrendezés, amely vízszintesen jelenít meg
+Comment[it]=Disposizione che rende in orizzontale
+Comment[ko]=수평으로 표시되는 레이아웃
+Comment[nl]=Indeling die zich horizontaal laat weergeven
+Comment[nn]=Utforming vist vassrett
+Comment[pl]=Układ, który wyświetla się w poziomie
+Comment[pt]=Uma disposição que representa os itens na horizontal
+Comment[pt_BR]=Layout que representa os itens na horizontal
+Comment[ru]=Шаблон с расположением по горизонтали
+Comment[sk]=Rozloženie, ktoré renderuje vodorovne
+Comment[sl]=Postavitev za vodoravni izris
+Comment[sv]=Layout som återges horisontellt
+Comment[uk]=Компонування з горизонтальним розташуванням елементів
+Comment[x-test]=xxLayout which renders horizontalxx
+Comment[zh_CN]=水平显示的布局
+Comment[zh_TW]=水平繪製佈局
+
+[X-UMBRELLO-Dot-Nodes]
+type::artifact=shape=box
+type::component=shape=component
+type::interface=shape=doublecircle
+type::note=shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::component::port=arrowhead=none,style=dotted
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::association=arrowhead=none
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::realization=arrowtail=normal,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::component::port=minlen=0.0001,constraint=false
+#ranking::type::anchor=weight=0.8
+ranking::type::association=weight=0.8
+ranking::type::dependency=weight=0.8
+ranking::type::realization=weight=0.8
+ranking::type::uniassociation=weight=0.8
+ranking::type::default=weight=0.001
+
+[X-UMBRELLO-Dot-Attributes]
+graph=rankdir=LR,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50

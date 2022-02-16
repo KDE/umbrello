@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dcodeaccessormethod.h"
@@ -28,6 +24,9 @@
 #include "dcodeclassfield.h"
 #include "dcodedocumentation.h"
 
+// qt/kde includes
+#include <QXmlStreamWriter>
+
 DCodeAccessorMethod::DCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
         : CodeAccessorMethod (field)
 {
@@ -42,10 +41,10 @@ DCodeAccessorMethod::~DCodeAccessorMethod ()
 {
 }
 
-void DCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void DCodeAccessorMethod::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
+    CodeAccessorMethod::setAttributesOnNode(writer);
 
     // set local attributes now
 }
@@ -123,7 +122,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     // Check for dynamic casting failure!
     if (dfield == 0)
     {
-        uError() << "dfield: invalid dynamic cast";
+        logError0("dfield: invalid dynamic cast");
         return;
     }
 
@@ -192,7 +191,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning()<<"Warning: cant generate DCodeAccessorMethod for type: "<<getType();
+        logWarn1("Cannot generate DCodeAccessorMethod for type: %1", getType());
         break;
     }
 

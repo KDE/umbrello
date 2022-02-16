@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "docwindow.h"
@@ -16,7 +11,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "icon_utils.h"
-#include "uml.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -152,7 +147,7 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
     m_pUMLObject = object;
     m_docTE->setText(m_pUMLObject->doc());
     if (m_pUMLObject->baseType() == UMLObject::ot_Folder) {
-        UMLFolder *folder = m_pUMLObject->asUMLFolder();
+        const UMLFolder *folder = m_pUMLObject->asUMLFolder();
         updateLabel(folder->localName());
     }
     else
@@ -288,7 +283,8 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
         } else if (m_Showing == st_Project) {
             m_pUMLDoc->setDocumentation(m_docTE->toPlainText());
         } else {
-            uError() << "could not update documentation because of unknown type and object combination";
+            logError1("DocWindow: Could not update doc due to unknown type and object combination "
+                      "(m_Showing=%1)", m_Showing);
         }
 
         // now do the setModified call
@@ -320,7 +316,7 @@ void DocWindow::reset()
 /**
  * Checks if the user is typing in the documentation edit window.
  */
-bool DocWindow::isTyping()
+bool DocWindow::isTyping() const
 {
     if (m_docTE->hasFocus())
         return true;
@@ -337,7 +333,7 @@ void DocWindow::setFocus()
 /**
  * Checks if the user is typing in the documentation edit window.
  */
-bool DocWindow::isModified()
+bool DocWindow::isModified() const
 {
     bool modified = false;
     const QString currentText = m_docTE->toPlainText();

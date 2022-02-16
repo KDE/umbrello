@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Nikolaus Gradwohl <guru@local-guru.net>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "sqlwriter.h"
 
@@ -16,6 +12,7 @@
 #include "checkconstraint.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "enum.h"
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 #include "model_utils.h"
@@ -23,6 +20,7 @@
 #include "uniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -191,7 +189,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     UMLEntity* e = c->asUMLEntity();
 
     if (!e) {
-        uError() << "Invalid cast from" << c->baseTypeStr() << "'" << c->name() << "' to UMLEntity*";
+        logError2("SQLWriter::writeClass: Invalid cast from '%1' to UMLEntity* %2",
+                  c->name(), c->baseTypeStr());
         return;
     }
 
@@ -215,7 +214,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
 
     QTextStream sql(&file);
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".sql"));
     if (!str.isEmpty()) {
@@ -224,7 +223,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         sql << str << m_endl;
     }
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !m_pEntity->doc().isEmpty()) {
         sql << m_endl << "--" << m_endl;
         sql << "-- TABLE: " << entityname << m_endl;
@@ -234,6 +233,24 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
     // write all entity attributes
     UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
+    if (language() == Uml::ProgrammingLanguage::PostgreSQL) {
+        foreach(UMLEntityAttribute *at, entAttList) {
+            if (at->getType()->baseType() == UMLObject::ot_Enum) {
+                const UMLEnum *_enum = at->getType()->asUMLEnum();
+                if (m_enumsGenerated.contains(at->getTypeName()))
+                    continue;
+                m_enumsGenerated.append(at->getTypeName());
+                sql << "CREATE TYPE " << at->getTypeName() << " AS ENUM (";
+                QString delimiter(QLatin1String(""));
+                UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+                foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                    sql << delimiter << "'" << enumLiteral->name() << "'";
+                    delimiter = QLatin1String(", ");
+                }
+                sql << ");\n";
+            }
+        }
+    }
 
     sql << "CREATE TABLE " <<  entityname << " (";
 
@@ -311,7 +328,7 @@ Uml::ProgrammingLanguage::Enum SQLWriter::language() const
 /**
  * Reimplement method from CodeGenerator.
  */
-QStringList SQLWriter::defaultDatatypes()
+QStringList SQLWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("blob"));
@@ -387,7 +404,19 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         sql << m_indentation << cleanName(at->name()) ;
 
         // the datatype
-        sql <<  ' ' << at->getTypeName();
+        if (language() == Uml::ProgrammingLanguage::MySQL &&
+                at->getType() && at->getType()->baseType() == UMLObject::ot_Enum) {
+            const UMLEnum *_enum = at->getType()->asUMLEnum();
+            sql << " ENUM(";
+            QString delimiter(QLatin1String(""));
+            UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+            foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                sql << delimiter << "'" << enumLiteral->name() << "'";
+                delimiter = QLatin1String(", ");
+            }
+            sql << ')';
+        } else
+            sql <<  ' ' << at->getTypeName();
 
         // the length (if there's some value)
         QString lengthStr = at->getValues().trimmed();
@@ -409,8 +438,13 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         }
 
         // write any default values
-        sql << (at->getInitialValue().isEmpty() ? QString() : QLatin1String(" DEFAULT ") + at->getInitialValue());
-
+        if (!at->getInitialValue().isEmpty()) {
+            if (at->getType()->baseType() == UMLObject::ot_Enum) {
+                sql << QLatin1String(" DEFAULT '") << at->getInitialValue() << QLatin1String("'");
+            } else {
+                sql << QLatin1String(" DEFAULT ") + at->getInitialValue();
+            }
+        }
         // now get documentation/comment of current attribute
         attrDoc = at->doc();
     }
@@ -424,9 +458,10 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach(UMLClassifierListItem* cli, constrList) {
-       UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
+       const UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
        if (!uuc) {
-           uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLUniqueConstraint*";
+           logError2("SQLWriter::printUniqueConstraints: Invalid cast from '%1' to UMLUniqueConstraint* %2",
+                     cli->name(), cli->baseTypeStr());
            return;
        }
        sql << m_endl;
@@ -473,7 +508,8 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
    foreach(UMLClassifierListItem* cli, constrList) {
        UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
        if (!fkc) {
-           uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLForeignKeyConstraint*";
+           logError2("SQLWriter::printForeignKeyConstraints: Invalid cast from '%1' to UMLForeignKeyConstraint* %2",
+                     cli->name(), cli->baseTypeStr());
            return;
        }
        sql << m_endl;
@@ -560,7 +596,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeL
     }
     sql << "index ";
 
-    sql << " ON " << cleanName(m_pEntity->name()) << '(';
+    sql << " ON " << cleanName(ent->name()) << '(';
 
     bool first = true;
 
@@ -598,9 +634,10 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
 void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     foreach(UMLClassifierListItem* cli, constrList) {
-        UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
+        const UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
         if (!chConstr) {
-            uError() << "Invalid cast from" << cli->baseTypeStr() << "'" << cli->name() << "' to UMLCheckConstraint*";
+            logError2("SQLWriter::printCheckConstraints: Invalid cast from '%1' to UMLCheckConstraint* %2",
+                      cli->name(), cli->baseTypeStr());
             return;
         }
 

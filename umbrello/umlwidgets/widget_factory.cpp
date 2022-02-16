@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "widget_factory.h"
@@ -28,6 +23,7 @@
 #include "component.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
+#define DBG_SRC QLatin1String("Widget_Factory")
 #include "debug_utils.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -38,6 +34,7 @@
 #include "floatingtextwidget.h"
 #include "folder.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "messagewidget.h"
 #include "node.h"
 #include "nodewidget.h"
@@ -60,6 +57,8 @@
 #include "umlview.h"
 #include "usecase.h"
 #include "usecasewidget.h"
+
+DEBUG_REGISTER(Widget_Factory)
 
 namespace Widget_Factory {
 
@@ -127,7 +126,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = ow;
         } else {
             UMLClassifier *c = o->asUMLClassifier();
-            ClassifierWidget* interfaceWidget = new ClassifierWidget(scene, c);
+            InterfaceWidget* interfaceWidget = new InterfaceWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component || diagramType == Uml::DiagramType::Deployment) {
                 interfaceWidget->setDrawAsCircle(true);
             }
@@ -161,11 +160,12 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new CategoryWidget(scene, o->asUMLCategory());
         break;
     default:
-        uWarning() << "trying to create an invalid widget (" << UMLObject::toString(type) << ")";
+        logWarn2("Widget_Factory trying to create an invalid widget (%1) for %2",
+                 UMLObject::toString(type), o->name());
     }
 
     if (newWidget) {
-        uDebug() << "Widget_Factory::createWidget(" << newWidget->baseType() << ")";
+        logDebug1("Widget_Factory::createWidget(%1)", newWidget->baseType());
         if (newWidget->baseType() != WidgetBase::wt_Pin &&
             newWidget->baseType() != WidgetBase::wt_Port) {
             newWidget->setX(pos.x());
@@ -179,8 +179,8 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
     if (o == 0) {
-        uDebug() << "Widget_Factory::validateObjType: creating new object of type "
-                 << expected;
+        logDebug1("Widget_Factory::validateObjType: creating new object of type %1",
+                  expected);
         QString artificialName = QLatin1String("LOST_") + Uml::ID::toString(id);
         o = Object_Factory::createUMLObject(expected, artificialName, 0, false);
         if (o == 0)
@@ -193,9 +193,8 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
     UMLObject::ObjectType actual = o->baseType();
     if (actual == expected)
         return true;
-    uError() << "validateObjType(" << o->name()
-        << "): expected type " << UMLObject::toString(expected) << ", actual type "
-        << UMLObject::toString(actual);
+    logError3("Widget_Factory::validateObjType(%1): expected type %2, actual type %3",
+              o->name(), UMLObject::toString(expected), UMLObject::toString(actual));
     return false;
 }
 
@@ -242,15 +241,17 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     }
     else
     {
-        // Loading of widgets which represent an UMLObject
+        // Loading of widgets which represent a UMLObject
 
         // Find the UMLObject and create the Widget to represent it
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == 0) {
-            uDebug() << "makeWidgetFromXMI: cannot find object with id "
-                << Uml::ID::toString(id);
+            logError1("Widget_Factory::makeWidgetFromXMI: cannot find object with id %1",
+                      Uml::ID::toString(id));
+            delete widget;
+            return 0;
         }
 
         if (tag == QLatin1String("actorwidget") || tag == QLatin1String("UML:ActorWidget")) {
@@ -280,7 +281,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ArtifactWidget(scene, o->asUMLArtifact());
         } else if (tag == QLatin1String("interfacewidget")) {
             if (validateObjType(UMLObject::ot_Interface, o, id))
-                widget = new ClassifierWidget(scene, o->asUMLClassifier());
+                widget = new InterfaceWidget(scene, o->asUMLClassifier());
         } else if (tag == QLatin1String("datatypewidget")) {
             if (validateObjType(UMLObject::ot_Datatype, o, id))
                 widget = new DatatypeWidget(scene, o->asUMLClassifier());
@@ -300,7 +301,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ClassifierWidget(scene, o->asUMLInstance());
         }
         else {
-            uWarning() << "Trying to create an unknown widget:" << tag;
+            logWarn1("Widget_Factory::makeWidgetFromXMI: Trying to create an unknown widget %1", tag);
         }
     }
     return widget;

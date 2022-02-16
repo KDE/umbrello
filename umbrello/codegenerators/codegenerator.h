@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2015                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
@@ -31,6 +27,7 @@ class CodeDocument;
 class CodeViewerDialog;
 class QDomDocument;
 class QDomElement;
+class QXmlStreamWriter;
 
 /**
  * This class collects together all of the code documents which form this project,
@@ -57,6 +54,7 @@ class CodeGenerator : public QObject
 {
     Q_OBJECT
 public:
+    typedef enum {Generated, Failed, Skipped } GenerationState;
     CodeGenerator();
     virtual ~CodeGenerator();
 
@@ -67,7 +65,7 @@ public:
 
     QString getUniqueID(CodeDocument * codeDoc);
 
-    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     CodeDocument * findCodeDocumentByID(const QString &id);
 
@@ -102,7 +100,7 @@ public:
      * A series of accessor method constructors that we need to define
      * for any particular language.
      */
-    virtual void loadFromXMI1(QDomElement & element);
+    virtual void loadFromXMI(QDomElement & element);
 
     /**
      * Return the unique language enum that identifies this type of code generator.
@@ -111,7 +109,7 @@ public:
 
     CodeDocument * findCodeDocumentByClassifier(UMLClassifier * classifier);
 
-    virtual QStringList defaultDatatypes();
+    virtual QStringList defaultDatatypes() const;
 
     virtual bool isReservedKeyword(const QString & keyword);
 
@@ -158,6 +156,7 @@ public slots:
 
 signals:
     void codeGenerated(UMLClassifier* concept, bool generated);
+    void codeGenerated(UMLClassifier* concept, CodeGenerator::GenerationState result);
     void showGeneratedFile(const QString& filename);
 };
 

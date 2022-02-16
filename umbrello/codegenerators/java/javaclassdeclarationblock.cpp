@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "javaclassdeclarationblock.h"
 
@@ -30,17 +26,17 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("javaclassdeclarationblock"));
-    setAttributesOnNode(doc, blockElement);
-    root.appendChild(blockElement);
+    writer.writeStartElement(QLatin1String("javaclassdeclarationblock"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaClassDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void JavaClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }

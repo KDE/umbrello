@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2018                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DONTASKAGAIN_H
 #define DONTASKAGAIN_H
@@ -47,7 +42,8 @@ class DontAskAgainItem##name : public DontAskAgainItem \
 public: \
     DontAskAgainItem##name() : DontAskAgainItem(QLatin1String(key)) {} \
     virtual QString text() const { return _text; } \
-} name;
+}; \
+static DontAskAgainItem##name name;
 
 /**
  * The DontAskAgainWidget provides a graphical user interface
@@ -89,7 +85,7 @@ protected slots:
  * support in an application setting dialog.
  *
  * To use this support call macro @ref DefineDontAskAgainItem and add a call to method
- * @ref DontAskAgainItem::name as parameter @ref dontAskAgainName to related class KMessageBox
+ * DontAskAgainItem::name as parameter @p dontAskAgainName to related class KMessageBox
  * methods. See the following example:
  *
  * \code{.cpp}

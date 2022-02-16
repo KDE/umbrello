@@ -1,18 +1,16 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "codeclassfielddeclarationblock.h"
 
 #include "codeclassfield.h"
 #include "umlrole.h"
+
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -77,17 +75,17 @@ void CodeClassFieldDeclarationBlock::forceRelease()
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassFieldDeclarationBlock::saveToXMI1(QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("ccfdeclarationcodeblock"));
-    setAttributesOnNode(doc, docElement);
-    elem.appendChild(docElement);
+    writer.writeStartElement(QLatin1String("ccfdeclarationcodeblock"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassFieldDeclarationBlock::loadFromXMI1 (QDomElement & root)
+void CodeClassFieldDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -96,11 +94,11 @@ void CodeClassFieldDeclarationBlock::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeBlockWithComments::setAttributesOnNode(doc, elem);
-    OwnedCodeBlock::setAttributesOnNode(doc, elem);
+    CodeBlockWithComments::setAttributesOnNode(writer);
+    OwnedCodeBlock::setAttributesOnNode(writer);
 }
 
 /**
@@ -139,7 +137,7 @@ void CodeClassFieldDeclarationBlock::syncToParent ()
     // the name of the role is not defined.
     if (!(getParentClassField()->parentIsAttribute()))
     {
-        UMLRole * parent = getParentObject()->asUMLRole();
+        const UMLRole * parent = getParentObject()->asUMLRole();
         if (parent == 0)
             return;
         if (parent->name().isEmpty())

@@ -1,20 +1,17 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2005-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "nativeimportbase.h"
 
 // app includes
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("NativeImportBase")
 #include "debug_utils.h"
 #include "import_utils.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -23,6 +20,8 @@
 #include <QFile>
 #include <QRegExp>
 #include <QTextStream>
+
+DEBUG_REGISTER(NativeImportBase)
 
 QStringList NativeImportBase::m_parsedFiles;  // static, see nativeimportbase.h
 
@@ -111,7 +110,7 @@ bool NativeImportBase::skipToClosing(QChar opener)
             closing = QLatin1String(">");
             break;
         default:
-            uError() << "opener='" << opener << "': illegal input character";
+            logError1("NativeImportBase::skipToClosing opener='%1': illegal input character", opener);
             return false;
     }
     const QString opening(opener);
@@ -159,6 +158,7 @@ UMLPackage *NativeImportBase::popScope()
 
 /**
  * Return current scope.
+ * If the scope stack is empty then return nullptr.
  *
  * @return scope
  */
@@ -176,6 +176,18 @@ UMLPackage *NativeImportBase::currentScope()
 int NativeImportBase::scopeIndex()
 {
     return m_scope.size() - 1;
+}
+
+/**
+ * Get the current lexeme.
+ * If the end of parse was reached then return an empty string.
+ * @return  the current lexeme
+ */
+QString NativeImportBase::current()
+{
+    if (m_srcIndex < m_source.count() - 1)
+        return m_source[m_srcIndex];
+    return QString();
 }
 
 /**
@@ -426,13 +438,13 @@ bool NativeImportBase::parseFile(const QString& filename)
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
         path.remove(QRegExp(QLatin1String("/[^/]+$")));
-        uDebug() << msgPrefix << "adding path " << path;
+        logDebug2("NativeImportBase::parseFile %1 adding path %2", msgPrefix, path);
         Import_Utils::addIncludePath(path);
     }
     if (!QFile::exists(filename)) {
         QFileInfo fi(filename);
         if (fi.isAbsolute()) {
-            uError() << msgPrefix << "cannot find file";
+            logError1("NativeImportBase::parseFile: cannot find absolute file %1", filename);
             return false;
         }
         bool found = false;
@@ -450,13 +462,13 @@ bool NativeImportBase::parseFile(const QString& filename)
             }
         }
         if (! found) {
-            uError() << msgPrefix << "cannot find file";
+            logError1("NativeImportBase::parseFile: cannot find file %1", filename);
             return false;
         }
     }
     QFile file(fname);
     if (! file.open(QIODevice::ReadOnly)) {
-        uError() << msgPrefix << "cannot open file";
+        logError1("NativeImportBase::parseFile: cannot open file %1", fname);
         return false;
     }
     log(nameWithoutPath, QLatin1String("parsing..."));
@@ -478,13 +490,13 @@ bool NativeImportBase::parseFile(const QString& filename)
     m_klass = 0;
     m_currentAccess = Uml::Visibility::Public;
     m_scope.clear();
-    pushScope(0); // index 0 is reserverd for the global scope
+    pushScope(Import_Utils::globalScope()); // index 0 is reserved for the global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& firstToken = m_source[m_srcIndex];
         //uDebug() << '"' << firstToken << '"';
         if (firstToken.startsWith(m_singleLineCommentIntro)) {
-            m_comment = firstToken.mid(m_singleLineCommentIntro.length());
+            m_comment += firstToken.mid(m_singleLineCommentIntro.length());
             continue;
         }
         if (! parseStmt())

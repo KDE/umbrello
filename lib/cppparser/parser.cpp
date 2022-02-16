@@ -1,19 +1,7 @@
 /* This file is part of KDevelop
-    Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+    SPDX-FileCopyrightText: 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, see
-    <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 // c++ support
@@ -21,7 +9,9 @@
 #include "driver.h"
 #include "lexer.h"
 #include "errors.h"
-#include "optionstate.h"
+#define DBG_SRC  QLatin1String("Parser")
+#include "debug_utils.h"
+#include "uml.h"
 
 // qt
 #include <QString>
@@ -215,9 +205,10 @@ bool Parser::skipUntilDeclaration()
         case Token_export:
 
         case Token_const:       // cv
-        case Token_const_expr:       // cv
+        case Token_noexcept:
+        case Token_const_expr:  // cv
         case Token_volatile:    // cv
-        case Token_mutable:    // cv
+        case Token_mutable:     // cv
 
         case Token_public:
         case Token_protected:
@@ -247,6 +238,7 @@ bool Parser::skipUntilStatement()
         case Token_const_expr:
         case Token_volatile:
         case Token_mutable:
+        case Token_noexcept:
         case Token_identifier:
         case Token_case:
         case Token_default:
@@ -1289,22 +1281,19 @@ bool Parser::parseDeclarator(DeclaratorAST::Node& node)
 
             nextToken();  // skip ')'
 
-            int startConstant = m_lexer->index();
-            if (m_lexer->lookAhead(0) == Token_const) {
+            int tk;
+            while ((tk = m_lexer->lookAhead(0)) == Token_const
+                   || tk == Token_override || tk == Token_final) {
+                int start = m_lexer->index();
                 nextToken();
-                AST::Node constant = CreateNode<AST>();
-                UPDATE_POS(constant, startConstant, m_lexer->index());
-                ast->setConstant(constant);
-            }
-
-            if (Settings::optionState().codeImportState.supportCPP11) {
-                int startOverride = m_lexer->index();
-                if (m_lexer->lookAhead(0) == Token_override) {
-                    nextToken();
-                    AST::Node override = CreateNode<AST>();
-                    UPDATE_POS(override, startOverride, m_lexer->index());
-                    ast->setOverride(override);
-                }
+                AST::Node n = CreateNode<AST>();
+                UPDATE_POS(n, start, m_lexer->index());
+                if (tk == Token_const)
+                    ast->setConstant(n);
+                else if (tk == Token_override)
+                    ast->setOverride(n);
+                else
+                    ast->setFinal(n);
             }
 
             GroupAST::Node except;
@@ -1396,22 +1385,19 @@ bool Parser::parseAbstractDeclarator(DeclaratorAST::Node& node)
             } else
                 nextToken();
 
-            int startConstant = m_lexer->index();
-            if (m_lexer->lookAhead(0) == Token_const) {
+            int tk;
+            while ((tk = m_lexer->lookAhead(0)) == Token_const
+                   || tk == Token_override || tk == Token_final) {
+                int start = m_lexer->index();
                 nextToken();
-                AST::Node constant = CreateNode<AST>();
-                UPDATE_POS(constant, startConstant, m_lexer->index());
-                ast->setConstant(constant);
-            }
-
-            if (Settings::optionState().codeImportState.supportCPP11) {
-                int startOverride = m_lexer->index();
-                if (m_lexer->lookAhead(0) == Token_override) {
-                    nextToken();
-                    AST::Node override = CreateNode<AST>();
-                    UPDATE_POS(override, startOverride, m_lexer->index());
-                    ast->setOverride(override);
-                }
+                AST::Node n = CreateNode<AST>();
+                UPDATE_POS(n, start, m_lexer->index());
+                if (tk == Token_const)
+                    ast->setConstant(n);
+                else if (tk == Token_override)
+                    ast->setOverride(n);
+                else
+                    ast->setFinal(n);
             }
 
             GroupAST::Node except;
@@ -1441,6 +1427,7 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 {
     PARSER_DEBUG_METHOD;
 
+    bool isClass = false;
     int start = m_lexer->index();
 
     if (m_lexer->lookAhead(0) != Token_enum) {
@@ -1449,45 +1436,64 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 
     nextToken();
 
+    int tk = m_lexer->lookAhead(0);
+    if (tk == Token_class || tk == Token_struct) {
+        isClass = true;
+        nextToken();
+    }
+
     Comment c = comment();
     clearComment();
     NameAST::Node name;
     parseName(name);
 
-    if (m_lexer->lookAhead(0) != '{') {
-        m_lexer->setIndex(start);
-        return false;
-    }
-    nextToken();
-
-    EnumSpecifierAST::Node ast = CreateNode<EnumSpecifierAST>();
-    ast->setName(name);
-
-    ast->setComment(c);
-
-    EnumeratorAST::Node enumerator;
-    if (parseEnumerator(enumerator)) {
-        ast->addEnumerator(enumerator);
-
-        while (m_lexer->lookAhead(0) == ',') {
-            nextToken();
-
-            if (!parseEnumerator(enumerator)) {
-                //reportError(i18n("Enumerator expected"));
-                break;
-            }
-
-            ast->addEnumerator(enumerator);
+    TypeSpecifierAST::Node enumBase;
+    if (m_lexer->lookAhead(0) == ':') {
+        nextToken();
+        if (!parseSimpleTypeSpecifier(enumBase)) {
+            syntaxError();
+            return false;
         }
     }
 
-    clearComment();
+    tk = m_lexer->lookAhead(0);
+    if (tk != ';' && tk != '{') {
+        m_lexer->setIndex(start);
+        return false;
+    }
 
-    if (m_lexer->lookAhead(0) != '}')
-        reportError(i18n("} missing"));
-    else
+    EnumSpecifierAST::Node ast = CreateNode<EnumSpecifierAST>();
+    ast->setClass(isClass);
+    ast->setName(name);
+    ast->setComment(c);
+    ast->setEnumBase(enumBase);
+
+    if (tk == '{') {
         nextToken();
 
+        EnumeratorAST::Node enumerator;
+        if (parseEnumerator(enumerator)) {
+            ast->addEnumerator(enumerator);
+
+            while (m_lexer->lookAhead(0) == ',') {
+                nextToken();
+
+                if (!parseEnumerator(enumerator)) {
+                    //reportError(i18n("Enumerator expected"));
+                    break;
+                }
+
+                ast->addEnumerator(enumerator);
+            }
+        }
+
+        clearComment();
+
+        if (m_lexer->lookAhead(0) != '}')
+            reportError(i18n("} missing"));
+        else
+            nextToken();
+    }
 
     UPDATE_POS(ast, start, m_lexer->index());
     node = std::move(ast);
@@ -1851,11 +1857,12 @@ void Parser::eventuallyTakeComment(int startLn, int endLn, Type& ast)
 template<class Type>
 void Parser::eventuallyTakeComment(Type& ast)
 {
-    if (&(*ast) && comment()) {
-        ast->setComment(comment());
-    }
+    int line = currentLine();
+    Comment c = m_commentStore.getCommentsInRange(line, true);
 
-    clearComment();
+    if (&(*ast) && c) {
+        ast->setComment(c);
+    }
 }
 
 void Parser::clearComment()
@@ -1978,6 +1985,14 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
     NameAST::Node name;
     parseName(name);
 
+    AST::Node final_;
+    int finalStart = m_lexer->index();
+    if (m_lexer->lookAhead(0) == Token_final) {
+        final_ = std::move(CreateNode<AST>());
+        nextToken();
+        UPDATE_POS(final_, finalStart, m_lexer->index());
+    }
+
     BaseClauseAST::Node bases;
     if (m_lexer->lookAhead(0) == ':') {
         if (!parseBaseClause(bases)) {
@@ -1996,12 +2011,11 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
 
     ADVANCE('{', "{");
 
-
     ast->setWinDeclSpec(winDeclSpec);
     ast->setClassKey(classKey);
     ast->setName(name);
     ast->setBaseClause(bases);
-
+    ast->setFinal(final_);
 
     while (!m_lexer->lookAhead(0).isNull()) {
         if (m_lexer->lookAhead(0) == '}')
@@ -2190,6 +2204,17 @@ bool Parser::parseDeclaratorId(NameAST::Node& node)
 bool Parser::parseExceptionSpecification(GroupAST::Node& node)
 {
     PARSER_DEBUG_METHOD;
+
+    if (m_lexer->lookAhead(0) == Token_noexcept) {
+        GroupAST::Node ast = CreateNode<GroupAST>();
+        int start = m_lexer->index();
+        nextToken();
+        AST::Node word = CreateNode<AST>();
+        UPDATE_POS(word, start, m_lexer->index());
+        ast->addNode(word);
+        node = std::move(ast);
+        return true;
+    }
 
     if (m_lexer->lookAhead(0) != Token_throw) {
         return false;
@@ -3132,11 +3157,24 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
         if (parseInitDeclarator(declarator)) {
             int endSignature = m_lexer->index();
 
+            Comment mcomment;
+            if (&(*declarator)) {
+                int endLine, endColumn;
+                declarator->getEndPosition(&endLine, &endColumn);
+                mcomment = m_commentStore.getCommentsInRange(endLine);
+            }
+            else {
+                mcomment = comment();
+            }
+            clearComment();
+
             switch (m_lexer->lookAhead(0)) {
             case ';': {
                 nextToken();
 
                 InitDeclaratorListAST::Node declarators = CreateNode<InitDeclaratorListAST>();
+
+                SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
 
                 // update declarators position
                 int startLine, startColumn, endLine, endColumn;
@@ -3145,10 +3183,16 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
                     declarator->getEndPosition(&endLine, &endColumn);
                     declarators->setStartPosition(startLine, startColumn);
                     declarators->setEndPosition(endLine, endColumn);
+
+                    ast->setComment(mcomment);
+                    preparseLineComments(endLine);
+                    Comment c = m_commentStore.getCommentInRange(endLine);
+                    if (c) {
+                        ast->addComment(c);
+                    }
                 }
                 declarators->addInitDeclarator(declarator);
 
-                SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
                 ast->setInitDeclaratorList(declarators);
                 if (hasFunSpec)
                     ast->setFunctionSpecifier(funSpec);
@@ -3224,9 +3268,6 @@ start_decl:
         return false;
     }
 
-    Comment mcomment = comment();
-    clearComment();
-
     TypeSpecifierAST::Node spec;
     if (parseTypeSpecifier(spec)) {
         if (!hasFunSpec)
@@ -3251,6 +3292,17 @@ start_decl:
                 }
             }
         }
+
+        Comment mcomment;
+        if (&(*decl)) {
+            int line, col;
+            decl->getEndPosition(&line, &col);
+            mcomment = m_commentStore.getCommentsInRange(line);
+        }
+        else {
+            mcomment = comment();
+        }
+        clearComment();
 
         int endSignature = m_lexer->index();
         switch (m_lexer->lookAhead(0)) {
@@ -3291,6 +3343,16 @@ start_decl:
                 FunctionDefinitionAST::Node ast = CreateNode<FunctionDefinitionAST>();
 
                 ast->setComment(mcomment);
+                if (&(*decl)) {
+                    int line, col;
+                    decl->getEndPosition(&line, &col);
+
+                    preparseLineComments(line);
+                    Comment c = m_commentStore.getCommentInRange(line);
+                    if (c) {
+                        ast->addComment(c);
+                    }
+                }
 
                 ast->setWinDeclSpec(winDeclSpec);
                 ast->setStorageSpecifier(storageSpec);

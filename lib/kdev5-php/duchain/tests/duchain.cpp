@@ -1,19 +1,7 @@
 /* This file is part of KDevelop
-    Copyright 2008 Niko Sams <niko.sams@gmail.com>
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
+    SPDX-License-Identifier: LGPL-2.0-only
 */
 
 #include "duchain.h"
@@ -1274,7 +1262,7 @@ void TestDUChain::functionDocBlock()
     }
 
     {
-        // same as above but with indendation
+        // same as above but with indentation
         TopDUContext* top = parse("<?\n  /// Foo\n  /// Bar\n  function foo() {} ", DumpNone);
         DUChainReleaser releaseTop(top);
         DUChainWriteLocker lock(DUChain::lock());
@@ -2549,7 +2537,7 @@ void TestDUChain::useNamespace()
     dec = top->localDeclarations().at(4);
     QCOMPARE(dec->qualifiedIdentifier().toString(), QString("ns6"));
     QVERIFY(dynamic_cast<NamespaceAliasDeclaration*>(dec));
-    ///TODO: find out why this is explictly required
+    ///TODO: find out why this is explicitly required
     QVERIFY(!dynamic_cast<NamespaceAliasDeclaration*>(dec)->importIdentifier().explicitlyGlobal());
 }
 
@@ -2589,7 +2577,7 @@ void TestDUChain::namespacedCatch()
                               "}\n"
                               "namespace {\n"
                               "try { /* ... */ }\n"
-                              "catch(\\ns\\e $exeption) { /* ... */ }"
+                              "catch(\\ns\\e $exception) { /* ... */ }"
                               "}\n"
                               , DumpNone);
     QVERIFY(top);

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2015                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2015-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DIAGRAMSMODEL_H
 #define DIAGRAMSMODEL_H
@@ -36,6 +31,7 @@ public:
 
     bool addDiagram(UMLView *view);
     bool removeDiagram(UMLView *view);
+    bool removeAllDiagrams();
 
     void emitDataChanged(const QModelIndex &index);
     void emitDataChanged(int index);

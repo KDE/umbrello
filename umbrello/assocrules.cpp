@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "assocrules.h"
 
 // local includes
+#define DBG_SRC QLatin1String("AssocRules")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umlview.h"
@@ -29,6 +25,8 @@
 // kde includes
 #include <typeinfo>
 #include <KMessageBox>
+
+DEBUG_REGISTER(AssocRules)
 
 /**
  * Constructor.
@@ -67,12 +65,17 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     if(!bValid) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->currentView();
-        if (view && view->umlScene()->type() == Uml::DiagramType::Component &&
+        if (view && view->umlScene()->isComponentDiagram() &&
             widgetType == WidgetBase::wt_Package &&
-            (assocType == Uml::AssociationType::Generalization || assocType == Uml::AssociationType::Realization))
-            ;
-        else
+                (assocType == Uml::AssociationType::Generalization ||
+                    assocType == Uml::AssociationType::Realization)) {
+            logDebug2("allowAssociation(widget %1, assoc %2) : Exception for subsystem "
+                      "realizing interface in component diagram", widgetType, assocType);
+        } else {
+            logDebug2("allowAssociation(widget %1, assoc %2) : no permission rule found",
+                      widgetType, assocType);
             return false;
+        }
     }
     AssociationWidgetList list = widget->associationWidgetList();
 
@@ -80,8 +83,8 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Association:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::Coll_Message_Synchronous:
-    case Uml::AssociationType::Coll_Message_Asynchronous:
+    case Uml::AssociationType::Coll_Mesg_Sync:
+    case Uml::AssociationType::Coll_Mesg_Async:
     case Uml::AssociationType::Generalization://can have many sub/super types
     case Uml::AssociationType::Aggregation:
     case Uml::AssociationType::Relationship:
@@ -96,8 +99,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
 
     case Uml::AssociationType::Realization:  // one connected to widget only (a or b)
         foreach (AssociationWidget* assoc, list) {
-            if(assoc->associationType() == Uml::AssociationType::Realization)
+            if (assoc->associationType() == Uml::AssociationType::Realization) {
+                logDebug2("allowAssociation(widget %1, assoc %2) : disallowing more "
+                          "than one realization to object", widgetType, assocType);
                 return false;
+            }
         }
         return true;
         break;
@@ -105,7 +111,10 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::State:
         {
             StateWidget *pState = widget->asStateWidget();
-            return (pState == 0 || pState->stateType() != StateWidget::End);
+            if (pState == 0 || pState->stateType() != StateWidget::End)
+                return true;
+            logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
+                      "state type is not 'End'", widgetType, assocType);
         }
         break;
 
@@ -113,7 +122,10 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Exception:
         {
             ActivityWidget *pActivity = widget->asActivityWidget();
-            return (pActivity == 0 || pActivity->activityType() != ActivityWidget::End);
+            if (pActivity == 0 || pActivity->activityType() != ActivityWidget::End)
+                return true;
+            logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
+                      "activity type is not 'End'", widgetType, assocType);
         }
         break;
 
@@ -124,15 +136,19 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Category2Parent:
         if (widgetType == WidgetBase::wt_Category)
             return true;
+        logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
+                  "widget is not Category", widgetType, assocType);
         break;
 
     case Uml::AssociationType::Child2Category:
         if (widgetType == WidgetBase::wt_Entity)
             return true;
+        logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
+                  "widget is not Entity", widgetType, assocType);
         break;
 
     default:
-        uWarning() << "allowAssociation() on unknown type";
+        logWarn1("AssocRules::allowAssociation() on unknown type %1", assocType);
         break;
     }
     return false;
@@ -201,8 +217,8 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
     case Uml::AssociationType::Association:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::Coll_Message_Synchronous:
-    case Uml::AssociationType::Coll_Message_Asynchronous:
+    case Uml::AssociationType::Coll_Mesg_Sync:
+    case Uml::AssociationType::Coll_Mesg_Async:
     case Uml::AssociationType::Aggregation:
     case Uml::AssociationType::Relationship:
         return true;  // doesn't matter what's already connected to widget
@@ -280,7 +296,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             int actTypeB = -1;
             if (actB)
                 actTypeB = actB->activityType();
-            // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
+            // only from a signalwidget, an objectnode widget, a normal activity, branch or fork activity, to the end
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
@@ -317,7 +333,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         break;
 
     default:
-        uWarning() << "allowAssociation() on unknown type";
+        logWarn1("AssocRules::allowAssociation(2) on unknown type %1", assocType);
         break;
     }
     return false;
@@ -394,148 +410,161 @@ Uml::AssociationType::Enum AssocRules::isGeneralisationOrRealisation(UMLWidget* 
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
-    // Language  Association                       widgetA                    widgetB                     role    multi   bidir.  self
-    //----+---------------------------------------+--------------------------+---------------------------+-------+-------+-------+--------
-    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Instance,   WidgetBase::wt_Instance,    true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Artifact,    true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
-    { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
-    {Java, Uml::AssociationType::Association,      WidgetBase::wt_Enum,       WidgetBase::wt_Enum,        true,   false,  false,   false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   true  },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_UseCase,    WidgetBase::wt_Actor,       true,   false,  false,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   false,  false,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    true,   false,  true,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false },
-    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   false,  true  },
-    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   false,  false },
-    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false },
-    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   false,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   false,  false,  true  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Package,    WidgetBase::wt_Package,     true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Package,     true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Package,     true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Enum,        true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Component,   true,   true,   true,   true  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   true,   true,   false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    true,   false,  true,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Package,     true,   false,  false,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false  },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Package,    WidgetBase::wt_Artifact,    true,   false,  true,  false },
-    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false },
-    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Interface,  WidgetBase::wt_Package,     false,  false,  false,  false },
-    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Package,    WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   false,  true  },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   false,  false },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   false,  false },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Enum,        false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Datatype,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Package,     false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Component,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Enum,        false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Datatype,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Component,   false,  false,  false,  false },
-    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    false,  false,  false,  false },
-    { All, Uml::AssociationType::Coll_Message_Synchronous, WidgetBase::wt_Object, WidgetBase::wt_Object,  true,   false,  true,   true  },
-    { All, Uml::AssociationType::Coll_Message_Asynchronous, WidgetBase::wt_Object, WidgetBase::wt_Object, true,   false,  true,   true  },
-    { All, Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_State,       true,   false,  true,   true  },
-    { All, Uml::AssociationType::State,            WidgetBase::wt_ForkJoin,   WidgetBase::wt_State,       true,   false,  true,   true  },
-    { All, Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Signal,     WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Signal,      true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ObjectNode, WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_ObjectNode,  true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Signal,     WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Signal,      true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_ObjectNode,  true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ObjectNode, WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_Pin,         true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Pin,         true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Pin,         true,   false,  true,   true  },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Class,      WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Package,    WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Interface,  WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Datatype,   WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Enum,       WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Object,     WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Actor,      WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_UseCase,    WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Message,    WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_State,      WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Activity,   WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Entity,     WidgetBase::wt_Note,        false,  false,  true,   false },
-    { All, Uml::AssociationType::Relationship,     WidgetBase::wt_Entity,     WidgetBase::wt_Entity,      true,   true,   true,   true  },
-    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Activity,   WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Activity,   WidgetBase::wt_Signal,      true,   false,  true,   true  },
-    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Signal,     WidgetBase::wt_Activity,    true,   false,  true,   true  },
-    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Signal,     WidgetBase::wt_Signal,      true,   false,  true,   true  },
-    { All, Uml::AssociationType::Category2Parent,  WidgetBase::wt_Category,   WidgetBase::wt_Entity,      false,  false,  true,   false },
-    { All, Uml::AssociationType::Child2Category,   WidgetBase::wt_Entity,     WidgetBase::wt_Category,    false,  false,  true,   false }
+    // Language  Association                       widgetA                    widgetB                     role    multi   bidir.  self   level
+    //----+---------------------------------------+--------------------------+---------------------------+-------+-------+-------+-----+----
+    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Instance,   WidgetBase::wt_Instance,    true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Artifact,    true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Component,   true,   false,  false,  false, UML2 },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Interface,  WidgetBase::wt_Port,        true,   false,  false,  false, UML2 },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Association,      WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false, Any  },
+    {Java, Uml::AssociationType::Association,      WidgetBase::wt_Enum,       WidgetBase::wt_Enum,        true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_UseCase,    WidgetBase::wt_Actor,       true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    true,   false,  true,   false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   false,  true,  Any  },
+    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   false,  false,  true,  Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Package,    WidgetBase::wt_Package,     true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Package,     true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Package,     true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Interface,  WidgetBase::wt_Enum,        true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Component,   true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Interface,   true,   true,   true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    true,   false,  true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Component,  WidgetBase::wt_Package,     true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Port,       WidgetBase::wt_Interface,   true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Package,    WidgetBase::wt_Artifact,    true,   false,  true,   false, Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false, Any  },
+    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Interface,  WidgetBase::wt_Package,     false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Component,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Realization,      WidgetBase::wt_Package,    WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   false,  true,  Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false, Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Composition,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Enum,        false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Package,     false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Package,    WidgetBase::wt_Component,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Enum,        false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Component,   false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Sync,   WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Sync,   WidgetBase::wt_Instance,   WidgetBase::wt_Instance,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Sync,   WidgetBase::wt_Object,     WidgetBase::wt_Instance,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Sync,   WidgetBase::wt_Instance,   WidgetBase::wt_Object,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Async,  WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Async,  WidgetBase::wt_Instance,   WidgetBase::wt_Instance,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Async,  WidgetBase::wt_Object,     WidgetBase::wt_Instance,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Coll_Mesg_Async,  WidgetBase::wt_Instance,   WidgetBase::wt_Object,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_State,       true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::State,            WidgetBase::wt_ForkJoin,   WidgetBase::wt_State,       true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_ForkJoin,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Signal,     WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Signal,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ObjectNode, WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_ObjectNode,  true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_ForkJoin,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Signal,     WidgetBase::wt_ForkJoin,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Signal,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_ObjectNode,  true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ObjectNode, WidgetBase::wt_ForkJoin,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_Pin,         true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Activity,   WidgetBase::wt_Pin,         true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_Pin,        WidgetBase::wt_ForkJoin,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Activity,         WidgetBase::wt_ForkJoin,   WidgetBase::wt_Pin,         true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Activity,   WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Actor,      WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Artifact,   WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Class,      WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Component,  WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Datatype,   WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Entity,     WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Enum,       WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Interface,  WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Message,    WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Object,     WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_Package,    WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_State,      WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Anchor,           WidgetBase::wt_UseCase,    WidgetBase::wt_Note,        false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Relationship,     WidgetBase::wt_Entity,     WidgetBase::wt_Entity,      true,   true,   true,   true,  Any  },
+    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Activity,   WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Activity,   WidgetBase::wt_Signal,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Signal,     WidgetBase::wt_Activity,    true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Exception,        WidgetBase::wt_Signal,     WidgetBase::wt_Signal,      true,   false,  true,   true,  Any  },
+    { All, Uml::AssociationType::Category2Parent,  WidgetBase::wt_Category,   WidgetBase::wt_Entity,      false,  false,  true,   false, Any  },
+    { All, Uml::AssociationType::Child2Category,   WidgetBase::wt_Entity,     WidgetBase::wt_Category,    false,  false,  true,   false, Any  }
 };
 
 int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Rule);
 
 bool AssocRules::Assoc_Rule::isValid() const
 {
+    bool isValidLevel = (level == Any) ||
+            (level == UML1 && !Settings::optionState().generalState.uml2) ||
+            (level == UML2 && Settings::optionState().generalState.uml2);
     if (language == All)
-        return true;
+        return isValidLevel;
     else if (language == Java && UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java)
-        return true;
+        return isValidLevel;
     else
         return false;
 }

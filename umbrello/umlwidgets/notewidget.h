@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef NOTEWIDGET_H
 #define NOTEWIDGET_H
@@ -25,7 +20,7 @@ class QPainter;
  * @short Displays a note box.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see UMLWidget
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class NoteWidget : public UMLWidget
 {
@@ -61,8 +56,8 @@ public:
 
     virtual bool showPropertiesDialog();
 
-    virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
     virtual QSizeF minimumSize() const;
 
     static QPointer<NoteWidget> s_pCurrentNote;

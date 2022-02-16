@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Vincent Decorges <vincent.decorges@eivd.ch>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "pythonwriter.h"
 
@@ -18,6 +14,7 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -180,7 +177,7 @@ PythonWriter::~PythonWriter()
 void PythonWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("PythonWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
 
@@ -194,6 +191,13 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     //find an appropriate name for our file
     QString fileName = findFileName(c, QLatin1String(".py"));
+
+    // Do not generate files for classes that has a container
+    if (hasContainer(fileName)) {
+        emit codeGenerated(c, CodeGenerator::Skipped);
+        return;
+    }
+
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -205,12 +209,13 @@ void PythonWriter::writeClass(UMLClassifier *c)
         return;
     }
     QTextStream h(&fileh);
+    h.setCodec("UTF-8");
 
     //////////////////////////////
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
 
     str = getHeadingFile(QLatin1String(".py"));
@@ -220,7 +225,6 @@ void PythonWriter::writeClass(UMLClassifier *c)
         h<<str<<m_endl;
     }
 
-    h << "# coding=" << h.codec()->name() << m_endl;
     // generate import statement for superclasses and take packages into account
     str = cleanName(c->name());
     QString pkg = cleanName(c->package());
@@ -246,27 +250,34 @@ void PythonWriter::writeClass(UMLClassifier *c)
         QString headerName = findFileName(conc, QLatin1String(".py"));
         if (!headerName.isEmpty()) {
             headerName.remove(QRegExp(QLatin1String(".py$")));
-            str = headerName.replace(QLatin1Char('/'), QLatin1Char('.'));
-            if (includesList.indexOf(str) < 0)  // not yet imported
+            str = findIncludeFromType(headerName.replace(QLatin1Char('/'), QLatin1Char('.')));
+            // not yet imported
+            if (includesList.indexOf(str) < 0)  {
+                includesList.append(str);
                 h << "from " << str << " import *" << m_endl;
+            }
         }
     }
     h << m_endl;
 
-    h << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" (") : QLatin1String("(object)"));
-    i = superclasses.count();
-
-    foreach (UMLClassifier *obj, superclasses) {
-
-        h << cleanName(obj->name()) << (i>1 ? QLatin1String(", ") : QString());
-        i--;
+    h << "class " << classname;
+    if (superclasses.count()) {
+        h << QLatin1String("(");
+        h << cleanName(superclasses.front()->name());
+        for (auto superclass = std::next(std::begin(superclasses)); superclass != std::end(superclasses); superclass++) {
+            h << QLatin1String(", ") << cleanName((*superclass)->name());
+        }
+        h << QLatin1String(")");
     }
 
-    h << (superclasses.count() > 0 ? QLatin1String(")") : QString()) << ":" << m_endl << m_endl;
+    h << ":" << m_endl << m_endl;
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
-        h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+        if (!c->doc().isEmpty()) {
+            h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+            h << m_endl;
+        }
         h << m_indentation << ":version:" << m_endl;
         h << m_indentation << ":author:" << m_endl;
         h << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -296,7 +307,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
 /**
  * Write all attributes for a given class.
- * @param c    the concept we are generating code for
+ * @param atList  the attribute list we are generating code for
  * @param py   output stream for the header file
  */
 void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
@@ -305,7 +316,10 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
         return;
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at, atList) {
-        py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+        if (!at->doc().isEmpty()) {
+            py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+            py << m_endl;
+        }
         Uml::Visibility::Enum vis = at->visibility();
         py << m_indentation << cleanName(at->name()) << "  ("
             << Uml::Visibility::toString(vis) << ")" << m_endl << m_endl ;
@@ -397,7 +411,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
 
         int j=0;
         foreach (UMLAttribute* at, atl) {
-            h << ", " << cleanName(at->name())
+            h << ", " << cleanName(at->name()) << ": " << PythonWriter::fixTypeName(at->getTypeName())
               << (!(at->getInitialValue().isEmpty()) ?
                   (QLatin1String(" = ") + at->getInitialValue()) : QString());
             j++;
@@ -434,6 +448,44 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
 }
 
 /**
+ * Check if type is a container
+ * @param string      type that will be used
+ * @return            true if is a container
+ */
+bool PythonWriter::hasContainer(const QString &string)
+{
+    return string.contains(QLatin1String("<")) && string.contains(QLatin1String(">"));
+}
+
+/**
+ * Fix types to be compatible with Python
+ * @param string      type as defined in model
+ * @return            fixed type
+ */
+QString PythonWriter::fixTypeName(const QString &string)
+{
+    if (string == QLatin1String("string")) {
+        return QLatin1String("str");
+    }
+    QRegExp re(QLatin1String("^vector<(.*)>$"));
+    if (re.indexIn(string) >= 0) {
+        const QString listOf(QLatin1String("List[%1]"));
+        return listOf.arg(fixTypeName(re.cap(1)));
+    }
+    return string;
+}
+
+QString PythonWriter::findIncludeFromType(const QString &string)
+{
+    const QString fixedTypeName = fixTypeName(string);
+    QRegExp re(QLatin1String("^(Any|Dict|List|Tuple)\\["));
+    if (re.indexIn(fixedTypeName) >= 0) {
+        return QLatin1String("typing");
+    }
+    return string;
+}
+
+/**
  * Return the programming language identifier.
  * @return   programming language id
  */
@@ -445,7 +497,7 @@ Uml::ProgrammingLanguage::Enum PythonWriter::language() const
 /**
  * Reimplementation of method from class CodeGenerator
  */
-QStringList PythonWriter::defaultDatatypes()
+QStringList PythonWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("array"));
@@ -458,7 +510,7 @@ QStringList PythonWriter::defaultDatatypes()
     l.append(QLatin1String("dict"));
     l.append(QLatin1String("object"));
     l.append(QLatin1String("set"));
-    l.append(QLatin1String("string"));
+    l.append(QLatin1String("str"));
     return l;
 }
 

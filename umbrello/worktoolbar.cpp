@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "worktoolbar.h"
@@ -14,6 +9,7 @@
 // application specific includes
 #include "debug_utils.h"
 #include "icon_utils.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -75,7 +71,7 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
     KAction *action = m_actions[tbb];
 #endif
     addAction(action);
-    action->setChecked(true);
+    action->setCheckable(true);
     return action;
 }
 
@@ -90,7 +86,7 @@ void WorkToolBar::insertBasicAssociations()
         m_Type == Uml::DiagramType::Component || m_Type == Uml::DiagramType::Deployment) {
         insertHotBtn(tbb_UniAssociation);
     }
-    if(m_Type != Uml::DiagramType::Object){
+    if (m_Type != Uml::DiagramType::Object) {
         insertHotBtn(tbb_Dependency);
         insertHotBtn(tbb_Generalization);
     }
@@ -143,6 +139,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Sequence:
         insertHotBtn(tbb_Object);
+        insertHotBtn(tbb_Seq_Message_Creation);
+        insertHotBtn(tbb_Seq_Message_Destroy);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
         insertHotBtn(tbb_Seq_Message_Found);
@@ -153,8 +151,9 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Collaboration:
         insertHotBtn(tbb_Object);
-        insertHotBtn(tbb_Coll_Message_Asynchronous);
-        insertHotBtn(tbb_Coll_Message_Synchronous);
+        insertHotBtn(tbb_Instance);
+        insertHotBtn(tbb_Coll_Mesg_Async);
+        insertHotBtn(tbb_Coll_Mesg_Sync);
         break;
 
     case Uml::DiagramType::State:
@@ -190,9 +189,13 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         break;
 
     case Uml::DiagramType::Component:
-        insertHotBtn(tbb_Interface);
+        insertHotBtn(tbb_SubSystem);
+        if (Settings::optionState().generalState.uml2)
+            insertHotBtn(tbb_Interface_Requirement);
         insertHotBtn(tbb_Component);
-        insertHotBtn(tbb_Port);
+        if (Settings::optionState().generalState.uml2)
+            insertHotBtn(tbb_Port);
+        insertHotBtn(tbb_Interface_Provider);
         insertHotBtn(tbb_Artifact);
         insertBasicAssociations();
         break;
@@ -214,8 +217,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
         break;
 
     default:
-        uWarning() << "slotCheckToolBar() on unknown diagram type:"
-                   << Uml::DiagramType::toString(m_Type);
+        logWarn1("WorkToolBar::insertBasicAssociations on unknown diagram type: %1",
+                 Uml::DiagramType::toString(m_Type));
         break;
     }
 }
@@ -322,6 +325,8 @@ void WorkToolBar::loadPixmaps()
     } buttonInfo[] = {
         { tbb_Arrow,                    i18nc("selection arrow", "Select"), Icon_Utils::it_Arrow,                SLOT(slotArrow()) },
         { tbb_Object,                   i18n("Object"),                  Icon_Utils::it_Object,                  SLOT(slotObject()) },
+        { tbb_Seq_Message_Creation,     i18n("Creation"),                Icon_Utils::it_Message_Creation,        SLOT(slotSeq_Message_Creation()) },
+        { tbb_Seq_Message_Destroy,      i18n("Destroy"),                 Icon_Utils::it_Message_Destroy,         SLOT(slotSeq_Message_Destroy()) },
         { tbb_Seq_Message_Synchronous,  i18n("Synchronous Message"),     Icon_Utils::it_Message_Sync,            SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"),    Icon_Utils::it_Message_Async,           SLOT(slotSeq_Message_Asynchronous()) },
         { tbb_Seq_Message_Found,        i18n("Found Message"),           Icon_Utils::it_Message_Found,           SLOT(slotSeq_Message_Found()) },
@@ -356,6 +361,8 @@ void WorkToolBar::loadPixmaps()
         { tbb_Node,                     i18n("Node"),                    Icon_Utils::it_Node,                    SLOT(slotNode()) },
         { tbb_Artifact,                 i18n("Artifact"),                Icon_Utils::it_Artifact,                SLOT(slotArtifact()) },
         { tbb_Interface,                i18n("Interface"),               Icon_Utils::it_Interface,               SLOT(slotInterface()) },
+        { tbb_Interface_Provider,       i18n("Interface Provider"),      Icon_Utils::it_Interface_Provider,      SLOT(slotInterfaceProvider()) },
+        { tbb_Interface_Requirement,    i18n("Interface required"),      Icon_Utils::it_Interface_Requirement,   SLOT(slotInterfaceRequired()) },
         { tbb_Datatype,                 i18n("Datatype"),                Icon_Utils::it_Datatype,                SLOT(slotDatatype()) },
         { tbb_Enum,                     i18n("Enum"),                    Icon_Utils::it_Enum,                    SLOT(slotEnum()) },
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
@@ -363,6 +370,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },
         { tbb_StateJoin,                i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotStateJoin()) },
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
+        { tbb_SubSystem,                i18n("Subsystem"),               Icon_Utils::it_Subsystem,               SLOT(slotSubsystem()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },
         { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Rhomb,            SLOT(slotChoice()) },
         //:TODO: let the user decide which symbol he wants (setting an option)
@@ -377,8 +385,8 @@ void WorkToolBar::loadPixmaps()
         { tbb_Pin,                      i18n("Pin"),                     Icon_Utils::it_Pin,                     SLOT(slotPin()) },
         { tbb_Port,                     i18n("Port"),                    Icon_Utils::it_Pin,                     SLOT(slotPort()) },
         { tbb_Initial_Activity,         i18n("Initial Activity"),        Icon_Utils::it_Activity_Initial,        SLOT(slotInitial_Activity()) },
-        { tbb_Coll_Message_Synchronous, i18n("Synchronous Message"),     Icon_Utils::it_Message_Synchronous,     SLOT(slotColl_Message_Synchronous()) },
-        { tbb_Coll_Message_Asynchronous,i18n("Asynchronous Message"),    Icon_Utils::it_Message_Asynchronous,    SLOT(slotColl_Message_Asynchronous()) },
+        { tbb_Coll_Mesg_Sync,           i18n("Synchronous Message"),     Icon_Utils::it_Message_Synchronous,     SLOT(slotColl_Mesg_Sync()) },
+        { tbb_Coll_Mesg_Async,          i18n("Asynchronous Message"),    Icon_Utils::it_Message_Asynchronous,    SLOT(slotColl_Mesg_Async()) },
         { tbb_Exception,                i18n("Exception"),               Icon_Utils::it_Exception,               SLOT(slotException()) },
         { tbb_Object_Node,              i18n("Object Node"),             Icon_Utils::it_Object_Node,             SLOT(slotObject_Node()) },
         { tbb_PrePostCondition,         i18n("Pre/Post condition"),      Icon_Utils::it_Condition_PrePost,       SLOT(slotPrePostCondition()) },
@@ -420,8 +428,10 @@ void WorkToolBar::slotAggregation()              { buttonChanged(tbb_Aggregation
 void WorkToolBar::slotDependency()               { buttonChanged(tbb_Dependency);               }
 void WorkToolBar::slotAssociation()              { buttonChanged(tbb_Association);              }
 void WorkToolBar::slotContainment()              { buttonChanged(tbb_Containment);              }
-void WorkToolBar::slotColl_Message_Synchronous() { buttonChanged(tbb_Coll_Message_Synchronous); }
-void WorkToolBar::slotColl_Message_Asynchronous(){ buttonChanged(tbb_Coll_Message_Asynchronous);}
+void WorkToolBar::slotColl_Mesg_Sync()           { buttonChanged(tbb_Coll_Mesg_Sync);           }
+void WorkToolBar::slotColl_Mesg_Async()          { buttonChanged(tbb_Coll_Mesg_Async);          }
+void WorkToolBar::slotSeq_Message_Creation()     { buttonChanged(tbb_Seq_Message_Creation);     }
+void WorkToolBar::slotSeq_Message_Destroy()      { buttonChanged(tbb_Seq_Message_Destroy);      }
 void WorkToolBar::slotSeq_Message_Synchronous()  { buttonChanged(tbb_Seq_Message_Synchronous);  }
 void WorkToolBar::slotSeq_Message_Asynchronous() { buttonChanged(tbb_Seq_Message_Asynchronous); }
 void WorkToolBar::slotSeq_Message_Found()        { buttonChanged(tbb_Seq_Message_Found);        }
@@ -441,6 +451,8 @@ void WorkToolBar::slotActor()                    { buttonChanged(tbb_Actor);    
 void WorkToolBar::slotUseCase()                  { buttonChanged(tbb_UseCase);                  }
 void WorkToolBar::slotClass()                    { buttonChanged(tbb_Class);                    }
 void WorkToolBar::slotInterface()                { buttonChanged(tbb_Interface);                }
+void WorkToolBar::slotInterfaceProvider()        { buttonChanged(tbb_Interface_Provider);       }
+void WorkToolBar::slotInterfaceRequired()        { buttonChanged(tbb_Interface_Requirement);    }
 void WorkToolBar::slotDatatype()                 { buttonChanged(tbb_Datatype);                 }
 void WorkToolBar::slotEnum()                     { buttonChanged(tbb_Enum);                     }
 void WorkToolBar::slotEntity()                   { buttonChanged(tbb_Entity);                   }
@@ -478,6 +490,7 @@ void WorkToolBar::slotCategory()                 { buttonChanged(tbb_Category); 
 void WorkToolBar::slotCategory2Parent()          { buttonChanged(tbb_Category2Parent);          }
 void WorkToolBar::slotChild2Category()           { buttonChanged(tbb_Child2Category);           }
 void WorkToolBar::slotInstance()                 { buttonChanged(tbb_Instance);                 }
+void WorkToolBar::slotSubsystem()                { buttonChanged(tbb_SubSystem);                }
 /**
  * Setup actions after reading shortcuts from settings
  */

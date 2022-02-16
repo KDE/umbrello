@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2016                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "objectswindow.h"
 
@@ -32,11 +27,11 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
 {
     setObjectName(QLatin1String("ObjectsWindow"));
 
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
-    proxy->setSourceModel(UMLApp::app()->document()->objectsModel());
-    proxy->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel = new QSortFilterProxyModel;
+    m_proxyModel->setSourceModel(UMLApp::app()->document()->objectsModel());
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_objectsTree = new QTableView;
-    m_objectsTree->setModel(proxy);
+    m_objectsTree->setModel(m_proxyModel);
     m_objectsTree->setSortingEnabled(true);
     m_objectsTree->verticalHeader()->setDefaultSectionSize(20);
     m_objectsTree->verticalHeader()->setVisible(false);
@@ -54,6 +49,7 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
 ObjectsWindow::~ObjectsWindow()
 {
     delete m_objectsTree;
+    delete m_proxyModel;
 }
 
 void ObjectsWindow::modified()

@@ -1,28 +1,17 @@
 /* This file is part of KDevelop
-   Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
-   Copyright (C) 2006 David Nolden <david.nolden.kdevelop@art-master.de>
+    SPDX-FileCopyrightText: 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+    SPDX-FileCopyrightText: 2006 David Nolden <david.nolden.kdevelop@art-master.de>
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, see
-   <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #define CACHELEXER
-#define DBG_DRV DEBUG(QLatin1String("Driver"))
+#define DBG_SRC QLatin1String("Driver")
 
 #include "driver.h"
 #include "lexer.h"
 #include "parser.h"
+#include "debug_utils.h"
 
 #include <KLocalizedString>
 #include <stdlib.h>
@@ -285,40 +274,49 @@ ParsedFilePointer Driver::translationUnit(const QString& fileName) const
 class Driver::ParseHelper
 {
 public:
-    ParseHelper(const QString& fileName, bool force, Driver* driver, bool reportMessages = true, QString includedFrom = QString()) : m_wasReset(false), m_fileName(fileName), m_previousFileName(driver->m_currentFileName),  m_previousLexer(driver->lexer), m_previousParsedFile(driver->m_currentParsedFile), m_previousCachedLexedFile(driver->m_currentLexerCache), m_force(force), m_driver(driver), m_lex(m_driver)
+    ParseHelper(const QString& fileName, bool force, Driver* driver, bool reportMessages = true, QString includedFrom = QString())
+    : m_wasReset(false), m_fileName(fileName), m_previousFileName(driver->m_currentFileName),  m_previousLexer(driver->lexer),
+      m_previousParsedFile(driver->m_currentParsedFile), m_previousCachedLexedFile(driver->m_currentLexerCache), m_force(force),
+      m_reportMessages(reportMessages), m_includedFrom(includedFrom), m_driver(driver), m_lex(m_driver) {}
+
+    /**
+     * This function must be called after constructing the ParseHelper.
+     */
+    void init()
     {
-        QFileInfo fileInfo(fileName);
-        m_driver->m_currentParsedFile = new ParsedFile(fileName, fileInfo.lastModified());
-        if (!includedFrom.isEmpty())
-            m_driver->m_currentParsedFile->setIncludedFrom(includedFrom);
+        QFileInfo fileInfo(m_fileName);
+        m_driver->m_currentParsedFile = new ParsedFile(m_fileName, fileInfo.lastModified());
+        if (!m_includedFrom.isEmpty())
+            m_driver->m_currentParsedFile->setIncludedFrom(m_includedFrom);
 #ifdef CACHELEXER
-        m_driver->m_currentLexerCache = new CachedLexedFile(fileName, &m_driver->m_lexerCache);
+        m_driver->m_currentLexerCache = new CachedLexedFile(m_fileName, &m_driver->m_lexerCache);
 #endif
         m_absoluteFilePath = fileInfo.absoluteFilePath();
 
         QMap<QString, ParsedFilePointer>::Iterator it = m_driver->m_parsedUnits.find(m_absoluteFilePath);
 
-        if (force && it != m_driver->m_parsedUnits.end()) {
+        if (m_force && it != m_driver->m_parsedUnits.end()) {
             m_driver->takeTranslationUnit(m_absoluteFilePath);
         } else if (it != m_driver->m_parsedUnits.end() && *it != (ParsedFilePointer)0) {
             // file already processed
             return ;
         }
 
-        CachedLexedFilePointer lexedFileP = m_driver->m_lexerCache.lexedFile(HashedString(fileName));
+        CachedLexedFilePointer lexedFileP = m_driver->m_lexerCache.lexedFile(HashedString(m_fileName));
 
-        m_driver->m_dependences.remove(fileName);
-        m_driver->m_problems.remove(fileName);
+        m_driver->m_dependences.remove(m_fileName);
+        m_driver->m_problems.remove(m_fileName);
 
-        driver->m_currentFileName = fileName;
+        m_driver->m_currentFileName = m_fileName;
 
         m_driver->lexer = &m_lex;
         m_driver->setupLexer(&m_lex);
 
-        m_lex.setReportMessages(reportMessages);
+        m_lex.setReportMessages(m_reportMessages);
 
-        DBG_DRV << "lexing file " << fileName << endl;
-        m_lex.setSource(m_driver->sourceProvider() ->contents(fileName));
+        DEBUG() << "lexing file " << m_fileName << endl;
+        m_fileContent = m_driver->sourceProvider()->contents(m_fileName);
+        m_lex.setSource(m_fileContent);
         if (m_previousCachedLexedFile)
             m_previousCachedLexedFile->merge(*m_driver->m_currentLexerCache);
         else
@@ -385,8 +383,11 @@ private:
     ParsedFilePointer m_previousParsedFile;
     CachedLexedFilePointer m_previousCachedLexedFile;
     bool m_force;
+    bool m_reportMessages;
+    QString m_includedFrom;
     Driver* m_driver;
     Lexer m_lex;
+    QString m_fileContent;
 };
 
 
@@ -434,14 +435,14 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
 
     IntIncreaser i(m_dependenceDepth);
     if (m_dependenceDepth > m_maxDependenceDepth) {
-        DBG_DRV << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
+        DEBUG() << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
         return;
     }
 
     CachedLexedFilePointer lexedFileP = m_lexerCache.lexedFile(HashedString(file));
     if (lexedFileP) {
         CachedLexedFile& lexedFile(*lexedFileP);
-        m_currentLexerCache->merge(lexedFile); //The ParseHelper will will copy the include-files into the result later
+        m_currentLexerCache->merge(lexedFile); //The ParseHelper will copy the include-files into the result later
         for (MacroSet::Macros::const_iterator it = lexedFile.definedMacros().macros().begin(); it != lexedFile.definedMacros().macros().end(); ++it) {
             addMacro((*it));
         }
@@ -450,6 +451,7 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
     }
 
     ParseHelper h(file, true, this, false, m_currentMasterFileName);
+    h.init();
 
     /*if (m_parsedUnits.find(file) != m_parsedUnits.end())
         return;*/
@@ -553,6 +555,7 @@ bool Driver::parseFile(const QString& fileName, bool onlyPreProcess, bool force 
     m_includePaths = getCustomIncludePath(fileName);
 
     ParseHelper p(fileName, force, this);
+    p.init();
     if (!onlyPreProcess) {
         p.parse();
     }
@@ -789,6 +792,9 @@ void Driver::setupLexer(Lexer * lexer)
     if (!hasMacro("__const__")) addMacro(Macro(QLatin1String("__const__"), QLatin1String("const")));
     if (!hasMacro("__volatile__")) addMacro(Macro(QLatin1String("__volatile__"), QLatin1String("volatile")));
     if (!hasMacro("__complex__")) addMacro(Macro(QLatin1String("__complex__"), QString()));
+
+    // c++ macros
+    if (!hasMacro("__cplusplus")) addMacro(Macro(QLatin1String("__cplusplus"), QString()));
 }
 
 void Driver::setupParser(Parser * parser)

@@ -1,18 +1,14 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "layoutgenerator.h"
 
 #include "associationline.h"
 #include "associationwidget.h"
 #include "cmds.h"
+#define DBG_SRC QLatin1String("LayoutGenerator")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "uml.h"
@@ -39,8 +35,14 @@
 #include <QTemporaryFile>
 //#include <QTextStream>
 
+//#define USE_XDOT
+
+//#define START_PNGVIEWER
+
 #define LAYOUTGENERATOR_DEBUG
 //#define LAYOUTGENERATOR_DATA_DEBUG
+
+//#define SHOW_CONTROLPOINTS
 
 #ifdef LAYOUTGENERATOR_DEBUG
 
@@ -71,6 +73,14 @@ static QString textViewer()
 }
 #endif
 
+#ifdef SHOW_CONTROLPOINTS
+static QGraphicsPathItem *s_debugItems;
+static QPainterPath s_path;
+#endif
+
+// Currently this file is not using debug statements. Activate this line when inserting them:
+//DEBUG_REGISTER(LayoutGenerator)
+
 /**
  * constructor
 */
@@ -85,49 +95,9 @@ LayoutGenerator::LayoutGenerator()
  *
  * @return true if enabled
 */
-bool LayoutGenerator::isEnabled()
+bool LayoutGenerator::isEnabled() const
 {
-    Settings::OptionState& optionState = Settings::optionState();
-    if (optionState.autoLayoutState.autoDotPath) {
-        m_dotPath = currentDotPath();
-    }
-    else if (!optionState.autoLayoutState.dotPath.isEmpty()) {
-        m_dotPath = optionState.autoLayoutState.dotPath;
-    }
     return !m_dotPath.isEmpty();
-}
-
-/**
- * Return the path where dot is installed.
- *
- * @return string with dot path
- */
-QString LayoutGenerator::currentDotPath()
-{
-#if QT_VERSION >= 0x050000
-    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
-#else
-    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
-#endif
-    if (!executable.isEmpty()) {
-        QFileInfo fi(executable);
-        return fi.absolutePath();
-    }
-#ifdef Q_OS_WIN
-    // search for dot installation
-    QString appDir(QLatin1String(qgetenv("ProgramFiles").constData()));
-    QDir dir(appDir);
-    dir.setFilter(QDir::Dirs);
-    dir.setNameFilters(QStringList() << QLatin1String("Graphviz*"));
-    dir.setSorting(QDir::Reversed);
-    QFileInfoList list = dir.entryInfoList();
-    if (list.size() > 0) {
-        QString dotPath = list.at(0).absoluteFilePath();
-        QString exePath = QFile::exists(dotPath + QLatin1String("\\bin")) ? dotPath + QLatin1String("\\bin") : dotPath;
-        return QFile::exists(exePath + QLatin1String("\\dot.exe")) ? exePath : QString();
-    }
-#endif
-    return QString();
 }
 
 /**
@@ -141,10 +111,18 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     QTemporaryFile out;
     QTemporaryFile xdotOut;
     if (!isEnabled()) {
-        uWarning() << "Could not apply autolayout because graphviz installation has not been found.";
+        logWarn0("LayoutGenerator::generate: Could not apply autolayout because graphviz not found.");
         return false;
     }
 
+#ifdef SHOW_CONTROLPOINTS
+    if (!s_debugItems) {
+        s_debugItems = new QGraphicsPathItem;
+        scene->addItem(s_debugItems);
+    }
+    s_path = QPainterPath();
+    s_debugItems->setPath(s_path);
+#endif
 #ifdef LAYOUTGENERATOR_DEBUG
     in.setAutoRemove(false);
     out.setAutoRemove(false);
@@ -168,7 +146,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     if (!createDotFile(scene, in.fileName(), variant))
         return false;
 
-    QString executable = m_dotPath + QLatin1Char('/') + m_generator;
+    QString executable = generatorFullPath();
 
     QProcess p;
     QStringList args;
@@ -187,11 +165,16 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     pngFile.setFileTemplate(QDir::tempPath() + QLatin1String("/umbrello-layoutgenerator-XXXXXX.png"));
     pngFile.open();
     pngFile.close();
-    qDebug() << pngViewer() << pngFile.fileName();
     args.clear();
     args << QLatin1String("-o") << pngFile.fileName() << QLatin1String("-Tpng") << in.fileName();
     p.start(executable, args);
     p.waitForFinished();
+    qDebug() << pngViewer() << pngFile.fileName();
+#ifdef START_PNGVIEWER
+    args.clear();
+    args << pngFile.fileName();
+    p.startDetached(pngViewer(), args);
+#endif
 #endif
 #ifndef USE_XDOT
     if (!readGeneratedDotFile(out.fileName()))
@@ -211,7 +194,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
 bool LayoutGenerator::apply(UMLScene *scene)
 {
     foreach(AssociationWidget *assoc, scene->associationList()) {
-        AssociationLine *path = assoc->associationLine();
+        AssociationLine& path = assoc->associationLine();
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = QLatin1String("type::") + type;
 
@@ -224,21 +207,12 @@ bool LayoutGenerator::apply(UMLScene *scene)
         // adjust associations not used in the dot file
         if (!m_edges.contains(id)) {
             // shorten line path
-            AssociationLine *path = assoc->associationLine();
-            if (path->count() > 2 && assoc->widgetLocalIDForRole(Uml::RoleType::A) != assoc->widgetLocalIDForRole(Uml::RoleType::B)) {
-                while(path->count() > 2)
-                    path->removePoint(1);
+            if (path.count() > 2 && assoc->widgetLocalIDForRole(Uml::RoleType::A) != assoc->widgetLocalIDForRole(Uml::RoleType::B)) {
+                while (path.count() > 2)
+                    path.removePoint(1);
             }
             continue;
         }
-
-        EdgePoints &p = m_edges[id];
-        int len = p.size();
-
-        while(path->count() > 1) {
-            path->removePoint(0);
-        }
-        path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
 
         // set label position
         QPointF &l = m_edgeLabelPosition[id];
@@ -246,15 +220,47 @@ bool LayoutGenerator::apply(UMLScene *scene)
         if (tw) {
             tw->setPos(mapToScene(l));
         }
-        // FIXME: set remaining association line points
-        /*
-        for(int i = 1; i < len-1; i++) {
-            path->insertPoint(i, mapToScene((p[i]));
+
+        // setup line points
+        EdgePoints &p = m_edges[id];
+        int len = p.size();
+#ifdef SHOW_CONTROLPOINTS
+        QPolygonF pf;
+        QFont f;
+        for (int i=0; i < len; i++) {
+            pf << mapToScene(p[i]);
+            s_path.addText(mapToScene(p[i] + QPointF(5,0)), f, QString::number(i));
         }
-        */
-        /*
-         * here stuff could be added to add more points from information returned by dot.
-        */
+
+        s_path.addPolygon(pf);
+        s_path.addEllipse(mapToScene(l), 5, 5);
+        s_debugItems->setPath(s_path);
+#endif
+        if (m_version <= 20130928) {
+            path.setLayout(Uml::LayoutType::Direct);
+            path.cleanup();
+            path.setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+        } else {
+            path.setLayout(Settings::optionState().generalState.layoutType);
+            path.cleanup();
+
+            if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Polyline) {
+                for (int i = 0; i < len; i++) {
+                    if (i > 0 && p[i] == p[i-1])
+                        continue;
+                    path.addPoint(mapToScene(p[i]));
+                }
+            } else if(Settings::optionState().generalState.layoutType == Uml::LayoutType::Spline) {
+                for (int i = 0; i < len; i++) {
+                    path.addPoint(mapToScene(p[i]));
+                }
+            } else if (Settings::optionState().generalState.layoutType == Uml::LayoutType::Orthogonal) {
+                for (int i = 0; i < len; i++) {
+                    path.addPoint(mapToScene(p[i]));
+                }
+            } else
+                path.setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
+        }
     }
 
     UMLApp::app()->beginMacro(i18n("Apply layout"));
@@ -263,7 +269,15 @@ bool LayoutGenerator::apply(UMLScene *scene)
         QString id = Uml::ID::toString(widget->localID());
         if (!m_nodes.contains(id))
             continue;
-        QPoint p = origin(id);
+        if (widget->isPortWidget() || widget->isPinWidget())
+            continue;
+
+#ifdef SHOW_CONTROLPOINTS
+        s_path.addRect(QRectF(mapToScene(m_nodes[id].bottomLeft()), m_nodes[id].size()));
+        s_path.addRect(QRectF(origin(id), m_nodes[id].size()));
+        s_debugItems->setPath(s_path);
+#endif
+        QPointF p = origin(id);
         widget->setStartMovePosition(widget->pos());
         widget->setX(p.x());
         widget->setY(p.y()-widget->height());
@@ -275,8 +289,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
         assoc->calculateEndingPoints();
-        if (assoc->associationLine())
-            assoc->associationLine()->update();
+        assoc->associationLine().update();
         assoc->resetTextPositions();
         assoc->saveIdealTextPositions();
     }
@@ -327,19 +340,19 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
  * @param id The widget id to fetch the origin from
  * @return QPoint instance with the coordinates
  */
-QPoint LayoutGenerator::origin(const QString &id)
+QPointF LayoutGenerator::origin(const QString &id)
 {
     QString key = fixID(id);
     if (!m_nodes.contains(key)) {
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-        uDebug() << key;
+        DEBUG() << "LayoutGenerator::origin(" << id << "): " << key;
 #endif
         return QPoint(0,0);
     }
     QRectF &r = m_nodes[key];
-    QPoint p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
+    QPointF p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-    uDebug() << r << p;
+    DEBUG() << r << p;
 #endif
     return p;
 }
@@ -370,7 +383,7 @@ bool LayoutGenerator::readGeneratedDotFile(const QString &fileName)
 /**
  * Parse line from dot generated plain-ext output format
  *
- *  The format is documented at http://graphviz.org/content/output-formats#dplain-ext and looks like:
+ *  The format is documented at https://graphviz.gitlab.io/_pages/doc/info/output.html and looks like:
  *
  *   graph 1 28.083 10.222
  *   node ITfDmJvJE00m 8.0833 8.7361 0.86111 0.45833 QObject solid box black lightgrey
@@ -498,10 +511,10 @@ bool LayoutGenerator::parseLine(const QString &line)
 
     QString keyword = m_cols.cap(1).trimmed();
     QString attributeString = m_cols.cap(2);
-    uDebug() << keyword << attributeString;
+    DEBUG() << "LayoutGenerator::parseLine " <<  keyword << attributeString;
     ParameterList attributes;
     splitParameters(attributes, attributeString);
-    uDebug() << attributes;
+    DEBUG() << attributes;
 
     if (keyword == QLatin1String("graph")) {
         if (attributes.contains(QLatin1String("bb"))) {
@@ -571,7 +584,7 @@ bool LayoutGenerator::parseLine(const QString &line)
             QStringList &a = attributes[QLatin1String("width")];
             f.setWidth(a[0].toDouble()*scale);
         }
-        uDebug() << "adding" << id << f;
+        DEBUG() << "LayoutGenerator::parseLine adding " << id << f;
         m_nodes[id] = f;
     }
 return true;

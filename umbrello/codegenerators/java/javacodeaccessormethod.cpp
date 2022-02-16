@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "javacodeaccessormethod.h"
@@ -27,6 +23,9 @@
 #include "javacodeclassfield.h"
 #include "javacodedocumentation.h"
 
+// qt includes
+#include <QXmlStreamWriter>
+
 JavaCodeAccessorMethod::JavaCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
         : CodeAccessorMethod (field)
 {
@@ -41,10 +40,10 @@ JavaCodeAccessorMethod::~JavaCodeAccessorMethod ()
 {
 }
 
-void JavaCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void JavaCodeAccessorMethod::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
+    CodeAccessorMethod::setAttributesOnNode(writer);
 
     // set local attributes now
 }
@@ -125,7 +124,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     QString strVis = Uml::Visibility::toString(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
     if (fieldName.isEmpty()) {
-        uError() << "empty FieldName in ParentClassField";
+        logError0("empty FieldName in ParentClassField");
         return;
     }
     QString fieldType = javafield->getTypeName();
@@ -186,7 +185,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning()<<"Warning: cant generate JavaCodeAccessorMethod for type: "<<getType();
+        logWarn1("Warning: cant generate JavaCodeAccessorMethod for type: %1", getType());
         break;
     }
 

@@ -1,18 +1,14 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "toolbarstateonewidget.h"
 
 // app includes
 #include "activitywidget.h"
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
@@ -135,17 +131,25 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
         m_firstObject = 0;
     }
 
-    if (m_pMouseEvent->button() != Qt::LeftButton ||
-               (!currentWidget()->isObjectWidget() &&
-                !currentWidget()->isActivityWidget() &&
-                !currentWidget()->isComponentWidget() &&
-                !currentWidget()->isRegionWidget())) {
+    if (m_pMouseEvent->button() != Qt::LeftButton) {
+        return;
+    }
+
+    UMLWidget *currWgt = currentWidget();
+
+    // Prevent widget nested in a larger widget from disappearing.
+    Widget_Utils::ensureNestedVisible(currWgt, m_pUMLScene->widgetList());
+
+    if (!currWgt->isObjectWidget() &&
+            !currWgt->isActivityWidget() &&
+            !currWgt->isComponentWidget() &&
+            !currWgt->isRegionWidget()) {
         return;
     }
 
     if (!m_firstObject && (type == WidgetBase::wt_Pin || type == WidgetBase::wt_Port)) {
-        setWidget(currentWidget());
-        return ;
+        setWidget(currWgt);
+        return;
     }
 
     if (!m_isObjectWidgetLine && !m_firstObject) {
@@ -153,7 +157,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (!m_firstObject) {
-        setWidget(currentWidget());
+        setWidget(currWgt);
     }
 
 }
@@ -169,7 +173,7 @@ void ToolBarStateOneWidget::mouseReleaseEmpty()
 
 /**
  * Sets the first object of the message using the specified object.
- * The temporal visual message is created and mouse tracking enabled, so
+ * The temporary visual message is created and mouse tracking enabled, so
  * mouse events will be delivered.
  *
  * @param firstObject The first object of the message.
@@ -181,30 +185,32 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     UMLWidget * umlwidget = 0;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (widgetType() == WidgetBase::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
-
-        Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
-            // Create the widget. Some setup functions can remove the widget.
-    }
-
-    if (widgetType() == WidgetBase::wt_Pin && m_firstObject->isActivityWidget()) {
-        QString name = i18n("new pin");
-        if (Dialog_Utils::askName(i18n("Enter Pin Name"), i18n("Enter the Pin"), name)) {
+        QString name = Widget_Utils::defaultWidgetName(WidgetBase::wt_Precondition);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Precondition, name)) {
+            umlwidget = new PreconditionWidget(m_pUMLScene, firstObject->asObjectWidget());
+            umlwidget->setName(name);
+        }
+    } else if (widgetType() == WidgetBase::wt_Pin && m_firstObject->isActivityWidget()) {
+        QString name = Widget_Utils::defaultWidgetName(WidgetBase::wt_Pin);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Pin, name)) {
             umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
+            umlwidget->setName(name);
         }
     } else if (widgetType() == WidgetBase::wt_Port && m_firstObject->isComponentWidget()) {
         UMLPackage* component = m_firstObject->umlObject()->asUMLPackage();
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
-        if (Dialog_Utils::askName(i18n("Enter Port Name"), i18n("Enter the port"), name)) {
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Port, name)) {
             UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
-            umlwidget = Widget_Factory::createWidget(m_pUMLScene, port);
+            PortWidget *widget = new PortWidget(m_pUMLScene, port, m_firstObject);
+            widget->setInitialPosition(m_pUMLScene->pos());
+            umlwidget = widget;
         }
     }
 
     if (umlwidget) {
         m_pUMLScene->setupNewWidget(umlwidget);
     }
-
+    emit finished();
 }
 
 /**

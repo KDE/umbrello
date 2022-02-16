@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLFOREIGNKEYCONSTRAINTDIALOG_H
 #define UMLFOREIGNKEYCONSTRAINTDIALOG_H
@@ -29,12 +24,15 @@ class QLabel;
 class QPushButton;
 class QTreeWidget;
 
+typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
+typedef QList<EntityAttributePair> EntityAttributePairList;
+
 /**
  * A dialog page to display foreignkey constraint properties.
  *
  * @short A dialog page to display foreignkey constraint properties.
  * @author Sharan Rao
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLForeignKeyConstraintDialog : public MultiPageDialogBase
 {
@@ -91,7 +89,7 @@ private:
     UMLEntityAttributeList m_pLocalAttributeList;
     UMLEntityAttributeList m_pReferencedAttributeList;
 
-    QList< QPair<UMLEntityAttribute*, UMLEntityAttribute*> > m_pAttributeMapList;
+    EntityAttributePairList m_pAttributeMapList;
 
     /**
      * Temporary Storage for entity index in referencedColumnCB.

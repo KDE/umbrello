@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002                                                    *
- *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Luis De la Parra <luis@delaparra.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codegenoptionspage.h"
@@ -71,7 +66,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
 
     setupActiveLanguageBox();
 
-    //now insert the language-dependant page, should there be one
+    //now insert the language-dependent page, should there be one
     updateCodeGenerationPolicyTab();
 }
 
@@ -89,7 +84,7 @@ CodeGenOptionsPage::~CodeGenOptionsPage()
 void CodeGenOptionsPage::setupActiveLanguageBox()
 {
     int indexCounter = 0;
-    while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
+    while (indexCounter <= Uml::ProgrammingLanguage::Reserved) {
         QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         ui_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
@@ -188,7 +183,9 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
     }
 
     Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
-    CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
+    CodeGenPolicyExt *policyExt = 0;
+    if (pl != Uml::ProgrammingLanguage::Reserved)
+        policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
         m_pCodePolicyPage = policyExt->createPage(0, "codelangpolicypage");

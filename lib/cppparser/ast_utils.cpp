@@ -1,13 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2002 by Roberto Raggi                                   *
- *   roberto@kdevelop.org                                                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2002 Roberto Raggi <roberto@kdevelop.org>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "ast_utils.h"
 
@@ -124,8 +118,11 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
         if (declarator->constant() != 0)
             text += QLatin1String(" const");
 
-        if (declarator->override() != 0)
+        if (declarator->override_() != 0)
             text += QLatin1String(" override");
+
+        if (declarator->final_() != 0)
+            text += QLatin1String(" final");
     }
 
     return text.replace(QRegExp(QLatin1String(" :: ")), QLatin1String("::")).simplified();

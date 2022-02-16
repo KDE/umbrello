@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef TOOLBARSTATEASSOCIATION_H
 #define TOOLBARSTATEASSOCIATION_H
@@ -21,7 +16,7 @@ class QGraphicsLineItem;
  * With association tool, two widgets are selected clicking with left button on
  * them and an association of the needed type (depending on the association
  * button selected) is created between the widgets. When the first widget is
- * selected, a temporal visual association that follows the cursor movement is
+ * selected, a temporary visual association that follows the cursor movement is
  * created until the second widget is selected or the association cancelled.
  *
  * Also, association tool can create association class: a classifier widget

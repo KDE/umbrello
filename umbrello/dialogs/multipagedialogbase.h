@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef MULTIPAGEDIALOGBASE_H
 #define MULTIPAGEDIALOGBASE_H
@@ -46,7 +41,7 @@ namespace Settings { class OptionState; }
  *
  * @author   Ralf Habacker
  *
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class MultiPageDialogBase : public QWidget
 {
@@ -73,13 +68,13 @@ public:
     void setCaption(const QString &caption);
     void accept();
     void reject();
-    KPageWidgetItem *currentPage();
+    KPageWidgetItem *currentPage() const;
     void addPage(KPageWidgetItem *page);
     void setCurrentPage(KPageWidgetItem *page);
     static int spacingHint();
     int exec();
 
-    virtual bool isModified();
+    virtual bool isModified() const;
 
 signals:
     void okClicked();
@@ -93,8 +88,8 @@ private slots:
     void slotOkClicked();
     void slotApplyClicked();
     void slotDefaultClicked();
-    void slotHelpClicked();
 #if QT_VERSION >= 0x050000
+    void slotHelpClicked();
     void slotButtonClicked(QAbstractButton *button);
 #endif
 protected:
@@ -128,7 +123,7 @@ protected:
     void applyFontPage(AssociationWidget *widget);
     void applyFontPage(Settings::OptionState *state);
     void applyFontPage(UMLScene *scene);
-    void applyFontPage(UMLWidget *wigdet);
+    void applyFontPage(UMLWidget *widget);
 
     KPageWidgetItem *setupStylePage(WidgetBase *widget);
     KPageWidgetItem *setupStylePage(AssociationWidget *widget);

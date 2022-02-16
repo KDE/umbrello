@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "datatypewidget.h"
@@ -22,6 +17,9 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(DatatypeWidget)
 
 /**
  * Constructs an DatatypeWidget.
@@ -81,19 +79,19 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 /**
  * Loads from a "datatypewidget" XMI element.
  */
-bool DatatypeWidget::loadFromXMI1(QDomElement & qElement)
+bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
 {
-    return UMLWidget::loadFromXMI1(qElement);
+    return UMLWidget::loadFromXMI(qElement);
 }
 
 /**
  * Saves to the "datatypewidget" XMI element.
  */
-void DatatypeWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void DatatypeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("datatypewidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("datatypewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**

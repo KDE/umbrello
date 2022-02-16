@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2002-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "mysqlwriter.h"
 
@@ -40,7 +35,7 @@ Uml::ProgrammingLanguage::Enum MySQLWriter::language() const
 /**
  * Reimplement method from CodeGenerator.
  */
-QStringList MySQLWriter::defaultDatatypes()
+QStringList MySQLWriter::defaultDatatypes() const
 {
     QStringList l;
 
@@ -92,8 +87,8 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 
         QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap = fkc->getEntityAttributePairs();
 
-        // get the referenced attributes
-        QList<UMLEntityAttribute*> eaList = attributeMap.values();
+        // get the attributes
+        QList<UMLEntityAttribute*> eaList = attributeMap.keys();
 
         // convert to UMLEntityAttributeList
         UMLEntityAttributeList refAttList;
@@ -102,7 +97,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
         }
 
         // create an index on them
-        SQLWriter::printIndex(sql, fkc->getReferencedEntity(), refAttList);
+        SQLWriter::printIndex(sql, m_pEntity, refAttList);
     }
 
     SQLWriter::printForeignKeyConstraints(sql, constrList);

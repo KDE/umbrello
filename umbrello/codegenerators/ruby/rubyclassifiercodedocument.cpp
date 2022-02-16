@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005                                                    *
- *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "rubyclassifiercodedocument.h"
@@ -23,6 +18,8 @@
 #include "rubycodeclassfielddeclarationblock.h"
 #include "rubycodeoperation.h"
 #include "uml.h"
+
+DEBUG_REGISTER(RubyClassifierCodeDocument)
 
 // qt includes
 #include <QRegExp>
@@ -46,7 +43,7 @@ RubyClassifierCodeDocument::~RubyClassifierCodeDocument()
 /**
  * Make it easier on ourselves.
  */
-RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy()
+RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy() const
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     RubyCodeGenerationPolicy * policy = dynamic_cast<RubyCodeGenerationPolicy*>(pe);
@@ -66,7 +63,7 @@ CodeDocumentDialog RubyClassifierCodeDocument::getDialog()
 /**
  * Overwritten by Ruby language implementation to get lowercase path.
  */
-QString RubyClassifierCodeDocument::getPath()
+QString RubyClassifierCodeDocument::getPath() const
 {
     QString path = getPackage();
 
@@ -84,7 +81,7 @@ QString RubyClassifierCodeDocument::getPath()
     return path;
 }
 
-QString RubyClassifierCodeDocument::getRubyClassName(const QString &name)
+QString RubyClassifierCodeDocument::getRubyClassName(const QString &name) const
 {
     CodeGenerator *g = UMLApp::app()->generator();
     return Codegen_Utils::capitalizeFirstLetter(g->cleanName(name));
@@ -184,9 +181,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
                 if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new RubyCodeComment(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeComment to :"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode : unable to add codeComment");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -197,25 +194,25 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"loadFromXMI1 : unable to add codeclassfield child method to:"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode : unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlock to :"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode : unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlockwithcomments to:"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode : unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -224,9 +221,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // do nothing.. this is treated elsewhere
                 } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -238,28 +235,29 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = new RubyCodeOperation(this, op);
-                        block->loadFromXMI1(element);
+                        block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("rubyclassdeclarationblock")) {
                     RubyClassDeclarationBlock * block = getClassDecl();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add ruby code declaration block to:"<<this;
+                        logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Unable to add ruby code declaration block");
                         // DON'T delete.
                         // block->deleteLater();
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack: %1, ignoring", name);
                 }
 
                 node = element.nextSibling();
@@ -274,7 +272,8 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        uWarning()<<" loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: unable to initialize any "
+                 "child blocks in doc: %1", getFileName());
     }
 }
 
@@ -307,7 +306,7 @@ void RubyClassifierCodeDocument::resetTextBlocks()
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void RubyClassifierCodeDocument::updateContent()
@@ -470,7 +469,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // public
     pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = pubConstructorBlock->getComment();
     if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))
@@ -480,7 +479,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // protected
     protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = protConstructorBlock->getComment();
     if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))
@@ -490,7 +489,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // private
     privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = privConstructorBlock->getComment();
     if (!forceDoc && (isInterface || !pol->getAutoGenerateConstructors()))

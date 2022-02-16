@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005                                                    *
- *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef RUBYCLASSIFIERCODEDOCUMENT_H
 #define RUBYCLASSIFIERCODEDOCUMENT_H
@@ -31,7 +26,7 @@ class RubyCodeGenerationPolicy;
  * We carve the Ruby document up into sections as follows:
  * - header
  * - class declaration
- * -   guts of the class (e.g. accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. accessor methods, operations, dependent classes)
  */
 class RubyClassifierCodeDocument : public ClassifierCodeDocument
 {
@@ -43,11 +38,11 @@ public:
 
     //CodeDocumentDialog getDialog();
 
-    RubyCodeGenerationPolicy * getRubyPolicy();
+    RubyCodeGenerationPolicy * getRubyPolicy() const;
 
-    QString getRubyClassName(const QString &name);
+    QString getRubyClassName(const QString &name) const;
 
-    QString getPath();
+    QString getPath() const;
 
     bool addCodeOperation(CodeOperation * op);
 

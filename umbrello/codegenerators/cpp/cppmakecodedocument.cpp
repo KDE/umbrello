@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "cppcodegenerator.h"
 
@@ -36,18 +32,18 @@ void CPPMakefileCodeDocument::updateContent()
 /**
  * @return      QString
  */
-QString CPPMakefileCodeDocument::toString ()
+QString CPPMakefileCodeDocument::toString () const
 {
     return QLatin1String("# cpp make build document");
 }
 
 // We overwritten by CPP language implementation to get lowercase path
-QString CPPMakefileCodeDocument::getPath ()
+QString CPPMakefileCodeDocument::getPath () const
 {
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplified();
+    path = path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));

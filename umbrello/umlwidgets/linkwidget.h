@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef LINKWIDGET_H
 #define LINKWIDGET_H
@@ -20,6 +15,7 @@
 class UMLClassifier;
 class UMLOperation;
 class FloatingTextWidget;
+class QXmlStreamWriter;
 
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
@@ -30,7 +26,7 @@ class FloatingTextWidget;
  *
  * @short       Interface to FloatingTextWidget for AssociationWidget and MessageWidget.
  * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class LinkWidget
 {
@@ -113,8 +109,8 @@ public:
     void setSequenceNumber(const QString &sequenceNumber);
     QString sequenceNumber() const;
 
-    virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
 protected:
     QString m_SequenceNumber;

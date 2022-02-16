@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CONSTRAINTLISTPAGE_H
 #define CONSTRAINTLISTPAGE_H
@@ -31,7 +26,7 @@ class QMenu;
  *
  * @short An extension to the classifier list dialog page to display constraint properties.
  * @author Sharan Rao
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ConstraintListPage : public ClassifierListPage
 {

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
@@ -21,6 +16,7 @@
 #include <QDomElement>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <QXmlStreamWriter>
 
 class QEvent;
 class QMouseEvent;
@@ -41,7 +37,7 @@ class UMLDragData;
  *
  * @short  Displays the list view for the program.
  * @author Paul Hensgen    <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLListView : public QTreeWidget
 {
@@ -60,15 +56,15 @@ public:
 
     void setTitle(int column, const QString &text);
 
-    UMLListViewItemList selectedItems();
-    UMLListViewItemList selectedItemsRoot();
-    int selectedItemsCount();
+    UMLListViewItemList selectedItems() const;
+    UMLListViewItemList selectedItemsRoot() const;
+    int selectedItemsCount() const;
 
     UMLListViewItem* createDiagramItem(UMLView *view);
 
     bool createItem(UMLListViewItem *item);
 
-    UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt);
+    UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt) const;
 
     UMLListViewItem* determineParentItem(UMLObject* object) const;
     UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
@@ -85,7 +81,7 @@ public:
 
     void changeIconOf(UMLObject *o, Icon_Utils::IconType to);
 
-    bool isUnique(UMLListViewItem * item, const QString &name);
+    bool isUnique(UMLListViewItem * item, const QString &name) const;
 
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
@@ -105,8 +101,8 @@ public:
 
     UMLListViewItem::ListViewType rootViewType(UMLListViewItem *item);
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    bool loadFromXMI1(QDomElement & element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
     friend QDebug operator<<(QDebug out, const UMLListView& view);

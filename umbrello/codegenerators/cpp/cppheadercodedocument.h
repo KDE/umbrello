@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CPPHEADERCODEDOCUMENT_H
 #define CPPHEADERCODEDOCUMENT_H
@@ -30,7 +26,7 @@ class CPPHeaderClassDeclarationBlock;
  * - includes
  * - import statements
  * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependent classes)
  */
 class CPPHeaderCodeDocument : public ClassifierCodeDocument
 {
@@ -47,7 +43,7 @@ public:
     /**
      * Save the XMI representation of this object
      */
-    //virtual void saveToXMI1(QDomDocument & doc, QDomElement & root);
+    //virtual void saveToXMI(QXmlStreamWriter& writer);
 
 protected:
 

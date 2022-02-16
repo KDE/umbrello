@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef FLOATINGDASHLINEWIDGET_H
 #define FLOATINGDASHLINEWIDGET_H
@@ -28,7 +23,7 @@ class CombinedFragmentWidget;
  *
  * @short  A dash line for UML combined fragments.
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class FloatingDashLineWidget : public UMLWidget
 {
@@ -51,8 +46,8 @@ public:
     qreal getYMin() const;
     qreal getDiffY() const;
 
-    void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    bool loadFromXMI1(QDomElement & qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement & qElement);
 
 private:
     /**

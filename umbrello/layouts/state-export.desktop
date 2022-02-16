@@ -11,10 +11,11 @@ Name[el]=Εξαγωγή διάταξης
 Name[en_GB]=Export Layout
 Name[es]=Exportar disposición
 Name[et]=Paigutuse eksport
+Name[eu]=Esportatu antolamendua
 Name[fi]=Vientiasettelu
 Name[fr]=Disposition de l'exportation
 Name[gl]=Exportar a disposición
-Name[hu]=Exportálás elrendezés
+Name[hu]=Elrendezés exportálása
 Name[it]=Disposizione di esportazione
 Name[kk]=Экспорттың орналасуы
 Name[ko]=레이아웃 내보내기
@@ -24,7 +25,7 @@ Name[nb]=Eksporter utforming
 Name[nl]=Indeling exporteren
 Name[nn]=Eksporter utforming
 Name[pa]=ਲੇਆਉਟ ਐਕਸਪੋਰਟ
-Name[pl]=Eksportuj układ
+Name[pl]=Wyeksportuj układ
 Name[pt]=Exportar a Disposição
 Name[pt_BR]=Exportar layout
 Name[ru]=Шаблон экспорта
@@ -50,17 +51,18 @@ Comment[el]=Εξαγωγή διάταξης για διαγράμματα κατ
 Comment[en_GB]=Export Layout for State Diagrams
 Comment[es]=Exportar diseño de diagramas de estados
 Comment[et]=Olekuskeemide paigutuse eksport
+Comment[eu]=Esportatu egoera-diagramen antolamendua
 Comment[fi]=Tilakaavioiden vientiasettelu
 Comment[fr]=Disposition d'exportation pour les diagrammes d'états
 Comment[gl]=Exportar a disposición para diagramas de estado.
-Comment[hu]=Exportálás elrendezés az állapot diagramokhoz
+Comment[hu]=Állapotdiagramok elrendezésének exportálása
 Comment[it]=Disposizione di esportazione per i diagrammi di stato
 Comment[kk]=Күй-жай диаграмма үшін экспорттың орналасуы
 Comment[ko]=상태 다이어그램 레이아웃 내보내기
 Comment[nb]=Eksporter utforming for tilstandsdiagrammer
 Comment[nl]=Indeling voor statusdiagrammen exporteren
 Comment[nn]=Eksporter utforming for tilstandsdiagram
-Comment[pl]=Eksportuj układ dla diagramów stanu
+Comment[pl]=Wyeksportuj układ dla diagramów stanu
 Comment[pt]=Exportar a Disposição dos Diagramas de Estados
 Comment[pt_BR]=Exportar layout para diagramas de estado
 Comment[ru]=Шаблон экспорта для диаграмм состояний
@@ -98,7 +100,27 @@ ranking::type::default=len=2
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,model=mds,normalize=yes
+graph=model=mds,normalize=yes
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

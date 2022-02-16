@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003                                                    *
- *   Brian Thomas <brian.thomas@gsfc.nasa.gov>                             *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003-2020 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeviewerdialog.h"
@@ -24,6 +19,8 @@
 #include <KLocalizedString>
 #include <QString>
 #include <QTabWidget>
+
+DEBUG_REGISTER(CodeViewerDialog)
 
 CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state)
@@ -60,7 +57,7 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     CodeEditor * page = new CodeEditor(this, doc);
     QString name = doc->getFileName();
     QString ext = doc->getFileExtension();
-    uDebug() << "name=" << name << " / ext=" << ext;
+    logDebug2("CodeViewerDialog::addCodeDocument: name=%1 / ext=%2", name, ext);
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 
     connect(ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));

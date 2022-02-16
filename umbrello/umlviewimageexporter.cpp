@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlviewimageexporter.h"
 
 // application specific includes
+#define DBG_SRC QLatin1String("UMLViewImageExporter")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "umlfiledialog.h"
@@ -40,7 +36,6 @@
 #include <QString>
 #include <QStringList>
 
-#define DBG_IE QLatin1String("UMLViewImageExporter")
 DEBUG_REGISTER_DISABLED(UMLViewImageExporter)
 
 /**
@@ -175,7 +170,8 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_imageMimeType = dialog->currentMimeFilter();
 #endif
         UMLApp::app()->setImageMimeType(m_imageMimeType);
-        DEBUG(DBG_IE) << "image mime type=" << m_imageMimeType << " / URL=" << m_imageURL;
+        logDebug2("UMLViewImageExporter::getParametersFromUser: image mime type=%1"
+                  " / URL=%2", m_imageMimeType, m_imageURL.path());
     }
     delete dialog;
     return success;

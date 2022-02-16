@@ -1,15 +1,8 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2014                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- *                                                                         *
- *   @author Ralf Habacker <ralf.habacker@freenet.de>                      *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2020 Ralf Habacker <ralf.habacker@freenet.de>
+*/
 
 #include "shared.h"
 
@@ -48,7 +41,7 @@ QStringList XMILanguagesAttributes()
 }
 
 /**
- * Extract language related XML attributs from XMI file
+ * Extract language related XML attributes from XMI file
 
  * @param fileName file to extract attributes from
  * @param attributes List with attribute names to extract

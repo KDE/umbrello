@@ -1,16 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "idlwriter.h"
 
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
+#include "debug_utils.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "enum.h"
@@ -38,14 +35,13 @@ IDLWriter::~IDLWriter()
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
-    if (stype == QLatin1String("CORBAConstant") || stype == QLatin1String("CORBAEnum") ||
-            stype == QLatin1String("CORBAStruct") || stype == QLatin1String("CORBAUnion") ||
-            stype == QLatin1String("CORBASequence") || stype == QLatin1String("CORBAArray") ||
-            stype == QLatin1String("CORBATypedef"))
+    QRegExp nonOO(QLatin1String("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
+                  Qt::CaseInsensitive);
+    if (stype.contains(nonOO))
         return false;
 
-    // CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
-    // assumed to be OO classes.
+    // idlValue/CORBAValue, idlInterface/CORBAInterface, and empty/unknown stereotypes are
+    // assumed to designate OO classes.
     return true;
 }
 
@@ -112,7 +108,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
 void IDLWriter::writeClass(UMLClassifier *c) 
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("IDLWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -198,18 +194,17 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
-        if (stype == QLatin1String("CORBAConstant")) {
-            uError() << "The stereotype " << stype << " cannot be applied to "
-                     << c->name() << ", but only to attributes.";
+        if (stype.contains(QLatin1String("Constant"))) {
+            logError2("The stereotype %1 cannot be applied to %2 but only to attributes",
+                      stype, c->name());
             return;
         }
         if (!isClass) {
-            uError() << "The stereotype " << stype
-                     << " cannot be applied to " << c->name()
-                     << ", but only to classes.";
+            logError2("The stereotype %1 cannot be applied to %2 but only to classes",
+                     stype, c->name());
             return;
         }
-        if (stype == QLatin1String("CORBAEnum")) {
+        if (stype.contains(QLatin1String("Enum"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "enum " << classname << " {" << m_endl;
@@ -224,7 +219,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBAStruct")) {
+        } else if (stype.contains(QLatin1String("Struct"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "struct " << classname << " {" << m_endl;
@@ -254,14 +249,48 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBAUnion")) {
-            idl << indent() << "// " << stype << " " << c->name()
-                << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBATypedef")) {
+        } else if (stype.contains(QLatin1String("Union"))) {
+            // idl << indent() << "// " << stype << " " << c->name() << " is Not Yet Implemented" << m_endl << m_endl;
+            UMLAttributeList atl = c->getAttributeList();
+            if (atl.count()) {
+                UMLAttribute *discrim = atl.front();
+                idl << indent() << "union " << c->name() << " switch (" << discrim->getTypeName()
+                                << ") {"  << m_endl << m_endl;
+                atl.pop_front();
+                m_indentLevel++;
+                foreach (UMLAttribute *at, atl) {
+                    QString attName = cleanName(at->name());
+                    const QStringList& tags = at->tags();
+                    if (tags.count()) {
+                        const QString& caseVals = tags.front();
+                        foreach (QString caseVal, caseVals.split(QLatin1Char(' '))) {
+                            idl << indent() << "case " << caseVal << ":" << m_endl;
+                        }
+                    } else {
+                        // uError() << "missing 'case' tag at union attribute " << attName;
+                        idl << indent() << "default:" << m_endl;
+                    }
+                    idl << indent() << m_indentation << at->getTypeName() << " " << attName << ";"
+                        << m_endl << m_endl;
+                }
+                m_indentLevel--;
+                idl << indent() << "};" << m_endl << m_endl;
+            } else {
+                logError1("Empty <<union>> %1", c->name());
+                idl << indent() << "// <<union>> " << c->name() << " is empty, please check model" << m_endl;
+                idl << indent() << "union " << c->name() << ";" << m_endl << m_endl;
+            }
+        } else if (stype.contains(QLatin1String("Typedef"))) {
             UMLClassifierList superclasses = c->getSuperClasses();
-            UMLClassifier* firstParent = superclasses.first();
-            idl << indent() << "typedef " << firstParent->name() << " "
-                << c->name() << ";" << m_endl << m_endl;
+            if (superclasses.count()) {
+                UMLClassifier* firstParent = superclasses.first();
+                idl << indent() << "typedef " << firstParent->name() << " "
+                    << c->name() << ";" << m_endl << m_endl;
+            } else {
+                logError1("typedef %1 parent (origin type) is missing", c->name());
+                idl << indent() << "// typedef origin type is missing, please check model" << m_endl;
+                idl << indent() << "typedef long " << c->name() << ";" << m_endl << m_endl;
+            }
         } else {
             idl << indent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
@@ -276,7 +305,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     idl << indent();
     if (c->isAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->stereotype() == QLatin1String("CORBAValue"));
+    bool isValuetype = (c->stereotype().contains(QLatin1String("Value")));
     if (isValuetype)
         idl << "valuetype ";
     else
@@ -398,6 +427,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
  * Write one operation.
  * @param op the class for which we are generating code
  * @param idl the stream associated with the output file
+ * @param is_comment  specifying true generates the operation as commented out
  */
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment)
 {
@@ -434,7 +464,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     idl << ");" << m_endl << m_endl;
 }
 
-QStringList IDLWriter::defaultDatatypes()
+QStringList IDLWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("boolean"));
@@ -444,8 +474,11 @@ QStringList IDLWriter::defaultDatatypes()
     l.append(QLatin1String("unsigned short"));
     l.append(QLatin1String("long"));
     l.append(QLatin1String("unsigned long"));
+    l.append(QLatin1String("long long"));
+    l.append(QLatin1String("unsigned long long"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("double"));
+    l.append(QLatin1String("long double"));
     l.append(QLatin1String("string"));
     l.append(QLatin1String("any"));
     return l;

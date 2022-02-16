@@ -1,0 +1,566 @@
+<chapter id="settings">
+<title>Settings</title>
+
+<sect1 id="general-settings">
+<title>General Settings</title>
+<para>
+    <screenshot>
+        <screeninfo>General Settings</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Options for the General Settings in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para>Options for the General Settings in &umbrello;
+                </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title>Miscellaneous</title>
+<itemizedlist>
+    <listitem>
+        <para>The option <guilabel>Enable undo</guilabel> allows undoing a previous action.</para>
+    </listitem>
+    <listitem><para><guilabel>Use new C++/Java/Ruby generators</guilabel> lets the
+                    user select either the old or new code generators</para>
+    </listitem>
+    <listitem><para><guilabel>Turn on footer and page numbers when printing</guilabel> when
+            selected, prints diagram information for the diagram being printed and the page number.</para>
+    </listitem>
+    <listitem><para><guilabel>Use tabbed diagrams</guilabel> gives the option of having multiple
+            tabbed diagram windows open at a time.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title>Autosave</title>
+<itemizedlist>
+    <listitem><para><guilabel>Enable autosave</guilabel> gives a choice to autosave the file.</para>
+    </listitem>
+    <listitem><para><guilabel>Select auto-save time interval (mins):</guilabel> allows setting the
+            time before the file is autosaved.</para>
+    </listitem>
+    <listitem><para><guilabel>Set autosave suffix:</guilabel> defaults to .xmi but allows a different
+            file extension to be set.</para>
+    </listitem>
+</itemizedlist>
+</sect2>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title>Startup</title>
+    <itemizedlist>
+        <listitem><para><guilabel>Load last project</guilabel> if set, always loads the last
+                work project upon program startup.</para>
+        </listitem>
+        <listitem><para><guilabel>Start new project with:</guilabel> gives a choice of which UML
+                diagram type to start with in a new project.</para>
+        </listitem>
+        <listitem><para><guilabel>Default Language:</guilabel> is a setting for the default
+                programming language used.</para>
+        </listitem>
+    </itemizedlist>
+</sect2>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title>Notifications</title>
+<itemizedlist>
+    <listitem><para><guilabel>Enable all messages</guilabel> is an option to either see all
+            notifications or a reduced set of notifications.</para>
+    </listitem>
+    <listitem><para><guilabel>Enable 'delete association' related messages</guilabel> ensures
+            that you will receive all messages of this type if checked.</para>
+    </listitem>
+    <listitem><para><guilabel>Enable 'delete diagram' related messages</guilabel> will enable
+            all messages of this type if checked.</para>
+    </listitem>
+</itemizedlist>
+</sect2>    <!-- notifications-settings -->
+
+</sect1>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title>Font Settings</title>
+<para>
+    <screenshot>
+        <screeninfo>Font Settings</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Options for the Diagram Font Settings in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para>Options for the Diagram Font Settings in &umbrello;
+                </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para>These font settings set the characteristics of the text in the diagrams.
+    Font style and size are the only selectable options.</para>
+
+</sect1>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title>User Interface Settings</title>
+    <para>
+        <screenshot>
+            <screeninfo>User Interface Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the User Interface Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the User Interface Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title>General</title>
+    <para><guilabel>Right to left user interface</guilabel> configures the interface
+        for the right to left languages.
+    </para>
+</sect2>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title>Associations</title>
+    <para><guilabel>Use angular associating lines</guilabel> allows association
+        lines to vary at any angle.
+    </para>
+    <para><guilabel>Create new association lines as:</guilabel> gives the ability
+        to change the association line style.
+    </para>
+</sect2>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title>Color</title>
+    <para>The color section gives several options to change the text, line, fill,
+        grid and background colors as well as the line width.</para>
+</sect2>    <!-- ui-Color-settings -->
+
+</sect1>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title>Class Settings</title>
+    <para>
+        <screenshot>
+            <screeninfo>Class Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Class Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Class Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title>Show</title>
+        <para>The Show section has numerous settings that determine which class
+            characteristics are shown in the Class Diagram.</para>
+</sect2>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title>Starting Scope</title>
+        <para>Choices for attribute and operation default settings,
+            public, private or protected.</para>
+</sect2>    <!-- starting-scope-class-settings -->
+
+</sect1>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title>Code Import Settings</title>
+    <para>
+        <screenshot>
+            <screeninfo>Code Import Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Code Import Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Code Import Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title>Include Search Paths</title>
+    <para>A general recommendation is given to improve searching by including
+        UMBRELLO INCPATH as an environment variable.</para>
+</sect2>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title>C++-Import</title>
+    <itemizedlist>
+    <listitem>
+    <para><guilabel>For each imported file create an artifact in
+    the component view</guilabel> The artifact created can
+    then be dragged into the Class Diagram view where dependencies
+    can be easily seen along with the attributes and functions
+    of each file.</para>
+    </listitem>
+    <listitem>
+        <para><guilabel>Resolve dependencies (reduces import speed)</guilabel>
+            Ensures all file dependencies are resolved which then shows up
+            in class dependencies in the Class Diagram.</para>
+    </listitem>
+    <listitem>
+        <para><guilabel>Enable C++11 standard (experimental)</guilabel>
+            An experimental feature to conform to C++11, disable if not
+            needed.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2>    <!-- c++-import-settings -->
+
+</sect1>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title>Code Generation Settings</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title>Code Generation Settings General Tab</title>
+
+    <para>
+        <screenshot>
+            <screeninfo>Code Generation General Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Code Generation General Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Code Generation General Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para>Umbrello UML Modeller can generate source code for various programming
+        languages based on your UML Model to help you get started with the
+        implementation of your project. The code generated consists of the class
+        declarations, with their methods and attributes so you can "fill in the
+        blanks" by providing the functionality of your classes' operations.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title>Language</title>
+        <para>Choose the programming language to use for projects. The choices offered are
+            ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal,
+            Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala and
+            XMLSchema</para>
+    </sect3>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title>Folders</title>
+    <para><guilabel>Write all generated files to folder:</guilabel> has an editable
+        field for the desired path for generated files or optionally a browse button
+        to select the path.</para>
+    <para><guilabel>Include heading files from folder:</guilabel> if checked, lets
+        the user specify a path in an editable field or choose it with a browse
+        button.</para>
+    </sect3>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title>Overwrite Policy</title>
+    <para>When the code is generated into the specified folder, this setting
+        determines what happens if a file with the same name is encountered.
+        </para>
+<itemizedlist>
+        <listitem>
+        <para><guilabel>Overwrite</guilabel> the file without a warning or option.</para>
+    </listitem>
+    <listitem>
+        <para><guilabel>Ask</guilabel> whether to overwrite the file or rename it.</para>
+    </listitem>
+    <listitem>
+        <para><guilabel>Use a different name</guilabel> when a file already exists
+            by renaming it using a suffix.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3>    <!-- code-generation-overwrite-settings -->
+
+</sect2>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title>Code Generation Settings Formatting Tab</title>
+    <para>
+        <screenshot>
+            <screeninfo>Code Generation Formatting Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Code Generation Formatting Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Code Generation Formatting Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title>Comment Verbosity</title>
+        <para><guilabel>Write documentation comments even if empty</guilabel>
+            Generates comments for classes and functions even if they are empty.</para>
+        <para><guilabel>Write comments for sections even if section is empty</guilabel>
+            Writes comments for the private, protected and public sections even if
+            they are empty.</para>
+</sect3>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title>Lines</title>
+    <para><guilabel>Indentation type:</guilabel> offers a choice between no indentation,
+        tab or space.</para>
+    <para><guilabel>Indentation amount:</guilabel> lets the user specify the number of
+        spaces for the tab or space indentation choice.</para>
+    <para><guilabel>Line ending style:</guilabel> is a choice between the line ending
+        styles of *NIX, Windows and Mac.</para>
+</sect3>    <!-- code-gen-formatting-lines -->
+
+</sect2>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title>Language Options</title>
+    <para>
+        <screenshot>
+            <screeninfo>Code Generation Language Options</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Code Generation Language Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Code Generation Language Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para>This page changes for each programming language selected under the General tab.
+        Currently the only options available are for the C++ language.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title>C++ Code Generation</title>
+    <para></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title>Documentation</title>
+        <para><guilabel>Style:</guilabel> gives a choice to use either "/** */"
+            or "//" as the documentation style</para>
+    </sect4>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title>General</title>
+        <para>Under the <guilabel>General</guilabel> tab of the <guilabel>Language Options</guilabel>
+            tab, several code generation options are listed.</para>
+        <itemizedlist>
+            <listitem>
+                <para><guilabel>Class member prefix</guilabel></para>
+                <para>An option that allows a prefix determined by the user,
+                    to be added to class members when code is generated.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Package is a namespace</guilabel></para>
+                <para>Namespaces provide a method for preventing name conflicts
+                    in large projects. Symbols declared inside a namespace block
+                    are placed in a named scope that prevents them from being
+                    mistaken for identically-named symbols in other scopes.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Virtual destructors</guilabel></para>
+                <para>Even though destructors are not inherited, if a base
+                    class declares its destructor virtual, the derived
+                    destructor always overrides it. This makes it possible
+                    to delete dynamically allocated objects of polymorphic
+                    type through pointers to base.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Generate empty constructors</guilabel></para>
+                <para>This will generate constructors that have empty braces.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Generate accessor methods</guilabel></para>
+                <para>Will generate methods to access datatypes.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Operations are inline</guilabel></para>
+                <para>Generate the methods as inline, but compilers are
+                    free to choose not to inline the method.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Accessors are inline</guilabel></para>
+                <para>Methods that access the class' data will be generated
+                    inline, but compilers are free to choose not to inline
+                    the method.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Accessors are public</guilabel></para>
+                <para>Methods that are generated as public will be available
+                    to any instantiation of the class.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Create getters with 'get' prefix</guilabel></para>
+                <para>This will put the prefix "get" on the methods that get/return
+                    the class data.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Remove prefix '[a-zA-Z]_' from accessor method names</guilabel></para>
+                <para>If a prefix was entered in <guilabel>Class member prefix</guilabel>,
+                    this will remove it.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Accessor methods start with capital letters</guilabel></para>
+                <para>This capitalizes the first letter of the method name.</para>
+            </listitem>
+            <listitem>
+                <para><guilabel>Use '\' as documentation tag instead of @</guilabel></para>
+                <para>A tag choice to use when documenting parameters of a method.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title>Method Body Generation</title>
+        <para>
+            <screenshot>
+                <screeninfo>Code Generation Language Method Body Options</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase>Options for the Code Generation Language Method Body Settings in &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para>Options for the Code Generation Language Method Body Settings in &umbrello;
+                        </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para><guilabel>List</guilabel></para>
+        <para>Has options of QPtrList, vector, and std::vector for the list type.
+            An editable or selectable field follows to specify the include file
+            along with a browse button to find a select the include file. There
+            is also an option to make the list global.</para>
+        <para><guilabel>String</guilabel></para>
+            <para>Options of string or QString for the string type. An editable
+                or selectable field follows to specify the include file along
+                with a browse button to find a select the include file. There
+                is also an option to make the string global.
+            </para>
+
+    </sect4>    <!-- language-method-body-tab -->
+
+</sect3>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2> <!-- code-gen-settings-language-options -->
+
+</sect1>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title>Code Viewer Settings</title>
+    <para>
+        <screenshot>
+            <screeninfo>Code Viewer Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Code Viewer Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Code Viewer Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para>Allows customization of the Code Viewer. The <guilabel>Requested Font</guilabel>
+        section allows the selection of the font, font style, and font size. A representation
+        of you choices is shown below the choices.
+    </para>
+    <para>
+        In the <guilabel>Colors</guilabel> section, changes can be made to Paper, Font, Selected,
+        UML object block, Hidden block, Editable text, and Uneditable text. Changes to the colors
+        can be made by clicking on the color box by the respective label.
+    </para>
+</sect1>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title>Auto Layout Settings</title>
+    <para>
+        <screenshot>
+            <screeninfo>Auto Layout Settings</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Options for the Auto Layout Settings in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para>Options for the Auto Layout Settings in &umbrello;
+                    </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para><guilabel>Auto detect layout generator</guilabel></para>
+    <para>The auto layout feature depends on layout generators provided by the
+        GraphViz package, which is normally installed alongside Umbrello by a
+        package manager. Umbrello has built-in support for detecting the
+        installed location of these layout generators. For cases where this
+        dependency is not available or does not fit, a different installation
+        path could be selected.
+    </para>
+    <para><guilabel>Show export layout in diagram context menu</guilabel></para>
+    <para>Dot file export is performed by using the export layout. With this
+        option checked, the export layout is added to the list of available
+        diagram layouts and enables a quick dot export preview.
+    </para>
+</sect1>    <!-- auto-layout-settings -->
+
+</chapter>

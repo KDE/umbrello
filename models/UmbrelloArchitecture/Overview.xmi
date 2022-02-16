@@ -1003,7 +1003,7 @@
         <UML:Generalization xmi.idref="LQn1VmlVEmcW" />
        </UML:GeneralizableElement.generalization>
        <UML:Classifier.feature>
-        <UML:Attribute visibility="protected" isSpecification="false" xmi.id="u55g7mxX47aZ" type="nnKSgP2n4mum" comment="List of all the associations in this object.&#xa;Inheriting classes add more types of objects that are possible in this list;&#xa;for example, UMLClassifier adds operations, attributes, and templates.&#xa;&#xa;@todo Only a pointer to the appropriate assocation end object&#xa;      (UMLRole) should be saved here, not the entire UMLAssociation.&#xa;" name="m_List" />
+        <UML:Attribute visibility="protected" isSpecification="false" xmi.id="u55g7mxX47aZ" type="nnKSgP2n4mum" comment="List of all the associations in this object.&#xa;Inheriting classes add more types of objects that are possible in this list;&#xa;for example, UMLClassifier adds operations, attributes, and templates.&#xa;&#xa;@todo Only a pointer to the appropriate association end object&#xa;      (UMLRole) should be saved here, not the entire UMLAssociation.&#xa;" name="m_List" />
         <UML:Operation stereotype="constructor" visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="cTbmQNI1YuxA" name="UMLCanvasObject" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="xEU2DnmNLqOH" type="L0fNHulKjaZc" value="" name="name" />
@@ -5352,7 +5352,7 @@
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="JHGq04QAf3KD" type="uvZHh8vqXrmF" value="" name="rt" />
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation stereotype="constructor" visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="5DzlfnyrRF0O" comment="Constructs an UMLOperation.&#xa;Not intended for general use: The operation is not tied in with&#xa;umbrello's Qt signalling for object creation.&#xa;If you want to create an Operation use the method in UMLDoc instead.&#xa;&#xa;@param parent    the parent to this operation" name="UMLOperation" >
+        <UML:Operation stereotype="constructor" visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="5DzlfnyrRF0O" comment="Constructs a UMLOperation.&#xa;Not intended for general use: The operation is not tied in with&#xa;umbrello's Qt signalling for object creation.&#xa;If you want to create an Operation use the method in UMLDoc instead.&#xa;&#xa;@param parent    the parent to this operation" name="UMLOperation" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="ypwZUBfmSvcR" type="1VpgSlF7xwr7" value="" name="parent" />
          </UML:BehavioralFeature.parameter>
@@ -13862,12 +13862,12 @@
         </codeoperation>
         <codeaccessormethod tag="hblock_tag_0" accessType="0" parent_id="u55g7mxX47aZ" writeOutText="false" classfield_id="u55g7mxX47aZ" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
+          <cppcodedocumentation tag="" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
          </header>
         </codeaccessormethod>
         <codeaccessormethod tag="hblock_tag_1" accessType="1" parent_id="u55g7mxX47aZ" writeOutText="false" classfield_id="u55g7mxX47aZ" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
+          <cppcodedocumentation tag="" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
          </header>
         </codeaccessormethod>
         <codeoperation tag="operation_UGGgVtKiQtJq" parent_id="UGGgVtKiQtJq" canDelete="false" >
@@ -13893,17 +13893,17 @@
        </header>
        <ccfdeclarationcodeblock tag="" parent_id="u55g7mxX47aZ" indentLevel="1" text="protected UMLObjectList m_List;" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" indentLevel="1" text="List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;" />
+         <cppcodedocumentation tag="" indentLevel="1" text="List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;" />
         </header>
        </ccfdeclarationcodeblock>
        <codeaccessormethod tag="hblock_tag_0" accessType="0" parent_id="u55g7mxX47aZ" writeOutText="false" classfield_id="u55g7mxX47aZ" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
+         <cppcodedocumentation tag="" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
         </header>
        </codeaccessormethod>
        <codeaccessormethod tag="hblock_tag_1" accessType="1" parent_id="u55g7mxX47aZ" writeOutText="false" classfield_id="u55g7mxX47aZ" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
+         <cppcodedocumentation tag="" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
         </header>
        </codeaccessormethod>
       </codeclassfield>
@@ -14818,7 +14818,7 @@
         </codeoperation>
         <codeoperation tag="operation_5DzlfnyrRF0O" parent_id="5DzlfnyrRF0O" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Constructs an UMLOperation.&amp;#010;Not intended for general use: The operation is not tied in with&amp;#010;umbrello's Qt signalling for object creation.&amp;#010;If you want to create an Operation use the method in UMLDoc instead.&amp;#010;&amp;#010;@param parent    the parent to this operation" />
+          <cppcodedocumentation tag="" text="Constructs a UMLOperation.&amp;#010;Not intended for general use: The operation is not tied in with&amp;#010;umbrello's Qt signalling for object creation.&amp;#010;If you want to create an Operation use the method in UMLDoc instead.&amp;#010;&amp;#010;@param parent    the parent to this operation" />
          </header>
         </codeoperation>
         <codeoperation tag="operation_y2Zd3tq75oqk" parent_id="y2Zd3tq75oqk" canDelete="false" >
@@ -30627,17 +30627,17 @@
        </header>
        <ccfdeclarationcodeblock tag="tblock_0" parent_id="u55g7mxX47aZ" indentLevel="1" text=" UMLObjectList m_List;" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" indentLevel="1" text="List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;" />
+         <cppcodedocumentation tag="" indentLevel="1" text="List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;" />
         </header>
        </ccfdeclarationcodeblock>
        <codeaccessormethod tag="hblock_tag_0" accessType="0" parent_id="u55g7mxX47aZ" writeOutText="false" indentLevel="1" classfield_id="u55g7mxX47aZ" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" indentLevel="1" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
+         <cppcodedocumentation tag="" indentLevel="1" text="Get the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@return the value of m_List" />
         </header>
        </codeaccessormethod>
        <codeaccessormethod tag="hblock_tag_1" accessType="1" parent_id="u55g7mxX47aZ" writeOutText="false" indentLevel="1" classfield_id="u55g7mxX47aZ" canDelete="false" >
         <header>
-         <cppcodedocumentation tag="" indentLevel="1" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate assocation end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
+         <cppcodedocumentation tag="" indentLevel="1" text="Set the value of m_List&amp;#010;List of all the associations in this object.&amp;#010;Inheriting classes add more types of objects that are possible in this list;&amp;#010;for example, UMLClassifier adds operations, attributes, and templates.&amp;#010;&amp;#010;@todo Only a pointer to the appropriate association end object&amp;#010;      (UMLRole) should be saved here, not the entire UMLAssociation.&amp;#010;&amp;#010;@param value the value of m_List" />
         </header>
        </codeaccessormethod>
       </codeclassfield>

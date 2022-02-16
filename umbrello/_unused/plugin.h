@@ -1,20 +1,7 @@
-/***************************************************************************
-                          plugin.h
-                             -------------------
-    begin                : Mon Jan 13 2003
-    copyright            : (C) 2003 by Andrew Sutton
-    email                : ansutton@kent.edu
-  Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2003 Andrew Sutton <ansutton@kent.edu>
+    Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
+*/
 
 #ifndef UMBRELLO_PLUGIN_H
 #define UMBRELLO_PLUGIN_H
@@ -34,7 +21,7 @@ class KConfig;
 
 /**
  * This macro replaces the K_EXPORT_COMPONENT_FACTORY macro because of
- * a simple defficiency for this application - the construction of the
+ * a simple deficiency for this application - the construction of the
  * factory with a default instance name. This macro must be used in
  * the .cpp file implementing the plugin.
  *
@@ -68,7 +55,7 @@ class PluginLoader;
  * methods respectively.
  *
  * By default, plugins use a configuration group called [LoadActions] in
- * the config file. Entries in this group define any dependant or on-demand
+ * the config file. Entries in this group define any dependent or on-demand
  * plugins that should be loaded in conjunction with this plugin. Known
  * entries (actions) are "Load" and "LoadGUI". Because plugins can be used
  * by both GUI and command line tools, they must be selective about some

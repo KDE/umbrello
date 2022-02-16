@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLDOC_H
 #define UMLDOC_H
@@ -32,6 +27,7 @@
 #if QT_VERSION >= 0x050000
 #include <QUrl>
 #endif
+#include <QMap>
 
 // system includes
 #include <typeinfo>
@@ -68,7 +64,7 @@ class DiagramPrintPage;
  * files.
  *
  * @author Paul Hensgen   <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLDoc : public QObject
 {
@@ -89,7 +85,7 @@ public:
     void removeAllObjects();
 
     void setModified(bool modified = true);
-    bool isModified();
+    bool isModified() const;
     bool saveModified();
 
     bool newDocument();
@@ -109,8 +105,8 @@ public:
 
     void setupSignals();
 
-    bool isUnique(const QString &name);
-    bool isUnique(const QString &name, UMLPackage *package);
+    bool isUnique(const QString &name) const;
+    bool isUnique(const QString &name, UMLPackage *package) const;
 
     UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType::Enum type);
 
@@ -119,7 +115,7 @@ public:
     UMLAssociation * findAssociation(Uml::AssociationType::Enum assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
-                                     bool *swap = 0);
+                                     bool *swap = 0) const;
 
     QString createDiagramName(Uml::DiagramType::Enum type, bool askForName = true);
     UMLView* createDiagram(UMLFolder *folder,
@@ -149,11 +145,19 @@ public:
                                 const QString &name,
                                 UMLObject::ObjectType type = UMLObject::ot_UMLObject);
 
+    UMLObject* findUMLObjectRecursive(Uml::ModelType::Enum,
+                                      const QString &name,
+                                      UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
+    UMLObject* findUMLObjectRecursive(UMLFolder *folder,
+                                      const QString &name,
+                                      UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
     UMLClassifier * findUMLClassifier(const QString &name);
 
-    UMLView * findView(Uml::ID::Type id);
+    UMLView * findView(Uml::ID::Type id) const;
     UMLView * findView(Uml::DiagramType::Enum type, const QString &name,
-                       bool searchAllScopes = false);
+                       bool searchAllScopes = false) const;
 
     void setName(const QString& name);
     QString name() const;
@@ -166,45 +170,47 @@ public:
 
     static bool tagEq (const QString& tag, const QString& pattern);
 
-    virtual void saveToXMI1(QIODevice& file);
+    virtual void saveToXMI(QIODevice& file);
 
     short encoding(QIODevice & file);
 
-    virtual bool loadFromXMI1(QIODevice& file, short encode = ENC_UNKNOWN);
+    virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
 
     bool validateXMI1Header(QDomNode& headerNode);
 
-    bool loadUMLObjectsFromXMI1(QDomElement & element);
+    bool loadUMLObjectsFromXMI(QDomElement & element);
     void loadExtensionsFromXMI1(QDomNode & node);
     bool loadDiagramsFromXMI1(QDomNode & node);
 
     void signalDiagramRenamed(UMLView * view);
     void signalUMLObjectCreated(UMLObject * o);
 
-    UMLClassifierList concepts(bool includeNested = true);
-    UMLClassifierList classesAndInterfaces(bool includeNested = true);
-    UMLEntityList entities(bool includeNested = true);
+    UMLClassifierList concepts(bool includeNested = true) const;
+    UMLClassifierList classesAndInterfaces(bool includeNested = true) const;
+    UMLEntityList entities(bool includeNested = true) const;
     UMLFolder * datatypeFolder() const;
-    UMLClassifierList datatypes();
-    UMLAssociationList associations();
-    UMLPackageList packages(bool includeNested = true);
+    UMLClassifierList datatypes(bool includeInactive = false) const;
+    UMLDatatype * findDatatype(QString name, bool includeInactive = false);
+    UMLAssociationList associations() const;
+    UMLPackageList packages(bool includeNested = true, Uml::ModelType::Enum model = Uml::ModelType::Logical) const;
 
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 
-    UMLViewList viewIterator();
+    UMLViewList viewIterator() const;
+    UMLViewList views(Uml::DiagramType::Enum type = Uml::DiagramType::Undefined) const;
 
     bool assignNewIDs(UMLObject* obj);
 
     bool addUMLObject(UMLObject * object);
     bool addUMLView(UMLView * pView);
 
-    UMLFolder *rootFolder(Uml::ModelType::Enum mt);
-    Uml::ModelType::Enum rootFolderType(UMLObject *obj);
+    UMLFolder *rootFolder(Uml::ModelType::Enum mt) const;
+    Uml::ModelType::Enum rootFolderType(UMLObject *obj) const;
 
-    UMLFolder *currentRoot();
+    UMLFolder *currentRoot() const;
     void setCurrentRoot(Uml::ModelType::Enum rootType);
 
-    virtual IDChangeLog* changeLog();
+    virtual IDChangeLog* changeLog() const;
 
     void beginPaste();
     void endPaste();
@@ -216,7 +222,7 @@ public:
 
     void settingsChanged(Settings::OptionState &optionState);
 
-    QString uniqueViewName(const Uml::DiagramType::Enum type);
+    QString uniqueViewName(const Uml::DiagramType::Enum type) const;
 
     bool loading() const;
     void setLoading(bool state = true);
@@ -227,12 +233,13 @@ public:
     bool closing() const;
 
     void addDefaultDatatypes();
-    void createDatatype(const QString &name);
+    UMLDatatype * createDatatype(const QString &name);
+    void removeDatatype(const QString &name);
 
     UMLStereotype *createStereotype(const QString &name);
-    UMLStereotype *findStereotype(const QString &name);
+    UMLStereotype *findStereotype(const QString &name) const;
     UMLStereotype *findOrCreateStereotype(const QString &name);
-    UMLStereotype *findStereotypeById(Uml::ID::Type id);
+    UMLStereotype *findStereotypeById(Uml::ID::Type id) const;
     void addStereotype(UMLStereotype *s);
     void removeStereotype(UMLStereotype *s);
     void addDefaultStereotypes();
@@ -244,13 +251,18 @@ public:
     bool loadDiagrams1();
     void addDiagramToLoad(UMLFolder *folder, QDomNode node);
 
-    DiagramsModel *diagramsModel();
-    StereotypesModel *stereotypesModel();
-    ObjectsModel *objectsModel();
+    DiagramsModel *diagramsModel() const;
+    StereotypesModel *stereotypesModel() const;
+    ObjectsModel *objectsModel() const;
+
+    void setLoadingError(const QString &text);
 
 private:
     void initSaveTimer();
     void createDatatypeFolder();
+
+    class Private;
+    Private *m_d;
 
     /**
      * Array of predefined root folders.
@@ -266,7 +278,7 @@ private:
     /**
      * The UMLDoc is the sole owner of all stereotypes.
      * UMLStereotype instances are reference counted.
-     * When an UMLStereotype is no longer referenced anywhere,
+     * When a UMLStereotype is no longer referenced anywhere,
      * its refcount drops to zero. It is then removed from the
      * m_stereoList and it is physically deleted.
      */

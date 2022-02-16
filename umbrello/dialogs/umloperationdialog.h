@@ -1,23 +1,20 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
 //kde includes
 #include "singlepagedialogbase.h"
+#include "n_stereoattrs.h"
 
 class DocumentationWidget;
 class KComboBox;
 class DialogsPopupMenu;
 class QAbstractButton;
+class QGridLayout;
 class QGroupBox;
 class QListWidget;
 class QListWidgetItem;
@@ -28,6 +25,7 @@ class QCheckBox;
 class QToolButton;
 class KLineEdit;
 class UMLDoc;
+class UMLObject;
 class UMLOperation;
 class UMLDatatypeWidget;
 class UMLStereotypeWidget;
@@ -35,7 +33,7 @@ class VisibilityEnumWidget;
 
 /**
  * @author Paul Hensgen
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLOperationDialog : public SinglePageDialogBase
 {
@@ -58,6 +56,7 @@ protected:
     DialogsPopupMenu* m_menu;       ///< Menu used in parameter list box.
 
     //GUI widgets
+    QGridLayout*          m_pGenLayout;
     QGroupBox*            m_pParmsGB;
     QGroupBox*            m_pGenGB;
     QListWidget*          m_pParmsLW;
@@ -67,9 +66,11 @@ protected:
     QRadioButton*         m_pProtectedRB;
     QRadioButton*         m_pImplementationRB;
     QLabel*               m_pNameL;
+    QLabel*               m_pTagL[N_STEREOATTRS];
     UMLDatatypeWidget*    m_datatypeWidget;
     UMLStereotypeWidget*  m_stereotypeWidget;
     KLineEdit*            m_pNameLE;
+    KLineEdit*            m_pTagLE[N_STEREOATTRS];
     QCheckBox*            m_pAbstractCB;
     QCheckBox*            m_pStaticCB;
     QCheckBox*            m_pQueryCB;
@@ -93,6 +94,7 @@ public slots:
     void slotParameterUp();
     void slotParameterDown();
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
+    void slotStereoTextChanged(const QString &);
     void slotNameChanged(const QString &);
 };
 

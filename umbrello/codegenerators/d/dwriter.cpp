@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dwriter.h"
@@ -21,6 +17,7 @@
 #include "operation.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"
 
 // qt includes
@@ -101,7 +98,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
 void DWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("DWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -126,7 +123,7 @@ void DWriter::writeClass(UMLClassifier *c)
     // open text stream to file
     QTextStream d(&file);
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".d"));
     if (!str.isEmpty()) {
@@ -142,7 +139,7 @@ void DWriter::writeClass(UMLClassifier *c)
     writeModuleImports(c, d);
 
     // write the opening declaration for the class incl any documentation,
-    // interfaces and/or inheritence issues we have
+    // interfaces and/or inheritance issues we have
     writeClassDecl(c, d);
 
     // start body of class
@@ -500,7 +497,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
             if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), m_indentation, d);
 
@@ -707,7 +704,7 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
 }
 
 // IF the type is "string" we need to declare it as
-// the D Object "String" (there is no string primative in D).
+// the D Object "String" (there is no string primitive in D).
 // Same thing again for "bool" to "boolean"
 QString DWriter::fixTypeName(const QString& string)
 {
@@ -729,7 +726,7 @@ QString DWriter::fixTypeName(const QString& string)
  * (Overrides method from class CodeGenerator.)
  * @return   list of default datatypes
  */
-QStringList DWriter::defaultDatatypes()
+QStringList DWriter::defaultDatatypes() const
 {
     QStringList l;
     l << QLatin1String("void")
@@ -755,7 +752,8 @@ QStringList DWriter::defaultDatatypes()
       << QLatin1String("creal")
       << QLatin1String("char")
       << QLatin1String("wchar")
-      << QLatin1String("dchar");
+      << QLatin1String("dchar")
+      << QLatin1String("string");
     return l;
 }
 

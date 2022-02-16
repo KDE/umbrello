@@ -1,4 +1,6 @@
+add_subdirectory( codeimport )
 add_subdirectory( headings )
+add_subdirectory(docgenerators)
 
 if(ENABLE_OBJECT_DIAGRAM)
     set(ACTION_NEW_OBJECT_DIAGRAM "<Action name=\"new_object_diagram\"/>")
@@ -10,12 +12,6 @@ endif()
 
 ########### set variables #############
 
-# php import support requires kdevplatform and kdev-php
-# which does not compile without NO_CAST_XX_ASCII
-if(NOT BUILD_PHP_IMPORT)
-    add_definitions(-DQT_NO_CAST_TO_ASCII)
-    add_definitions(-DQT_NO_CAST_FROM_ASCII)
-endif()
 # Some definitions for experimental code or debugging
 # TODO migrate debug settings to DEBUG_REGISTER macro
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
@@ -28,6 +24,8 @@ if(UNIX)
 endif()
 
 add_definitions(-DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
+add_definitions(-DDOCGENERATORS_DIR="${CMAKE_SOURCE_DIR}/umbrello/docgenerators")
+add_definitions(-DUMBRELLOUI_RC="${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc")
 
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
@@ -54,8 +52,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/vala/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/csharp/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
@@ -64,7 +60,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
-  ${CMAKE_CURRENT_SOURCE_DIR}/uml1model/
+  ${CMAKE_CURRENT_SOURCE_DIR}/umlmodel/
   ${CMAKE_CURRENT_SOURCE_DIR}/umlwidgets/
   ${CMAKE_CURRENT_SOURCE_DIR}/menus
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
@@ -208,10 +204,12 @@ set(libdialogs_SRCS
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialog.cpp
     dialogs/parameterpropertiesdialog.cpp
+    dialogs/selectdiagramdialog.cpp
     dialogs/selectoperationdialog.cpp
     dialogs/settingsdialog.cpp
     dialogs/singlepagedialogbase.cpp
     dialogs/statedialog.cpp
+    dialogs/stereoattributedialog.cpp
     dialogs/umlattributedialog.cpp
     dialogs/umlinstanceattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
@@ -244,13 +242,18 @@ set(libdialogs_SRCS
     dialogs/pages/generaloptionpage.cpp
     dialogs/pages/packagecontentspage.cpp
     dialogs/pages/selectoperationpage.cpp
+    dialogs/pages/uioptionspage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
+    dialogs/widgets/comboboxwidgetbase.cpp
     dialogs/widgets/documentationwidget.cpp
     dialogs/widgets/imagetypewidget.cpp
     dialogs/widgets/resolutionwidget.cpp
+    dialogs/widgets/selectdiagramwidget.cpp
+    dialogs/widgets/selectlayouttypewidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
     dialogs/widgets/umldatatypewidget.cpp
+    dialogs/widgets/defaultvaluewidget.cpp
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp
     dialogs/widgets/umlstereotypewidget.cpp
@@ -298,44 +301,6 @@ ki18n_wrap_ui(  libcodeimpwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
 )
 
-set(libcodeimport_SRCS
-    codeimport/adaimport.cpp
-    codeimport/classimport.cpp
-    codeimport/idlimport.cpp
-    codeimport/import_utils.cpp
-    codeimport/javaimport.cpp
-    codeimport/nativeimportbase.cpp
-    codeimport/pascalimport.cpp
-    codeimport/pythonimport.cpp
-    codeimport/sqlimport.cpp
-    codeimport/csharp/csharpimport.cpp
-    codeimport/valaimport.cpp
-)
-if(BUILD_PHP_IMPORT)
-    list(APPEND libcodeimport_SRCS
-        codeimport/phpimport.cpp
-    )
-endif()
-
-list(APPEND libcodeimport_SRCS
-    codeimport/cppimport.cpp
-)
-
-set(libkdevcppparser_SRCS
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast_utils.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/cachemanager.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/driver.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/errors.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexer.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexercache.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/lookup.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/parser.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/tree_parser.cpp
-    ${CMAKE_SOURCE_DIR}/lib/interfaces/hashedstring.cpp
-    codeimport/kdevcppparser/cpptree2uml.cpp
-)
-
 set(libclipboard_SRCS
     clipboard/idchangelog.cpp
     clipboard/umlclipboard.cpp
@@ -349,7 +314,6 @@ set(libcmds_SRCS
     cmds/cmdremovediagram.cpp
     cmds/cmdsetstereotype.cpp
     cmds/cmdsetvisibility.cpp
-    cmds/generic/cmdrenameumlinstancetype.cpp
     cmds/generic/cmdcreateumlobject.cpp
     cmds/generic/cmdremoveumlobject.cpp
     cmds/generic/cmdrenameumlobject.cpp
@@ -382,6 +346,7 @@ set(libumlwidgets_SRCS
     umlwidgets/activitywidget.cpp
     umlwidgets/actorwidget.cpp
     umlwidgets/artifactwidget.cpp
+    umlwidgets/associationwidgetrole.cpp
     umlwidgets/associationline.cpp
     umlwidgets/associationwidget.cpp
     umlwidgets/boxwidget.cpp
@@ -393,11 +358,13 @@ set(libumlwidgets_SRCS
     umlwidgets/combinedfragmentwidget.cpp
     umlwidgets/componentwidget.cpp
     umlwidgets/datatypewidget.cpp
+    umlwidgets/diagramproxywidget.cpp
     umlwidgets/entitywidget.cpp
     umlwidgets/enumwidget.cpp
     umlwidgets/floatingdashlinewidget.cpp
     umlwidgets/floatingtextwidget.cpp
     umlwidgets/forkjoinwidget.cpp
+    umlwidgets/interfacewidget.cpp
     umlwidgets/layoutgrid.cpp
     umlwidgets/linkwidget.cpp
     umlwidgets/messagewidget.cpp
@@ -433,41 +400,41 @@ set(libfinder_SRCS
 )
 
 set(libuml_SRCS
-    uml1model/actor.cpp
-    uml1model/artifact.cpp
-    uml1model/association.cpp
-    uml1model/attribute.cpp
-    uml1model/category.cpp
-    uml1model/checkconstraint.cpp
-    uml1model/classifier.cpp
-    uml1model/classifierlistitem.cpp
-    uml1model/component.cpp
-    uml1model/datatype.cpp
-    uml1model/entity.cpp
-    uml1model/entityattribute.cpp
-    uml1model/entityconstraint.cpp
-    uml1model/enum.cpp
-    uml1model/enumliteral.cpp
-    uml1model/folder.cpp
-    uml1model/foreignkeyconstraint.cpp
-    uml1model/node.cpp
-    uml1model/operation.cpp
-    uml1model/package.cpp
-    uml1model/port.cpp
-    uml1model/stereotype.cpp
-    uml1model/template.cpp
-    uml1model/umlattributelist.cpp
-    uml1model/umlcanvasobject.cpp
-    uml1model/umlclassifierlistitemlist.cpp
-    uml1model/umlentityattributelist.cpp
-    uml1model/umlentityconstraintlist.cpp
-    uml1model/umlobject.cpp
-    uml1model/umlobjectlist.cpp
-    uml1model/umlrole.cpp
-    uml1model/usecase.cpp
-    uml1model/uniqueconstraint.cpp
-    uml1model/instance.cpp
-    uml1model/instanceattribute.cpp
+    umlmodel/actor.cpp
+    umlmodel/artifact.cpp
+    umlmodel/association.cpp
+    umlmodel/attribute.cpp
+    umlmodel/category.cpp
+    umlmodel/checkconstraint.cpp
+    umlmodel/classifier.cpp
+    umlmodel/classifierlistitem.cpp
+    umlmodel/component.cpp
+    umlmodel/datatype.cpp
+    umlmodel/entity.cpp
+    umlmodel/entityattribute.cpp
+    umlmodel/entityconstraint.cpp
+    umlmodel/enum.cpp
+    umlmodel/enumliteral.cpp
+    umlmodel/folder.cpp
+    umlmodel/foreignkeyconstraint.cpp
+    umlmodel/node.cpp
+    umlmodel/operation.cpp
+    umlmodel/package.cpp
+    umlmodel/port.cpp
+    umlmodel/stereotype.cpp
+    umlmodel/template.cpp
+    umlmodel/umlattributelist.cpp
+    umlmodel/umlcanvasobject.cpp
+    umlmodel/umlclassifierlistitemlist.cpp
+    umlmodel/umlentityattributelist.cpp
+    umlmodel/umlentityconstraintlist.cpp
+    umlmodel/umlobject.cpp
+    umlmodel/umlobjectlist.cpp
+    umlmodel/umlrole.cpp
+    umlmodel/usecase.cpp
+    umlmodel/uniqueconstraint.cpp
+    umlmodel/instance.cpp
+    umlmodel/instanceattribute.cpp
 )
 
 set(umbrellobase_SRCS
@@ -478,6 +445,7 @@ set(umbrellobase_SRCS
     cmdlineexportallviewsevent.cpp
     diagramswindow.cpp
     diagram_utils.cpp
+    file_utils.cpp
     objectswindow.cpp
     docwindow.cpp
     dotgenerator.cpp
@@ -529,8 +497,6 @@ set(libumbrello_SRCS
     ${libcodeimpwizard_SRCS}
     ${libclassparser_SRCS}
     ${libclipboard_SRCS}
-    ${libkdevcppparser_SRCS}
-    ${libcodeimport_SRCS}
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
@@ -559,31 +525,17 @@ if(NOT BUILD_KF5)
         Qt4::QtCore
         Qt4::QtGui
         Qt4::QtXml
-        Qt4::QtWebKit
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
         ${KDE4_KTEXTEDITOR_LIBS}
         ${KDE4_KFILE_LIBS}
+        codeimport
     )
-
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(libumbrello
-            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
-            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
-            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
-            ${KDEVPLATFORM_PROJECT_LIBRARIES}
-            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
-            ${KDEVPLATFORM_SHELL_LIBRARIES}
-            ${KDEVPLATFORM_UTIL_LIBRARIES}
-            ${KDEVPLATFORM_VCS_LIBRARIES}
-            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
-            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
-            ${KDEVPLATFORM_TESTS_LIBRARIES}
-            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
-            kdev4phpparser
-        )
+    if(WEBKIT_WELCOMEPAGE)
+        target_link_libraries(libumbrello Qt4::QtWebKit)
     endif()
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/kde4/hi*-apps-umbrello.png")
+
+    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
     target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
 else()
@@ -599,7 +551,6 @@ else()
         Qt5::Xml
         Qt5::PrintSupport
         Qt5::Svg
-        Qt5::WebKitWidgets
         KF5::Archive
         KF5::Completion
         KF5::CoreAddons
@@ -613,14 +564,10 @@ else()
         KF5::Crash
         ${LIBXSLT_LIBRARIES}
         ${LIBXML2_LIBRARIES}
+        codeimport
     )
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(libumbrello
-            KDev::Interfaces
-            KDev::Language
-            KDev::Tests
-            kdevphpparser
-        )
+    if(WEBKIT_WELCOMEPAGE)
+        target_link_libraries(libumbrello Qt5::WebKitWidgets)
     endif()
     ecm_add_app_icon(umbrello_SRCS
         ICONS
@@ -640,6 +587,9 @@ else()
     )
     set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 endif()
+
+target_compile_definitions(libumbrello PRIVATE -DQT_NO_CAST_TO_ASCII -DQT_NO_CAST_FROM_ASCII)
+
 if(LIB_BUILD_MODE EQUAL SHARED)
     install(TARGETS libumbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()
@@ -659,13 +609,6 @@ else()
     install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
     install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 endif()
-
-install( FILES
-    docgenerators/xmi2docbook.xsl
-    docgenerators/docbook2xhtml.xsl
-    docgenerators/xmi.css
-    docgenerators/common.ent
-    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
 
 install( DIRECTORY
     layouts

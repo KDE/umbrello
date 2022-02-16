@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2007                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2006 Gael de Chalendar (aka Kleag) kleag@free.fr
+    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DOCBOOKGENERATOR_H
 #define DOCBOOKGENERATOR_H
@@ -50,8 +46,9 @@ class DocbookGenerator : public QObject
 #else
     void generateDocbookForProjectInto(const KUrl& destDir);
 #endif
-  signals:
+    static QString customXslFile();
 
+signals:
     void finished(bool status);
 
   private slots:

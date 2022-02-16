@@ -1,22 +1,9 @@
-/***************************************************************************
- *   This file is part of KDevelop                                         *
- *   Copyright 2008 Niko Sams <niko.sams@gmail.com>                        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU Library General Public License as       *
- *   published by the Free Software Foundation; either version 2 of the    *
- *   License, or (at your option) any later version.                       *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU Library General Public     *
- *   License along with this program; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
- ***************************************************************************/
+/*
+    This file is part of KDevelop
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
+
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
 #include "typebuilder.h"
 
@@ -524,7 +511,7 @@ void TypeBuilder::visitStatement(StatementAst* node)
             if (!classDec) {
                 ///FIXME: this is just a hack for https://bugs.kde.org/show_bug.cgi?id=269369
                 ///       a proper fix needs full fledged two-pass, i.e. get rid of PreDeclarationBuilder
-                // 0 == global lookup and the delcaration is found again...
+                // 0 == global lookup and the declaration is found again...
                 classDec = dynamic_cast<ClassDeclaration*>(type->declaration(0));
             }
             if (classDec) {

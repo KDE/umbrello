@@ -6,30 +6,36 @@
 #
 # requirements:
 #
-#  osc  - opensuse build service command line client
+#  osc - opensuse build service command line client
 #
-# syntax: release-windows-packages <mode>
+# syntax: release-windows-packages [<options>] <mode>
 #
-# run ./release-windows-packages to see all modes
+# run ./release-windows-packages to see all modes and options
 #
 NAME=umbrello
+# package name on download.kde.org
+RELEASE_NAME=umbrello
 
+ROOT=home:rhabacker:branches:
 PACKAGENAME32=mingw32-$NAME
-ROOT32=windows\:mingw\:win32
+ROOT32=${ROOT}windows\:mingw\:win32
 SRCROOT32=${ROOT32}
 ARCHOUT32=i686-w64-mingw32
+use32=1
 
 PACKAGENAME64=mingw64-$NAME
-ROOT64=windows\:mingw\:win64
+ROOT64=${ROOT}windows\:mingw\:win64
 SRCROOT64=${ROOT64}
 ARCHOUT64=x86_64-w64-mingw32
+use64=1
 
 REPO=openSUSE_Leap_42.3
 SRCREPO=$REPO
-VERSION=2.25.3
+usesrc=0
 
 PHABURL=https://phabricator.kde.org
 oscoptions="-A https://api.opensuse.org"
+osc="/usr/bin/osc $oscoptions"
 apitoken=cli-uxo23l4q5qrzoyscbz5kp4zcngqp
 options='projectPHIDs[]=PHID-PROJ-3qa4tomwgrmcmp4ym2ow'
 
@@ -51,137 +57,330 @@ if ! test -d "work"; then
 fi
 
 echo2 "running mode $1"
+dryrun=0
+update=0
+update_symlink=1
+curl=curl
+
+# check options
+for var in "$@"; do
+case $var in
+--update-32) ## update i686 variant
+    use64=0
+    usesrc=0
+    update=1
+    shift
+    ;;
+
+--update-64) ## update x86_64 variant
+    use32=0
+    usesrc=0
+    update=1
+    shift
+    ;;
+
+--update) ## update already installed release
+    update=1
+    shift
+    ;;
+
+--symlink) ## update 'latest' symbolic link
+    update_symlink=1
+    shift
+    ;;
+
+--dryrun) ## simulate upload only
+    dryrun=1
+    curl="echo curl"
+    shift
+    ;;
+--version) ## set package version
+    shift
+    version=$1
+    shift
+    echo $version > work/VERSION
+    ;;
+--tarversion) ## set tarball version used by update-package
+    shift
+    tarversion=$1
+    shift
+    echo $tarversion > work/TARVERSION
+    ;;
+esac
+done
+
+function clean() {
+    rm -rf work/*
+}
+
+function update_package() {
+    local arch=$1
+    local rootname=ROOT$arch
+    local pkgname=PACKAGENAME$arch
+    local pkg=${!rootname}/${!pkgname}
+    getversion
+    tarversion
+    if [ -z $TARVERSION ]; then
+        TARVERSION=$VERSION
+    fi
+    local fn="umbrello-$TARVERSION.tar.xz"
+    p=$PWD
+    cd work
+    if test -d $pkg; then
+        cd $pkg
+        $osc revert
+        $osc update
+    else
+        $osc co $pkg
+        cd $pkg
+    fi
+    local pattern="<param name=\"version\">@VERSION@</param>"
+    local i=$(echo $pattern | sed 's,@VERSION@,.*,g')
+    local o=$(echo $pattern | sed "s,@VERSION@,$VERSION,g")
+    local v=$(grep "$o" _service)
+    if [ -z "$v" ]; then
+        sed -i "s,$i,$o,g" _service
+    fi
+    local f=$(find -maxdepth 1 -name $fn)
+    if [ -z "$f" ]; then
+        $osc rm umbrello-*.tar.xz || true
+        cp ~/src/releaseme/$fn .
+        $osc add $fn
+    fi
+    $osc ci -m "update to $VERSION"
+    cd $p
+}
+
+function download() {
+    cd work
+    rm -rf binaries
+    if test $use32 -eq 1; then
+        $osc getbinaries --multibuild-package=$PACKAGENAME32-installer $ROOT32 $PACKAGENAME32 $REPO x86_64
+        VERSION=$(find binaries/ -name "*$PACKAGENAME32-setup*" | sed "s,^.*$PACKAGENAME32-setup-,,g;s,-.*$,,g")
+        echo $VERSION > VERSION
+    fi
+    if test $use64 -eq 1; then
+        $osc getbinaries --multibuild-package=$PACKAGENAME64-installer $ROOT64 $PACKAGENAME64 $REPO x86_64
+        VERSION=$(find binaries/ -name "*$PACKAGENAME64-setup*" | sed "s,^.*$PACKAGENAME64-setup-,,g;s,-.*$,,g")
+        echo $VERSION > VERSION
+    fi
+    cd ..
+    if test $usesrc -eq 1; then
+        downloadsrc
+    fi
+    touch work/$1.finished
+}
+
+function getversion() {
+    if ! test -f work/VERSION; then
+        echo "no version found"
+        exit 1;
+    fi
+    VERSION=$(cat work/VERSION)
+}
+
+function tarversion() {
+    TARVERSION=$(cat work/TARVERSION)
+}
+
+function downloadsrc() {
+    cd work
+    # fetch source package
+    src32pkg=$($osc ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep src)
+    $osc getbinaries --sources $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $src32pkg
+    # we only need once source package
+    #src64pkg=$($osc ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep src)
+    #$osc getbinaries --sources $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $src64pkg
+    # fetch debug packages
+    debug32pkg=$($osc ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep debug)
+    $osc getbinaries $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $debug32pkg
+    if test -n "$ROOT64"; then
+        debug64pkg=$($osc ls -b -r $SRCREPO -a x86_64 $SRCROOT64 $PACKAGENAME64 | grep debug)
+        $osc getbinaries $SRCROOT64 $PACKAGENAME64 $SRCREPO x86_64 $debug64pkg
+    fi
+    cd ..
+    touch $1.finished
+}
+
+function unpack()  {
+    getversion
+    cd work
+    files=$(cd binaries; find -name '*setup*' -o -name '*portable*' -o -name '*src*' -o -name '*debugpackage*' | grep "$VERSION" | sed 's,^.,binaries,g')
+    if test -d tmp; then
+        rm -rf tmp
+    fi
+    mkdir -p tmp
+    for i in $(echo $files); do
+        (cd tmp; rpm2cpio ../$i | cpio -idmv)
+    done
+    cd ..
+    touch $1.finished
+}
+
+function movepackage() {
+    cd work
+    rm -rf out
+    mkdir -p out
+    find tmp/ -type f -name '*.exe' -exec cp {} out \;
+    find tmp/ -type f -name '*.7z' -exec cp {} out \;
+    find tmp/ -type f -name '*.xz' -exec cp {} out \;
+    cd ..
+    touch $1.finished
+}
+
+function repacksource() {
+    # repackage source package
+    srcfile=$(find work/tmp -name "$NAME*.xz")
+    outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
+    (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
+    touch work/$1.finished
+}
+
+function createsha() {
+    (cd work/out; find -type f -name '*.7z' -o -name '*.exe' -o -name '*.xz' | sed 's,\./,,g' | sort | xargs sha256sum > $NAME.sha256sum)
+    touch work/$1.finished
+}
+
+function upload() {
+    for i in $(find work/out -name '*.7z' -o -name '*.exe' -o -name '*.xz'); do
+        $curl -T $i ftp://upload.kde.org/incoming/
+        if test $? -ne 0; then
+            echo "upload failed"
+            exit 1
+        fi
+    done
+    touch work/$1.finished
+}
+
+function createdescription() {
+    getversion
+    description="Please move the $RELEASE_NAME related files which have been uploaded to upload.kde.org/incoming to download mirror 'stable/$RELEASE_NAME/$VERSION' location"
+    if test $update -eq 1; then
+        description="$description and remove the old files from this directory."
+    elif test $update_symlink -eq 1; then
+        description="$description and update the symbolic link 'stable/$RELEASE_NAME/latest' to 'stable/$RELEASE_NAME/$VERSION'."
+    else
+        description="$description."
+    fi
+    sums=$(cat work/out/$NAME.sha256sum | gawk 'BEGIN { print "dir   shasum                                file"}  $2 ~ /mingw32/ { print "win32 " $0 } $2 ~ /mingw64/ { print "win64 " $0 } $2 ~ /\-src/ { print "src   " $0 }')
+    echo -e "$description\n\n$sums" > work/description
+    cat work/description
+    touch work/$1.finished
+}
+
+function ticket() {
+    getversion
+    description=$(cat work/description)
+    $curl $PHABURL/api/maniphest.createtask \
+    -d api.token=$apitoken \
+    -d "title=tarball move request for stable/$RELEASE_NAME/$VERSION" \
+    -d "description=$description" \
+    -d "$options"
+    touch work/$1.finished
+}
+
+function sf() {
+    clean
+    download
+    unpack
+    movepackage
+    if test $usesrc -eq 1; then
+        repacksource
+    fi
+    createsha
+    echo "All release related files are located in work/out"
+    ls work/out
+    touch work/$1.finished
+}
+
+function kde() {
+    clean
+    download
+    unpack
+    movepackage
+    if test $usesrc -eq 1; then
+        repacksource
+    fi
+    createsha
+    upload
+    echo "Content for ticket creating:"
+    createdescription
+    echo run "$0 ticket" to submit ticket
+    touch work/$1.finished
+}
+
+function help() {
+    echo "syntax: release-windows-packages [<options>] <mode>"
+    echo
+    echo "options:"
+    gawk '$0 ~ /^--[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0
+    echo
+    echo "modes:"
+    gawk '$0 ~ /^[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0
+
+}
 
 case $1 in
 clean) ## clean working area
-        rm -rf work/*
-        ;;
+    clean;
+    ;;
 
 download) ## download rpm packages
-        cd work
-        rm -rf binaries
-        osc $oscoptions getbinaries $ROOT32 $PACKAGENAME32:$PACKAGENAME32-installer $REPO x86_64
-        if test -n "$ROOT64"; then
-            osc $oscoptions getbinaries $ROOT64 $PACKAGENAME64:$PACKAGENAME64-installer $REPO x86_64
-        fi
-        cd ..
-        $self downloadsrc
-        touch work/$1.finished
-        ;;
+    download
+    ;;
 
 downloadsrc) ## download source
-        cd work
-        # fetch source package
-        src32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep src)
-        osc $oscoptions getbinaries --sources $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $src32pkg
-        # we only need once source package
-        #src64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 mingw64-umbrello | grep src)
-        #osc $oscoptions getbinaries --sources $SRCROOT64 mingw64-umbrello $SRCREPO x86_64 $src64pkg
-        # fetch debug packages
-        debug32pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT32 $PACKAGENAME32 | grep debug)
-        osc $oscoptions getbinaries $SRCROOT32 $PACKAGENAME32 $SRCREPO x86_64 $debug32pkg
-        if test -n "$ROOT64"; then
-            debug64pkg=$(osc $oscoptions ls -b -r $SRCREPO -a x86_64 $SRCROOT64 $PACKAGENAME64 | grep debug)
-            osc $oscoptions getbinaries $SRCROOT64 $PACKAGENAME64 $SRCREPO x86_64 $debug64pkg
-        fi
-        touch $1.finished
-        ;;
+    downloadsrc
+    ;;
 
 unpack) ## unpack rpm files
-        cd work
-        files=$(cd binaries; find -name '*installer*' -o -name '*portable*' -o -name '*src*' -o -name '*debugpackage*' | grep "$VERSION" | sed 's,^.,binaries,g')
-        if test -d tmp; then
-                rm -rf tmp
-        fi
-        mkdir -p tmp
-        for i in $(echo $files); do
-                (cd tmp; rpm2cpio ../$i | cpio -idmv)
-        done
-        touch $1.finished
-        ;;
+    unpack
+    ;;
 
 movepackage) ## move windows binary packages into upload folder
-        cd work
-        rm -rf out
-        mkdir -p out
-        find tmp/ -type f -name '*.exe' -exec cp {} out \;
-        find tmp/ -type f -name '*.7z' -exec cp {} out \;
-        touch $1.finished
-        ;;
+    movepackage
+    ;;
 
 repacksource) ## repackage source tar ball to 7z
-        # repackage source package
-        srcfile=$(find work/tmp -name "$NAME*.xz")
-        outfile=$(basename $srcfile | sed 's,\.tar\.xz,\.7z,g')
-        (mkdir -p work/srctmp; cd work/srctmp; tar -xJf ../../$srcfile; 7za a ../out/$outfile *; cd ..; rm -rf srctmp)
-        touch work/$1.finished
-        ;;
+    repacksource
+    ;;
 
 createsha) ## create sha256sums
-        (cd work/out; find -type f -name '*.7z' -o -name '*.exe' | sed 's,\./,,g' | sort | xargs sha256sum > $NAME.sha256sum)
-        touch work/$1.finished
-        ;;
+    createsha
+    ;;
 
 upload) ## upload files to staging area
-        for i in $(find work/out -name '*.7z' -o -name '*.exe'); do
-            set +e
-            curl -T $i  ftp://upload.kde.org/incoming/
-            set -e
-        done
-        touch work/$1.finished
-        ;;
+    upload
+    ;;
 
 createdescription) ## create ticket description
-        description="Please move the $NAME related files which has been uploaded to upload.kde.org/incoming to download mirror 'stable/$NAME/$VERSION' location and please update the symbolic link 'stable/$NAME/latest' to 'stable/$NAME/$VERSION'"
-        sums=$(cat work/out/$NAME.sha256sum | gawk 'BEGIN { print "dir   shasum                                                            file"}  $2 ~ /i686/ { print "win32 " $0 } $2 ~ /x86_64/ { print "win64 " $0 } $2 ~ /[a-z]+-[0-9]/ { print "src   " $0 }')
-        echo -e "$description\n\n$sums"
-        touch work/$1.finished
-        ;;
+    createdescription
+    ;;
 
 ticket) ## submit phabricator ticket
-        description=$($0 createdescription)
-        curl $PHABURL/api/maniphest.createtask \
-        -d api.token=$apitoken \
-        -d "title=tarball move request for stable/$NAME/$VERSION" \
-        -d "description=$description" \
-        -d "$options"
-        touch work/$1.finished
-        ;;
+    ticket
+    ;;
 
 sf) ## run all required targets for releasing on sourceforge
-        $self clean
-        $self download
-        $self unpack
-        $self movepackage
-        $self repacksource
-        $self createsha
-        echo "All release related files are located in work/out"
-        ls work/out
-        touch work/$1.finished
-        ;;
+    sf
+    ;;
 
 kde) ## run all required targets for releasing on download.kde.org
-        $self clean
-        $self download
-        $self unpack
-        $self movepackage
-        $self repacksource
-        $self createsha
-        $self upload
-        echo2 "Content for ticket creating:"
-        $self createdescription
-        echo2 run "$self ticket" to submit ticket
-        touch work/$1.finished
-        ;;
+    kde
+    ;;
+
+update-package) ## update obs package to requested version
+    if [ $use32 -ne 0 ]; then
+        update_package 32
+    fi
+    if [ $use64 -ne 0 ]; then
+        update_package 64
+    fi
+    ;;
 
 *)
-        echo2 "Make sure to setup VERSION inside $0 and run"
-        echo2 "$0 all"
-        echo2
-        echo2 "or run single targets"
-        echo2
-        gawk '$0 ~ /^[a-z].*) ##/ { sub(/) ##/,"",$0); a = $1; $1 = ""; printf("    %-20s  - %s\n",a, $0); }' $0 >&2
-        ;;
+    help
+    ;;
 esac
 
 exit 0

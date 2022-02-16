@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeblockwithcomments.h"
@@ -15,7 +11,10 @@
 // local includes
 #include "codedocument.h"
 #include "codegenfactory.h"
-#include "debug_utils.h"
+#include "uml.h"
+
+// qt/kde includes
+#include <QXmlStreamWriter>
 
 /**
  * Basic Constructor
@@ -52,30 +51,30 @@ CodeComment * CodeBlockWithComments::getComment () const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeBlockWithComments::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("codeblockwithcomments"));
+    writer.writeStartElement(QLatin1String("codeblockwithcomments"));
 
     // set attributes
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
+void CodeBlockWithComments::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeBlock::setAttributesOnNode(doc, blockElement);
+    CodeBlock::setAttributesOnNode(writer);
 
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI1(doc, commElement); // comment
-    blockElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getComment()->saveToXMI(writer); // comment
+    writer.writeEndElement();
 }
 
 /**
@@ -94,7 +93,7 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeBlockWithComments::loadFromXMI1 (QDomElement & root)
+void CodeBlockWithComments::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -118,7 +117,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getComment()->loadFromXMI1(celem);
+            getComment()->loadFromXMI(celem);
             gotComment = true;
             break;
         }
@@ -127,7 +126,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment) {
-        uWarning() << " loadFromXMI1 : Warning: unable to initialize CodeComment in block:" << getTag();
+        logWarn1("CodeBlockWithComments::loadFromXMI : unable to initialize CodeComment in block %1", getTag());
     }
 }
 

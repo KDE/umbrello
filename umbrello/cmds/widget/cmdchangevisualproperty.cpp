@@ -1,19 +1,15 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "cmdchangevisualproperty.h"
 
 // app includes
 #include "classifierwidget.h"
-#include "umlwidget.h"
 #include "debug_utils.h"
+#include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -44,7 +40,8 @@ namespace Uml
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_newValue);
         else
-            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
+            logWarn1("CmdChangeVisualProperty::redo: could not find classifier widget with id %1",
+                     Uml::ID::toString(m_widgetId));
     }
 
     void CmdChangeVisualProperty::undo()
@@ -53,6 +50,7 @@ namespace Uml
         if (classifier)
             classifier->setVisualPropertyCmd(m_property, m_oldValue);
         else
-            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
+            logWarn1("CmdChangeVisualProperty::undo: could not find classifier widget with id %1",
+                     Uml::ID::toString(m_widgetId));
     }
 }

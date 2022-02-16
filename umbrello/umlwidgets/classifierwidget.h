@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
@@ -27,7 +22,7 @@ class UMLClassifier;
  * @author Gopala Krishna
  *
  * @see UMLWidget
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassifierWidget : public UMLWidget
 {
@@ -40,7 +35,9 @@ public:
      * which stores all the flag status.
      */
     enum VisualProperty {
-        ShowStereotype         = 0x1,
+        ShowStereotype         = 0x1,   // DEPRECATED - see umlwidgets/widgetbase.cpp 
+                                        // WidgetBase::slotMenuSelection(QAction*)
+                                        // case ListPopupMenu::mt_{Show,Hide}_Stereotypes_Selection
         ShowOperations         = 0x2,
         ShowPublicOnly         = 0x4,
         ShowVisibility         = 0x8,
@@ -55,11 +52,14 @@ public:
 
     Q_DECLARE_FLAGS(VisualProperties, VisualProperty)
 
-    ClassifierWidget(UMLScene * scene, UMLClassifier * o);
+    ClassifierWidget(UMLScene * scene, UMLClassifier * umlc);
+    ClassifierWidget(UMLScene * scene, UMLInstance * umli);
     ClassifierWidget(UMLScene * scene, UMLPackage * o);
     virtual ~ClassifierWidget();
 
     UMLClassifier *classifier() const;
+
+    void setShowStereotype(Uml::ShowStereoType::Enum flag);
 
     VisualProperties visualProperties() const;
     void setVisualProperties(VisualProperties properties);
@@ -91,7 +91,6 @@ public:
 
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);
-//    virtual void adjustAssociations(int x, int y);
  
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
@@ -103,8 +102,11 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QPainterPath shape() const;
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement & qElement);
+
+    virtual bool showPropertiesDialog();
+    void setUMLObject(UMLObject *obj);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -112,6 +114,9 @@ public Q_SLOTS:
 private Q_SLOTS:
     void slotShowAttributes(bool state);
     void slotShowOperations(bool state);
+
+protected:
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     void updateSignatureTypes();
@@ -127,7 +132,7 @@ private:
 
     int displayedMembers(UMLObject::ObjectType ot) const;
     void drawMembers(QPainter *painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
-                     int x, int y, int fontHeight);
+                     int x, int y, int textWidth, int fontHeight);
 
     static const int CIRCLE_SIZE;      ///< size of circle when interface is rendered as such
     static const int SOCKET_INCREMENT; ///< augmentation of circle for socket (required interface)

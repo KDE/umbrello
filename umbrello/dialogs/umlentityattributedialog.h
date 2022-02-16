@@ -1,18 +1,14 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLENTITYATTRIBUTEDIALOG_H
 #define UMLENTITYATTRIBUTEDIALOG_H
 
 #include "singlepagedialogbase.h"
 
+class DefaultValueWidget;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
@@ -25,7 +21,7 @@ class KLineEdit;
 
 /**
  * @author Jonathan Riddell
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLEntityAttributeDialog : public SinglePageDialogBase
 {
@@ -58,6 +54,7 @@ protected:
     QCheckBox* m_pNullCB;
     UMLDatatypeWidget *m_datatypeWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
+    DefaultValueWidget *m_defaultValueWidget;
 
 public slots:
     void slotAutoIncrementStateChanged(bool checked);

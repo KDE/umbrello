@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppcodegenerationpolicy.h"
@@ -121,6 +117,39 @@ bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
     return Settings::optionState().codeGenerationState.cppCodeGenerationState.virtualDestructors;
 }
 
+void CPPCodeGenerationPolicy::setGetterWithGetPrefix(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.getterWithGetPrefix = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getGetterWithGetPrefix()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.getterWithGetPrefix;
+}
+
+void CPPCodeGenerationPolicy::setRemovePrefixFromAccessorMethods(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getRemovePrefixFromAccessorMethods()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods;
+}
+
+void CPPCodeGenerationPolicy::setAccessorMethodsStartWithUpperCase(bool var)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase = var;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+bool CPPCodeGenerationPolicy::getAccessorMethodsStartWithUpperCase()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase;
+}
+
 /**
  * Set the value of m_packageIsNamespace.
  * @param var the new value
@@ -201,6 +230,17 @@ void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
 {
     Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+void CPPCodeGenerationPolicy::setClassMemberPrefix(const QString &value)
+{
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.classMemberPrefix = value;
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
+}
+
+QString CPPCodeGenerationPolicy::getClassMemberPrefix()
+{
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.classMemberPrefix;
 }
 
 void CPPCodeGenerationPolicy::setDocToolTag(const QString &value)
@@ -320,6 +360,9 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setAccessorsAreInline(cppclone->getAccessorsAreInline());
         setOperationsAreInline(cppclone->getOperationsAreInline());
         setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
+        setGetterWithGetPrefix(cppclone->getGetterWithGetPrefix());
+        setRemovePrefixFromAccessorMethods(cppclone->getRemovePrefixFromAccessorMethods());
+        setAccessorMethodsStartWithUpperCase(cppclone->getAccessorMethodsStartWithUpperCase());
         setPackageIsNamespace(cppclone->getPackageIsNamespace());
 
         setStringClassName(cppclone->getStringClassName());
@@ -329,7 +372,9 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setVectorClassName(cppclone->getVectorClassName());
         setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
         setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
+
         setDocToolTag(cppclone->getDocToolTag());
+        setClassMemberPrefix(cppclone->getClassMemberPrefix());
     }
 
     blockSignals(false); // "as you were citizen"
@@ -354,6 +399,9 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setAccessorsArePublic(UmbrelloSettings::publicAccessors());
     setOperationsAreInline(UmbrelloSettings::inlineOps());
     setDestructorsAreVirtual(UmbrelloSettings::virtualDestructors());
+    setGetterWithGetPrefix(UmbrelloSettings::getterWithGetPrefix());
+    setRemovePrefixFromAccessorMethods(UmbrelloSettings::removePrefixFromAccessorMethods());
+    setAccessorMethodsStartWithUpperCase(UmbrelloSettings::accessorMethodsStartWithUpperCase());
     setPackageIsNamespace(UmbrelloSettings::packageIsNamespace());
 
     setStringClassName(UmbrelloSettings::stringClassName());
@@ -363,7 +411,9 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setVectorClassName(UmbrelloSettings::vectorClassName());
     setVectorClassNameInclude(UmbrelloSettings::vectorClassNameInclude());
     setVectorIncludeIsGlobal(UmbrelloSettings::vectorIncludeIsGlobal());
+
     setDocToolTag(UmbrelloSettings::docToolTag());
+    setClassMemberPrefix(UmbrelloSettings::classMemberPrefix());
 
     blockSignals(false); // "as you were citizen"
 
@@ -401,6 +451,9 @@ void CPPCodeGenerationPolicy::init()
     setAccessorsArePublic(optionState.codeGenerationState.cppCodeGenerationState.publicAccessors);
     setOperationsAreInline(optionState.codeGenerationState.cppCodeGenerationState.inlineOps);
     setDestructorsAreVirtual(optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors);
+    setGetterWithGetPrefix(optionState.codeGenerationState.cppCodeGenerationState.getterWithGetPrefix);
+    setRemovePrefixFromAccessorMethods(optionState.codeGenerationState.cppCodeGenerationState.removePrefixFromAccessorMethods);
+    setAccessorMethodsStartWithUpperCase(optionState.codeGenerationState.cppCodeGenerationState.accessorMethodsStartWithUpperCase);
     setPackageIsNamespace(optionState.codeGenerationState.cppCodeGenerationState.packageIsNamespace);
 
     setStringClassName(optionState.codeGenerationState.cppCodeGenerationState.stringClassName);
@@ -410,6 +463,9 @@ void CPPCodeGenerationPolicy::init()
     setVectorClassName(optionState.codeGenerationState.cppCodeGenerationState.vectorClassName);
     setVectorClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude);
     setVectorIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal);
+
+    setDocToolTag(optionState.codeGenerationState.cppCodeGenerationState.docToolTag);
+    setClassMemberPrefix(optionState.codeGenerationState.cppCodeGenerationState.classMemberPrefix);
 
     blockSignals(false);
 }

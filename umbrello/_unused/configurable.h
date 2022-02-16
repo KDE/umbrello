@@ -1,20 +1,8 @@
-/***************************************************************************
-                          configurable.h
-                             -------------------
-    begin                : Mon Jan 13 2003
-    copyright            : (C) 2003 by Andrew Sutton
-    email                : ansutton@kent.edu
-  Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2003 Andrew Sutton <ansutton@kent.edu>
+    SPDX-License-Identifier: GPL-2.0-or-later
+    Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
+*/
 
 #ifndef UMBRELLO_CONFIGURABLE_H
 #define UMBRELLO_CONFIGURABLE_H
@@ -47,7 +35,7 @@ class Plugin;
  * classes use for default configuration and plugin management. Although
  * the Configurable class is primarily an interface it does provide some
  * convenience methods that can be used by derived classes to help manage
- * plugins. These methods are conceptually part of a larger (althought
+ * plugins. These methods are conceptually part of a larger (although
  * currently undefined) set of configuration helper methods that reduce
  * the amount of code duplication for applications, tools and plugins.
  *
@@ -101,7 +89,7 @@ protected:
     /**
      * This is a convenience method for derived classes. When a functional object
      * (i.e., application, tool or plugin) is shutdown, it can use this method
-     * to automatically unload all dependant plugins.
+     * to automatically unload all dependent plugins.
      *
      * @return True on success false on failure.
      */

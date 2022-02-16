@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "objectnodewidget.h"
@@ -28,13 +23,16 @@
 // qt includes
 #include <QPainter>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
-#define OBJECTNODE_MARGIN 5
-#define OBJECTNODE_WIDTH 30
+#define OBJECTNODE_MARGIN  5
+#define OBJECTNODE_WIDTH  30
 #define OBJECTNODE_HEIGHT 10
 
+DEBUG_REGISTER_DISABLED(ObjectNodeWidget)
+
 /**
- * Creates a Object Node widget.
+ * Creates an Object Node widget.
  *
  * @param scene            The parent of the widget.
  * @param objectNodeType   The type of object node
@@ -270,23 +268,23 @@ bool ObjectNodeWidget::showPropertiesDialog()
 /**
  * Saves the widget to the "objectnodewidget" XMI element.
  */
-void ObjectNodeWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectNodeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement objectNodeElement = qDoc.createElement(QLatin1String("objectnodewidget"));
-    UMLWidget::saveToXMI1(qDoc, objectNodeElement);
-    objectNodeElement.setAttribute(QLatin1String("objectnodename"), m_Text);
-    objectNodeElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    objectNodeElement.setAttribute(QLatin1String("objectnodetype"), m_objectNodeType);
-    objectNodeElement.setAttribute(QLatin1String("objectnodestate"), m_state);
-    qElement.appendChild(objectNodeElement);
+    writer.writeStartElement(QLatin1String("objectnodewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("objectnodename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("objectnodetype"), QString::number(m_objectNodeType));
+    writer.writeAttribute(QLatin1String("objectnodestate"), m_state);
+    writer.writeEndElement();
 }
 
 /**
  * Loads the widget from the "objectnodewidget" XMI element.
  */
-bool ObjectNodeWidget::loadFromXMI1(QDomElement& qElement)
+bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement) )
+    if(!UMLWidget::loadFromXMI(qElement) )
         return false;
     m_Text = qElement.attribute(QLatin1String("objectnodename"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));

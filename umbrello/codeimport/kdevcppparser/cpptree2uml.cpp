@@ -1,14 +1,9 @@
-/***************************************************************************
- *   Based on kdevelop-3.0 languages/cpp/store_walker.cpp by Roberto Raggi *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    Based on kdevelop-3.0 languages/cpp/store_walker.cpp by Roberto Raggi
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cpptree2uml.h"
@@ -19,6 +14,7 @@
 #include "umllistview.h"
 #include "datatype.h"
 #include "operation.h"
+#define DBG_SRC QLatin1String("CppTree2Uml")
 #include "debug_utils.h"
 #include "ast_utils.h"
 #include "codeimpthread.h"
@@ -36,6 +32,8 @@
 #include <QFileInfo>
 #include <QList>
 #include <QRegExp>
+
+DEBUG_REGISTER(CppTree2Uml)
 
 CppTree2Uml::CppTree2Uml(const QString& fileName, CodeImpThread* thread)
   : m_thread(thread),
@@ -91,7 +89,11 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
         QFileInfo fi(file.fileName());
 
         UMLFolder *parent = m_rootFolder;
-        QString path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
+        QString path;
+        if (!m_rootPath.isEmpty())
+            path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
+        else
+            path = fi.absolutePath();
         if (!path.isEmpty())
             parent = Import_Utils::createSubDir(path, m_rootFolder);
 
@@ -104,7 +106,7 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
 void CppTree2Uml::parseNamespace(NamespaceAST* ast)
 {
     if (m_clsCnt > 0) {
-        uDebug() << "error - cannot nest namespace inside class";
+        logDebug0("CppTree2Uml::parseNamespace error - cannot nest namespace inside class");
         return;
     }
 
@@ -117,7 +119,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     } else {
         nsName = ast->namespaceName()->text();
     }
-    uDebug() << nsName;
+    logDebug1("CppTree2Uml::parseNamespace %1", nsName);
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("namespace ") + nsName);
     }
@@ -136,7 +138,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back(nsName);
     if (++m_nsCnt > STACKSIZE) {
-        uError() << "excessive namespace nesting";
+        logError0("CppTree2Uml::parseNamespace: excessive namespace nesting");
         m_nsCnt = STACKSIZE;
     }
     m_currentNamespace[m_nsCnt] = ns;
@@ -202,7 +204,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                     dt->setOriginType(inner->asUMLClassifier());
                 }
                 else {
-                    uError() << "Could not create datatype from" << id;
+                    logError1("CppTree2Uml::parseTypedef: Could not create datatype from id %1", id);
                 }
             } else {
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
@@ -232,7 +234,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
                 Model_Utils::NameAndType nt(typeName, 0);
                 m_templateParams.append(nt);
             } else {
-                uError() << "nameNode is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration: nameNode is NULL");
             }
         }
 
@@ -240,7 +242,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
         if (valueNode) {
             TypeSpecifierAST* typeSpec = valueNode->typeSpec();
             if (typeSpec == 0) {
-                uError() << "typeSpec is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration: typeSpec is NULL");
                 continue;
             }
             QString typeName = typeSpec->name()->text();
@@ -249,8 +251,7 @@ void CppTree2Uml::parseTemplateDeclaration(TemplateDeclarationAST* ast)
             DeclaratorAST* declNode = valueNode->declarator();
             NameAST* nameNode = declNode->declaratorId();
             if (nameNode == 0) {
-                uError() << "CppTree2Uml::parseTemplateDeclaration(value):"
-                         << " nameNode is NULL";
+                logError0("CppTree2Uml::parseTemplateDeclaration(value): nameNode is NULL");
                 continue;
             }
             QString paramName = nameNode->unqualifiedName()->text();
@@ -308,7 +309,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     bool isExplicit = false;
     bool isConstExpression = false;
 
-    if (funSpec){
+    if (funSpec) {
         QList<AST*> l = funSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
@@ -321,12 +322,14 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         }
     }
 
-    if (storageSpec){
+    if (storageSpec) {
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("friend")) isFriend = true;
-            else if (text == QLatin1String("static")) isStatic = true;
+            if (text == QLatin1String("friend"))
+                isFriend = true;
+            else if (text == QLatin1String("static"))
+                isStatic = true;
             else if (text == QLatin1String("constexpr"))
                 isConstExpression = true;
         }
@@ -336,11 +339,11 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("method ") + id);
     }
-    uDebug() << id;
+    logDebug1("CppTree2Uml::parseFunctionDefinition %1", id);
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == 0) {
-        uDebug() << id << ": need a surrounding class.";
+        logDebug1("CppTree2Uml::parseFunctionDefinition %1: need a surrounding class.", id);
         return;
     }
 
@@ -352,7 +355,9 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         m->setVirtual(true);
     if (isInline)
         m->setInline(true);
-    if (d->override())
+    if (d->final_())
+        m->setFinal(true);
+    if (d->override_())
         m->setOverride(true);
     if (d->constant())
         m->setConst(true);
@@ -411,7 +416,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     } else {
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
-    uDebug() << "name=" << className;
+    logDebug1("CppTree2Uml::parseClassSpecifier name=%1", className);
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("class ") + className);
     }
@@ -456,12 +461,12 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     m_currentScope.push_back(className);
     if (++m_clsCnt > STACKSIZE) {
-        uError() << "excessive class nesting";
+        logError0("CppTree2Uml::parseClassSpecifier: excessive class nesting");
         m_clsCnt = STACKSIZE;
     }
     m_currentClass[m_clsCnt] = klass;
     if (++m_nsCnt > STACKSIZE) {
-        uError() << "excessive namespace nesting";
+        logError0("CppTree2Uml::parseClassSpecifier: excessive namespace nesting");
         m_nsCnt = STACKSIZE;
     }
     m_currentNamespace[m_nsCnt] = (UMLPackage*)klass;
@@ -473,7 +478,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     m_currentScope.pop_back();
 
-    // check is class is an interface
+    // check if class is an interface
     bool isInterface = true;
     foreach(UMLOperation *op, klass->getOpList()) {
         if (!op->isDestructorOperation() && op->isAbstract() == false)
@@ -525,24 +530,12 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
     ///              - Using typeSpec->text() is probably not good, decode
     ///                the kind() instead.
     QString text = typeSpec->text();
-    uDebug() << "forward declaration of " << text;
+    logDebug1("CppTree2Uml::parseElaboratedTypeSpecifier forward declaration of %1", text);
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("forward declaration of ") + text);
     }
     text.remove(QRegExp(QLatin1String("^class\\s+")));
-#if 0
-    if (m_thread) {  //:TODO: for testing only
-        int answer;
-        m_thread->emitAskQuestion("Soll CppTree2Uml::parseElaboratedTypeSpecifier ausgeführt werden?");
-        uDebug() << "Antwort: " << answer;
-    }
-#endif
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text, m_currentNamespace[m_nsCnt]);
-#if 0
-    if (m_thread) {  //:TODO: for testing only
-        m_thread->emitAskQuestion("Soll nach CppTree2Uml::parseElaboratedTypeSpecifier weiter gemacht werden?");
-    }
-#endif
     flushTemplateParams(o->asUMLClassifier());
 }
 
@@ -569,13 +562,13 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
         id = t->declaratorId()->unqualifiedName()->text();
 
     if (!scopeOfDeclarator(d, QStringList()).isEmpty()){
-        uDebug() << id << ": skipping.";
+        logDebug1("CppTree2Uml::parseDeclaration2 %1: skipping.", id);
         return;
     }
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == 0) {
-        uDebug() << id << ": need a surrounding class.";
+        logDebug1("CppTree2Uml::parseDeclaration2 %1: need a surrounding class.", id);
         return;
     }
 
@@ -657,13 +650,24 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == 0) {
-        uDebug() << id << ": need a surrounding class.";
+        logDebug1("CppTree2Uml::parseFunctionDeclaration %1: need a surrounding class.", id);
         return;
     }
 
     QString returnType = typeOfDeclaration(typeSpec, d);
+    // if a class has no return type it could be a constructor or a destructor
+    if (d && returnType.isEmpty()) {
+        if (id.contains(QLatin1Char('~'))) {
+            isDestructor = true;
+            id.remove(QLatin1String(" "));
+        } else {
+            isConstructor = true;
+        }
+    }
     UMLOperation *m = Import_Utils::makeOperation(c, id);
-    if (d->override())
+    if (d->final_())
+        m->setFinal(true);
+    if (d->override_())
         m->setOverride(true);
     if (d->constant())
         m->setConst(true);
@@ -673,14 +677,6 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         m->setVirtual(true);
     if (isInline)
         m->setInline(true);
-    // if a class has no return type, it could de a constructor or
-    // a destructor
-    if (d && returnType.isEmpty()) {
-        if (id.indexOf(QLatin1Char('~')) == -1)
-            isConstructor = true;
-        else
-            isDestructor = true;
-    }
 
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
@@ -757,12 +753,12 @@ void CppTree2Uml::parseBaseClause(BaseClauseAST * baseClause, UMLClassifier* kla
 
         NameAST *name = baseSpecifier->name();
         if (name == 0) {
-                uDebug() << "baseSpecifier->name() is NULL";
-                continue;
+            logDebug0("CppTree2Uml::parseBaseClause: baseSpecifier->name() is NULL");
+            continue;
         }
         ClassOrNamespaceNameAST *cons = name->unqualifiedName();
         if (cons == 0) {
-            uDebug() << "name->unqualifiedName() is NULL";
+            logDebug0("CppTree2Uml::parseBaseClause: name->unqualifiedName() is NULL");
             continue;
         }
         QString baseName = cons->name()->text();
@@ -806,7 +802,7 @@ void CppTree2Uml::flushTemplateParams(UMLClassifier *klass)
         Model_Utils::NameAndType_ListIt it;
         for (it = m_templateParams.begin(); it != m_templateParams.end(); ++it) {
             const Model_Utils::NameAndType &nt = *it;
-            uDebug() << "adding template param: " << nt.m_name;
+            logDebug1("CppTree2Uml::flushTemplateParams adding template param: %1", nt.m_name);
             UMLTemplate *tmpl = klass->addTemplate(nt.m_name);
             tmpl->setType(nt.m_type);
         }

@@ -1,24 +1,11 @@
 /*
- * KDevelop Php Code Completion Support
- *
- * Copyright 2009 Milian Wolff <mail@milianw.de>
- * Basec on Cpp ImplementationHelperItem
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Library General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- */
+    KDevelop Php Code Completion Support
+
+    SPDX-FileCopyrightText: 2009 Milian Wolff <mail@milianw.de>
+    Basec on Cpp ImplementationHelperItem
+
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
 #include "implementationitem.h"
 
@@ -120,22 +107,22 @@ void ImplementationItem::execute(KTextEditor::View* view, const KTextEditor::Ran
             replaceRange.start() = KTextEditor::Cursor(methodText.count('\n'), methodText.length() - methodText.lastIndexOf('\n') - 1);
         }
 
-        // get indendation
-        QString indendation;
+        // get indentation
+        QString indentation;
         {
             QString currentLine = document->line(replaceRange.start().line());
-            indendation = getIndendation(currentLine);
+            indentation = getIndentation(currentLine);
 
-            if ( !currentLine.isEmpty() && currentLine != indendation ) {
+            if ( !currentLine.isEmpty() && currentLine != indentation ) {
                 // since theres some non-whitespace in this line, skip to the enxt one
-                replText += '\n' + indendation;
+                replText += '\n' + indentation;
             }
 
-            if (indendation.isEmpty()) {
-                // use a minimal indendation
+            if (indentation.isEmpty()) {
+                // use a minimal indentation
                 // TODO: respect code style
-                indendation = QStringLiteral("  ");
-                replText += indendation;
+                indentation = QStringLiteral("  ");
+                replText += indentation;
             }
         }
 
@@ -151,12 +138,12 @@ void ImplementationItem::execute(KTextEditor::View* view, const KTextEditor::Ran
                 qCDebug(COMPLETION) << "completion item for implementation has no parent context!";
             }
 
-            replText += "/**\n" + indendation + " * ";
+            replText += "/**\n" + indentation + " * ";
             // insert old comment:
-            const QString indentationWithExtra = "\n" + indendation + " *";
+            const QString indentationWithExtra = "\n" + indentation + " *";
             replText += m_declaration->comment().replace('\n', indentationWithExtra.toAscii().constData());
-            replText += "\n" + indendation + " * @overload " + m_declaration->internalContext()->scopeIdentifier(true).toString();
-            replText += "\n" + indendation + " **/\n" + indendation;
+            replText += "\n" + indentation + " * @overload " + m_declaration->internalContext()->scopeIdentifier(true).toString();
+            replText += "\n" + indentation + " **/\n" + indentation;
         }
         #endif
 
@@ -251,15 +238,15 @@ void ImplementationItem::execute(KTextEditor::View* view, const KTextEditor::Ran
                 }
             }
 
-            replText += QStringLiteral("\n%1{\n%1    ").arg(indendation);
+            replText += QStringLiteral("\n%1{\n%1    ").arg(indentation);
             if (isInterface || m_type == ImplementationItem::Implement) {
             } else if (!isConstructorOrDestructor && !voidReturnType) {
-                replText += QStringLiteral("$ret = parent::%2%3;\n%1    return $ret;").arg(indendation, functionName, arguments);
+                replText += QStringLiteral("$ret = parent::%2%3;\n%1    return $ret;").arg(indentation, functionName, arguments);
             } else {
                 replText += QStringLiteral("parent::%1%2;").arg(functionName, arguments);
             }
             replText += QStringLiteral("\n%1}\n%1")
-                    .arg(indendation);
+                    .arg(indentation);
 
         }
 

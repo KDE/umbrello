@@ -1,19 +1,11 @@
-/***************************************************************************
-   copyright            : (C) 2006 by David Nolden
-   email                : david.nolden.kdevelop@art-master.de
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006 David Nolden <david.nolden.kdevelop@art-master.de>
+*/
 
 #include "cachemanager.h"
 
+#define DBG_SRC QLatin1String("CacheManager")
 #include "debug_utils.h"
 
 DEBUG_REGISTER_DISABLED(CacheManager)
@@ -77,17 +69,16 @@ void CacheManager::setMaxNodes (int maxNodes)
 
 void CacheManager::increaseFrame()
 {
-    QString dbg_src(QLatin1String("CacheManager"));
     m_currentFrame ++;
     if (m_set.size() > m_maxNodes) {
-        DEBUG(dbg_src) << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
+        DEBUG() << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
         int mustErase = m_set.size() - m_maxNodes;
         while (!m_set.empty() && mustErase != 0) {
             --mustErase;
             SetType::iterator it = m_set.begin();
             erase(*it);
         }
-        DEBUG(dbg_src) << "Have " << m_set.size() << " nodes after erasing." << endl;
+        DEBUG() << "Have " << m_set.size() << " nodes after erasing." << endl;
     }
 }
 

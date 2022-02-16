@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 // own header
 #include "floatingdashlinewidget.h"
 #include "combinedfragmentwidget.h"
@@ -23,6 +18,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
 
@@ -159,27 +155,27 @@ qreal FloatingDashLineWidget::getDiffY() const
 /**
  * Creates the "floatingdashline" XMI element.
  */
-void FloatingDashLineWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingDashLineWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement textElement = qDoc.createElement(QLatin1String("floatingdashlinewidget"));
-    UMLWidget::saveToXMI1(qDoc, textElement);
-    textElement.setAttribute(QLatin1String("text"), m_Text);
-    textElement.setAttribute(QLatin1String("minY"), m_yMin);
-    textElement.setAttribute(QLatin1String("maxY"), m_yMax);
+    writer.writeStartElement(QLatin1String("floatingdashlinewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("minY"), QString::number(m_yMin));
+    writer.writeAttribute(QLatin1String("maxY"), QString::number(m_yMax));
 
-    qElement.appendChild(textElement);
+    writer.writeEndElement();
 }
 
 /**
  * Loads the "floatingdashline" XMI element.
  */
-bool FloatingDashLineWidget::loadFromXMI1(QDomElement & qElement)
+bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
 {
     m_yMax = qElement.attribute(QLatin1String("maxY")).toFloat();
     m_yMin = qElement.attribute(QLatin1String("minY")).toFloat();
     m_Text = qElement.attribute(QLatin1String("text"));
 
-    if(!UMLWidget::loadFromXMI1(qElement)) {
+    if(!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2018                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
@@ -32,7 +27,7 @@ class ListPopupMenuPrivate;
  *
  * @short Displays a popup menu.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ListPopupMenu : public KMenu
 {
@@ -59,7 +54,10 @@ public:
         mt_Deployment_Folder,
         mt_EntityRelationship_Folder,
         // widgets, uml objects
+        mt_Accept_Signal,
+        mt_Accept_Time_Event,
         mt_Activity,
+        mt_Activity_Transition,
         mt_Actor,
         mt_Artifact,
         mt_Attribute,
@@ -68,36 +66,60 @@ public:
         mt_CheckConstraint,
         mt_Choice,
         mt_Class,
+        mt_CombinedState,
         mt_Component,
         mt_Datatype,
         mt_DeepHistory,
         mt_DisjointSpecialisation,
+        mt_EditCombinedState,
         mt_End_Activity,
         mt_End_State,
         mt_Entity,
         mt_EntityAttribute,
         mt_Enum,
         mt_EnumLiteral,
+        mt_Exception,
         mt_FloatText,
+        mt_Final_Activity,
         mt_ForeignKeyConstraint,
+        mt_Fork,
+        mt_GoToStateDiagram,
         mt_Initial_Activity,
         mt_Initial_State,
+        mt_Invoke_Activity,
         mt_Instance,
         mt_InstanceAttribute,
         mt_Interface,
+        mt_InterfaceComponent,
+        mt_InterfaceProvided,
+        mt_InterfaceRequired,
         mt_Junction,
+        mt_MessageAsynchronous,
+        mt_MessageCreation,
+        mt_MessageDestroy,
+        mt_MessageFound,
+        mt_MessageLost,
+        mt_MessageSynchronous,
         mt_Node,
         mt_Note,
         mt_Object,
+        mt_Object_Node,
         mt_Operation,
         mt_OverlappingSpecialisation,
         mt_Package,
+        mt_Param_Activity,
+        mt_Pin,
         mt_Port,
+        mt_PrePostCondition,
         mt_PrimaryKeyConstraint,
+        mt_Region,
+        mt_SelectStateDiagram,
+        mt_Send_Signal,
         mt_ShallowHistory,
         mt_State,
         mt_StateFork,
         mt_StateJoin,
+        mt_StateTransition,
         mt_Subsystem,
         mt_Template,
         mt_Union,
@@ -112,10 +134,14 @@ public:
         mt_New_Operation,
         mt_New_Parameter,
         mt_New_Template,
+        mt_RemoveStateDiagram,
+        mt_ReturnToClass,
+        mt_ReturnToCombinedState,
         // selection
         // visual properties
         mt_Hide_Attribute_Signature_Selection,
         mt_Hide_Attributes_Selection,            // Unset visual property on multiple widgets
+        mt_Hide_Destruction_Box,
         mt_Hide_NonPublic_Selection,             // Could be named "show public only"
         mt_Hide_Operation_Signature_Selection,
         mt_Hide_Operations_Selection,            // Hide operations
@@ -126,6 +152,7 @@ public:
         mt_Show_Attribute_Signature_Selection,
         mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
         mt_Show_Attributes,                      // Toggle visual property on a widget
+        mt_Show_Destruction_Box,
         mt_Show_Documentation,
         mt_Show_NonPublic_Selection,             // Could be named "hide public only" (crazy!)
         mt_Show_Operation_Signature,
@@ -144,6 +171,7 @@ public:
         mt_ChangeToClass,
         mt_ChangeToInterface,
         mt_ChangeToPackage,
+        mt_Open_File,
         mt_Rename_Object,
         mt_Select_Operation,
         mt_Properties,
@@ -183,9 +211,11 @@ public:
         mt_Resize,
         mt_Up,
         mt_Down,
-        mt_Flip,
+        mt_FlipHorizontal,
+        mt_FlipVertical,
         mt_Add_Point,
         mt_Delete_Point,
+        mt_Auto_Layout_Spline,
 
         mt_Expand_All,                           // Expand all items in the list
         mt_Collapse_All,                         // Collapse all items in the list
@@ -259,14 +289,15 @@ public:
     void addMenu(KMenu *menu);
 protected:
     void insert(MenuType m);
+    void insertFromActionKey(const MenuType m, KMenu *menu, const QString &action);
     void insert(const MenuType m, KMenu* menu);
     void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
     void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);
     void insert(const MenuType m, const QIcon & icon, const QString & text);
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
-    void insertContainerItems(bool folderAndDiagrams, bool packages=true);
-    void insertContainerItems(KMenu* menu, bool folderAndDiagrams, bool packages);
+    void insertContainerItems(bool folders, bool diagrams, bool packages);
+    void insertContainerItems(KMenu* menu, bool folders, bool diagrams, bool packages);
     void insertAssociationTextItem(const QString &label, MenuType mt);
 
     KMenu *makeNewMenu();

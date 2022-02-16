@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2003-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "constraintlistpage.h"
 
@@ -22,6 +17,7 @@
 #include "operation.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 #include "uniqueconstraint.h"
 
 #if QT_VERSION < 0x050000
@@ -132,7 +128,8 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     UMLEntity* ent = m_pClassifier->asUMLEntity();
 
     if (ent == 0) {
-        uError() << "Could not set Primary Key. Entity Value is Null";
+        logError0("ConstraintListPage::slotNewPrimaryKeyConstraint: Could not set Primary Key. "
+                  "Entity Value is Null");
         return;
     }
 
@@ -235,7 +232,7 @@ void ConstraintListPage::slotNewCheckConstraint()
 /**
  * Will return true if ct1 has a higher (top)  place in the list than ct2
  *
- * @param ct1 Contraint Type 1
+ * @param ct1 Constraint Type 1
  * @param ct2 Constraint Type 2
  * @return true if ct1 is to be shown above ct2 else false
  */

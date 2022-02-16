@@ -1,22 +1,9 @@
-/***************************************************************************
- *   This file is part of KDevelop                                         *
- *   Copyright 2008 Niko Sams <niko.sams@gmail.com>                        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU Library General Public License as       *
- *   published by the Free Software Foundation; either version 2 of the    *
- *   License, or (at your option) any later version.                       *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU Library General Public     *
- *   License along with this program; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
- ***************************************************************************/
+/*
+    This file is part of KDevelop
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
+
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
 #include "declarationbuilder.h"
 #include "predeclarationbuilder.h"
@@ -71,7 +58,7 @@ void DeclarationBuilder::getVariableIdentifier(VariableAst* node,
 {
     parent = QualifiedIdentifier();
     if ( node->variablePropertiesSequence ) {
-        // at least one "->" in the assigment target
+        // at least one "->" in the assignment target
         // => find he parent of the target
         // => find the target (last object property)
         if ( node->variablePropertiesSequence->count() == 1 ) {
@@ -1069,7 +1056,7 @@ void DeclarationBuilder::visitAssignmentExpressionEqual(AssignmentExpressionEqua
                 declareClassMember(ctx, type, m_findVariable.identifier, m_findVariable.node);
             }
         } else {
-            // assigment to other variables
+            // assignment to other variables
             declareVariable(currentContext(), type, m_findVariable.identifier, m_findVariable.node );
         }
     }
@@ -1169,7 +1156,7 @@ void DeclarationBuilder::visitFunctionCallParameterListElement(FunctionCallParam
         if ( refType ) {
             // this argument is referenced, so if the node contains undeclared variables we have
             // to declare them with a NULL type, see also:
-            // http://de.php.net/manual/en/language.references.whatdo.php
+            // https://de.php.net/manual/en/language.references.whatdo.php
 
             // declare with NULL type, just like PHP does
             declareFoundVariable(AbstractType::Ptr(new IntegralType(IntegralType::TypeNull)));

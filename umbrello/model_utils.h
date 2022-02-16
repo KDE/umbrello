@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef MODEL_UTILS_H
 #define MODEL_UTILS_H
@@ -31,7 +26,7 @@ class UMLEntity;
 /**
  * General purpose model utilities.
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Model_Utils {
 
@@ -49,6 +44,10 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
+UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
+                                  const QString& name,
+                                  UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
 UMLPackage* rootPackage(UMLObject* obj);
 
 void treeViewAddViews(const UMLViewList& viewList);
@@ -62,6 +61,10 @@ QString treeViewBuildDiagramName(Uml::ID::Type id);
 QString uniqObjectName(UMLObject::ObjectType type,
                        UMLPackage *parentPkg,
                        QString prefix = QString());
+QString newTitle(UMLObject::ObjectType type);
+QString newText(UMLObject::ObjectType type);
+QString renameTitle(UMLObject::ObjectType type);
+QString renameText(UMLObject::ObjectType type);
 
 QString getXmiId(QDomElement element);
 bool isCommonXMI1Attribute(const QString &tag);
@@ -80,6 +83,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
     UMLListViewItem::ListViewType parentType);
 bool typeIsAllowedInDiagram(UMLObject *o, UMLScene *scene);
 bool typeIsAllowedInDiagram(UMLWidget *w, UMLScene *scene);
+bool hasAssociations(UMLObject::ObjectType type);
 
 Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);

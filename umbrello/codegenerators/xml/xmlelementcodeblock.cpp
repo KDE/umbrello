@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "xmlelementcodeblock.h"
@@ -15,8 +11,11 @@
 // local includes
 #include "attribute.h"
 #include "codedocument.h"
-#include "debug_utils.h"
+#include "uml.h"
 #include "xmlcodecomment.h"
+
+// qt includes
+#include <QXmlStreamWriter>
 
 XMLElementCodeBlock::XMLElementCodeBlock (CodeDocument * parentDoc, const QString & nodeName, const QString & comment)
         : HierarchicalCodeBlock(parentDoc)
@@ -31,19 +30,19 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void XMLElementCodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("xmlelementblock"));
+    writer.writeStartElement(QLatin1String("xmlelementblock"));
 
-    setAttributesOnNode(doc, blockElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void XMLElementCodeBlock::loadFromXMI1 (QDomElement & root)
+void XMLElementCodeBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -52,13 +51,13 @@ void XMLElementCodeBlock::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void XMLElementCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void XMLElementCodeBlock::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    HierarchicalCodeBlock::setAttributesOnNode(doc, docElement);
+    HierarchicalCodeBlock::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    docElement.setAttribute(QLatin1String("nodeName"), getNodeName());
+    writer.writeAttribute(QLatin1String("nodeName"), getNodeName());
 }
 
 /**
@@ -111,7 +110,7 @@ void XMLElementCodeBlock::updateContent ()
     foreach (UMLAttribute *at, *alist)
     {
         if(at->getInitialValue().isEmpty())
-            uWarning() << " XMLElementCodeBlock : cant print out attribute that lacks an initial value";
+            logWarn0("XMLElementCodeBlock : cant print out attribute that lacks an initial value");
         else {
             startText.append(QLatin1String(" ") + at->name() + QLatin1String("=\""));
             startText.append(at->getInitialValue() + QLatin1String("\""));

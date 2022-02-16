@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dcodedocumentation.h"
@@ -30,12 +26,12 @@ DCodeDocumentation::~DCodeDocumentation()
 {
 }
 
-void DCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void DCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("dcodedocumentation"));
-    setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+    writer.writeStartElement(QLatin1String("dcodedocumentation"));
+    setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 QString DCodeDocumentation::toString() const
@@ -100,7 +96,7 @@ int DCodeDocumentation::lastEditableLine()
 
 /**
  * UnFormat a long text string. Typically, this means removing
- * the indentaion (linePrefix) and/or newline chars from each line.
+ * the indentation (linePrefix) and/or newline chars from each line.
  */
 QString DCodeDocumentation::unformatText(const QString & text, const QString & indent)
 {

@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2018                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "dialogspopupmenu.h"
 
 // app includes
 #include "debug_utils.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>
@@ -102,7 +98,7 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
         break;
 
     default:
-        uWarning() << "unknown menu type " << type;
+        logWarn1("DialogsPopupMenu: unknown menu type %1", type);
         break;
     }//end switch
     setupActionsData();
@@ -112,6 +108,7 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
  * Shortcut for commonly used sub menu initializations.
  *
  * @param type   The MenuType for which to set up the menu.
+ * @param menu   The KMenu in which to add the sub menu.
  */
 void DialogsPopupMenu::insertSubMenuNew(TriggerType type, KMenu *menu)
 {

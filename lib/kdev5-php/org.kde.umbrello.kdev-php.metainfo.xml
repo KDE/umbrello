@@ -3,41 +3,59 @@
   <id>org.kde.umbrello.kdev-php</id>
   <extends>org.kde.umbrello.desktop</extends>
   <name>KDevelop PHP Support</name>
-  <name xml:lang="ca">Implementació de PHP del KDevelop</name>
-  <name xml:lang="ca-valencia">Implementació de PHP del KDevelop</name>
+  <name xml:lang="ca">Implementació de PHP al KDevelop</name>
+  <name xml:lang="ca-valencia">Implementació de PHP al KDevelop</name>
   <name xml:lang="cs">Podpora jazyka PHP v KDevelop</name>
   <name xml:lang="de">KDevelop – PHP-Unterstützung</name>
+  <name xml:lang="el">KDevelop PHP Support</name>
   <name xml:lang="en-GB">KDevelop PHP Support</name>
   <name xml:lang="es">Implementación de PHP para KDevelop</name>
+  <name xml:lang="et">KDevelopi PHP toetus</name>
+  <name xml:lang="eu">KDevelop-en PHP euskarria</name>
   <name xml:lang="fr">Prise en charge de PHP pour KDevelop</name>
   <name xml:lang="gl">Compatibilidade con PHP para KDevelop</name>
+  <name xml:lang="hu">KDevelop PHP-támogatás</name>
   <name xml:lang="it">Supporto PHP per KDevelop</name>
+  <name xml:lang="ko">KDevelop PHP 지원</name>
   <name xml:lang="nl">PHP ondersteuning in KDevelop</name>
+  <name xml:lang="pl">Obsługa PHP dla KDevelop</name>
   <name xml:lang="pt">Suporte para PHP do KDevelop</name>
+  <name xml:lang="pt-BR">Suporte PHP do KDevelop</name>
+  <name xml:lang="ru">Поддержка PHP для KDevelop</name>
   <name xml:lang="sk">PHP podpora pre KDevelop</name>
   <name xml:lang="sl">Podpora PHP-ju za KDevelop</name>
   <name xml:lang="sv">KDevelop PHP-stöd</name>
   <name xml:lang="uk">Підтримка PHP у KDevelop</name>
   <name xml:lang="x-test">xxKDevelop PHP Supportxx</name>
   <name xml:lang="zh-CN">KDevelop PHP 支持</name>
+  <name xml:lang="zh-TW">KDevelop PHP 支援</name>
   <summary>PHP language support for KDevelop</summary>
-  <summary xml:lang="ca">Implementació del llenguatge PHP per al KDevelop</summary>
-  <summary xml:lang="ca-valencia">Implementació del llenguatge PHP per al KDevelop</summary>
+  <summary xml:lang="ca">Implementació del llenguatge PHP al KDevelop</summary>
+  <summary xml:lang="ca-valencia">Implementació del llenguatge PHP al KDevelop</summary>
   <summary xml:lang="cs">Podpora jazyka PHP pro KDevelop</summary>
   <summary xml:lang="de">PHP-Sprachunterstützung für KDevelop</summary>
+  <summary xml:lang="el">Υποστήριξη γλώσσας PHP για το KDevelop</summary>
   <summary xml:lang="en-GB">PHP language support for KDevelop</summary>
   <summary xml:lang="es">Implementación del lenguaje PHP para KDevelop</summary>
+  <summary xml:lang="et">KDevelop PHP keele toetus</summary>
+  <summary xml:lang="eu">KDevelop-erako PHP lengoaiaren euskarria</summary>
   <summary xml:lang="fr">Prise en charge du langage PHP pour KDevelop</summary>
   <summary xml:lang="gl">Compatibilidade coa linguaxe PHP para KDevelop</summary>
+  <summary xml:lang="hu">PHP nyelvi támogatás a KDevelophoz</summary>
   <summary xml:lang="it">Supporto al linguaggio PHP per KDevelop</summary>
+  <summary xml:lang="ko">KDevelop의 PHP 언어 지원</summary>
   <summary xml:lang="nl">Ondersteuning van PHP-taal voor KDevelop</summary>
+  <summary xml:lang="pl">Obsługa języka PHP dla KDevelop</summary>
   <summary xml:lang="pt">Suporte à linguagem PHP do KDevelop</summary>
+  <summary xml:lang="pt-BR">Suporte à linguagem PHP do KDevelop</summary>
+  <summary xml:lang="ru">Поддержка языка программирования PHP для KDevelop</summary>
   <summary xml:lang="sk">Podpora jazyka PHP pre KDevelop</summary>
   <summary xml:lang="sl">Podpora jeziku PHP za KDevelop</summary>
   <summary xml:lang="sv">Stöd för språket PHP i KDevelop</summary>
   <summary xml:lang="uk">Підтримка мови PHP у KDevelop</summary>
   <summary xml:lang="x-test">xxPHP language support for KDevelopxx</summary>
   <summary xml:lang="zh-CN">KDevelop 的 PHP 语言支持</summary>
+  <summary xml:lang="zh-TW">適用於 KDevelop 的 PHP 語言支援</summary>
   <project_license>GPL-2.0+</project_license>
   <metadata_license>CC0-1.0</metadata_license>
   <url type="homepage">https://kdevelop.org</url>

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "javawriter.h"
@@ -21,6 +17,7 @@
 #include "association.h"
 #include "template.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"
 
 // qt includes
@@ -60,7 +57,7 @@ Uml::ProgrammingLanguage::Enum JavaWriter::language() const
 void JavaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!\n";
+        logWarn0("JavaWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -138,7 +135,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // open text stream to file
     QTextStream java(&file);
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".java"));
     if (!str.isEmpty()) {
@@ -174,7 +171,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     writeBlankLine(java);
 
     // write the opening declaration for the class incl any documentation,
-    // interfaces and/or inheritence issues we have
+    // interfaces and/or inheritance issues we have
     writeClassDecl(c, java);
 
     // start body of class
@@ -230,11 +227,11 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     // Accessors for attributes
     writeAttributeMethods(final_atpub, Uml::Visibility::Public, java);
-    writeAttributeMethods(final_atprot, Uml::Visibility::Protected, java);
-    writeAttributeMethods(final_atpriv, Uml::Visibility::Private, java);
+    writeAttributeMethods(final_atprot, Uml::Visibility::Public, java);
+    writeAttributeMethods(final_atpriv, Uml::Visibility::Public, java);
     writeAttributeMethods(atpub, Uml::Visibility::Public, java);
-    writeAttributeMethods(atprot, Uml::Visibility::Protected, java);
-    writeAttributeMethods(atpriv, Uml::Visibility::Private, java);
+    writeAttributeMethods(atprot, Uml::Visibility::Public, java);
+    writeAttributeMethods(atpriv, Uml::Visibility::Public, java);
 
     // accessor methods for associations
 
@@ -333,7 +330,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is wrong ! : No multiple inheritence of class
+            //The java generated code is wrong ! : No multiple inheritance of class
             java <<  ", " ;
         }
         java <<  cleanName(concept->name());
@@ -352,7 +349,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
         }
         else
         {
-            //The java generated code is OK ! : multiple inheritence of interface
+            //The java generated code is OK ! : multiple inheritance of interface
             java <<  ", " ;
         }
         java <<  cleanName(concept->name());
@@ -503,7 +500,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID:
             if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), m_indentation, java);
 
@@ -606,7 +603,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 
 /**
  * Calls @ref writeSingleAttributeAccessorMethods() or @ref
- * writeVectorAttributeAccessorMethods() on the assocaition
+ * writeVectorAttributeAccessorMethods() on the association
  * role.
  */
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
@@ -735,7 +732,7 @@ QString JavaWriter::fixTypeName(const QString& string)
  * Overrides method from class CodeGenerator.
  * @return   the list of default datatypes
  */
-QStringList JavaWriter::defaultDatatypes()
+QStringList JavaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("int"));
@@ -836,7 +833,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 /**
  * Get all operations which a given class inherit from all its super interfaces and that should be implemented.
  * @param c     the class for which we are generating code
- * @param opl   the list of operations used to append the operations
+ * @param opList  the list of operations used to append the operations
  */
 void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList)
 {
@@ -853,7 +850,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
 /**
  * Write all operations for a given class.
  * @param c   the class for which we are generating code
- * @param j   the stream associated with the output file
+ * @param java  the stream associated with the output file
  */
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
@@ -912,8 +909,8 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 /**
  * Write a list of operations for a given class.
- * @param list   the list of operations you want to write
- * @param j      the stream associated with the output file
+ * @param opList the list of operations you want to write
+ * @param java   the stream associated with the output file
  */
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
 {

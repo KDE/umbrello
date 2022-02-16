@@ -43,3 +43,7 @@ umbrello/ui_*.h
 .DS_Store
 *.tmproj
 tmtags
+maintainer/work
+
+build
+.vscode

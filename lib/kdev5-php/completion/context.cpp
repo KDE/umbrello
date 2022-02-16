@@ -1,22 +1,10 @@
 /*
-   Copyright 2007 David Nolden <david.nolden.kdevelop@art-master.de>
-   Copyright 2008 Hamish Rodda <rodda@kde.org>
-   Copyright 2008 Niko Sams <niko.sams@gmail.com>
-   Copyright 2009 Milian Wolff <mail@milianw.de>
+    SPDX-FileCopyrightText: 2007 David Nolden <david.nolden.kdevelop@art-master.de>
+    SPDX-FileCopyrightText: 2008 Hamish Rodda <rodda@kde.org>
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
+    SPDX-FileCopyrightText: 2009 Milian Wolff <mail@milianw.de>
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
+    SPDX-License-Identifier: LGPL-2.0-only
 */
 
 #include "context.h"
@@ -1593,7 +1581,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
         ///TODO: function-like statements should just be handled as a function with declaration etc.
         ///      e.g.: empty, eval, die, exit, isset, unset
         ///      but _not_ echo, print, catch, include*, require*
-        ///TODO: use user's style for indendation etc.
+        ///TODO: use user's style for indentation etc.
         ADD_KEYWORD2("abstract class", "abstract class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");
         ADD_KEYWORD2("final class", "final class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");
         ADD_KEYWORD2("class", "class %SELECT%NAME%ENDSELECT% {\n%INDENT%\n}\n");

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codegenerationpolicy.h"
@@ -548,7 +544,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     if (!getIncludeHeadings() || str.isEmpty())
         return QString();
     if (str.contains(QLatin1String(" ")) || str.contains(QLatin1String(";"))) {
-        uWarning() << "File folder must not have spaces or semi colons!";
+        logWarn0("CodeGenerationPolicy::getHeadingFile: File folder must not have spaces or semicolons!");
         return QString();
     }
     //if we only get the extension, then we look for the default

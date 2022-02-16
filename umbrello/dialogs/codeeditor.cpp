@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeeditor.h"
@@ -16,6 +12,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"
 
@@ -91,7 +88,7 @@ void CodeEditor::clearText()
     // now call super-class
     clear();
 
-    // uDebug() << "text block list size=" << m_textBlockList.size();
+    // logDebug1("text block list size=%1", m_textBlockList.size());
     while (!m_textBlockList.isEmpty()) {
         /*;TODO:? delete */ m_textBlockList.takeFirst();
     }
@@ -169,12 +166,12 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                     rebuildView(para);
                 }
             } else {
-                uError() << "UNKNOWN parent for textBlock";
+                logError0("UNKNOWN parent for textBlock");
             }
         }
     }
     else {
-        DEBUG(DBG_SRC) << "TextBlock is NULL!";
+        logDebug0("CodeEditor::editTextBlock: TextBlock is NULL!");
     }
 }
 
@@ -198,7 +195,8 @@ bool CodeEditor::isNonBlank(const QString &str)
  */
 void CodeEditor::keyPressEvent(QKeyEvent * e)
 {
-    DEBUG(DBG_SRC) << "KEY PRESS EVENT:[" << e->text().toLatin1() << "] ascii CODE:" << e->key();
+    QString eText(e->text());
+    logDebug2("CodeEditor::keyPressEvent: [%1] ASCII code: %2", eText, e->key());
 
     if (e->key() == 8) {  // || (e->key() == 127))  // what about delete?
         m_backspacePressed = true;
@@ -221,20 +219,20 @@ void CodeEditor::loadFromDocument()
     // set caption on tool
     QString caption = m_parentDoc->getFileName() + m_parentDoc->getFileExtension();
     setWindowTitle(i18n(caption.toUtf8().constData()));
-    DEBUG(DBG_SRC) << "set window title to: " << caption;
+    logDebug1("CodeEditor::loadFromDocument: set window title to %1", caption);
 
     // header for document
     QString header = m_parentDoc->getHeader()->toString();
     QString componentName = QString::fromLatin1("header for file ") + caption;
     if (isNonBlank(header)) {
-        DEBUG(DBG_SRC) << "header for document: " << header;
+        logDebug1("CodeEditor::loadFromDocument header for document: %1", header);
         insertText(header, m_parentDoc->getHeader(), false, state().fontColor,
                state().nonEditBlockColor, 0, componentName);
     }
 
     // now all the text blocks in the document
     TextBlockList * items = m_parentDoc->getTextBlockList();
-    DEBUG(DBG_SRC) << "TextBlockList: " << items->count();
+    logDebug1("CodeEditor::loadFromDocument TextBlockList: %1", items->count());
     appendText(items);
 
     textCursor().setPosition(0);
@@ -322,8 +320,8 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
     item->fgcolor = fgcolor;
     item->bgcolor = bgcolor;
     item->isEditable = editable;
-    DEBUG(DBG_SRC) << "startLine: "<< item->start << " / endLine: " << item->end
-                   << " / size: " << item->size << " /\ntext: " << text;
+    logDebug4("CodeEditor::insertText startLine: %1 / endLine: %2 / size: %3 / text: %4",
+              item->start, item->end, item->size, text);
 
     if (isInsert) {
         // now we have to fix the 'start' value for all the para
@@ -366,7 +364,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
  */
 void CodeEditor::appendText(TextBlockList * items)
 {
-    DEBUG(DBG_SRC) << "text block list";
+    logDebug0("CodeEditor::appendText text block list");
     foreach (TextBlock* tb, *items) {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
@@ -388,7 +386,7 @@ void CodeEditor::appendText(TextBlockList * items)
             appendText(cb);
         /*
              // No! Shouldn't be any 'naked' comments floating about. Always
-             // are assocated with a parent code block.
+             // are associated with a parent code block.
              else if ((cm = dynamic_cast<CodeComment*>(tb)))
                     appendText(cm);
         */
@@ -406,7 +404,7 @@ void CodeEditor::appendText(TextBlockList * items)
  */
 void CodeEditor::appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj, const QString & componentName)
 {
-    DEBUG(DBG_SRC) << "comment";
+    logDebug0("CodeEditor::appendText comment");
     if (!comment->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -426,7 +424,7 @@ void CodeEditor::appendText(CodeComment * comment, TextBlock * parent, UMLObject
  */
 void CodeEditor::appendText(CodeBlockWithComments * cb)
 {
-    DEBUG(DBG_SRC) << "code block with comments";
+    logDebug0("CodeEditor::appendText code block with comments");
     if (!cb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -451,7 +449,7 @@ void CodeEditor::appendText(CodeBlockWithComments * cb)
  */
 void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
 {
-    DEBUG(DBG_SRC) << "code class field declaration block";
+    logDebug0("CodeEditor::appendText code class field declaration block");
     if (!db->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -468,7 +466,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QChar::fromLatin1(')');
         }
         else {
-            UMLRole * role = parentObj->asUMLRole();
+            const UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QChar::fromLatin1(')');
         }
         bgcolor = state().umlObjectColor;
@@ -489,10 +487,10 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
  */
 void CodeEditor::appendText(CodeMethodBlock * mb)
 {
-    DEBUG(DBG_SRC) << "code  method block";
+    logDebug0("CodeEditor::appendText code method block");
     // Note: IF CodeAccessors are hidden, we DON'T show
     // it even when requested as the hiddeness of these methods
-    // should be controled by the class fields, not the user in the editor.
+    // should be controlled by the class fields, not the user in the editor.
     if (!mb->getWriteOutText() && (!m_showHiddenBlocks || dynamic_cast<CodeAccessorMethod*>(mb)))
         return;
 
@@ -531,7 +529,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
             componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QString::fromLatin1(") accessor method");
         }
         else {
-            UMLRole * role = parentObj->asUMLRole();
+            const UMLRole * role = parentObj->asUMLRole();
             componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QString::fromLatin1(") accessor method");
         }
     }
@@ -554,7 +552,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
  */
 void CodeEditor::appendText(TextBlock * tb)
 {
-    DEBUG(DBG_SRC) << "text block";
+    logDebug0("CodeEditor::appendText text block");
     if (!tb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -572,7 +570,7 @@ void CodeEditor::appendText(TextBlock * tb)
  */
 void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 {
-    DEBUG(DBG_SRC) << "hierarchical code block";
+    logDebug0("CodeEditor::appendText hierarchical code block");
     if (!hblock->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
@@ -582,7 +580,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     QColor paperColor = state().nonEditBlockColor;
     if (test) {
         parentObj = test->getParentObject();
-        UMLClassifier *c = parentObj->asUMLClassifier();
+        const UMLClassifier *c = parentObj->asUMLClassifier();
         if (c) {
             QString typeStr;
             if (c->isInterface())
@@ -753,7 +751,7 @@ QMenu * CodeEditor::createPopup()
 KMenu * CodeEditor::createPopup()
 #endif
 {
-    DEBUG(DBG_SRC) << "called...";
+    logDebug0("CodeEditor::createPopup is called");
 
 #if QT_VERSION >= 0x050000
     QMenu * menu = new QMenu(this);
@@ -894,7 +892,7 @@ void CodeEditor::slotCopyTextBlock()
     else if (dynamic_cast<CodeComment*>(m_selectedTextBlock))
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else {
-        uError() << " ERROR: CodeEditor cannot copy selected block:" << m_selectedTextBlock << " of unknown type";
+        logError0("CodeEditor cannot copy selected block of unknown type");
         m_textBlockToPaste = 0;
         return; // error!
     }
@@ -947,7 +945,7 @@ void CodeEditor::slotRedrawText()
 }
 
 /**
- * Initialisation routine which is used in the construtors.
+ * Initialization routine which is used in the constructors.
  * @param parentDialog   the parent @ref CodeViewerDialog
  * @param parentDoc   the parent @ref CodeDocument
  */
@@ -1036,10 +1034,10 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
         }
 
         if (content.isEmpty()) {
-            uDebug() << "nothing to add!";
+            logDebug0("CodeEditor::updateTextBlockFromText: nothing to add!");
         }
         else {
-            uDebug() << "UPDATE GOT CONTENT:[" << content.toLatin1() << "] to block: " << block;
+            logDebug1("CodeEditor::updateTextBlockFromText content [%1]", content);
             block->setText(content);
 
             // if a parent for the block, try to set its documentation
@@ -1097,14 +1095,14 @@ void CodeEditor::slotCursorPositionChanged()
     if (editPara) {
         TextBlock * tBlock = m_textBlockList.at(para);
         if (!tBlock) {
-            uWarning() << "no text block found in list at position " << para;
+            logWarn1("no text block found in list at position %1", para);
             return;
         }
-        DEBUG(DBG_SRC) << tBlock;
+        //DEBUG() << tBlock;
 
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(tBlock);
         if (!cmb) {
-            uWarning() << "cast to CodeMethodBlock failed";
+            logWarn0("cast to CodeMethodBlock failed");
             return;
         }
 
@@ -1265,7 +1263,7 @@ bool CodeEditor::isParaEditable(int para)
         }
     }
     if ((para < 0) || (para >= document()->characterCount())) {
-        DEBUG(DBG_SRC) << "para:" << para << " not in range 0.." << document()->characterCount();
+        logDebug2("CodeEditor::isParaEditable para: %1 not in range 0..%2", para, document()->characterCount());
         return false;
     }
 
@@ -1293,11 +1291,11 @@ bool CodeEditor::isParaEditable(int para)
             }
         }
         else {
-            DEBUG(DBG_SRC) << "TextBlockInfo not found in info map!";
+            logDebug0("CodeEditor::isParaEditable: TextBlockInfo not found in info map!");
         }
     }
     else {
-        DEBUG(DBG_SRC) << "TextBlock not found at position " << para;
+        logDebug1("CodeEditor::isParaEditable: TextBlock not found at position %1", para);
     }
     return false;
 }
@@ -1310,7 +1308,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
     if (tBlock) {
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         if (!info) {
-            uWarning() << "zero TextBlockInfo instance";
+            logWarn0("zero TextBlockInfo instance");
             return;
         }
         QList<ParaInfo*> list = info->m_paraList;
@@ -1472,7 +1470,8 @@ void CodeEditor::mouseDoubleClickEvent(QMouseEvent * e)
         editTextBlock(tBlock, para);
     }
     else {
-        DEBUG(DBG_SRC) << "para:" << para << " not in range 0.." << document()->characterCount();
+        logDebug2("CodeEditor::mouseDoubleClickEvent para: %1 not in range 0..%2",
+                  para, document()->characterCount());
     }
 }
 
@@ -1528,7 +1527,7 @@ void CodeEditor::rebuildView(int startCursorPos)
 {
     Q_UNUSED(startCursorPos);  //:TODO:
     loadFromDocument();
-    // make a minima attempt to leave the cursor (view of the code) where
+    // make a minimal attempt to leave the cursor (view of the code) where
     // we started
 //:TODO:    int new_nrof_para = paragraphs() -1;
 //:TODO:    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);  //:TODO: crashes the application

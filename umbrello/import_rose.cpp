@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "import_rose.h"
@@ -15,6 +10,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "folder.h"
+#define DBG_SRC QLatin1String("Import_Rose")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "petalnode.h"
@@ -30,6 +26,8 @@
 #include <QStringList>
 #include <QTextStream>
 
+DEBUG_REGISTER(Import_Rose)
+
 namespace Import_Rose {
 
 /**
@@ -37,6 +35,12 @@ namespace Import_Rose {
  * controlled units (if no path is given at their definition.)
  */
 QString dirPrefix;
+
+/**
+ * Set language if encountered in file.
+ * The last language encountered wins.
+ */
+Uml::ProgrammingLanguage::Enum progLang = Uml::ProgrammingLanguage::Reserved;
 
 uint nClosures; // Multiple closing parentheses may appear on a single
                 // line. The parsing is done line-by-line and using
@@ -198,21 +202,21 @@ QString collectVerbatimText(QTextStream& stream)
         if (line.isEmpty() || line.startsWith(QLatin1Char(')')))
             break;
         if (line[0] != QLatin1Char('|')) {
-            uError() << loc() << "expecting '|' at start of verbatim text";
+            logError1("%1 expecting '|' at start of verbatim text", loc());
             return QString();
         } else {
             result += line.mid(1) + QLatin1Char('\n');
         }
     }
     if (line.isNull()) {
-        uError() << loc() << "premature EOF";
+        logError1("%1 premature EOF", loc());
         return QString();
     }
     if (! line.isEmpty()) {
         for (int i = 0; i < line.length(); ++i) {
             const QChar& clParenth = line[i];
             if (clParenth != QLatin1Char(')')) {
-                uError() << loc() << "expected ')', found: " << clParenth;
+                logError2("%1 expected ')', found: %2", loc(), clParenth);
                 return QString();
             }
             nClosures++;
@@ -260,7 +264,7 @@ QString extractValue(QStringList& l, QTextStream& stream)
     } else {
         result = shift(l);
         if (l.first() != QLatin1String(")")) {
-            uError() << loc() << "expecting closing parenthesis";
+            logError1("%1 expecting closing parenthesis", loc());
             return result;
         }
         l.pop_front();
@@ -283,7 +287,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
 {
     methodName(QLatin1String("readAttributes"));
     if (initialArgs.count() == 0) {
-        uError() << loc() << "initialArgs is empty";
+        logError1("%1 initialArgs is empty", loc());
         return 0;
     }
     PetalNode::NodeType nt;
@@ -293,7 +297,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     else if (type == QLatin1String("list"))
         nt = PetalNode::nt_list;
     else {
-        uError() << loc() << "unknown node type " << type;
+        logError2("%1 unknown node type %2", loc(), type);
         return 0;
     }
     PetalNode *node = new PetalNode(nt);
@@ -312,7 +316,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
-            uError() << loc() << "unexpected line " << line;
+            logError2("%1 unexpected line %2", loc(), line);
             delete node;
             return 0;
         }
@@ -340,8 +344,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
             attr.second = value;
             attrs.append(attr);
             if (tokens.count() && tokens.first() != QLatin1String(")")) {
-                uDebug() << loc()
-                    << "NYI - immediate list entry with more than one item";
+                logDebug1("%1 NYI - immediate list entry with more than one item", loc());
             }
             if (checkClosing(tokens))
                 break;
@@ -375,6 +378,20 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
             bool seenClosing = checkClosing(tokens);
             PetalNode::NameValue attr(name, value);
             attrs.append(attr);
+            if (name == QLatin1String("language")) {
+                QString language(value.string);
+                language.remove(QLatin1Char('\"'));
+                if (language == QLatin1String("Analysis"))
+                    progLang = Uml::ProgrammingLanguage::Reserved;
+                else if (language == QLatin1String("CORBA"))
+                    progLang = Uml::ProgrammingLanguage::IDL;
+                else if (language == QLatin1String("C++") || language == QLatin1String("VC++"))
+                    progLang = Uml::ProgrammingLanguage::Cpp;
+                else if (language == QLatin1String("Java"))
+                    progLang = Uml::ProgrammingLanguage::Java;
+                else if (language == QLatin1String("Ada"))
+                    progLang = Uml::ProgrammingLanguage::Ada;
+            }
             if (seenClosing) {
                 break;
             }
@@ -396,6 +413,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  */
 UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
+    methodName(QLatin1String("loadFromMDL"));
     if (parentPkg == 0) {
         QString fName = file.fileName();
         int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
@@ -426,7 +444,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                 if (a.size() == 2 && a[0] == QLatin1String("charSet")) {
                     const QString& charSet = a[1];
                     if (!charSet.contains(QRegExp(QLatin1String("^\\d+$")))) {
-                        uWarning() << "Unimplemented charSet " << charSet;
+                        logWarn2("%1 Unimplemented charSet %2", loc(), charSet);
                         if (finish)
                             break;
                         continue;
@@ -472,7 +490,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                         case 255:  // OEM (extended ASCII)
                             SETCODEC("windows-1252");
                         default:
-                            uWarning() << "Unimplemented charSet number" << charSetNum;
+                            logWarn2("%1 Unimplemented charSet number %2", loc(), charSetNum);
                     }
                 }
                 if (finish)
@@ -497,6 +515,12 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     if (root == 0)
         return 0;
 
+    if (progLang != UMLApp::app()->activeLanguage()) {
+        logDebug1("loadFromMDL: Setting active language to %1",
+                  Uml::ProgrammingLanguage::toString(progLang));
+        UMLApp::app()->setGenerator(progLang);
+    }
+
     if (parentPkg) {
         UMLPackage *child = petalTree2Uml(root, parentPkg);
         delete root;
@@ -504,7 +528,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     }
 
     if (root->name() != QLatin1String("Design")) {
-        uError() << "expecting root name Design";
+        logError1("%1 expecting root name Design", loc());
         delete root;
         return 0;
     }

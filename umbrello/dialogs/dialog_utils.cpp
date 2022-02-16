@@ -1,22 +1,20 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dialog_utils.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "stereotype.h"
 #include "umlwidget.h"
 #include "dontaskagain.h"
+#include "model_utils.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KMessageBox>
@@ -44,22 +42,122 @@ namespace Dialog_Utils {
  * @param labelText             The label text.
  * @param editField             The KLineEdit object allocated (return value)
  * @param editFieldText         Initialization text in the editField (optional.)
+ * @param columnOffset          Optional column number within the QGridLayout (default: 0)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
 KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
                                 QLabel*     &label,     const QString& labelText,
-                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */)
+                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */,
+                                int columnOffset /* = 0 */)
 {
     label = new QLabel(labelText);
-    layout->addWidget(label, row, 0);
+    layout->addWidget(label, row, columnOffset);
     editField = new KLineEdit(editFieldText);
-    layout->addWidget(editField, row, 1);
+    layout->addWidget(editField, row, columnOffset + 1);
     label->setBuddy(editField);
     return editField;
 }
 
 /**
- * Helper function for requesting a name for an UMLWidget using a dialog.
+ * Make labeled edit fields for stereotype tags.
+ * The label/line-edit pairs are arranged horizontally on the same row.
+ * The label texts are taken from the AttributeDefs of the object's
+ * UMLStereotype.
+ */
+void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
+                       QLabel    *pTagLabel   [N_STEREOATTRS],
+                       KLineEdit *pTagLineEdit[N_STEREOATTRS],
+                       int row /* = 1 */)
+{
+    UMLStereotype *stereo = o->umlStereotype();
+    if (stereo == 0)
+        return;
+    const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
+    const QStringList& tags = o->tags();
+    for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
+        const UMLStereotype::AttributeDef& adef = attrDefs[i];
+        QString tagInitVal;
+        if (i < tags.size())
+            tagInitVal = tags.at(i);
+        if (tagInitVal.isEmpty())
+            tagInitVal = adef.defaultVal;
+        Dialog_Utils::makeLabeledEditField(genLayout, row,
+                                           pTagLabel[i], adef.name,
+                                           pTagLineEdit[i], tagInitVal, 2 + (i * 2));
+    }
+}
+
+/**
+ * Remake labeled edit fields for stereotype tags.
+ * "Remake" means that the existing label/line-edit pairs are deleted
+ * and new ones are created afresh.
+ * This is useful when the object's stereotype has changed.
+ * The label/line-edit pairs are arranged horizontally on the same row.
+ * The label texts are taken from the AttributeDefs of the object's
+ * UMLStereotype.
+ */
+void remakeTagEditFields(const QString &stereoText,
+                         UMLObject *, QGridLayout * genLayout,
+                         QLabel    * pTagLabel[N_STEREOATTRS],
+                         KLineEdit * pTagLineEdit[N_STEREOATTRS],
+                         int row /* = 1 */)
+{
+    // Remove existing tag input fields
+    for (int i = N_STEREOATTRS - 1; i >= 0; --i) {
+        if (pTagLabel[i]) {
+            delete pTagLabel [i];
+            delete pTagLineEdit[i];
+            pTagLabel [i] = 0;
+            pTagLineEdit[i] = 0;
+        }
+    }
+    UMLStereotype *stereo = 0;
+    foreach (UMLStereotype *st, UMLApp::app()->document()->stereotypes()) {
+        if (st->name() == stereoText) {
+            stereo = st;
+            break;
+        }
+    }
+    if (stereo == 0)
+        return;
+    const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
+    for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
+        const UMLStereotype::AttributeDef& adef = attrDefs[i];
+        QString tagInitVal = adef.defaultVal;
+        Dialog_Utils::makeLabeledEditField(genLayout, row,
+                                           pTagLabel[i], adef.name,
+                                           pTagLineEdit[i], tagInitVal, 2 + (i * 2));
+    }
+}
+
+/**
+ * Update the stereotype tag values of the given UMLObject from the
+ * corresponding values in the given array of KLineEdit widgets.
+ * This is useful as the action in the slot method when the Apply or
+ * OK button is pressed.
+ */
+void updateTagsFromEditFields(UMLObject * o,
+                              KLineEdit *pTagLineEdit[N_STEREOATTRS])
+{
+    UMLStereotype *stereo = o->umlStereotype();
+    if (stereo == 0)
+        return;
+    const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
+    QStringList& tags = o->tags();
+    tags.clear();
+    for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
+        if (pTagLineEdit[i] == 0) {
+            logError3("updateTagsFromEditFields(%1): %2 pTagLineEdit[%3] is null",
+                      o->name(), stereo->name(true), i);
+            break;
+        }
+        QString tag = pTagLineEdit[i]->text();
+        tags.append(tag);
+    }
+}
+
+/**
+ * Helper function for requesting a name for a UMLWidget using a dialog.
  *
  * @param targetWidget          By-reference pointer to the widget to request the name for.
  *                              The widget may be deallocated, and the pointer returned
@@ -136,6 +234,86 @@ bool askDeleteDiagram(const QString &name)
         KGuiItem(i18n("&Delete")),
         KStandardGuiItem::cancel(),
         askDeleteDiagramItem.name()) == KMessageBox::Continue;
+}
+
+/**
+ * Ask the user for a new widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askNewName(WidgetBase::WidgetType type, QString &name)
+{
+    QString title = Widget_Utils::newTitle(type);
+    QString text = Widget_Utils::newText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for renaming a widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askRenameName(WidgetBase::WidgetType type, QString &name)
+{
+    QString title = Widget_Utils::renameTitle(type);
+    QString text = Widget_Utils::renameText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for a default new widget name
+ *
+ * The name is predefined by the widgets type default name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askDefaultNewName(WidgetBase::WidgetType type, QString &name)
+{
+    name = Widget_Utils::defaultWidgetName(type);
+    return askNewName(type, name);
+}
+
+/**
+ * Ask the user for a new object name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askNewName(UMLObject::ObjectType type, QString &name)
+{
+    QString title = Model_Utils::newTitle(type);
+    QString text = Model_Utils::newText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for renaming a widget name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askRenameName(UMLObject::ObjectType type, QString &name)
+{
+    QString title = Model_Utils::renameTitle(type);
+    QString text = Model_Utils::renameText(type);
+    return askName(title, text, name);
+}
+
+/**
+ * Ask the user for a default new widget name
+ *
+ * The name is predefined by the widgets type default name
+ *
+ * @return true on user pressed okay
+ * @return false on user pressed cancel
+ */
+bool askDefaultNewName(UMLObject::ObjectType type, QString &name)
+{
+    name = Model_Utils::uniqObjectName(type, nullptr);
+    return askNewName(type, name);
 }
 
 /**

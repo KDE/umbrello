@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UML_H
 #define UML_H
@@ -94,7 +89,7 @@ class QSlider;
  * @see KConfig
  *
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLApp : public KXmlGuiWindow
 {
@@ -119,8 +114,14 @@ public:
     WorkToolBar* workToolBar() const;
     DocWindow * docWindow() const;
     QListWidget *logWindow() const;
+    bool logToConsole() const;
+    void log(const QString& s);
+    void logDebug(const QString& s);
+    void logInfo(const QString& s);
+    void logWarn(const QString& s);
+    void logError(const QString& s);
 
-    QCursor defaultCursor();
+    QCursor defaultCursor() const;
 
     void setModified(bool _m);
 
@@ -129,7 +130,7 @@ public:
     bool isPasteState() const;
     bool isCutCopyState() const;
 
-    bool isUndoEnabled();
+    bool isUndoEnabled() const;
     void enableUndo(bool enable);
 
     bool isUndoActionEnabled() const;
@@ -138,7 +139,7 @@ public:
     bool isRedoActionEnabled() const;
     void enableRedoAction(bool enable);
 
-    bool isSimpleCodeGeneratorActive();
+    bool isSimpleCodeGeneratorActive() const;
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
     CodeGenerator* setGenerator(Uml::ProgrammingLanguage::Enum pl);
@@ -153,7 +154,7 @@ public:
 
     void setDiagramMenuItemsState(bool bState);
 
-    QWidget* mainViewWidget();
+    QWidget* mainViewWidget() const;
 
     void setCurrentView(UMLView* view, bool updateTreeView = true);
     UMLView* currentView() const;
@@ -169,7 +170,7 @@ public:
     KTabWidget *tabWidget();
 #endif
 
-    QString statusBarMsg();
+    QString statusBarMsg() const;
 
     CodeGenerationPolicy *commonPolicy() const;
 
@@ -188,14 +189,16 @@ public:
 
     void setActiveLanguage(Uml::ProgrammingLanguage::Enum pl);
     Uml::ProgrammingLanguage::Enum activeLanguage() const;
-    Uml::ProgrammingLanguage::Enum defaultLanguage();
+    Uml::ProgrammingLanguage::Enum defaultLanguage() const;
 
-    bool activeLanguageIsCaseSensitive();
+    bool activeLanguageIsCaseSensitive() const;
 
-    QString activeLanguageScopeSeparator();
+    QString activeLanguageScopeSeparator() const;
 
     KConfig* config();
     void importFiles(QStringList& fileList, const QString &rootPath = QString());
+
+    static bool shuttingDown();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -325,6 +328,7 @@ public slots:
     void slotMoveTabRight();
 
     void slotXhtmlDocGenerationFinished(bool status);
+    bool slotOpenFileInEditor(const QUrl &file, int startCursor = 0, int endCursor = 0);
 
 private slots:
     void setLang_actionscript();
@@ -347,6 +351,7 @@ private slots:
     void setLang_tcl();
     void setLang_vala();
     void setLang_xmlschema();
+    void setLang_none();
 #if QT_VERSION >= 0x050000
     void slotDiagramPopupMenu(const QPoint& point);
 #endif
@@ -366,7 +371,7 @@ private:
 
     static bool canDecode(const QMimeData* mimeSource);
 
-    void readOptionState();
+    void readOptionState() const;
 
     void initClip();
     void initSavedCodeGenerators();
@@ -445,7 +450,7 @@ private:
 
     QAction* zoom100Action;
 
-    QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
+    QAction* m_langAct[Uml::ProgrammingLanguage::Reserved + 1];
 #if QT_VERSION >= 0x050000
     QAction* deleteSelectedWidget;
     QAction* deleteDiagram;
@@ -516,6 +521,7 @@ private:
 
     QPointer<DiagramPrintPage> m_printSettings; ///< printer diagram settings
     QPrinter *m_printer;               ///< print instance
+    static bool s_shuttingDown;
 
 signals:
     void sigCutSuccessful();
@@ -523,5 +529,48 @@ signals:
     friend class UMLAppPrivate;
     friend class UMLView;
 };
+
+#define logDebug0(s) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                     UMLApp::app()->logDebug(QLatin1String(s))
+#define logInfo0(s)  UMLApp::app()->logInfo(QLatin1String(s))
+#define logWarn0(s)  UMLApp::app()->logWarn(QLatin1String(s))
+#define logError0(s) UMLApp::app()->logError(QLatin1String(s))
+
+#define logDebug1(s, a) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                        do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo1(s, a)  do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn1(s, a)  do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError1(s, a) do { QString fmt = QString(QLatin1String(s)).arg(a); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug2(s, a, b) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                           do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo2(s, a, b)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn2(s, a, b)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError2(s, a, b) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug3(s, a, b, c) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                              do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo3(s, a, b, c)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn3(s, a, b, c)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError3(s, a, b, c) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug4(s, a, b, c, d) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                                 do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo4(s, a, b, c, d)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn4(s, a, b, c, d)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError4(s, a, b, c, d) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug5(s, a, b, c, d, e) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+                                    do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logDebug(fmt); } while (0)
+#define logInfo5(s, a, b, c, d, e)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logInfo(fmt);  } while (0)
+#define logWarn5(s, a, b, c, d, e)  do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logWarn(fmt);  } while (0)
+#define logError5(s, a, b, c, d, e) do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
+                                    UMLApp::app()->logError(fmt); } while (0)
+
+#define logDebug6(s, a, b, c, d, e, f) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
+        do { QString fmt = QString(QLatin1String(s)).arg(a).arg(b).arg(c).arg(d).arg(e).arg(f); UMLApp::app()->logDebug(fmt); } while (0)
 
 #endif // UML_H

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "textblock.h"
@@ -145,7 +141,7 @@ bool TextBlock::getWriteOutText() const
 
 /**
  * Set how many times to indent this text block.
- * The amount of each indenatation is determined from the parent
+ * The amount of each indentation is determined from the parent
  * codedocument codegeneration policy.
  * @param level   the new value for the indentation level
  */
@@ -156,7 +152,7 @@ void TextBlock::setIndentationLevel(int level)
 
 /**
  * Get how many times to indent this text block.
- * The amount of each indenatation is determined from the parent
+ * The amount of each indentation is determined from the parent
  * codedocument codegeneration policy.
  * @return   the indentation level
  */
@@ -244,7 +240,7 @@ QString TextBlock::getNewEditorLine(int amount)
 
 /**
  * UnFormat a long text string. Typically, this means removing
- * the indentaion (linePrefix) and/or newline chars from each line.
+ * the indentation (linePrefix) and/or newline chars from each line.
  * If an indentation is not specified, then the current indentation is used.
  * @param text     the original text for unformatting
  * @param indent   the indentation
@@ -259,7 +255,7 @@ QString TextBlock::unformatText(const QString & text, const QString & indent)
     }
 
     if (!output.isEmpty()) {
-        // remove indenation from this text block.
+        // remove indentation from this text block.
         output.remove(QRegExp(QLatin1Char('^') + myIndent));
     }
 
@@ -316,28 +312,25 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
- * @param doc            the xmi document
- * @param blockElement   the xmi element holding the attributes
+ * @param writer the QXmlStreamWriter serialization target
  */
-void TextBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
+void TextBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(doc);
-
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    blockElement.setAttribute(QLatin1String("tag"), getTag());
+    writer.writeAttribute(QLatin1String("tag"), getTag());
 
     // only write these if different from defaults
     const QString trueStr  = QLatin1String("true");
     const QString falseStr = QLatin1String("false");
     if (getIndentationLevel())
-        blockElement.setAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
+        writer.writeAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
     if (!m_text.isEmpty())
-        blockElement.setAttribute(QLatin1String("text"), encodeText(m_text, endLine));
+        writer.writeAttribute(QLatin1String("text"), encodeText(m_text, endLine));
     if (!getWriteOutText())
-        blockElement.setAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
+        writer.writeAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
     if (!canDelete())
-        blockElement.setAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
+        writer.writeAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
 }
 
 /**

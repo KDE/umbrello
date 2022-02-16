@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlview.h"
@@ -77,12 +72,10 @@ void UMLView::setZoom(qreal zoom)
         zoom = 500;
     }
 
-    DEBUG(DBG_SRC) << "setZoom" << zoom;
+    logDebug1("UMLView::setZoom %1", zoom);
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setMatrix(wm);
-
-    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -111,13 +104,12 @@ void UMLView::zoomOut()
 }
 
 /**
- * Overrides standard method from QWidget to resize scene when
- * it's shown.
+ * Overrides standard method from QWidget for possible additional actions.
+ * TBC can we remove this?
  */
 void UMLView::show()
 {
     QWidget::show();
-    umlScene()->resizeSceneToItems();
 }
 
 /**

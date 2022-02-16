@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "signalwidget.h"
@@ -30,6 +25,9 @@
 // qt includes
 #include <QEvent>
 #include <QPolygon>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(SignalWidget)
 
 /**
  * Creates a Signal widget.
@@ -156,7 +154,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
         break;
     default:
-        uWarning() << "Unknown signal type:" << m_signalType;
+        logWarn1("SignalWidget::paint: Unknown signal type %1", m_signalType);
         break;
     }
 
@@ -250,9 +248,9 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 /**
  * Loads a "signalwidget" XMI element.
  */
-bool SignalWidget::loadFromXMI1(QDomElement & qElement)
+bool SignalWidget::loadFromXMI(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("signalname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -283,7 +281,7 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
-            if(! m_pName->loadFromXMI1(element)) {
+            if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = 0;
@@ -291,7 +289,7 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
             else
                 connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("SignalWidget::loadFromXMI: unknown tag %1", tag);
         }
     }
    return true;
@@ -300,18 +298,18 @@ bool SignalWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void SignalWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement signalElement = qDoc.createElement(QLatin1String("signalwidget"));
-    UMLWidget::saveToXMI1(qDoc, signalElement);
-    signalElement.setAttribute(QLatin1String("signalname"), m_Text);
-    signalElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    signalElement.setAttribute(QLatin1String("signaltype"), m_signalType);
+    writer.writeStartElement(QLatin1String("signalwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("signalname"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("signaltype"), QString::number(m_signalType));
     if (m_pName && !m_pName->text().isEmpty()) {
-        signalElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
-        m_pName -> saveToXMI1(qDoc, signalElement);
+        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
+        m_pName -> saveToXMI(writer);
     }
-    qElement.appendChild(signalElement);
+    writer.writeEndElement();
 }
 
 /**

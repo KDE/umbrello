@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 /**
  * We carve the Java document up into sections as follows:
@@ -15,7 +11,7 @@
  * - package declaration
  * - import statements
  * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependent classes)
  */
 
 // own header
@@ -35,6 +31,8 @@
 // qt includes
 #include <QRegExp>
 
+DEBUG_REGISTER(JavaClassifierCodeDocument)
+
 JavaClassifierCodeDocument::JavaClassifierCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
 {
@@ -46,7 +44,7 @@ JavaClassifierCodeDocument::~JavaClassifierCodeDocument ()
 }
 
 // Make it easier on ourselves
-JavaCodeGenerationPolicy * JavaClassifierCodeDocument::getJavaPolicy()
+JavaCodeGenerationPolicy * JavaClassifierCodeDocument::getJavaPolicy() const
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     JavaCodeGenerationPolicy * policy = dynamic_cast<JavaCodeGenerationPolicy*>(pe);
@@ -69,7 +67,7 @@ bool JavaClassifierCodeDocument::forceDoc ()
 }
 
 // We overwritten by Java language implementation to get lowercase path
-QString JavaClassifierCodeDocument::getPath ()
+QString JavaClassifierCodeDocument::getPath () const
 {
     QString path = getPackage();
 
@@ -82,12 +80,10 @@ QString JavaClassifierCodeDocument::getPath ()
     path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
     path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
-    path.toLower();
-
-    return path;
+    return path.toLower();
 }
 
-QString JavaClassifierCodeDocument::getJavaClassName (const QString &name)
+QString JavaClassifierCodeDocument::getJavaClassName (const QString &name) const
 {
     return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }
@@ -112,7 +108,7 @@ void JavaClassifierCodeDocument::init ()
 /**
  * @param       op
  */
-// in the vannilla version, we just tack all operations on the end
+// in the vanilla version, we just tack all operations on the end
 // of the document
 bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op)
 {
@@ -148,9 +144,9 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
 
                 if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new JavaCodeComment(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeComment to :"<<this;
+                        logError0("JavaClassifierCodeDocument: loadFromXMI : unable to add codeComment");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -161,25 +157,25 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"loadFromXMI1 : unable to add codeclassfield child method to:"<<this;
+                        logError0("JavaClassifierCodeDocument: loadFromXMI : unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlock to :"<<this;
+                        logError0("JavaClassifierCodeDocument: loadFromXMI : unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlockwithcomments to:"<<this;
+                        logError0("JavaClassifierCodeDocument: loadFromXMI : unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -188,9 +184,9 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
                     // do nothing.. this is treated elsewhere
                 } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("JavaClassifierCodeDocument: Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -202,28 +198,29 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = new JavaCodeOperation(this, op);
-                        block->loadFromXMI1(element);
+                        block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("JavaClassifierCodeDocument: Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("JavaClassifierCodeDocument: Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("javaclassdeclarationblock")) {
                     JavaClassDeclarationBlock * block = getClassDecl();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add java code declaration block to:"<<this;
+                        logError0("JavaClassifierCodeDocument: Unable to add java code declaration block");
                         // DON'T delete.
                         // block->deleteLater();
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("JavaClassifierCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack:%1, ignoring", name);
                 }
 
                 node = element.nextSibling();
@@ -237,7 +234,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root
     }
 
     if (!loadCheckForChildrenOK) {
-        uWarning() << "loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc: %1", getFileName());
     }
 }
 
@@ -266,7 +263,7 @@ void JavaClassifierCodeDocument::resetTextBlocks()
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void JavaClassifierCodeDocument::updateContent()
@@ -464,7 +461,7 @@ void JavaClassifierCodeDocument::updateContent()
     HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock(QLatin1String("constructorMethods"), QLatin1String("Constructors"), 1);
     constructorBlock = constBlock; // record this codeblock for later, when operations are updated
 
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * constComment = constBlock->getComment();
     CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();

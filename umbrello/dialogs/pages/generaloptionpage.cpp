@@ -1,18 +1,14 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "generaloptionpage.h"
 
 // local includes
 #include "dialog_utils.h"
+#include "selectlayouttypewidget.h"
 #include "optionstate.h"
 
 // kde includes
@@ -71,14 +67,13 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.newcodegenCB->setChecked(optionState.generalState.newcodegen);
     miscLayout->addWidget(m_GeneralWidgets.newcodegenCB, 1, 0);
 #endif
-    m_GeneralWidgets.angularLinesCB = new QCheckBox(i18n("Use angular association lines"), m_GeneralWidgets.miscGB);
-    m_GeneralWidgets.angularLinesCB->setChecked(optionState.generalState.angularlines);
-    miscLayout->addWidget(m_GeneralWidgets.angularLinesCB, 1, 1);
-
     m_GeneralWidgets.footerPrintingCB = new QCheckBox(i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.footerPrintingCB->setChecked(optionState.generalState.footerPrinting);
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
-    topLayout->addWidget(m_GeneralWidgets.miscGB);
+
+    m_GeneralWidgets.uml2CB = new QCheckBox(i18n("Enable UML2 support"), m_GeneralWidgets.miscGB);
+    m_GeneralWidgets.uml2CB->setChecked(optionState.generalState.uml2);
+    miscLayout->addWidget(m_GeneralWidgets.uml2CB, 2, 1);
 
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
@@ -203,8 +198,8 @@ void GeneralOptionPage::apply()
 #ifdef ENABLE_NEW_CODE_GENERATORS
     optionState.generalState.newcodegen = m_GeneralWidgets.newcodegenCB->isChecked();
 #endif
-    optionState.generalState.angularlines = m_GeneralWidgets.angularLinesCB->isChecked();
     optionState.generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
+    optionState.generalState.uml2 = m_GeneralWidgets.uml2CB->isChecked();
     optionState.generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();
     // retrieve Suffix setting from dialog entry

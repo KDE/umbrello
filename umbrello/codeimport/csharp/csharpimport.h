@@ -1,12 +1,7 @@
-/***************************************************************************
- *  This program is free software; you can redistribute it and/or modify   *
- *  it under the terms of the GNU General Public License as published by   *
- *  the Free Software Foundation; either version 2 of the License, or      *
- *  (at your option) any later version.                                    *
- *                                                                         *
- *  copyright (C) 2011-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2011-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CSHARPIMPORT_H
 #define CSHARPIMPORT_H
@@ -17,9 +12,9 @@ class UMLObject;
 
 /**
  * C# code import.
- * Grammar of C# can be found at http://msdn.microsoft.com/en-us/library/Aa664812 .
+ * Grammar of C# can be found at https://github.com/antlr/grammars-v4/tree/master/csharp
  * @author Andi Fischer (copied from JavaImport)
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class CSharpImport : public NativeImportBase
 {
@@ -34,6 +29,8 @@ protected:
     bool parseStmt();
 
     void fillSource(const QString& word);
+
+    bool preprocess(QString& line);
 
     bool parseFile(const QString& filename);
 

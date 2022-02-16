@@ -1,20 +1,7 @@
-/***************************************************************************
-                          pluginloader.h
-                             -------------------
-    begin                : Mon Jan 13 2003
-    copyright            : (C) 2003 by Andrew Sutton
-    email                : ansutton@kent.edu
-  Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2003 Andrew Sutton <ansutton@kent.edu>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef UMBRELLO_PLUGINLOADER_H
 #define UMBRELLO_PLUGINLOADER_H
@@ -68,7 +55,7 @@ class PluginLoader : public QObject
     Q_OBJECT
 public:
 
-    /** Destry the plugin loader */
+    /** Destroy the plugin loader */
     ~PluginLoader();
 
 

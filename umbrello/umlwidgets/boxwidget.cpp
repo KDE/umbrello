@@ -1,22 +1,21 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "boxwidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 
 // qt includes
 #include <QColorDialog>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(BoxWidget)
 
 /**
  * Constructs a BoxWidget.
@@ -58,11 +57,11 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  * Saves the widget to the "boxwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void BoxWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void BoxWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement boxElement = qDoc.createElement(QLatin1String("boxwidget"));
-    UMLWidget::saveToXMI1(qDoc, boxElement);
-    qElement.appendChild(boxElement);
+    writer.writeStartElement(QLatin1String("boxwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**

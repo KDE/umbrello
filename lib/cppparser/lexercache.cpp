@@ -1,23 +1,13 @@
-/***************************************************************************
-   copyright            : (C) 2006 by David Nolden
-   email                : david.nolden.kdevelop@art-master.de
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2006 David Nolden <david.nolden.kdevelop@art-master.de>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "lexercache.h"
 
+#define DBG_SRC QLatin1String("LexerCache")
 #include "debug_utils.h"
 #include "driver.h"
-
-#define DBG_LXC DEBUG(QLatin1String("LexerCache"))
 
 DEBUG_REGISTER_DISABLED(LexerCache)
 
@@ -25,7 +15,7 @@ LexerCache::LexerCache(Driver* d) : m_driver(d) {}
 
 void LexerCache::addLexedFile(const CachedLexedFilePointer& file)
 {
-    DBG_LXC << "adding an instance of " << file->fileName().str() << endl;
+    DEBUG() << "adding an instance of " << file->fileName().str() << endl;
 
     std::pair< CachedLexedFileMap::iterator, CachedLexedFileMap::iterator> files = m_files.equal_range(file->fileName());
 
@@ -45,7 +35,7 @@ void LexerCache::addLexedFile(const CachedLexedFilePointer& file)
             files.first++;
         }
     }
-    DBG_LXC << "new count of cached instances for the file: " << cnt << endl;
+    DEBUG() << "new count of cached instances for the file: " << cnt << endl;
 }
 
 CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
@@ -56,14 +46,14 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
     ///@todo optimize with standard-algorithms(by first computing the intersection)
 
     /*  if(files.first != files.second)
-          DEBUG(DBG_SRC) << "LexerCache: cache for file " << fileName.str() << " is not empty" << endl;
+          DEBUG() << "LexerCache: cache for file " << fileName.str() << " is not empty" << endl;
       else
-          DEBUG(DBG_SRC) << "LexerCache: cache for file " << fileName.str() << " is empty" << endl;*/
+          DEBUG() << "LexerCache: cache for file " << fileName.str() << " is empty" << endl;*/
 
     while (files.first != files.second) {
         const CachedLexedFile& file(*(*(files.first)).second);
         if (sourceChanged(file)) {
-            DBG_LXC <<  "cache for file " << fileName.str() << " is being discarded because the file was modified" << endl;
+            DEBUG() <<  "cache for file " << fileName.str() << " is being discarded because the file was modified" << endl;
             m_files.erase(files.first++);
             continue;
         }
@@ -80,7 +70,7 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
                 if (file.m_usedMacros.hasMacro((*it).first)) {
                     Macro m(file.m_usedMacros.macro((*it).first.str()));
                     if (!(m == (*it).second)) {
-                        DBG_LXC << "The cached file " << fileName.str() << " depends on the string \"" << (*it).first.str() << "\" and used a macro for it with the body \"" << m.body() << "\"(from " << m.fileName() << "), but the driver contains the same macro with body \"" << (*it).second.body() << "\"(from " << (*it).second.fileName() << "), cache is not used" << endl;
+                        DEBUG() << "The cached file " << fileName.str() << " depends on the string \"" << (*it).first.str() << "\" and used a macro for it with the body \"" << m.body() << "\"(from " << m.fileName() << "), but the driver contains the same macro with body \"" << (*it).second.body() << "\"(from " << (*it).second.fileName() << "), cache is not used" << endl;
 
                         //Macro with the same name was used, but it is different
                         success = false;
@@ -89,7 +79,7 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
 
                 } else {
                     //There is a macro that affects the file, but was not used while the previous parse
-                    DBG_LXC << "The cached file " << fileName.str() << " depends on the string \"" << (*it).first.str() << "\" and the driver contains a macro of that name with body \"" << (*it).second.body() << "\"(from " << (*it).second.fileName() << "), the cached file is not used" << endl;
+                    DEBUG() << "The cached file " << fileName.str() << " depends on the string \"" << (*it).first.str() << "\" and the driver contains a macro of that name with body \"" << (*it).second.body() << "\"(from " << (*it).second.fileName() << "), the cached file is not used" << endl;
                     success = false;
                     break;
                 }
@@ -99,14 +89,14 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
         MacroSet::Macros::const_iterator end2 = file.usedMacros().macros().end();
         for (MacroSet::Macros::const_iterator it = file.usedMacros().macros().begin(); it != end2; ++it) {
             if (!m_driver->hasMacro(HashedString((*it).name()))) {
-                DBG_LXC << "The cached file " << fileName.str() << " used a macro called \"" << it->name() << "\"(from " << it->fileName() << "), but the driver does not contain that macro, the cached file is not used" << endl;
+                DEBUG() << "The cached file " << fileName.str() << " used a macro called \"" << it->name() << "\"(from " << it->fileName() << "), but the driver does not contain that macro, the cached file is not used" << endl;
                 success = false;
                 break;
             }
         }
 
         if (success) {
-            DBG_LXC << "Using cached file " << fileName.str() << endl;
+            DEBUG() << "Using cached file " << fileName.str() << endl;
             (*files.first).second->access();
             return (*files.first).second;
         }
@@ -169,7 +159,7 @@ void LexerCache::erase(const CacheNode* node)
         }
         files.first++;
     }
-    DBG_LXC << "Error: could not find a node in the list for file " << ((const CachedLexedFile*)(node))->fileName().str() << endl;
+    DEBUG() << "Error: could not find a node in the list for file " << ((const CachedLexedFile*)(node))->fileName().str() << endl;
 }
 
 CachedLexedFile::CachedLexedFile(const HashedString& fileName, LexerCache* manager) : CacheNode(manager), m_fileName(fileName)
@@ -181,7 +171,7 @@ CachedLexedFile::CachedLexedFile(const HashedString& fileName, LexerCache* manag
 
 void CachedLexedFile::addDefinedMacro(const Macro& macro)
 {
-    DBG_LXC << "defined macro " << macro.name() << endl;
+    DEBUG() << "defined macro " << macro.name() << endl;
 
     m_definedMacros.addMacro(macro);
     m_definedMacroNames.insert(HashedString(macro.name()));
@@ -190,7 +180,7 @@ void CachedLexedFile::addDefinedMacro(const Macro& macro)
 void CachedLexedFile::addUsedMacro(const Macro& macro)
 {
     if (!m_definedMacros.hasMacro(macro.name())) {
-        DBG_LXC << "used macro " << macro.name() << endl;
+        DEBUG() << "used macro " << macro.name() << endl;
         m_usedMacros.addMacro(macro);
     }
 }
@@ -220,7 +210,7 @@ QList<Problem>  CachedLexedFile::problems() const
 //The parameter should be a CachedLexedFile that was lexed AFTER the content of this file
 void CachedLexedFile::merge(const CachedLexedFile& file)
 {
-    DBG_LXC << fileName().str() << ": merging " << file.fileName().str() << endl << "defined in this: " << m_definedMacroNames.print().c_str() << endl << "defined macros in other: " << file.m_definedMacroNames.print().c_str() << endl;;
+    DEBUG() << fileName().str() << ": merging " << file.fileName().str() << endl << "defined in this: " << m_definedMacroNames.print().c_str() << endl << "defined macros in other: " << file.m_definedMacroNames.print().c_str() << endl;;
 
     HashedStringSet tempStrings = file.m_strings;
     tempStrings -= m_definedMacroNames;
@@ -229,7 +219,7 @@ void CachedLexedFile::merge(const CachedLexedFile& file)
     //Only add macros to the usedMacros-list that were not defined locally
     for (MacroSet::Macros::const_iterator it = file.m_usedMacros.macros().begin(); it != file.m_usedMacros.macros().end(); ++it) {
         if (!m_definedMacros.hasMacro((*it).name())) { ///If the macro was not defined locally, add it to the macros-list.
-            DBG_LXC << "inserting used macro " << (*it).name() << endl;
+            DEBUG() << "inserting used macro " << (*it).name() << endl;
             m_usedMacros.addMacro(*it);
         }
     }
@@ -240,7 +230,7 @@ void CachedLexedFile::merge(const CachedLexedFile& file)
     for (QMap<HashedString, QDateTime>::const_iterator it = file.m_allModificationTimes.begin(); it != file.m_allModificationTimes.end(); ++it)
         m_allModificationTimes[it.key()] = *it;
 
-    DBG_LXC << fileName().str() << ": defined in this after merge: " << m_definedMacroNames.print().c_str() << endl;
+    DEBUG() << fileName().str() << ": defined in this after merge: " << m_definedMacroNames.print().c_str() << endl;
 
     m_problems += file.m_problems;
 }

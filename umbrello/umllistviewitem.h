@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
@@ -19,6 +14,7 @@
 #include <QMap>
 #include <QPointer>
 #include <QTreeWidget>
+#include <QXmlStreamWriter>
 
 // forward declarations
 class UMLListView;
@@ -34,7 +30,7 @@ typedef QTreeWidgetItemIterator UMLListViewItemIterator;
  * @short  Items used by @ref UMLListView.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see    UMLListView
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class UMLListViewItem : public QTreeWidgetItem
 {
@@ -102,7 +98,7 @@ public:
         lvt_Association,
         lvt_Object_Diagram,
         lvt_Instance,
-        lvt_InstanteAttribute,
+        lvt_InstanceAttribute,
         // enter new values above
         lvt_Max,
         lvt_Unknown = -1
@@ -135,28 +131,28 @@ public:
     QString getSavedText() const;
     void setVisible(bool state);
 
-    QString toolTip();
+    QString toolTip() const;
 
     void setIcon(Icon_Utils::IconType iconType);
 
-    void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
+    void addChildItem(UMLObject *child, UMLListViewItem *childItem);
 
-    void deleteChildItem(UMLClassifierListItem *child);
+    void deleteChildItem(UMLObject *child);
 
     //virtual int compare(UMLListViewItem *other, int col, bool ascending) const;
 
     UMLListViewItem* deepCopy(UMLListViewItem *newParent);
 
     UMLListViewItem* findUMLObject(const UMLObject *o);
-    UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
+    UMLListViewItem* findChildObject(UMLObject *child);
     UMLListViewItem* findItem(Uml::ID::Type id);
 
     UMLListViewItem* childItem(int i);
 
-    void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
-    bool loadFromXMI1(QDomElement& qElement);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& qElement);
 
-    bool isOpen() { return isExpanded(); }
+    bool isOpen() const { return isExpanded(); }
     void setOpen(bool state);
 
 public slots:
@@ -168,12 +164,12 @@ protected:
     void cancelRenameWithMsg();
 
     /**
-     * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
+     * Auxiliary map of child UMLListViewItems keyed by UMLObject.
      * Used by findChildObject() for efficiency instead of looping using
      * firstChild()/nextSibling() because the latter incur enforceItemVisible()
      * and thus expensive sorting.
      */
-    typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
+    typedef QMap<UMLObject*, UMLListViewItem*> ChildObjectMap;
 
     ListViewType       m_type;
     Uml::ID::Type      m_id;

@@ -1,16 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2006 Gael de Chalendar (aka Kleag) kleag@free.fr
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "xhtmlgenerator.h"
 
+#define DBG_SRC QLatin1String("XhtmlGenerator")
 #include "debug_utils.h"
 #include "docbook2xhtmlgeneratorjob.h"
 #include "uml.h"
@@ -36,6 +33,8 @@
 #include <QStandardPaths>
 #endif
 #include <QTextStream>
+
+DEBUG_REGISTER(XhtmlGenerator)
 
 /**
  * Constructor.
@@ -78,7 +77,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
 #else
     url.setFileName(fileName);
 #endif
-    uDebug() << "Exporting to directory: " << url;
+    logDebug1("XhtmlGenerator::generateXhtmlForProject: Exporting to directory %1", url.path());
     return generateXhtmlForProjectInto(url);
 }
 
@@ -95,26 +94,26 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const QUrl& destDir)
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 #endif
 {
-    uDebug() << "First convert to docbook";
+    logDebug0("XhtmlGenerator::generateXhtmlForProjectInto: First convert to docbook");
     m_destDir = destDir;
 //    KUrl url(QString("file://")+m_tmpDir.name());
     DocbookGenerator* docbookGenerator = new DocbookGenerator;
     docbookGenerator->generateDocbookForProjectInto(destDir);
 
-    uDebug() << "Connecting...";
+    logDebug0("XhtmlGenerator::generateXhtmlForProjectInto: Connecting...");
     connect(docbookGenerator, SIGNAL(finished(bool)), this, SLOT(slotDocbookToXhtml(bool)));
     return true;
 }
 
 /**
- * This slot is triggerd when the first part, xmi to docbook, is finished
+ * This slot is triggered when the first part, xmi to docbook, is finished
  * @param status   status to continue with converting
  */
 void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
-    uDebug() << "Now convert docbook to html...";
+    logDebug0("XhtmlGenerator::slotDocbookToXhtml: Now convert docbook to html...");
     if (!status) {
-        uDebug() << "Error in converting to docbook";
+        logWarn0("XhtmlGenerator::slotDocbookToXhtml: Error in converting to docbook");
         m_pStatus = false;
         return;
     }
@@ -137,7 +136,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
         connect(m_d2xg, SIGNAL(xhtmlGenerated(QString)),
                 this, SLOT(slotHtmlGenerated(QString)));
         connect(m_d2xg, SIGNAL(finished()), this, SLOT(threadFinished()));
-        uDebug() << "Threading";
+        logDebug0("XhtmlGenerator::slotDocbookToXhtml: Threading.");
         m_d2xg->start();
     }
 }
@@ -149,7 +148,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
  */
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
-    uDebug() << "HTML Generated " << tmpFileName;
+    logDebug1("XhtmlGenerator: HTML generated %1", tmpFileName);
 #if QT_VERSION >= 0x050000
     QUrl url = m_umlDoc->url();
 #else
@@ -180,17 +179,21 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
+    QString cssBaseName = QLatin1String("xmi.css");
 #if QT_VERSION >= 0x050000
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("xmi.css")));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + cssBaseName));
 #else
-    QString cssFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi.css")));
+    QString cssFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + cssBaseName));
 #endif
+    if (cssFileName.isEmpty())
+        cssFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
+
 #if QT_VERSION >= 0x050000
     QUrl cssUrl = m_destDir;
-    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + QLatin1String("xmi.css"));
+    cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + cssBaseName);
 #else
     KUrl cssUrl = m_destDir;
-    cssUrl.addPath(QLatin1String("xmi.css"));
+    cssUrl.addPath(cssBaseName);
 #endif
 #if QT_VERSION >= 0x050000
     KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
@@ -225,4 +228,24 @@ void XhtmlGenerator::threadFinished()
     m_pThreadFinished = true;
     delete m_d2xg;
     m_d2xg = 0;
+}
+
+/**
+ * return custom xsl file for generating html
+ *
+ * @return filename with path
+ */
+QString XhtmlGenerator::customXslFile()
+{
+  QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
+#if QT_VERSION >= 0x050000
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
+#else
+    QString xsltFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
+#endif
+  if (xsltFileName.isEmpty())
+      xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+  logDebug1("XhtmlGenerator::customXslFile returning %1", xsltFileName);
+  return xsltFileName;
 }

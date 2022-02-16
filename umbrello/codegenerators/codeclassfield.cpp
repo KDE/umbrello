@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeclassfield.h"
@@ -25,6 +21,7 @@
 
 // qt includes
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -73,9 +70,9 @@ CodeClassField::~CodeClassField ()
  */
 void CodeClassField::setParentUMLObject (UMLObject * obj)
 {
-    UMLRole *role = obj->asUMLRole();
+    const UMLRole *role = obj->asUMLRole();
     if(role) {
-        UMLAssociation * parentAssoc = role->parentAssociation();
+        const UMLAssociation * parentAssoc = role->parentAssociation();
         Uml::AssociationType::Enum atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
@@ -113,7 +110,7 @@ QString CodeClassField::getListObjectType()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (role)
             return getUMLObjectName(role->object());
     }
@@ -226,7 +223,7 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock()
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassField::loadFromXMI1 (QDomElement & root)
+void CodeClassField::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -235,24 +232,24 @@ void CodeClassField::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfElem)
+void CodeClassField::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // super class
-    CodeParameter::setAttributesOnNode(doc, cfElem);
+    CodeParameter::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    cfElem.setAttribute(QLatin1String("field_type"), m_classFieldType);
-    cfElem.setAttribute(QLatin1String("listClassName"), m_listClassName);
-    cfElem.setAttribute(QLatin1String("writeOutMethods"), getWriteOutMethods() ? QLatin1String("true")
-                                                                               : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("field_type"), QString::number(m_classFieldType));
+    writer.writeAttribute(QLatin1String("listClassName"), m_listClassName);
+    writer.writeAttribute(QLatin1String("writeOutMethods"), getWriteOutMethods() ? QLatin1String("true")
+                                                                                 : QLatin1String("false"));
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
-    m_declCodeBlock->saveToXMI1(doc, cfElem);
+    m_declCodeBlock->saveToXMI(writer);
 
     // now record the tags on our accessormethods
     Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
-        method->saveToXMI1(doc, cfElem);
+        method->saveToXMI(writer);
     }
 }
 
@@ -286,22 +283,22 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
     while (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == QLatin1String("ccfdeclarationcodeblock")) {
-            m_declCodeBlock->loadFromXMI1(element);
+            m_declCodeBlock->loadFromXMI(element);
         } else
             if (tag == QLatin1String("codeaccessormethod")) {
                 int type = element.attribute(QLatin1String("accessType"), QLatin1String("0")).toInt();
                 int role_id = element.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
                 CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
                 if (method)
-                    method->loadFromXMI1(element);
+                    method->loadFromXMI(element);
                 else
-                    uError()<<"Cannot load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
+                    logError1("Cannot load code accessor method for type %1 which does not exist in this codeclassfield. Is XMI out-dated or corrupt?", type);
 
             } else
                 if (tag == QLatin1String("header")) {
                     // this is treated in parent.. skip over here
                 } else
-                    uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI1 got child element with unknown tag:"<<tag<<" ignoring node.";
+                    logWarn1("bad savefile? code classfield loadFromXMI got child element with unknown tag %1, ignoring node.", tag);
 
         node = element.nextSibling();
         element = node.toElement();
@@ -311,32 +308,32 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassField::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeClassField::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codeclassfield"));
+    writer.writeStartElement(QLatin1String("codeclassfield"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
  * Find the minimum number of things that can occur in an association
  * If mistakenly called on attribute CF's the default value of is "0"
- * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
+ * is returned. Similarly, if the association (role) CF doesn't have a multiplicity
  * 0 is returned.
  */
 int CodeClassField::minimumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
-            uError() << "no valid parent object";
+            logError0("no valid parent object");
             return -1;
         }
         QString multi = role->multiplicity();
-        // ush. IF we had a multiplicty object, this would be much easier.
+        // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
             QString lowerBoundString = multi.remove(QRegExp(QLatin1String("\\.\\.\\d+$")));
@@ -351,20 +348,20 @@ int CodeClassField::minimumListOccurances()
 /**
  * Find the maximum number of things that can occur in an association
  * If mistakenly called on attribute CF's the default value of is "1"
- * is returned. If the association (role) CF doesn't have a multiplicty
+ * is returned. If the association (role) CF doesn't have a multiplicity
  * or has a "*" specified then '-1' (unbounded) is returned.
  */
 int CodeClassField::maximumListOccurances()
 {
     if (!parentIsAttribute())
     {
-        UMLRole * role = getParentObject()->asUMLRole();
+        const UMLRole * role = getParentObject()->asUMLRole();
         if (!role) {
-            uError() << "no valid parent object";
+            logError0("no valid parent object");
             return -1;
         }
         QString multi = role->multiplicity();
-        // ush. IF we had a multiplicty object, this would be much easier.
+        // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
             QString upperBoundString = multi.section(QRegExp(QLatin1String("(\\.\\.)")), 1);
@@ -442,9 +439,9 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // design.
         Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
         {
-            UMLRole * role = m->getParentObject()->asUMLRole();
+            const UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
-                uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
+                logError1("FindMethodByType() cant create role for method type %1", m->getType());
             if(role && m->getType() == type && role->role() == role_id)
                 return m;
         }
@@ -527,7 +524,7 @@ void CodeClassField::updateContent()
             method->setWriteOutText(m_writeOutMethods);
         return;
     }
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if (!role)
         return;
     Uml::Changeability::Enum changeType = role->changeability();
@@ -622,7 +619,7 @@ bool CodeClassField::fieldIsSingleValue ()
     if(parentIsAttribute())
         return true;
 
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if(!role)
         return true; // it is really an attribute
 

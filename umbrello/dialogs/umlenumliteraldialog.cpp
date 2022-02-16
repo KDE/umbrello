@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2015      Tzvetelin Katchov <katchov@gmail.com>         *
- *   copyright (C) 2002-2015                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-3.0-or-later
+
+    SPDX-FileCopyrightText: 2015 Tzvetelin Katchov <katchov@gmail.com>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlenumliteraldialog.h"
@@ -17,6 +13,7 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>
@@ -89,9 +86,10 @@ bool UMLEnumLiteralDialog::apply()
         m_pNameLE->setText(m_pEnumLiteral->name());
         return false;
     }
-    UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
+    const UMLClassifier * pConcept = m_pEnumLiteral->umlParent()->asUMLClassifier();
     if (!pConcept) {
-        uError() << "Could not get parent of enum literal '" << m_pEnumLiteral->name() << "'";
+        logError1("UMLEnumLiteralDialog::apply: Could not get parent of enum literal '%1'",
+                  m_pEnumLiteral->name());
         return false;
     }
     UMLObject *o = pConcept->findChildObject(name);

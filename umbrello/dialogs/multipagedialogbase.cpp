@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "multipagedialogbase.h"
@@ -35,7 +30,6 @@
 
 // qt includes
 #include <QApplication>
-#include <QDesktopServices>
 #include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -107,7 +101,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
         m_pageDialog->showButtonSeparator(true);
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
-        m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
+        m_pageDialog->setHelp(QString::fromLatin1("settings"), QString::fromLatin1("umbrello"));
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
         connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
@@ -183,7 +177,7 @@ void MultiPageDialogBase::reject()
         m_pageDialog->reject();
 }
 
-KPageWidgetItem *MultiPageDialogBase::currentPage()
+KPageWidgetItem *MultiPageDialogBase::currentPage() const
 {
     if (m_pageDialog)
         return m_pageDialog->currentPage();
@@ -235,7 +229,7 @@ int MultiPageDialogBase::exec()
  *
  * @return true data has been changed
  */
-bool MultiPageDialogBase::isModified()
+bool MultiPageDialogBase::isModified() const
 {
     return m_isModified;
 }
@@ -264,21 +258,16 @@ void MultiPageDialogBase::slotDefaultClicked()
     emit defaultClicked();
 }
 
+#if QT_VERSION >= 0x050000
 /**
  * Launch khelpcenter.
  */
 void MultiPageDialogBase::slotHelpClicked()
 {
-    DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
-#if QT_VERSION >= 0x050000
-    KHelpClient::invokeHelp(QLatin1String("help:/umbrello/index.html"), QLatin1String("umbrello"));
-#else
-    QUrl url = QUrl(QLatin1String("help:/umbrello/index.html"));
-    QDesktopServices::openUrl(url);
-#endif
+    logDebug0("MultiPageDialogBase::slotHelpClicked is handled directly");
+    KHelpClient::invokeHelp(QLatin1String("settings"), QLatin1String("umbrello"));
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Button clicked event handler for the dialog button box.
  * @param button  the button which was clicked
@@ -286,22 +275,22 @@ void MultiPageDialogBase::slotHelpClicked()
 void MultiPageDialogBase::slotButtonClicked(QAbstractButton *button)
 {
     if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
-        DEBUG(DBG_SRC)  << "APPLY clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: APPLY...");
         slotApplyClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Ok)) {
-        DEBUG(DBG_SRC)  << "OK clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: OK...");
         slotOkClicked();
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Cancel)) {
-        DEBUG(DBG_SRC)  << "CANCEL clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: CANCEL...");
     }
     else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
-        DEBUG(DBG_SRC)  << "HELP clicked...";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: HELP...");
         slotHelpClicked();
     }
     else {
-        DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
+        logDebug0("MultiPageDialogBase::slotButtonClicked: unhandled button role");
     }
 }
 #endif
@@ -458,7 +447,7 @@ void MultiPageDialogBase::applyFontPage(Settings::OptionState *state)
 
 /**
  * updates the font page data
- * @param widget Widget to save the font data into
+ * @param scene Scene to save the font data into
  */
 void MultiPageDialogBase::applyFontPage(UMLScene *scene)
 {
@@ -494,7 +483,7 @@ KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
 KPageWidgetItem *MultiPageDialogBase::setupStylePage(AssociationWidget *widget)
 {
     m_pStylePage = new UMLWidgetStylePage(0, widget);
-    return createPage(i18nc("style page name", "Style"), i18n("Role Style"),
+    return createPage(i18nc("style page name", "Style"), i18n("Line Style"),
                       Icon_Utils::it_Properties_Color, m_pStylePage);
 }
 

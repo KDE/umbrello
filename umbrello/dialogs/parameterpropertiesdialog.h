@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef PARAMETERPROPERTIESDIALOG_H
 #define PARAMETERPROPERTIESDIALOG_H
@@ -16,6 +11,7 @@
 #include "singlepagedialogbase.h"
 
 class DocumentationWidget;
+class DefaultValueWidget;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
@@ -33,7 +29,7 @@ class UMLStereotypeWidget;
  *
  * @short A properties dialog box for a parameter.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ParameterPropertiesDialog : public SinglePageDialogBase
 {
@@ -55,8 +51,9 @@ private:
     QGroupBox * m_pParmGB;
     QGroupBox * m_pKindGB;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-    QLabel * m_pNameL, * m_pInitialL;
-    KLineEdit * m_pNameLE, * m_pInitialLE;
+    QLabel * m_pNameL;
+    KLineEdit * m_pNameLE;
+    DefaultValueWidget * m_defaultValueWidget;
     DocumentationWidget * m_docWidget;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;

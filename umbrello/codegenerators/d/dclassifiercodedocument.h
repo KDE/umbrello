@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DCLASSIFIERCODEDOCUMENT_H
 #define DCLASSIFIERCODEDOCUMENT_H
@@ -31,7 +27,7 @@ class DCodeGenerationPolicy;
  * - package declaration
  * - import statements
  * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependent classes)
  */
 class DClassifierCodeDocument : public ClassifierCodeDocument
 {
@@ -45,9 +41,9 @@ public:
 
     DCodeGenerationPolicy * getDPolicy();
 
-    QString getDClassName(const QString &name);
+    QString getDClassName(const QString &name) const;
 
-    QString getPath();
+    QString getPath() const;
 
     bool addCodeOperation(CodeOperation * op);
 
@@ -70,8 +66,8 @@ private:
     HierarchicalCodeBlock * operationsBlock;
 
 /*
-    QString fileName; // Just for our convience in creating code
-    QString endLine; // characters for ending line. Just for our convience in creating code
+    QString fileName; // Just for our convenience in creating code
+    QString endLine; // characters for ending line. Just for our convenience in creating code
     QString DClassName;
 */
     void init();

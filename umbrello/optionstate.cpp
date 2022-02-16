@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "optionstate.h"
 #include "umbrellosettings.h"
@@ -25,6 +20,7 @@ namespace Settings {
         newcodegen = UmbrelloSettings::newcodegen();
     #endif
         angularlines = UmbrelloSettings::angularlines();
+        layoutType = UmbrelloSettings::layoutType();
         footerPrinting =  UmbrelloSettings::footerPrinting();
         uml2 = UmbrelloSettings::uml2();
         autosave =  UmbrelloSettings::autosave();
@@ -96,23 +92,23 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to XMI.
+     * @param stream The QXmlStreamWriter to save to.
      */
-    void ClassState::saveToXMI1(QDomElement &element)
+    void ClassState::saveToXMI(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("showattribassocs"), showAttribAssocs);
-        element.setAttribute(QLatin1String("showatts"),         showAtts);
-        element.setAttribute(QLatin1String("showattsig"),       showAttSig);
-        element.setAttribute(QLatin1String("showops"),          showOps);
-        element.setAttribute(QLatin1String("showopsig"),        showOpSig);
-        element.setAttribute(QLatin1String("showpackage"),      showPackage);
-        element.setAttribute(QLatin1String("showpubliconly"),   showPublicOnly);
-        element.setAttribute(QLatin1String("showscope"),        showVisibility);
+        writer.writeAttribute(QLatin1String("showattribassocs"), QString::number(showAttribAssocs));
+        writer.writeAttribute(QLatin1String("showatts"),         QString::number(showAtts));
+        writer.writeAttribute(QLatin1String("showattsig"),       QString::number(showAttSig));
+        writer.writeAttribute(QLatin1String("showops"),          QString::number(showOps));
+        writer.writeAttribute(QLatin1String("showopsig"),        QString::number(showOpSig));
+        writer.writeAttribute(QLatin1String("showpackage"),      QString::number(showPackage));
+        writer.writeAttribute(QLatin1String("showpubliconly"),   QString::number(showPublicOnly));
+        writer.writeAttribute(QLatin1String("showscope"),        QString::number(showVisibility));
 #ifdef ENABLE_WIDGET_SHOW_DOC
-        element.setAttribute(QLatin1String("showdocumentation"),showDocumentation);
+        writer.writeAttribute(QLatin1String("showdocumentation"),QString::number(showDocumentation));
 #endif
-        element.setAttribute(QLatin1String("showstereotype"),   showStereoType);
+        writer.writeAttribute(QLatin1String("showstereotype"),   QString::number(showStereoType));
     }
 
     /**
@@ -121,7 +117,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool ClassState::loadFromXMI1(QDomElement &element)
+    bool ClassState::loadFromXMI(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("showattribassocs"), QLatin1String("0"));
         showAttribAssocs = (bool)temp.toInt();
@@ -144,7 +140,7 @@ namespace Settings {
         temp = element.attribute(QLatin1String("showscope"), QLatin1String("0"));
         showVisibility = (bool)temp.toInt();
         temp = element.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
-        showStereoType = (bool)temp.toInt();
+        showStereoType = (Uml::ShowStereoType::Enum)temp.toInt();
         return true;
     }
 
@@ -176,16 +172,16 @@ namespace Settings {
      * Save instance into a QDomElement.
      * @param element A QDomElement representing xml element data.
      */
-    void UIState::saveToXMI1(QDomElement &element)
+    void UIState::saveToXMI(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
-        element.setAttribute(QLatin1String("fillcolor"),        fillColor.name());
-        element.setAttribute(QLatin1String("font"),             font.toString());
-        element.setAttribute(QLatin1String("griddotcolor"),     gridDotColor.name());
-        element.setAttribute(QLatin1String("linecolor"),        lineColor.name());
-        element.setAttribute(QLatin1String("linewidth"),        lineWidth);
-        element.setAttribute(QLatin1String("textcolor"),        textColor.name());
-        element.setAttribute(QLatin1String("usefillcolor"),     useFillColor);
+        writer.writeAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
+        writer.writeAttribute(QLatin1String("fillcolor"),        fillColor.name());
+        writer.writeAttribute(QLatin1String("font"),             font.toString());
+        writer.writeAttribute(QLatin1String("griddotcolor"),     gridDotColor.name());
+        writer.writeAttribute(QLatin1String("linecolor"),        lineColor.name());
+        writer.writeAttribute(QLatin1String("linewidth"),        QString::number(lineWidth));
+        writer.writeAttribute(QLatin1String("textcolor"),        textColor.name());
+        writer.writeAttribute(QLatin1String("usefillcolor"),     QString::number(useFillColor));
     }
 
     /**
@@ -194,7 +190,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool UIState::loadFromXMI1(QDomElement &element)
+    bool UIState::loadFromXMI(QDomElement &element)
     {
         QString backgroundColor = element.attribute(QLatin1String("backgroundcolor"));
         if (!backgroundColor.isEmpty())
@@ -240,14 +236,14 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to a QXml stream.
+     * @param stream The QXmlStreamWriter to use.
      */
-    void CodeImportState::saveToXMI1(QDomElement &element)
+    void CodeImportState::saveToXMI(QXmlStreamWriter& writer)
     {
-        element.setAttribute(QLatin1String("createartifacts"), createArtifacts);
-        element.setAttribute(QLatin1String("resolvedependencies"), resolveDependencies);
-        element.setAttribute(QLatin1String("supportcpp11"), supportCPP11);
+        writer.writeAttribute(QLatin1String("createartifacts"), QString::number(createArtifacts));
+        writer.writeAttribute(QLatin1String("resolvedependencies"), QString::number(resolveDependencies));
+        writer.writeAttribute(QLatin1String("supportcpp11"), QString::number(supportCPP11));
     }
 
     /**
@@ -256,7 +252,7 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool CodeImportState::loadFromXMI1(QDomElement &element)
+    bool CodeImportState::loadFromXMI(QDomElement &element)
     {
         QString temp = element.attribute(QLatin1String("createartifacts"), QLatin1String("0"));
         createArtifacts = (bool)temp.toInt();
@@ -310,6 +306,9 @@ namespace Settings {
         UmbrelloSettings::setPublicAccessors(cppCodeGenerationState.publicAccessors);
         UmbrelloSettings::setInlineOps(cppCodeGenerationState.inlineOps);
         UmbrelloSettings::setVirtualDestructors(cppCodeGenerationState.virtualDestructors);
+        UmbrelloSettings::setGetterWithGetPrefix(cppCodeGenerationState.getterWithGetPrefix);
+        UmbrelloSettings::setRemovePrefixFromAccessorMethods(cppCodeGenerationState.removePrefixFromAccessorMethods);
+        UmbrelloSettings::setAccessorMethodsStartWithUpperCase(cppCodeGenerationState.accessorMethodsStartWithUpperCase);
         UmbrelloSettings::setPackageIsNamespace(cppCodeGenerationState.packageIsNamespace);
 
         UmbrelloSettings::setStringClassName(cppCodeGenerationState.stringClassName);
@@ -319,7 +318,9 @@ namespace Settings {
         UmbrelloSettings::setVectorClassName(cppCodeGenerationState.vectorClassName);
         UmbrelloSettings::setVectorClassNameInclude(cppCodeGenerationState.vectorClassNameInclude);
         UmbrelloSettings::setVectorIncludeIsGlobal(cppCodeGenerationState.vectorIncludeIsGlobal);
+
         UmbrelloSettings::setDocToolTag(cppCodeGenerationState.docToolTag);
+        UmbrelloSettings::setClassMemberPrefix(cppCodeGenerationState.classMemberPrefix);
 
         // write config for Java code generation options
         UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(javaCodeGenerationState.autoGenerateAttributeAccessors);
@@ -390,13 +391,13 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to a QXmlStreamWriter.
+     * @param writer The QXmlStreamWriter to save to.
      */
-    void OptionState::saveToXMI1(QDomElement& element)
+    void OptionState::saveToXMI(QXmlStreamWriter& writer)
     {
-        uiState.saveToXMI1(element);
-        classState.saveToXMI1(element);
+        uiState.saveToXMI(writer);
+        classState.saveToXMI(writer);
     }
 
     /**
@@ -405,10 +406,10 @@ namespace Settings {
      * @return true on success
      * @return false on error
      */
-    bool OptionState::loadFromXMI1(QDomElement& element)
+    bool OptionState::loadFromXMI(QDomElement& element)
     {
-        uiState.loadFromXMI1(element);
-        classState.loadFromXMI1(element);
+        uiState.loadFromXMI(element);
+        classState.loadFromXMI(element);
 
         return true;
     }

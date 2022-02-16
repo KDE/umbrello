@@ -1,21 +1,7 @@
 /*
-    Copyright 2008  Andreas Fischer  <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2008 Andreas Fischer <andi.fischer@hispeed.ch>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy 
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #ifndef ICON_UTILS_H
 #define ICON_UTILS_H
@@ -37,7 +23,7 @@
 
 /**
  * This class is a gateway to KIconLoader for for handling all the
- * used icons in umbrello. Identification is done with an enum and
+ * icons used in umbrello. Identification is done with an enum and
  * then a translation to the icon name.
  * @author  Andreas Fischer
  */
@@ -47,6 +33,7 @@ namespace Icon_Utils {
     {
         it_Home = 0,
         it_Arrow,
+        it_File_Open,
         it_Folder,
         it_Folder_Cyan,
         it_Folder_Cyan_Open,
@@ -93,6 +80,8 @@ namespace Icon_Utils {
         it_Node,
         it_Artifact,
         it_Interface,
+        it_Interface_Provider,
+        it_Interface_Requirement,
         it_Datatype,
         it_Enum,
         it_Entity,
@@ -175,6 +164,8 @@ namespace Icon_Utils {
         it_Constraint_Unique,
         it_Enum_Literal,
         it_State_Activity,
+        it_Message_Creation,
+        it_Message_Destroy,
         it_Message_Sync,
         it_Message_Async,
         it_Message_Found,

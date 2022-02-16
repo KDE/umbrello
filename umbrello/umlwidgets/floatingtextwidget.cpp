@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "floatingtextwidget.h"
@@ -45,6 +40,7 @@
 #include <QRegExp>
 #include <QPainter>
 #include <QValidator>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(FloatingTextWidget)
 
@@ -228,11 +224,11 @@ void FloatingTextWidget::showChangeTextDialog()
 bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 {
     if (!m_linkWidget) {
-        uError() << "m_linkWidget is NULL";
+        logError0("FloatingTextWidget::showOperationDialog: m_linkWidget is NULL");
         return false;
     }
     if (!m_linkWidget->lwClassifier()) {
-        uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
+        logError0("FloatingTextWidget::showOperationDialog: m_linkWidget->lwClassifier() returns a NULL classifier");
         return false;
     }
     bool result = false;
@@ -249,13 +245,17 @@ bool FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 
 /**
  * Show the properties for a FloatingTextWidget.
- * Depending on the role of the floating text wiget, the options dialog
+ * Depending on the role of the floating text widget, the options dialog
  * for the floating text widget, the rename dialog for floating text or
  * the options dialog for the link widget are shown.
  */
 bool FloatingTextWidget::showPropertiesDialog()
 {
-    if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
+    UMLWidget *p = dynamic_cast<UMLWidget*>(parentItem());
+    if (p && p->isInterfaceWidget()) {
+        if (p->showPropertiesDialog())
+            setText(p->name());
+    } else if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
             m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         return showOperationDialog(false);
     } else if (m_textRole == Uml::TextRole::Floating) {
@@ -517,7 +517,8 @@ void FloatingTextWidget::moveWidgetBy(qreal diffX, qreal diffY)
         return;
 
     if (textRole() == Uml::TextRole::Seq_Message
-                    && ((MessageWidget*)link())->isSelected()) {
+            && link() && dynamic_cast<MessageWidget*>(link())
+            && dynamic_cast<MessageWidget*>(link())->isSelected()) {
         return;
     }
 
@@ -641,9 +642,9 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 /**
  * Loads the "floatingtext" XMI element.
  */
-bool FloatingTextWidget::loadFromXMI1(QDomElement & qElement)
+bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
 
     m_unconstrainedPositionX = x();
@@ -665,27 +666,27 @@ bool FloatingTextWidget::loadFromXMI1(QDomElement & qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI1 to save the widget
+ * Reimplemented from UMLWidget::saveToXMI to save the widget
  * data into XMI 'floatingtext' element.
  */
-void FloatingTextWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void FloatingTextWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     if (isEmpty())
         return;
 
-    QDomElement textElement = qDoc.createElement(QLatin1String("floatingtext"));
-    UMLWidget::saveToXMI1(qDoc, textElement);
-    textElement.setAttribute(QLatin1String("text"), m_Text);
-    textElement.setAttribute(QLatin1String("pretext"), m_preText);
-    textElement.setAttribute(QLatin1String("posttext"), m_postText);
+    writer.writeStartElement(QLatin1String("floatingtext"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("pretext"), m_preText);
+    writer.writeAttribute(QLatin1String("posttext"), m_postText);
 
     /* No need to save these - the messagewidget already did it.
     m_Operation  = qElement.attribute("operation");
     m_SeqNum = qElement.attribute("seqnum");
      */
 
-    textElement.setAttribute(QLatin1String("role"), m_textRole);
-    qElement.appendChild(textElement);
+    writer.writeAttribute(QLatin1String("role"), QString::number(m_textRole));
+    writer.writeEndElement();
 }
 
 /**
@@ -712,7 +713,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
         {
             if (m_linkWidget == 0) {
-                DEBUG(DBG_SRC) << "mt_Operation: m_linkWidget is NULL";
+                logDebug0("FloatingTextWidget::slotMenuSelection(mt_Operation): m_linkWidget is NULL");
                 return;
             }
             UMLClassifier* c = m_linkWidget->operationOwner();

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlviewimageexporterall.h"
@@ -94,8 +89,7 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
     if (m_dialog->m_kURL->url().isEmpty()) {
 #if QT_VERSION >= 0x050000
         QUrl directory(umlDoc->url());
-        directory.adjusted(QUrl::RemoveFilename);
-        m_dialog->m_kURL->setUrl(directory);
+        m_dialog->m_kURL->setUrl(directory.adjusted(QUrl::RemoveFilename));
 #else
         m_dialog->m_kURL->setUrl(umlDoc->url().directory());
 #endif

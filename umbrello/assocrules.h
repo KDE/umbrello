@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef ASSOCRULES_H
 #define ASSOCRULES_H
@@ -20,7 +15,7 @@ class UMLWidget;
  * Used to determine rules for associations.
  *
  * @author Paul Hensgen
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class AssocRules
 {
@@ -42,6 +37,7 @@ public:
     static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
     typedef enum {All, Java} Language;
+    typedef enum {Any, UML1, UML2 } Level;
 
 private:
     class Assoc_Rule {  ///< Structure to help determine association rules.
@@ -52,9 +48,10 @@ private:
         WidgetBase::WidgetType widgetA_type;    ///< type of role A widget
         WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
         bool role;                         ///< role text
-        bool multiplicity;                 ///< multipliciy text on association
+        bool multiplicity;                 ///< multiplicity text on association
         bool bidirectional;                ///< can have an association of same type going between widget each way
         bool self;                         ///< association to self
+        Level level;                       ///< UML level
     };
 
     static Assoc_Rule m_AssocRules[];  ///< Container that holds all the rules.

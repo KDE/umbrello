@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DOTGENERATOR_H
 
@@ -26,10 +21,10 @@ class DotGenerator
 public:
     DotGenerator();
 
-    bool usePosition();
+    bool usePosition() const;
     void setUsePosition(bool state);
 
-    bool useFullNodeLabels();
+    bool useFullNodeLabels() const;
     void setUseFullNodeLabels(bool state);
 
     static bool availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles);
@@ -37,9 +32,14 @@ public:
 
     bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = QLatin1String("default"));
 
+    static QString currentDotPath();
+    void setGeneratorName(const QString &name);
+    QString generatorFullPath() const;
+
 protected:
     bool findItem(QStringList &params, const QString &search);
     QString fixID(const QString &_id);
+    int generatorVersion() const;
 
     double m_scale;        ///< scale factor
     QString m_configFileName; ///< template filename
@@ -50,6 +50,8 @@ protected:
     QString m_generator; ///< name of graphviz generator
     bool m_usePosition; ///< use position tag from dot (not used yet)
     bool m_useFullNodeLabels; ///< use full node labels
+    QString m_dotPath;     ///< contains path to generator executable
+    int m_version{0};         ///< version of graphviz generator
 
     friend QDebug operator<<(QDebug out, DotGenerator &c);
 };

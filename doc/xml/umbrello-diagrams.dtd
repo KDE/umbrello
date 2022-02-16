@@ -269,6 +269,7 @@
 <!ELEMENT statewidget ANY >
 <!ATTLIST statewidget
           %UMLWidgetAtts;
+          diagramlinkid CDATA #IMPLIED
           documentation CDATA #IMPLIED
           drawvertical CDATA #IMPLIED
           statename CDATA #IMPLIED

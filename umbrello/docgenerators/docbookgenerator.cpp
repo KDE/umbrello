@@ -1,16 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2006 Gael de Chalendar (aka Kleag) kleag@free.fr
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "docbookgenerator.h"
 
+#define DBG_SRC QLatin1String("DocbookGenerator")
 #include "debug_utils.h"
 #include "docbookgeneratorjob.h"
 #include "uml.h"
@@ -24,6 +21,7 @@
 #include <KMessageBox>
 #if QT_VERSION < 0x050000
 #include <kio/netaccess.h>
+#include <kstandarddirs.h>
 #endif
 #include <kio/job.h>
 
@@ -31,6 +29,8 @@
 #include <QFile>
 #include <QRegExp>
 #include <QTextStream>
+
+DEBUG_REGISTER(DocbookGenerator)
 
 /**
  * Constructor.
@@ -73,7 +73,7 @@ bool DocbookGenerator::generateDocbookForProject()
 #else
   url.setFileName(fileName);
 #endif
-  uDebug() << "Exporting to directory: " << url;
+  logDebug1("DocbookGenerator::generateDocbookForProject: Exporting to directory %1", url.path());
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -107,13 +107,13 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     docbookGeneratorJob = new DocbookGeneratorJob(this);
     connect(docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
     connect(docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
-    uDebug()<<"Threading";
+    logDebug0("DocbookGenerator::generateDocbookForProjectInto: Threading.");
     docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    uDebug() << "Generation Finished" << tmpFileName;
+    logDebug1("DocbookGenerator: Generation finished (%1)", tmpFileName);
 #if QT_VERSION >= 0x050000
     QUrl url = umlDoc->url();
 #else
@@ -158,4 +158,23 @@ void DocbookGenerator::threadFinished()
     docbookGeneratorJob = 0;
 }
 
+/**
+ * return custom xsl file for generating docbook
+ *
+ * @return filename with path
+ */
+QString DocbookGenerator::customXslFile()
+{
+    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
+#if QT_VERSION >= 0x050000
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
+#else
+    QString xsltFile(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
+#endif
+    if (xsltFile.isEmpty())
+        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+
+    logDebug1("DocbookGenerator::customXslFile returning %1", xsltFile);
+    return xsltFile;
+}
 

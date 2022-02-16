@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2017                                                     *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2017-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "phpimport.h"
@@ -16,6 +11,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#define DBG_SRC QLatin1String("PHPImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -39,19 +35,24 @@ QTextStream qout(stdout);
 QTextStream qerr(stderr);
 QTextStream qin(stdin);
 
-#include "parsesession.h"
-#include "phplexer.h"
-#include "phpparser.h"
-#include "phpdebugvisitor.h"
-#include "phpast.h"
-#include "tokenstream.h"
-#include "phptokentext.h"
+// kdevphp
+#include <parser/parsesession.h>
+#include <parser/phplexer.h>
+#include <parser/phpparser.h>
+#include <parser/phpdebugvisitor.h>
+#include <parser/phpast.h>
+#include <parser/tokenstream.h>
+#include <parser/phptokentext.h>
 
+// kdevplatform
 #include <tests/autotestshell.h>
 #include <language/duchain/duchain.h>
 #include <language/duchain/problem.h>
 #include <language/codegen/coderepresentation.h>
+#include <language/editor/documentrange.h>
 #include <tests/testcore.h>
+
+DEBUG_REGISTER(PHPImport)
 
 namespace Php {
 
@@ -62,7 +63,9 @@ class PHPIncludeFileVisitor : public DefaultVisitor
 public:
     PHPIncludeFileVisitor(TokenStream *str, const QString& content = QString())
       : m_str (str),
-        m_content(content)
+        m_content(content),
+        m_indent(0),
+        m_dependencies(0)
     {}
     void setFilePath(const QString &path)
     {
@@ -189,7 +192,7 @@ public:
             if (a)
                 a->setDrawAsType(UMLArtifact::file);
             else
-                uError() << "could not add artifact" << m_fileName;
+                logError1("PHPImportVisitor::visitStart could not add artifact %1", m_fileName);
             //a->setDoc(comment);
         }
         DefaultVisitor::visitStart(node);
@@ -215,7 +218,7 @@ public:
             if (!o)
                 o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
             if (++m_nsCnt > NamespaceSize) {
-                uError() << "excessive namespace nesting";
+                logError0("PHPImportVisitor::visitSimpleNamespaceDeclarationStatement: excessive namespace nesting");
                 m_nsCnt = NamespaceSize;
             }
             UMLPackage *ns = o->asUMLPackage();
@@ -244,7 +247,7 @@ public:
             if (!o)
                 o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName, parentPackage);
             if (++m_nsCnt > NamespaceSize) {
-                uError() << "excessive namespace nesting";
+                logError0("PHPImportVisitor::visitStapledNamespaceDeclarationStatement: excessive namespace nesting");
                 m_nsCnt = NamespaceSize;
             }
             UMLPackage *ns = o->asUMLPackage();
@@ -283,7 +286,7 @@ public:
             o = Import_Utils::createUMLObject(UMLObject::ot_Class, names, parent);
         if (o) {
             m_usingClasses.append(o->asUMLClassifier());
-            uDebug() << "using class" << names;
+            logDebug1("using class %1", names);
         }
         DefaultVisitor::visitUseNamespace(node);
     }
@@ -313,7 +316,7 @@ public:
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
         } else {
-            uError() << "no parent class found for method" << methodName;
+            logError1("PHPImportVisitor::visitClassStatement: no parent class found for method %1", methodName);
         }
         if (m) {
             if (node->parameters && node->parameters->parametersSequence) {
@@ -381,7 +384,7 @@ public:
                                               QString()/*ast->comment()*/, QString(), true);
         m_currentScope.push_back(interfaceName);
         if (++m_nsCnt > NamespaceSize) {
-            uError() << "excessive namespace nesting";
+            logError0("PHPImportVisitor::visitInterfaceDeclarationStatement: excessive namespace nesting");
             m_nsCnt = NamespaceSize;
         }
         UMLPackage *ns = o->asUMLPackage();
@@ -406,7 +409,7 @@ public:
                                               QString()/*ast->comment()*/, QString(), true);
         m_currentScope.push_back(className);
         if (++m_nsCnt > NamespaceSize) {
-            uError() << "excessive namespace nesting";
+            logError0("PHPImportVisitor::visitClassDeclarationStatement: excessive namespace nesting");
             m_nsCnt = NamespaceSize;
         }
         UMLPackage *ns = o->asUMLPackage();
@@ -436,8 +439,9 @@ public:
         UMLOperation *m = 0;
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
-        }else {
-            uError() << "no parent class found for method" << methodName;
+        } else {
+            logError1("PHPImportVisitor::visitFunctionDeclarationStatement: no parent class found for method %1",
+                      methodName);
         }
 
         if (m) {
@@ -502,6 +506,11 @@ public:
 } // namespace
 
 /**
+ * Auxiliary type for template class @ref DebugLanguageParserHelper
+ */
+typedef QString (*TokenTextFunc)(int);
+
+/**
  * This class is a pure helper to use for binaries that you can
  * run on short snippets of test code or whole files and let
  * it print the generated tokens or AST.
@@ -517,7 +526,6 @@ public:
  * @param DebugVisitorT the debug visitor for your language.
  * @param TokenToTextT function pointer to the function that returns a string representation for an integral token.
  */
-typedef QString (*TokenTextFunc)(int);
 template<class SessionT, class TokenStreamT, class TokenT, class LexerT,
          class StartAstT, class DebugVisitorT, TokenTextFunc TokenTextT>
 class DebugLanguageParserHelper {
@@ -525,6 +533,7 @@ public:
     DebugLanguageParserHelper(const bool printAst, const bool printTokens)
         : m_printAst(printAst),
           m_printTokens(printTokens),
+          m_ast(0),
           m_isFed(false)
     {
         m_session.setDebug(printAst);
@@ -571,12 +580,12 @@ public:
         return m_ast;
     }
 
-    void setFeeded(bool state)
+    void setFed(bool state)
     {
         m_isFed = state;
     }
 
-    bool isFeeded()
+    bool wasFed()
     {
         return m_isFed;
     }
@@ -641,7 +650,7 @@ private:
                         .arg(p->finalLocation().start.column)
 #endif
                         .arg(p->severityString()).arg(p->description());
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
         } else {
             qout << "no problems encountered during parsing" << endl;
@@ -700,7 +709,8 @@ public:
                 QFileInfo ei(di.isAbsolute() ? dependency : fi.canonicalPath() + "/" + dependency);
                 QString usePath = ei.canonicalFilePath();
                 if (usePath.isEmpty()) {
-                    uError() << "could not parse empty file path for dependency" << dependency;
+                    logError1("PHPImportPrivate::parseFile could not parse empty file path for dependency %1",
+                              dependency);
                     continue;
                 }
                 if (!m_parsers.contains(usePath)) {
@@ -769,10 +779,10 @@ void PHPImport::feedTheModel(const QString& fileName)
         PhpParser *p = m_d->m_parsers[file];
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
         visitor.setFileName(file);
-        if (p->ast() && !p->isFeeded()) {
-            uDebug() << "feeding" << file;
+        if (p->ast() && !p->wasFed()) {
+            logDebug1("feeding %1", file);
             visitor.visitStart(p->ast());
-            p->setFeeded(true);
+            p->setFed(true);
         }
     }
 }

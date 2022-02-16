@@ -1,36 +1,54 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlwidget.h"
 
 // local includes
+#include "artifact.h"
+#include "artifactwidget.h"
+#include "activitywidget.h"
+#include "actor.h"
+#include "actorwidget.h"
 #include "associationwidget.h"
 #include "classifier.h"
 #include "classpropertiesdialog.h"
 #include "cmds.h"
+#include "component.h"
+#include "componentwidget.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
-#include "associationwidget.h"
 #include "floatingtextwidget.h"
+#include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "notewidget.h"
+#include "messagewidget.h"
+#include "objectwidget.h"
+#include "object_factory.h"
 #include "idchangelog.h"
-#include "listpopupmenu.h"
+#include "menus/listpopupmenu.h"
+#include "objectnodewidget.h"
+#include "pinwidget.h"
+#include "port.h"
+#include "portwidget.h"
+#include "regionwidget.h"
+#include "signalwidget.h"
 #include "settingsdialog.h"
+#include "statewidget.h"
+#include "stereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobject.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "usecase.h"
+#include "usecasewidget.h"
 #include "uniqueid.h"
+#include "widget_factory.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -41,10 +59,13 @@
 #include <QColor>
 #include <QPainter>
 #include <QPointer>
+#include <QXmlStreamWriter>
 
 using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
+
+#define I18N_NEXT_RELEASE(a,b) QString(QLatin1String(a)).arg(b))
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
@@ -60,15 +81,17 @@ const int UMLWidget::resizeMarkerLineCount = 3;
  * @param type  The WidgetType to construct.
  *              This must be set to the appropriate value by the constructors of inheriting classes.
  * @param o The UMLObject to represent.
+ * @note Although a pointer to the scene is required, the widget is not added to the scene by default.
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
-  : WidgetBase(scene, type)
+  : WidgetBase(scene, type, o ? o->id() : Uml::ID::None)
+  , DiagramProxyWidget(this)
 {
     init();
     m_umlObject = o;
     if (m_umlObject) {
+        // TODO: calling WidgetBase::setUMLObject does not add this connection
         connect(m_umlObject, SIGNAL(modified()), this, SLOT(updateWidget()));
-        m_nId = m_umlObject->id();
     }
 }
 
@@ -82,13 +105,10 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
  *  The default value (id_None) will prompt generation of a new ID.
  */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id)
-  : WidgetBase(scene, type)
+  : WidgetBase(scene, type, id)
+  , DiagramProxyWidget(this)
 {
     init();
-    if (id == Uml::ID::None)
-        m_nId = UniqueID::gen();
-    else
-        m_nId = id;
 }
 
 /**
@@ -108,6 +128,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
         return *this;
 
     WidgetBase::operator=(other);
+    DiagramProxyWidget::operator=(other);
 
     // assign members loaded/saved
     m_useFillColor = other.m_useFillColor;
@@ -152,7 +173,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
         return false;
 
     /* Testing the associations is already an exaggeration, no?
-       The type and ID should uniquely identify an UMLWidget.
+       The type and ID should uniquely identify a UMLWidget.
      */
     if (m_Assocs.count() != other.m_Assocs.count()) {
         return false;
@@ -185,49 +206,6 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     if(m_nY != other.m_nY)
         return false;
      */
-}
-
-/**
- * Sets the local id of the object.
- *
- * @param id   The local id of the object.
- */
-void UMLWidget::setLocalID(Uml::ID::Type id)
-{
-    m_nLocalID = id;
-}
-
-/**
- * Returns the local ID for this object.  This ID is used so that
- * many objects of the same @ref UMLObject instance can be on the
- * same diagram.
- *
- * @return  The local ID.
- */
-Uml::ID::Type UMLWidget::localID() const
-{
-    return m_nLocalID;
-}
-
-/**
- * Returns the widget with the given ID.
- * The default implementation tests the following IDs:
- * - m_nLocalID
- * - if m_umlObject is non NULL: m_umlObject->id()
- * - m_nID
- * Composite widgets override this function to test further owned widgets.
- *
- * @param id  The ID to test this widget against.
- * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
- *           else NULL.
- */
-UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
-{
-    if (id == m_nLocalID ||
-        (m_umlObject != 0 && id == m_umlObject->id()) ||
-        id == m_nId)
-        return this;
-    return 0;
 }
 
 /**
@@ -332,16 +310,16 @@ void UMLWidget::toForeground()
 {
     QRectF rect = QRectF(scenePos(), QSizeF(width(), height()));
     QList<QGraphicsItem*> items = scene()->items(rect, Qt::IntersectsItemShape, Qt::DescendingOrder);
-    DEBUG(DBG_SRC) << "items at " << rect << " = " << items.count();
+    logDebug2("UMLWidget %1 toForeground: items at rect = %2", name(), items.count());
     if (items.count() > 1) {
         foreach(QGraphicsItem* i, items) {
             UMLWidget* w = dynamic_cast<UMLWidget*>(i);
             if (w) {
-                DEBUG(DBG_SRC) << "item=" << w->name() << " with zValue=" << w->zValue();
+                logDebug2("- item=%1 with zValue=%2", w->name(), w->zValue());
                 if (w->name() != name()) {
                     if (w->zValue() >= zValue()) {
                         setZValue(w->zValue() + 1.0);
-                        DEBUG(DBG_SRC) << "bring to foreground with zValue: " << zValue();
+                        logDebug1("-- bring to foreground with zValue: %1", zValue());
                     }
                 }
             }
@@ -350,7 +328,7 @@ void UMLWidget::toForeground()
     else {
         setZValue(0.0);
     }
-    DEBUG(DBG_SRC) << "zValue is " << zValue();
+    logDebug2("UMLWidget %1 toForeground: zValue is %2", name(), zValue());
 }
 
 /**
@@ -386,8 +364,12 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         event->ignore();
         return;
     }
+    /*
+    logDebug4("UMLWidget::mousePressEvent: widget=%1 / type=%2 / event->scenePos=%3 / pos=%4",
+              name(), baseTypeStr(), event->scenePos(), pos());
+     */
     event->accept();
-    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
+    logDebug2("UMLWidget::mousePressEvent: widget = %1 / type = %2", name(), baseTypeStr());
 
     toForeground();
 
@@ -396,7 +378,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     // saving the values of the widget
     m_pressOffset = event->scenePos() - pos();
-    DEBUG(DBG_SRC) << "press offset=" << m_pressOffset;
+    logDebug2("UMLWidget::mousePressEvent: press offset x=%1, y=%2", m_pressOffset.x(), m_pressOffset.y());
 
     m_oldStatusBarMsg = UMLApp::app()->statusBarMsg();
 
@@ -415,7 +397,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     m_shiftPressed = false;
 
-    int count = m_scene->selectedCount(true);
+    int count = m_scene->selectedCount();
     if (event->button() == Qt::LeftButton) {
         if (isSelected() && count > 1) {
             // single selection is made in release event if the widget wasn't moved
@@ -448,14 +430,14 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * widget resize constraint can be applied), and then the associations are
  * adjusted.
  * The resizing can be constrained also to a specific axis using control
- * and shift buttons. If on or another is pressed, it's constrained to X axis.
+ * and shift buttons. If one or another is pressed, it's constrained to X axis.
  * If both are pressed, it's constrained to Y axis.
  *
  * If not resizing, the widget is being moved. If the move is being started,
  * the selection bounds are set (which includes updating the list of selected
  * widgets).
  * The difference between the previous position of the selection and the new
- * one is got (taking in account the selection bounds so widgets don't go
+ * one is calculated (taking in account the selection bounds so widgets don't go
  * beyond the scene limits). Then, it's constrained to X or Y axis depending
  * on shift and control buttons.
  * A further constraint is made using constrainMovementForAllWidgets (for example,
@@ -478,7 +460,8 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     if (!m_moved) {
-        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
+        UMLApp::app()->document()->writeToStatusBar
+          (i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
 
         m_moved = true;
         //Maybe needed by AssociationWidget
@@ -507,9 +490,8 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     QPointF delta = event->scenePos() - event->lastScenePos();
-    adjustUnselectedAssocs(delta.x(), delta.y());
 
-    DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
+    logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
         if ((widget->parentItem() == 0) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
@@ -524,8 +506,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             aw->moveEntireAssoc(diffX, diffY);
         }
     }
-
-    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -553,21 +533,26 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    logDebug0("UMLWidget::mouseReleaseEvent");
     if (!m_moved && !m_resized) {
-        if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
+        if (!m_shiftPressed && (m_scene->selectedCount() > 1)) {
             selectSingle(event);
         } else if (!isSelected()) {
             deselect(event);
+        } else {
+            Widget_Utils::ensureNestedVisible(this, umlScene()->widgetList());
         }
     } else {
         // Commands
         if (m_moved) {
-            int selectionCount = umlScene()->selectedWidgets().count();
+            UMLWidgetList selectedWidgets = umlScene()->selectedWidgets();
+            int selectionCount = selectedWidgets.count();
             if (selectionCount > 1) {
                 UMLApp::app()->beginMacro(i18n("Move widgets"));
             }
-            foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
+            foreach (UMLWidget* widget, selectedWidgets) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
+                Widget_Utils::ensureNestedVisible(widget, umlScene()->widgetList());
             }
             if (selectionCount > 1) {
                 UMLApp::app()->endMacro();
@@ -577,11 +562,13 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
             m_autoResize = false;
             m_resized = false;
+            deselect(event);
         }
 
         if ((m_inMoveArea && wasPositionChanged()) ||
                 (m_inResizeArea && wasSizeChanged())) {
             umlDoc()->setModified(true);
+            umlScene()->invalidate();
         }
 
         UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
@@ -603,7 +590,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
+        logDebug2("UMLWidget::mouseDoubleClickEvent: widget = %1 / type = %2", name(), baseTypeStr());
         showPropertiesDialog();
         event->accept();
     }
@@ -706,6 +693,8 @@ void UMLWidget::constrain(qreal& width, qreal& height)
     if (fixedAspectRatio()) {
         QSizeF size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
+        logDebug3("UMLWidget::constrain(%1) : Changing input height %2 to %3 due to fixedAspectRatio",
+                  name(), height, (width * aspectRatio));
         height = width * aspectRatio;
     }
 }
@@ -715,8 +704,6 @@ void UMLWidget::constrain(qreal& width, qreal& height)
  */
 void UMLWidget::init()
 {
-    m_nId = Uml::ID::None;
-    m_nLocalID = UniqueID::gen();
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
@@ -736,11 +723,11 @@ void UMLWidget::init()
         m_fillColor = optionState.uiState.fillColor;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
-        uError() << "SERIOUS PROBLEM - m_scene is NULL";
+        logError0("UMLWidget::init SERIOUS PROBLEM - m_scene is null");
         m_useFillColor = false;
         m_usesDiagramFillColor = false;
         m_usesDiagramUseFillColor = false;
-        m_showStereotype = false;
+        m_showStereotype = Uml::ShowStereoType::None;
     }
 
     m_resizable = true;
@@ -830,12 +817,190 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
     }
 
+    case ListPopupMenu::mt_Actor: {
+        UMLActor *actor = new UMLActor;
+        UMLWidget *widget = new ActorWidget(umlScene(), actor);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Artifact: {
+        UMLArtifact *a = new UMLArtifact();
+        ArtifactWidget *widget = new ArtifactWidget(umlScene(), a);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Component: {
+        UMLComponent *c = new UMLComponent();
+        ComponentWidget *widget = new ComponentWidget(umlScene(), c);
+        addConnectedWidget(widget, Uml::AssociationType::Association, SetupSize);
+        break;
+    }
+
+    case ListPopupMenu::mt_Hide_Destruction_Box: {
+        ObjectWidget *w = asObjectWidget();
+        if (w)
+            w->setShowDestruction(false);
+        break;
+    }
+
+    case ListPopupMenu::mt_Show_Destruction_Box: {
+        ObjectWidget *w = asObjectWidget();
+        if (w)
+            w->setShowDestruction(true);
+        break;
+    }
+
+    case ListPopupMenu::mt_Interface: {
+        UMLPackage* component = umlObject()->asUMLPackage();
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Interface, component);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Interface, name)) {
+            UMLClassifier *c = new UMLClassifier();
+            c->setBaseType(UMLObject::ot_Interface);
+            ClassifierWidget *widget = new ClassifierWidget(umlScene(), c);
+            addConnectedWidget(widget, Uml::AssociationType::Association);
+        }
+        break;
+    }
+
+    case ListPopupMenu::mt_InterfaceComponent:
+    case ListPopupMenu::mt_InterfaceProvided: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association, SetupSize);
+        break;
+    }
+
+    case ListPopupMenu::mt_InterfaceRequired: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association, SetupSize | SwitchDirection);
+        break;
+    }
+
     case ListPopupMenu::mt_Note: {
         NoteWidget *widget = new NoteWidget(umlScene());
         addConnectedWidget(widget, Uml::AssociationType::Anchor);
         break;
     }
 
+    case ListPopupMenu::mt_Port: {
+        // TODO: merge with ToolbarStateOneWidget::setWidget()
+        UMLPackage* component = umlObject()->asUMLPackage();
+        QString name = Model_Utils::uniqObjectName(UMLObject::ot_Port, component);
+        if (Dialog_Utils::askNewName(WidgetBase::wt_Port, name)) {
+            UMLPort *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component)->asUMLPort();
+            UMLWidget *umlWidget = Widget_Factory::createWidget(umlScene(), port);
+            umlWidget->setParentItem(this);
+            QPointF p = mapFromScene(umlScene()->pos());
+            umlWidget->setPos(p);
+            umlScene()->setupNewWidget(umlWidget, false);
+
+        }
+        break;
+    }
+
+    case ListPopupMenu::mt_UseCase: {
+        UMLUseCase *useCase = new UMLUseCase;
+        UMLWidget *widget = new UseCaseWidget(umlScene(), useCase);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_MessageCreation:
+    case ListPopupMenu::mt_MessageDestroy:
+    case ListPopupMenu::mt_MessageSynchronous:
+//        MessageWidget *widget = new MessageWidget(umlScene(), this);
+//        addConnectedWidget(widget, Uml::AssociationType::Coll_Mesg_Sync);
+    case ListPopupMenu::mt_MessageAsynchronous:
+    case ListPopupMenu::mt_MessageFound:
+    case ListPopupMenu::mt_MessageLost:
+        break;
+
+    // activity diagrams
+    case ListPopupMenu::mt_Accept_Signal:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Accept), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Accept_Time_Event:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Time), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Normal), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Activity_Transition:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Branch:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Branch), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Exception:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_Exception);
+        break;
+    case ListPopupMenu::mt_Final_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Final), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Fork:
+        addConnectedWidget(new ForkJoinWidget(umlScene()), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_End_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::End), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Initial_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Initial), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Invoke_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Invok), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Object_Node:
+        addConnectedWidget(new ObjectNodeWidget(umlScene(), ObjectNodeWidget::Data), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Pin:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_Pin);
+        break;
+    case ListPopupMenu::mt_Param_Activity:
+        addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Param), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_PrePostCondition:
+        addConnectedWidget(new NoteWidget(umlScene(), NoteWidget::Normal), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Region:
+        addConnectedWidget(new RegionWidget(umlScene()), Uml::AssociationType::Activity, NoOption);
+        break;
+    case ListPopupMenu::mt_Send_Signal:
+        addConnectedWidget(new SignalWidget(umlScene(), SignalWidget::Send), Uml::AssociationType::Activity, NoOption);
+        break;
+
+  // state diagrams
+    case ListPopupMenu::mt_Choice:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Choice), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_DeepHistory:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::DeepHistory), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_End_State:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::End), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_Junction:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Junction), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_ShallowHistory:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::ShallowHistory), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_State:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Normal), Uml::AssociationType::State, ShowProperties);
+        break;
+    case ListPopupMenu::mt_StateFork:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Fork), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_StateJoin:
+        addConnectedWidget(new StateWidget(umlScene(), StateWidget::Join), Uml::AssociationType::State, NoOption);
+        break;
+    case ListPopupMenu::mt_StateTransition:
+        umlScene()->triggerToolbarButton(WorkToolBar::tbb_State_Transition);
+        break;
     default:
         WidgetBase::slotMenuSelection(trigger);
         break;
@@ -1026,20 +1191,17 @@ void UMLWidget::setFillColorCmd(const QColor &color)
 }
 
 /**
- * Activate the object after serializing it from a QDataStream
+ * Reimplemented from class WidgetBase
  *
  * @param ChangeLog
  * @return  true for success
  */
-bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
+bool UMLWidget::activate(IDChangeLog* changeLog)
 {
-    if (widgetHasUMLObject(baseType()) && m_umlObject == 0) {
-        m_umlObject = m_doc->findObjectById(m_nId);
-        if (m_umlObject == 0) {
-            uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
-            return false;
-        }
-    }
+    if (!WidgetBase::activate(changeLog))
+        return false;
+    DiagramProxyWidget::activate(changeLog);
+
     setFontCmd(m_font);
     setSize(width(), height());
     m_activated = true;
@@ -1049,7 +1211,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
-        if (m_scene->type() == Uml::DiagramType::Sequence) {
+        if (m_scene->isSequenceDiagram()) {
             switch (baseType()) {
             case WidgetBase::wt_Object:
             case WidgetBase::wt_Precondition :
@@ -1114,8 +1276,7 @@ void UMLWidget::setActivated(bool active /*=true*/)
 }
 
 /**
- * Adds an already created association to the list of
- * associations that include this UMLWidget
+ * Reimplemented from class WidgetBase
  */
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 {
@@ -1134,13 +1295,16 @@ AssociationWidgetList &UMLWidget::associationWidgetList() const
 }
 
 /**
- * Removes an already created association from the list of
- * associations that include this UMLWidget
+ * Reimplemented from class WidgetBase
  */
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc) {
         associationWidgetList().removeAll(pAssoc);
+    }
+
+    if (changesShape()) {
+        updateGeometry();
     }
 }
 
@@ -1152,6 +1316,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
+    logDebug3("UMLWidget::adjustAssocs(%1) : w=%2, h=%3", name(), width(), height());
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
@@ -1159,7 +1324,7 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
     //   as file is only partly loaded -> reposition
     //   could be misguided)
     /// @todo avoid trigger of this event during load
-    if (m_doc->loading()) {
+    if (m_doc->loading() || (qFuzzyIsNull(dx) && qFuzzyIsNull(dy))) {
         // don't recalculate the assocs during load of XMI
         // -> return immediately without action
         return;
@@ -1188,7 +1353,9 @@ void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
     }
 
     foreach(AssociationWidget* assocwidget, associationWidgetList()) {
-        if (!assocwidget->isSelected()) {
+        if (!assocwidget->isSelected() &&
+               (this == assocwidget->widgetForRole(Uml::RoleType::A) ||
+                this == assocwidget->widgetForRole(Uml::RoleType::B))) {
             assocwidget->widgetMoved(this, dx, dy);
         }
     }
@@ -1243,6 +1410,46 @@ void UMLWidget::setPenFromSettings(QPainter *p)
 {
     p->setPen(QPen(m_lineColor, m_lineWidth));
 }
+
+/**
+ * Return true if `this' is located in the bounding rectangle of `other'.
+ */
+bool UMLWidget::isLocatedIn(const UMLWidget *other) const
+{
+    const QPointF pos = scenePos();
+    const QPointF otherPos = other->scenePos();
+    const QString msgProlog = QLatin1String("UMLWidget ") + name() +
+                              QLatin1String(" isLocatedIn(") + other->name() + QLatin1String(")");
+
+    if (otherPos.x() > pos.x() || otherPos.y() > pos.y()) {
+        logDebug1("%1 returns false due to x or y out of range", msgProlog);
+        return false;
+    }
+
+    const int endX = pos.x() + width();
+    const int endY = pos.y() + height();
+
+    if (otherPos.x() > endX || otherPos.y() > endY) {
+        logDebug1("%1 returns false due to endX or endY out of range", msgProlog);
+        return false;
+    }
+
+    const int otherEndX = otherPos.x() + other->width();
+    if (otherEndX < pos.x() || otherEndX < endX) {
+        logDebug1("%1 returns false due to otherEndX out of range", msgProlog);
+        return false;
+    }
+
+    const int otherEndY = otherPos.y() + other->height();
+    if (otherEndY < pos.y() || otherEndY < endY) {
+        logDebug1("%1 returns false due to otherEndY out of range", msgProlog);
+        return false;
+    }
+
+    logDebug2("UMLWidget %1 isLocatedIn(%2) returns true", name(), other->name());
+    return true;
+}
+
 
 /**
  * Returns the cursor to be shown when resizing the widget.
@@ -1326,7 +1533,7 @@ void UMLWidget::resize()
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
-    DEBUG(DBG_SRC) << "size=" << size;
+    logDebug3("UMLWidget::resize(%1) w=%2, h=%3", name(), size.width(), size.height());
     adjustAssocs(size.width()-oldW, size.height()-oldH);
 }
 
@@ -1340,8 +1547,16 @@ void UMLWidget::resize()
  */
 void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
 {
-    // TODO the status message lies for at least MessageWidget which could only be resized vertical
-    UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
+    QString msgX = i18n("Hold shift or control to move in X axis.");
+    QString msgY = i18n("Hold shift and control to move in Y axis.");
+    QString msg;
+    if (isMessageWidget())
+        msg = msgY;
+    else if (isObjectWidget())
+        msg = msgX;
+    else
+        msg = QString(QLatin1String("%1 %2")).arg(msgX, msgY);
+    UMLApp::app()->document()->writeToStatusBar(msg);
 
     m_resized = true;
 
@@ -1358,11 +1573,9 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
 
     constrain(newW, newH);
     resizeWidget(newW, newH);
-    DEBUG(DBG_SRC) << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
+    DEBUG() << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
     QPointF delta = me->scenePos() - me->lastScenePos();
     adjustAssocs(delta.x(), delta.y());
-
-    m_scene->resizeSceneToItems();
 }
 
 /**
@@ -1406,7 +1619,6 @@ void UMLWidget::setSelectedFlag(bool _select)
  */
 void UMLWidget::setSelected(bool _select)
 {
-    WidgetBase::setSelected(_select);
     const WidgetBase::WidgetType wt = baseType();
     if (_select) {
         if (m_scene->selectedCount() == 0) {
@@ -1426,6 +1638,11 @@ void UMLWidget::setSelected(bool _select)
         if (isSelected())
             UMLApp::app()->docWindow()->updateDocumentation(true);
     }
+
+    WidgetBase::setSelected(_select);
+
+    logDebug1("UMLWidget::setSelected(%1) : Prevent obscuring", _select);
+    Widget_Utils::ensureNestedVisible(this, umlScene()->widgetList());
 
     update();
 
@@ -1509,6 +1726,39 @@ void UMLWidget::setScene(UMLScene *scene)
 }
 
 /**
+ * Gets the x-coordinate.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The x-coordinate.
+ */
+qreal UMLWidget::getX() const
+{
+    return QGraphicsObjectWrapper::x();
+}
+
+/**
+ * Gets the y-coordinate.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The y-coordinate.
+ */
+qreal UMLWidget::getY() const
+{
+    return QGraphicsObjectWrapper::y();
+}
+
+/**
+ * Gets the position.
+ * Currently, the only class that reimplements this method is PinPortBase.
+ *
+ * @return The QGraphicsObject position.
+ */
+QPointF UMLWidget::getPos() const
+{
+    return QGraphicsObjectWrapper::pos();
+}
+
+/**
  * Sets the x-coordinate.
  * Currently, the only class that reimplements this method is
  * ObjectWidget.
@@ -1517,7 +1767,10 @@ void UMLWidget::setScene(UMLScene *scene)
  */
 void UMLWidget::setX(qreal x)
 {
-    QGraphicsObject::setX(x);
+    if (x < -umlScene()->maxCanvasSize() || x > umlScene()->maxCanvasSize())
+        logError1("UMLWidget::setX refusing to set X to %1", x);
+    else
+        QGraphicsObjectWrapper::setX(x);
 }
 
 /**
@@ -1529,7 +1782,10 @@ void UMLWidget::setX(qreal x)
  */
 void UMLWidget::setY(qreal y)
 {
-    QGraphicsObject::setY(y);
+    if (y < -umlScene()->maxCanvasSize() || y > umlScene()->maxCanvasSize())
+        logError1("UMLWidget::setY refusing to set Y to %1", y);
+    else
+        QGraphicsObjectWrapper::setY(y);
 }
 
 /**
@@ -1555,29 +1811,6 @@ void UMLWidget::slotSnapToGrid()
 }
 
 /**
- * Returns whether the widget type has an associated UMLObject
- */
-bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
-{
-    if (type == WidgetBase::wt_Actor         ||
-            type == WidgetBase::wt_UseCase   ||
-            type == WidgetBase::wt_Class     ||
-            type == WidgetBase::wt_Interface ||
-            type == WidgetBase::wt_Enum      ||
-            type == WidgetBase::wt_Datatype  ||
-            type == WidgetBase::wt_Package   ||
-            type == WidgetBase::wt_Component ||
-            type == WidgetBase::wt_Port ||
-            type == WidgetBase::wt_Node      ||
-            type == WidgetBase::wt_Artifact  ||
-            type == WidgetBase::wt_Object) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
  * Set m_ignoreSnapToGrid.
  */
 void UMLWidget::setIgnoreSnapToGrid(bool to)
@@ -1595,13 +1828,13 @@ bool UMLWidget::getIgnoreSnapToGrid() const
 
 /**
  * Sets the size.
- * If m_scene->snapComponentSizeToGrid() is true, then
+ * If m_scene->snapComponentSizeToGrid() is true then
  * set the next larger size that snaps to the grid.
  */
 void UMLWidget::setSize(qreal width, qreal height)
 {
     // snap to the next larger size that is a multiple of the grid
-    if (!m_ignoreSnapComponentSizeToGrid
+    if (!m_ignoreSnapComponentSizeToGrid && m_scene
             && m_scene->snapComponentSizeToGrid()) {
         // integer divisions
         int numX = width / m_scene->snapX();
@@ -1614,6 +1847,7 @@ void UMLWidget::setSize(qreal width, qreal height)
     }
 
     const QRectF newRect(rect().x(), rect().y(), width, height);
+    logDebug3("UMLWidget::setSize(%1): setting w=%2, h=%3", name(), newRect.width(), newRect.height());
     setRect(newRect);
     foreach(QGraphicsItem* child, childItems()) {
         UMLWidget* umlChild = static_cast<UMLWidget*>(child);
@@ -1631,8 +1865,10 @@ void UMLWidget::setSize(const QSizeF& size)
 
 /**
  * Update the size of this widget.
+ *
+ * @param withAssocs true - update associations too
  */
-void UMLWidget::updateGeometry()
+void UMLWidget::updateGeometry(bool withAssocs)
 {
     if (m_doc->loading()) {
         return;
@@ -1645,9 +1881,13 @@ void UMLWidget::updateGeometry()
     qreal clipWidth = size.width();
     qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
+    logDebug5("UMLWidget::updateGeometry(%1) : oldW=%2, oldH=%3, clipWidth=%4, clipHeight=%5",
+             name(), oldW, oldH, clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
-    adjustAssocs(size.width()-oldW, size.height()-oldH);
+    if (withAssocs)
+        adjustAssocs(size.width()-oldW, size.height()-oldH);
+    update();
 }
 
 /**
@@ -1737,17 +1977,32 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // resize anchor would cover up most of the widget.
         if (m_resizable && w >= s+8 && h >= s+8) {
             brush.setColor(Qt::red);
-            const int right = 0 + w;
             const int bottom = 0 + h;
-            painter->drawLine(right - s, 0 + h - 1, 0 + w - 1, 0 + h - s);
-            painter->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2));
-            painter->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3));
+            int horSide = w;   // horizontal side default: right side
+            if (baseType() == wt_Message) {
+               MessageWidget *msg = asMessageWidget();
+               int x1 = msg->objectWidget(Uml::RoleType::A)->x();
+               int x2 = msg->objectWidget(Uml::RoleType::B)->x();
+               if (x1 > x2) {
+                   // On messages running right to left we use the left side for
+                   // placing the resize anchor because the message's execution
+                   // specification as at the left in this case.  Furthermore,
+                   // the right side may be covered up by another message's
+                   // execution specification.
+                   horSide = 17;  // execution box width
+               }
+            }
+            painter->drawLine(horSide - s, 0 + h - 1, 0 + w - 1, 0 + h - s);
+            painter->drawLine(horSide - (s*2), bottom - 1, horSide - 1, bottom - (s*2));
+            painter->drawLine(horSide - (s*3), bottom - 1, horSide - 1, bottom - (s*3));
         } else {
             painter->fillRect(0 + w - s, 0 + h - s, s, s, brush);
         }
         // debug info
         if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
-            painter->setPen(Qt::green);
+            QPen p(Qt::green);
+            p.setWidthF(1.0);
+            painter->setPen(p);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
             painter->setPen(Qt::blue);
@@ -1863,9 +2118,9 @@ void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 /**
  * Set the status of whether to show Stereotype.
  *
- * @param flag   True if stereotype shall be shown.
+ * @param flag   Value of type Uml::ShowStereoType::Enum
  */
-void UMLWidget::setShowStereotype(bool flag)
+void UMLWidget::setShowStereotype(Uml::ShowStereoType::Enum flag)
 {
     m_showStereotype = flag;
     updateGeometry();
@@ -1873,11 +2128,52 @@ void UMLWidget::setShowStereotype(bool flag)
 }
 
 /**
+ * Return stereotype concrete attributes concatenated into single string
+ * with the attribute name given before each value and delimited by "{"
+ * at start and "}" at end.
+ * Example:
+ * For a stereotype with attribute 'foo' of type Double and attribute 'bar'
+ * of type String and concrete values 1.0 for 'foo' and "hello" for 'bar',
+ * the result is:  {foo=1.0,bar="hello"}
+ */
+QString UMLWidget::tags() const
+{
+    if (m_umlObject == 0)
+        return QString();
+    UMLStereotype *s = m_umlObject->umlStereotype();
+    if (s == 0)
+        return QString();
+    UMLStereotype::AttributeDefs adefs = s->getAttributeDefs();
+    if (adefs.isEmpty())
+        return QString();
+    const QStringList& umlTags = m_umlObject->tags();
+    QString taggedValues(QLatin1String("{"));
+    for (int i = 0; i < adefs.size(); i++) {
+        UMLStereotype::AttributeDef ad = adefs.at(i);
+        taggedValues.append(ad.name);
+        taggedValues.append(QLatin1String("="));
+        QString value = ad.defaultVal;
+        if (i < umlTags.size()) {
+            QString umlTag = umlTags.at(i);
+            if (!umlTag.isEmpty())
+                value = umlTag;
+        }
+        if (ad.type == Uml::PrimitiveTypes::String)
+            value = QLatin1String("\"") + value + QLatin1String("\"");
+        taggedValues.append(value);
+        if (i < adefs.size() - 1)
+            taggedValues.append(QLatin1String(","));
+     }
+     taggedValues.append(QLatin1String("}"));
+     return taggedValues;
+}
+
+/**
  * Returns the status of whether to show Stereotype.
  *
  * @return  True if stereotype is shown.
  */
-bool UMLWidget::showStereotype() const
+Uml::ShowStereoType::Enum UMLWidget::showStereotype() const
 {
     return m_showStereotype;
 }
@@ -1892,58 +2188,55 @@ void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
   Q_UNUSED(me)
 }
 
-void UMLWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     /*
-      Call after required actions in child class.
+      When calling this from child classes bear in mind that the call
+      must precede terminated XML subelements.
       Type must be set in the child class.
     */
-    WidgetBase::saveToXMI1(qDoc, qElement);
-    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
+    WidgetBase::saveToXMI(writer);
+    DiagramProxyWidget::saveToXMI(writer);
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    qElement.setAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
-    qElement.setAttribute(QLatin1String("y"), QString::number(y() / dpiScale));
-    qElement.setAttribute(QLatin1String("width"), QString::number(width() / dpiScale));
-    qElement.setAttribute(QLatin1String("height"), QString::number(height() / dpiScale));
+    writer.writeAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
+    writer.writeAttribute(QLatin1String("y"), QString::number(y() / dpiScale));
+    writer.writeAttribute(QLatin1String("width"), QString::number(width() / dpiScale));
+    writer.writeAttribute(QLatin1String("height"), QString::number(height() / dpiScale));
 
-    qElement.setAttribute(QLatin1String("isinstance"), m_isInstance);
+    writer.writeAttribute(QLatin1String("isinstance"), QString::number(m_isInstance));
     if (!m_instanceName.isEmpty())
-        qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
-    if (m_showStereotype)
-        qElement.setAttribute(QLatin1String("showstereotype"), m_showStereotype);
-
-    // Unique identifier for widget (todo: id() should be unique, new attribute
-    // should indicate the UMLObject's ID it belongs to)
-    qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+        writer.writeAttribute(QLatin1String("instancename"), m_instanceName);
+    writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
 }
 
-bool UMLWidget::loadFromXMI1(QDomElement & qElement)
+bool UMLWidget::loadFromXMI(QDomElement & qElement)
 {
-    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
-    m_nId = Uml::ID::fromString(id);
-
-    WidgetBase::loadFromXMI1(qElement);
+    WidgetBase::loadFromXMI(qElement);
+    DiagramProxyWidget::loadFromXMI(qElement);
     QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
     QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
     QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));
     QString w = qElement.attribute(QLatin1String("width"), QLatin1String("0"));
-    qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    setSize(toDoubleFromAnyLocale(w) * dpiScale,
-            toDoubleFromAnyLocale(h) * dpiScale);
-    setX(toDoubleFromAnyLocale(x) * dpiScale);
-    setY(toDoubleFromAnyLocale(y) * dpiScale);
+    const qreal dpiScale = UMLApp::app()->document()->dpiScale();
+    const qreal scaledW = toDoubleFromAnyLocale(w) * dpiScale;
+    const qreal scaledH = toDoubleFromAnyLocale(h) * dpiScale;
+    setSize(scaledW, scaledH);
+    const qreal nX = toDoubleFromAnyLocale(x);
+    const qreal nY = toDoubleFromAnyLocale(y);
+    const qreal fixedX = nX + umlScene()->fixX();  // bug 449622
+    const qreal fixedY = nY + umlScene()->fixY();
+    const qreal scaledX = fixedX * dpiScale;
+    const qreal scaledY = fixedY * dpiScale;
+    umlScene()->updateCanvasSizeEstimate(scaledX, scaledY, scaledW, scaledH);
+    setX(scaledX);
+    setY(scaledY);
 
     QString isinstance = qElement.attribute(QLatin1String("isinstance"), QLatin1String("0"));
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute(QLatin1String("instancename"));
     QString showstereo = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
-    m_showStereotype = (bool)showstereo.toInt();
-
-    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
-    if (localid != QLatin1String("0")) {
-        m_nLocalID = Uml::ID::fromString(localid);
-    }
+    m_showStereotype = (Uml::ShowStereoType::Enum)showstereo.toInt();
 
     return true;
 }
@@ -1952,24 +2245,44 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  * Adds a widget to the diagram, which is connected to the current widget
  * @param widget widget instance to add to diagram
  * @param type association type
+ * @param options widget options
  */
-void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type)
+void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, AddWidgetOptions options)
 {
+    QString name = Widget_Utils::defaultWidgetName(widget->baseType());
+    widget->setName(name);
+    if (options & ShowProperties) {
+        if (!widget->showPropertiesDialog()) {
+            delete widget;
+            return;
+        }
+    }
+
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
     widget->setY(y());
-    widget->setSize(100, 40);
-    AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
+    if (options & SetupSize) {
+        widget->setSize(100, 40);
+        QSizeF size = widget->minimumSize();
+        widget->setSize(size);
+    }
+    AssociationWidget* assoc = options & SwitchDirection ? AssociationWidget::create(umlScene(), widget, type, this)
+                                                    : AssociationWidget::create(umlScene(), this, type, widget);
     umlScene()->addAssociation(assoc);
-    widget->showPropertiesDialog();
-    QSizeF size = widget->minimumSize();
-    widget->setSize(size);
+    umlScene()->clearSelected();
+    umlScene()->selectWidget(widget);
+
+    UMLApp::app()->beginMacro(I18N_NEXT_RELEASE("Adding connected '%1'", widget->baseTypeStrWithoutPrefix());
+    UMLApp::app()->executeCommand(new CmdCreateWidget(widget));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(assoc));
+    UMLApp::app()->endMacro();
+    m_doc->setModified();
 }
 
 /**
  * Adds a widget to the diagram, which is connected to the current widget
  * @param widget widget instance to add to diagram
- * @param type association type
+ * @param showProperties whether to show properties of the widget
  */
 void UMLWidget::addWidget(UMLWidget *widget, bool showProperties)
 {

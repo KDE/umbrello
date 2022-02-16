@@ -1,14 +1,10 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // app includes
+#define DBG_SRC QLatin1String("main")
 #include "debug_utils.h"
 #include "uml.h"
 #include "version.h"
@@ -19,9 +15,8 @@
 
 // kde includes
 #if QT_VERSION > 0x050000
-namespace dummy {
-#include <kaboutdata.h>
-}
+// prevent including of <kaboutdata.h>
+#define KABOUTDATA_H
 #include <k4aboutdata.h>
 #define KAboutData K4AboutData
 #include <KCrash>
@@ -40,6 +35,8 @@ namespace dummy {
 #define i18n ki18n
 
 #include <stdio.h>
+
+DEBUG_REGISTER(main)
 
 void getFiles(QStringList& files, const QString& path, QStringList& filters);
 
@@ -65,8 +62,9 @@ bool showGUI(KCmdLineArgs *args)
  * in the configuration.
  *
  * @param args The command line arguments given.
+ * @param progLang The programming language to set if no existing file was opened.
  */
-void initDocument(KCmdLineArgs *args)
+void initDocument(KCmdLineArgs *args, Uml::ProgrammingLanguage::Enum progLang)
 {
     if (args->count()) {
         UMLApp::app()->openDocumentFile(args->url(0));
@@ -77,6 +75,8 @@ void initDocument(KCmdLineArgs *args)
             UMLApp::app()->openDocumentFile(KUrl(file));
         } else {
             UMLApp::app()->newDocument();
+            if (progLang != Uml::ProgrammingLanguage::Reserved)
+                UMLApp::app()->setActiveLanguage(progLang);
         }
     }
 }
@@ -92,7 +92,7 @@ void initDocument(KCmdLineArgs *args)
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 {
     QString extension(exportOpt.last());
-    uDebug() << "extension: " << extension;
+    logDebug1("exportAllViews extension: %1", extension);
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
@@ -107,7 +107,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 
     bool useFolders = args->isSet("use-folders");
 
-    uDebug() << "directory: " << directory;
+    logDebug1("exportAllViews directory: %1", directory.path());
 
     // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
                          KAboutData::License_GPL,
-                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2018 Umbrello UML Modeller Authors"),
+                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
                          KLocalizedString(),
                          "http://umbrello.kde.org/");
     aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
     options.add("languages", i18n("list supported languages"));
     options.add("use-folders", i18n("keep the tree structure used to store the views in the document in the target directory"));
     options.add("import-directory <dir>", i18n("import files from directory <dir>"));
-    for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+    for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; i++) {
         Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
         QByteArray optionString = "set-language-" + Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
         options.add(optionString, i18n("set active language"));
@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 #endif
 
     Q_INIT_RESOURCE(icons);
-
+    app.setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
     QPointer<UMLApp> uml;
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
         } else if (args->isSet("languages")) {
-            for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+            for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; i++) {
                 Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
                 fprintf(stdout, "%s\n", qPrintable(Uml::ProgrammingLanguage::toString(pl)));
             }
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
         }
 
         Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
-        for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+        for(int i = 0; i < Uml::ProgrammingLanguage::Reserved; i++) {
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
             QByteArray langString = "set-language-";
             langString += Uml::ProgrammingLanguage::toString(pl).toLower().toLocal8Bit();
@@ -227,9 +227,7 @@ int main(int argc, char *argv[])
             uml->importFiles(listFile, dir);
         }
         else {
-            initDocument(args);
-            if (lang != Uml::ProgrammingLanguage::Reserved)
-                uml->setActiveLanguage(lang);
+            initDocument(args, lang);
         }
 
         // export option

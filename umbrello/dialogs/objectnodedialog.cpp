@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "objectnodedialog.h"
@@ -14,10 +9,11 @@
 // local includes
 #include "debug_utils.h"
 #include "documentationwidget.h"
-#include "umlview.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 #include "objectnodewidget.h"
+#include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>
@@ -145,9 +141,9 @@ void ObjectNodeDialog::setupGeneralPage()
     QString objType;
     if (type < types.count()) {
         objType = types.at((int)type);
-    }
-    else {
-        uWarning() << "type of ObjectNodeWidget is out of range! Value = " << type;
+    } else {
+        logWarn1("ObjectNodeDialog::setupGeneralPage: type of ObjectNodeWidget is out of range! "
+                 "Value=%1", type);
     }
     Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Object Node type:"),

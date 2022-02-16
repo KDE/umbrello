@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "combinedfragmentwidget.h"
@@ -26,6 +21,7 @@
 // qt includes
 #include <QPainter>
 #include <QString>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(CombinedFragmentWidget)
 
@@ -324,28 +320,28 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void CombinedFragmentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement combinedFragmentElement = qDoc.createElement(QLatin1String("combinedFragmentwidget"));
-    UMLWidget::saveToXMI1(qDoc, combinedFragmentElement);
-    combinedFragmentElement.setAttribute(QLatin1String("combinedFragmentname"), m_Text);
-    combinedFragmentElement.setAttribute(QLatin1String("documentation"), m_Doc);
-    combinedFragmentElement.setAttribute(QLatin1String("CombinedFragmenttype"), m_CombinedFragment);
+    writer.writeStartElement(QLatin1String("combinedFragmentwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("combinedFragmentname"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("CombinedFragmenttype"), QString::number(m_CombinedFragment));
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI1(qDoc, combinedFragmentElement);
+        (*it)-> saveToXMI(writer);
     }
 
-    qElement.appendChild(combinedFragmentElement);
+    writer.writeEndElement();
 }
 
 /**
  * Loads the widget from the "CombinedFragmentwidget" XMI element.
  */
-bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
+bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     m_Text = qElement.attribute(QLatin1String("combinedFragmentname"));
     m_Doc = qElement.attribute(QLatin1String("documentation"));
@@ -359,7 +355,7 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
         if (tag == QLatin1String("floatingdashlinewidget")) {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
-            if (!fdlwidget->loadFromXMI1(element)) {
+            if (!fdlwidget->loadFromXMI(element)) {
               // Most likely cause: The FloatingTextWidget is empty.
                 delete m_dashLines.back();
                 return false;
@@ -369,7 +365,7 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
                 fdlwidget->clipSize();
             }
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("CombinedFragmentWidget::loadFromXMI: unknown tag %1", tag);
         }
         node = node.nextSibling();
         element = node.toElement();
@@ -449,6 +445,10 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
             if (ok && name.length() > 0)
                 m_Text = name;
         }
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
         break;
 
     default:

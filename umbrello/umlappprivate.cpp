@@ -1,18 +1,16 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlappprivate.h"
 
+#define DBG_SRC QLatin1String("UMLAppPrivate")
 #include "debug_utils.h"
 
 #include <KFilterDev>
+
+DEBUG_REGISTER(UMLAppPrivate)
 
 /**
  * Find welcome.html file for displaying in the welcome window.
@@ -62,10 +60,10 @@ QString UMLAppPrivate::findWelcomeFile()
         QString filePath = dir + QLatin1String("/index.cache.bz2");
         QFileInfo fi(filePath);
         if (fi.exists()) {
-            uDebug() << "searching for" << filePath << "found";
+            DEBUG() << "UMLAppPrivate::findWelcomeFile found " << filePath;
             return filePath;
-        } else
-            uDebug() << "searching for" << filePath;
+        }
+        DEBUG() << "UMLAppPrivate::findWelcomeFile tried " << filePath << " (not found)";
     }
     return QString();
 }
@@ -90,6 +88,7 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
         QByteArray data = d->readAll();
         html = QString::fromUtf8(data);
         d->close();
+        delete d;
     } else {
         QFile f(file);
         if (!f.open(QIODevice::ReadOnly))
@@ -107,8 +106,16 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     html.replace(QLatin1String("</FILENAME>"),QLatin1String(""));
 //#define WITH_HEADER
 #ifndef WITH_HEADER
+#ifdef WEBKIT_WELCOMEPAGE
     html.replace(QLatin1String("<div id=\"header\""),QLatin1String("<div id=\"header\" hidden"));
     html.replace(QLatin1String("<div class=\"navCenter\""),QLatin1String("<div id=\"navCenter\" hidden"));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<div id=\"footer\" hidden"));
+#else
+    html.replace(QLatin1String("<div id=\"header\""), QLatin1String("<!-- <div id=\"header\""));
+    html.replace(QLatin1String("<div id=\"contentBody\""), QLatin1String("--> <div id=\"contentBody\""));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<!-- <div id=\"footer\""));
+    html.replace(QLatin1String("</div></body>"), QLatin1String("--> </div></body>"));
+#endif
 #else
     // replace help:/ urls in html file to be able to find css files and images from kde help system
 #if QT_VERSION >= 0x050000
@@ -130,4 +137,42 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     html.replace(QLatin1String("help:/"), QString::fromLocal8Bit(a));
 #endif
     return html;
+}
+
+bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endCursor)
+{
+    if (editor == nullptr) {
+        uError() << "could not get editor instance, which indicates an installation problem, see for kate[4]-parts package";
+        return false;
+    }
+
+    if (file.isLocalFile()) {
+        QFileInfo fi(file.toLocalFile());
+        if (!fi.exists())
+            return false;
+    }
+
+    if (!editorWindow) {
+        editorWindow = new QDockWidget(QLatin1String("Editor"));
+        parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
+    }
+
+    if (document) {
+        editorWindow->setWidget(0);
+        delete view;
+        delete document;
+    }
+    document = editor->createDocument(0);
+    view = document->createView(parent);
+    view->document()->openUrl(file);
+    view->document()->setReadWrite(false);
+    if (startCursor != endCursor)
+        view->setCursorPosition(KTextEditor::Cursor(startCursor, endCursor));
+    KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
+    if(iface)
+        iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
+
+    editorWindow->setWidget(view);
+    editorWindow->setVisible(true);
+    return true;
 }

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2009-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2009-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 //
 // C++ Implementation: valawriter
@@ -125,7 +120,7 @@ ValaWriter::~ValaWriter()
  * Get list of predefined data types.
  * @return  the list of default data types
  */
-QStringList ValaWriter::defaultDatatypes()
+QStringList ValaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("bool"));
@@ -184,7 +179,7 @@ QStringList ValaWriter::defaultDatatypes()
 void ValaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("ValaWriter::writeClassL Cannot write class of NULL concept");
         return;
     }
 
@@ -207,7 +202,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".vala"));
     if (!str.isEmpty()) {
@@ -258,7 +253,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
         m_seenIncludes.append(container);
     }
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         cs << m_container_indent << "/**" << m_endl;
         if (c->doc().isEmpty()) {
@@ -505,8 +500,9 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
  * Write a list of class operations.
  * @param opList the list of operations
  * @param cs output stream
- * @param interface indicates if the operation is an interface member
+ * @param isInterface indicates if the operation is an interface member
  * @param isOverride implementation of an inherited abstract function
+ * @param generateErrorStub  true generates a comment "The method or operation is not implemented"
  */
 void ValaWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
@@ -721,10 +717,10 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
 
         UMLObject *o = a->getObject(Uml::RoleType::B);
         if (o == 0) {
-            uError() << "composition role B object is NULL";
+            logError0("ValaWriter::writeAssociatedAttributes: composition role B object is NULL");
             continue;
         }
-        // Take name and documentaton from Role, take type name from the referenced object
+        // Take name and documentation from Role, take type name from the referenced object
         QString roleName = cleanName(a->getRoleName(Uml::RoleType::B));
         QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {
@@ -818,7 +814,7 @@ void ValaWriter::writeAttribute(const QString& doc,
 
 /**
  * Find the type in used namespaces, if namespace found return short name, complete otherwise.
- * @param at Operation or Attribute to check type
+ * @param cl Operation or Attribute to check type
  * @return   the local type name
  */
 QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)

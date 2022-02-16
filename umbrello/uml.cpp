@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "uml.h"
@@ -27,6 +22,8 @@
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
+#include "folder.h"
+#include "models/diagramsmodel.h"
 
 // code generation
 #include "advancedcodegenerator.h"
@@ -127,8 +124,18 @@
 
 #include <cmath>
 
+DEBUG_REGISTER(UMLApp)
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
+
+/**
+ * Static flag returned by static function shuttingDown().
+ * It is intentionally an extra static member because it is queried
+ * after calling the UMLApp destructor.
+ * Member accesses shall be avoided during destruction.
+ */
+bool UMLApp::s_shuttingDown = false;
 
 /**
  * Searches for a menu with the given name.
@@ -143,11 +150,9 @@ QMenu* UMLApp::findMenu(const QString& name)
     if (widget) {
         return dynamic_cast<QMenu*>(widget);
     }
-    DEBUG(DBG_SRC) << "factory()->container(" << name << ") returns NULL";
+    logDebug1("UMLApp::findMenu factory()->container(%1) returns NULL", name);
     return 0;
 }
-
-DEBUG_REGISTER(UMLApp)
 
 /**
  * Constructor. Calls all init functions to create the application.
@@ -200,7 +205,9 @@ UMLApp::UMLApp(QWidget* parent)
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
     StandardWindowOptions opt = Default;
     opt &= ~Save;
-    setupGUI(opt);
+    QString xmlFile = QLatin1String(UMBRELLOUI_RC);
+    QFileInfo fi(xmlFile);
+    setupGUI(opt, fi.exists() ? xmlFile : QString());
     initView();
     initClip();
     readOptions();
@@ -233,6 +240,7 @@ UMLApp::UMLApp(QWidget* parent)
  */
 UMLApp::~UMLApp()
 {
+    s_shuttingDown = true;
     disconnect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
     disconnect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
 #if QT_VERSION >= 0x050000
@@ -384,6 +392,7 @@ void UMLApp::initActions()
     setProgLangAction(Uml::ProgrammingLanguage::Tcl,          "Tcl",             "setLang_tcl");
     setProgLangAction(Uml::ProgrammingLanguage::Vala,         "Vala",            "setLang_vala");
     setProgLangAction(Uml::ProgrammingLanguage::XMLSchema,    "XMLSchema",       "setLang_xmlschema");
+    setProgLangAction(Uml::ProgrammingLanguage::Reserved,     "none",            "setLang_none");
 
     connect(m_langAct[Uml::ProgrammingLanguage::ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
     connect(m_langAct[Uml::ProgrammingLanguage::Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
@@ -405,6 +414,7 @@ void UMLApp::initActions()
     connect(m_langAct[Uml::ProgrammingLanguage::Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
     connect(m_langAct[Uml::ProgrammingLanguage::Vala],         SIGNAL(triggered()), this, SLOT(setLang_vala()));
     connect(m_langAct[Uml::ProgrammingLanguage::XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Reserved],     SIGNAL(triggered()), this, SLOT(setLang_none()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -688,7 +698,6 @@ void UMLApp::slotZoomFit()
         setZoom(100);
         return;
     }
-    currentView()->umlScene()->setSceneRect(items);
     // TODO: QGraphicsView seems not to be informed about the scene rect update
     currentView()->setSceneRect(items);
 
@@ -815,7 +824,7 @@ void UMLApp::setupZoomMenu()
 
 /**
  * Sets up the statusbar for the main window by
- * initialzing a statuslabel.
+ * initializing a statuslabel.
  */
 void UMLApp::initStatusBar()
 {
@@ -1149,14 +1158,14 @@ void UMLApp::readOptions()
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
 #if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    DEBUG() << "******************** UNUSED?";
     Q_UNUSED(cfg);
 #else
     if (m_doc->url().fileName() == i18n("Untitled") || m_doc->isModified()) {
         QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.toString());
         cfg.writeEntry("modified", m_doc->isModified());
-        DEBUG(DBG_SRC) << "Save properties - filenam: " << url << " | modified: " << m_doc->isModified();
+        DEBUG() << "Save properties - filenam: " << url << " | modified: " << m_doc->isModified();
 
         // saving to tempfile necessary
         QTemporaryFile tmpfile(url.toString());
@@ -1178,13 +1187,13 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
 #if QT_VERSION < 0x050000
-    DEBUG(DBG_SRC) << "******************** UNUSED?";
+    DEBUG() << "******************** UNUSED?";
     Q_UNUSED(cfg);
 #else
     QString filename = cfg.readPathEntry("filename", QString());
     QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
-    DEBUG(DBG_SRC) << "Read properties - filename: " << url << " | modified: " << modified;
+    DEBUG() << "Read properties - filename: " << url << " | modified: " << modified;
     if (modified) {
         QTemporaryFile tmpfile(filename);
         if (tmpfile.open()) {
@@ -1192,7 +1201,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName() + QStringLiteral(" [*]"), true);
+            setCaption(_url.fileName() + QLatin1String(" [*]"), true);
         } else {
             enablePrint(false);
         }
@@ -1265,10 +1274,11 @@ void UMLApp::slotFileOpen()
 #else
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
 #endif
-            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
+                 "*.uml|Eclipse PapyrusUML files (*.uml)\n"
                  "*.mdl|Rose model files (*.mdl)\n"
                  "*.zargo|Compressed argo Files(*.zargo)\n"
                  )
@@ -1372,28 +1382,31 @@ bool UMLApp::slotFileSaveAs()
         url = KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
 #endif
         if (url.isEmpty()) {
-            cont = false;
+            break;
         }
-        else {
-            if (url.isLocalFile()) {
+        if (!url.isLocalFile()) {
+            break;
+        }
 #if QT_VERSION >= 0x050000
-                QString file = url.toLocalFile();
+        QString file = url.toLocalFile();
 #else
-                QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
+        QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
 #endif
-                if (QFile::exists(file)) {
-                    int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.toLocalFile()), 
-                                                                       i18n("Warning"), KGuiItem(i18n("Overwrite")));
-                    if (want_save == KMessageBox::Continue) {
-                        cont = false;
-                    }
-                }
-                else {
-                    cont = false;
-                }
-            } else {
-                cont = false;
-            }
+        if (!file.contains(QLatin1String("."))) {
+            file.append(QLatin1String(".xmi"));
+#if QT_VERSION >= 0x050000
+            url = QUrl::fromLocalFile(file);
+#else
+            url = KUrl::fromPath(file);
+#endif
+        }
+        if (!QFile::exists(file)) {
+            break;
+        }
+        int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", file),
+                                                           i18n("Warning"), KGuiItem(i18n("Overwrite")));
+        if (want_save == KMessageBox::Continue) {
+            cont = false;
         }
     }
     if (!url.isEmpty()) {
@@ -1418,6 +1431,7 @@ bool UMLApp::slotFileSaveAs()
 void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
+    m_doc->diagramsModel()->removeAllDiagrams();
     slotFileNew();
 }
 
@@ -1897,6 +1911,82 @@ QListWidget* UMLApp::logWindow() const
 }
 
 /**
+ * Returns true if the environment variable UMBRELLO_LOG_TO_CONSOLE is
+ * set to 1 or if the log dock is not visible.
+ * The default is to print info/warnings/error messages to the log dock.
+ *
+ * @return True if warnings/errors shall be logged to the console.
+ */
+bool UMLApp::logToConsole() const
+{
+    return (Tracer::instance()->logToConsole() || !m_logDock || !m_logDock->isVisible());
+}
+
+/**
+ * Adds a line to the log window.
+ */
+void UMLApp::log(const QString& s)
+{
+    logWindow()->addItem(s);
+}
+
+/**
+ * Logs a debug message, either to the log window or to the console.
+ * @todo This is not yet hooked up.
+ *       Hooking it up entails vast changes because currently Umbrello uses
+ *       the uDebug() stream and the stream usages (<<) need to be changed
+ *       to normal function call syntax.
+ */
+void UMLApp::logDebug(const QString& s)
+{
+    QString fmt = QLatin1String("[D] ") + s;
+    if (logToConsole())
+        uDebug() << fmt;
+    else
+        log(fmt);
+}
+
+/**
+ * Logs an info message, either to the log window or to the console.
+ * @todo This is not yet hooked up but only because Umbrello does not have
+ *       a uInfo() stream analogous to uDebug / uWarning / uError, i.e.
+ *       hooking up does not imply a change avalanche in the existing code
+ *       and can be done as needed.
+ */
+void UMLApp::logInfo(const QString& s)
+{
+    QString fmt = QLatin1String("[I] ") + s;
+    if (logToConsole())
+        uDebug() << fmt;   // @todo add Umbrello uInfo(), see uWarning etc
+    else
+        log(fmt);
+}
+
+/**
+ * Logs a warning message, either to the log window or to the console.
+ */
+void UMLApp::logWarn(const QString& s)
+{
+    QString fmt = QLatin1String("[W] ") + s;
+    if (logToConsole())
+        uWarning() << fmt;
+    else
+        log(fmt);
+}
+
+/**
+ * Logs an error message, either to the log window or to the console.
+ */
+void UMLApp::logError(const QString& s)
+{
+    QString fmt = QLatin1String("[E] ") + s;
+    if (logToConsole())
+        uError() << fmt;
+    else
+        log(fmt);
+}
+
+/**
  * Sets whether the program has been modified.
  * This will change how the program saves/exits.
  *
@@ -1906,7 +1996,7 @@ void UMLApp::setModified(bool modified)
 {
     //fileSave->setEnabled(modified);
 
-    //if anything else needs to be done on a mofication, put it here
+    //if anything else needs to be done on a modification, put it here
 
     // printing should be possible whenever there is something to print
     if (m_loading == false && modified == true && currentView())  {
@@ -1915,11 +2005,11 @@ void UMLApp::setModified(bool modified)
 
     if (m_loading == false)  {
         if (m_doc) {
-            DEBUG(DBG_SRC) << "Modified file=" << m_doc->url().fileName();
+            DEBUG() << "Modified file=" << m_doc->url().fileName();
             setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
         }
         else {
-            DEBUG(DBG_SRC) << "m_doc is NULL!";
+            DEBUG() << "m_doc is NULL!";
         }
     }
 }
@@ -2037,7 +2127,7 @@ void UMLApp::slotApplyPrefs()
 
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
-        DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
+        DEBUG() << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
 
         if (stackBrowsing != tabBrowsing) {
             // Diagram Representation Modified
@@ -2110,7 +2200,7 @@ bool UMLApp::isCutCopyState() const
  *
  * @return  True if undo is enabled.
  */
-bool UMLApp::isUndoEnabled()
+bool UMLApp::isUndoEnabled() const
 {
     return m_undoEnabled;
 
@@ -2206,7 +2296,7 @@ bool UMLApp::editCutCopy(bool bFromView)
  * Not in @ref readOptions as it needs to be read earlier than some
  * of the other options, before some items are created.
  */
-void UMLApp::readOptionState()
+void UMLApp::readOptionState() const
 {
     Settings::OptionState& optionState = Settings::optionState();
 
@@ -2299,30 +2389,39 @@ CodeGenPolicyExt *UMLApp::policyExt() const
  */
 CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
 {
-    if (pl == Uml::ProgrammingLanguage::Reserved) {
-        if (m_codegen) {
-            delete m_codegen;
-            m_codegen = 0;
-        }
-        return 0;
-    }
     if (m_codegen) {
-        // Do not return a possible preexisting code generator:
-        //    if (m_codegen->language() == pl) return m_codegen;
-        // Some languages depend on a new generator instance being created
-        // for each run.
+        UMLFolder *dtFolder = m_doc->datatypeFolder();
+        UMLObjectList dataTypes = dtFolder->containedObjects();
+        UMLObjectList::Iterator end(dataTypes.end());
+        if (m_codegen->language() == pl) {
+            const QStringList predefTypes = m_codegen->defaultDatatypes();
+            const Qt::CaseSensitivity cs =
+                (activeLanguageIsCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
+            for (UMLObjectList::Iterator it = dataTypes.begin(); it != end; ++it) {
+                if (!predefTypes.contains((*it)->name(), cs)) {
+                    m_doc->removeUMLObject(*it);
+                }
+            }
+            return m_codegen;
+        }
+        for (UMLObjectList::Iterator it = dataTypes.begin(); it != end; ++it) {
+            m_doc->removeUMLObject(*it);
+        }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
         m_codegen = 0;
     }
     m_activeLanguage = pl;
-    m_codegen = CodeGenFactory::createObject(pl);
+    if (pl != Uml::ProgrammingLanguage::Reserved) {
+        m_codegen = CodeGenFactory::createObject(pl);
+    }
     updateLangSelectMenu(pl);
 
     slotAddDefaultDatatypes();
-    m_codegen->createDefaultStereotypes();
-
-    if (m_policyext) {
-        m_policyext->setDefaults(false); // picks up language specific stuff
+    if (pl != Uml::ProgrammingLanguage::Reserved) {
+        m_codegen->createDefaultStereotypes();
+        if (m_policyext) {
+            m_policyext->setDefaults(false); // picks up language specific stuff
+        }
     }
     return m_codegen;
 }
@@ -2342,7 +2441,7 @@ CodeGenerator* UMLApp::generator() const
  *
  * @return  true if SimpleCodeGenerator is active.
  */
-bool UMLApp::isSimpleCodeGeneratorActive()
+bool UMLApp::isSimpleCodeGeneratorActive() const
 {
     if (m_codegen && dynamic_cast<SimpleCodeGenerator*>(m_codegen)) {
         return true;
@@ -2475,6 +2574,11 @@ void UMLApp::setLang_xmlschema()
     setActiveLanguage(Uml::ProgrammingLanguage::XMLSchema);
 }
 
+void UMLApp::setLang_none()
+{
+    setActiveLanguage(Uml::ProgrammingLanguage::Reserved);
+}
+
 #if QT_VERSION >= 0x050000
 /**
  * Called when right clicking on tab widget.
@@ -2512,7 +2616,7 @@ Uml::ProgrammingLanguage::Enum UMLApp::activeLanguage() const
 /**
  * Return true if the active language is case sensitive.
  */
-bool UMLApp::activeLanguageIsCaseSensitive()
+bool UMLApp::activeLanguageIsCaseSensitive() const
 {
     Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     return Uml::ProgrammingLanguage::isCaseSensitive(pl);
@@ -2521,7 +2625,7 @@ bool UMLApp::activeLanguageIsCaseSensitive()
 /**
  * Return the target language depedent scope separator.
  */
-QString UMLApp::activeLanguageScopeSeparator()
+QString UMLApp::activeLanguageScopeSeparator() const
 {
     Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     return Uml::ProgrammingLanguage::scopeSeparator(pl);
@@ -2890,7 +2994,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
  * If the activeLanguage is not found in the KConfig then use Uml::ProgrammingLanguage::Cpp
  * as the default.
  */
-Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage()
+Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage() const
 {
     Settings::OptionState& optionState = Settings::optionState();
     return optionState.generalState.defaultLanguage;
@@ -2911,16 +3015,24 @@ void UMLApp::initGenerator()
 
 /**
  * Updates the Menu for language selection and sets the
- * active lanugage. If no active lanugage is found or if it is
+ * active language. If no active language is found or if it is
  * not one of the registered languages it tries to fall back
  * to Cpp
  */
 void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage)
 {
     //m_langSelect->clear();
-    for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {
+    for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; ++i) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
+}
+
+/**
+ * Return true during shutdown, i.e. during ~UMLApp().
+ */
+bool UMLApp::shuttingDown()
+{
+    return s_shuttingDown;
 }
 
 /**
@@ -3033,7 +3145,7 @@ void UMLApp::newDocument()
  * Returns the widget used as the parent for UMLViews.
  * @return  The main view widget.
  */
-QWidget* UMLApp::mainViewWidget()
+QWidget* UMLApp::mainViewWidget() const
 {
     Settings::OptionState& optionState = Settings::optionState();
     if (optionState.generalState.tabdiagrams) {
@@ -3068,7 +3180,7 @@ void UMLApp::slotBirdViewChanged(const QPointF& delta)
     QPointF oldCenter = view->mapToScene(view->viewport()->rect().center());
     QPointF newCenter = oldCenter + delta;
     view->centerOn(newCenter);
-    // DEBUG(DBG_SRC) << "view moved with: " << delta;
+    // DEBUG() << "view moved with: " << delta;
     m_birdView->setSlotsEnabled(true);
 }
 
@@ -3083,7 +3195,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
     if (view == 0) {
-        DEBUG(DBG_SRC) << "view is NULL";
+        DEBUG() << "view is NULL";
         docWindow()->reset();
         return;
     }
@@ -3129,7 +3241,7 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
             m_listView->setCurrentItem(lvitem);
         }
     }
-    DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
+    DEBUG() << "Changed view to" << view->umlScene();
 
     createBirdView(view);
 }
@@ -3171,7 +3283,7 @@ QString UMLApp::imageMimeType() const
 void UMLApp::slotTabChanged(int index)
 {
     UMLView* view = (UMLView*)m_tabWidget->widget(index);
-    if (view) {
+    if (view && !s_shuttingDown) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
@@ -3183,7 +3295,7 @@ void UMLApp::slotTabChanged(int index)
 void UMLApp::slotTabChanged(QWidget* tab)
 {
     UMLView* view = (UMLView*)tab;
-    if (view) {
+    if (view && !s_shuttingDown) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
@@ -3194,7 +3306,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
  */
 void UMLApp::slotChangeTabLeft()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() - 1);
         return;
@@ -3224,7 +3336,7 @@ void UMLApp::slotChangeTabLeft()
  */
 void UMLApp::slotChangeTabRight()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (Settings::optionState().generalState.tabdiagrams && m_tabWidget) {
         m_tabWidget->setCurrentIndex(m_tabWidget->currentIndex() + 1);
         return;
@@ -3252,7 +3364,7 @@ static void showTabTexts(KTabWidget* tabWidget)
     for (int i = 0; i < tabWidget->count(); ++i) {
         out += " <" + tabWidget->tabText(i) + '>';
     }
-    DEBUG(DBG_SRC) << out;
+    DEBUG() << out;
 }
 */
 
@@ -3261,7 +3373,7 @@ static void showTabTexts(KTabWidget* tabWidget)
  */
 void UMLApp::slotMoveTabLeft()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -3283,7 +3395,7 @@ void UMLApp::slotMoveTabLeft()
  */
 void UMLApp::slotMoveTabRight()
 {
-    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -3316,6 +3428,19 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 }
 
 /**
+ * open file in internal editor
+ * @param file path to the file to open
+ * @param startCursor cursor position for selection start
+ * @param endCursor cursor position for selection end
+ * @return true file could be loaded
+ * @return false file could not be loaded
+ */
+bool UMLApp::slotOpenFileInEditor(const QUrl &file, int startCursor, int endCursor)
+{
+    return m_d->openFileInEditor(file, startCursor, endCursor);
+}
+
+/**
  * Return the tab widget.
  */
 #if QT_VERSION >= 0x050000
@@ -3332,7 +3457,7 @@ KTabWidget* UMLApp::tabWidget()
  *
  * @return The text in the status bar.
  */
-QString UMLApp::statusBarMsg()
+QString UMLApp::statusBarMsg() const
 {
     return m_statusBarMessage->text();
 }
@@ -3358,7 +3483,7 @@ void UMLApp::undo()
     if (!isUndoEnabled())
         return;
 
-    DEBUG(DBG_SRC) << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if (m_pUndoStack->canUndo()) {
@@ -3382,7 +3507,7 @@ void UMLApp::redo()
     if (!isUndoEnabled())
         return;
 
-    DEBUG(DBG_SRC) << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if (m_pUndoStack->canRedo()) {
@@ -3407,7 +3532,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
         return;
     if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);
-        DEBUG(DBG_SRC) << cmd->text() << " [" << m_pUndoStack->count() << "]";
+        DEBUG() << cmd->text() << " [" << m_pUndoStack->count() << "]";
         UMLApp::app()->enableUndoAction(true);
     } else {
         cmd->redo();

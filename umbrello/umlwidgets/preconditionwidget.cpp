@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "preconditionwidget.h"
@@ -26,6 +21,7 @@
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)
 
@@ -57,7 +53,8 @@ PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID
     else
         m_nY = y();
 
-    activate();
+    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    calculateDimensions();
 }
 
 /**
@@ -78,19 +75,21 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     int w = width();
     int h = height();
 
-    int x = m_objectWidget->x() + m_objectWidget->width() / 2;
-    x -= w/2;
-    setX(x);
-    int y = this->y();
+    if (m_objectWidget) {
+        int x = m_objectWidget->x() + m_objectWidget->width() / 2;
+        x -= w/2;
+        setX(x);
+        int y = this->y();
 
-    //test if y isn't above the object
-    if (y <= m_objectWidget->y() + m_objectWidget->height()) {
-        y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        //test if y isn't above the object
+        if (y <= m_objectWidget->y() + m_objectWidget->height()) {
+            y = m_objectWidget->y() + m_objectWidget->height() + 15;
+        }
+        if (y + h >= m_objectWidget->getEndLineY()) {
+            y = m_objectWidget->getEndLineY() - h;
+        }
+        setY(y);
     }
-    if (y + h >= m_objectWidget->getEndLineY()) {
-        y = m_objectWidget->getEndLineY() - h;
-    }
-    setY(y);
     setPenFromSettings(painter);
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
@@ -152,15 +151,16 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
 
-    loadObjectWidget();
-
-    if (!m_objectWidget) {
-        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
-            << " could not be found";
-        return false;
+    if (m_objectWidget == nullptr &&
+            !(m_widgetAId.empty() || m_widgetAId == Uml::ID::None || m_widgetAId == Uml::ID::Reserved)) {
+        UMLWidget *w = umlScene()->findWidget(m_widgetAId);
+        m_objectWidget  = w->asObjectWidget();
+        if (!m_objectWidget) {
+            DEBUG() << "role A widget " << Uml::ID::toString(m_widgetAId) << " could not be found";
+            return false;
+        }
+        connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
     }
-
-    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
     calculateDimensions();
     return true;
@@ -170,8 +170,10 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
  * Resolve references of this precondition so it references the correct
  * new object widget after paste.
  */
-void PreconditionWidget::resolveObjectWidget(IDChangeLog* log) {
+void PreconditionWidget::resolveObjectWidget(IDChangeLog* log)
+{
     m_widgetAId = log->findNewID(m_widgetAId);
+    activate(log);
 }
 
 /**
@@ -182,18 +184,17 @@ void PreconditionWidget::calculateDimensions()
     int x = 0;
     int w = 0;
     int h = 0;
-    int x1 = m_objectWidget->x();
-    int w1 = m_objectWidget->width() / 2;
-
-    x1 += w1;
-
     QSizeF q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 
-    x = x1 - w/2;
-
-    m_nPosX = x;
+    if (m_objectWidget) {
+        int x1 = m_objectWidget->x();
+        int w1 = m_objectWidget->width() / 2;
+        x1 += w1;
+        x = x1 - w/2;
+        m_nPosX = x;
+    }
 
     setSize(w, h);
 }
@@ -203,9 +204,9 @@ void PreconditionWidget::calculateDimensions()
  */
 void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::ID::Type idA = m_objectWidget->localID();
+    const Uml::ID::Type idA = m_objectWidget ? m_objectWidget->localID() : Uml::ID::None;
     if (idA != id) {
-        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
+        DEBUG() << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
     }
     m_nY = y();
@@ -255,14 +256,16 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString text = name();
-            bool ok = Dialog_Utils::askName(i18n("Enter Precondition Name"),
-                                            i18n("Enter the precondition :"),
-                                            text);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::wt_Precondition, text);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }
             calculateWidget();
         }
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
         break;
 
     default:
@@ -273,49 +276,37 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
 /**
  * Saves the widget to the "preconditionwidget" XMI element.
  */
-void PreconditionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PreconditionWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement preconditionElement = qDoc.createElement(QLatin1String("preconditionwidget"));
-    UMLWidget::saveToXMI1(qDoc, preconditionElement);
+    writer.writeStartElement(QLatin1String("preconditionwidget"));
+    UMLWidget::saveToXMI(writer);
 
-    preconditionElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
-    preconditionElement.setAttribute(QLatin1String("preconditionname"), name());
-    preconditionElement.setAttribute(QLatin1String("documentation"), documentation());
-    qElement.appendChild(preconditionElement);
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
+    writer.writeAttribute(QLatin1String("preconditionname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
+    writer.writeEndElement();
 }
 
 /**
  * Loads the widget from the "preconditionwidget" XMI element.
  */
-bool PreconditionWidget::loadFromXMI1(QDomElement& qElement)
+bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     setName(qElement.attribute(QLatin1String("preconditionname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
-
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     m_widgetAId = Uml::ID::fromString(widgetaid);
-
-    // Lookup the ObjectWidget, if it can't be found, assume it will be
-    // resolved later
-    loadObjectWidget();
-
     return true;
 }
 
-/**
- * Load the object widget from m_widgetAId
- *
- * This method is called in loadFromXMI1() when loading an XMI file, and called
- * from activate() when activating a widget after pasting.
- */
-void PreconditionWidget::loadObjectWidget()
+ObjectWidget *PreconditionWidget::objectWidget() const
 {
-    if (m_objectWidget == 0) {
-        m_objectWidget = dynamic_cast<ObjectWidget*>(
-            umlScene()->findWidget(m_widgetAId)
-        );
-    }
+    return m_objectWidget;
 }
 
+void PreconditionWidget::setObjectWidget(ObjectWidget *objectWidget)
+{
+    m_objectWidget = objectWidget;
+}

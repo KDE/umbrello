@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef TEXTBLOCK_H
 #define TEXTBLOCK_H
@@ -15,11 +11,13 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QObject>
+#include <QXmlStreamWriter>
 
 class CodeDocument;
+class QXmlStreamWriter;
 
 /**
- * The fundemental unit of text within an output file containing code.
+ * The fundamental unit of text within an output file containing code.
  */
 class TextBlock
 {
@@ -64,16 +62,15 @@ public:
 
     /**
      * Save the XMI representation of this object
-     * @param doc    the xmi document
-     * @param root   the starting point to append
+     * @param writer the QXmlStreamWriter serialization target
      */
-    virtual void saveToXMI1(QDomDocument & doc, QDomElement & root) = 0;
+    virtual void saveToXMI(QXmlStreamWriter& writer) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
      * @param root   the starting point in the xmi document to load from
      */
-    virtual void loadFromXMI1(QDomElement & root) = 0;
+    virtual void loadFromXMI(QDomElement & root) = 0;
 
     bool canDelete() const;
 
@@ -92,7 +89,7 @@ protected:
 
     virtual void release();
 
-    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
     virtual void setAttributesFromNode(QDomElement & root);
 
 private:

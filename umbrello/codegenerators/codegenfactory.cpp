@@ -1,14 +1,10 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
-                              Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Luis De la Parra Blum <luis@delaparra.org>
+    Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codegenfactory.h"
@@ -96,6 +92,8 @@ namespace CodeGenFactory
 
 CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
 {
+    if (pl == Uml::ProgrammingLanguage::Reserved)
+        return 0;
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
@@ -176,9 +174,8 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
             obj = new XMLSchemaWriter();
             break;
         default:
-            uWarning() << "cannot create object of type "
-                       << Uml::ProgrammingLanguage::toString(pl)
-                       << ". Type unknown";
+            logWarn1("CodeGenFactory::createObject: cannot create object of type %1 (unknown)",
+                     Uml::ProgrammingLanguage::toString(pl));
             break;
     }
 

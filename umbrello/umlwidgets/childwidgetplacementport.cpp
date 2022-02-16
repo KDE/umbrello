@@ -1,16 +1,12 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2016                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlwidgets/childwidgetplacementport.h"
 
 #include "umlwidgets/umlwidget.h"
+#include "pinportbase.h"
 
 ChildWidgetPlacementPort::ChildWidgetPlacementPort(PinPortBase* widget)
  : ChildWidgetPlacement(widget)
@@ -21,10 +17,26 @@ ChildWidgetPlacementPort::~ChildWidgetPlacementPort()
 {
 }
 
-void ChildWidgetPlacementPort::setInitialPosition()
+void ChildWidgetPlacementPort::setInitialPosition(const QPointF &scenePos)
 {
-    m_connectedSide = TopLeft;
-    setPos(minX(), minY());
+#if 0
+    QPointF p = ownerWidget()->mapFromScene(scenePos);
+    p -= QPointF(width()/2, height()/2);
+    setPos(p);
+#else
+    if (ownerWidget()) {
+        QPointF p = ownerWidget()->mapFromScene(scenePos);
+        p -= QPointF(width()/2, height()/2);
+        setPos(p);
+
+        detectConnectedSide();
+        setNewPositionWhenMoved(0.0, 0.0);
+        //setNewPositionOnParentResize();
+    } else {
+        m_connectedSide = TopLeft;
+        setPos(minX(), minY());
+    }
+#endif
 }
 
 void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
@@ -144,8 +156,39 @@ void ChildWidgetPlacementPort::setNewPositionWhenMoved(qreal diffX, qreal diffY)
             }
         }
         break;
+
+        default:
+        break;
     }
     setPos(newX, newY);
+}
+
+void ChildWidgetPlacementPort::detectConnectedSide()
+{
+    if (m_widget->x() < 0) {
+        if (m_widget->y() < 0)
+            m_connectedSide = TopLeft;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Left;
+        else
+            m_connectedSide =BottomLeft;
+    } else if (m_widget->x() < maxX()) {
+        if (m_widget->y() < 0)
+            m_connectedSide = Top;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Undefined;
+        else
+            m_connectedSide = Bottom;
+    } else if (m_widget->x() >= maxX()) {
+        if (m_widget->y() < 0)
+            m_connectedSide = TopRight;
+        else if (m_widget->y() < maxY())
+            m_connectedSide = Right;
+        else
+            m_connectedSide =BottomRight;
+    } else {
+        m_connectedSide = TopLeft;
+    }
 }
 
 void ChildWidgetPlacementPort::setNewPositionOnParentResize()

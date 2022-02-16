@@ -1,21 +1,7 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    SPDX-FileCopyrightText: 2015 Ralf Habacker <ralf.habacker@freenet.de>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "testumlobject.h"
@@ -34,7 +20,8 @@
 // kde includes
 #include <KLocalizedString>
 
-const bool IS_NOT_IMPL = false;
+// qt includes
+#include <QXmlStreamWriter>
 
 //-----------------------------------------------------------------------------
 
@@ -127,19 +114,7 @@ void TestUMLObject::test_isStatic()
     QCOMPARE(a.isStatic(), true);
 }
 
-class LocalUMLObject : public UMLObject
-{
-public:
-    LocalUMLObject(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None)
-      : UMLObject(name, id)
-    {
-    }
-
-    UMLObject *secondary() const
-    {
-        return m_pSecondary.data();
-    }
-};
+typedef TestUML<UMLObject, const QString &> TESTUMLObject;
 
 void TestUMLObject::test_resolveRef()
 {
@@ -161,7 +136,7 @@ void TestUMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // unknown stereotype
-    LocalUMLObject b("Test B");
+    TESTUMLObject b("Test B");
     UMLStereotype stereotype2("test");
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
@@ -176,11 +151,24 @@ void TestUMLObject::test_saveAndLoad()
     UMLObject a("Test A");
     a.setUMLPackage(&parent);
     a.setStereotypeCmd("test");
+
+    // save
+    QString xml;
+    QXmlStreamWriter writer(&xml);
+    a.save1(writer, "test");
+    writer.writeEndElement();
+
+    // convert XML string to QDomElement
+    QString error;
+    int line;
     QDomDocument doc;
-    QDomElement save = a.save1("test", doc);
+    QVERIFY(doc.setContent(xml, &error, &line));
+    QDomElement save = doc.firstChild().toElement();
+
+    // load
     UMLObject b;
     b.setUMLPackage(&parent);
-    QCOMPARE(b.loadFromXMI1(save), true);
+    QCOMPARE(b.loadFromXMI(save), true);
     QCOMPARE(a, b);
 }
 
@@ -192,7 +180,7 @@ void TestUMLObject::test_setBaseType()
     QCOMPARE(a.baseType(), UMLObject::ot_Class);
 }
 
-void TestUMLObject::test_setSterotype()
+void TestUMLObject::test_setStereotype()
 {
     UMLObject a("Test A");
     QCOMPARE(a.stereotype(), QLatin1String(""));
@@ -233,12 +221,78 @@ void TestUMLObject::test_toString()
 void TestUMLObject::test_dynamic_cast()
 {
     QScopedPointer<UMLObject> a1(new UMLClassifier);
-    UMLClassifier *b = a1->asUMLClassifier();
+    const UMLClassifier *b = a1->asUMLClassifier();
     QVERIFY(b);
     UMLObject *a2 = 0;
     b = a2->asUMLClassifier();
     QVERIFY(!b);
 }
 
+void TestUMLObject::test_isUMLXXX()
+{
+    UMLObject a("Test A");
+    QVERIFY(a.isUMLObject());
+    a.setBaseType(UMLObject::ObjectType::ot_Actor);
+    QVERIFY(a.isUMLActor());
+    a.setBaseType(UMLObject::ObjectType::ot_Artifact);
+    QVERIFY(a.isUMLArtifact());
+    a.setBaseType(UMLObject::ObjectType::ot_Association);
+    QVERIFY(a.isUMLAssociation());
+    a.setBaseType(UMLObject::ObjectType::ot_Attribute);
+    QVERIFY(a.isUMLAttribute());
+    a.setBaseType(UMLObject::ObjectType::ot_Category);
+    QVERIFY(a.isUMLCategory());
+    a.setBaseType(UMLObject::ObjectType::ot_CheckConstraint);
+    QVERIFY(a.isUMLCheckConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Class);
+    QVERIFY(a.isUMLClassifier());
+    a.setBaseType(UMLObject::ObjectType::ot_Component);
+    QVERIFY(a.isUMLComponent());
+    a.setBaseType(UMLObject::ObjectType::ot_Datatype);
+    QVERIFY(a.isUMLDatatype());
+    a.setBaseType(UMLObject::ObjectType::ot_Entity);
+    QVERIFY(a.isUMLEntity());
+    a.setBaseType(UMLObject::ObjectType::ot_EntityAttribute);
+    QVERIFY(a.isUMLEntityAttribute());
+    a.setBaseType(UMLObject::ObjectType::ot_EntityConstraint);
+    QVERIFY(a.isUMLEntityConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Enum);
+    QVERIFY(a.isUMLEnum());
+    a.setBaseType(UMLObject::ObjectType::ot_EnumLiteral);
+    QVERIFY(a.isUMLEnumLiteral());
+    a.setBaseType(UMLObject::ObjectType::ot_Folder);
+    QVERIFY(a.isUMLFolder());
+    a.setBaseType(UMLObject::ObjectType::ot_ForeignKeyConstraint);
+    QVERIFY(a.isUMLForeignKeyConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_Instance);
+    QVERIFY(a.isUMLInstance());
+    a.setBaseType(UMLObject::ObjectType::ot_InstanceAttribute);
+    QVERIFY(a.isUMLInstanceAttribute());
+//    UMLClassifier has isInterface()
+//    a.setBaseType(UMLObject::ObjectType::ot_Interface);
+//    QVERIFY(a.isUMLInterface());
+    a.setBaseType(UMLObject::ObjectType::ot_Node);
+    QVERIFY(a.isUMLNode());
+    a.setBaseType(UMLObject::ObjectType::ot_Operation);
+    QVERIFY(a.isUMLOperation());
+    a.setBaseType(UMLObject::ObjectType::ot_Package);
+    QVERIFY(a.isUMLPackage());
+    a.setBaseType(UMLObject::ObjectType::ot_Port);
+    QVERIFY(a.isUMLPort());
+    a.setBaseType(UMLObject::ObjectType::ot_Role);
+    QVERIFY(a.isUMLRole());
+    a.setBaseType(UMLObject::ObjectType::ot_Stereotype);
+    QVERIFY(a.isUMLStereotype());
+//    a.setBaseType(UMLObject::ObjectType::ot_SubSystem);
+//    QVERIFY(a.isUMLSubSystem());
+    a.setBaseType(UMLObject::ObjectType::ot_Template);
+    QVERIFY(a.isUMLTemplate());
+    a.setBaseType(UMLObject::ObjectType::ot_UMLObject);
+    QVERIFY(a.isUMLObject());
+    a.setBaseType(UMLObject::ObjectType::ot_UniqueConstraint);
+    QVERIFY(a.isUMLUniqueConstraint());
+    a.setBaseType(UMLObject::ObjectType::ot_UseCase);
+    QVERIFY(a.isUMLUseCase());
+}
 
 QTEST_MAIN(TestUMLObject)

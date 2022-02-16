@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "diagrampropertiespage.h"
@@ -34,6 +29,8 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
 
     ui_diagramName->setText(scene->name());
     ui_zoom->setValue(scene->activeView()->zoom());
+    ui_width->setValue(scene->width());
+    ui_height->setValue(scene->height());
 
     ui_checkBoxShowGrid->setChecked(scene->isSnapGridVisible());
     ui_snapToGrid->setChecked(scene->snapToGrid());
@@ -42,8 +39,7 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
     ui_gridSpaceX->setValue(scene->snapX());
     ui_gridSpaceY->setValue(scene->snapY());
     ui_documentation->setText(scene->documentation());
-    if (scene->type() == Uml::DiagramType::Sequence ||
-        scene->type() == Uml::DiagramType::Collaboration) {
+    if (scene->isSequenceDiagram() || scene->isCollaborationDiagram()) {
         ui_autoIncrementSequence->setVisible(true);
         ui_autoIncrementSequence->setChecked(scene->autoIncrementSequence());
     } else {
@@ -88,7 +84,7 @@ bool DiagramPropertiesPage::checkUniqueDiagramName()
             ui_diagramName->setText(m_scene->name());
         }
         else {
-            // uDebug() << "Cannot find view with name " << newName;
+            // logDebug1("Cannot find view with name %1", newName);
             m_scene->setName(newName);
             doc->signalDiagramRenamed(m_scene->activeView());
             return true;
@@ -105,13 +101,13 @@ void DiagramPropertiesPage::apply()
 {
     checkUniqueDiagramName();
     m_scene->activeView()->setZoom(ui_zoom->value());
+    m_scene->setSceneRect(0.0, 0.0, ui_width->value(), ui_height->value());
     m_scene->setDocumentation(ui_documentation->toPlainText());
     m_scene->setSnapSpacing(ui_gridSpaceX->value(), ui_gridSpaceY->value());
     m_scene->setSnapToGrid(ui_snapToGrid->isChecked());
     m_scene->setSnapComponentSizeToGrid(ui_snapComponentSizeToGrid->isChecked());
     m_scene->setSnapGridVisible(ui_checkBoxShowGrid->isChecked());
-    if (m_scene->type() == Uml::DiagramType::Sequence ||
-        m_scene->type() == Uml::DiagramType::Collaboration) {
+    if (m_scene->isSequenceDiagram() || m_scene->isCollaborationDiagram()) {
         m_scene->setAutoIncrementSequence(ui_autoIncrementSequence->isChecked());
     }
     emit applyClicked();

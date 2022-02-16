@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "parameterpropertiesdialog.h"
@@ -16,6 +11,7 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "documentationwidget.h"
+#include "defaultvaluewidget.h"
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "umltemplatelist.h"
@@ -56,8 +52,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_pAtt = attr;
 
     int margin = fontMetrics().height();
-    setMinimumSize(300, 400);
-    //disableResize();
     QFrame *frame = new QFrame(this);
     setMainWidget(frame);
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
@@ -78,9 +72,9 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
                                     m_pNameL, i18nc("property name", "&Name:"),
                                     m_pNameLE, attr->name());
 
-    Dialog_Utils::makeLabeledEditField(propLayout, 2,
-                                    m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, attr->getInitialValue());
+    m_defaultValueWidget = new DefaultValueWidget(attr->getType(), attr->getInitialValue(), this);
+    m_defaultValueWidget->addToLayout(propLayout, 2);
+    connect(m_datatypeWidget, SIGNAL(editTextChanged(QString)), m_defaultValueWidget, SLOT(setType(QString)));
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pAtt);
     m_stereotypeWidget->addToLayout(propLayout, 3);
@@ -117,8 +111,8 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     // set tab order
     setTabOrder(m_pKindGB, m_datatypeWidget);
     setTabOrder(m_datatypeWidget, m_pNameLE);
-    setTabOrder(m_pNameLE, m_pInitialLE);
-    setTabOrder(m_pInitialLE, m_stereotypeWidget);
+    setTabOrder(m_pNameLE, m_defaultValueWidget);
+    setTabOrder(m_defaultValueWidget, m_stereotypeWidget);
     setTabOrder(m_stereotypeWidget, m_pIn);
     setTabOrder(m_pIn, m_docWidget);
     m_pNameLE->setFocus();
@@ -138,7 +132,7 @@ QString ParameterPropertiesDialog::getName()
 
 QString ParameterPropertiesDialog::getInitialValue()
 {
-    return m_pInitialLE->text();
+    return m_defaultValueWidget->value();
 }
 
 /**
@@ -180,7 +174,7 @@ bool ParameterPropertiesDialog::apply()
         m_stereotypeWidget->apply();
         m_datatypeWidget->apply();
         m_docWidget->apply();
-        m_pAtt->setInitialValue(getInitialValue()); // set the initial value
+        m_pAtt->setInitialValue(m_defaultValueWidget->value()); // set the initial value
     }
     return true;
 }

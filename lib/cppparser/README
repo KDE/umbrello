@@ -1,8 +1,9 @@
-This directory contains the C++ parser from Kdevelop-3.0.
+This directory contains the C++ parser from Kdevelop-3.5.
 
 Following files are copies from the directory kdevelop/lib/cppparser:
- ast.{h,cpp} driver.{h,cpp} errors.{h,cpp} keywords.lut.h lexer.{h,cpp}
- lookup.{h,cpp} parser.{h,cpp} tree_parser.{h,cpp}
+ ast.{h,cpp} cachemanager.{h,cpp} driver.{h,cpp} errors.{h,cpp} keywords.h
+ macro.h lexer.{h,cpp} lexercache.{h,cpp} lookup.{h,cpp} parser.{h,cpp}
+ tree_parser.{h,cpp}
 
 Following files are copies from the directory kdevelop/languages/cpp:
  ast_utils.{h,cpp}

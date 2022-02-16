@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 David Hugh-Jones <hughjonesd@yahoo.co.uk>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "perlwriter.h"
 
@@ -331,17 +327,16 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
  */
 void PerlWriter::writeClass(UMLClassifier *c)
 {
-  /*  if (!c) {
-      uDebug() << "Cannot write class of NULL concept!";
+  if (!c) {
+      logWarn0("PerlWriter::writeClass: Cannot write class of NULL concept");
       return;
-      }
-  */
+  }
   QString classname = cleanName(c->name());// this is fine: cleanName is "::-clean"
   QString packageName =  c->package(QLatin1String("."));
   QString fileName;
 
   // Replace all white spaces with blanks
-  packageName.simplified();
+  packageName = packageName.simplified();
 
   // Replace all blanks with underscore
   packageName.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
@@ -718,7 +713,7 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
  * Get list of default datatypes.
  * @return   the list of default datatypes
  */
-QStringList PerlWriter::defaultDatatypes()
+QStringList PerlWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("$"));

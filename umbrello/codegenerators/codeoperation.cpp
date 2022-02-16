@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeoperation.h"
@@ -18,6 +14,9 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+
+// qt/kde includes
+#include <QXmlStreamWriter>
 
 CodeOperation::CodeOperation (ClassifierCodeDocument * doc, UMLOperation * parentOp, const QString & body, const QString & comment)
         : CodeMethodBlock (doc, parentOp, body, comment)
@@ -69,18 +68,18 @@ UMLOperation * CodeOperation::getParentOperation()
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeOperation::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("codeoperation"));
+    writer.writeStartElement(QLatin1String("codeoperation"));
     // set attributes
-    setAttributesOnNode(doc, blockElement);
-    root.appendChild(blockElement);
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeOperation::loadFromXMI1 (QDomElement & root)
+void CodeOperation::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -97,9 +96,9 @@ QString CodeOperation::findTag (UMLOperation * op)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeOperation::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
+void CodeOperation::setAttributesOnNode (QXmlStreamWriter& writer)
 {
-    CodeMethodBlock::setAttributesOnNode(doc, elem); // superclass
+    CodeMethodBlock::setAttributesOnNode(writer); // superclass
 }
 
 /**
@@ -124,7 +123,7 @@ void CodeOperation::setAttributesFromNode (QDomElement & element)
     if (op)
         init(op);
     else
-        uError() << "ERROR: could not load code operation because of missing UMLoperation, corrupt savefile?";
+        logError0("could not load code operation because of missing UMLoperation, corrupt savefile?");
 }
 
 /**

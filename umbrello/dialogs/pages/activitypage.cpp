@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "activitypage.h"
 
@@ -32,6 +27,8 @@
 #include <QStringList>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(ActivityPage)
 
 /**
  * Constructor.
@@ -180,17 +177,15 @@ void ActivityPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        logDebug1("ActivityPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(sel));
     }
 }
 
 void ActivityPage::slotNewActivity()
 {
-    QString name = i18n("new activity");
-    bool ok = Dialog_Utils::askName(i18n("New Activity"),
-                                    i18n("Enter the name of the new activity:"),
-                                    name);
-    if (ok && name.length() > 0) {
+    QString name;
+    if (Dialog_Utils::askDefaultNewName(WidgetBase::wt_Activity, name) && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
         m_pStateWidget->addActivity(name);
@@ -210,9 +205,7 @@ void ActivityPage::slotRename()
 {
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-    bool ok = Dialog_Utils::askName(i18n("Rename Activity"),
-                                    i18n("Enter the new name of the activity:"),
-                                    name);
+    bool ok = Dialog_Utils::askRenameName(WidgetBase::wt_Activity, name);
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);
@@ -264,7 +257,7 @@ void ActivityPage::slotUpClicked()
 
     QListWidgetItem* item = m_pActivityLW->takeItem(index);
     m_pActivityLW->insertItem(index - 1, item);
-    //set the moved atttribute selected
+    //set the moved attribute selected
     m_pActivityLW->setCurrentRow(index - 1);
 
     slotClicked(m_pActivityLW->currentItem());
@@ -281,7 +274,7 @@ void ActivityPage::slotDownClicked()
 
     QListWidgetItem* item = m_pActivityLW->takeItem(index);
     m_pActivityLW->insertItem(index + 1, item);
-    //set the moved atttribute selected
+    //set the moved attribute selected
     m_pActivityLW->setCurrentRow(index + 1);
 
     slotClicked(m_pActivityLW->currentItem());

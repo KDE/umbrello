@@ -1,22 +1,9 @@
-/***************************************************************************
- *   This file is part of KDevelop                                         *
- *   Copyright 2008 Niko Sams <niko.sams@gmail.com>                        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU Library General Public License as       *
- *   published by the Free Software Foundation; either version 2 of the    *
- *   License, or (at your option) any later version.                       *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU Library General Public     *
- *   License along with this program; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
- ***************************************************************************/
+/*
+    This file is part of KDevelop
+    SPDX-FileCopyrightText: 2008 Niko Sams <niko.sams@gmail.com>
+
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
 #ifndef DECLARATIONBUILDER_H
 #define DECLARATIONBUILDER_H
@@ -41,7 +28,7 @@ class NamespaceDeclaration;
 typedef KDevelop::AbstractDeclarationBuilder<AstNode, IdentifierAst, TypeBuilder> DeclarationBuilderBase;
 
 /**
- * The DeclarationBuilder builds declarations, types and contexts for everything in a AST.
+ * The DeclarationBuilder builds declarations, types and contexts for everything in an AST.
  *
  * \note Since PHP allows the usage of functions, classes and interfaces before definition,
  *       a \see PreDeclarationBuilder is used to get the declarations _and_ types for those.
@@ -158,7 +145,7 @@ private:
     bool isGlobalRedeclaration(const KDevelop::QualifiedIdentifier &identifier, AstNode *node,
                                DeclarationType type);
     /// check if a non-abstract method declaration tries to overwrite a final base method
-    /// or whether a abstract method is redeclared
+    /// or whether an abstract method is redeclared
     /// @param identifier   The identifier for the current method
     /// @param curClass     the current class we are in
     /// @param node         the node we are processing, used to access modifiers and for error reporting
@@ -190,7 +177,7 @@ private:
                                     bool &arrayAccess);
 
     /**
-     * Declare a class member in @p parentCtx. Validates whether the current context allowes
+     * Declare a class member in @p parentCtx. Validates whether the current context allows
      * redeclaration of private/protected members.
      *
      * @param parentCtx  The class context you want to add the member to.

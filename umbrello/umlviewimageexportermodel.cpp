@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlviewimageexportermodel.h"
 
 // application specific includes
+#define DBG_SRC QLatin1String("UMLViewImageExporterModel")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "model_utils.h"
@@ -51,8 +47,6 @@
 
 // system includes
 #include <cmath>
-
-#define DBG_IEM QLatin1String("UMLViewImageExporterModel")
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
@@ -204,6 +198,7 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
  * existing file with the same path as one to be created overwrites it without asking.
  * The url used can be local or remote, using supported KIO slaves.
  *
+ * @param views     The list of views to export.
  * @param imageType The type of the images the views will be exported to.
  * @param directory The url of the directory where the images will be saved.
  * @param useFolders If the tree structure of the views in the document must be created
@@ -270,7 +265,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
-    // the fileName is the name of a temporal local file to export the image to, and then
+    // the fileName is the name of a temporary local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
 #if QT_VERSION >= 0x050000
@@ -283,11 +278,6 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
     } else {
         tmpFile.open();
         fileName = tmpFile.fileName();
-    }
-
-    QRectF rect = scene->diagramRect();
-    if (rect.isEmpty()) {
-        return i18n("Cannot save an empty diagram");
     }
 
     // exporting the view to the file
@@ -321,19 +311,15 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
  */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders /* = false */) const
 {
-    if (scene) {
-        if (useFolders) {
-            qApp->processEvents();  //:TODO: still needed ???
-            return Model_Utils::treeViewBuildDiagramName(scene->ID()) + QLatin1Char('.') + imageType.toLower();
-        }
-        else {
-            return scene->name() + QLatin1Char('.') + imageType.toLower();
-        }
-    }
-    else {
-        uWarning() << "Scene is null!";
+    if (scene == 0) {
+        logWarn0("UMLViewImageExporterModel::getDiagramFileName: Scene is null!");
         return QString();
     }
+    if (useFolders) {
+        qApp->processEvents();  //:TODO: still needed ???
+        return Model_Utils::treeViewBuildDiagramName(scene->ID()) + QLatin1Char('.') + imageType.toLower();
+    }
+    return scene->name() + QLatin1Char('.') + imageType.toLower();
 }
 
 /**
@@ -403,7 +389,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewTo: Scene is null!");
         return false;
     }
 
@@ -443,14 +429,15 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
 bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToDot: Scene is null!");
         return false;
     }
 
     DotGenerator dot;
     bool result = dot.createDotFile(scene, fileName, QLatin1String("export"));
 
-    DEBUG(DBG_IEM) << "saving to file " << fileName << result;
+    logDebug2("UMLViewImageExporterModel::exportViewToDot saving to file %1 : %2",
+              fileName, result);
     return result;
 }
 
@@ -465,12 +452,16 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToEps: Scene is null!");
         return false;
     }
 
     qreal border = 0.01; // mm
     QRectF rect = scene->diagramRect();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
+
     QSizeF paperSize(rect.size() * 25.4f / qApp->desktop()->logicalDpiX());
 
     QPrinter printer(QPrinter::ScreenResolution);
@@ -517,12 +508,15 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToSvg: Scene is null!");
         return false;
     }
 
     bool exportSuccessful;
     QRectF rect = scene->diagramRect();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -550,7 +544,8 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 //    scene->forceUpdateWidgetFontMetrics(0);
     //Note: See comment above.
 
-    DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
+    logDebug2("UMLViewImageExporterModel::exportViewToSvg saving to file %1 "
+              "successful=%2", fileName, exportSuccessful);
     return exportSuccessful;
 }
 
@@ -567,20 +562,23 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
     if (!scene) {
-        uWarning() << "Scene is null!";
+        logWarn0("UMLViewImageExporterModel::exportViewToPixmap: Scene is null!");
         return false;
     }
 
     QRectF rect = scene->diagramRect();
-    float scale = m_resolution != 0.0 ? m_resolution / qApp->desktop()->logicalDpiX() : 72.0f / qApp->desktop()->logicalDpiX();
+    if (rect.isEmpty()) {
+        rect = QRectF(0,0, 10, 10);
+    }
+
+    float scale = !qFuzzyIsNull(m_resolution) ? m_resolution / qApp->desktop()->logicalDpiX()
+                                              : 72.0f / qApp->desktop()->logicalDpiX();
     QSizeF size = rect.size() * scale;
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
-    DEBUG(DBG_IEM) << "saving to file " << fileName
-                   << ", imageType=" << imageType
-                   << ", width=" << rect.width()
-                   << ", height=" << rect.height()
-                   << ", successful=" << exportSuccessful;
+    logDebug5("UMLViewImageExporterModel::exportViewToPixmap saving to file %1, "
+              "imageType=%2, width=%3, height=%4, successful=%5",
+              fileName, imageType, rect.width(), rect.height(), exportSuccessful);
     return exportSuccessful;
 }

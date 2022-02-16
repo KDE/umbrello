@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlpackagewidget.h"
 
@@ -41,7 +36,8 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
 
     m_label->setBuddy(m_editField);
 
-    UMLPackageList packageList = UMLApp::app()->document()->packages();
+    Uml::ModelType::Enum guess = Model_Utils::guessContainer(o);
+    UMLPackageList packageList = UMLApp::app()->document()->packages(true, guess);
     QStringList packages;
     foreach(UMLPackage* package, packageList) {
         packages << package->name();
@@ -93,7 +89,8 @@ void UMLPackageWidget::apply()
             newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
         }
     } else {
-        newPackage = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+        Uml::ModelType::Enum guess = Model_Utils::guessContainer(m_object);
+        newPackage = UMLApp::app()->document()->rootFolder(guess);
     }
 
     // adjust list view items

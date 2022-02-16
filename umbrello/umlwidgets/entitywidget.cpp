@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2018                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "entitywidget.h"
@@ -26,6 +21,11 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "uniqueconstraint.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(EntityWidget)
 
 /**
  * Constructs an EntityWidget.
@@ -74,17 +74,17 @@ QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
         width = nameWidth;
     height += fontHeight;
 
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     foreach (UMLClassifierListItem* entityattribute, list) {
         QString text = entityattribute->name();
-        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QLatin1String(" : ") + casted->getTypeName());
-            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QLatin1String(" ") + casted->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
         const int nameWidth = bfm.size(0, text).width();
         if (nameWidth > width)
@@ -151,21 +151,21 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     foreach (entityattribute, list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
-        UMLEntityAttribute* casted = entityattribute->asUMLEntityAttribute();
+        const UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QLatin1String(" : ") + casted->getTypeName());
-            text.append(QLatin1String(" [") + casted->getAttributes() + QLatin1String("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QLatin1String(" ") + casted->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
-        if(casted && casted->indexType() == UMLEntityAttribute::Primary)
+        if (umlEA && umlEA->indexType() == UMLEntityAttribute::Primary)
         {
             font.setUnderline(true);
             painter->setFont(font);
@@ -180,9 +180,9 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     UMLWidget::paint(painter, option, widget);
 }
 
-bool EntityWidget::loadFromXMI1(QDomElement & qElement)
+bool EntityWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     QString showAttributeSignatures = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("0"));
     m_showAttributeSignatures = (bool)showAttributeSignatures.toInt();
@@ -192,13 +192,13 @@ bool EntityWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "entitywidget" XMI element.
  */
-void EntityWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void EntityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("entitywidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    conceptElement.setAttribute(QLatin1String("showattsigs"), m_showAttributeSignatures);
+    writer.writeStartElement(QLatin1String("entitywidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("showattsigs"), QString::number(m_showAttributeSignatures));
 
-    qElement.appendChild(conceptElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -252,7 +252,8 @@ void EntityWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Show_Stereotypes:
-        setShowStereotype(!showStereotype());
+        setShowStereotype(showStereotype() == Uml::ShowStereoType::None ?
+                                              Uml::ShowStereoType::Tags : Uml::ShowStereoType::None);
         break;
 
     default:

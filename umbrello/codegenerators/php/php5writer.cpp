@@ -1,14 +1,10 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
- *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Heiko Nardmann <h.nardmann@secunet.de>
+    SPDX-FileCopyrightText: 2004 Thorsten Kunz <tk AT bytecrash DOT net>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "php5writer.h"
 
@@ -18,6 +14,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 #include <QRegExp>
 #include <QTextStream>
@@ -2996,7 +2993,7 @@ Php5Writer::~Php5Writer()
 void Php5Writer::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug()<<"Cannot write class of NULL concept!";
+        logWarn0("Php5Writer::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -3019,7 +3016,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".php"));
     if (!str.isEmpty()) {
@@ -3041,7 +3038,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     }
     php << m_endl;
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;
@@ -3095,7 +3092,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             //which container to use.
             UMLObject *o = a->getObject(Uml::RoleType::A);
             if (o == 0) {
-                uError() << "aggregation role A object is NULL" << endl;
+                logError0("Php5Writer::writeClass: aggregation role A object is NULL");
                 continue;
             }
             //:UNUSED: QString typeName = cleanName(o->name());
@@ -3113,7 +3110,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::RoleType::A);
             if (o == 0) {
-                uError() << "composition role A object is NULL";
+                logError0("Php5Writer::writeClass: composition role A object is NULL");
                 continue;
             }
             //:UNUSED: QString typeName = cleanName(o->name());
@@ -3228,7 +3225,8 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
  * @param classname   the name of the class
  * @param opList      the list of operations
  * @param php         output stream for the PHP file
- * @param interface   indicates if the operation is an interface member
+ * @param isInterface indicates if the operation is an interface member
+ * @param generateErrorStub  true generates trigger_error("Implement " . __FUNCTION__)
  */
 void Php5Writer::writeOperations(const QString & classname, UMLOperationList &opList,
                                  QTextStream &php, bool isInterface /* = false */,

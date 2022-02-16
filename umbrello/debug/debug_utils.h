@@ -1,26 +1,18 @@
 /*
-    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
-    Copyright 2012  Ralf Habacker <ralf.habacker@freenet.de>
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2012 Ralf Habacker <ralf.habacker@freenet.de>
+    SPDX-FileCopyrightText: 2022 Oliver Kellogg <okellogg@users.sourceforge.net>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy 
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef DEBUG_UTILS_H
 #define DEBUG_UTILS_H
+
+/*
+    This file shall only by #included by implementation files (.cpp),
+    not by header files (.h)
+*/
 
 #include <QtGlobal>
 
@@ -62,11 +54,11 @@ Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
  *
  * - QObject based classes
  *
- *      DEBUG(DBG_SRC) << ...
+ *      DEBUG() << ...
  *
- * - other classes
+ * - other classes (Debug with given Name)
  *
- *      DEBUG("class name") << ...
+ *      DEBUG_N("class name") << ...
  */
 class Tracer : public QTreeWidget
 {
@@ -76,14 +68,16 @@ public:
 
     ~Tracer();
 
-    bool isEnabled(const QString& name);
+    bool isEnabled(const QString& name) const;
     void enable(const QString& name);
     void disable(const QString& name);
 
     void enableAll();
     void disableAll();
 
-    static void registerClass(const QString& name, bool state=true, const QString &filePath=QString());
+    bool logToConsole();
+
+    static void registerClass(const char * name, bool state=true, const char * filePath=0);
 
 protected:
     void update(const QString &name);
@@ -104,9 +98,12 @@ private:
     };
 
     typedef QMap<QString, MapEntry> MapType;
+    typedef QMap<QString,Qt::CheckState> StateMap;
 
-    static Tracer* m_instance;
-    static MapType *m_classes;
+    static Tracer* s_instance;
+    static MapType s_classes;
+    static StateMap s_states;
+    static bool s_logToConsole;
 
     explicit Tracer(QWidget *parent = 0);
 };
@@ -122,12 +119,25 @@ private:
 #define uWarning() kWarning(8060)
 #endif
 
+#ifndef DBG_SRC
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())
+#endif
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
-#define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
-#define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(QString::fromLatin1(#src))
-#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
-#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
+#define DEBUG_N(latin1str)  if (Tracer::instance()->logToConsole() || Tracer::instance()->isEnabled(latin1str)) uDebug()
+#define DEBUG()       DEBUG_N(DBG_SRC)
+#define IS_DEBUG_ENABLED() Tracer::instance()->isEnabled(DBG_SRC)
+#define DEBUG_REGISTER(src)          \
+        class src##Tracer { \
+          public:           \
+            src##Tracer() { Tracer::registerClass(#src, true, __FILE__); } \
+        };                  \
+        static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER_DISABLED(src) \
+        class src##Tracer { \
+          public:           \
+            src##Tracer() { Tracer::registerClass(#src, false, __FILE__); } \
+        };                  \
+        static src##Tracer src##TracerGlobal;
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 

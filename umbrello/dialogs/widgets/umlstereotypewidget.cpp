@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2014,2019 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlstereotypewidget.h"
 
@@ -26,17 +21,11 @@
 Q_DECLARE_METATYPE(UMLStereotype*);
 
 UMLStereotypeWidget::UMLStereotypeWidget(UMLObject *object, QWidget *parent)
-    : QWidget(parent),
-      m_object(object)
+  : ComboBoxWidgetBase(i18n("Stereotype &name:"), QString(), parent)
+  , m_object(object)
 {
     Q_ASSERT(m_object);
-    init();
-}
-
-UMLStereotypeWidget::~UMLStereotypeWidget()
-{
-    delete m_comboBox;
-    delete m_label;
+    insertItems(m_object->umlStereotype());
 }
 
 /**
@@ -45,19 +34,7 @@ UMLStereotypeWidget::~UMLStereotypeWidget()
  */
 void UMLStereotypeWidget::setEditable(bool state)
 {
-    m_comboBox->setEditable(state);
-}
-
-/**
- * Add this widget to a given grid layout. Umbrello dialogs places labels in column 0
- * and the editable field in column 1.
- * @param layout The layout to which the widget should be added
- * @param row The row in the grid layout where the widget should be placed
- */
-void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
-{
-    layout->addWidget(m_label, row, 0);
-    layout->addWidget(m_comboBox, row, 1);
+    m_editField->setEditable(state);
 }
 
 /**
@@ -65,48 +42,25 @@ void UMLStereotypeWidget::addToLayout(QGridLayout *layout, int row)
  */
 void UMLStereotypeWidget::apply()
 {
-    if (m_comboBox->currentText().isEmpty()) {
+    if (m_editField->currentText().isEmpty()) {
         m_object->setUMLStereotype(0);
         return;
     }
 
-    QVariant v = m_comboBox->itemData(m_comboBox->currentIndex());
+    QVariant v = m_editField->itemData(m_editField->currentIndex());
     if (v.canConvert<UMLStereotype*>()) {
         UMLStereotype *selected = v.value<UMLStereotype*>();
         if (m_object->umlStereotype()) {
-            if (m_object->umlStereotype()->name() != m_comboBox->currentText())
+            if (m_object->umlStereotype()->name() != m_editField->currentText())
                 m_object->setUMLStereotype(selected);
         }
         else
             m_object->setUMLStereotype(selected);
     } else {
-        UMLStereotype *stereotype = new UMLStereotype(m_comboBox->currentText());
+        UMLStereotype *stereotype = new UMLStereotype(m_editField->currentText());
         UMLApp::app()->document()->addStereotype(stereotype);
         m_object->setUMLStereotype(stereotype);
     }
-}
-
-/**
- * setup widgets
- */
-void UMLStereotypeWidget::init()
-{
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("Stereotype &name:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox, 2);
-
-    m_label->setBuddy(m_comboBox);
-
-    m_comboBox->setDuplicatesEnabled(false);  // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    insertItems(m_object->umlStereotype());
-    setLayout(layout);
 }
 
 /**
@@ -126,18 +80,18 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
         types[type->name()] = type;
     }
 
-    m_comboBox->clear();
-    m_comboBox->addItem(QLatin1String(""), QVariant(0));
+    m_editField->clear();
+    m_editField->addItem(QLatin1String(""), QVariant(0));
     foreach(const QString &key, types.keys()) { // krazy:exclude=foreach
-        m_comboBox->addItem(key, QVariant::fromValue((types[key])));
+        m_editField->addItem(key, QVariant::fromValue((types[key])));
     }
 
     // select the given parameter
     if (type) {
-        int currentIndex = m_comboBox->findText(type->name());
+        int currentIndex = m_editField->findText(type->name());
         if (currentIndex > -1) {
-            m_comboBox->setCurrentIndex(currentIndex);
+            m_editField->setCurrentIndex(currentIndex);
         }
-        m_comboBox->completionObject()->addItem(type->name());
+        m_editField->completionObject()->addItem(type->name());
     }
 }

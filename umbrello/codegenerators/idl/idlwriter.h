@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003                                                    *
- *   Oliver Kellogg <okellogg@users.sourceforge.net>                       *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003-2021 Oliver Kellogg <okellogg@users.sourceforge.net>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef IDLWRITER_H
 #define IDLWRITER_H
@@ -37,7 +32,7 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
     virtual QStringList reservedKeywords() const;
 

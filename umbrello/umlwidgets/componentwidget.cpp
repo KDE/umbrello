@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "componentwidget.h"
@@ -20,6 +15,11 @@
 #include "umldoc.h"
 #include "package.h"
 #include "portwidget.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(ComponentWidget)
 
 /**
  * Constructs a ComponentWidget.
@@ -55,7 +55,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    UMLComponent *umlcomp = m_umlObject->asUMLComponent();
+    const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
     if (umlcomp == 0)
         return;
     setPenFromSettings(painter);
@@ -146,7 +146,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
         return;
     }
     UMLWidget::adjustAssocs(dx, dy);
-    UMLPackage *comp = m_umlObject->asUMLPackage();
+    const UMLPackage *comp = m_umlObject->asUMLPackage();
     foreach (UMLObject *o, comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
@@ -158,13 +158,35 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
 }
 
 /**
+ * Override method from UMLWidget for adjustment of attached PortWidgets.
+ */
+void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
+{
+    if (m_doc->loading()) {
+        // don't recalculate the assocs during load of XMI
+        // -> return immediately without action
+        return;
+    }
+    UMLWidget::adjustUnselectedAssocs(dx, dy);
+    const UMLPackage *comp = m_umlObject->asUMLPackage();
+    foreach (UMLObject *o, comp->containedObjects()) {
+        uIgnoreZeroPointer(o);
+        if (o->baseType() != UMLObject::ot_Port)
+            continue;
+        UMLWidget *portW = m_scene->widgetOnDiagram(o->id());
+        if (portW)
+            portW->adjustUnselectedAssocs(dx, dy);
+    }
+}
+
+/**
  * Saves to the "componentwidget" XMI element.
  */
-void ComponentWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ComponentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("componentwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("componentwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -196,7 +218,7 @@ QSizeF ComponentWidget::minimumSize() const
 
     int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    UMLComponent *umlcomp = m_umlObject->asUMLComponent();
+    const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
     if (umlcomp && umlcomp->getExecutable()) {
         width  += 2;
         height += 2;

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef ADAWRITER_H
 #define ADAWRITER_H
@@ -41,7 +37,7 @@ public:
 
     virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
     virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
 
@@ -57,7 +53,7 @@ private:
                                  UMLAssociation *a,
                                  QString& typeName, QString& roleName);
 
-    static bool isOOClass(UMLClassifier *c);
+    static bool isOOClass(const UMLClassifier *c);
 
     QString className(UMLClassifier *c, bool inOwnScope = true);
 

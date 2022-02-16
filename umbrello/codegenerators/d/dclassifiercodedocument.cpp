@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dclassifiercodedocument.h"
@@ -25,6 +21,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(DClassifierCodeDocument)
 
 /**
  * Constructor.
@@ -66,12 +64,12 @@ bool DClassifierCodeDocument::forceDoc()
 }
 
 // We overwritten by D language implementation to get lowercase path
-QString DClassifierCodeDocument::getPath()
+QString DClassifierCodeDocument::getPath() const
 {
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplified();
+    path = path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
@@ -84,7 +82,7 @@ QString DClassifierCodeDocument::getPath()
     return path;
 }
 
-QString DClassifierCodeDocument::getDClassName(const QString &name)
+QString DClassifierCodeDocument::getDClassName(const QString &name) const
 {
     return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }
@@ -108,7 +106,7 @@ void DClassifierCodeDocument::init()
 
 /**
  * Add a code operation to this d classifier code document.
- * In the vannilla version, we just tack all operations on the end
+ * In the vanilla version, we just tack all operations on the end
  * of the document.
  * @param op   the code operation
  * @return bool which is true IF the code operation was added successfully
@@ -151,9 +149,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
                 if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new DCodeComment(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeComment to :"<<this;
+                        logError0("loadFromXMI : unable to add codeComment");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -164,25 +162,25 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"loadFromXMI1 : unable to add codeclassfield child method to:"<<this;
+                        logError0("loadFromXMI : unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlock to :"<<this;
+                        logError0("loadFromXMI : unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"loadFromXMI1 : unable to add codeBlockwithcomments to:"<<this;
+                        logError0("loadFromXMI : unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -191,9 +189,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     // do nothing.. this is treated elsewhere
                 } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -205,28 +203,29 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = new DCodeOperation(this, op);
-                        block->loadFromXMI1(element);
+                        block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("dclassdeclarationblock")) {
                     DClassDeclarationBlock * block = getClassDecl();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add d code declaration block to:"<<this;
+                        logError0("Unable to add d code declaration block");
                         // DON'T delete.
                         // block->deleteLater();
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning";
+                    logDebug1("loadChildTextBlocksFromNode: Got strange tag in text block stack: %1, ignoring",
+                              name);
                 }
                 node = element.nextSibling();
                 element = node.toElement();
@@ -240,7 +239,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        uWarning() << "loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildTextBlocksFromNode : unable to initialize any child blocks in doc: %1", getFileName());
     }
 }
 
@@ -273,7 +272,7 @@ void DClassifierCodeDocument::resetTextBlocks()
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void DClassifierCodeDocument::updateContent()
@@ -471,7 +470,7 @@ void DClassifierCodeDocument::updateContent()
     HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock(QLatin1String("constructorMethods"), QLatin1String("Constructors"), 1);
     constructorBlock = constBlock; // record this codeblock for later, when operations are updated
 
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * constComment = constBlock->getComment();
     CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();

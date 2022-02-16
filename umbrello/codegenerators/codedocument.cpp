@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codedocument.h"
@@ -22,6 +18,7 @@
 // qt includes
 #include <QDateTime>
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -97,7 +94,7 @@ void CodeDocument::setPackage (UMLPackage *new_var)
  * Get the value of the path to this code document.
  * @return the value of m_pathName
  */
-QString CodeDocument::getPath ()
+QString CodeDocument::getPath () const
 {
     QString path = getPackage();
 
@@ -162,7 +159,7 @@ void CodeDocument::setWriteOutCode (bool new_var)
  * owns.
  * @return   the value of m_writeOutCode
  */
-bool CodeDocument::getWriteOutCode ()
+bool CodeDocument::getWriteOutCode () const
 {
     return m_writeOutCode;
 }
@@ -180,7 +177,7 @@ void CodeDocument::setHeader (CodeComment * comment)
  * Get the Header comment object.
  * @return   the comment for the header
  */
-CodeComment * CodeDocument::getHeader ()
+CodeComment * CodeDocument::getHeader () const
 {
     return m_header;
 }
@@ -190,7 +187,7 @@ CodeComment * CodeDocument::getHeader ()
  * @param prefix   the prefix to add
  * @return         the just created unique tag
  */
-QString CodeDocument::getUniqueTag (const QString& prefix)
+QString CodeDocument::getUniqueTag (const QString& prefix) 
 {
     QString tag = prefix ;
     if(tag.isEmpty())
@@ -233,8 +230,8 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
                 return true; // found, and inserted, otherwise keep going
         }
         // ugh. where is the child block?
-        uWarning() << " Warning: couldnt insert text block (tag:" << newBlock->getTag()
-                   << "). Reference text block (tag:" << existingBlock->getTag() << ") not found.";
+        logWarn2("couldnt insert text block (tag %1). Reference text block (tag %2) not found.",
+                 newBlock->getTag(), existingBlock->getTag());
         return false;
     }
 
@@ -278,7 +275,7 @@ QString CodeDocument::cleanName (const QString &name)
  */
 void CodeDocument::updateHeader ()
 {
-    //try to find a heading file (license, coments, etc) then extract its text
+    //try to find a heading file (license, comments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
     headingText.replace(QRegExp(QLatin1String("%filename%")), getFileName()+getFileExtension());
@@ -299,7 +296,7 @@ void CodeDocument::updateHeader ()
  * Create the string representation of this object.
  * @return   the created string
  */
-QString CodeDocument::toString ()
+QString CodeDocument::toString () const
 {
     // IF the whole document is turned "Off" then don't bother
     // checking individual code blocks, just send back empty string
@@ -345,7 +342,7 @@ void CodeDocument::resetTextBlocks()
  * Load params from the appropriate XMI element node.
  * @param root   the starting point for loading
  */
-void CodeDocument::loadFromXMI1 (QDomElement & root)
+void CodeDocument::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -354,27 +351,27 @@ void CodeDocument::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void CodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    CodeGenObjectWithTextBlocks::setAttributesOnNode(doc, docElement);
+    CodeGenObjectWithTextBlocks::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    docElement.setAttribute(QLatin1String("fileName"), getFileName());
-    docElement.setAttribute(QLatin1String("fileExt"), getFileExtension());
+    writer.writeAttribute(QLatin1String("fileName"), getFileName());
+    writer.writeAttribute(QLatin1String("fileExt"), getFileExtension());
     Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
-    docElement.setAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
-    docElement.setAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
+    writer.writeAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
+    writer.writeAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
                                                                              : QLatin1String("false"));
-    docElement.setAttribute(QLatin1String("id"), ID());
+    writer.writeAttribute(QLatin1String("id"), ID());
 
     // set the a header
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getHeader()->saveToXMI1(doc, commElement); // comment
-    docElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getHeader()->saveToXMI(writer); // comment
+    writer.writeEndElement();
 
     // doc codePolicy?
     // FIX: store ONLY if different from the parent generator
@@ -418,7 +415,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getHeader()->loadFromXMI1(celem);
+            getHeader()->loadFromXMI(celem);
             break;
         }
         node = element.nextSibling();
@@ -431,14 +428,13 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
 
 /**
  * Save the XMI representation of this object.
- * @param doc   the xmi document
- * @param root  the starting point to append
+ * @param writer QXmlStreamWriter serialization target
  */
-void CodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
-    setAttributesOnNode(doc, docElement);
-    root.appendChild(docElement);
+    writer.writeStartElement(QLatin1String("codedocument"));
+    setAttributesOnNode(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -500,7 +496,7 @@ void CodeDocument::addChildTagToMap (const QString &tag, TextBlock * tb)
  * @param descendIntoChildren   look down the hierarchy
  * @return                      the found text block
  */
-TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendIntoChildren)
+TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendIntoChildren) const
 {
     //if we already know to which file this class was written/should be written, just return it.
     if (m_textBlockTagMap.contains(tag))
@@ -515,11 +511,11 @@ TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendInt
 
 /**
  * Have to implement this for CodeObjectWithTextBlocks.
- * Actually does not do anythying for a vannilla code document.
+ * Actually does not do anything for a vanilla code document.
  */
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
-    uWarning() << "Called findCodeClassFieldMethodByTag(" << tag << ") for a regular CodeDocument";
+    logWarn1("Called findCodeClassFieldMethodByTag(%1) for a regular CodeDocument", tag);
     return 0;
 }
 

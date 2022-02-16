@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "cmdcreateumlobject.h"
 
@@ -52,12 +47,11 @@ namespace Uml
         // This object was removed from its package when it was deleted
         // so add it back to its package (if it belonged to one)
         if (m_package) {
-            if (m_package->baseType() != UMLObject::ot_Association) {
-                // add this object to its parent package
-                m_package->addObject(m_obj);
-            }
-            else
-                uError() << "Try to use an unsupported Association as parent";
+            Q_ASSERT(m_package->baseType() != UMLObject::ot_Association);
+            // add this object to its parent package
+            m_package->addObject(m_obj);
+        } else {
+            logError1("CmdCreateUMLObject::redo: UMLPackage of %1 is not set", m_obj->name());
         }
 
         // The first call to redo, the object was created and signalled by the

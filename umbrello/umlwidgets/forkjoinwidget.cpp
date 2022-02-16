@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "forkjoinwidget.h"
@@ -19,6 +14,9 @@
 
 // qt includes
 #include <QColorDialog>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(ForkJoinWidget)
 
 /**
  * Constructs a ForkJoinWidget.
@@ -76,12 +74,12 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
- * Reimplemented from UMLWidget::loadFromXMI1 to load widget
+ * Reimplemented from UMLWidget::loadFromXMI to load widget
  * info from XMI element - 'forkjoin'.
  */
-bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
+bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
 
@@ -98,19 +96,19 @@ bool ForkJoinWidget::loadFromXMI1(QDomElement& qElement)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI1 to save widget info
+ * Reimplemented from UMLWidget::saveToXMI to save widget info
  * into XMI element - 'forkjoin'.
  */
-void ForkJoinWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ForkJoinWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement fjElement = qDoc.createElement(QLatin1String("forkjoin"));
-    UMLWidget::saveToXMI1(qDoc, fjElement);
+    writer.writeStartElement(QLatin1String("forkjoin"));
+    UMLWidget::saveToXMI(writer);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;
     }
-    fjElement.setAttribute(QLatin1String("drawvertical"), drawVertical);
-    qElement.appendChild(fjElement);
+    writer.writeAttribute(QLatin1String("drawvertical"), QString::number(drawVertical));
+    writer.writeEndElement();
 }
 
 /**
@@ -140,17 +138,11 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Fill_Color:
         showPropertiesDialog();
         break;
-
-    case ListPopupMenu::mt_Flip:
-        switch (m_orientation) {
-        case Qt::Vertical:
-            setOrientation(Qt::Horizontal);
-            break;
-        case Qt::Horizontal:
-        default:
-            setOrientation(Qt::Vertical);
-            break;
-        }
+    case ListPopupMenu::mt_FlipHorizontal:
+        setOrientation(Qt::Horizontal);
+        break;
+    case ListPopupMenu::mt_FlipVertical:
+        setOrientation(Qt::Vertical);
         break;
     default:
         break;

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "toolbarstateother.h"
@@ -69,10 +64,9 @@ void ToolBarStateOther::setCurrentElement()
  * Associations, widgets and actual empty spaces are all treated as empty
  * spaces. It creates a new widget if the left button was released.
  * The widget to create depends on the type of the toolbar button selected.
- * If the widget is the visual representation of an UMLObject, the object
+ * If the widget is the visual representation of a UMLObject, the object
  * factory handles its creation. Otherwise, the widget is created using
  * newWidget().
- * The UMLView is resized to fit on all the items.
  */
 void ToolBarStateOther::mouseReleaseEmpty()
 {
@@ -83,8 +77,6 @@ void ToolBarStateOther::mouseReleaseEmpty()
             m_pUMLScene->setCreateObject(true);
             Object_Factory::createUMLObject(getObjectType());
         }
-
-        m_pUMLScene->resizeSceneToItems();
     }
 }
 
@@ -92,7 +84,7 @@ void ToolBarStateOther::mouseReleaseEmpty()
  * Returns the object type of this tool.
  * @return The object type of this tool.
  */
-UMLObject::ObjectType ToolBarStateOther::getObjectType()
+UMLObject::ObjectType ToolBarStateOther::getObjectType() const
 {
     UMLObject::ObjectType ot;
 
@@ -124,6 +116,9 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
     case WorkToolBar::tbb_Interface:
         ot = UMLObject::ot_Interface;
         break;
+    case WorkToolBar::tbb_Interface_Provider:
+        ot = UMLObject::ot_Interface;
+        break;
     case WorkToolBar::tbb_Enum:
         ot = UMLObject::ot_Enum;
         break;
@@ -138,6 +133,9 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType()
         break;
     case WorkToolBar::tbb_Instance:
         ot = UMLObject::ot_Instance;
+        break;
+    case WorkToolBar::tbb_SubSystem:
+        ot = UMLObject::ot_SubSystem;
         break;
     default:
         ot = UMLObject::ot_UMLObject;
@@ -332,7 +330,8 @@ bool ToolBarStateOther::newWidget()
         }
         break;
     default:
-        uWarning() << "Unknown ToolBar_Buttons: " << QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton()));
+        logWarn1("ToolBarStateOther::newWidget unknown ToolBar_Buttons: %1",
+                 QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton())));
         break;
     }
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2016                                              *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umldatatypewidget.h"
 
@@ -30,8 +25,10 @@
 #include <QLabel>
 #include <QWidget>
 
+DEBUG_REGISTER(UMLDatatypeWidget)
+
 UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
-  : QWidget(parent),
+ :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
     m_attribute(attribute),
     m_datatype(0),
     m_entityAttribute(0),
@@ -44,7 +41,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
-  : QWidget(parent),
+ :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
     m_attribute(0),
     m_datatype(datatype),
     m_entityAttribute(0),
@@ -57,7 +54,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
-   : QWidget(parent),
+  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
      m_attribute(0),
      m_datatype(0),
      m_entityAttribute(entityAttribute),
@@ -70,7 +67,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidge
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
- :  QWidget(parent),
+ :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
     m_attribute(0),
     m_datatype(0),
     m_entityAttribute(0),
@@ -83,7 +80,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
- :  QWidget(parent),
+ :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
     m_attribute(0),
     m_datatype(0),
     m_entityAttribute(0),
@@ -97,26 +94,7 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
 
 void UMLDatatypeWidget::init()
 {
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Type:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox);
-    m_label->setBuddy(m_comboBox);
-
-    m_comboBox->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    setLayout(layout);
-}
-
-UMLDatatypeWidget::~UMLDatatypeWidget()
-{
-    delete m_comboBox;
-    delete m_label;
+    connect(m_editField, SIGNAL(editTextChanged(QString)), this, SIGNAL(editTextChanged(QString)));
 }
 
 bool UMLDatatypeWidget::apply()
@@ -136,7 +114,7 @@ bool UMLDatatypeWidget::apply()
 
 bool UMLDatatypeWidget::applyAttribute()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = m_editField->currentText();
     UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
@@ -182,7 +160,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
 bool UMLDatatypeWidget::applyEntityAttribute()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = m_editField->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes) {
@@ -210,7 +188,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 
 bool UMLDatatypeWidget::applyOperation()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = m_editField->currentText();
     UMLTemplate *tmplParam = 0;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
@@ -225,9 +203,10 @@ bool UMLDatatypeWidget::applyOperation()
 bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
-    QString typeName = m_comboBox->currentText();
+    QString typeName = m_editField->currentText();
     if (m_parent == 0) {
-        uError() << "grandparent of " << m_attribute->name() << " is not a UMLClassifier";
+        logError1("UMLDatatypeWidget::applyParameter: grandparent of %1 is not a UMLClassifier",
+                  m_attribute->name());
     } else {
         UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
         if (tmplParam) {
@@ -250,8 +229,8 @@ bool UMLDatatypeWidget::applyParameter()
         // Nothing found: Create a new type on the fly.
         // @todo There should be an extra dialog to decide whether to
         // create a datatype or a class. For now, we create a class.
-        uDebug() << typeName << " not found."
-            << " Creating a new class for the type.";
+        logDebug1("UMLDatatypeWidget::applyParameter: %1 not found. Creating a new class for the type.",
+                  typeName);
         UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
         m_attribute->setType(newObj);
     }
@@ -260,7 +239,7 @@ bool UMLDatatypeWidget::applyParameter()
 
 bool UMLDatatypeWidget::applyTemplate()
 {
-    QString typeName = m_comboBox->currentText();
+    QString typeName = m_editField->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
@@ -287,19 +266,20 @@ void UMLDatatypeWidget::initTypesBox(QStringList &types, const QString& type)
     }
     types.sort();
 
-    m_comboBox->clear();
-    m_comboBox->insertItems(-1, types);
+    m_editField->clear();
+    m_editField->insertItems(-1, types);
 
-    int currentIndex = m_comboBox->findText(type);
+    int currentIndex = m_editField->findText(type);
     if (currentIndex > -1) {
-        m_comboBox->setCurrentIndex(currentIndex);
+        m_editField->setCurrentIndex(currentIndex);
     }
-    m_comboBox->completionObject()->addItem(type);
+    m_editField->completionObject()->addItem(type);
 }
 
 /**
  * Add classes and interfaces from document instance to the given string list.
  * @param types list to store the classes and interfaces
+ * @param fullName if true then insert names including their package path
  */
 void UMLDatatypeWidget::insertTypesFromConcepts(QStringList& types, bool fullName)
 {
@@ -370,7 +350,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // function.
     types << QLatin1String("void");
     // add template parameters
-    UMLClassifier *classifier = m_parent->asUMLClassifier();
+    const UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
         foreach (UMLClassifierListItem* li, tmplParams) {
@@ -391,10 +371,10 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = m_parent->asUMLClassifier();
+    const UMLClassifier *pConcept = m_parent->asUMLClassifier();
     if (pConcept == 0) {
-        uError() << "ParameterPropertiesDialog: grandparent of " << m_attribute->name()
-                 << " is not a UMLClassifier";
+        logError1("UMLDatatypeWidget::insertTypesSortedParameter: grandparent of %1 "
+                  " is not a UMLClassifier", m_attribute->name());
     } else {
         UMLTemplateList tmplParams(pConcept->getTemplateList());
         foreach(UMLTemplate* t, tmplParams) {
@@ -418,16 +398,4 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
     types << QLatin1String("class");
     insertTypesFromConcepts(types, false);
     initTypesBox(types, type);
-}
-
-/**
- * Add this widget to a given grid layout. Umbrello dialogs places labels in column 0
- * and the editable field in column 1.
- * @param layout The layout to which the widget should be added
- * @param row The row in the grid layout where the widget should be placed
- */
-void UMLDatatypeWidget::addToLayout(QGridLayout *layout, int row, int startColumn)
-{
-    layout->addWidget(m_label, row, startColumn);
-    layout->addWidget(m_comboBox, row, startColumn + 1);
 }

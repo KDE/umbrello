@@ -1,21 +1,7 @@
 /*
-    Copyright 2014  Andi Fischer  <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2014 Andi Fischer <andi.fischer@hispeed.ch>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "birdview.h"
 
@@ -30,7 +16,8 @@
 #include <QScrollBar>
 #include <QTimer>
 
-DEBUG_REGISTER_DISABLED(BirdView)
+// Currently this file is not using debug statements. Activate this line when inserting them:
+//DEBUG_REGISTER_DISABLED(BirdView)
 
 #define VERBOSE_DBG_OUT 0
 
@@ -104,7 +91,6 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     if (!m_view)
         return;
     QRectF itemsRect = m_birdView->scene()->itemsBoundingRect();
-    m_birdView->scene()->setSceneRect(itemsRect);
     m_birdView->setSceneRect(itemsRect);
     m_birdView->fitInView(itemsRect, Qt::KeepAspectRatio);
 
@@ -121,7 +107,7 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     wm.scale(scale, scale);
     m_birdView->setMatrix(wm);
 #if VERBOSE_DBG_OUT
-    DEBUG(DBG_SRC) << "setting the size to the scene: " << itemsRect
+    DEBUG() << "setting the size to the scene: " << itemsRect
                    << " / to the frame: " << frameRect
                    << " / scaleW: " << scaleW << " / scaleH: " << scaleH << " / scale: " << scale;
 #endif
@@ -216,7 +202,7 @@ void BirdView::keyPressEvent(QKeyEvent *event)
     if (doMove) {
         event->accept();
 #if VERBOSE_DBG_OUT
-        DEBUG(DBG_SRC) << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
+        DEBUG() << key << " pressed. start=" << m_moveStartPos << ", " << point << " / new=" << newPoint;
 #endif
         QMouseEvent* e = new QMouseEvent(QEvent::MouseMove, newPoint, mapToGlobal(newPoint),
                                          Qt::NoButton, Qt::NoButton, Qt::NoModifier);

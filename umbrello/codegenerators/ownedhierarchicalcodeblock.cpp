@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "ownedhierarchicalcodeblock.h"
@@ -54,22 +50,22 @@ void OwnedHierarchicalCodeBlock::setAttributesFromObject(TextBlock * obj)
  * set attributes of the node that represents this class
  * in the XMI document.
  */
-void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & elem)
+void OwnedHierarchicalCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    HierarchicalCodeBlock::setAttributesOnNode(doc, elem);
-    OwnedCodeBlock::setAttributesOnNode(doc, elem);
+    HierarchicalCodeBlock::setAttributesOnNode(writer);
+    OwnedCodeBlock::setAttributesOnNode(writer);
 
     // set local class attributes
-    elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(getParentObject()->id()));
+    writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(getParentObject()->id()));
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = getParentObject()->asUMLRole();
+    const UMLRole * role = getParentObject()->asUMLRole();
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()
-        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
+        writer.writeAttribute(QLatin1String("role_id"), QString::number((role->role() == Uml::RoleType::A)));
     }
     /* else
             elem.setAttribute("role_id","-1");

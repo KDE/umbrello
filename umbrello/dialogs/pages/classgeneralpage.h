@@ -1,20 +1,17 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CLASSGENERALPAGE_H
 #define CLASSGENERALPAGE_H
 
 #include "dialogpagebase.h"
+#include "n_stereoattrs.h"
 
 class DocumentationWidget;
 class QGroupBox;
+class QGridLayout;
 class QLabel;
 class QRadioButton;
 class QCheckBox;
@@ -38,7 +35,7 @@ class VisibilityEnumWidget;
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassGeneralPage : public DialogPageBase
 {
@@ -84,13 +81,15 @@ private:
     UMLWidget * m_pInstanceWidget;
     UMLDoc * m_pUmldoc;
 
-    QLabel * m_pInstanceL, * m_pStereoTypeL;
+    QGridLayout * m_pNameLayout;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     QCheckBox * m_pExecutableCB;
     DocumentationWidget *m_docWidget;
     UMLObjectNameWidget *m_nameWidget;
     UMLObjectNameWidget *m_instanceNameWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
+    QLabel              *m_pTagL [N_STEREOATTRS];
+    KLineEdit           *m_pTagLE[N_STEREOATTRS];
     UMLPackageWidget *m_packageWidget;
     UMLArtifactTypeWidget *m_artifactTypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;
@@ -99,6 +98,7 @@ private:
     void setInstanceWidgetNameIfApplicable(const QString& name) const;
 
 public slots:
+    void slotStereoTextChanged(const QString &);
     void slotActorToggled(bool state);
 };
 

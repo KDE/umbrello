@@ -1,23 +1,19 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
+#include "associationline.h"
 #include "associationwidgetlist.h"
+#include "associationwidgetrole.h"
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 
-class AssociationLine;
 class ClassifierWidget;
 class UMLScene;
 class UMLAssociation;
@@ -45,7 +41,7 @@ class UMLOperation;
  * @author Gustavo Madrigal
  * @author Gopala Krishna
  * @short This class represents an association inside a diagram.
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class AssociationWidget : public WidgetBase, public LinkWidget
 {
@@ -128,8 +124,6 @@ public:
     UMLWidget* widgetForRole(Uml::RoleType::Enum role) const;
     void setWidgetForRole(UMLWidget* widget, Uml::RoleType::Enum role);
 
-    bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
-
     bool containsAsEndpoint(UMLWidget* widget);
 
     Uml::AssociationType::Enum associationType() const;
@@ -143,9 +137,10 @@ public:
     bool isActivated() const;
     void setActivated(bool active);
 
-    AssociationLine* associationLine() const;
+    const AssociationLine& associationLine() const;
+    AssociationLine& associationLine();
 
-    virtual bool activate();
+    virtual bool activate(IDChangeLog *changeLog = 0);
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 
@@ -181,15 +176,17 @@ public:
 
     void clipSize();
 
-    bool loadFromXMI1(QDomElement& qElement, const UMLWidgetList& widgets,
+    bool loadFromXMI(QDomElement& qElement, const UMLWidgetList& widgets,
                      const MessageWidgetList* messages);
-    virtual bool loadFromXMI1(QDomElement& qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     void cleanup();
 
     bool isPointAddable();
     bool isPointRemovable();
+    bool isAutoLayouted();
+    bool isLayoutChangeable();
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -197,6 +194,7 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
     virtual void setSelected(bool _select);
+
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
@@ -224,7 +222,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
-    static qreal findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
+    static bool findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point, qreal &result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
@@ -234,42 +232,12 @@ private:
 
     static QPointF swapXY(const QPointF &p);
 
-    // not used at the moment
-    // static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
-    // static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
-    // static float perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
-
     static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
     void createPointsSelfAssociation();
     void updatePointsSelfAssociation();
     void createPointsException();
     void updatePointsException();
-
-    /**
-     * The WidgetRole struct gathers all information pertaining to the role.
-     * The AssociationWidget class contains two WidgetRole objects, one for each
-     * side of the association (A and B).
-     */
-    struct WidgetRole {
-
-        FloatingTextWidget* multiplicityWidget;   ///< information regarding multiplicity
-        FloatingTextWidget* changeabilityWidget;  ///< information regarding changeability
-        FloatingTextWidget* roleWidget;           ///< role's label of this association
-
-        UMLWidget* umlWidget;    ///< UMLWidget at this role's side of this association
-
-        Uml::Region::Enum     m_WidgetRegion;   ///< region of this role's widget
-
-        int m_nIndex;        ///< the index of where the line is on the region for this role
-        int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
-
-        // The following items are only used if m_pObject is not set.
-        Uml::Visibility::Enum     visibility;
-        Uml::Changeability::Enum  changeability;
-        QString                   roleDocumentation;
-
-    };
 
     void updateRegionLineCount(int index, int totalCount,
                                Uml::Region::Enum region, Uml::RoleType::Enum role);
@@ -284,8 +252,9 @@ private:
 
     bool checkAddPoint(const QPointF &scenePos);
     bool checkRemovePoint(const QPointF &scenePos);
+    bool checkAutoLayoutSpline();
 
-    bool linePathStartsAt(const UMLWidget* widget);
+    bool linePathStartsAt(const UMLWidget* widget) const;
 
     void insertIntoLists(qreal position, const AssociationWidget* assoc);
 
@@ -317,10 +286,10 @@ private:
     QGraphicsRectItem *m_pAssocClassLineSel0;  ///< selection decoration for the start point of the assoc. class line
     QGraphicsRectItem *m_pAssocClassLineSel1;  ///< selection decoration for the end point of the assoc. class line
 
-    AssociationLine *m_associationLine;      ///< the definition points for the association line
+    AssociationLine   m_associationLine;     ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
-    WidgetRole  m_role[2];
+    AssociationWidgetRole  m_role[2];
     FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
     QPointF m_eventScenePos;           ///< holds scene pos of contextMenuEvent()
 

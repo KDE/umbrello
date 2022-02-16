@@ -11,10 +11,11 @@ Name[el]=Εξαγωγή διάταξης
 Name[en_GB]=Export Layout
 Name[es]=Exportar disposición
 Name[et]=Paigutuse eksport
+Name[eu]=Esportatu antolamendua
 Name[fi]=Vientiasettelu
 Name[fr]=Disposition de l'exportation
 Name[gl]=Exportar a disposición
-Name[hu]=Exportálás elrendezés
+Name[hu]=Elrendezés exportálása
 Name[it]=Disposizione di esportazione
 Name[kk]=Экспорттың орналасуы
 Name[ko]=레이아웃 내보내기
@@ -24,7 +25,7 @@ Name[nb]=Eksporter utforming
 Name[nl]=Indeling exporteren
 Name[nn]=Eksporter utforming
 Name[pa]=ਲੇਆਉਟ ਐਕਸਪੋਰਟ
-Name[pl]=Eksportuj układ
+Name[pl]=Wyeksportuj układ
 Name[pt]=Exportar a Disposição
 Name[pt_BR]=Exportar layout
 Name[ru]=Шаблон экспорта
@@ -50,10 +51,11 @@ Comment[el]=Εξαγωγή διάταξης για Class διαγράμματα
 Comment[en_GB]=Export Layout for Class Diagrams
 Comment[es]=Exportar diseño de diagramas de clases
 Comment[et]=Klassiskeemide paigutuse eksport
+Comment[eu]=Esportatu klase-diagramen antolamendua
 Comment[fi]=Luokkakaavioiden vientiasettelu
 Comment[fr]=Disposition de l'exportation pour les diagrammes de classes
 Comment[gl]=Exportar a disposición para diagramas de clases.
-Comment[hu]=Exportálás elrendezés az osztály diagramokhoz
+Comment[hu]=Osztálydiagramok elrendezésének exportálása
 Comment[it]=Disposizione di esportazione per i diagrammi di classe
 Comment[kk]=Клас диаграмма үшін экспорттың орналасуы
 Comment[ko]=클래스 다이어그램의 레이아웃 내보내기
@@ -61,7 +63,7 @@ Comment[lt]=Eksportuoti išdėstymą Klasių diagramoms
 Comment[nb]=Eksporter utforming for klassediagrammer
 Comment[nl]=Indeling voor klassediagrammen exporteren
 Comment[nn]=Eksporter utforming for klassediagram
-Comment[pl]=Eksportuj układ dla diagramów klas
+Comment[pl]=Wyeksportuj układ dla diagramów klas
 Comment[pt]=Exportar a Disposição dos Diagramas de Classes
 Comment[pt_BR]=Exportar layout para diagramas de classe
 Comment[ru]=Шаблон экспорта для диаграмм классов
@@ -112,7 +114,27 @@ id::type::composition=swap
 id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header file
 #include "categorywidget.h"
@@ -14,11 +9,15 @@
 // local includes
 #include "category.h"
 #include "debug_utils.h"
-#include "umlview.h"
 #include "listpopupmenu.h"
+#include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // qt includes
 #include <QPainter>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(CategoryWidget)
 
 /**
  *  Creates a Category widget.
@@ -106,11 +105,11 @@ QSizeF CategoryWidget::minimumSize() const
 /**
  * Saves this Category to file.
  */
-void CategoryWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void CategoryWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement categoryElement = qDoc.createElement(QLatin1String("categorywidget"));
-    UMLWidget::saveToXMI1(qDoc, categoryElement);
-    qElement.appendChild(categoryElement);
+    writer.writeStartElement(QLatin1String("categorywidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -123,7 +122,8 @@ void CategoryWidget::slotMenuSelection(QAction* action)
 {
     UMLCategory* catObj = umlObject()->asUMLCategory();
     if (!catObj) {
-        uWarning() << "No UMLCategory for this widget.";
+        logWarn1("CategoryWidget::slotMenuSelection(%1): No UMLCategory for this widget",
+                 umlObject()->name());
         return;
     }
 

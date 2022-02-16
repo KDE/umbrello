@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "ownedcodeblock.h"
@@ -21,6 +17,9 @@
 #include "umlrole.h"
 #include "uml.h"
 #include "textblock.h"
+
+// qt includes
+#include <QXmlStreamWriter>
 
 /**
  * Constructor
@@ -78,23 +77,23 @@ void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj)
     }
 }
 
-void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& elem)
+void OwnedCodeBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set local class attributes
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role) {
-        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
+        writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
         //          in order to maintain backward compatibility.
-        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
+        writer.writeAttribute(QLatin1String("role_id"), QString::number((role->role() == Uml::RoleType::A)));
     }
     else {
-        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(m_parentObject->id()));
+        writer.writeAttribute(QLatin1String("parent_id"), Uml::ID::toString(m_parentObject->id()));
         //elem.setAttribute(QLatin1String("role_id"),QLatin1String("-1"));
     }
 }
@@ -125,7 +124,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
         // might ripple throughout the code and cause problems. Thus, since the
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
-        UMLAssociation * assoc = obj->asUMLAssociation();
+        const UMLAssociation * assoc = obj->asUMLAssociation();
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
@@ -136,9 +135,8 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
             else if (role_id == 0)
                 role = assoc->getUMLRole(Uml::RoleType::B);
             else // this will cause a crash
-                uError() << "corrupt save file? "
-                         << "cant get proper UMLRole for ownedcodeblock uml id:"
-                         << Uml::ID::toString(id) << " w/role_id:" << role_id;
+                logError2("OwnedCodeBlock::setAttributesFromNode: cannot get proper UMLRole for "
+                          "ownedcodeblock uml id: %1 w/role_id: %2", Uml::ID::toString(id), role_id);
 
             // init using UMLRole obj
             initFields (role);
@@ -147,8 +145,8 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
             initFields (obj); // just the regular approach
     } 
     else
-        uError() << "ERROR: cannot load ownedcodeblock: parentUMLObject w/id:"
-                 << Uml::ID::toString(id) << " not found, corrupt save file?";
+        logError1("OwnedCodeBlock::setAttributesFromNode: cannot load ownedcodeblock: parentUMLObject "
+                  "w/id: %1 not found", Uml::ID::toString(id));
 }
 
 void OwnedCodeBlock::initFields(UMLObject * parent)

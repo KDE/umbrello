@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef WORKTOOLBAR_H
 #define WORKTOOLBAR_H
@@ -35,7 +30,7 @@ class KAction;
  *
  * @short The toolbar that is different for each type of diagram.
  * @author Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class WorkToolBar : public KToolBar
 {
@@ -62,8 +57,10 @@ public:
         tbb_Dependency,
         tbb_Association,
         tbb_Containment,
-        tbb_Coll_Message_Synchronous,
-        tbb_Coll_Message_Asynchronous,
+        tbb_Coll_Mesg_Sync,
+        tbb_Coll_Mesg_Async,
+        tbb_Seq_Message_Creation,
+        tbb_Seq_Message_Destroy,
         tbb_Seq_Message_Synchronous,
         tbb_Seq_Message_Asynchronous,
         tbb_Seq_Message_Found,
@@ -86,6 +83,8 @@ public:
         tbb_UseCase,
         tbb_Class,
         tbb_Interface,
+        tbb_Interface_Provider,
+        tbb_Interface_Requirement,
         tbb_Datatype,
         tbb_Enum,
         tbb_Entity,
@@ -119,7 +118,8 @@ public:
         tbb_Category,
         tbb_Category2Parent,
         tbb_Child2Category,
-        tbb_Instance
+        tbb_Instance,
+        tbb_SubSystem
     };
 
 private:
@@ -165,8 +165,10 @@ public slots:
     void slotDependency();
     void slotAssociation();
     void slotContainment();
-    void slotColl_Message_Synchronous();
-    void slotColl_Message_Asynchronous();
+    void slotColl_Mesg_Sync();
+    void slotColl_Mesg_Async();
+    void slotSeq_Message_Creation();
+    void slotSeq_Message_Destroy();
     void slotSeq_Message_Synchronous();
     void slotSeq_Message_Asynchronous();
     void slotSeq_Message_Found();
@@ -186,6 +188,8 @@ public slots:
     void slotUseCase();
     void slotClass();
     void slotInterface();
+    void slotInterfaceProvider();
+    void slotInterfaceRequired();
     void slotDatatype();
     void slotEnum();
     void slotEntity();
@@ -223,6 +227,7 @@ public slots:
     void slotCategory2Parent();
     void slotChild2Category();
     void slotInstance();
+    void slotSubsystem();
 };
 
 #endif

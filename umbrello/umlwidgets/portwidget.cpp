@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2014                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "portwidget.h"
@@ -17,7 +12,9 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "listpopupmenu.h"
+#include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlscene.h"
 #include "componentwidget.h"
 #include "floatingtextwidget.h"
@@ -29,18 +26,19 @@
 #include <QPainter>
 #include <QToolTip>
 
+DEBUG_REGISTER_DISABLED(PortWidget)
+
 /**
  * Constructs a PortWidget.
  *
- * @param scene   The parent of this PortWidget.
+ * @param scene   The parent scene of this PortWidget.
  * @param d       The UMLPort this will be representing.
+ * @param owner   The owning widget to which this PortWidget is attached.
  */
-PortWidget::PortWidget(UMLScene *scene, UMLPort *d) 
-  : PinPortBase(scene, WidgetBase::wt_Port, d)
+PortWidget::PortWidget(UMLScene *scene, UMLPort *d, UMLWidget *owner)
+  : PinPortBase(scene, WidgetBase::wt_Port, owner, d)
 {
     setToolTip(d->name());
-    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-    setParentItem(scene->widgetOnDiagram(compWidgetId));
 }
 
 /**
@@ -68,12 +66,8 @@ void PortWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString newName = name();
-            bool ok = Dialog_Utils::askName(i18n("Enter Port Name"),
-                                            i18n("Enter the port name :"),
-                                            newName);
-            if (ok) {
+            if (Dialog_Utils::askNewName(WidgetBase::wt_Port, newName))
                 setName(newName);
-            }
         }
         break;
 

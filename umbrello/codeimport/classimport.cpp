@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2006-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "classimport.h"
 
 // app includes
+#define DBG_SRC QLatin1String("ClassImport")
 #include "debug_utils.h"
 #include "folder.h"
 #include "uml.h"
@@ -37,8 +33,9 @@
 #include <QRegExp>
 
 /**
- * Factory method.
+ * Factory method for creating a ClassImport concretization by file extension
  * @param fileName  name of imported file
+ * @param thread    pointer to @ref CodeImpThread within which the importer runs
  * @return the class import object
  */
 ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeImpThread* thread)
@@ -137,9 +134,12 @@ void ClassImport::log(const QString& file, const QString& text)
 {
     if (m_thread) {
         m_thread->emitMessageToLog(file, text);
-    }
-    else {
-        uDebug() << file << " - " << text;
+    } else {
+        QString msg;
+        if (!file.isEmpty())
+            msg.append(file).append(QLatin1String(" - "));
+        msg.append(text);
+        UMLApp::app()->log(msg);
     }
 }
 

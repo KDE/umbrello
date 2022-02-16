@@ -1,19 +1,7 @@
 /* This file is part of KDevelop
-    Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+    SPDX-FileCopyrightText: 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, see
-    <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #ifndef __ast_h
@@ -703,11 +691,19 @@ public:
     }
     void addDeclaration(DeclarationAST::Node& declaration);
 
+    AST* final_()
+    {
+        return m_final.get();
+    }
+
+    void setFinal(AST::Node& final_);
+
 private:
     GroupAST::Node m_winDeclSpec;
     AST::Node m_classKey;
     BaseClauseAST::Node m_baseClause;
     QList<DeclarationAST*> m_declarationList;
+    AST::Node m_final;
 
 private:
     ClassSpecifierAST(const ClassSpecifierAST& source);
@@ -757,6 +753,16 @@ public:
 public:
     EnumSpecifierAST();
 
+    void setClass(bool b);
+    bool isClass() const {
+        return m_isClass;
+    }
+
+    void setEnumBase(TypeSpecifierAST::Node& enumBase);
+    TypeSpecifierAST *enumBase() {
+        return m_enumBase.get();
+    }
+
     void addEnumerator(EnumeratorAST::Node& enumerator);
     QList<EnumeratorAST*> enumeratorList()
     {
@@ -764,6 +770,8 @@ public:
     }
 
 private:
+    bool m_isClass;
+    TypeSpecifierAST::Node m_enumBase;
     QList<EnumeratorAST*> m_enumeratorList;
 
 private:
@@ -1037,12 +1045,19 @@ public:
     }
     void setConstant(AST::Node& constant);
 
-    AST* override()
+    AST* override_()
     {
         return m_override.get();
     }
 
-    void setOverride(AST::Node& override);
+    void setOverride(AST::Node& override_);
+
+    AST* final_()
+    {
+        return m_final.get();
+    }
+
+    void setFinal(AST::Node& final_);
 
     GroupAST* exceptionSpecification()
     {
@@ -1059,6 +1074,7 @@ private:
     AUTO_PTR<class ParameterDeclarationClauseAST> m_parameterDeclarationClause;
     AST::Node m_constant;
     AST::Node m_override;
+    AST::Node m_final;
     GroupAST::Node m_exceptionSpecification;
 
 private:

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CLASSIFIERCODEDOCUMENT_H
 #define CLASSIFIERCODEDOCUMENT_H
@@ -48,24 +44,27 @@ public:
 
     // some Utility methods
 
-    bool parentIsInterface();
-    bool parentIsClass();
+    bool parentIsInterface() const;
+    bool parentIsClass() const;
 
-    bool hasAssociationClassFields();
-    bool hasAttributeClassFields();
-    bool hasObjectVectorClassFields();
-    bool hasClassFields();
+    bool hasAssociationClassFields() const;
+    bool hasAttributeClassFields() const;
+    bool hasObjectVectorClassFields() const;
+    bool hasClassFields() const;
 
-    QList<CodeOperation*> getCodeOperations();
+    QList<const CodeOperation*> getCodeOperations() const;
 
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, Uml::Visibility::Enum visibility);
-    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility::Enum visibility);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              bool isStatic) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              Uml::Visibility::Enum visibility) const;
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType,
+                                              bool isStatic, Uml::Visibility::Enum visibility) const;
 
     CodeClassField * findCodeClassFieldFromParentID (Uml::ID::Type id, int role_id = -1);
 
-    UMLClassifier * getParentClassifier();
+    UMLClassifier * getParentClassifier() const;
 
     void addCodeClassFieldMethods(CodeClassFieldList &list);
 
@@ -80,14 +79,14 @@ public:
 
     virtual void updateContent() = 0;
 
-    virtual void saveToXMI1(QDomDocument &doc, QDomElement &root);
-    virtual void loadFromXMI1(QDomElement &root);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual void loadFromXMI(QDomElement &root);
 
 protected:
 
     void loadClassFieldsFromXMI(QDomElement &childElem);
 
-    virtual void setAttributesOnNode(QDomDocument &doc, QDomElement &blockElement);
+    virtual void setAttributesOnNode(QXmlStreamWriter& writer);
     virtual void setAttributesFromNode(QDomElement &element);
 
     TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag);

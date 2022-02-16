@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Vincent Decorges <vincent.decorges@eivd.ch>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef PYTHONWRITER_H
 #define PYTHONWRITER_H
@@ -37,7 +33,7 @@ public:
 
     virtual QStringList reservedKeywords() const;
 
-    QStringList defaultDatatypes();
+    QStringList defaultDatatypes() const;
 
 private:
 
@@ -46,6 +42,11 @@ private:
     void writeOperations(UMLClassifier *c, QTextStream &h);
     void writeOperations(const QString& classname, UMLOperationList &opList,
                          QTextStream &h, Uml::Visibility::Enum access);
+
+    static bool hasContainer(const QString &string);
+
+    static QString fixTypeName(const QString &string);
+    QString findIncludeFromType(const QString &string);
 
     bool m_bNeedPass;  ///< True as long as no "pass" has been written
 };

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "regionwidget.h"
@@ -18,9 +13,14 @@
 // kde includes
 #include <KLocalizedString>
 
-#define REGION_MARGIN 5
-#define REGION_WIDTH 90
+// qt includes
+#include <QXmlStreamWriter>
+
+#define REGION_MARGIN  5
+#define REGION_WIDTH  90
 #define REGION_HEIGHT 45
+
+DEBUG_REGISTER_DISABLED(RegionWidget)
 
 /**
  * Creates a Region widget.
@@ -83,22 +83,22 @@ QSizeF RegionWidget::minimumSize() const
 /**
  * Saves region widget to XMI element.
  */
-void RegionWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void RegionWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement regionElement = qDoc.createElement(QLatin1String("regionwidget"));
-    UMLWidget::saveToXMI1(qDoc, regionElement);
-    regionElement.setAttribute(QLatin1String("regionname"), name());
-    regionElement.setAttribute(QLatin1String("documentation"), documentation());
+    writer.writeStartElement(QLatin1String("regionwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("regionname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
 
-    qElement.appendChild(regionElement);
+    writer.writeEndElement();
 }
 
 /**
  * Loads region widget from XMI element.
  */
-bool RegionWidget::loadFromXMI1(QDomElement& qElement)
+bool RegionWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     setName(qElement.attribute(QLatin1String("regionname")));

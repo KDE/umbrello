@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2003-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlforeignkeyconstraintdialog.h"
 
@@ -46,7 +41,7 @@
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
-typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
+DEBUG_REGISTER(UMLForeignKeyConstraintDialog)
 
 /**
  *  Sets up the UMLForeignKeyConstraintDialog
@@ -138,13 +133,14 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_pReferencedAttributeList.append(pair.second);
 
     // add them to the view (combo boxes)
-    uDebug() << (pair.first) << (pair.second);
+    logDebug2("UMLForeignKeyConstraintDialog::slotDeletePair: %1 %2",
+              pair.first->name(), pair.second->name());
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::SignatureType::SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::SignatureType::SigNoVis));
 
     foreach(const EntityAttributePair& p, m_pAttributeMapList) {
-        uDebug() << (p.first)->name() << " " << (p.first)->baseType() << " "
-                 << (p.second)->name() << " " << (p.second)->baseType();
+        logDebug4("UMLForeignKeyConstraintDialog::slotDeletePair: AttributeMapList %1 %2 / %3 %4",
+                  p.first->name(), p.first->baseType(), p.second->name(), p.second->baseType());
     }
 
     slotResetWidgetState();
@@ -158,12 +154,15 @@ bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
-    UMLObject* uo = m_doc->findUMLObject(entityName, UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  entityName,
+                                                  UMLObject::ot_Entity);
 
     UMLEntity* ue = uo->asUMLEntity();
 
     if (ue == 0) {
-        uDebug() << " Could not find UML Entity with name " << entityName;
+        logDebug1("UMLForeignKeyConstraintDialog::apply: Could not find UML Entity with name %1",
+                  entityName);
         return false;
     }
 
@@ -188,6 +187,9 @@ bool UMLForeignKeyConstraintDialog::apply()
 
     // set the name
     m_pForeignKeyConstraint->setName(m_GeneralWidgets.nameT->text());
+
+    // propagate changes to tree view
+    m_pForeignKeyConstraint->emitModified();
 
     return true;
 }
@@ -422,10 +424,11 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
 
     // fill the combo boxes
 
-    UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
-                                         UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObjectRecursive(Uml::ModelType::EntityRelationship,
+                                                  m_GeneralWidgets.referencedEntityCB->currentText(),
+                                                  UMLObject::ot_Entity);
 
-    UMLEntity* ue = uo->asUMLEntity();
+    const UMLEntity* ue = uo->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
@@ -441,7 +444,7 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     m_pLocalAttributeList.clear();
     m_ColumnWidgets.localColumnCB->clear();
     // fill the combo boxes
-    UMLEntity* ue = m_pForeignKeyConstraint->umlParent()->asUMLEntity();
+    const UMLEntity* ue = m_pForeignKeyConstraint->umlParent()->asUMLEntity();
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);

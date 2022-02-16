@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlscene.h"
@@ -23,13 +18,15 @@
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "classoptionspage.h"
+#include "component.h"
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatype.h"
 #include "diagram_utils.h"
 #include "pinportbase.h"
 #include "datatypewidget.h"
-#include "debug_utils.h"
+#define DBG_SRC QLatin1String("UMLScene")
+#include "debug_utils.h"   // we cannot use the predefined DBG_SRC due to class UMLScenePrivate
 #include "dialog_utils.h"
 #include "docwindow.h"
 #include "entity.h"
@@ -40,6 +37,7 @@
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
+#include "interfacewidget.h"
 #include "import_utils.h"
 #include "layoutgenerator.h"
 #include "layoutgrid.h"
@@ -52,6 +50,7 @@
 #include "package.h"
 #include "packagewidget.h"
 #include "pinwidget.h"
+#include "portwidget.h"
 #include "seqlinewidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
@@ -86,22 +85,27 @@
 
 // include files for Qt
 #include <QColor>
+#include <QLineF>
 #include <QPainter>
 #include <QPixmap>
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cmath>  // for ceil
 
 // static members
-const qreal UMLScene::defaultCanvasSize = 5000;
-bool UMLScene::m_showDocumentationIndicator = false;
+const qreal UMLScene::s_defaultCanvasWidth  = 1100;
+const qreal UMLScene::s_defaultCanvasHeight =  800;
+const qreal UMLScene::s_maxCanvasSize = 100000.0;
+bool UMLScene::s_showDocumentationIndicator = false;
+
 
 using namespace Uml;
 
-DEBUG_REGISTER(UMLScene)
+DEBUG_REGISTER_DISABLED(UMLScene)
 
 /**
  * The class UMLScenePrivate is intended to hold private
@@ -111,14 +115,155 @@ DEBUG_REGISTER(UMLScene)
  */
 class UMLScenePrivate {
 public:
-    UMLScenePrivate() {}
+    UMLScenePrivate(UMLScene *parent)
+      : p(parent)
+      , toolBarState(nullptr)
+      , inMouseMoveEvent(false)
+    {
+        toolBarStateFactory = new ToolBarStateFactory;
+    }
+
+    ~UMLScenePrivate()
+    {
+        delete toolBarState;
+        delete toolBarStateFactory;
+    }
+    /**
+     * Check if there is a corresponding port widget
+     * for all UMLPort instances and add if not.
+     */
+    void addMissingPorts()
+    {
+        UMLWidgetList ports;
+        UMLWidgetList components;
+
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (w->isPortWidget())
+                ports.append(w);
+            else if (w->isComponentWidget())
+                components.append(w);
+        }
+
+        foreach(UMLWidget *cw, components) {
+            const UMLComponent *c = cw->umlObject()->asUMLComponent();
+            if (!c)
+                continue;
+            // iterate through related ports for this component widget
+            foreach(UMLObject *o, c->containedObjects()) {
+                UMLPort *up = o->asUMLPort();
+                if (!up)
+                    continue;
+                Uml::ID::Type id = o->id();
+                bool found = false;
+                foreach(UMLWidget *p, ports) {
+                    if (p->id() == id) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    new PortWidget(p, up, cw);
+            }
+        }
+    }
+
+    /**
+     * Check if port are located equally on the border of a component
+     * and fix position if not.
+     */
+    void fixPortPositions()
+    {
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (w->isPortWidget()) {
+                QGraphicsItem *g = w->parentItem();
+                ComponentWidget *c = dynamic_cast<ComponentWidget*>(g);
+                Q_ASSERT(c);
+                qreal w2 = w->width()/2;
+                qreal h2 = w->height()/2;
+                if (w->x() <= -w2 || w->y() <= -h2
+                        || w->x() >= c->width() - w2
+                        || w->y() >= c->height() - h2)
+                    continue;
+                if (w->x() >= c->width() - 3 * w2) { // right
+                    w->setX(c->width() - w2);
+                } else if (w->y() >= c->height() - 3 * h2) { // bottom
+                    w->setY(c->height() - h2);
+                } else if (w->x() < 3 * w2) { // left
+                    w->setX(-w2);
+                } else if (w->y() < 3 * h2) { // top
+                    w->setY(-h2);
+                } else
+                    logWarn1("UMLScenePrivate::fixPortPositions unhandled widget %1 position", w->name());
+            }
+        }
+    }
+
+    /**
+     * Check if duplicated floating text labels are in the scene and remove them
+     */
+    void removeDuplicatedFloatingTextInstances()
+    {
+        UMLWidgetList labelsWithoutParents;
+        UMLWidgetList labelsWithParent;
+        const QString pName(p->name());
+        logDebug2("UMLScenePrivate::removeDuplicatedFloatingTextInstances checking diagram %1 id %2",
+                  pName, Uml::ID::toString(p->ID()));
+
+        foreach(UMLWidget *w, p->widgetList()) {
+            if (!w->isTextWidget())
+                continue;
+            if (w->parentItem())
+                labelsWithParent.append(w);
+            else
+                labelsWithoutParents.append(w);
+        }
+        foreach(UMLWidget *w, labelsWithoutParents) {
+            foreach(UMLWidget *wp, labelsWithParent) {
+                if (w->id() == wp->id() &&
+                        w->localID() == wp->localID() &&
+                        w->name() == wp->name()) {
+                    p->removeWidgetCmd(w);
+                    logDebug2("UMLScenePrivate::removeDuplicatedFloatingTextInstances removed "
+                              "duplicated text label %1 id %2", w->name(), Uml::ID::toString(w->id()));
+                    break;
+                }
+            }
+        }
+    }
+
+    void setToolBarChanged(WorkToolBar::ToolBar_Buttons button)
+    {
+        if (toolBarState)
+            toolBarState->cleanBeforeChange();
+        toolBarState = toolBarStateFactory->getState(button, p);
+        toolBarState->init();
+        p->setPaste(false);
+    }
+
+    void triggerToolBarButton(WorkToolBar::ToolBar_Buttons button)
+    {
+        UMLApp::app()->workToolBar()->buttonChanged(button);
+        setToolBarChanged(button);
+        QGraphicsSceneMouseEvent event;
+        event.setScenePos(p->pos());
+        event.setButton(Qt::LeftButton);
+        toolBarState->mousePress(&event);
+        toolBarState->mouseRelease(&event);
+        p->connect(toolBarState, SIGNAL(finished()), UMLApp::app()->workToolBar(), SLOT(slotResetToolBar()));
+    }
+
+    UMLScene *p;
+    ToolBarStateFactory *toolBarStateFactory;
+    ToolBarState *toolBarState;
+    QPointer<WidgetBase> widgetLink;
+    bool inMouseMoveEvent;
 };
 
 /**
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
-  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
+  : QGraphicsScene(0, 0, s_defaultCanvasWidth, s_defaultCanvasHeight),
     m_nLocalID(Uml::ID::None),
     m_nID(Uml::ID::None),
     m_Type(Uml::DiagramType::Undefined),
@@ -133,13 +278,16 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bDrawSelectedOnly(false),
     m_bPaste(false),
     m_bStartedCut(false),
-    m_d(new UMLScenePrivate),
+    m_d(new UMLScenePrivate(this)),
     m_view(view),
     m_pFolder(parentFolder),
     m_pIDChangesLog(0),
     m_isActivated(false),
     m_bPopupShowing(false),
-    m_autoIncrementSequence(false)
+    m_autoIncrementSequence(false),
+    m_minX(s_maxCanvasSize), m_minY(s_maxCanvasSize),
+    m_maxX(0.0), m_maxY(0.0),
+    m_fixX(0.0), m_fixY(0.0)
 {
     m_PastePoint = QPointF(0, 0);
 
@@ -148,10 +296,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     // setup signals
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
-    // Create the ToolBarState factory. This class is not a singleton, because it
-    // needs a pointer to this object.
-    m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
+    m_d->setToolBarChanged(WorkToolBar::tbb_Arrow);
 
     m_doc = UMLApp::app()->document();
 
@@ -183,8 +328,6 @@ UMLScene::~UMLScene()
     blockSignals(true);
     removeAllWidgets();
 
-    delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = 0;
     delete m_layoutGrid;
     delete m_d;
 }
@@ -248,7 +391,7 @@ void UMLScene::setAutoIncrementSequence(bool state)
 QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
-    if (type() == Uml::DiagramType::Sequence) {
+    if (isSequenceDiagram()) {
         foreach (MessageWidget* message, messageList()) {
             bool ok;
             int value = message->sequenceNumber().toInt(&ok);
@@ -256,7 +399,7 @@ QString UMLScene::autoIncrementSequenceValue()
                sequenceNumber = value;
         }
     }
-    else if (type() == Uml::DiagramType::Collaboration) {
+    else if (isCollaborationDiagram()) {
         foreach (AssociationWidget* assoc, associationList()) {
             bool ok;
             int value = assoc->sequenceNumber().toInt(&ok);
@@ -320,7 +463,7 @@ void UMLScene::setID(Uml::ID::Type id)
  */
 QPointF UMLScene::pos() const
 {
-    return m_Pos;
+    return m_pos;
 }
 
 /**
@@ -328,7 +471,7 @@ QPointF UMLScene::pos() const
  */
 void UMLScene::setPos(const QPointF &pos)
 {
-    m_Pos = pos;
+    m_pos = pos;
 }
 
 /**
@@ -447,9 +590,9 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
 }
 
 /**
- * Returns a reference to the association list.
+ * Returns the association list.
  */
-const AssociationWidgetList UMLScene::associationList() const
+AssociationWidgetList UMLScene::associationList() const
 {
     AssociationWidgetList result;
     foreach(QGraphicsItem *item, items()) {
@@ -461,9 +604,9 @@ const AssociationWidgetList UMLScene::associationList() const
 }
 
 /**
- * Returns a reference to the widget list.
+ * Returns the widget list.
  */
-const UMLWidgetList UMLScene::widgetList() const
+UMLWidgetList UMLScene::widgetList() const
 {
     UMLWidgetList result;
     foreach(QGraphicsItem *item, items()) {
@@ -477,6 +620,8 @@ const UMLWidgetList UMLScene::widgetList() const
 void UMLScene::addWidgetCmd(UMLWidget* widget)
 {
     Q_ASSERT(0 != widget);
+    logDebug5("UMLScene::addWidgetCmd(%1) : x=%2, y=%3, w=%4, h=%5",
+              widget->name(), widget->x(), widget->y(), widget->width(), widget->height());
     addItem(widget);
 }
 
@@ -487,9 +632,9 @@ void UMLScene::addWidgetCmd(AssociationWidget* widget)
 }
 
 /**
- * Returns a reference to the message list.
+ * Returns the message list.
  */
-const MessageWidgetList UMLScene::messageList() const
+MessageWidgetList UMLScene::messageList() const
 {
     MessageWidgetList result;
     foreach(QGraphicsItem *item, items()) {
@@ -542,7 +687,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     QRect page = pPrinter->pageRect();
 
     // use the painter font metrics, not the screen fm!
-    QFontMetrics fm = pPainter.fontMetrics(); 
+    QFontMetrics fm = pPainter.fontMetrics();
     int fontHeight  = fm.lineSpacing();
 
     if (paper == page) {
@@ -578,12 +723,12 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
     if (setPosition &&
-        (!w->isPinWidget()) &&
-        (!w->isPortWidget()) &&
-        (!w->isObjectWidget())) {
+            !w->isPinWidget() &&
+            !w->isPortWidget() &&
+            !w->isObjectWidget()) {
         // ObjectWidget's position is handled by the widget
-        w->setX(m_Pos.x());
-        w->setY(m_Pos.y());
+        w->setX(m_pos.x());
+        w->setY(m_pos.y());
     }
     w->setVisible(true);
     w->activate();
@@ -591,7 +736,6 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
     w->slotLineWidthChanged(ID());
-    resizeSceneToItems();
     m_doc->setModified();
 
     if (m_doc->loading()) {  // do not emit signals while loading
@@ -649,11 +793,7 @@ void UMLScene::hideEvent(QHideEvent* /*he*/)
  */
 void UMLScene::slotToolBarChanged(int c)
 {
-    m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
-    m_pToolBarState->init();
-
-    m_bPaste = false;
+    m_d->setToolBarChanged((WorkToolBar::ToolBar_Buttons)c);
 }
 
 /**
@@ -662,7 +802,7 @@ void UMLScene::slotToolBarChanged(int c)
  */
 void UMLScene::slotObjectCreated(UMLObject* o)
 {
-    DEBUG(DBG_SRC) << "scene=" << name() << " / object=" << o->name();
+    logDebug2("UMLScene::slotObjectCreated: scene=%1 / object=%2", name(), o->name());
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
@@ -681,30 +821,20 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     m_bCreateObject = false;
 
-    switch (o->baseType()) {
-        case UMLObject::ot_Actor:
-        case UMLObject::ot_UseCase:
-        case UMLObject::ot_Class:
-        case UMLObject::ot_Package:
-        case UMLObject::ot_Component:
-        case UMLObject::ot_Node:
-        case UMLObject::ot_Artifact:
-        case UMLObject::ot_Interface:
-        case UMLObject::ot_Enum:
-        case UMLObject::ot_Entity:
-        case UMLObject::ot_Datatype:
-        case UMLObject::ot_Category:
-        case UMLObject::ot_Instance:
-            createAutoAssociations(newWidget);
-            // We need to invoke createAutoAttributeAssociations()
-            // on all other widgets again because the newly created
-            // widget might saturate some latent attribute assocs.
-            createAutoAttributeAssociations2(newWidget);
-            break;
-        default:
-            break;
+    if (Model_Utils::hasAssociations(o->baseType()))
+    {
+        createAutoAssociations(newWidget);
+        // We need to invoke createAutoAttributeAssociations()
+        // on all other widgets again because the newly created
+        // widget might saturate some latent attribute assocs.
+        createAutoAttributeAssociations2(newWidget);
     }
-    resizeSceneToItems();
+
+    UMLView* cv = activeView();
+    if (cv) {
+        // this should activate the bird view:
+        UMLApp::app()->setCurrentView(cv, false);
+    }
 }
 
 /**
@@ -731,39 +861,38 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned false";
+        logDebug0("UMLScene::dragEnterEvent: UMLDragData::getClip3TypeAndID returned false");
         return;
     }
-    UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid;
-    if (!tidIt.hasNext()) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
-        return;
-    }
-    tid = tidIt.next();
-    UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::ID::Type id = tid->id;
+    const DiagramType::Enum diagramType = type();
 
-    DiagramType::Enum diagramType = type();
+    bool bAccept = true;
+    for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
+        UMLListViewItem::ListViewType lvtype = (*it)->type;
+        Uml::ID::Type id = (*it)->id;
 
-    UMLObject* temp = 0;
-    //if dragging diagram - might be a drag-to-note
-    if (Model_Utils::typeIsDiagram(lvtype)) {
-        e->accept();
-        return;
+        UMLObject* temp = 0;
+        //if dragging diagram - might be a drag-to-note
+        if (Model_Utils::typeIsDiagram(lvtype)) {
+            break;
+        }
+        //can't drag anything onto state/activity diagrams
+        if (diagramType == DiagramType::State || diagramType == DiagramType::Activity) {
+            bAccept = false;
+            break;
+        }
+        //make sure can find UMLObject
+        if (!(temp = m_doc->findObjectById(id))) {
+            logDebug1("UMLScene::dragEnterEvent: object %1 not found", Uml::ID::toString(id));
+            bAccept = false;
+            break;
+        }
+        if (!Model_Utils::typeIsAllowedInDiagram(temp, this)) {
+            logDebug2("UMLScene::dragEnterEvent: %1 is not allowed in diagram type %2", temp->name(), diagramType);
+            bAccept = false;
+            break;
+        }
     }
-    //can't drag anything onto state/activity diagrams
-    if (diagramType == DiagramType::State || diagramType == DiagramType::Activity) {
-        e->ignore();
-        return;
-    }
-    //make sure can find UMLObject
-    if (!(temp = m_doc->findObjectById(id))) {
-        DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
-        e->ignore();
-        return;
-    }
-    bool bAccept = Model_Utils::typeIsAllowedInDiagram(temp, this);
     if (bAccept) {
         e->accept();
     } else {
@@ -786,50 +915,47 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned error";
+        logDebug0("UMLScene::dropEvent: UMLDragData::getClip3TypeAndID returned error");
         return;
     }
-    UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid;
-    if (!tidIt.hasNext()) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
-        return;
-    }
-    tid = tidIt.next();
-    UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::ID::Type id = tid->id;
+    m_pos = e->scenePos();
 
-    if (Model_Utils::typeIsDiagram(lvtype)) {
-        bool breakFlag = false;
-        UMLWidget* w = 0;
-        foreach(w, widgetList()) {
-            if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
-                breakFlag = true;
-                break;
+    for(UMLDragData::LvTypeAndID_List::const_iterator it = tidList.begin(); it != tidList.end(); it++) {
+        UMLListViewItem::ListViewType lvtype = (*it)->type;
+        Uml::ID::Type id = (*it)->id;
+
+        if (Model_Utils::typeIsDiagram(lvtype)) {
+            bool breakFlag = false;
+            UMLWidget* w = 0;
+            foreach(w, widgetList()) {
+                if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
+                    breakFlag = true;
+                    break;
+                }
             }
+            if (breakFlag) {
+                NoteWidget *note = static_cast<NoteWidget*>(w);
+                note->setDiagramLink(id);
+            }
+            continue;
         }
-        if (breakFlag) {
-            NoteWidget *note = static_cast<NoteWidget*>(w);
-            note->setDiagramLink(id);
+        UMLObject* o = m_doc->findObjectById(id);
+        if (!o) {
+            logDebug1("UMLScene::dropEvent: object id=%1 not found", Uml::ID::toString(id));
+            continue;
         }
-        return;
-    }
-    UMLObject* o = m_doc->findObjectById(id);
-    if (!o) {
-        DEBUG(DBG_SRC) << "object id=" << Uml::ID::toString(id) << " not found";
-        return;
-    }
 
-    m_Pos = e->scenePos();
+        UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+        if (!newWidget) {
+            logWarn1("UMLScene::dropEvent could not create widget for uml object %1", o->name());
+            continue;
+        }
 
-    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
-    if (!newWidget) {
-        return;
+        setupNewWidget(newWidget, true);
+        m_pos += QPointF(UMLWidget::DefaultMinimumSize.width(), UMLWidget::DefaultMinimumSize.height());
+        createAutoAssociations(newWidget);
+        createAutoAttributeAssociations2(newWidget);
     }
-
-    setupNewWidget(newWidget);
-    createAutoAssociations(newWidget);
-    createAutoAttributeAssociations2(newWidget);
 }
 
 /**
@@ -838,7 +964,11 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
  */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseMove(ome);
+    if (m_d->inMouseMoveEvent)
+        return;
+    m_d->inMouseMoveEvent = true;
+    m_d->toolBarState->mouseMove(ome);
+    m_d->inMouseMoveEvent = false;
 }
 
 /**
@@ -852,35 +982,12 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         return;
     }
 
-    m_pToolBarState->mousePress(event);
+    m_d->toolBarState->mousePress(event);
 
-    //TODO should be managed by widgets when are selected. Right now also has some
-    //problems, such as clicking on a widget, and clicking to move that widget shows
-    //documentation of the diagram instead of keeping the widget documentation.
-    //When should diagram documentation be shown? When clicking on an empty
-    //space in the diagram with arrow tool?
-    UMLWidget* widget = widgetAt(event->scenePos());
-    if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        UMLApp::app()->docWindow()->showDocumentation(widget);
-        event->accept();
-    }
-    else {
-        AssociationWidget* association = associationAt(event->scenePos());
-        if (association) {
-            DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
-            // the following is done in AssociationWidget::setSelected()
-            // UMLApp::app()->docWindow()->showDocumentation(association, true);
-            // event->accept();
-        }
-        //:TODO: else if (clicking on other elements with documentation) {
-        //:TODO: UMLApp::app()->docWindow()->showDocumentation(umlObject, true);
-        else {
-            // clicking on an empty space in the diagram with arrow tool
-            UMLApp::app()->docWindow()->showDocumentation(this);
-            event->accept();
-        }
-    }
+    // setup document
+    if (selectedItems().count() == 0)
+        UMLApp::app()->docWindow()->showDocumentation(this);
+    event->accept();
 }
 
 /**
@@ -890,7 +997,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     if (!m_doc->loading())
-        m_pToolBarState->mouseDoubleClick(event);
+        m_d->toolBarState->mouseDoubleClick(event);
     if (!event->isAccepted()) {
         // show properties dialog of the scene
         if (m_view->showPropertiesDialog() == true) {
@@ -906,7 +1013,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseRelease(ome);
+    m_d->toolBarState->mouseRelease(ome);
 }
 
 /**
@@ -924,8 +1031,8 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == 0) {
-            uError() << "SeqLineWidget of " << ow->name()
-            << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
+            logError2("UMLScene::onWidgetLine: SeqLineWidget of %1 (id %2) is null",
+                      ow->name(), Uml::ID::toString(ow->localID()));
             continue;
         }
         if (pLine->onWidget(point))
@@ -949,8 +1056,8 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == 0) {
-            uError() << "SeqLineWidget of " << ow->name()
-                     << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
+            logError2("UMLScene::onWidgetDestructionBox: SeqLineWidget of %1 (id %2) is null",
+                      ow->name(), Uml::ID::toString(ow->localID()));
             continue;
         }
         if (pLine->onDestructionBox(point))
@@ -970,15 +1077,20 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 }
 
 /**
- * Tests the given point against all widgets and returns the
- * widget for which the point is within its bounding rectangle.
- * In case of multiple matches, returns the smallest widget.
- * Returns NULL if the point is not inside any widget.
- * TODO: What about using QGraphicsScene::items(...)?
+ * Checks the specified point against all widgets and returns the widget
+ * for which the point is within its bounding box.
+ * @param p Point in scene coordinates to search for
+ * @return Returns the first widget of type UMLWidget returned by QGraphicsScene::items() for multiple matches
+ * @return Returns NULL if the point is not inside any widget.
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    return dynamic_cast<UMLWidget*>(itemAt(p));
+    foreach(QGraphicsItem *item, items(p)) {
+        UMLWidget *w = dynamic_cast<UMLWidget*>(item);
+        if (w)
+            return w;
+    }
+    return nullptr;
 }
 
 /**
@@ -1054,6 +1166,24 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
     }
 
     return 0;
+}
+
+/**
+ * Returns whether a widget is already on the diagram.
+ *
+ * @param type The type of the widget to check for.
+ *
+ * @return Returns pointer to the widget if it is on the diagram, NULL if not.
+ */
+UMLWidget* UMLScene::widgetOnDiagram(WidgetBase::WidgetType type)
+{
+    foreach(UMLWidget *widget, widgetList()) {
+        if (!widget)
+            continue;
+        if (widget->baseType() == type)
+            return widget;
+    }
+    return nullptr;
 }
 
 /**
@@ -1174,6 +1304,16 @@ void UMLScene::removeWidget(UMLWidget * o)
 }
 
 /**
+ * Remove an associationwidget from view (undo command)
+ *
+ * @param w  The associationwidget to remove.
+ */
+void UMLScene::removeWidget(AssociationWidget* w)
+{
+    UMLApp::app()->executeCommand(new CmdRemoveWidget(w));
+}
+
+/**
  * Remove a widget from view.
  *
  * @param o  The widget to remove.
@@ -1195,7 +1335,22 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
 
     o->cleanup();
-    o->setSelectedFlag(false);
+    if (!UMLApp::app()->shuttingDown()) {
+        /* Manipulating the Selected flag during shutdown may crash:
+           UMLWidget::setSelectedFlag ->
+             WidgetBase::setSelected ->
+                QGraphicsObjectWrapper::setSelected ->
+                  QGraphicsItem::setSelected ->
+                    QGraphicsObjectWrapper::itemChange ->
+                      UMLWidget::setSelected ->
+                        UMLApp::slotCopyChanged ->
+                          UMLListView::selectedItemsCount ->
+                            UMLListView::selectedItems ->
+                              Crash somewhere in qobject_cast
+                              (listview already destructed?)
+         */
+        o->setSelectedFlag(false);
+    }
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
@@ -1301,8 +1456,13 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
     UMLWidgetList widgets;
     foreach(QGraphicsItem *item, items) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
-        if (w)
+        if (w) {
             widgets.append(w);
+        } else {
+            WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+            QString name = (wb ? wb->name() : QLatin1String("(null)"));
+            logDebug1("UMLScene::selectedMessageWidgets: %1 is not a MessageWidget", name);
+        }
     }
     return widgets;
 }
@@ -1312,6 +1472,13 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
  */
 void UMLScene::clearSelected()
 {
+    QList<QGraphicsItem *> items = selectedItems();
+    foreach(QGraphicsItem *item, items) {
+        WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
+        if (wb) {
+            wb->setSelected(false);
+        }
+    }
     clearSelection();
     //m_doc->enableCutCopy(false);
 }
@@ -1325,7 +1492,7 @@ void UMLScene::clearSelected()
  */
 void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
-    // DEBUG(DBG_SRC) << "********** m_selectedList count=" << m_selectedList.count();
+    // logDebug1("UMLScene::moveSelectedBy: m_selectedList count=%1", m_selectedList.count());
     foreach(UMLWidget *w, selectedWidgets()) {
         w->moveByLocal(dX, dY);
     }
@@ -1485,7 +1652,12 @@ void UMLScene::deleteSelection()
                 widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             widget->setSelectedFlag(false);
             widget->hide();
-        // message widgets are handled later
+        } else if (widget->isPortWidget()) {
+            UMLObject *o = widget->umlObject();
+            removeWidget(widget);
+            if (o)
+                UMLApp::app()->executeCommand(new CmdRemoveUMLObject(o));
+            // message widgets are handled later
         } else if (!widget->isMessageWidget()){
             removeWidget(widget);
         }
@@ -1493,7 +1665,7 @@ void UMLScene::deleteSelection()
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, selectedAssociations) {
-        removeWidgetCmd(assocwidget);
+        removeWidget(assocwidget);
     }
 
     // we also have to remove selected messages from sequence diagrams
@@ -1553,23 +1725,23 @@ bool UMLScene::isSavedInSeparateFile()
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == 0) {
-        uError() << msgPrefix
-                 << "listView->findUMLObject(this) returns false";
+        logError2("UMLScene::isSavedInSeparateFile(%1) : listView->findItem(%2) returns false",
+                  name(), Uml::ID::toString(m_nID));
         return false;
     }
     UMLListViewItem *parentItem = dynamic_cast<UMLListViewItem*>(lvItem->parent());
     if (parentItem == 0) {
-        uError() << msgPrefix
-                 << "parent item in listview is not a UMLListViewItem (?)";
+        logError1("UMLScene::isSavedInSeparateFile(%1) : parent item in listview is not a UMLListViewItem (?)",
+                  name());
         return false;
     }
     const UMLListViewItem::ListViewType lvt = parentItem->type();
     if (! Model_Utils::typeIsFolder(lvt))
         return false;
-    UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
+    const UMLFolder *modelFolder = parentItem->umlObject()->asUMLFolder();
     if (modelFolder == 0) {
-        uError() << msgPrefix
-                 << "parent model object is not a UMLFolder (?)";
+        logError1("UMLScene::isSavedInSeparateFile(%1) : parent model object is not a UMLFolder (?)",
+                  name());
         return false;
     }
     QString folderFile = modelFolder->folderFile();
@@ -1727,7 +1899,9 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
  */
 void  UMLScene::getDiagram(QPixmap &diagram, const QRectF &rect)
 {
-    DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
+    logDebug4("UMLScene::getDiagram pixmap(w=%1 h=%2) / copyArea(w=%3 h=%4)",
+               diagram.rect().width(), diagram.rect().height(),
+               rect.width(), rect.height());
     QPainter painter(&diagram);
     painter.fillRect(0, 0, rect.width(), rect.height(), Qt::white);
     getDiagram(painter, rect);
@@ -1741,7 +1915,7 @@ void  UMLScene::getDiagram(QPixmap &diagram, const QRectF &rect)
  */
 void  UMLScene::getDiagram(QPainter &painter, const QRectF &source, const QRectF &target)
 {
-    DEBUG(DBG_SRC) << "painter=" << painter.window() << ", source=" << source << ", target=" << target;
+    DEBUG() << "UMLScene::getDiagram painter=" << painter.window() << ", source=" << source << ", target=" << target; //@todo logDebug
     //TODO unselecting and selecting later doesn't work now as the selection is
     //cleared in UMLSceneImageExporter. Check if the anything else than the
     //following is needed and, if it works, remove the clearSelected in
@@ -1765,7 +1939,7 @@ void  UMLScene::getDiagram(QPainter &painter, const QRectF &source, const QRectF
     QRectF alignedSource(source);
     alignedSource.adjust(-sourceMargin, -sourceMargin, sourceMargin, sourceMargin);
 
-    uDebug() << "TODO: Check if this render method is identical to cavnas()->drawArea()";
+    logDebug0("UMLScene::getDiagram TODO: Check if this render method is identical to canvas()->drawArea()");
     // [PORT]
     render(&painter, target, alignedSource, Qt::KeepAspectRatio);
 
@@ -1835,8 +2009,8 @@ void UMLScene::activate()
     foreach(AssociationWidget* aw, associationList()) {
         if (aw->activate()) {
             if (m_PastePoint.x() != 0) {
-                int x = m_PastePoint.x() - m_Pos.x();
-                int y = m_PastePoint.y() - m_Pos.y();
+                int x = m_PastePoint.x() - m_pos.x();
+                int y = m_PastePoint.y() - m_pos.y();
                 aw->moveEntireAssoc(x, y);
             }
         } else {
@@ -1876,7 +2050,7 @@ int UMLScene::selectedCount(bool filterText) const
  * The list can be filled with all the selected widgets, or be filtered to prevent
  * text widgets other than tr_Floating to be append.
  *
- * @param filterText Don't append the text, unless their role is tr_Floating
+ * @param filterText Don't append the text unless their role is TextRole::Floating
  * @return           The UMLWidgetList to fill.
  */
 UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
@@ -1914,6 +2088,14 @@ AssociationWidgetList UMLScene::selectedAssocs()
  */
 void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
 {
+    /* We cannot do the range check like this:
+       pWidget's x() and y() can legitimately be negative.
+       The scene's origin point (0,0) is somewhere in the middle of the diagram
+       area. QGraphicsItems located left or up from the scene's origin have
+       negative coordinates.
+       sceneRect() returns non negative coordinates such as (0,0,5000,5000).
+       That does not fit with the negative widget coordinates. */
+#if 0
     int wX = pWidget->x();
     int wY = pWidget->y();
     bool xIsOutOfRange = (wX < sceneRect().left() || wX > sceneRect().right());
@@ -1925,8 +2107,8 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
             if (ft)
                 name = ft->displayText();
         }
-        DEBUG(DBG_SRC) << name << " type=" << pWidget->baseTypeStr() << ": position ("
-                       << wX << "," << wY << ") is out of range";
+        logDebug4("UMLScene::addFloatingTextWidget(%1) type=%2 : position (%3,%4) is out of range",
+                  name, pWidget->baseTypeStr(), wX, wY);
         if (xIsOutOfRange) {
             pWidget->setX(0);
             wX = 0;
@@ -1936,7 +2118,7 @@ void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
             wY = 0;
         }
     }
-
+#endif
     addWidgetCmd(pWidget);
 }
 
@@ -2009,7 +2191,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     foreach(AssociationWidget* assocwidget, associationList()) {
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
-            // for duplicate, but loadFromXMI1 needs 'false' value
+            // for duplicate, but loadFromXMI needs 'false' value
             return (isPasteOperation ? true : false);
     }
 
@@ -2072,7 +2254,7 @@ void UMLScene::endPartialWidgetPaste()
 }
 
 /**
- * Removes a AssociationWidget from a diagram
+ * Removes an AssociationWidget from a diagram
  * Physically deletes the AssociationWidget passed in.
  *
  * @param pAssoc  Pointer to the AssociationWidget.
@@ -2112,8 +2294,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
             // UMLListView::moveObject() will delete the containment
             // AssociationWidget via UMLScene::updateContainment().
         } else {
-            DEBUG(DBG_SRC) << "removeAssocInViewAndDoc(containment): "
-                           << "objB is NULL";
+            logDebug0("UMLScene::removeAssocInViewAndDoc(containment): objB is NULL");
         }
     } else {
         // Remove assoc in doc.
@@ -2300,7 +2481,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == 0)
         return;
-    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
+    const UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == 0)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
@@ -2310,14 +2491,14 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         UMLCanvasObject *other = 0;
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == 0) {
-            DEBUG(DBG_SRC) << "roleA object is NULL at UMLAssoc "
-                           << Uml::ID::toString(assoc->id());
+            logDebug1("UMLScene::createAutoAssociations: roleA object is NULL at UMLAssoc %1",
+                              Uml::ID::toString(assoc->id()));
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(Uml::RoleType::B);
         if (roleBObj == 0) {
-            DEBUG(DBG_SRC) << "roleB object is NULL at UMLAssoc "
-                           << Uml::ID::toString(assoc->id());
+            logDebug1("UMLScene::createAutoAssociations: roleB object is NULL at UMLAssoc %1",
+                              Uml::ID::toString(assoc->id()));
             continue;
         }
         if (roleAObj->id() == myID) {
@@ -2325,9 +2506,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         } else if (roleBObj->id() == myID) {
             other = roleAObj->asUMLCanvasObject();
         } else {
-            DEBUG(DBG_SRC) << "Cannot find own object "
-                           << Uml::ID::toString(myID) << " in UMLAssoc "
-                           << Uml::ID::toString(assoc->id());
+            logDebug2("UMLScene::createAutoAssociations: Cannot find own object %1 in UMLAssoc %2",
+                              Uml::ID::toString(myID), Uml::ID::toString(assoc->id()));
             continue;
         }
         // Now that we have determined the "other" UMLObject, seek it in
@@ -2366,8 +2546,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Check that the assoc is allowed.
         if (!AssocRules::allowAssociation(assocType, widgetA, widgetB)) {
-            DEBUG(DBG_SRC) << "not transferring assoc "
-                           << "of type " << assocType;
+            logDebug1("UMLScene::createAutoAssociations: not transferring assoc of type %1",
+                      assocType);
             continue;
         }
 
@@ -2398,7 +2578,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (t == UMLObject::ot_Package || t == UMLObject::ot_Class ||
         t == UMLObject::ot_Interface || t == UMLObject::ot_Component) {
         // for each of the object's containedObjects
-        UMLPackage *umlPkg = umlObj->asUMLPackage();
+        const UMLPackage *umlPkg = umlObj->asUMLPackage();
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             uIgnoreZeroPointer(obj);
@@ -2409,7 +2589,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
                 if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
-                if (widget->rect().contains(w->rect()))
+                if (w->isLocatedIn(widget))
                     continue;
                 // create the containment AssocWidget
                 AssociationWidget *a = AssociationWidget::create(this, widget,
@@ -2437,7 +2617,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             break;
         }
     }
-    if (!breakFlag || pWidget->rect().contains(widget->rect()))
+    if (!breakFlag || widget->isLocatedIn(pWidget))
         return;
     // create the containment AssocWidget
     AssociationWidget *a = AssociationWidget::create(this, pWidget, Uml::AssociationType::Containment, widget);
@@ -2487,7 +2667,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
         return;
     // if the underlying model object is really a UMLClassifier then
     if (tmpUmlObj->isUMLDatatype()) {
-        UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
+        const UMLDatatype *dt = tmpUmlObj->asUMLDatatype();
         while (dt && dt->originType() != 0) {
             tmpUmlObj = dt->originType();
             if (!tmpUmlObj->isUMLDatatype())
@@ -2497,13 +2677,13 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     }
     if (tmpUmlObj->baseType() != UMLObject::ot_Class)
         return;
-    UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
+    const UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
     // for each of the UMLClassifier's UMLAttributes
     UMLAttributeList attrList = klass->getAttributeList();
     foreach(UMLAttribute* attr, attrList) {
         createAutoAttributeAssociation(attr->getType(), attr, widget);
         /*
-         * The following code from attachment 19935 of http://bugs.kde.org/140669
+         * The following code from attachment 19935 of https://bugs.kde.org/140669
          * creates Aggregation/Composition to the template parameters.
          * The current solution uses Dependency instead, see handling of template
          * instantiation at Import_Utils::createUMLObject().
@@ -2523,8 +2703,8 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
                                               UMLWidget *widget /*, UMLClassifier * klass*/)
 {
     if (type == 0) {
-        // DEBUG(DBG_SRC) << klass->getName() << ": type is NULL for "
-        //                << "attribute " << attr->getName();
+        // logDebug2("UMLScene::createAutoAttributeAssociation(%1): type is NULL for attribute %2",
+        //               klass->getName(), attr->getName());
         return;
     }
     Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
@@ -2532,9 +2712,9 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     // if the attribute type has a widget representation on this view
     if (w) {
         AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-        if (a == 0 &&
-            // if the current diagram type permits compositions
-            AssocRules::allowAssociation(assocType, widget, w)) {
+        if (a) {
+            a->setAssociationType(assocType);
+        } else if (AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == QLatin1String("CORBAInterface"))
@@ -2553,22 +2733,21 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     }
     // if the attribute type is a Datatype then
     if (type->isUMLDatatype()) {
-        UMLDatatype *dt = type->asUMLDatatype();
+        const UMLDatatype *dt = type->asUMLDatatype();
         // if the Datatype is a reference (pointer) type
         if (dt && dt->isReference()) {
-            //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
             UMLClassifier *c = dt->originType();
             UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
+                Uml::AssociationType::Enum assocType = Uml::AssociationType::Aggregation;
                 AssociationWidget *a = findAssocWidget(widget, w, attr->name());
-                if (a == 0 &&
-                        // if the current diagram type permits aggregations
-                        AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w)) {
+                if (a) {
+                    a->setAssociationType(assocType);
+                } else if (AssocRules::allowAssociation(assocType, widget, w)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
-                    a = AssociationWidget::create (this, widget,
-                                                   Uml::AssociationType::Aggregation, w, attr);
+                    a = AssociationWidget::create (this, widget, assocType, w, attr);
                     a->setVisibility(attr->visibility(), Uml::RoleType::B);
                     //a->setChangeability(true, Uml::RoleType::B);
                     a->setMultiplicity(QLatin1String("0..1"), Uml::RoleType::B);
@@ -2602,14 +2781,14 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
     if (tmpUmlObj == 0)
         return;
     // check if the underlying model object is really a UMLEntity
-    UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
+    const UMLCanvasObject *umlObj = tmpUmlObj->asUMLCanvasObject();
     if (umlObj == 0)
         return;
     // finished checking whether this widget has a UMLCanvas Object
 
     if (tmpUmlObj->baseType() != UMLObject::ot_Entity)
         return;
-    UMLEntity *entity = tmpUmlObj->asUMLEntity();
+    const UMLEntity *entity = tmpUmlObj->asUMLEntity();
 
     // for each of the UMLEntity's UMLForeignKeyConstraints
     UMLClassifierListItemList constrList = entity->getFilteredList(UMLObject::ot_ForeignKeyConstraint);
@@ -2639,15 +2818,18 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 
     Uml::AssociationType::Enum assocType = Uml::AssociationType::Relationship;
     UMLWidget *w = findWidget(refEntity->id());
-    AssociationWidget *aw = 0;
+    AssociationWidget *aw = nullptr;
 
     if (w) {
-        aw = findAssocWidget(w, widget, fkConstraint->name());
-        if (aw == 0 &&
-            // if the current diagram type permits relationships
-            AssocRules::allowAssociation(assocType, w, widget)) {
-
-            // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
+        aw = findAssocWidget(assocType, w, widget);
+        if (aw) {
+            if (aw->roleWidget(Uml::RoleType::B))
+                aw->roleWidget(Uml::RoleType::B)->setName(fkConstraint->name());
+            else
+                logError0("UMLScene::createAutoConstraintAssociation could not find role widget B -> cannot rename constraint");
+        // if the current diagram type permits relationships
+        } else if (AssocRules::allowAssociation(assocType, w, widget)) {
+            // for foreign key constraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. (Role B)
             AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
             a->setUMLObject(fkConstraint);
@@ -2658,7 +2840,6 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
                 delete a;
         }
     }
-
 }
 
 void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
@@ -2794,6 +2975,11 @@ void UMLScene::resetToolbar()
     emit sigResetToolBar();
 }
 
+void UMLScene::triggerToolbarButton(WorkToolBar::ToolBar_Buttons button)
+{
+    m_d->triggerToolBarButton(button);
+}
+
 /**
  * Event handler for context menu events.
  */
@@ -2902,6 +3088,11 @@ void UMLScene::slotMenuSelection(QAction* action)
         Object_Factory::createUMLObject(UMLObject::ot_Package);
         break;
 
+    case ListPopupMenu::mt_Subsystem:
+        m_bCreateObject = true;
+        Object_Factory::createUMLObject(UMLObject::ot_SubSystem);
+       break;
+
     case ListPopupMenu::mt_Component:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Component);
@@ -2918,6 +3109,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Interface:
+    case ListPopupMenu::mt_InterfaceComponent:
         m_bCreateObject = true;
         Object_Factory::createUMLObject(UMLObject::ot_Interface);
         break;
@@ -2974,9 +3166,9 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Paste:
-        m_PastePoint = m_Pos;
-        m_Pos.setX(2000);
-        m_Pos.setY(2000);
+        m_PastePoint = m_pos;
+        m_pos.setX(2000);
+        m_pos.setY(2000);
         UMLApp::app()->slotEditPaste();
 
         m_PastePoint.setX(0);
@@ -3041,15 +3233,45 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_State:
         {
-            QString name = i18n("new state");
-            bool ok = Dialog_Utils::askName(i18n("Enter State Name"),
-                                            i18n("Enter the name of the new state:"),
-                                            name);
+            QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
                 setupNewWidget(state);
             }
+        }
+        break;
+
+    case ListPopupMenu::mt_CombinedState:
+        {
+            QString name = Widget_Utils::defaultWidgetName(WidgetBase::WidgetType::wt_State);
+            bool ok;
+            do {
+                if (!Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name))
+                    name.append(QLatin1String("_1"));
+                ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
+            } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
+            if (ok) {
+                StateWidget* state = new StateWidget(this);
+                state->setName(name);
+                setupNewWidget(state);
+                Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(m_doc, Uml::DiagramType::State, name);
+                UMLApp::app()->executeCommand(d);
+                state->setDiagramLink(d->view()->umlScene()->ID());
+                d->view()->umlScene()->setWidgetLink(state);
+                state->setStateType(StateWidget::Combined);
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_ReturnToClass:
+    case ListPopupMenu::mt_ReturnToCombinedState:
+        if (widgetLink()) {
+            UMLApp::app()->document()->changeCurrentView(widgetLink()->umlScene()->ID());
+            widgetLink()->update();
+            widgetLink()->umlScene()->update();
+            setWidgetLink(nullptr);
         }
         break;
 
@@ -3076,10 +3298,8 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Activity:
         {
-            QString name = i18n("new activity");
-            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
-                                            i18n("Enter the name of the new activity:"),
-                                            name);
+            QString name;
+            bool ok = Dialog_Utils::askDefaultNewName(WidgetBase::wt_Activity, name);
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);
@@ -3141,8 +3361,33 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
     }
 
+    case ListPopupMenu::mt_MessageCreation:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Creation);
+        break;
+
+    case ListPopupMenu::mt_MessageDestroy:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Destroy);
+        break;
+
+    case ListPopupMenu::mt_MessageSynchronous:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Synchronous);
+        break;
+
+    case ListPopupMenu::mt_MessageAsynchronous:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Asynchronous);
+        break;
+
+    case ListPopupMenu::mt_MessageFound:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Found);
+        break;
+
+    case ListPopupMenu::mt_MessageLost:
+        m_d->triggerToolBarButton(WorkToolBar::tbb_Seq_Message_Lost);
+        break;
+
     default:
-        uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
+        logWarn1("UMLScene::slotMenuSelection: unknown ListPopupMenu::MenuType %1",
+                 ListPopupMenu::toString(sel));
         break;
     }
 }
@@ -3179,8 +3424,8 @@ void UMLScene::slotShowView()
 QPointF UMLScene::getPastePoint()
 {
     QPointF point = m_PastePoint;
-    point.setX(point.x() - m_Pos.x());
-    point.setY(point.y() - m_Pos.y());
+    point.setX(point.x() - m_pos.x());
+    point.setY(point.y() - m_pos.y());
     return point;
 }
 
@@ -3189,7 +3434,7 @@ QPointF UMLScene::getPastePoint()
  */
 void UMLScene::resetPastePoint()
 {
-    m_PastePoint = m_Pos;
+    m_PastePoint = m_pos;
 }
 
 /**
@@ -3231,8 +3476,11 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
     foreach(UMLWidget* pWidget, widgetList()) {
         uIgnoreZeroPointer(pWidget);
         WidgetBase::WidgetType wt = pWidget->baseType();
-        if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
-            page->setWidget(static_cast<ClassifierWidget *>(pWidget));
+        if (wt == WidgetBase::wt_Class) {
+            page->setWidget(pWidget->asClassifierWidget());
+            page->apply();
+        } else if (wt == WidgetBase::wt_Interface) {
+            page->setWidget(pWidget->asInterfaceWidget());
             page->apply();
         }
     }
@@ -3241,8 +3489,8 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 /**
  * Returns the type of the selected widget or widgets.
  *
- * If multiple widgets of different types are selected. WidgetType::UMLWidget
- * is returned.
+ * If multiple widgets of different types are selected then WidgetType
+ * wt_UMLWidget is returned.
  */
 WidgetBase::WidgetType UMLScene::getUniqueSelectionType()
 {
@@ -3280,7 +3528,7 @@ void UMLScene::clearDiagram()
  */
 void UMLScene::applyLayout(const QString &variant)
 {
-    DEBUG(DBG_SRC) << "layout = " << variant;
+    logDebug1("UMLScene::applyLayout: %1", variant);
     LayoutGenerator r;
     r.generate(this, variant);
     r.apply(this);
@@ -3431,7 +3679,7 @@ void UMLScene::setSnapGridVisible(bool bShow)
  */
 bool UMLScene::isShowDocumentationIndicator() const
 {
-    return m_showDocumentationIndicator;
+    return s_showDocumentationIndicator;
 }
 
 /**
@@ -3439,7 +3687,7 @@ bool UMLScene::isShowDocumentationIndicator() const
  */
 void UMLScene::setShowDocumentationIndicator(bool bShow)
 {
-    m_showDocumentationIndicator = bShow;
+    s_showDocumentationIndicator = bShow;
 }
 
 /**
@@ -3465,16 +3713,6 @@ void UMLScene::setShowOpSig(bool bShowOpSig)
 void UMLScene::fileLoaded()
 {
     m_view->setZoom(m_view->zoom());
-    resizeSceneToItems();
-}
-
-/**
- * Sets the size of the scene to just fit on all the items
- */
-void UMLScene::resizeSceneToItems()
-{
-    // let QGraphicsScene handle scene size by itself
-    setSceneRect(QRectF());
 }
 
 /**
@@ -3511,43 +3749,75 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
  */
 void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    /* For some reason the incoming rect may contain invalid data.
+       Seen on loading the XMI file attached to bug 449393 :
+       (gdb) p rect
+       $2 = (const QRectF &) @0x7fffffffa3d0: {xp = -4160651296.6437497, yp = -18968990857.816666,
+                                               w = 4026436738.6874995, h = 33643115861.033333}
+    */
+    const bool validX = (rect.x() >= -s_maxCanvasSize && rect.x() <= s_maxCanvasSize);
+    const bool validY = (rect.y() >= -s_maxCanvasSize && rect.y() <= s_maxCanvasSize);
+    const bool validW = (rect.width()  >= 0.0 && rect.width()  <= s_maxCanvasSize);
+    const bool validH = (rect.height() >= 0.0 && rect.height() <= s_maxCanvasSize);
+    if (!validX || !validY || !validW || !validH) {
+        logError4("UMLScene::drawBackground rejecting event due to invalid data: "
+                  "validX=%1, validY=%2, validW=%3, validH=%4", validX, validY, validW, validH);
+        return;
+    }
     QGraphicsScene::drawBackground(painter, rect);
     m_layoutGrid->paint(painter, rect);
+    // debug info
+    if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
+        painter->setPen(Qt::green);
+        painter->drawRect(sceneRect());
+        QVector<QLineF> origin;
+        origin << QLineF(QPointF(-5,0), QPointF(5,0))
+              << QLineF(QPointF(0,-5), QPointF(0,5));
+        painter->drawLines(origin);
+        painter->setPen(Qt::blue);
+        painter->drawRect(itemsBoundingRect());
+        QVector<QLineF> lines;
+        lines << QLineF(m_pos + QPointF(-5,0), m_pos + QPointF(5,0))
+              << QLineF(m_pos + QPointF(0,-5), m_pos + QPointF(0,5));
+        painter->setPen(Qt::gray);
+        painter->drawLines(lines);
+    }
 }
 
 /**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
-void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UMLScene::saveToXMI(QXmlStreamWriter& writer)
 {
-    resizeSceneToItems();
-    QDomElement viewElement = qDoc.createElement(QLatin1String("diagram"));
-    viewElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
-    viewElement.setAttribute(QLatin1String("name"), name());
-    viewElement.setAttribute(QLatin1String("type"), m_Type);
-    viewElement.setAttribute(QLatin1String("documentation"), m_Documentation);
+    writer.writeStartElement(QLatin1String("diagram"));
+    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
+    writer.writeAttribute(QLatin1String("name"), name());
+    writer.writeAttribute(QLatin1String("type"), QString::number(m_Type));
+    writer.writeAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
-    m_Options.saveToXMI1(viewElement);
+    m_Options.saveToXMI(writer);
     //misc
-    viewElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
-    viewElement.setAttribute(QLatin1String("showgrid"), m_layoutGrid->isVisible());
-    viewElement.setAttribute(QLatin1String("snapgrid"), m_bUseSnapToGrid);
-    viewElement.setAttribute(QLatin1String("snapcsgrid"), m_bUseSnapComponentSizeToGrid);
-    viewElement.setAttribute(QLatin1String("snapx"), m_layoutGrid->gridSpacingX());
-    viewElement.setAttribute(QLatin1String("snapy"), m_layoutGrid->gridSpacingY());
+    writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+    writer.writeAttribute(QLatin1String("showgrid"), QString::number(m_layoutGrid->isVisible()));
+    writer.writeAttribute(QLatin1String("snapgrid"), QString::number(m_bUseSnapToGrid));
+    writer.writeAttribute(QLatin1String("snapcsgrid"), QString::number(m_bUseSnapComponentSizeToGrid));
+    writer.writeAttribute(QLatin1String("snapx"), QString::number(m_layoutGrid->gridSpacingX()));
+    writer.writeAttribute(QLatin1String("snapy"), QString::number(m_layoutGrid->gridSpacingY()));
     // FIXME: move to UMLView
-    viewElement.setAttribute(QLatin1String("zoom"), activeView()->zoom());
-    viewElement.setAttribute(QLatin1String("canvasheight"), QString::number(height()));
-    viewElement.setAttribute(QLatin1String("canvaswidth"), QString::number(width()));
-    viewElement.setAttribute(QLatin1String("isopen"), isOpen());
-    if (type() == Uml::DiagramType::Sequence ||
-        type() == Uml::DiagramType::Collaboration)
-        viewElement.setAttribute(QLatin1String("autoincrementsequence"), autoIncrementSequence());
+    writer.writeAttribute(QLatin1String("zoom"), QString::number(activeView()->zoom()));
+    writer.writeAttribute(QLatin1String("canvasheight"), QString::number(height()));
+    writer.writeAttribute(QLatin1String("canvaswidth"), QString::number(width()));
+    writer.writeAttribute(QLatin1String("isopen"), QString::number(isOpen()));
+    if (isSequenceDiagram() || isCollaborationDiagram())
+        writer.writeAttribute(QLatin1String("autoincrementsequence"), QString::number(autoIncrementSequence()));
 
     //now save all the widgets
-    QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
+    writer.writeStartElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, widgetList()) {
         uIgnoreZeroPointer(widget);
+        // do not save floating text widgets having a parent widget; they are saved as part of the parent
+        if (widget->isTextWidget() && widget->parentItem())
+            continue;
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
@@ -3556,22 +3826,22 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         if ((!widget->isTextWidget() &&
              !widget->isFloatingDashLineWidget()) ||
              (widget->asFloatingTextWidget() && widget->asFloatingTextWidget()->link() == 0))
-            widget->saveToXMI1(qDoc, widgetElement);
+            widget->saveToXMI(writer);
     }
-    viewElement.appendChild(widgetElement);
+    writer.writeEndElement();            // widgets
     //now save the message widgets
-    QDomElement messageElement = qDoc.createElement(QLatin1String("messages"));
+    writer.writeStartElement(QLatin1String("messages"));
     foreach(UMLWidget* widget, messageList()) {
-        widget->saveToXMI1(qDoc, messageElement);
+        widget->saveToXMI(writer);
     }
-    viewElement.appendChild(messageElement);
+    writer.writeEndElement();            // messages
     //now save the associations
-    QDomElement assocElement = qDoc.createElement(QLatin1String("associations"));
+    writer.writeStartElement(QLatin1String("associations"));
     if (associationList().count()) {
         // We guard against (associationList().count() == 0) because
         // this code could be reached as follows:
-        //  ^  UMLScene::saveToXMI1()
-        //  ^  UMLDoc::saveToXMI1()
+        //  ^  UMLScene::saveToXMI()
+        //  ^  UMLDoc::saveToXMI()
         //  ^  UMLDoc::addToUndoStack()
         //  ^  UMLDoc::setModified()
         //  ^  UMLDoc::createDiagram()
@@ -3581,17 +3851,17 @@ void UMLScene::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
         //
         AssociationWidget * assoc = 0;
         foreach(assoc, associationList()) {
-            assoc->saveToXMI1(qDoc, assocElement);
+            assoc->saveToXMI(writer);
         }
     }
-    viewElement.appendChild(assocElement);
-    qElement.appendChild(viewElement);
+    writer.writeEndElement();            // associations
+    writer.writeEndElement();  // diagram
 }
 
 /**
  * Loads the "diagram" tag.
  */
-bool UMLScene::loadFromXMI1(QDomElement & qElement)
+bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nID = Uml::ID::fromString(id);
@@ -3602,7 +3872,7 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     m_Documentation = qElement.attribute(QLatin1String("documentation"));
     QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
     // option state
-    m_Options.loadFromXMI1(qElement);
+    m_Options.loadFromXMI(qElement);
     setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
@@ -3619,9 +3889,28 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     QString snapy = qElement.attribute(QLatin1String("snapy"), QLatin1String("10"));
     m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
+    QString canvheight = qElement.attribute(QLatin1String("canvasheight"), QString());
+    QString canvwidth  = qElement.attribute(QLatin1String("canvaswidth"), QString());
+    qreal canvasWidth  = 0.0;
+    qreal canvasHeight = 0.0;
+    if (!canvwidth.isEmpty()) {
+        canvasWidth = toDoubleFromAnyLocale(canvwidth);
+        if (canvasWidth <= 0.0 || canvasWidth > s_maxCanvasSize) {
+            canvasWidth = 0.0;
+        }
+    }
+    if (!canvheight.isEmpty()) {
+        canvasHeight = toDoubleFromAnyLocale(canvheight);
+        if (canvasHeight <= 0.0 || canvasHeight > s_maxCanvasSize) {
+            canvasHeight = 0.0;
+        }
+    }
+    if (!qFuzzyIsNull(canvasWidth) && !qFuzzyIsNull(canvasHeight)) {
+        setSceneRect(0, 0, canvasWidth, canvasHeight);
+    }
+
     QString zoom = qElement.attribute(QLatin1String("zoom"), QLatin1String("100"));
     activeView()->setZoom(zoom.toInt());
-    resizeSceneToItems();
 
     QString isOpen = qElement.attribute(QLatin1String("isopen"), QLatin1String("1"));
     m_isOpen = (bool)isOpen.toInt();
@@ -3678,6 +3967,96 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     }
 
     QDomNode node = qElement.firstChild();
+    /*
+      https://bugs.kde.org/show_bug.cgi?id=449622
+      In order to compensate for QGraphicsScene offsets we make an extra loop in which
+      negative or positive X / Y offsets are determined.
+      The problem stems from the time when the QGraphicsScene coordinates were derived
+      from the coordinates of its widgets (function resizeSceneToItems prior to v2.34).
+     */
+    m_fixX = m_fixY = 0.0;
+    qreal xNegOffset = 0.0;
+    qreal yNegOffset = 0.0;
+    qreal xPosOffset = 1.0e6;
+    qreal yPosOffset = 1.0e6;
+
+    // If an offset fix is applied then add a margin on the fix so that the leftmost
+    // or topmost widgets have some separation from the scene border.
+    const qreal marginIfFixIsApplied = 50.0;
+
+    // If all widgets have a positive X or Y offset exceeding this value
+    // then the fix will be applied.
+    const qreal xTriggerValueForPositiveFix = s_defaultCanvasWidth / 2.0;
+    const qreal yTriggerValueForPositiveFix = s_defaultCanvasHeight / 2.0;
+
+    while (!node.isNull()) {
+        QDomElement element = node.toElement();
+        if (element.isNull()) {
+            node = node.nextSibling();
+            continue;
+        }
+        if (element.tagName() == QLatin1String("widgets")) {
+            QDomNode wNode = element.firstChild();
+            QDomElement widgetElement = wNode.toElement();
+            while (!widgetElement.isNull()) {
+                QString tag  = widgetElement.tagName();
+                if ((tag.endsWith(QLatin1String("widget")) && tag != QLatin1String("pinwidget")
+                                                           && tag != QLatin1String("portwidget"))
+                                                         || tag == QLatin1String("floatingtext")) {
+                    QString xStr = widgetElement.attribute(QLatin1String("x"), QLatin1String("0"));
+                    qreal x = toDoubleFromAnyLocale(xStr);
+                    if (x < -s_maxCanvasSize || x > s_maxCanvasSize) {
+                        QString wName = widgetElement.attribute(QLatin1String("name"), QString());
+                        logWarn3("UMLScene::loadFromXMI(%1) ignoring widget %2 due to invalid X value %3",
+                                 name(), wName, xStr);
+                        wNode = widgetElement.nextSibling();
+                        widgetElement = wNode.toElement();
+                        continue;
+                    }
+                    QString yStr = widgetElement.attribute(QLatin1String("y"), QLatin1String("0"));
+                    qreal y = toDoubleFromAnyLocale(yStr);
+                    if (y < -s_maxCanvasSize || y > s_maxCanvasSize) {
+                        QString wName = widgetElement.attribute(QLatin1String("name"), QString());
+                        logWarn3("UMLScene::loadFromXMI(%1) ignoring widget %2 due to invalid Y value %3",
+                                 name(), wName, yStr);
+                        wNode = widgetElement.nextSibling();
+                        widgetElement = wNode.toElement();
+                        continue;
+                    }
+                    if (x < 0.0) {
+                        if (x < xNegOffset)
+                            xNegOffset = x;
+                    } else if (x < xPosOffset) {
+                        xPosOffset = x;
+                    }
+                    if (y < 0.0) {
+                        if (y < yNegOffset)
+                            yNegOffset = y;
+                    } else if (y < yPosOffset) {
+                        yPosOffset = y;
+                    }
+                    // QString hStr = widgetElement.attribute(QLatin1String("height"), QLatin1String("0"));
+                    // QString wStr = widgetElement.attribute(QLatin1String("width"), QLatin1String("0"));
+                }
+                wNode = widgetElement.nextSibling();
+                widgetElement = wNode.toElement();
+            }
+        }
+        node = node.nextSibling();
+    }
+    if (xNegOffset < 0.0)
+        m_fixX = -xNegOffset + marginIfFixIsApplied;
+    else if (xPosOffset > xTriggerValueForPositiveFix)
+        m_fixX = -xPosOffset + marginIfFixIsApplied;
+    if (yNegOffset < 0.0)
+        m_fixY = -yNegOffset + marginIfFixIsApplied;
+    else if (yPosOffset > yTriggerValueForPositiveFix)
+        m_fixY = -yPosOffset + marginIfFixIsApplied;
+    if (!qFuzzyIsNull(m_fixX) || !qFuzzyIsNull(m_fixY)) {
+        logDebug3("UMLScene::loadFromXMI(%1) : fixX = %2, fixY = %3", name(), m_fixX, m_fixY);
+    }
+
+    node = qElement.firstChild();
     bool widgetsLoaded = false, messagesLoaded = false, associationsLoaded = false;
     while (!node.isNull()) {
         QDomElement element = node.toElement();
@@ -3693,16 +4072,42 @@ bool UMLScene::loadFromXMI1(QDomElement & qElement)
     }
 
     if (!widgetsLoaded) {
-        uWarning() << "failed UMLScene load on widgets";
+        logWarn0("UMLScene::loadFromXMI failed on widgets");
         return false;
     }
     if (!messagesLoaded) {
-        uWarning() << "failed UMLScene load on messages";
+        logWarn0("UMLScene::loadFromXMI failed on messages");
         return false;
     }
     if (!associationsLoaded) {
-        uWarning() << "failed UMLScene load on associations";
+        logWarn0("UMLScene::loadFromXMI failed on associations");
         return false;
+    }
+
+    if (this->isComponentDiagram()) {
+        m_d->addMissingPorts();
+        m_d->fixPortPositions();
+    }
+    m_d->removeDuplicatedFloatingTextInstances();
+
+    /*
+      During loadWidgetsFromXMI(), the required QGraphicsScene size was calculated
+      by finding the minimum (x, y) and maximum (x+width, y+height) values of the
+      widgets loaded.
+      These are stored in members m_minX, m_minY and m_maxX, m_maxY respectively.
+      This extra step in necessary because the XMI attributes "canvaswidth" and
+      "canvasheight" may contain invalid values.  See updateCanvasSizeEstimate().
+     */
+    if (m_maxX > canvasWidth || m_maxY > canvasHeight) {
+        if (m_minX < 0.0 || m_minY < 0.0) {
+            logWarn3("UMLScene::loadFromXMI(%1): Setting canvas size with strange values x=%2, y=%3",
+                     name(), m_minX, m_minY);
+            setSceneRect(m_minX, m_minY, m_maxX, m_maxY);
+        } else {
+            logDebug5("UMLScene::loadFromXMI(%1) : Setting canvas size with w=%2, h=%3 (minX=%4, minY=%5)",
+                      name(), m_maxX, m_maxY, m_minX, m_minY);
+            setSceneRect(0.0, 0.0, m_maxX, m_maxY);
+        }
     }
     return true;
 }
@@ -3719,7 +4124,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
             widget->clipSize();
             // In the interest of best-effort loading, in case of a
             // (widget == 0) we still go on.
-            // The individual widget's loadFromXMI1 method should
+            // The individual widget's loadFromXMI method should
             // already have generated an error message to tell the
             // user that something went wrong.
         }
@@ -3731,12 +4136,12 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 }
 
 /**
- * Loads a "widget" element from XMI, used by loadFromXMI1() and the clipboard.
+ * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
  */
 UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
     if (!m_doc) {
-        uWarning() << "m_doc is NULL";
+        logWarn0("UMLScene::loadWidgetFromXMI: m_doc is NULL");
         return 0L;
     }
 
@@ -3746,7 +4151,7 @@ UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 
     if (widget == 0)
         return 0;
-    if (!widget->loadFromXMI1(widgetElement)) {
+    if (!widget->loadFromXMI(widgetElement)) {
         widget->cleanup();
         delete widget;
         return 0;
@@ -3761,19 +4166,20 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
     QDomElement messageElement = node.toElement();
     while (!messageElement.isNull()) {
         QString tag = messageElement.tagName();
-        DEBUG(DBG_SRC) << "tag = " << tag;
+        logDebug1("UMLScene::loadMessagesFromXMI: tag %1", tag);
         if (tag == QLatin1String("messagewidget") ||
             tag == QLatin1String("UML:MessageWidget")) {   // for bkwd compatibility
             message = new MessageWidget(this, SequenceMessage::Asynchronous,
                                         Uml::ID::Reserved);
-            if (!message->loadFromXMI1(messageElement)) {
+            if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
             }
             addWidgetCmd(message);
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (!ft && message->sequenceMessageType() != SequenceMessage::Creation)
-                DEBUG(DBG_SRC) << "floating text is NULL for message " << Uml::ID::toString(message->id());
+                logDebug1("UMLScene::loadMessagesFromXMI: floating text is NULL for message %1",
+                          Uml::ID::toString(message->id()));
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();
@@ -3792,9 +4198,9 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             tag == QLatin1String("UML:AssocWidget")) {  // for bkwd compatibility
             countr++;
             AssociationWidget *assoc = AssociationWidget::create(this);
-            if (!assoc->loadFromXMI1(assocElement)) {
-                uError() << "could not loadFromXMI1 association widget:"
-                         << assoc << ", bad XMI file? Deleting from UMLScene.";
+            if (!assoc->loadFromXMI(assocElement)) {
+                logError1("UMLScene::loadAssociationsFromXMI could not load association widget %1",
+                          Uml::ID::toString(assoc->id()));
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -3803,7 +4209,8 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             } else {
                 assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
-                    uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
+                    logError1("UMLScene::loadAssociationsFromXMI could not addAssociation(%1) to scene",
+                              Uml::ID::toString(assoc->id()));
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }
@@ -3833,7 +4240,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         QDomElement elem = node.toElement();
         QString tag = elem.tagName();
         if (! UMLDoc::tagEq(tag, QLatin1String("Presentation"))) {
-            uError() << "ignoring unknown UisDiagramPresentation tag " << tag;
+            logError1("ignoring unknown UisDiagramPresentation tag %1", tag);
             continue;
         }
         QDomNode n = elem.firstChild();
@@ -3842,7 +4249,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         int x = 0, y = 0, w = 0, h = 0;
         while (!e.isNull()) {
             tag = e.tagName();
-            DEBUG(DBG_SRC) << "Presentation: tag = " << tag;
+            logDebug1("UMLScene::loadUisDiagramPresentation: tag %1", tag);
             if (UMLDoc::tagEq(tag, QLatin1String("Presentation.geometry"))) {
                 QDomNode gnode = e.firstChild();
                 QDomElement gelem = gnode.toElement();
@@ -3859,7 +4266,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 QDomElement melem = mnode.toElement();
                 idStr = melem.attribute(QLatin1String("xmi.idref"));
             } else {
-                DEBUG(DBG_SRC) << "ignoring tag " << tag;
+                logDebug1("UMLScene::loadUisDiagramPresentation: ignoring tag %1", tag);
             }
             n = n.nextSibling();
             e = n.toElement();
@@ -3867,10 +4274,11 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLObject *o = m_doc->findObjectById(id);
         if (o == 0) {
-            uError() << "Cannot find object for id " << idStr;
+            logError1("loadUisDiagramPresentation: Cannot find object for id %1", idStr);
         } else {
             UMLObject::ObjectType ot = o->baseType();
-            DEBUG(DBG_SRC) << "Create widget for model object of type " << UMLObject::toString(ot);
+            logDebug1("UMLScene::loadUisDiagramPresentation: Create widget for model object of type %1",
+                      UMLObject::toString(ot));
             UMLWidget *widget = 0;
             switch (ot) {
             case UMLObject::ot_Class:
@@ -3882,7 +4290,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 UMLObject* objA = umla->getObject(Uml::RoleType::A);
                 UMLObject* objB = umla->getObject(Uml::RoleType::B);
                 if (objA == 0 || objB == 0) {
-                    uError() << "intern err 1";
+                    logError0("loadUisDiagramPresentation(association) intern err 1");
                     return false;
                 }
                 UMLWidget *wA = findWidget(objA->id());
@@ -3893,7 +4301,10 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     aw->syncToModel();
                     addWidgetCmd(aw);
                 } else {
-                    uError() << "cannot create assocwidget from (" ; //<< wA << ", " << wB << ")";
+                    const QString nullRole = (!wA && !wB ? QLatin1String("both roles") :
+                                              !wA ? QLatin1String("role A") : QLatin1String("role B"));
+                    logError1("loadUisDiagramPresentation cannot create assocwidget due to null widget at %1",
+                              nullRole);
                 }
                 break;
             }
@@ -3907,11 +4318,10 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 break;
             }
             default:
-                uError() << "Cannot create widget of type " << ot;
+                logError1("loadUisDiagramPresentation cannot create widget of type %1", ot);
             }
             if (widget) {
-                DEBUG(DBG_SRC) << "Widget: x=" << x << ", y=" << y
-                               << ", w=" << w << ", h=" << h;
+                logDebug4("UMLScene::loadUisDiagramPresentation Widget: x=%1, y=%2, w=%3, h=%4", x, y, w, h);
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
@@ -3944,7 +4354,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
         } else if (tag == QLatin1String("uisDiagramStyle")) {
             QString diagramStyle = elem.text();
             if (diagramStyle != QLatin1String("ClassDiagram")) {
-                uError() << "diagram style " << diagramStyle << " is not yet implemented";
+                logError1("loadUISDiagram: style %1 is not yet implemented", diagramStyle);
                 continue;
             }
             m_doc->setMainViewID(m_nID);
@@ -3955,7 +4365,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
         } else if (tag == QLatin1String("uisDiagramPresentation")) {
             loadUisDiagramPresentation(elem);
         } else if (tag != QLatin1String("uisToolName")) {
-            DEBUG(DBG_SRC) << "ignoring tag " << tag;
+            logDebug1("UMLScene::loadUISDiagram ignoring tag %1", tag);
         }
     }
     return true;
@@ -4160,3 +4570,57 @@ QDebug operator<<(QDebug dbg, UMLScene *item)
                   << " / isOpen=" << item->isOpen();
     return dbg.space();
 }
+
+void UMLScene::setWidgetLink(WidgetBase *w)
+{
+    m_d->widgetLink = w;
+}
+
+WidgetBase *UMLScene::widgetLink()
+{
+    return m_d->widgetLink;
+}
+
+/**
+ * Unfortunately the XMI attributes "canvaswidth" and "canvasheight" cannot be
+ * relied on, in versions before 2.34 they sometimes contain bogus values.
+ * We work around this problem by gathering the minimum and maximum values
+ * of the widgets x, x+width, y, y+height into the variables m_minX, m_maxX,
+ * m_minY, m_maxY.
+ * These values are gathered, and the new scene rectangle is set if required,
+ * during loadFromXMI().
+ *
+ * @param x  If value is less than m_minX then m_minX is set to this value.
+ * @param y  If value is less than m_minY then m_minY is set to this value.
+ * @param w  If @p x plus this value is greater than m_maxX then m_maxX is set to their sum.
+ * @param h  If @p y plus this value is greater than m_maxY then m_maxY is set to their sum.
+ */
+void UMLScene::updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h)
+{
+    if (x < m_minX)
+        m_minX = x;
+    else if (x + w > m_maxX)
+        m_maxX = x + w;
+    if (y < m_minY)
+        m_minY = y;
+    else if (y + h > m_maxY)
+        m_maxY = y + h;
+}
+
+/**
+ * Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+ */
+qreal UMLScene::fixX() const
+{
+    return m_fixX;
+}
+
+/**
+ * Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+ */
+qreal UMLScene::fixY() const
+{
+    return m_fixY;
+}
+
+

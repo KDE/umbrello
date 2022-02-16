@@ -11,6 +11,7 @@ Name[el]=Οριζόντια διάταξη
 Name[en_GB]=Horizontal Layout
 Name[es]=Disposición horizontal
 Name[et]=Rõhtne paigutus
+Name[eu]=Antolamendu horizontala
 Name[fi]=Vaakasuuntainen asettelu
 Name[fr]=Disposition horizontale
 Name[gl]=Disposición horizontal
@@ -40,42 +41,33 @@ Name[uk]=Горизонтальне компонування
 Name[x-test]=xxHorizontal Layoutxx
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
-Comment=Layout which renders Horizontal
-Comment[bs]=Raspored koji obrađuje horizontalno
+Comment=Layout which renders horizontal
 Comment[ca]=Disposició que renderitza horitzontalment
 Comment[ca@valencia]=Disposició que renderitza horitzontalment
-Comment[da]=Layout som renderes vandret
 Comment[de]=Layout, das horizontal gerendert wird
-Comment[el]=Διάταξη που αποτυπώνεται οριζόντια
-Comment[en_GB]=Layout which renders Horizontal
+Comment[en_GB]=Layout which renders horizontal
 Comment[es]=Diseño que se organiza de forma horizontal
 Comment[et]=Rõhtsalt renderdatud paigutus
-Comment[fi]=Vaakasuuntaan piirtävä asettelu
+Comment[eu]=Horizontalean errendatzen den antolamendua
+Comment[fi]=Vaakasuuntainen asettelu
 Comment[fr]=Disposition permettant un rendu horizontal
 Comment[gl]=Disposición que renderiza de maneira horizontal.
 Comment[hu]=Elrendezés, amely vízszintesen jelenít meg
 Comment[it]=Disposizione che rende in orizzontale
-Comment[kk]=Қатарлап орналасуы
 Comment[ko]=수평으로 표시되는 레이아웃
-Comment[nb]=Utforming som tegner opp vannrett
 Comment[nl]=Indeling die zich horizontaal laat weergeven
 Comment[nn]=Utforming vist vassrett
-Comment[pl]=Układ, który wyświetla poziomo
+Comment[pl]=Układ, który wyświetla się w poziomie
 Comment[pt]=Uma disposição que representa os itens na horizontal
 Comment[pt_BR]=Layout que representa os itens na horizontal
 Comment[ru]=Шаблон с расположением по горизонтали
 Comment[sk]=Rozloženie, ktoré renderuje vodorovne
-Comment[sl]=Postavitev, ki se izriše vodoravno
-Comment[sr]=Распоред који исцртава водоравно
-Comment[sr@ijekavian]=Распоред који исцртава водоравно
-Comment[sr@ijekavianlatin]=Raspored koji iscrtava vodoravno
-Comment[sr@latin]=Raspored koji iscrtava vodoravno
-Comment[sv]=Layout som återger horisontellt
-Comment[tr]=Yatay hazırlanan düzen
+Comment[sl]=Postavitev za vodoravni izris
+Comment[sv]=Layout som återges horisontellt
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
-Comment[x-test]=xxLayout which renders Horizontalxx
+Comment[x-test]=xxLayout which renders horizontalxx
 Comment[zh_CN]=水平显示的布局
-Comment[zh_TW]=水平繪製的佈局
+Comment[zh_TW]=水平繪製佈局
 
 [X-UMBRELLO-Dot-Nodes]
 type::note=shape=note
@@ -97,7 +89,27 @@ ranking::type::relationship=weight=1.0
 ranking::type::default=weight=0.001
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=LR,outputorder=nodesfirst,ranksep=1.0,nodesep=0.8
+graph=rankdir=LR,outputorder=nodesfirst,ranksep=1.0,nodesep=0.8
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

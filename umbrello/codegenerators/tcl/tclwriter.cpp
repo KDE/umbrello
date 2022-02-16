@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2005 Rene Meyer <rene.meyer@sturmit.de>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "tclwriter.h"
@@ -24,6 +20,7 @@
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 // qt includes
 #include <QFile>
@@ -105,7 +102,7 @@ Uml::ProgrammingLanguage::Enum TclWriter::language() const
 void TclWriter::writeClass(UMLClassifier * c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("TclWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
     QFile fileh, filetcl;
@@ -340,7 +337,7 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     // set the starting indentation at zero
     m_indentLevel = 0;
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString         str;
     str = getHeadingFile(QLatin1String(".tclbody"));
     if (!str.isEmpty()) {
@@ -551,7 +548,7 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
             if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             // print RoleB decl
             if (printRoleB && a->visibility(Uml::RoleType::B) == permitScope) {
 

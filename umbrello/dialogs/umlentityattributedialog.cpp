@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2002-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umlentityattributedialog.h"
@@ -17,6 +12,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umldatatypewidget.h"
+#include "defaultvaluewidget.h"
 #include "umlstereotypewidget.h"
 #include "codegenerator.h"
 #include "dialog_utils.h"
@@ -75,9 +71,9 @@ void UMLEntityAttributeDialog::setupDialog()
                                     m_pNameL, i18nc("name of entity attribute", "&Name:"),
                                     m_pNameLE, m_pEntityAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
-                                    m_pInitialL, i18n("&Default value:"),
-                                    m_pInitialLE, m_pEntityAttribute->getInitialValue());
+    m_defaultValueWidget = new DefaultValueWidget(m_pEntityAttribute->getType(), m_pEntityAttribute->getInitialValue(), this);
+    m_defaultValueWidget->addToLayout(valuesLayout, 2);
+    connect(m_datatypeWidget, SIGNAL(editTextChanged(QString)), m_defaultValueWidget, SLOT(setType(QString)));
 
     m_stereotypeWidget = new UMLStereotypeWidget(m_pEntityAttribute);
     m_stereotypeWidget->addToLayout(valuesLayout, 3);
@@ -172,7 +168,7 @@ bool UMLEntityAttributeDialog::apply()
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }
-    UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
+    const UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
     UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
@@ -181,7 +177,7 @@ bool UMLEntityAttributeDialog::apply()
         return false;
     }
     m_pEntityAttribute->setName(name);
-    m_pEntityAttribute->setInitialValue(m_pInitialLE->text());
+    m_pEntityAttribute->setInitialValue(m_defaultValueWidget->value());
     m_stereotypeWidget->apply();
     m_pEntityAttribute->setValues(m_pValuesLE->text());
     m_pEntityAttribute->setAttributes(m_pAttributesCB->currentText());
@@ -226,6 +222,4 @@ void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
     } else if (checked == false) {
         m_pNullCB->setEnabled(true);
     }
-
 }
-

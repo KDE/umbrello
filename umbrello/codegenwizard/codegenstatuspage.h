@@ -1,14 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002                                                    *
- *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Luis De la Parra <luis@delaparra.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 #ifndef CODEGENSTATUSPAGE_H
 #define CODEGENSTATUSPAGE_H
 
@@ -17,6 +12,7 @@
 #include "basictypes.h"
 #include "classifier.h"
 #include "codegenerationpolicy.h"
+#include "codegenerator.h"
 
 // kde includes
 #include <kled.h>
@@ -46,6 +42,7 @@ private:
 protected slots:
     void generateCode();
     void classGenerated(UMLClassifier* concept, bool generated);
+    void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);
     void populateStatusList();
     void showFileGenerated(const QString& filename);
     void loggerClear();

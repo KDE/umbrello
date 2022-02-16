@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
@@ -14,8 +9,10 @@
 #include "associationwidgetlist.h"
 #include "basictypes.h"
 #include "optionstate.h"
+#include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
+#include "diagramproxywidget.h"
 
 #include <QCursor>
 #include <QFont>
@@ -33,9 +30,9 @@ class QFontMetrics;
  *
  * @short The base class for graphical UML objects.
  * @author  Paul Hensgen <phensgen@techie.com>
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class UMLWidget : public WidgetBase
+class UMLWidget : public WidgetBase, public DiagramProxyWidget
 {
     Q_OBJECT
 public:
@@ -58,11 +55,6 @@ public:
     UMLWidget& operator=(const UMLWidget& other);
 
     bool operator==(const UMLWidget& other) const;
-
-    void setLocalID(Uml::ID::Type id);
-    Uml::ID::Type localID() const;
-
-    virtual UMLWidget* widgetWithID(Uml::ID::Type id);
 
     virtual QSizeF minimumSize() const;
     void setMinimumSize(const QSizeF &size);
@@ -90,7 +82,7 @@ public:
 
     void setScene(UMLScene *scene);
 
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    virtual bool activate(IDChangeLog* changeLog = 0);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);
@@ -108,6 +100,9 @@ public:
         return m_startMove;
     }
 
+    virtual qreal getX() const;
+    virtual qreal getY() const;
+    virtual QPointF getPos() const;
     virtual void setX(qreal x);
     virtual void setY(qreal y);
 
@@ -134,10 +129,12 @@ public:
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
+    virtual bool isLocatedIn(const UMLWidget *other) const;
+
     void moveByLocal(qreal dx, qreal dy);
 
-    void removeAssoc(AssociationWidget* pAssoc);
-    void addAssoc(AssociationWidget* pAssoc);
+    virtual void removeAssoc(AssociationWidget* pAssoc);
+    virtual void addAssoc(AssociationWidget* pAssoc);
 
     AssociationWidgetList &associationWidgetList() const;
 
@@ -169,30 +166,29 @@ public:
         return m_instanceName;
     }
 
-    bool showStereotype() const;
-    virtual void setShowStereotype(bool flag);
+    Uml::ShowStereoType::Enum showStereotype() const;
+    virtual void setShowStereotype(Uml::ShowStereoType::Enum flag);
+    QString tags() const;
 
     virtual bool showPropertiesDialog();
 
     virtual void adjustAssocs(qreal dx, qreal dy);
-    void adjustUnselectedAssocs(qreal dx, qreal dy);
+    virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
     bool isActivated() const;
     void setActivated(bool active = true);
 
     virtual void cleanup();
 
-    static bool widgetHasUMLObject(WidgetBase::WidgetType type);
-
-    void updateGeometry();
+    void updateGeometry(bool withAssocs = true);
 
     void clipSize();
 
     void forceUpdateFontMetrics(QPainter *painter);
     void forceUpdateFontMetrics(QFont &font, QPainter *painter);
 
-    virtual bool loadFromXMI1(QDomElement &qElement);
-    virtual void saveToXMI1(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     QPointF startMovePosition() const;
     void setStartMovePosition(const QPointF &position);
@@ -208,6 +204,14 @@ public:
 
     void setFixedAspectRatio(bool state) {
         m_fixedAspectRatio = state;
+    }
+
+    bool resizable() const {
+        return m_resizable;
+    }
+
+    void setResizable(bool state) {
+        m_resizable = state;
     }
 
     typedef enum {
@@ -278,23 +282,28 @@ protected:
 
     virtual void toForeground();
 
-    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association);
+public:
+    enum AddWidgetOption { NoOption = 0, SetupSize = 1, SwitchDirection = 2, ShowProperties = 4, Default = SetupSize | ShowProperties };
+    Q_DECLARE_FLAGS(AddWidgetOptions, AddWidgetOption)
+
+protected:
+    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, AddWidgetOptions options = Default);
+    void addConnectedUMLObject(UMLObject::ObjectType otype, Uml::AssociationType::Enum type);
     void addWidget(UMLWidget *widget, bool showProperties = true);
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
     bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
-    bool m_showStereotype;   ///< should the stereotype be displayed
+    Uml::ShowStereoType::Enum m_showStereotype;   ///< if and how the stereotype should be displayed
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    Uml::ID::Type  m_nLocalID;
     bool           m_startMove;
     QPointF        m_startMovePostion;
     QSizeF         m_startResizeSize;
     int            m_nPosX;
-    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
+    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->document()
     bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
     QSizeF         m_minimumSize;
@@ -345,4 +354,5 @@ private:
     /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
     mutable AssociationWidgetList m_Assocs;
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(UMLWidget::AddWidgetOptions)
 #endif

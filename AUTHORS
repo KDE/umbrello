@@ -15,5 +15,5 @@ Main Devs, in roughly chronological order
 * Andi Fischer (many areas)
 * Sharan Rao (porting to Qt4, bugfixes)
 * Gopala Krishna (start of port to QGraphicsView)
-* Camlia Ayres (continued port to QGraphicsView)
+* Camila Ayres (continued port to QGraphicsView)
 * Ralf Habacker (porting to Qt4, bugfixes, automatic diagram layout)

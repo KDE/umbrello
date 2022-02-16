@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppheadercodeaccessormethod.h"
@@ -50,7 +46,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     // Check for dynamic casting failure!
     if (cppfield == 0)
     {
-        uError() << "cppfield: invalid dynamic cast";
+        logError0("cppfield: invalid dynamic cast");
         return;
     }
 
@@ -60,7 +56,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     // Check for dynamic casting failure!
     if (policy == 0)
     {
-        uError() << "policy: invalid dynamic cast";
+        logError0("policy: invalid dynamic cast");
         return;
     }
 
@@ -103,9 +99,10 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 
     bool isInlineMethod = policy->getAccessorsAreInline();
     QString tag = policy->getDocToolTag();
+    QString classMemberPrefix = policy->getClassMemberPrefix();
 
     QString vectorClassName = policy->getVectorClassName();
-    QString fieldName = cppfield->getFieldName();
+    QString fieldName = classMemberPrefix + cppfield->getFieldName();
     QString fieldType = cppfield->getTypeName();
     QString objectType = cppfield->getListObjectType();
     if(objectType.isEmpty())

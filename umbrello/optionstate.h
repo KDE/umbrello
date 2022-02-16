@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef OPTIONSTATE_H
 #define OPTIONSTATE_H
@@ -16,6 +11,7 @@
 #include "codegenerationpolicy.h"
 
 #include <QDomElement>
+#include <QXmlStreamWriter>
 
 namespace Settings {
 
@@ -38,6 +34,7 @@ public:
         tabdiagrams(false),
         newcodegen(false),
         angularlines(false),
+        layoutType(Uml::LayoutType::Undefined),
         footerPrinting(false),
         autosave(false),
         time(0),
@@ -56,6 +53,7 @@ public:
     bool tabdiagrams;
     bool newcodegen;
     bool angularlines;
+    Uml::LayoutType::Enum layoutType;
     bool footerPrinting;
     bool autosave;
     int time;        ///< old autosave time, kept for compatibility
@@ -79,8 +77,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool   useFillColor;
     QColor fillColor;
@@ -98,7 +96,7 @@ public:
       : showVisibility(false),
         showAtts(false),
         showOps(false),
-        showStereoType(false),
+        showStereoType(Uml::ShowStereoType::None),
         showAttSig(false),
         showOpSig(false),
         showPackage(false),
@@ -113,13 +111,13 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool showVisibility;
     bool showAtts;
     bool showOps;
-    bool showStereoType;
+    Uml::ShowStereoType::Enum showStereoType;
     bool showAttSig;
     bool showOpSig;
     bool showPackage;
@@ -182,7 +180,10 @@ public:
             publicAccessors(false),
             stringIncludeIsGlobal(false),
             vectorIncludeIsGlobal(false),
-            virtualDestructors(false)
+            virtualDestructors(false),
+            getterWithGetPrefix(false),
+            removePrefixFromAccessorMethods(false),
+            accessorMethodsStartWithUpperCase(false)
         {
         }
 
@@ -196,9 +197,13 @@ public:
         bool stringIncludeIsGlobal;
         QString vectorClassName;
         QString vectorClassNameInclude;
+        QString classMemberPrefix;
         QString docToolTag;
         bool vectorIncludeIsGlobal;
         bool virtualDestructors;
+        bool getterWithGetPrefix;
+        bool removePrefixFromAccessorMethods;
+        bool accessorMethodsStartWithUpperCase;
     };
 
     class DCodeGenerationState {
@@ -259,8 +264,8 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool createArtifacts;
     bool resolveDependencies;
@@ -278,12 +283,28 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     bool autoDotPath;  ///< determine path to dot executable automatically
     QString dotPath;  ///< path to dot executable
     bool showExportLayout;  ///< flag for display export layout
+};
+
+class LayoutTypeState {
+public:
+    LayoutTypeState()
+     : showExportLayout(Uml::LayoutType::Enum::Direct)
+    {
+    }
+
+    void load();
+    void save();
+
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
+
+    Uml::LayoutType::Enum  showExportLayout;  ///< flag for display export layout
 };
 
 class OptionState {
@@ -293,12 +314,13 @@ public:
     void load();
     void save();
 
-    void saveToXMI1(QDomElement& element);
-    bool loadFromXMI1(QDomElement& element);
+    void saveToXMI(QXmlStreamWriter& writer);
+    bool loadFromXMI(QDomElement& element);
 
     static OptionState &instance();
 
     GeneralState        generalState;
+    LayoutTypeState     layoutTypeState;
     UIState             uiState;
     ClassState          classState;
     CodeViewerState     codeViewerState;

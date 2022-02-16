@@ -1,14 +1,11 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003       Brian Thomas                                 *
- *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2014  Umbrello UML Modeller Authors                *
- *                            <umbrello-devel@kde.org>                       *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas
+    <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors
+    <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppwriter.h"
@@ -42,9 +39,10 @@
  * Constructor, initialises a couple of variables.
  */
 CppWriter::CppWriter()
+  : m_stringIncludeRequired(false)
 {
     // Probably we could resolve this better through the use of templates,
-    // but it is a quick n dirty fix for the timebeing.. until codegeneration
+    // but it is a quick n dirty fix for the time being.. until codegeneration
     // template system is in place.
     // You can insert code here. 3 general variables exist: "%VARNAME%"
     // allows you to specify where the vector variable should be in your code,
@@ -95,7 +93,7 @@ CPPCodeGenerationPolicy *CppWriter::policyExt()
 void CppWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("CppWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
 
@@ -123,7 +121,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
-    if (c->baseType() == UMLObject::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum || c->isInterface()) {
         need_impl = false;
     }
     if (need_impl) {
@@ -146,7 +144,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
 {
     // open stream for writing
-    QTextStream h (&file);
+    QTextStream h(&file);
 
     // up the indent level to one
     m_indentLevel = 1;
@@ -164,8 +162,13 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine << "_H" << m_endl;
     h << "#define "<< hashDefine << "_H" << m_endl;
+    h << m_endl;
 
-    writeClassDecl(c, h);
+    QString s;
+    QTextStream t(&s);
+    writeClassDecl(c, t);
+    writeIncludes(c, h);
+    h << s;
 
     // last thing..close our hashdefine
     h << m_endl << "#endif // " << hashDefine << "_H" << m_endl;
@@ -218,7 +221,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     // set the starting indentation at zero
     m_indentLevel = 0;
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".cpp"));
     if (!str.isEmpty()) {
@@ -332,27 +335,38 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 }
 
 /**
- * Writes class's documentation to the class header
- * "public abstract class Foo extents {".
+ * write includes
+ * @param c uml classifier
+ * @param stream text stream
  */
-void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
+void CppWriter::writeIncludes(UMLClassifier *c, QTextStream &stream)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
     foreach (UMLClassifier* classifier, superclasses) {
         QString headerName = findFileName(classifier, QLatin1String(".h"));
         if (!headerName.isEmpty()) {
-            cpp << "#include \"" << headerName << "\"" << m_endl;
+            stream << "#include \"" << headerName << "\"" << m_endl;
         }
     }
+    if (superclasses.size() > 0)
+        writeBlankLine(stream);
 
-    writeBlankLine(cpp);
-    cpp << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
+    if (m_stringIncludeRequired)
+        stream << "#include " << policyExt()->getStringClassNameInclude() << m_endl;
+
     if (c->hasVectorFields())
-    {
-        cpp << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
-        writeBlankLine(cpp);
-    }
+        stream << "#include " << policyExt()->getVectorClassNameInclude() << m_endl;
 
+    if (m_stringIncludeRequired || c->hasVectorFields())
+        writeBlankLine(stream);
+}
+
+/**
+ * Writes class's documentation to the class header
+ * "public abstract class Foo extents {".
+ */
+void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
+{
     if (c->hasAssociations())
     {
         // write all includes we need to include other classes, that arent us.
@@ -364,7 +378,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         writeBlankLine(cpp);
     }
 
-    foreach (UMLClassifier* classifier, superclasses) {
+    foreach (UMLClassifier* classifier, c->getSuperClasses()) {
         if (classifier->package()!=c->package() && !classifier->package().isEmpty()) {
             cpp << "using " << cleanName(classifier->package()) << "::" << cleanName(classifier->name()) << ";" << m_endl;
         }
@@ -373,7 +387,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
         cpp << m_endl << "namespace " << cleanName(c->package()) << " {" << m_endl << m_endl;
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         cpp << m_endl << "/**" << m_endl;
         cpp << "  * class " << className_ << m_endl;
@@ -449,32 +463,44 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     // write out field and operations decl grouped by visibility
     //
 
+    QString s;
+    QTextStream tmp(&s);
+
     // PUBLIC attribs/methods
-    cpp << "public:" << m_endl << m_endl; // print visibility decl.
-    writeDataTypes(c, Uml::Visibility::Public, cpp);
+    writeDataTypes(c, Uml::Visibility::Public, tmp);
     // for public: constructors are first ops we print out
     if (!c->isInterface())
-        writeConstructorDecls(cpp);
-    writeHeaderFieldDecl(c, Uml::Visibility::Public, cpp);
-    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, cpp);
-    writeOperations(c, true, Uml::Visibility::Public, cpp);
+        writeConstructorDecls(tmp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Public, tmp);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, tmp);
+    writeOperations(c, true, Uml::Visibility::Public, tmp);
+    s = s.trimmed();
+    if (!s.isEmpty()) {
+        cpp << "public:" << m_endl << indent() << s << m_endl << m_endl;
+    }
 
+    s.clear();
     // PROTECTED attribs/methods
-    //
-    cpp << "protected" << ":" << m_endl << m_endl; // print visibility decl.
-    writeDataTypes(c, Uml::Visibility::Protected, cpp);
-    writeHeaderFieldDecl(c, Uml::Visibility::Protected, cpp);
-    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, cpp);
-    writeOperations(c, true, Uml::Visibility::Protected, cpp);
+    writeDataTypes(c, Uml::Visibility::Protected, tmp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Protected, tmp);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, tmp);
+    writeOperations(c, true, Uml::Visibility::Protected, tmp);
+    s = s.trimmed();
+    if (!s.isEmpty()) {
+        cpp << "protected:" << m_endl << indent() << s << m_endl << m_endl;
+    }
 
+    s.clear();
     // PRIVATE attribs/methods
-    //
-    cpp << "private" << ":" << m_endl << m_endl; // print visibility decl.
-    writeDataTypes(c, Uml::Visibility::Private, cpp);
-    writeHeaderFieldDecl(c, Uml::Visibility::Private, cpp);
-    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Private, cpp);
-    writeOperations(c, true, Uml::Visibility::Private, cpp);
-    writeInitAttributeDecl(c, cpp); // this is always private, used by constructors to initialize class
+    writeDataTypes(c, Uml::Visibility::Private, tmp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Private, tmp);
+    writeHeaderAccessorMethodDecl(c, Uml::Visibility::Private, tmp);
+    writeOperations(c, true, Uml::Visibility::Private, tmp);
+    writeInitAttributeDecl(c, tmp); // this is always private, used by constructors to initialize class
+    s = s.trimmed();
+    if (!s.isEmpty()) {
+        cpp << "private:" << m_endl << indent() << s << m_endl;
+    }
 
     // end of class header
     cpp << m_endl << "};" << m_endl;
@@ -561,16 +587,8 @@ void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visi
     else
         list = c->getAttributeList(visibility);
 
-    // switch to public
-    if (visibility != Uml::Visibility::Public)
-        stream << "public:" << m_endl << m_endl;
-
     // write accessor methods for attribs we found
     writeAttributeMethods(list, visibility, true, false, policyExt()->getAccessorsAreInline(), stream);
-
-    // switch back to previous vis.
-    if (visibility != Uml::Visibility::Public)
-        stream << Uml::Visibility::toString(visibility) << ":" << m_endl << m_endl;
 }
 
 /**
@@ -601,14 +619,9 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 
     foreach (UMLAttribute* at, attribs) {
         QString varName = getAttributeVariableName(at);
-        QString methodBaseName = cleanName(at->name());
+        QString methodBaseName = getAttributeMethodBaseName(cleanName(at->name()));
 
-        // force capitalizing the field name, this is silly,
-        // from what I can tell, this IS the default behavior for
-        // cleanName. I dunno why it is not working -b.t.
         methodBaseName = methodBaseName.trimmed();
-        methodBaseName.replace(0, 1, methodBaseName.at(0).toUpper());
-
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
                                             methodBaseName, at->doc(), Uml::Changeability::Changeable, isHeaderMethod,
                                             at->isStatic(), writeMethodBody, stream);
@@ -677,7 +690,7 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
             if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
-            // First: we insert documentaion for association IF it has either role AND some documentation (!)
+            // First: we insert documentation for association IF it has either role AND some documentation (!)
             if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
                 writeComment(a->doc(), indent(), h);
 
@@ -902,7 +915,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     stream << indnt << returnVarName << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
-    stream << "get" << fldName << "List ()";
+    stream << "get" << fldName << "List()";
     if (writeMethodBody) {
         stream << indnt << " {" << m_endl;
         m_indentLevel++;
@@ -932,9 +945,8 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         return;
 
     QString className = fixTypeName(fieldClassName);
-    QString fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
     QString indnt = indent();
-    QString varName = QLatin1String("new_var");
+    QString varName = QLatin1String("value");
     QString fullVarName = varName;
 
     int i = className.indexOf(QLatin1Char('['));
@@ -944,19 +956,22 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         className = className.left(i);
         isArrayType = true;
     }
+    QString fldName = fieldName;
+    if (policyExt()->getAccessorMethodsStartWithUpperCase())
+        fldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
     // set method
     if (change == Uml::Changeability::Changeable) {
-        writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QLatin1String("param new_var the new value of ") + fieldVarName, stream);
+        writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QString(QLatin1String("param %1 the new value of ")).arg(varName) + fieldVarName, stream);
         stream << indnt << "void ";
         if (!isHeaderMethod)
             stream << className_ << "::";
-        stream << "set" << fldName << " (" << className << " " << fullVarName << ")";
+        stream << "set" << fldName << "(" << className << " " << fullVarName << ")";
 
         if (writeMethodBody) {
-            stream << indnt << " {" << m_endl;
+            stream << m_endl << indnt << "{" << m_endl;
             m_indentLevel++;
-            stream << indent() << indnt;
+            stream << indent();
             m_indentLevel--;
             if (isStatic)
                 stream << className_ << "::";
@@ -977,10 +992,13 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     stream << indnt << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
-    stream << "get" << fldName << " ()";
+    if (policyExt()->getGetterWithGetPrefix())
+        stream << "get" << fldName << "()";
+    else
+        stream << fieldName << "()";
 
     if (writeMethodBody) {
-        stream << indnt << " {" << m_endl;
+        stream << m_endl << indnt << "{" << m_endl;
         m_indentLevel++;
         stream << indent() << "return ";
         m_indentLevel--;
@@ -1013,10 +1031,10 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
         return;
 
     writeDocumentation(QString(), QLatin1String("Empty Constructor"), QString(), stream);
-    stream << indent() << className_ << " ();" << m_endl;
+    stream << indent() << className_ << "();" << m_endl;
     writeDocumentation(QString(), QLatin1String("Empty Destructor"), QString(), stream);
     stream << indent();
-    stream << "virtual ~" << className_ << " ();" << m_endl;
+    stream << "virtual ~" << className_ << "();" << m_endl;
     writeBlankLine(stream);
 }
 
@@ -1027,7 +1045,7 @@ void CppWriter::writeInitAttributeDecl(UMLClassifier * c, QTextStream &stream)
 {
     if (UMLApp::app()->commonPolicy()->getAutoGenerateConstructors() &&
         c->hasAttributes())
-        stream << indent() << "void initAttributes () ;" << m_endl;
+        stream << indent() << "void initAttributes();" << m_endl;
 }
 
 /**
@@ -1042,7 +1060,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
 
     QString indnt = indent();
 
-    stream << indnt << "void " << className_ << "::" << "initAttributes () {" << m_endl;
+    stream << indnt << "void " << className_ << "::" << "initAttributes()" << m_endl
+           << "{" << m_endl;
 
     m_indentLevel++;
     // first, initiation of fields derived from attributes
@@ -1103,14 +1122,19 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
 
     // empty constructor
     QString indnt = indent();
-    stream << indnt << className_ << "::" << className_ << " () {" << m_endl;
+    stream << indent() << className_ << "::" << className_ << "()" << m_endl
+           << indent() << "{" << m_endl;
+    m_indentLevel++;
     if (c->hasAttributes())
-        stream << indnt << indnt << "initAttributes();" << m_endl;
-    stream << indnt << "}" << m_endl;
+        stream << indent() << "initAttributes();" << m_endl;
+    m_indentLevel--;
+    stream << indent() << "}" << m_endl;
     writeBlankLine(stream);
 
     // empty destructor
-    stream << indent() << className_ << "::~" << className_ << " () { }" << m_endl;
+    stream << indent() << className_ << "::~" << className_ << "()" << m_endl
+           << indent() << "{" << m_endl
+           << indent() << "}" << m_endl;
     writeBlankLine(stream);
 }
 
@@ -1118,7 +1142,7 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
  * Write all datatypes for a given class.
  * @param c                the class for which we are generating code
  * @param permitScope      what type of method to write (by Scope)
- * @param cpp              the stream associated with the output file
+ * @param stream           QTextStream serialization target
  */
 void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {
@@ -1128,7 +1152,7 @@ void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitSco
             continue;
         if (!o->isUMLDatatype())
             continue;
-        UMLDatatype *d = o->asUMLDatatype();
+        const UMLDatatype *d = o->asUMLDatatype();
         if (d && d->isReference() && d->originType()) {
             stream << indent() << "typedef " << d->originType()->name() << " " << d->name() << ";" << m_endl;
         }
@@ -1142,8 +1166,10 @@ QString CppWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
         return QLatin1String("void");
-    if (string == QLatin1String("string"))
+    if (string == QLatin1String("string")) {
+        m_stringIncludeRequired = true;
         return policyExt()->getStringClassName();
+    }
     return string;
 }
 
@@ -1227,7 +1253,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (!isHeaderMethod)
             str += className_ + QLatin1String("::");
 
-        str += cleanName(op->name()) + QLatin1String(" (");
+        str += cleanName(op->name()) + QLatin1String("(");
 
         // generate parameters
         uint j = 0;
@@ -1259,8 +1285,11 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (op->getOverride())
             str += QLatin1String(" override");
 
+        if (isHeaderMethod && op->isAbstract()) {
+            str += QLatin1String(" = 0;");
+        }
         // method body : only gets IF it is not in a header
-        if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
+        else if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
             str += QLatin1Char(';'); // terminate now
         }
         else {
@@ -1283,7 +1312,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 }
 
 /**
- * Intellegently print out header include/forward decl. for associated classes.
+ * Intelligently print out header include/forward decl. for associated classes.
  * Note:
  *   To prevent circular including when both classifiers on either end
  *   of an association have roles we need to have forward declaration of
@@ -1371,15 +1400,29 @@ void CppWriter::printTextAsSeparateLinesWithIndent(const QString &text, const QS
  */
 QString CppWriter::getAttributeVariableName(UMLAttribute *at)
 {
-    QString fieldName = cleanName(at->name());
+    QString fieldName;
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
+    CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
+    if (policy && !policy->getClassMemberPrefix().isEmpty())
+        fieldName = policy->getClassMemberPrefix() + cleanName(at->name());
+    else
+        fieldName = cleanName(at->name());
     return fieldName;
+}
+
+QString CppWriter::getAttributeMethodBaseName(const QString &fieldName)
+{
+    QString fldName = fieldName;
+    if (policyExt()->getRemovePrefixFromAccessorMethods())
+        fldName.replace(QRegExp(QLatin1String("^[a-zA-Z]_")), QLatin1String(""));
+    return fldName;
 }
 
 /**
  * Add C++ primitives as datatypes.
  * @return   the list of default datatypes
  */
-QStringList CppWriter::defaultDatatypes()
+QStringList CppWriter::defaultDatatypes() const
 {
     return Codegen_Utils::cppDatatypes();
 }

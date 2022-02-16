@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef TOOLBARSTATE_H
 #define TOOLBARSTATE_H
@@ -84,6 +79,10 @@ public:
 public slots:
     virtual void slotAssociationRemoved(AssociationWidget* association);
     virtual void slotWidgetRemoved(UMLWidget* widget);
+
+signals:
+    // signals finish of operation
+    void finished();
 
 protected:
     ToolBarState(UMLScene* umlScene);

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Heiko Nardmann <h.nardmann@secunet.de>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "phpwriter.h"
 
@@ -17,6 +13,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
+#include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <QRegExp>
 #include <QTextStream>
@@ -2992,7 +2989,7 @@ PhpWriter::~PhpWriter()
 void PhpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("PhpWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -3015,7 +3012,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-    //try to find a heading file (license, coments, etc)
+    //try to find a heading file (license, comments, etc)
     QString str;
     str = getHeadingFile(QLatin1String(".php"));
     if (!str.isEmpty()) {
@@ -3036,7 +3033,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     }
     php << m_endl;
 
-    //Write class Documentation if there is somthing or if force option
+    //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;

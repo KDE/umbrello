@@ -1,29 +1,29 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "toolbarstatemessages.h"
 
 // local includes
+#include "cmds.h"
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
+#include "object_factory.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlscene.h"
+#include "widget_factory.h"
 
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
+
+DEBUG_REGISTER(ToolBarStateMessages)
 
 /**
  * Creates a new ToolBarStateMessages.
@@ -111,13 +111,14 @@ void ToolBarStateMessages::setCurrentElement()
     m_isObjectWidgetLine = false;
 
     ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
+    const QString funcInfo(QString::fromLatin1(Q_FUNC_INFO));
     if (objectWidgetLine) {
-        uDebug() << Q_FUNC_INFO << "Object detected";
+        logDebug1("ToolBarStateMessages::setCurrentElement %1 Object detected", funcInfo);
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
-    uDebug() << Q_FUNC_INFO << "Object NOT detected";
+    logDebug1("ToolBarStateMessages::setCurrentElement %1 Object NOT detected", funcInfo);
     //commit 515177 fixed a setting creation messages only working properly at 100% zoom
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
@@ -175,7 +176,27 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 {
     Uml::SequenceMessage::Enum msgType = getMessageType();
 
-    if (m_firstObject && msgType ==  Uml::SequenceMessage::Lost) {
+    if (m_firstObject && msgType ==  Uml::SequenceMessage::Creation) {
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
+
+        bool state = m_pUMLScene->getCreateObject();
+        m_pUMLScene->setCreateObject(false);
+        UMLObject *object = Object_Factory::createUMLObject(UMLObject::ot_Class);
+        m_pUMLScene->setCreateObject(state);
+        if (object) {
+            ObjectWidget *widget = (ObjectWidget *)Widget_Factory::createWidget(m_pUMLScene, object);
+            widget->setX(xclick);
+            widget->activate();
+            m_pUMLScene->addWidgetCmd(widget);
+
+            MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, widget, yclick, msgType);
+            setupMessageWidget(message, false);
+        }
+        cleanMessage();
+        xclick = 0;
+        yclick = 0;
+    } else if (m_firstObject && msgType ==  Uml::SequenceMessage::Lost) {
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
@@ -207,7 +228,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
 /**
  * Sets the first object of the message using the specified object.
- * The temporal visual message is created and mouse tracking enabled, so
+ * The temporary visual message is created and mouse tracking enabled, so
  * mouse events will be delivered.
  *
  * @param firstObject The first object of the message.
@@ -260,12 +281,9 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
         yclick = 0;
         return;
     }
-    //TODO shouldn't start position in the first widget be used also for normal messages
-    //and not only for creation?
-    qreal y = m_pMouseEvent->scenePos().y();
+    qreal y = m_messageLine->line().p1().y();
     if (messageType == CreationMessage) {
         msgType = Uml::SequenceMessage::Creation;
-        y = m_messageLine->line().p1().y();
     }
 
     MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,
@@ -281,7 +299,13 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
  */
 Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
 {
-    if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
+    if (getButton() == WorkToolBar::tbb_Seq_Message_Creation) {
+        return Uml::SequenceMessage::Creation;
+    }
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Destroy) {
+        return Uml::SequenceMessage::Destroy;
+    }
+    else if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::SequenceMessage::Synchronous;
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Found) {
@@ -294,29 +318,34 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
 }
 
 /**
- * Cleans the first widget and the temporal message line, if any.
+ * Cleans the first widget and the temporary message line, if any.
  * Both are set to null, and the message line is also deleted.
  */
 void ToolBarStateMessages::cleanMessage()
 {
     m_firstObject = 0;
 
-    delete m_messageLine;
-    m_messageLine = 0;
+    if (m_messageLine) {
+        delete m_messageLine;
+        m_messageLine = 0;
+    }
 }
 
-void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
+void ToolBarStateMessages::setupMessageWidget(MessageWidget *message, bool showOperationDialog)
 {
-    m_pUMLScene->addWidgetCmd(message);
-    message->activate();
-
-    FloatingTextWidget *ft = message->floatingTextWidget();
-    //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-    //Shouldn't it cancel also the whole creation?
-    ft->showOperationDialog();
-    message->setTextPosition();
-    m_pUMLScene->addWidgetCmd(ft);
-
-    UMLApp::app()->document()->setModified();
+    if (showOperationDialog) {
+        FloatingTextWidget *ft = message->floatingTextWidget();
+        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+        //Shouldn't it cancel also the whole creation?
+        if (message->sequenceMessageType() == Uml::SequenceMessage::Destroy) {
+            message->setOperationText(i18n("destroy"));
+        } else {
+            ft->showOperationDialog();
+            m_pUMLScene->addWidgetCmd(ft);
+        }
+        message->setTextPosition();
+    }
+    UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));
+    emit finished();
 }
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "notewidget.h"
@@ -33,6 +28,9 @@
 #if QT_VERSION >= 0x050000
 #include <QColorDialog>
 #endif
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(NoteWidget)
 
 QPointer<NoteWidget> NoteWidget::s_pCurrentNote;
 
@@ -152,7 +150,7 @@ void NoteWidget::setNoteType(const QString& noteType)
 /**
  * Return the ID of the diagram hyperlinked to this note.
  *
- * @return  ID of an UMLView, or Uml::ID::None if no
+ * @return  ID of a UMLView, or Uml::ID::None if no
  *          hyperlink is set.
  */
 Uml::ID::Type NoteWidget::diagramLink() const
@@ -164,14 +162,15 @@ Uml::ID::Type NoteWidget::diagramLink() const
  * Set the ID of the diagram hyperlinked to this note.
  * To switch off the hyperlink, set this to Uml::id_None.
  *
- * @param viewID    ID of an UMLScene.
+ * @param viewID    ID of a UMLScene.
  */
 void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
     if (view == 0) {
-        uError() << "no view found for viewID " << Uml::ID::toString(viewID);
+        logError1("NoteWidget::setDiagramLink: no view found for viewID %1",
+                  Uml::ID::toString(viewID));
         return;
     }
     QString linkText(QLatin1String("Diagram: ") + view->umlScene()->name());
@@ -244,9 +243,9 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 /**
  * Loads a "notewidget" XMI element.
  */
-bool NoteWidget::loadFromXMI1(QDomElement & qElement)
+bool NoteWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
     setDocumentation(qElement.attribute(QLatin1String("text")));
@@ -261,15 +260,15 @@ bool NoteWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "notewidget" XMI element.
  */
-void NoteWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void NoteWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement noteElement = qDoc.createElement(QLatin1String("notewidget"));
-    UMLWidget::saveToXMI1(qDoc, noteElement);
-    noteElement.setAttribute(QLatin1String("text"), documentation());
+    writer.writeStartElement(QLatin1String("notewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
-        noteElement.setAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
-    noteElement.setAttribute(QLatin1String("noteType"), m_noteType);
-    qElement.appendChild(noteElement);
+        writer.writeAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
+    writer.writeAttribute(QLatin1String("noteType"), QString::number(m_noteType));
+    writer.writeEndElement();
 }
 
 /**

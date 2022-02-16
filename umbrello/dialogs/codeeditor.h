@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003 Brian Thomas  <brian.thomas@gsfc.nasa.gov>         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
@@ -63,7 +59,7 @@ public:
     void setParent(UMLObject *p = 0) { m_parent = p; }
     UMLObject * parent() { return m_parent; }
     void setDisplayName(const QString& name) { m_displayName = name; }
-    QString displayName() { return m_displayName; }
+    QString displayName() const { return m_displayName; }
 };
 
 

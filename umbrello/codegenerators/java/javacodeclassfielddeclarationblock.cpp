@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "javacodeclassfielddeclarationblock.h"
 
@@ -45,7 +41,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
 
     if (!jcf){
-        uError() << "jcf: invalid dynamic cast";
+        logError0("JavaCodeClassFieldDeclarationBlock::updateContent: invalid dynamic cast");
         return;
     }
 
@@ -89,12 +85,12 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
         body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
-        UMLRole * role = cf->getParentObject()->asUMLRole();
+        const UMLRole * role = cf->getParentObject()->asUMLRole();
 
         // Check for dynamic casting failure
         if (role == 0)
         {
-            uError() << "role: invalid dynamic cast";
+            logError0("JavaCodeClassFieldDeclarationBlock::updateContent role: invalid dynamic cast");
             return;
         }
 

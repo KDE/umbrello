@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "activitywidget.h"
@@ -27,8 +22,12 @@
 
 // qt includes
 #include <QPointer>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(ActivityWidget)
+
 /**
- * Creates a Activity widget.
+ * Creates an Activity widget.
  *
  * @param scene          The parent of the widget.
  * @param activityType   The type of activity.
@@ -312,9 +311,9 @@ void ActivityWidget::moveWidgetBy(qreal diffX, qreal diffY)
 /**
  * Loads the widget from the "activitywidget" XMI element.
  */
-bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
+bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     setName(qElement.attribute(QLatin1String("activityname")));
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
@@ -330,16 +329,16 @@ bool ActivityWidget::loadFromXMI1(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActivityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement activityElement = qDoc.createElement(QLatin1String("activitywidget"));
-    UMLWidget::saveToXMI1(qDoc, activityElement);
-    activityElement.setAttribute(QLatin1String("activityname"), name());
-    activityElement.setAttribute(QLatin1String("documentation"), documentation());
-    activityElement.setAttribute(QLatin1String("precondition"), preconditionText());
-    activityElement.setAttribute(QLatin1String("postcondition"), postconditionText());
-    activityElement.setAttribute(QLatin1String("activitytype"), m_activityType);
-    qElement.appendChild(activityElement);
+    writer.writeStartElement(QLatin1String("activitywidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("activityname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
+    writer.writeAttribute(QLatin1String("precondition"), preconditionText());
+    writer.writeAttribute(QLatin1String("postcondition"), postconditionText());
+    writer.writeAttribute(QLatin1String("activitytype"), QString::number(m_activityType));
+    writer.writeEndElement();
 }
 
 /**
@@ -371,9 +370,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString n = name();
-            bool ok = Dialog_Utils::askName(i18n("Enter Activity Name"),
-                                            i18n("Enter the name of the new activity:"),
-                                            n);
+            bool ok = Dialog_Utils::askRenameName(WidgetBase::wt_Activity, n);
             if (ok && !n.isEmpty()) {
                 setName(n);
             }

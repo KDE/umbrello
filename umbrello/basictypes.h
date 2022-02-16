@@ -1,21 +1,7 @@
-/***************************************************************************
- * Copyright (C) 2011 by Andi Fischer <andi.fischer@hispeed.ch>            *
- *                                                                         *
- * This is free software; you can redistribute it and/or modify            *
- * it under the terms of the GNU General Public License as published by    *
- * the Free Software Foundation; either version 2, or (at your option)     *
- * any later version.                                                      *
- *                                                                         *
- * This software is distributed in the hope that it will be useful,        *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
- * GNU General Public License for more details.                            *
- *                                                                         *
- * You should have received a copy of the GNU General Public License       *
- * along with this package; see the file COPYING.  If not, write to        *
- * the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,   *
- * Boston, MA 02110-1301, USA.                                             *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef BASICTYPES_H
 #define BASICTYPES_H
@@ -109,9 +95,9 @@ namespace Uml
             Dependency,
             Association,
             Association_Self,
-            Coll_Message_Asynchronous,
+            Coll_Mesg_Async,
             Seq_Message,
-            Coll_Message_Self,
+            Coll_Mesg_Self,
             Seq_Message_Self,
             Containment,
             Composition,
@@ -124,7 +110,7 @@ namespace Uml
             Category2Parent,
             Child2Category,
             Relationship,
-            Coll_Message_Synchronous,
+            Coll_Mesg_Sync,
             // enter new entries before this line
             Reserved,
             Unknown  =  - 1
@@ -134,6 +120,36 @@ namespace Uml
         Enum fromString(const QString& item);
         Enum fromInt(int item);
         bool hasUMLRepresentation(Enum item);
+    }
+
+    /**
+     * Layout types.
+     */
+    namespace LayoutType
+    {
+        enum Enum {
+            Undefined = 0,
+            Direct,
+            Orthogonal,
+            Polyline,
+            Spline,
+            N_LAYOUTTYPES   // must remain last
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
+
+    /**
+     * Diagram property controlling display of stereotypes.
+     */
+    namespace ShowStereoType
+    {
+        enum Enum {
+            None = 0,    ///< no display of stereotype
+            Name,        ///< stereotype name only
+            Tags         ///< stereotype name and tagged values
+        };
     }
 
     /**
@@ -204,7 +220,8 @@ namespace Uml
             Asynchronous,
             Creation,
             Lost,
-            Found
+            Found,
+            Destroy,
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);
@@ -245,6 +262,28 @@ namespace Uml
     }
 
     /**
+     * UML primitive types
+     */
+    namespace PrimitiveTypes
+    {
+        enum Enum {
+            String,
+            Boolean,
+            UnlimitedNatural,
+            Integer,
+            Real,
+            Reserved
+        };
+
+        const int n_types = int(Reserved);
+
+        QString toString(Enum item);
+        QString toString(int item);
+        Enum fromString(const QString& item, bool strict = false);
+        Enum fromInt(int item);
+    }
+
+    /**
      * Supported programming languages.
      */
     namespace ProgrammingLanguage
@@ -270,7 +309,7 @@ namespace Uml
             Tcl,
             Vala,
             XMLSchema,
-            Reserved
+            Reserved   // for UML Primitive Types (no code generator)
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);

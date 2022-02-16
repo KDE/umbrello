@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "artifactwidget.h"
@@ -16,9 +11,15 @@
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "uml.h"  // only needed for log{Warn,Error}
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(ArtifactWidget)
 
 /**
- * Constructs a ArtifactWidget.
+ * Constructs an ArtifactWidget.
  *
  * @param scene     The parent of this ArtifactWidget.
  * @param a         The Artifact this widget will be representing.
@@ -37,8 +38,8 @@ ArtifactWidget::~ArtifactWidget()
 }
 
 /**
- * Reimplemented to paint the articraft widget. Some part of specific
- * drawing is delegeted to private method like drawAsFile..
+ * Reimplemented to paint the artifact widget. Some part of specific
+ * drawing is delegated to private method like drawAsFile..
  */
 void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -53,7 +54,7 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     }
 
     if (umlObject()) {
-        UMLArtifact *umlart = m_umlObject->asUMLArtifact();
+        const UMLArtifact *umlart = m_umlObject->asUMLArtifact();
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
@@ -69,24 +70,24 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             paintAsTable(painter, option);
             break;
         default:
-            uWarning() << "Artifact drawn as unknown type";
+            logWarn1("ArtifactWidget::paint: Artifact drawn as unknown type %1", drawType);
             break;
         }
     }
     else {
-        uWarning() << "Cannot draw as there is no UMLArtifact for this widget.";
+        logWarn0("ArtifactWidget::paint: Cannot draw as there is no UMLArtifact for this widget.");
     }
 }
 
 /**
- * Reimplemented from WidgetBase::saveToXMI1 to save the widget to
+ * Reimplemented from WidgetBase::saveToXMI to save the widget to
  * the "artifactwidget" XMI element.
  */
-void ArtifactWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ArtifactWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("artifactwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    writer.writeStartElement(QLatin1String("artifactwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -97,7 +98,7 @@ QSizeF ArtifactWidget::minimumSize() const
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
-    UMLArtifact *umlart = m_umlObject->asUMLArtifact();
+    const UMLArtifact *umlart = m_umlObject->asUMLArtifact();
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
         return calculateNormalSize();
     } else {

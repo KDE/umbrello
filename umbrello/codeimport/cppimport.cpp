@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2005-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppimport.h"
@@ -16,6 +11,7 @@
 #include "kdevcppparser/cpptree2uml.h"
 
 // app includes
+#define DBG_SRC QLatin1String("CppImport")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "uml.h"
@@ -46,6 +42,8 @@ public:
         lexer->setRecordComments(true);
     }
 };
+
+DEBUG_REGISTER(CppImport)
 
 /**
  * Constructor.
@@ -83,10 +81,10 @@ void CppImport::feedTheModel(const QString& fileName)
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {
-                uError() << fileName << ": " << it.value().first << " not found";
+                logError2("CppImport::feedTheModel(%1) : %2 not found", fileName, it.value().first);
                 continue;
             }
-            uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
+            logDebug3("CppImport::feedTheModel(%1): %2 => %3", fileName, includeFile, it.value().first);
             if (ms_seenFiles.indexOf(includeFile) == -1)
                 ms_seenFiles.append(includeFile);
             feedTheModel(includeFile);
@@ -94,7 +92,7 @@ void CppImport::feedTheModel(const QString& fileName)
     }
     ParsedFilePointer ast = ms_driver->translationUnit(fileName);
     if (!ast) {
-        uError() << fileName << " not found in list of parsed files";
+        logError1("CppImport::feedTheModel: %1 not found in list of parsed files", fileName);
         return;
     }
     ms_seenFiles.append(fileName);
@@ -157,7 +155,7 @@ bool CppImport::parseFile(const QString& fileName)
         QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                 .arg(problem.fileName()).arg(problem.line()+1)
                 .arg(problem.column()).arg(level).arg(problem.text());
-        UMLApp::app()->logWindow()->addItem(item);
+        UMLApp::app()->log(item);
     }
     if (!result)
         return false;

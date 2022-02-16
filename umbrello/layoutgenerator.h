@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef LAYOUTGENERATOR_H
 
@@ -45,12 +40,11 @@ public:
 
     LayoutGenerator();
 
-    bool isEnabled();
-    static QString currentDotPath();
+    bool isEnabled() const;
     bool generate(UMLScene *scene, const QString &variant = QString());
     bool apply(UMLScene *scene);
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);
-    QPoint origin(const QString &id);
+    QPointF origin(const QString &id);
     bool readGeneratedDotFile(const QString &fileName);
     bool parseLine(const QString &line);
     bool splitParameters(QMap<QString,QStringList> &map, const QString &s);
@@ -61,7 +55,6 @@ protected:
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
     QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
-    QString m_dotPath;     ///< contains path to dot executable
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);
 };

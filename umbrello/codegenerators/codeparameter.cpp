@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeparameter.h"
@@ -22,6 +18,9 @@
 #include "umlrole.h"
 #include "uml.h"
 #include "codegenfactory.h"
+
+// qt/kde includes
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -145,14 +144,14 @@ UMLObject * CodeParameter::getParentObject()
 
 // need to get the ID of the parent object
 // this is kind of broken for UMLRoles.
-QString CodeParameter::ID()
+QString CodeParameter::ID() const
 {
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role)
     {
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
-        UMLAssociation *assoc = role->parentAssociation();
+        const UMLAssociation *assoc = role->parentAssociation();
         return Uml::ID::toString(assoc->id());
     } else
         return Uml::ID::toString(m_parentObject->id());
@@ -163,26 +162,26 @@ QString CodeParameter::ID()
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
+void CodeParameter::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set local attributes
-    blockElement.setAttribute(QLatin1String("parent_id"), ID());
+    writer.writeAttribute(QLatin1String("parent_id"), ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
-    UMLRole * role = m_parentObject->asUMLRole();
+    const UMLRole * role = m_parentObject->asUMLRole();
     if (role)
-        blockElement.setAttribute(QLatin1String("role_id"), role->role());
+        writer.writeAttribute(QLatin1String("role_id"), QString::number(role->role()));
     else
-        blockElement.setAttribute(QLatin1String("role_id"), QLatin1String("-1"));
+        writer.writeAttribute(QLatin1String("role_id"), QLatin1String("-1"));
 
-    blockElement.setAttribute(QLatin1String("initialValue"), getInitialValue());
+    writer.writeAttribute(QLatin1String("initialValue"), getInitialValue());
 
     // a comment which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement(QLatin1String("header"));
-    getComment()->saveToXMI1(doc, commElement); // comment
-    blockElement.appendChild(commElement);
+    writer.writeStartElement(QLatin1String("header"));
+    getComment()->saveToXMI(writer); // comment
+    writer.writeEndElement();
 }
 
 /**
@@ -222,9 +221,9 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             else if (role_id == 0)
                 role = assoc->getUMLRole(Uml::RoleType::B);
             else
-                uError() << "corrupt save file? "
-                    << "cant get proper UMLRole for codeparameter uml id:"
-                    << Uml::ID::toString(id) << " w/role_id:" << role_id;
+                logError2("CodeParameter::setAttributesFromNode: corrupt save file? "
+                          "cant get proper UMLRole for codeparameter uml id: %1 w/role_id: %2",
+                          Uml::ID::toString(id), role_id);
 
             // init using UMLRole obj
             if (role)
@@ -234,8 +233,8 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             initFields (m_parentDocument, obj); // just the regular approach
 
     } else
-        uError() << "Cant load CodeParam: parentUMLObject w/id:"
-            << Uml::ID::toString(id) << " not found, corrupt save file?";
+        logError1("CodeParameter::setAttributesFromNode: Cant load CodeParam: parentUMLObject w/id: %1 not found",
+                  Uml::ID::toString(id));
 
     // other attribs now
     setInitialValue(root.attribute(QLatin1String("initialValue")));
@@ -250,7 +249,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
-            getComment()->loadFromXMI1(celem);
+            getComment()->loadFromXMI(celem);
             gotComment = true;
             break;
         }
@@ -259,7 +258,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
     }
 
     if (!gotComment)
-        uWarning()<<" loadFromXMI1 : Warning: unable to initialize CodeComment in codeparam:"<<this;
+        logWarn0("CodeParameter::setAttributesFromNode: unable to initialize CodeComment in codeparam");
 }
 
 /**

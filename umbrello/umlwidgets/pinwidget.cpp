@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "pinwidget.h"
@@ -64,9 +59,7 @@ void PinWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             QString name = m_Text;
-            bool ok = Dialog_Utils::askName(i18n("Enter Pin Name"),
-                                            i18n("Enter the pin name :"),
-                                            name);
+            bool ok = Dialog_Utils::askNewName(WidgetBase::wt_Pin, name);
             if (ok) {
                 setName(name);
             }

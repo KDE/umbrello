@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
@@ -32,6 +27,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QXmlStreamWriter>
 
 // forward declarations
 class ClassOptionsPage;
@@ -148,9 +144,9 @@ public:
     Settings::OptionState& optionState();
     void setOptionState(const Settings::OptionState& options);
 
-    const AssociationWidgetList associationList() const;
-    const MessageWidgetList messageList() const;
-    const UMLWidgetList widgetList() const;
+    AssociationWidgetList associationList() const;
+    MessageWidgetList messageList() const;
+    UMLWidgetList widgetList() const;
     void addWidgetCmd(UMLWidget* widget);
     void addWidgetCmd(AssociationWidget *widget);
 
@@ -176,6 +172,7 @@ public:
                                        UMLWidget *pWidgetB, const QString& roleNameB);
 
     void removeWidget(UMLWidget *o);
+    void removeWidget(AssociationWidget *w);
     void removeWidgetCmd(UMLWidget *o);
 private:
     void removeOwnedWidgets(UMLWidget* o);
@@ -206,12 +203,14 @@ public:
     void selectAll();
 
     UMLWidget* widgetOnDiagram(Uml::ID::Type id);
+    UMLWidget *widgetOnDiagram(WidgetBase::WidgetType type);
 
     bool isSavedInSeparateFile();
 
     void setMenu(const QPoint& pos);
 
     void resetToolbar();
+    void triggerToolbarButton(WorkToolBar::ToolBar_Buttons button);
 
     bool getPaste() const;
     void setPaste(bool paste);
@@ -275,12 +274,10 @@ public:
 
     void fileLoaded();
 
-    void resizeSceneToItems();
-
     // Load/Save interface:
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
@@ -309,6 +306,27 @@ public:
     int generateCollaborationId();
 
     UMLSceneItemList collisions(const QPointF &p, int delta = 3);
+
+    bool isClassDiagram()              const { return type() == Uml::DiagramType::Class;  }
+    bool isUseCaseDiagram()            const { return type() == Uml::DiagramType::UseCase; }
+    bool isSequenceDiagram()           const { return type() == Uml::DiagramType::Sequence; }
+    bool isCollaborationDiagram()      const { return type() == Uml::DiagramType::Collaboration; }
+    bool isStateDiagram()              const { return type() == Uml::DiagramType::State; }
+    bool isActivityDiagram()           const { return type() == Uml::DiagramType::Activity; }
+    bool isComponentDiagram()          const { return type() == Uml::DiagramType::Component; }
+    bool isDeploymentDiagram()         const { return type() == Uml::DiagramType::Deployment; }
+    bool isEntityRelationshipDiagram() const { return type() == Uml::DiagramType::EntityRelationship; }
+    bool isObjectDiagram()             const { return type() == Uml::DiagramType::Object; }
+
+    void setWidgetLink(WidgetBase *w);
+    WidgetBase *widgetLink();
+
+    qreal maxCanvasSize() { return s_maxCanvasSize; }
+
+    void updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h);
+
+    qreal fixX() const;
+    qreal fixY() const;
 
 protected:
     // Methods and members related to loading/saving
@@ -369,7 +387,7 @@ protected:
 #endif
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
-    QPointF m_Pos;
+    QPointF m_pos;
     bool m_bCreateObject;
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
@@ -377,22 +395,26 @@ protected:
 
 private:
     UMLScenePrivate *m_d;
-    static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.
-    static bool m_showDocumentationIndicator; ///< Status of documentation indicator
+    static const qreal s_defaultCanvasWidth;    ///< The default width of a diagram in pixels.
+    static const qreal s_defaultCanvasHeight;   ///< The default height of a diagram in pixels.
+    static const qreal s_maxCanvasSize;         ///< The maximum supported canvas size.
+    static bool s_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 
-    ToolBarStateFactory* m_pToolBarStateFactory;
-    ToolBarState* m_pToolBarState;
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
-    bool m_isActivated;             ///< True if the view was activated after the serialization(load).
+    bool m_isActivated;             ///< True if the view was activated after the deserialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
     QPointF m_PastePoint;     ///< The offset at which to paste the clipboard.
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
     bool m_autoIncrementSequence; ///< state of auto increment sequence
+    qreal m_minX, m_minY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
+    qreal m_maxX, m_maxY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
+    qreal m_fixX;             ///< Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
+    qreal m_fixY;             ///< Compensate for QGraphicsScene offsets, https://bugs.kde.org/show_bug.cgi?id=449622
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
@@ -432,6 +454,8 @@ signals:
     void sigShowGridToggled(bool);
     void sigAssociationRemoved(AssociationWidget*);
     void sigWidgetRemoved(UMLWidget*);
+
+    friend class DiagramProxyWidget;
 };
 
 QDebug operator<<(QDebug dbg, UMLScene *item);

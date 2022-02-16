@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // my own header
 #include "classgeneralpage.h"
@@ -60,8 +55,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pWidget(0),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -76,8 +69,12 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_visibilityEnumWidget(0)
 {
     if (!m_pObject) {
-        uWarning() << "Given UMLObject is NULL.";
+        logWarn0("ClassGeneralPage: Given UMLObject is NULL.");
         return;
+    }
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
     }
 
     setMinimumSize(310, 330);
@@ -86,18 +83,22 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     UMLObject::ObjectType t = m_pObject->baseType();
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
-    if( t == UMLObject::ot_Instance) {
-        Q_ASSERT(m_pObject->asUMLInstance());
+    if (t == UMLObject::ot_Instance) {
+        const UMLInstance *inst = m_pObject->asUMLInstance();
+        Q_ASSERT(inst);
         QString name = UMLObject::toI18nString(t);
         m_instanceNameWidget = new UMLObjectNameWidget(name, m_pObject->name());
         m_instanceNameWidget->addToLayout(m_pNameLayout, 0);
         setFocusProxy(m_instanceNameWidget);
-        QString className = UMLObject::toI18nString(UMLObject::ot_Class);
-        m_nameWidget = new UMLObjectNameWidget(className, m_pObject->asUMLInstance()->classifier()->name());
+        QString classNameLabel = UMLObject::toI18nString(UMLObject::ot_Class);
+        QString className;
+        if (inst->classifier())
+            className = inst->classifier()->name();
+        m_nameWidget = new UMLObjectNameWidget(classNameLabel, className);
         m_nameWidget->addToLayout(m_pNameLayout, 1);
     }
     else {
@@ -107,17 +108,20 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         setFocusProxy(m_nameWidget);
     }
 
-    if (t != UMLObject::ot_Stereotype && t!= UMLObject::ot_Instance) {
+    if (t != UMLObject::ot_Stereotype && t != UMLObject::ot_Instance) {
         m_stereotypeWidget = new UMLStereotypeWidget(m_pObject);
         if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
             m_stereotypeWidget->setEditable(false);
         }
         m_stereotypeWidget->addToLayout(m_pNameLayout, 1);
+        connect(m_stereotypeWidget->editField(), SIGNAL(currentTextChanged(const QString&)),
+                                          this, SLOT(slotStereoTextChanged(const QString&)));
+        Dialog_Utils::makeTagEditFields(m_pObject, m_pNameLayout, m_pTagL, m_pTagLE);
     }
 
     int row = 2;
     if (m_pObject->isUMLDatatype()) {
-        UMLDatatype *d = m_pObject->asUMLDatatype();
+        const UMLDatatype *d = m_pObject->asUMLDatatype();
         if (d && d->isReference() && d->originType()) {
             QLabel *label = new QLabel(i18n("Reference:"), this);
             m_pNameLayout->addWidget(label, row, 0);
@@ -127,7 +131,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
     }
 
-    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum) {
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum || t == UMLObject::ot_Entity) {
         m_packageWidget = new UMLPackageWidget(m_pObject);
         m_packageWidget->addToLayout(m_pNameLayout, row);
         ++row;
@@ -174,8 +178,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pWidget(o),
     m_pInstanceWidget(0),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -190,8 +192,12 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_visibilityEnumWidget(0)
 {
     if (!m_pWidget) {
-        uWarning() << "Given ObjectWidget is NULL.";
+        logWarn0("ClassGeneralPage: Given ObjectWidget is NULL.");
         return;
+    }
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
     }
 
     setMinimumSize(310, 330);
@@ -199,7 +205,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     topLayout->setSpacing(6);
 
     // setup name
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
@@ -218,7 +224,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pDrawActorCB->setChecked(m_pWidget->drawAsActor());
     m_pNameLayout->addWidget(m_pDrawActorCB, 2, 0);
 
-    if (view->umlScene()->type() == Uml::DiagramType::Collaboration) {
+    if (view->umlScene()->isCollaborationDiagram()) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(m_pWidget->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2, 1);
@@ -243,8 +249,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pWidget(0),
     m_pInstanceWidget(widget),
     m_pUmldoc(d),
-    m_pInstanceL(0),
-    m_pStereoTypeL(0),
     m_pMultiCB(0),
     m_pDrawActorCB(0),
     m_pAbstractCB(0),
@@ -258,12 +262,17 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_artifactTypeWidget(0),
     m_visibilityEnumWidget(0)
 {
+    for (int i = 0; i < N_STEREOATTRS; i++) {
+        m_pTagL [i] = 0;
+        m_pTagLE[i] = 0;
+    }
+
     setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
     // setup name
-    QGridLayout * m_pNameLayout = new QGridLayout();
+    m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
 
@@ -289,6 +298,11 @@ ClassGeneralPage::~ClassGeneralPage()
 {
 }
 
+void ClassGeneralPage::slotStereoTextChanged(const QString &stereoText)
+{
+    Dialog_Utils::remakeTagEditFields(stereoText, m_pObject, m_pNameLayout, m_pTagL, m_pTagLE);
+}
+
 /**
  * Will move information from the dialog into the object.
  * Call when the ok or apply button is pressed.
@@ -300,11 +314,14 @@ void ClassGeneralPage::apply()
 
     if (m_stereotypeWidget) {
         m_stereotypeWidget->apply();
+        if (m_pObject) {
+            Dialog_Utils::updateTagsFromEditFields(m_pObject, m_pTagLE);
+        }
     }
 
     if (m_pObject) {
         UMLObject::ObjectType t = m_pObject->baseType();
-        if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum) {
+        if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface || t == UMLObject::ot_Enum || t == UMLObject::ot_Entity) {
             m_packageWidget->apply();
         }
 
@@ -314,7 +331,6 @@ void ClassGeneralPage::apply()
 
         if(m_instanceNameWidget && m_pObject->isUMLInstance()) {
             m_pObject->asUMLInstance()->setName(m_instanceNameWidget->text());
-            m_pObject->asUMLInstance()->setClassifierName(m_nameWidget->text());
         }
 
         //make sure unique name
@@ -354,7 +370,7 @@ void ClassGeneralPage::apply()
         }
         UMLObject * o = m_pWidget->umlObject();
         if (!o) {
-            uError() << "UML object of widget is zero.";
+            logError0("ClassGeneralPage::apply: UML object of widget is null");
             return;
         }
         UMLObject * old = m_pUmldoc->findUMLObject(name);
@@ -370,7 +386,7 @@ void ClassGeneralPage::apply()
         m_pInstanceWidget->setInstanceName(m_instanceNameWidget->text());
         UMLObject* o = m_pInstanceWidget->umlObject();
         if (!o) {
-            uError() << "UML object of instance widget is zero.";
+            logError0("ClassGeneralPage::apply: UML object of instance widget is null");
             setInstanceWidgetNameIfApplicable(name);
             return;
         }

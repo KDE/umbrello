@@ -1,21 +1,7 @@
 /*
-    Copyright 2015  Ralf Habacker  <ralf.habacker@freenet.de>
+    SPDX-FileCopyrightText: 2015 Ralf Habacker <ralf.habacker@freenet.de>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 // own header
@@ -242,7 +228,7 @@ QStringList SQLImport::parseFieldType(QString &token)
  * Parse default expression.
  *
  * The expression could be in the form
- *    (expression)::<type>
+ *    (expression)\::\<type\>
  *    function(expression)
  *
  * @param token string with current token
@@ -311,9 +297,10 @@ QString SQLImport::parseDefaultExpression(QString &token)
 SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
 {
     ColumnConstraints constraints;
-    int index = m_srcIndex;
 
-    while(token != QLatin1String(",") && token != QLatin1String(")")) {
+    while (token != QLatin1String(",") && token != QLatin1String(")") && token.toLower() != QLatin1String("comment")) {
+        const int origIndex = m_srcIndex;
+
         if (token.toLower() == QLatin1String("character")) { // mysql
             token = advance(); // set
             if (token.toLower() == QLatin1String("set")) {
@@ -395,9 +382,9 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
                 }
                 // USING INDEX TABLESPACE tablespace
                 if (token.toLower() == QLatin1String("using")) {
-                    token = advance();
-                    token = advance();
-                    token = advance();
+                    token = advance();  // INDEX
+                    token = advance();  // TABLESPACE
+                    token = advance();  // tablespace
                     token = advance();
                 }
             }
@@ -452,10 +439,15 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             constraints.autoIncrement = true;
             token = advance();
         }
-        if (index == m_srcIndex) {
+
+        if (m_srcIndex == origIndex) {
             log(m_parsedFiles.first(), QLatin1String("could not parse column constraint '") + token + QLatin1String("'"));
             token = advance();
-            index = m_srcIndex;
+        }
+    }
+    if (token.toLower() == QLatin1String("comment")) {
+        while (token != QLatin1String(",") && token != QLatin1String(")")) {
+            token = advance();
         }
     }
     return constraints;
@@ -582,7 +574,8 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                 cc->setCheckCondition(tableConstraints.checkExpression);
                 entity->addConstraint(cc);
             } else {
-                uError() << "Could not add check constraint '" << tableConstraints.constraintName << "' because of zero entity.";
+                logError1("SQLImport::parseCreateDefinition: Could not add check constraint '%1' because of zero entity.",
+                          tableConstraints.constraintName);
             }
         }
 
@@ -598,19 +591,32 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         QStringList fieldType = parseFieldType(token);
         SQLImport::ColumnConstraints constraints = parseColumnConstraints(token);
 
-        DEBUG(DBG_SRC) << "field" << fieldName << fieldType.at(0);
+        logDebug2("SQLImport::parseCreateDefinition: field %1 type %2", fieldName, fieldType.at(0));
         if (entity && !fieldName.isEmpty()) {
             UMLObject *type = addDatatype(fieldType);
             UMLEntityAttribute *a = new UMLEntityAttribute(0, fieldName,
                     Uml::ID::None,
                     Uml::Visibility::Public,
                     type);
-            // UMLEntityAttribute sets the type to ot_Entity
-            type->setBaseType(UMLObject::ot_Datatype);
             if (constraints.primaryKey)
                 a->setIndexType(UMLEntityAttribute::Primary);
             a->setNull(!constraints.notNullConstraint);
-            a->setInitialValue(constraints.defaultValue);
+            // convert index to value if present, see https://dev.mysql.com/doc/refman/8.0/en/enum.html
+            if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::MySQL && type->isUMLEnum()) {
+                bool ok;
+                int index = constraints.defaultValue.toInt(&ok);
+                if (!ok) // string (not checked if valid) or empty
+                    a->setInitialValue(constraints.defaultValue);
+                else if (index > 0) {
+                    index--; // 0 is empty
+                    const UMLEnum *_enum = type->asUMLEnum();
+                    UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
+                    if (index < enumLiterals.size())
+                        a->setInitialValue(enumLiterals.at(index)->name());
+                }
+            } else {
+                a->setInitialValue(constraints.defaultValue);
+            }
             a->setValues(fieldType.at(1));
             a->setAutoIncrement(constraints.autoIncrement);
             if (constraints.primaryKey) {
@@ -632,7 +638,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
 
             entity->addEntityAttribute(a);
         } else if (!entity) {
-            uError() << "Could not add field '" << fieldName << "' because of zero entity.";
+            logError1("SQLImport::parseCreateDefinition: Could not add field '%1' because of zero entity.", fieldName);
         }
         if (token == QLatin1String(","))
             continue;
@@ -654,7 +660,7 @@ bool SQLImport::parseCreateTable(QString &token)
 {
     bool returnValue = true;
     QString tableName = parseIdentifier(token);
-    DEBUG(DBG_SRC) << "parsing create table" << tableName;
+    logDebug1("SQLImport::parseCreateTable: parsing create table %1", tableName);
 
     UMLFolder *folder = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Entity,
@@ -680,7 +686,8 @@ bool SQLImport::parseCreateTable(QString &token)
         if (entity)
             entity->addAssocToConcepts(a);
         else {
-            uError() << "Could not add generalization '" << baseTable << "' because of zero entity.";
+            logError1("SQLImport::parseCreateTable: Could not add generalization '%1' because of zero entity.",
+                      baseTable);
             returnValue = false;
         }
     }
@@ -841,7 +848,7 @@ bool SQLImport::parseStmt()
 QString SQLImport::advance()
 {
     QString token = NativeImportBase::advance();
-    DEBUG(DBG_SRC) << m_srcIndex << token;
+    logDebug2("SQLImport::advance : index %1 token %2", m_srcIndex, token);
     return token;
 }
 
@@ -860,7 +867,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
                 Import_Utils::addEnumLiteral(enumType, type.at(i));
             }
         } else {
-            uError() << "Invalid dynamic cast to UMLEnum from datatype.";
+            logError0("SQLImport::addDatatype: Invalid dynamic cast to UMLEnum from datatype.");
         }
     } else {
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Datatype, type.at(0), parent);
@@ -871,7 +878,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
 bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
     if (!entity) {
-        uError() << "Could not add primary key '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addPrimaryKey: Could not add primary key '%1' because of zero entity.", _name);
         return false;
     }
 
@@ -915,7 +922,8 @@ bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QSt
 bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, const QStringList &fields)
 {
     if (!entity) {
-        uError() << "Could not add unique constraint '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addUniqueConstraint: Could not add unique constraint '%1' because of zero entity.",
+                  _name);
         return false;
     }
 
@@ -951,10 +959,12 @@ bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, con
  * @return true on success
  * @return false on error
  */
-bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, const QStringList &fieldNames, const QString &referencedTable, const QStringList &referencedFields)
+bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, const QStringList &fieldNames,
+                                     const QString &referencedTable, const QStringList &referencedFields)
 {
     if (!entityA) {
-        uError() << "Could not add foreign constraint '" << _name << "' because of zero entity.";
+        logError1("SQLImport::addForeignConstraint: Could not add foreign constraint '%1' because of zero entity.",
+                  _name);
         return false;
     }
 

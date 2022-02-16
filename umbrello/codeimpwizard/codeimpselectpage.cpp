@@ -1,21 +1,8 @@
 /*
-    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "codeimpselectpage.h"
 
@@ -23,6 +10,8 @@
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "uml.h"
+
+DEBUG_REGISTER(CodeImpSelectPage)
 
 // kde includes
 #include <KLocalizedString>
@@ -170,13 +159,13 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
     return found;
 }
 
+#if 0    // :TODO: still in use?
 /**
  * Recursively get all the sources files that matches the filters from the given path.
- * :TODO: still in use?
  * @param path      path to the parent directory
  * @param filters   file extensions of the wanted files
  */
-/*void CodeImpSelectPage::files(const QString& path, QStringList& filters)
+void CodeImpSelectPage::files(const QString& path, QStringList& filters)
 {
     //uDebug() << "files from path " << path;
     QDir searchDir(path);
@@ -185,7 +174,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
         foreach (const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
             if (matchFilter(file)) {
                 m_fileList.append(file);
-                uDebug() << "file = " << file.absoluteFilePath();
+                logDebug1("CodeImpSelectPage::files: file = %1", file.absoluteFilePath());
             }
         }
         if (ui_subdirCheckBox->isChecked()) {
@@ -197,9 +186,10 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
         }
     }
     else {
-        uDebug() << "searchDir does not exist: " << searchDir.path();
+        logDebug1("CodeImpSelectPage::files: searchDir does not exist: %1", searchDir.path());
     }
-}*/
+}
+#endif
 
 /**
  * Slot for the stateChanged event of the subdirectory check box.
@@ -219,7 +209,7 @@ void CodeImpSelectPage::subdirStateChanged(int state)
         strState = QLatin1String("not known");
         break;
     }
-    uDebug() << "state set to " << strState;
+    logDebug1("CodeImpSelectPage::subdirStateChanged: state set to %1", strState);
 }
 
 /**
@@ -229,8 +219,8 @@ void CodeImpSelectPage::fileExtChanged()
 {
     QString inputStr = ui_fileExtLineEdit->text();
     m_fileExtensions = inputStr.split(QRegExp(QLatin1String("[,;: ]*")));
-    uDebug() << "editing of file extension line edit finished and set to "
-             << m_fileExtensions;
+    logDebug1("CodeImpSelectPage: editing of file extension line edit finished and set to %1",
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
@@ -243,12 +233,14 @@ void CodeImpSelectPage::fileExtChanged()
 void CodeImpSelectPage::treeClicked(const QModelIndex& index)
 {
     if (index.isValid()) {
-        uDebug() << "item at row=" << index.row() << " / column=" << index.column();
+        logDebug2("CodeImpSelectPage::treeClicked: item at row=%1 / column=%2",
+                  index.row(), index.column());
         QFileSystemModel* indexModel = (QFileSystemModel*)index.model();
         QFileInfo fileInfo = indexModel->fileInfo(index);
         if (fileInfo.isDir()) {
             int rows = indexModel->rowCount(index);
-            uDebug() << "item has directory and has children = " << rows;
+            logDebug1("CodeImpSelectPage::treeClicked: item has directory and has %1 children",
+                      rows);
             QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
             for(int row = 0; row < rows; ++row) {
                 QModelIndex childIndex = indexModel->index(row, 0, index);
@@ -279,7 +271,7 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
         emit selectionChanged();
     }
     else {
-        uWarning() << "Index not valid!";
+        logWarn0("CodeImpSelectPage::treeClicked: Index not valid!");
     }
 }
 
@@ -295,8 +287,8 @@ void CodeImpSelectPage::treeEntered(const QModelIndex &index)
  */
 bool CodeImpSelectPage::validatePage()
 {
-    uDebug() << "entered...";
-    uDebug() << "recent root path: " << s_recentPath;
+    logDebug1("CodeImpSelectPage::validatePage is entered... recent root path: %1",
+              s_recentPath);
 
     return true;
 }
@@ -328,34 +320,9 @@ void CodeImpSelectPage::changeLanguage()
     apply();
      */
     // set the file extension pattern with which the files are filtered
-    m_fileExtensions.clear();
-    switch (pl) {  //:TODO: More languages?
-    case Uml::ProgrammingLanguage::Ada:
-        m_fileExtensions << QLatin1String("*.ads") << QLatin1String("*.adb") << QLatin1String("*.ada");
-        break;
-    case Uml::ProgrammingLanguage::Cpp:
-        m_fileExtensions << QLatin1String("*.h") << QLatin1String("*.hpp") << QLatin1String("*.hh")
-                         << QLatin1String("*.hxx") << QLatin1String("*.H");
-        break;
-    case Uml::ProgrammingLanguage::IDL:
-        m_fileExtensions << QLatin1String("*.idl");
-        break;
-    case Uml::ProgrammingLanguage::Java:
-        m_fileExtensions << QLatin1String("*.java");
-        break;
-    case Uml::ProgrammingLanguage::Pascal:
-        m_fileExtensions << QLatin1String("*.pas");
-        break;
-    case Uml::ProgrammingLanguage::Python:
-        m_fileExtensions << QLatin1String("*.py") << QLatin1String("*.pyw");
-        break;
-    case Uml::ProgrammingLanguage::CSharp:
-        m_fileExtensions << QLatin1String("*.cs");
-        break;
-    default:
-        break;
-    }
-    uDebug() << "File extensions " << m_fileExtensions;
+    m_fileExtensions = Uml::ProgrammingLanguage::toExtensions(pl);
+    logDebug1("CodeImpSelectPage::changeLanguage: File extensions %1",
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
@@ -403,25 +370,24 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
 void CodeImpSelectPage::selectAll()
 {
     QModelIndex currIndex = ui_treeView->selectionModel()->currentIndex();
-    if (currIndex.isValid()) {
-        QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
-        QFileInfo fileInfo = model->fileInfo(currIndex);
-        if (fileInfo.isDir()) {
-            QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
-            Q_UNUSED(selectionModel);
+    if (!currIndex.isValid()) {
+        logWarn0("CodeImpSelectPage::selectAll: Invalid index");
+        return;
+    }
+    QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
+    QFileInfo fileInfo = model->fileInfo(currIndex);
+    if (fileInfo.isDir()) {
+        QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
+        Q_UNUSED(selectionModel);
+        //...
+        if (ui_subdirCheckBox->isChecked()) {
             //...
-            if (ui_subdirCheckBox->isChecked()) {
-                //...
-                ui_treeView->selectAll();
-                updateSelectionCounter();
-            }
-        }
-        else {
-            uWarning() << "No directory was selected!";
+            ui_treeView->selectAll();
+            updateSelectionCounter();
         }
     }
     else {
-        uWarning() << "No directory was selected!";
+        logWarn0("CodeImpSelectPage::selectAll: No directory was selected");
     }
 }
 

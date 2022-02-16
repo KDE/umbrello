@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2014                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "pinportbase.h"
@@ -16,26 +11,29 @@
 #include "package.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
+#include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
 #include "floatingtextwidget.h"
-#include "debug_utils.h"
 #include "umlwidgets/childwidgetplacementpin.h"
 #include "umlwidgets/childwidgetplacementport.h"
 
 // qt includes
 #include <QPainter>
 #include <QToolTip>
+#include <QXmlStreamWriter>
 
 // sys includes
 #include <cmath>
 
-PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLObject *o)
+DEBUG_REGISTER(PinPortBase)
+
+PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, UMLObject *o)
   : UMLWidget(scene, type, o),
     m_childPlacement(createPlacement(type))
 {
-    init();
+    init(owner);
 }
 
 PinPortBase::PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner, Uml::ID::Type id)
@@ -81,12 +79,32 @@ void PinPortBase::init(UMLWidget *owner)
     setMaximumSize(fixedSize);
     setSize(fixedSize);
 
-    m_childPlacement->setInitialPosition();
+    //m_childPlacement->setInitialPosition();
 }
 
 UMLWidget* PinPortBase::ownerWidget() const
 {
     return dynamic_cast<UMLWidget*>(parentItem());
+}
+
+void PinPortBase::setInitialPosition(const QPointF &scenePos)
+{
+    m_childPlacement->setInitialPosition(scenePos);
+}
+
+qreal PinPortBase::getX() const
+{
+    return parentItem()->x() + UMLWidget::getX();
+}
+
+qreal PinPortBase::getY() const
+{
+    return parentItem()->y() + UMLWidget::getY();
+}
+
+QPointF PinPortBase::getPos() const
+{
+    return parentItem()->pos() + UMLWidget::getPos();
 }
 
 /**
@@ -98,7 +116,7 @@ UMLWidget* PinPortBase::ownerWidget() const
 void PinPortBase::updateWidget()
 {
     QString strName = name();
-    uDebug() << " port name is " << strName;
+    logDebug1("PinPortBase::updateWidget: port name is %1", strName);
     if (m_pName) {
         m_pName->setText(strName);
     } else {
@@ -169,7 +187,7 @@ QRectF PinPortBase::boundingRect() const
  */
 void PinPortBase::slotMenuSelection(QAction* action)
 {
-    uDebug() << "PinPortBase::slotMenuSelection";
+    logDebug0("PinPortBase::slotMenuSelection");
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_NameAsTooltip:
@@ -186,7 +204,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
             m_pName->activate();
             UMLWidget* owner = ownerWidget();
             if (owner == 0) {
-                uError() << "PinPortBase::slotMenuSelection: ownerWidget() returns NULL";
+                logError0("PinPortBase::slotMenuSelection: ownerWidget() returns null");
                 setX(x());
                 setY(y());
             } else {
@@ -240,7 +258,7 @@ UMLWidget* PinPortBase::onWidget(const QPointF &p)
     if (UMLWidget::onWidget(p) != 0)
         return this;
     if (m_pName) {
-        uDebug() << "floatingtext: " << m_pName->text();
+        logDebug1("PinPortBase::onWidget floatingtext: %1", m_pName->text());
         return m_pName->onWidget(p);
     }
     return 0;
@@ -262,32 +280,33 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
 /**
  * Saves the widget to the "pinwidget" or "portwidget" XMI element.
  */
-void PinPortBase::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void PinPortBase::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement element = qDoc.createElement(baseType() == wt_Pin ? QLatin1String("pinwidget")
-                                                                  : QLatin1String("portwidget"));
+    QString tag = (baseType() == wt_Pin ? QLatin1String("pinwidget")
+                                        : QLatin1String("portwidget"));
+    writer.writeStartElement(tag);
     Q_ASSERT(ownerWidget() != 0);
-    element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
-    UMLWidget::saveToXMI1(qDoc, element);
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
+    UMLWidget::saveToXMI(writer);
     if (m_pName && !m_pName->text().isEmpty()) {
-        m_pName->saveToXMI1(qDoc, element);
+        m_pName->saveToXMI(writer);
     }
-    qElement.appendChild(element);
+    writer.writeEndElement();
 }
 
 /**
  * Loads from a "pinwidget" or from a "portwidget" XMI element.
  */
-bool PinPortBase::loadFromXMI1(QDomElement & qElement)
+bool PinPortBase::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement))
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
 
     QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
     if (owner == 0) {
-        DEBUG(DBG_SRC) << "owner object " << Uml::ID::toString(aId) << " not found";
+        logDebug1("PinPortBase::loadFromXMI: owner object %1 not found", Uml::ID::toString(aId));
         return false;
     }
     setParentItem(owner);
@@ -300,7 +319,7 @@ bool PinPortBase::loadFromXMI1(QDomElement & qElement)
         if (tag == QLatin1String("floatingtext")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating,
                                              name(), Uml::ID::Reserved);
-            if (!m_pName->loadFromXMI1(element)) {
+            if (!m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = 0;
@@ -310,9 +329,16 @@ bool PinPortBase::loadFromXMI1(QDomElement & qElement)
                 m_pName->update();
             }
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("PinPortBase::loadFromXMI: unknown tag %1", tag);
         }
     }
+    return true;
+}
+
+bool PinPortBase::activate(IDChangeLog* changeLog)
+{
+    Q_UNUSED(changeLog);
+    m_childPlacement->detectConnectedSide();
     return true;
 }
 

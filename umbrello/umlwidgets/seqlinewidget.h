@@ -1,25 +1,29 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
 #include <QGraphicsLineItem>
 
+#include <QPen>
+
 class ObjectWidget;
 class UMLScene;
 
 /**
+ * A sequence lifeline consists of the object widget at the top and
+ * a vertical line starting at the bottom edge of the object widget
+ * at half its width. The line grows downward when sequence messages
+ * are added such that the line always extends far enough to act as
+ * the background for all messages.
+ * This class represents only the line part of the lifeline.
+ *
  * @short Widget class for graphical representation of sequence lines
  * @author Paul Hensgen
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class SeqLineWidget : public QGraphicsLineItem
 {
@@ -42,7 +46,7 @@ public:
      *
      * @return  Length of the line.
      */
-    int getLineLength() {
+    int getLineLength() const {
         return m_nLengthY;
     }
 
@@ -56,6 +60,7 @@ public:
     }
 
     void setEndOfLine(int yPosition);
+    void setLineColorCmd(const QColor &color);
 
 protected:
     void cleanupDestructionBox();
@@ -66,8 +71,18 @@ protected:
     UMLScene*     m_scene;    ///< scene displayed on
 
     struct DestructionBox {
-        QGraphicsLineItem * line1;
-        QGraphicsLineItem * line2;
+        QGraphicsLineItem * line1{nullptr};
+        QGraphicsLineItem * line2{nullptr};
+        void setLineColorCmd(const QColor &color)
+        {
+            if (!line1)
+                return;
+            QPen pen = line1->pen();
+            pen.setColor(color);
+            line1->setPen(pen);
+            line2->setPen(pen);
+        }
+
         void setLine1Points(QRect rect) {
             line1->setLine(rect.x(), rect.y(),
                             rect.x() + rect.width(), rect.y() + rect.height());
@@ -81,6 +96,7 @@ protected:
     int m_nLengthY;  ///< the length of the line
 
     static int const m_nMouseDownEpsilonX;   ///< margin used for mouse clicks
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 };
 
 #endif

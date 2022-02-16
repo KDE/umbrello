@@ -1,13 +1,29 @@
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+
 project(umbrello)
 
+if(POLICY CMP0028)
+    cmake_policy(SET CMP0028 OLD)
+endif()
+
+if(POLICY CMP0057)
+    cmake_policy(SET CMP0057 NEW)
+endif()
+
 # KDE Application Version, managed by release script
-set (KDE_APPLICATIONS_VERSION_MAJOR "18")
-set (KDE_APPLICATIONS_VERSION_MINOR "11")
-set (KDE_APPLICATIONS_VERSION_MICRO "70")
+set (RELEASE_SERVICE_VERSION_MAJOR "22")
+set (RELEASE_SERVICE_VERSION_MINOR "03")
+set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(UMBRELLO_VERSION_MAJOR "2")
-MATH(EXPR UMBRELLO_VERSION_MINOR "15+${KDE_APPLICATIONS_VERSION_MINOR}")
-set(UMBRELLO_VERSION_PATCH ${KDE_APPLICATIONS_VERSION_MICRO})
+set(UMBRELLO_VERSION_MINOR "34")
+if (RELEASE_SERVICE_VERSION_MICRO GREATER_EQUAL 70)
+    math(EXPR UMBRELLO_VERSION_MINOR "${UMBRELLO_VERSION_MINOR}-1")
+endif()
+
+set(UMBRELLO_VERSION_PATCH ${RELEASE_SERVICE_VERSION_MICRO})
+
+option(BUILD_APIDOC "Create api documentation" ON)
 
 option(BUILD_ICONS "Create icons from svg source" OFF)
 
@@ -16,6 +32,10 @@ option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
 option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories (for debugging purpose)" OFF)
 
 option(BUILD_KF5 "Build for KDE Frameworks 5" ON)
+
+option(BUILD_PHP_IMPORT "Build with php import support" ON)
+
+option(BUILD_QCH "Build with QCH support" ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -29,133 +49,28 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 endif()
 
-find_package(KDevelop-PG-Qt)
-
 if(NOT BUILD_KF5)
-    cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    endif()
 
+    set(APP_SUFFIX)
+    set(LIB_PREFIX Qt4::Qt)
     set(CMAKE_AUTOMOC ON)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml QtTest QtWebKit)
-
-    set(KDE4_BUILD_TESTS ON)  # for unit tests
-
-    # search packages used by KDE
-    find_package(KDE4 REQUIRED)
-    include(KDE4Defaults)
-    include(MacroLibrary)
-
-    # The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
-    # definitions like _GNU_SOURCE that are needed on each platform.
-    set(CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} -DQT_STRICT_ITERATORS)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-    add_definitions (
-        ${KDE4_DEFINITIONS}
-    )
-
-    include_directories(
-        ${KDE4_INCLUDES}
-    )
-
-    if(KDE4_BUILD_TESTS)
-        enable_testing()
-        set(BUILD_UNITTESTS 1)
-    endif()
-
-    macro(ki18n_wrap_ui)
-        kde4_add_ui_files(${ARGN})
-    endmacro(ki18n_wrap_ui)
-
-    macro(kconfig_add_kcfg_files)
-        kde4_add_kcfg_files(${ARGN})
-    endmacro(kconfig_add_kcfg_files)
-
-    macro(ecm_optional_add_subdirectory)
-        add_subdirectory(${ARGN})
-    endmacro(ecm_optional_add_subdirectory)
-
-    macro(ecm_add_test)
-        set(sources)
-        set(libs)
-        set(name_prefix)
-        set(test_name)
-        set(mode 0)
-        set(guimode "NOGUI")
-        foreach(a ${ARGN})
-            if(a STREQUAL "LINK_LIBRARIES")
-                set(mode 1)
-            elseif(a STREQUAL "NAME_PREFIX")
-                set(mode 2)
-            elseif(a STREQUAL "GUI")
-                set(guimode "GUI")
-                set(mode 3)
-            elseif(a STREQUAL "TEST_NAME")
-                set(mode 4)
-            elseif (mode EQUAL 0)
-                list(APPEND sources ${a})
-            elseif(mode EQUAL 1)
-                list(APPEND libs ${a})
-            elseif(mode EQUAL 2)
-                set(name_prefix ${a})
-            elseif(mode EQUAL 4)
-                set(test_name ${a})
-            endif()
-        endforeach(a)
-
-        set(targetname ${test_name})
-        if(name_prefix)
-            set(testname ${name_prefix}-${targetname})
-        else()
-            set(testname ${targetname})
-        endif()
-        kde4_add_unit_test(${targetname} TESTNAME ${testname} ${guimode} ${sources})
-        target_link_libraries(${targetname} ${libs})
-    endmacro(ecm_add_test)
-
-    macro(ecm_add_executable)
-        kde4_add_executable(${ARGN})
-    endmacro(ecm_add_executable)
-
-    macro(ecm_mark_nongui_executable)
-        foreach(_target ${ARGN})
-            set_target_properties(${_target}
-                                  PROPERTIES
-                                  WIN32_EXECUTABLE FALSE
-                                  MACOSX_BUNDLE FALSE
-                                 )
-        endforeach()
-    endmacro(ecm_mark_nongui_executable)
-    if(NOT DISABLE_PHP_IMPORT)
-        find_package(KDevelop-PG-Qt)
-        find_package(KDevPlatform)
-        if ("${KDevPlatform_VERSION_MAJOR}" STREQUAL "5")
-            message(FATAL_ERROR "Could not compile with KF5 based kdevplatform. Please uninstall or specify -DDISABLE_PHP_IMPORT=1")
-        endif()
-    endif()
-    if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
-        include_directories(
-            ${KDEVPGQT_INCLUDE_DIR}
-            ${KDEVPLATFORM_INCLUDE_DIR}
-            ${CMAKE_SOURCE_DIR}/lib/kdev4-php/parser
-            ${CMAKE_BINARY_DIR}/lib/kdev4-php/parser
-        )
-        set(NO_INSTALL 1)
-        set(BUILD_PARSER_ONLY 1)
-        set(BUILD_PHP_IMPORT 1)
-        add_definitions(
-            -DKDEVPHPPARSER_EXPORT=
-            -DENABLE_PHP_IMPORT
-        )
-        add_subdirectory(lib/kdev4-php)
-    endif()
-
-    macro_display_feature_log()
-    KDE4_NO_ENABLE_FINAL(umbrello)
-    set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello)
+    include(ECMKDE4Macros)
+    set(QT_MIN_VERSION "4.8.0")
+    set(KDEV_MIN_VERSION 1.7.3)
+    set(KDEV_SOURCE_DIR lib/kdev4-php)
+    set(KDEV_COMPONENTS)
+    set(QTQCHDIR ${QT_DOC_DIR}/qch)
 else()
-    cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+    cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
+    set(APP_SUFFIX 5)
+    set(LIB_PREFIX Qt5::)
     # we need some parts of the ECM CMake helpers
     find_package(ECM 1.1.0 REQUIRED NO_MODULE)
     list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -169,71 +84,97 @@ else()
     include(ECMOptionalAddSubdirectory)
     include(ECMAddAppIcon)
     include(ECMAddTests)
-
-    # search packages used by Qt
     set(QT_MIN_VERSION "5.2.0")
-    find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
-        Core
-        Gui
-        PrintSupport
-        Svg
-        Test
-        Widgets
-        Xml
-        WebKitWidgets
+    set(KDEV_MIN_VERSION 5.1.2)
+    set(KDEV_SOURCE_DIR lib/kdev5-php)
+    set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
+    if(NOT QTQCHDIR)
+        set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
+    endif()
+endif()
+
+# search packages used by Qt
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+    Core
+    Gui
+    PrintSupport
+    Svg
+    Test
+    Widgets
+    Xml
+)
+
+find_package(Qt5WebKitWidgets ${QT_MIN_VERSION})
+if(Qt5WebKitWidgets_FOUND)
+    add_definitions(-DWEBKIT_WELCOMEPAGE)
+    set(WEBKIT_WELCOMEPAGE 1)
+endif()
+
+# search packages used by KDE
+find_package(KF5 REQUIRED COMPONENTS
+    Archive
+    Completion
+    Config
+    CoreAddons
+    Crash
+    DocTools
+    I18n
+    IconThemes
+    KDELibs4Support
+    KIO
+    TextEditor
+    WidgetsAddons
+    WindowSystem
+    XmlGui
+)
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+    string(REPLACE "-Wsuggest-override" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+endif()
+
+if(BUILD_PHP_IMPORT)
+    find_package(KDevelop-PG-Qt)
+    find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
+endif()
+if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
+    message(STATUS "requirements available - enable building php code import")
+    include_directories(
+        ${KDEVPGQT_INCLUDE_DIR}
+        ${KDEVPLATFORM_INCLUDE_DIR}
     )
-
-    # search packages used by KDE
-    find_package(KF5 REQUIRED COMPONENTS
-        Archive
-        Completion
-        Config
-        CoreAddons
-        Crash
-        DocTools
-        I18n
-        IconThemes
-        KDELibs4Support
-        KIO
-        TextEditor
-        WidgetsAddons
-        WindowSystem
-        XmlGui
+    set(BUILD_PHP_IMPORT 1)
+    add_definitions(
+        -DENABLE_PHP_IMPORT
     )
-
-    macro(ecm_add_executable)
-        add_executable(${ARGN})
-    endmacro(ecm_add_executable)
-
-    set(BUILD_UNITTESTS 1)
-    set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello5)
-
-    ki18n_install(po)
-    kdoctools_install(po)
-
-    find_package(KDevPlatform "5.1.2" COMPONENTS
-        KDev::Interfaces
-        KDev::Language
-        KDev::Tests
-    )
-    if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND AND TARGET KDev::Tests)
-        include_directories(
-            ${KDEVPGQT_INCLUDE_DIR}
-            ${KDEVPLATFORM_INCLUDE_DIR}
-            ${CMAKE_SOURCE_DIR}/lib/kdev5-php/parser
-            ${CMAKE_BINARY_DIR}/lib/kdev5-php/parser
-        )
+    add_subdirectory(lib/kdevplatform)
+    find_package(KDevPHP)
+    if(NOT KDevPHP_FOUND)
         set(NO_INSTALL 1)
         set(BUILD_PARSER_ONLY 1)
         set(BUILD_PHP_IMPORT 1)
         add_definitions(
             -DKDEVPHPPARSER_EXPORT=
-            -DENABLE_PHP_IMPORT
         )
-        add_subdirectory(lib/kdev5-php)
-    elseif(NOT TARGET KDev::Tests)
-        message(STATUS "Could not find required KDevPlatform component KDev::Tests - disabling php import support")
+        include_directories(
+            ${CMAKE_SOURCE_DIR}/${KDEV_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}/${KDEV_SOURCE_DIR}
+        )
+        add_subdirectory(${KDEV_SOURCE_DIR})
     endif()
+else()
+    set(BUILD_PHP_IMPORT 0)
+endif()
+
+set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
+
+if(NOT BUILD_KF5)
+    macro_display_feature_log()
+    KDE4_NO_ENABLE_FINAL(umbrello)
+else()
+    set(BUILD_UNITTESTS 1)
+
+    ki18n_install(po)
+    kdoctools_install(po)
 endif()
 
 if(POLICY CMP0071)
@@ -262,13 +203,15 @@ if(NOT UMBRELLO_VERSION_STRING)
         endif()
     endif()
 endif()
+set(APPLICATIONS_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 
 message(STATUS "Using umbrello version ${UMBRELLO_VERSION_STRING}")
 add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
+add_definitions(-DAPPLICATIONS_VERSION_STRING="${APPLICATIONS_VERSION_STRING}")
 
 message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
-message(STATUS "Using Qt version ${QT_MIN_VERSION}")
+message(STATUS "Using Qt version ${QTVERSION}")
 
 find_package(LibXslt)
 set_package_properties(LibXslt PROPERTIES
@@ -317,17 +260,55 @@ add_unstable_feature(WIDGET_SHOW_DOC) # show documentation in classes ticket xxx
 add_unstable_feature(NEW_CODE_GENERATORS) # new c++ code generator
 add_unstable_feature(UML_OBJECTS_WINDOW) # objects dock window
 add_unstable_feature(XMIRESOLUTION) # see https://bugs.kde.org/show_bug.cgi?id=90103
+add_unstable_feature(COMBINED_STATE_DIRECT_EDIT) # experimental feature
 
 # Current object diagram implementation does not follow UML 1.4 standard
 # because of using umbrello specific XMI tag (UML:InstanceAttribute).
 add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=123633
 
-configure_file(Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
-find_program(DOXYGEN_EXECUTABLE doxygen)
-if(DOXYGEN_EXECUTABLE)
-    add_custom_target(apidoc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+# requires cmake >= 3.9.6
+find_package(Doxygen OPTIONAL_COMPONENTS dot)
+if(DOXYGEN_FOUND AND BUILD_APIDOC)
+    message(STATUS "found doxygen package")
+    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator qhelpgenerator-qt5)
+    message(STATUS "found qhelpgenerator ${QHELPGENERATOR_EXECUTABLE}")
+    set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
+    set(DOXYGEN_CALL_GRAPH YES)
+    set(DOXYGEN_EXCLUDE_PATTERNS */lib/*)
+    set(DOXYGEN_EXTRACT_ALL YES)
+    set(DOXYGEN_EXTRACT_PACKAGE YES)
+    set(DOXYGEN_EXTRACT_PRIVATE YES)
+    set(DOXYGEN_EXTRACT_STATIC YES)
+    set(DOXYGEN_GENERATE_HTMLHELP YES)
+    set(DOXYGEN_HAVE_DOT ${DOXYGEN_HAVE_DOT})
+    set(DOXYGEN_DOT_IMAGE_FORMAT svg)
+    set(DOXYGEN_MARKDOWN_SUPPORT NO)
+    set(DOT_GRAPH_MAX_NODES 0)
+    set(DOXYGEN_MAX_DOT_GRAPH_DEPTH 0)
+    set(DOXYGEN_PROJECT_BRIEF "Umbrello UML Modeller is a Unified Modelling Language (UML) diagram program based on KDE Technology")
+    set(DOXYGEN_PROJECT_NUMBER ${UMBRELLO_VERSION_STRING})
+    #set(DOXYGEN_PROJECT_LOGO ${CMAKE_SOURCE_DIR}/umbrello/pics/global/hi32-apps-umbrello.png)
+    set(DOXYGEN_SOURCE_BROWSER NO)
+    set(DOXYGEN_UML_LOOK YES)
+    set(DOXYGEN_USE_PDFLATEX NO)
+    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/apidoc)
+
+    if(BUILD_QCH AND QHELPGENERATOR_EXECUTABLE)
+        set(DOXYGEN_GENERATE_QHP YES)
+        set(DOXYGEN_QCH_FILE ${CMAKE_BINARY_DIR}/umbrello.qch)
+        set(DOXYGEN_QHP_NAMESPACE org.kde.umbrello)
+        set(DOXYGEN_QHG_LOCATION ${QHELPGENERATOR_EXECUTABLE})
+        set(DOXYGEN_QHP_VIRTUAL_FOLDER doc)
+        install(FILES ${DOXYGEN_QCH_FILE} DESTINATION ${QTQCHDIR} COMPONENT Devel)
+    endif()
+
+    doxygen_add_docs(apidoc
+        ALL
+        ${CMAKE_SOURCE_DIR}
+        COMMENT "generating api doc"
     )
+
+    install(DIRECTORY ${CMAKE_BINARY_DIR}/apidoc DESTINATION ${UMBRELLO_DATA_INSTALL_DIR})
 endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)

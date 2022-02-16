@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "associationrolepage.h"
@@ -36,7 +31,6 @@
 
 /**
  *  Sets up the AssociationRolePage.
- *  @param  d       The UMLDoc which controls controls object creation.
  *  @param  parent  The parent to the AssociationRolePage.
  *  @param  assoc   The AssociationWidget to display the properties of.
  */

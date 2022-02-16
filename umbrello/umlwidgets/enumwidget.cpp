@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "enumwidget.h"
@@ -24,6 +19,11 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(EnumWidget)
 
 /**
  * Constructs an instance of EnumWidget.
@@ -138,7 +138,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral, list) {
@@ -155,9 +155,9 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 /**
  * Loads from an "enumwidget" XMI element.
  */
-bool EnumWidget::loadFromXMI1(QDomElement & qElement)
+bool EnumWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
@@ -170,13 +170,13 @@ bool EnumWidget::loadFromXMI1(QDomElement & qElement)
 /**
  * Saves to the "enumwidget" XMI element.
  */
-void EnumWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void EnumWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement conceptElement = qDoc.createElement(QLatin1String("enumwidget"));
-    UMLWidget::saveToXMI1(qDoc, conceptElement);
+    writer.writeStartElement(QLatin1String("enumwidget"));
+    UMLWidget::saveToXMI(writer);
 
-    conceptElement.setAttribute(QLatin1String("showpackage"), m_showPackage);
-    qElement.appendChild(conceptElement);
+    writer.writeAttribute(QLatin1String("showpackage"), QString::number(m_showPackage));
+    writer.writeEndElement();
 }
 
 /**
@@ -247,7 +247,7 @@ QSizeF EnumWidget::minimumSize() const
 
     width = w > width?w:width;
 
-    UMLClassifier *classifier = m_umlObject->asUMLClassifier();
+    const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem, list) {

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header file
 #include "objectwidget.h"
@@ -32,12 +27,13 @@
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>
+#include <QXmlStreamWriter>
 
-#define O_MARGIN 5
-#define O_WIDTH 40
-#define A_WIDTH 20
+#define O_MARGIN  5
+#define O_WIDTH  40
+#define A_WIDTH  20
 #define A_HEIGHT 40
-#define A_MARGIN 5
+#define A_MARGIN  5
 
 DEBUG_REGISTER_DISABLED(ObjectWidget)
 
@@ -60,7 +56,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
     m_showDestruction(false),
     m_isOnDestructionBox(false)
 {
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
+    if (m_scene && m_scene->isSequenceDiagram()) {
         m_pLine = new SeqLineWidget( m_scene, this );
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
@@ -84,7 +80,7 @@ ObjectWidget::~ObjectWidget()
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     //make sure only calling this in relation to an object on a collab. diagram
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Collaboration)) {
+    if (m_scene && m_scene->isCollaborationDiagram()) {
         m_multipleInstance = multiple;
         updateGeometry();
         update();
@@ -99,6 +95,19 @@ void ObjectWidget::setMultipleInstance(bool multiple)
 bool ObjectWidget::multipleInstance() const
 {
     return m_multipleInstance;
+}
+
+void ObjectWidget::setSelected(bool state)
+{
+    UMLWidget::setSelected(state);
+    if (m_pLine) {
+        QPen pen = m_pLine->pen();
+        int lineWidth = (int)UMLWidget::lineWidth();
+        if (state)
+            lineWidth = lineWidth ? lineWidth * 2 : 2;
+        pen.setWidth(lineWidth);
+        m_pLine->setPen(pen);
+    }
 }
 
 /**
@@ -130,7 +139,7 @@ void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
 void ObjectWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
 {
     Q_UNUSED(diffX);
-    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
+    if (m_scene && m_scene->isSequenceDiagram()) {
         diffY = 0;
     }
 }
@@ -309,7 +318,7 @@ void ObjectWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
 void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     if (m_inResizeArea) {
-        DEBUG(DBG_SRC) << "resizing...";
+        DEBUG() << "resizing...";
         resize(me);
         moveEvent(0);
         return;
@@ -550,7 +559,7 @@ int ObjectWidget::getEndLineY()
 void ObjectWidget::messageAdded(MessageWidget* message)
 {
     if (m_messages.count(message)) {
-        uError() << message->name() << ": duplicate entry !";
+        logError1("ObjectWidget::messageAdded(%1) duplicate entry", message->name());
         return ;
     }
     m_messages.append(message);
@@ -564,7 +573,7 @@ void ObjectWidget::messageAdded(MessageWidget* message)
 void ObjectWidget::messageRemoved(MessageWidget* message)
 {
     if (m_messages.removeAll(message) == false) {
-        uError() << message->name() << ": missing entry !";
+        logError1("ObjectWidget::messageAdded(%1) missing entry", message->name());
         return ;
     }
 }
@@ -618,9 +627,7 @@ void ObjectWidget::setLineColorCmd(const QColor &color)
 {
     UMLWidget::setLineColorCmd(color);
     if (m_pLine) {
-        QPen pen = m_pLine->pen();
-        pen.setColor(color);
-        m_pLine->setPen(pen);
+        m_pLine->setLineColorCmd(color);
     }
 }
 
@@ -663,22 +670,22 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
 /**
  * Saves to the "objectwidget" XMI element.
  */
-void ObjectWidget::saveToXMI1(QDomDocument& qDoc, QDomElement& qElement)
+void ObjectWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement objectElement = qDoc.createElement(QLatin1String("objectwidget"));
-    UMLWidget::saveToXMI1(qDoc, objectElement);
-    objectElement.setAttribute(QLatin1String("drawasactor"), m_drawAsActor);
-    objectElement.setAttribute(QLatin1String("multipleinstance"), m_multipleInstance);
-    objectElement.setAttribute(QLatin1String("decon"), m_showDestruction);
-    qElement.appendChild(objectElement);
+    writer.writeStartElement(QLatin1String("objectwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeAttribute(QLatin1String("drawasactor"), QString::number(m_drawAsActor));
+    writer.writeAttribute(QLatin1String("multipleinstance"), QString::number(m_multipleInstance));
+    writer.writeAttribute(QLatin1String("decon"), QString::number(m_showDestruction));
+    writer.writeEndElement();
 }
 
 /**
  * Loads from a "objectwidget" XMI element.
  */
-bool ObjectWidget::loadFromXMI1(QDomElement& qElement)
+bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 {
-    if(!UMLWidget::loadFromXMI1(qElement))
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
     QString draw = qElement.attribute(QLatin1String("drawasactor"), QLatin1String("0"));
     QString multi = qElement.attribute(QLatin1String("multipleinstance"), QLatin1String("0"));

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 #ifndef CPPCODEGENERATIONFORM_H
 #define CPPCODEGENERATIONFORM_H
 
@@ -35,6 +30,10 @@ public:
     void setAccessorsArePublic(bool bFlag = true);
     void setGenerateMakefileDocument(bool bFlag = true);
     void setDocToolTag(const QString &value);
+    void setGetterWithoutGetPrefix(bool bFlag = true);
+    void setRemovePrefixFromAccessorMethodName(bool bFlag = true);
+    void setAccessorMethodsStartWithUpperCase(bool bFlag);
+    void setClassMemberPrefix(const QString &value);
 
     bool getPackageIsANamespace();
     bool getVirtualDestructors();
@@ -45,6 +44,10 @@ public:
     bool getAccessorsArePublic();
     bool getGenerateMakefileDocument();
     QString getDocToolTag();
+    bool getGettersWithGetPrefix();
+    bool getRemovePrefixFromAccessorMethodName();
+    bool getAccessorMethodsStartWithUpperCase();
+    QString getClassMemberPrefix();
 
 public slots:
 
@@ -67,6 +70,9 @@ private:
     QListWidgetItem *m_optionAccessorsAreInline;
     QListWidgetItem *m_optionAccessorsArePublic;
     QListWidgetItem *m_optionDocToolTag;
+    QListWidgetItem *m_optionGetterWithGetPrefix;
+    QListWidgetItem *m_optionRemovePrefixFromAccessorMethodName;
+    QListWidgetItem *m_optionAccessorMethodsStartWithUpperCase;
 
     static Qt::CheckState toCheckState(bool value);
 

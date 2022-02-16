@@ -1,0 +1,2 @@
+
+class includes_local {};

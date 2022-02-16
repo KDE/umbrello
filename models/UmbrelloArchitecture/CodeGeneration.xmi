@@ -813,12 +813,12 @@
           <UML:Parameter kind="return" xmi.id="3dSodQfIVjTR" type="GkfQZGlDo5M5" />
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uLbdtfMhbrkR" comment="Set how many times to indent this text block.&#xa;The amount of each indenatation is determined from the parent&#xa;codedocument codegeneration policy.&#xa;@param level   the new value for the indentation level" name="setIndentationLevel" >
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uLbdtfMhbrkR" comment="Set how many times to indent this text block.&#xa;The amount of each indentation is determined from the parent&#xa;codedocument codegeneration policy.&#xa;@param level   the new value for the indentation level" name="setIndentationLevel" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="wYufiKekv6YW" type="gaK9HHMvoIj7" value="" name="level" />
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="WBm0uGRpb1QT" comment="Get how many times to indent this text block.&#xa;The amount of each indenatation is determined from the parent&#xa;codedocument codegeneration policy.&#xa;@return   the indentation level" name="getIndentationLevel" >
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="WBm0uGRpb1QT" comment="Get how many times to indent this text block.&#xa;The amount of each indentation is determined from the parent&#xa;codedocument codegeneration policy.&#xa;@return   the indentation level" name="getIndentationLevel" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="gm8HbsiXObD5" type="gaK9HHMvoIj7" />
          </UML:BehavioralFeature.parameter>
@@ -849,7 +849,7 @@
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="GkFmGnErPuYg" type="GkfQZGlDo5M5" value="" name="lastLineHasBreak" />
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6iJueM1s6EeM" comment="UnFormat a long text string. Typically, this means removing&#xa;the indentaion (linePrefix) and/or newline chars from each line.&#xa;If an indentation is not specified, then the current indentation is used.&#xa;@param text     the original text for unformatting&#xa;@param indent   the indentation&#xa;@return         the unformatted text" name="unformatText" >
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6iJueM1s6EeM" comment="UnFormat a long text string. Typically, this means removing&#xa;the indentation (linePrefix) and/or newline chars from each line.&#xa;If an indentation is not specified, then the current indentation is used.&#xa;@param text     the original text for unformatting&#xa;@param indent   the indentation&#xa;@return         the unformatted text" name="unformatText" >
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="sPFydtJcjUzS" type="MwFfYBQ2FgYa" />
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="1qBOkk2VhyaO" type="f0G2JJryL6nW" value="" name="text" />
@@ -2058,12 +2058,12 @@
         </codeoperation>
         <codeoperation tag="operation_uLbdtfMhbrkR" parent_id="uLbdtfMhbrkR" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Set how many times to indent this text block.&amp;#010;The amount of each indenatation is determined from the parent&amp;#010;codedocument codegeneration policy.&amp;#010;@param level   the new value for the indentation level" />
+          <cppcodedocumentation tag="" text="Set how many times to indent this text block.&amp;#010;The amount of each indentation is determined from the parent&amp;#010;codedocument codegeneration policy.&amp;#010;@param level   the new value for the indentation level" />
          </header>
         </codeoperation>
         <codeoperation tag="operation_WBm0uGRpb1QT" parent_id="WBm0uGRpb1QT" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="Get how many times to indent this text block.&amp;#010;The amount of each indenatation is determined from the parent&amp;#010;codedocument codegeneration policy.&amp;#010;@return   the indentation level" />
+          <cppcodedocumentation tag="" text="Get how many times to indent this text block.&amp;#010;The amount of each indentation is determined from the parent&amp;#010;codedocument codegeneration policy.&amp;#010;@return   the indentation level" />
          </header>
         </codeoperation>
         <codeoperation tag="operation_vpppvNJPY6PT" parent_id="vpppvNJPY6PT" canDelete="false" >
@@ -2088,7 +2088,7 @@
         </codeoperation>
         <codeoperation tag="operation_6iJueM1s6EeM" parent_id="6iJueM1s6EeM" canDelete="false" >
          <header>
-          <cppcodedocumentation tag="" text="UnFormat a long text string. Typically, this means removing&amp;#010;the indentaion (linePrefix) and/or newline chars from each line.&amp;#010;If an indentation is not specified, then the current indentation is used.&amp;#010;@param text     the original text for unformatting&amp;#010;@param indent   the indentation&amp;#010;@return         the unformatted text" />
+          <cppcodedocumentation tag="" text="UnFormat a long text string. Typically, this means removing&amp;#010;the indentation (linePrefix) and/or newline chars from each line.&amp;#010;If an indentation is not specified, then the current indentation is used.&amp;#010;@param text     the original text for unformatting&amp;#010;@param indent   the indentation&amp;#010;@return         the unformatted text" />
          </header>
         </codeoperation>
         <codeoperation tag="operation_CzvuyUGV4KAU" parent_id="CzvuyUGV4KAU" canDelete="false" >

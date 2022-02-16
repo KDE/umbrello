@@ -1,17 +1,15 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2015                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "singlepagedialogbase.h"
 
 // app include
-#include <debug_utils.h>
+#include "debug_utils.h"
+#include "uml.h"
+
+// kde include
 #include <KLocalizedString>
 
 DEBUG_REGISTER(SinglePageDialogBase)
@@ -81,7 +79,8 @@ SinglePageDialogBase::~SinglePageDialogBase()
  */
 bool SinglePageDialogBase::apply()
 {
-    DEBUG(DBG_SRC) << "no derived apply() method present, called empty base implementation";
+    logDebug0("SinglePageDialogBase::apply: no derived apply() method present, "
+              "called empty base implementation");
     return true;
 }
 

@@ -1,18 +1,15 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codeaccessormethod.h"
 
 // qt/kde includes
+#include <QXmlStreamWriter>
 
 // local includes
 #include "codeclassfield.h"
@@ -99,7 +96,7 @@ void CodeAccessorMethod::forceRelease()
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeAccessorMethod::loadFromXMI1(QDomElement & root)
+void CodeAccessorMethod::loadFromXMI(QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -107,27 +104,27 @@ void CodeAccessorMethod::loadFromXMI1(QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeAccessorMethod::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeAccessorMethod::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codeaccessormethod"));
+    writer.writeStartElement(QLatin1String("codeaccessormethod"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & elem)
+void CodeAccessorMethod::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set super-class attributes
-    CodeMethodBlock::setAttributesOnNode(doc, elem);
+    CodeMethodBlock::setAttributesOnNode(writer);
 
     // set local class attributes
-    elem.setAttribute(QLatin1String("accessType"), getType());
-    elem.setAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
+    writer.writeAttribute(QLatin1String("accessType"), QString::number(getType()));
+    writer.writeAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
 }
 
 /**
@@ -157,7 +154,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
         if (newCF)
                 initFields(newCF);
         else
-                uError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
+                logError0("code accessor method cant load parent codeclassfield, corrupt file?");
 
     */
     // now load/set other local attributes

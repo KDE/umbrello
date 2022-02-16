@@ -75,6 +75,7 @@
       <Action name="setLang_tcl"/>
       <Action name="setLang_vala"/>
       <Action name="setLang_xmlschema"/>
+      <Action name="setLang_none"/>
     </Menu>
     <Separator/>
     <Action name="create_default_datatypes"/>

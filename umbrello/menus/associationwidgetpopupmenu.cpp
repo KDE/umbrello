@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2018                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "associationwidgetpopupmenu.h"
 
@@ -24,9 +19,8 @@ enum class LocalTriggerType { AnchorSelected, AssociationSelected, Collaboration
  * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
- * @param object   The WidgetBase to represent a menu for.
- * @param multi    True if multiple items are selected.
- * @param uniqueType The type of widget shared by all selected widgets
+ * @param type     The type of widget shared by all selected widgets.
+ * @param widget   The AssociationWidget to represent a menu for.
  */
 AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::AssociationType::Enum type, AssociationWidget *widget)
   : ListPopupMenu(parent)
@@ -54,10 +48,15 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
             insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
         if (widget->isPointRemovable())
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
-        addSeparator();
-        insertSubMenuLayout(widget->associationLine());
+        if (!widget->isAutoLayouted())
+            insert(mt_Auto_Layout_Spline, i18n("Choose Spline points automatically"));
+        if (widget->isLayoutChangeable()) {
+            addSeparator();
+            insertSubMenuLayout(widget->associationLine());
+        }
         addSeparator();
         insert(mt_Delete);
+        break;
     default:
         break;
     }
@@ -90,24 +89,24 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
 /**
  * Inserts a sub menu for association layouts.
  */
-void AssociationWidgetPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
+void AssociationWidgetPopupMenu::insertSubMenuLayout(const AssociationLine& associationLine)
 {
     KMenu* layout = newMenu(i18nc("Layout menu", "Layout"), this);
     insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     insert(mt_LayoutDirect, layout, i18n("Direct"), true);
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);
     insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
-    switch(associationLine->layout()) {
-    case AssociationLine::Direct:
+    switch (associationLine.layout()) {
+    case Uml::LayoutType::Direct:
         m_actions[mt_LayoutDirect]->setChecked(true);
         break;
-    case AssociationLine::Orthogonal:
+    case Uml::LayoutType::Orthogonal:
         m_actions[mt_LayoutOrthogonal]->setChecked(true);
         break;
-    case AssociationLine::Spline:
+    case Uml::LayoutType::Spline:
         m_actions[mt_LayoutSpline]->setChecked(true);
         break;
-    case AssociationLine::Polyline:
+    case Uml::LayoutType::Polyline:
     default:
         m_actions[mt_LayoutPolyline]->setChecked(true);
         break;

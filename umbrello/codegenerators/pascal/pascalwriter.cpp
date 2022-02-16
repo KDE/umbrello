@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "pascalwriter.h"
 
@@ -60,7 +55,7 @@ Uml::ProgrammingLanguage::Enum PascalWriter::language() const
 /**
  *
  */
-bool PascalWriter::isOOClass(UMLClassifier *c)
+bool PascalWriter::isOOClass(const UMLClassifier *c)
 {
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
@@ -68,7 +63,7 @@ bool PascalWriter::isOOClass(UMLClassifier *c)
     if (ot == UMLObject::ot_Enum || ot == UMLObject::ot_Datatype)
         return false;
     if (ot != UMLObject::ot_Class) {
-        uDebug() << "unknown object type " << UMLObject::toString(ot);
+        logWarn1("PascalWriter::isOOClass: unknown object type %1", UMLObject::toString(ot));
         return false;
     }
     QString stype = c->stereotype();
@@ -89,7 +84,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = 0;
 
-    UMLClassifier *c = p->asUMLClassifier();
+    const UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == 0) {
         retval = className;
         if (c == 0 || !isOOClass(c))
@@ -127,7 +122,7 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append(QLatin1String("_Vector"));
         }
     }
-    UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
+    const UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
     if (c == 0)
         return;
     typeName = cleanName(c->name());
@@ -142,7 +137,7 @@ void PascalWriter::computeAssocTypeAndRole
 void PascalWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("PascalWriter::writeClass: Cannot write class of NULL concept");
         return;
     }
 
@@ -200,7 +195,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     pas << "type" << m_endl;
     m_indentLevel++;
     if (c->baseType() == UMLObject::ot_Enum) {
-        UMLEnum *ue = c->asUMLEnum();
+        const UMLEnum *ue = c->asUMLEnum();
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;
@@ -349,6 +344,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
  * Write one operation.
  * @param op the class for which we are generating code
  * @param pas the stream associated with the output file
+ * @param is_comment  specifying true generates the operation as commented out
  */
 void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_comment)
 {
@@ -412,7 +408,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
  * Returns the default datatypes in a list.
  * @return  the list of default datatypes
  */
-QStringList PascalWriter::defaultDatatypes()
+QStringList PascalWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("AnsiString"));

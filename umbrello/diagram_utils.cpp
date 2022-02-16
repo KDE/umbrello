@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2017                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2017-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "diagram_utils.h"
@@ -14,6 +9,7 @@
 // app includes
 #include "associationwidget.h"
 #include "association.h"
+#define DBG_SRC QLatin1String("Diagram_Utils")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "messagewidget.h"
@@ -21,6 +17,7 @@
 #include "objectwidget.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlview.h"
 #include "umlobject.h"
 #include "umlscene.h"
 #include "widget_factory.h"
@@ -31,9 +28,8 @@
 #include <QMimeData>
 #include <QRegExp>
 
+// Currently this file is not using debug statements. Activate this line when inserting them:
 DEBUG_REGISTER_DISABLED(Diagram_Utils)
-#undef DBG_SRC
-#define DBG_SRC QLatin1String("Diagram_Utils")
 
 namespace Diagram_Utils {
 
@@ -81,6 +77,7 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
  * @param sequence return of sequence number
  * @param package return of package
  * @param method return of method
+ * @param error  return of error string if error happened
  * @return true line could be parsed and return variable has been filled
  * @return false line could not be parsed, no return variable has been filled
  */
@@ -137,11 +134,13 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
 
     /**
      * Qtcreator/gdb
+     * @verbatim
      *  6	Driver::ParseHelper::ParseHelper	driver.cpp	299	0x634c44
      * 31   g_main_context_dispatch /usr/lib64/libglib-2.0.so.0     0x7fffefe16316
      * ignoring
      * ... <more>                                                   0x7ffff41152d9
      * 13  ??                                                       0x7ffff41152d9
+     * @endverbatim
      */
     else if (cols[cols.size()-1].startsWith(QLatin1String("0x"))) {
         if (cols[0] == QLatin1String("...") || cols[1] == QLatin1String("??"))
@@ -240,7 +239,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(index)
                         .arg(1).arg(line).arg(error);
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
             continue;
         }
@@ -256,12 +255,8 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
         if (objectsMap.contains(package)) {
             rightWidget = objectsMap[package];
         } else {
-            UMLObject *right = umldoc->findUMLObject(package, UMLObject::ot_Class);
-            if (!right)
-                right = umldoc->findUMLObject(package, UMLObject::ot_Package);
-            if (!right) {
-                right = Object_Factory::createUMLObject(UMLObject::ot_Class, package);
-            }
+            UMLFolder *logicalView = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
+            UMLObject *right = Import_Utils::createUMLObjectHierarchy(UMLObject::ot_Class, package, logicalView);
 
             rightWidget = (ObjectWidget *)Widget_Factory::createWidget(scene, right);
             rightWidget->setX(mostRightWidget->x() + mostRightWidget->width() + 10);
@@ -317,7 +312,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
  */
 bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName)
 {
-    if (scene->type() == Uml::DiagramType::Sequence)
+    if (scene->isSequenceDiagram())
         return importSequences(lines, scene);
     else if (scene->type() != Uml::DiagramType::Class)
         return false;
@@ -413,12 +408,11 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
                 AssociationWidget* aw = AssociationWidget::create(scene, w1, type, w2, assoc);
                 scene->addAssociation(aw);
             } else {
-                if (assoc)
-                    delete assoc;
+                // in case of error, assoc remains nullptr
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(lineNumber)
                         .arg(1).arg(line).arg(QLatin1String("error:could not add association"));
-                UMLApp::app()->logWindow()->addItem(item);
+                UMLApp::app()->log(item);
             }
         } else if (l[0].isEmpty() && c && l.size() == 2) {
             QString name = l.last();
@@ -450,7 +444,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                     .arg(fileName).arg(lineNumber)
                     .arg(1).arg(line).arg(QLatin1String("syntax error"));
-            UMLApp::app()->logWindow()->addItem(item);
+            UMLApp::app()->log(item);
         }
     }
     return true;
@@ -480,7 +474,7 @@ bool importGraph(const QMimeData* mimeData, UMLScene *scene)
     UMLDoc *doc = UMLApp::app()->document();
     doc->beginPaste();
     bool result = false;
-    if (scene->type() == Uml::DiagramType::Sequence)
+    if (scene->isSequenceDiagram())
         result = importSequences(lines, scene);
     else
         result = importGraph(lines, scene);
@@ -510,6 +504,26 @@ bool importGraph(const QString &fileName, UMLScene *scene)
         lines.append(in.readLine());
     }
     return importGraph(lines, scene, fileName);
+}
+
+/**
+ * Check if name for a diagram is unique
+ *
+ * @param type type of diagram to check (set to undefined if to check against all diagrams)
+ * @param name name of diagram to check
+ * @return true - name is unique
+ * @return false - name is not unique
+ */
+bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name)
+{
+    bool found = false;
+    foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+        if (type == Uml::DiagramType::Undefined || view->umlScene()->type() == type) {
+            if (view->umlScene()->name() == name)
+                found = true;
+        }
+    }
+    return !found;
 }
 
 }  // end namespace Diagram_Utils

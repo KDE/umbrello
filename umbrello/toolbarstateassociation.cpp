@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "toolbarstateassociation.h"
@@ -16,7 +11,9 @@
 #include "association.h"
 #include "associationline.h"
 #include "associationwidget.h"
+#include "classifier.h"
 #include "classifierwidget.h"
+#include "cmds/widget/cmdcreatewidget.h"
 #include "floatingtextwidget.h"
 #include "debug_utils.h"
 #include "folder.h"
@@ -31,6 +28,8 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
+
+DEBUG_REGISTER(ToolBarStateAssociation)
 
 /**
  * Creates a new ToolBarStateAssociation.
@@ -117,10 +116,14 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
         return;
     }
 
-    currentAssociation()->createAssocClassLine(
-            static_cast<ClassifierWidget*>(m_firstWidget),
-            currentAssociation()->associationLine()->closestSegmentIndex(m_pMouseEvent->scenePos()));
-    m_firstWidget->addAssoc(currentAssociation());
+    ClassifierWidget *classifier = dynamic_cast<ClassifierWidget*>(m_firstWidget);
+    if (classifier) {
+        currentAssociation()->createAssocClassLine(classifier,
+            currentAssociation()->associationLine().closestSegmentIndex(m_pMouseEvent->scenePos()));
+        m_firstWidget->addAssoc(currentAssociation());
+    } else {
+        logError0("ToolBarStateAssociation::mouseReleaseAssociation: dynamic_cast to ClassifierWidget* failed");
+    }
     cleanAssociation();
 }
 
@@ -165,7 +168,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
  * Sets the first widget in the association using the current widget.
  * If the widget can't be associated using the current type of association,
  * an error is shown and the widget isn't set.
- * Otherwise, the temporal visual association is created and the mouse
+ * Otherwise, the temporary visual association is created and the mouse
  * tracking is enabled, so move events will be delivered.
  */
 void ToolBarStateAssociation::setFirstWidget()
@@ -189,6 +192,7 @@ void ToolBarStateAssociation::setFirstWidget()
     cleanAssociation();
     m_firstWidget = widget;
 
+    // preliminary line
     m_associationLine = new QGraphicsLineItem();
     m_pUMLScene->addItem(m_associationLine);
     m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
@@ -229,20 +233,47 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
+        if (widgetA->changesShape())
+            widgetA->updateGeometry();
+        if (widgetB->changesShape())
+            widgetB->updateGeometry();
+        if (widgetA->isClassWidget() && widgetB->isClassWidget()) {
+            if (type == Uml::AssociationType::Composition) {
+                UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
+                UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
+                attr->setType(widgetB->umlObject());
+                c->addAttribute(attr);
+                cleanAssociation();
+                emit finished();
+                return;
+            }
+            /*  Activating this code will produce a DataType named as the Role B type
+                with a suffixed "*" to indicate it is a pointer type.
+                However, this is a non standard, C++ specific notation.
+                Further, if this code is activated then no Aggregation association to the
+                role B type will be shown. Instead, if the "B*" pointer type is dragged
+                to the diagram then a Composition to that type will be shown.
+            else if (type == Uml::AssociationType::Aggregation) {
+                UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
+                UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
+                attr->setTypeName(QString(QLatin1String("%1*")).arg(widgetB->umlObject()->name()));
+                c->addAttribute(attr);
+                cleanAssociation();
+                emit finished();
+                return;
+            } */
+        }
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
+        if (widgetA->baseType() == UMLWidget::wt_Port) {
+            QPointF lineStart = widgetA->getPos();
+            logDebug2("ToolBarStateAssociation::setSecondWidget : lineStart = (%1,%2)",
+                      lineStart.x(), lineStart.y());
+            temp->associationLine().setPoint(0, lineStart);
+        }
         FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
         if (wt)
             wt->showOperationDialog();
-        if (addAssociationInViewAndDoc(temp)) {
-            if (type == Uml::AssociationType::Containment) {
-                UMLObject *newContainer = widgetA->umlObject();
-                UMLObject *objToBeMoved = widgetB->umlObject();
-                if (newContainer && objToBeMoved) {
-                    Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
-                }
-            }
-            UMLApp::app()->document()->setModified();
-        }
+        UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(temp));
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
@@ -250,6 +281,7 @@ void ToolBarStateAssociation::setSecondWidget()
     }
 
     cleanAssociation();
+    emit finished();
 }
 
 /**
@@ -271,12 +303,14 @@ Uml::AssociationType::Enum ToolBarStateAssociation::getAssociationType()
         case WorkToolBar::tbb_Relationship:             at = Uml::AssociationType::Relationship;      break;
         case WorkToolBar::tbb_Dependency:               at = Uml::AssociationType::Dependency;        break;
         case WorkToolBar::tbb_Containment:              at = Uml::AssociationType::Containment;       break;
+        case WorkToolBar::tbb_Seq_Message_Creation:
+        case WorkToolBar::tbb_Seq_Message_Destroy:
         case WorkToolBar::tbb_Seq_Message_Synchronous:
         case WorkToolBar::tbb_Seq_Combined_Fragment:
         case WorkToolBar::tbb_Seq_Precondition:
         case WorkToolBar::tbb_Seq_Message_Asynchronous: at = Uml::AssociationType::Seq_Message;       break;
-        case WorkToolBar::tbb_Coll_Message_Synchronous: at = Uml::AssociationType::Coll_Message_Synchronous;      break;
-        case WorkToolBar::tbb_Coll_Message_Asynchronous: at = Uml::AssociationType::Coll_Message_Asynchronous;      break;
+        case WorkToolBar::tbb_Coll_Mesg_Sync: at = Uml::AssociationType::Coll_Mesg_Sync;      break;
+        case WorkToolBar::tbb_Coll_Mesg_Async: at = Uml::AssociationType::Coll_Mesg_Async;      break;
         case WorkToolBar::tbb_State_Transition:         at = Uml::AssociationType::State;             break;
         case WorkToolBar::tbb_Activity_Transition:      at = Uml::AssociationType::Activity;          break;
         case WorkToolBar::tbb_Exception:                at = Uml::AssociationType::Exception;         break;
@@ -312,14 +346,14 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
         }
         return true;
     } else {
-        uError() << "cannot addAssocInViewAndDoc(), deleting";
+        logError0("ToolBarStateAssociation: cannot addAssocInViewAndDoc(), deleting");
         delete assoc;
         return false;
     }
 }
 
 /**
- * Cleans the first widget and the temporal association line, if any.
+ * Cleans the first widget and the temporary association line, if any.
  * Both are set to null, and the association line is also deleted.
  */
 void ToolBarStateAssociation::cleanAssociation()

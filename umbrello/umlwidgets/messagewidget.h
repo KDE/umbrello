@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef MESSAGEWIDGET_H
 #define MESSAGEWIDGET_H
@@ -35,7 +30,7 @@ class UMLOperation;
  * @see UMLWidget
  * @see ObjectWidget
  * @see FloatingTextWidget
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class MessageWidget : public UMLWidget, public LinkWidget
 {
@@ -53,7 +48,7 @@ public:
 
     virtual void setY(qreal y);
 
-    //---------- LinkWidget Interface methods implemementation from now on.
+    //---------- LinkWidget Interface methods implementation from here on.
 
     virtual void lwSetFont (QFont font);
     virtual UMLClassifier *operationOwner();
@@ -74,7 +69,7 @@ public:
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                   Uml::TextRole::Enum tr);
 
-    //---------- End LinkWidget Interface methods implemementation.
+    //---------- End LinkWidget Interface methods implementation.
 
     /// @return Whether the message is synchronous or asynchronous
     Uml::SequenceMessage::Enum sequenceMessageType() const {
@@ -84,7 +79,7 @@ public:
     bool hasObjectWidget(ObjectWidget * w);
 
     ObjectWidget* objectWidget(Uml::RoleType::Enum role);
-    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role) ;
+    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role);
 
     bool isSelf() const;
 
@@ -115,6 +110,7 @@ public:
     void calculateDimensionsSynchronous();
     void calculateDimensionsAsynchronous();
     void calculateDimensionsCreation();
+    void calculateDimensionsDestroy();
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
@@ -135,8 +131,8 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI1(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     void setxclicked(int xclick);
     void setyclicked(int yclick);
@@ -154,7 +150,7 @@ protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    virtual QCursor resizeCursor() const;
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     void setLinkAndTextPos();
 
@@ -169,6 +165,7 @@ protected:
     void paintSynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintAsynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintCreation(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintDestroy(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintLost(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
@@ -186,14 +183,14 @@ private:
 
     void init();
 
-    ObjectWidget * m_pOw[2];
+    QPointer<ObjectWidget> m_pOw[2];
     FloatingTextWidget * m_pFText;
 
     int m_xclicked;
     int m_yclicked;
 
     /**
-     * The following variables are used by loadFromXMI1() as an intermediate
+     * The following variables are used by loadFromXMI() as an intermediate
      * store. activate() resolves the IDs, i.e. after activate() the variables
      * m_pOw[] and m_pFText can be used.
      */

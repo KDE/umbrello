@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppcodedocumentation.h"
@@ -33,12 +29,12 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
 /**
  * Save the XMI representation of this object
  */
-void CPPCodeDocumentation::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CPPCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement blockElement = doc.createElement(QLatin1String("cppcodedocumentation"));
-    setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
+    writer.writeStartElement(QLatin1String("cppcodedocumentation"));
+    setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild(blockElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -103,7 +99,7 @@ int CPPCodeDocumentation::lastEditableLine()
 }
 
 /** UnFormat a long text string. Typically, this means removing
- *  the indentaion (linePrefix) and/or newline chars from each line.
+ *  the indentation (linePrefix) and/or newline chars from each line.
  */
 QString CPPCodeDocumentation::unformatText(const QString & text, const QString & indent)
 {

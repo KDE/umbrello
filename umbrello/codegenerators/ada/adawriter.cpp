@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2002 Oliver Kellogg <okellogg@users.sourceforge.net>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "adawriter.h"
 
@@ -62,7 +58,7 @@ Uml::ProgrammingLanguage::Enum AdaWriter::language() const
 /**
  * Return true if `c' is a tagged type or Ada2005 interface.
  */
-bool AdaWriter::isOOClass(UMLClassifier *c)
+bool AdaWriter::isOOClass(const UMLClassifier *c)
 {
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
@@ -70,7 +66,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c)
     if (ot == UMLObject::ot_Enum)
         return false;
     if (ot != UMLObject::ot_Class) {
-        uDebug() << "unknown object type " << UMLObject::toString(ot);
+        logWarn1("AdaWriter::isOOClass unexpected object type %1", UMLObject::toString(ot));
         return false;
     }
     QString stype = c->stereotype();
@@ -122,7 +118,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = 0;
 
-    UMLClassifier *c = p->asUMLClassifier();
+    const UMLClassifier *c = p->asUMLClassifier();
     if (umlPkg == 0) {
         retval = className;
         if (c == 0 || !isOOClass(c))
@@ -211,7 +207,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
 void AdaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!";
+        logWarn0("AdaWriter::writeClass: Cannot write class of NULL concept!");
         return;
     }
     if (m_classesGenerated.contains(c))
@@ -288,7 +284,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                     // Check whether it's a data type.
                     UMLClassifier *typeObj = t->getType();
                     if (typeObj == 0) {
-                        uError() << "template_param " << typeName << ": typeObj is NULL";
+                        logError1("template_param %1: typeObj is NULL", typeName);
                         ada << indent() << "type " << formalName << " is new " << typeName
                             << " with private;  -- CHECK: codegen error"
                             << m_endl;
@@ -499,7 +495,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 /**
  * Returns the default datatypes.
  */
-QStringList AdaWriter::defaultDatatypes()
+QStringList AdaWriter::defaultDatatypes() const
 {
     QStringList l;
     l.append(QLatin1String("Boolean"));

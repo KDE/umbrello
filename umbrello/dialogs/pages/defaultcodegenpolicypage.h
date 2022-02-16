@@ -1,11 +1,11 @@
-/****************************************************************************
-** Form interface generated from reading ui file 'Defaultcodegenpolicypage.ui'
-**
-** Created: Fri Aug 1 12:47:23 2003
-**      by: The User Interface Compiler ($Id$)
-**
-** WARNING! All changes made in this file will be lost!
-****************************************************************************/
+/*
+    Form interface generated from reading ui file 'Defaultcodegenpolicypage.ui'
+
+    Created: Fri Aug 1 12:47:23 2003
+    by: The User Interface Compiler ($Id$)
+
+    WARNING! All changes made in this file will be lost!
+*/
 
 #ifndef DEFAULTCODEGENPOLICYPAGE_H
 #define DEFAULTCODEGENPOLICYPAGE_H

@@ -1,32 +1,20 @@
-/***************************************************************************
- * Copyright (C) 2011 by Andi Fischer <andi.fischer@hispeed.ch>            *
- * Copyright (C) 2012 by Ralf Habacker <ralf.habacker@freenet.de>          *
- *                                                                         *
- * This is free software; you can redistribute it and/or modify            *
- * it under the terms of the GNU General Public License as published by    *
- * the Free Software Foundation; either version 2, or (at your option)     *
- * any later version.                                                      *
- *                                                                         *
- * This software is distributed in the hope that it will be useful,        *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
- * GNU General Public License for more details.                            *
- *                                                                         *
- * You should have received a copy of the GNU General Public License       *
- * along with this package; see the file COPYING.  If not, write to        *
- * the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,   *
- * Boston, MA 02110-1301, USA.                                             *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2012 Ralf Habacker <ralf.habacker@freenet.de>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "layoutgrid.h"
 
+#define DBG_SRC QLatin1String("LayoutGrid")
 #include "debug_utils.h"
 #include "umlscene.h"
+#include "uml.h"
 
 #include <QPainter>
 #include <QVarLengthArray>
 
-#define DBG_LOG() DEBUG(QLatin1String("LayoutGrid"))
 DEBUG_REGISTER_DISABLED(LayoutGrid)
 
 /**
@@ -82,7 +70,7 @@ int LayoutGrid::gridSpacingY() const
 
 void LayoutGrid::setGridSpacing(int sizeX, int sizeY)
 {
-    DBG_LOG() << "x = " << sizeX << " / y = " << sizeY;
+    logDebug2("LayoutGrid::setGridSpacing: x = %1 / y = %2", sizeX, sizeY);
     m_gridSpacingX= sizeX;
     m_gridSpacingY= sizeY;
 }
@@ -94,7 +82,7 @@ const QColor& LayoutGrid::gridDotColor() const
 
 void LayoutGrid::setGridDotColor(const QColor& color)
 {
-    DBG_LOG() << "color = " << color;
+    logDebug1("LayoutGrid::setGridColor: color = %1", color.name());
     m_gridDotColor = color;
 }
 
@@ -106,7 +94,7 @@ bool LayoutGrid::isVisible() const
 void LayoutGrid::setVisible(bool visible)
 {
     if (m_isVisible != visible) {
-        DBG_LOG() << "visible = " << visible;
+        logDebug1("LayoutGrid::setVisible: visible = %1", visible);
         m_isVisible = visible;
         m_scene->update();
     }

@@ -1,20 +1,17 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2003-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "classifierlistpage.h"
 
 #include "basictypes.h"
 #include "classifierlistitem.h"
 #include "codetextedit.h"
+#define DBG_SRC QLatin1String("ClassifierListPage")
 #include "debug_utils.h"
 #include "umldoc.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 #include "classifier.h"
 #include "enum.h"
 #include "entity.h"
@@ -43,6 +40,8 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(ClassifierListPage)
 
 /**
  *  Sets up the ClassifierListPage.
@@ -144,7 +143,8 @@ void ClassifierListPage::setupListGroup(int margin)
         newItemType = i18n("N&ew Instance Attribute...");
         break;
     default:
-        uWarning() << "unknown listItem type in ClassifierListPage";
+        logWarn1("ClassifierListPage::setupListGroup: unknown listItem type %1",
+                 UMLObject::toString(m_itemType));
         break;
     }
 
@@ -374,9 +374,10 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         // now update screen
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* o = listItem->asUMLOperation();
+            const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                logError1("ClassifierListPage::slotActivateItem Dynamic cast to UMLOperation failed for %1",
+                          listItem->name());
                 return;
             }
             m_pCodeTE->setPlainText(o->getSourceCode());
@@ -384,7 +385,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         enableWidgets(true);
         m_pOldListItem = listItem;
     } else {
-        uDebug() << "Cannot find item in list.";
+        logDebug0("ClassifierListPage::slotActivateItem: Cannot find item in list.");
     }
 }
 
@@ -404,7 +405,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     if (!m_bSigWaiting) {
         return;
     }
-    UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
+    const UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
     if (listItem == 0)  {
         return;
     }
@@ -462,7 +463,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
         } else if(m_itemType == UMLObject::ot_InstanceAttribute){
             type = DialogsPopupMenu::tt_InstanceAttribute_Selected;
         } else {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::slotRightButtonPressed(selected): unknown type %1", m_itemType);
         }
     } else { //pressed into fresh air
         if (m_itemType == UMLObject::ot_Attribute) {
@@ -478,7 +479,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
         } else if( m_itemType == UMLObject::ot_InstanceAttribute) {
             type = DialogsPopupMenu::tt_New_InstanceAttribute;
         } else {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::slotRightButtonPressed: unknown type %1", m_itemType);
         }
     }
 
@@ -514,7 +515,7 @@ void ClassifierListPage::slotMenuSelection(QAction* action)
                 return;
             UMLClassifierListItem* listItem = getItemList().at(currentItemIndex);
             if (!listItem && id != ListPopupMenu::mt_New_Attribute) {
-                uDebug() << "cannot find att from selection";
+                logDebug0("ClassifierListPage::slotMenuSelection: cannot find att from selection");
                 return;
             }
             m_bSigWaiting = true;
@@ -527,7 +528,8 @@ void ClassifierListPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
+        logDebug1("ClassifierListPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(id));
     }
 }
 
@@ -545,7 +547,7 @@ void ClassifierListPage::printItemList(const QString &prologue)
         item = it.next();
         buf.append(' ' + item->getName());
     }
-    uDebug() << prologue << buf;
+    logDebug1("%1 %2", prologue, buf);
 #else
     Q_UNUSED(prologue);
 #endif
@@ -579,8 +581,9 @@ void ClassifierListPage::slotTopClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
-    addClassifier(currentAtt, 0);
+    logDebug2("ClassifierListPage::slotTopClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
+    addToClassifier(currentAtt, 0);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -614,10 +617,11 @@ void ClassifierListPage::slotUpClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotUpClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     if (index == -1)
         index = 0;
-    addClassifier(currentAtt, index);
+    addToClassifier(currentAtt, index);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -650,10 +654,11 @@ void ClassifierListPage::slotDownClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
+    logDebug2("ClassifierListPage::slotDownClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
-    addClassifier(currentAtt, index);
+    addToClassifier(currentAtt, index);
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -686,8 +691,9 @@ void ClassifierListPage::slotBottomClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
-    addClassifier(currentAtt, getItemList().count());
+    logDebug2("ClassifierListPage::slotBottomClicked %1: peer index in UMLCanvasItem::m_List is %2",
+              currentAtt->name(), index);
+    addToClassifier(currentAtt, getItemList().count());
     printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
@@ -701,9 +707,10 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
         return;
     }
 
-    UMLClassifierListItem* listItem  = getItemList().at(m_pItemListLB->row(item));
+    int row = m_pItemListLB->row(item);
+    UMLClassifierListItem* listItem  = getItemList().at(row);
     if (!listItem) {
-        uDebug() << "cannot find att from selection";
+        logDebug1("ClassifierListPage::slotDoubleClick: cannot find att from selection (row %1)", row);
         return;
     }
 
@@ -712,9 +719,10 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
         m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            UMLOperation* o = listItem->asUMLOperation();
+            const UMLOperation* o = listItem->asUMLOperation();
             if (!o) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listItem->name();
+                logError1("ClassifierListPage::slotDoubleClick: Dynamic cast to UMLOperation failed for %1",
+                          listItem->name());
                 return;
             }
             m_pCodeTE->setPlainText(o->getSourceCode());
@@ -723,7 +731,7 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
 }
 
 /**
- * Removes currently seleted attribute.
+ * Removes currently selected attribute.
  */
 void ClassifierListPage::slotDelete()
 {
@@ -797,19 +805,20 @@ UMLClassifierListItemList ClassifierListPage::getItemList()
 }
 
 /**
- * Attempts to add classifier to the appropriate list.
- * @param classifier   Pointer to the classifier to add.
+ * Attempts to add a @ref UMLClassifierListItem to @ref m_pClassifier.
+ * @param listitem     Pointer to the classifier list item to add.
  * @param position     Index at which to insert into the list.
  * @return             true if the classifier could be added
  *
  */
-bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position)
+bool ClassifierListPage::addToClassifier(UMLClassifierListItem* listitem, int position)
 {
     switch (m_itemType) {
     case UMLObject::ot_Attribute: {
             UMLAttribute *att = listitem->asUMLAttribute();
             if (!att) {
-                uError() << "Dynamic cast to UMLAttribute failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLAttribute failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addAttribute(att, 0, position);
@@ -817,7 +826,8 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_Operation: {
             UMLOperation *op = listitem->asUMLOperation();
             if (!op) {
-                uError() << "Dynamic cast to UMLOperation failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLOperation failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addOperation(op, position);
@@ -825,7 +835,8 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_Template: {
             UMLTemplate* t = listitem->asUMLTemplate();
             if (!t) {
-                uError() << "Dynamic cast to UMLTemplate failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLTemplate failed for %1",
+                          listitem->name());
                 return false;
             }
             return m_pClassifier->addTemplate(t, position);
@@ -833,12 +844,14 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EnumLiteral: {
             UMLEnum* c = m_pClassifier->asUMLEnum();
             if (!c) {
-                uError() << "Dynamic cast to UMLEnum failed for" << m_pClassifier->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEnum failed for %1",
+                          m_pClassifier->name());
                 return false;
             }
             UMLEnumLiteral *l = listitem->asUMLEnumLiteral();
             if (!l) {
-                uError() << "Dynamic cast to UMLEnumLiteral failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEnumLiteral failed for %1",
+                          listitem->name());
                 return false;
             }
             return c->addEnumLiteral(l, position);
@@ -847,23 +860,25 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     case UMLObject::ot_EntityAttribute: {
             UMLEntity* c = m_pClassifier->asUMLEntity();
             if (!c) {
-                uError() << "Dynamic cast to UMLEntity failed for" << m_pClassifier->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEntity failed for %1",
+                          m_pClassifier->name());
                 return false;
             }
             UMLEntityAttribute *a = listitem->asUMLEntityAttribute();
             if (!a) {
-                uError() << "Dynamic cast to UMLEntityAttribute failed for" << listitem->name();
+                logError1("ClassifierListPage::addClassifier: Dynamic cast to UMLEntityAttribute failed for %1",
+                          listitem->name());
                 return false;
             }
             return c->addEntityAttribute(a, position);
             break;
         }
     default: {
-            uWarning() << "unknown type in ClassifierListPage";
+            logWarn1("ClassifierListPage::addClassifier: unknown type %1", UMLObject::toString(m_itemType));
             return false;
         }
     }
-    uError() << "unable to handle listitem type in current state";
+    logError0("ClassifierListPage::addClassifier: unable to handle listitem type in current state");
     return false;
 }
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2018                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlscenepopupmenu.h"
 
@@ -37,10 +32,19 @@ UMLScenePopupMenu::UMLScenePopupMenu(QWidget *parent, UMLScene *scene)
         case Uml::DiagramType::EntityRelationship:
         case Uml::DiagramType::Sequence:
         case Uml::DiagramType::Collaboration:
+            if (type == Uml::DiagramType::State && scene->widgetLink()) {
+                if (scene->widgetLink()->isStateWidget()) {
+                    insert(mt_ReturnToCombinedState);
+                    addSeparator();
+                } else if (scene->widgetLink()->isClassWidget()) {
+                    insert(mt_ReturnToClass);
+                    addSeparator();
+                }
+            }
             insertSubMenuNew(type);
             addSeparator();
-            insert(mt_Undo, Icon_Utils::SmallIcon(Icon_Utils::it_Undo), i18n("Undo"));
-            insert(mt_Redo, Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Redo"));
+            insert(mt_Undo);
+            insert(mt_Redo);
             addSeparator();
             insert(mt_Cut);
             insert(mt_Copy);
@@ -75,7 +79,7 @@ UMLScenePopupMenu::UMLScenePopupMenu(QWidget *parent, UMLScene *scene)
 
     setupActionsData();
 
-    if (IS_DEBUG_ENABLED(DBG_SRC))
+    if (IS_DEBUG_ENABLED())
         dumpActions(Uml::DiagramType::toString(type));
 }
 
@@ -109,7 +113,8 @@ void UMLScenePopupMenu::insertLayoutItems()
         }
     }
     else {
-        uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
+        logWarn0("UMLScenePopupMenu::insertLayoutItems could not add autolayout entries "
+                 "because graphviz was not found.");
     }
 }
 
@@ -120,54 +125,79 @@ void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *men
     }
     switch(type) {
         case Uml::DiagramType::UseCase:
-            insert(mt_Actor, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor..."));
-            insert(mt_UseCase, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case..."));
+            insert(mt_Actor, menu);
+            insert(mt_UseCase, menu);
             break;
         case Uml::DiagramType::Class:
-            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
-            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
-            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
-            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
-            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
-            insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package..."));
+            insert(mt_Import_from_File, menu);
+            insert(mt_Class, menu);
+            insert(mt_Interface, menu);
+            insert(mt_Datatype, menu);
+            insert(mt_Enum, menu);
+            insert(mt_Package, menu);
             break;
          case Uml::DiagramType::Object:
-            insert(mt_Instance, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Instance), i18nc("new instance menu item", "Instance..."));
+            insert(mt_Instance, menu);
         break;
         case Uml::DiagramType::State:
-            insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
-            insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
-            insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State..."));
-            insert(mt_Junction, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18n("Junction"));
-            insert(mt_DeepHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Deep), i18n("Deep History"));
-            insert(mt_ShallowHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History"));
-            insert(mt_Choice, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Choice_Rhomb), i18n("Choice"));
-            insert(mt_StateFork, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork"));
-            insert(mt_StateJoin, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join"));
+            insert(mt_Initial_State, menu);
+            insert(mt_State, menu);
+            insert(mt_End_State, menu);
+            insert(mt_Junction, menu);
+            insert(mt_DeepHistory, menu);
+            insert(mt_ShallowHistory, menu);
+            insert(mt_Choice, menu);
+            insert(mt_StateFork, menu);
+            insert(mt_StateJoin, menu);
+            insert(mt_CombinedState, menu);
             break;
         case Uml::DiagramType::Activity:
-            insert(mt_Initial_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial Activity"));
-            insert(mt_End_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End Activity"));
-            insert(mt_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Activity..."));
-            insert(mt_Branch, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Branch), i18n("Branch/Merge"));
+            insert(mt_Initial_Activity, menu);
+            insert(mt_Activity, menu);
+            insert(mt_End_Activity, menu);
+            insert(mt_Final_Activity, menu);
+            insert(mt_Branch, menu);
+            insert(mt_Fork, menu);
+            insert(mt_Invoke_Activity, menu);
+            insert(mt_Param_Activity, menu);
+            insert(mt_Activity_Transition, menu);
+            insert(mt_Exception, menu);
+            insert(mt_PrePostCondition, menu);
+            insert(mt_Send_Signal, menu);
+            insert(mt_Accept_Signal, menu);
+            insert(mt_Accept_Time_Event, menu);
+            insert(mt_Region, menu);
+            insert(mt_Pin, menu);
+            insert(mt_Object_Node, menu);
             break;
         case Uml::DiagramType::Component:
-            insert(mt_Component, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component..."));
-            insert(mt_Artifact, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact..."));
+            insert(mt_Subsystem, menu);
+            insert(mt_Component, menu);
+            insert(mt_InterfaceComponent, menu);
+            insert(mt_Artifact, menu);
             break;
         case Uml::DiagramType::Deployment:
-            insert(mt_Node, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node..."));
+            insert(mt_Node, menu);
             break;
         case Uml::DiagramType::EntityRelationship:
-            insert(mt_Entity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity..."));
-            insert(mt_Category, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category..."));
+            insert(mt_Entity, menu);
+            insert(mt_Category, menu);
             break;
         case Uml::DiagramType::Sequence:
-            insert(mt_Import_from_File, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Import_File), i18n("from file..."));
-            insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
+            insert(mt_Import_from_File, menu);
+            insert(mt_Object, menu);
+            if (m_scene->onWidgetLine(m_scene->pos())) {
+                insert(mt_MessageCreation, menu);
+                insert(mt_MessageDestroy, menu);
+                insert(mt_MessageSynchronous, menu);
+                insert(mt_MessageAsynchronous, menu);
+                insert(mt_MessageLost, menu);
+            } else if (m_scene->widgetOnDiagram(WidgetBase::wt_Object)){
+                insert(mt_MessageFound, menu);
+            }
             break;
         case Uml::DiagramType::Collaboration:
-            insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
+            insert(mt_Object, menu);
             break;
         default:
             delete menu;

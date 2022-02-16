@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "dcodegenerator.h"
@@ -114,7 +110,7 @@ QString DCodeGenerator::capitalizeFirstLetter(const QString &item)
 
 /**
  * IF the type is "string" we need to declare it as
- * the D Object "String" (there is no string primative in D).
+ * the D Object "String" (there is no string primitive in D).
  * Same thing again for "bool" to "boolean".
  * @param item   the item to change
  * @return the changed item
@@ -144,7 +140,7 @@ CodeDocument * DCodeGenerator::newClassifierCodeDocument (UMLClassifier * classi
  * Adds D's primitives as datatypes.
  * @return the list of primitive datatypes
  */
-QStringList DCodeGenerator::defaultDatatypes()
+QStringList DCodeGenerator::defaultDatatypes() const
 {
     QStringList l;
     l << QLatin1String("void")
@@ -170,7 +166,8 @@ QStringList DCodeGenerator::defaultDatatypes()
       << QLatin1String("creal")
       << QLatin1String("char")
       << QLatin1String("wchar")
-      << QLatin1String("dchar");
+      << QLatin1String("dchar")
+      << QLatin1String("string");
     return l;
 }
 

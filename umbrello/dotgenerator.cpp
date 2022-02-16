@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // self includes
 #include "dotgenerator.h"
@@ -17,8 +12,9 @@
 #include "classifierwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
+#define DBG_SRC QLatin1String("DotGenerator")
 #include "debug_utils.h"
-#include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KConfigGroup>
@@ -40,6 +36,14 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 
+DEBUG_REGISTER(DotGenerator)
+
+QString dotType(WidgetBase *widget)
+{
+    const QString rawType = widget->baseTypeStr();
+    return rawType.toLower().remove(QLatin1String("wt_"));
+}
+
 /**
  * dot specific paint engine
  */
@@ -58,7 +62,7 @@ public:
     virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) { Q_UNUSED(rectangle) Q_UNUSED(image) Q_UNUSED(sr) Q_UNUSED(flags) }
     virtual void drawLines(const QLineF * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
     virtual void drawLines(const QLine * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
-    virtual void drawwPath(const QPainterPath & path) { Q_UNUSED(path) }
+    virtual void drawPath(const QPainterPath & path) { Q_UNUSED(path) }
     virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) { Q_UNUSED(r) Q_UNUSED(pm) Q_UNUSED(sr) }
     virtual void drawPoints(const QPointF * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
     virtual void drawPoints(const QPoint * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
@@ -136,6 +140,59 @@ DotGenerator::DotGenerator()
     m_usePosition(false),
     m_useFullNodeLabels(true)
 {
+    Settings::OptionState& optionState = Settings::optionState();
+    if (optionState.autoLayoutState.autoDotPath) {
+        m_dotPath = currentDotPath();
+    }
+    else if (!optionState.autoLayoutState.dotPath.isEmpty()) {
+        m_dotPath = optionState.autoLayoutState.dotPath;
+    }
+}
+
+/**
+ * Return the path where dot is installed.
+ *
+ * @return string with dot path
+ */
+QString DotGenerator::currentDotPath()
+{
+#if QT_VERSION >= 0x050000
+    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
+#else
+    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
+#endif
+    if (!executable.isEmpty()) {
+        QFileInfo fi(executable);
+        return fi.absolutePath();
+    }
+#ifdef Q_OS_WIN
+    // search for dot installation
+    QString appDir(QLatin1String(qgetenv("ProgramFiles").constData()));
+    QDir dir(appDir);
+    dir.setFilter(QDir::Dirs);
+    dir.setNameFilters(QStringList() << QLatin1String("Graphviz*"));
+    dir.setSorting(QDir::Reversed);
+    QFileInfoList list = dir.entryInfoList();
+    if (list.size() > 0) {
+        QString dotPath = list.at(0).absoluteFilePath();
+        QString exePath = QFile::exists(dotPath + QLatin1String("\\bin")) ? dotPath + QLatin1String("\\bin") : dotPath;
+        return QFile::exists(exePath + QLatin1String("\\dot.exe")) ? exePath : QString();
+    }
+#endif
+    return QString();
+}
+
+void DotGenerator::setGeneratorName(const QString &name)
+{
+    m_generator = name;
+    m_version = generatorVersion();
+    logDebug3("DotGenerator::setGeneratorName(%1) found graphviz generator at %2 with version %3",
+              name, generatorFullPath(), m_version);
+}
+
+QString DotGenerator::generatorFullPath() const
+{
+    return m_dotPath + QLatin1Char('/') + m_generator;
 }
 
 /**
@@ -143,7 +200,7 @@ DotGenerator::DotGenerator()
  *
  * @return true if position are used
  */
-bool DotGenerator::usePosition()
+bool DotGenerator::usePosition() const
 {
     return m_usePosition;
 }
@@ -163,7 +220,7 @@ void DotGenerator::setUsePosition(bool state)
  *
  * @return true if position are used
  */
-bool DotGenerator::useFullNodeLabels()
+bool DotGenerator::useFullNodeLabels() const
 {
     return m_useFullNodeLabels;
 }
@@ -215,8 +272,8 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString>
 /**
  * Read a layout config file
  *
- * @param diagramType String identifing the diagram
- * @param variant String identifing the variant
+ * @param diagramType String identifying the diagram
+ * @param variant String identifying the variant
  * @return true on success
  */
 bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
@@ -240,15 +297,23 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     }
 
     if (configFileName.isEmpty()) {
-        uError() << "could not find layout config file name for diagram type" << diagramType << "and variant" << variant;
+        if (variant.isEmpty()) {
+            logError1("DotGenerator::readConfigFile could not find layout config file name "
+                      "for diagram type %1 and empty variant", diagramType);
+        } else {
+            logError2("DotGenerator::readConfigFile could not find layout config file name "
+                      "for diagram type %1 and variant %2", diagramType, variant);
+        }
         return false;
     }
-    uDebug() << "reading config file" << configFileName;
+    logDebug1("DotGenerator::readConfigFile reading config file %1", configFileName);
     m_configFileName = configFileName;
     KDesktopFile desktopFile(configFileName);
     KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
     KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Dot-Nodes");
     KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Dot-Attributes");
+    QString layoutType = Uml::LayoutType::toString(Settings::optionState().generalState.layoutType);
+    KConfigGroup layoutAttributes(&desktopFile,QString(QLatin1String("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
     // settings are not needed by dotgenerator
     KConfigGroup settings(&desktopFile,"X-UMBRELLO-Dot-Settings");
 
@@ -260,6 +325,16 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
         QString value = attributes.readEntry(key);
         if (!value.isEmpty())
             m_dotParameters[key] = value;
+    }
+
+    foreach(const QString &key, layoutAttributes.keyList()) {
+        QString value = layoutAttributes.readEntry(key);
+        if (!value.isEmpty()) {
+            if (!m_dotParameters.contains(key))
+                m_dotParameters[key] = value;
+            else
+                m_dotParameters[key].append(QLatin1String(",") + value);
+        }
     }
 
     foreach(const QString &key, nodesAttributes.keyList()) {
@@ -281,14 +356,15 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     if (a.size() == 2)
         m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
     else
-        uError() << "illegal format of entry 'origin'" << value;
+        logError1("DotGenerator::readConfigFile illegal format of entry 'origin' value %1",
+                  value);
 
-    m_generator = settings.readEntry("generator", "dot");
+    setGeneratorName(settings.readEntry("generator", "dot"));
 
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
-    uDebug() << m_edgeParameters;
-    uDebug() << m_nodeParameters;
-    uDebug() << m_dotParameters;
+    DEBUG() << m_edgeParameters;
+    DEBUG() << m_nodeParameters;
+    DEBUG() << m_dotParameters;
 #endif
     return true;
 }
@@ -326,8 +402,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         if (usePosition())
             params  << QString::fromLatin1("pos=\"%1, %2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
 
-        const QString rawType = widget->baseTypeStr();
-        QString type = rawType.toLower().remove(QLatin1String("wt_"));
+        QString type = dotType(widget);
 
         if (type == QLatin1String("state")) {
             StateWidget *w = static_cast<StateWidget *>(widget);
@@ -358,7 +433,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
         if (label.contains(QLatin1String("\""))) {
             label = label.replace(QLatin1Char('"'), QLatin1String("\\\""));
-            uDebug() << "replaced \" in" << label;
+            logDebug2("DotGenerator::createDotFile(%1) replaced \" in %2", fileName, label);
         }
 
         if (m_nodeParameters.contains(key))
@@ -376,12 +451,39 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << QString::fromLatin1("height=\"%1\"").arg(widget->height()/m_scale);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
-        uDebug() << type << params;
+        DEBUG() << type << params;
 #endif
         QString id = fixID(Uml::ID::toString(widget->localID()));
         if (!widget->isTextWidget())
             out << "\"" << id << "\""
                 << " [" << params.join(QLatin1String(",")) << "];\n";
+        // add associations for child items
+        foreach(QGraphicsItem *item, widget->childItems()) {
+            UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
+            if (!w2) {
+                logWarn1("DotGenerator::createDotFile: child item of widget %1 is null", key);
+                continue;
+            }
+            QString type2 = dotType(w2);
+            QString id2 = fixID(Uml::ID::toString(w2->localID()));
+            QStringList params2;
+            QString vkey = QString(QLatin1String("visual::type::%1::%2")).arg(type).arg(type2);
+            if (m_edgeParameters.contains(vkey)) {
+                params2 << m_edgeParameters[vkey];
+            } else {
+                logDebug2("DotGenerator::createDotFile(%1) key %2 not found; skipping association",
+                          fileName, vkey);
+                continue;
+            }
+            vkey = QString(QLatin1String("ranking::type::%1::%2")).arg(type).arg(type2);
+            if (m_edgeParameters.contains(vkey)) {
+                params2 << m_edgeParameters[vkey];
+            } else {
+                logDebug2("DotGenerator::createDotFile(%1) key %2 not found", fileName, vkey);
+            }
+            out << "\"" << id << "\" -> \"" << id2 << "\""
+                << " [" << params2.join(QLatin1String(",")) << "];\n";
+        }
     }
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
@@ -439,7 +541,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << QString::fromLatin1("taillabel=\"%1\"").arg(tailLabel);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
-        uDebug() << type << params;
+        DEBUG() << type << params;
 #endif
         QString aID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
         QString bID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
@@ -485,6 +587,23 @@ QString DotGenerator::fixID(const QString &_id)
     QString id(_id);
     id.remove(QLatin1Char('"'));
     return id;
+}
+
+/**
+ * get generator version
+ * @return version for example 20130928
+ */
+int DotGenerator::generatorVersion() const
+{
+    QProcess p;
+    QStringList args;
+    args << QLatin1String("-V");
+    p.start(generatorFullPath(), args);
+    p.waitForFinished();
+    QString out(QLatin1String(p.readAllStandardError()));
+    QRegExp rx(QLatin1String("\\((.*)\\."));
+    QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
+    return version.toInt(0);
 }
 
 #if 0

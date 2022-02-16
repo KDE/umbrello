@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // onw header
 #include "messagewidget.h"
@@ -32,6 +27,7 @@
 #include <QPainter>
 #include <QPolygon>
 #include <QResizeEvent>
+#include <QXmlStreamWriter>
 
 //kde includes
 #include <KLocalizedString>
@@ -65,11 +61,13 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         y -= m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y);
-    }
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy)
+        m_pOw[Uml::RoleType::B]->setShowDestruction(true);
     updateResizability();
     calculateWidget();
     y = y < getMinY() ? getMinY() : y;
-    y = y > getMaxY() ? getMaxY() : y;
+    if (y > b->getEndLineY())
+        b->setEndLine(y);
     setY(y);
 
     this->activate();
@@ -142,6 +140,8 @@ void MessageWidget::init()
  */
 MessageWidget::~MessageWidget()
 {
+    if (m_pOw[Uml::RoleType::B] && m_sequenceMessageType == Uml::SequenceMessage::Destroy)
+        m_pOw[Uml::RoleType::B]->setShowDestruction(false);
 }
 
 /**
@@ -153,7 +153,7 @@ MessageWidget::~MessageWidget()
 void MessageWidget::setY(qreal y)
 {
     if (y < getMinY()) {
-        DEBUG(DBG_SRC) << "got out of bounds y position, check the reason" << this->y() << getMinY();
+        DEBUG() << "got out of bounds y position, check the reason" << this->y() << getMinY();
         return;
     }
 
@@ -183,14 +183,51 @@ void MessageWidget::updateResizability()
 
 /**
  * Overridden from UMLWidget.
- * Returns the cursor to be shown when resizing the widget.
- * The cursor shown is KCursor::sizeVerCursor().
+ * Checks if the mouse is in resize area and sets the cursor accordingly.
+ * The resize area is usually at the right bottom corner of the widget
+ * except in case of a message widget running from right to left.
+ * In that case the resize area is at the left bottom corner in order
+ * to avoid overlap with an execution rectangle at the right.
  *
- * @return The cursor to be shown when resizing the widget.
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
  */
-QCursor MessageWidget::resizeCursor() const
+bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 {
-    return Qt::SizeVerCursor;
+    if (!m_resizable) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG() << "!m_resizable";
+        return false;
+    }
+
+    qreal m = 7.0;
+    const qreal w = width();
+    const qreal h = height();
+
+    // If the widget itself is very small then make the resize area small, too.
+    // Reason: Else it becomes impossible to do a move instead of resize.
+    if (w - m < m || h - m < m) {
+        m = 2.0;
+    }
+
+    if (me->scenePos().y() < y() + h - m) {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG() << "Y condition not satisfied";
+        return false;
+    }
+
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    if ((x1 < x2 && me->scenePos().x() >= x() + w - m) ||
+        (x1 > x2 && me->scenePos().x() >= x() - m)) {
+        m_scene->activeView()->setCursor(Qt::SizeVerCursor);
+        DEBUG() << "X condition is satisfied";
+        return true;
+    } else {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        DEBUG() << "X condition not satisfied";
+        return false;
+    }
 }
 
 /**
@@ -227,9 +264,9 @@ void MessageWidget::resizeWidget(qreal newW, qreal newH)
 
 /**
  * Constrains the vertical position of the message widget so it doesn't go
- * upper than the bottom side of the lower object.
- * The height of the floating text widget in the message is taken in account
- * if there is any and isn't empty.
+ * above the bottom side of the lower object.
+ * The height of the floating text widget in the message is taken into account
+ * if there is any and it isn't empty.
  *
  * @param diffY The difference between current Y position and new Y position.
  * @return The new Y position, constrained.
@@ -306,12 +343,15 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         paintAsynchronous(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         paintCreation(painter, option);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
+        paintDestroy(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         paintLost(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         paintFound(painter, option);
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::paint: Unknown message type %1",
+                 m_sequenceMessageType);
     }
 }
 
@@ -501,7 +541,7 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
             offsetX += 7;
             w -= 7;
         }
-        paintArrow(painter, offsetX, lineY, w, Qt::RightArrow);
+        paintArrow(painter, offsetX, lineY, w, Qt::RightArrow, true);
         if (messageOverlapsA) {
             offsetX -= 7;
         }
@@ -509,12 +549,16 @@ void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsI
         if (messageOverlapsA) {
             w -= 7;
         }
-        paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow);
+        paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow, true);
     }
 
     UMLWidget::paint(painter, option);
 }
 
+void MessageWidget::paintDestroy(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    paintSynchronous(painter, option);
+}
 
 /**
  * Draws a solid arrow line and a stick arrow head
@@ -632,7 +676,7 @@ UMLWidget* MessageWidget::onWidget(const QPointF& p)
 void MessageWidget::setTextPosition()
 {
     if (m_pFText == 0) {
-        DEBUG(DBG_SRC) << "m_pFText is NULL";
+        DEBUG() << "m_pFText is NULL";
         return;
     }
     if (m_pFText->displayText().isEmpty()) {
@@ -726,7 +770,7 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
     const Uml::ID::Type idA = m_pOw[Uml::RoleType::A]->localID();
     const Uml::ID::Type idB = m_pOw[Uml::RoleType::B]->localID();
     if (idA != id && idB != id) {
-        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA)
+        DEBUG() << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA)
             << ", idB=" << Uml::ID::toString(idB);
         return;
     }
@@ -796,12 +840,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::A] == 0) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == 0) {
-            DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
+            DEBUG() << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::A] = pWA->asObjectWidget();
         if (m_pOw[Uml::RoleType::A] == 0) {
-            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
+            DEBUG() << "role A widget " << Uml::ID::toString(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
@@ -809,19 +853,19 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::B] == 0) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == 0) {
-            DEBUG(DBG_SRC) << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
+            DEBUG() << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::B] = pWB->asObjectWidget();
         if (m_pOw[Uml::RoleType::B] == 0) {
-            DEBUG(DBG_SRC) << "role B widget " << Uml::ID::toString(m_widgetBId)
+            DEBUG() << "role B widget " << Uml::ID::toString(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
         }
     }
     updateResizability();
 
-    UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
+    const UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
     UMLOperation *op = 0;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
@@ -1021,12 +1065,15 @@ void MessageWidget::calculateDimensions()
         calculateDimensionsAsynchronous();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         calculateDimensionsCreation();
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
+        calculateDimensionsDestroy();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         calculateDimensionsLost();
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         calculateDimensionsFound();
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::calculateDimensions: Unknown message type %1",
+                 m_sequenceMessageType);
     }
     if (! UMLApp::app()->document()->loading()) {
         adjustAssocs(x(), y());  // adjust assoc lines
@@ -1132,6 +1179,14 @@ void MessageWidget::calculateDimensionsCreation()
 
     setPos(x, m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
     setSize(widgetWidth, widgetHeight);
+}
+
+/**
+ * Calculates and sets the size of the widget for a destroy message.
+ */
+void MessageWidget::calculateDimensionsDestroy()
+{
+    calculateDimensionsSynchronous();
 }
 
 /**
@@ -1274,12 +1329,15 @@ QSizeF MessageWidget::minimumSize() const
         return isSelf() ? QSizeF(width(), 20) : QSizeF(width(), 8);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         return QSizeF(width(), 8);
+    } else if (m_sequenceMessageType == Uml::SequenceMessage::Destroy) {
+        return QSizeF(width(), 8);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
         return QSizeF(width(), 10);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
         return QSizeF(width(), 10);
     } else {
-        uWarning() << "Unknown message type";
+        logWarn1("MessageWidget::minimumSize: Unknown message type %1",
+                 m_sequenceMessageType);
     }
     return QSize(width(), height());
 }
@@ -1328,7 +1386,7 @@ void MessageWidget::setyclicked(int yclick)
 bool MessageWidget::showPropertiesDialog()
 {
     if (!lwClassifier()) {
-        uError() << "lwClassifier() returns a NULL classifier";
+        logError0("MessageWidget::showPropertiesDialog: lwClassifier() returns a NULL classifier");
         return false;
     }
     bool result = false;
@@ -1347,44 +1405,44 @@ bool MessageWidget::showPropertiesDialog()
 /**
  * Saves to the "messagewidget" XMI element.
  */
-void MessageWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void MessageWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
-    UMLWidget::saveToXMI1(qDoc, messageElement);
-    LinkWidget::saveToXMI1(qDoc, messageElement);
+    writer.writeStartElement(QLatin1String("messagewidget"));
+    UMLWidget::saveToXMI(writer);
+    LinkWidget::saveToXMI(writer);
     if (m_pOw[Uml::RoleType::A])
-        messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
+        writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     if (m_pOw[Uml::RoleType::B])
-        messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
+        writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
+        writer.writeAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
     else
-        messageElement.setAttribute(QLatin1String("operation"), m_CustomOp);
-    messageElement.setAttribute(QLatin1String("sequencemessagetype"), m_sequenceMessageType);
+        writer.writeAttribute(QLatin1String("operation"), m_CustomOp);
+    writer.writeAttribute(QLatin1String("sequencemessagetype"), QString::number(m_sequenceMessageType));
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        messageElement.setAttribute(QLatin1String("xclicked"), m_xclicked);
-        messageElement.setAttribute(QLatin1String("yclicked"), m_yclicked);
+        writer.writeAttribute(QLatin1String("xclicked"), QString::number(m_xclicked));
+        writer.writeAttribute(QLatin1String("yclicked"), QString::number(m_yclicked));
     }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
-        messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
-        m_pFText->saveToXMI1(qDoc, messageElement);
+        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
+        m_pFText->saveToXMI(writer);
     }
 
-    qElement.appendChild(messageElement);
+    writer.writeEndElement();
 }
 
 /**
  * Loads from the "messagewidget" XMI element.
  */
-bool MessageWidget::loadFromXMI1(QDomElement& qElement)
+bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
-    if (!UMLWidget::loadFromXMI1(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
-    if (!LinkWidget::loadFromXMI1(qElement)) {
+    if (!LinkWidget::loadFromXMI(qElement)) {
         return false;
     }
     QString textid = qElement.attribute(QLatin1String("textid"), QLatin1String("-1"));
@@ -1414,7 +1472,7 @@ bool MessageWidget::loadFromXMI1(QDomElement& qElement)
         if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
             m_scene->addFloatingTextWidget(m_pFText);
-            if(! m_pFText->loadFromXMI1(element)) {
+            if(! m_pFText->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
                 m_pFText = 0;
@@ -1422,7 +1480,7 @@ bool MessageWidget::loadFromXMI1(QDomElement& qElement)
             else
                 m_pFText->setSequenceNumber(m_SequenceNumber);
         } else {
-            uError() << "unknown tag " << tag;
+            logError1("MessageWidget::loadFromXMI: unknown tag %1", tag);
         }
     }
     return true;

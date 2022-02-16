@@ -1,16 +1,7 @@
-/***************************************************************************
-   copyright            : (C) 2006 by David Nolden
-   email                : david.nolden.kdevelop@art-master.de
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2006 David Nolden <david.nolden.kdevelop@art-master.de>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef LEXERCACHE_H
 #define LEXERCACHE_H
@@ -160,7 +151,7 @@ private:
     //typedef __gnu_cxx::hash_multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     typedef std::multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     CachedLexedFileMap m_files;
-    QSet<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to used for each appearance of the string
+    QSet<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to use for each appearance of the string
     struct FileModificationCache {
         QDateTime m_readTime;
         QDateTime m_modificationTime;

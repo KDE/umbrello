@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2018                                              *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "selectoperationpage.h"
@@ -47,6 +42,7 @@ static bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *
  *
  *  @param  parent  The parent to this instance.
  *  @param  c       The concept to get the operations from.
+ *  @param  widget  The @ref LinkWidget with which the operation is associated on diagram
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, LinkWidget *widget, bool enableAutoIncrement)
@@ -54,7 +50,8 @@ SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, Link
     m_id(CUSTOM),
     m_pView(parent),
     m_classifier(c),
-    m_widget(widget)
+    m_widget(widget),
+    m_enableAutoIncrement(false)
 {
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
@@ -154,6 +151,7 @@ void SelectOperationPage::setCustomOp(const QString &op)
  */
 void SelectOperationPage::slotAutoIncrementChecked(bool state)
 {
+    m_enableAutoIncrement = state;
     if (state && m_pSeqLE->text().isEmpty())
         m_pSeqLE->setText(m_pView->umlScene()->autoIncrementSequenceValue());
 }

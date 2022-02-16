@@ -11,10 +11,11 @@ Name[el]=Εξαγωγή διάταξης
 Name[en_GB]=Export Layout
 Name[es]=Exportar disposición
 Name[et]=Paigutuse eksport
+Name[eu]=Esportatu antolamendua
 Name[fi]=Vientiasettelu
 Name[fr]=Disposition de l'exportation
 Name[gl]=Exportar a disposición
-Name[hu]=Exportálás elrendezés
+Name[hu]=Elrendezés exportálása
 Name[it]=Disposizione di esportazione
 Name[kk]=Экспорттың орналасуы
 Name[ko]=레이아웃 내보내기
@@ -24,7 +25,7 @@ Name[nb]=Eksporter utforming
 Name[nl]=Indeling exporteren
 Name[nn]=Eksporter utforming
 Name[pa]=ਲੇਆਉਟ ਐਕਸਪੋਰਟ
-Name[pl]=Eksportuj układ
+Name[pl]=Wyeksportuj układ
 Name[pt]=Exportar a Disposição
 Name[pt_BR]=Exportar layout
 Name[ru]=Шаблон экспорта
@@ -50,10 +51,11 @@ Comment[el]=Εξαγωγή διάταξης για διαγράμματα δρα
 Comment[en_GB]=Export Layout for Activity Diagrams
 Comment[es]=Exportar diseño de diagramas de actividades
 Comment[et]=Tegevusskeemide paigutuse eksport
+Comment[eu]=Esportatu jarduera-diagramen antolamendua
 Comment[fi]=Aktiviteettikaavioiden vientiasettelu
 Comment[fr]=Disposition de l'exportation pour les diagrammes d'activités
 Comment[gl]=Exportar a disposición para diagramas de actividade.
-Comment[hu]=Exportálás elrendezés a tevékenység diagramokhoz
+Comment[hu]=Tevékenység diagramok elrendezésének exportálása
 Comment[it]=Disposizione di esportazione per i diagrammi di attività
 Comment[kk]=Белсенділік диаграмма үшін экспорттың орналасуы
 Comment[ko]=활동 다이어그램의 레이아웃 내보내기
@@ -61,7 +63,7 @@ Comment[lt]=Eksportuoti išdėstymą Veiklos diagramoms
 Comment[nb]=Eksporter utforming for aktivitetsdiagrammer
 Comment[nl]=Indeling voor activiteitsdiagrammen exporteren
 Comment[nn]=Eksporter utforming for aktivitetsdiagram
-Comment[pl]=Eksportuj układ dla diagramów działań
+Comment[pl]=Wyeksportuj układ dla diagramów działań
 Comment[pt]=Exportar a Disposição dos Diagramas de Actividades
 Comment[pt_BR]=Exportar layout para diagramas de atividades
 Comment[ru]=Шаблон экспорта для диаграмм деятельности
@@ -118,6 +120,6 @@ edge=
 origin=50,50
 generator=neato
 
-# see http://www.graphviz.org/pdf/dotguide.pdf
-# see http://www.graphviz.org/pdf/neatoguide.pdf
+# see https://www.graphviz.org/pdf/dotguide.pdf
+# see https://www.graphviz.org/pdf/neatoguide.pdf
 # for dot/neato attribute details

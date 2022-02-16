@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppheadercodedocument.h"
@@ -102,10 +98,10 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
                 if(name == QLatin1String("codecomment")) {
                     CodeComment * block = new CPPCodeDocumentation(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if(!addTextBlock(block))
                     {
-                        uError()<<"Unable to add codeComment to :"<<this;
+                        logError0("CPPHeaderCodeDocument: Unable to add codeComment");
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
@@ -117,7 +113,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
                         {
-                            uError()<<"Unable to add codeclassfield child method to:"<<this;
+                            logError0("CPPHeaderCodeDocument: Unable to add codeclassfield child method");
                             // DON'T delete
                         } else
                             loadCheckForChildrenOK= true;
@@ -125,20 +121,20 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else
                         if(name == QLatin1String("codeblock")) {
                             CodeBlock * block = newCodeBlock();
-                            block->loadFromXMI1(element);
+                            block->loadFromXMI(element);
                             if(!addTextBlock(block))
                             {
-                                uError()<<"Unable to add codeBlock to :"<<this;
+                                logError0("CPPHeaderCodeDocument: Unable to add codeBlock");
                                 delete block;
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
                             if(name == QLatin1String("codeblockwithcomments")) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
-                                block->loadFromXMI1(element);
+                                block->loadFromXMI(element);
                                 if(!addTextBlock(block))
                                 {
-                                    uError()<<"Unable to add codeBlockwithcomments to:"<<this;
+                                    logError0("CPPHeaderCodeDocument: Unable to add codeBlockwithcomments");
                                     delete block;
                                 } else
                                     loadCheckForChildrenOK= true;
@@ -148,10 +144,10 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                 } else
                                     if(name == QLatin1String("hierarchicalcodeblock")) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                                        block->loadFromXMI1(element);
+                                        block->loadFromXMI(element);
                                         if(!addTextBlock(block))
                                         {
-                                            uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                                            logError0("CPPHeaderCodeDocument: Unable to add hierarchicalcodeBlock");
                                             delete block;
                                         } else
                                             loadCheckForChildrenOK= true;
@@ -165,29 +161,29 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
                                                 block->updateMethodDeclaration();
                                                 block->updateContent();
-                                                block->loadFromXMI1(element);
+                                                block->loadFromXMI(element);
                                                 if(addTextBlock(block))
                                                     loadCheckForChildrenOK= true;
                                                 else
                                                 {
-                                                    uError()<<"Unable to add codeoperation to:"<<this;
+                                                    logError0("CPPHeaderCodeDocument: Unable to add codeoperation");
                                                     block->deleteLater();
                                                 }
                                             } else
-                                                uError()<<"Unable to find operation create codeoperation for:"<<this;
+                                                logError0("CPPHeaderCodeDocument: Unable to find operation create codeoperation");
                                         }
                                         else
                                             if(name == QLatin1String("cppheaderclassdeclarationblock"))
                                             {
                                                 CPPHeaderClassDeclarationBlock * block = getClassDecl();
-                                                block->loadFromXMI1(element);
+                                                block->loadFromXMI(element);
                                                 // normally this would be populated by the following syncToparent
                                                 // call, but we cant wait for it, so lets just do it now.
                                                 m_namespaceBlock = getHierarchicalCodeBlock(QLatin1String("namespace"), QLatin1String("Namespace"), 0);
 
                                                 if(!m_namespaceBlock || !m_namespaceBlock->addTextBlock(block))
                                                 {
-                                                    uError()<<"Error:cant add class declaration codeblock";
+                                                    logError0("Error:cant add class declaration codeblock");
                                                     // DON'T delete/release block
                                                     // block->release();
                                                 } else
@@ -196,7 +192,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                             }
                 // only needed for extreme debugging conditions (E.g. making new codeclassdocument loader)
                 //else
-                //uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignorning";
+                //uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
 
                 node = element.nextSibling();
                 element = node.toElement();
@@ -210,7 +206,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
     if(!loadCheckForChildrenOK)
     {
-        uWarning() << "loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc: %1", getFileName());
     }
 
 }
@@ -269,7 +265,7 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 
 /**
  * Add a code operation to this cpp classifier code document.
- * In the vannilla version, we just tack all operations on the end
+ * In the vanilla version, we just tack all operations on the end
  * of the document.
  * @param op   the code operation
  * @return bool which is true IF the code operation was added successfully
@@ -277,8 +273,8 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
 {
     if (op == 0) {
-        uDebug() << "CodeOperation is null!";
-        return false;;
+        logWarn0("CPPHeaderCodeDocument::addCodeOperation: CodeOperation is null!");
+        return false;
     }
     Uml::Visibility::Enum scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isLifeOperation())
@@ -316,13 +312,13 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
  * @return      bool    status of save
  */
 /*
-void CPPHeaderCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void CPPHeaderCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-        QDomElement docElement = doc.createElement(QString());
+        writer.writeEmptyStartElement();
 
-        setAttributesOnNode(doc, docElement);
+        setAttributesOnNode(writer);
 
-        root.appendChild(docElement);
+        writer.writeEndElement();
 }
 */
 
@@ -330,7 +326,7 @@ void CPPHeaderCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
 // based on the parent classifier object.
 // For any situation in which this is called, we are either building the code
 // document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we resonablely will want
+// such, we will want to insert everything we reasonably will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
 void CPPHeaderCodeDocument::updateContent()
@@ -481,7 +477,7 @@ void CPPHeaderCodeDocument::updateContent()
     if (!isInterface) {
         QString enumStatement;
         QString indent = UMLApp::app()->commonPolicy()->getIndentation();
-        UMLEnum* e = c->asUMLEnum();
+        const UMLEnum* e = c->asUMLEnum();
         if (e) {
             enumStatement.append(indent + QLatin1String("enum ") + cppClassName + QLatin1String(" {") + endLine);
 
@@ -637,7 +633,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     // public
     m_pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = m_pubConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
@@ -647,7 +643,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     // protected
     m_protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = m_protConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))
@@ -657,7 +653,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     // private
     m_privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
-    // special condiions for showing comment: only when autogenerateding empty constructors
+    // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = m_privConstructorBlock->getComment();
     if (!forcedoc && (isInterface || !pol->getAutoGenerateConstructors()))

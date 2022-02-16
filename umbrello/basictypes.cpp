@@ -1,21 +1,7 @@
-/***************************************************************************
- * Copyright (C) 2011 by Andi Fischer <andi.fischer@hispeed.ch>            *
- *                                                                         *
- * This is free software; you can redistribute it and/or modify            *
- * it under the terms of the GNU General Public License as published by    *
- * the Free Software Foundation; either version 2, or (at your option)     *
- * any later version.                                                      *
- *                                                                         *
- * This software is distributed in the hope that it will be useful,        *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
- * GNU General Public License for more details.                            *
- *                                                                         *
- * You should have received a copy of the GNU General Public License       *
- * along with this package; see the file COPYING.  If not, write to        *
- * the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,   *
- * Boston, MA 02110-1301, USA.                                             *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "basictypes.h"
 
@@ -81,7 +67,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ModelType representation.
+ * Convert an integer item into ModelType representation.
  * @param item   integer value to convert
  * @return ModelType enum
  */
@@ -122,9 +108,11 @@ QString toString(Enum item, bool mnemonic)
 /**
  * Convert a string item into Visibility representation.
  * @param item   item to convert
+ * @param checkUnknown  If the visibility expression in @p item is not recognized
+ *                      and checkUnknown is true then the value Unknown is returned.
  * @return Visibility enum
  */
-Enum fromString(const QString& item, bool checkUnkown)
+Enum fromString(const QString& item, bool checkUnknown)
 {
     if (item == QLatin1String("public") || item == QLatin1String("+"))
         return Public;
@@ -138,14 +126,14 @@ Enum fromString(const QString& item, bool checkUnkown)
         return Protected;
     else if (item == QLatin1String("class"))
         return Private;
-    else if (checkUnkown)
+    else if (checkUnknown)
         return Unknown;
     else
         return Public;
 }
 
 /**
- * Convert a integer item into Visibility representation.
+ * Convert an integer item into Visibility representation.
  * @param item   integer value to convert
  * @return Visibility enum
  */
@@ -293,14 +281,14 @@ QString toString(Enum item)
             return QLatin1String("Association");
         case Association_Self:
             return QLatin1String("Association_Self");
-        case Coll_Message_Asynchronous:
-            return QLatin1String("Coll_Message_Asynchronous");
-        case Coll_Message_Synchronous:
-            return QLatin1String("Coll_Message_Synchronous");
+        case Coll_Mesg_Async:
+            return QLatin1String("Coll_Mesg_Async");
+        case Coll_Mesg_Sync:
+            return QLatin1String("Coll_Mesg_Sync");
         case Seq_Message:
             return QLatin1String("Seq_Message");
-        case Coll_Message_Self:
-            return QLatin1String("Coll_Message_Self");
+        case Coll_Mesg_Self:
+            return QLatin1String("Coll_Mesg_Self");
         case Seq_Message_Self:
             return QLatin1String("Seq_Message_Self");
         case Containment:
@@ -333,7 +321,7 @@ QString toString(Enum item)
 }
 
 /**
- * Converts a AssociationType to its string representation.
+ * Converts an AssociationType to its string representation.
  * @return  the string representation of the AssociationType
  */
 QString toStringI18n(Enum item)
@@ -349,13 +337,13 @@ QString toStringI18n(Enum item)
               return i18n("Association");
           case Association_Self:
               return i18n("Self Association");
-          case Coll_Message_Asynchronous:
+          case Coll_Mesg_Async:
               return i18n("Collaboration Asynchronous Message");
-          case Coll_Message_Synchronous:
+          case Coll_Mesg_Sync:
               return i18n("Collaboration Synchronous Message");
           case Seq_Message:
               return i18n("Sequence Message");
-          case Coll_Message_Self:
+          case Coll_Mesg_Self:
               return i18n("Collaboration Self Message");
           case Seq_Message_Self:
               return i18n("Sequence Self Message");
@@ -405,14 +393,14 @@ Enum fromString(const QString& item)
         return Association;
     else if (item == QLatin1String("Association_Self"))
         return Association_Self;
-    else if (item == QLatin1String("Coll_Message_Asynchronous"))
-        return Coll_Message_Asynchronous;
-    else if (item == QLatin1String("Coll_Message_Synchronous"))
-        return Coll_Message_Synchronous;
+    else if (item == QLatin1String("Coll_Mesg_Async"))
+        return Coll_Mesg_Async;
+    else if (item == QLatin1String("Coll_Mesg_Sync"))
+        return Coll_Mesg_Sync;
     else if (item == QLatin1String("Seq_Message"))
         return Seq_Message;
-    else if (item == QLatin1String("Coll_Message_Self"))
-        return Coll_Message_Self;
+    else if (item == QLatin1String("Coll_Mesg_Self"))
+        return Coll_Mesg_Self;
     else if (item == QLatin1String("Seq_Message_Self"))
         return Seq_Message_Self;
     else if (item == QLatin1String("Containment"))
@@ -442,7 +430,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ProgrammingLanguage representation.
+ * Convert an integer item into ProgrammingLanguage representation.
  * @param item   integer value to convert
  * @return AssociationType enum
  */
@@ -474,6 +462,58 @@ bool hasUMLRepresentation(Enum item)
 
 }  // end namespace AssociationType
 
+//-----------------------------------------------------------------------------
+
+namespace LayoutType
+{
+    
+/**
+ * Return string corresponding to the given LayoutType.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Direct:
+            return QLatin1String("Direct");
+        case Orthogonal:
+            return QLatin1String("Orthogonal");
+        case Polyline:
+            return QLatin1String("Polyline");
+        case Spline:
+            return QLatin1String("Spline");
+        default:
+            break;
+    }
+    return QString();
+}
+
+/**
+ * Return LayoutType corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == QLatin1String("Direct"))
+        return Direct;
+    if (item == QLatin1String("Orthogonal"))
+        return Orthogonal;
+    if (item == QLatin1String("Polyline"))
+        return Polyline;
+    if (item == QLatin1String("Spline"))
+        return Spline;
+    return Direct;
+}
+
+/**
+ * Convert an integer item into LayoutType representation.
+ * @param item   integer value to convert
+ * @return LayoutType enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+}
+    
 //-----------------------------------------------------------------------------
 
 namespace SignatureType {
@@ -515,7 +555,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into SignatureType representation.
+ * Convert an integer item into SignatureType representation.
  * @param item   integer value to convert
  * @return SignatureType enum
  */
@@ -603,7 +643,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into TextRole representation.
+ * Convert an integer item into TextRole representation.
  * @param item   integer value to convert
  * @return TextRole enum
  */
@@ -652,7 +692,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Changeability representation.
+ * Convert an integer item into Changeability representation.
  * @param item   integer value to convert
  * @return Changeability enum
  */
@@ -708,7 +748,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into SequenceMessage representation.
+ * Convert an integer item into SequenceMessage representation.
  * @param item   integer value to convert
  * @return SequenceMessage enum
  */
@@ -752,7 +792,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into RoleType representation.
+ * Convert an integer item into RoleType representation.
  * @param item   integer value to convert
  * @return RoleType enum
  */
@@ -800,7 +840,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ParameterDirection representation.
+ * Convert an integer item into ParameterDirection representation.
  * @param item   integer value to convert
  * @return ParameterDirection enum
  */
@@ -810,6 +850,57 @@ Enum fromInt(int item)
 }
 
 }  // end namespace ParameterDirection
+
+//-----------------------------------------------------------------------------
+
+namespace PrimitiveTypes {
+
+const char *strings[] = {
+    "String",
+    "Boolean",
+    "UnlimitedNatural",
+    "Integer",
+    "Real",
+    "not_a_primitivetype"
+};
+
+QString toString(Enum item)
+{
+    return QLatin1String(strings[item]);
+}
+
+QString toString(int item)
+{
+    if (item < 0 || item >= n_types)
+        return QLatin1String(strings[Reserved]);
+    return QLatin1String(strings[item]);
+}
+
+/**
+ * Converts the string of an Enum to the Enum value.
+ * @param item    The string to convert to Enum
+ * @param strict  Controls the value returned if the given string does not
+ *                represent an Enum value: If strict is true then the value
+ *                Reserved is returned, otherwise the value String is
+ *                returned.
+ */
+Enum fromString(const QString& item, bool strict /* = false */)
+{
+    for (int i = 0; i < n_types; i++) {
+        if (item == toString(i))
+            return Enum(i);
+    }
+    return (strict ? Reserved : String);
+}
+
+Enum fromInt(int item)
+{
+    if (item < 0 || item >= n_types)
+        return Reserved;
+    return Enum(item);
+}
+
+}  // end namespace PrimitiveTypes
 
 //-----------------------------------------------------------------------------
 
@@ -864,7 +955,7 @@ QString toString(Enum item)
         default:
             break;
     }
-    return QString();
+    return QLatin1String("none");
 }
 
 /**
@@ -916,7 +1007,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into ProgrammingLanguage representation.
+ * Convert an integer item into ProgrammingLanguage representation.
  * @param item   integer value to convert
  * @return ProgrammingLanguage enum
  */
@@ -934,41 +1025,69 @@ QStringList toExtensions(Enum item)
 {
     QStringList result;
     switch (item) {  //:TODO: More languages?
-        case Uml::ProgrammingLanguage::Ada:
+        case ActionScript:
+            result << QLatin1String("*.as");
+            break;
+        case Ada:
             result << QLatin1String("*.ads")
                    << QLatin1String("*.adb")
                    << QLatin1String("*.ada");
             break;
-        case Uml::ProgrammingLanguage::Cpp:
+        case Cpp:
             result << QLatin1String("*.h")
                    << QLatin1String("*.hpp")
                    << QLatin1String("*.hh")
                    << QLatin1String("*.hxx")
                    << QLatin1String("*.H");
             break;
-        case Uml::ProgrammingLanguage::IDL:
-            result << QLatin1String("*.idl");
-            break;
-        case Uml::ProgrammingLanguage::Java:
-            result << QLatin1String("*.java");
-            break;
-        case Uml::ProgrammingLanguage::Pascal:
-            result << QLatin1String("*.pas");
-            break;
-        case Uml::ProgrammingLanguage::Python:
-            result << QLatin1String("*.py") << QLatin1String("*.pyw");
-            break;
-        case Uml::ProgrammingLanguage::CSharp:
+        case CSharp:
             result << QLatin1String("*.cs");
             break;
-        case Uml::ProgrammingLanguage::PHP:
+        case D:
+            result << QLatin1String("*.d");
+            break;
+        case IDL:
+            result << QLatin1String("*.idl");
+            break;
+        case Java:
+            result << QLatin1String("*.java");
+            break;
+        case JavaScript:
+            result << QLatin1String("*.js");
+            break;
+        case Pascal:
+            result << QLatin1String("*.pas");
+            break;
+        case Perl:
+            result << QLatin1String("*.pl");
+            break;
+        case PHP:
             result << QLatin1String("*.php") << QLatin1String("*.inc");
             break;
-        case Uml::ProgrammingLanguage::PHP5:
+        case PHP5:
             result << QLatin1String("*.php") << QLatin1String("*.php5") << QLatin1String("*.inc");
             break;
-        case Uml::ProgrammingLanguage::Vala:
+        case Python:
+            result << QLatin1String("*.py") << QLatin1String("*.pyw");
+            break;
+        case Ruby:
+            result << QLatin1String("*.rb");
+            break;
+        case SQL:
+        case MySQL:
+        case PostgreSQL:
+            result << QLatin1String("*.sql");
+            if (item == MySQL)
+                result << QLatin1String("*.frm");
+            break;
+        case Tcl:
+            result << QLatin1String("*.tcl");
+            break;
+        case Vala:
             result << QLatin1String("*.vala") << QLatin1String("*.vapi");
+            break;
+        case XMLSchema:
+            result << QLatin1String("*.xsd");
             break;
         default:
             break;
@@ -1111,7 +1230,7 @@ Enum fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Region representation.
+ * Convert an integer item into Region representation.
  * @param item   integer value to convert
  * @return Region enum
  */
@@ -1163,7 +1282,7 @@ Corner::Enum Corner::fromString(const QString& item)
 }
 
 /**
- * Convert a integer item into Corner representation.
+ * Convert an integer item into Corner representation.
  * @param item   integer value to convert
  * @return Corner enum
  */

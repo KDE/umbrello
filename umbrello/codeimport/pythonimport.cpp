@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "pythonimport.h"
@@ -15,6 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
+#define DBG_SRC QLatin1String("PythonImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -26,6 +22,8 @@
 
 // qt includes
 #include <QRegExp>
+
+DEBUG_REGISTER(PythonImport)
 
 /**
  * Constructor.
@@ -88,7 +86,7 @@ bool PythonImport::preprocess(QString& line)
     int leadingWhite = line.left(pos).count(QRegExp(QLatin1String("\\s")));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            uError() << "internal error";
+            logError0("PythonImport::preprocess internal error");
             return true;
         }
         if (m_braceWasOpened) {
@@ -129,7 +127,18 @@ void PythonImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; ++i) {
+    uint i = 0;
+    if (word[0] == QLatin1Char('-') && len > 1) {
+        const QChar& c1 = word[1];
+        if (c1 == QLatin1Char('>')) {
+            m_source.append(QLatin1String("->"));
+            i = 2;
+        } else if (c1.isDigit()) {
+            lexeme.append(word[0]).append(word[1]);
+            i = 2;
+        }
+    }
+    for (; i < len; ++i) {
         const QChar& c = word[i];
         if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('.')) {
             lexeme += c;
@@ -139,7 +148,8 @@ void PythonImport::fillSource(const QString& word)
                 m_srcIndex++;
                 lexeme.clear();
             }
-            m_source.append(QString(c));
+            QString tok(c);
+            m_source.append(tok);
             m_srcIndex++;
         }
     }
@@ -164,9 +174,21 @@ QString PythonImport::indentation(int level)
 
 /**
  * Skip ahead to outermost closing brace.
+ * @param foundReturn  Optional pointer to Uml::PrimitiveTypes::Enum.
+ *                     If given then the variable pointed to will be set if
+ *                     a 'return' statement is encountered while skipping:
+ *                     - If after 'return' there is a value True or False then
+ *                       *foundReturn is set to Boolean;
+ *                     - elsif after 'return' there is a number without decimal
+ *                       point then *foundReturn is set to Integer;
+ *                     - elsif after 'return' there is a number with decimal
+ *                       point then *foundReturn is set to Real;
+ *                     - else *foundReturn is set to String.
+ *                     If no 'return' statement was encountered then
+ *                     *foundReturn is set to Reserved.
  * @return  body contents skipped
  */
-QString PythonImport::skipBody()
+QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
 {
     /* During input preprocessing, changes in indentation were replaced by
        braces, and a semicolon was appended to each line ending.
@@ -174,6 +196,8 @@ QString PythonImport::skipBody()
        syntax by reverting those changes.
      */
     QString body;
+    if (foundReturn != nullptr)
+        *foundReturn = Uml::PrimitiveTypes::Reserved;
     if (m_source[m_srcIndex] != QLatin1String("{"))
         skipStmt(QLatin1String("{"));
     bool firstTokenAfterNewline = true;
@@ -197,6 +221,20 @@ QString PythonImport::skipBody()
             if (firstTokenAfterNewline) {
                 body += indentation(braceNesting);
                 firstTokenAfterNewline = false;
+                if (foundReturn != nullptr && token == QLatin1String("return") &&
+                        (*foundReturn == Uml::PrimitiveTypes::Reserved ||
+                         *foundReturn == Uml::PrimitiveTypes::String)) {
+                    QString next = lookAhead();
+                    if (next == QLatin1String("False") || next == QLatin1String("True")) {
+                        *foundReturn = Uml::PrimitiveTypes::Boolean;
+                    } else if (next.contains(QRegExp("^-?\\d+$"))) {
+                        *foundReturn = Uml::PrimitiveTypes::Integer;
+                    } else if (next.contains(QRegExp("^-?\\d+\\."))) {
+                        *foundReturn = Uml::PrimitiveTypes::Real;
+                    } else if (next != QLatin1String("None")) {
+                        *foundReturn = Uml::PrimitiveTypes::String;
+                    }
+                }
             } else if (body.contains(QRegExp(QLatin1String("\\w$"))) &&
                        token.contains(QRegExp(QLatin1String("^\\w")))) {
                 body += QLatin1Char(' ');
@@ -208,61 +246,154 @@ QString PythonImport::skipBody()
 }
 
 /**
- * Parse assignments in the form <identifier> '=' <value>
- * Instance variables are identified by a prefixed 'self.'.
+ * Parses a python initializer
+ * @param _keyword current string from parser
+ * @param type returns type of assignment
+ * @param value returns assignment value
  * @return success status of parsing
  */
-bool PythonImport::parseAssignmentStmt(const QString keyword)
+bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QString &value)
 {
-    QString variable = keyword;
-    advance();
-    QString value = advance();
-    if (value == QLatin1String("-"))
-        value.append(advance());
+    QString keyword = _keyword;
+    if (_keyword == QLatin1String("-"))
+        keyword.append(advance());
+
+    if (keyword == QLatin1String("[")) {
+        type = QLatin1String("list");
+        int index = m_srcIndex;
+        skipToClosing(QLatin1Char('['));
+        for (int i = index; i <= m_srcIndex; i++)
+            value += m_source[i];
+    } else if (keyword == QLatin1String("{")) {
+        type = QLatin1String("dict");
+        int index = m_srcIndex;
+        skipToClosing(QLatin1Char('{'));
+        for (int i = index; i <= m_srcIndex; i++)
+            value += m_source[i];
+    } else if (keyword == QLatin1String("(")) {
+        type = QLatin1String("tuple");
+        int index = m_srcIndex;
+        skipToClosing(QLatin1Char('('));
+        for (int i = index; i <= m_srcIndex; i++)
+            value += m_source[i];
+    } else if (keyword.startsWith(QLatin1String("\""))) {
+        type = QLatin1String("str");
+        value = keyword;
+    } else if (keyword == QLatin1String("True") || keyword == QLatin1String("False")) {
+        type = QLatin1String("bool");
+        value = keyword;
+    } else if (keyword.contains(QRegExp(QLatin1String("-?\\d+\\.\\d*")))) {
+        type = QLatin1String("float");
+        value = keyword;
+    } else if (keyword.contains(QRegExp(QLatin1String("-?\\d+")))) {
+        type = QLatin1String("int");
+        value = keyword;
+    } else if (keyword.toLower() == QLatin1String("none")) {
+        type = QLatin1String("object");
+        value = keyword;
+    } else if (!keyword.isEmpty()) {
+        if (lookAhead() == QLatin1String("(")) {
+            advance();
+            type = keyword;
+            int index = m_srcIndex;
+            skipToClosing(QLatin1Char('('));
+            for (int i = index; i <= m_srcIndex; i++)
+                value += m_source[i];
+        } else {
+            type = QLatin1String("object");
+        }
+    } else {
+        type = QLatin1String("object");
+    }
+    return true;
+}
+
+/**
+ * Parse assignments in the form \<identifier\> '=' \<value\>
+ * Instance variables are identified by a prefixed 'self.'.
+ * @param keyword current string from parser
+ * @return success status of parsing
+ */
+bool PythonImport::parseAssignmentStmt(const QString &keyword)
+{
+    QString variableName = keyword;
 
     bool isStatic = true;
-    if (variable.startsWith(QLatin1String("self."))) {
-        variable.remove(0,5);
+    if (variableName.startsWith(QLatin1String("self."))) {
+        variableName.remove(0,5);
         isStatic = false;
     }
     Uml::Visibility::Enum visibility = Uml::Visibility::Public;
-    if (variable.startsWith(QLatin1String("__"))) {
+    if (variableName.startsWith(QLatin1String("__"))) {
         visibility = Uml::Visibility::Private;
-        variable.remove(0, 2);
-    } else if (variable.startsWith(QLatin1String("_"))) {
+        variableName.remove(0, 2);
+    } else if (variableName.startsWith(QLatin1String("_"))) {
         visibility = Uml::Visibility::Protected;
-        variable.remove(0, 1);
-    }
-    QString type;
-    if (value == QLatin1String("[")) {
-        if (lookAhead() == QLatin1String("]")) {
-            advance();
-            type = QLatin1String("list");
-            value = QLatin1String("");
-        }
-    } else if (value == QLatin1String("{")) {
-        if (lookAhead() == QLatin1String("}")) {
-            advance();
-            type = QLatin1String("dict");
-            value = QLatin1String("");
-        }
-    } else if (value.startsWith(QLatin1String("\""))) {
-        type = QLatin1String("string");
-    } else if (value == QLatin1String("True") || value == QLatin1String("False")) {
-        type = QLatin1String("bool");
-    } else if (value.contains(QRegExp(QLatin1String("-?\\d+\\.\\d*")))) {
-        type = QLatin1String("float");
-    } else if (value.contains(QRegExp(QLatin1String("-?\\d+")))) {
-        type = QLatin1String("int");
-    } else if (!value.isEmpty()) {
-        type = QLatin1String("object");
+        variableName.remove(0, 1);
     }
 
-    UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
+    QString type;
+    QString initialValue;
+    if (advance() == QLatin1String("=")) {
+
+        if (!parseInitializer(advance(), type, initialValue))
+            return false;
+    }
+
+    UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variableName,
                                                  type, m_comment, false);
     UMLAttribute* a = o->asUMLAttribute();
-    a->setInitialValue(value);
+    a->setInitialValue(initialValue);
     a->setStatic(isStatic);
+    return true;
+}
+
+/**
+ * Parses method parameter list
+ * @param op UMLOperation instance to add parameter
+ * @return success status of parsing
+ */
+bool PythonImport::parseMethodParameters(UMLOperation *op)
+{
+    bool firstParam = true;
+    while (m_srcIndex < m_source.count() && advance() != QLatin1String(")")) {
+        const QString& parName = m_source[m_srcIndex];
+        if (firstParam) {
+            firstParam = false;
+            if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) == 0) {
+                if (lookAhead() == QLatin1String(","))
+                    advance();
+                continue;
+            }
+            m_isStatic = true;
+        }
+        QString type, value;
+        QString next = lookAhead();
+        if (next == QLatin1String(":")) {
+            advance();
+            type = advance();
+            if (lookAhead() == QLatin1String("[")) {
+                 int index = ++m_srcIndex;
+                 skipToClosing(QLatin1Char('['));
+                 for (int i = index; i <= m_srcIndex; i++) {
+                     type += m_source[i];
+                 }
+             }
+             next = lookAhead();
+        }
+        if (next == QLatin1String("=")) {
+            advance();
+            QString iniType;
+            parseInitializer(advance(), iniType, value);
+            if (type.isEmpty())
+                type = iniType;
+        }
+        UMLAttribute *attr = Import_Utils::addMethodParameter(op, type, parName);
+        if (!value.isEmpty())
+            attr->setInitialValue(value);
+        if (lookAhead() == QLatin1String(","))
+            advance();
+    }
     return true;
 }
 
@@ -296,7 +427,7 @@ bool PythonImport::parseStmt()
     }
     if (keyword == QLatin1String("@")) {
         const QString& annotation = m_source[++m_srcIndex];
-        uDebug() << "annotation:" << annotation;
+        logDebug1("PythonImport::parseStmt annotation: %1", annotation);
         if (annotation == QLatin1String("staticmethod"))
             m_isStatic = true;
         return true;
@@ -314,41 +445,62 @@ bool PythonImport::parseStmt()
         }
 
         QString name = advance();
+        bool isConstructor = name == QLatin1String("__init__");
         Uml::Visibility::Enum visibility = Uml::Visibility::Public;
-        if (name.startsWith(QLatin1String("__"))) {
-            name = name.mid(2);
-            visibility = Uml::Visibility::Private;
-        } else if (name.startsWith(QLatin1String("_"))) {
-            name = name.mid(1);
-            visibility = Uml::Visibility::Protected;
+        if (!isConstructor) {
+            if (name.startsWith(QLatin1String("__"))) {
+                name = name.mid(2);
+                visibility = Uml::Visibility::Private;
+            } else if (name.startsWith(QLatin1String("_"))) {
+                name = name.mid(1);
+                visibility = Uml::Visibility::Protected;
+            }
         }
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != QLatin1String("(")) {
-            uError() << "importPython def " << name << ": expecting \"(\"";
+            logError1("PythonImport::parseStmt def %1: expecting \" (\"",  name);
             skipBody();
             return true;
         }
-        bool firstParam = true;
-        while (m_srcIndex < srcLength && advance() != QLatin1String(")")) {
-            const QString& parName = m_source[m_srcIndex];
-            if (firstParam) {
-                if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) != 0) {
-                    m_isStatic = true;
-                    Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
-                }
-                firstParam = false;
-            } else {
-                /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
-            }
-            if (advance() != QLatin1String(","))
-                break;
+        if (!parseMethodParameters(op)) {
+            logError1("PythonImport::parseStmt error on parsing method parameter for method %1", name);
+            skipBody();
+            return true;
         }
-        Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
+        // m_srcIndex is now at ")"
+        int srcIndex = ++m_srcIndex;
+        QString returnTypeName;
+        if (current() == QLatin1String("->")) {  // type hint
+            returnTypeName = advance();
+            if (returnTypeName == QLatin1String("None"))
+                returnTypeName.clear();
+            ++m_srcIndex;
+        }
+        Uml::PrimitiveTypes::Enum foundReturn;
+        const QString bodyCode(skipBody(&foundReturn));
+        if (returnTypeName.isEmpty() && foundReturn != Uml::PrimitiveTypes::Reserved) {
+            switch (foundReturn) {
+            case Uml::PrimitiveTypes::Boolean :
+                returnTypeName = QLatin1String("bool");
+                break;
+            case Uml::PrimitiveTypes::Integer :
+                returnTypeName = QLatin1String("int");
+                break;
+            case Uml::PrimitiveTypes::Real :
+                returnTypeName = QLatin1String("float");
+                break;
+            case Uml::PrimitiveTypes::String :
+                returnTypeName = QLatin1String("str");
+                break;
+            default:
+                break;
+            }
+        }
+        Import_Utils::insertMethod(m_klass, op, visibility, returnTypeName,
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
-                                   false /*isConstructor*/, false, m_comment);
+                                   isConstructor, false, m_comment);
+        op->setSourceCode(bodyCode);
         m_isStatic = false;
-        int srcIndex = m_srcIndex;
-        op->setSourceCode(skipBody());
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
             op->setDoc(m_comment);
@@ -356,7 +508,7 @@ bool PythonImport::parseStmt()
         }
 
         // parse instance variables from __init__ method
-        if (name == QLatin1String("__init__")) {
+        if (isConstructor) {
             int indexSave = m_srcIndex;
             m_srcIndex = srcIndex;
             advance();
@@ -393,7 +545,8 @@ bool PythonImport::parseStmt()
             m_klass = popScope()->asUMLClassifier();
         }
         else
-            uError() << "parsing: too many }";
+            logError2("PythonImport::parseStmt: too many } at index %1 of %2",
+                      m_srcIndex, m_source.count());
         return true;
     }
     return false;  // @todo parsing of attributes

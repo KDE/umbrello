@@ -1,18 +1,15 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2007-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2007-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "docbook2xhtmlgeneratorjob.h"
 
 #include "debug_utils.h"
+#include "file_utils.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "xhtmlgenerator.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
@@ -41,6 +38,8 @@
 #endif
 
 #include <QTextStream>
+
+DEBUG_REGISTER(Docbook2XhtmlGeneratorJob)
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -71,48 +70,18 @@ void Docbook2XhtmlGeneratorJob::run()
   params[nbparams] = 0;
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
+  QString xsltFileName = XhtmlGenerator::customXslFile();
 
-#if QT_VERSION >= 0x050000
-  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
-#else
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
-#endif
-  uDebug() << "XSLT file is'" << xsltFileName << "'";
-  QFile xsltFile(xsltFileName);
-  xsltFile.open(QIODevice::ReadOnly);
-  QString xslt = QString::fromLatin1(xsltFile.readAll());
-  uDebug() << "XSLT is'" << xslt << "'";
-  xsltFile.close();
-
-#if QT_VERSION >= 0x050000
-  QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#else
-  QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
-#endif
-  uDebug() << "Local xsl is'" << localXsl << "'";
-  if (!localXsl.isEmpty())
-  {
-    localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
-    xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
-  }
-#if QT_VERSION >= 0x050000
-  QTemporaryFile tmpXsl;
-#else
-  KTemporaryFile tmpXsl;
-#endif
-  tmpXsl.setAutoRemove(false);
-  tmpXsl.open();
-  QTextStream str (&tmpXsl);
-  str << xslt;
-  str.flush();
+  // use public xml catalogs
+  xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
 
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
-  uDebug() << "Parsing stylesheet " << tmpXsl.fileName();
-  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().toLatin1().constData());
-  uDebug() << "Parsing file " << m_docbookUrl.path();
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing stylesheet %1", xsltFileName);
+  cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing file %1", m_docbookUrl.path());
   doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
-  uDebug() << "Applying stylesheet ";
+  logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
   res = xsltApplyStylesheet(cur, doc, params);
 
 #if QT_VERSION >= 0x050000
@@ -123,7 +92,8 @@ void Docbook2XhtmlGeneratorJob::run()
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
-  uDebug() << "Writing HTML result to temp file: " << tmpXhtml.fileName();
+  logDebug1("Docbook2XhtmlGeneratorJob::run: Writing HTML result to temp file: %1",
+            tmpXhtml.fileName());
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
 
   xsltFreeStylesheet(cur);

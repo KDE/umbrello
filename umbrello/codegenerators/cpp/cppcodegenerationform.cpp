@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppcodegenerationform.h"
@@ -67,6 +62,18 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
         new QListWidgetItem(i18n("Accessors are public"), ui_generalOptionsListWidget);
     m_optionAccessorsArePublic->setFlags(flags);
 
+    m_optionGetterWithGetPrefix =
+        new QListWidgetItem(i18n("Create getters with 'get' prefix"), ui_generalOptionsListWidget);
+    m_optionGetterWithGetPrefix->setFlags(flags);
+
+    m_optionRemovePrefixFromAccessorMethodName =
+            new QListWidgetItem(i18n("Remove prefix '[a-zA-Z]_' from accessor method names"), ui_generalOptionsListWidget);
+        m_optionRemovePrefixFromAccessorMethodName->setFlags(flags);
+
+    m_optionAccessorMethodsStartWithUpperCase =
+            new QListWidgetItem(i18n("Accessor methods start with capital letters"), ui_generalOptionsListWidget);
+        m_optionAccessorMethodsStartWithUpperCase->setFlags(flags);
+
     m_optionDocToolTag =
         new QListWidgetItem(i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
     m_optionDocToolTag->setFlags(flags);
@@ -74,6 +81,10 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem*)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
+
+    connect(ui_generalOptionsListWidget,
+            SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
+            SLOT(editClassMemberPrefixDoubleClicked(QListWidgetItem*)));
 }
 
 /**
@@ -146,10 +157,16 @@ void CPPCodeGenerationForm::generalOptionsListWidgetClicked(QListWidgetItem *pSe
             (m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked);
         m_optionAccessorsAreInline->setHidden(dontGenerateAccessorMethods);
         m_optionAccessorsArePublic->setHidden(dontGenerateAccessorMethods);
+        m_optionGetterWithGetPrefix->setHidden(dontGenerateAccessorMethods);
+        m_optionRemovePrefixFromAccessorMethodName->setHidden(dontGenerateAccessorMethods);
+        m_optionAccessorMethodsStartWithUpperCase->setHidden(dontGenerateAccessorMethods);
         // reset the value if needed
         if (dontGenerateAccessorMethods) {
             m_optionAccessorsAreInline->setCheckState(Qt::Unchecked);
             m_optionAccessorsArePublic->setCheckState(Qt::Unchecked);
+            m_optionGetterWithGetPrefix->setCheckState(Qt::Unchecked);
+            m_optionRemovePrefixFromAccessorMethodName->setCheckState(Qt::Unchecked);
+            m_optionAccessorMethodsStartWithUpperCase->setHidden(Qt::Unchecked);
         }
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
@@ -251,12 +268,48 @@ void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
 }
 
 /**
+ * Set the display state of the related checkbox
+ * @param flag   the flag to set
+ */
+void CPPCodeGenerationForm::setGetterWithoutGetPrefix(bool bFlag)
+{
+    m_optionGetterWithGetPrefix->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
+ * Set the display state of the related checkbox
+ * @param bFlag   the flag to set
+ */
+void CPPCodeGenerationForm::setRemovePrefixFromAccessorMethodName(bool bFlag)
+{
+    m_optionRemovePrefixFromAccessorMethodName->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
+ * Set the display state of the related checkbox
+ * @param bFlag   the flag to set
+ */
+void CPPCodeGenerationForm::setAccessorMethodsStartWithUpperCase(bool bFlag)
+{
+    m_optionAccessorMethodsStartWithUpperCase->setCheckState(toCheckState(toCheckState(bFlag)));
+}
+
+/**
  * Set the doc display state of option "Doc Tool Tag".
  * @param value   the value of the tag
  */
 void CPPCodeGenerationForm::setDocToolTag(const QString &value)
 {
     m_optionDocToolTag->setCheckState(toCheckState(value == QLatin1String("\\")));
+}
+
+/**
+ * Set the class member prefix
+ * @param value  the value to set
+ */
+void CPPCodeGenerationForm::setClassMemberPrefix(const QString &value)
+{
+    ui_classMemberPrefixEdit->setText(value);
 }
 
 /**
@@ -322,9 +375,49 @@ bool CPPCodeGenerationForm::getAccessorsArePublic()
     return m_optionAccessorsArePublic->checkState() == Qt::Checked;
 }
 
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getGettersWithGetPrefix()
+{
+    return m_optionGetterWithGetPrefix->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getRemovePrefixFromAccessorMethodName()
+{
+    return m_optionRemovePrefixFromAccessorMethodName->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
+bool CPPCodeGenerationForm::getAccessorMethodsStartWithUpperCase()
+{
+    return m_optionAccessorMethodsStartWithUpperCase->checkState() == Qt::Checked;
+}
+
+/**
+ * Get the display state of the related option
+ * @return   the state of the flag
+ */
 QString CPPCodeGenerationForm::getDocToolTag()
 {
     return m_optionDocToolTag->checkState() == Qt::Checked ? QLatin1String("\\") : QLatin1String("@");
+}
+
+/**
+ * Get the class member prefix
+ * @return  value
+ */
+QString CPPCodeGenerationForm::getClassMemberPrefix()
+{
+    return ui_classMemberPrefixEdit->text();
 }
 
 /**

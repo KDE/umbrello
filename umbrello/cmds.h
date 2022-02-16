@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2002-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                   *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CMDS_H
 #define CMDS_H
@@ -26,7 +21,6 @@
  ************************************************************/
 #include "cmds/generic/cmdcreateumlobject.h"
 #include "cmds/generic/cmdremoveumlobject.h"
-#include "cmds/generic/cmdrenameumlinstancetype.h"
 #include "cmds/generic/cmdrenameumlobject.h"
 
 /************************************************************

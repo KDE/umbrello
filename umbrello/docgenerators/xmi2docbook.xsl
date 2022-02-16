@@ -8,16 +8,11 @@
     Purpose: An XSL stylesheet for converting Umbrello 1.4 XMI to HTML.
              Based on xmi-to-html.xsl from Objects by Design.
 
-    Copyright (C) 1999-2001, Objects by Design, Inc. All Rights Reserved.
-    Copyright (C) 2005, Oliver M. Kellogg <okellogg@users.sourceforge.net>
-    Copyright (C) 2006, Gaël de Chalendar (Kleag) <kleag@free.fr>
+    SPDX-FileCopyrightText: 1999-2001 Objects by Design Inc. All Rights Reserved.
+    SPDX-FileCopyrightText: 2005 Oliver M. Kellogg <okellogg@users.sourceforge.net>
+    SPDX-FileCopyrightText: 2006 Gaël de Chalendar (Kleag) <kleag@free.fr>
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation. A copy of the license may be found at
-    http://www.gnu.org/licenses/gpl.html
-
-    Version:  June, 16 2006
+    SPDX-License-Identifier: GPL-3.0-only
 
     xmlns="http://www.w3.org/1999/xhtml"
 -->

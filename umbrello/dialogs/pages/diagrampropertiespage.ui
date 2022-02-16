@@ -99,6 +99,71 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QLabel" name="ui_labelWidth">
+            <property name="text">
+             <string>Width:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="ui_width">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>640.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>11000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>20.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="ui_labelHeight">
+            <property name="text">
+             <string>Height:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="ui_height">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>400.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>8000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>20.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>800.000000000000000</double>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>

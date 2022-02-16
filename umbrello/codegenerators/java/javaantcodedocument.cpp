@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "javaantcodedocument.h"
@@ -23,6 +19,9 @@
 
 // qt includes
 #include <QRegExp>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER(JavaANTCodeDocument)
 
 JavaANTCodeDocument::JavaANTCodeDocument ()
 {
@@ -76,10 +75,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
                 if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new XMLCodeComment(this);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block))
                     {
-                        uError()<<"Unable to add codeComment to :"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeComment");
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
@@ -89,25 +88,25 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
-                        uError()<<"Unable to add codeclassfield child method to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeclassfield child method");
                         // DON'T delete
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add codeBlock to :"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add codeBlockwithcomments to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add codeBlockwithcomments");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -116,9 +115,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     // do nothing.. this is treated elsewhere
                 } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add hierarchicalcodeBlock to:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to add hierarchicalcodeBlock");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
@@ -127,33 +126,34 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     // find the code operation by id
                     QString id = element.attribute(QLatin1String("parent_id"),QLatin1String("-1"));
                     UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
-                    UMLOperation * op = obj->asUMLOperation();
+                    const UMLOperation * op = obj->asUMLOperation();
                     if (op) {
                         CodeOperation * block = 0;
-                        uError() << "TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument";
+                        logWarn0("TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument");
                         break;  // remove when above is implemented
-                        block->loadFromXMI1(element);
+                        block->loadFromXMI(element);
                         if (addTextBlock(block)) {
                             loadCheckForChildrenOK= true;
                         } else {
-                            uError()<<"Unable to add codeoperation to:"<<this;
+                            logError0("JavaANTCodeDocument: Unable to add codeoperation");
                             block->deleteLater();
                         }
                     } else {
-                        uError()<<"Unable to find operation create codeoperation for:"<<this;
+                        logError0("JavaANTCodeDocument: Unable to find operation create codeoperation");
                     }
                 } else if (name == QLatin1String("xmlelementblock")) {
                     QString xmltag = element.attribute(QLatin1String("nodeName"),QLatin1String("UNKNOWN"));
                     XMLElementCodeBlock * block = new XMLElementCodeBlock(this, xmltag);
-                    block->loadFromXMI1(element);
+                    block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
-                        uError()<<"Unable to add XMLelement to Java ANT document:"<<this;
+                        logError0("Unable to add XMLelement to Java ANT document");
                         delete block;
                     } else {
                         loadCheckForChildrenOK= true;
                     }
                 } else {
-                    uDebug()<<" LoadFromXMI: Got strange tag in text block stack:"<<name<<", ignoring";
+                    logDebug1("JavaANTCodeDocument::loadChildTextBlocksFromNode: Got strange tag in "
+                              "text block stack: %1, ignoring", name);
                 }
 
                 node = element.nextSibling();
@@ -168,7 +168,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 
     if (!loadCheckForChildrenOK)
     {
-        uWarning() << " loadChildBlocks : unable to initialize any child blocks in doc: " << getFileName() << " " << this;
+        logWarn1("loadChildBlocks : unable to initialize any child blocks in doc %1", getFileName());
     }
 
 }
@@ -188,7 +188,7 @@ void JavaANTCodeDocument::setAttributesFromNode (QDomElement & root)
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaANTCodeDocument::loadFromXMI1 (QDomElement & root)
+void JavaANTCodeDocument::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -196,10 +196,10 @@ void JavaANTCodeDocument::loadFromXMI1 (QDomElement & root)
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
-void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void JavaANTCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // superclass call
-    CodeDocument::setAttributesOnNode(doc, docElement);
+    CodeDocument::setAttributesOnNode(writer);
 
     // now set local attributes/fields
     //FIX
@@ -208,13 +208,13 @@ void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement &
 /**
  * Save the XMI representation of this object
  */
-void JavaANTCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void JavaANTCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
+    writer.writeStartElement(QLatin1String("codedocument"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 // we add in our code blocks that describe how to generate
@@ -252,12 +252,12 @@ void JavaANTCodeDocument::updateContent()
 }
 
 // We overwritten by Java language implementation to get lowercase path
-QString JavaANTCodeDocument::getPath ()
+QString JavaANTCodeDocument::getPath () const
 {
     QString path = getPackage();
 
     // Replace all white spaces with blanks
-    path.simplified();
+    path = path.simplified();
 
     // Replace all blanks with underscore
     path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));

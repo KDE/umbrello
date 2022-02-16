@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2005-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef CLASSIMPORT_H
 #define CLASSIMPORT_H
@@ -20,7 +15,7 @@ class CodeImpThread;
  * Abstract base for programming language specific import classes
  * @author Mikko Pasanen
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ClassImport
 {
@@ -37,7 +32,7 @@ public:
      * missing dependencies for example. 
      * @return false - disabled, true - enabled
     */
-    bool enabled() { return m_enabled; }
+    bool enabled() const { return m_enabled; }
 
     static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = 0);
 

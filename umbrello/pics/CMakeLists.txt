@@ -4,6 +4,7 @@ add_subdirectory(global)
 set(ICONS
     accept_signal
     accept_time_event
+    activity
     activity-fork
     actor
     aggregation
@@ -30,6 +31,7 @@ set(ICONS
     class-or-package
     combined_fragment
     component
+    component1
     composition
     containment
     CVglobal_meth
@@ -77,6 +79,8 @@ set(ICONS
     initial_state
     instance
     interface
+    interface-provider
+    interface-requirement
     join
     junction
     node
@@ -90,6 +94,7 @@ set(ICONS
     relationship
     send_signal
     shallow-history
+    state
     state-fork
     subsystem
     template
@@ -97,6 +102,10 @@ set(ICONS
     umbr-coll-message-asynchronous
     umbr-coll-message-synchronous
     umbr-message-asynchronous
+    umbr-message-creation
+    umbr-message-destroy
+    umbr-message-found
+    umbr-message-lost
     umbr-message-synchronous
     uniassociation
     unique_constraint
@@ -106,6 +115,7 @@ set(ICONS
 set(CURSOR_ICONS
     accept_signal
     accept_time_event
+    activity
     activity-fork
     actor
     aggregation
@@ -123,6 +133,7 @@ set(CURSOR_ICONS
     class
     combined_fragment
     component
+    component1
     composition
     containment
     datatype
@@ -137,6 +148,8 @@ set(CURSOR_ICONS
     initial_state
     instance
     interface
+    interface-provider
+    interface-requirement
     join
     junction
     node
@@ -151,11 +164,15 @@ set(CURSOR_ICONS
     relationship
     send_signal
     shallow-history
+    state
     state-fork
+    subsystem
     text
     umbr-coll-message-asynchronous
     umbr-coll-message-synchronous
     umbr-message-asynchronous
+    umbr-message-creation
+    umbr-message-destroy
     umbr-message-found
     umbr-message-lost
     umbr-message-synchronous

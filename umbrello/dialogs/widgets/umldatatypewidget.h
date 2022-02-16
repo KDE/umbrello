@@ -1,21 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2016                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLDATATYPEWIDGET_H
 #define UMLDATATYPEWIDGET_H
 
-#include <QWidget>
+#include "comboboxwidgetbase.h"
 
-class KComboBox;
-class QGridLayout;
-class QLabel;
 class UMLAttribute;
 class UMLEntityAttribute;
 class UMLClassifier;
@@ -23,23 +15,23 @@ class UMLClassifierListItem;
 class UMLOperation;
 class UMLTemplate;
 
-class UMLDatatypeWidget : public QWidget
+class UMLDatatypeWidget : public ComboBoxWidgetBase
 {
+    Q_OBJECT
 public:
     UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
     UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
     UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent=0);
     UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
     UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent=0);
-    ~UMLDatatypeWidget();
 
-    void addToLayout(QGridLayout *layout, int row, int startColumn = 0);
     bool apply();
     void reset();
 
+Q_SIGNALS:
+    void editTextChanged(const QString &);
+
 protected:
-    QLabel *m_label;
-    KComboBox *m_comboBox;
     UMLAttribute *m_attribute;
     UMLClassifierListItem *m_datatype;
     UMLEntityAttribute *m_entityAttribute;

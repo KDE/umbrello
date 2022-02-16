@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMLAPPPRIVATE_H
 #define UMLAPPPRIVATE_H
@@ -39,9 +34,14 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QFileInfo>
+#include <QFont>
 #include <QListWidget>
 #include <QObject>
+#ifdef WEBKIT_WELCOMEPAGE
 #include <QWebView>
+#else
+#include <QTextBrowser>
+#endif
 
 class QWidget;
 
@@ -95,6 +95,9 @@ public:
         editor = KTextEditor::EditorChooser::editor();
 #endif
         logWindow = new QListWidget;
+        QFont mono;
+        mono.setFamily(QLatin1String("Monospace"));
+        logWindow->setFont(mono);
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
 
@@ -108,36 +111,14 @@ public:
         delete welcomeWindow;
     }
 
+    bool openFileInEditor(const QUrl &file, int startCursor=0, int endCursor=0);
+
 public slots:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
         QStringList columns = item->text().split(QChar::fromLatin1(':'));
 
-        QFileInfo file(columns[0]);
-        if (!file.exists())
-            return;
-
-        if (!editorWindow) {
-            editorWindow = new QDockWidget(QLatin1String("Editor"));
-            parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
-        }
-
-        if (document) {
-            editorWindow->setWidget(0);
-            delete view;
-            delete document;
-        }
-        document = editor->createDocument(0);
-        view = document->createView(parent);
-        view->document()->openUrl(QUrl(columns[0]));
-        view->document()->setReadWrite(false);
-        view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
-        KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
-        if(iface)
-            iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
-
-        editorWindow->setWidget(view);
-        editorWindow->setVisible(true);
+        openFileInEditor(QUrl::fromLocalFile(columns[0]), columns[1].toInt()-1, columns[2].toInt());
     }
 
     void createDiagramsWindow()
@@ -181,6 +162,7 @@ public slots:
         // qDebug() << html;
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
         welcomeWindow->setObjectName(QLatin1String("WelcomeDock"));
+#ifdef WEBKIT_WELCOMEPAGE
         QWebView *view = new QWebView;
         view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         view->setContextMenuPolicy(Qt::NoContextMenu);
@@ -188,6 +170,14 @@ public slots:
         view->setHtml(html);
         view->show();
         welcomeWindow->setWidget(view);
+#else
+        QTextBrowser *tb = new QTextBrowser(dynamic_cast<QWidget*>(this));
+        tb->setOpenExternalLinks(true);
+        tb->setOpenLinks(false);
+        tb->setHtml(html);
+        connect(tb, SIGNAL(anchorClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
+        welcomeWindow->setWidget(tb);
+#endif
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
         viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_welcome"));

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2006-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "object_factory.h"
@@ -23,6 +18,7 @@
 #include "codegenerator.h"
 #include "component.h"
 #include "datatype.h"
+#define DBG_SRC QLatin1String("Object_Factory")
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "enum.h"
@@ -54,6 +50,8 @@
 #include <QApplication>
 #include <QRegExp>
 #include <QStringList>
+
+DEBUG_REGISTER(Object_Factory)
 
 namespace Object_Factory {
 
@@ -96,7 +94,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg, bool undoable /* = true */)
 {
     if (parentPkg == 0) {
-        uError() << name << ": parentPkg is NULL";
+        logError1("Object_Factory::createNewUMLObject(%1): parentPkg is NULL", name);
         return 0;
     }
     QPointer<UMLObject> o = 0;
@@ -138,6 +136,11 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         }
         case UMLObject::ot_Instance:
             o = new UMLInstance(name, g_predefinedId);
+            if (parentPkg->isUMLClassifier()) {
+                UMLClassifier *c = parentPkg->asUMLClassifier();
+                o->asUMLInstance()->setClassifierCmd(c, false);
+                parentPkg = c->umlPackage();
+            }
             break;
         case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
@@ -151,8 +154,14 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         case UMLObject::ot_Category:
             o = new UMLCategory(name, g_predefinedId);
             break;
+        case UMLObject::ot_SubSystem: {
+            o = new UMLPackage(name, g_predefinedId);
+            o->setStereotypeCmd(QLatin1String("subsystem"));
+            break;
+        }
         default:
-            uWarning() << "error unknown type: " << UMLObject::toString(type);
+            logWarn2("Object_Factory::createNewUMLObject(%1) error unknown type: %2",
+                     name, UMLObject::toString(type));
             return 0;
     }
 
@@ -194,6 +203,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
  *                        If set to false and the name already exists
  *                        then the existing object is returned.
  *                        The default is to ask for the new name.
+ * @return          Pointer to object or nullptr if object creation was
+ *                  canceled by the user.
  */
 UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                            UMLPackage *parentPkg /* = 0 */,
@@ -205,9 +216,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             parentPkg = doc->datatypeFolder();
         } else {
             Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(type);
-            uDebug() << "Object_Factory::createUMLObject(" << n << "): "
-                << "parentPkg is not set, assuming Model_Type "
-                << Uml::ModelType::toString(mt);
+            logDebug2("Object_Factory::createUMLObject(%1): parentPkg is not set, assuming Model_Type %2",
+                      n, Uml::ModelType::toString(mt));
             parentPkg = doc->rootFolder(mt);
         }
     }
@@ -219,13 +229,12 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         }
         if (!solicitNewName) {
             if (type == UMLObject::ot_UMLObject || o->baseType() == type) {
-                uDebug() << o->name() << " already known - returning existing object";
+                logDebug1("Object_Factory::createUMLObject(%1) : already known - returning existing object",
+                          o->name());
                 return o;
             }
-            uWarning() << o->name() << " exists but is of type "
-                       << UMLObject::toString(o->baseType())
-                       << " - creating new object of type "
-                       << UMLObject::toString(type);
+            logWarn3("Object_Factory::createUMLObject(%1) exists but is of type %2 - creating new object of type %3",
+                          o->name(), UMLObject::toString(o->baseType()), UMLObject::toString(type));
             o = createNewUMLObject(type, n, parentPkg, false);
             return o;
         }
@@ -238,9 +247,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     }
 
     while (bValidNameEntered == false) {
-        bool ok = Dialog_Utils::askName(i18nc("UMLObject name", "Name"),
-                                        i18n("Enter name:"),
-                                        name);
+        bool ok = Dialog_Utils::askNewName(type, name);
         if (!ok) {
             return 0;
         }
@@ -311,13 +318,6 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
          }
          break;
         }
-    case UMLObject::ot_InstanceAttribute: {
-        UMLInstance *c = parent->asUMLInstance();
-        if(c){
-            returnObject = c->createAttribute(name);
-        }
-        break;
-    }
     case UMLObject::ot_Operation: {
             UMLClassifier *c = parent->asUMLClassifier();
             if (c)
@@ -359,14 +359,23 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
             break;
         }
     default:
-        uDebug() << "ERROR UMLDoc::createChildObject type:" << UMLObject::toString(type);
+        break;
     }
-    return returnObject->asUMLClassifierListItem();
+    if (!returnObject) {
+        logError2("Object_Factory::createChildObject(%1) type %2: no object created",
+                  name, UMLObject::toString(type));
+        return nullptr;
+    }
+    UMLClassifierListItem *ucli = returnObject->asUMLClassifierListItem();
+    if (!ucli) {
+        logError0("Object_Factory::createChildObject internal: result is not a UMLClassifierListItem");
+    }
+    return ucli;
 }
 
 /**
  * Make a new UMLObject according to the given XMI tag.
- * Used by loadFromXMI1 and clipboard paste.
+ * Used by loadFromXMI and clipboard paste.
  */
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
@@ -423,7 +432,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
                UMLDoc::tagEq(xmiTag, QLatin1String("generalization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Generalization);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Realization")) ||
-               UMLDoc::tagEq(xmiTag, QLatin1String("Abstraction"))) {
+               UMLDoc::tagEq(xmiTag, QLatin1String("Abstraction")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("interfaceRealization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Realization);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Dependency"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Dependency);

@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "codegenerator.h"
@@ -42,9 +38,12 @@
 #include <QPointer>
 #include <QRegExp>
 #include <QTextStream>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cstdlib>  // to get the user name
+
+DEBUG_REGISTER(CodeGenerator)
 
 /**
  * Constructor for a code generator.
@@ -175,7 +174,7 @@ CodeDocumentList * CodeGenerator::getCodeDocumentList()
  * Load codegenerator data from xmi.
  * @param qElement   the element from which to load
  */
-void CodeGenerator::loadFromXMI1(QDomElement & qElement)
+void CodeGenerator::loadFromXMI(QDomElement & qElement)
 {
     // look for our particular child element
     QDomNode node = qElement.firstChild();
@@ -199,14 +198,14 @@ void CodeGenerator::loadFromXMI1(QDomElement & qElement)
         else if (docTag == QLatin1String("codedocument") || docTag == QLatin1String("classifiercodedocument")) {
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if (codeDoc) {
-                codeDoc->loadFromXMI1(codeDocElement);
+                codeDoc->loadFromXMI(codeDocElement);
             }
             else {
-                uWarning() << "missing code document for id:" << id;
+                logWarn1("missing code document for id %1", id);
             }
         }
         else {
-            uWarning() << "got strange codegenerator child node:" << docTag << ", ignoring.";
+            logWarn1("got strange codegenerator child node %1, ignoring.", docTag);
         }
         codeDocNode = codeDocElement.nextSibling();
         codeDocElement = codeDocNode.toElement();
@@ -222,7 +221,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
     Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
-        uDebug() << "found UMLObject for id:" << idStr;
+        logDebug1("CodeGenerator::loadCodeForOperation found UMLObject for id: %1", idStr);
         QString value = codeDocElement.attribute(QLatin1String("value"));
 
         UMLObject::ObjectType t = obj->baseType();
@@ -231,26 +230,27 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
             op->setSourceCode(value);
         }
         else {
-            uError() << "sourcecode id " << idStr << " has unexpected type " << UMLObject::toString(t);
+            logError2("sourcecode id %1 has unexpected type %2", idStr, UMLObject::toString(t));
         }
     }
     else {
-        uError() << "unknown sourcecode id " << idStr;
+        logError1("unknown sourcecode id %1", idStr);
     }
 }
 
 /**
  * Save the XMI representation of this object
  */
-void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
-    QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
-    docElement.setAttribute(QLatin1String("language"), langType);
+    writer.writeStartElement(QLatin1String("codegenerator"));
+    writer.writeAttribute(QLatin1String("language"), langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
         foreach (UMLClassifier *c, concepts) {
+            uIgnoreZeroPointer(c);
             UMLOperationList operations = c->getOpList();
             foreach (UMLOperation *op, operations) {
                 // save the source code
@@ -258,10 +258,10 @@ void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
                 if (code.isEmpty()) {
                     continue;
                 }
-                QDomElement codeElement = doc.createElement(QLatin1String("sourcecode"));
-                codeElement.setAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
-                codeElement.setAttribute(QLatin1String("value"), code);
-                docElement.appendChild(codeElement);
+                writer.writeStartElement(QLatin1String("sourcecode"));
+                writer.writeAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
+                writer.writeAttribute(QLatin1String("value"), code);
+                writer.writeEndElement();
             }
         }
     }
@@ -270,10 +270,10 @@ void CodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
         CodeDocumentList::const_iterator it = docList->begin();
         CodeDocumentList::const_iterator end = docList->end();
         for (; it != end; ++it) {
-            (*it)->saveToXMI1(doc, docElement);
+            (*it)->saveToXMI(writer);
         }
     }
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -361,7 +361,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
                 emit showGeneratedFile(file.fileName());
             }
             else {
-                uWarning() << "Cannot open file :" << file.fileName() << " for writing!";
+                logWarn1("Cannot open file %1 for writing", file.fileName());
                 codeGenSuccess = false;
             }
         }
@@ -523,7 +523,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 {
     //open files for writing.
     if (fileName.isEmpty()) {
-        uWarning() << "cannot find a file name";
+        logWarn0("cannot find a file name");
         return false;
     }
     else {
@@ -604,7 +604,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
         }
     }
 
-    name.simplified();
+    name = name.simplified();
     name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     return overwritableName(name, codeDocument->getFileExtension());
@@ -780,7 +780,7 @@ bool CodeGenerator::forceSections() const
  * Return the default datatypes for your language (bool, int etc).
  * Default implementation returns empty list.
  */
-QStringList CodeGenerator::defaultDatatypes()
+QStringList CodeGenerator::defaultDatatypes() const
 {
     return QStringList();
     //empty by default, override in your code generator

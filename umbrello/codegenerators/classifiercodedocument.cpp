@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "classifiercodedocument.h"
@@ -30,6 +26,7 @@
 // qt includes
 #include <QList>
 #include <QRegExp>
+#include <QXmlStreamWriter>
 
 /**
  * Constructor.
@@ -51,7 +48,8 @@ ClassifierCodeDocument::~ClassifierCodeDocument()
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -67,7 +65,8 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -84,7 +83,9 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility::Enum visibility)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType,
+                                                Uml::Visibility::Enum visibility) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -101,7 +102,9 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility::Enum visibility)
+CodeClassFieldList
+ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType,
+                                                bool isStatic, Uml::Visibility::Enum visibility) const
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -121,17 +124,17 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 /**
  * Tell if any of the accessor classfields will be of lists of objects.
  */
-bool ClassifierCodeDocument::hasObjectVectorClassFields()
+bool ClassifierCodeDocument::hasObjectVectorClassFields() const
 {
-    CodeClassFieldList::Iterator it = m_classfieldVector.begin();
-    CodeClassFieldList::Iterator end = m_classfieldVector.end();
+    CodeClassFieldList::const_iterator it = m_classfieldVector.begin();
+    CodeClassFieldList::const_iterator end = m_classfieldVector.end();
     for (; it != end; ++it)
     {
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
-            UMLRole * role = (*it)->getParentObject()->asUMLRole();
+            const UMLRole * role = (*it)->getParentObject()->asUMLRole();
             if (!role) {
-                uError() << "invalid parent object type";
+                logError0("invalid parent object type");
                 return false;
             }
             QString multi = role->multiplicity();
@@ -148,7 +151,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
 /**
  * Does this object have any classfields declared?
  */
-bool ClassifierCodeDocument::hasClassFields()
+bool ClassifierCodeDocument::hasClassFields() const
 {
     if(m_classfieldVector.count() > 0)
         return true;
@@ -158,7 +161,7 @@ bool ClassifierCodeDocument::hasClassFields()
 /**
  * Tell if one or more codeclassfields are derived from associations.
  */
-bool ClassifierCodeDocument::hasAssociationClassFields()
+bool ClassifierCodeDocument::hasAssociationClassFields() const
 {
     CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
     return (m_classfieldVector.count() - list.count()) > 0 ? true : false;
@@ -167,7 +170,7 @@ bool ClassifierCodeDocument::hasAssociationClassFields()
 /**
  * Tell if one or more codeclassfields are derived from attributes.
  */
-bool ClassifierCodeDocument::hasAttributeClassFields()
+bool ClassifierCodeDocument::hasAttributeClassFields() const
 {
     CodeClassFieldList list = getSpecificClassFields(CodeClassField::Attribute);
     return list.count() > 0 ? true : false;
@@ -272,7 +275,7 @@ CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ()
  * Get the value of m_parentclassifier
  * @return the value of m_parentclassifier
  */
-UMLClassifier * ClassifierCodeDocument::getParentClassifier ()
+UMLClassifier * ClassifierCodeDocument::getParentClassifier () const
 {
     return m_parentclassifier;
 }
@@ -281,14 +284,14 @@ UMLClassifier * ClassifierCodeDocument::getParentClassifier ()
  * Get a list of codeoperation objects held by this classifiercodedocument.
  * @return      QList<CodeOperation>
  */
-QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
+QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
 {
-    QList<CodeOperation*> list;
+    QList<const CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
     foreach (TextBlock* tb, *tlist)
     {
-        CodeOperation * cop = dynamic_cast<CodeOperation*>(tb);
+        const CodeOperation * cop = dynamic_cast<const CodeOperation*>(tb);
         if (cop) {
             list.append(cop);
         }
@@ -303,7 +306,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
     if (op == 0) {
-        uError() << "arg is not a UMLOperation";
+        logError0("arg is not a UMLOperation");
         return;
     }
     QString tag = CodeOperation::findTag(op);
@@ -337,11 +340,11 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op)
         if(removeTextBlock(tb)) // wont add if already present
             delete tb; // delete unused operations
         else
-            uError() << "Cant remove CodeOperation from ClassCodeDocument!";
+            logError0("Cant remove CodeOperation from ClassCodeDocument!");
 
     }
     else
-        uError() << "Cant Find codeOperation for deleted operation!";
+        logError0("Cant Find codeOperation for deleted operation!");
 }
 
 // Other methods
@@ -407,7 +410,7 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list,
 /**
  * Return if the parent classifier is a class
  */
-bool ClassifierCodeDocument::parentIsClass()
+bool ClassifierCodeDocument::parentIsClass() const
 {
     return (m_parentclassifier->baseType() == UMLObject::ot_Class);
 }
@@ -415,15 +418,14 @@ bool ClassifierCodeDocument::parentIsClass()
 /**
  * Return if the parent classifier is an interface
  */
-bool ClassifierCodeDocument::parentIsInterface()
+bool ClassifierCodeDocument::parentIsInterface() const
 {
     return (m_parentclassifier->baseType() == UMLObject::ot_Interface);
 }
 
 /**
- * Init from a UMLClassifier object.
- * @param       classifier
- * @param       package
+ * Initialize from a UMLClassifier object.
+ * @param c    Classifier from which to initialize this CodeDocument
  */
 void ClassifierCodeDocument::init (UMLClassifier * c)
 {
@@ -647,7 +649,7 @@ void ClassifierCodeDocument::setAttributesFromNode (QDomElement & elem)
 // by parent object ID and Role ID (needed for self-association CF's)
 CodeClassField *
 ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
-        int role_id)
+                                                        int role_id)
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
@@ -666,11 +668,11 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
     }
 
     // shouldn't happen..
-    uError() << "Failed to find codeclassfield for parent uml id:"
-             << Uml::ID::toString(id) << " (role id:" << role_id
-             << ") Do you have a corrupt classifier code document?";
+    logError2(
+      "Failed to find codeclassfield for parent uml id %1 (role id %2) Do you have a corrupt classifier code document?",
+      Uml::ID::toString(id), role_id);
 
-    return (CodeClassField*) 0; // not found
+    return nullptr; // not found
 }
 
 /**
@@ -694,13 +696,13 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
                 m_classFieldMap.remove(cf->getParentObject());
 
                 // configure from XMI
-                cf->loadFromXMI1(childElem);
+                cf->loadFromXMI(childElem);
 
                 // now add back in
                 m_classFieldMap.insert(cf->getParentObject(), cf);
 
             } else
-                uError()<<" LoadFromXMI: cannot load classfield parent_id:"<<id<<" do you have a corrupt savefile?";
+                logError1("LoadFromXMI: cannot load classfield parent_id %1, do you have a corrupt savefile?", id);
         }
         node = childElem.nextSibling();
         childElem= node.toElement();
@@ -710,7 +712,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
 /**
  * Save the XMI representation of this object.
  */
-void ClassifierCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
+void ClassifierCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
 #if 0
     // avoid the creation of primitive data type
@@ -723,17 +725,17 @@ void ClassifierCodeDocument::saveToXMI1 (QDomDocument & doc, QDomElement & root)
            return;
     }
 #endif
-    QDomElement docElement = doc.createElement(QLatin1String("classifiercodedocument"));
+    writer.writeStartElement(QLatin1String("classifiercodedocument"));
 
-    setAttributesOnNode(doc, docElement);
+    setAttributesOnNode(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void ClassifierCodeDocument::loadFromXMI1 (QDomElement & root)
+void ClassifierCodeDocument::loadFromXMI (QDomElement & root)
 {
     // set attributes/fields
     setAttributesFromNode(root);
@@ -746,22 +748,22 @@ void ClassifierCodeDocument::loadFromXMI1 (QDomElement & root)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void ClassifierCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
+void ClassifierCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 {
     // do super-class first
-    CodeDocument::setAttributesOnNode(doc, docElement);
+    CodeDocument::setAttributesOnNode(writer);
 
     // cache local attributes/fields
-    docElement.setAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
+    writer.writeAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block
-    QDomElement fieldsElement = doc.createElement(QLatin1String("classfields"));
+    writer.writeStartElement(QLatin1String("classfields"));
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)
-        (*it)->saveToXMI1(doc, fieldsElement);
-    docElement.appendChild(fieldsElement);
+        (*it)->saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**

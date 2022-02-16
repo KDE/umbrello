@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef TOOLBARSTATEMESSAGES_H
 #define TOOLBARSTATEMESSAGES_H
@@ -23,7 +18,7 @@ class QGraphicsLineItem;
  * With messages tool, two objects are selected clicking with left button on
  * them and a message of the needed type (depending on the message button
  * selected) is created between the objects. When the first object is selected,
- * a temporal visual message that follows the cursor movement is created until
+ * a temporary visual message that follows the cursor movement is created until
  * the second object is selected or the message cancelled.
  *
  * A message can be cancelled using right button, which also returns to default
@@ -42,7 +37,7 @@ class QGraphicsLineItem;
  * @todo sequence message lines should be handled by object widgets. Right now,
  * they aren't taken into account in testOnWidget and an explicit check is
  * needed. However, if onWidget in object widgets is changed to also check for
- * the line, a way to make them prioritaries over other widgets in testOnWidget
+ * the line, a way to give them priority over other widgets in testOnWidget
  * will be needed. For example, when creating a message clicking on an already
  * created message, the message line must be got instead of the message, even if
  * the message is smaller than the line.
@@ -109,7 +104,7 @@ protected:
     bool m_isObjectWidgetLine;
 
 private:
-    void setupMessageWidget(MessageWidget *msg);
+    void setupMessageWidget(MessageWidget *msg, bool showOperationDialog = true);
 
     /**
      * x and y clicked for lost and found messages

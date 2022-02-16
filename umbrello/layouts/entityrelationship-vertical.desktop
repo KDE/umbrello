@@ -11,6 +11,7 @@ Name[el]=Κατακόρυφη διάταξη
 Name[en_GB]=Vertical Layout
 Name[es]=Disposición vertical
 Name[et]=Püstine paigutus
+Name[eu]=Antolamendu bertikala
 Name[fi]=Pystysuuntainen asettelu
 Name[fr]=Disposition verticale
 Name[gl]=Disposición vertical
@@ -50,6 +51,7 @@ Comment[el]=Διάταξη που αποτυπώνεται κάθετα
 Comment[en_GB]=Layout which renders vertical
 Comment[es]=Diseño que se organiza de forma vertical
 Comment[et]=Püstiselt renderdatud paigutus
+Comment[eu]=Bertikalean errendatzen den antolamendua
 Comment[fi]=Pystysuuntaan piirtävä asettelu
 Comment[fr]=Disposition permettant un rendu vertical
 Comment[gl]=Disposición que renderiza de maneira vertical.
@@ -60,17 +62,17 @@ Comment[ko]=수직으로 표시되는 레이아웃
 Comment[nb]=Utforming som tegner opp loddrett
 Comment[nl]=Indeling die zich verticaal laat weergeven
 Comment[nn]=Utforming vist loddrett
-Comment[pl]=Układ, który wyświetla pionowo
+Comment[pl]=Układ, który wyświetla się w pionie
 Comment[pt]=Uma disposição que representa os itens na vertical
 Comment[pt_BR]=Layout que representa os itens na vertical
 Comment[ru]=Шаблон с расположением по вертикали
 Comment[sk]=Rozloženie, ktoré renderuje zvislo
-Comment[sl]=Postavitev, ki se izriše navpično
+Comment[sl]=Postavitev za navpični izris
 Comment[sr]=Распоред који исцртава усправно
 Comment[sr@ijekavian]=Распоред који исцртава усправно
 Comment[sr@ijekavianlatin]=Raspored koji iscrtava uspravno
 Comment[sr@latin]=Raspored koji iscrtava uspravno
-Comment[sv]=Layout som återger vertikalt
+Comment[sv]=Layout som återges vertikalt
 Comment[tr]=Dikey hazırlanan düzen
 Comment[uk]=Компонування з вертикальним розташуванням елементів
 Comment[x-test]=xxLayout which renders verticalxx
@@ -96,7 +98,27 @@ ranking::type::relationship=weight=1.0
 ranking::type::default=weight=0.001
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

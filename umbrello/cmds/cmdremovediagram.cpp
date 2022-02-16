@@ -1,22 +1,19 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2012-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "cmdremovediagram.h"
 
 #include "basictypes.h"
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
 
 #include <KLocalizedString>
+#include <QXmlStreamWriter>
 
 namespace Uml
 {
@@ -37,12 +34,21 @@ namespace Uml
         setText(msg);
 
         // Save diagram XMI for undo
-        QDomDocument doc;
-        QDomElement container = doc.createElement(QLatin1String("diagram"));
-        scene->saveToXMI1(doc, container);
-
-        // The first child element contains the diagram XMI
-        m_element = container.firstChild().toElement();
+        QString xmi;
+        QXmlStreamWriter stream(&xmi);
+        stream.writeStartElement(QLatin1String("diagram"));
+        scene->saveToXMI(stream);
+        stream.writeEndElement();  // diagram
+        QString error;
+        int line;
+        QDomDocument domDoc;
+        if (domDoc.setContent(xmi, &error, &line)) {
+            // The first child element contains the diagram XMI
+            m_element = domDoc.firstChild().firstChild().toElement();  // CHECK was: container
+        } else {
+            logWarn3("CmdRemoveDiagram(%1): Cannot set content. Error %2 line %3",
+                     scene->name(), error, line);
+        }
     }
 
     CmdRemoveDiagram::~CmdRemoveDiagram()
@@ -59,7 +65,7 @@ namespace Uml
         UMLDoc* doc = UMLApp::app()->document();
         UMLView* view = doc->createDiagram(m_folder, m_type, m_name, m_sceneId);
 
-        view->umlScene()->loadFromXMI1(m_element);
+        view->umlScene()->loadFromXMI(m_element);
     }
 
 }

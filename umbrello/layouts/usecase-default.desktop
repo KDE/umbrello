@@ -1,15 +1,16 @@
-[Desktop Entry]
+Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
 Name[bs]=UseCase podrazumijevani raspored
-Name[ca]=Disposició per omissió de casos d'ús
-Name[ca@valencia]=Disposició per omissió de casos d'ús
+Name[ca]=Disposició predeterminada dels casos d'ús
+Name[ca@valencia]=Disposició predeterminada dels casos d'ús
 Name[da]=Standardlayout for brugsmønster
 Name[de]=Standardlayout für Anwendungsfälle
 Name[el]=Προκαθορισμένη διάταξη περίπτωσης
 Name[en_GB]=UseCase Default Layout
 Name[es]=Diseño por omisión de casos de uso
 Name[et]=Kasutusklassi vaikepaigutus
+Name[eu]=Erabilera-kasuen antolamendu lehenetsia
 Name[fi]=Käyttötapauksen oletusasettelu
 Name[fr]=Disposition par défaut des cas d'utilisations
 Name[gl]=Disposición predeterminada de caso de uso
@@ -23,7 +24,7 @@ Name[nn]=Standardutforming for bruksmønster
 Name[pl]=Domyślny układ UseCase
 Name[pt]=Disposição de Casos de Uso
 Name[pt_BR]=Layout padrão de casos de uso
-Name[ru]=Стандартный шаблон диаграммы прецедентов
+Name[ru]=Стандартный шаблон диаграммы вариантов использования
 Name[sk]=Predvolené rozloženie Usecase
 Name[sl]=Privzeta postavitev primera uporabe
 Name[sr]=Подразумевани распоред за случај употребе
@@ -38,14 +39,15 @@ Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
 Comment[bs]=UseCase podrazumijevani raspored
-Comment[ca]=Disposició per omissió de casos d'ús
-Comment[ca@valencia]=Disposició per omissió de casos d'ús
+Comment[ca]=Disposició predeterminada dels casos d'ús
+Comment[ca@valencia]=Disposició predeterminada dels casos d'ús
 Comment[da]=Standardlayout for brugsmønster
 Comment[de]=Standardlayout für Anwendungsfälle
 Comment[el]=Προκαθορισμένη διάταξη περίπτωσης
 Comment[en_GB]=Usecase Default Layout
 Comment[es]=Diseño por omisión de casos de uso
 Comment[et]=Kasutusklassi vaikepaigutus
+Comment[eu]=Erabilera-kasuen antolamendu lehenetsia
 Comment[fi]=Käyttötapauksen oletusasettelu
 Comment[fr]=Disposition par défaut des cas d'utilisations
 Comment[gl]=Disposición predeterminada de caso de uso.
@@ -60,7 +62,7 @@ Comment[nn]=Standardutforming for bruksmønster
 Comment[pl]=Domyślny układ UseCase
 Comment[pt]=Disposição Predefinida de Casos de Uso
 Comment[pt_BR]=Layout padrão de casos de uso
-Comment[ru]=Стандартный шаблон диаграммы прецедентов
+Comment[ru]=Стандартный шаблон диаграммы вариантов использования
 Comment[sk]=Predvolené rozloženie Usecase
 Comment[sl]=Privzeta postavitev primera uporabe
 Comment[sr]=Подразумевани распоред за случај употребе
@@ -100,7 +102,27 @@ ranking::type::anchor=weight=1.0
 ranking::type::default=constraint=false
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+graph=rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Spline]
+graph=splines=true
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Orthogonal]
+graph=splines=ortho
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Polyline]
+graph=splines=polyline
+node=
+edge=
+
+[X-UMBRELLO-Dot-Attributes-Direct]
+graph=splines=false
 node=
 edge=
 

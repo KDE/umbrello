@@ -170,5 +170,18 @@
         <file>pics/uniassociation.png</file>
         <file>pics/unique_constraint.png</file>
         <file>pics/usecase.png</file>
+        <file>pics/state.png</file>
+        <file>pics/cursor-state.png</file>
+        <file>pics/component1.png</file>
+        <file>pics/cursor-component1.png</file>
+        <file>pics/interface-provider.png</file>
+        <file>pics/interface-requirement.png</file>
+        <file>pics/cursor-interface-provider.png</file>
+        <file>pics/cursor-interface-requirement.png</file>
+        <file>pics/cursor-subsystem.png</file>
+        <file>pics/cursor-umbr-message-creation.png</file>
+        <file>pics/umbr-message-creation.png</file>
+        <file>pics/cursor-umbr-message-destroy.png</file>
+        <file>pics/umbr-message-destroy.png</file>
     </qresource>
 </RCC>

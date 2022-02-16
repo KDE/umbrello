@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cppcodegenerator.h"
@@ -178,26 +174,25 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
 /**
  * Save the XMI representation of this object.
  * Special method needed so that we write out the header code documents.
- * @param doc    the document
- * @param root   the root element
+ * @param writer QXmlStreamWriter serialization target
  */
-void CPPCodeGenerator::saveToXMI1(QDomDocument & doc, QDomElement & root)
+void CPPCodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
-    docElement.setAttribute(QLatin1String("language"), QLatin1String("C++"));
+    writer.writeStartElement(QLatin1String("codegenerator"));
+    writer.writeAttribute(QLatin1String("language"), QLatin1String("C++"));
 
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
     CodeDocumentList::ConstIterator end  = docList->end();
     for (; it != end; ++it)
-        (*it)->saveToXMI1(doc, docElement);
+        (*it)->saveToXMI(writer);
 
     CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
     CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
     for (; it2 != end2; ++it2)
-        (*it2)->saveToXMI1(doc, docElement);
+        (*it2)->saveToXMI(writer);
 
-    root.appendChild(docElement);
+    writer.writeEndElement();
 }
 
 /**
@@ -389,7 +384,7 @@ void CPPCodeGenerator::checkRemoveUMLObject(UMLObject * obj)
  * Add C++ primitives as datatypes.
  * @return a string list of C++ datatypes
  */
-QStringList CPPCodeGenerator::defaultDatatypes()
+QStringList CPPCodeGenerator::defaultDatatypes() const
 {
     return Codegen_Utils::cppDatatypes();
 }

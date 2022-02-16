@@ -1,15 +1,14 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DIALOG_UTILS_H
 #define DIALOG_UTILS_H
+
+#include "umlobject.h"
+#include "widgetbase.h"
+#include "n_stereoattrs.h"
 
 #include <QString>
 
@@ -28,19 +27,42 @@ class KComboBox;
 /**
  * Dialog utilities.
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Dialog_Utils {
 
 KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 KLineEdit * &editField,
-                                const QString& editFieldText = QString());
+                                const QString& editFieldText = QString(),
+                                int columnOffset = 0);
+
+void makeTagEditFields(UMLObject * o, QGridLayout * genLayout,
+                       QLabel * pTagLabel[N_STEREOATTRS],
+                       KLineEdit *pTagLineEdit[N_STEREOATTRS],
+                       int row = 1);
+
+void remakeTagEditFields(const QString &stereoText,
+                         UMLObject * o, QGridLayout * genLayout,
+                         QLabel * pTagLabel[N_STEREOATTRS],
+                         KLineEdit * pTagLineEdit[N_STEREOATTRS],
+                         int row = 1);
+
+void updateTagsFromEditFields(UMLObject * o,
+                              KLineEdit *pTagLineEdit[N_STEREOATTRS]);
 
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
 bool askName(const QString& title, const QString& prompt, QString& name);
+
+bool askNewName(WidgetBase::WidgetType type, QString &name);
+bool askRenameName(WidgetBase::WidgetType type, QString &name);
+bool askDefaultNewName(WidgetBase::WidgetType type, QString &name);
+
+bool askNewName(UMLObject::ObjectType type, QString &name);
+bool askRenameName(UMLObject::ObjectType type, QString &name);
+bool askDefaultNewName(UMLObject::ObjectType type, QString &name);
 
 void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 

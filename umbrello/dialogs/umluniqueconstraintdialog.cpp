@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2003-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 #include "umluniqueconstraintdialog.h"
 
 #include "attribute.h"
@@ -38,6 +33,8 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+
+DEBUG_REGISTER(UMLUniqueConstraintDialog)
 
 /**
  *  Sets up the UMLUniqueConstraintDialog.
@@ -127,8 +124,8 @@ void UMLUniqueConstraintDialog::setupDialog()
     comboButtonHBoxLayout->addWidget(buttonBox);
 
     // We first insert all attributes to the combo box
-    UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
-    uDebug() << ue;
+    const UMLEntity* ue = m_pUniqueConstraint->umlParent()->asUMLEntity();
+    logDebug1("UMLUniqueConstraintDialog::setupDialog: UniqueConstraint parent=%1", ue->name());
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
        foreach(UMLClassifierListItem* att, ual) {
@@ -246,6 +243,9 @@ bool UMLUniqueConstraintDialog::apply()
 
     // set name
     m_pUniqueConstraint->setName(name);
+
+    // propagate changes to tree view
+    m_pUniqueConstraint->emitModified();
 
     return true;
 }

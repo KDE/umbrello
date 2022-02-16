@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef FORKJOINWIDGET_H
 #define FORKJOINWIDGET_H
@@ -20,7 +15,7 @@
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
  *
  * @see UMLWidget
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class ForkJoinWidget : public BoxWidget
 {
@@ -35,8 +30,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    virtual bool loadFromXMI1(QDomElement & qElement);
-    virtual void saveToXMI1(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog();
 

@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef PETALNODE__H
 #define PETALNODE__H
@@ -34,7 +29,7 @@
  *                  "This is some text"
  *
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class PetalNode
 {
@@ -50,7 +45,7 @@ public:
         PetalNode *node;
         StringOrNode() { node = 0; }
         virtual ~StringOrNode() { }
-        bool isEmpty() { return (string.isEmpty() && node == 0); }
+        bool isEmpty() const { return (string.isEmpty() && node == 0); }
     };
     typedef QPair<QString, StringOrNode> NameValue;
     typedef QList<NameValue> NameValueList;

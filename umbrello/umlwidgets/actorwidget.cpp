@@ -1,19 +1,20 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header file
 #include "actorwidget.h"
 
 // local includes
 #include "actor.h"
+#include "debug_utils.h"
 #include "umlview.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(ActorWidget)
 
 /**
  * Constructs an ActorWidget.
@@ -79,11 +80,11 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void ActorWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void ActorWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement actorElement = qDoc.createElement(QLatin1String("actorwidget"));
-    UMLWidget::saveToXMI1(qDoc, actorElement);
-    qElement.appendChild(actorElement);
+    writer.writeStartElement(QLatin1String("actorwidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**

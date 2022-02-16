@@ -1,21 +1,20 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "widget_utils.h"
 
 // app includes
+#define DBG_SRC QLatin1String("Widget_Utils")
 #include "debug_utils.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "umlwidget.h"
+#include "uml.h"  // only needed for log{Warn,Error}
+
+#include <KLocalizedString>
 
 // qt includes
 #include <QBuffer>
@@ -23,9 +22,12 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QPolygonF>
+#include <QXmlStreamWriter>
 
 // c++ include
 #include <cmath>
+
+DEBUG_REGISTER(Widget_Utils)
 
 namespace Widget_Utils
 {
@@ -44,7 +46,7 @@ namespace Widget_Utils
     {
         foreach (UMLWidget* obj, widgets) {
             if (obj->isObjectWidget()) {
-                if (static_cast<ObjectWidget *>(obj)->localID() == id)
+                if (obj->localID() == id)
                     return obj;
             } else if (obj->id() == id) {
                 return obj;
@@ -300,21 +302,21 @@ namespace Widget_Utils
      *
      * @param pixmap The pixmap to be saved.
      */
-    void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
+    void savePixmapToXMI(QXmlStreamWriter& stream, const QPixmap& pixmap)
     {
-        QDomElement pixmapElement = qDoc.createElement(QLatin1String("pixmap"));
+        stream.writeStartElement(QLatin1String("pixmap"));
 
-        QDomElement xpmElement = qDoc.createElement(QLatin1String("xpm"));
-        pixmapElement.appendChild(xpmElement);
+        stream.writeStartElement(QLatin1String("xpm"));
+        stream.writeEndElement();
 
         QBuffer buffer;
         buffer.open(QIODevice::WriteOnly);
         pixmap.save(&buffer, "xpm");
         buffer.close();
 
-        xpmElement.appendChild(qDoc.createTextNode(QString::fromLatin1(buffer.data())));
+        stream.writeTextElement(QString(), QString::fromLatin1(buffer.data()));
 
-        qElement.appendChild(pixmapElement);
+        stream.writeEndElement();
     }
 
     /**
@@ -402,44 +404,44 @@ namespace Widget_Utils
      *
      * @param gradient The gradient to be saved.
      */
-    void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient)
+    void saveGradientToXMI(QXmlStreamWriter& stream, const QGradient *gradient)
     {
-        QDomElement gradientElement = qDoc.createElement(QLatin1String("gradient"));
+        stream.writeStartElement(QLatin1String("gradient"));
 
-        gradientElement.setAttribute(QLatin1String("type"), int(gradient->type()));
-        gradientElement.setAttribute(QLatin1String("spread"), int(gradient->spread()));
-        gradientElement.setAttribute(QLatin1String("coordinatemode"), int(gradient->coordinateMode()));
-
-        QDomElement stopsElement = qDoc.createElement(QLatin1String("stops"));
-        gradientElement.appendChild(stopsElement);
-
-        foreach(const QGradientStop& stop, gradient->stops()) {
-            QDomElement ele = qDoc.createElement(QLatin1String("stop"));
-            ele.setAttribute(QLatin1String("position"), stop.first);
-            ele.setAttribute(QLatin1String("color"), stop.second.name());
-            stopsElement.appendChild(ele);
-        }
+        stream.writeAttribute(QLatin1String("type"), QString::number(gradient->type()));
+        stream.writeAttribute(QLatin1String("spread"), QString::number(gradient->spread()));
+        stream.writeAttribute(QLatin1String("coordinatemode"), QString::number(gradient->coordinateMode()));
 
         QGradient::Type type = gradient->type();
 
         if(type == QGradient::LinearGradient) {
             const QLinearGradient *lg = static_cast<const QLinearGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("start"), pointToString(lg->start()));
-            gradientElement.setAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
+            stream.writeAttribute(QLatin1String("start"), pointToString(lg->start()));
+            stream.writeAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
         }
         else if(type == QGradient::RadialGradient) {
             const QRadialGradient *rg = static_cast<const QRadialGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("center"), pointToString(rg->center()));
-            gradientElement.setAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
-            gradientElement.setAttribute(QLatin1String("radius"), rg->radius());
+            stream.writeAttribute(QLatin1String("center"), pointToString(rg->center()));
+            stream.writeAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
+            stream.writeAttribute(QLatin1String("radius"), QString::number(rg->radius()));
         }
         else { //type == QGradient::ConicalGradient
             const QConicalGradient *cg = static_cast<const QConicalGradient*>(gradient);
-            gradientElement.setAttribute(QLatin1String("center"), pointToString(cg->center()));
-            gradientElement.setAttribute(QLatin1String("angle"), cg->angle());
+            stream.writeAttribute(QLatin1String("center"), pointToString(cg->center()));
+            stream.writeAttribute(QLatin1String("angle"), QString::number(cg->angle()));
         }
 
-        qElement.appendChild(gradientElement);
+        stream.writeStartElement(QLatin1String("stops"));
+
+        foreach (const QGradientStop& stop, gradient->stops()) {
+            stream.writeStartElement(QLatin1String("stop"));
+            stream.writeAttribute(QLatin1String("position"), QString::number(stop.first));
+            stream.writeAttribute(QLatin1String("color"), stop.second.name());
+            stream.writeEndElement();
+        }
+
+        stream.writeEndElement();            // stops
+        stream.writeEndElement();   // gradient
     }
 
     /**
@@ -506,25 +508,24 @@ namespace Widget_Utils
      *
      * @param brush The QBrush whose details should be saved.
      */
-    void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
-                        const QBrush& brush)
+    void saveBrushToXMI(QXmlStreamWriter& stream, const QBrush& brush)
     {
-        QDomElement brushElement = qDoc.createElement(QLatin1String("brush"));
+        stream.writeStartElement(QLatin1String("brush"));
 
-        brushElement.setAttribute(QLatin1String("style"), (quint8)brush.style());
-        brushElement.setAttribute(QLatin1String("color"), brush.color().name());
+        stream.writeAttribute(QLatin1String("style"), QString::number(brush.style()));
+        stream.writeAttribute(QLatin1String("color"), brush.color().name());
 
         if(brush.style() == Qt::TexturePattern) {
-            savePixmapToXMI(qDoc, brushElement, brush.texture());
+            savePixmapToXMI(stream, brush.texture());
         }
         else if(brush.style() == Qt::LinearGradientPattern
                 || brush.style() == Qt::RadialGradientPattern
                 || brush.style() == Qt::ConicalGradientPattern) {
-            saveGradientToXMI(qDoc, brushElement, brush.gradient());
+            saveGradientToXMI(stream, brush.gradient());
         }
 
         //TODO: Check if transform of this brush needs to be saved.
-        qElement.appendChild(brushElement);
+        stream.writeEndElement();
     }
 
     /**
@@ -824,4 +825,253 @@ namespace Widget_Utils
         return result;
     }
 
-}  // namespace Widget_Utils
+    /**
+     * Returns a default name for the new widget
+     * @param type the widget type
+     * @return the default name
+     */
+    QString defaultWidgetName(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("new activity");
+        case WidgetBase::wt_Actor:            return i18n("new actor");
+        case WidgetBase::wt_Artifact:         return i18n("new artifact");
+        case WidgetBase::wt_Association:      return i18n("new association");
+        case WidgetBase::wt_Box:              return i18n("new box");
+        case WidgetBase::wt_Category:         return i18n("new category");
+        case WidgetBase::wt_Class:            return i18n("new class");
+        case WidgetBase::wt_CombinedFragment: return i18n("new combined fragment");
+        case WidgetBase::wt_Component:        return i18n("new component");
+        case WidgetBase::wt_Datatype:         return i18n("new datatype");
+        case WidgetBase::wt_Entity:           return i18n("new entity");
+        case WidgetBase::wt_Enum:             return i18n("new enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("new floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("new fork/join");
+        case WidgetBase::wt_Instance:         return i18n("new instance");
+        case WidgetBase::wt_Interface:        return i18n("new interface");
+        case WidgetBase::wt_Message:          return i18n("new message");
+        case WidgetBase::wt_Node:             return i18n("new node");
+        case WidgetBase::wt_Note:             return i18n("new note");
+        case WidgetBase::wt_Object:           return i18n("new object");
+        case WidgetBase::wt_ObjectNode:       return i18n("new object node");
+        case WidgetBase::wt_Package:          return i18n("new package");
+        case WidgetBase::wt_Pin:              return i18n("new pin");
+        case WidgetBase::wt_Port:             return i18n("new port");
+        case WidgetBase::wt_Precondition:     return i18n("new precondition");
+        case WidgetBase::wt_Region:           return i18n("new region");
+        case WidgetBase::wt_Signal:           return i18n("new signal");
+        case WidgetBase::wt_State:            return i18n("new state");
+        case WidgetBase::wt_Text:             return i18n("new text");
+        case WidgetBase::wt_UMLWidget:        return i18n("new UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("new use case");
+        default:
+            logWarn1("Widget_Utils::defaultWidgetName unknown widget type: %1",
+                     WidgetBase::toString(type));
+            return i18n("new widget");
+            break;
+        }
+    }
+
+    /**
+     * Returns translated title string used by widget related dialogs
+     * @param type widget type
+     * @return translated title string
+     */
+    QString newTitle(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("New activity");
+        case WidgetBase::wt_Actor:            return i18n("New actor");
+        case WidgetBase::wt_Artifact:         return i18n("New artifact");
+        case WidgetBase::wt_Association:      return i18n("New association");
+        case WidgetBase::wt_Box:              return i18n("New box");
+        case WidgetBase::wt_Category:         return i18n("New category");
+        case WidgetBase::wt_Class:            return i18n("New class");
+        case WidgetBase::wt_CombinedFragment: return i18n("New combined fragment");
+        case WidgetBase::wt_Component:        return i18n("New component");
+        case WidgetBase::wt_Datatype:         return i18n("New datatype");
+        case WidgetBase::wt_Entity:           return i18n("New entity");
+        case WidgetBase::wt_Enum:             return i18n("New enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("New floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("New fork/join");
+        case WidgetBase::wt_Instance:         return i18n("New instance");
+        case WidgetBase::wt_Interface:        return i18n("New interface");
+        case WidgetBase::wt_Message:          return i18n("New message");
+        case WidgetBase::wt_Node:             return i18n("New node");
+        case WidgetBase::wt_Note:             return i18n("New note");
+        case WidgetBase::wt_Object:           return i18n("New object");
+        case WidgetBase::wt_ObjectNode:       return i18n("New object node");
+        case WidgetBase::wt_Package:          return i18n("New package");
+        case WidgetBase::wt_Pin:              return i18n("New pin");
+        case WidgetBase::wt_Port:             return i18n("New port");
+        case WidgetBase::wt_Precondition:     return i18n("New precondition");
+        case WidgetBase::wt_Region:           return i18n("New region");
+        case WidgetBase::wt_Signal:           return i18n("New signal");
+        case WidgetBase::wt_State:            return i18n("New state");
+        case WidgetBase::wt_Text:             return i18n("New text");
+        case WidgetBase::wt_UMLWidget:        return i18n("New UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("New use case");
+        default:
+            logWarn1("Widget_Utils::newTitle unknown widget type: %1",
+                     WidgetBase::toString(type));
+            return i18n("New widget");
+        }
+    }
+
+    /**
+     * Returns translated text string used by widget related dialogs
+     * @param type widget type
+     * @return translated text string
+     */
+    QString newText(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Enter the name of the new activity:");
+        case WidgetBase::wt_Actor:            return i18n("Enter the name of the new actor:");
+        case WidgetBase::wt_Artifact:         return i18n("Enter the name of the new artifact:");
+        case WidgetBase::wt_Association:      return i18n("Enter the name of the new association:");
+        case WidgetBase::wt_Box:              return i18n("Enter the name of the new box:");
+        case WidgetBase::wt_Category:         return i18n("Enter the name of the new category:");
+        case WidgetBase::wt_Class:            return i18n("Enter the name of the new class:");
+        case WidgetBase::wt_CombinedFragment: return i18n("Enter the name of the new combined fragment:");
+        case WidgetBase::wt_Component:        return i18n("Enter the name of the new component:");
+        case WidgetBase::wt_Datatype:         return i18n("Enter the name of the new datatype:");
+        case WidgetBase::wt_Entity:           return i18n("Enter the name of the new entity:");
+        case WidgetBase::wt_Enum:             return i18n("Enter the name of the new enum:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the name of the new floating dash Line:");
+        case WidgetBase::wt_ForkJoin:         return i18n("Enter the name of the new fork/join:");
+        case WidgetBase::wt_Instance:         return i18n("Enter the name of the new instance:");
+        case WidgetBase::wt_Interface:        return i18n("Enter the name of the new interface:");
+        case WidgetBase::wt_Message:          return i18n("Enter the name of the new message:");
+        case WidgetBase::wt_Node:             return i18n("Enter the name of the new node:");
+        case WidgetBase::wt_Note:             return i18n("Enter the name of the new note:");
+        case WidgetBase::wt_Object:           return i18n("Enter the name of the new object:");
+        case WidgetBase::wt_ObjectNode:       return i18n("Enter the name of the new object node:");
+        case WidgetBase::wt_Package:          return i18n("Enter the name of the new package:");
+        case WidgetBase::wt_Pin:              return i18n("Enter the name of the new pin:");
+        case WidgetBase::wt_Port:             return i18n("Enter the name of the new port:");
+        case WidgetBase::wt_Precondition:     return i18n("Enter the name of the new precondition:");
+        case WidgetBase::wt_Region:           return i18n("Enter the name of the new region:");
+        case WidgetBase::wt_Signal:           return i18n("Enter the name of the new signal:");
+        case WidgetBase::wt_State:            return i18n("Enter the name of the new state:");
+        case WidgetBase::wt_Text:             return i18n("Enter the name of the new text:");
+        case WidgetBase::wt_UMLWidget:        return i18n("Enter the name of the new uml widget:");
+        case WidgetBase::wt_UseCase:          return i18n("Enter the name of the new use case:");
+        default:
+            logWarn1("Widget_Utils::newText unknown widget type: %1", WidgetBase::toString(type));
+            return i18n("Enter the name of the new widget:");
+        }
+    }
+
+    /**
+     * Returns translated title string used by widget related dialogs
+     * @param type widget type
+     * @return translated title string
+     */
+    QString renameTitle(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Rename activity");
+        case WidgetBase::wt_Actor:            return i18n("Rename actor");
+        case WidgetBase::wt_Artifact:         return i18n("Rename artifact");
+        case WidgetBase::wt_Association:      return i18n("Rename association");
+        case WidgetBase::wt_Box:              return i18n("Rename box");
+        case WidgetBase::wt_Category:         return i18n("Rename category");
+        case WidgetBase::wt_Class:            return i18n("Rename class");
+        case WidgetBase::wt_CombinedFragment: return i18n("Rename combined fragment");
+        case WidgetBase::wt_Component:        return i18n("Rename component");
+        case WidgetBase::wt_Datatype:         return i18n("Rename datatype");
+        case WidgetBase::wt_Entity:           return i18n("Rename entity");
+        case WidgetBase::wt_Enum:             return i18n("Rename enum");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Rename floating dash line");
+        case WidgetBase::wt_ForkJoin:         return i18n("Rename fork/join");
+        case WidgetBase::wt_Instance:         return i18n("Rename instance");
+        case WidgetBase::wt_Interface:        return i18n("Rename interface");
+        case WidgetBase::wt_Message:          return i18n("Rename message");
+        case WidgetBase::wt_Node:             return i18n("Rename node");
+        case WidgetBase::wt_Note:             return i18n("Rename note");
+        case WidgetBase::wt_Object:           return i18n("Rename object");
+        case WidgetBase::wt_ObjectNode:       return i18n("Rename object node");
+        case WidgetBase::wt_Package:          return i18n("Rename package");
+        case WidgetBase::wt_Pin:              return i18n("Rename pin");
+        case WidgetBase::wt_Port:             return i18n("Rename port");
+        case WidgetBase::wt_Precondition:     return i18n("Rename precondition");
+        case WidgetBase::wt_Region:           return i18n("Rename region");
+        case WidgetBase::wt_Signal:           return i18n("Rename signal");
+        case WidgetBase::wt_State:            return i18n("Rename state");
+        case WidgetBase::wt_Text:             return i18n("Rename text");
+        case WidgetBase::wt_UMLWidget:        return i18n("Rename UML widget");
+        case WidgetBase::wt_UseCase:          return i18n("Rename use case");
+        default:
+            logWarn1("Widget_Utils::renameTitle unknown widget type: %1",
+                     WidgetBase::toString(type));
+            return i18n("Rename widget");
+        }
+    }
+
+    /**
+     * Returns translated text string used by widget related dialogs
+     * @param type widget type
+     * @return translated text string
+     */
+    QString renameText(WidgetBase::WidgetType type)
+    {
+        switch(type) {
+        case WidgetBase::wt_Activity:         return i18n("Enter the new name of the activity:");
+        case WidgetBase::wt_Actor:            return i18n("Enter the new name of the actor:");
+        case WidgetBase::wt_Artifact:         return i18n("Enter the new name of the artifact:");
+        case WidgetBase::wt_Association:      return i18n("Enter the new name of the association:");
+        case WidgetBase::wt_Box:              return i18n("Enter the new name of the box:");
+        case WidgetBase::wt_Category:         return i18n("Enter the new name of the category:");
+        case WidgetBase::wt_Class:            return i18n("Enter the new name of the class:");
+        case WidgetBase::wt_CombinedFragment: return i18n("Enter the new name of the combined fragment:");
+        case WidgetBase::wt_Component:        return i18n("Enter the new name of the component:");
+        case WidgetBase::wt_Datatype:         return i18n("Enter the new name of the datatype:");
+        case WidgetBase::wt_Entity:           return i18n("Enter the new name of the entity:");
+        case WidgetBase::wt_Enum:             return i18n("Enter the new name of the enum:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the new name of the floating dash Line:");
+        case WidgetBase::wt_ForkJoin:         return i18n("Enter the new name of the fork/join widget:");
+        case WidgetBase::wt_Instance:         return i18n("Enter the new name of the instance:");
+        case WidgetBase::wt_Interface:        return i18n("Enter the new name of the interface:");
+        case WidgetBase::wt_Message:          return i18n("Enter the new name of the message:");
+        case WidgetBase::wt_Node:             return i18n("Enter the new name of the node:");
+        case WidgetBase::wt_Note:             return i18n("Enter the new name of the note:");
+        case WidgetBase::wt_Object:           return i18n("Enter the new name of the object:");
+        case WidgetBase::wt_ObjectNode:       return i18n("Enter the new name of the object node:");
+        case WidgetBase::wt_Package:          return i18n("Enter the new name of the package:");
+        case WidgetBase::wt_Pin:              return i18n("Enter the new name of the pin:");
+        case WidgetBase::wt_Port:             return i18n("Enter the new name of the port:");
+        case WidgetBase::wt_Precondition:     return i18n("Enter the new name of the precondition:");
+        case WidgetBase::wt_Region:           return i18n("Enter the new name of the region:");
+        case WidgetBase::wt_Signal:           return i18n("Enter the new name of the signal:");
+        case WidgetBase::wt_State:            return i18n("Enter the new name of the state:");
+        case WidgetBase::wt_Text:             return i18n("Enter the new name of the text:");
+        case WidgetBase::wt_UMLWidget:        return i18n("Enter the new name of the uml widget:");
+        case WidgetBase::wt_UseCase:          return i18n("Enter the new name of the use case:");
+        default:
+            logWarn1("Widget_Utils::renameText unknown widget type: %1", WidgetBase::toString(type));
+            return i18n("Enter the new name of the widget:");
+        }
+    }
+
+    /**
+     * Prevent nested widget(s) located inside the area of a larger widget from disappearing.
+     *
+     * @param self        The widget against which to test the other widgets of the diagram
+     * @param widgetList  The widgets of the diagram
+     */
+    void ensureNestedVisible(UMLWidget *self, UMLWidgetList widgetList)
+    {
+        foreach (UMLWidget* other, widgetList) {
+            if (other == self)
+                continue;
+            if (other->isLocatedIn(self)) {
+                if (other->zValue() <= self->zValue())
+                    other->setZValue(other->zValue() + 1.0);
+            } else if (self->isLocatedIn(other)) {
+                if (self->zValue() <= other->zValue())
+                    self->setZValue(self->zValue() + 1.0);
+            }
+        }
+    }
+}

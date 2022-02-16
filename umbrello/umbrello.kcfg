@@ -38,6 +38,19 @@
          <whatsthis>Enables/Disables Support for Angular Lines in diagrams</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="layoutType" type="Enum">
+         <label>Layout Type</label>
+         <whatsthis>The layout type to use for new lines</whatsthis>
+         <choices name="Uml::LayoutType::Enum">
+            <choice name="Undefined"/>
+            <choice name="Direct"/>
+            <choice name="Orthogonal"/>
+            <choice name="Polyline"/>
+            <choice name="Spline"/>
+            <choice name="N_LAYOUTTYPES"/>
+         </choices>
+         <default>Uml::LayoutType::Direct</default>
+       </entry>
        <entry name="footerPrinting" type="Bool">
          <label>Footer Printing</label>
          <whatsthis>Enables/Disables Support for footer printing</whatsthis>
@@ -138,12 +151,12 @@
        <entry name="fillColor" type="Color">
          <label>Fill Color</label>
          <whatsthis>The Fill Color to be used</whatsthis>
-         <default>yellow</default>
+         <default>#ffffc0</default>
        </entry>
        <entry name="lineColor" type="Color">
          <label>Line Color</label>
          <whatsthis>The Color of the Lines</whatsthis>
-         <default>red</default>
+         <default>#990000</default>
        </entry>
        <entry name="lineWidth" type="UInt">
          <label>Line Width</label>
@@ -175,6 +188,11 @@
          <whatsthis>The Color of the grid dots</whatsthis>
          <default>lightGray</default>
        </entry>
+       <entry name="rightToLeftUI" type="Bool">
+         <label>Right to left user interface</label>
+         <whatsthis>Enable/disable user interface direction from right to left</whatsthis>
+         <default>false</default>
+       </entry>
    </group>
    <group name ="Class Options">
        <entry name="showVisibility" type="Bool">
@@ -197,10 +215,15 @@
           <whatsthis>Enables/Disables showing of packages</whatsthis>
           <default>true</default>
        </entry> 
-       <entry name="showStereoType" type="Bool">
+       <entry name="showStereoType" type="Enum">
          <label>Show Stereotypes</label>
          <whatsthis>Show Stereotypes</whatsthis>
-         <default>true</default>
+         <choices name="Uml::ShowStereoType::Enum">
+            <choice name="None"/>
+            <choice name="Name"/>
+            <choice name="Tags"/>
+         </choices>
+         <default>Uml::ShowStereoType::Tags</default>
        </entry>
        <entry name="showAttribAssocs" type="Bool">
          <label>Show Attribute Associations</label>
@@ -446,6 +469,11 @@
          <whatsthis>Enables/Disables auto generation of accessors</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="classMemberPrefix" type="String">
+         <label>Class member prefix</label>
+         <whatsthis>The prefix for class members</whatsthis>
+         <default></default>
+       </entry>
        <entry name="inlineAccessors" type="Bool">
          <label>Inline Accessors</label>
          <whatsthis>Enables/Disables Inline accessors</whatsthis>
@@ -499,6 +527,21 @@
        <entry name="virtualDestructors" type="Bool">
          <label>Virtual Destructors</label>
          <whatsthis>Enables/Disables virtual destructors</whatsthis>
+         <default>true</default>
+       </entry>
+       <entry name="getterWithGetPrefix" type="Bool">
+         <label>Getters with 'get' prefix</label>
+         <whatsthis>If enabled, create getters with 'get' prefix</whatsthis>
+         <default>true</default>
+       </entry>
+       <entry name="removePrefixFromAccessorMethods" type="Bool">
+         <label>Remove prefix '[a-zA-Z]_' from accessor methods</label>
+         <whatsthis>If enabled, remove prefix '[a-zA-Z]_' from accessor methods</whatsthis>
+         <default>false</default>
+       </entry>
+       <entry name="accessorMethodsStartWithUpperCase" type="Bool">
+         <label>Accessor methods start with capital letters</label>
+         <whatsthis>If enabled, accessor methods start with capital letters</whatsthis>
          <default>true</default>
        </entry>
        <entry name="docToolTag" type="String">

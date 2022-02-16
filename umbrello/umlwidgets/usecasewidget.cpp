@@ -1,19 +1,20 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header file
 #include "usecasewidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "usecase.h"
 #include "umlview.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(UseCaseWidget)
 
 /**
  *  Creates a UseCase widget.
@@ -48,20 +49,33 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     font.setBold(false);
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    const int w = width();
-    const int h = height();
-    //int middleX = w / 2;
+    const QFontMetricsF &fm = getFontMetrics(FT_NORMAL);
+    const qreal fontHeight  = fm.lineSpacing();
+    const qreal w = width();
+    const qreal h = height();
     bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
-    const int textStartY = (h / 2) - (drawStereotype ? fontHeight / 4 : fontHeight / 2);
-
-    painter->drawEllipse(0, 0, w, h);
+    painter->drawEllipse(QRectF(0, 0, w, h));
     painter->setPen(textColor());
-    if (drawStereotype)
-        painter->drawText(UC_MARGIN, textStartY-fontHeight, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, umlObject()->stereotype(true));
 
-    painter->drawText(UC_MARGIN, textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
+    QString txt;
+    if (drawStereotype)
+    {
+        // Prepend text of stereotype to other text:
+        txt = umlObject()->stereotype(true);
+    }
+    if (!txt.isEmpty())
+        txt.append(QLatin1String("\n"));
+    QString name_txt = name();
+
+    // Replace user-entered "\n" with real line breaks:
+    name_txt.replace(QLatin1String("\\n"),QLatin1String("\n"));
+    txt += name_txt;
+    qreal dy = 0.0;
+    if (drawStereotype)
+        dy = fontHeight/2.0;
+
+    QRectF rectangle(UC_MARGIN, UC_MARGIN - dy, w - UC_MARGIN*2, h - UC_MARGIN*2);
+    painter->drawText(rectangle, Qt::AlignCenter | Qt::TextWordWrap, txt);
     setPenFromSettings(painter);
 
     UMLWidget::paint(painter, option, widget);
@@ -70,11 +84,11 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElement)
+void UseCaseWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement usecaseElement = qDoc.createElement(QLatin1String("usecasewidget"));
-    UMLWidget::saveToXMI1(qDoc, usecaseElement);
-    qElement.appendChild(usecaseElement);
+    writer.writeStartElement(QLatin1String("usecasewidget"));
+    UMLWidget::saveToXMI(writer);
+    writer.writeEndElement();
 }
 
 /**
@@ -87,9 +101,8 @@ QSizeF UseCaseWidget::minimumSize() const
     const int fontHeight = fm.lineSpacing();
     const int textWidth = fm.width(name());
     bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
-    int width = textWidth > UC_WIDTH?textWidth:UC_WIDTH;
+    int width = (textWidth / 3) > UC_WIDTH ? textWidth / 3 : UC_WIDTH;
     int height = UC_HEIGHT + (drawStereotype ? 2 * fontHeight : fontHeight) + UC_MARGIN;
-
     width += UC_MARGIN * 2;
 
     return QSizeF(width, height);

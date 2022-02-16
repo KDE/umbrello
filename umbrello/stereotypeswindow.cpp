@@ -1,19 +1,16 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2015                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2015-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "stereotypeswindow.h"
 
 // app includes
 #include "dialog_utils.h"
+#include "debug_utils.h"
 #include "stereotype.h"
 #include "models/stereotypesmodel.h"
+#include "dialogs/stereoattributedialog.h"
 #include "uml.h"
 #include "umldoc.h"
 
@@ -24,7 +21,10 @@
 #include <QHeaderView>
 #include <QTableView>
 #include <QSortFilterProxyModel>
+#include <QContextMenuEvent>
 #include <QtDebug>
+
+DEBUG_REGISTER(StereotypesWindow)
 
 StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
   : QDockWidget(title, parent)
@@ -76,9 +76,27 @@ void StereotypesWindow::slotStereotypesDoubleClicked(QModelIndex index)
 
 void StereotypesWindow::contextMenuEvent(QContextMenuEvent *event)
 {
-    Q_UNUSED(event);
+    const QPoint& pos = event->pos();
+    int row = m_stereotypesTree->rowAt(pos.y() - 60);
+    // Apparently we need the "- 60" to subtract height of title lines "Stereotypes", "Name / Usage"
+    logDebug3("StereotypesWindow::contextMenuEvent: pos (%1, %2) row %3",
+              event->pos().x(), event->pos().y(), row);
+    if (row >= 0) {
+        QModelIndex index = m_stereotypesTree->model()->index(row, 0);  // first column
+        // DEBUG() << "StereotypesWindow::contextMenuEvent: QModelIndex " << index;
+        QVariant v = m_stereotypesTree->model()->data(index, Qt::UserRole);
+        if (v.canConvert<UMLStereotype*>()) {
+            UMLStereotype *s = v.value<UMLStereotype*>();
+            StereoAttributeDialog *dialog = new StereoAttributeDialog(this, s);
+            dialog->exec();
+            delete dialog;
+        } else {
+            logDebug0("StereotypesWindow::contextMenuEvent: QVariant::canConvert returns false");
+        }
+        return;
+    }
     QString name;
-    if (!Dialog_Utils::askName(i18n("New Stereotype"), i18n("Enter name for new stereotype"), name))
+    if (!Dialog_Utils::askDefaultNewName(UMLObject::ot_Stereotype, name))
         return;
     if (UMLApp::app()->document()->findStereotype(name))
         return;

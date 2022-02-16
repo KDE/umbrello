@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "packagecontentspage.h"
 
@@ -25,6 +20,8 @@
 #include <QLayout>
 #include <QListWidget>
 #include <QPointer>
+
+DEBUG_REGISTER(PackageContentsPage)
 
 /**
  * Constructs an instance of PackageContentsPage.
@@ -79,7 +76,7 @@ void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)
     if (index == -1) {
         return;
     }
-    UMLObjectList &contents = m_package->containedObjects();
+    UMLObjectList contents = m_package->containedObjects();
     UMLObject *o = contents.at(index);
     QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(this, o, true);
     dlg->exec();
@@ -92,7 +89,7 @@ void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)
 void PackageContentsPage::fillListBox()
 {
     m_contentLW->clear();
-    UMLObjectList &contents = m_package->containedObjects();
+    UMLObjectList contents = m_package->containedObjects();
     UMLObjectListIt objList_it(contents);
     UMLObject* umlo = 0;
     while (objList_it.hasNext()) {
@@ -119,7 +116,7 @@ void PackageContentsPage::slotMenuSelection(QAction* action)
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {
-            UMLObjectList &contents = m_package->containedObjects();
+            UMLObjectList contents = m_package->containedObjects();
             if (m_contentLW->currentRow() == -1)
                 break;
             UMLObject *o = contents.at(m_contentLW->currentRow());
@@ -133,7 +130,8 @@ void PackageContentsPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
+        logDebug1("PackageContentsPage::slotMenuSelection: MenuType %1 not implemented",
+                  ListPopupMenu::toString(id));
     }
 }
 

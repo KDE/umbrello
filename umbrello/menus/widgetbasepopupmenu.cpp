@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2018                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "widgetbasepopupmenu.h"
 
@@ -19,12 +14,14 @@
 #include "entitywidget.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "notewidget.h"
 #include "objectwidget.h"
 #include "objectnodewidget.h"
 #include "pinportbase.h"
 #include "statewidget.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umllistview.h"
 #include "umlscene.h"
 
@@ -37,7 +34,7 @@ static const bool CHECKABLE = true;
  * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
- * @param object   The WidgetBase to represent a menu for.
+ * @param widget   The WidgetBase to represent a menu for.
  * @param multi    True if multiple items are selected.
  * @param uniqueType The type of widget shared by all selected widgets
  */
@@ -103,7 +100,7 @@ void WidgetBasePopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     insert(mt_Show_Packages, show, i18n("Package"), CHECKABLE);
     setActionChecked(mt_Show_Packages, c->visualProperty(ClassifierWidget::ShowPackage));
     insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
-    setActionChecked(mt_Show_Stereotypes, c->visualProperty(ClassifierWidget::ShowStereotype));
+    setActionChecked(mt_Show_Stereotypes, c->showStereotype() != Uml::ShowStereoType::None);
     addMenu(show);
 }
 
@@ -189,6 +186,13 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insertSubMenuNew(type);
             makeClassifierShowPopup(c);
             insertSubMenuColor(c->useFillColor());
+            addSeparator();
+            if (c->linkedDiagram())
+                insert(mt_GoToStateDiagram);
+            if (UMLApp::app()->document()->views(Uml::DiagramType::State).size() > 0)
+                insert(mt_SelectStateDiagram);
+            if (c->linkedDiagram())
+                insert(mt_RemoveStateDiagram);
             insertStdItems(true, type);
             insert(mt_Rename);
             insert(mt_Change_Font);
@@ -208,7 +212,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
 
     case WidgetBase::wt_Interface:
         {
-            ClassifierWidget* c = widget->asClassifierWidget();
+            InterfaceWidget* c = widget->asInterfaceWidget();
             if (!c)
                 break;
             insertSubMenuNew(type);
@@ -277,6 +281,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             if (ft == 0)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
+        insert(mt_Delete);
         insert(mt_Properties);
         break;
 
@@ -285,7 +290,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertSubMenuNew(type);
         insertSubMenuColor(widget->useFillColor());
         if (widget->umlScene() &&
-            widget->umlScene()->type() == Uml::DiagramType::Sequence) {
+            widget->umlScene()->isSequenceDiagram()) {
             addSeparator();
             MenuType tabUp = mt_Up;
             insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
@@ -297,6 +302,11 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertStdItems(true, type);
         insert(mt_Rename_Object);
         insert(mt_Rename, i18n("Rename Class..."));
+        if (widget->asObjectWidget() &&
+                widget->umlScene() &&
+                widget->umlScene()->isSequenceDiagram()) {
+            insert(widget->asObjectWidget()->showDestruction() ? mt_Hide_Destruction_Box : mt_Show_Destruction_Box);
+        }
         insert(mt_Change_Font);
         insert(mt_Properties);
         break;
@@ -336,15 +346,23 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
     case WidgetBase::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>(widget);
-            if (pState->stateType() == StateWidget::Normal) {
-                // FIXME: why not using wt_state
-                insertSubMenuNew(WidgetBase::wt_Activity);
-            } else {
-                insertSubMenuNew(type);
-            }
-            insertSubMenuColor(widget->useFillColor());
-            insertStdItems(false, type);
             switch (pState->stateType()) {
+            case StateWidget::Combined:
+                insert(mt_EditCombinedState);
+                addSeparator();
+                break;
+            default:
+                break;
+            }
+
+            insertSubMenuNew(type);
+            insertSubMenuColor(widget->useFillColor());
+            insertStdItems(true, type);
+            switch (pState->stateType()) {
+            case StateWidget::Combined:
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+                break;
             case StateWidget::Normal:
                 insert(mt_Rename, i18n("Change State Name..."));
                 insert(mt_Change_Font);
@@ -352,10 +370,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
                 break;
             case StateWidget::Fork:
             case StateWidget::Join:
-                if (pState->drawVertical())
-                    insert(mt_Flip, i18n("Flip Horizontal"));
-                else
-                    insert(mt_Flip, i18n("Flip Vertical"));
+                insert(pState->drawVertical() ? mt_FlipHorizontal : mt_FlipVertical);
                 break;
             default:
                 break;
@@ -367,14 +382,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insertSubMenuNew(type);
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(widget);
-            if (pForkJoin->orientation() == Qt::Vertical) {
-                insert(mt_Flip, i18n("Flip Horizontal"));
-            }
-            else {
-                insert(mt_Flip, i18n("Flip Vertical"));
-            }
-            m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
-                                                 i18n("Fill Color..."));
+            insert(pForkJoin->orientation() == Qt::Vertical ? mt_FlipHorizontal : mt_FlipVertical);
+            insert(mt_Fill_Color);
         }
         break;
 
@@ -440,6 +449,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         }
         insert(mt_Delete);
         insert(mt_Change_Font);
+        if (type == WidgetBase::wt_Precondition)
+            insert(mt_Properties);
         break;
 
     case WidgetBase::wt_CombinedFragment:
@@ -460,6 +471,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
         insert(mt_Change_Font);
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Text:
@@ -505,7 +517,8 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         }
         break;
     default:
-        uWarning() << "unhandled WidgetType " << WidgetBase::toString(type);
+        logWarn1("WidgetBasePopupMenu::insertSingleSelectionMenu unhandled WidgetType %1",
+                 WidgetBase::toString(type));
         break;
     }//end switch
 }
@@ -599,8 +612,8 @@ void WidgetBasePopupMenu::insertSubMenuAlign()
 void WidgetBasePopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = newMenu(i18nc("color menu", "Color"), this);
-    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
+    insert(mt_Line_Color, color);
+    insert(mt_Fill_Color, color);
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
     setActionChecked(mt_Use_Fill_Color, fc);
     addMenu(color);
@@ -617,22 +630,59 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
         menu = makeNewMenu();
 
     switch (type) {
+        case WidgetBase::wt_Activity:
+            insert(mt_Initial_Activity, menu);
+            insert(mt_Activity, menu);
+            insert(mt_End_Activity, menu);
+            insert(mt_Final_Activity, menu);
+            insert(mt_Branch, menu);
+            insert(mt_Fork, menu);
+            insert(mt_Invoke_Activity, menu);
+            insert(mt_Param_Activity, menu);
+            insert(mt_Activity_Transition, menu);
+            insert(mt_Exception, menu);
+            insert(mt_PrePostCondition, menu);
+            insert(mt_Send_Signal, menu);
+            insert(mt_Accept_Signal, menu);
+            insert(mt_Accept_Time_Event, menu);
+            insert(mt_Region, menu);
+            insert(mt_Pin, menu);
+            insert(mt_Object_Node, menu);
+            break;
+        case WidgetBase::wt_Actor:
+        case WidgetBase::wt_UseCase:
+            insert(mt_Actor, menu);
+            insert(mt_UseCase, menu);
+            break;
+        case WidgetBase::wt_Component:
+            insert(mt_Subsystem, menu);
+            insert(mt_Component, menu);
+            if (Settings::optionState().generalState.uml2) {
+                insert(mt_Port, menu);
+                insert(mt_InterfaceProvided, menu);
+                insert(mt_InterfaceRequired, menu);
+            } else {
+                insert(mt_InterfaceComponent, menu);
+            }
+            insert(mt_Artifact, menu);
+            break;
         case WidgetBase::wt_Class:
-            insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
-            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
-            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
-            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
-            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
-            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
-            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
+            insert(mt_Attribute, menu);
+            insert(mt_Operation, menu);
+            insert(mt_Template, menu);
+            insert(mt_Class, menu);
+            insert(mt_Interface, menu);
+            insert(mt_Datatype, menu);
+            insert(mt_Enum, menu);
+            insert(mt_State_Diagram, menu);
             break;
         case WidgetBase::wt_Interface:
-            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
-            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
-            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
-            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
-            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
-            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
+            insert(mt_Operation, menu);
+            insert(mt_Template, menu);
+            insert(mt_Class, menu);
+            insert(mt_Interface, menu);
+            insert(mt_Datatype, menu);
+            insert(mt_Enum, menu);
             break;
         case WidgetBase::wt_Entity:
             insert(mt_EntityAttribute, menu);
@@ -643,6 +693,22 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             break;
         case WidgetBase::wt_Enum:
             insert(mt_EnumLiteral, menu);
+            break;
+        case WidgetBase::wt_Port:
+            insert(mt_InterfaceProvided, menu);
+            insert(mt_InterfaceRequired, menu);
+            break;
+        case WidgetBase::wt_State:
+            insert(mt_State, menu);
+            insert(mt_End_State, menu);
+            insert(mt_StateTransition, menu);
+            insert(mt_Junction, menu);
+            insert(mt_DeepHistory, menu);
+            insert(mt_ShallowHistory, menu);
+            insert(mt_Choice, menu);
+            insert(mt_StateFork, menu);
+            insert(mt_StateJoin, menu);
+            insert(mt_CombinedState, menu);
             break;
         default:
             break;

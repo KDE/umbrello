@@ -1,17 +1,13 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2006-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "cmdlineexportallviewsevent.h"
 
 // app includes
+#define DBG_SRC QLatin1String("CmdLineExportAllViewsEvent")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -28,6 +24,8 @@
 #endif
 #include <QCloseEvent>
 #include <QStringList>
+
+DEBUG_REGISTER(CmdLineExportAllViewsEvent)
 
 const QEvent::Type CmdLineExportAllViewsEvent::type_ =
     (QEvent::Type)QEvent::registerEventType(QEvent::User + 1);
@@ -54,7 +52,7 @@ CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType,
     m_directory(directory),
     m_useFolders(useFolders)
 {
-    uDebug() << "created with type value " << type_;
+    logDebug1("CmdLineExportAllViewsEvent created with type value %1", type_);
 }
 
 /**
@@ -74,9 +72,9 @@ void CmdLineExportAllViewsEvent::exportAllViews()
     UMLViewList views = UMLApp::app()->document()->viewIterator();
     QStringList errors = UMLViewImageExporterModel().exportViews(views, m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
-        uError() << "CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:";
+        logError0("CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:");
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
-            uError() << *it;
+            logError1("- %1", *it);
         }
     }
 

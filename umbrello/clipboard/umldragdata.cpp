@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "umldragdata.h"
@@ -15,6 +10,7 @@
 #include "associationwidget.h"
 #include "classifier.h"
 #include "cmds.h"
+#define DBG_SRC QLatin1String("UMLDragData")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "folder.h"
@@ -39,6 +35,9 @@
 #include <QDomDocument>
 #include <QPixmap>
 #include <QTextStream>
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER(UMLDragData)
 
 /**
  *  Constructor.
@@ -118,20 +117,21 @@ UMLDragData::~UMLDragData()
  */
 void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip1"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlobjects
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip1"), xmiClip.toUtf8());
 }
 
 /**
@@ -140,27 +140,28 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
  */
 void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     UMLObjectListIt object_it(objects);
     UMLObject* obj = 0;
     while (object_it.hasNext()) {
         obj = object_it.next();
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI(stream);
     }
 
-    QDomElement viewsTag = domDoc.createElement(QLatin1String("umlviews"));
-    xmiclip.appendChild(viewsTag);
+    stream.writeEndElement();  // umlobjects
+    stream.writeStartElement(QLatin1String("umlviews"));
 
     foreach(UMLView* view, diagrams) {
-        view->umlScene()->saveToXMI1(domDoc, viewsTag);
+        view->umlScene()->saveToXMI(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip2"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlviews
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip2"), xmiClip.toUtf8());
 }
 
 /**
@@ -169,18 +170,18 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
  */
 void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-
-    QDomElement itemsTag = domDoc.createElement(QLatin1String("umllistviewitems"));
-    xmiclip.appendChild(itemsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umllistviewitems"));
 
     foreach(UMLListViewItem* item, umlListViewItems) {
-        item->saveToXMI1(domDoc, itemsTag);
+        item->saveToXMI(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip3"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umllistviewitems
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip3"), xmiClip.toUtf8());
 }
 
 /**
@@ -189,36 +190,39 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
  * between only selected widgets will be copied and also
  * its respective ListView Items
  */
-void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
+void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
+                                  UMLWidgetList& widgets,
+                                  AssociationWidgetList& associations,
                                   QPixmap& pngImage, UMLScene *scene)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    xmiclip.setAttribute(QLatin1String("diagramtype"), scene->type());
-    xmiclip.setAttribute(QLatin1String("diagramid"), Uml::ID::toString(scene->ID()));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeAttribute(QLatin1String("diagramtype"), QString::number(scene->type()));
+    stream.writeAttribute(QLatin1String("diagramid"), Uml::ID::toString(scene->ID()));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI(stream);
     }
 
-    QDomElement widgetsTag = domDoc.createElement(QLatin1String("widgets"));
-    xmiclip.appendChild(widgetsTag);
+    stream.writeEndElement();  // umlobjects
+    stream.writeStartElement(QLatin1String("widgets"));
 
     foreach (UMLWidget* widget, widgets) {
-        widget->saveToXMI1(domDoc, widgetsTag);
+        widget->saveToXMI(stream);
     }
 
-    QDomElement associationWidgetsTag = domDoc.createElement(QLatin1String("associations"));
-    xmiclip.appendChild(associationWidgetsTag);
+    stream.writeEndElement();  // widgets
+    stream.writeStartElement(QLatin1String("associations"));
 
     foreach (AssociationWidget* association, associations) {
-        association->saveToXMI1(domDoc, associationWidgetsTag);
+        association->saveToXMI(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip4"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // associations
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip4"), xmiClip.toUtf8());
 
     QImage img = pngImage.toImage();
     int l_size = img.byteCount();
@@ -231,22 +235,23 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
 }
 
 /**
- * For use when the user selects only Attirbutes and/or
+ * For use when the user selects only Attributes and/or
  * Operation from the ListView
  */
 void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
 {
-    QDomDocument domDoc;
-    QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    domDoc.appendChild(xmiclip);
-    QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
-    xmiclip.appendChild(objectsTag);
+    QString xmiClip;
+    QXmlStreamWriter stream(&xmiClip);
+    stream.writeStartElement(QLatin1String("xmiclip"));
+    stream.writeStartElement(QLatin1String("umlobjects"));
 
     foreach (UMLObject* obj, objects) {
-        obj->saveToXMI1(domDoc, objectsTag);
+        obj->saveToXMI(stream);
     }
 
-    setData(QLatin1String("application/x-uml-clip5"), domDoc.toString().toUtf8());
+    stream.writeEndElement();  // umlobjects
+    stream.writeEndElement();  // xmiclip
+    setData(QLatin1String("application/x-uml-clip5"), xmiClip.toUtf8());
 }
 
 /**
@@ -270,7 +275,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::getClip3TypeAndID: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -311,7 +316,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::decodeClip2: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -365,7 +370,7 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "getClip3Type: Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::getClip3TypeAndID: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -382,18 +387,18 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if (listItemElement.isNull()) {
-        uWarning() << "getClip3Type: No listitems in XMI clip.";
+        logWarn0("UMLDragData::getClip3TypeAndID: No listitems in XMI clip.");
         return false;
     }
     while (!listItemElement.isNull()) {
         QString typeStr = listItemElement.attribute(QLatin1String("type"), QLatin1String("-1"));
         if (typeStr == QLatin1String("-1")) {
-            uDebug() << "getClip3Type: bad type.";
+            logDebug0("UMLDragData::getClip3TypeAndID: bad type.");
             return false;
         }
         QString idStr = listItemElement.attribute(QLatin1String("id"), QLatin1String("-1"));
         if (idStr == QLatin1String("-1")) {
-            uDebug() << "getClip3Type: bad id";
+            logDebug0("UMLDragData::getClip3TypeAndID: bad id");
             return false;
         }
         LvTypeAndID * pData = new LvTypeAndID;
@@ -427,7 +432,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::decodeClip3: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -445,7 +450,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if (listItemElement.isNull()) {
-        uWarning() << "no listitems in XMI clip";
+        logWarn0("UMLDragData::decodeClip3: no listitems in XMI clip");
         return false;
     }
     while (!listItemElement.isNull()) {
@@ -453,7 +458,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         // UMLListViewItem instance.
         QString type = listItemElement.attribute(QLatin1String("type"), QLatin1String("-1"));
         if (type == QLatin1String("-1")) {
-            uDebug() << "Type not found.";
+            logDebug0("UMLDragData::decodeClip3: Type not found.");
             listItems = listItems.nextSibling();
             listItemElement = listItems.toElement();
             continue;
@@ -461,7 +466,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         UMLListViewItem::ListViewType t = (UMLListViewItem::ListViewType)(type.toInt());
         UMLListViewItem* parent = parentListView->determineParentItem(t);
         UMLListViewItem* itemData = new UMLListViewItem(parent);
-        if (itemData->loadFromXMI1(listItemElement))
+        if (itemData->loadFromXMI(listItemElement))
             umlListViewItems.append(itemData);
         else
             delete itemData;
@@ -496,7 +501,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::decodeClip4: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -526,14 +531,16 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QString sourceDiagramID = root.attribute(QLatin1String("diagramid"), QLatin1String(""));
     UMLView *sourceView = doc->findView(Uml::ID::fromString(sourceDiagramID));
 
-    bool pasteToDiagramCopiedFrom = sourceView && sourceView->umlScene()->ID() == scene->ID();
+    bool fromSameDiagram = sourceView && sourceView->umlScene()->ID() == scene->ID();
+    bool fromAnotherInstance = !sourceView;
+    bool fromDifferentDiagramType = dType != scene->type();
 
     // Load widgets
     QDomNode widgetsNode = objectsNode.nextSibling();
     QDomNode widgetNode = widgetsNode.firstChild();
     QDomElement widgetElement = widgetNode.toElement();
     if (widgetElement.isNull()) {
-        uWarning() << "No widgets in XMI clip.";
+        logWarn0("UMLDragData::decodeClip4: No widgets in XMI clip.");
         return false;
     }
 
@@ -541,7 +548,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget) {
-            if (pasteToDiagramCopiedFrom && widget->isObjectWidget()) {
+            if (fromSameDiagram && widget->isObjectWidget()) {
                 delete widget;
                 widgetNode = widgetNode.nextSibling();
                 widgetElement = widgetNode.toElement();
@@ -549,7 +556,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             }
 
             // check if widget is pastable
-            if (!sourceView || sourceView->umlScene()->type() != scene->type()) {
+            if (fromAnotherInstance || fromDifferentDiagramType) {
                 UMLObject *object = widget->umlObject();
                 if (object) {
                     if (!Model_Utils::typeIsAllowedInDiagram(object, scene)) {
@@ -564,6 +571,20 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                     widgetNode = widgetNode.nextSibling();
                     widgetElement = widgetNode.toElement();
                     continue;
+                }
+            } else if (Model_Utils::isCloneable(widget->baseType())) {
+                if (widget->umlObject()) {
+                    UMLObject *clone = widget->umlObject()->clone();
+                    widget->setUMLObject(clone);
+                    // we do not want to recreate an additional widget,
+                    // which would be the case if calling scene->addUMLObject()
+                    UMLApp::app()->document()->addUMLObject(clone);
+                    UMLApp::app()->listView()->slotObjectCreated(clone);
+                    if (Model_Utils::hasAssociations(clone->baseType()))
+                    {
+                        scene->createAutoAssociations(widget);
+                        scene->createAutoAttributeAssociations2(widget);
+                    }
                 }
             }
 
@@ -582,7 +603,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             // UMLClipboard
             widgets.append(widget);
         } else {
-            uWarning() << "Unable to paste widget" << widgetElement.tagName();
+            logWarn1("UMLDragData::decodeClip4: Unable to paste widget %1", widgetElement.tagName());
         }
 
         widgetNode = widgetNode.nextSibling();
@@ -596,7 +617,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Make sure all object widgets are loaded before adding messages or
     // preconditions
-    if (!pasteToDiagramCopiedFrom) {
+    if (!fromSameDiagram) {
         foreach (UMLWidget* widget, widgets) {
             if (widget->isObjectWidget()) {
                 executeCreateWidgetCommand(widget);
@@ -606,7 +627,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Now add all remaining widgets
     foreach (UMLWidget* widget, widgets) {
-        if (!pasteToDiagramCopiedFrom && widget->isMessageWidget()) {
+        if (!fromSameDiagram && widget->isMessageWidget()) {
             MessageWidget* message = widget->asMessageWidget();
             message->resolveObjectWidget(log);
         }
@@ -627,7 +648,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while (!associationWidgetElement.isNull()) {
         AssociationWidget* associationWidget = AssociationWidget::create(view->umlScene());
-        if (associationWidget->loadFromXMI1(associationWidgetElement, widgets, 0))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
             associations.append(associationWidget);
         else {
             delete associationWidget;
@@ -660,7 +681,7 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        uWarning() << "Cannot set content:" << error << " Line:" << line;
+        logWarn2("UMLDragData::decodeClip5: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -684,11 +705,11 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
         QString type = element.tagName();
         UMLClassifierListItem *pObject = newParent->makeChildObject(type);
         if(!pObject) {
-            uWarning() << "Given wrong type of umlobject to create:" << type;
+            logWarn1("UMLDragData::decodeClip5 given wrong type of umlobject to create: %1", type);
             return false;
         }
-        if(!pObject->loadFromXMI1(element)) {
-            uWarning() << "Failed to load object from XMI.";
+        if(!pObject->loadFromXMI(element)) {
+            logWarn0("UMLDragData::decodeClip5 failed to load object from XMI.");
             return false;
         }
         pObject->resolveRef();
@@ -723,7 +744,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     while (!element.isNull()) {
         pObject = 0;
         QString type = element.tagName();
-        Uml::ID::Type elmId = Uml::ID::fromString(element.attribute(QLatin1String("xmi.id")));
+        Uml::ID::Type elmId = Uml::ID::fromString(Model_Utils::getXmiId(element));
         QString stereotype = element.attribute(QLatin1String("stereotype"));
 
         bool objectExists = (doc->findObjectById(elmId) != 0);
@@ -744,7 +765,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
             type == QLatin1String("UML:Interface") ||
             type == QLatin1String("UML:Component")) {
             QDomNodeList list = element.childNodes();
-            for (int i=(list.length() - 1); i>=0; i--) {
+            for (int i = list.length() - 1; i >= 0; i--) {
                 QDomNode child = list.at(i);
                 QString tagName = child.toElement().tagName();
                 if (tagName == QLatin1String("UML:Namespace.ownedElement") ||
@@ -756,7 +777,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
 
         pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
         if(!pObject) {
-            uWarning() << "Given wrong type of umlobject to create: " << type;
+            logWarn1("UMLDragData::decodeObjects given wrong type of umlobject to create: %1", type);
             return false;
         }
 
@@ -786,10 +807,10 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
 
         pObject->setUMLPackage(newParent);
 
-        // Note: element should not be used after calling loadFromXMI1() because
+        // Note: element should not be used after calling loadFromXMI() because
         // it can point to an arbitrary child node
-        if(!pObject->loadFromXMI1(element)) {
-            uWarning() << "Failed to load object of type " << type << " from XMI";
+        if (!pObject->loadFromXMI(element)) {
+            logWarn1("UMLDragData::decodeObjects failed to load object of type %1 from XMI", type);
             delete pObject;
             return false;
         }
@@ -821,7 +842,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
     QDomNode diagramNode = umlviewsNode.firstChild();
     QDomElement diagramElement = diagramNode.toElement();
     if (diagramElement.isNull()) {
-        uWarning() << "No diagrams in XMI clip.";
+        logWarn0("UMLDragData::decodeViews: No diagrams in XMI clip.");
         return false;
     }
     UMLListView *listView = UMLApp::app()->listView();
@@ -830,7 +851,7 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
             QString idStr = diagramElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
             Uml::ID::Type id = Uml::ID::fromString(idStr);
             if (id == Uml::ID::None) {
-                uDebug() << "Cannot paste diagram hyperlink to note because decoding of xmi.id failed";
+                logDebug0("UMLDragData::decodeViews: Cannot paste diagram hyperlink to note because decoding of xmi.id failed");
                 return false;
             }
             NoteWidget::s_pCurrentNote->setDiagramLink(id);
@@ -843,12 +864,12 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
             return false;
         UMLObject *po = parent->umlObject();
         if (po == 0 || po->baseType() != UMLObject::ot_Folder) {
-            uError() << "Bad parent for view.";
+            logError0("UMLDragData::decodeViews: Bad parent for view.");
             return false;
         }
         UMLFolder *f = po->asUMLFolder();
         UMLView* view = new UMLView(f);
-        view->umlScene()->loadFromXMI1(diagramElement);
+        view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);
         diagramNode = diagramNode.nextSibling();
         diagramElement = diagramNode.toElement();

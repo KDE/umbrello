@@ -1,15 +1,12 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2017                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2017-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef DIAGRAM_UTILS_H
 #define DIAGRAM_UTILS_H
+
+#include "basictypes.h"
 
 #include <QString>
 
@@ -20,7 +17,7 @@ class QStringList;
 /**
  * Utilities for diagrams
  * @author Ralf Habacker
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Diagram_Utils {
     typedef enum { Invalid, GDB, QtCreatorGDB, Simple} SequenceLineFormat;
@@ -29,6 +26,7 @@ namespace Diagram_Utils {
     bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
     bool importGraph(const QString &fileName, UMLScene *scene);
     bool importGraph(const QMimeData *mimeData, UMLScene *scene);
+    bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name);
 } // end namespace Diagram_Utils
 
 #endif

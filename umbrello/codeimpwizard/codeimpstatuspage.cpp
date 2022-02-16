@@ -1,21 +1,7 @@
 /*
-    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
+    SPDX-FileCopyrightText: 2011 Andi Fischer <andi.fischer@hispeed.ch>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 // do not work because there are runtime errors reporting that
@@ -47,6 +33,8 @@
 #include <QListWidget>
 #include <QTimer>
 #include <QScrollBar>
+
+DEBUG_REGISTER(CodeImpStatusPage)
 
 /**
  * Constructor.
@@ -109,7 +97,7 @@ void CodeImpStatusPage::populateStatusList()
     ui_tableWidgetStatus->setRowCount(m_files.count());
     for (int index = 0; index < m_files.count(); ++index) {
         QFileInfo file = m_files.at(index);
-        uDebug() << file.fileName();
+        logDebug1("CodeImpStatusPage::populateStatusList: file %1", file.fileName());
         ui_tableWidgetStatus->setItem(index, 0, new QTableWidgetItem(file.fileName()));
         ui_tableWidgetStatus->setItem(index, 1, new QTableWidgetItem(i18n("Not Yet Generated")));
         CodeImport::LedStatus* led = new CodeImport::LedStatus(70, 70);
@@ -197,7 +185,7 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     QMetaObject::invokeMethod(worker, "run", Qt::QueuedConnection);
     // FIXME: when to delete worker and m_thread
 #endif
-    uDebug() << "****** starting task for " << m_file.fileName();
+    logDebug1("****** CodeImpStatusPage::importCodeFile starting task for %1", m_file.fileName());
 }
 
 void CodeImpStatusPage::importNextFile(bool noError)
@@ -299,12 +287,12 @@ void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
  */
 void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
 {
-    uDebug() << file << " : " << text;
+    logDebug2("CodeImpStatusPage::updateStatus %1 : %2", file, text);
     QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(file, Qt::MatchFixedString);
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
         if (!item) {
-            uError() << "Code Importing Status Page::Error finding class <" << file << "> in list view!";
+            logError1("CodeImpStatusPage::updateStatus(%1): Error finding class in list view", file);
         }
         else {
             int row = ui_tableWidgetStatus->row(item);

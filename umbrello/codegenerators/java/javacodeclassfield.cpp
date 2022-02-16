@@ -1,13 +1,9 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+
+    SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "javacodeclassfield.h"
@@ -60,11 +56,11 @@ QString JavaCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = getParentObject()->asUMLAttribute();
+        const UMLAttribute * at = getParentObject()->asUMLAttribute();
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
-            uError() << "parent object is not a UMLAttribute";
+            logError0("JavaCodeClassField::getInitialValue: parent object is not a UMLAttribute");
             return QString();
         }
     }

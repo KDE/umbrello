@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *  copyright (C) 2002-2014                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
@@ -31,6 +26,8 @@ class KFontChooser;
 #if QT_VERSION < 0x050000
 class KIntSpinBox;
 #endif
+class UIOptionsPage;
+
 class QCheckBox;
 #if QT_VERSION >= 0x050000
 class QFontDialog;
@@ -44,7 +41,7 @@ class UMLWidgetStylePage;
 /**
  * @author Paul Hensgen
  * modified by brian thomas Aug-2003
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class SettingsDialog : public MultiPageDialogBase
 {
@@ -57,7 +54,7 @@ public:
     void setCurrentPage(PageType page);
 
     //public methods
-    bool getChangesApplied() {
+    bool getChangesApplied() const {
         return m_bChangesApplied;
     }
 
@@ -68,6 +65,7 @@ protected:
 private:
     //private structs
     struct UIWidgets {
+        QCheckBox * rightToLeftUI;
         QGroupBox * colorGB;
 
         QCheckBox * textColorCB;
@@ -102,7 +100,6 @@ private:
     void applyPage(KPageWidgetItem*);
 
     //private attributes
-    UIWidgets m_UiWidgets;
     DontAskAgainWidget *m_dontAskAgainWidget;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
@@ -112,6 +109,7 @@ private:
     CodeViewerOptionsPage * m_pCodeViewerPage;
     GeneralOptionPage * m_pGeneralPage;
     ClassOptionsPage * m_pClassPage;
+    UIOptionsPage *m_uiOptionsPage;
 
     bool m_bChangesApplied;
     KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen,
@@ -121,12 +119,6 @@ private slots:
     void slotApply();
     void slotOk();
     void slotDefault();
-    void slotTextCBChecked(bool value);
-    void slotLineCBChecked(bool value);
-    void slotFillCBChecked(bool value);
-    void slotGridCBChecked(bool value);
-    void slotBgCBChecked(bool value);
-    void slotLineWidthCBChecked(bool value);
 };
 
 #endif

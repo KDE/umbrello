@@ -1,15 +1,8 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2014                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- *                                                                         *
- *   @author Ralf Habacker <ralf.habacker@freenet.de>                      *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2020 Ralf Habacker <ralf.habacker@freenet.de>
+*/
 
 #include <stdlib.h>
 #include <iostream>
@@ -47,7 +40,7 @@ int main( int argc, char **argv )
     cout << "msgid \"\"\n";
     cout << "msgstr \"\"\n";
     cout << "\"Project-Id-Version: PACKAGE VERSION\\n\"\n";
-    cout << "\"Report-Msgid-Bugs-To: http://bugs.kde.org\\n\"\n";
+    cout << "\"Report-Msgid-Bugs-To: https://bugs.kde.org\\n\"\n";
     cout << "\"POT-Creation-Date: " << now.toString("yyyy-MM-dd hh:mm").toUtf8().data() << "+0000\\n\"\n";
     cout << "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
     cout << "\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";

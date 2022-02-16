@@ -1,22 +1,23 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2004-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "linkwidget.h"
 
 // app includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "uml.h"
 #include "umlobject.h"
 #include "umlview.h"
+
+// qt includes
+#include <QXmlStreamWriter>
+
+DEBUG_REGISTER_DISABLED(LinkWidget)
 
 LinkWidget::LinkWidget()
 {
@@ -105,7 +106,7 @@ QString LinkWidget::sequenceNumber() const
 /**
  * Load data from XMI.
  */
-bool LinkWidget::loadFromXMI1(QDomElement &qElement)
+bool LinkWidget::loadFromXMI(QDomElement &qElement)
 {
     m_SequenceNumber = qElement.attribute(QLatin1String("seqnum"));
     return true;
@@ -114,9 +115,7 @@ bool LinkWidget::loadFromXMI1(QDomElement &qElement)
 /**
  * Save data to XMI.
  */
-void LinkWidget::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void LinkWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    Q_UNUSED(qDoc);
-
-    qElement.setAttribute(QLatin1String("seqnum"), m_SequenceNumber);
+    writer.writeAttribute(QLatin1String("seqnum"), m_SequenceNumber);
 }

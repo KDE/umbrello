@@ -1,15 +1,12 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2014                                                    *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #include "umlscenefinder.h"
 
+#include "floatingtextwidget.h"
+#include "messagewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -41,6 +38,14 @@ int UMLSceneFinder::collect(Category category, const QString &text)
         if (!includeObject(category, w->umlObject()))
             continue;
         if (w->name().contains(text, Qt::CaseInsensitive))
+            m_items.append(w->id());
+    }
+    foreach(MessageWidget* w, scene->messageList()) {
+        if (w->umlObject() && !includeObject(category, w->umlObject()))
+            continue;
+        if (w->name().contains(text, Qt::CaseInsensitive))
+            m_items.append(w->id());
+        if (w->floatingTextWidget()->text().contains(text, Qt::CaseInsensitive))
             m_items.append(w->id());
     }
     return m_items.size();

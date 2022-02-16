@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2005-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef IMPORT_UTILS_H
 #define IMPORT_UTILS_H
@@ -29,7 +24,7 @@ class QMimeData;
 /**
  * Utilities for code import
  * @author Oliver Kellogg
- * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 namespace Import_Utils {
 
@@ -45,6 +40,8 @@ namespace Import_Utils {
                               UMLFolder *parentPkg = NULL,
                               const QString &comment = QString());
 
+    void checkStdString(QString& typeName);
+
     UMLObject* createUMLObject(UMLObject::ObjectType type,
                                const QString& name,
                                UMLPackage *parentPkg = 0,
@@ -52,6 +49,8 @@ namespace Import_Utils {
                                const QString& stereotype = QString(),
                                bool searchInParentPackageOnly = false,
                                bool remapParent = true);
+
+    UMLObject* createUMLObjectHierarchy(UMLObject::ObjectType type, const QString &name, UMLPackage *parentPkg);
 
     void putAtGlobalScope(bool yesno);
 
@@ -67,8 +66,8 @@ namespace Import_Utils {
     UMLAttribute *insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                UMLClassifier *attrType,
-                               const QString& comment /* =QString() */,
-                               bool isStatic /* =false */);
+                               const QString& comment = QString(),
+                               bool isStatic = false);
 
     UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
 
@@ -100,6 +99,8 @@ namespace Import_Utils {
     bool newUMLObjectWasCreated();
 
     bool isDatatype(const QString& name, UMLPackage *parentPkg = 0);
+
+    UMLPackage *globalScope();
 
 } // end namespace Import_Utils
 

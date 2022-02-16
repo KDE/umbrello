@@ -1,21 +1,7 @@
 /*
-    Copyright 2015 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2015-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of
-    the License or (at your option) version 3 or any later version
-    accepted by the membership of KDE e.V. (or its successor approved
-    by the membership of KDE e.V.), which shall act as a proxy
-    defined in Section 14 of version 3 of the license.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "resolutionwidget.h"
@@ -35,40 +21,14 @@
  * @param parent QWidget parent
  */
 ResolutionWidget::ResolutionWidget(QWidget *parent) :
-    QWidget(parent)
+    ComboBoxWidgetBase(i18n("&Resolution:"), i18n("DPI"), parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
-    m_label = new QLabel(i18n("&Resolution:"), this);
-    layout->addWidget(m_label);
-
-    m_comboBox = new KComboBox(true, this);
-    layout->addWidget(m_comboBox, 2);
-    m_label->setBuddy(m_comboBox);
-    QLabel *postLabel = new QLabel(i18n("DPI"), this);
-    layout->addWidget(postLabel);
-
-    m_comboBox->setDuplicatesEnabled(false);  // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_comboBox->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
-    m_comboBox->clear();
-    m_comboBox->addItem(QLatin1String("default"), QVariant(0.0));
+    m_editField->clear();
+    m_editField->addItem(QLatin1String("default"), QVariant(0.0));
     foreach(const QString &key, resolutions()) {
-        m_comboBox->addItem(key, QVariant(key.toFloat()));
+        m_editField->addItem(key, QVariant(key.toFloat()));
     }
-    setLayout(layout);
-    connect(m_comboBox, SIGNAL(editTextChanged(QString)), this, SLOT(slotTextChanged(QString)));
-}
-
-/**
- * Add widget to a layout.
- * @param layout The layout to add the widgets to.
- */
-void ResolutionWidget::addToLayout(QHBoxLayout *layout)
-{
-    layout->addWidget(m_label);
-    layout->addWidget(m_comboBox);
+    connect(m_editField, SIGNAL(editTextChanged(QString)), this, SLOT(slotTextChanged(QString)));
 }
 
 /**
@@ -77,12 +37,12 @@ void ResolutionWidget::addToLayout(QHBoxLayout *layout)
  */
 float ResolutionWidget::currentResolution()
 {
-    QVariant v = m_comboBox->itemData(m_comboBox->currentIndex());
+    QVariant v = m_editField->itemData(m_editField->currentIndex());
     if (v.canConvert<float>()) {
         return v.value<float>();
     } else {
         bool ok;
-        float value = m_comboBox->currentText().toFloat(&ok);
+        float value = m_editField->currentText().toFloat(&ok);
         return ok ? value : 0.0;
     }
 }
@@ -119,10 +79,10 @@ QStringList ResolutionWidget::resolutions()
  */
 void ResolutionWidget::slotTextChanged(const QString &text)
 {
-    if (m_comboBox->currentText() == QLatin1String("default"))
+    if (m_editField->currentText() == QLatin1String("default"))
         return;
     bool ok;
     text.toFloat(&ok);
     if (!ok)
-        m_comboBox->setEditText(QLatin1String(""));
+        m_editField->setEditText(QLatin1String(""));
 }

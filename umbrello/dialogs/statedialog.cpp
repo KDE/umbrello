@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "statedialog.h"
@@ -15,11 +10,17 @@
 #include "activitypage.h"
 #include "documentationwidget.h"
 #include "umlview.h"
+#include "umlscene.h"
+#include "umlviewlist.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "selectdiagramwidget.h"
 #include "statewidget.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 
 // kde includes
+#include <KComboBox>
 #include <klineedit.h>
 #include <KLocalizedString>
 
@@ -86,6 +87,9 @@ void StateDialog::applyPage(KPageWidgetItem*item)
 {
     m_bChangesMade = true;
     if (item == pageGeneral) {
+        if (m_pStateWidget->stateType() == StateWidget::Combined) {
+            m_pStateWidget->setDiagramLink(m_GenPageWidgets.diagramLinkWidget->currentID());
+        }
         m_pStateWidget->setName(m_GenPageWidgets.nameLE->text());
         m_GenPageWidgets.docWidget->apply();
     }
@@ -152,27 +156,40 @@ void StateDialog::setupGeneralPage()
     case StateWidget::Choice:
         typeStr = i18nc("choice state in statechart", "Choice");
         break;
+    case StateWidget::Combined:
+        typeStr = i18nc("combined state in statechart", "Combined");
+        break;
     default:
         typeStr = QString::fromLatin1("???");
         break;
     }
-    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
+    int row = 0;
+    Dialog_Utils::makeLabeledEditField(generalLayout, row++,
                                        m_GenPageWidgets.typeL, i18n("State type:"),
                                        m_GenPageWidgets.typeLE, typeStr);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField(generalLayout, 1,
-                                    m_GenPageWidgets.nameL, i18n("State name:"),
-                                    m_GenPageWidgets.nameLE);
+    Dialog_Utils::makeLabeledEditField(generalLayout, row++,
+                                       m_GenPageWidgets.nameL, i18n("State name:"),
+                                       m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
-    generalLayout->addWidget(m_GenPageWidgets.docWidget, 2, 0, 1, 2);
-
-    if (type != StateWidget::Normal) {
+    if (type != StateWidget::Normal && type != StateWidget::Combined) {
         m_GenPageWidgets.nameLE->setEnabled(false);
         m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pStateWidget->name());
+
+    if (type == StateWidget::Combined) {
+        m_GenPageWidgets.diagramLinkWidget = new SelectDiagramWidget(i18n("Linked diagram:"), this);
+        m_GenPageWidgets.diagramLinkWidget->setupWidget(Uml::DiagramType::State,
+            m_pStateWidget->linkedDiagram() ? m_pStateWidget->linkedDiagram()->name() : QString(),
+            m_pStateWidget->umlScene()->name(), false);
+        m_GenPageWidgets.diagramLinkWidget->addToLayout(generalLayout, row++);
+    }
+
+    m_GenPageWidgets.docWidget = new DocumentationWidget(m_pStateWidget);
+    generalLayout->addWidget(m_GenPageWidgets.docWidget, row, 0, 1, 2);
+    m_GenPageWidgets.nameLE->setFocus();
 }
 
 /**

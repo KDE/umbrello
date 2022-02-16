@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(php)
 
+if(POLICY CMP0028)
+    cmake_policy(SET CMP0028 OLD)
+endif()
+
+if(POLICY CMP0071)
+    cmake_policy(SET CMP0071 OLD)
+endif()
+
 set(KDEVPHP_VERSION_MAJOR 5)
 set(KDEVPHP_VERSION_MINOR 1)
 set(KDEVPHP_VERSION_PATCH 2)
@@ -20,7 +28,7 @@ include(KDECMakeSettings)
 include(GenerateExportHeader)
 include(FeatureSummary)
 
-find_package(Qt5 REQUIRED Core Widgets Test WebKitWidgets)
+find_package(Qt5 REQUIRED Core Widgets Test)
 find_package(KF5 REQUIRED COMPONENTS Archive ThreadWeaver TextEditor I18n ItemModels KCMUtils)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
 find_package(KDevelop-PG-Qt REQUIRED)
@@ -60,6 +68,7 @@ kdevplatform_add_plugin(kdevphplanguagesupport JSON kdevphpsupport.json
 target_link_libraries(kdevphplanguagesupport
     KDev::Interfaces
     KDev::Language
+    KDev::Tests
     kdevphpduchain
     kdevphpparser
     kdevphpcompletion

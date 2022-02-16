@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 // own header
 #include "associationline.h"
@@ -14,6 +9,7 @@
 // application includes
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlwidget.h"
@@ -21,6 +17,7 @@
 // qt includes
 #include <QDomDocument>
 #include <QPainter>
+#include <QXmlStreamWriter>
 
 // system includes
 #include <cstdlib>
@@ -47,7 +44,8 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_subsetSymbol(0),
     m_collaborationLineItem(0),
     m_collaborationLineHead(0),
-    m_layout(Polyline)
+    m_layout(Settings::optionState().generalState.layoutType),
+    m_autoLayoutSpline(true)
 {
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
@@ -73,7 +71,8 @@ AssociationLine::~AssociationLine()
 QPointF AssociationLine::point(int index) const
 {
     if ((index < 0) | (index >= m_points.size())) {
-        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        logWarn2("AssociationLine::point: Index %1 out of range [0..%2]",
+                 index, m_points.size() - 1);
         return QPointF(-1.0, -1.0);
     }
     return m_points.at(index);
@@ -85,7 +84,8 @@ QPointF AssociationLine::point(int index) const
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
     if ((index < 0) | (index >= m_points.size())) {
-        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        logWarn2("AssociationLine::setPoint: Index %1 out of range [0..%2]",
+                 index, m_points.size() - 1);
         return false;
     }
     if (m_points.at(index) == point) {
@@ -111,6 +111,11 @@ QPointF AssociationLine::startPoint() const
 QPointF AssociationLine::endPoint() const
 {
     return m_points.at(m_points.size()-1);
+}
+
+void AssociationLine::addPoint(const QPointF &point)
+{
+    m_points.append(point);
 }
 
 /**
@@ -214,6 +219,8 @@ int AssociationLine::closestPointIndex(const QPointF &point, qreal delta) const
  * Return index of closest segment.
  *
  * @param point The point which is to be tested for closeness.
+ * @param delta The distance in pixels that the point may be removed from
+ 8              a segment but is still considered to be on the segment.
  *
  * @return Index of the line segment closest to the \a point passed;
  *         -1 if no line segment is closer to passed in \a point.
@@ -262,6 +269,22 @@ bool AssociationLine::isEndSegmentIndex(int index) const
     return (index == 0 || index == (size - 1));
 }
 
+bool AssociationLine::isAutoLayouted() const
+{
+    return m_autoLayoutSpline;
+}
+
+bool AssociationLine::enableAutoLayout()
+{
+    m_autoLayoutSpline = true;
+    createSplinePoints();
+    path();
+    createSplinePoints();
+    path();
+    update();
+    return true;
+}
+
 /**
  * Sets the start and end points.
  */
@@ -295,17 +318,17 @@ void AssociationLine::dumpPoints()
 {
     for (int i = 1; i < m_points.size(); ++i) {
         QPointF p = m_points.at(i);
-        DEBUG(DBG_SRC) << i << ". point x:" << p.x() << " / y:" << p.y();
+        DEBUG() << i << ". point x:" << p.x() << " / y:" << p.y();
     }
 }
 
 /**
  * Loads AssociationLine information saved in \a qElement XMI element.
  */
-bool AssociationLine::loadFromXMI1(QDomElement &qElement)
+bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
     QString layout = qElement.attribute(QLatin1String("layout"), QLatin1String("polyline"));
-    m_layout = fromString(layout);
+    m_layout = Uml::LayoutType::fromString(layout);
 
     QDomNode node = qElement.firstChild();
 
@@ -315,11 +338,12 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
     if(startElement.isNull() || startElement.tagName() != QLatin1String("startpoint")) {
         return false;
     }
+    UMLScene* umlScene = m_associationWidget->umlScene();
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
-    qreal nX = toDoubleFromAnyLocale(x);
+    qreal nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
     QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
-    qreal nY = toDoubleFromAnyLocale(y);
+    qreal nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
@@ -328,21 +352,21 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
         return false;
     }
     x = endElement.attribute(QLatin1String("endx"), QLatin1String("0"));
-    nX = toDoubleFromAnyLocale(x);
+    nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
     y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
-    nY = toDoubleFromAnyLocale(y);
+    nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF endPoint(nX, nY);
     setEndPoints(startPoint * dpiScale, endPoint * dpiScale);
     QPointF point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
     int i = 1;
-    while(!element.isNull()) {
-        if(element.tagName() == QLatin1String("point")) {
+    while (!element.isNull()) {
+        if (element.tagName() == QLatin1String("point")) {
             x = element.attribute(QLatin1String("x"), QLatin1String("0"));
             y = element.attribute(QLatin1String("y"), QLatin1String("0"));
-            point.setX(toDoubleFromAnyLocale(x));
-            point.setY(toDoubleFromAnyLocale(y));
+            point.setX(toDoubleFromAnyLocale(x) + umlScene->fixX());
+            point.setY(toDoubleFromAnyLocale(y) + umlScene->fixY());
             insertPoint(i++, point * dpiScale);
         }
         node = element.nextSibling();
@@ -354,35 +378,35 @@ bool AssociationLine::loadFromXMI1(QDomElement &qElement)
 
 /**
  * Saves association line information into XMI element named "linepath".
- * @note Stored as linepath for backwared compatibility
+ * @note Stored as linepath for backward compatibility
  */
-void AssociationLine::saveToXMI1(QDomDocument &qDoc, QDomElement &qElement)
+void AssociationLine::saveToXMI(QXmlStreamWriter& writer)
 {
-    QDomElement lineElement = qDoc.createElement(QLatin1String("linepath"));
-    lineElement.setAttribute(QLatin1String("layout"), toString(m_layout));
-    QDomElement startElement = qDoc.createElement(QLatin1String("startpoint"));
+    writer.writeStartElement(QLatin1String("linepath"));
+    writer.writeAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));
+    writer.writeStartElement(QLatin1String("startpoint"));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QPointF point = m_associationWidget->mapToScene(startPoint());
     point /= dpiScale;
-    startElement.setAttribute(QLatin1String("startx"), QString::number(point.x()));
-    startElement.setAttribute(QLatin1String("starty"), QString::number(point.y()));
-    lineElement.appendChild(startElement);
-    QDomElement endElement = qDoc.createElement(QLatin1String("endpoint"));
+    writer.writeAttribute(QLatin1String("startx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("starty"), QString::number(point.y()));
+    writer.writeEndElement();            // startpoint
+    writer.writeStartElement(QLatin1String("endpoint"));
     point = m_associationWidget->mapToScene(endPoint());
     point /= dpiScale;
-    endElement.setAttribute(QLatin1String("endx"), QString::number(point.x()));
-    endElement.setAttribute(QLatin1String("endy"), QString::number(point.y()));
-    lineElement.appendChild(endElement);
+    writer.writeAttribute(QLatin1String("endx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("endy"), QString::number(point.y()));
+    writer.writeEndElement();            // endpoint
     for(int i = 1; i < count()-1; ++i) {
-        QDomElement pointElement = qDoc.createElement(QLatin1String("point"));
+        writer.writeStartElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
         point /= dpiScale;
-        pointElement.setAttribute(QLatin1String("x"), QString::number(point.x()));
-        pointElement.setAttribute(QLatin1String("y"), QString::number(point.y()));
-        lineElement.appendChild(pointElement);
+        writer.writeAttribute(QLatin1String("x"), QString::number(point.x()));
+        writer.writeAttribute(QLatin1String("y"), QString::number(point.y()));
+        writer.writeEndElement();        // point
     }
-    qElement.appendChild(lineElement);
+    writer.writeEndElement();   // linepath
 }
 
 /**
@@ -416,12 +440,19 @@ QPen AssociationLine::pen() const
  */
 void AssociationLine::setPen(const QPen &pen)
 {
-    if (m_startSymbol)
+    if (m_startSymbol) {
         m_startSymbol->setPen(pen);
-    if (m_subsetSymbol)
+        // update brush fill color
+        m_startSymbol->setBrush(brush());
+    }
+    if (m_subsetSymbol) {
         m_subsetSymbol->setPen(pen);
-    if (m_endSymbol)
+        m_subsetSymbol->setBrush(brush());
+    }
+    if (m_endSymbol) {
         m_endSymbol->setPen(pen);
+        m_endSymbol->setBrush(brush());
+    }
 
     prepareGeometryChange();
     m_pen = pen;
@@ -458,8 +489,9 @@ void AssociationLine::calculateInitialEndPoints()
         }
         UMLWidget *wid = m_associationWidget->widgetForRole(Uml::RoleType::B);
         if (!wid) {
-            uError() << "AssociationWidget is partially constructed."
-                "UMLWidget for role B is null.";
+            logError0("AssociationLine::calculateInitialEndPoints: "
+                      "AssociationWidget is partially constructed."
+                      "UMLWidget for role B is null.");
             return;
         }
         const QRectF rect = m_associationWidget->mapFromScene(
@@ -481,6 +513,8 @@ void AssociationLine::calculateInitialEndPoints()
     } else if (!m_associationWidget->isSelf() && count() < 2) {
         setEndPoints(QPointF(), QPointF());
     }
+    if (m_layout == Uml::LayoutType::Spline)
+        createSplinePoints();
 }
 
 /**
@@ -492,9 +526,11 @@ void AssociationLine::calculateInitialEndPoints()
 void AssociationLine::reconstructSymbols()
 {
     switch( m_associationWidget->associationType() ) {
+        case Uml::AssociationType::Exception:
+            setLayout(Uml::LayoutType::Polyline);
+            // fall through
         case Uml::AssociationType::State:
         case Uml::AssociationType::Activity:
-        case Uml::AssociationType::Exception:
         case Uml::AssociationType::UniAssociation:
         case Uml::AssociationType::Dependency:
             setStartSymbol(Symbol::None);
@@ -540,9 +576,9 @@ void AssociationLine::reconstructSymbols()
             removeCollaborationLine();
             break;
 
-        case Uml::AssociationType::Coll_Message_Synchronous:
-        case Uml::AssociationType::Coll_Message_Asynchronous:
-        case Uml::AssociationType::Coll_Message_Self:
+        case Uml::AssociationType::Coll_Mesg_Sync:
+        case Uml::AssociationType::Coll_Mesg_Async:
+        case Uml::AssociationType::Coll_Mesg_Self:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::None);
             removeSubsetSymbol();
@@ -636,7 +672,7 @@ void AssociationLine::createCollaborationLine()
     m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
     m_collaborationLineItem->setPen(p);
 
-    if (m_associationWidget->associationType() == Uml::AssociationType::Coll_Message_Synchronous) {
+    if (m_associationWidget->associationType() == Uml::AssociationType::Coll_Mesg_Sync) {
         m_collaborationLineHead = new Symbol(Symbol::ClosedArrow, m_associationWidget);
         m_collaborationLineHead->setBrush(p.color());
     }
@@ -672,13 +708,13 @@ void AssociationLine::alignSymbols()
 
     QList<QPolygonF> polygons = path().toSubpathPolygons();
 
-    if (m_startSymbol) {
+    if (m_startSymbol && polygons.size() > 0) {
         QPolygonF firstLine = polygons.first();
         QLineF segment(firstLine.at(1), firstLine.at(0));
         m_startSymbol->alignTo(segment);
     }
 
-    if (m_endSymbol) {
+    if (m_endSymbol && polygons.size() > 0) {
         QPolygonF lastLine = polygons.last();
         int maxIndex = lastLine.size();
         QLineF segment(lastLine.at(maxIndex-2), lastLine.at(maxIndex-1));
@@ -726,33 +762,31 @@ void AssociationLine::alignSymbols()
  */
 QPainterPath AssociationLine::path() const
 {
-    if (m_points.count() > 0) {
-        QPainterPath path;
-        switch (m_layout) {
-        case Direct:
+    if (m_points.count() == 0) {
+        return QPainterPath();
+    }
+    QPainterPath path;
+    switch (m_layout) {
+        case Uml::LayoutType::Direct:
             path.moveTo(m_points.first());
             path.lineTo(m_points.last());
             break;
 
-        case Spline:
+        case Uml::LayoutType::Spline:
             path = createBezierCurve(m_points);
             break;
 
-        case Orthogonal:
+        case Uml::LayoutType::Orthogonal:
             path = createOrthogonalPath(m_points);
             break;
 
-        case Polyline:
+        case Uml::LayoutType::Polyline:
         default:
             QPolygonF polygon(m_points);
             path.addPolygon(polygon);
             break;
-        }
-        return path;
     }
-    else {
-        return QPainterPath();
-    }
+    return path;
 }
 
 /**
@@ -783,30 +817,30 @@ QPainterPath AssociationLine::shape() const
 /**
  * Convert enum LayoutType to string.
  */
-QString AssociationLine::toString(LayoutType layout)
+QString AssociationLine::toString(Uml::LayoutType::Enum layout)
 {
-    return QLatin1String(ENUM_NAME(AssociationLine, LayoutType, layout));
+    return Uml::LayoutType::toString(layout);
 }
 
 /**
  * Convert string to enum LayoutType.
  */
-AssociationLine::LayoutType AssociationLine::fromString(const QString &layout)
+Uml::LayoutType::Enum AssociationLine::fromString(const QString &layout)
 {
     if (layout == QLatin1String("Direct"))
-        return Direct;
+        return Uml::LayoutType::Direct;
     if (layout == QLatin1String("Spline"))
-        return Spline;
+        return Uml::LayoutType::Spline;
     if (layout == QLatin1String("Orthogonal"))
-        return Orthogonal;
-    return Polyline;
+        return Uml::LayoutType::Orthogonal;
+    return Uml::LayoutType::Polyline;
 }
 
 /**
  * Return the layout type of the association line.
  * @return   the currently used layout
  */
-AssociationLine::LayoutType AssociationLine::layout() const
+Uml::LayoutType::Enum AssociationLine::layout() const
 {
     return m_layout;
 }
@@ -815,12 +849,12 @@ AssociationLine::LayoutType AssociationLine::layout() const
  * Set the layout type of the association line.
  * @param layout   the desired layout to set
  */
-void AssociationLine::setLayout(LayoutType layout)
+void AssociationLine::setLayout(Uml::LayoutType::Enum layout)
 {
     prepareGeometryChange();
     m_layout = layout;
-    DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
-    if (m_layout == Spline) {
+    DEBUG() << "new layout = " << Uml::LayoutType::toString(m_layout);
+    if (m_layout == Uml::LayoutType::Spline) {
         createSplinePoints();
     }
     alignSymbols();
@@ -833,19 +867,59 @@ void AssociationLine::setLayout(LayoutType layout)
  */
 void AssociationLine::createSplinePoints()
 {
-    if (m_points.size() == 2) {  // create two points
-        QPointF p1 = m_points.first();  // start point
-        QPointF p2 = m_points.last();   // end point
+    QPointF c1, c2;
+    QPointF p1 = m_points.first();  // start point
+    QPointF p2 = m_points.last();   // end point
+        
+    if (m_autoLayoutSpline) {
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
-        qreal oneThirdX = 0.33 * dx;
+        /*qreal oneThirdX = 0.33 * dx;
         qreal oneThirdY = 0.33 * dy;
         QPointF c1(p1.x() + oneThirdX,  // control point 1
                    p1.y() - oneThirdY);
         QPointF c2(p2.x() - oneThirdX,  // control point 2
-                   p2.y() + oneThirdY);
+                   p2.y() + oneThirdY);*/
+        qreal oneHalfX = 0.5 * dx;
+        qreal oneHalfY = 0.5 * dy;
+        if (dx > dy) {
+            m_c1dx = oneHalfX;
+            m_c1dy = 0;
+            m_c2dx = -oneHalfX;
+            m_c2dy = 0;
+        }
+        else {
+            m_c1dx = 0;
+            m_c1dy = oneHalfY;
+            m_c2dx = 0;
+            m_c2dy = -oneHalfY;
+        }
+        
+        c1 = QPointF(p1.x() + m_c1dx,  // control point 1
+                     p1.y() + m_c1dy);
+        c2 = QPointF(p2.x() + m_c2dx,  // control point 2
+                     p2.y() + m_c2dy);
+    } else {
+        //c1 = m_points[1];
+        //c2 = m_points[2];
+        
+        //m_c1dx = c1.x() - p1.x();
+        //m_c1dy = c1.y() - p1.y();
+        //m_c2dx = c2.x() - p2.x();
+        //m_c2dy = c2.y() - p2.y();
+        
+        c1 = QPointF(p1.x() + m_c1dx,  // control point 1
+                     p1.y() + m_c1dy);
+        c2 = QPointF(p2.x() + m_c2dx,  // control point 2
+                     p2.y() + m_c2dy);
+    }
+    if (m_points.size() == 2) {  // create two points
         insertPoint(1, c1);
         insertPoint(2, c2);
+    }
+    if (m_points.size() == 4) {  // change bezier points
+        setPoint(1, c1);
+        setPoint(2, c2);
     }
     if (m_points.size() == 3) {  // create one point
         // insertPoint(1 or 2, );
@@ -860,6 +934,8 @@ void AssociationLine::createSplinePoints()
  */
 QPainterPath AssociationLine::createBezierCurve(QVector<QPointF> points)
 {
+    std::string autoLayout;
+
     QPainterPath path;
     if (points.size() > 3) {  // cubic Bezier curve(s)
         path.moveTo(points.at(0));
@@ -900,7 +976,7 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
         QPointF end    = points.last();
         qreal deltaX = fabs(start.x() - end.x());
         qreal deltaY = fabs(start.y() - end.y());
-        // DEBUG("AssociationLine") << "start=" << start << " / end=" << end
+        // DEBUG() << "start=" << start << " / end=" << end
         //               << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
         QVector<QPointF> vector;
         for (int i = 0; i < points.size() - 1; ++i) {
@@ -999,6 +1075,23 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                 painter->drawRect(circle);
             }
         }
+        
+        //circle.moveCenter(savedStart);
+        //painter->drawRect(circle);
+        
+        // draw bezier handles
+        if (m_layout == Uml::LayoutType::Spline) {
+            for (int i = 2; i < sz-1; ++i) {
+                painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
+                //    if(m_layout == Uml::LayoutType::Spline) {
+                QLineF mysegmentLine(savedStart, m_points[i-1]);
+                painter->drawLine(mysegmentLine);
+                
+                QLineF mysegmentLine2(m_points[i], savedEnd);
+                painter->drawLine(mysegmentLine2);
+            }            
+        }
+        
         circle.moveCenter(savedEnd);
         painter->drawRect(circle);
 
@@ -1011,7 +1104,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->drawEllipse(circle);
         }
         else if (m_activeSegmentIndex != -1) {
-            if (m_layout == Polyline) {
+            if (m_layout == Uml::LayoutType::Polyline) {
                 painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
                 painter->setBrush(Qt::NoBrush);
 
@@ -1019,18 +1112,20 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                 painter->drawLine(segmentLine);
             }
         }
+        
         // debug info
         if (Tracer::instance()->isEnabled(QString::fromLatin1(metaObject()->className()))) {
-            painter->setPen(Qt::green);
+            QPen p(Qt::green);
+            p.setWidthF(1.0);
+            painter->setPen(p);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
-            painter->setPen(Qt::red);
+            painter->setPen(Qt::blue);
             painter->drawRect(boundingRect());
             // origin
             painter->drawLine(-10, 0, 10, 0);
             painter->drawLine(0, -10, 0, 10);
         }
-
     }
 
     // now restore the points array
@@ -1043,18 +1138,14 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
  */
 void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     if (event->buttons() & Qt::LeftButton) {
         m_activePointIndex = closestPointIndex(event->scenePos());
-        if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
-            // end points are not drawn and hence not active
-            m_activePointIndex = -1;
-        }
         // calculate only if active point index is -1
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
     }
     else if (event->buttons() & Qt::RightButton) {
-        DEBUG(DBG_SRC) << "call context menu of association widget at " << event->scenePos();
+        DEBUG() << "call context menu of association widget at " << event->scenePos();
     }
     else {
         m_activePointIndex   = -1;
@@ -1102,8 +1193,17 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 
     if (m_activePointIndex != -1) {
+        const int nPoints = m_points.size();
         // Move a single point (snap behaviour)
+        if (m_activePointIndex == 1) {
+            m_c1dx = newPos.x() - m_points.at(0).x();
+            m_c1dy = newPos.y() - m_points.at(0).y();
+        } else if (nPoints > 3 && m_activePointIndex == nPoints - 2) {
+            m_c2dx = newPos.x() - m_points.at(nPoints-1).x();
+            m_c2dy = newPos.y() - m_points.at(nPoints-1).y();
+        }
         setPoint(m_activePointIndex, newPos);
+        m_autoLayoutSpline = false;
     }
     else if (m_activeSegmentIndex != -1 && !isEndSegmentIndex(m_activeSegmentIndex)) {
         // Move a segment (between two points, snap behaviour not implemented)
@@ -1125,12 +1225,12 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * Calculates the "to be highlighted" point and segment indicies
+ * Calculates the "to be highlighted" point and segment indices
  * and updates if necessary.
  */
 void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
 
@@ -1149,7 +1249,7 @@ void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 }
 
 /**
- * Calculates the "to be highlighted" point and segment indicies
+ * Calculates the "to be highlighted" point and segment indices
  * and updates if necessary.
  */
 void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -1172,11 +1272,11 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 }
 
 /**
- * Reset active indicies and updates.
+ * Reset active indices and updates.
  */
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    DEBUG() << "at " << event->scenePos();
     //Q_UNUSED(event)
     m_activePointIndex   = -1;
     m_activeSegmentIndex = -1;

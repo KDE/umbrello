@@ -1,12 +1,7 @@
-/***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   copyright (C) 2002-2014                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
- ***************************************************************************/
+/*
+    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+*/
 
 #ifndef UMBRELLO_VERSION_H
 #define UMBRELLO_VERSION_H
@@ -25,14 +20,19 @@ inline QByteArray umbrelloVersion()
         .arg(KDE::versionMinor())
         .arg(KDE::versionRelease());
 #endif
+#if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
+    versionStr.append(QLatin1String(" (experimental)"));
+#endif
+#ifdef APPLICATIONS_VERSION_STRING
+    versionStr.append(QLatin1String(" (Applications "));
+    versionStr.append(QString::fromLatin1(APPLICATIONS_VERSION_STRING));
+    versionStr.append(QLatin1String(")"));
     return versionStr.toLatin1();
+#endif
 }
 
 // Update this version and dtd's in doc/xml when changing the XMI file format
-#if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
-#define XMI_FILE_VERSION "1.6.17"
-#else
-#define XMI_FILE_VERSION "1.6.16"
-#endif
+#define XMI1_FILE_VERSION "1.7.5"
+#define XMI2_FILE_VERSION "2.0.2"
 
 #endif
