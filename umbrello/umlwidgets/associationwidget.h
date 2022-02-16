@@ -57,7 +57,7 @@ public:
 
     virtual void setUMLObject(UMLObject *obj);
 
-    //---------- LinkWidget Interface methods implementation from now on.
+    //---------- LinkWidget Interface methods implementation from here on.
 
     virtual void lwSetFont(QFont font);
     virtual UMLClassifier *operationOwner();
@@ -222,7 +222,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
-    static bool findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point, qreal &result);
+    static bool findIntercept(const QRectF& rect, const QPointF& point, QPointF& result);
     static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
                                            QPointF* intersectionPoint);
 
@@ -239,14 +239,9 @@ private:
     void createPointsException();
     void updatePointsException();
 
-    void updateRegionLineCount(int index, int totalCount,
-                               Uml::Region::Enum region, Uml::RoleType::Enum role);
+    static bool setStartAndEndPoint(AssociationWidget *assocwidget, UMLWidget *pWidget);
 
-    void updateAssociations(int totalCount, Uml::Region::Enum region, Uml::RoleType::Enum role);
-
-    int getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role);
-
-    void doUpdates(const QPointF &otherP, Uml::RoleType::Enum role);
+    static void updateAssociations(UMLWidget *pWidget, AssociationWidgetList list);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
@@ -255,12 +250,7 @@ private:
     bool checkAutoLayoutSpline();
 
     bool linePathStartsAt(const UMLWidget* widget) const;
-
-    void insertIntoLists(qreal position, const AssociationWidget* assoc);
-
-    qreal m_positions[100];           ///< auxiliary variable for updateAssociations()
-    int m_positions_len;              ///< auxiliary variable for updateAssociations()
-    AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
+    bool linePathEndsAt  (const UMLWidget* widget) const;
 
     bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 
