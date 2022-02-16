@@ -1074,4 +1074,15 @@ namespace Widget_Utils
             }
         }
     }
+
+    /**
+     * Adorn stereotype name with guillemets.
+     */
+    QString adornStereo(QString name, bool appendSpace /* = true */)
+    {
+        QString s = QString::fromUtf8("«") + name + QString::fromUtf8("»");
+        if (appendSpace)
+            s.append(QLatin1Char(' '));
+        return s;
+    }
 }

@@ -16,6 +16,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -89,13 +90,16 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setPen(textColor());
     switch(m_noteType) {
     case NoteWidget::PreCondition :
-        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< precondition >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
+                          Widget_Utils::adornStereo(QLatin1String("precondition")));
         break;
     case NoteWidget::PostCondition :
-        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< postcondition >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
+                          Widget_Utils::adornStereo(QLatin1String("postcondition")));
         break;
     case NoteWidget::Transformation :
-        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter, QLatin1String("<< transformation >>"));
+        painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
+                          Widget_Utils::adornStereo(QLatin1String("transformation")));
         break;
     case NoteWidget::Normal :
     default :
@@ -334,15 +338,15 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
     const int textWidth = size.width();
     const int textHeight = size.height();
     if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("precondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("postcondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("transformation")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
 
