@@ -15,6 +15,7 @@ set(libcodeimport_SRCS
     adaimport.cpp
     classimport.cpp
     cppimport.cpp
+    csvalaimportbase.cpp
     idlimport.cpp
     import_utils.cpp
     javaimport.cpp
@@ -22,8 +23,8 @@ set(libcodeimport_SRCS
     pascalimport.cpp
     pythonimport.cpp
     sqlimport.cpp
-    valaimport.cpp
     csharp/csharpimport.cpp
+    vala/valaimport.cpp
 )
 
 if(BUILD_PHP_IMPORT)
@@ -84,4 +85,5 @@ target_include_directories(codeimport
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/csharp
+    ${CMAKE_CURRENT_SOURCE_DIR}/vala
 )
