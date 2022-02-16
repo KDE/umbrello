@@ -1160,10 +1160,10 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     UMLScene* scene = m_associationWidget->umlScene();
 
-    QPointF oldPos = event->scenePos();
+    QPointF unsnappedPos = event->scenePos();
     QPointF newPos(
-        scene->snappedX(oldPos.x()),
-        scene->snappedY(oldPos.y())
+        scene->snappedX(unsnappedPos.x()),
+        scene->snappedY(unsnappedPos.y())
     );
 
     // Prevent the moving vertex from disappearing underneath a widget
