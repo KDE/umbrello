@@ -175,6 +175,11 @@ void SettingsDialog::slotOk()
     applyPage(pageFont);
     applyPage(pageAutoLayout);
     m_pOptionState->save();
+#if QT_VERSION >= 0x050000
+    UmbrelloSettings::self()->save();
+#else
+    UmbrelloSettings::self()->writeConfig();
+#endif
     accept();
 }
 

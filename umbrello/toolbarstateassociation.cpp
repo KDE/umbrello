@@ -309,8 +309,8 @@ Uml::AssociationType::Enum ToolBarStateAssociation::getAssociationType()
         case WorkToolBar::tbb_Seq_Combined_Fragment:
         case WorkToolBar::tbb_Seq_Precondition:
         case WorkToolBar::tbb_Seq_Message_Asynchronous: at = Uml::AssociationType::Seq_Message;       break;
-        case WorkToolBar::tbb_Coll_Mesg_Sync: at = Uml::AssociationType::Coll_Mesg_Sync;      break;
-        case WorkToolBar::tbb_Coll_Mesg_Async: at = Uml::AssociationType::Coll_Mesg_Async;      break;
+        case WorkToolBar::tbb_Coll_Mesg_Sync:           at = Uml::AssociationType::Coll_Mesg_Sync;    break;
+        case WorkToolBar::tbb_Coll_Mesg_Async:          at = Uml::AssociationType::Coll_Mesg_Async;   break;
         case WorkToolBar::tbb_State_Transition:         at = Uml::AssociationType::State;             break;
         case WorkToolBar::tbb_Activity_Transition:      at = Uml::AssociationType::Activity;          break;
         case WorkToolBar::tbb_Exception:                at = Uml::AssociationType::Exception;         break;

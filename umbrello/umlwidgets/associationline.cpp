@@ -32,7 +32,7 @@ const qreal AssociationLine::SelfAssociationMinimumHeight = 30;
 
 /**
  * Constructor.
- * Constructs an AssociationLine item with its parent being \a parent.
+ * Constructs an AssociationLine item slaved to the given AssociationWidget.
  */
 AssociationLine::AssociationLine(AssociationWidget *association)
   : QGraphicsObject(association),

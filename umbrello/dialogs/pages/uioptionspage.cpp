@@ -25,11 +25,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//TODO don't do that, but it's better than hardcoded in the functions body
-#define FILL_COLOR QColor(255, 255, 192)
-#define LINK_COLOR Qt::red
-#define TEXT_COLOR Qt::black
-
 /**
  * Constructor - observe and modify an OptionState structure
  *
@@ -198,7 +193,7 @@ void UIOptionsPage::apply()
 void UIOptionsPage::slotTextCBChecked(bool value)
 {
     if (value == false) {
-        m_textColorB->setColor(TEXT_COLOR);
+        m_textColorB->setColor(m_options->uiState.textColor);
         m_textColorB->setDisabled(true);
     }
     else {
@@ -209,7 +204,7 @@ void UIOptionsPage::slotTextCBChecked(bool value)
 void UIOptionsPage::slotLineCBChecked(bool value)
 {
     if (value == false) {
-        m_lineColorB->setColor(LINK_COLOR);
+        m_lineColorB->setColor(m_options->uiState.lineColor);
         m_lineColorB->setDisabled(true);
     }
     else {
@@ -220,7 +215,7 @@ void UIOptionsPage::slotLineCBChecked(bool value)
 void UIOptionsPage::slotFillCBChecked(bool value)
 {
     if (value == false) {
-        m_fillColorB->setColor(FILL_COLOR);
+        m_fillColorB->setColor(m_options->uiState.fillColor);
         m_fillColorB->setDisabled(true);
     }
     else {
