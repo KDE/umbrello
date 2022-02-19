@@ -16,6 +16,8 @@ struct Derived1 : Base1 { }; // ill-formed because the class Base1 has been mark
 
 // #3
 struct Base2 {
+    virtual bool c() const final override;  // from
+    virtual bool d() const override final;  // https://bugs.kde.org/show_bug.cgi?id=397666
     virtual void f() final;
 };
 
