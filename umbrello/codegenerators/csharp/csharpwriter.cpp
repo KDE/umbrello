@@ -118,12 +118,13 @@ QStringList CSharpWriter::defaultDatatypes() const
     l.append(QLatin1String("char"));
     l.append(QLatin1String("decimal"));
     l.append(QLatin1String("double"));
-    l.append(QLatin1String("fixed"));
-    l.append(QLatin1String("float"));
+    l.append(QLatin1String("dynamic"));
     l.append(QLatin1String("fixed"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("int"));
     l.append(QLatin1String("long"));
+    l.append(QLatin1String("nint"));
+    l.append(QLatin1String("nuint"));
     l.append(QLatin1String("object"));
     l.append(QLatin1String("sbyte"));
     l.append(QLatin1String("short"));
@@ -131,6 +132,25 @@ QStringList CSharpWriter::defaultDatatypes() const
     l.append(QLatin1String("uint"));
     l.append(QLatin1String("ulong"));
     l.append(QLatin1String("ushort"));
+    l.append(QLatin1String("bool[]"));
+    l.append(QLatin1String("byte[]"));
+    l.append(QLatin1String("char[]"));
+    l.append(QLatin1String("decimal[]"));
+    l.append(QLatin1String("double[]"));
+    l.append(QLatin1String("dynamic[]"));
+    l.append(QLatin1String("fixed[]"));
+    l.append(QLatin1String("float[]"));
+    l.append(QLatin1String("int[]"));
+    l.append(QLatin1String("long[]"));
+    l.append(QLatin1String("nint[]"));
+    l.append(QLatin1String("nuint[]"));
+    l.append(QLatin1String("object[]"));
+    l.append(QLatin1String("sbyte[]"));
+    l.append(QLatin1String("short[]"));
+    l.append(QLatin1String("string[]"));
+    l.append(QLatin1String("uint[]"));
+    l.append(QLatin1String("ulong[]"));
+    l.append(QLatin1String("ushort[]"));
     return l;
 }
 
