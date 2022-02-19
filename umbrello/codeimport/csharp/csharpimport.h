@@ -19,7 +19,7 @@ public:
     explicit CSharpImport(CodeImpThread* thread = 0);
     virtual ~CSharpImport();
     QString fileExtension();
-
+    void fillSource(const QString& word);
 };
 
 #endif
