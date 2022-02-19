@@ -27,7 +27,7 @@
 #include <QStringList>
 #include <QTextStream>
 
-DEBUG_REGISTER(DBG_SRC)
+DEBUG_REGISTER(JavaImport)
 
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
