@@ -130,6 +130,16 @@ void CsValaImportBase::fillSource(const QString& word)
     }
     if (!lexeme.isEmpty())
         m_source.append(lexeme);
+
+    // Condense single dimension array into the type name as done for the
+    // predefined types in the CSharpWriter and ValaWriter code generators.
+    const int last = m_source.size() - 1;
+    if (last > 1 && m_source.at(last-1) == QLatin1String("[")
+                   && m_source.at(last) == QLatin1String("]")) {
+        m_source.removeLast();
+        m_source.removeLast();
+        m_source.last() += QLatin1String("[]");
+    }
 }
 
 /**
