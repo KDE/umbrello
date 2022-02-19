@@ -189,6 +189,7 @@ UMLApp::UMLApp(QWidget* parent)
 #else
     m_pUndoStack(new KUndoStack(this)),
 #endif
+    m_undoEnabled(true),
     m_hasBegunMacro(false),
     m_printSettings(0),
     m_printer(new QPrinter())
@@ -1132,7 +1133,27 @@ void UMLApp::saveOptions()
 void UMLApp::readOptions()
 {
     // bar status settings
-    toolBar(QLatin1String("mainToolBar"))->applySettings(m_config->group("toolbar"));
+    KToolBar *mainToolBar = toolBar(QLatin1String("mainToolBar"));
+    mainToolBar->applySettings(m_config->group("toolbar"));
+
+#if QT_VERSION >= 0x050000
+    // Add the Undo/Redo actions:
+    // In KDE4 this was somehow done automatically but in KF5,
+    // it seems we need to code it explicitly.
+
+    mainToolBar->addSeparator();
+
+    const QString undoIconName = Icon_Utils::toString(Icon_Utils::it_Undo);
+    QIcon undoIcon = QIcon::fromTheme(undoIconName);
+    editUndo->setIcon(undoIcon);
+    mainToolBar->addAction(editUndo);
+
+    const QString redoIconName = Icon_Utils::toString(Icon_Utils::it_Redo);
+    QIcon redoIcon = QIcon::fromTheme(redoIconName);
+    editRedo->setIcon(redoIcon);
+    mainToolBar->addAction(editRedo);
+#endif
+
     // do config for work toolbar
     m_toolsbar->applySettings(m_config->group("workbar"));
     fileOpenRecent->loadEntries(m_config->group("Recent Files"));
@@ -3521,7 +3542,7 @@ void UMLApp::redo()
 }
 
 /**
- * Execute a command and push it in the stack.
+ * Execute a command and push it on the undo stack.
  */
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
