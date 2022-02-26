@@ -212,8 +212,6 @@ void UMLRole::saveToXMI(QXmlStreamWriter& writer)
         }
     }
 
-    writer.writeAttribute(QLatin1String("visibility"), Uml::Visibility::toString(visibility(), false));
-
     switch (m_Changeability) {
         case Uml::Changeability::Frozen:
             writer.writeAttribute(QLatin1String("changeability"), QLatin1String("frozen"));

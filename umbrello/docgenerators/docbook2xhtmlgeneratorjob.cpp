@@ -95,6 +95,7 @@ void Docbook2XhtmlGeneratorJob::run()
   logDebug1("Docbook2XhtmlGeneratorJob::run: Writing HTML result to temp file: %1",
             tmpXhtml.fileName());
   xsltSaveResultToFd(tmpXhtml.handle(), res, cur);
+  tmpXhtml.close();
 
   xsltFreeStylesheet(cur);
   xmlFreeDoc(res);

@@ -144,6 +144,7 @@ void DocbookGeneratorJob::run()
     }
 
     umlDoc->saveToXMI(file); // save the xmi stuff to it
+    file.close();
 
     xsltStylesheetPtr cur = 0;
     xmlDocPtr doc, res;
@@ -182,6 +183,8 @@ void DocbookGeneratorJob::run()
 
     umlDoc->writeToStatusBar(i18n("Exporting to DocBook..."));
     xsltSaveResultToFd(tmpDocBook.handle(), res, cur);
+    tmpDocBook.close();
+
     xsltFreeStylesheet(cur);
     xmlFreeDoc(res);
     xmlFreeDoc(doc);
