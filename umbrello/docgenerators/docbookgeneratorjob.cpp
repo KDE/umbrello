@@ -38,6 +38,7 @@
 
 extern int xmlLoadExtDtdDefaultValue;
 
+#ifdef USE_SDOCBOOK_LOCAL_COPY
 #define MAX_PATHS 64
 static xmlExternalEntityLoader defaultEntityLoader = NULL;
 static xmlChar *paths[MAX_PATHS + 1];
@@ -114,6 +115,7 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
     }
     return(NULL);
 }
+#endif
 
 DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
         QThread(parent)
@@ -124,10 +126,6 @@ void DocbookGeneratorJob::run()
 {
     UMLApp* app = UMLApp::app();
     UMLDoc* umlDoc = app->document();
-
-    //write the XMI model in an in-memory char* string
-    QString xmi;
-    QTextStream xmiStream(&xmi, QIODevice::WriteOnly);
 
 #if QT_VERSION >= 0x050000
     QTemporaryFile file; // we need this tmp file if we are writing to a remote file
@@ -158,20 +156,43 @@ void DocbookGeneratorJob::run()
 
     QString xsltFile = DocbookGenerator::customXslFile();
 
+#ifdef USE_SDOCBOOK_LOCAL_COPY
     if (!defaultEntityLoader) {
         defaultEntityLoader = xmlGetExternalEntityLoader();
         xmlSetExternalEntityLoader(xsltprocExternalEntityLoader);
         QFileInfo xsltFilePath(xsltFile);
 
-        // Note: This would not be required if the dtd would be registered in global xml catalog
-        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] = QString(QLatin1String("file:///%1/simple4125/sdocbook.dtd")).arg(xsltFilePath.absolutePath());
+        // Note: This would not be required if the dtd were registered in global xml catalog
+        QString sdocbookDtdUrlTmpl(QLatin1String("file://%1/simple4125/sdocbook.dtd"));
+        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] =
+                                                          sdocbookDtdUrlTmpl.arg(xsltFilePath.absolutePath());
     }
+#endif
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
-    cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.toLatin1().constData());
-    doc = xmlParseFile((const char*)(file.fileName().toUtf8()));
+    QByteArray byteArrXslFnam = xsltFile.toLatin1();
+    cur = xsltParseStylesheetFile((const xmlChar*)byteArrXslFnam.constData());
+    if (cur == 0) {
+        logError1("DocbookGeneratorJob::run: There was a problem parsing stylesheet %1", xsltFile);
+        return;
+    }
+    QString strFnam = file.fileName();
+    QByteArray byteArrFnam = strFnam.toLatin1();  // toLocal8Bit();
+    doc = xmlParseFile(byteArrFnam.constData());
+    if (doc == 0) {
+        logError1("DocbookGeneratorJob::run: There was a problem parsing file %1", file.fileName());
+        xsltFreeStylesheet(cur);
+        return;
+    }
     res = xsltApplyStylesheet(cur, doc, params);
+    if (res == 0) {
+        logError2("DocbookGeneratorJob::run: There was a problem applying stylesheet %1 to %2",
+                  xsltFile, file.fileName());
+        xmlFreeDoc(doc);
+        xsltFreeStylesheet(cur);
+        return;
+    }
 
 #if QT_VERSION >= 0x050000
     QTemporaryFile tmpDocBook;
@@ -185,9 +206,9 @@ void DocbookGeneratorJob::run()
     xsltSaveResultToFd(tmpDocBook.handle(), res, cur);
     tmpDocBook.close();
 
-    xsltFreeStylesheet(cur);
     xmlFreeDoc(res);
     xmlFreeDoc(doc);
+    xsltFreeStylesheet(cur);
 
     xsltCleanupGlobals();
     xmlCleanupParser();
