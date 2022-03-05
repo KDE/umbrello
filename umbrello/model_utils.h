@@ -32,6 +32,8 @@ namespace Model_Utils {
 
 bool isCloneable(WidgetBase::WidgetType type);
 
+QString normalize(QString type);
+
 UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList);
 
 UMLObject* findUMLObject(const UMLObjectList& inList,

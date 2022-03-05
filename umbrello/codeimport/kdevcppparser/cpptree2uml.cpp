@@ -734,12 +734,14 @@ QString CppTree2Uml::typeOfDeclaration(TypeSpecifierAST* typeSpec, DeclaratorAST
 
     QList<AST*> ptrOpList = declarator->ptrOpList();
     for (int i = 0; i < ptrOpList.size(); ++i) {
-        text += ptrOpList.at(i)->text();
+        QString ptr = ptrOpList.at(i)->text();
+        text += ptr.replace(QLatin1String(" "), QLatin1String(""));
     }
 
     QList<AST*> arrays = declarator->arrayDimensionList();
     for(int i = 0; i < arrays.size(); ++i) {
-        text += arrays.at(i)->text().replace(QLatin1String(" "), QLatin1String(""));
+        QString dim = arrays.at(i)->text();
+        text += dim.replace(QLatin1String(" "), QLatin1String(""));
     }
 
     return text;

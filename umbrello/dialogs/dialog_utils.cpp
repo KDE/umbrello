@@ -192,11 +192,12 @@ bool askName(const QString& title, const QString& prompt, QString& name)
 {
     bool ok;
 #if QT_VERSION >= 0x050000
-     name = QInputDialog::getText((QWidget*)UMLApp::app(), title, prompt, QLineEdit::Normal, name, &ok);
+    name = QInputDialog::getText((QWidget*)UMLApp::app(), title, prompt, QLineEdit::Normal, name, &ok);
 #else
-     name = KInputDialog::getText(title, prompt, name, &ok, (QWidget*)UMLApp::app());
+    name = KInputDialog::getText(title, prompt, name, &ok, (QWidget*)UMLApp::app());
 #endif
-     return ok;
+    name = Model_Utils::normalize(name);
+    return ok;
 }
 
 /**

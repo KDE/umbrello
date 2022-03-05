@@ -72,6 +72,36 @@ bool isCloneable(WidgetBase::WidgetType type)
 }
 
 /**
+ * Normalize a type name with respect to interspersed spaces.
+ * @param type  Input type name e.g. from a user text entry dialog.
+ * @return      Normalized type name.
+ */
+QString normalize(QString type)
+{
+    QString str = type.simplified();
+    int pos;
+    // Remove space between word and non word
+    QRegExp word_nonword(QLatin1String("\\w \\W"));
+    pos = 0;
+    while ((pos = word_nonword.indexIn(str, pos)) != -1) {
+        str.remove(++pos, 1);
+    }
+    // Remove space between non word and word
+    QRegExp nonword_word(QLatin1String("\\W \\w"));
+    pos = 0;
+    while ((pos = nonword_word.indexIn(str, pos)) != -1) {
+        str.remove(++pos, 1);
+    }
+    // Remove space between non word and non word
+    QRegExp nonword_nonword(QLatin1String("\\W \\W"));
+    pos = 0;
+    while ((pos = nonword_nonword.indexIn(str, pos)) != -1) {
+        str.remove(++pos, 1);
+    }
+    return str;
+}
+
+/**
  * Seek the given id in the given list of objects.
  * Each list element may itself contain other objects
  * and the search is done recursively.
@@ -158,14 +188,14 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                          UMLObject *currentObj /* = 0 */)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    QString name = inName;
+    QString name = normalize(inName);
     const bool atGlobalScope = name.startsWith(QLatin1String("::"));
     if (atGlobalScope) {
         name = name.mid(2);
         currentObj = 0;
     }
     QStringList components;
-#ifdef TRY_BUGFIX_120682
+#ifdef TRY_BUGFIX_120862
     // If we have a pointer or a reference in cpp we need to remove
     // the asterisks and ampersands in order to find the appropriate object
     if (UMLApp::app()->getActiveLanguage() == Uml::pl_Cpp) {

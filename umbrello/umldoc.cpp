@@ -3037,6 +3037,7 @@ UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */) const
 UMLDatatype * UMLDoc::findDatatype(QString name, bool includeInactive /* = false */)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
+    name = Model_Utils::normalize(name);
     foreach (UMLClassifier *c, datatypes(includeInactive)) {
         UMLDatatype *type = dynamic_cast<UMLDatatype*>(c);
         if (!type)

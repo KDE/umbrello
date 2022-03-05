@@ -10,6 +10,7 @@
 #include "debug_utils.h"
 #include "entityattribute.h"
 #include "import_utils.h"
+#include "model_utils.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "template.h"
@@ -114,7 +115,7 @@ bool UMLDatatypeWidget::apply()
 
 bool UMLDatatypeWidget::applyAttribute()
 {
-    QString typeName = m_editField->currentText();
+    QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLTemplate *tmplParam = m_parent->findTemplate(typeName);
     if (tmplParam) {
         m_datatype->setType(tmplParam);
@@ -160,7 +161,7 @@ bool UMLDatatypeWidget::applyAttribute()
 
 bool UMLDatatypeWidget::applyEntityAttribute()
 {
-    QString typeName = m_editField->currentText();
+    QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes) {
@@ -188,7 +189,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 
 bool UMLDatatypeWidget::applyOperation()
 {
-    QString typeName = m_editField->currentText();
+    QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLTemplate *tmplParam = 0;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
@@ -203,7 +204,7 @@ bool UMLDatatypeWidget::applyOperation()
 bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
-    QString typeName = m_editField->currentText();
+    QString typeName = Model_Utils::normalize(m_editField->currentText());
     if (m_parent == 0) {
         logError1("UMLDatatypeWidget::applyParameter: grandparent of %1 is not a UMLClassifier",
                   m_attribute->name());
@@ -239,7 +240,7 @@ bool UMLDatatypeWidget::applyParameter()
 
 bool UMLDatatypeWidget::applyTemplate()
 {
-    QString typeName = m_editField->currentText();
+    QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
