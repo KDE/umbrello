@@ -2097,6 +2097,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
         writer.writeAttribute(QLatin1String("xmi:version"), QLatin1String("2.1"));
         writer.writeAttribute(QLatin1String("xmlns:xmi"), QLatin1String("http://schema.omg.org/spec/XMI/2.1"));
         writer.writeAttribute(QLatin1String("xmlns:xsi"), QLatin1String("http://www.w3.org/2001/XMLSchema-instance"));
+        writer.writeNamespace(QLatin1String("http://schema.omg.org/spec/UML/2.1"), QLatin1String("uml"));
         writer.writeStartElement(QLatin1String("xmi:Documentation"));
         writer.writeAttribute(QLatin1String("exporter"), expoText);
         writer.writeAttribute(QLatin1String("exporterVersion"), QLatin1String(XMI2_FILE_VERSION));
@@ -2324,6 +2325,9 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 m_d->errors << error;
                 logDebug1("UMLDoc::loadFromXMI %1", error);
                 return false;
+            }
+            if (version >= 2.0) {
+                Settings::optionState().generalState.uml2 = true;
             }
         }
         for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {

@@ -5,7 +5,7 @@
 
 <!--
     Title: umbrello-xmi-to-html.xsl
-    Purpose: An XSL stylesheet for converting Umbrello >= 2.34 UML2 mode XMI to HTML.
+    Purpose: An XSL stylesheet for converting Umbrello 1.4 XMI to HTML.
              Based on xmi-to-html.xsl from Objects by Design.
 
     SPDX-FileCopyrightText: 1999-2001 Objects by Design Inc. All Rights Reserved.
@@ -19,9 +19,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0"
-                xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
-                xmlns:uml="http://schema.omg.org/spec/UML/2.1"
-                exclude-result-prefixes="uml">
+                xmlns:UML="http://schema.omg.org/spec/UML/1.4"
+                exclude-result-prefixes="UML">
 
 <xsl:output method="xml" indent="yes"
             doctype-system="http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd"
@@ -29,52 +28,52 @@
 
 <xsl:key
     name="classifier"
-    match="//packagedElement[@xmi:type = 'uml:Class']"
-    use="@xmi:id"/>
+    match="//UML:Class"
+    use="@xmi.id"/>
 
 <xsl:key
     name="generalization"
-    match="//generalization"
-    use="@xmi:id"/>
+    match="//UML:Generalization"
+    use="@xmi.id"/>
 
 <xsl:key
     name="abstraction"
-    match="//uml:Abstraction"
-    use="@xmi:id"/>
+    match="//UML:Abstraction"
+    use="@xmi.id"/>
 
 <xsl:key
     name="multiplicity"
-    match="//uml:Multiplicity"
-    use="@xmi:id"/>
+    match="//UML:Multiplicity"
+    use="@xmi.id"/>
 
 
 <!-- Document Root -->
 <xsl:template match="/">
   <article role="specification">
-    <xsl:apply-templates select="//uml:Model" mode="title"/>
+    <xsl:apply-templates select="//UML:Model" mode="title"/>
 
     <!-- Actors -->
     <section id="actors">
       <title>Actors</title>
-      <xsl:apply-templates select="//packagedElement[@xmi:type = 'uml:Actor']"/>
+      <xsl:apply-templates select="//UML:Actor"/>
     </section>
 
     <!-- Use Cases -->
     <section id="usecases">
       <title>Use Cases</title>
-      <xsl:apply-templates select="//packagedElement[@xmi:type = 'uml:UseCase']"/>
+      <xsl:apply-templates select="//UML:UseCase"/>
     </section>
 
     <!-- Interfaces -->
     <section id="interfaces">
       <title>Interfaces</title>
-      <xsl:apply-templates select="//packagedElement[@xmi:type = 'uml:Interface']"/>
+      <xsl:apply-templates select="//UML:Interface"/>
     </section>
 
     <!-- Classes -->
     <section id="classes">
       <title>Classes</title>
-      <xsl:apply-templates select="//packagedElement[@xmi:type = 'uml:Class']"/>
+      <xsl:apply-templates select="//UML:Class"/>
     </section>
 
     <!-- Diagrams -->
@@ -88,7 +87,7 @@
 
 
 <!-- Window Title -->
-<xsl:template match="uml:Model" mode="title">
+<xsl:template match="UML:Model" mode="title">
     <title>
       <!-- Name of the model -->
       <xsl:value-of select="@name"/>
@@ -97,9 +96,9 @@
 
 
 <!-- Actor -->
-<xsl:template match="packagedElement[@xmi:type = 'uml:Actor']">
+<xsl:template match="UML:Actor">
   <xsl:variable name="element_name" select="@name"/>
-  <xsl:variable name="xmi_id" select="@xmi:id" />
+  <xsl:variable name="xmi_id" select="@xmi.id" />
   <xsl:variable name="comment" select="@comment" />
 
   <section>
@@ -143,9 +142,9 @@
 </xsl:template>
 
 <!-- Use Case -->
-<xsl:template match="packagedElement[@xmi:type = 'uml:UseCase']">
+<xsl:template match="UML:UseCase">
   <xsl:variable name="element_name" select="@name"/>
-  <xsl:variable name="xmi_id" select="@xmi:id" />
+  <xsl:variable name="xmi_id" select="@xmi.id" />
   <xsl:variable name="comment" select="@comment" />
 
   <section>
@@ -190,19 +189,19 @@
 
 
 <!-- Interface -->
-<xsl:template match="packagedElement[@xmi:type = 'uml:Interface']">
+<xsl:template match="UML:Interface">
   <xsl:variable name="element_name" select="@name"/>
   <xsl:variable name="comment" select="@comment" />
   <xsl:variable name="realizations"
                 select="Foundation.Core.ModelElement.supplierDependency/
                 Foundation.Core.Abstraction"/>
   <xsl:variable name="generalizations"
-                select="generalization"/>
+                select="UML:Generalization"/>
   <xsl:variable name="specializations"
                 select="Foundation.Core.GeneralizableElement.specialization/
                 Foundation.Core.Generalization"/>
   <xsl:variable name="class_operations"
-                select="ownedOperation" />
+                select="UML:Classifier.feature/UML:Operation" />
   <section>
     <title><xsl:value-of select="$element_name"/></title>
     <table frame='all'><title></title>
@@ -246,14 +245,14 @@
 
 
 <!-- Class -->
-<xsl:template match="packagedElement[@xmi:type = 'uml:Class']">
+<xsl:template match="UML:Class">
   <xsl:variable name="element_name" select="@name"/>
-  <xsl:variable name="xmi_id" select="@xmi:id" />
+  <xsl:variable name="xmi_id" select="@xmi.id" />
   <xsl:variable name="comment" select="@comment" />
   <xsl:variable name="class_attributes"
-                select="ownedAttribute" />
+                select="UML:Classifier.feature/UML:Attribute" />
   <xsl:variable name="class_operations"
-                select="ownedOperation" />
+                select="UML:Classifier.feature/UML:Operation" />
 
   <section>
     <title><xsl:value-of select="$element_name"/></title>
@@ -440,7 +439,7 @@
 
   <!-- Generalizations identify supertypes -->
   <xsl:variable name="generalizations"
-        select="generalization"/>
+        select="UML:Generalization"/>
 
   <xsl:if test="count($generalizations) > 0">
     <section>
@@ -505,7 +504,7 @@
   <xsl:param name="source"/>
 
   <xsl:variable name="association_ends"
-        select="//uml:AssociationEnd[@type=$source]" />
+        select="//UML:AssociationEnd[@type=$source]" />
 
   <xsl:if test="count($association_ends) > 0">
     <section>
@@ -513,8 +512,8 @@
           <para>visibility, type, properties.</para>
 
       <xsl:for-each select="$association_ends">
-        <xsl:for-each select="preceding-sibling::uml:AssociationEnd |
-                              following-sibling::uml:AssociationEnd">
+        <xsl:for-each select="preceding-sibling::UML:AssociationEnd |
+                              following-sibling::UML:AssociationEnd">
 
           <xsl:call-template name="association_end" />
 
@@ -627,7 +626,7 @@
 <!-- Attributes -->
 <xsl:template name="attributes">
   <xsl:variable name="class_attributes"
-                select="ownedAttribute" />
+                select="UML:Classifier.feature/UML:Attribute" />
   <xsl:if test="count($class_attributes) > 0">
     <row>
       <entry role="info-title"  namest="c1" nameend="c3">Attributes:</entry>
@@ -637,12 +636,12 @@
       <entry role="feature-heading">type</entry>
       <entry role="feature-heading">name</entry>
     </row>
-    <xsl:apply-templates select="ownedAttribute" />
+    <xsl:apply-templates select="UML:Classifier.feature/UML:Attribute" />
   </xsl:if>
 </xsl:template>
 
 
-<xsl:template match="ownedAttribute">
+<xsl:template match="UML:Attribute">
   <xsl:variable name="target" select='@type'/>
 
   <row>
@@ -673,7 +672,7 @@
 <!-- Operations -->
 <xsl:template name="operations">
   <xsl:variable name="class_operations"
-                select="ownedOperation" />
+                select="UML:Classifier.feature/UML:Operation" />
   <xsl:if test="count($class_operations) > 0">
     <row>
       <entry role="info-title" namest="c1" nameend="c3"><para>Operations:</para></entry>
@@ -684,18 +683,20 @@
       <entry role="feature-heading"><para>name</para></entry>
     </row>
 
-    <xsl:apply-templates select="ownedOperation" />
+    <xsl:apply-templates select="UML:Classifier.feature/UML:Operation" />
   </xsl:if>
 </xsl:template>
 
 
-<xsl:template match="ownedOperation">
+<xsl:template match="UML:Operation">
 
     <xsl:variable name="parameters"
-         select="ownedParameter[@kind != 'return']" />
+         select="UML:BehavioralFeature.parameter/
+         UML:Parameter[@kind != 'return']" />
 
     <xsl:variable name="return"
-         select="ownedParameter[@kind = 'return']" />
+         select="UML:BehavioralFeature.parameter/
+         UML:Parameter[@kind = 'return']" />
 
     <xsl:variable name="target"
          select="$return/@type" />
@@ -755,7 +756,7 @@
 
 
 <!-- Parameter -->
-<xsl:template match="ownedParameter">
+<xsl:template match="UML:Parameter">
     <xsl:variable name="target" select="@type" />
 
     <row>
@@ -787,16 +788,16 @@
     <!-- Get the type of the classifier (class, interface, datatype) -->
     <xsl:variable name="classifier_type">
     <xsl:choose>
-        <xsl:when test="$type = 'uml:Class'">classifier</xsl:when>
-        <xsl:when test="$type = 'uml:Interface'">interface</xsl:when>
-        <xsl:when test="$type = 'uml:DataType'">datatype</xsl:when>
+        <xsl:when test="$type = 'UML:Class'">classifier</xsl:when>
+        <xsl:when test="$type = 'UML:Interface'">interface</xsl:when>
+        <xsl:when test="$type = 'UML:DataType'">datatype</xsl:when>
         <xsl:otherwise>classifier</xsl:otherwise>
     </xsl:choose>
     </xsl:variable>
 
     <xsl:choose>
         <!-- Datatypes don't have hyperlinks -->
-        <xsl:when test="$type = 'uml:DataType'">
+        <xsl:when test="$type = 'UML:DataType'">
             <span role="datatype">
                 <xsl:value-of select="$classifier_name"/>
             </span>
@@ -824,12 +825,12 @@
 
 
   <xsl:template name="actor">
-    <xsl:param name = "idvalue"><xsl:value-of select="@xmi:id"/></xsl:param>
+    <xsl:param name = "idvalue"><xsl:value-of select="@xmi.id"/></xsl:param>
     <!--td valign="top"-->
       <para>
         <!--role="push"-->
-      <xsl:for-each select="//packagedElement[@xmi:type = 'uml:Actor']">
-        <xsl:if test="@xmi:id = $idvalue">
+      <xsl:for-each select="//UML:Actor">
+        <xsl:if test="@xmi.id = $idvalue">
           <emphasis><xsl:value-of select="@name"/>:</emphasis>
           <xsl:value-of select="@documentation"/>
         </xsl:if>
@@ -839,12 +840,12 @@
   </xsl:template>
 
   <xsl:template name="usecase">
-    <xsl:param name = "idvalue"><xsl:value-of select="@xmi:id"/></xsl:param>
+    <xsl:param name = "idvalue"><xsl:value-of select="@xmi.id"/></xsl:param>
     <!--td valign="top"-->
       <para>
         <!--role="push"-->
-        <xsl:for-each select="//packagedElement[@xmi:type = 'uml:UseCase']">
-          <xsl:if test="@xmi:id = $idvalue">
+        <xsl:for-each select="//UML:UseCase">
+          <xsl:if test="@xmi.id = $idvalue">
             <emphasis><xsl:value-of select="@name"/>:</emphasis>
             <xsl:value-of select="@documentation"/>
 
@@ -855,11 +856,11 @@
   </xsl:template>
 
   <xsl:template name="class">
-    <xsl:param name = "idvalue"><xsl:value-of select="@xmi:id"/></xsl:param>
+    <xsl:param name = "idvalue"><xsl:value-of select="@xmi.id"/></xsl:param>
     <!--td valign="top"-->
       <div role="push">
-        <xsl:for-each select="//packagedElement[@xmi:type = 'uml:Class']">
-          <xsl:if test="@xmi:id = $idvalue">
+        <xsl:for-each select="//UML:Class">
+          <xsl:if test="@xmi.id = $idvalue">
             <div role="boldtext">&packagename;<xsl:value-of select="@namespace"/></div>
             <div role="boldtext">&classname;<xsl:value-of select="@name"/></div>
             <xsl:value-of select="@documentation"/>
@@ -900,7 +901,7 @@
     <!--td valign="top"-->
       <div role="boldtext">&attributes;</div>
 
-      <xsl:for-each select="ownedAttribute">
+      <xsl:for-each select="UML:Attribute">
         <xsl:value-of select="@name"/><xsl:text> - </xsl:text><xsl:value-of select="@type"/>
         Static:
         <xsl:if test="@static='1'">
@@ -933,7 +934,7 @@
     <entry valign="top">
       <div role="boldtext">&metodes;</div>
 
-      <xsl:for-each select="ownedOperation">
+      <xsl:for-each select="UML:Operation">
         <i>
           <xsl:if test="@abstract='1'">
             <xsl:text>abstract </xsl:text>
@@ -952,13 +953,13 @@
 
           <xsl:value-of select="@name"/><xsl:text>(</xsl:text>
 
-          <xsl:apply-templates select="ownedParameter" mode="diagram"/>
+          <xsl:apply-templates select="UML:Parameter" mode="diagram"/>
           <xsl:text>)</xsl:text>
 
         </i>
         <xsl:value-of select="@documentation"/>
         &parameters;
-        <xsl:for-each select="ownedParameter">
+        <xsl:for-each select="UML:Parameter">
         <div role="push">
           <xsl:value-of select="@type"/>
           <xsl:text> </xsl:text>
@@ -973,7 +974,7 @@
     </entry>
   </xsl:template>
 
-  <xsl:template match="ownedParameter" mode="diagram">
+  <xsl:template match="UML:Parameter" mode="diagram">
 
     <xsl:value-of select="@type"/>
     <xsl:text> </xsl:text>

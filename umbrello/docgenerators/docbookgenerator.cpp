@@ -10,6 +10,7 @@
 #define DBG_SRC QLatin1String("DocbookGenerator")
 #include "debug_utils.h"
 #include "docbookgeneratorjob.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
@@ -165,7 +166,12 @@ void DocbookGenerator::threadFinished()
  */
 QString DocbookGenerator::customXslFile()
 {
-    QString xslBaseName = QLatin1String("xmi2docbook.xsl");
+    QString xslBaseName;
+    if (Settings::optionState().generalState.uml2) {
+        xslBaseName = QLatin1String("xmi2docbook.xsl");
+    } else {
+        xslBaseName = QLatin1String("xmi1docbook.xsl");
+    }
 #if QT_VERSION >= 0x050000
     QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else

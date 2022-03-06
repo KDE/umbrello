@@ -1,4 +1,5 @@
 install( FILES
+    xmi1docbook.xsl
     xmi2docbook.xsl
     docbook2xhtml.xsl
     xmi.css
