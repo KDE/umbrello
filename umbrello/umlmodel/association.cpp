@@ -417,8 +417,8 @@ bool UMLAssociation::load1(QDomElement & element)
                     "state",            // Uml::AssociationType::State
                     "activity",         // Uml::AssociationType::Activity
                     "exception",        // Uml::AssociationType::Exception
-                    "category2parent"   // Uml::AssociationType::Category2Parent
-                    "child2category"    // Uml::AssociationType::Child2Category
+                    "category2parent",  // Uml::AssociationType::Category2Parent
+                    "child2category",   // Uml::AssociationType::Child2Category
                     "relationship"      // Uml::AssociationType::Relationship
         };
         const int arraySize = sizeof(assocTypeString) / sizeof(char*);
