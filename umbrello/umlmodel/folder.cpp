@@ -307,28 +307,36 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
 }
 
 /**
- * Auxiliary to saveToXMI(): Creates a <UML:Model> element when saving
- * a predefined modelview, or a <UML:Package> element when saving a
- * user created folder. Invokes saveContents() with the newly created
- * element.
+ * Auxiliary to saveToXMI():
+ * - In UML1 mode it creates a <UML:Model> element when saving a predefined
+ *   modelview, or a <UML:Package> element when saving a user created folder.
+ * - In UML2 mode it creates a <packagedElement xmi:type="uml:Model"> when
+ *   saving a predefined view, or a <packagedElement xmi:type="uml:Package">
+ *   when saving a user created folder.
+ * Invokes saveContents() with the newly created element.
  */
 void UMLFolder::save1(QXmlStreamWriter& writer)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     QString elementName(QLatin1String("Package"));
+    QString elementTag (QLatin1String("<use_type_as_tag>"));
     const Uml::ModelType::Enum mt = umldoc->rootFolderType(this);
     if (mt != Uml::ModelType::N_MODELTYPES) {
         elementName = QLatin1String("Model");
+        if (Settings::optionState().generalState.uml2)
+            elementTag  = QLatin1String("packagedElement");
     }
-    UMLObject::save1(writer, elementName, QLatin1String("<use_type_as_tag>"));
+    UMLObject::save1(writer, elementName, elementTag);
     saveContents(writer);
     writer.writeEndElement();
 }
 
 /**
- * Creates a UML:Model or UML:Package element:
- * UML:Model is created for the predefined fixed folders,
- * UML:Package with stereotype "folder" is created for all else.
+ * Saves the folder in XMI representation:
+ * If m_folderFile is empty then calls save1().
+ * If m_folderFile is non empty then
+ * - creates an XMI Extension stub for the folder in the main XMI file;
+ * - creates the external file for the submodel and writes its XMI.
  */
 void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
 {
@@ -479,7 +487,8 @@ bool UMLFolder::loadFolderFile(const QString& path)
 }
 
 /**
- * Loads the owned elements of the <UML:Model>.
+ * Loads the owned elements of the <packagedElement xmi:type="uml:Model">
+ * (in UML2 mode) or <UML:Model> (in UML1 mode).
  */
 bool UMLFolder::load1(QDomElement& element)
 {
@@ -503,8 +512,8 @@ bool UMLFolder::load1(QDomElement& element)
                 totalSuccess = false;
             }
             continue;
-        } else if (UMLDoc::tagEq(type, QLatin1String("packagedElement")) ||
-                   UMLDoc::tagEq(type, QLatin1String("ownedElement"))) {
+        } else if (type == QLatin1String("packagedElement") ||
+                   type == QLatin1String("ownedElement")) {
             type = tempElement.attribute(QLatin1String("xmi:type"));
         } else if (type == QLatin1String("XMI.extension") ||
                    type == QLatin1String("xmi:Extension")) {

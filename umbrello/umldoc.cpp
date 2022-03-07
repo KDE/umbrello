@@ -2631,19 +2631,26 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
-        if (tagEq(type, QLatin1String("Model"))) {
+        if (type == QLatin1String("packagedElement") ||
+                                     tagEq(type, QLatin1String("Model"))) {
             // Handling of Umbrello native XMI files:
             // We get here from a recursive call to loadUMLObjectsFromXMI()
             // a few lines below, see
             //       if (tagEq(type, "Namespace.ownedElement") ....
             // Inside this Namespace.ownedElement envelope there are the
-            // four submodels:
-            // <UML:Model name="Logical View">
-            // <UML:Model name="Use Case View">
-            // <UML:Model name="Component View">
-            // <UML:Model name="Deployment View">
+            // four submodels.
+            // In UML2 mode:
+            //   <packagedElement xmi:type="uml:Model" name="Logical View">
+            //   <packagedElement xmi:type="uml:Model" name="Use Case View">
+            //   <packagedElement xmi:type="uml:Model" name="Component View">
+            //   <packagedElement xmi:type="uml:Model" name="Deployment View">
+            // In UML1 mode:
+            //   <UML:Model name="Logical View">
+            //   <UML:Model name="Use Case View">
+            //   <UML:Model name="Component View">
+            //   <UML:Model name="Deployment View">
             // These are ultimately loaded by UMLFolder::loadFromXMI()
-            // Furthermore, in Umbrello native XMI format this
+            // Furthermore, in UML1 mode native XMI format this
             // Namespace.ownedElement is the container of all stereotypes
             // (<UML:Stereotype>).
             bool foundUmbrelloRootFolder = false;
