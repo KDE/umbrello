@@ -145,10 +145,13 @@ bool UMLAssociation::resolveRef()
 void UMLAssociation::saveToXMI(QXmlStreamWriter& writer)
 {
     if (m_AssocType == Uml::AssociationType::Generalization) {
-        UMLObject::save1(writer, QLatin1String("Generalization"), QLatin1String("generalization"));
-        writer.writeAttribute(QLatin1String("child"), Uml::ID::toString(getObjectId(RoleType::A)));
-        writer.writeAttribute(QLatin1String("parent"), Uml::ID::toString(getObjectId(RoleType::B)));
-        writer.writeEndElement();
+        // In UML2 mode, the generalization is saved in UMLClassifier::saveToXMI()
+        if (! Settings::optionState().generalState.uml2) {
+            UMLObject::save1(writer, QLatin1String("Generalization"), QLatin1String("generalization"));
+            writer.writeAttribute(QLatin1String("child"), Uml::ID::toString(getObjectId(RoleType::A)));
+            writer.writeAttribute(QLatin1String("parent"), Uml::ID::toString(getObjectId(RoleType::B)));
+            writer.writeEndElement();
+        }
         return;
     }
     if (m_AssocType == Uml::AssociationType::Realization) {
