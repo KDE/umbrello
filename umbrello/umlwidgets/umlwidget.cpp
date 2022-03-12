@@ -2224,11 +2224,22 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     setSize(scaledW, scaledH);
     const qreal nX = toDoubleFromAnyLocale(x);
     const qreal nY = toDoubleFromAnyLocale(y);
-    const qreal fixedX = nX + umlScene()->fixX();  // bug 449622
-    const qreal fixedY = nY + umlScene()->fixY();
+    qreal fixedX = nX;
+    qreal fixedY = nY;
+    bool usesRelativeCoords = (baseType() == wt_Pin || baseType() == wt_Port);
+    if (!usesRelativeCoords && baseType() == wt_Text) {
+        UMLWidget *parent = dynamic_cast<UMLWidget*>(parentItem());
+        usesRelativeCoords = (parent != 0);
+    }
+    if (!usesRelativeCoords) {
+        fixedX += umlScene()->fixX();  // bug 449622
+        fixedY += umlScene()->fixY();
+    }
     const qreal scaledX = fixedX * dpiScale;
     const qreal scaledY = fixedY * dpiScale;
-    umlScene()->updateCanvasSizeEstimate(scaledX, scaledY, scaledW, scaledH);
+    if (!usesRelativeCoords) {
+        umlScene()->updateCanvasSizeEstimate(scaledX, scaledY, scaledW, scaledH);
+    }
     setX(scaledX);
     setY(scaledY);
 

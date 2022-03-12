@@ -319,12 +319,13 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
         if (tag == QLatin1String("floatingtext")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating,
                                              name(), Uml::ID::Reserved);
+            m_pName->setParentItem(this);
             if (!m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
+                // m_scene->removeItem(m_pName); m_pName->deleteLater();
                 delete m_pName;
                 m_pName = 0;
             } else {
-                m_pName->setParentItem(this);
                 m_pName->activate();
                 m_pName->update();
             }
