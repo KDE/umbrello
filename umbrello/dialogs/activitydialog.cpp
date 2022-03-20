@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -105,12 +105,20 @@ void ActivityDialog::applyPage(KPageWidgetItem *item)
         m_pActivityWidget->setPreconditionText(m_GenPageWidgets.preLE->text());
         m_pActivityWidget->setPostconditionText(m_GenPageWidgets.postLE->text());
 
-        ActivityWidget::ActivityType newType = ActivityWidget::Normal;
-        if (m_GenPageWidgets.InvokRB->isChecked())
-              newType = ActivityWidget::Invok;
-        else if (m_GenPageWidgets.ParamRB->isChecked())
-              newType = ActivityWidget::Param;
-        m_pActivityWidget->setActivityType (newType);
+        ActivityWidget::ActivityType newType = ActivityWidget::Initial;
+        bool setType = false;
+        if (m_GenPageWidgets.NormalRB->isChecked()) {
+            newType = ActivityWidget::Normal;
+            setType = true;
+        } else if (m_GenPageWidgets.InvokRB->isChecked()) {
+            newType = ActivityWidget::Invok;
+            setType = true;
+        } else if (m_GenPageWidgets.ParamRB->isChecked()) {
+            newType = ActivityWidget::Param;
+            setType = true;
+        }
+        if (setType)
+            m_pActivityWidget->setActivityType (newType);
 
     }
     else if (item == pageItemFont)
