@@ -35,6 +35,10 @@
 #include "notewidget.h"
 #include "associationwidget.h"
 #include "floatingtextwidget.h"
+#include "boxwidget.h"
+#include "statewidget.h"
+#include "activitywidget.h"
+#include "objectnodewidget.h"
 
 // qt includes
 #include <QtGlobal>
@@ -97,7 +101,9 @@ QString quidu(const PetalNode *node)
 QPointF fetchLocation(const PetalNode *node, qreal width, qreal height)
 {
     QString location = node->findAttribute(QLatin1String("location")).string;
-    QStringList a = location.split(QLatin1Char(' '));
+    if (location.isEmpty())
+        return QPointF();
+    QStringList a = location.split(QRegExp(QLatin1String(", *")));
     if (a.size() != 2) {
         return QPointF();
     }
@@ -614,9 +620,11 @@ Uml::DiagramType::Enum diagramType(QString objType)
     Uml::DiagramType::Enum dt;
     dt = (objType == QLatin1String("ClassDiagram")    ? Uml::DiagramType::Class :
           objType == QLatin1String("UseCaseDiagram")  ? Uml::DiagramType::UseCase :
+          objType == QLatin1String("State_Diagram")   ? Uml::DiagramType::State :
+          objType == QLatin1String("ActivityDiagram") ? Uml::DiagramType::Activity :
           objType == QLatin1String("Module_Diagram")  ? Uml::DiagramType::Component :
           objType == QLatin1String("Process_Diagram") ? Uml::DiagramType::Deployment :
-          // not yet implemented: Sequence, Collaboration, State, Activity
+          // not yet implemented: Sequence, Collaboration
                                          Uml::DiagramType::Undefined);
     return dt;
 }
@@ -644,6 +652,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         const bool isSubsystem = (objType == QLatin1String("SubSystem"));
         QString modelsAttr(isSubsystem ? QLatin1String("physical_models")
                                        : QLatin1String("logical_models"));
+        // statemachine    (object State_Machine "State/Activity Model"
+        PetalNode *statemachine = node->findAttribute(QLatin1String("statemachine")).node;
         PetalNode *models = node->findAttribute(modelsAttr).node;
         UMLObject *o = 0;
         if (models) {
@@ -655,10 +665,10 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             if (pres) {
                 pratts = pres->attributes();
             }
-            if (pratts.isEmpty())
-                o = Object_Factory::createUMLObject(UMLObject::ot_Package, name, parentPkg);
-            else
-                o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg);
+            UMLObject::ObjectType containerType = UMLObject::ot_Package;
+            if (!pratts.isEmpty() || statemachine)
+                containerType = UMLObject::ot_Folder;
+            o = Object_Factory::createUMLObject(containerType, name, parentPkg);
             o->setID(id);
             UMLPackage *localParent = o->asUMLPackage();
             for (int i = 0; i < atts.count(); ++i) {
@@ -678,6 +688,16 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         if (isSubsystem)
             o->setStereotypeCmd(QLatin1String("subsystem"));
         parentPkg->addObject(o);
+
+        if (statemachine) {
+            //    statediagrams       (list StateDiagrams
+            PetalNode *statediagrams = statemachine->findAttribute(QLatin1String("statediagrams")).node;
+            PetalNode::NameValueList diagramList = statediagrams->attributes();
+            UMLPackage *localParent = static_cast<UMLPackage*>(o);
+            for (int i = 0; i < diagramList.count(); ++i) {
+                umbrellify(diagramList[i].second.node, localParent);
+            }
+        }
 
     } else if (objType == QLatin1String("Class")) {
         QString stereotype = clean(node->findAttribute(QLatin1String("stereotype")).string);
@@ -882,7 +902,6 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                         logError2("Import_Rose::umbrellify: %1 with id %2 not found", objType, idStr);
                     }
                 }
-                continue;   // code below dereferences `w' which is unused here
             } else if (objType == QLatin1String("AssociationViewNew")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
@@ -894,7 +913,6 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                     // @todo check if we need to change `t' to a different type for certain associations
                     handleAssocView(attr, atts, t, view, o);
                 }
-                continue;
             } else if (objType == QLatin1String("AttachView")) {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
@@ -903,7 +921,17 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 } else {
                     handleAssocView(attr, atts, Uml::AssociationType::Anchor, view);
                 }
-                continue;
+            } else if (objType == QLatin1String("TransView")) {
+                //      (object TransView "" @24
+                //          stereotype  TRUE
+                //          quidu       "5FDCB541019E"
+                //          client      @20
+                //          supplier    @22
+                //          vertices    (list Points
+                //              (1206, 992)
+                //              (1718, 992))
+                //          line_style  0
+                //          x_offset    FALSE)
             } else if (objType == QLatin1String("NoteView")) {
                 w = new NoteWidget(view->umlScene(), NoteWidget::Normal);
                 width = fetchDouble(attr, QLatin1String("width"));
@@ -912,7 +940,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                     w->setSize(width, height);
                 PetalNode *lblNode = attr->findAttribute(QLatin1String("label")).node;
                 if (lblNode) {
-                    QString label = lblNode->findAttribute(QLatin1String("label")).string;
+                    QString label = clean(lblNode->findAttribute(QLatin1String("label")).string);
                     w->setDocumentation(label);
                 }
                 // Add an artificial "quidu" attribute onto `attr' because
@@ -924,36 +952,175 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 innerAtts.append(synthQuidu);
                 attr->setAttributes(innerAtts);
             } else if (objType == QLatin1String("Label")) {
-                QString label = attr->findAttribute(QLatin1String("label")).string;
+                QString label = clean(attr->findAttribute(QLatin1String("label")).string);
                 w = new FloatingTextWidget(view->umlScene(), Uml::TextRole::Floating, label);
                 int nlines = fetchInt(attr, QLatin1String("nlines"));
                 width = fetchDouble(attr, QLatin1String("max_width"));
                 height = nlines * 12;  // TODO check line height
                 w->setSize(width, height);
-            }
-            else {
+            } else if (objType == QLatin1String("Swimlane")) {
+                QString idStr = quidu(attr);
+                Uml::ID::Type id = Uml::ID::fromString(idStr);
+                width = fetchDouble(attr, QLatin1String("width"));
+                height = 880;  // TODO
+                //      (object Swimlane "Operator" @627
+                //          location    (2716, 0)   // optional, if missing it's the first (leftmost)
+                //          line_color  3342489
+                //          quidu       "3ADE7D250155"
+                //          width       980)
+                w = new BoxWidget(view->umlScene(), id);
+                w->setSize(width, height);
+                QPointF pos = fetchLocation(attr, 0.0, 0.0);  // use 0 for width and height
+                if (pos.isNull())
+                    pos = QPointF(1.0, 1.0);
+                else
+                    pos.setY(1.0);
+                w->setPos(pos);
+                logDebug4("umbrellify(Swimlane %1) : x=%2, width=%3, m_attributes size=%4",
+                          name, pos.x(), width, attr->attributes().size());
+                view->umlScene()->setupNewWidget(w, false);
+
+                // Create FloatingText for the swimlane title.
+                qreal xOffset = (width - (name.length() * 12)) / 2.0;
+                QPointF textPos(pos.x() + xOffset, 12.0);
+                logDebug5("umbrellify(Swimlane %1) : x=%2 , y=%3 , w=%4 , h=%5",
+                          name, textPos.x(), textPos.y(), width, height);
+                UMLWidget *textW = new FloatingTextWidget(view->umlScene(), Uml::TextRole::Floating, name);
+                textW->setSize(4.0 + (name.length() * 12.0), 14.0);
+                textW->setPos(textPos);
+                logDebug3("umbrellify(Swimlane %1) : textW width=%2 , height=%3", name, textW->width(), textW->height());
+                view->umlScene()->setupNewWidget(textW, false);
+                w = nullptr;   // Setup of `w` is all done, setting it to null to inform the code below.
+            } else if (objType == QLatin1String("ActivityStateView")) {
+                QString idStr = quidu(attr);
+                Uml::ID::Type id = Uml::ID::fromString(idStr);
+                w = new ActivityWidget(view->umlScene(), ActivityWidget::ActivityType::Normal, id);
+                width  = fetchDouble(attr, QLatin1String("width"));
+                if (qFuzzyIsNull(width)) {
+                    width = 50.0 + (name.length() * 12);
+                }
+                height = fetchDouble(attr, QLatin1String("height"));
+                if (qFuzzyIsNull(height)) {
+                    height = 50.0;
+                }
+                w->setSize(width, height);
+                w->setName(name);
+                //      (object ActivityStateView "Extract image" @628
+                //          Parent_View         @627
+                //          location    (501, 659)
+                //          font        (object Font
+                //              size            10
+                //              ........
+                //              default_color   TRUE)
+                //          label       (object ItemLabel
+                //              Parent_View     @628
+                //              location        (501, 653)
+                //              fill_color      13434879
+                //              anchor_loc      1
+                //              nlines          2
+                //              max_width       293
+                //              justify         0
+                //              label           "Extract image")
+                //          icon_style  "Icon"
+                //          line_color  3342489
+                //          fill_color  13434879
+                //          quidu       "3ADE77DE00BD"
+                //          width       411
+                //          height      124
+                //          annotation  1
+                //          autoResize  TRUE)
+            } else if (objType == QLatin1String("StateView")) {
+                QString idStr = quidu(attr);
+                Uml::ID::Type id = Uml::ID::fromString(idStr);
+                const bool isInitial = (name == QLatin1String("StartState"));
+                const bool isEnd     = (name == QLatin1String("EndState"));
+                if (dt == Uml::DiagramType::Activity) {
+                    ActivityWidget::ActivityType type = ActivityWidget::ActivityType::Normal;
+                    if (isInitial)
+                        type = ActivityWidget::ActivityType::Initial;
+                    else if (isEnd)
+                        type = ActivityWidget::ActivityType::End;
+                    w = new ActivityWidget(view->umlScene(), type, id);
+                } else {
+                    // dt == Uml::DiagramType::State
+                    StateWidget::StateType type = StateWidget::StateType::Normal;
+                    if (isInitial)
+                        type = StateWidget::StateType::Initial;
+                    else if (isEnd)
+                        type = StateWidget::StateType::End;
+                    w = new StateWidget(view->umlScene(), type, id);
+                }
+                const bool isNormal = (!isInitial && !isEnd);
+                if (isNormal) {
+                    PetalNode *lblNode = attr->findAttribute(QLatin1String("label")).node;
+                    if (lblNode) {
+                        name = clean(lblNode->findAttribute(QLatin1String("label")).string);
+                    }
+                    width  = fetchDouble(attr, QLatin1String("width"));
+                    if (qFuzzyIsNull(width)) {
+                        width = 50.0 + (name.length() * 12);
+                        logDebug3("umbrellify(%1 %2) : width not given, defaulting to %3",
+                                  objType, name, width);
+                    }
+                    height = fetchDouble(attr, QLatin1String("height"));
+                    if (qFuzzyIsNull(height)) {
+                        height = 50.0;
+                        logDebug3("umbrellify(%1 %2) : height not given, defaulting to %3",
+                                  objType, name, height);
+                    }
+                    if (!qFuzzyIsNull(width) && !qFuzzyIsNull(height))
+                        w->setSize(width, height);
+                    w->setName(name);
+                }
+            } else if (objType == QLatin1String("ObjectView")) {
+                QString idStr = quidu(attr);
+                Uml::ID::Type id = Uml::ID::fromString(idStr);
+                width = fetchDouble(attr, QLatin1String("width"));
+                height = fetchDouble(attr, QLatin1String("height"));
+                if (name.isEmpty()) {
+                    PetalNode *lblNode = attr->findAttribute(QLatin1String("label")).node;
+                    if (lblNode) {
+                        name = clean(lblNode->findAttribute(QLatin1String("label")).string);
+                    }
+                }
+                w = new ObjectNodeWidget(view->umlScene(), ObjectNodeWidget::ObjectNodeType::Normal, id);
+                const int nameWidth = (name.length() + 1) * 12.0;   // to be verified
+                if (width < nameWidth)
+                    width = nameWidth;
+                if (height < 12.0)
+                    height = 12.0;
+                logDebug4("umbrellify(%1 %2) : width=%3, height=%4", objType, name, width, height);
+                w->setSize(width, height);
+                w->setName(name);
+                w->setInstanceName(name);
+            } else if (objType == QLatin1String("DecisionView")) {
+                //      (object DecisionView "Check image quality" @629
+            } else {
                 logDebug2("umbrellify(%1) unsupported object type %2", name, objType);
-                continue;
             }
+            if (!w)
+                continue;
 
             QPointF pos = fetchLocation(attr, width, height);
             if (!pos.isNull()) {
                 w->setPos(pos);
             }
-#if 0
-            QString line_color = attr->findAttribute("line_color").string;
-            unsigned int lineColor = line_color.toUInt();
-            QString hexLineColor = QLatin1Char('#') + QString::number(lineColor, 16);
-            QColor c(hexLineColor);
-            w->setLineColorCmd(c);
 
-            QString fill_color = attr->findAttribute("fill_color").string;
-            unsigned int fillColor = fill_color.toUInt();
-            QString hexFillColor = QLatin1Char('#') + QString::number(fillColor, 16);
-            QColor f(hexFillColor);
-            w->setFillColorCmd(f);
-#endif
-            view->umlScene()->setupNewWidget(w, false);
+            QString line_color = attr->findAttribute(QLatin1String("line_color")).string;
+            if (!line_color.isEmpty()) {
+                unsigned int lineColor = line_color.toUInt();
+                QString hexLineColor = QLatin1Char('#') + QString::number(lineColor, 16);
+                QColor c(hexLineColor);
+                w->setLineColorCmd(c);
+            }
+            QString fill_color = attr->findAttribute(QLatin1String("fill_color")).string;
+            if (!fill_color.isEmpty()) {
+                unsigned int fillColor = fill_color.toUInt();
+                QString hexFillColor = QLatin1Char('#') + QString::number(fillColor, 16);
+                QColor f(hexFillColor);
+                w->setFillColorCmd(f);
+            }
+            view->umlScene()->setupNewWidget(w, pos.isNull());
         }
     } else {
         logDebug2("umbrellify(%1): object type %2 is not yet implemented", name, objType);
@@ -996,6 +1163,25 @@ bool importView(PetalNode *root,
     }
     if (!status)
         return false;
+
+    // statemachine    (object State_Machine "State/Activity Model"
+    PetalNode *statemachine = viewRoot->findAttribute(QLatin1String("statemachine")).node;
+    if (statemachine) {
+        //    states      (list States
+        //    partitions  (list Partitions
+        //    objects     (list Objects
+        // We don't decode these because Umbrello does not have structural elements for the
+        // states; they are diagram objects only. Luckily, the widgets in Rose's activity
+        // diagram save format duplicate all the structural information needed.
+        //
+        //    statediagrams       (list StateDiagrams
+        PetalNode *statediagrams = statemachine->findAttribute(QLatin1String("statediagrams")).node;
+        PetalNode::NameValueList diagramList = statediagrams->attributes();
+        for (int i = 0; i < diagramList.count(); ++i) {
+            umbrellify(diagramList[i].second.node, parent);
+        }
+    }
+
     if (presentationsName.isEmpty())
         return true;
 
