@@ -97,13 +97,15 @@ QString quidu(const PetalNode *node)
 
 /**
  * Extract the location attribute from a petal node.
+ * The extracted X,Y coordinates will be adjusted by the factor Rose2Qt
+ * unless width and/or height are given as 0.
  */
 QPointF fetchLocation(const PetalNode *node, qreal width, qreal height)
 {
     QString location = node->findAttribute(QLatin1String("location")).string;
     if (location.isEmpty())
         return QPointF();
-    QStringList a = location.split(QRegExp(QLatin1String(", *")));
+    QStringList a = location.split(QLatin1Char(' '));
     if (a.size() != 2) {
         return QPointF();
     }
@@ -116,6 +118,9 @@ QPointF fetchLocation(const PetalNode *node, qreal width, qreal height)
     if (!ok) {
         return QPointF();
     }
+    if (qFuzzyIsNull(width) || qFuzzyIsNull(height))
+        return QPointF(x, y);
+
     x *= Rose2Qt;  // adjust scale to Qt
     y *= Rose2Qt;  // adjust scale to Qt
     // Rose diagram locations denote the object _center_ thus:
@@ -127,12 +132,23 @@ QPointF fetchLocation(const PetalNode *node, qreal width, qreal height)
 /**
  * Extract a double attribute from a petal node.
  */
-qreal fetchDouble(const PetalNode *node, const QString &attribute, qreal defaultValue = 0)
+qreal fetchDouble(const PetalNode *node, const QString &attribute, bool applyRose2Qt = true)
 {
     bool ok;
     QString s = node->findAttribute(attribute).string;
+    if (s.isEmpty()) {
+        logDebug1("fetchDouble(%1) : attribute not found, returning 0.0", attribute);
+        return 0.0;
+    }
     qreal value = s.toDouble(&ok);
-    return ok ? value * Rose2Qt : defaultValue;
+    if (!ok) {
+        logDebug2("fetchDouble(%1) value \"%2\" : error on converting to double (returning 0.0)",
+                  attribute, s);
+        return 0.0;
+    }
+    if (applyRose2Qt)
+        value *= Rose2Qt;
+    return value;
 }
 
 /**
@@ -971,10 +987,12 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 w = new BoxWidget(view->umlScene(), id);
                 w->setSize(width, height);
                 QPointF pos = fetchLocation(attr, 0.0, 0.0);  // use 0 for width and height
-                if (pos.isNull())
+                if (pos.isNull()) {
                     pos = QPointF(1.0, 1.0);
-                else
+                } else {
+                    pos.setX(pos.x() * Rose2Qt);
                     pos.setY(1.0);
+                }
                 w->setPos(pos);
                 logDebug4("umbrellify(Swimlane %1) : x=%2, width=%3, m_attributes size=%4",
                           name, pos.x(), width, attr->attributes().size());
@@ -1109,15 +1127,19 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             QString line_color = attr->findAttribute(QLatin1String("line_color")).string;
             if (!line_color.isEmpty()) {
                 unsigned int lineColor = line_color.toUInt();
-                QString hexLineColor = QLatin1Char('#') + QString::number(lineColor, 16);
-                QColor c(hexLineColor);
+                const QString hexColor = QString::number(lineColor, 16);
+                QString hexRGB = QString(QLatin1String("%1")).arg(hexColor, 6, QLatin1Char('0'));
+                logDebug3("%1 %2 : lineColor %3", objType, name, hexRGB);
+                QColor c(QLatin1Char('#') + hexRGB);
                 w->setLineColorCmd(c);
             }
             QString fill_color = attr->findAttribute(QLatin1String("fill_color")).string;
             if (!fill_color.isEmpty()) {
                 unsigned int fillColor = fill_color.toUInt();
-                QString hexFillColor = QLatin1Char('#') + QString::number(fillColor, 16);
-                QColor f(hexFillColor);
+                const QString hexColor = QString::number(fillColor, 16);
+                QString hexRGB = QString(QLatin1String("%1")).arg(hexColor, 6, QLatin1Char('0'));
+                logDebug3("%1 %2 : fillColor %3", objType, name, hexRGB);
+                QColor f(QLatin1Char('#') + hexRGB);
                 w->setFillColorCmd(f);
             }
             view->umlScene()->setupNewWidget(w, pos.isNull());
