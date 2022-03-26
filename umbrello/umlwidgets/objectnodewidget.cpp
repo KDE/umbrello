@@ -77,47 +77,29 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawRect(0, 0, w, h);
     painter->setFont(UMLWidget::font());
 
-    switch (m_objectNodeType)
-    {
-    case Normal : break;
-    case Buffer :
-        {
-            painter->setPen(textColor());
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter,
-                              Widget_Utils::adornStereo(QLatin1String("centralBuffer")));
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight,
-                              Qt::AlignHCenter, name());
+    if (m_objectNodeType == Flow) {
+        QString objectflow_value;
+        if (state() == QLatin1String("-") || state().isEmpty()) {
+            objectflow_value = QLatin1Char(' ');
+        } else {
+            objectflow_value = QLatin1Char('[') + state() + QLatin1Char(']');
         }
-        break;
-    case Data :
-        {
-            painter->setPen(textColor());
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter,
-                              Widget_Utils::adornStereo(QLatin1String("datastore")));
-            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, 
-                              Qt::AlignHCenter, name());
-        }
-        break;
-    case Flow :
-        {
-            QString objectflow_value;
-            if (state() == QLatin1String("-") || state().isEmpty())
-            {
-                objectflow_value = QLatin1Char(' ');
-            }
-            else
-            {
-                objectflow_value = QLatin1Char('[') + state() + QLatin1Char(']');
-            }
-
-            painter->drawLine(10, h/2, w-10, h/2);
-            painter->setPen(textColor());
-            painter->setFont(UMLWidget::font());
-            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight,
-                              Qt::AlignHCenter, name());
-            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
-        }
-        break;
+        painter->drawLine(10, h/2, w-10, h/2);
+        painter->setPen(textColor());
+        painter->setFont(UMLWidget::font());
+        painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN,
+                          w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+        painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN,
+                          w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
+    } else {
+        painter->setPen(textColor());
+        const QString stereoType = (m_objectNodeType == Normal ? QLatin1String("object") :
+                                    m_objectNodeType == Buffer ? QLatin1String("centralBuffer")
+                                                               : QLatin1String("datastore"));
+        painter->drawText(OBJECTNODE_MARGIN, textStartY / 2, w - OBJECTNODE_MARGIN * 2, fontHeight,
+                          Qt::AlignHCenter, Widget_Utils::adornStereo(stereoType));
+        painter->drawText(OBJECTNODE_MARGIN, (textStartY / 2) + fontHeight + 5,
+                          w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
     }
 
     UMLWidget::paint(painter, option, widget);
