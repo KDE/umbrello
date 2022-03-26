@@ -38,8 +38,10 @@ ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml:
   : UMLWidget(scene, WidgetBase::wt_Activity, id),
     m_activityType(activityType)
 {
-    // set non zero size to avoid crash on painting
-    setSize(1, 1);
+    // Set non zero size to avoid crash on painting.
+    // We cannot call the reimplemented method minimumSize() in the constructor
+    // because the vtable is not yet finalized (i.e. dynamic dispatch does not work).
+    setSize(15, 15);
 }
 
 /**
