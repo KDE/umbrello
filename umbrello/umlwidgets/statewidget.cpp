@@ -41,9 +41,10 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id
 {
     setStateType(stateType);
     m_drawVertical = true;
-    m_Text = QLatin1String("State");
-    QSizeF size = minimumSize();
-    setSize(size.width(), size.height());
+    // Set non zero size to avoid crash on painting.
+    // We cannot call the reimplemented method minimumSize() in the constructor
+    // because the vtable is not yet finalized (i.e. dynamic dispatch does not work).
+    setSize(15, 15);
 }
 
 /**
@@ -222,7 +223,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  */
 QSizeF StateWidget::minimumSize() const
 {
-    int width = 10, height = 10;
+    int width = 15, height = 15;
     switch (m_stateType) {
         case StateWidget::Normal:
         {
