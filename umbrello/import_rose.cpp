@@ -261,14 +261,13 @@ QString extractValue(QStringList& l, QTextStream& stream)
         QString text = collectVerbatimText(stream);
         nClosures--;  // expect own closure
         return text;
-    } else {
-        result = shift(l);
-        if (l.first() != QLatin1String(")")) {
-            logError1("%1 expecting closing parenthesis", loc());
-            return result;
-        }
-        l.pop_front();
     }
+    result = shift(l);
+    if (l.first() != QLatin1String(")")) {
+        logError1("%1 expecting closing parenthesis", loc());
+        return result;
+    }
+    l.pop_front();
     while (l.count() && l.first() == QLatin1String(")")) {
         nClosures++;
         l.pop_front();
