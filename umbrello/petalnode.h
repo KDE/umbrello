@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef PETALNODE__H
@@ -58,7 +58,8 @@ public:
     // getters
     NodeType type() const;
     QStringList initialArgs() const;  // name and other initial args
-    QString name() const;  // convenience function: equal to initialArgs().first()
+    QString name() const;     // convenience function: equal to initialArgs().first()
+    QString viewTag() const;  // convenience function: equal to initialArgs().last()
     QString documentation() const;
     NameValueList attributes() const;
 
