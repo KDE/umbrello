@@ -29,7 +29,10 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::ID::T
   : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
     m_orientation(ori)
 {
-    setSize(10, 40);
+    if (ori == Qt::Vertical)
+        setSize(10, 40);
+    else
+        setSize(40, 10);
     m_usesDiagramFillColor = false;
     setFillColorCmd(QColor("black"));
 }
