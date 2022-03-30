@@ -31,16 +31,17 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "widget_factory.h"
-#include "notewidget.h"
-#include "associationwidget.h"
-#include "floatingtextwidget.h"
-#include "boxwidget.h"
-#include "statewidget.h"
 #include "activitywidget.h"
-#include "objectnodewidget.h"
+#include "associationwidget.h"
+#include "boxwidget.h"
+#include "classifierwidget.h"
+#include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
+#include "notewidget.h"
+#include "objectnodewidget.h"
+#include "statewidget.h"
 #include "umlwidgetlist.h"
+#include "widget_factory.h"
 
 // qt includes
 #include <QtGlobal>
@@ -58,6 +59,10 @@ namespace Import_Rose {
  * The exact factor can be configured here.
  */
 const qreal Rose2Qt = 0.5;
+
+typedef QMap<QString, UMLWidget*> ViewTagToWidget_Map;
+// map of diagram objects (is reset on each diagram parsed)
+ViewTagToWidget_Map viewTagToWidget;
 
 /**
  * Return the given string without surrounding quotation marks.
@@ -560,12 +565,9 @@ void handleAssocView(PetalNode *attr,
 {
     QString assocStr = Uml::AssociationType::toString(assocType);
     PetalNode *roleview_list = attr->findAttribute(QLatin1String("roleview_list")).node;
-    if (roleview_list == 0) {
-        logError1("Import_Rose::handleAssocView: %1 roleview_list not found", assocStr);
-        return;
-    }
-    PetalNode::StringOrNode supElem, cliElem;
+    QString supplier, client;
     if (roleview_list) {
+        PetalNode::StringOrNode supElem, cliElem;
         PetalNode::NameValueList roles = roleview_list->attributes();
         if (roles.length() < 2) {
             logError1("Import_Rose::handleAssocView: %1 roleview_list should have 2 elements", assocStr);
@@ -580,57 +582,70 @@ void handleAssocView(PetalNode *attr,
             logError1("Import_Rose::handleAssocView: %1 roleview_list roles are incomplete", assocStr);
             return;
         }
+        supplier = supElem.string;
+        client   = cliElem.string;
+    } else {
+        supplier = attr->findAttribute(QLatin1String("supplier")).string;
+        client   = attr->findAttribute(QLatin1String("client")).string;
     }
-    QString supplier = supElem.string;
-    QString client   = cliElem.string;
-    if (supplier.isEmpty() || client.isEmpty()) {
-        if (supElem.node || cliElem.node) {
-            logError1("Import_Rose::handleAssocView: %1 unexpected supplier and/or client type"
-                      " (actual: NODE; expected: STRING)", assocStr);
-        } else {
-            logError1("Import_Rose::handleAssocView: %1 supplier and/or client non-existent or empty",
-                      assocStr);
-        }
+    if (supplier.isEmpty()) {
+        logError1("Import_Rose::handleAssocView: %1 attribute 'supplier' non-existent or empty", assocStr);
         return;
     }
-    PetalNode *sup = 0, *cli = 0;
-    for (int c = 0; c < parentAttrs.count(); ++c) {
-        PetalNode *n = parentAttrs[c].second.node;
-        QStringList initArgs = n->initialArgs();
-        QString tag = initArgs.last();
-        if (tag == client)
-            cli = n;
-        else if (tag == supplier)
-            sup = n;
+    if (client.isEmpty()) {
+        logError1("Import_Rose::handleAssocView: %1 attribute 'client' non-existent or empty", assocStr);
+        return;
     }
-    if (sup && cli) {
+    UMLWidget *supW = nullptr;
+    UMLWidget *cliW = nullptr;
+    if (viewTagToWidget.contains(supplier))
+        supW = viewTagToWidget[supplier];
+    else
+        logDebug1("handleAssocView: %1 attribute 'supplier' not in viewTagToWidget", assocStr);
+    if (viewTagToWidget.contains(client))
+        cliW = viewTagToWidget[client];
+    else
+        logDebug1("handleAssocView: %1 attribute 'client' not in viewTagToWidget", assocStr);
+    if (!supW || !cliW) {
+        PetalNode *sup = 0, *cli = 0;
+        for (int c = 0; c < parentAttrs.count(); ++c) {
+            PetalNode *n = parentAttrs[c].second.node;
+            QStringList initArgs = n->initialArgs();
+            QString tag = initArgs.last();
+            if (tag == client)
+                cli = n;
+            else if (tag == supplier)
+                sup = n;
+        }
+        if (!sup || !cli) {
+            logError2("Import_Rose::handleAssocView: %1 could not find client with tag %2", assocStr, client);
+            return;
+        }
         QString spIdStr = quidu(sup);
         Uml::ID::Type spId = Uml::ID::fromString(spIdStr);
         QString clIdStr = quidu(cli);
         Uml::ID::Type clId = Uml::ID::fromString(clIdStr);
-        if (spId != Uml::ID::None && clId != Uml::ID::None) {
-            UMLWidget *supW = view->umlScene()->widgetOnDiagram(spId);
-            UMLWidget *cliW = view->umlScene()->widgetOnDiagram(clId);
-            if (supW == 0) {
-                logError2("Import_Rose::handleAssocView: %1 supplier widget %2 is not on diagram (?)",
-                          assocStr, spIdStr);
-            } else if (cliW == 0) {
-                logError2("Import_Rose::handleAssocView: %1 client widget is not on diagram (?)",
-                          assocStr, clIdStr);
-            } else {
-                // UMLAssociation *a = o->asUMLAssociation();
-                AssociationWidget *aw = AssociationWidget::create
-                                         (view->umlScene(), cliW, assocType,
-                                          supW, umlAssoc);
-                view->umlScene()->addAssociation(aw);
-            }
-        } else {
+        if (spId == Uml::ID::None || clId == Uml::ID::None) {
             logError3("Import_Rose::handleAssocView: %1 bad or nonexistent quidu at client %2 (%3)",
                       assocStr, client, cli->name());
+            return;
         }
-    } else {
-        logError2("Import_Rose::handleAssocView: %1 could not find client with tag %2", assocStr, client);
+        supW = view->umlScene()->widgetOnDiagram(spId);
+        cliW = view->umlScene()->widgetOnDiagram(clId);
+        if (supW == 0) {
+            logError2("Import_Rose::handleAssocView: %1 supplier widget %2 is not on diagram (?)",
+                      assocStr, spIdStr);
+            return;
+        }
+        if (cliW == 0) {
+            logError2("Import_Rose::handleAssocView: %1 client widget is not on diagram (?)",
+                      assocStr, clIdStr);
+            return;
+        }
     }
+    AssociationWidget *aw = AssociationWidget::create (view->umlScene(), cliW, assocType,
+                                                       supW, umlAssoc);
+    view->umlScene()->addAssociation(aw);
 }
 
 Uml::DiagramType::Enum diagramType(QString objType)
@@ -642,7 +657,8 @@ Uml::DiagramType::Enum diagramType(QString objType)
           objType == QLatin1String("ActivityDiagram") ? Uml::DiagramType::Activity :
           objType == QLatin1String("Module_Diagram")  ? Uml::DiagramType::Component :
           objType == QLatin1String("Process_Diagram") ? Uml::DiagramType::Deployment :
-          // not yet implemented: Sequence, Collaboration
+          // not yet implemented: InteractionDiagram (Sequence),
+          //                      ObjectDiagram (Collaboration)
                                          Uml::DiagramType::Undefined);
     return dt;
 }
@@ -665,8 +681,6 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
     QString name = clean(args[1]);
     Uml::ID::Type id = quid(node);
     Uml::DiagramType::Enum dt = Uml::DiagramType::Undefined;
-    typedef QMap<QString, UMLWidget*> ViewTagToWidget_Map;
-    ViewTagToWidget_Map viewTagToWidget;
 
     if (objType == QLatin1String("Class_Category") || objType == QLatin1String("SubSystem")) {
         const bool isSubsystem = (objType == QLatin1String("SubSystem"));
@@ -851,6 +865,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                       "parentPkg must be UMLFolder for diagrams", dt);
             return false;
         }
+        viewTagToWidget.clear();
         UMLDoc *umlDoc = UMLApp::app()->document();
         UMLFolder *rootFolder = parentPkg->asUMLFolder();
         UMLView *view = umlDoc->createDiagram(rootFolder, dt, name, id);
@@ -899,6 +914,15 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                               objType, name, height);
                 }
                 w->setSize(width, height);
+                const QString icon = clean(attr->findAttribute(QLatin1String("icon")).string);
+                if (icon == QLatin1String("Interface")) {
+                    ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(w);
+                    if (cw)
+                        cw->setVisualProperty(ClassifierWidget::DrawAsCircle);
+                    else
+                        logDebug2("Import_Rose::umbrellify(%1) : Setting %2 to circle is not yet implemented",
+                                  objType, name);
+                }
             } else if (objType == QLatin1String("InheritView") ||
                        objType == QLatin1String("RealizeView") ||
                        objType == QLatin1String("UsesView")) {
@@ -1214,6 +1238,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 width = w->width();
                 height = w->height();
             } else {
+                // CHECK:  ConnectionView DataFlowView DependencyView InterfaceView
+                //         InterObjView LinkView
                 logDebug2("umbrellify(%1) unsupported object type %2", name, objType);
             }
             if (!w)
