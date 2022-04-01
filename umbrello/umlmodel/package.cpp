@@ -162,7 +162,8 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
     else if (interactOnConflict) {
       QString name = pObject->name();
       QString oldName = name;
-      while (findObject(name) != 0 && pObject->baseType() != UMLObject::ot_Instance) {
+      UMLObject *o;
+      while ((o = findObject(name)) != 0 && o->baseType() != UMLObject::ot_Association) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = Dialog_Utils::askName(i18nc("object name", "Name"),
