@@ -249,15 +249,17 @@ void UMLPackage::removeObject(UMLObject *pObject)
 void UMLPackage::removeAllObjects()
 {
     UMLCanvasObject::removeAllChildObjects();
-    UMLObject *o = 0;
 
-    while (!m_objects.isEmpty() && (o = m_objects.first()) != 0)  {
+    for (int i = 0; i < m_objects.size(); i++) {
+        UMLObject *o = m_objects.at(i);
+        uIgnoreZeroPointer(o);
         UMLPackage *pkg = o->asUMLPackage();
         if (pkg)
             pkg->removeAllObjects();
         removeObject(o);
         delete o;
     }
+    m_objects.clear();
 }
 
 /**
