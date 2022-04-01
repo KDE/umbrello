@@ -19,6 +19,7 @@
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
+#include "datatype.h"
 #include "enum.h"
 #include "enumliteral.h"
 #include "association.h"
@@ -277,6 +278,12 @@ public:
             item->setID(quid(attNode));
             QString quidref = quidu(attNode);
             QString type = clean(attNode->findAttribute(m_itemTypeDesignator).string);
+            if (quidref.isEmpty() && !type.isEmpty()) {
+                Object_Factory::assignUniqueIdOnCreation(true);
+                UMLDatatype *dt = UMLApp::app()->document()->createDatatype(type);
+                Object_Factory::assignUniqueIdOnCreation(false);
+                quidref = Uml::ID::toString(dt->id());
+            }
             setTypeReferences(item, quidref, type);
             transferVisibility(attNode, item);
             item->setDoc(attNode->documentation());
@@ -883,6 +890,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             QStringList args = attr->initialArgs();
             QString objType = args[0];
             QString name = clean(args[1]);
+            QString widgetId = attr->viewTag();
             qreal width = 0.0;
             qreal height = 0.0;
             UMLWidget *w = 0;
@@ -1270,9 +1278,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 QColor f(QLatin1Char('#') + hexRGB);
                 w->setFillColorCmd(f);
             }
+
+            if (!widgetId.isEmpty())
+               w->setLocalID(Uml::ID::fromString(widgetId));
             view->umlScene()->setupNewWidget(w, pos.isNull());
-            const QString viewTag = attr->viewTag();
-            viewTagToWidget[viewTag] = w;
+            viewTagToWidget[widgetId] = w;
         }
         // Adjust swimlane Y extent to encompass all widgets
         maxY += 20.0;  // add a bottom margin
