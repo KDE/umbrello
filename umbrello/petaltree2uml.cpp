@@ -522,6 +522,8 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
     /* End of workaround */
 
     if (file_name.startsWith(QLatin1String("$"))) {
+        logDebug2("handleControlledUnit(%1) file_name before pathmap subst: %2",
+                  name, file_name);
         const int firstSlash = file_name.indexOf(QLatin1Char('/'));
         QString envVarName;
         if (firstSlash < 0) {
@@ -543,6 +545,10 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
             file_name = envVar;
         else
             file_name = envVar + file_name.mid(firstSlash);
+        logDebug2("handleControlledUnit(%1) file_name after pathmap subst: %2",
+                  name, file_name);
+    } else {
+        logDebug2("handleControlledUnit(%1) file_name: %2", name, file_name);
     }
 
     QFileInfo fi(file_name);
@@ -1270,7 +1276,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 w->setLineColorCmd(c);
             }
             QString fill_color = attr->findAttribute(QLatin1String("fill_color")).string;
-            if (!fill_color.isEmpty()) {
+            if (fill_color.isEmpty()) {
+                w->setUseFillColor(false);
+            } else {
                 unsigned int fillColor = fill_color.toUInt();
                 const QString hexColor = QString::number(fillColor, 16);
                 QString hexRGB = QString(QLatin1String("%1")).arg(hexColor, 6, QLatin1Char('0'));
