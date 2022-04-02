@@ -715,6 +715,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             setUrlUntitled();
             m_bTypesAreResolved = false;
             status = Import_Rose::loadFromMDL(file);
+            // qApp->processEvents();  // give UI events a chance
+            // activateAllViews();
             if (status) {
                 if (UMLApp::app()->currentView() == 0) {
                     QString name = createDiagramName(Uml::DiagramType::Class, false);
@@ -3516,7 +3518,8 @@ UMLDatatype * UMLDoc::createDatatype(const QString &name)
         if (umlobject) {
             logWarn1("UMLDoc::createDatatype(%1) : Name already exists but is not a Datatype", name);
         }
-        umlobject = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
+        umlobject = Object_Factory::createUMLObject(UMLObject::ot_Datatype,
+                                                    Model_Utils::normalize(name), m_datatypeRoot);
         dt = dynamic_cast<UMLDatatype*>(umlobject);
     }
     return dt;
