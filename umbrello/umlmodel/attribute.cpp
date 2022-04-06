@@ -321,10 +321,14 @@ bool UMLAttribute::load1(QDomElement & element)
                     m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
             } else {
                 QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
-                if (xmiType.contains(QLatin1String("PrimitiveType")) &&
-                       href.contains(QRegExp(QLatin1String("#[A-Za-z][a-z]+$")))) {
+                bool isPrimitive = (xmiType.isEmpty() ?
+                                    href.contains(QLatin1String("PrimitiveType")) :
+                                    xmiType.contains(QLatin1String("PrimitiveType")));
+                if (isPrimitive && href.contains(QRegExp(QLatin1String("#[A-Za-z][a-z]+$")))) {
                     // Example from OMG XMI:
                     //   <type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20090901/UML.xmi#Boolean"/>
+                    // Example from MagicDraw:
+                    //   <type href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#String"/>
                     // Examples from PapyrusUML:
                     //   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                     //   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
