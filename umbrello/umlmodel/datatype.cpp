@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,6 +16,7 @@ UMLDatatype::UMLDatatype(const QString & name, Uml::ID::Type id)
     m_isRef(false), m_isActive(true)
 {
     m_BaseType = UMLObject::ot_Datatype;
+    setStereotype(QLatin1String("dataType"));
 }
 
 /**
