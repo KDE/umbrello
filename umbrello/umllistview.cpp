@@ -2243,10 +2243,6 @@ void UMLListView::slotDeleteSelectedItems()
  */
 void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
 {
-    if (type == UMLListViewItem::lvt_Datatype) {
-        parentItem = m_datatypeFolder;
-    }
-
     parentItem->setOpen(true);
 
     // Determine the UMLObject belonging to the listview item we're using as parent
