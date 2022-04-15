@@ -806,13 +806,18 @@ bool isCommonXMI1Attribute(const QString &tag)
 /**
  * Return true if the given type is common among the majority
  * of programming languages, such as "bool" or "boolean".
- * TODO: Make this depend on the active programming language.
  */
 bool isCommonDataType(QString type)
 {
     CodeGenerator *gen = UMLApp::app()->generator();
-    if (gen == 0)
-        return true;   // gen == NULL means we use UMLPrimitiveTypes
+    if (gen == 0) {
+        // When no code generator is set we use UMLPrimitiveTypes
+        for (int i = 0; i < Uml::PrimitiveTypes::Reserved; i++) {
+            if (type == Uml::PrimitiveTypes::toString(i))
+                return true;
+        }
+        return false;
+    }
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     const QStringList dataTypes = gen->defaultDatatypes();
     QStringList::ConstIterator end(dataTypes.end());
