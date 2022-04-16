@@ -409,7 +409,7 @@ Uml::AssociationType::Enum AssocRules::isGeneralisationOrRealisation(UMLWidget* 
     return Uml::AssociationType::Generalization;
 }
 
-AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
+const AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     // Language  Association                       widgetA                    widgetB                     role    multi   bidir.  self   level
     //----+---------------------------------------+--------------------------+---------------------------+-------+-------+-------+-----+----
     { All, Uml::AssociationType::Association_Self, WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true,  Any  },
@@ -554,7 +554,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { All, Uml::AssociationType::Child2Category,   WidgetBase::wt_Entity,     WidgetBase::wt_Category,    false,  false,  true,   false, Any  }
 };
 
-int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Rule);
+const int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Rule);
 
 bool AssocRules::Assoc_Rule::isValid() const
 {

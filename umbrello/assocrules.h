@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef ASSOCRULES_H
@@ -54,8 +54,8 @@ private:
         Level level;                       ///< UML level
     };
 
-    static Assoc_Rule m_AssocRules[];  ///< Container that holds all the rules.
-    static int        m_nNumRules;     ///< The number of rules known about.
+    static const Assoc_Rule m_AssocRules[];  ///< Container that holds all the rules.
+    static const int        m_nNumRules;     ///< The number of rules known about.
 };
 
 #endif
