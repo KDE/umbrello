@@ -21,6 +21,7 @@
 #include "forkjoinwidget.h"
 #include "umlscene.h"
 #include "umllistview.h"
+#include "model_utils.h"
 
 // kde includes
 #include <typeinfo>
@@ -49,6 +50,11 @@ AssocRules::~AssocRules()
 bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget)
 {
     WidgetBase::WidgetType widgetType = widget->baseType();
+    if (widgetType == WidgetBase::wt_Datatype &&
+             Model_Utils::isCommonDataType(widget->name())) {
+        // cannot add association to programming language predefined type
+        return false;
+    }
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; ++i) {
         const Assoc_Rule& rule = m_AssocRules[i];
@@ -449,6 +455,7 @@ const AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { All, Uml::AssociationType::UniAssociation,   WidgetBase::wt_Node,       WidgetBase::wt_Node,        true,   false,  false,  false, Any  },
     { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
     { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Class,      WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
+    { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Datatype,   WidgetBase::wt_Datatype,    false,  false,  false,  false, Any  },
     { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Interface,   false,  false,  false,  false, Any  },
     { All, Uml::AssociationType::Generalization,   WidgetBase::wt_Interface,  WidgetBase::wt_Class,       false,  false,  false,  false, Any  },
     { All, Uml::AssociationType::Generalization,   WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     false,  false,  false,  false, Any  },
@@ -459,6 +466,7 @@ const AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Enum,        true,   true,   false,  false, Any  },
     { All, Uml::AssociationType::Aggregation,      WidgetBase::wt_Class,      WidgetBase::wt_Datatype,    true,   true,   false,  false, Any  },
     { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   false,  false,  true,  Any  },
+    { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Datatype,   WidgetBase::wt_Datatype,    true,   false,  false,  true,  Any  },
     { All, Uml::AssociationType::Dependency,       WidgetBase::wt_UseCase,    WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
     { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_Actor,       true,   false,  false,  false, Any  },
     { All, Uml::AssociationType::Dependency,       WidgetBase::wt_Actor,      WidgetBase::wt_UseCase,     true,   false,  false,  false, Any  },
