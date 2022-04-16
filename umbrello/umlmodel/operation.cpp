@@ -111,14 +111,14 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
     logDebug1("UMLOperation::moveParmLeft called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
-    if ((idx = m_List.indexOf(a)) == -1) {
+    if ((idx = m_args.indexOf(a)) == -1) {
         logDebug1("UMLOperation::moveParmLeftError move parm left %1", a->name());
         return;
     }
     if (idx == 0)
         return;
-    m_List.removeAll(a);
-    m_List.insert(idx-1, a);
+    m_args.removeAll(a);
+    m_args.insert(idx-1, a);
 }
 
 /**
@@ -135,15 +135,15 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
     logDebug1("UMLOperation::moveParmRight called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
-    if ((idx=m_List.indexOf(a)) == -1) {
+    if ((idx = m_args.indexOf(a)) == -1) {
         logDebug1("UMLOperation::moveParmRight: Error move parm right %1", a->name());
         return;
     }
-    int count = m_List.count();
+    int count = m_args.count();
     if (idx == count-1)
         return;
-    m_List.removeAll(a);
-    m_List.insert(idx+1, a);
+    m_args.removeAll(a);
+    m_args.insert(idx+1, a);
 }
 
 /**
@@ -162,7 +162,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
     }
     logDebug1("UMLOperation::removeParm called for %1", a->name());
     disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
-    if(!m_List.removeAll(a))
+    if (!m_args.removeAll(a))
         logDebug1("UMLOperation::removeParm: Error removing parm %1", a->name());
 
     if (emitModifiedSignal)
@@ -176,7 +176,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
  */
 UMLAttributeList UMLOperation::getParmList() const
 {
-    return m_List;
+    return m_args;
 }
 
 /**
@@ -188,7 +188,7 @@ UMLAttributeList UMLOperation::getParmList() const
 UMLAttribute* UMLOperation::findParm(const QString &name) const
 {
     UMLAttribute * obj=0;
-    foreach (obj, m_List) {
+    foreach (obj, m_args) {
         if (obj->name() == name)
             return obj;
     }
@@ -224,11 +224,11 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
         }
         return s;
     }
-    int last = m_List.count();
+    int last = m_args.count();
     if (last) {
         s.append(QLatin1String("("));
         int i = 0;
-        foreach (UMLAttribute *param, m_List) {
+        foreach (UMLAttribute *param, m_args) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
@@ -275,10 +275,10 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
  */
 void UMLOperation::addParm(UMLAttribute *parameter, int position)
 {
-    if(position >= 0 && position <= (int)m_List.count())
-        m_List.insert(position, parameter);
+    if (position >= 0 && position <= (int)m_args.count())
+        m_args.insert(position, parameter);
     else
-        m_List.append(parameter);
+        m_args.append(parameter);
     UMLObject::emitModified();
     connect(parameter, SIGNAL(modified()), this, SIGNAL(modified()));
 }
@@ -310,10 +310,10 @@ bool UMLOperation::operator==(const UMLOperation & rhs) const
     if (getTypeName() != rhs.getTypeName())
         return false;
 
-    if (m_List.count() != rhs.m_List.count())
+    if (m_args.count() != rhs.m_args.count())
         return false;
 
-    if (!(m_List == rhs.m_List))
+    if (!(m_args == rhs.m_args))
         return false;
 
     return true;
@@ -329,7 +329,7 @@ void UMLOperation::copyInto(UMLObject *lhs) const
 
     UMLClassifierListItem::copyInto(target);
 
-    m_List.copyInto(&(target->m_List));
+    m_args.copyInto(&(target->m_args));
 }
 
 /**
@@ -354,7 +354,7 @@ bool UMLOperation::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
-    foreach (UMLAttribute* pAtt, m_List) {
+    foreach (UMLAttribute* pAtt, m_args) {
         if (! pAtt->resolveRef())
             overallSuccess = false;
     }
@@ -541,7 +541,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(QLatin1String("isVirtual"), QLatin1String("true"));
     if (m_bInline)
         writer.writeAttribute(QLatin1String("isInline"), QLatin1String("true"));
-    if (m_pSecondary == 0 && m_List.isEmpty()) {
+    if (m_pSecondary == 0 && m_args.isEmpty()) {
         writer.writeEndElement();  // UML:Operation
         return;
     }
@@ -571,7 +571,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
     }
 
     //save each attribute here, type different
-    foreach(UMLAttribute* pAtt, m_List) {
+    foreach(UMLAttribute* pAtt, m_args) {
         pAtt->UMLObject::save1(writer, QLatin1String("Parameter"), QLatin1String("ownedParameter"));
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
@@ -698,7 +698,7 @@ bool UMLOperation::load1(QDomElement & element)
                     pAtt->setParmKind(Uml::ParameterDirection::InOut);
                 else
                     pAtt->setParmKind(Uml::ParameterDirection::In);
-                m_List.append(pAtt);
+                m_args.append(pAtt);
             }
         }
         node = node.nextSibling();

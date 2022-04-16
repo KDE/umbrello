@@ -80,7 +80,7 @@ protected:
 
 private:
     Uml::ID::Type    m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
-    UMLAttributeList m_List;      ///< Parameter list
+    UMLAttributeList m_args;      ///< Parameter list
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
     bool             m_bOverride; ///< Holds the override attribute of the <UML:Operation>
     bool             m_bFinal;    ///< Holds the final attribute of the <UML:Operation>
