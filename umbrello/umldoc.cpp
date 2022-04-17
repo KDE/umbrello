@@ -2674,6 +2674,13 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 continue;
             }
         }
+        if (Model_Utils::isCommonXMI1Attribute(type)) {
+            continue;
+        }
+        if (tagEq(type, QLatin1String("packagedElement")) ||
+                   tagEq(type, QLatin1String("ownedElement"))) {
+            type = tempElement.attribute(QLatin1String("xmi:type"));
+        }
         if (tagEq(type, QLatin1String("Namespace.ownedElement")) ||
                 tagEq(type, QLatin1String("Namespace.contents")) ||
                 tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
@@ -2693,12 +2700,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         // From here on, it's support for stereotypes, pre 1.5.5 versions,
         // and foreign files
-        if (Model_Utils::isCommonXMI1Attribute(type)) {
-            continue;
-        } else if (tagEq(type, QLatin1String("packagedElement")) ||
-                   tagEq(type, QLatin1String("ownedElement"))) {
-            type = tempElement.attribute(QLatin1String("xmi:type"));
-        }
         if (!tempElement.hasAttribute(QLatin1String("xmi.id")) &&
             !tempElement.hasAttribute(QLatin1String("xmi:id"))) {
             QString idref = tempElement.attribute(QLatin1String("xmi.idref"));
