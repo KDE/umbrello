@@ -201,18 +201,30 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
     if (m_source[m_srcIndex] != QLatin1String("{"))
         skipStmt(QLatin1String("{"));
     bool firstTokenAfterNewline = true;
+    bool dictInitializer = false;
     int braceNesting = 0;
     QString token;
     while (!(token = advance()).isNull()) {
         if (token == QLatin1String("}")) {
-            if (braceNesting <= 0)
-                break;
-            braceNesting--;
+            if (dictInitializer) {
+                body += QLatin1Char('}');
+                dictInitializer = false;
+            } else {
+                if (braceNesting <= 0)
+                    break;
+                braceNesting--;
+            }
             body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
         } else if (token == QLatin1String("{")) {
-            braceNesting++;
-            body += QLatin1String(":\n");
+            if (m_source[m_srcIndex - 1] == QLatin1String("=")) {
+                body += QLatin1Char('{');
+                dictInitializer = true;
+            } else {
+                body += QLatin1Char(':');
+                braceNesting++;
+            }
+            body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
         } else if (token == QLatin1String(";")) {
             body += QLatin1Char('\n');
