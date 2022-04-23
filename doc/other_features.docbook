@@ -21,6 +21,11 @@ You can also export a complete diagram as an image. The only thing you need to d
 the diagram you want to export, and then the option <guimenuitem>Export as Picture...</guimenuitem> from
 the <guimenu>Diagram</guimenu> menu.
 </para>
+<para>
+You can export multiple diagrams at once using the <guimenuitem>Export Diagrams as Pictures...</guimenuitem>
+option from the <guimenu>File</guimenu> menu. With this, you can also set the image resolution,
+so that the images won't be as blurry.
+</para>
 </sect2>
 <sect2 id="printing">
 <title>Printing</title>
