@@ -28,8 +28,6 @@ namespace Uml
     {
         setText(i18n("Create widget : %1", widget->name()));
 
-        addWidgetToScene(widget);
-
         QString xmi;
         QXmlStreamWriter stream(&xmi);
         stream.writeStartElement(QLatin1String("widget"));
@@ -83,15 +81,19 @@ namespace Uml
     void CmdCreateWidget::redo()
     {
         if (!m_isAssoc) {
-            UMLWidget* widget = scene()->findWidget(m_widgetId);
+            UMLWidget* widget = m_widget;
             if (widget == nullptr) {
-                // If the widget is not found, the add command was undone. Load the
-                // widget back from the saved XMI state.
-                QDomElement widgetElement = m_element.firstChild().toElement();
-                widget = scene()->loadWidgetFromXMI(widgetElement);
-                if (widget) {
-                    addWidgetToScene(widget);
+                widget = scene()->findWidget(m_widgetId);
+                if (widget == nullptr) {
+                    // If the widget is not found, the add command was undone. Load the
+                    // widget back from the saved XMI state.
+                    QDomElement widgetElement = m_element.firstChild().toElement();
+                    widget = scene()->loadWidgetFromXMI(widgetElement);
                 }
+            }
+            if (widget) {
+                addWidgetToScene(widget);
+                scene()->update();
             }
         } else {
             AssociationWidget* widget = scene()->findAssocWidget(m_widgetId);

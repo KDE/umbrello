@@ -1355,8 +1355,8 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
     removeItem(o);
-    o->deleteLater();
     m_doc->setModified(true);
+    update();
 }
 
 /**
