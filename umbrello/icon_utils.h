@@ -16,9 +16,6 @@
 
 // qt includes
 #include <QCursor>
-#if QT_VERSION >= 0x050000
-#include <QIcon>
-#endif
 #include <QPixmap>
 
 /**

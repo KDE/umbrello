@@ -14,6 +14,10 @@
 
 #include <kiconloader.h>
 
+// qt includes
+#if QT_VERSION >= 0x050000
+#include <QIcon>
+#endif
 #include <QFile>
 
 DEBUG_REGISTER(Icon_Utils)
