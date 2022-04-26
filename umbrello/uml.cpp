@@ -316,8 +316,9 @@ void UMLApp::initActions()
 #endif
     QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
-    editUndo = m_pUndoStack->createUndoAction(actionCollection());
-    editRedo = m_pUndoStack->createRedoAction(actionCollection());
+    editUndo = KStandardAction::undo(this, SLOT(slotEditUndo()), actionCollection());
+    editRedo = KStandardAction::redo(this, SLOT(slotEditRedo()), actionCollection());
+
 #if QT_VERSION >= 0x040600
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
@@ -431,6 +432,9 @@ void UMLApp::initActions()
     editCut->setToolTip(i18n("Cuts the selected section and puts it to the clipboard"));
     editCopy->setToolTip(i18n("Copies the selected section to the clipboard"));
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
+    editUndo->setToolTip(i18n("Undo last action"));
+    editRedo->setToolTip(i18n("Redo last undone action"));
+
     preferences->setToolTip(i18n("Set the default program preferences"));
 
     deleteSelectedWidget = actionCollection()->addAction(QLatin1String("delete_selected"));
