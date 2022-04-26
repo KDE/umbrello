@@ -2677,14 +2677,17 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (Model_Utils::isCommonXMI1Attribute(type)) {
             continue;
         }
-        if (tagEq(type, QLatin1String("packagedElement")) ||
-                   tagEq(type, QLatin1String("ownedElement"))) {
-            type = tempElement.attribute(QLatin1String("xmi:type"));
+        QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
+        if (tagEq(type, QLatin1String("packagedElement")) &&
+            tagEq(xmiType, QLatin1String("Model"))) {
+            type = xmiType;
         }
         if (tagEq(type, QLatin1String("Namespace.ownedElement")) ||
                 tagEq(type, QLatin1String("Namespace.contents")) ||
                 tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
-                tagEq(type, QLatin1String("Model"))) {
+                tagEq(type, QLatin1String("Model")) ||
+                type == QLatin1String("packagedElement") ||  // StarUML: <packagedElement xmi:type="uml:Model">
+                type == QLatin1String("ownedElement")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore the <UML:Namespace.ownedElement> tag is of no
