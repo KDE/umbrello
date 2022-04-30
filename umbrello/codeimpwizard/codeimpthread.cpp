@@ -15,7 +15,7 @@
 
 /**
  * Constructor.
- * @param parent  QObject wihch acts as parent to this CodeImpThread
+ * @param parent  QObject which acts as parent to this CodeImpThread
  * @param file  File to import for which the thread shall be spawned
  */
 CodeImpThread::CodeImpThread(QFileInfo& file, QObject* parent)
