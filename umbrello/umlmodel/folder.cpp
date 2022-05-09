@@ -310,8 +310,8 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
  * Auxiliary to saveToXMI():
  * - In UML1 mode it creates a <UML:Model> element when saving a predefined
  *   modelview, or a <UML:Package> element when saving a user created folder.
- * - In UML2 mode it creates a <packagedElement xmi:type="uml:Model"> when
- *   saving a predefined view, or a <packagedElement xmi:type="uml:Package">
+ * - In UML2 mode it creates a \<packagedElement xmi:type="uml:Model"> when
+ *   saving a predefined view, or a \<packagedElement xmi:type="uml:Package">
  *   when saving a user created folder.
  * Invokes saveContents() with the newly created element.
  */
@@ -487,7 +487,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
 }
 
 /**
- * Loads the owned elements of the <packagedElement xmi:type="uml:Model">
+ * Loads the owned elements of the \<packagedElement xmi:type="uml:Model">
  * (in UML2 mode) or <UML:Model> (in UML1 mode).
  */
 bool UMLFolder::load1(QDomElement& element)

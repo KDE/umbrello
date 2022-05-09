@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef XMLSCHEMAWRITER_H
@@ -63,12 +63,14 @@ private:
 
     bool determineIfHasChildNodes(UMLClassifier *c);
 
+#if 0
     /**
      * write all attributes for a given class
      * @param c the class for which we are generating code
      * @param j the stream associated with the output file
      */
-//    void writeAttributes(UMLClassifier *c, QTextStream &j);
+    void writeAttributes(UMLClassifier *c, QTextStream &j);
+#endif
 
     void writeElementDecl(const QString &elementName, const QString &elementTypeName, QTextStream &xs);
 

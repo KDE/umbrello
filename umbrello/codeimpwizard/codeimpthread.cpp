@@ -99,7 +99,7 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 /**
  * Slot for signal askQuestion.
  * @param question   the question to ask
- * @param answer     the pressed answer button code @ref KMessageBox::ButtonCode
+ * @param answer     the pressed answer button code @see KMessageBox::ButtonCode
  */
 void CodeImpThread::questionAsked(const QString& question, int& answer)
 {

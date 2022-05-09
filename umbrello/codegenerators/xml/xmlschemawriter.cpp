@@ -246,7 +246,7 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &xs
 }
 
 /**
- * Write a <group> declaration for this classifier. Used for interfaces to classes with
+ * Write a \<group\> declaration for this classifier. Used for interfaces to classes with
  * inheriting children.
  */
 void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
@@ -277,7 +277,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
 }
 
 /**
- * Write a <complexType> declaration for this classifier.
+ * Write a \<complexType\> declaration for this classifier.
  */
 void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         UMLAssociationList associations,

@@ -34,8 +34,8 @@ public:
 
 private:
 
-    QString cppToRubyType(const QString &cppType);
-    QString cppToRubyName(const QString &cppName);
+    QString cppToRubyType(const QString &typeStr);
+    QString cppToRubyName(const QString &nameStr);
 
     void writeAttributeMethods(UMLAttributeList attribs,
                                Uml::Visibility::Enum visibility, QTextStream &stream);

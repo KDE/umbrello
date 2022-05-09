@@ -336,6 +336,9 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Reimplementation of method from @ref WidgetBase
+ */
 bool PinPortBase::activate(IDChangeLog* changeLog)
 {
     Q_UNUSED(changeLog);

@@ -134,7 +134,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
 /**
  * Convert a C++ type such as 'int' or 'QWidget' to
  * ruby types Integer and Qt::Widget.
- * @param cppType the C++ type to be converted
+ * @param typeStr the C++ type to be converted
  */
 QString RubyWriter::cppToRubyType(const QString &typeStr)
 {

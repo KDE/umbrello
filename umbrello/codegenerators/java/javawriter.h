@@ -3,7 +3,7 @@
 
     SPDX-FileCopyrightText: 2003 Brian Thomas
     <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors
     <umbrello-devel@kde.org>
 */
 
@@ -53,7 +53,7 @@ private:
 
     void writeOperations(UMLClassifier *c, QTextStream &j);
 
-    void writeOperations(UMLOperationList &list, QTextStream &j);
+    void writeOperations(UMLOperationList &oplist, QTextStream &j);
 
     void writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
                              UMLAttributeList &atpriv, QTextStream &java);

@@ -848,7 +848,7 @@ void UMLObject::saveToXMI(QXmlStreamWriter& writer)
  * that are common to all child classes to the newly created element.
  * This method does not need to be overridden by child classes.
  * It is public because UMLOperation::saveToXMI invokes it for its
- * <Parameter>s (cannot be done with protected access).
+ * \<Parameter\>s (cannot be done with protected access).
  *
  * @param writer  The QXmlStreamWriter into which to write.
  * @param type    In UML1 mode, it is used as the XML tag.

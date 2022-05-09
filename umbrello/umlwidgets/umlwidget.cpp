@@ -1191,10 +1191,7 @@ void UMLWidget::setFillColorCmd(const QColor &color)
 }
 
 /**
- * Reimplemented from class WidgetBase
- *
- * @param ChangeLog
- * @return  true for success
+ * Reimplemented from @ref WidgetBase
  */
 bool UMLWidget::activate(IDChangeLog* changeLog)
 {

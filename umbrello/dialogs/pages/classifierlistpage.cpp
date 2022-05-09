@@ -885,7 +885,7 @@ bool ClassifierListPage::addToClassifier(UMLClassifierListItem* listitem, int po
 /**
  * Take a classifier's subordinate item.
  * Ownership of the classifier list item is transferred to the caller.
- * @param listitem        UMLClassifierListItem to take.
+ * @param listItem        UMLClassifierListItem to take.
  * @param seekPeerBefore  True if a peer index should be sought which
  *                        is smaller than the current listitem's index.
  * @param peerIndex       Return value: Index in the UMLClassifier's

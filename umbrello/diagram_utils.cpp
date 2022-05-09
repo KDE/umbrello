@@ -307,6 +307,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
  *
  * @param lines String list with sequences
  * @param scene The diagram to import the sequences into.
+ * @param fileName Source file name for use in error message in case of error.
  * @return true Import was successful.
  * @return false Import failed.
  */

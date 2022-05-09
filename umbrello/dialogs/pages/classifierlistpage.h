@@ -59,7 +59,7 @@ private:
 
     bool addToClassifier(UMLClassifierListItem* classifier, int position = -1);
 
-    bool takeItem(UMLClassifierListItem* listitem,
+    bool takeItem(UMLClassifierListItem* listItem,
                   bool seekPeerBefore, int &peerIndex);
 
     void deleteMenu();

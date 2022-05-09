@@ -685,7 +685,7 @@ bool WidgetBase::widgetHasUMLObject(WidgetBase::WidgetType type)
 /**
  * Activate the object after deserializing it from XMI
  *
- * @param ChangeLog
+ * @param changeLog  optional pointer to IDChangeLog object
  * @return  true for success
  */
 bool WidgetBase::activate(IDChangeLog* changeLog)

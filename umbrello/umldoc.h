@@ -319,7 +319,7 @@ private:
     QTimer * m_pAutoSaveTimer;
 
     /**
-     * Auxiliary to <docsettings> processing
+     * Auxiliary to \<docsettings\> processing
      */
     Uml::ID::Type m_nViewID;
 

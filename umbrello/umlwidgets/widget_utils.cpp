@@ -293,13 +293,9 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves pixmap information into DOM element \a qElement.
+     * Saves pixmap information to XMI.
      *
-     * @param qDoc The DOM document object.
-     *
-     * @param qElement The DOM element into which the pixmap should be
-     *                 saved.
-     *
+     * @param stream The QXmlStreamWriter object to write to.
      * @param pixmap The pixmap to be saved.
      */
     void savePixmapToXMI(QXmlStreamWriter& stream, const QPixmap& pixmap)
@@ -395,13 +391,9 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves gradient information into DOM element \a qElement.
+     * Saves gradient information to XMI.
      *
-     * @param qDoc The DOM document object.
-     *
-     * @param qElement The DOM element into which the gradient should be
-     *                 saved.
-     *
+     * @param stream The QXmlStreamWriter object to write to.
      * @param gradient The gradient to be saved.
      */
     void saveGradientToXMI(QXmlStreamWriter& stream, const QGradient *gradient)
@@ -499,13 +491,9 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves the brush info as xmi into the DOM element \a qElement.
+     * Saves the brush info as XMI.
      *
-     * @param qDoc The QDomDocument object pointing to the xmi document.
-     *
-     * @param qElement The element into which the pen, brush and font
-     *                 info should be saved.
-     *
+     * @param stream The QXmlStreamWriter object to write to.
      * @param brush The QBrush whose details should be saved.
      */
     void saveBrushToXMI(QXmlStreamWriter& stream, const QBrush& brush)

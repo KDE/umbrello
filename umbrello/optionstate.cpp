@@ -93,7 +93,7 @@ namespace Settings {
 
     /**
      * Save instance to XMI.
-     * @param stream The QXmlStreamWriter to save to.
+     * @param writer The QXmlStreamWriter to save to.
      */
     void ClassState::saveToXMI(QXmlStreamWriter& writer)
     {
@@ -169,8 +169,8 @@ namespace Settings {
     }
 
     /**
-     * Save instance into a QDomElement.
-     * @param element A QDomElement representing xml element data.
+     * Save instance to XMI.
+     * @param writer The QXmlStreamWriter to save to.
      */
     void UIState::saveToXMI(QXmlStreamWriter& writer)
     {
@@ -236,8 +236,8 @@ namespace Settings {
     }
 
     /**
-     * Save instance to a QXml stream.
-     * @param stream The QXmlStreamWriter to use.
+     * Save instance to XMI.
+     * @param writer The QXmlStreamWriter to save to.
      */
     void CodeImportState::saveToXMI(QXmlStreamWriter& writer)
     {

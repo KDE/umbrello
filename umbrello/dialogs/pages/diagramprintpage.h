@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DIAGRAMPRINTPAGE_H
@@ -20,13 +20,13 @@ class UMLDoc;
 
 /**
  * This is a page on the print dialog to select what diagram(s)
- * you wish to print.  You add it to the @ref QPrinter instance.
+ * you wish to print.  You add it to the QPrinter instance.
  *
- * You will then need to get the options as shown in @ref QPrinter.
+ * You will then need to get the options as shown in QPrinter.
  *
  * @short  A print dialog page.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see    KPrinter
+ * @see    QPrinter
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
 class DiagramPrintPage : public DialogPageBase

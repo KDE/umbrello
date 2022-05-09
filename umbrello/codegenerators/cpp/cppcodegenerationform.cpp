@@ -269,7 +269,7 @@ void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
 
 /**
  * Set the display state of the related checkbox
- * @param flag   the flag to set
+ * @param bFlag  the flag to set
  */
 void CPPCodeGenerationForm::setGetterWithoutGetPrefix(bool bFlag)
 {

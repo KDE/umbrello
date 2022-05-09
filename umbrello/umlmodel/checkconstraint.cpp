@@ -84,9 +84,7 @@ UMLObject* UMLCheckConstraint::clone() const
 
 /**
  * Returns a string representation of the UMLCheckConstraint.
- *
- * @param sig   If true will show the attribute type and initial value.
- * @return  Returns a string representation of the UMLAttribute.
+ * Reimplements function from @ref UMLClassifierListItem.
  */
 QString UMLCheckConstraint::toString(Uml::SignatureType::Enum sig, bool) const
 {

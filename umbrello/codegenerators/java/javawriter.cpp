@@ -909,7 +909,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 
 /**
  * Write a list of operations for a given class.
- * @param opList the list of operations you want to write
+ * @param oplist the list of operations you want to write
  * @param java   the stream associated with the output file
  */
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
@@ -919,7 +919,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
     QString str;
 
     // generate method decl for each operation given
-    foreach(UMLOperation* op,  oplist){
+    foreach (UMLOperation* op, oplist) {
 
         QString doc;
         // write documentation

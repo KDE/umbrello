@@ -767,7 +767,7 @@ void CSharpWriter::writeAttribute(const QString& doc,
 
 /**
  * Find the type in used namespaces, if namespace found return short name, complete otherwise.
- * @param at Operation or Attribute to check type
+ * @param cl Operation or Attribute to check type
  */
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 {

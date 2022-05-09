@@ -2388,10 +2388,10 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
 }
 
 /**
- * Puts the text widget with the given role at the given position.
- * This method calls @ref calculateTextPostion to get the needed position.
- * I.e. the line segment it is on has moved and it should move the same
- * amount as the line.
+ * Puts the text widget with the given role at a recalculated position.
+ * This method calls @ref calculateTextPosition to get the needed position.
+ * I.e. the line segment it is on has moved and its position should move
+ * the same amount as the line.
  */
 void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
 {
@@ -3108,6 +3108,7 @@ bool AssociationWidget::setStartAndEndPoint(AssociationWidget *assocwidget, UMLW
  *
  * @param pWidget Pointer to the widget to seek as the role A or B widget
  *                in all association widgets of the scene.
+ * @param list    The association widgets to analyze/update
  */
 void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidgetList list)
 {
