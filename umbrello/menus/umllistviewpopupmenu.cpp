@@ -305,13 +305,10 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
 /**
  * Override of related method from class ListPopupMenu
  * @param type list view type
- * @param menu pointer to menu instance or 0 to create a new instance
  */
-void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type, KMenu *menu)
+void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type)
 {
-    if (!menu) {
-        menu = makeNewMenu();
-    }
+    KMenu * menu = makeNewMenu();
 
     switch(type) {
         case UMLListViewItem::lvt_Deployment_View:

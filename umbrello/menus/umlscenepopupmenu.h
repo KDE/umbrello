@@ -1,7 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-
-    SPDX-FileCopyrightText: 2018 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLSCENEPOPUPMENU_H
@@ -20,7 +19,7 @@ public:
 protected:
     UMLScene *m_scene;
     void insertLayoutItems();
-    void insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *menu = 0);
+    void insertSubMenuNew(Uml::DiagramType::Enum type);
 };
 
 #endif // UMLSCENEPOPUPMENU_H

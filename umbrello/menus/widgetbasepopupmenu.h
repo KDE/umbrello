@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef WIDGETBASEPOPUPMENU_H
@@ -24,7 +24,7 @@ protected:
     void insertStdItems(bool insertLeadingSeparator = true, WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertSubMenuAlign();
     void insertSubMenuColor(bool fc);
-    void insertSubMenuNew(WidgetBase::WidgetType type, KMenu *menu=0);
+    void insertSubMenuNew(WidgetBase::WidgetType type);
     void insertSubMenuShowEntity(EntityWidget *widget);
     KMenu *makeCategoryTypeMenu(UMLCategory *category);
 };

@@ -108,13 +108,10 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
  * Shortcut for commonly used sub menu initializations.
  *
  * @param type   The MenuType for which to set up the menu.
- * @param menu   The KMenu in which to add the sub menu.
  */
-void DialogsPopupMenu::insertSubMenuNew(TriggerType type, KMenu *menu)
+void DialogsPopupMenu::insertSubMenuNew(TriggerType type)
 {
-    if (!menu) {
-        menu = makeNewMenu();
-    }
+    KMenu * menu = makeNewMenu();
     switch (type) {
         case tt_New_Activity:
         case tt_Activity_Selected:

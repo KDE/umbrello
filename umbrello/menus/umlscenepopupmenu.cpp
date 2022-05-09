@@ -118,11 +118,10 @@ void UMLScenePopupMenu::insertLayoutItems()
     }
 }
 
-void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type, KMenu *menu)
+void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type)
 {
-    if (!menu) {
-        menu = makeNewMenu();
-    }
+    KMenu * menu = makeNewMenu();
+
     switch(type) {
         case Uml::DiagramType::UseCase:
             insert(mt_Actor, menu);

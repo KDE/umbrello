@@ -624,10 +624,9 @@ void WidgetBasePopupMenu::insertSubMenuColor(bool fc)
  *
  * @param type   The widget type for which to set up the menu.
  */
-void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *menu)
+void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type)
 {
-    if (!menu)
-        menu = makeNewMenu();
+    KMenu * menu = makeNewMenu();
 
     switch (type) {
         case WidgetBase::wt_Activity:
