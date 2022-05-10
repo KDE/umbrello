@@ -245,10 +245,11 @@ bool applyTranslationToXMIFile(const char *fileName, const QStringList &attribut
                 QXmlStreamNamespaceDeclaration ns = reader.namespaceDeclarations().first();
                 writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
             }
+            const QXmlStreamAttributes& readerAttributes = reader.attributes();
             QXmlStreamAttributes writerAttributes;
-            for(int index = 0; index < reader.attributes().size(); index++)
+            for(int index = 0; index < readerAttributes.size(); index++)
             {
-                QXmlStreamAttribute attr = reader.attributes()[index];
+                QXmlStreamAttribute attr = readerAttributes[index];
                 QString name = attr.qualifiedName().toString();
                 if (!attributes.contains(name)) {
                     writerAttributes.append(attr);
