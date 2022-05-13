@@ -47,10 +47,11 @@ struct ClientInfo_POD {
    "QWidget: Must construct a QApplication before a QWidget"
    in this case happening on CodeEditorTracer but happens on other
    classes as well,
-   #5  QMessageLogger::fatal (this=this@entry=0x7fffffffd2e0, 
-       msg=msg@entry=0x7ffff63cebc8 "QWidget: Must construct a QApplication before a QWidget") at global/qlogging.cpp:893
-   #6  0x00007ffff600c8d1 in QWidgetPrivate::QWidgetPrivate (this=<optimized out>, this@entry=0xb1b070, version=<optimized out>, 
-       version@entry=331522) at kernel/qwidget.cpp:191
+   #5  QMessageLogger::fatal (this=this@entry=0x7fffffffd2e0,
+       msg=msg@entry=0x7ffff63cebc8 "QWidget: Must construct a QApplication before a QWidget")
+       at global/qlogging.cpp:893
+   #6  0x00007ffff600c8d1 in QWidgetPrivate::QWidgetPrivate (this=<optimized out>, this@entry=0xb1b070,
+       version=<optimized out>, version@entry=331522) at kernel/qwidget.cpp:191
    #7  0x00007ffff61069ae in QFramePrivate::QFramePrivate (this=this@entry=0xb1b070) at widgets/qframe.cpp:60
    #8  0x00007ffff6107989 in QAbstractScrollAreaPrivate::QAbstractScrollAreaPrivate (this=this@entry=0xb1b070)
        at widgets/qabstractscrollarea.cpp:167
@@ -63,7 +64,7 @@ struct ClientInfo_POD {
    #12 QTreeWidget::QTreeWidget (this=0xb17bd0, parent=0x0) at itemviews/qtreewidget.cpp:2662
    #13 0x000000000048ff02 in Tracer::Tracer (this=0xb17bd0, parent=0x0) at /umbrello-master/umbrello/debug/debug_utils.cpp:33
    #14 0x000000000048fec7 in Tracer::instance () at /umbrello-master/umbrello/debug/debug_utils.cpp:23
-   #15 0x0000000000490237 in Tracer::registerClass (name="CodeEditor", state=true, 
+   #15 0x0000000000490237 in Tracer::registerClass (name="CodeEditor", state=true,
        filePath="/umbrello-master/umbrello/dialogs/codeeditor.cpp")
        at /umbrello-master/umbrello/debug/debug_utils.cpp:109
    #16 0x000000000049ef7f in CodeEditorTracer::CodeEditorTracer (this=0xadd6c0 <CodeEditorTracerGlobal>)
@@ -72,10 +73,10 @@ struct ClientInfo_POD {
        at /umbrello-master/umbrello/dialogs/codeeditor.cpp:54
    #18 0x000000000049e758 in _GLOBAL__sub_I_codeeditor.cpp(void) () at /umbrello-master/umbrello/dialogs/codeeditor.cpp:1534
    #19 0x00007ffff4bf46fd in call_init (env=<optimized out>, argv=0x7fffffffd578, argc=1) at ../csu/libc-start.c:145
-   #20 __libc_start_main_impl (main=0x46f255 <main(int, char**)>, argc=1, argv=0x7fffffffd578, init=<optimized out>, fini=<optimized out>, 
-       rtld_fini=<optimized out>, stack_end=0x7fffffffd568) at ../csu/libc-start.c:379
+   #20 __libc_start_main_impl (main=0x46f255 <main(int, char**)>, argc=1, argv=0x7fffffffd578, init=<optimized out>,
+       fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffd568) at ../csu/libc-start.c:379
    #21 0x000000000046ea75 in _start () at ../sysdeps/x86_64/start.S:116
-  
+
    Second example of problem: Crash in different client classes of Tracer,
    in this example running unittests/testoptionstate the SEGV happens on
    Tracer::registerClass call from UMLApp but also happens from other classes,
@@ -95,8 +96,8 @@ struct ClientInfo_POD {
        at /umbrello-master/umbrello/uml.cpp:127
    #9  0x0000000000496256 in _GLOBAL__sub_I_uml.cpp(void) () at /umbrello-master/umbrello/uml.cpp:3590
    #10 0x00007ffff4b9a6fd in call_init (env=<optimized out>, argv=0x7fffffffd568, argc=1) at ../csu/libc-start.c:145
-   #11 __libc_start_main_impl (main=0x4754fe <main(int, char**)>, argc=1, argv=0x7fffffffd568, init=<optimized out>, fini=<optimized out>,
-       rtld_fini=<optimized out>, stack_end=0x7fffffffd558) at ../csu/libc-start.c:379
+   #11 __libc_start_main_impl (main=0x4754fe <main(int, char**)>, argc=1, argv=0x7fffffffd568, init=<optimized out>,
+       fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffd558) at ../csu/libc-start.c:379
    #12 0x000000000046e9e5 in _start () at ../sysdeps/x86_64/start.S:116
  */
     const char * name;
@@ -151,7 +152,7 @@ Tracer::~Tracer()
 
 /**
  * Return debugging state for a given class
- * @param name   the class name to check 
+ * @param name   the class name to check
  */
 bool Tracer::isEnabled(const QString& name) const
 {
