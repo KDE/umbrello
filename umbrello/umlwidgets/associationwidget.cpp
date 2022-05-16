@@ -62,7 +62,7 @@ DEBUG_REGISTER_DISABLED(AssociationWidget)
 // position is first updated and subsequently, in a separate step, the start/end
 // points are updated.
 // In between the two update operations the displacement shall be tolerated.
-#define PIXEL_TOLERANCE 30
+#define PIXEL_TOLERANCE 20
 
 using namespace Uml;
 
@@ -1203,8 +1203,8 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget) const
      */
     int startX = lpStart.x();
     int startY = lpStart.y();
-    qreal wX = widget->x();
-    qreal wY = widget->y();
+    qreal wX = widget->getX();
+    qreal wY = widget->getY();
     int wWidth = widget->width();
     int wHeight = widget->height();
     bool result = (startX >= wX - PIXEL_TOLERANCE && startX <= wX + wWidth + PIXEL_TOLERANCE &&
