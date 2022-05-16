@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "umlwidgets/childwidgetplacementport.h"
@@ -171,7 +171,7 @@ void ChildWidgetPlacementPort::detectConnectedSide()
         else if (m_widget->y() < maxY())
             m_connectedSide = Left;
         else
-            m_connectedSide =BottomLeft;
+            m_connectedSide = BottomLeft;
     } else if (m_widget->x() < maxX()) {
         if (m_widget->y() < 0)
             m_connectedSide = Top;
@@ -185,7 +185,7 @@ void ChildWidgetPlacementPort::detectConnectedSide()
         else if (m_widget->y() < maxY())
             m_connectedSide = Right;
         else
-            m_connectedSide =BottomRight;
+            m_connectedSide = BottomRight;
     } else {
         m_connectedSide = TopLeft;
     }

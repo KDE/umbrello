@@ -255,8 +255,12 @@ void PinPortBase::setFloatingTextWidget(FloatingTextWidget *ft) {
  */
 UMLWidget* PinPortBase::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != 0)
+    UMLWidget * onWidget = UMLWidget::onWidget(p);
+    logDebug4("PinPortBase::onWidget (%1,%2) returns %3 (owner %4)",
+              p.x(), p.y(), (onWidget != 0), ownerWidget()->name());
+    if (onWidget) {
         return this;
+    }
     if (m_pName) {
         logDebug1("PinPortBase::onWidget floatingtext: %1", m_pName->text());
         return m_pName->onWidget(p);
