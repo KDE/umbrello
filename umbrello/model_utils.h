@@ -69,6 +69,7 @@ QString renameTitle(UMLObject::ObjectType type);
 QString renameText(UMLObject::ObjectType type);
 
 QString getXmiId(QDomElement element);
+QString loadCommentFromXMI(QDomElement elem);
 bool isCommonXMI1Attribute(const QString &tag);
 bool isCommonDataType(QString type);
 bool isClassifierListitem(UMLObject::ObjectType ot);

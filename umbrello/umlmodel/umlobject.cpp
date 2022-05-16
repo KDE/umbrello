@@ -1175,6 +1175,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
                 m_bStatic = (ownerScope == QLatin1String("classifier"));
+            } else if (UMLDoc::tagEq(tag, QLatin1String("ownedComment"))) {
+                m_Doc = Model_Utils::loadCommentFromXMI(elem);
             } else {
                 loadStereotype(elem);
             }

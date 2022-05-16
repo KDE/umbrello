@@ -778,6 +778,28 @@ QString getXmiId(QDomElement element)
 }
 
 /**
+ * Return the text of an \<ownedComment\> XMI element from a QDomElement.
+ */
+QString loadCommentFromXMI(QDomElement elem)
+{
+    QString body = elem.attribute(QLatin1String("body"));
+    if (body.isEmpty()) {
+        QDomNode innerNode = elem.firstChild();
+        QDomElement innerElem = innerNode.toElement();
+        while (!innerElem.isNull()) {
+            QString innerTag = innerElem.tagName();
+            if (UMLDoc::tagEq(innerTag, QLatin1String("body"))) {
+                body = innerElem.text();
+                break;
+            }
+            innerNode = innerNode.nextSibling();
+            innerElem = innerNode.toElement();
+        }
+    }
+    return body;
+}
+
+/**
  * Return true if the given tag is one of the common XMI
  * attributes, such as:
  * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |

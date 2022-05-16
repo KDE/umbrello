@@ -2361,9 +2361,9 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             } else if (tagEq(outerTag, QLatin1String("Model")) ||
                        tagEq(outerTag, QLatin1String("Package")) ||
                        tagEq(outerTag, QLatin1String("packagedElement"))) {
-                if(!loadUMLObjectsFromXMI(element)) {
-                    logWarn0("failed load on objects");
-                    return false;
+                if (!loadUMLObjectsFromXMI(element)) {
+                    logWarn1("loadUMLObjectsFromXMI returned false for outerTag %1", outerTag);
+                    continue;  //return false;
                 }
                 m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
                 UMLListView *lv = UMLApp::app()->listView();
@@ -2399,7 +2399,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     seen_UMLObjects = true;
                 } else if (tagEq(tag, QLatin1String("Package")) ||
                            tagEq(tag, QLatin1String("Class")) ||
-                           tagEq(tag, QLatin1String("Interface"))) {
+                           tagEq(tag, QLatin1String("Interface")) ||
+                           tagEq(tag, QLatin1String("DataType"))) {
                     // These tests are only for foreign XMI files that
                     // are missing the <Model> tag (e.g. NSUML)
                     QString stID = element.attribute(QLatin1String("stereotype"));
@@ -2461,6 +2462,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     if (! value.isEmpty()) {
                         o->setDoc(value);
                     }
+                } else if (tagEq(tag, QLatin1String("ownedComment"))) {
+                    m_Doc = Model_Utils::loadCommentFromXMI(element);
                 } else {
                     // for backward compatibility
                     loadExtensionsFromXMI1(child);
@@ -2633,8 +2636,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
-        if (type == QLatin1String("packagedElement") ||
-                                     tagEq(type, QLatin1String("Model"))) {
+        QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
+        if (tagEq(type, QLatin1String("packagedElement")) && !xmiType.isEmpty()) {
+            type = xmiType;
+        }
+        if (tagEq(type, QLatin1String("Model"))) {
             // Handling of Umbrello native XMI files:
             // We get here from a recursive call to loadUMLObjectsFromXMI()
             // a few lines below, see
@@ -2677,16 +2683,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (Model_Utils::isCommonXMI1Attribute(type)) {
             continue;
         }
-        QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
-        if (tagEq(type, QLatin1String("packagedElement")) &&
-            tagEq(xmiType, QLatin1String("Model"))) {
-            type = xmiType;
-        }
         if (tagEq(type, QLatin1String("Namespace.ownedElement")) ||
                 tagEq(type, QLatin1String("Namespace.contents")) ||
                 tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
                 tagEq(type, QLatin1String("Model")) ||
-                type == QLatin1String("packagedElement") ||  // StarUML: <packagedElement xmi:type="uml:Model">
                 type == QLatin1String("ownedElement")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
@@ -2697,7 +2697,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // some foreign XMI files.
             if (!loadUMLObjectsFromXMI(tempElement)) {
                 logWarn1("UMLDoc::loadUMLObjectsFromXMI failed load on type %1", type);
-                return false;
             }
             continue;
         }
@@ -2713,6 +2712,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 logError1("UMLDoc::loadUMLObjectsFromXMI cannot load type %1 because xmi.id is missing",
                           type);
             }
+            continue;
+        }
+        if (UMLDoc::tagEq(type, QLatin1String("ownedComment"))) {
+            m_Doc = Model_Utils::loadCommentFromXMI(tempElement);
             continue;
         }
         QString stID = tempElement.attribute(QLatin1String("stereotype"));
@@ -2746,7 +2749,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         bool status = pObject->loadFromXMI(tempElement);
         if (!status) {
             delete pObject;
-            return false;
+            continue;
         }
         pkg = pObject->umlPackage();
         if (ot == UMLObject::ot_Stereotype) {
