@@ -25,6 +25,7 @@
   <name xml:lang="sk">PHP podpora pre KDevelop</name>
   <name xml:lang="sl">Podpora PHP-ju za KDevelop</name>
   <name xml:lang="sv">KDevelop PHP-stöd</name>
+  <name xml:lang="tr">KDevelop PHP Desteği</name>
   <name xml:lang="uk">Підтримка PHP у KDevelop</name>
   <name xml:lang="x-test">xxKDevelop PHP Supportxx</name>
   <name xml:lang="zh-CN">KDevelop PHP 支持</name>
@@ -52,6 +53,7 @@
   <summary xml:lang="sk">Podpora jazyka PHP pre KDevelop</summary>
   <summary xml:lang="sl">Podpora jeziku PHP za KDevelop</summary>
   <summary xml:lang="sv">Stöd för språket PHP i KDevelop</summary>
+  <summary xml:lang="tr">KDevelop için PHP dili desteği</summary>
   <summary xml:lang="uk">Підтримка мови PHP у KDevelop</summary>
   <summary xml:lang="x-test">xxPHP language support for KDevelopxx</summary>
   <summary xml:lang="zh-CN">KDevelop 的 PHP 语言支持</summary>
