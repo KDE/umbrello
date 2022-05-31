@@ -188,7 +188,7 @@
       <li xml:lang="sk">Podporovaných je niekoľko typov diagramov: prípady použitia, triedy, sekvencie, stavy, aktivity, nasadenie, vzťahy entít</li>
       <li xml:lang="sl">Podprte so številne vrste diagramov: primer uporabe, razred, zaporedje, sporazumevanje, stanje, dejavnost, sestavni del, namestitev, odvisnost entitet</li>
       <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, kommunikation, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
-      <li xml:lang="tr">Çeşitli türde diyagramlar desteklenir: kullanım senaryosu, sınıf, sıralama, iletişim, durum, faaliyet, bileşen, dağılım, Varlık bağıntı</li>
+      <li xml:lang="tr">Çeşitli türde diyagramlar desteklenir: Kullanım senaryosu, sınıf, sıralama, iletişim, durum, eylem, bileşen, dağılım, varlık bağıntısı</li>
       <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, обміну даними, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
       <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationshipxx</li>
       <li xml:lang="zh-CN">数种受支持的图表：用例图、类图、时序图、通信图、状态图、活动图、组件图、部署图、ER（实体关系）图</li>
@@ -224,6 +224,7 @@
       <caption xml:lang="sk">Zobraziť diagram tried</caption>
       <caption xml:lang="sl">Prikazuje diagram razredov</caption>
       <caption xml:lang="sv">Visa klassdiagram</caption>
+      <caption xml:lang="tr">Sınıf diyagramı gösteriliyor</caption>
       <caption xml:lang="uk">Показ діаграми класу</caption>
       <caption xml:lang="x-test">xxShowing class diagramxx</caption>
       <image>https://cdn.kde.org/screenshots/umbrello/umbrello.png</image>
