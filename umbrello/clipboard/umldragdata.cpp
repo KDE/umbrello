@@ -410,11 +410,11 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     }
     return true;
 }
- /**
-  * For use when the user selects UMLObjects from
-  * the ListView to be copied, decodes Mime * type =
-  * "application/x-uml-clip3
-  */
+
+/**
+ * For use when the user selects UMLObjects from the ListView to be copied,
+ * decodes Mime type = "application/x-uml-clip3
+ */
 bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& umlListViewItems,
                             const UMLListView* parentListView)
 {
