@@ -17,8 +17,8 @@ Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 #endif
 
 Tracer* Tracer::s_instance = nullptr;
-Tracer::MapType Tracer::s_classes;
-Tracer::StateMap Tracer::s_states;
+Tracer::MapType* Tracer::s_classes;
+Tracer::StateMap* Tracer::s_states;
 bool Tracer::s_logToConsole;
 
 #define MAX_TRACERCLIENTS 500
@@ -111,6 +111,8 @@ Tracer* Tracer::instance()
 {
     if (s_instance == nullptr) {
         s_instance = new Tracer();
+        s_classes = new MapType();
+        s_states  = new StateMap();
         // Transfer g_clientInfo (C plain old data) to s_classes (C++)
         for (int i = 0; i < n_clients; i++) {
             ClientInfo_POD & cli = g_clientInfo[i];
@@ -120,7 +122,7 @@ Tracer* Tracer::instance()
             QString path = f.fileName();
             uDebug() << "Tracer::registerClass(" << cli.name << ") : " << path;
             QString name = QString::fromLatin1(cli.name);
-            s_classes[name] = MapEntry(path, cli.state);
+            (*s_classes)[name] = MapEntry(path, cli.state);
         }
         QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
         s_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
@@ -156,7 +158,7 @@ Tracer::~Tracer()
  */
 bool Tracer::isEnabled(const QString& name) const
 {
-    if (!s_classes.contains(name)) {
+    if (!s_classes->contains(name)) {
         // Classes that are not registered are enabled by default.
         // The intent is that classes which produce few debug messages, or whose
         // debug messages for some reason shall not be suppressible, shall not
@@ -165,7 +167,7 @@ bool Tracer::isEnabled(const QString& name) const
         // producing debug messages.
         return true;
     }
-    return s_classes[name].state;
+    return (*s_classes)[name].state;
 }
 
 /**
@@ -174,7 +176,7 @@ bool Tracer::isEnabled(const QString& name) const
  */
 void Tracer::enable(const QString& name)
 {
-    s_classes[name].state = true;
+    (*s_classes)[name].state = true;
     update(name);
 }
 
@@ -184,7 +186,7 @@ void Tracer::enable(const QString& name)
  */
 void Tracer::disable(const QString& name)
 {
-    s_classes[name].state = false;
+    (*s_classes)[name].state = false;
     update(name);
 }
 
@@ -235,7 +237,7 @@ void Tracer::update(const QString &name)
         return;
     QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
     foreach(QTreeWidgetItem* item, items) {
-        item->setCheckState(0, s_classes[name].state ? Qt::Checked : Qt::Unchecked);
+        item->setCheckState(0, (*s_classes)[name].state ? Qt::Checked : Qt::Unchecked);
     }
 }
 
@@ -258,7 +260,7 @@ void Tracer::updateParentItemCheckBox(QTreeWidgetItem* parent)
     else
         parent->setCheckState(0, Qt::PartiallyChecked);
 
-    s_states[parent->text(0)] = parent->checkState(0);
+    (*s_states)[parent->text(0)] = parent->checkState(0);
 }
 
 /**
@@ -269,8 +271,8 @@ void Tracer::showEvent(QShowEvent* e)
     Q_UNUSED(e);
 
     clear();
-    MapType::const_iterator i = s_classes.constBegin();
-    for(; i != s_classes.constEnd(); i++) {
+    MapType::const_iterator i = s_classes->constBegin();
+    for(; i != s_classes->constEnd(); i++) {
         QList<QTreeWidgetItem*> items = findItems(i.value().filePath, Qt::MatchFixedString);
         QTreeWidgetItem* topLevel = nullptr;
         if (items.size() == 0) {
@@ -297,18 +299,18 @@ void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
 {
     // @TODO parent->checkState(0) do not return the correct state
     // Qt::CheckState state = parent->checkState(0);
-    Qt::CheckState state = s_states[parent->text(0)];
+    Qt::CheckState state = (*s_states)[parent->text(0)];
     if (state == Qt::PartiallyChecked || state == Qt::Unchecked) {
         for(int i = 0; i < parent->childCount(); i++) {
             QString text = parent->child(i)->text(0);
-            s_classes[text].state = true;
-            parent->child(i)->setCheckState(0, s_classes[text].state ? Qt::Checked : Qt::Unchecked);
+            (*s_classes)[text].state = true;
+            parent->child(i)->setCheckState(0, (*s_classes)[text].state ? Qt::Checked : Qt::Unchecked);
         }
     } else if (state == Qt::Checked) {
         for(int i = 0; i < parent->childCount(); i++) {
             QString text = parent->child(i)->text(0);
-            s_classes[text].state = false;
-            parent->child(i)->setCheckState(0, s_classes[text].state ? Qt::Checked : Qt::Unchecked);
+            (*s_classes)[text].state = false;
+            parent->child(i)->setCheckState(0, (*s_classes)[text].state ? Qt::Checked : Qt::Unchecked);
         }
     }
     updateParentItemCheckBox(parent);
@@ -324,8 +326,8 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
     Q_UNUSED(column);
 
     if (item->parent()) {
-        s_classes[item->text(0)].state = !s_classes[item->text(0)].state;
-        item->setCheckState(0, s_classes[item->text(0)].state ? Qt::Checked : Qt::Unchecked);
+        (*s_classes)[item->text(0)].state = !(*s_classes)[item->text(0)].state;
+        item->setCheckState(0, (*s_classes)[item->text(0)].state ? Qt::Checked : Qt::Unchecked);
         updateParentItemCheckBox(item->parent());
         return;
     }
