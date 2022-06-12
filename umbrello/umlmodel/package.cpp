@@ -204,6 +204,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
 /**
  * Removes an object from this package.
  * Does not physically delete the object.
+ * Does not emit signals.
  *
  * @param pObject   Pointer to the UMLObject to be removed.
  */
