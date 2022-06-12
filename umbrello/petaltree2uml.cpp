@@ -49,7 +49,7 @@
 #include <QFile>
 #include <QRegExp>
 
-DEBUG_REGISTER(Import_Rose)
+DEBUG_REGISTER(petalTree2Uml)
 
 namespace Import_Rose {
 
