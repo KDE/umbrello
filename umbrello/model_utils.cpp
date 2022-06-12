@@ -1372,6 +1372,8 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
                parentType == UMLListViewItem::lvt_Logical_Folder;
     case UMLListViewItem::lvt_Attribute:
         return parentType == UMLListViewItem::lvt_Class;
+    case UMLListViewItem::lvt_EnumLiteral:
+        return parentType == UMLListViewItem::lvt_Enum;
     case UMLListViewItem::lvt_EntityAttribute:
         return parentType == UMLListViewItem::lvt_Entity;
     case UMLListViewItem::lvt_InstanceAttribute:
