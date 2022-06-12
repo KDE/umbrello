@@ -1452,7 +1452,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
 }
 
 /**
- * Create a new ClassifierListObject (attribute, operation, template)
+ * Creates a new classifier list object (attribute, operation, template)
  * according to the given XMI tag.
  * Returns NULL if the string given does not contain one of the tags
  * <UML:Attribute>, <UML:Operation>, or <UML:TemplateParameter>.
@@ -1474,6 +1474,33 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
         pObject = new UMLTemplate(this);
     }
     return pObject;
+}
+
+/**
+ * Reimplements method from UMLPackage.
+ * Removes a classifier list object from this classifier.
+ * Does not physically delete the object.
+ * Does not emit signals.
+ *
+ * @param pObject   Pointer to UMLObject to be removed is expected to be
+ *                  convertible to UMLClassifierListItem*.
+ */
+void UMLClassifier::removeObject(UMLObject *pObject)
+{
+    if (!pObject) {
+        logError1("UMLClassifier %1 removeObject is called with null argument", name());
+        return;
+    }
+    UMLClassifierListItem *cli = pObject->asUMLClassifierListItem();
+    if (!cli) {
+        logError2("UMLClassifier %1 removeObject %2 object cannot be cast to UMLClassifierListItem",
+                  name(), pObject->name());
+        return;
+    }
+    if (!subordinates().removeAll(cli)) {
+        logWarn2("UMLClassifier %1 removeObject %2 : cannot find object in list",
+                 name(), pObject->name());
+    }
 }
 
 /**

@@ -36,7 +36,7 @@ public:
     virtual UMLObject* clone() const;
 
     bool addObject(UMLObject *pObject, bool interactOnConflict = true);
-    void removeObject(UMLObject *pObject);
+    virtual void removeObject(UMLObject *pObject);
 
     virtual void removeAllObjects();
 

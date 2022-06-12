@@ -143,6 +143,8 @@ public:
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
+    void removeObject(UMLObject *pObject);
+
     virtual UMLAssociationList  getUniAssociationToBeImplemented() const;
 
 signals:
