@@ -1286,45 +1286,77 @@ void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 //-----------------------------------------------------------------------------
 
 /**
+ * Auxiliary struct for Symbol::SymbolProperty in C Plain Old Data format
+ * avoids danger of "C++ static initialization order fiasco", see
+ * https://en.cppreference.com/w/cpp/language/siof
+ */
+struct SymbolPropertyPOD {
+    int boundRectX, boundRectY, boundRectW, boundRectH;
+    int axisLineStartX, axisLineStartY, axisLineEndX, axisLineEndY;
+    int endPoint0x, endPoint0y, endPoint1x, endPoint1y;
+};
+
+static const SymbolPropertyPOD symPropData[] =
+{
+    {
+        -6,  0, 12, 10,
+         0,  0,  0, 10,
+         0, 10,  0, 10
+    },
+    {
+        -6,  0, 12, 10,
+         0,  0,  0, 10,
+         0,  0,  0, 10
+    },
+    {
+        -6,  0, 12, 10,
+         0,  0,  0, 10,
+         0, 10,  0, 10
+    },
+    {
+        -5, -10, 10, 20,
+         0, -10,  0, 10,
+         0, -10,  0, 10
+    },
+    {
+        -15, -10, 30, 20,
+        -10,   0,  0,  0,
+          0,   0,  0,  0
+    },
+    {
+        -8, -8, 16, 16,
+         0, -8,  0,  8,
+         0, -8,  0,  8
+    }
+};
+
+/**
  * SymbolEndPoints:
  * The first point is where the AssociationLine's visible line is
  * supposed to end.
  * The second points is where the actual symbol part is to appear.
  */
-Symbol::SymbolProperty Symbol::symbolTable[Count] =
-{
-    {
-        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
-        SymbolEndPoints(QPointF(0, 10), QPointF(0, 10))
-    },
-    {
-        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
-        SymbolEndPoints(QPointF(0, 0), QPointF(0, 10))
-    },
-    {
-        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
-        SymbolEndPoints(QPointF(0, 10), QPointF(0, 10))
-    },
-    {
-        QRectF(-5, -10, 10, 20), QPainterPath(), QLineF(0, -10, 0, 10),
-        SymbolEndPoints(QPointF(0, -10), QPointF(0, 10))
-    },
-    {
-        QRectF(-15, -10, 30, 20), QPainterPath(), QLineF(-10, 0, 0, 0),
-        SymbolEndPoints(QPointF(0, 0), QPointF(0, 0))
-    },
-    {
-        QRectF(-8, -8, 16, 16), QPainterPath(), QLineF(0, -8, 0, 8),
-        SymbolEndPoints(QPointF(0, -8), QPointF(0, 8))
-    }
-
-};
+Symbol::SymbolProperty *Symbol::symbolTable;
 
 /**
  * @internal A convenience method to setup shapes of all symbols.
  */
 void Symbol::setupSymbolTable()
 {
+    if (symbolTable)
+        return;
+    symbolTable = new SymbolProperty[Count];
+
+    // Copy C symPropData to C++ symbolTable
+    for (int i = 0; i < Count; i++) {
+        const SymbolPropertyPOD& c = symPropData[i];
+        SymbolProperty& prop = symbolTable[i];
+        prop.boundRect = QRectF(c.boundRectX, c.boundRectY, c.boundRectW, c.boundRectH);
+        prop.axisLine  = QLineF(c.axisLineStartX, c.axisLineStartY, c.axisLineEndX, c.axisLineEndY);
+        prop.endPoints = SymbolEndPoints(QPointF(c.endPoint0x, c.endPoint0y),
+                                         QPointF(c.endPoint1x, c.endPoint1y));
+    }
+
     SymbolProperty &openArrow = symbolTable[OpenArrow];
     if (openArrow.shape.isEmpty()) {
         QRectF rect = openArrow.boundRect;
@@ -1451,7 +1483,7 @@ void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem * option, Q
     default:
         break;
     }
-    painter->drawPath(Symbol::symbolTable[m_symbolType].shape);
+    painter->drawPath(symbolTable[m_symbolType].shape);
 }
 
 /**
@@ -1460,7 +1492,7 @@ void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem * option, Q
 QRectF Symbol::boundingRect() const
 {
     const qreal adj = .5 * m_pen.widthF();
-    return Symbol::symbolTable[m_symbolType].boundRect.
+    return symbolTable[m_symbolType].boundRect.
         adjusted(-adj, -adj, adj, adj);
 }
 
@@ -1487,7 +1519,7 @@ void Symbol::alignTo(const QLineF& to)
 {
     QLineF toMapped(mapFromParent(to.p1()), mapFromParent(to.p2()));
 
-    QLineF origAxis = Symbol::symbolTable[m_symbolType].axisLine;
+    QLineF origAxis = symbolTable[m_symbolType].axisLine;
     QLineF translatedAxis = origAxis.translated(toMapped.p2() - origAxis.p2());
 
     qreal angle = translatedAxis.angleTo(toMapped);
@@ -1502,7 +1534,7 @@ void Symbol::alignTo(const QLineF& to)
  */
 Symbol::SymbolEndPoints Symbol::symbolEndPoints() const
 {
-    return Symbol::symbolTable[m_symbolType].endPoints;
+    return symbolTable[m_symbolType].endPoints;
 }
 
 /**

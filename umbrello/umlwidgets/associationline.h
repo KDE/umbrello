@@ -77,7 +77,7 @@ class Symbol : public QGraphicsItem
             SymbolEndPoints endPoints;
         };
 
-        static SymbolProperty symbolTable[Symbol::Count];  ///< a table which stores all symbol properties
+        static SymbolProperty *symbolTable;  ///< a table which stores all symbol properties
         static void setupSymbolTable();
 };
 
