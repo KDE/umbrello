@@ -90,6 +90,9 @@ public:
         document(0)
     {
 #if QT_VERSION >= 0x050000
+        /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
+           "Conditional jump or move depends on uninitialised value(s)".
+         */
         editor = KTextEditor::Editor::instance();
 #else
         editor = KTextEditor::EditorChooser::editor();
