@@ -275,7 +275,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
     int line;
     QDomDocument domDoc;
     if(!domDoc.setContent(xmiClip, false, &error, &line)) {
-        logWarn2("UMLDragData::getClip3TypeAndID: Cannot set content. Error %1 line %2", error, line);
+        logWarn2("UMLDragData::decodeClip1: Cannot set content. Error %1 line %2", error, line);
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
