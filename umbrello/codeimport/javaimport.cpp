@@ -536,7 +536,7 @@ bool JavaImport::parseStmt()
             return false;
         keyword = m_source[m_srcIndex];
     }
-    // At this point, we expect `keyword' to be a type name
+    // At this point, we expect `keyword` to be a type name
     // (of a member of class or interface, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
@@ -642,7 +642,7 @@ bool JavaImport::parseStmt()
                     break;
                 }
             } else {
-                name += nextToken;  // add possible array dimensions to `name'
+                name += nextToken;  // add possible array dimensions to `name`
             }
             nextToken = advance();
             if (nextToken.isEmpty()) {

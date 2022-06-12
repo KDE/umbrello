@@ -237,7 +237,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             isConst = true;
         }
         if (name.contains(QRegExp(QLatin1String("\\bconst\\b")))) {
-            // Here, we lose info of the exact placement of the `const' qualifier.
+            // Here, we lose info of the exact placement of the `const` qualifier.
             // I argue that we are looking at a level of C++ detail that UML was not
             // designed for.  Feel free to disagree and implement this :)
             name.remove(QRegExp(QLatin1String("\\s+const\\b")));

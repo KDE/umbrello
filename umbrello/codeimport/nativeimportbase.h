@@ -59,7 +59,7 @@ protected:
     virtual QStringList split(const QString& line);
 
     /**
-     * Analyze the given word and fill `m_source'.
+     * Analyze the given word and fill `m_source`.
      * A "word" is a whitespace delimited item from the input line.
      * To be provided by the specific importer class.
      */

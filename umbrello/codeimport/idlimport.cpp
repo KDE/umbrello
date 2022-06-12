@@ -574,7 +574,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == QLatin1String(";"))
         return true;
-    // At this point, we expect `keyword' to be a type name
+    // At this point, we expect `keyword` to be a type name
     // (of a member of struct or valuetype, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
@@ -625,7 +625,7 @@ bool IDLImport::parseStmt()
     // At this point we know it's some kind of attribute declaration.
     while (1) {
         while (nextToken != QLatin1String(",") && nextToken != QLatin1String(";")) {
-            name += nextToken;  // add possible array dimensions to `name'
+            name += nextToken;  // add possible array dimensions to `name`
             nextToken = advance();
         }
         UMLAttribute *attr = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);

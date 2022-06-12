@@ -75,7 +75,7 @@ void NativeImportBase::setMultiLineAltComment(const QString &intro, const QStrin
 
 /**
  * Advance m_srcIndex until m_source[m_srcIndex] contains the lexeme
- * given by `until'.
+ * given by `until`.
  * @param until   the target string
  */
 void NativeImportBase::skipStmt(const QString& until /* = ";" */)
@@ -203,7 +203,7 @@ QString NativeImportBase::lookAhead()
 
 /**
  * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
- * Comments encountered during advancement are accumulated in `m_comment'.
+ * Comments encountered during advancement are accumulated in `m_comment`.
  * If m_srcIndex hits the end of m_source then QString() is returned.
  * @return the current lexeme or an empty string
  */
@@ -260,7 +260,7 @@ bool NativeImportBase::preprocess(QString& line)
             QString text = line.mid(0, pos - 1);
             m_comment += text.trimmed();
         }
-        m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
+        m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source`
         m_srcIndex++;
         m_comment = QString();
         m_inComment = false;
@@ -379,8 +379,8 @@ QStringList NativeImportBase::split(const QString& line)
  * Scan a single line.
  * parseFile() calls this for each line read from the input file.
  * This in turn calls other methods such as preprocess() and fillSource().
- * The lexer. Tokenizes the given string and fills `m_source'.
- * Stores possible comments in `m_comment'.
+ * The lexer. Tokenizes the given string and fills `m_source`.
+ * Stores possible comments in `m_comment`.
  * @param line  The line to scan.
  */
 void NativeImportBase::scan(const QString& line)
