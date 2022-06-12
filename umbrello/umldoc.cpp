@@ -279,11 +279,47 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == view) {
         UMLApp::app()->setCurrentView(0);
+#if 0
+    /* Enabling this code may result in crashes on closing models with many diagrams:
+       #0  in QListData::size (this=0x30) at /usr/include/qt5/QtCore/qlist.h:115
+       #1  in QList<QTreeWidgetItem*>::count (this=0x30) at /usr/include/qt5/QtCore/qlist.h:359
+       #2  in QTreeWidgetItem::childCount (this=0x0) at /usr/include/qt5/QtWidgets/qtreewidget.h:193
+       #3  in UMLListView::findView (this=0x13470e0, v=0x249dc80) at /umbrello/master/umbrello/umllistview.cpp:1382
+       #4  in UMLApp::setCurrentView (this=0xc767c0, view=0x249dc80, updateTreeView=true)
+           at /umbrello/master/umbrello/uml.cpp:3360
+       #5  in UMLDoc::changeCurrentView (this=0xe0de50, id="JBFSUyhmy1cS") at /umbrello/master/umbrello/umldoc.cpp:1839
+       #6  in UMLApp::slotTabChanged (this=0xc767c0, index=1) at /umbrello/master/umbrello/uml.cpp:3408
+       #7  in UMLApp::qt_static_metacall (_o=0xc767c0, _c=QMetaObject::InvokeMetaMethod, _id=81, _a=0x7fffffffb5e0)
+           at /umbrello/master/build/umbrello/libumbrello_autogen/EWIEGA46WW/moc_uml.cpp:564
+       #8  in doActivate<false> (sender=0x126dc70, signal_index=7, argv=0x7fffffffb5e0) at kernel/qobject.cpp:3898
+       #9  in QMetaObject::activate (sender=<optimized out>, m=m@entry=0x7ffff65c5560 <QTabWidget::staticMetaObject>,
+           local_signal_index=local_signal_index@entry=0, argv=argv@entry=0x7fffffffb5e0) at kernel/qobject.cpp:3946
+       #10 in QTabWidget::currentChanged (this=<optimized out>, _t1=<optimized out>) at .moc/moc_qtabwidget.cpp:326
+       #11 in doActivate<false> (sender=0x1276980, signal_index=7, argv=0x7fffffffb6e0) at kernel/qobject.cpp:3898
+       #12 in QMetaObject::activate (sender=<optimized out>, m=m@entry=0x7ffff65c3fc0 <QTabBar::staticMetaObject>,
+           local_signal_index=local_signal_index@entry=0, argv=argv@entry=0x7fffffffb6e0) at kernel/qobject.cpp:3946
+       #13 in QTabBar::currentChanged (this=<optimized out>, _t1=<optimized out>) at .moc/moc_qtabbar.cpp:338
+       #14 in UMLApp::setCurrentView (this=0xc767c0, view=0x249dc80, updateTreeView=true)
+           at /umbrello/master/umbrello/uml.cpp:3342
+       #15 in UMLDoc::changeCurrentView (this=0xe0de50, id="JBFSUyhmy1cS") at /umbrello/master/umbrello/umldoc.cpp:1839
+       #16 in UMLDoc::removeView (this=0xe0de50, view=0x23c0040, enforceCurrentView=false)
+           at /umbrello/master/umbrello/umldoc.cpp:334
+       #17 in UMLFolder::removeAllViews (this=0xe34e70) at /umbrello/master/umbrello/umlmodel/folder.cpp:242
+       #18 in UMLDoc::removeAllViews (this=0xe0de50) at /umbrello/master/umbrello/umldoc.cpp:2985
+       #19 in UMLDoc::closeDocument (this=0xe0de50) at /umbrello/master/umbrello/umldoc.cpp:462
+       #20 in UMLDoc::newDocument (this=0xe0de50) at /umbrello/master/umbrello/umldoc.cpp:495
+       #21 in UMLApp::slotFileNew (this=0xc767c0) at /umbrello/master/umbrello/uml.cpp:1371
+       #22 in UMLApp::slotFileClose (this=0xc767c0) at /umbrello/master/umbrello/uml.cpp:1556
+     */
         UMLViewList viewList;
         m_root[Uml::ModelType::Logical]->appendViews(viewList);
         UMLView* firstView = 0;
         if (!viewList.isEmpty()) {
             firstView =  viewList.first();
+            /* Tried this:
+            if (firstView == view)
+                firstView = 0;
+             *********************** but it didn't help. */
         }
 
         if (!firstView && enforceCurrentView) {  //create a diagram
@@ -298,8 +334,11 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
             changeCurrentView(firstView->umlScene()->ID());
             UMLApp::app()->setDiagramMenuItemsState(true);
         }
+#endif
     }
+    blockSignals(true);
     delete view;
+    blockSignals(false);
 }
 
 /**
