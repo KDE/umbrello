@@ -50,8 +50,8 @@
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
-QStringList UMLViewImageExporterModel::s_supportedImageTypesList;
-QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
+QStringList *UMLViewImageExporterModel::s_supportedImageTypesList;
+QStringList *UMLViewImageExporterModel::s_supportedMimeTypesList;
 
 /**
  * Returns a QStringList containing all the supported image types to use when exporting.
@@ -61,25 +61,26 @@ QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
  */
 QStringList UMLViewImageExporterModel::supportedImageTypes()
 {
-    if (!s_supportedImageTypesList.size()) {
+    if (!s_supportedImageTypesList) {
+        s_supportedImageTypesList = new QStringList();
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
         Q_FOREACH(const QByteArray& it, qImageFormats) {
             const QString format = QString::fromLatin1(it.toLower());
-            if (!s_supportedImageTypesList.contains(format))
-                s_supportedImageTypesList << format;
+            if (!s_supportedImageTypesList->contains(format))
+                *s_supportedImageTypesList << format;
         }
         // specific supported formats
-        if (!s_supportedImageTypesList.contains(QLatin1String("dot")))
-            s_supportedImageTypesList << QLatin1String("dot");
-        if (!s_supportedImageTypesList.contains(QLatin1String("eps")))
-            s_supportedImageTypesList << QLatin1String("eps");
-        if (!s_supportedImageTypesList.contains(QLatin1String("svg")))
-            s_supportedImageTypesList << QLatin1String("svg");
+        if (!s_supportedImageTypesList->contains(QLatin1String("dot")))
+            *s_supportedImageTypesList << QLatin1String("dot");
+        if (!s_supportedImageTypesList->contains(QLatin1String("eps")))
+            *s_supportedImageTypesList << QLatin1String("eps");
+        if (!s_supportedImageTypesList->contains(QLatin1String("svg")))
+            *s_supportedImageTypesList << QLatin1String("svg");
     }
-    s_supportedImageTypesList.sort();
+    s_supportedImageTypesList->sort();
 
-    return s_supportedImageTypesList;
+    return *s_supportedImageTypesList;
 }
 
 /**
@@ -90,16 +91,17 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
  */
 QStringList UMLViewImageExporterModel::supportedMimeTypes()
 {
-    if (!s_supportedMimeTypesList.size()) {
+    if (!s_supportedMimeTypesList) {
+        s_supportedMimeTypesList = new QStringList();
         const QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
         for (QStringList::ConstIterator it = imageTypes.begin(); it != imageTypes.end(); ++it) {
             QString mimeType = imageTypeToMimeType(*it);
             if (!mimeType.isNull())
-                s_supportedMimeTypesList.append(mimeType);
+                s_supportedMimeTypesList->append(mimeType);
         }
     }
 
-    return s_supportedMimeTypesList;
+    return *s_supportedMimeTypesList;
 }
 
 /**

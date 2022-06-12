@@ -60,8 +60,8 @@ private:
     bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
     bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
 
-    static QStringList s_supportedImageTypesList;
-    static QStringList s_supportedMimeTypesList;
+    static QStringList *s_supportedImageTypesList;
+    static QStringList *s_supportedMimeTypesList;
     float m_resolution;
 };
 
