@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLLISTVIEWITEM_H
@@ -11,7 +11,7 @@
 
 #include <QDomDocument>
 #include <QDomElement>
-#include <QMap>
+#include <QHash>
 #include <QPointer>
 #include <QTreeWidget>
 #include <QXmlStreamWriter>
@@ -111,7 +111,6 @@ public:
     explicit UMLListViewItem(UMLListViewItem * parent);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::ID::Type id);
-    ~UMLListViewItem();
 
     ListViewType type() const;
 
@@ -138,13 +137,14 @@ public:
     void addChildItem(UMLObject *child, UMLListViewItem *childItem);
 
     void deleteChildItem(UMLObject *child);
+    static void deleteItem(UMLListViewItem *childItem);
 
     //virtual int compare(UMLListViewItem *other, int col, bool ascending) const;
 
     UMLListViewItem* deepCopy(UMLListViewItem *newParent);
 
     UMLListViewItem* findUMLObject(const UMLObject *o);
-    UMLListViewItem* findChildObject(UMLObject *child);
+    UMLListViewItem* findChildObject(const UMLObject *child);
     UMLListViewItem* findItem(Uml::ID::Type id);
 
     UMLListViewItem* childItem(int i);
@@ -163,19 +163,21 @@ protected:
 
     void cancelRenameWithMsg();
 
+    UMLListViewItem* findUMLObject_r(const UMLObject *o);
+
     /**
      * Auxiliary map of child UMLListViewItems keyed by UMLObject.
      * Used by findChildObject() for efficiency instead of looping using
      * firstChild()/nextSibling() because the latter incur enforceItemVisible()
      * and thus expensive sorting.
      */
-    typedef QMap<UMLObject*, UMLListViewItem*> ChildObjectMap;
+    typedef QHash<const UMLObject*, UMLListViewItem*> ChildObjectMap;
 
     ListViewType       m_type;
     Uml::ID::Type      m_id;
     QPointer<UMLObject> m_object;
     QString            m_label;
-    ChildObjectMap     m_comap;
+    static ChildObjectMap *s_comap;
 
 };
 

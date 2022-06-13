@@ -1020,6 +1020,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
             name.append(QLatin1String(" (") + folderFile + QLatin1Char(')'));
     }
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
+    parentItem->addChildItem(object, newItem);  // for updating the ChildObjectMap
     if (mayHaveChildItems(type)) {
         UMLClassifier *c = object->asUMLClassifier();
         UMLClassifierListItemList cListItems = c->getFilteredList(UMLObject::ot_UMLObject);
@@ -1174,6 +1175,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
     } else {
         const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(child);
         childItem = new UMLListViewItem(parentItem, text, lvt, child);
+        parentItem->addChildItem(child, childItem);  // for updating the ChildObjectMap
         if (! m_doc->loading()) {
             scrollToItem(childItem);
             clearSelection();
@@ -1244,7 +1246,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object)
     }
     disconnect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     UMLListViewItem* item = findItem(object->id());
-    delete item;
+    UMLListViewItem::deleteItem(item);
     UMLApp::app()->docWindow()->updateDocumentation(true);
 }
 
@@ -1443,21 +1445,20 @@ void UMLListView::init()
         m_rv =  new UMLListViewItem(this, i18n("Views"), UMLListViewItem::lvt_View);
         m_rv->setID("Views");
         //m_rv->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
-
-        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-            Uml::ModelType::Enum mt = Uml::ModelType::fromInt(i);
-            UMLFolder *sysFolder = m_doc->rootFolder(mt);
-            UMLListViewItem::ListViewType lvt = Model_Utils::convert_MT_LVT(mt);
-            m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
-        }
-    } else {
-        clean();
+    }
+    clean();
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        Uml::ModelType::Enum mt = Uml::ModelType::fromInt(i);
+        UMLFolder *sysFolder = m_doc->rootFolder(mt);
+        UMLListViewItem::ListViewType lvt = Model_Utils::convert_MT_LVT(mt);
+        m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
+        m_rv->addChildItem(sysFolder, m_lv[i]);  // for updating the ChildObjectMap
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
-    if (!m_datatypeFolder) {
-        m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
+    m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
                                            UMLListViewItem::lvt_Datatype_Folder, datatypeFolder);
-    }
+    // update the ChildObjectMap
+    m_lv[Uml::ModelType::Logical]->addChildItem(datatypeFolder, m_datatypeFolder);
     if (m_settingsFolder == 0) {
         m_settingsFolder =  new UMLListViewItem(this, i18n("Settings"), UMLListViewItem::lvt_Properties);
         Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_settingsFolder->type());
@@ -1487,14 +1488,14 @@ void UMLListView::init()
 
 /**
  * Remove all items and subfolders of the main folders.
- * Special case: The datatype folder, child of the logical view, is not deleted.
  */
 void UMLListView::clean()
 {
+    m_datatypeFolder = 0;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        deleteChildrenOf(m_lv[i]);
+        m_lv[i] = 0;
     }
-    //deleteChildrenOf(m_datatypeFolder);
+    deleteChildrenOf(m_rv);
 }
 
 /**
@@ -1555,6 +1556,10 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
     UMLListViewItem* target = (UMLListViewItem*)itemAt(event->pos());
     if (!target) {
         logDebug0("UMLListView::acceptDrag: itemAt(mouse position) returns 0");
+        return false;
+    }
+    if (m_doc->loading()) {
+        logWarn0("UMLListView::acceptDrag: cut/copy is not safe while loading");
         return false;
     }
 
@@ -1709,10 +1714,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
         if (newParentType == UMLListViewItem::lvt_UseCase_Folder ||
                 newParentType == UMLListViewItem::lvt_UseCase_View) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1722,10 +1724,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
         if (newParentType == UMLListViewItem::lvt_Component_Folder ||
                 newParentType == UMLListViewItem::lvt_Component_View) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1734,10 +1733,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 newParentType == UMLListViewItem::lvt_Component_View ||
                 newParentType == UMLListViewItem::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1747,20 +1743,14 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 newParentType == UMLListViewItem::lvt_Component ||
                 newParentType == UMLListViewItem::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
     case UMLListViewItem::lvt_Port:
         if (newParentType == UMLListViewItem::lvt_Component) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1770,10 +1760,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
         if (newParentType == UMLListViewItem::lvt_Deployment_Folder ||
                 newParentType == UMLListViewItem::lvt_Deployment_View) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1784,10 +1771,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
         if (newParentType == UMLListViewItem::lvt_EntityRelationship_Folder ||
                 newParentType == UMLListViewItem::lvt_EntityRelationship_Model) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1802,10 +1786,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 newParentType == UMLListViewItem::lvt_Logical_Folder ||
                 newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             addAtContainer(newItem, newParent);
         }
         break;
@@ -1822,10 +1803,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 newParentType == UMLListViewItem::lvt_Interface ||
                 newParentType == UMLListViewItem::lvt_Package) {
             newItem = move->deepCopy(newParent);
-            if (m_doc->loading())         // deletion is not safe while loading
-                move->setVisible(false);  // (the <listview> XMI may be corrupted)
-            else
-                delete move;
+            UMLListViewItem::deleteItem(move);
             UMLCanvasObject *o = newItem->umlObject()->asUMLCanvasObject();
             if (o == 0) {
                 logDebug0("UMLListView::moveObject: newItem's UMLObject is null");
@@ -1848,9 +1826,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
             // update list view
 
             newItem = move->deepCopy(newParent);
-            // we don't delete move right away, it will be deleted in slots,
-            // called by subsequent steps
-            //delete move;
+            UMLListViewItem::deleteItem(move);
 
             // update model objects
             m_bCreatingChildObject = true;
@@ -1860,7 +1836,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 break;
             }
 
-            UMLClassifier *oldParentClassifier = srcObj->umlParent()->asUMLClassifier();
+            //UMLClassifier *oldParentClassifier = srcObj->umlParent()->asUMLClassifier();
             UMLClassifier *newParentClassifier = newParentObj->asUMLClassifier();
             if (srcType == UMLListViewItem::lvt_Attribute) {
                 UMLAttribute *att = srcObj->asUMLAttribute();
@@ -1871,9 +1847,9 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 if (att == 0) {
                     logError1("UMLListView::moveObject internal error: srcObj %1 is not a UMLAttribute",
                               srcObj->name());
-                } else if (oldParentClassifier->takeItem(att) == -1) {
-                    logError1("UMLListView::moveObject: oldParentClassifier->takeItem(%1) returns null",
-                              att->name());
+//              } else if (oldParentClassifier->takeItem(att) == -1) {
+//                  logError1("UMLListView::moveObject: oldParentClassifier->takeItem(attr %1) returns error",
+//                            att->name());
                 } else {
                     const QString& nm = att->name();
                     UMLAttribute *newAtt = newParentClassifier->createAttribute(nm,
@@ -1895,7 +1871,13 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 // because its parent is fixed to the old classifier
                 // and we have no way of changing that:
                 // QObject does not permit changing the parent().
-                if (op && oldParentClassifier->takeItem(op) != -1) {
+                if (op == 0) {
+                    logError1("UMLListView::moveObject internal error: srcObj %1 is not a UMLOperation",
+                              srcObj->name());
+//              } else if (oldParentClassifier->takeItem(op) == -1) {
+//                  logError1("UMLListView::moveObject: oldParentClassifier->takeItem(op %1) returns error",
+//                            op->name());
+                } else {
                     bool isExistingOp;
                     Model_Utils::NameAndType_List ntDummyList;
                     // We need to provide a dummy NameAndType_List
@@ -1925,9 +1907,46 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                     // because the old one is about to be physically deleted !
                     UMLApp::app()->docWindow()->showDocumentation(newOp, true);
                     delete op;
-                } else {
-                    logError0("UMLListView::moveObject: oldParentClassifier->takeItem(op) returns null");
                 }
+            }
+            m_bCreatingChildObject = false;
+        }
+        break;
+    case UMLListViewItem::lvt_EnumLiteral:
+        if (newParentType == UMLListViewItem::lvt_Enum) {
+            // update list view
+            newItem = move->deepCopy(newParent);
+            UMLListViewItem::deleteItem(move);
+
+            // update model objects
+            m_bCreatingChildObject = true;
+
+            if (!srcObj) {
+                logError0("UMLListView::moveObject: srcObj is NULL");
+                break;
+            }
+
+            //UMLEnum *oldParentEnum = srcObj->umlParent()->asUMLEnum();
+            UMLEnum *newParentEnum = newParentObj->asUMLEnum();
+            UMLEnumLiteral *srcLit = srcObj->asUMLEnumLiteral();
+            // We can't use the existing 'srcLit' directly
+            // because its parent is fixed to the old Enum
+            // and we have no way of changing that:
+            // QObject does not permit changing the parent().
+            if (srcLit == 0) {
+                logError1("UMLListView::moveObject internal error: srcObj %1 is not a UMLEnumLiteral",
+                          srcObj->name());
+            } else {
+                const QString& nm = srcLit->name();
+                UMLObject *literal = newParentEnum->createEnumLiteral(nm);
+                newItem->setUMLObject(literal);
+                newParent->addChildItem(literal, newItem);
+
+                connectNewObjectsSlots(literal);
+                // Let's not forget to update the DocWindow::m_pObject
+                // because the old one is about to be physically deleted !
+                UMLApp::app()->docWindow()->showDocumentation(literal, true);
+                delete srcLit;
             }
             m_bCreatingChildObject = false;
         }
@@ -2326,7 +2345,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
                 const QString text = child->asUMLInstanceAttribute()->toString();
                 UMLListViewItem *childItem =
                     new UMLListViewItem(instanceItem, text, UMLListViewItem::lvt_InstanceAttribute , child);
-                Q_UNUSED(childItem);
+                instanceItem->addChildItem(child, childItem);  // for updating the ChildObjectMap
             }
         }
     }
@@ -2537,6 +2556,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 parentPkg->addObject(f);
                 pObject = f;
                 item = new UMLListViewItem(parent, label, lvType, pObject);
+                parent->addChildItem(pObject, item);  // for updating the ChildObjectMap
                 // Moving all relevant UMLObjects to the new UMLFolder is done below,
                 // in the switch(lvType)
             }
@@ -2621,6 +2641,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             connectNewObjectsSlots(instAttr);
                             label = instAttr->toString();
                             item = new UMLListViewItem(parent, label, lvType, instAttr);
+                            parent->addChildItem(instAttr, item);  // for updating the ChildObjectMap
                         } else {
                             logDebug2("UMLListView::loadChildrenFromXMI: %1 lvt_InstanceAttribute child "
                                       " object %2 not found", umlObject->name(), Uml::ID::toString(nID));
@@ -2636,6 +2657,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             connectNewObjectsSlots(umlObject);
                             label = umlObject->name();
                             item = new UMLListViewItem(parent, label, lvType, umlObject);
+                            parent->addChildItem(umlObject, item);  // for updating the ChildObjectMap
                         } else {
                             logDebug2("UMLListView::loadChildrenFromXMI lvtype %1 child object %2 not found",
                                       UMLListViewItem::toString(lvType), Uml::ID::toString(nID));
@@ -2785,7 +2807,6 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         return;
     }
     if (parent == m_lv[Uml::ModelType::Logical]) {
-        delete m_datatypeFolder;
         m_datatypeFolder = 0;
     }
     for (int i = parent->childCount() - 1; i >= 0; --i)
@@ -2856,7 +2877,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
             // Physical deletion of `temp' will be done by Qt signal, see
             // UMLDoc::removeUMLObject()
         } else {
-            delete temp;
+            UMLListViewItem::deleteItem(temp);
         }
     } else {
         logWarn1("UMLListView::deleteItem is called with unknown type %1",

@@ -45,6 +45,8 @@
 
 DEBUG_REGISTER(UMLListViewItem)
 
+UMLListViewItem::ChildObjectMap* UMLListViewItem::s_comap;
+
 /**
  * Sets up an instance.
  *
@@ -176,13 +178,6 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
 }
 
 /**
- * Standard destructor.
- */
-UMLListViewItem::~UMLListViewItem()
-{
-}
-
-/**
  * Initializes key variables of the class.
  */
 void UMLListViewItem::init()
@@ -190,6 +185,8 @@ void UMLListViewItem::init()
     m_type = lvt_Unknown;
     m_object = 0;
     m_id = Uml::ID::None;
+    if (!s_comap)
+        s_comap = new ChildObjectMap();
 }
 
 /**
@@ -233,7 +230,9 @@ UMLListViewItem::ListViewType UMLListViewItem::type() const
 }
 
 /**
- * Adds the child listview item representing the given UMLObject.
+ * Adds to the child object cache the child listview item representing the given UMLObject.
+ * @param child Pointer to UMLObject serving as the key into s_comap
+ * @param item  Pointer to UMLListViewItem to be returned as the value keyed by @ref child
  */
 void UMLListViewItem::addChildItem(UMLObject *child, UMLListViewItem *childItem)
 {
@@ -241,7 +240,7 @@ void UMLListViewItem::addChildItem(UMLObject *child, UMLListViewItem *childItem)
         logError0("UMLListViewItem::addChildItem called with null child");
         return;
     }
-    m_comap[child] = childItem;
+    (*s_comap)[child] = childItem;
 }
 
 /**
@@ -258,7 +257,21 @@ void UMLListViewItem::deleteChildItem(UMLObject *child)
         logError1("UMLListViewItem::deleteChildItem: child listview item %1 not found", child->name());
         return;
     }
-    m_comap.remove(child);
+    s_comap->remove(child);
+    removeChild(childItem);
+    delete childItem;
+}
+
+/**
+ * Deletes the given child listview item representing a UMLObject.
+ */
+void UMLListViewItem::deleteItem(UMLListViewItem *childItem)
+{
+    if (!childItem)
+        return;
+    const UMLObject *obj = s_comap->key(childItem);
+    if (obj)
+        s_comap->remove(obj);
     delete childItem;
 }
 
@@ -828,10 +841,12 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
     ListViewType t = type();
     UMLObject *o = umlObject();
     UMLListViewItem* newItem;
-    if (o)
+    if (o) {
         newItem = new UMLListViewItem(newParent, nm, t, o);
-    else
+        (*s_comap)[o] = newItem;
+    } else {
         newItem = new UMLListViewItem(newParent, nm, t, m_id);
+    }
     for (int i=0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         childItem->deepCopy(newItem);
@@ -846,13 +861,38 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
  */
 UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 {
+    if (!o) {
+        logError0("UMLListViewItem::findUMLObject: null argument given (returning null)");
+        return 0;
+    }
+    if (m_object == o)
+        return this;
+    ChildObjectMap::iterator it = s_comap->find(o);
+    if (it != s_comap->end()) {
+        return *it;
+    }
+    logDebug1("UMLListViewItem::findUMLObject: %1 was not found in comap, trying recursive search",
+              o->name());
+    return findUMLObject_r(o);
+}
+
+/**
+ * Auxiliary function for findUMLObject: Search recursively in child hierarchy.
+ */
+UMLListViewItem* UMLListViewItem::findUMLObject_r(const UMLObject *o)
+{
     if (m_object == o)
         return this;
     for (int i = 0; i < childCount(); i++) {
-        UMLListViewItem *item = static_cast<UMLListViewItem*>(child(i));
-        UMLListViewItem *testItem = item->findUMLObject(o);
-        if (testItem)
+        UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(child(i));
+        if (!item)
+            continue;
+        UMLListViewItem *testItem = item->findUMLObject_r(o);
+        if (testItem) {
+            logDebug1("UMLListViewItem::findUMLObject_r(%1) : Object was found by recursive search, "
+                      "should have been found in comap (?)", o->name());
             return testItem;
+        }
     }
     return 0;
 }
@@ -862,10 +902,10 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
  * children of the current UMLListViewItem.
  * Return a pointer to the item or NULL if not found.
  */
-UMLListViewItem* UMLListViewItem::findChildObject(UMLObject *child)
+UMLListViewItem* UMLListViewItem::findChildObject(const UMLObject *child)
 {
-    ChildObjectMap::iterator it = m_comap.find(child);
-    if (it != m_comap.end()) {
+    ChildObjectMap::iterator it = s_comap->find(child);
+    if (it != s_comap->end()) {
         return *it;
     }
     return 0;
