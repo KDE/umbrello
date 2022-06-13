@@ -36,7 +36,7 @@
         ],
         "Category": "Documentation",
         "Description": "This plugin integrates PHP.net online documentation.",
-        "Description[ca@valencia]": "Este conector integra la documentació en llínea de PHP.net.",
+        "Description[ca@valencia]": "Este connector integra la documentació en línia de PHP.net.",
         "Description[ca]": "Aquest connector integra la documentació en línia de PHP.net.",
         "Description[da]": "Pluginet fortoker onlinedokumentation fra PHP.net.",
         "Description[de]": "Dieses Modul integriert die Online-Dokumentation von PHP.net.",
