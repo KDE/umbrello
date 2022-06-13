@@ -98,6 +98,8 @@ public:
     explicit UMLApp(QWidget* parent = 0);
     ~UMLApp();
 
+    void setup();
+
     static UMLApp* app();
 
 #if QT_VERSION >= 0x050000
@@ -498,6 +500,7 @@ private:
      * Statusbar items
      */
     QLabel*      m_zoomValueLbl;
+    QWidget*     m_defaultZoomWdg;
     QPushButton* m_pZoomOutPB;
     QPushButton* m_pZoomInPB;
     StatusBarToolButton* m_pZoomFitSBTB;

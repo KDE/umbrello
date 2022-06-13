@@ -159,7 +159,7 @@ QMenu* UMLApp::findMenu(const QString& name)
  */
 UMLApp::UMLApp(QWidget* parent)
   : KXmlGuiWindow(parent),
-    m_d(new UMLAppPrivate(this)),
+    m_d(0),                // setup()
     m_langSelect(0),
     m_zoomSelect(0),
     m_activeLanguage(Uml::ProgrammingLanguage::Reserved),
@@ -172,29 +172,95 @@ UMLApp::UMLApp(QWidget* parent)
     m_config(KGlobal::config()),
 #endif
     m_view(0),
-    m_doc(new UMLDoc()),
+    m_doc(0),              // setup()
     m_listView(0),
+    m_mainDock(0),
+    m_listDock(0),
+    m_debugDock(0),
+    m_documentationDock(0),
+    m_cmdHistoryDock(0),
+    m_propertyDock(0),
+    m_logDock(0),
+    m_birdViewDock(0),
     m_docWindow(0),
     m_birdView(0),
+    m_pQUndoView(0),
     m_refactoringAssist(0),
+    fileOpenRecent(0),
+    printPreview(0),
+    filePrint(0),
+    editCut(0),
+    editCopy(0),
+    editPaste(0),
+    editUndo(0),
+    editRedo(0),
+    viewShowTree(0),
+    viewShowDebug(0),
+    viewShowDoc(0),
+    viewShowLog(0),
+    viewShowCmdHistory(0),
+    viewShowBirdView(0),
+    newDiagram(0),
+    viewClearDiagram(0),
+    viewSnapToGrid(0),
+    viewShowGrid(0),
+    viewExportImage(0),
+    viewProperties(0),
+    zoom100Action(0),
+    deleteSelectedWidget(0),
+    deleteDiagram(0),
+    m_newSessionButton(0),
+    m_diagramMenu(0),
+    m_toolsbar(0),
     m_clipTimer(0),
     m_copyTimer(0),
     m_loading(false),
+    m_viewStack(0),
+    m_tabWidget(0),
+    m_layout(0),
     m_imageMimeType(QString()),
     m_settingsDialog(0),
-    m_imageExporterAll(new UMLViewImageExporterAll()),
+    m_imageExporterAll(0),  // setup()
+    m_zoomValueLbl(0),
+    m_defaultZoomWdg(0),
+    m_pZoomOutPB(0),
+    m_pZoomInPB(0),
+    m_pZoomFitSBTB(0),
+    m_pZoomFullSBTB(0),
+    m_pZoomSlider(0),
+    m_statusBarMessage(0),
     m_xhtmlGenerator(0),
-#if QT_VERSION >= 0x050000
-    m_pUndoStack(new QUndoStack(this)),
-#else
-    m_pUndoStack(new KUndoStack(this)),
-#endif
+    m_pUndoStack(0),        // setup()
     m_undoEnabled(true),
     m_hasBegunMacro(false),
     m_printSettings(0),
-    m_printer(new QPrinter())
+    m_printer(0)            // setup()
+{
+    for (int i = 0; i <= (int)Uml::ProgrammingLanguage::Reserved; i++)
+        m_langAct[i] = 0;
+}
+
+/**
+ * Set up the UMLApp.
+ * To be called after the constructor, before anything else.
+ * Heavy weight initializations are factored from the constructor to here
+ * to avoid passing an UMLApp `this` pointer to other classes where the
+ * `this` pointer has not been fully constructed. In other words, it is
+ * safe for other classes to invoke UMLApp functions using the `this`
+ * pointer passed to them.
+ */
+void UMLApp::setup()
 {
     s_instance = this;
+    m_d = new UMLAppPrivate(this);
+    m_doc = new UMLDoc();
+    m_imageExporterAll = new UMLViewImageExporterAll();
+#if QT_VERSION >= 0x050000
+    m_pUndoStack = new QUndoStack(this);
+#else
+    m_pUndoStack = new KUndoStack(this);
+#endif
+    m_printer = new QPrinter();
     m_doc->init();
     m_printer->setFullPage(true);
     layout()->setSizeConstraint(QLayout::SetNoConstraint);
@@ -209,6 +275,13 @@ UMLApp::UMLApp(QWidget* parent)
     QString xmlFile = QLatin1String(UMBRELLOUI_RC);
     QFileInfo fi(xmlFile);
     setupGUI(opt, fi.exists() ? xmlFile : QString());
+
+    statusBar()->addWidget(m_statusBarMessage);
+    statusBar()->addPermanentWidget(m_defaultZoomWdg);
+    statusBar()->addPermanentWidget(m_pZoomOutPB);
+    statusBar()->addPermanentWidget(m_pZoomSlider);
+    statusBar()->addPermanentWidget(m_pZoomInPB);
+
     initView();
     initClip();
     readOptions();
@@ -836,10 +909,9 @@ void UMLApp::initStatusBar()
     connect(m_doc, SIGNAL(sigWriteToStatusBar(QString)), this, SLOT(slotStatusMsg(QString)));
 
     m_statusBarMessage = new QLabel(i18nc("init status bar", "Ready"));
-    statusBar()->addWidget(m_statusBarMessage);
 
-    QWidget* defaultZoomWdg = new QWidget(this);
-    QHBoxLayout* zoomLayout = new QHBoxLayout(defaultZoomWdg);
+    m_defaultZoomWdg = new QWidget(this);
+    QHBoxLayout* zoomLayout = new QHBoxLayout(m_defaultZoomWdg);
     zoomLayout->setContentsMargins(0, 0, 0, 0);
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
@@ -863,17 +935,17 @@ void UMLApp::initStatusBar()
     zoomLayout->addWidget(m_pZoomFullSBTB);
     connect(m_pZoomFullSBTB, SIGNAL(clicked()), this, SLOT(slotZoom100()));
 
-    statusBar()->addPermanentWidget(defaultZoomWdg);
-
     m_pZoomOutPB = new QPushButton(this);
 #if QT_VERSION >= 0x050000
+    /* TODO: On the call to m_pZoomOutPB->setIcon Valgrind reports
+       "Conditional jump or move depends on uninitialised value(s)".
+     */
     m_pZoomOutPB->setIcon(QIcon(QLatin1String("zoom-out")));
 #else
     m_pZoomOutPB->setIcon(KIcon(QLatin1String("zoom-out")));
 #endif
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
-    statusBar()->addPermanentWidget(m_pZoomOutPB);
     connect(m_pZoomOutPB, SIGNAL(clicked()), this, SLOT(slotZoomOut()));
 
     m_pZoomSlider = new QSlider(Qt::Horizontal, this);
@@ -885,17 +957,17 @@ void UMLApp::initStatusBar()
     m_pZoomSlider->setContentsMargins(0, 0, 0, 0);
     connect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
 
-    statusBar()->addPermanentWidget(m_pZoomSlider);
-
     m_pZoomInPB = new QPushButton(this);
 #if QT_VERSION >= 0x050000
+    /* TODO: On the call to m_pZoomInPB->setIcon Valgrind reports
+       "Conditional jump or move depends on uninitialised value(s)".
+     */
     m_pZoomInPB->setIcon(QIcon(QLatin1String("zoom-in")));
 #else
     m_pZoomInPB->setIcon(KIcon(QLatin1String("zoom-in")));
 #endif
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
-    statusBar()->addPermanentWidget(m_pZoomInPB);
     connect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
 }
 

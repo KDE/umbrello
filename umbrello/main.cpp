@@ -88,7 +88,6 @@ void initDocument(KCmdLineArgs *args, Uml::ProgrammingLanguage::Enum progLang)
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 {
     QString extension(exportOpt.last());
@@ -191,6 +190,7 @@ int main(int argc, char *argv[])
         }
 
         uml = new UMLApp();
+        uml->setup();
         app.processEvents();
 
         if (showGUI(args)) {
