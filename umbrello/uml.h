@@ -418,7 +418,6 @@ private:
     BirdViewDockWidget* m_birdViewDock;///< Contains the bird's eye view
 
     DocWindow*   m_docWindow;          ///< Documentation window.
-    QListWidget* m_logWindow;          ///< Logging window.
     BirdView*    m_birdView;           ///< Bird View window
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
