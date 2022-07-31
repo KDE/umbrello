@@ -3,7 +3,6 @@ Icon=application-x-php
 Type=Service
 ServiceTypes=KCModule
 
-X-KDE-ModuleType=Library
 X-KDE-Library=kdevplatform/@KDEV_PLUGIN_VERSION@/kcm/kcm_kdevphpdocs
 X-KDE-FactoryName=kdevphpdocs_config
 X-KDE-ParentApp=kdevplatform
