@@ -35,6 +35,7 @@ void TestBase::initTestCase()
 {
     QWidget *w = new QWidget;
     UMLApp *app = new UMLApp(w);
+    app->setup();
     app->setActiveLanguage(Uml::ProgrammingLanguage::Cpp);
 }
 
