@@ -2282,9 +2282,9 @@ short UMLDoc::encoding(QIODevice & file)
             const int pos = rx.indexIn(pi.data());
             if (pos >= 0) {
                 const QString& encData = rx.cap(1);
-                if (QString::compare(encData, QLatin1String("UTF-8"), Qt::CaseInsensitive)) {
+                if (QString::compare(encData, QLatin1String("UTF-8"), Qt::CaseInsensitive) == 0) {
                     enc = ENC_UNICODE;
-                } else if (QString::compare(encData, QLatin1String("windows-1252"), Qt::CaseInsensitive)) {
+                } else if (QString::compare(encData, QLatin1String("windows-1252"), Qt::CaseInsensitive) == 0) {
                     enc = ENC_WINDOWS;
                 } else {
                     logDebug1("UMLDoc::encoding : ProcessingInstruction encoding=%1 is not yet implemented",
