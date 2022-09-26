@@ -16,6 +16,7 @@
   <name xml:lang="gl">Compatibilidade con PHP para KDevelop</name>
   <name xml:lang="hu">KDevelop PHP-támogatás</name>
   <name xml:lang="it">Supporto PHP per KDevelop</name>
+  <name xml:lang="ka">KDevelop PHP მხარდაჭერა</name>
   <name xml:lang="ko">KDevelop PHP 지원</name>
   <name xml:lang="nl">PHP ondersteuning in KDevelop</name>
   <name xml:lang="pl">Obsługa PHP dla KDevelop</name>
@@ -44,6 +45,7 @@
   <summary xml:lang="gl">Compatibilidade coa linguaxe PHP para KDevelop</summary>
   <summary xml:lang="hu">PHP nyelvi támogatás a KDevelophoz</summary>
   <summary xml:lang="it">Supporto al linguaggio PHP per KDevelop</summary>
+  <summary xml:lang="ka">PHP ენის მხარდაჭერა KDevelop-სთვის</summary>
   <summary xml:lang="ko">KDevelop의 PHP 언어 지원</summary>
   <summary xml:lang="nl">Ondersteuning van PHP-taal voor KDevelop</summary>
   <summary xml:lang="pl">Obsługa języka PHP dla KDevelop</summary>
