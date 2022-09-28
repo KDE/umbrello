@@ -1,43 +1,43 @@
 #!/bin/sh
 # @author Ralf Habacker
 # @brief extract dtd elements/attributes from xmllint error messages
-# 
+#
 gawk '
 /No declaration for element/ {
-  element = $11;
+    element = $11;
 
-  if (!e[element]) {
-    e[element] = 1;
-    if (currentElement && (currentElement != element || _currentElement != element))
-      print ">"
-    print "<!ELEMENT " element " ANY >"
-    print "<!ATTLIST " element 
-    currentElement = element
-  }
+    if (!e[element]) {
+        e[element] = 1;
+        if (currentElement && (currentElement != element || _currentElement != element))
+            print ">"
+        print "<!ELEMENT " element " ANY >"
+        print "<!ATTLIST " element
+        currentElement = element
+    }
 }
 
 /No declaration for attribute/ {
-  attr = $11;
-  _element = $14
+    attr = $11;
+    _element = $14
 
-  if (!element) {
-    if (!e[_element]) {
-      e[_element] = 1;
-      if (_currentElement && _currentElement != _element)
-        print ">"
-      print "<!ATTLIST " _element
-      _currentElement = _element
+    if (!element) {
+        if (!e[_element]) {
+            e[_element] = 1;
+            if (_currentElement && _currentElement != _element)
+                print ">"
+            print "<!ATTLIST " _element
+            _currentElement = _element
+        }
     }
-  }
 
-  if (!e[_element, attr]) {
-    e[_element, attr] = 1;
-    print "          " attr " CDATA #IMPLIED"
-  }
+    if (!e[_element, attr]) {
+        e[_element, attr] = 1;
+        print "          " attr " CDATA #IMPLIED"
+    }
 }
 
 END {
-  if (attr)
-    print ">"  
+    if (attr)
+        print ">"
 }
 ' $1
