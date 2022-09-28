@@ -8,7 +8,7 @@ gawk '
 
   if (!e[element]) {
     e[element] = 1;
-    if (currentElement && currentElement != element)
+    if (currentElement && (currentElement != element || _currentElement != element))
       print ">"
     print "<!ELEMENT " element " ANY >"
     print "<!ATTLIST " element 
