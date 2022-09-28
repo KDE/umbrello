@@ -2,7 +2,18 @@
 # @author Ralf Habacker
 # @brief extract dtd elements/attributes from xmllint error messages
 #
+useEntities=0
+if test "$1" = "--use-entities"; then
+    useEntities=1
+    shift
+fi
 gawk '
+BEGIN {
+    useEntities = 0;
+    type = " CDATA #IMPLIED"
+    quote = "\047"
+}
+
 /No declaration for element/ {
     element = $11;
 
@@ -32,12 +43,23 @@ gawk '
 
     if (!e[_element, attr]) {
         e[_element, attr] = 1;
-        print "          " attr " CDATA #IMPLIED"
+        if (useEntities) {
+            entities[attr] = 1
+            print "          %" attr ";"
+        } else {
+            print "          " attr type
+        }
     }
 }
 
 END {
     if (attr)
         print ">"
+    if (useEntities) {
+        PROCINFO["sorted_in"] = "@ind_str_asc"
+        for (entity in entities) {
+            print "<!ENTITY % " entity " " quote entity type quote ">"
+        }
+    }
 }
-' $1
+' useEntities=$useEntities $1
