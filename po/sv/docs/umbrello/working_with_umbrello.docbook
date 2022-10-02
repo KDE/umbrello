@@ -1,0 +1,419 @@
+<chapter id="working-with-umbrello">
+<title
+>Att arbeta med &umbrello;</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>Det här kapitlet ger en introduktion till &umbrello;s användargränssnitt och berättar allt du måste veta för att börja med modellering. Alla åtgärder i &umbrello; är tillgängliga via menyer och verktygsrader, men &umbrello; använder också i stor utsträckning sammanhangsberoende menyer som visas med höger musknapp. Du kan <mousebutton
+>höger</mousebutton
+>klicka på nästan alla element på &umbrello;s arbetsyta eller i trädvyn för att få en meny med de mest användbara funktionerna som kan tillämpas på just det särskilda elementet som du arbetar med. Vissa användare tycker att detta är lite förvirrande i början (eftersom de är mer vana att arbeta med menyn eller verktygsrader), men när man väl har vant sig att <mousebutton
+>höger</mousebutton
+>klicka, snabbar det upp arbetet en hel del. </para>
+
+<sect1 id="user-interface">
+<title
+>Användargränssnitt</title>
+<para
+>&umbrello;s huvudfönster är uppdelat i tre områden som hjälper till att få en överblick över hela systemet och att komma åt de olika diagrammen snabbt, under arbetet med modellen. </para>
+<para
+>Dessa områden kallas:</para>
+<itemizedlist>
+<listitem
+><para
+>Trädvy</para
+></listitem>
+<listitem
+><para
+>Arbetsyta</para
+></listitem>
+<listitem
+><para
+>Dokumentations- och kommandohistorikfönstret</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>&umbrello;s användargränssnitt</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello;s användargränssnitt</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello;s användargränssnitt </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Trädvy</title>
+<para
+>Trädvyn är oftast placerad längst upp till vänster i fönstret, och visar alla diagram, klasser, aktörer och användningsfall som bygger upp modellen. Trädvyn låter dig få en snabb överblick över elementen som modellen består av. Trädvyn ger också ett snabbt sätt att byta mellan de olika diagrammen i modellen, och att infoga element från modellen i det nuvarande diagrammet. </para>
+<para
+>Om du arbetar med en model som har mer än ett fåtal klasser och diagram, kan trädvyn hjälpa dig att klara av det hela genom att organisera modellen i mappar. Du kan skapa mappar genom att välja lämpligt alternativ i den sammanhangsberoende menyn (högerklicka på en av mapparna i trädvyn) och du kan organisera element genom att flytta dem till lämpliga mappar (drag och släpp). </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Dokumentations- och kommandohistorikfönstret</title>
+<para
+>Dokumentations- och kommandohistorikfönstret är det lilla fönstret placerat längst ner till vänster i &umbrello;, som ger en snabb förhandsgranskning av dokumentationen för objektet som för närvarande är markerat. Dokumentationsfönstret är ganska litet, eftersom det är avsett att ge ett snabbt utdrag ur elementets dokumentation, medan det tar så lite plats som möjligt på skärmen. Om du behöver titta på dokumentationen i mer detalj, kan du alltid öppna elementets egenskaper. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Arbetsyta</title>
+<para
+>Arbetsytan är huvudfönstret i &umbrello;, och är platsen där alla verkliga åtgärder sker. Man använder arbetsytan för att redigera och visa diagrammen i en modell. Arbetsytan visar diagrammet som för tillfället är aktivt. För närvarande kan bara ett diagram åt gången visas på arbetsytan. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Skapa, ladda och spara modeller</title>
+<para
+>Det första du behöver göra, för att börja utföra något användbart med &umbrello;, är att skapa en modell att arbeta med. När du startar &umbrello; laddar det alltid den senast använda modellen, eller skapar en ny, tom, modell (beroende på alternativ som du ställer in i inställningsdialogrutan). Det gör det möjligt att börja arbeta direkt. </para>
+<sect2 id="new-model">
+<title
+>Ny modell</title>
+<para
+>Om du vid något tillfälle behöver skapa en ny modell, kan du göra det genom att välja alternativet <guimenuitem
+>Ny</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>, eller genom att klicka på ikonen <guiicon
+>Ny</guiicon
+> i programverktygsraden. Om du för ögonblicket arbetar med en modell som har ändrats, frågar &umbrello; om dina ändringar ska sparas, innan den nya modellen skapas. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Spara modell</title>
+<para
+>Du kan spara modellen när som helst, genom att välja alternativet <guimenuitem
+>Spara</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>, eller genom att klicka på knappen <guiicon
+>Spara</guiicon
+> i programverktygsraden. Om du behöver spara modellen med ett annat namn, kan du använda alternativet <guimenuitem
+>Spara som</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>. </para>
+<para
+>Av bekvämlighetsskäl, erbjuder &umbrello; också möjligheten att automatiskt spara arbetet efter en viss tidsperiod. Du kan anpassa om du vill aktivera den här funktionen, samt tidsintervallet, i &umbrello;s <guimenu
+>inställningar</guimenu
+>.</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Ladda modell</title>
+<para
+>Du kan välja alternativet <guimenuitem
+>Öppna</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+> för att ladda en befintlig modell, eller klicka på ikonen <guiicon
+>Öppna</guiicon
+> i programverktygsraden. De senast använda modellerna är också tillgängliga i undermenyn <guimenuitem
+>Öppna senaste</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>, för att snabba upp åtkomst till de oftast använda modellerna. </para>
+<para
+>&umbrello; kan bara arbeta med en modell åt gången, så om du ber programmet ladda en modell åt dig, och den nuvarande modellen har ändrats sedan du senast sparade den, frågar &umbrello; om ändringarna ska sparas för att förhindra att arbetet går förlorat. Du kan starta två eller flera instanser av &umbrello; när som helst. Du kan också kopiera och klistra in mellan instanser. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Redigera modeller</title>
+<para
+>I &umbrello; finns det två grundläggande sätt att redigera elementen i modellen. <itemizedlist>
+<listitem
+><para
+>Redigera modellelement direkt via trädvyn</para
+></listitem>
+<listitem
+><para
+>Redigera modellelement direkt via ett diagram</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Med användning av den sammanhangsberoende menyn i trädvyn, kan du lägga till, ta bort, och ändra nästan alla element i modellen. <mousebutton
+>Höger</mousebutton
+>klicka på mapparna i trädvyn för att visa alternativ för att skapa olika sorters diagram, samt - beroende på om mappen är en <emphasis
+>Användningsfallsvy</emphasis
+> eller en <emphasis
+>Logisk vy</emphasis
+> - aktörer, användningsfall, klasser etc. </para>
+<para
+>När du väl har lagt till element i modellen, kan du också redigera dem genom användning av deras egenskapsdialogrutor, som du hittar genom att välja alternativet <emphasis
+>Egenskaper</emphasis
+> i den sammanhangsberoende menyn som visas vid ett <emphasis
+>höger</emphasis
+>klick på elementen i trädvyn. </para>
+<para
+>Du kan också redigera modellen genom att skapa eller ändra element via diagram. Mer information om hur detta görs, får du i följande avsnitt. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Lägga till och ta bort diagram</title>
+<para
+>&UML;-modellen består av en uppsättning &UML;-element och samband mellan dem. Man kan dock inte se modellen direkt, utan man använder <emphasis
+>diagram</emphasis
+> för att titta på den. </para>
+<sect2 id="create-diagram">
+<title
+>Skapa diagram</title>
+<para
+>För att skapa ett nytt diagram i modellen, välj helt enkelt diagramtypen du behöver i undermenyn <guimenuitem
+>Ny</guimenuitem
+> från menyn <guimenu
+>Diagram</guimenu
+>, och ge den ett namn. Diagrammet skapas, och görs aktivt, och du ser det omedelbart i trädvyn. </para>
+<para
+>Kom ihåg att &umbrello; i stor utsträckning använder sammanhangsberoende menyer: du kan också högerklicka på en mapp i trädvyn, och välja lämplig diagramtyp i undermenyn <guisubmenu
+>Ny</guisubmenu
+> från den sammanhangsberoende menyn. Observera att du kan bara skapa användningsfallsdiagram i användningsfallsmappar, och att övriga typer av diagram bara kan skapas i mappar för logiska vyer. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Ta bort diagram</title>
+<para
+>Skulle du behöva ta bort ett diagram från modellen, kan du göra det genom att göra det aktivt och välja <guimenuitem
+>Ta bort</guimenuitem
+> i menyn <guimenu
+>Diagram</guimenu
+>. Du kan också åstadkomma detta genom att välja <guimenuitem
+>Ta bort</guimenuitem
+> i den sammanhangsberoende menyn för diagrammet i trädvyn. </para>
+<para
+>Eftersom att ta bort ett diagram är något allvarligt, som kunde orsaka att arbete går förlorat, om det görs av misstag, ber &umbrello; att du bekräftar en borttagningsåtgärd innan diagrammet verkligen tas bort. Så fort ett diagram har tagits bort, och filen har sparats, finns det inget sätt att ångra åtgärden. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Byta namn på diagram</title>
+<para
+>Om du vill byta namn på ett befintligt diagram, kan du lätt göra det genom att välja alternativet Byt namn i den sammanhangsberoende menyn i trädvyn. </para>
+<para
+>Ett annat sätt att byta namn på ett diagram är via dess egenskapsdialogruta, som du erhåller genom att välja Egenskaper från den sammanhangsberoende menyn, eller genom att dubbelklicka på det i trädvyn. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Redigera diagram</title>
+<para
+>Medan du arbetar med ett diagram, försöker &umbrello; leda dig rätt genom att tillämpa några enkla regler om vilka element som är giltiga i olika sorters diagram, samt vilka förhållanden som kan finnas mellan dem. Om du är expert på &UML;, kommer du förmodligen inte ens märka det, men det är till hjälp för nybörjare för att skapa diagram som följer standarden. </para>
+<para
+>Så fort du har skapat diagrammen är det dags att börja redigera dem. Observera här (den för nybörjare subtila) skillnaden mellan att redigera ett diagram, och att redigera <emphasis
+>modellen</emphasis
+>. Som du redan känner till, är diagram <emphasis
+>vyer</emphasis
+> av modellen. Om du till exempel skapar en klass genom att redigera ett klassdiagram, redigerar du i själva verket både diagrammet och modellen. Om du ändrar färg eller andra visningsalternativ för en klass i klassdiagrammet, redigerar du bara diagrammet, men ingenting ändras i modellen. </para>
+<sect2 id="insert-elements">
+<title
+>Infoga element</title>
+<para
+>En av de första sakerna som du gör när du redigerar ett nytt diagram, är att infoga element i det (klasser, aktörer, användningsfall, etc.). Det finns två grundläggande sätt att göra det:</para>
+<itemizedlist>
+<listitem
+><para
+>Dra befintliga element till modellen från trädvyn</para
+></listitem>
+<listitem
+><para
+>Skapa nya element i modellen, och samtidigt lägga till dem i diagrammet, genom att använda ett av redigeringsverktygen i arbetsverktygsraden.</para
+></listitem>
+</itemizedlist>
+<para
+>För att infoga element som redan finns i modellen, dra dem bara från trädvyn och släpp dem där du vill att de ska vara i diagrammet. Du kan alltid flytta omkring element i diagrammet med markeringsverktyget. </para>
+<para
+>Det andra sättet att lägga till element i diagrammet är att använda arbetsverktygsradens redigeringsverktyg (observera att detta också lägger till elementen i modellen). </para>
+<para
+>Arbetsverktygsraden var normalt placerad längst upp i fönstret. Verktygen som är tillgängliga på den här verktygsraden (knapparna du ser på den) ändras beroende på vilket diagram du arbetar med för ögonblicket. Knappen för verktyget som just nu är valt är aktiverad i verktygsraden. Du kan byta till <keycap
+>markeringsverktyget</keycap
+> genom att trycka på <keycap
+>Esc</keycap
+>-tangenten. </para>
+<para
+>När du har valt ett redigeringsverktyg i arbetsverktygsraden (till exempel verktyget för att infoga klasser), ändras muspekaren till ett kors, och du kan infoga element i modellen genom att enkelklicka i diagrammet. Observera att element i &UML; måste ha ett <emphasis
+>unikt namn</emphasis
+>. Så om du har en klass i ett diagram som heter <quote
+>KlassA</quote
+>, och sedan använder verktyget för att infoga klasser för att infoga en klass i ett annat diagram, kan du inte också ge den nya klassen namnet <quote
+>KlassA</quote
+>. Om det är meningen att de två ska vara olika element, måste du ge dem unika namn. Om du försöker lägga till <emphasis
+>samma</emphasis
+> element i diagrammet, är inte verktyget för att infoga klasser rätt verktyg för detta. Du ska istället dra och släppa klassen från trädvyn. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Ta bort element</title>
+<para
+>Du kan ta bort vilket element som helst, genom att välja alternativet <guimenuitem
+>Ta bort</guimenuitem
+> i dess sammanhangsberoende meny. </para>
+<para
+>Återigen är det en <emphasis
+>stor</emphasis
+> skillnad mellan att ta bort ett objekt från diagrammet, och att ta bort ett objekt från modellen. Om du tar bort ett objekt inifrån ett diagram, tar du bara bort det från just det diagrammet: elementet är fortfarande en del av modellen och om det finns andra diagram som använder samma element, råkar de inte ut för någon ändring. Å andra sidan, om du tar bort elementet i trädvyn, tar du i själva verket bort elementet från <emphasis
+>modellen</emphasis
+>. Eftersom elementet inte längre existerar i modellen, tas det också automatiskt bort från alla diagram det visas i. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Redigera element</title>
+<para
+>Du kan redigera de flesta &UML;-element i modellen och diagram genom att öppna dess egenskapsdialogruta och välja lämpliga alternativ. För att redigera egenskaperna hos ett objekt, välj <guimenuitem
+>Egenskaper</guimenuitem
+> i dess sammanhangsberoende meny (högerklicka). Varje element har en dialogruta som består av flera sidor där du kan anpassa alternativen som har med det elementet att göra. För vissa element, som aktörer, kan du bara ange ett fåtal alternativ, som objektnamn och dokumentation, medan för andra element, som klasser, kan du redigera dess attribut och operationer, välja vad du vill visa i diagram (hela operationssignaturen eller bara operationsnamn, etc.) och till och med färgerna du vill använda för linjer och ifyllnad av klassens representation i ett diagram. </para>
+
+<para
+>För &UML;-element kan du också öppna egenskapsdialogrutan genom att dubbelklicka på det, om du använder markeringsverktyget (pilen). </para>
+
+<para
+>Observera att du också kan välja alternativet egenskaper i den sammanhangsberoende menyn för elementen i trädvyn. Detta låter dig också redigera egenskaper för diagram, som att ställa in om rutnätet ska visas eller inte. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Redigera klasser</title>
+<para
+>Även om redigering av egenskaper för alla objekt redan har täckts av föregående avsnitt, förtjänar klasser ett särskilt avsnitt, eftersom de är något mer komplicerade, och har fler alternativ än de flesta andra &UML;-element. </para>
+<para
+>I klassens egenskapsdialogruta kan du ställa in allting, från färgen den använder till operationerna och attributen den har. </para>
+<sect3 id="class-general-settings">
+<title
+>Allmänna klassinställningar</title>
+<para
+>Sidan med allmänna klassinställningar i egenskapsdialogrutan är självförklarande. Här kan du ändra klassens namn, synlighet, dokumentation, etc. Den här sidan är alltid tillgänglig. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Inställningar av klassattribut</title>
+<para
+>På sidan för inställningar av attribut, kan du lägga till, redigera eller ta bort attribut (variabler) för klassen. Du kan flytta attribut upp och ner i listan genom att trycka på piltangenterna längs kanten. Den här sidan är alltid tillgänglig. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Inställningar av klassoperationer</title>
+<para
+>På liknande sätt som för inställningar av klassattribut, kan du lägga till, redigera eller ta bort operationer för klassen på sidan för inställningar av klassoperationer. När du lägger till eller redigerar en klassoperation, skriver du in grundläggande data i dialogrutan <emphasis
+>Operationsegenskaper</emphasis
+>. Om du vill lägga till parametrar till operationerna, måste du klicka på knappen <guibutton
+>Ny parameter</guibutton
+>, som visar dialogrutan <emphasis
+>Parameteregenskaper</emphasis
+>. Den här sidan är alltid tillgänglig. </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Klassmallsinställningar</title>
+<para
+>Den här sidan låter dig lägga till klassmallar som är ospecificerade klasser eller datatyper. I Java 1.5 kommer de att kallas Generics. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Sidan för klassassociationer</title>
+<para
+>Sidan <guilabel
+>Klassassociationer</guilabel
+> visar alla klassens associationer i det nuvarande diagrammet. Ett dubbelklick på en association visar dess egenskaper, och beroende på typ av association, kan du ändra vissa parametrar här som att ställa in mångfald och rollnamn. Om associationen inte tillåter att sådana alternativ ändras, är dialogrutan för associationsegenskaper bara läsbar, och du kan endast ändra dokumentationen som hör ihop med associationen. </para>
+<para
+>Den här sidan är bara tillgänglig om du öppnar klassegenskaperna inne i ett diagram. Om du väljer klassegenskaper från den sammanhangsberoende menyn i trädvyn, är den här sidan inte tillgänglig. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Sidan för klassvisning</title>
+<para
+>På sidan <guilabel
+>Visningsalternativ</guilabel
+>, kan du ställa in vad som ska visas i diagrammet. En klass kan visas som bara en rektangel med klassnamnet i (användbart om du har många klasser i diagrammet, eller för tillfället inte är intresserad av detaljerna för varje klass), eller så fullständiga att paket, stereotyper, attribut och operationer visas med fullständig signatur och synlighet. </para>
+<para
+>Beroende på mängden information som du vill se, kan du välja motsvarande alternativ på sidan. Ändringarna du gör här gäller bara <emphasis
+>visningsalternativen</emphasis
+> för diagrammet. Det betyder att <quote
+>dölja</quote
+> klassens operationer bara gör att de inte visas i diagrammet, men operationerna är forfarande där som en del av modellen. Det här alternativet är bara tillgängligt om du väljer klassegenskaperna inne i ett diagram. Om du öppnar klassegenskaper från trädvyn, saknas den här sidan, eftersom sådana visningsegenskaper inte är vettiga i detta fall.</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Sidan för klasstil</title>
+<para
+>På sidan <guilabel
+>Komponentstil</guilabel
+> kan du anpassa färgerna som du vill ha för linjer och ifyllnad av komponenten. Det här alternativet är naturligtvis bara vettigt för klasser som visas i diagram, och saknas om du öppnar klassens egenskapsdialogruta i trädvyn. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Associationer</title>
+<para
+>Associationer relaterar två &UML;-objekt med varandra. Normalt definieras associationer mellan två klasser, men vissa typer av associationer kan också finnas mellan användningsfall och aktörer. </para>
+<para
+>För att skapa en association, välj lämpligt verktyg i arbetsverktygsraden (generell association, generalisering, aggregering, etc.), och enkelklicka på det första elementet som ingår i associationen. Enkelklicka sedan på det andra elementet som ingår. Observera att detta är två klick, ett på vart och ett av elementen som ingår i associationen. Det är <emphasis
+>inte</emphasis
+> att dra från ett objekt till ett annat. </para>
+<para
+>Om du försöker använda associationer på ett sätt som inte tillåts av &UML;-specifikationen, vägrar Umbrello skapa associationen och du får ett felmeddelande. Det skulle inträffa, om till exempel en generalisering finns från klass A till klass B, och du därefter försöker skapa en ny generalisering från klass B till klass A. </para>
+<para
+>Ett <mousebutton
+>höger</mousebutton
+>klick på en association visar en sammanhangsberoende meny med åtgärder som du kan genomföra med den. Om du behöver ta bort en association, välj helt enkelt alternativet <guimenuitem
+>Ta bort</guimenuitem
+> i den sammanhangsberoende menyn. Du kan också välja alternativet <guimenuitem
+>Egenskaper</guimenuitem
+>, och beroende på associationens typ, redigera attribut som roller och mångfald. </para>
+<sect3 id="anchor-points">
+<title
+>Ankringspunkter</title>
+<para
+>Associationer ritas normalt som en rak linje som förbinder de två objekten i diagrammet. </para>
+<para
+>Du kan lägga till ankringspunkter för att forma en association genom att <mousebutton
+>dubbel</mousebutton
+>klicka någonstans längs associationslinjen. Då infogas en ankringspunkt (som visas som en blå punkt där associationslinjen är markerad), som du kan flytta omkring för att ge associationen sin form. </para>
+<para
+>Om du behöver ta bort en ankringspunkt, <mousebutton
+>dubbel</mousebutton
+>klicka på den igen för att ta bort den. </para>
+<para
+>Observera att det enda sättet att redigera en associations egenskaper är via den sammanhangsberoende menyn. Om du försöker att <mousebutton
+>dubbel</mousebutton
+>klicka på den som med andra &UML;-objekt, infogas bara en ankringspunkt. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Anteckningar, text och rutor</title>
+<para
+>Anteckningar, textrader och rutor är element som kan finnas i alla sorters diagram, och har inget verkligt semantiskt värde, men är mycket hjälpsamma för att lägga till extra kommentarer eller förklaringar, som kan göra diagrammet lättare att förstå. </para>
+<para
+>För att lägga till en anteckning eller textrad, välj motsvarande verktyg i arbetsverktygsraden, och enkelklicka på diagrammet där du vill placera kommentaren. Du kan redigera texten genom att öppna elementet via dess sammanhangsberoende meny, eller för anteckningar, också genom att <mousebutton
+>dubbel</mousebutton
+>klicka på dem. </para>
+<sect3 id="anchors">
+<title
+>Ankare</title>
+<para
+>Ankare används för att länka ihop anteckningar och ett annat &UML;-element. Normalt använder du till exempel en anteckning för att förklara eller ge en kommentar om en klass eller en viss association, och i så fall kan du använda ankaret för att klargöra att anteckningen <quote
+>hör till</quote
+> just det elementet. </para>
+<para
+>Använd ankarverktyget i arbetsverktygsraden, för att lägga till ett ankare mellan en anteckning och ett annat &UML;-element. Först måste du klicka på anteckningen, och sedan klicka på &UML;-elementet som du vill att anteckningen ska länkas till. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

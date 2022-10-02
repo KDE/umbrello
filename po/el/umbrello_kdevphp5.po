@@ -1,0 +1,447 @@
+# translation of kdevphp.po into [el]
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stelios <sstavra@gmail.com>, 2011, 2012, 2017.
+# Dimitrios Glentadakis <dglent@gmail.com>, 2012.
+# Long Run <pvidalis@gmail.com>, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevphp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2018-10-18 15:16+0200\n"
+"Last-Translator: Long Run <pvidalis@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Πέτρος Βιδάλης"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "pvidalis@gmail.com"
+
+#: completion/implementationitem.cpp:60
+#, kde-format
+msgid "Override"
+msgstr "Αντικατάσταση"
+
+#: completion/implementationitem.cpp:63
+#, kde-format
+msgid "Implement"
+msgstr "Υλοποίηση"
+
+#: completion/implementationitem.cpp:75
+#, kde-format
+msgid "From %1"
+msgstr "Από %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "PHP Manual Integration"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Εξ ορισμού η online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">τεκμηρίωση της PHP</span></a> χρησιμοποιείται από απόσταση. "
+"Εναλλακτικά μπορείτε να ορίσετε μια θέση τοπικού αντιγράφου της τεκμηρίωσης "
+"στη γλώσσα της επιλογής σας. Βεβαιωθείτε ότι έχετε κάνει λήψη του πακέτου σε "
+"<span style=\" font-style:italic;\">\"μορφή HTML, πολλαπλών αρχείων\"</span>."
+"</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "Θέση:"
+
+#: docs/phpdocsmodel.cpp:96
+#, kde-format
+msgid "<lost declaration>"
+msgstr "απολεσθείσα δήλωση>"
+
+#: docs/phpdocsplugin.cpp:207
+#, kde-format
+msgid "PHP Documentation"
+msgstr "PHP τεκμηρίωση"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "Καθορίζει τη θέση της τεκμηρίωσης της PHP για χρήση."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, fuzzy, kde-format
+#| msgid ""
+#| "The location of the PHP documentation to use. You can either use a "
+#| "remote\n"
+#| "                 location like http://php.net or a local directory which "
+#| "contains the\n"
+#| "                 PHP documentation in HTML format with many files."
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"Η θέση για την τεκμηρίωση της PHP. Μπορείτε ή να την χρησιμοποιήσετε από\n"
+"                 απόσταση στο http://php.net ή με έναν τοπικό κατάλογο που\n"
+"περιέχει την\n"
+"                 τεκμηρίωση της PHP σε μορφή HTML πολλών αρχείων."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"Βεβαιωθείτε ότι τα τοπικά αντίγραφα είναι σε μορφή HTML πολλών αρχείων.\n"
+"        "
+
+#: docs/phpdocumentationwidget.cpp:56
+#, kde-format
+msgid "...loading documentation..."
+msgstr "...φόρτωση τεκμηρίωσης..."
+
+#: duchain/builders/contextbuilder.cpp:397
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Κυκλική κληρονομικότητα των %1 και %2"
+
+#: duchain/builders/declarationbuilder.cpp:321
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "Ο τύπος πρόσβασης για τη μέθοδο διεπαφής %1 πρέπει να παραλειφθεί"
+
+#: duchain/builders/declarationbuilder.cpp:325
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "Η συνάρτηση διεπαφής %1 δεν μπορεί να περιέχει το σώμα."
+
+#: duchain/builders/declarationbuilder.cpp:337
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"Η κλάση %1 περιέχει αφηρημένη μέθοδο %2 και συνεπώς πρέπει να δηλωθεί "
+"αφηρημένη ή να υλοποιήσει τη μέθοδο."
+
+#: duchain/builders/declarationbuilder.cpp:343
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "Η αφηρημένη συνάρτηση %1 δεν μπορεί να περιέχει το σώμα."
+
+#: duchain/builders/declarationbuilder.cpp:346
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr ""
+"Δεν μπορεί να χρησιμοποιηθεί ο οριστικός τροποποιητής σε μέλος αφηρημένης "
+"κλάσης."
+
+#: duchain/builders/declarationbuilder.cpp:356
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "Η μη-αφηρημένη μέθοδος %1 πρέπει να περιέχει το σώμα."
+
+#: duchain/builders/declarationbuilder.cpp:374
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "Οι ιδιότητες δεν είναι δυνατό να δηλώνονται οριστικές."
+
+#: duchain/builders/declarationbuilder.cpp:377
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "Οι ιδιότητες δεν είναι δυνατό να δηλώνονται αφηρημένες."
+
+#: duchain/builders/declarationbuilder.cpp:423
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"Η trait μέθοδος %1 δεν έχει εφαρμοστεί, επειδή υπάρχουν συγκρούσεις με άλλες "
+"μεθόδους trait στο %2"
+
+#: duchain/builders/declarationbuilder.cpp:577
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "Αδυναμία επαναδήλωσης private ιδιότητας %1 από αυτό το πλαίσιο."
+
+#: duchain/builders/declarationbuilder.cpp:583
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "Αδυναμία επαναδήλωσης protected ιδιότητας %1 από αυτό το πλαίσιο."
+
+#: duchain/builders/declarationbuilder.cpp:616
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Τα traits δεν μπορεί να έχουν σταθερές."
+
+#: duchain/builders/declarationbuilder.cpp:657
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr ""
+"Μόνο booleans, ints, floats και strings επιτρέπονται για σταθερές κλάσης."
+
+#: duchain/builders/declarationbuilder.cpp:709
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "Αδυναμία χρήσης 'final' ως τροποποιητή μεθόδου"
+
+#: duchain/builders/declarationbuilder.cpp:712
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "Αδυναμία χρήσης 'static' ως τροποποιητή μεθόδου"
+
+#: duchain/builders/declarationbuilder.cpp:760
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Η προκαθορισμένη τιμή για παραμέτρους με υπόδειξη τύπου κλάσης μπορεί μόνο "
+"να είναι NULL."
+
+#: duchain/builders/declarationbuilder.cpp:763
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr ""
+"Οι ακόλουθες παράμετροι πρέπει να έχουν καταχώρηση προεπιλεγμένης τιμής."
+
+#: duchain/builders/declarationbuilder.cpp:870
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Αδυναμία επαναδήλωσης PHP εσωτερικής %1."
+
+#: duchain/builders/declarationbuilder.cpp:873
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1 και %2 ορίζουν την ίδια ιδιότητα (%3) στην composition του %1. Αυτό ίσως "
+"να μην είναι συμβατό, για να βελτιωθεί η συντηρησιμότητα εξετάστε τη χρήση "
+"μεθόδων accessor στα traits."
+
+#: duchain/builders/declarationbuilder.cpp:881
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "Αδυναμία επαναδήλωσης %1, ήδη δηλώθηκαν στη %2 στη γραμμή %3."
+
+#: duchain/builders/declarationbuilder.cpp:967
+#, kde-format
+msgid ""
+"Class %1 contains %2 abstract methods and must therefore be declared "
+"abstract or implement the remaining methods."
+msgstr ""
+"Η κλάση %1 περιέχει %2 αφηρημένες μεθόδους και συνεπώς πρέπει να δηλωθεί "
+"αφηρημένη ή να υλοποιήσει τις απομένουσες μεθόδους."
+
+#: duchain/builders/declarationbuilder.cpp:974
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "Αδυναμία επαναδήλωσης $this."
+
+#: duchain/builders/declarationbuilder.cpp:1410
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "Η δήλωση use με μη-σύνθετο όνομα '%1' δεν έχει αποτέλεσμα."
+
+#: duchain/builders/declarationbuilder.cpp:1434
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "Αδυναμία χρήσης του '%1' ως '%2' επειδή το όνομα χρησιμοποιείται ήδη."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "Η χρήση του %1 είναι ανεπιθύμητη."
+
+#: duchain/builders/usebuilder.cpp:193
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "Η δήλωση δεν βρέθηκε: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Ψευδώνυμο τελευταίου trait %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:113
+#: duchain/navigation/declarationnavigationcontext.cpp:126
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "Χρήση του %1 από %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:136
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Ψευδώνυμο trait με κατεστραμμένο αριθμό."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:151
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP εσωτερική"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:161
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Σταθερά"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:47
+#, kde-format
+msgid "magic constant"
+msgstr "magic constant"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:62
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "κενό (όχι μέσα σε κλάση)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:81
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "κενό (όχι μέσα σε μέθοδο)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:91
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "κενό (όχι μέσα σε συνάρτηση)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:100
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "κενό (όχι μέσα σε πεδίο ορισμού)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:104
+#, kde-format
+msgid "current value: %1"
+msgstr "τρέχουσα τιμή: %1"
+
+#: duchain/types/indexedcontainer.cpp:78
+#, kde-format
+msgctxt "as in list of int, set of string"
+msgid "%1 of %2"
+msgstr "%1 από %2"
+
+#: parser/main.cpp:25
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:26
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "Βοηθητικό πρόγραμμα PHP διορθώσεων συντακτικής ανάλυσης "
+
+#: parser/main.cpp:27
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Αδυναμία ανοίγματος αρχείου '%1'"
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File could not be read from."
+msgstr "Αδυναμία ανάγνωσης αρχείου από."
+
+#: parser/parsesession.cpp:74
+#, kde-format
+msgid "File could not be opened."
+msgstr "Αδυναμία ανοίγματος αρχείου."
+
+#: parser/parsesession.cpp:77
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "Τα δικαιώματα πρόσβασης εμποδίζουν το άνοιγμα για ανάγνωση."
+
+#: testprovider/phpunitrunjob.cpp:71
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#, fuzzy
+#~| msgid "Cannot use 'static' as method modifier"
+#~ msgid "Cannot use 'abstract' as method modifier"
+#~ msgstr "Αδυναμία χρήσης 'static' ως τροποποιητή μεθόδου"
+
+#, fuzzy
+#~| msgid "Following parameters must have a default value assigned."
+#~ msgid "Variadic parameter cannot have a default value"
+#~ msgstr ""
+#~ "Οι ακόλουθες παράμετροι πρέπει να έχουν καταχώρηση προεπιλεγμένης τιμής."
+
+#, fuzzy
+#~| msgid "empty (not inside a class)"
+#~ msgid "empty (not inside a trait)"
+#~ msgstr "κενό (όχι μέσα σε κλάση)"
+
+#, fuzzy
+#~| msgid "From %1"
+#~ msgid " from "
+#~ msgstr "Από %1"
+
+#~ msgid "PHP Support"
+#~ msgstr "Υποστήριξη PHP"
+
+#~ msgid "Support for PHP Language"
+#~ msgstr "Υποστήριξη για τη γλώσσα PHP"
+
+#~ msgid "Milian Wolff"
+#~ msgstr "Milian Wolff"
+
+#~ msgid "Author"
+#~ msgstr "Συγγραφέας"
+
+#~ msgid "Niko Sams"
+#~ msgstr "Niko Sams"
+
+#~ msgid "Finds and runs PHPUnit tests"
+#~ msgstr "Βρίσκει και εκτελεί ελέγχους PHPUnit"

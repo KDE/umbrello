@@ -1,0 +1,780 @@
+<chapter id="uml-basics">
+<title
+>&UML;, det basale</title>
+<sect1 id="about-uml">
+<title
+>Om &UML;</title>
+<para
+>Dette kapitel giver en hurtig oversigt over det basale i &UML;. Husk at dette ikke er en fuldstændig &UML;-vejledning. Hvis du vil lære dig mere om Unified Modelling Language, eller om almen analyse og konstruktion af programmel, henvises du til en af de mange bøger som er tilgængelige om emnet. Der er også mange vejledninger på internettet, som du kan bruge som et startpunkt. </para>
+
+<para
+>Unified Modelling Language (&UML;) er et diagrambaseret sprog eller notation til at specificere, visualisere og dokumentere modeller af objektorienteret programmel. &UML; er ikke en udviklingsmetode, hvilket betyder at den ikke fortæller for dig hvad du skal gøre først og hvad du skal gøre derefter, eller hvordan du skal konstruere dit system, men den hjælper til at visualisere konstruktionen og kommunikere med andre. &UML; styres af Object Management Group (<acronym
+>OMG</acronym
+>), og er en industristandard for at beskrive modeller af programmel. </para>
+<para
+>&UML; er konstrueret for design af objektorienteret programmel, og har begrænset brug for andre programmeringsparadigmer. </para>
+<para
+>&UML; er opbygget af mange modelleringselementer som repræsenterer forskellige dele af programmelsystemet. UML-elementerne bruges til at oprette diagrammer, som repræsenterer en vis del, eller en synspunkt for systemet. Følgende slags diagrammer understøttes af &umbrello;: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><link linkend="use-case-diagram"
+>Brugstilfælde-diagrammer</link
+></emphasis
+> viser aktører (mennesker eller andre brugere af systemet), brugstilfælde (scenarier når de bruger systemet), og deres forhold</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="class-diagram"
+>Klassediagrammer</link
+></emphasis
+> viser klasser, og forholdene mellem dem</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="sequence-diagram"
+>Sekvensdiagrammer</link
+></emphasis
+> viser objekter og deres og en sekvens af metodekald de laver til andre objekter.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="collaboration-diagram"
+>Samarbejdsdiagrammer</link
+></emphasis
+> viser objekter og deres forhold, med betoning på objekter som deltager i udveksling  af meddelelser</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="state-diagram"
+>Tilstandsdiagrammer</link
+></emphasis
+> viser tilstande, tilstandsændringer og begivenheder for et objekt eller en del af systemet</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="activity-diagram"
+>Aktivitetsdiagrammer</link
+></emphasis
+> viser aktiviteter, tilstander og tilstandsændringer for objekter og begivenheder som sker i en del af systemet</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="component-diagram"
+>Komponentdiagrammer</link
+></emphasis
+> viser programmeringskomponenter på højt niveau (såsom Kparts eller Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="deployment-diagram"
+>Udplaceringsdiagrammer</link
+></emphasis
+> viser komponenternes instanser og deres indbyrdes forhold.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>&UML;-elementer</title>
+<sect2 id="use-case-diagram">
+<title
+>Brugstilfældediagram</title>
+<para
+>Brugstilfældediagrammer beskriver forhold og afhængighed mellem en gruppe <emphasis
+>brugstilfælde</emphasis
+> og aktører som deltager i processen.</para>
+<para
+>Det er vigtigt at observere at brugstilfældesdiagrammer ikke er passende til at repræsentere konstruktioner, og ikke kan beskrive systemets indre dele. Brugstilfældediagrammer er beregnede til at muliggøre kommunikation med fremtidige brugere af systemet, og med kunden. De er til særlig hjælp for at afgøre hvilke funktioner som det kræves at systemet skal have. Med andre ord fortæller brugstilfældediagrammer om <emphasis
+>hvad</emphasis
+> systemet skal gøre, men de angiver ikke &mdash; og kan ikke angive &mdash; <emphasis
+>hvordan</emphasis
+> dette skal opnås.</para>
+<para>
+<screenshot>
+<screeninfo
+>Et eksempel på et brugstilfældediagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et brugstilfældediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et brugstilfældediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>Brugstilfælde</title>
+<para
+>Et <emphasis
+>brugstilfælde</emphasis
+> beskriver &mdash; fra aktørernes synvinkel &mdash; en samling aktiviteter i et system, som giver anledning til et konkret, væsentligt resultat.</para>
+<para
+>Brugstilfælde er beskrivelser af typisk vekselvirken mellem brugerne af et system og systemet selv. De repræsenterer systemets ydre grænseflade, og angiver en slags krav på hvad systemet skal gøre (husk, kun hvad, ikke hvordan). </para>
+<para
+>Ved arbejde med brugstilfælde, er det vigtigt at huske nogle enkle regler: <itemizedlist>
+ <listitem
+><para
+>Hvert brugstilfælde hører sammen med mindst en aktør</para
+></listitem>
+ <listitem
+><para
+>Hvert brugstilfælde har et ophav (dvs. en aktør)</para
+></listitem>
+ <listitem
+><para
+>Hvert brugstilfælde leder til et relevant resultat (et resultat med <quote
+>forretningsværdi</quote
+>).</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>Brugstilfælde kan også have forhold til andre brugstilfælde. De tre mest typiske slags forhold mellem brugstilfælde er:</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;include&gt;&gt;</emphasis
+> (indeholder), hvilket angiver at brugstilfældet finder sted <emphasis
+>inde i</emphasis
+> et andet brugstilfælde</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;extends&gt;&gt;</emphasis
+> (udvider), hvilket angiver at i visse tilfælde, eller i et tilfælde (som kaldes et udvidelsespunkt), bliver et brugstilfælde udvidet af et andet.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>Generalisering</emphasis
+> angiver at et brugstilfælde arver egenskaberne for <quote
+>super</quote
+>-brugstilfældet, og kan sætte nogen af dem ud af kraft, eller tilføje nye på samme måde som arv mellem klasser. </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>Aktør</title>
+<para
+>En aktør er en ekstern enhed (udenfor systemet) som vekselvirker med systemet ved at deltage i (og ofte indlede) et brugstilfælde. Aktører kan i virkeligheden være mennesker (for eksempel brugere af systemet), andre maskinesystemer eller ydre begivenheder. </para>
+<para
+>Aktører repræsenterer ikke <emphasis
+>fysiske</emphasis
+> mennesker eller systemer, men deres <emphasis
+>rolle</emphasis
+>. Det betyder at når en person vekselvirker med systemet på forskellige måder (antager forskellige roller) repræsenteres han ved flere aktører. En person som for eksempel giver kundeunderstøttelse via telefon og tager imod bestillinger fra kunden til systemet, vil blive repræsenteret af en aktør <quote
+>Kundeunderstøttelsespersonale</quote
+> og af en aktør <quote
+>Salgsrepræsentant</quote
+>. </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>Beskrivelse af brugstilfælde</title>
+<para
+>En beskrivelse af et brugstilfælde er en tekstbaseret beretning om brugstilfældet. Det er ofte i form af en note eller et dokument som på en eller anden måde er linket til brugstilfældet, og forklarer processerne eller aktiviteterne som finder sted i brugstilfældet. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>Klassediagram</title>
+<para
+>Klassediagrammer viser de forskellige klasser som opbygger et system og hvordan de relateres til hinanden. Klassediagrammer siges at være <quote
+>statiske</quote
+> diagrammer, fordi de viser klasserne, sammen med deres metoder og attributter, samt det statiske forhold mellem dem: hvilke klasser der <quote
+>kender til</quote
+> andre klasser, eller hvilke klasser der <quote
+>er en del</quote
+> af andre klasser, men viser ikke metodekald mellem dem. </para>
+<para>
+<screenshot>
+<screeninfo
+>Et eksempel på et klassediagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et klassediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et klassediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>Klasse</title>
+<para
+>En klasse definerer attributterne og metoderne for en mængde af objekter. Alle objekter af klassen (instanser af klassen) deler samme opførsel, og har samme mængde af attributter (hvert objekt har sin egen mængde). Udtrykket <quote
+>type</quote
+> bruges ind imellem i stedet for klasse, men det er vigtigt at nævne at de to ikke er det samme, og at type er et mere generelt udtryk. </para>
+<para
+>Klasser i &UML; repræsenteres af rektangler, med klassens navn, og kan også vise klassens attribut og operationer i to <quote
+>afdelinger</quote
+> inde i rektanglet. </para>
+<para>
+<screenshot>
+<screeninfo
+>En klasse i &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuel repræsentation af en klasse i &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuel repræsentation af en klasse i &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>Attribut</title>
+<para
+>Attributter i UML vises i det mindste med deres navne, og kan også vises med type, oprindelig værdi og andre egenskaber. Attribut kan også vises med synlighed: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Står for <emphasis
+>åbne</emphasis
+> (public) attributter</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Står for <emphasis
+>beskyttede</emphasis
+> (protected) attributter</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Står for <emphasis
+>private</emphasis
+> (private) attributter</para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>Operationer</title>
+<para
+>Operationer (metoder) vises også i det mindste med deres navne, og kan også vises med parametre og returtyper. Operationer, præcis som attributter, kan vises med deres synlighed: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Står for <emphasis
+>åbne</emphasis
+> (public) operationer</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Står for <emphasis
+>beskyttede</emphasis
+> (protected) operationer</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Står for <emphasis
+>private</emphasis
+> (private) operationer</para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>Skabeloner</title>
+<para
+>Klasser kan have skabeloner, en værdi som bruges for en uspecificeret klasse eller type. Skabelontypen angives når klassen initieres (dvs. et objekt laves). Skabeloner findes i moderne C++ og vil blive introduceret i Java 1.5, hvor de kaldes Generics. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>Klasseassociationer</title>
+<para
+>Klasser kan relateres til (associeres med) hinanden på forskellige måder:</para>
+<sect4 id="generalization">
+<title
+>Generalisering</title>
+<para
+>Arv er et af de grundlæggende begreber i objektorienteret programmering, hvor en klasse <quote
+>opnår</quote
+> alle attributter og operationer fra klassen den arver fra, og kan overskride/ændre nogen af dem, samt tilføje flere egne attributter og operationer.</para>
+<para
+>En <emphasis
+>generalisering</emphasis
+> mellem to klasser i &UML;, placerer dem i et hierarki som repræsenterer arvebegrebet for en afledt klasse fra en basisklasse. Generaliseringer i &UML; repræsenteres med en linje som binder de to klasser sammen, med en pil på basisklassens side. <screenshot>
+<screeninfo
+>Generalisering</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuel repræsentation af en generalisering i &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuel repræsentation af en generalisering i &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>Associationer</title>
+<para
+>En association repræsenterer et forhold mellem klasser, og giver den fælles semantik og struktur for mange typer af <quote
+>forbindelser</quote
+> mellem objekter.</para>
+<para
+>Associationer er mekanismen som tillader at objekter kommunikerer med hinanden. De beskriver forbindelsen mellem forskellige klasser (forbindelsen mellem de virkelige objekter kaldes objektforbindelser, eller <emphasis
+>link</emphasis
+>). </para>
+<para
+>Associationer kan have en rolle, som angiver associationens formål, og kan være ensrettede eller gensidige (indikerer om de to objekter som deltager i forholdet kan sende meddelelser til hinanden, eller om kun et af dem kender til det andet). Hver eneste af associationerne har også en multiplicitet, som bestemmer hvor mange objekter på denne side af associationen kan relateres til et objekt på den anden side. </para>
+<para
+>Associationer i &UML; repræsenteres som linjer som binder de klasser  sammen som deltager i forholdet, og kan også vise rollen og multipliciteten for hver af deltagerne. Multiplicitet vises som et interval [minimum..maksimum] med ikke-negative værdier, med en stjerne (*) på maksimumsiden som repræsenterer uendeligt. <screenshot>
+<screeninfo
+>&UML;-association</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuel repræsentation af en association i &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuel repræsentation af en association i &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>Aggregering</title>
+<para
+>Aggregeringer er en særlig slags association, hvor de to deltagende klasser ikke har en ligeværdig status, men udgør et <quote
+>helhed-del</quote
+> forhold. En aggregering beskriver hvordan klassen som intager rollen som helhed, er sammensat af (har) andre klasser, som intager rollerne som dele. Klassen der virker som helhed har altid multiplicitet en, for aggregeringer. </para>
+<para
+>Aggregeringer i &UML; repræsenteres ved en association som viser en rombe på den side som hører til helheden. <screenshot>
+<screeninfo
+>Aggregering</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuel repræsentation af en aggregeringsrelation i &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuel repræsentation af en aggregeringsrelation i &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>Sammensætning</title>
+<para
+>Sammensætninger er associationer som repræsenterer <emphasis
+>meget stærke</emphasis
+> aggregeringer. Det betyder at sammensætninger også former helhed-del forhold, men at forholdet er så stærkt at delene ikke kan eksistere for sig selv. De findes kun inde i helheden, og hvis helheden forstyrres, forsvinder delene også.</para>
+<para
+>Sammensætninger i &UML; repræsenteres af en udfyldt rombe på siden af helheden. </para>
+<para
+><screenshot>
+<screeninfo
+>Sammensætning</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuel repræsentation af en sammensætningsrelation i &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>Andre punkter i klassediagrammer</title>
+<para
+>Klassediagrammer kan indeholde flere andre objekter foruden klasser.</para>
+<sect4 id="interfaces">
+<title
+>Grænseflader</title>
+<para
+>Grænseflade er abstrakte klasser hvilket betyder at instanser ikke direkte kan skabes fra dem. De kan indehold operationer men ingen attributter. Klasser kan arve fra grænseflader (via en realisationsassociation) og instanser kan derefter laves af disse diagrammer.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>Datatyper</title>
+<para
+>Datatyper er primitiver som typisk er indbyggede i et programsprog. Almindelige eksempler omfatter heltal og en boolesk type. De kan ikke have forhold til klasser, men klasser kan have forhold til dem.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>Gentagelsestyper</title>
+<para
+>Gentagelsestyper er enkle lister med værdier. Et typisk eksempel er en nummereringstype af ugedage. Tilvalgene for en gentagelsestype kaldes Enum Literals. Som datatyper kan de ikke have forhold til klasser, men klasser kan have forhold til dem.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>Pakker</title>
+<para
+>Pakker repræsenterer navnerum i et programsprog. I et diagram bruges de til at repræsentere dele af et system som indeholder mere end en klasse, måske hundredvis af klasser.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>Sekvensdiagrammer</title>
+
+<para
+>Sekvensdiagrammer viser udveksling af meddelelser (dvs. metodekald) mellem flere objekter, i en specifik, tidsbegrænset situation. Sekvensdiagrammer lægger særlig vægt på rækkefølgen og tiden når meddelelserne til objekter sendes.</para>
+
+<para
+>Objekter repræsenteres af lodrette stregede linjer i sekvensdiagrammer, med objektets navn øverst. Tidsakslen er også lodret, og vokser nedad, så meddelelser sendes fra et objekt til et andet i form af pile med operationer og parameternavn. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>Sekvensdiagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et sekvensdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et sekvensdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>Meddelelser kan enten være synkrone, den normale type for meddelelseskald hvor kontrollen overgår til det kaldte objekt til metoden er kørt færdigt, eller asynkrone hvor kontrollen går direkte tilbage til det kaldende objekt. Synkrone meddelelser har et lodret felt ved siden af det kaldte objektet, for at vise programkontrollen.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>Samarbejdsdiagrammer</title>
+
+<para
+>Samarbejdsdiagrammer viser vekselvirkningen mellem objekter som deltager i en speciel situation. Dette er mere eller mindre samme information som vises i sekvensdiagrammer, men hvor vægten lægges på hvordan vekselvirkningen sker i tiden, mens samarbejdsdiagrammer lægger vægten på forholdet mellem objekterne og deres topologi.</para>
+
+<para
+>I samarbejdsdiagrammer repræsenteres meddelelser fra et objekt til et andet med pile, som viser meddelelsens navn, parametre og meddelelsesekvensen. Samarbejdsdiagrammer er særligt passende til at vise en særlig programflydning eller situation, og er blandt de bedste diagramtyper til hurtigt at demonstrere eller forklare en process i programmets logik. </para>
+
+<screenshot>
+<screeninfo
+>Samarbejde</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et samarbejdsdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et samarbejdsdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>Tilstandsdiagram</title>
+<para
+>Tilstandsdiagrammer viser de forskellige tilstande et objekt har i sin livstid, og de stimuli som forårsager at objektet ændrer sin tilstand. </para
+>                              
+<para
+>Tilstandsdiagrammer ser objekter som <emphasis
+>tilstandsmaskiner</emphasis
+> eller finite automates, som kan være i en af en mængde begrænsede tilstande og som kan ændre tilstand via et af et begrænset antal stimuli. Et objekt af typen <emphasis
+>Netserver</emphasis
+>, kan for eksempel være i en af følgende tilstande i sin livstid: </para>
+<itemizedlist>
+<listitem
+><para
+>Klar</para
+></listitem>
+<listitem
+><para
+>Lytter</para
+></listitem>
+<listitem
+><para
+>Arbejder</para
+></listitem>
+<listitem
+><para
+>Stoppet</para
+></listitem>
+</itemizedlist>
+<para
+>og begivenhederne som kan gøre at et objekt skifter tilstand er</para>
+<itemizedlist>
+<listitem
+><para
+>Objektet laves</para
+></listitem>
+<listitem
+><para
+>Objektet tager imod meddelelsen at lytte</para
+></listitem>
+<listitem
+><para
+>En klient beder om en forbindelse via netværket</para
+></listitem>
+<listitem
+><para
+>En klient afslutter en forespørgsel</para
+></listitem>
+<listitem
+><para
+>En forespørgsel køres og afsluttes</para
+></listitem>
+<listitem
+><para
+>Objektet tager imod meddelelsen at stoppe</para
+></listitem>
+<listitem
+><para
+>osv</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>Tilstandsdiagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et tilstandsdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et tilstandsdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>Tilstand</title>
+<para
+>Tilstand er byggeblokken i tilstandsdiagrammer. En tilstand hører til nøjagtig en klasse, og repræsenterer en sammenfatning af de værdier klassens attributter kan intage. En &UML;-tilstand beskriver den interne tilstand for et objekt af en vis klasse. </para
+>                       
+<para
+>Bemærk at ikke hver ændring af en af et objekts attributter skal repræsenteres som en tilstand, men kun de ændringer som væsentligt kan påvirke objektets arbejde.</para>
+<para
+>Der er to specielle typer tilstand: start og slut. De er specielle på den måde at der ikke er nogen begivenhed som kan gøre at et objekt går tilbage til sin starttilstand, og på samme måde er der ingen begivenhed som gør det muligt for et objekt at forlade sin sluttilstand når den først er nået. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>Aktivitetsdiagram</title>
+<para
+>Aktivitetsdiagrammer beskriver en følge af begivenheder i et system, ved hjælp af aktiviteter. Aktivitetsdiagrammer er en speciel form af tilstandsdiagrammer, som kun (eller hovedsagelig) indeholder aktiviteter. </para>
+<para>
+<screenshot>
+<screeninfo
+>Et eksempel på aktivitetsdiagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; som viser et aktivitetsdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; som viser et aktivitetsdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>Aktivitetsdiagrammer ligner procedurelle flydediagrammer, med forskellen at alle aktiviteter er klart linkede til objekter.</para>
+
+<para
+>Aktivitetsdiagrammer hører altid sammen med en <emphasis
+>klasse</emphasis
+>, en <emphasis
+>operation</emphasis
+> eller et <emphasis
+>brugstilfælde</emphasis
+>.</para>
+
+<para
+>Aktivitetsdiagrammer understøtter sekventielle- og parallelle aktiviteter. Parallel kørsel repræsenteres med ikonen Del op/Vent, og det er ikke vigtigt for aktiviteter som kører parallelt i hvilken rækkefølge de udføres (de kan køres samtidigt eller en af gangen).</para>
+<sect3 id="activity">
+<title
+>Aktivitet</title>
+<para
+>En aktivitet er et enkelt skridt i en process. En aktivitet er en tilstand i systemet med intern aktivitet og i det mindste en udgående overgang. Aktiviteter kan også have mere end en udgående overgang, hvis de har forskellige betingelser. </para
+> 
+<para
+>Aktiviteter kan opbygge hierarkier, hvilket betyder at en aktivitet kan bestå af flere <quote
+>detaljeaktiviteter</quote
+>, hvor indkommende og udgående overgange skal passe sammen med de indkommende og udgående overgange i detaljediagrammet. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>Hjælpeelementer</title>
+<para
+>Der er nogle få elementer i &UML; som ikke har noget virkelig semantisk værdi for modellen, men som hjælper til at klargøre dele af diagrammerne. Disse elementer er </para>
+<itemizedlist>
+<listitem
+><para
+>Tekstlinjer</para
+></listitem>
+<listitem
+><para
+>Noter og ankre</para
+></listitem>
+<listitem
+><para
+>Bokse</para
+></listitem>
+</itemizedlist
+>   
+<para
+>Tekstlinjer er nyttige til at tilføje kort tekstinformation i et diagram. Det er fritstående tekst, og har ingen betydning i selve modellen. </para
+>           
+
+<para
+>Noter er nyttige til at tilføje mere detaljeret information om et objekt eller en særlig situation. De har den store fordel at noter kan ankres ved &UML;-elementer for at vise at noten <quote
+>hører til</quote
+> et særligt objekt eller en særlig situation. </para>
+
+<para
+>Bokse er fritstående rektangler som kan bruges til at gruppere objekter sammen, for at gøre diagrammer mere læsbare. De har ingen logisk mening i modellen.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>Komponentdiagrammer</title>
+<para
+>Komponentdiagrammer viser programkomponenter (enten komponentteknologier såsom Kparts, CORBA-komponenter eller Java Beans eller kun dele af systemet som er klart udskillelige) og artefakterne de består af, såsom kildekodefiler, programbiblioteker eller relationsdatabasetabeller.</para>
+
+<para
+>Komponenter kan have grænseflader (dvs. abstrakte klasser med operationer) som tillader associationer mellem komponenter.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>Udplaceringsdiagrammer</title>
+
+<para
+>Udplaceringsdiagrammer viser komponentinstanserne ved kørsel og deres associationer. De omfatter knuder, som er fysiske ressourcer, typisk en enkelt maskine. De viser også grænseflader og objekter (klasseinstanser).</para>
+
+</sect2>
+
+</sect1
+> 
+</chapter>

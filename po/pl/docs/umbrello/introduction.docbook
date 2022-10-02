@@ -1,0 +1,57 @@
+<chapter id="introduction">
+<title
+>Wprowadzenie</title>
+
+<para
+>&umbrello; narzędziem &UML; do tworzenia diagramów wspomagających projektowanie systemów. Przede wszystkim, podczas procesu analizy i projektowania, &umbrello; pomoże Ci uzyskać produkt o wysokiej jakości. &UML; może również być użyty do utworzenia dokumentacji. </para>
+<para
+>Dobry model oprogramowania to najlepszy sposób komunikacji z innym programistami, pracującymi nad tym samym projektem w różnych miejscach. Dobry model jest niezmiernie ważny dla średnich i dużych projektów, ale jest też użyteczny przy małych. Nawet jeśli pracujesz nad małym jednoosobowym projektem, zobaczysz duże możliwość, które pomogą Ci od początku dobrze programować. </para>
+<para
+>&UML; jest językiem diagramowym, używanym do opisów modeli. Możesz przedstawiać swoje pomysły w &UML;, używając różnych typów diagramów. &umbrello; 1.2 obsługuje następujące typy: </para>
+<itemizedlist>
+<listitem
+><para
+>Diagram klas</para
+></listitem>
+<listitem
+><para
+>Diagram sekwencji</para
+></listitem>
+<listitem
+><para
+>Diagram kooperacji</para
+></listitem>
+<listitem
+><para
+>Diagram przypadków użycia</para
+></listitem>
+<listitem
+><para
+>Diagram stanu</para
+></listitem>
+<listitem
+><para
+>Diagram czynności</para
+></listitem>
+<listitem
+><para
+>Diagram komponentów</para
+></listitem>
+<listitem
+><para
+>Diagram dyslokacji</para
+></listitem>
+</itemizedlist>
+<para
+>Więcej informacji na temat &UML; można znaleźć na stronie <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+>. </para>
+<para
+>Mamy nadzieję, że &umbrello; Ci się spodoba i pomoże w projektowaniu wysokiej jakości systemów. &umbrello; jest programem darmowym, a jedyną rzeczą o jaką prosimy, to Wasze komentarze, zgłaszanie problemów, błędów i sugestii do programistów &umbrello; na <email
+>uml-devel@lists.sourceforge.net</email
+> lub <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</chapter>

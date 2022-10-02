@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Swedish "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Välkommen</title>
+</articleinfo>
+
+<para
+>Välkommen till &umbrello;, ett &UML;-diagramverktyg som stöder dig i utvecklingsprocessen av programvara. I synnerhet under analys- och konstruktionsfaserna av processen, hjälper &umbrello; dig att skapa en produkt med hög kvalitet. &UML; kan också användas för att dokumentera programvarukonstruktioner för att hjälpa dig och dina medutvecklare. </para>
+<para
+>För att börja arbeta med UML kan du skapa ett nytt diagram från en av följande diagramtyper: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Användningsfallsdiagram</ulink
+></emphasis
+> visar aktörer (människor eller andra användare av systemet), användningsfall (scenarion då de använder systemet), och deras samband</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Klassdiagram</ulink
+></emphasis
+> visar klasser, och sambanden mellan dem</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Sekvensdiagram</ulink
+></emphasis
+> visar objekt och deras samband, med betoning på utbyte av meddelanden mellan objekt i kronologisk ordning</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Samarbetsdiagram</ulink
+></emphasis
+> visar objekt och deras samband, med betoning på objekten som deltar i utbytet av meddelanden</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Tillståndsdiagram</ulink
+></emphasis
+> visar tillstånd, tillståndsändringar och händelser för ett objekt eller en del av systemet</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Aktivitetsdiagram</ulink
+></emphasis
+> visar aktiviteter, tillstånd och tillståndsändringar hos objekt och händelser som sker i någon del av systemet</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Komponentdiagram</ulink
+></emphasis
+> visar programmeringskomponenter på hög nivå (som Kparts eller Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Utplaceringsdiagram</ulink
+></emphasis
+> visar komponenternas instanser och deras inbördes förhållanden.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Objektsambandsdiagram</ulink
+></emphasis
+> visar data, samt sambanden och begränsningarna mellan dataobjekt.</para
+></listitem>
+
+</itemizedlist>
+</article>

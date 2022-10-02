@@ -1,0 +1,162 @@
+<chapter id="code-import-generation">
+<title
+>Importació de codi i generació de codi</title>
+<para
+>L'&umbrello; és una eina de modelatge &UML;, i la seva utilitat principal és ajudar-vos en <emphasis
+>l'anàlisi i el disseny</emphasis
+> dels vostres sistemes. No obstant això, per fer la transició entre el disseny i la <emphasis
+>implementació</emphasis
+>, l'&umbrello; us permet generar el codi font en diversos llenguatges de programació perquè pugueu començar. També, si voleu començar a usar &UML; en un projecte C++ ja iniciat, l'&umbrello; us pot ajudar a crear un model en el vostre sistema des del codi font analitzant el codi font i important les classes trobades. </para>
+<sect1 id="code-generation">
+<title
+>Generació de codi</title>
+<para
+>L'&umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model &UML; per ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes. </para>
+<para
+>L'&umbrello; 2 proporciona implementació de generació de codi per ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL i Pascal. </para>
+<sect2 id="generate-code">
+<title
+>Generant el codi</title>
+<para
+>Per tal de poder generar codi amb l'&umbrello; primer necessiteu crear o carregar un model que contingui almenys una classe. Quan esteu llest per començar a escriure codi, seleccioneu l'entrada <guimenuitem
+>Assistent de generació de codi...</guimenuitem
+> del menú <guimenuitem
+>Codi</guimenuitem
+> per iniciar un assistent que us guiarà a través del procés de generació de codi. </para>
+<para
+>El primer pas és seleccionar les classes per les quals voleu generar el codi font. Per omissió totes les classes del model estan seleccionades, i podeu eliminar aquelles de les que no voleu generar el codi movent-les a la llista de l'esquerra. </para>
+<para
+>El següent pas de l'assistent us permet modificar els paràmetres que el generador de codi usa mentre escriu el codi. Hi ha disponibles les següents opcions: </para>
+<para>
+<screenshot>
+<screeninfo
+>Opcions de generació de codi</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Opcions per a la generació de codi en l'&umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Opcions per a la generació de codi en l'&umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Opcions de generació</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Detall en els comentaris</title>
+<para
+>L'opció <guilabel
+>Escriure comentaris de documentació encara que estiguin buits</guilabel
+> instrueix al generador de codi que escrigui els comentaris de l'estil /** blah */ encara que els blocs de comentaris siguin buits. Si heu afegit documentació a les classes, mètodes o atributs en el model, el generador de codi escriurà aquests comentaris com documentació <application
+>Doxygen</application
+> independentment del que hàgiu establert aquí, però si seleccioneu aquesta opció, l'&umbrello; escriurà blocs de comentaris per a totes les classes, mètodes i atributs encara que no hi hagi documentació en el model, en aquest cas haureu de documentar les classes més endavant directament en el codi font. </para>
+<para
+><guilabel
+>Escriure comentaris per a les seccions encara que la secció estigui buida</guilabel
+> fa que l'&umbrello; escrigui comentaris en el codi font per a delimitar les diferents seccions d'una classe. Per exemple «mètodes públics» o «atributs» abans de les corresponents seccions. Si seleccioneu aquesta opció, l'&umbrello; escriurà comentaris per a totes les seccions de la classe encara que la secció sigui buida. Per exemple, escriurà un comentari dient «mètodes protegits» encara que no hi hagi mètodes protegits en la classe. </para>
+</sect4>
+<sect4>
+<title
+>Carpetes</title>
+<para
+><guilabel
+>Escriu tots els fitxers generats a una carpeta:</guilabel
+>. Aquí heu de seleccionar una carpeta on voleu que l'&umbrello; desi el codi font generat. </para>
+<para
+>L'opció <guilabel
+>Inclou els fitxers de capçalera des de la carpeta</guilabel
+> permet inserir una capçalera al començament de cada fitxer generat. Els fitxers de capçalera poden contenir informació del copyright o informació de la llicència i contenir variables que són avaluades en temps de generació. Podeu donar un cop d'ull a la plantilla de fitxers de capçalera empaquetada amb l'&umbrello; per veure com usar aquestes variables per reemplaçar el vostre nom o la data actual en temps de generació. </para>
+</sect4>
+<sect4>
+<title
+>Política de sobreescriptura</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Aquesta opció li diu a l'&umbrello; el que ha de fer si el fitxer que vol crear ja existeix en la carpeta de destinació. L'&umbrello; <emphasis
+>no pot modificar fitxers de codi font existents</emphasis
+>, així que heu d'escollir entre sobreescriure el fitxer existent, ometre la generació d'aquest fitxer en particular o deixar que l'&umbrello; usi un nom diferent, l'&umbrello; afegirà un sufix al nom del fitxer. </para>
+</sect4>
+<sect4>
+<title
+>Llenguatge</title>
+<para
+>L'&umbrello; per omissió generarà el codi en el llenguatge que heu seleccionat com a llenguatge actiu, però amb l'assistent de generació de codi teniu l'opció de canviar aquest a un altre llenguatge. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Estat del progrés de la generació del codi</title>
+<para
+>El tercer i últim pas de l'assistent mostra l'estat del procés de la generació del codi. Només heu de clicar en el botó Genera perquè s'escriguin les classes. </para>
+<para
+>Noteu que les opcions que heu seleccionat durant l'assistent de generació de codi només són vàlides per la generació actual. La pròxima vegada que executeu aquest assistent necessitareu tornar a seleccionar totes les opcions (la carpeta de capçaleres, la política de sobreescriptura i tot això). Podeu establir les opcions predeterminades usades per l'&umbrello; en la secció <guilabel
+>Generació de codi</guilabel
+> dels arranjaments de l'&umbrello;, disponible en <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guimenuitem
+>Configura l'&umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Si heu establert les opcions de generació de codi a les opcions correctes i voleu generar codi sense que calgui passar per l'assistent, podeu seleccionar <guimenuitem
+>Genera tot el codi</guimenuitem
+> complet del menú <guimenu
+>Codi</guimenu
+>. Això generarà codi per a totes les classes del model usant l'arranjament actual (incloent-hi la carpeta de sortida i la política de sobreescriptura, per tant l'heu d'usar amb cura). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Importació de codi</title>
+<para
+>L'&umbrello; pot importar codi font dels vostres projectes existents per ajudar-vos a construir models dels vostres sistemes. L'&umbrello; 2 només implementa codi font ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL i Pascal. </para>
+<para
+>Per importar classes en el model, seleccioneu l'entrada <guimenuitem
+>Assistent d'importació de codi...</guimenuitem
+> del menú <guimenu
+>Codi</guimenu
+>. En el diàleg de fitxer seleccioneu els fitxers que contenen la declaració de classes i premeu <guibutton
+>Següent 
+></guibutton
+> després <guibutton
+>Importació inicial</guibutton
+> i <guibutton
+>Finalitza</guibutton
+>. S'importaran les classes i podreu trobar-les com a part del model en la vista en arbre. Noteu que l'&umbrello; no crearà cap mena de diagrama per a mostrar les classes, només s'importaran en el model de manera que podeu usar-les més tard en qualsevol diagrama que vulgueu. </para>
+<para>
+<screenshot>
+<screeninfo
+>Importació de codi</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menú per importar codi font en l'&umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menú per importar codi font en l'&umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

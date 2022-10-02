@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY packagename "kdesdk">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY introduction-chapter SYSTEM "introduction.docbook">
+ <!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
+ <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
+ <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
+ <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
+ <!ENTITY settings-chapter SYSTEM "settings.docbook">
+ <!ENTITY authors-chapter SYSTEM "authors.docbook">
+ <!ENTITY credits-chapter SYSTEM "credits.docbook">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Dutch "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<book id="Umbrello" lang="&language;">
+<bookinfo>
+<title
+>Het handboek van &umbrello;</title>
+
+<authorgroup>
+<corpauthor
+>&umbrello; Auteurs</corpauthor>
+&Tom.Albers;&Freek.de.Kruijf; 
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<holder
+>Paul Hensgen</holder>
+</copyright>
+<copyright>
+<year
+>2002-2020</year>
+<holder
+>&umbrello; Auteurs</holder>
+</copyright>
+
+
+<date
+>2013-06-01</date>
+<releaseinfo
+>2.11.0</releaseinfo>
+
+<abstract>
+<para
+>&umbrello; helpt bij het softwareontwikkelingsproces door gebruikmaking van de industrie standaard Unified Modelling Language (&UML;). opdat u diagrammen kunt maken om uw systeem te ontwerpen en te documenteren. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>UML</keyword>
+<keyword
+>modellering</keyword>
+<keyword
+>diagrammen</keyword>
+<keyword
+>softwareontwikkeling</keyword>
+<keyword
+>ontwikkeling</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction-chapter;
+&uml-basics-chapter;
+&working-with-umbrello-chapter;
+&code-import-and-generation-chapter;
+&other-features-chapter;
+&settings-chapter;
+&authors-chapter;
+&credits-chapter;
+
+</book>

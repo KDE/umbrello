@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Otras funciones</title>
+<sect1
+> 
+<title
+>Otras funciones de &umbrello;</title>
+<para
+>Este capítulo explicará brevemente otras funciones que le ofrece &umbrello;.</para>
+<sect2 id="copying-as-png">
+<title
+>Copiar objetos como imágenes PNG</title>
+<para
+>Además de ofrecerle las típicas funciones de copiar, cortar y pegar que esperaría para copiar objetos entre diferentes diagramas, &umbrello; puede copiar objetos como imágenes PNG, por lo que podrá insertarlos en otros tipos de documentos. No necesita hacer nada especial para usar esta función: solo tiene que seleccionar un objeto de un diagrama (clase, actor, &etc;) y copiarlo (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> o usando el menú); después puede abrir un documento de <application
+>Calligra Words</application
+> (o de cualquier otro programa en el que pueda pegar imágenes) y seleccionar <guimenuitem
+>Pegar</guimenuitem
+>. Esta es una poderosa función para exportar partes de sus diagramas como simples imágenes. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exportar a una imagen</title>
+<para
+>También puede exportar un diagrama completo como una imagen. Lo único que tiene que hacer es seleccionar el diagrama que desee exportar y usar la opción <guimenuitem
+>Exportar como imagen...</guimenuitem
+> del menú <guimenu
+>Diagrama</guimenu
+>. </para>
+<para
+>Puede exportar múltiples diagramas a la vez usando la opción <guimenuitem
+>Exportar diagramas como imágenes...</guimenuitem
+> del menú <guimenu
+>Archivo</guimenu
+>. Con ella también puede definir la resolución de la imagen para que no se muestre borrosa. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Imprimir</title>
+<para
+>&umbrello; le permite imprimir diagramas individuales. Pulse el botón <guiicon
+>Imprimir</guiicon
+> de la barra de herramientas de la aplicación o seleccione la opción <guimenuitem
+>Imprimir</guimenuitem
+> en el menú <guimenu
+>Archivo</guimenu
+> para mostrar el diálogo estándar de impresión de &kde;, desde el que podrá imprimir sus diagramas. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Carpetas lógicas</title>
+<para
+>Para organizar mejor su modelo, especialmente en grandes proyectos, puede crear carpetas lógicas en la vista de árbol. Solo tiene que seleccionar la opción <menuchoice
+><guimenu
+>Nueva</guimenu
+><guimenuitem
+>Carpeta</guimenuitem
+></menuchoice
+> en el menú de contexto de las carpetas por omisión de la vista de árbol para crearlas. Las carpetas se pueden anidar y puede mover objetos arrastrándolos de una a otra. </para>
+
+<screenshot>
+<screeninfo
+>Organizar su modelo con carpetas</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organizar un modelo con carpetas lógicas en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organizar un modelo con carpetas lógicas en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

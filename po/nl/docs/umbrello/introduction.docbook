@@ -1,0 +1,61 @@
+<chapter id="introduction">
+<title
+>Introductie</title>
+
+<para
+>&umbrello; is een &UML; diagramgereedschap dat u bij het proces van softwareontwikkeling kan ondersteunen. In het bijzonder tijdens de analyse en ontwerpfase van dit proces, kan &umbrello; u helpen een kwalitatief hoogwaardig product te verkrijgen. &UML; kan ook benut worden om uw software ontwerpen te documenteren ten dienste van u en collega ontwikkelaars. </para>
+<para
+>Over een goed model van uw software beschikken is de beste manier om te communiceren met andere ontwikkelaars die aan het project werken, en met uw klanten. Een goed model is buitengewoon belangrijk voor middelgrote en zeer grote projecten, maar is ook heel nuttig voor de kleinere. Zelfs als u werkt aan een klein eenmansproject, zult u welvaren bij een goed model omdat het u het overzicht verschaft dat u helpt om de zaken de eerste keer meteen goed te coderen. </para>
+<para
+>&UML; is de diagrammentaal die gebruikt wordt om zulke modellen te beschrijven. U kunt uw ideeën in &UML; representeren met verschillende soorten diagrammen. &umbrello; 2.11 ondersteunt de volgende soorten: </para>
+<itemizedlist>
+<listitem
+><para
+>Klasse-diagram</para
+></listitem>
+<listitem
+><para
+>Volgorde-diagram</para
+></listitem>
+<listitem
+><para
+>Collaboratie-diagram</para
+></listitem>
+<listitem
+><para
+>Use Case-diagram</para
+></listitem>
+<listitem
+><para
+>Toestandsdiagram</para
+></listitem>
+<listitem
+><para
+>Activiteitsdiagram</para
+></listitem>
+<listitem
+><para
+>Component-diagram</para
+></listitem>
+<listitem
+><para
+>Uitzettingsdiagram</para
+></listitem>
+<listitem
+><para
+>Entiteitrelatiediagram</para
+></listitem>
+</itemizedlist>
+<para
+>Meer informatie over &UML; kunt u vinden op de website van <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> die de &UML; standaard gecreëerd hebben. </para>
+<para
+>Wij hopen dat u veel plezier zult hebben van &umbrello; en dat het u helpt bij het maken van kwalitatief hoogwaardige software. &umbrello; is Vrije Software en gratis verkrijgbaar, het enige dat wij van u vragen is om bugs, problemen of suggesties te melden aan de  ontwikkelaars van &umbrello; op <email
+>umbrello-devel@kde.org</email
+> of <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>

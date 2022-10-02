@@ -1,0 +1,163 @@
+<chapter id="code-import-generation">
+<title
+>Importación de fontes e xeración de código fonte</title>
+<para
+>&umbrello; é unha ferramenta de modelado &UML;, e como tal o seu propósito principal é axudalo na <emphasis
+>análise e deseño</emphasis
+> de sistemas. Porén, para facer a transición entre o deseño e a <emphasis
+>implementación</emphasis
+>, &umbrello; permítelle xerar código fonte en diferentes linguaxes de programación. Tamén, se quer comezar a usar &UML; nun proxecto en C++ xa iniciado, &umbrello; pode axudalo a criar un modelo do sistema apartir do código fonte analisándoo e importando as clases que atope nel. </para>
+<sect1 id="code-generation">
+<title
+>Xerazón de fontes</title>
+<para
+>&umbrello; pode xerar código fonte en varias linguaxes de programación baseándose no seu modelo &UML; para axudalo a comezar a implementación do seu proxecto. As fontes xeradas consisten nas declaracións da clase, cos seus métodos e atributos para que poda <quote
+>preencher os ocos</quote
+> fornecendo a funcionalidade das operacións das clases. </para>
+<para
+>&umbrello; 1.2 permite a xerazón de código fonte en ActionScript, Ada, C++, CORBA IDL, &Java;, JavaScript, <acronym
+>PHP</acronym
+>, Perl, Python, SQL e XMLSchema. </para>
+<sect2 id="generate-code">
+<title
+>Xerar o código fonte</title>
+<para
+>Para xerar código fonte con &umbrello;, primeiro debe criar ou cargar un modelo que conteña polo menos unha clase. Cando estexa listo para comezar a escreber algo de código fonte, escolla o <guimenuitem
+>Asistente de xerazón de código fonte</guimenuitem
+> no menú <guimenuitem
+>Código</guimenuitem
+> para iniciar un asistente que o irá guiar através do proceso de xerazón das fontes. </para>
+<para
+>O primeiro paso é escolle as clases para as que queira xerar código fonte. Por omisión escolleranse todas as clases do modelo, e poderá quitar aquelas para as que non queira xerar fontes movéndoas para a lista do lado esquerdo. </para>
+<para
+>O seguinte paso do asistente permítelle modificar os parámetros que o xerador de fontes usará para escreber as fontes. Están disponíbeis as seguintes opcións: </para>
+<para>
+<screenshot>
+<screeninfo
+>Opcións da xerazón de código fonte</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Opcións da xerazón de xódigo fonte en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Opcións da xerazón de fontes en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Opcións de xerazón</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Verbosidade do código</title>
+<para
+>A opción <guilabel
+>Escribir comentarios de documentación aínda que estexa vacío</guilabel
+> indícalle ao xerador de fontes que escreba comentarios do estilo /** bla,bla,bla */ aínda que os bloques cos comentarios estexan baleiros. Se engadiu documentación ás  clases, métodos ou atributos no modelo, o Xerador de código escreberá eses comentarios como documentación <application
+>Doxygen</application
+> con independencia do que indique aquí, pero se escolle esta opción &umbrello; escreberá bloques de comentarios para todas as clases, métodos e atributos mesmo se non hai documentación no modelo, neste caso deberá documentar as clases máis tarde directamente nas fontes. </para>
+<para
+><guilabel
+>Escribir os comentarios das seccións aínda que estas estexan vacías</guilabel
+> fai que &umbrello; escreba comentarios nas fontes para delimitar as diferentes seccións dunha clase. Por exemplo <quote
+>métodos públicos</quote
+> ou <quote
+>atributos</quote
+> antes das seccións correspondentes. Se escolle esta opción &umbrello; escribirá comentarios en todas as seccións da clase mesmo se a sección está baleira. Por exemplo, escreberá un comentario dicindo <quote
+>métodos protexidos</quote
+> mesmo se a clase non ten métodos protexidos. </para>
+</sect4>
+<sect4>
+<title
+>Cartafoles</title>
+<para
+><guilabel
+>Escribir todos os ficheiros xerados no cartafol</guilabel
+>. Aquí pode escoller o cartafol onde quer que &umbrello; poña as fontes xeradas. </para>
+<para
+>A opción <guilabel
+>Incluír os ficheiros de definicións no cartafol</guilabel
+> permítelle inserir un cabezallo ao comezo de cada ficheiro xerado. Os ficheiros de definicións poden conter información acerca do copyright ou licenza e conteñen variábeis que son avaliadas no momento da xerazón. Pode botar unha ollada aos modelos de ficheiro de definicións distribuidos con &umbrello; para ver como usar estas variábeis para substituír o seu nome ou a data actual cando se produza a xerazón. </para>
+</sect4>
+<sect4>
+<title
+>Política de sobrescritura</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Esta opción indícalle a &umbrello; o que facer se o ficheiro que quer criar xa existe no cartafol de destino. &umbrello; <emphasis
+>non pode modificar os ficheiros de fontes xa existentes</emphasis
+>, polo que terá que escoller entre sobrescribir o ficheiro existente, saltar a xerazón dese ficheiro ou permitirlle a &umbrello; escoller un nome diferente para o ficheiro. Se escolle a opción de usar un nome diferente, &umbrello; engadirá un sufixo ao nome do ficheiro. </para>
+</sect4>
+<sect4>
+<title
+>Linguaxe</title>
+<para
+>Por omisión, &umbrello; xerará o código na linguaxe que escolleu como Linguaxe activa, pero co asistente para xerazón de código terá a opción de mudar isto para outra linguaxe. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Asistente de xerazón de código</title>
+<para
+>O terceiro e último paso do asistente mostra o estado do proceso de xerazón de código fonte. Só precisa premer no botón de xerar para obter as clases. </para>
+<para
+>Lembre que as opcións que escolla no asistente de xerazón de código só son válidas para a xerazón actual. A próxima vez que execute o asistente deberá escoller de novo as opcións (o cartafol para as definicións, a política de sobrescritura, e demais). Pode escoller os valores por omisión usados por &umbrello; na sección <guilabel
+>Xerazón de código</guilabel
+> coa configuración de &umbrello;, disponíbel en <menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Configurar &umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Se configurou as opcións de xerazón de código correctamente e quer xerar algún código sen usar o asistente, pode escoller <guimenuitem
+>Xerar todo o código</guimenuitem
+> no menú Código. Isto xerará as fontes de todas as clases no modelo usando a configuración actual (incluíndo o Cartafol de saída e política de sobrescritura, polo que o debe usar con coidado). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Importación de código</title>
+<para
+>&umbrello; pode importar fontes de proxectos existentes para axudalo a elaborar o modelo dos sistemas. &umbrello; 1.2 só soporta código C++, pero outras linguaxes estarán disponíbeis en versións futuras. </para>
+<para
+>Para importar clases para o modelo, escolla a entrada <guimenuitem
+>Importar clases...</guimenuitem
+> no menú <guimenu
+>Código</guimenu
+>. No diálogo de ficheiro escolla os ficheiros que conteñan as declaracións das clases C++ e prema OK. As clases serán importadas e atoparaas como parte do modelo na vista en árbore. Lembre que &umbrello; non criará nengún tipo de diagrama para mostrar as clases, só serán importadas no modelo polo que poderá usalas máis tarde en calquer diagrama que queira. </para>
+<para>
+<screenshot>
+<screeninfo
+>Importación de código</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menú para importar código fonte en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menú para importar código fonte en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

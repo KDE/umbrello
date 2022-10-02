@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Auteurs en geschiedenis</title>
+<para
+>Dit project was gestart door Paul Hensgen als een van zijn universitaire projecten. De oorspronkelijk naam van de toepassing was <application
+>UML Modeller</application
+>. Paul deed alle ontwikkeling zelf tot het eind van 2001 toen het programma versie 1.0 bereikte. </para>
+<para
+>Versie 1.0 bood al een hoop functionaliteit, maar nadat het project was beoordeeld op Pauls Universiteit, konden andere ontwikkelaars zich erbij voegen en zij begonnen met het maken van waardevolle bijdragen aan de <application
+>UML Modeller</application
+>, zoals de overschakelen van een binair bestandsformaat naar een &XML;-bestand, ondersteuning van meer soorten &UML;-diagrammen, code-generatie en code-import, om er een paar te noemen. </para>
+<para
+>Paul moest zich terugtrekken uit het ontwikkelteam in de zomer van 2002 maar als Vrije en Open Source Software, bleef het programma zich verbeteren en ontwikkelen en wordt het onderhouden door een groep ontwikkelaars uit verschillende delen van de wereld. In September 2002 veranderde het project zijn naam van <application
+>&UML; Modeller</application
+>, in &umbrello;. Er zijn meerdere beweegredenen voor deze naamsverandering, de belangrijkste is wel dat alleen <quote
+>uml</quote
+> &mdash; waaronder het algemeen bekend was &mdash; een te algemene naam was en problemen met sommige distributies met zich meebracht. Een andere, niet minder belangrijke reden, is dat de ontwikkelaar van mening zijn dat <application
+>Umbrello</application
+> een veel coolere naam is. </para>
+<para
+>De ontwikkeling van &umbrello; evengoed als de discussies met betrekking tot waar het programma in voor moet gaan in toekomstige versies, is open en speelt zich af op het Internet. Als u een bijdrage wilt leveren aan het project, aarzel dan niet om contact op te nemen met de ontwikkelaars. Er zijn vele manieren waarop u kunt helpen bij &umbrello;: </para>
+<itemizedlist>
+<listitem
+><para
+>Melden van bugs of suggesties tot verbeteringen</para
+></listitem>
+<listitem
+><para
+>Bugs oplossen of features toevoegen</para
+></listitem>
+<listitem
+><para
+>Goede documentatie schrijven of het vertalen in een andere talen</para
+></listitem>
+<listitem
+><para
+>En vanzelfsprekend ... programmeren met ons!</para
+></listitem>
+</itemizedlist>
+<para
+>Zoals u ziet, zijn er veel manieren waarop u uw steentje kunt bijdragen. Zij zijn alle heel belangrijk en ieders deelname is welkom. </para>
+<para
+>De ontwikkelaars van &umbrello; zijn bereikbaar op <email
+>umbrello-devel@kde.org</email
+>. </para>
+</chapter>

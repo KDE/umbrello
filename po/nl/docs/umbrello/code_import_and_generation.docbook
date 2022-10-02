@@ -1,0 +1,170 @@
+<chapter id="code-import-generation">
+<title
+>Code-import en code-generatie</title>
+<para
+>&umbrello; is een &UML; modelling gereedschap en als zodanig is zijn voornaamste doel u te helpen bij de <emphasis
+>analyse en het ontwerp</emphasis
+> van uw systemen. Echter, om de overgang van uw ontwerp naar uw <emphasis
+>implementatie</emphasis
+> te maken, kunt u met &umbrello; broncode genereren in verschillende programmeertalen om u van start te laten gaan. Ook, als u &UML; wilt gaan toepassen in een reeds gestart C++ project, kan &umbrello; u helpen bij het maken van een model van uw systeem op basis van uw broncode door deze te analyseren en de daarin gevonden klassen te importeren. </para>
+<sect1 id="code-generation">
+<title
+>Code-generatie</title>
+<para
+>&umbrello; kan broncode genereren voor talrijke programmeertalen op basis van uw &UML; model om u te helpen van start te gaan met de implementatie van uw project. De gegenereerde code bestaat uit klasse declaraties, met hun methoden en attributen, dus u kunt de <quote
+>blanke ruimte invullen</quote
+> door de functionaliteit van uw klassen-operaties te verschaffen. </para>
+<para
+>&umbrello; 2 komt met code-generatie ondersteuning voor ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL en Pascal. </para>
+<sect2 id="generate-code">
+<title
+>Code genereren</title>
+<para
+>Om code te kunnen genereren met &umbrello;, dient u eerst een model te maken, of er een te laden, met minimaal één klasse erin. Als u gereed bent om te beginnen met het schrijven van enigerlei code, dan selecteert u de <guimenuitem
+>Code Generatie Wizard</guimenuitem
+> menukeuze in het <guimenuitem
+>Code</guimenuitem
+> menu om een assistent te starten die u door het code-generatie proces zal loodsen. </para>
+<para
+>De eerste stap is het selecteren van de klassen waarvoor u broncode wilt genereren. Standaard worden alle klassen van uw model geselecteerd, selected, en u kunt diegene, waarvoor u geen code wilt genereren, verwijderen, door ze naar lijst aan de linkerkant te verplaatsen. </para>
+<para
+>In de volgende stap van de assistent kunt u de parameters wijzigen welke de codegenerator gebruikt bij het schrijven van uw code. De volgende keuzemogelijkheden zijn beschikbaar: </para>
+<para>
+<screenshot>
+<screeninfo
+>Codegeneratie keuze-opties</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Keuzemogelijkheden voor de codegeneratie in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Keuzemogelijkheden voor de codegeneratie in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Generatie keuzemogelijkheden</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Uitvoerigheid commentaar</title>
+<para
+>De keuzemogelijkheid <guilabel
+>Schrijf documentatie commentaar zelfs indien leeg</guilabel
+> instrueert de codegenerator om commentaar van de vorm /** blah */ te schrijven, zelfs als de commentaarblokken leeg zijn. Als u documentatie heeft toegevoegd aan uw klassen, methoden en attibuten in uw model, dan zal de codegenerator deze commentaren als <application
+>Doxygen</application
+> documentatie wegschrijven, ongeacht wat u daar formuleerde, maar als u deze keuzemogelijkheid selecteert dan zal &umbrello; commentaarblokken schrijven voor alle klasses, methoden en attributen, zelfs wanneer er geen documentatie in het model is, in welk geval u uw klassen later dient te documenteren, rechtstreeks in de broncode. </para>
+<para
+><guilabel
+>Schrijf commentaar voor secties zelfs indien sectie leeg is</guilabel
+> zorgt ervoor dat &umbrello; commentaar schrijf in de broncode om de verschillende secties van en klasse af te bakenen. Bijvoorbeeld <quote
+>public methoden</quote
+> of <quote
+>Attributen</quote
+> voor de corresponderende sections. Als u deze keuzemogelijkheid selecteert, dan zal &umbrello; commentaar wegschrijven voor alle klasse-secties ook als de sectie leeg is. Bijvoorbeeld, het zou commentaar met de tekst <quote
+>protected methoden</quote
+> wegschrijven ook als er geen protected methoden in uw klasse zijn. </para>
+</sect4>
+<sect4>
+<title
+>Mappen</title>
+<para
+><guilabel
+>Schrijf alle gegenereerde files naar map</guilabel
+>. Hier dient u de map te selecteren waarin &umbrello; de gegenereerde bronnen van u moet plaatsen. </para>
+<para
+>De <guilabel
+>Voeg heading-files toe uit map</guilabel
+> keuzemogelijkheid geeft u de mogelijkheid om een heading aan het begin van iedere gegenereerde file toe te voegen. Headingfiles kunnen auteursrecht of licentie informatie bevatten maar ook variabelen die op het moment van genereren geëvalueerd worden. U kunt eens kijken naar het sjabloon headingfiles zoals die met &umbrello; meegeleverd worden om te zien hoe dit soort variabelen gebruikt moeten worden, om uw naam en/of de huidige datum te vervangen ten tijde van het genereren. </para>
+</sect4>
+<sect4>
+<title
+>Overschrijvingsprotocol</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Deze keuzemogelijkheid vertelt tegen &umbrello; wat het moet doen als het bestand dat het wil maken, reeds in de bestemmingsmap voorkomt. &umbrello; <emphasis
+>kan bestaande bestanden niet wijzigen</emphasis
+>, derhalve moet u een keuze maken uit: of het bestaande bestand overschijven, of het genereren van dat ene aparte bestand overslaan, of &umbrello; een andere bestandsnaam laten kiezen.Als u kiest voor de mogelijkheid van een andere bestandsnaam, dan zal &umbrello; de bestandsnaam van een achtervoegsel voorzien. </para>
+</sect4>
+<sect4>
+<title
+>Taal</title>
+<para
+>&umbrello; zal standaard code genereren in de taal die u als actieve taal heeft geselecteerd, echter met de codegenererings-assistent heeft u de keuzemogelijkheid om dit naar een andere taal te veranderen. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Genererings-assistent genereren</title>
+<para
+>De derde en laatste stap van de assistent toont de status van het codegenererings proces. U hoeft alleen nog maar op de knop genereren te klikken om de klassen voor u te laten wegschrijven. </para>
+<para
+>Merk op dat de keuzemogelijkheden die u selecteert in de codegenererings-assistent alleen gelden voor de huidige generering. Wanneer u de assistent een volgende keer gebruikt, dan moet u alle keuzemogelijkheden opnieuw selecteren (de map voor uw headers, overschrijvings protocol, enz.). U kunt de standaarden die &umbrello; aamhoudt, instellen in de sectie <guilabel
+>code genereren</guilabel
+> van de &umbrello; settings, beschikbaar in <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>&umbrello; instellen...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Als u uw codegenererings keuzemogelijkheden op de juiste waarden heeft ingesteld, en u zomaar enige code wilt genereren zonder door de assistent heen te moeten gaan, dan selecteert u het <guimenuitem
+>Genereer alle code</guimenuitem
+> in het <guimenu
+>code</guimenu
+>-menu. Dit zal code genereren voor alle klassen in uw model met gebruikmaking van de huidige instellingen (inclusief uitvoermap en overschrijvings-protocol, dus pas op met het gebruik ervan). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Code import</title>
+<para
+>&umbrello; kan broncode importeren vanuit uw bestaande projecten om u te helpen met het construeren van een model voor uw systemen. &umbrello; 2 ondersteunt ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL en Pascal broncode. </para>
+<para
+>Om klasses in uw model te importeren, selecteert u de menukeuze <guimenuitem
+>Assistent voor importeren van broncode...</guimenuitem
+> uit het menu <guimenu
+>Code</guimenu
+> menu. Selecteer in de bestandsdialoog de bestanden die klasse-declaraties bevatten en druk op <guibutton
+>Volgende 
+></guibutton
+> daarna op <guibutton
+>Importeren starten</guibutton
+> en <guibutton
+>Beëindigen</guibutton
+>. De klasses worden nu geïmporteerd en u zult ze aantreffen als deel van uw model in de boomstructuur. Merk op dat &umbrello; geen enkel soort diagram aanmaakt om uw klassen te tonen, ze worden alleen in uw model geïmporteerd opdat u ze naderhand in welk diagram dan ook, kunt gebruiken. </para>
+<para>
+<screenshot>
+<screeninfo
+>Code import</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menu om broncode te importeren in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menu om broncode te importeren in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

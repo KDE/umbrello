@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Forfattere og historik</title>
+<para
+>Dette projekt startedes af Paul Hensgen som et af hans universitetsprojekter. Det oprindelige navn på programmet var <emphasis
+>UML Modeller</emphasis
+>. Paul lavede al udvikling indtil slutningen af 2001, hvor programmet nåede version 1.0. </para>
+<para
+>Version 1.0 tilbød allerede en hel del funktioner, men efter at projektet var blevet gennemset af Pauls universitet, kunne andre udviklere deltage, og de begyndte at give værdifulde bidrag til <application
+>UML Modeller</application
+>, såsom skift fra et binært filformat til en &XML;-fil, understøttelse af flere slags &UML;-diagrammer, kodegenerering og kodeimport, for kun at nævne nogle få. </para>
+<para
+>Paul var tvunget til at trække sig tilbage fra udviklingsgruppen sommeren 2002, men som frit og åbent programmel, fortsætter programmet med at forbedres og udvikles, og vedligeholdes af en gruppe af udviklere fra forskellige dele af verden. Desuden ændrede projektet navn fra <application
+>&UML; Modeller</application
+> i september 2002. Der er flere grunde til navneændringen, den vigtigste at blot <quote
+>uml</quote
+> som det var almindeligt kendt som, var et alt for generelt navn som forårsagede problemer med visse distributioner. En anden vigtig grund er at udviklerne synes at <application
+>Umbrello</application
+> er et meget smartere navn. </para>
+<para
+>Udviklingen af &umbrello;, samt diskussioner om i hvilken retning programmet skal udvikles i fremtidige versioner, er åben og finder sted via internettet. Hvis du skulle ville bidrage til projektet, så tøv ikke med at kontakte udviklerne. Der er mange måder du kan hjælpe &umbrello; på: </para>
+<itemizedlist>
+<listitem
+><para
+>Rapportere fejl eller forbedringsforslag</para
+></listitem>
+<listitem
+><para
+>Rette fejl eller tilføje funktioner</para
+></listitem>
+<listitem
+><para
+>Skriv god dokumentation eller oversætte til andre sprog</para
+></listitem>
+<listitem
+><para
+>Og naturligvis... lav kode sammen med os!</para
+></listitem>
+</itemizedlist>
+<para
+>Som du ser, er der mange måder du kan bidrage på. De er alle sammen meget vigtige og alle er velkomne til at deltage. </para>
+<para
+>&umbrello;-udviklerne kan nås på <email
+>uml-devel@lists.sourceforge.net</email
+>. </para>
+</chapter>

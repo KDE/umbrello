@@ -1,0 +1,57 @@
+<chapter id="introduction">
+<title
+>Introduction</title>
+
+<para
+>&umbrello; is a &UML; diagram tool that can support you in the software development process. Especially during the analysis and design phases of this process, &umbrello; will help you to get a high quality product. &UML; can also be used to document your software designs to help you and your fellow developers. </para>
+<para
+>Having a good model of your software is the best way to communicate with other developers working on the project and with your customers. A good model is extremely important for medium and big-size projects, but it is also very useful for small ones. Even if you are working on a small one man project you will benefit from a good model because it will give you an overview that will help you code things right the first time. </para>
+<para
+>&UML; is the diagramming language used to describing such models. You can represent your ideas in &UML; using different types of diagrams. &umbrello; 1.2 supports the following types: </para>
+<itemizedlist>
+<listitem
+><para
+>Class Diagram</para
+></listitem>
+<listitem
+><para
+>Sequence Diagram</para
+></listitem>
+<listitem
+><para
+>Collaboration Diagram</para
+></listitem>
+<listitem
+><para
+>Use Case Diagram</para
+></listitem>
+<listitem
+><para
+>State Diagram</para
+></listitem>
+<listitem
+><para
+>Activity Diagram</para
+></listitem>
+<listitem
+><para
+>Component Diagram</para
+></listitem>
+<listitem
+><para
+>Deployment Diagram</para
+></listitem>
+</itemizedlist>
+<para
+>More information about &UML; can be found at the website of <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> who create the &UML; standard. </para>
+<para
+>We hope you enjoy &umbrello; and that it helps you create high quality software. &umbrello; is Free Software and available at no cost, the only thing we ask from you is to report any bugs, problems, or suggestions to the &umbrello; developers at <email
+>uml-devel@lists.sourceforge.net</email
+> or <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</chapter>

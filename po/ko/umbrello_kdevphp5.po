@@ -1,0 +1,393 @@
+# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevelop\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2020-04-05 12:26+0200\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.04.3\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "박신조"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#: completion/implementationitem.cpp:60
+#, kde-format
+msgid "Override"
+msgstr "재정의"
+
+#: completion/implementationitem.cpp:63
+#, kde-format
+msgid "Implement"
+msgstr "구현"
+
+#: completion/implementationitem.cpp:75
+#, kde-format
+msgid "From %1"
+msgstr "%1에서"
+
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "PHP 문서 통합"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">기본값으로 온라인 <a href="
+"\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
+"\">PHP 문서</span></a>를 원격으로 사용합니다. 또한 지정한 언어로 번역된 로컬 "
+"복사본을 사용할 수도 있습니다. <span style=\" font-style:italic;\">\"여러 "
+"HTML 파일\"</span> 패키지를 다운로드했는지 확인하십시오..</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "위치:"
+
+#: docs/phpdocsmodel.cpp:96
+#, kde-format
+msgid "<lost declaration>"
+msgstr "<선언 잃어버림>"
+
+#: docs/phpdocsplugin.cpp:207
+#, kde-format
+msgid "PHP Documentation"
+msgstr "PHP 문서"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "사용할 PHP 문서 위치를 지정합니다."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"사용할 PHP 문서 위치입니다. 원격 위치를 지정하려면 \n"
+"                 https://php.net과 같은 웹 주소를 입력할 수 있으며, 로컬 디렉"
+"터리를 지정하려면\n"
+"                 HTML 형식 PHP 문서가 있는 디렉터리를 지정하십시오."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"로컬 디렉터리에 있는 문서는 여러 파일로 나뉜 HTML 문서여야 합니다.\n"
+"        "
+
+#: docs/phpdocumentationwidget.cpp:56
+#, kde-format
+msgid "...loading documentation..."
+msgstr "...문서 불러오는 중..."
+
+#: duchain/builders/contextbuilder.cpp:397
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "%1 및 %2의 순환 상속"
+
+#: duchain/builders/declarationbuilder.cpp:321
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "인터페이스 메서드 %1의 접근 형식을 생략해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:325
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "인터페이스 함수 %1에 구현을 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:337
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"클래스 %1에는 추상 메서드 %2이(가) 포함되어 있으며, abstract로 선언하거나 메"
+"서드를 구현해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:343
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "추상 함수 %1에 구현을 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:346
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "추상 클래스 구성원에는 final 수정자를 사용할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:356
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "비 추상 메서드 %1에는 구현이 있어야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:374
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "속성을 final로 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:377
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "속성을 abstract로 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:423
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"트레이트 메서드 %1이(가) 적용되지 않았습니다. %2에 있는 다른 트레이트 메서드"
+"와 충돌합니다"
+
+#: duchain/builders/declarationbuilder.cpp:577
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "private 속성 %1을(를) 이 콘텍스트에서 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:583
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "protected 속성 %1을(를) 이 콘텍스트에서 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:616
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "트레이트에는 상수를 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:657
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr "boolean, int, float, string 자료형만 클래스 상수로 사용할 수 있습니다."
+
+#: duchain/builders/declarationbuilder.cpp:709
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "'final'을 메서드 수정자로 사용할 수 없음"
+
+#: duchain/builders/declarationbuilder.cpp:712
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "'static'을 메서드 수정자로 사용할 수 없음"
+
+#: duchain/builders/declarationbuilder.cpp:760
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr "클래스 형식 힌트가 있는 인자의 기본값은 NULL이어야만 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:763
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "다음 인자의 기본값을 선언해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:870
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "PHP 내부 표현 %1을(를) 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:873
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1와(과) %2은(는) %1의 합성에서 같은 속성(%3)을 정의합니다. 호환성에 문제가 "
+"발생할 수 있으므로, 트레이트에서 접근 메서드를 구현하는 것을 고려해 보십시오."
+
+#: duchain/builders/declarationbuilder.cpp:881
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "%2의 %3줄에서 이미 선언했으므로 %1을(를) 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:967
+#, kde-format
+msgid ""
+"Class %1 contains %2 abstract methods and must therefore be declared "
+"abstract or implement the remaining methods."
+msgstr ""
+"클래스 %1에는 추상 메서드 %2개가 들어 있으며, abstract로 선언하거나 나머지 메"
+"서드를 구현해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:974
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "$this를 재할당할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:1410
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "비 컴파운드 이름 '%1'을(를) 사용한 use 문은 효과가 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:1434
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "같은 이름이 사용 중이므로 '%1'을(를) '%2'(으)로 사용할 수 없습니다."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "%1의 사용은 용도 폐기되었습니다."
+
+#: duchain/builders/usebuilder.cpp:193
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "선언을 찾을 수 없음: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "트레이트 별명 %1을(를) 잃어버림"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:113
+#: duchain/navigation/declarationnavigationcontext.cpp:126
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "%2에서 %1 사용<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:136
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "깨진 구성원 별명 트레이트입니다."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:151
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP 내부"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:161
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "상수"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:47
+#, kde-format
+msgid "magic constant"
+msgstr "매직 상수"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:62
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "비어 있음(클래스 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:81
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "비어 있음(메서드 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:91
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "비어 있음(함수 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:100
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "비어 있음(네임스페이스 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:104
+#, kde-format
+msgid "current value: %1"
+msgstr "현재 값: %1"
+
+#: duchain/types/indexedcontainer.cpp:78
+#, kde-format
+msgctxt "as in list of int, set of string"
+msgid "%1 of %2"
+msgstr "%2 중 %1"
+
+#: parser/main.cpp:25
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:26
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP 파서 디버그 유틸리티"
+
+#: parser/main.cpp:27
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "파일 '%1'을(를) 열 수 없음"
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File could not be read from."
+msgstr "파일에서 읽을 수 없습니다."
+
+#: parser/parsesession.cpp:74
+#, kde-format
+msgid "File could not be opened."
+msgstr "파일을 열 수 없습니다."
+
+#: parser/parsesession.cpp:77
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "파일 읽기 권한이 없습니다."
+
+#: testprovider/phpunitrunjob.cpp:71
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#~ msgid "Milian Wolff"
+#~ msgstr "Milian Wolff"
+
+#~ msgid "Author"
+#~ msgstr "저자"

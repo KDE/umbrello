@@ -1,0 +1,44 @@
+<chapter id="authors">
+<title
+>Autors i història</title>
+<para
+>El projecte va ser iniciat per Paul Hensgen com un dels seus projectes de la universitat. El nom original de l'aplicació era <application
+>UML Modeller</application
+>. Paul va fer tot el desenvolupament fins a finals del 2001 quan el programa va assolir la versió 1.0. </para>
+<para
+>La versió 1.0 ja oferia un munt de funcionalitats, però després el projecte va ser revisat a la universitat del Paul; altres desenvolupadors van poder unir-se i van començar a fer valuoses aportacions al <application
+>UML Modeller</application
+>, com ara el canvi d'un format de fitxer binari a un fitxer &XML;, implementació per més tipus de diagrames &UML;, generació del codi i importació del codi simplement per anomenar-ne unes quantes. </para>
+<para
+>Paul es va haver de jubilar de l'equip de desenvolupament en l'estiu de 2002, però, com a programari de codi obert i gratuït que és, el programa continua millorant i evolucionant, i és mantingut per un grup de desenvolupadors de diferents parts del món. El setembre del 2002 el projecte va canviar el seu nom de <application
+>&UML; Modeller</application
+>, a &umbrello;. Hi ha diverses raons pel canvi de nom, la més important és que només «uml» &mdash; conegut comunament com a &mdash; era un nom massa genèric i causava problemes amb algunes distribucions. L'altra raó important és que els desenvolupadors van pensar que <application
+>Umbrello</application
+> és un nom molt més fresc. </para>
+<para
+>El desenvolupament de l'&umbrello; així com els debats pel que fa a on el programa s'ha d'adreçar en les futures versions està obert i es porta a terme a través d'Internet. Si desitgeu contribuir al projecte, si us plau no dubteu en contactar amb els desenvolupadors. Hi ha moltes maneres en què podeu ajudar a l'&umbrello;: </para>
+<itemizedlist>
+<listitem
+><para
+>Informant d'errors o suggerint millores</para
+></listitem>
+<listitem
+><para
+>Arranjant errors o afegint característiques</para
+></listitem>
+<listitem
+><para
+>Escrivint una bona documentació o traduint-la a altres idiomes</para
+></listitem>
+<listitem
+><para
+>I per descomptat.... programant amb nosaltres!</para
+></listitem>
+</itemizedlist>
+<para
+>Com podeu veure, hi ha moltes maneres de poder contribuir. Totes elles són molt importants i tothom hi és benvingut a participar. </para>
+<para
+>Els desenvolupadors de l'&umbrello; es poden trobar en <email
+>umbrello-devel@kde.org</email
+>. </para>
+</chapter>

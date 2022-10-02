@@ -1,0 +1,78 @@
+<chapter id="other-features">
+<title
+>Muud funktsioonid</title>
+<sect1
+> 
+<title
+>Muud Umbrello funktsioonid</title>
+<para
+>See peatükk annab lühiülevaate mõningatest Umbrello lisafunktsioonidest.</para>
+<sect2 id="copying-as-png">
+<title
+>Objektide kopeerimine PNG-piltidena</title>
+<para
+>Lisaks tavalisele objektide lõikamisele ja erinevate skeemide vahel kopeerimisele ning asetamisele toetab Umbrello ka objektide kopeerimist PNG-piltidena, mis võimaldab lisada neid ükskõik millist teist tüüpi dokumenti. Selle funktsiooni kasutamiseks ei pea spetsiaalselt midagi tegema, lihtsalt vali skeemilt objekt (klass, tegija vms) ja kopeeri see (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> või kasutades menüüd), seejärel ava näiteks  <application
+>Calligra Wordsi</application
+> dokument (või mõni teine rakendus, millesse saab pilte asetada) ja vali <guimenuitem
+>Aseta</guimenuitem
+>. See on suurepärane funktsioon skeemi osade eksportimiseks lihtsate piltidena. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Eksportimine pildina</title>
+<para
+>Ka tervet skeemi on võimalik pildina eksportida. Selleks vali lihtsalt eksporditav skeem ja seejärel menüüst <guimenu
+>Skeem</guimenu
+> käsk <guimenuitem
+>Ekspordi pildina...</guimenuitem
+>. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Trükkimine</title>
+<para
+>Umbrello võimaldab skeeme eraldi trükkida. Vajuta rakenduse tööriistaribal nuppu <guiicon
+>Trüki</guiicon
+> või vali menüüst <guimenu
+>Fail</guimenu
+> käsk <guimenuitem
+>Trüki...</guimenuitem
+>. Menüükäsku kasutades avatakse standardne &kde; trükkimisdialoog, millest saad siis skeeme trükkida. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Loogilised kaustad</title>
+<para
+>Mudeli paremaks korraldamiseks, eriti suurte projektide puhul, on puuvaatesse võimalik luua loogilisi kaustu. Uue loogilise kausta loomiseks vali puuvaate mõne vaikimisi kausta kontekstimenüüst <menuchoice
+><guimenu
+>Uus</guimenu
+> <guimenuitem
+>Kaust</guimenuitem
+></menuchoice
+> </para>
+
+<screenshot>
+<screeninfo
+>Mudeli korraldamine kaustadesse</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Mudeli korraldamine kaustadesse Umbrellos</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Mudeli korraldamine kaustadesse Umbrellos </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

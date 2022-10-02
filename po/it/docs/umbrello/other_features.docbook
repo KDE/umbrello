@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Altre funzionalità</title>
+<sect1
+> 
+<title
+>Altre funzionalità di &umbrello;</title>
+<para
+>Questo capitolo spiegherà brevemente alcune altre funzionalità che &umbrello; ti offre.</para>
+<sect2 id="copying-as-png">
+<title
+>Copiare oggetti come immagini PNG</title>
+<para
+>Oltre a offrirti la funzionalità normale di copia, taglia e incolla che ti aspetteresti per copiare oggetti tra diversi diagrammi, &umbrello; può copiare oggetti come immagini PNG in modo che tu possa inserirli in un altro tipo di documento. Non hai bisogno di fare nulla di speciale per usare questa funzionalità, seleziona semplicemente un oggetto da un diagramma (Classe, Attore, &etc;) e copialo (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, o usando il menu), quindi apri un documento di <application
+>Calligra Words</application
+> (o qualsiasi programma in cui puoi incollare immagini) e seleziona <guimenuitem
+>Incolla</guimenuitem
+>. Questa è un'ottima funzionalità per esportare parti del tuo diagramma come semplici immagini. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Esportare come immagine</title>
+<para
+>Puoi anche esportare un diagramma completo come immagine. L'unica cosa che devi fare è selezionare il diagramma che vuoi esportare, e l'opzione <guimenuitem
+>Esporta come immagine...</guimenuitem
+> dal menu <guimenu
+>Diagramma</guimenu
+>. </para>
+<para
+>Puoi esportare diversi diagrammi contemporaneamente usando l'opzione <guimenuitem
+>Esporta i diagrammi come immagini...</guimenuitem
+> nel menu <guimenu
+>File</guimenu
+>. Tramite essa puoi anche impostare la risoluzione dell'immagine, in modo che le immagini non saranno sfocate. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Stampa</title>
+<para
+>&umbrello; ti permette di stampare diagrammi individuali. Premere il pulsante <guiicon
+>Stampa</guiicon
+> sulla barra delle applicazioni o selezionare l'opzione <guimenuitem
+>Stampa</guimenuitem
+> dal menu <guimenu
+>File</guimenu
+> ti porterà a una finestra di dialogo di stampa standard di &kde;, dalla quale puoi stampare i tuoi diagrammi. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Cartelle logiche</title>
+<para
+>Per organizzare meglio il tuo documento, specialmente per i progetti più grandi, puoi creare cartelle logiche nella Vista ad albero. Seleziona l'opzione <menuchoice
+><guimenu
+>Nuovo</guimenu
+><guimenuitem
+>Cartella</guimenuitem
+></menuchoice
+> dal menu contestuale delle cartelle predefinite nella Vista ad albero per crearle. Le cartelle possono essere annidate, e puoi spostare gli oggetti trascinandoli da una cartella e sganciandoli in un'altra. </para>
+
+<screenshot>
+<screeninfo
+>Organizzare il tuo modello con le cartelle</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organizzare un modello con le cartelle logiche in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organizzare un modello con le cartelle logiche in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

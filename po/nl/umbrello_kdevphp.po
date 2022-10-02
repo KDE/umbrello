@@ -1,0 +1,410 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2017, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2018-01-05 17:50+0100\n"
+"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Freek de Kruijf - 2017 t/m 2018"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "freekdekruijf@kde.nl"
+
+#: completion/implementationitem.cpp:58
+#, kde-format
+msgid "Override"
+msgstr "Overschrijven"
+
+#: completion/implementationitem.cpp:61
+#, kde-format
+msgid "Implement"
+msgstr "Implementatie"
+
+#: completion/implementationitem.cpp:73
+#, kde-format
+msgid "From %1"
+msgstr "Vanaf %1"
+
+#: duchain/builders/contextbuilder.cpp:395
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Circulaire overerving van %1 en %2"
+
+#: duchain/builders/declarationbuilder.cpp:314
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "Toegangstype voor interface-methode %1 moet worden weggelaten."
+
+#: duchain/builders/declarationbuilder.cpp:318
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "Interface-functie %1 kan geen body bevatten."
+
+#: duchain/builders/declarationbuilder.cpp:330
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"Klasse %1 bevat abstracte methode %2 en moet daarom abstract worden "
+"gedeclareerd od de methode implementeren."
+
+#: duchain/builders/declarationbuilder.cpp:336
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "Abstracte functie %1 kan geen body bevatten."
+
+#: duchain/builders/declarationbuilder.cpp:339
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "Kan de finale modifiër op een abstract klassemember niet gebruiken."
+
+#: duchain/builders/declarationbuilder.cpp:349
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "Niet-abstracte methode %1 moet een body bevatten."
+
+#: duchain/builders/declarationbuilder.cpp:367
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "Eigenschappen kunnen niet finaal worden gedeclareerd."
+
+#: duchain/builders/declarationbuilder.cpp:370
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "Eigenschappen kunnen niet abstract worden gedeclareerd."
+
+#: duchain/builders/declarationbuilder.cpp:416
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"Trait-methode %1 is niet toegepast, omdat er botsingen zijn met andere trait-"
+"methoden op %2"
+
+#: duchain/builders/declarationbuilder.cpp:570
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "Kan private eigenschap %1 van deze context niet opnieuw declareren."
+
+#: duchain/builders/declarationbuilder.cpp:576
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "Kan beschermde eigenschap %1 van deze context niet opnieuw declareren."
+
+#: duchain/builders/declarationbuilder.cpp:609
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Traits kunnen geen constanten hebben."
+
+#: duchain/builders/declarationbuilder.cpp:650
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr ""
+"Alleen booleans, ints, floats en strings zijn toegestaan voor "
+"klasseconstanten."
+
+#: duchain/builders/declarationbuilder.cpp:702
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "Kan 'final' niet gebruiken als methode-modifier "
+
+#: duchain/builders/declarationbuilder.cpp:705
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "Kan 'static' niet gebruiken als methode-modifier "
+
+#: duchain/builders/declarationbuilder.cpp:753
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Standaardwaarde voor parameters met een klassetype tip kunnen alleen NULL "
+"zijn."
+
+#: duchain/builders/declarationbuilder.cpp:756
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "Aan de volgende parameters moet een standaardwaarde worden toegekend."
+
+#: duchain/builders/declarationbuilder.cpp:863
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Kan PHP-intern %1 niet opnieuw declareren."
+
+#: duchain/builders/declarationbuilder.cpp:866
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1 en %2 definiëren dezelfde eigenschap (%3) in de samenstelling van %1. Dit "
+"kan incompatibel zijn, overweeg om in plaats daarvan in traits accessor-"
+"methoden te gebruiken om onderhoudbaarheid te verbeteren."
+
+#: duchain/builders/declarationbuilder.cpp:874
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "Kan %1 niet opnieuw declareren, is al gedeclareerd in %2 op regel %3."
+
+#: duchain/builders/declarationbuilder.cpp:920
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "Kan $this niet opnieuw toekennen."
+
+#: duchain/builders/declarationbuilder.cpp:1358
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "Het gebruiksstatement met niet-compound naam '%1' heeft geen effect."
+
+#: duchain/builders/declarationbuilder.cpp:1382
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "Kan '%1' niet als '%2' gebruiken omdat de naam al in gebruik is."
+
+#: duchain/builders/usebuilder.cpp:189
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "Gebruik van %1 is verouderd."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "Declaratie niet gevonden: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Verloren trait-alias %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:114
+#: duchain/navigation/declarationnavigationcontext.cpp:127
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "Gebruik van %1 uit %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:137
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Alias-trait van gebroken."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:152
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP-intern"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:162
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Constante"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:49
+#, kde-format
+msgid "magic constant"
+msgstr "magische constante"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:64
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "leeg (niet in een klasse)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:83
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "leeg (niet in een methode)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:93
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "leeg (niet in een functie)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:102
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "leeg (niet in een naamruimte)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:106
+#, kde-format
+msgid "current value: %1"
+msgstr "Huidige waarde: %1"
+
+#: parser/main.cpp:28
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:29
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP-parser-debugging-hulpmiddel"
+
+#: parser/main.cpp:30
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:62
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Kon bestand '%1' niet openen"
+
+#: parser/parsesession.cpp:65
+#, kde-format
+msgid "File could not be read from."
+msgstr "Bestand  kon niet worden gelezen."
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "File could not be opened."
+msgstr "Bestand kon niet worden geopend."
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "Toegangsrechten van bestand voorkomen het openen voor lezen"
+
+#: phplanguagesupport.cpp:54
+#, kde-format
+msgid "PHP Support"
+msgstr "Ondersteuning van PHP"
+
+#: phplanguagesupport.cpp:55
+#, kde-format
+msgid "Support for PHP Language"
+msgstr "Ondersteuning voor PHP-taal"
+
+#: phplanguagesupport.cpp:56
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: phplanguagesupport.cpp:56 phplanguagesupport.cpp:57
+#, kde-format
+msgid "Author"
+msgstr "Auteur"
+
+#: phplanguagesupport.cpp:57
+#, kde-format
+msgid "Niko Sams"
+msgstr "Niko Sams"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "PHPUnit Integration"
+msgstr "Integratie van PHPUnit"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "Finds and runs PHPUnit tests"
+msgstr "Testen van PHPUnit vinden en uitvoeren"
+
+#: testprovider/phpunitrunjob.cpp:70
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
+#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
+#~ "color:#0000ff;\">PHP documentation</span></a> is used remotely. "
+#~ "Alternatively you can set the location to a local copy of the "
+#~ "documentation in the language of your choice. Make sure you downloaded "
+#~ "the <span style=\" font-style:italic;\">\"Many HTML files\"</span> "
+#~ "package.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
+#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
+#~ "color:#0000ff;\">PHP-documentatie</span></a> op afstand wordt gebruikt. "
+#~ "Als alternatief kunt u de locatie naar een locale kopie van de "
+#~ "documentatie in de taal van uw keuze instellen. Verzeker u ervan dat u ze "
+#~ "downloadt in een pakket in <span style=\" font-style:italic;\">\"Veel "
+#~ "HTML-bestanden\"</span>.</p></body></html>"
+
+#~ msgid "Location:"
+#~ msgstr "Locatie:"
+
+#~ msgid "<lost declaration>"
+#~ msgstr "<verloren declaratie>"
+
+#~| msgid "PHPUnit Integration"
+#~ msgid "PHP Documentation"
+#~ msgstr "PHP-documentatie"
+
+#~ msgid "Specifies the location of the PHP documentation to use."
+#~ msgstr "Specificeert de locatie van de te gebruiken PHP-documentatie."
+
+#~ msgid ""
+#~ "The location of the PHP documentation to use. You can either use a "
+#~ "remote\n"
+#~ "                 location like http://php.net or a local directory which "
+#~ "contains the\n"
+#~ "                 PHP documentation in HTML format with many files."
+#~ msgstr ""
+#~ "De te gebruiken locatie van de PHP-documentatie. U kunt ofwel een locatie "
+#~ "op\n"
+#~ "                 afstand zoals http://php.net gebruiken of een locale map "
+#~ "die de\n"
+#~ "                 PHP-documentatie in HTML-formaat met vele bestanden "
+#~ "bevat."
+
+#~ msgid ""
+#~ "Make sure local copies are downloaded in HTML format with many files.\n"
+#~ "        "
+#~ msgstr ""
+#~ "Verzeker u ervan dat lokale kopieën worden gedownload in HTML-formaat met "
+#~ "vele bestanden.\n"
+#~ "        "
+
+#~ msgid "...loading documentation..."
+#~ msgstr "...laden van documentatie..."
+
+#~| msgid ""
+#~| "Class %1 contains abstract method %2 and must therefore be declared "
+#~| "abstract or implement the method."
+#~ msgid ""
+#~ "Class %1 contains %2 abstract methods and must therefore be declared "
+#~ "abstract or implement the remaining methods."
+#~ msgstr ""
+#~ "Klasse %1 bevat %2 abstracte methodes en moet daarom abstract worden "
+#~ "gedeclareerd of de overblijvende methodes implementeren."
+
+#~ msgctxt "as in list of int, set of string"
+#~ msgid "%1 of %2"
+#~ msgstr "%1 van %2"

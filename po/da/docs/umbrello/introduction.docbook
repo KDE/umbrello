@@ -1,0 +1,57 @@
+<chapter id="introduction">
+<title
+>Indledning</title>
+
+<para
+>&umbrello; er et &UML;-diagramværktøj som understøtter dig i udviklingsprocessen af programmel. I særdeleshed under analyse- og konstruktionsfaserne af processen, hjælper &umbrello; dig med at oprette et produkt af høj kvalitet. &UML; kan også bruges til at dokumentere programmelkonstruktioner for at hjælpe dig og dine medudviklere. </para>
+<para
+>At have en god model af programmellet er den bedste måde at kommunikere med andre udviklere som arbejder med projektet og med kunder. En god model er yderst vigtig for middelstore og store projekter, men er også meget nyttig for små. Selv om du arbejder på et lille enmandsprojekt, har du nytte af en god model, eftersom den giver dig et overblik, som hjælper dig til at kode det rigtige fra begyndelsen. </para>
+<para
+>&UML; er et diagramsprog som bruges til at beskrive sådanne modeller. Du kan repræsentere dine idéer i &UML; med forskellige slags diagrammer. &umbrello; 1.2 understøtter følgende typer: </para>
+<itemizedlist>
+<listitem
+><para
+>Klassediagram</para
+></listitem>
+<listitem
+><para
+>Sekvensdiagram</para
+></listitem>
+<listitem
+><para
+>Samarbejdsdiagram</para
+></listitem>
+<listitem
+><para
+>Brugstilfældediagram</para
+></listitem>
+<listitem
+><para
+>Tilstandsdiagram</para
+></listitem>
+<listitem
+><para
+>Aktivitetsdiagram</para
+></listitem>
+<listitem
+><para
+>Komponentdiagram</para
+></listitem>
+<listitem
+><para
+>Udplaceringsdiagram</para
+></listitem>
+</itemizedlist>
+<para
+>Mere information om &UML; findes på hjemmesiden <acronym
+>OMG</acronym
+>, <ulink url="http://www.omg.org"
+>http://www.omg.org</ulink
+>, dem der lavede &UML;-standarden. </para>
+<para
+>Vi håber at du vil  nyde at arbejde med &umbrello;, og at den hjælper dig med at lave programmel af høj kvalitet. &umbrello; er et frit værktøj, og det eneste som vi beder dig om er at rapportere eventuelle fejl, problemer eller forslag til &umbrello;s udviklere på <email
+>uml-devel@lists.sourceforge.net</email
+> eller <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</chapter>

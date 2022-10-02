@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Övriga funktioner</title>
+<sect1
+> 
+<title
+>Övriga funktioner i &umbrello;</title>
+<para
+>Det här kapitlet förklarar kortfattat några andra funktioner som &umbrello; erbjuder.</para>
+<sect2 id="copying-as-png">
+<title
+>Kopiera objekt som PNG-bilder</title>
+<para
+>Förutom att erbjuda de normala funktionerna för att kopiera, klippa ut och klistra in, som man kan förvänta sig för att kopiera objekt mellan olika diagram, kan &umbrello; kopiera objekt som PNG-bilder, så att man kan infoga dem i vilket annat typ av dokument som helst. Man behöver inte göra något särskilt för att använda den här funktionen, markera bara ett objekt i ett diagram (klass, aktör, etc.) och kopiera det (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, eller använd menyn), öppna sedan ett dokument med <application
+>Calligra Words</application
+> (eller något annat program där bilder kan klistras in) och välj <guimenuitem
+>Klistra in</guimenuitem
+>. Detta är en utmärkt funktion för att exportera delar av diagram som enkla bilder. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exportera till en bild</title>
+<para
+>Man kan också exportera ett fullständigt diagram som en bild. Det enda man måste göra är att välja diagrammet som ska exporteras, och därefter alternativet <guimenuitem
+>Exportera som bild...</guimenuitem
+> i menyn <guimenu
+>Diagram</guimenu
+>. </para>
+<para
+>Man kan exportera flera diagram samtidigt genom att använda alternativet <guimenuitem
+>Exportera diagram som bilder</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>. Med den kan också bildernas upplösning ställas in, så att bilderna inte blir så suddiga. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Skriva ut</title>
+<para
+>&umbrello; tillåter att enskilda diagram skrivs ut. Tryck på knappen <guiicon
+>Skriv ut</guiicon
+> i programverktygsraden eller välj alternativet <guimenuitem
+>Skriv ut</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>, så visas &kde;:s standardutskriftsdialogruta där diagram kan skrivas ut. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Logiska mappar</title>
+<para
+>För att organisera en modell på ett bättre sätt, särskilt för större projekt, kan man skapa logiska mappar i trädvyn. Välj bara alternativet <menuchoice
+><guimenu
+>Nytt</guimenu
+><guimenuitem
+>Mapp</guimenuitem
+></menuchoice
+> i den sammanhangsberoende menyn i standardmappen under trädvyn, för att skapa dem. Mappar kan finnas i varandra, och man kan flytta omkring objekt genom att dra dem från en mapp till och släppa dem i en annan. </para>
+
+<screenshot>
+<screeninfo
+>Organisera din modell med mappar</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organisera en modell med logiska mappar i &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organisera en modell med logiska mappar i &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

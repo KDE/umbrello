@@ -1,0 +1,57 @@
+<chapter id="introduction">
+<title
+>Enkonduko</title>
+
+<para
+>&umbrello; estas &UML; diagramilo kiu povas subteni la softvaran disvolvigprocezon. Precipe dum la analiza kaj desegna fazoj de ĉi tiu procezo, Umbrello UML Modeller helpos vin atingi produkton de supera kvalito. UML ankaŭ povas esti uzata por dokumenti viajn softvardesegnojn por faciligi la komunikadon kun kolegoj. </para>
+<para
+>Havi bonan modelon de softvaro estas la plej bona ebleco komuniki kun aliaj prilaborantoj de la projekto kaj kun klientoj. Taŭga modelo estas treege grava por mezaj ĝis grandaj projektoj, sed estas ankaŭ tre utila por malgrandaj. Eĉ se vi estas sole prilaboranta iun projekteton, vi profitos de bona modelo ĉar ĝi ebligos superrigardon kiu helpos vin kodigi ĝuste jam dekomence. </para>
+<para
+>&UML; estas la skemolingvo uzata por priskribi tiaj modeloj. Vi povas reprezenti viajn ideojn en UML uzante diversspecajn skemojn. Ekde la version 1.2 la modelilo subtenas la sekvontajn tipojn: </para>
+<itemizedlist>
+<listitem
+><para
+>Klasdiagramo</para
+></listitem>
+<listitem
+><para
+>Sinsekvodiagramo</para
+></listitem>
+<listitem
+><para
+>Kunlabordiagramo</para
+></listitem>
+<listitem
+><para
+>Uzkazdiagramo</para
+></listitem>
+<listitem
+><para
+>Statodiagramo</para
+></listitem>
+<listitem
+><para
+>Aktivecdiagramo</para
+></listitem>
+<listitem
+><para
+>Komponenta Diagramo</para
+></listitem>
+<listitem
+><para
+>Sterndiagramo</para
+></listitem>
+</itemizedlist>
+<para
+>Pliaj informoj pri &UML; troveblas ĉe la retejo de <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> kiu kreis la &UML; normon. </para>
+<para
+>Ni esperas ke vi ĝuos &umbrello;-n kaj ke ĝi helpos vin krei altnivelan softvaron. &umbrello; estas Libera Softvaro kaj disponeblas senkoste, la nura kion ni petas de vi estas ke vi raportu cimojn, problemojn, aŭ sugestojn al la program-evoulistoj ĉe <email
+>uml-devel@lists.sourceforge.net</email
+> aŭ <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</chapter>

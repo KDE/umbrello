@@ -1,0 +1,61 @@
+<chapter id="introduction">
+<title
+>Inledning</title>
+
+<para
+>&umbrello; är ett &UML;-diagramverktyg som stöder dig i utvecklingsprocessen av programvara. I synnerhet under analys- och konstruktionsfaserna av processen, hjälper &umbrello; dig att skapa en produkt med hög kvalitet. &UML; kan också användas för att dokumentera programvarukonstruktioner för att hjälpa dig och dina medutvecklare. </para>
+<para
+>Att ha en bra modell av programvaran är det bästa sättet att kommunicera med andra utvecklare som arbetar med projektet och med kunder. En bra modell är ytterst viktig för medelstora och stora projekt, men är också mycket användbar för små. Även om du arbetar på ett litet enmansprojekt, har du nytta av en bra modell, eftersom den ger dig en överblick, som hjälper dig att koda rätt från början. </para>
+<para
+>&UML; är ett diagramspråk som används för att beskriva sådana modeller. Du kan representera dina idéer i &UML; med olika sorters diagram. &umbrello; 2.11 stöder följande typer: </para>
+<itemizedlist>
+<listitem
+><para
+>Klassdiagram</para
+></listitem>
+<listitem
+><para
+>Sekvensdiagram</para
+></listitem>
+<listitem
+><para
+>Samarbetsdiagram</para
+></listitem>
+<listitem
+><para
+>Användningsfallsdiagram</para
+></listitem>
+<listitem
+><para
+>Tillståndsdiagram</para
+></listitem>
+<listitem
+><para
+>Aktivitetsdiagram</para
+></listitem>
+<listitem
+><para
+>Komponentdiagram</para
+></listitem>
+<listitem
+><para
+>Utplaceringsdiagram</para
+></listitem>
+<listitem
+><para
+>Objektsambandsdiagram</para
+></listitem>
+</itemizedlist>
+<para
+>Mer information om &UML; finns på <acronym
+>OMG</acronym
+>:s webbplats, <ulink url="http://www.omg.org"
+>http://www.omg.org</ulink
+>, de som skapade &UML;-standarden. </para>
+<para
+>Vi hoppas att du trivs med &umbrello;, och att det hjälper dig att skapa programvara med hög kvalitet. &umbrello; är ett fritt verktyg, och det enda som vi ber dig är att rapportera eventuella fel, problem eller förslag till &umbrello;s utvecklare på <email
+>umbrello-devel@kde.org</email
+> eller <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>

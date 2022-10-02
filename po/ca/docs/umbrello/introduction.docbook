@@ -1,0 +1,61 @@
+<chapter id="introduction">
+<title
+>Introducció</title>
+
+<para
+>L'&umbrello; és una eina de diagrames &UML; que us pot ajudar en el procés de desenvolupament de programari. Especialment durant les fases d'anàlisi i disseny d'aquest procés, l'&umbrello; us ajuda a obtenir un producte d'alta qualitat. &UML; també es pot usar per documentar els vostres dissenys de programari per ajudar-vos a vós i als vostres companys desenvolupadors. </para>
+<para
+>Tenir un bon model del vostre programari és la millor manera de comunicar-vos amb altres desenvolupadors que treballen en el projecte i amb els vostres clients. Un bon model és extremadament important per projectes de mitjana i gran envergadura, però també és molt útil pels petits. Encara que esteu treballant en un petit projecte d'una sola persona us beneficiareu d'un bon model perquè dona una vista general que pot ajudar a programar bé les coses a la primera. </para>
+<para
+>&UML; és el llenguatge per fer diagrames usat per descriure aquests models. Podeu representar les vostres idees en &UML; usant diferents tipus de diagrames. L'&umbrello; 2.11 implementa els següents tipus: </para>
+<itemizedlist>
+<listitem
+><para
+>Diagrama de classes</para
+></listitem>
+<listitem
+><para
+>Diagrama de seqüències</para
+></listitem>
+<listitem
+><para
+>Diagrama de col·laboració</para
+></listitem>
+<listitem
+><para
+>Diagrama de casos d'ús</para
+></listitem>
+<listitem
+><para
+>Diagrama d'estats</para
+></listitem>
+<listitem
+><para
+>Diagrama d'activitats</para
+></listitem>
+<listitem
+><para
+>Diagrama de components</para
+></listitem>
+<listitem
+><para
+>Diagrama de desplegament</para
+></listitem>
+<listitem
+><para
+>Diagrama de relació d'entitats</para
+></listitem>
+</itemizedlist>
+<para
+>Podeu trobar més informació quant a &UML; en el lloc web d'<ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> que va crear l'estàndard &UML;. </para>
+<para
+>Desitgem que gaudiu de l'&umbrello; i que us ajudi a crear programari d'alta qualitat. L'&umbrello; és un programari lliure i disponible de forma gratuïta, l'única cosa que us demanem és que informeu de qualsevol error, problema o suggeriment als desenvolupadors de l'&umbrello; en <email
+>umbrello-devel@kde.org</email
+> o <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>

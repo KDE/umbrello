@@ -1,0 +1,967 @@
+<chapter id="uml-basics">
+<title
+>Conceptes bàsics de l'&UML;</title>
+<sect1 id="about-uml">
+<title
+>Quant a &UML;</title>
+<para
+>Aquest capítol us dona una vista general ràpida dels conceptes bàsics de &UML;. Tingueu en compte que aquesta no és una guia d'aprenentatge global de &UML; sinó més aviat una breu introducció a &UML; que es pot llegir com una guia d'aprenentatge de &UML;. Si voleu aprendre més quant al llenguatge de modelatge unificat, o en general quant a l'anàlisi i disseny de programari, adreceu-vos a un dels molts llibres disponibles quant al tema. Hi ha també una gran quantitat de guies d'aprenentatge a Internet que podeu prendre com a punt de partida. </para>
+
+<para
+>El llenguatge unificat de modelatge (&UML;) és un llenguatge per fer diagrames o notació per especificar, visualitzar i modelar documents de sistemes de programari orientat a objectes. &UML; no és un mètode de desenvolupament, això significa que no us diu el que heu de fer primer i el que heu de fer a continuació o com heu de dissenyar el sistema, però us ajuda a visualitzar el vostre disseny i comunicar-vos amb els altres. &UML; és controlat pel grup Object Management (<acronym
+>OMG</acronym
+>) i és l'estàndard de la indústria per descriure gràficament el programari. </para>
+<para
+>&UML; està dissenyat pel disseny de programari orientat a objectes i té un ús limitat per a altres paradigmes de programació. </para>
+<para
+>&UML; es compon de molts elements de model que representen les diferents parts d'un sistema de programari. Els elements &UML; s'usen per crear diagrames, que representen una certa part, o un punt de vista del sistema. L'&umbrello; implementa els següents tipus de diagrames: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><link linkend="use-case-diagram"
+>Diagrames de casos d'ús</link
+></emphasis
+> mostra els actors (persones o altres usuaris del sistema), els casos d'ús (els escenaris quan usen el sistema), i les seves relacions</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="class-diagram"
+>Diagrames de classe</link
+></emphasis
+> mostra les classes i les relacions entre elles</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="sequence-diagram"
+>Diagrames de seqüència</link
+></emphasis
+> mostra objectes i una seqüència de crides a mètodes que fan a altres objectes.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="collaboration-diagram"
+>Diagrames de col·laboració</link
+></emphasis
+> mostra objectes i les seves relacions, posant l'accent en els objectes que participen en l'intercanvi de missatges</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="state-diagram"
+>Diagrames d'estat</link
+></emphasis
+> mostra els estats, els canvis d'estat i els esdeveniments en un objecte o una part del sistema</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="activity-diagram"
+>Diagrames d'activitat</link
+></emphasis
+> mostra les activitats i els canvis d'una activitat a una altra amb els esdeveniments que ocorren en alguna part del sistema</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="component-diagram"
+>Diagrames de component</link
+></emphasis
+> mostra els components de programació d'alt nivell (com ara les KParts o els components reutilitzables (beans) de Java).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="deployment-diagram"
+>Diagrames d'implementació</link
+></emphasis
+> mostra els casos dels components i les seves relacions.</para
+></listitem
+> 
+
+<listitem
+><para
+><emphasis
+><link linkend="entity-relationship-diagram"
+>Diagrames de relació d'entitats</link
+></emphasis
+> mostren les dades i les relacions i les restriccions entre les dades.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>Elements &UML;</title>
+<sect2 id="use-case-diagram">
+<title
+>Diagrama de casos d'ús</title>
+<para
+>El diagrama de casos d'ús descriu les relacions i les dependencies entre un grup de <emphasis
+>casos d'ús</emphasis
+> i els actors que participen en el procés.</para>
+<para
+>És important adonar-se que els diagrames de casos no són adequats per a representar el disseny, i no poden descriure les interioritats d'un sistema. Els diagrames de casos d'ús estan destinats a facilitar la comunicació amb els futurs usuaris del sistema, i amb el client, i són especialment útils per a determinar les característiques necessàries que ha de tenir el sistema. Els diagrames de casos d'ús diuen, <emphasis
+>què</emphasis
+> ha de tenir el sistema però no &mdash; i no poden &mdash; especificar <emphasis
+>com</emphasis
+> aconseguir-ho.</para>
+<para>
+<screenshot>
+<screeninfo
+>Un exemple de diagrama de casos d'ús.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama de casos d'ús</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama de casos d'ús </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>Cas d'ús</title>
+<para
+>Un <emphasis
+>cas d'ús</emphasis
+> descriu &mdash; des del punt de vista dels actors &mdash; un grup d'activitats en un sistema que produeix un resultat concret i tangible.</para>
+<para
+>Els casos d'ús són descripcions de les interaccions típiques entre els usuaris d'un sistema i el sistema en si mateix. Representen la interfície externa del sistema i especifica un forma dels requisits que ha de tenir el sistema (recordeu, només el que, no el com). </para>
+<para
+>En treballar amb casos d'ús, és important recordar algunes regles simples: <itemizedlist>
+ <listitem
+><para
+>Cada cas d'ús és relatiu almenys a un actor</para
+></listitem>
+ <listitem
+><para
+>Cada cas d'ús té un iniciador (&ead; un actor)</para
+></listitem>
+ <listitem
+><para
+>Cada cas d'ús porta a un resultat pertinent (un resultat amb «valor comercial»)</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>Els casos d'ús també poden tenir relació amb altres casos d'ús. Els tres tipus de relacions més habituals entre casos d'ús són:</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;inclou&gt;&gt;</emphasis
+> que especifica que un cas d'ús s'usa <emphasis
+>dins</emphasis
+> d'un altre cas d'ús</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;amplia&gt;&gt;</emphasis
+> que especifica que en certes situacions, o en algun punt (anomenat punt d'ampliació) un cas d'ús serà ampliat per un altre.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>Generalització</emphasis
+> especifica que un cas d'ús hereta les característiques del cas d'ús <quote
+>superior</quote
+>, i pot substituir-ne una part o afegir-ne de noves de manera similar a l'herència entre classes. </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>Actor</title>
+<para
+>Un actor és una entitat externa (fora del sistema) que interactua amb el sistema participant (i sovint iniciant) d'un cas d'ús. Els actors poden ser persones (per exemple, usuaris del sistema), altres sistemes informàtics o esdeveniments externs. </para>
+<para
+>Els actors no representes les persones o sistemes <emphasis
+>físicament</emphasis
+>, però representen els seus <emphasis
+>rols</emphasis
+>. Això significa que quan una persona interactua amb el sistema de diverses maneres (assumint diferents rols) es representa amb diversos actors. Per exemple, una persona que dona atenció al client per telèfon i agafa ordres del client en el sistema serà representat per un actor «Personal d'atenció al client» i un actor «Representant de vendes» </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>Descripció del cas d'ús</title>
+<para
+>Les descripcions dels casos d'ús són narracions de text del cas d'ús. Normalment prenen la forma d'una nota o document enllaçat d'alguna manera al cas d'ús i expliquen els processos o activitats que es duen a terme en el cas d'ús. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>Diagrama de classes</title>
+<para
+>Els diagrames de classes mostren les diferents classes que componen el sistema i com es relacionen amb cada una de les altres. Els diagrames de classes es diu que són «estàtics» perquè mostren les classes, juntament amb els seus mètodes i atributs així com les relacions estàtiques entre elles: quines classes «coneixen» a altres classes o quines classes «són part» d'una altra classe, però no mostren les crides a mètodes entre elles. </para>
+<para>
+<screenshot>
+<screeninfo
+>Un exemple d'un diagrama de classes</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama de classes</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama de classes </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>Classe</title>
+<para
+>Una classe defineix els atributs i els mètodes d'un grup d'objectes. Tots els objectes d'aquesta classe (instàncies d'aquesta classe) comparteixen el mateix comportament, i tenen el mateix conjunt d'atributs (cada objecte té el seu propi conjunt). A vegades s'usa el terme «tipus» en lloc de classe, però és important mencionar que no són el mateix, i tipus és un terme més general. </para>
+<para
+>En &UML;, les classes es representen amb rectangles, amb el nom de la classe i també poden mostrar els atributs i les operacions de la classe en dos altres «compartiments» dintre del rectangle. </para>
+<para>
+<screenshot>
+<screeninfo
+>Una classe en &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una classe en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una classe en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>Atributs</title>
+<para
+>En &UML;, els atributs es mostren amb almenys el seu nom, i també poden mostrar el seu tipus, el valor inicial i altres propietats. Els atributs també es poden mostrar amb la seva visibilitat: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Suport per atributs <emphasis
+>públics</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Suport per atributs <emphasis
+>protegits</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Suport per atributs <emphasis
+>privats</emphasis
+></para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>Operacions</title>
+<para
+>Les operacions (mètodes) també es mostren amb almenys el seu nom, i també poden mostrar els seus paràmetres i els tipus de retorn. Les operacions poden, com els atributs, mostrar la seva visibilitat: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Suport per operacions <emphasis
+>públiques</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Suport per operacions <emphasis
+>protegides</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Suport per operacions <emphasis
+>privades</emphasis
+></para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>Plantilles</title>
+<para
+>Les classes poden tenir plantilles, un valor que s'utilitza per a una classe no especificada o tipus. El tipus de plantilla s'especifica quan s'inicia una classe (&ead; s'ha creat un objecte). Les plantilles existeixen en el C++ modern i s'introduiran en Java 1.5 on s'anomenaran genèrics. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>Associacions de la classe</title>
+<para
+>Les classes es poden relacionar (associar-se) unes amb les altres de maneres diferents:</para>
+<sect4 id="generalization">
+<title
+>Generalització</title>
+<para
+>L'herència és un dels conceptes fonamentals de la programació orientada a objectes, en la que una classe «guanya» tots els atributs i operacions de la classe de la qual hereta, i pot substituir/modificar alguna part d'aquesta, així com afegir més atributs i operacions a les seves pròpies.</para>
+<para
+>En &UML; una <emphasis
+>generalització</emphasis
+> d'una associació entre dues classes les posa en una jerarquia que representa el concepte d'herència d'una classe derivada d'una classe base. En &UML;, les generalitzacions es representen per una línia connectant les dues classes, amb una fletxa del costat de la classe base. <screenshot>
+<screeninfo
+>Generalització</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una generalització en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una generalització en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>Associacions</title>
+<para
+>Una associació representa una relació entre classes, i dona la semàntica i estructura comunes per molts tipus de «connexions» entre objectes.</para>
+<para
+>Les associacions són el mecanisme que permet als objectes comunicar-se entre ells, descriuen la connexió entre diferents classes (la connexió entre els objectes reals s'anomena connexió, o <emphasis
+>enllaç</emphasis
+>. </para>
+<para
+>Les associacions poden tenir un rol que especifica l'ús de l'associació o pot ser uni- o bidireccional (indica que els dos objectes que participen en la relació poden enviar missatges l'un a l'altre, o si només un d'ells coneix de l'altre). Cada final de l'associació també conté un valor de multiplicitat, que dicta quants objectes d'aquesta banda de l'associació es poden relacionar amb un objecte de l'altra banda. </para>
+<para
+>En &UML; les associacions es representen com línies que connecten les classes que participen en la relació, i també poden mostrar el rol i la multiplicitat de cada un dels participants. La multiplicitat es mostra com a un interval [min..màx] de valors no negatius, amb una estrella (<literal
+>*</literal
+>) en el costat del màxim es representa l'infinit. <screenshot>
+<screeninfo
+>Associació &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una associació en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una associació en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>Agregació</title>
+<para
+>Les agregacions són un tipus d'associació especial en el que les dues classes que participen no tenen el mateix estat, però fan una relació «sencera-part». Una agregació descriu com la classe que pren el rol de sencera, està composta (té) altres classes, que prenen el rol de les parts. Per les agregacions, la classe que actua com a sencera sempre té la multiplicitat d'u. </para>
+<para
+>En &UML; les agregacions són representades per una associació que mostra un rombe del costat de la sencera. <screenshot>
+<screeninfo
+>Agregació</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una relació d'agregació en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una relació d'agregació en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>Composició</title>
+<para
+>Les composicions són associacions que representen agregacions <emphasis
+>molt fortes</emphasis
+>. Això vol dir que, les composicions també formen relacions sencera-part, però la relació és tan forta que les parts no poden existir per si mateixes. Només existeixen dintre de la sencera, i si la sencera es destrueix, també moren les parts.</para>
+<para
+>En &UML; les composicions es representen per un rombe sòlid en el costat de la sencera. </para>
+<para
+><screenshot>
+<screeninfo
+>Composició</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una relació de composició en &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>Altres elements del diagrama de classes</title>
+<para
+>Els diagrames de classes poden contenir altres elements a més de les classes.</para>
+<sect4 id="interfaces">
+<title
+>Interfícies</title>
+<para
+>Les interfícies són classes abstractes, el que significa que les instàncies no poden ser directament creades per elles. Poden contenir operadors però no atributs. Les classes poden heretar de les interfícies (a través de la realització d'una associació) i llavors es poden fer les instàncies des d'aquests diagrames.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>Tipus de dades</title>
+<para
+>Els tipus de dades són primitives que normalment estan construïdes en un llenguatge de programació. Els exemples comuns inclouen nombres sencers i booleans. No poden relacionar-se amb les classes, però les classes poden relacionar-se amb ells.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>Enumeracions</title>
+<para
+>Les enumeracions són una simple llista de valors. Un exemple típic és una enumeració pels dies de la setmana. Les opcions d'una enumeració s'anomenen literal de l'enumeració. Com els tipus de dades no poden relacionar-se amb les classes per les classes poden relacionar-se amb elles.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>Paquets</title>
+<para
+>Els paquets representen un espai de noms en un llenguatge de programació. En un diagrama s'usen per a representar parts d'un sistema que conté més d'una classe, potser centenars de classes.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>Diagrames de seqüències</title>
+
+<para
+>Els diagrames de seqüències mostren els missatges d'intercanvi (&ead; les crides a mètodes) entre diversos objects en una situació especifica en un temps delimitat. Els objectes són instàncies de les classes. Els diagrames de seqüències posen un èmfasi especial en l'ordre i els temps en què s'han enviat els missatges als objectes.</para>
+
+<para
+>En els diagrames de seqüències es representen a través de línies de traços verticals amb el nom de l'objecte en la part superior. L'eix del temps també és vertical, augmentant a mesura que baixa, per què els missatges s'envien des d'un objecte a un altre en la forma de fletxes amb l'operació i el nom del paràmetre. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>Diagrama de seqüències</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama de seqüències</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama de seqüències </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>Els missatges poden ser o bé síncrons, el tipus normal de missatge de crida on es passa el control a l'objecte anomenat fins que el mètode s'hagi acabat d'executar, o asíncrons on es torna el control directament a l'objecte cridat. Els missatges síncrons tenen un quadre vertical al costat de l'objecte cridat per mostrar el flux de control del programa.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>Diagrames de col·laboració</title>
+
+<para
+>Els diagrames de col·laboració mostres les interaccions que ocorren entre els objectes que participen d'una situació específica. Això és més o menys la mateixa informació mostrada pels diagrames de seqüències, però aquí l'èmfasi es posa en com ocorren les interaccions en el temps mentre que en els diagrames de col·laboració es posen les relacions entre els objectes i la seva topologia en primer pla.</para>
+
+<para
+>En un diagrama de col·laboració els missatges enviats des d'un objecte a un altre són representats per fletxes, mostrant el nom del missatge, els paràmetres, i la seqüència del missatge. Els diagrames de col·laboració són especialment útils per mostrar el flux o situació d'un programa específic i és un dels millors tipus de diagrames per demostrar o explicar ràpidament un procés en la lògica del programa. </para>
+
+<screenshot>
+<screeninfo
+>Col·laboració</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama de col·laboració</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama de col·laboració </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>Diagrama d'estats</title>
+<para
+>Els diagrames d'estats mostren els diferents estats d'un objecte durant la seva vida i els estímuls que causen que l'objecte canviï el seu estat. </para
+>                              
+<para
+>Els diagrames d'estats visualitzen els objectes com a <emphasis
+>màquines d'estat</emphasis
+> o autòmats finits que poden ser en un grup d'estats finits i poden canviar el seu estat a través d'un grup finit d'estímuls. Per exemple, un objecte de tipus <emphasis
+>ServidorXarxa</emphasis
+> pot tenir un dels següents estats durant la seva vida:  </para>
+<itemizedlist>
+<listitem
+><para
+>Preparat</para
+></listitem>
+<listitem
+><para
+>Escoltant</para
+></listitem>
+<listitem
+><para
+>Treballant</para
+></listitem>
+<listitem
+><para
+>Aturat</para
+></listitem>
+</itemizedlist>
+<para
+>i els esdeveniments que poden causar que l'objecte canviï el seu estat són</para>
+<itemizedlist>
+<listitem
+><para
+>L'objecte és creat</para
+></listitem>
+<listitem
+><para
+>L'objecte rep un missatge d'escolta</para
+></listitem>
+<listitem
+><para
+>Un client sol·licita una connexió sobre la xarxa</para
+></listitem>
+<listitem
+><para
+>Un client finalitza una petició</para
+></listitem>
+<listitem
+><para
+>La petició s'ha executat i finalitzat</para
+></listitem>
+<listitem
+><para
+>L'objecte rep un missatge d'aturada</para
+></listitem>
+<listitem
+><para
+>etc</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>Diagrama d'estats</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama d'estats</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama d'estats </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>Estat</title>
+<para
+>Els estats són els blocs de construcció dels diagrames d'estats. Un estat pertany exactament a una classe i representa un resum dels valors dels atributs que una classe pot prendre. Un estat &UML; descriu l'estat d'un objecte d'una classe particular </para
+>                       
+<para
+>Tingueu en compte que no tots els canvis en un dels atributs d'un objecte han de ser representats per un estat, sinó únicament els canvis que poden afectar significativament el funcionament de l'objecte</para>
+<para
+>Hi ha tipus especials d'estat: Inici i final. Són especials en què no hi ha cap esdeveniment que pugui fer que l'objecte retorni al seu estat d'inici, de la mateixa manera que no hi ha cap esdeveniment que pugui fer que un objecte surti del seu estat de final una vegada que l'ha assolit. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>Diagrama d'activitats</title>
+<para
+>Els diagrames d'activitats descriuen la seqüència d'activitats en un sistema amb l'ajuda d'activitats. Els diagrames d'activitats són una forma especial dels diagrames d'estats, que únicament (o principalment) contenen activitats. </para>
+<para>
+<screenshot>
+<screeninfo
+>Un exemple d'un diagrama d'activitats.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>L'&umbrello; mostrant un diagrama d'activitats</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>L'&umbrello; mostrant un diagrama d'activitats </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>Els diagrames d'activitats són semblants als diagrames de flux de procediments, amb la diferència que totes les activitats estan clarament vinculades a objectes.</para>
+
+<para
+>Els diagrames d'activitats sempre estan associats a una <emphasis
+>classe</emphasis
+>, una <emphasis
+>operació</emphasis
+> o un <emphasis
+>cas d'ús</emphasis
+>.</para>
+
+<para
+>Els diagrames d'activitats implementen les activitats seqüencials així com les paral·leles. L'execució en paral·lel es representa amb icones forquilla/espera, i per les activitats executant-se en paral·lel no és important l'ordre en què es duen a terme (poden executar-se a la mateixa vegada o una rere l'altra)</para>
+<sect3 id="activity">
+<title
+>Activitat</title>
+<para
+>Una activitat és un simple pas en un procés. Una activitat és un estat en el sistema amb activitat interna i, almenys, una transició sortint. Les activitats també poden tenir més d'una transició sortint, si tenen diferents condicions. </para
+> 
+<para
+>Les activitats poden formar jerarquies, això significa que una associació es pot compondre de diverses activitats «detallades», en aquest cas, les transicions sortints i entrants han de coincidir amb les transicions del diagrama detallat. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>Elements d'ajuda</title>
+<para
+>Hi ha uns pocs elements en &UML; que no tenen un valor semàntic real pel model, però ajuden a clarificar parts del diagrama. Els elements són </para>
+<itemizedlist>
+<listitem
+><para
+>Línies de text</para
+></listitem>
+<listitem
+><para
+>Notes de text i àncores</para
+></listitem>
+<listitem
+><para
+>Quadres</para
+></listitem>
+</itemizedlist
+>   
+<para
+>Les línies de text són útils per afegir texts curts d'informació a un diagrama. És text lliure i no té significat per al propi model. </para
+>           
+
+<para
+>Les notes són útils per afegir informació més detallada quant a un objecte o situació específica. Tenen un gran avantatge, ja que les notes es poden ancorar a elements &UML; per mostrar que la nota «pertany» a un objecte o situació específica. </para>
+
+<para
+>Els quadres són rectangles lliures que es poden usar per agrupar elements per fer els diagrames més llegibles. No tenen cap significat en el model.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>Diagrames de components</title>
+<para
+>Els diagrames de components mostren els components de programari (ja sigui les tecnologies de components com les KParts, els components CORBA o els Beans de Java o simplement seccions del sistema que són clarament distingibles) i els estris que estan fets d'ells com ara fitxers de codi font, biblioteques de programació o les taules de les bases de dades relacionals.</para>
+
+<para
+>Els components poden tenir interfícies (&ead; classes abstractes amb operacions) que permeten les associacions entre components.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>Diagrames de desplegament</title>
+
+<para
+>Els diagrames de desplegament mostren les instàncies de components en temps d'execució i les seves associacions. Inclouen els nodes que són els recursos físics, típicament un sol equip. També es mostren les interfícies i objectes (instàncies de classe).</para>
+
+</sect2>
+
+<sect2 id="entity-relationship-diagram">
+<title
+>Diagrames de relació d'entitats</title>
+
+<para
+>Els diagrames de relació d'entitats (diagrames ER) mostren el disseny conceptual d'aplicacions de base de dades. Representen les diferents entitats (conceptes) en el sistema d'informació i les relacions existents i les restriccions entre elles. Una extensió dels diagrames de relació d'entitats amb el nom «diagrama ampliat de relació reforçada» o «diagrama de relació d'entitats avançat» (EER), s'usen per incorporar tècniques de disseny orientades a objectes en els diagrames ER. </para
+> 
+<para>
+<screenshot>
+<screeninfo
+>Un exemple de diagrama de relació d'entitats.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Umbrello mostrant un diagrama de relació d'entitats</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Umbrello mostrant un diagrama de relació d'entitats </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="entity">
+<title
+>Entitat</title>
+<para
+>Una <emphasis
+>entitat</emphasis
+> és qualsevol concepte en el món real amb una existència independent. Poden ser un objecte amb existència física (per exemple un ordinador, robot) o poden ser un objecte amb una existència conceptual (p. ex. cursos de la universitat). Cada entitat té un conjunt d'atributs que descriuen les propietats de l'entitat. </para>
+<para
+><emphasis
+>Nota:</emphasis
+> No hi ha notacions estàndard per representar diagrames ER. Diferents textos sobre aquest tema utilitzen diferents notacions. Els conceptes i notacions per diagrames EER usats en Umbrello són del següent llibre: <emphasis
+>Elmasri R. i Navathe S. (2004). Fundamentals of Database Systems 4a edn. Addison Wesley</emphasis
+> </para>
+<para
+>En un diagrama ER, les entitats es representen amb rectangles, amb el nom de l'entitat en la part superior, i també poden mostrar els atributs de l'entitat en un altre «compartiment» dintre del rectangle. </para>
+<para>
+<screenshot>
+<screeninfo
+>Una entitat en un diagrama ER;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una entitat en un diagrama ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una entitat en un diagrama ER </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="entity-attribute">
+<title
+>Atributs de l'entitat</title>
+<para
+>En els diagrames ER, els atributs de les entitats es mostren amb el seu nom en un compartiment diferent de l'entitat a la qual pertanyen. </para>
+</sect4>
+<sect4 id="constraint">
+<title
+>Restriccions</title>
+<para
+>Les restriccions en els diagrames ER especifiquen les restriccions en les dades en l'esquema d'informació. </para>
+<para
+>Hi ha quatre tipus de restriccions permeses en Umbrello: <itemizedlist>
+ <listitem>
+    <para
+><emphasis
+>Clau primària:</emphasis
+> el grup d'atributs declarats com a <emphasis
+>clau primària</emphasis
+> són únics a l'entitat. Pot ser només una clau primària en una entitat i cap dels atributs que la constitueixen pot ser NULL. </para>
+</listitem>
+ <listitem>
+    <para
+><emphasis
+>Clau única:</emphasis
+> els grups d'atributs declarats com a <emphasis
+>únics</emphasis
+> són únics a l'entitat. Hi pot haver moltes restriccions úniques a l'entitat. Els atributs que la componen poden ser NULL. Les claus úniques i les claus primàries només identifiquen una fila en una taula (entitat)</para>
+ </listitem>
+ <listitem>
+    <para
+><emphasis
+>Clau externa:</emphasis
+> una clau externa és una restricció referencial entre dues taules. La clau externa identifica una columna o un grup de columnes en una (referència) taula que es refereix a una columna o conjunt de columnes en una altra (referenciada) taula. Les columnes a la taula referenciada han de formar una clau primària o clau única. </para>
+ </listitem>
+ <listitem>
+     <para
+><emphasis
+>Restricció de comprovació:</emphasis
+> una restricció de comprovació (també coneguda com a restricció de comprovació de taula) és una condició que defineix les dades vàlides en afegir o actualitzar una entrada en una taula d'una base de dades relacional. Una restricció de comprovació s'aplica a cada fila de la taula. La restricció ha de ser un predicat. Pot referir-se a una o múltiples columnes de la taula. </para>
+     <para
+>Exemple: preu 
+>= 0 </para>
+ </listitem>
+ </itemizedlist>
+</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="extended-entity-relationship-concepts">
+<title
+>Conceptes del diagrama de relació ampliada d'entitats (EER)</title>
+<sect3 id="specialization">
+<title
+>Especialització</title>
+<para
+>L'especialització és una manera de formar noves entitats usant entitats que ja s'han definit. Les noves entitats, conegudes com a entitats derivades, prenen (o hereten) atributs de les entitats preexistents, que són referenciades com a entitats base. El seu objectiu és ajudar a la reutilització de les dades existents amb poca o cap modificació.</para>
+<para
+>En Umbrello, es poden separar i superposar especialitzacions</para>
+ <sect4 id="disjoint-specialization">
+   <title
+>Separat d'especialització</title>
+   <para
+>El separat d'especialitzacions especifica que les subclasses de l'especialització s'han de separar. Això vol dir que una entitat només pot ser membre d'una de les entitats derivades de l'especialització</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entitats prenent part d'un separat d'especialització</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'un separat d'especialització en un diagrama EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'un separat d'especialització en un diagrama EER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+    </para>
+ </sect4>
+ <sect4 id="overlapping-specialization">
+   <title
+>Superposat d'especialització</title>
+   <para
+>Quan les entitats derivades no tenen restricció de separat, el seu conjunt d'entitats es diu que estan en l'especialització superposada. Això significa que la mateixa entitat del món real pot ser un membre de més d'una entitat derivada de l'especialització</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entitats prenent part d'una especialització superposada</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una especialització superposada en un diagrama EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una especialització superposada en un diagrama EER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+ <sect4 id="category">
+
+ <title
+>Categoria</title>
+ <para
+>Una entitat derivada es diu que és una <emphasis
+>categoria</emphasis
+> que representa una col·lecció d'objectes que és un subconjunt de la unió de diferents tipus d'entitats. Una categoria és modelada quan sorgeix la necessitat d'una única relació de superclasse/subclasse amb més d'una superclasse, on la superclasse representa diferents tipus d'entitats. (Com l'herència múltiple en la programació orientada a objectes). </para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entitats prenent part en una relació de categoria</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="category.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representació visual d'una categoria en un diagrama EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representació visual d'una categoria en un diagrama EER</para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+
+</sect3>
+</sect2>
+
+</sect1
+> 
+</chapter>

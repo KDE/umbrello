@@ -1,0 +1,76 @@
+<chapter id="other-features">
+<title
+>Autres fonctionnalités</title>
+<sect1
+> 
+<title
+>Autres fonctionnalités d'&umbrello;</title>
+<para
+>Ce chapitre aborde brièvement quelques autres fonctionnalités qu'&umbrello; vous offre.</para>
+<sect2 id="copying-as-png">
+<title
+>Copie d'objets en images PNG</title>
+<para
+>Outre la copie normale, qui vous permet de copier des objets entre des diagrammes différents, &umbrello; peut copier les objets en tant qu'images PNG, ce qui vous permet de les insérer dans tout type de documents. Aucune commande spéciale pour cela, sélectionnez simplement un objet dans un diagramme (classe, acteur, &etc;) et copiez le (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> ou en utilisant le menu), puis ouvrez un document &kword; (ou tout autre programme adéquat) et sélectionnez la commande <guimenuitem
+>coller</guimenuitem
+>. C'est une fonctionnalité très utile pour exporter des parties de vos diagrammes en simples images.  </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exporter comme image</title>
+<para
+>Vous pouvez également exporter un diagramme complet comme une image. Vous devez seulement sélectionner le diagramme que vous voulez exporter, puis l'option <guimenuitem
+>Exporter comme image</guimenuitem
+> du menu <guimenu
+>Diagramme</guimenu
+>. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Impression</title>
+<para
+>&umbrello; vous permet d'imprimer des diagrammes individuels. Cliquez sur le bouton <guibutton
+>Imprimer</guibutton
+> de la barre d'outils ou choisissez l'option <guimenuitem
+>Imprimer</guimenuitem
+> du menu <guimenu
+>Fichier</guimenu
+> pour obtenir la boîte de dialogue d'impression standard &kde; et de là imprimer vos diagrammes.  </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Dossiers logiques</title>
+<para
+>Afin de mieux organiser votre modèle, en particulier pour des projets volumineux, vous pouvez créer des dossiers logiques dans la vue en arborescence. Sélectionnez simplement l'option <menuchoice
+><guimenu
+>Nouveau</guimenu
+><guimenuitem
+>Dossier</guimenuitem
+></menuchoice
+> depuis le menu contextuel des dossiers. Les dossiers peuvent être imbriqués, et vous pouvez les bouger par simple glisser-déplacer d'un dossier à un autre. </para>
+
+<screenshot>
+<screeninfo
+>Organiser votre modèle grâce aux dossiers</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organiser un modèle grâce aux dossiers logiques dans &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organiser un modèle grâce aux dossiers logiques dans &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

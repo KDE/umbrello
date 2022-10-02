@@ -1,0 +1,401 @@
+<chapter id="working-with-umbrello">
+<title
+>Treballant amb l'&umbrello;</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>Aquest capítol us presentarà la interfície d'usuari del l'&umbrello; i us explicarà tot el que necessiteu conèixer per començar amb el modelatge. Totes les accions en l'&umbrello; són accessibles a través del menú i les barres d'eines, però l'&umbrello; també fa un ús intensiu dels menús contextuals del &BDR;. Podeu clicar amb el &BDR; en la majoria d'elements en l'àrea de treball de l'&umbrello; o en la vista en arbre per obtenir un menú amb les funcions més útils que poden ser aplicades a l'element particular sobre el qual esteu treballant. Alguns usuaris troben això una mica confús al començament perquè estan més familiaritzats a treballar amb el menú o les barres d'eines, però una vegada que us acostumeu a clicar amb el &BDR; accelerarà el vostre treball. </para>
+
+<sect1 id="user-interface">
+<title
+>Interfície d'usuari</title>
+<para
+>La finestra principal de l'&umbrello; està dividida en tres àrees que us ajuden a mantenir una vista general del vostre sistema sencer i accedir als diferents diagrames de manera ràpida mentre treballeu en el vostre model. </para>
+<para
+>Les tres àrees s'anomenen:</para>
+<itemizedlist>
+<listitem
+><para
+>Vista en arbre</para
+></listitem>
+<listitem
+><para
+>Àrea de treball</para
+></listitem>
+<listitem
+><para
+>Finestra Documentació i Historial d'ordres</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>La interfície d'usuari de l'&umbrello;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>La interfície d'usuari de l'&umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>La interfície d'usuari de l'&umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Vista en arbre</title>
+<para
+>La vista en arbre està ubicada normalment en la part superior esquerra de la finestra i mostra la totalitat dels diagrames, classes, actors i els casos d'ús que construeixen el model. La vista en arbre us permet obtenir una vista general ràpida dels elements que componen el model. La vista en arbre també us dona un accés ràpid per commutar entre els diferents diagrames del model i inserir elements del model en el diagrama actual. </para>
+<para
+>Si esteu treballant en un model amb alguna cosa més que unes poques classes i diagrames la vista en arbre us pot ajudar a estar a sobre de les coses organitzant els elements del model en carpetes. Podeu crear carpetes seleccionant l'opció apropiada del menú contextual (clic amb el &BDR; en una de les carpetes de la vista en arbre) i podeu organitzar els elements movent-los a la carpeta apropiada (arrossegant i deixant anar) </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Finestra Documentació i Historial d'ordres</title>
+<para
+>Les finestres Documentació i Historial d'ordres són la petita finestra ubicada a la part inferior esquerra de l'&umbrello; i us dona una vista prèvia ràpida de la documentació per l'element actualment seleccionat i l'historial d'ordres de la sessió de treball. La finestra de documentació és més aviat petita perquè està pensada simplement perquè pugueu donar una ullada a la documentació de l'element i al resum de l'historial d'ordres prenent l'espai mínim possible de la pantalla. Si necessiteu veure la documentació més detalladament, sempre podeu obrir les propietats de l'element. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Àrea de treball</title>
+<para
+>L'àrea de treball és la finestra principal en l'&umbrello; i és on es du a terme l'acció real. Usareu l'àrea de treball per editar i visualitzar els diagrames en el model. L'àrea de treball mostra el diagrama actiu actualment. Actualment només es pot visualitzar un diagrama alhora en l'àrea de treball. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Creació, càrrega i desat dels models</title>
+<para
+>La primera cosa que necessiteu per començar a fer alguna cosa útil amb l'&umbrello; és crear un model on treballar. En iniciar l'&umbrello; sempre carrega el darrer model usat o crea un nou, model buit (depenent del vostre arranjament establert en el diàleg de configuració). Això us permetrà començar a treballar immediatament. </para>
+<sect2 id="new-model">
+<title
+>Model nou</title>
+<para
+>Si necessiteu crear un model nou, ho podeu fer seleccionant l'entrada <guimenuitem
+>Nou</guimenuitem
+> del menú <guimenu
+>Fitxer</guimenu
+>, o clicant en la icona <guiicon
+>Nou</guiicon
+> de la barra d'eines de l'aplicació. Si actualment esteu treballant en un model que ha estat modificat l'&umbrello; us demanarà si voleu desar els canvis abans de carregar el model nou.  </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Desat del model</title>
+<para
+>Podeu desar el model en qualsevol moment seleccionant l'opció <guimenuitem
+>Desa</guimenuitem
+> del menú <guimenu
+>Fitxer</guimenu
+> o clicant el botó <guiicon
+>Desa</guiicon
+> de la barra d'eines de l'aplicació. Si necessiteu desar el model sota un nom diferent, podeu usar l'opció <guimenuitem
+>Desa com a...</guimenuitem
+> del menú <guimenu
+>Fitxer</guimenu
+>. </para>
+<para
+>Per la vostra comoditat l'&umbrello; també us ofereix l'opció de desar automàticament la feina cada cert període de temps. Podeu configurar si voleu aquesta opció així com els intervals de temps en <guimenu
+>Arranjament</guimenu
+> de l'&umbrello;</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Càrrega d'un model</title>
+<para
+>Per carregar un model que ja existeix podeu seleccionar l'opció <guimenuitem
+>Obre</guimenuitem
+> del menú <guimenu
+>Fitxer</guimenu
+> o clicar en la icona <guiicon
+>Obre</guiicon
+> de la barra d'eines de l'aplicació. Els models usats més recentment també són disponibles sota el submenú <guimenuitem
+>Obre recent</guimenuitem
+> en el menú <guimenu
+>Fitxer</guimenu
+> per accelerar l'accés als models usats més freqüentment. </para>
+<para
+>L'&umbrello; només pot treballar en un model alhora, de manera que si demaneu al programa que carregui un model i el model actual ha estat modificat des de la darrera vegada que l'heu desat, l'&umbrello; preguntarà si s'han de desar els canvis per evitar qualsevol pèrdua de treball. També podeu iniciar dues o més instàncies de l'&umbrello; alhora, de manera que pugueu copiar i enganxar entre ambdues instàncies. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Edició dels models</title>
+<para
+>En l'&umbrello;, hi ha bàsicament dues maneres d'editar els elements del model. <itemizedlist>
+<listitem
+><para
+>Editar els elements del model directament a través de la vista en arbre</para
+></listitem>
+<listitem
+><para
+>Editar els elements a través d'un diagrama</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Usant el menú contextual dels diferents elements en la vista en arbre podreu afegir, eliminar, i modificar la majoria dels elements del model. Clicant amb el botó <mousebutton
+>Dret</mousebutton
+> en les carpetes en la vista d'arbre se us donarà opcions per crear els diferents tipus de diagrames així com, depenent de si la carpeta és una <emphasis
+>Vista de casos d'ús</emphasis
+> o una <emphasis
+>Vista lògica</emphasis
+>, els actors, els casos d'ús, les classes, etc. </para>
+<para
+>Una vegada que heu afegit elements al model també podeu editar un element accedint al seu diàleg de propietats, que trobareu seleccionant l'opció <emphasis
+>Propietats</emphasis
+> del menú contextual mostrat en clicar amb el botó <mousebutton
+>dret</mousebutton
+> en els elements en la vista en arbre. </para>
+<para
+>També podeu editar el model creant o modificant elements a través dels diagrames. Es donen més detalls de com fer això en les següents seccions. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Afegir o eliminar diagrames</title>
+<para
+>El model &UML; consisteix en un conjunt d'elements &UML; i les associacions entre ells. No obstant això no podeu veure el model directament, heu d'usar els <emphasis
+>Diagrames</emphasis
+> per veure'l. </para>
+<sect2 id="create-diagram">
+<title
+>Creació de diagrames</title>
+<para
+>Per crear un nou diagrama en el model simplement seleccioneu el tipus de diagrama que necessiteu des del submenú <guimenuitem
+>Nou</guimenuitem
+> en el menú <guimenu
+>Diagrama</guimenu
+> i donar-li un nom. El diagrama serà creat i activat, i podreu veure'l immediatament en la vista en arbre. </para>
+<para
+>Recordeu que l'&umbrello; fa extensiu l'ús dels menús contextuals: també podeu clicar amb el &BDR; en una carpeta en la vista en arbre i seleccionar el tipus de diagrama apropiat del submenú <guisubmenu
+>Nou</guisubmenu
+> en el menú contextual. Noteu que podeu crear diagrames de casos d'ús només en les carpetes de vista de casos d'ús, i els altres tipus de diagrames només es poden crear en les carpetes de vista lògica. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Eliminar diagrames</title>
+<para
+>Si necessiteu eliminar un diagrama del model, podeu fer-ho activant-lo i seleccionant <guimenuitem
+>Suprimeix</guimenuitem
+> del menú <guimenu
+>Diagrama</guimenu
+>. També podeu aconseguir això seleccionant <guimenuitem
+>Suprimeix</guimenuitem
+> del menú contextual dels diagrames en la vista en arbre </para>
+<para
+>Com que suprimir un diagrama és una cosa seriosa que pot causar la pèrdua de treball si es fa accidentalment, l'&umbrello; us demanarà que confirmeu l'operació de supressió abans d'eliminar realment el diagrama. Una vegada que s'hagi suprimit un diagrama i s'hagi desat el fitxer no hi ha forma de desfer l'acció. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Reanomenar els diagrames</title>
+<para
+>Si voleu canviar el nom d'un diagrama existent, podeu fer-ho fàcilment seleccionant l'opció Reanomena del seu menú &BDR; en la vista en arbre. </para>
+<para
+>Una altra manera de reanomenar un diagrama és fer-ho a través del seu diàleg de propietats, que podeu obtenir seleccionant Propietats del seu menú contextual o fent-hi doble clic en la vista en arbre. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Edició de diagrames</title>
+<para
+>En treballar amb un diagrama, l'&umbrello; intentarà guiar-vos aplicant algunes regles simples sobre quins elements són vàlids en els diferents tipus de diagrames, així com les relacions que poden existir entre ells. Si sou un expert en &UML; probablement no ho notareu mai, però això ajuda als novicis de &UML; a crear diagrames d'acord amb l'estàndard. </para>
+<para
+>Una vegada que heu creat els vostres diagrames és l'hora d'editar-los. Aquí cal fixar-se en la diferència (per als principiants subtil) entre l'edició del diagrama i l'edició del <emphasis
+>model</emphasis
+>. Com ja sabeu els diagrames són <emphasis
+>vistes</emphasis
+> del model. Per exemple, si creeu una classe editant el diagrama de classes, esteu realment editant ambdós, el diagrama i el model. Si canvieu el color o altres opcions de visualització d'una classe en el diagrama de classes, només esteu editant el diagrama, però no canvia res en el model. </para>
+<sect2 id="insert-elements">
+<title
+>Inserció d'elements</title>
+<para
+>Una de les primeres coses que heu de fer en editar un nou diagrama és inserir elements (classes, actors, casos d'ús, &etc;). Hi ha bàsicament dues maneres de per això:</para>
+<itemizedlist>
+<listitem
+><para
+>Arrossegar i deixar anar elements en el model des de la vista en arbre</para
+></listitem>
+<listitem
+><para
+>Crear nous elements en el model i afegir-los al diagrama alhora, usant una de les eines d'edició de la barra d'eines de treball</para
+></listitem>
+</itemizedlist>
+<para
+>Per inserir elements que ja existeixen en el model, simplement arrossegueu-los de la vista en arbre i deixeu-los anar on vulgueu en el diagrama. Sempre podeu moure elements en el diagrama usant l'eina de selecció </para>
+<para
+>La segona manera d'afegir elements als diagrames és usant les eines d'edició de la barra d'eines de treball (noteu que això també afegeix els elements al model). </para>
+<para
+>La barra d'eines de treball era ubicada per omissió a la part superior de la finestra. Les eines disponibles en aquesta barra d'eines (els botons que podeu veure) canvien depenent del tipus de diagrama en el qual esteu treballant actualment. El botó per l'eina actual està activat en la barra d'eines. Podeu canviar a l'eina de selecció prement la tecla &Esc;. </para>
+<para
+>Quan hàgiu seleccionat una eina d'edició des de la barra d'eines de treball (per exemple, l'eina per inserir classes) el punter del ratolí canvia a una creu, i podeu inserir elements en el model amb un clic simple en el diagrama. Noteu que els elements en &UML; han de tenir un <emphasis
+>nom únic</emphasis
+>. Per tant, si teniu una classe en un altre diagrama el nom de la qual és «ClasseA» i useu l'eina d'inserir classes en una altre diagrama no podeu usar aquest nom «ClasseA» per a la nova classe. Si se suposa que aquests són dos elements diferents, heu de donar-hi un nom únic. Si esteu intentant afegir el mateix element al diagrama, l'eina Insereix classe no és la correcta per a això. En lloc d'això heu d'arrossegar i deixar anar la classe des de la vista en arbre. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Suprimir elements</title>
+<para
+>Podeu suprimir qualsevol element seleccionant l'opció <guimenuitem
+>Suprimeix</guimenuitem
+> del seu menú contextual. </para>
+<para
+>De nou, hi ha una <emphasis
+>gran</emphasis
+> diferència entre eliminar un objecte d'un diagrama, i suprimir un objecte del model: si esborreu un objecte des d'un diagrama, només esteu eliminant l'objecte per aquest diagrama en particular: l'element encara serà part del model i si hi ha altres diagrames usant el mateix element, no patiran cap canvi. Si d'altra banda, esborreu l'element de la vista en arbre, l'esteu esborrant realment del <emphasis
+>model</emphasis
+>. Com que l'element ja no existeix en el model, serà eliminat automàticament de tots els diagrames en què aparegui. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Edició dels elements</title>
+<para
+>Podeu editar la majoria dels elements &UML; en el model i els diagrames obrint el seu diàleg de propietats i seleccionant l'opció apropiada. Per editar les propietats d'un objecte, seleccioneu <guimenuitem
+>Propietats</guimenuitem
+> del seu menú contextual (clic &BDR;). Cada element té un diàleg que consisteix en diverses pàgines on podeu configurar les opcions corresponents a aquest element. Per alguns elements, com ara els actors, només podeu establir un conjunt d'opcions, com ara el nom de l'objecte i la documentació, mentre que per altres elements, com ara les classes, podeu editar els atributs i les operacions, seleccioneu que voleu que es mostri en el diagrama (tota la signatura de l'operació o només els noms de les operacions, etc) i també els colors que voleu usar per a la línia i el farciment de la representació de la classe en el diagrama. </para>
+
+<para
+>Pels elements &UML; també podeu obrir el diàleg de propietat fent-hi doble clic si esteu usant l'eina de selecció (la fletxa). </para>
+
+<para
+>Noteu que també podeu seleccionar l'opció de propietats des del menú contextual dels elements en la vista en arbre. Això us permet també editar les propietats dels diagrames, coma ara establir si s'ha de mostrar la graella o no. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Edició de les classes</title>
+<para
+>Tot i que l'edició de les propietats de tots els objectes ja s'ha tractat en la secció anterior, reservem una secció especial a les classes perquè són una mica més complicades i tenen més opcions que la majoria dels altres elements &UML;. </para>
+<para
+>En el diàleg de propietats d'una classe podeu establir-ho tot, des del color que usa a les operacions i atributs que té. </para>
+<sect3 id="class-general-settings">
+<title
+>Arranjament general de la classe</title>
+<para
+>La pàgina d'opcions generals del diàleg de propietats s'explica per si mateixa. Aquí podeu canviar el nom de la classe, la visibilitat, la documentació, &etc;. Aquesta pàgina sempre està disponible. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Arranjament dels atributs de la classe</title>
+<para
+>En la pàgina d'arranjament dels atributs podeu afegir, editar o suprimir atributs (variables) de la classe. Podeu desplaçar els atributs amunt i avall de la llista prement els botons de fletxa del costat. Aquesta pàgina sempre està disponible. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Arranjament de les operacions de la classe</title>
+<para
+>De manera similar a la pàgina d'arranjament d'atributs, en la pàgina d'operacions podeu afegir, editar o eliminar operacions per a la classe. En afegir o editar una operació, introduïu les dades en el diàleg <emphasis
+>Propietats de l'operació</emphasis
+>. Si voleu afegir paràmetres a l'operació, heu de clicar el botó <guibutton
+>Paràmetre nou...</guibutton
+>, que mostrarà el diàleg <emphasis
+>Propietats del paràmetre</emphasis
+>. Aquesta pàgina sempre està disponible </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Arranjament de les plantilles de la classe</title>
+<para
+>Aquesta pàgina us permet afegir plantilles de classe que són les classes no especificades o tipus de dades. En Java 1.5 s'anomenen genèriques. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Pàgina de les associacions de la classe</title>
+<para
+>La pàgina <guilabel
+>Associacions de la classe</guilabel
+> mostra totes les associacions d'aquesta classe en el diagrama actual. Fent doble clic en una associació es mostren les seves propietats, i depenent del tipus de l'associació podeu modificar alguns paràmetres com ara establir la multiplicitat i el nom del rol. Si l'associació no permet que es modifiquin aquestes opcions, el diàleg de propietats de l'associació és de només lectura i només podeu modificar la documentació associada amb aquesta associació. </para>
+<para
+>Aquesta pàgina només està disponible si obriu les propietats de la classes des d'un diagrama. Si seleccioneu les propietats de la classe des del menú contextual de la vista en arbre, aquesta pàgina no està disponible. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Pàgina de visualització de la classe</title>
+<para
+>En la pàgina <guilabel
+>Opcions de visualització</guilabel
+>, podeu establir que és el que es mostrarà en el diagrama. Una classe pot ser mostrada com a només un rectangle amb el nom de la classe (útil si teniu moltes classes en el diagrama, o de moment no esteu interessat en els detalls de cada classe) o com a una visualització completa mostrant els paquets, estereotips, i atributs i operacions amb signatura i visibilitat completes  </para>
+<para
+>Depenent de la quantitat d'informació que voleu veure podeu seleccionar les opcions corresponents en aquesta pàgina. Els canvis que feu aquí només són <emphasis
+>opcions de visualització</emphasis
+> pel diagrama. Això significa que «ocultar» les operacions d'una classe només fa que no es mostrin en el diagrama, però l'operació encara és part del model. Aquesta opció només està disponible si seleccioneu les propietats de la classe des del diagrama. Si obriu les propietats de la classe des de la vista en arbre aquesta pàgina no hi és, ja que aquestes opcions de visualització no tenen sentit en aquest cas</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Pàgina estil de la classe</title>
+<para
+>A la pàgina <guilabel
+>Estil del giny</guilabel
+> podeu configurar els colors que voleu per la línia i el farciment del giny. Aquesta opció òbviament només té sentit per les classes mostrades en els diagrames, i no hi és si obriu el diàleg de propietats de la classe des de la vista en arbre. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Associacions</title>
+<para
+>Les associacions relacionen dos objectes &UML; l'un a l'altre. Normalment les associacions es defineixen entre dues classes, però també poden existir alguns tipus d'associacions entre casos d'ús i actors. </para>
+<para
+>Per crear una associació seleccioneu l'eina apropiada de la barra d'eines de treball (associació genèrica, generalització, agregació, &etc;) i cliqueu en el primer element que participa de l'associació i després cliqueu en el segon element que participa. Noteu que aquests dos clics, un en cada un dels objectes que participen de l'associació, <emphasis
+>no</emphasis
+> és arrossegar un objecte i deixar-lo anar en l'altre. </para>
+<para
+>Si intenteu usar una associació d'una manera contrària a l'especificació &UML; l'&umbrello; rebutjarà crear l'associació i obtindreu un missatge d'error. Aquest és el cas, si per exemple, existeix una generalització des de la classe A a la classe b I intenteu crear una altra generalització des de la classe B a la classe A </para>
+<para
+>Clicant amb el botó <mousebutton
+>Dret</mousebutton
+> en una associació es mostrarà un menú de context amb les accions que hi podeu aplicar. Si necessiteu suprimir una associació, simplement seleccioneu l'opció <guimenuitem
+>Suprimeix</guimenuitem
+> del seu menú contextual. També podeu seleccionar l'opció <guimenuitem
+>Propietats</guimenuitem
+> i, depenent del tipus d'associació, editar els atributs com ara els rols i les multiplicitats. </para>
+<sect3 id="anchor-points">
+<title
+>Punts d'ancoratge</title>
+<para
+>Les associacions es dibuixen, per omissió, com una línia fina que connecta els dos objectes en el diagrama. </para>
+<para
+>Podeu afegir punts d'ancoratge per doblegar una associació fent <mousebutton
+>doble</mousebutton
+> clic en algun punt de la línia de l'associació. Això inserirà un punt d'ancoratge (mostrat com un punt blau quan se selecciona la línia de l'associació) que podeu moure per donar forma a l'associació </para>
+<para
+>Si necessiteu eliminar un punt d'ancoratge, feu-hi un <mousebutton
+>doble</mousebutton
+> clic de nou per eliminar-lo </para>
+<para
+>Noteu que l'única manera d'editar les propietats d'una associació és a través del menú contextual. Si intenteu fer-hi <mousebutton
+>doble</mousebutton
+> clic com amb els altres objectes &UML;, això només inserirà un punt d'ancoratge. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Notes, text i quadres</title>
+<para
+>Les notes, les línies de text i els quadres són elements que poden estar presents en qualsevol tipus de diagrama, però sense tenir un valor semàntic real, són molt útils per afegir comentaris extres o explicacions que poden fer el diagrama més fàcil d'entendre. </para>
+<para
+>Per afegir una nota o una línia de text, seleccioneu l'eina corresponent de la barra d'eines de treball i cliqueu en el diagrama on voleu posar el comentari. Podeu editar el text obrint l'element a través del seu menú contextual o en el cas de les notes, també fent-hi <mousebutton
+>doble</mousebutton
+> clic. </para>
+<sect3 id="anchors">
+<title
+>Àncores</title>
+<para
+>Les àncores s'usen per enllaçar una nota de text i un altre element &UML;. Per exemple, normalment s'usa una nota de text per explicar o fer algun comentari quant a una classe o una associació en particular, en aquest cas useu l'àncora per deixar clar que la nota «pertany» a aquest element en particular. </para>
+<para
+>Per afegir una àncora entre una nota i un altre element &UML;, useu l'eina d'àncora de la barra d'eines de treball. Primer heu de clicar en la nota i després en l'element &UML; que voleu enllaçar a la nota. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

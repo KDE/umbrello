@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Andere mogelijkheden</title>
+<sect1
+> 
+<title
+>Andere &umbrello; mogelijkheden</title>
+<para
+>Dit hoofdstuk beschrijft kort enkele andere mogelijkheden van &umbrello;.</para>
+<sect2 id="copying-as-png">
+<title
+>Objecten als PNG-afbeeldingen kopieëren</title>
+<para
+>Los van het gebruikelijke kopiëren, knippen en plakken om objecten te kopiëren tussen verschillende diagramme, kan &umbrello; objecten ook kopiëren als PNG-afbeeldingen zodat u ze kunt invoegen in een ander type document. U hoeft niets byzonders te doen hiervoor. Selecteer simpelweg een object van een diagram (Class, Actor, &etc;) en kopieer deze (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, of gebruik het menu), open vervolgens een <application
+>Calligra Words</application
+>-document (of een ander programma waarin je afbeeldingen kunt plakken) en selecteer <guimenuitem
+>Plakken</guimenuitem
+>. Op deze wijze kunt u sommige delen van uw diagram als simpele afbeeldingen hergebruiken. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exporteren als een afbeelding</title>
+<para
+>U kunt ook een compleet diagram exporteren als afbeelding. Het enige dat u hiervoor hoeft te doen is om het diagram te selecteren dat u wilt exporteren en vervolgens de menu-ingang <guimenuitem
+>Als afbeelding exporteren...</guimenuitem
+> te gebruiken uit het menu <guimenu
+>Diagram</guimenu
+>. </para>
+<para
+>U kunt meerdere diagrammen tegelijk exporteren met de optie <guimenuitem
+>Diagrammen als afbeeldingen exporteren...</guimenuitem
+> uit het menu <guimenu
+>bestand</guimenu
+>. Hiermee kunt u ook de resolutie van de afbeelding instellen, zodat de afbeeldingen niet erg wazig zullen zijn. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Afdrukken</title>
+<para
+>&umbrello; maakt het mogelijk om individuele diagrammen af te drukken. Druk op het icoon <guiicon
+>Afdrukken</guiicon
+> in de werkbalk of selecteer <guimenuitem
+>Afdrukken</guimenuitem
+> uit het menu <guimenu
+>Bestand</guimenu
+>. U krijgt dan het standaard KDE Afdrukken-venster, vanwaar u uw diagram kunt afdrukken. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Logische mappen</title>
+<para
+>Om uw model in te delen, met name in grotere projecten, kunt u logische mappen aanmaken in de boomstructuur. Om ze te maken, selecteert u de keuzemogelijkheid <menuchoice
+><guimenu
+>Nieuw</guimenu
+><guimenuitem
+>Map</guimenuitem
+></menuchoice
+> in het contextmenu van de standaard mappen in de boomstructuur. Mappen kunnen genest zijn, en u kunt objecten heen en weer verplaatsen door ze van de ene map weg te slepen en ze in de andere te laten vallen. </para>
+
+<screenshot>
+<screeninfo
+>Uw model indelen met mappen</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Uw model indelen met logische mappen in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Uw model indelen met logische mappen in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

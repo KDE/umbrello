@@ -1,0 +1,78 @@
+<chapter id="other-features">
+<title
+>Outros Recursos</title>
+<sect1
+> 
+<title
+>Outros Recursos do &umbrello;</title>
+<para
+>Este capítulo explanará sumariamente alguns outros recursos que o &umbrello; lhe oferece.</para>
+<sect2 id="copying-as-png">
+<title
+>Copiar objetos como imagens PNG</title>
+<para
+>Além de lhe oferecer as funcionalidades normais de copiar, cortar e colar que você espera para copiar objetos entre diagramas diferentes, o &umbrello; pode copiar os objetos como figuras PNG de modo que você possa inseri-las em outro tipo de documento. Você não precisa fazer nada em especial para usar este recurso, apenas selecione um objeto de um diagrama (Classe, Ator, &etc;) e copie-o (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, ou usando o menu), e então abra um documento do <application
+>Calligra Words</application
+> (ou qualquer programa para o qual você possa colar imagens) e selecione <guimenuitem
+>Colar</guimenuitem
+>. Este é um grande recurso para exportar partes de seu diagrama como simples figuras. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exportando para uma Imagem</title>
+<para
+>Você pode também exportar um diagrama completo como uma imagem. A única coisa que você precisa fazer é selecionar o diagrama que você deseja exportar, e então a opção <guimenuitem
+>Exportar como Figura...</guimenuitem
+> no menu <guimenu
+>Diagrama</guimenu
+>. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Imprimindo</title>
+<para
+>O &umbrello; permite imprimir diagramas individuais. Pressionar o botão <guiicon
+>Imprimir</guiicon
+> na barra de ferramentas do aplicativo ou selecionar a opção <guimenuitem
+>Imprimir</guimenuitem
+> no menu <guimenu
+>Arquivo</guimenu
+> lhe trará o diálogo padrão de impressão do &kde; a partir do qual você pode imprimir seus diagramas. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Pastas Lógicas</title>
+<para
+>Para melhor organizar o seu modelo, especialmente para grandes projetos, você pode criar pastas lógicas na Visão de Árvore. Apenas selecione a opção <menuchoice
+><guimenu
+>Nova</guimenu
+><guimenuitem
+>Pasta</guimenuitem
+></menuchoice
+> no menu de contexto das pastas padrão na Visão de Árvore para criá-las. Pastas podem ser aninhadas, e você pode mover objetos arrastando-os de uma pasta e soltando-os em outra. </para>
+
+<screenshot>
+<screeninfo
+>Organizando seu Modelo com Pastas</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organizando um Modelo com Pastas Lógicas no &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organizando um Modelo com Pastas Lógicas no &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

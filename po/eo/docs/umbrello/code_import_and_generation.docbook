@@ -1,0 +1,163 @@
+<chapter id="code-import-generation">
+<title
+>Kod-Importo kaj Kod-Produktado</title>
+<para
+>&umbrello; estas &UML; modelilo, kaj tial ĝia ĉefa intenco estas helpi vin en la <emphasis
+>analizo kaj desegno</emphasis
+> de viaj sistemoj. Tamen, por fari la transiron inter via desegno kaj via <emphasis
+>efektivigo</emphasis
+>, &umbrello; permesas al vi produkti fontkodon en diversaj programlingvoj kiel starthelpo. Ankaŭ, se vi volas komenci uzi &UML; en jam komencita C++ projekto, &umbrello; povas helpi vin krei modelon de via sistemo ekde la fontkodo per analizado de via fontkodo kaj importado de la klasoj trovataj en ĝi. </para>
+<sect1 id="code-generation">
+<title
+>Kodgenerado</title>
+<para
+>&umbrello; povas generi fontkodon por diversaj programlingvoj surbaze de via &UML; Modelo por helpi vin komencit kun la efektivigo de via projekto. La kodo produktata konsistas el la klasdeklaroj kun iliaj metodoj kaj atribuoj tiel ke vi povas  <quote
+>plenigi la truojn</quote
+> provizante la funkciadon de la operacioj de viaj klasoj. </para>
+<para
+>&umbrello; 1.2 enhavas kodgeneran subtenon por ActionScript, Ada, C++, CORBA IDL, &Java;, JavaScript, <acronym
+>PHP</acronym
+>, Perl, Python, SQL kaj XMLSchema. </para>
+<sect2 id="generate-code">
+<title
+>Generi Kodon</title>
+<para
+>Por generi kodon kun &umbrello;, vi unue devas estigi aŭ ŝarĝi Modelo enhavanta almenaŭ unu klason. Kiam vi estas preta komenci skribi iun kodon, elektu la eniron<guimenuitem
+>Kodgenera Sorĉisto</guimenuitem
+> de la menuo <guimenuitem
+>Kodo</guimenuitem
+> por starti sorĉiston kiu gvidos vin tra la kodgenera procedo. </para>
+<para
+>La unua paŝo estas elekti la klasojn por kiuj vi volas produkti fontkodon. Aŭtomate ĉiuj klasoj de via modelo estas elektataj, kaj vi povas forigi tiujn, por kiuj vi ne volas generi kodon movanta ilin al la maldekstroflanka listo. </para>
+<para
+>La sekvonta paŝo de la sorĉisto permesas al vi modifi la parametrojn uzatajn de la Kodgeneratoro dum kiam ĝi skribas viajn kodkadrojn. La sekvontaj elektoj estas disponeblaj: </para>
+<para>
+<screenshot>
+<screeninfo
+>Code Generation Options</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Opcioj por la kodgenerado en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Opcioj por la kodgenerado en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Generadaj Opcioj</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Komentemo</title>
+<para
+>La elekto <guilabel
+>Skribi dokumentarajn rimarkojn eĉ se malplenaj</guilabel
+> instruas la kodgeneratoron skribi rimarkojn de stilo /** blah */ eĉ se la rimarkobloko estas malplena. Se vi almetis dokumentaron al viaj klasoj, metodoj aŭ atributoj en via modelo, la kodgeneratoro skribos ĉi tiujn rimarkojn kiel <application
+>Doxygen</application
+> dokumentaron senkonsidere de kion vi fiksis tie ĉi, sed se vi elektas ĉi tiun opcion &umbrello; skribos rimarkan blokon por ĉiuj klasoj, metodoj kaj atributoj eĉ se ne estas dokumentaro en la Modelo. Tiukaze vi dokumentus viajn klasojn poste rekte en la fontkodo. </para>
+<para
+><guilabel
+>Skribi rimarkojn por sekcioj eĉ se sekcio estas malplena</guilabel
+> kaŭzas ke &umbrello; skribas rimarkojn en la fontkodon por disdividi la limojn de la diversaj sekcioj de klaso. Ekzemple <quote
+>publikaj metodoj</quote
+> or <quote
+>atributoj</quote
+> antaŭ la korespondaj sekcioj. Se vi elektas ĉi tiun opcion &umbrello; skribos rimarkojn por ĉiuj sekcioj de la klaso eĉ se la sekcio estas malplena. Ekzemple, ĝi skribus rimarkon dirantan <quote
+>protektitaj metodoj</quote
+> eĉ se ne estas protektitaj metodoj en via klaso. </para>
+</sect4>
+<sect4>
+<title
+>Tekoj</title>
+<para
+><guilabel
+>Skribi ĉiujn generitajn dosierojn al teko</guilabel
+>. Tie ĉie vi devus elekti la tekon kien vi deziras ke &umbrello; metu la generitajn fontkodojn. </para>
+<para
+>La elekto <guilabel
+>Inkluzivi titoldosieron de teko</guilabel
+> permesas al vi al enigi titolkomentan blokon je la komenco de ĉiu generita dosiero. Titoldosieroj povas enhavi kopirajton aŭ licensajn informojn kaj povas enhavi variablojn kiuj estas taksitaj dum generadotempo. Vi povas ekrigardi la ŝablonajn titoldosierojn ekspeditaj kun &umbrello; por vidi kiel uzi ĉi tiujn variablojn por anstataŭigi vian nomon aŭ la aktualan daton dum generadtempo. </para>
+</sect4>
+<sect4>
+<title
+>Superskriba Politiko</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Ĉi tiu elekto instruas al &umbrello; kion fari se la dosiero kiun ĝi volas krei jam ekzistas en la celloka teko. &umbrello; <emphasis
+>ne kapablas modifi ekzistantajn fontodosierojn</emphasis
+>, tiel vi devas elekt inter superskribi la ekzistantan dosieron, preterpasi la generadon de tiu aparta dosiero aŭ lasi ke &umbrello; elektu malsaman dosiernomon. Se vi elektas la opcion por uzi malsaman nomon, &umbrello; almetos sufikson al la dosiernomo. </para>
+</sect4>
+<sect4>
+<title
+>Programlingvo</title>
+<para
+>&umbrello; aŭtomate generos kodon en la programlingvo kiun vi elektis kiel Aktiva Lingvo, sed kun la Kodgenera Sorĉisto vi havas la elekton ŝanĝi ĉi tiun al alia programlingvo. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Generado far Kodgenera Sorĉisto</title>
+<para
+>La tria kaj fina paŝo de la sorĉisto montras la statuson de la kodgenera procedo. Vi bezonas sole musklaki al la Generi butono por ekhavi ke viaj klasdeklaroj estu skribitaj por vi. </para>
+<para
+>Rimarku ke la opcioj kiujn vi elektas en la Kodgenera Sorĉisto estas sole validaj por la aktuala generado. Kiam denove vi alvokos la sorĉiston vi devos reselekti ĉiujn opciojn (vian titolkomentan tekon, superskriban politikon, kaj tiel plu). Vi povas fiksi la difoltojn uzatajn de &umbrello; en la sekcio <guilabel
+>Kodgenerado</guilabel
+> de la &umbrello; fiksaĵoj, haveblaj ĉe <menuchoice
+><guimenu
+>Fiksaĵoj</guimenu
+><guimenuitem
+>Konfiguri &umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Se vi fiksis viajn kodgenerajn opciojn al la dezirataj elektoj kaj volas generi iun kodon tuj sen trairi la sorĉiston, vi povas elekti la tutan <guimenuitem
+>Generi Ĉiun Kodon</guimenuitem
+> de la menuo Kodo. Ĉi tio generos kodon por ĉiuj klasoj en via modelo uzante la aktualajn fiksaĵojn (interalie Celteko kaj Superskriba Politiko, tial uzu kun zorgemo). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Kodimporto</title>
+<para
+>&umbrello; povas importi fontkodon de viaj nunaj projektoj por helpi vin konstrui modelo de viaj sistemoj. &umbrello; 1.2 subtenas sole C++ fontkodon, sed aliaj programlingvoj devus esti disponeblaj en estontaj versioj. </para>
+<para
+>Por importi klasojn en vian Modelon, elektu la eniron <guimenuitem
+>Importi Klasojn...</guimenuitem
+> de la menuo <guimenu
+>Kodo</guimenu
+>. En la dosierdialogo selektu la dosierojn enhavantaj la C++ klasdeklarojn kaj premu OK. La klasoj estos importitaj kaj vi trovos ilin kiel parto de via modelo en la Arboperspektivo. Rimarku ke &umbrello; ne kreos ian Diagramon por montri viajn klasojn, ili sole estos importitaj en vian Modelon tiel ke vi povas uzi ilin poste en iu dezirata diagramo. </para>
+<para>
+<screenshot>
+<screeninfo
+>Code Import</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menuo por la importado de fontkodo en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menuo por la importado de fontkodo en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

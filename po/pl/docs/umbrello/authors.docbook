@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Autorzy i historia</title>
+<para
+>Ten projekt został zapoczątkowany przez Paula Hensgena, jako jeden z uczelnianych projektów. Orginalną nazwą tej aplikacji była nazwa <application
+>UML Modeller</application
+>. Paul zajmował się całą deweloperką, aż do końca 2001 roku, kiedy program osiągnął wersję 1.0. </para>
+<para
+>Wersja 1.0 oferowała duże możliwości, a po tym, jak projekt został oceniony na uczelni, inni programiści mogli wziąć udział w programowaniu <application
+>UML Modeller</application
+>; dokonano na przykład zmiany z binarnego formatu danych na &XML;a, zwiększono ilość wspomaganych formatów diagramów &UML; kompilacje kodu, jego importowanie i wiele innych. </para>
+<para
+>Paul odszedł z zespołu programistów latem 2002 roku, ale program, jako bezpłatny i Open Source ewaulował i był ulepszany prze grupy programistów z całego świata. We wrześniu 2002 projekt zmienił nazwę z <application
+>&UML; Modeller</application
+> na &umbrello;. Było kilka powodów na zmiany nazwy. Jedną z najważniejszych przyczyn było to, że <quote
+>uml</quote
+> &mdash;, znany powszechnie jako &mdash;, miał nazwę wywołującą wiele problemów w dystrybucji. Innym ważnym powodem było to, że - zdaniem programistów - <application
+>Umbrello</application
+> jest dużo lepszą nazwą. </para>
+<para
+>Rozwój &umbrello;, jak również dyskusje w którym kierunku powinien on iść, omawiany był na forach internetowych. Jeśli chciałbyś dołączyć się do tworzenia projektu, nie wahaj się skontaktować z programistami. Jest wiele sposobów pomocy w rozwoju &umbrello;: </para>
+<itemizedlist>
+<listitem
+><para
+>Raportowanie błędów lub sugestii na temat ulepszeń</para
+></listitem>
+<listitem
+><para
+>Naprawianie błędów i dodawanie nowych funkcjonalności</para
+></listitem>
+<listitem
+><para
+>Pisanie dobrej dokumentacji lub tłumaczenie jej na inny język</para
+></listitem>
+<listitem
+><para
+>Jak również kodowanie z nami</para
+></listitem>
+</itemizedlist>
+<para
+>Jak widzisz, jest wiele sposobów wzięcia udziału w projekcie. Wszystkie są bardzo ważne i każda osoba, która chce pomóc, jest mile widziana. </para>
+<para
+>Z programistami &umbrello; można się skontaktować poprzez e-mail: <email
+>uml-devel@lists.sourceforge.net</email
+>. </para>
+</chapter>

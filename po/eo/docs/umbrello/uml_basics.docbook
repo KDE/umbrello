@@ -1,0 +1,784 @@
+<chapter id="uml-basics">
+<title
+>&UML; Basics</title>
+<sect1 id="about-uml">
+<title
+>About &UML;</title>
+<para
+>Äi tiu Äapitro volas doni rapidan resumon de la fundamentoj de &UML;. Memoru ke Äi tiu ne estas ampleksa seminario pri UML sed tamen konciza enkonduko al UML kiu povas esti legata kiel UML kompendio. Se vi Åatas lerni pli pri la UniÄinta Modelad-Lingvo, aÅ­ Äenerale pri softvar-analizo kaj -desegno, konsultu unu el la multaj libroj haveblaj pri la temo. Ekzistas ankaÅ­ multaj seminarioj en la Interreto kiujn vi povas preni kiel deirpunkto.
+</para>
+
+<para
+>La UniÄinta Modelad-Lingvo (&UML;) estas skema lingvo aÅ­ notacio por specifi, bildigi kaj dokumenti modelojn de objekt-orientitaj softvar-sistemoj. &UML; ne estas disvolviÄa metodo, tio signifas ke Äi ne diktas kion fari unue kaj kion poste, aÅ­ kiel desegni vian sistemon, sed Äi helpas vin bildigi vian desegnon kaj komuniki Äin al aliaj. &UML; estas regata far la Objekt-Mastrumada Grupo (<acronym
+>OMG</acronym
+>) kaj estas la industria normo por grafike priskribi softvaron.
+</para>
+<para
+>&UML; estas konceptita por objekt-orientata softvar-desegno kaj nur limigite alpikiÄas al aliaj programadaj paradigmoj. </para>
+<para
+>&UML; konsistas el multaj model-elementoj kiuj reprezentas la diversajn partojn de softvarsistemo. La &UML; elementoj estas uzataj por krei diagramojn kiuj reprezentas certan parton aÅ­ vidpunkton de la sistemo. La sekvontaj specoj de diagramoj estas subtenataj per &umbrello;: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><link linkend="use-case-diagram"
+>Uzkazdiagramoj</link
+></emphasis
+> montras aktorojn (homojn aÅ­ aliajn uzantojn de la sistemo), uzokazojn (la scenaroj kiam aktoroj uzas la sistemon), kaj iliajn interrilatojn</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="class-diagram"
+>Klasdiagramoj</link
+></emphasis
+> montras klasojn kaj ties interrilatojn</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="sequence-diagram"
+>Sinsekvodiagramoj</link
+></emphasis
+> montras objektojn kaj sinsekvon de metod-alvokoj kiujn ili faras Äe aliaj objektoj.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="collaboration-diagram"
+>Kunlabordiagramoj</link
+></emphasis
+> montras objektojn kaj ties interrilaton, emfazante la objektojn kiuj partoprenas en la interÅanÄo de mesaÄoj </para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="state-diagram"
+>Statodiagramoj</link
+></emphasis
+> montras statojn, statoÅanÄojn kaj eventojn en objekto aÅ­ en parto de la sistemo</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="activity-diagram"
+>Aktivecdiagramoj</link
+></emphasis
+> montras aktivecojn kaj la ÅanÄoj de unu aktiveco al alia kune kun la eventoj okazantaj en iu parto de la sistemo</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="component-diagram"
+>Komponentaj Diagramoj</link
+></emphasis
+> montras la altnivelajn programkomponantojn (kiel ekz. KParts aÅ­ Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="deployment-diagram"
+>Sterndiagramoj</link
+></emphasis
+> montras la instancojn de la komponantoj kaj iliajn interrilatojn.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>&UML; Elements</title>
+<sect2 id="use-case-diagram">
+<title
+>Uzkazdiagramo</title>
+<para
+>Uzokazaj diagramoj priskribas la rilatojn kaj dependojn inter grupo da <emphasis
+>Uzkazoj</emphasis
+> kaj la Aktoroj partoprenantaj en la procedo.</para>
+<para
+>Gravas rimarki ke uzkazdiagramoj ne adekvatas por reprezenti la desegnon, kaj ne povas priskribi la internon de sistemo. Uzkazoskemoj celas faciligi la komunikadon kun la estontaj uzantoj de la sistemo, kaj kun la kliento, kaj estas specife taÅ­gaj por determini la postulatajn trajtojn kiujn la sistemo havu. Uzkazdiagramoj indikas <emphasis
+>kion</emphasis
+> la sistemo faru sed ne <emphasis
+>kiel</emphasis
+> tio estu atingata.</para>
+<para>
+<screenshot>
+<screeninfo
+>An example Use Case diagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta uzkazdiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta uzkazdiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>Uzokazo</title>
+<para
+><emphasis
+>Uzokazo</emphasis
+> priskribas &mdash; de la vidpunkto de la aktoroj &mdash; grupon da aktivecoj en sistemo kiu produktas konkretan, palpeblan rezulton.</para>
+<para
+>Uzkazoj estas priskriboj de la tipaj interagadoj inter la uzantoj de sistemo kaj la sistemo mem. Ili reprezentas la eksteran interfacon de la sistemo kaj detaligas certforme la postulojn de tio, kion la sistemo plenumu (ja memoru: nur kion, ne kiel). </para>
+<para
+>Traktante uzkazojn, gravas memori kelkajn simplajn regulojn: <itemizedlist>
+ <listitem
+><para
+>Äiu uzkazo rilatas al almenaÅ­ unu aktoro</para
+></listitem>
+ <listitem
+><para
+>Äiu uzkazo havas iniciatinton (tio estas aktoro)</para
+></listitem>
+ <listitem
+><para
+>Äiu uzkazo kaÅ­zas rilatan rezulton (rezulton kun <quote
+>komerca valoro</quote
+>)</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>Uzkazoj ankaÅ­ povas havi interrilatojn kun aliaj uzkazoj. La tri plej tipaj specoj de interrilatoj inter uzkazoj estas:
+</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;include&gt;&gt;</emphasis
+> kiu specifigas, ke uzkazo okazas <emphasis
+>ene de</emphasis
+> alia uzkazo</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;extends&gt;&gt;</emphasis
+> kiu specifigas ke en iuj situacioj, aÅ­ je iu punkto (nomita etendadpunkto) uzkazo estos etendita per alia.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>Generalization</emphasis
+> specifigas uzkazo heredas la karakterizaÄµoj de la <quote
+>Super</quote
+>-uzkazo kaj povas superregi iujn aÅ­ aldoni novajn en simila maniero kiel la heredado inter klasoj.  </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>Aktoro</title>
+<para
+>Aktoro estas ekstera ento (ekster la sistemo) kiu, ke interagas kun la sistemo per partopreno (kaj ofte iniciato) de uzokazo. Aktoroj povas esti en vera vivo homoj (ekzemple uzantoj de la sistemo), aliaj komputeraj sistemoj aÅ­ eksteraj eventoj. </para>
+<para
+>Akrotoj ne reprezentas the <emphasis
+>fizikajn</emphasis
+> homojn aÅ­ sistemojn, sed ilian <emphasis
+>rolon</emphasis
+>. Tio signifas, ke kiam persono interrilatas kun la sistemo diversmaniere (supozanta malsamajn rolojn) li estos reprezentata per kelkaj aktoroj. Ekzemple persono kiu asistas klientojn per la telefono kaj peras mendojn de la kliento en la sistemon estus reprezentata per aktoro <quote
+>Subtena Personaro</quote
+> kaj aktoro <quote
+>Vendisto</quote
+>. </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>Uzkazaj Priskriboj</title>
+<para
+>Uzkazaj priskriboj estas tekstaj rakontoj de la uzokazo. Ili kutime estas en formo de noto aÅ­ dokumento kiu estas iel ligita al la uzkazo, kaj klarigas la procedojn aÅ­ agadojn kiuj okazas en la uzkazo. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>Klasdiagramo</title>
+<para
+>Klasdiagramoj montras la diversajn klasojn kiuj konsistigas sistemon kaj montras kiel ili rilatas unu al la alia. Klasdiagramoj estas laÅ­dire <quote
+>senmovaj</quote
+> skemoj Äar ili montras la klasojn, kune kun iliaj metodoj kaj atributoj kaj ankaÅ­ la senmovaj interrilatoj inter ili: kiu klasoj <quote
+>scias</quote
+> pri aliaj klasoj aÅ­ kiuj klasoj <quote
+>apartenas</quote
+> al alia klaso, sed ne montras la metod-alvokojn inter ili. </para>
+<para>
+<screenshot>
+<screeninfo
+>An example of a Class Diagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta klasdiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta klasdiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>Klaso</title>
+<para
+>Klaso difinas la atributojn kaj la metodojn de iu aro da objektoj. Äiuj objektoj de Äi tiu klaso (instancoj de la klaso) havas la saman konduton kaj kundividas la saman aron da atributoj (Äiu objekto havas sian propran aron). La termino <quote
+>Tipo</quote
+> estas foje uzata anstataÅ­ Klaso, sed gravas mencii, ke Äi tiuj du ne estas la sama, kaj Tipo estas pli Äenerala termino. </para>
+<para
+>En UML, Klasoj estas reprezentataj per rektanguloj, kun la nomo de la klaso, kaj ankaÅ­ povas montri la atributojn kaj operaciojn de la klaso en du aliaj <quote
+>kupeoj</quote
+> ene de la rektangulo. </para>
+<para>
+<screenshot>
+<screeninfo
+>A Class in &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Vida reprezentado de Klaso en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Vida reprezentado de Klaso en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>Atributoj</title>
+<para
+>En &UML;, atributoj estas montrataj kun almenaÅ­ ilia nomo, kaj ankaÅ­ povas montri ilian tipon, komencan valoron kaj aliajn trajtojn. Atributoj ankaÅ­ povas esti montrataj kun ilia videbleco: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> indikas <emphasis
+>publikan</emphasis
+> atributon</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> indikas <emphasis
+>protektatan</emphasis
+> atributon</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> indikas <emphasis
+>privatan</emphasis
+> atributon</para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>Operacioj</title>
+<para
+>Operacioj (metodoj) estas ankaÅ­ montrataj kun almenaÅ­ ilia nomo, kaj ankaÅ­ povas montri siajn parametrojn kaj rezultotipon. Same kiel Atributo, Operacio povas montri sian videblecon: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> indikas <emphasis
+>publikan</emphasis
+> operacion</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> indikas <emphasis
+>protektatan</emphasis
+> operacion</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> indikas <emphasis
+>privatan</emphasis
+> operacion</para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>Åablonoj</title>
+<para
+>Klasoj povas havi Åablonojn, valoro kiu estas uzata por nedifinita klaso aÅ­ tipo. La Åablontipo estas specifata kiam klaso estas iniciatita (t.s. objekto estas kreata). Åablonoj ekzistas en moderna C++ kaj estos enkondukitaj en Java 1.5 kie ili estos nomataj Generics. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>Klas-Asocioj</title>
+<para
+>Klasoj povas rilati (asociiÄi unu kun la alia) diversmaniere:</para>
+<sect4 id="generalization">
+<title
+>Äeneraligo</title>
+<para
+>Heredado estas unu el la fundamentaj konceptoj de Objekt-Orientita Programado, en kiu klaso <quote
+>akiras</quote
+> Äiujn atributojn kaj operaciojn de la klaso de kiu Äi heredas, kaj povas superregi/modifi iujn, kaj ankaÅ­ povas aldoni pliajn atributojn kaj operaciojn por si mem.</para>
+<para
+>En &UML;, <emphasis
+>Äeneraligo</emphasis
+> asocio inter du klasoj metas ilin en hierarkio reprezentanta la koncepton de heredado de devena klaso ekde iu baza klaso. En &UML;, Äeneraligoj estas reprezentataj per linio konektanta la du klasojn, kun sago Äe la flanko de la bazo klaso. <screenshot>
+<screeninfo
+>Generalisation</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Vida reprezentado de Äeneraligo en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Vida reprezentado de Äeneraligo en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>Asocioj</title>
+<para
+>Asocio reprezentas interrilaton inter klasoj, kaj esprimas la semantikon kajn strukturon por multaj specoj de <quote
+>konektoj</quote
+> inter objektoj.</para>
+<para
+>Asocioj estas la mekanismo kiu permesas al objektoj la komunikadon inter si. Äi priskribas la konekton inter malsamaj klasoj (la konekto inter la konkretaj objektoj estas nomata objekt-konekto, aÅ­ <emphasis
+>ligo</emphasis
+>. </para>
+<para
+>Asocioj povas havi rolon kiu specifas la intencon de la asocio kaj povas esti unu- aÅ­ ambaÅ­direkta (indiko Äu la du objektoj partoprenantaj la interrilaton povas reciproke sendi mesaÄojn, aÅ­ Äu nur unu el ili konas la alian). Äiu finaÄµo de la asocio ankaÅ­ havas valoron de multeco, kiu indikas kiom da objektoj cis la asocio povas rilati al unu objekto sur la alia flanko. </para>
+<para
+>En &UML;, asocioj estas reprezentataj kiel linioj konektantaj la klasojn partoprenantaj la interrilaton, kaj ankaÅ­ povas montri la rolon kaj la multecon de Äiu el la partoprenantoj. Multeco estas indikata kiel gamo [min..maks] de nenegativaj valoroj, aÅ­ kiel stelo (<literal
+>*</literal
+>), kiu reprezentas senlimecon Äe la maksimuma flanko. <screenshot>
+<screeninfo
+>&UML; Association</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Vida reprezento de Asocio en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Vida reprezento de Asocio en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>Agrego</title>
+<para
+>Agrego estas speciala speco de asocio en kiu la du partoprenantaj klasoj ne havas egalan statuson, sed formas iun <quote
+>tuto-parto</quote
+> interrilaton. Agrego priskribas kiel la klaso alprenanta la rolon de la tuto, estas kunmetita de aliaj klasoj, kiuj alprenas la rolon de la partoj. Por Agregoj, la klaso rolanta kiel la tuto Äiame havas multecon de unu. </para>
+<para
+>en &UML;, Agregoj estas reprezentitaj per asocio kiu montras lozanÄon Äe la flanko de la tuto. <screenshot>
+<screeninfo
+>Aggregation</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Vida reprezento de Agrega rilato en &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Vida reprezento de Agrega rilato en &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>KunmetaÄµo</title>
+<para
+>KunmetaÄµo estas asocio kiu reprezentas <emphasis
+>tre fortan</emphasis
+> agregon. Äi tiu signifas, ke KunmetaÄµo formas tuto-parto interrilaton ankaÅ­, sed la interrilato estas tiel forta ke la partoj ne povas ekzisti solaj. Ili ekzistas nur en la tuto, kaj se la tuto estas detruata la partoj mortas ankaÅ­. </para>
+<para
+>En &UML;, kunmetaÄµoj estas reprezentataj per solida lozanÄo Äe la flanko de la tuto. </para>
+<para
+><screenshot>
+<screeninfo
+>Composition</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Vida reprezento de KunmetaÄµo en &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>Aliaj Klasdiagrameroj </title>
+<para
+>Klasdiagramoj povas enhavi kelkajn aliajn elementojn krom klasojn.</para>
+<sect4 id="interfaces">
+<title
+>Interfaco</title>
+<para
+>Interfacoj estas abstraktaj klasoj, kio signifas ke ne eblas rekte krei instancojn de ili. Ili povas enhavi operaciojn sed neniujn atributojn. Klasoj povas heredi de interfacoj (per realiga asocio) kaj instancoj povas tiam esti farataj de Äi tiuj klasoj.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>Datumtipo</title>
+<para
+>Datumtipoj estas bazelementoj kiuj estas tipe enkonstruitaj en programlingvo. Oftaj ekzemploj estas entjera kaj bulea tipo. Ili ne povas interrilati kun klasoj sed klasoj povas interrilati kun ili.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>Nombrigtipo</title>
+<para
+>Nombrigtipo (enum) estas simpla listo de valoroj. Tipa ekzemplo estas nombrigtipo por la tagoj de la semajno. La elementoj de nombrigtipo nomiÄas literaloj. Same kiel datumtipoj, ili ne povas interrilati kun klasoj sed klasoj povas interrilati kun ili.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>PakaÄµo</title>
+<para
+>PakaÄµo reprezentas nomspacon en programlingvo. En diagramo ili uziÄas por reprezenti partojn de sistemo kiu enhavas pli ol unu klason, eble centojn da klasoj.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>Sinsekvodiagramo</title>
+
+<para
+>Sinsekvodiagramoj montras la mesaÄ-interÅanÄon (t.e. metod-alvoko) inter kelkaj objektoj en specifa tempe limigita situacio. Objektoj estas instancoj de klasoj. Sinsekvodiagramoj metas specialan emfazon al la ordo kaj la tempoj en kiuj la mesaÄoj estas sendataj al la objektoj.</para>
+<para
+>En Sinsekvodiagramoj objektoj estas reprezentataj per vertikalaj strekitaj linioj, kun la nomo de la objekto supre. La tempa akso estas ankaÅ­ vertikala, pliiÄanta malsupren, tiel, ke mesaÄoj estas sendita de unu al alia objekto en la formo de sagoj kun la operacinomo kaj eble la efektivaj parametrovaloroj. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>Sequence Diagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta Sinsekvodiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta Sinsekvodiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>MesaÄoj povas esti aÅ­ sinkronaj, la normala speco de mesaÄvoko kie la rego estas pasata al la alvokata objekto Äis kiam tiu metodo finis ruli, aÅ­ nesinkronaj kie la kontrolo rekte repasas al la vokanta objekto. Sinkronaj mesaÄoj havas vertikalan skatolon Äe la flanko de la alvokata objekto por montri la fluon de programrego.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>Kunlabordiagramo</title>
+
+<para
+>Kunlabordiagramoj montras la interagadon okazanta inter la objektoj partoprenantaj en specifa situacio. Äi tiu estas plimalpli la samaj informoj montritaj per Sinsekvodiagramoj sed tiuj lastaj emfazas kiel la interrilatadoj okazas tempe dum la Kunlabordiagramoj pli emfazas la rilatojn inter la objektoj kaj ilian topologion.</para>
+
+<para
+>En kunlabordiagramo mesaÄoj senditaj de unu objekto al alia estas reprezentataj per sagoj, montrante la mesaÄnomon, parametrojn, kaj la sinsekvon de la mesaÄo. Kunlabordiagramoj speciale taÅ­gas por montri specifan programfluon aÅ­ situacion kaj estas unu el la plej bonaj skemotipoj por rapide montri aÅ­ klarigi certan procedon en la programlogiko. </para>
+
+<screenshot>
+<screeninfo
+>Collaboration</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta Kunlabordiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta Kunlabordiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>Statodiagramo</title>
+<para
+>Statodiagramoj montras la diversajn statojn de objekto dum sia vivo kaj la stimulojn kiuj kaÅ­zas ÅanÄiÄojn de Äia stato. </para
+>                              
+<para
+>Statodiagramoj elmontras objektojn kiel <emphasis
+>statmaÅinojn</emphasis
+> aÅ­ finiajn aÅ­tomatojn kiuj povas esti en unu el limigita aro da statoj kaj kiuj povas ÅanÄi sian staton per unu el limigita aro da stimuloj. Ekzemple objekto de tipo <emphasis
+>NetServer</emphasis
+> povas esti en unu el la sekvantaj statoj dum sia vivo: </para>
+<itemizedlist>
+<listitem
+><para
+>Preta</para
+></listitem>
+<listitem
+><para
+>AÅ­skultanta</para
+></listitem>
+<listitem
+><para
+>Laboranta</para
+></listitem>
+<listitem
+><para
+>Haltita</para
+></listitem>
+</itemizedlist>
+<para
+>kaj la eventoj kiuj povas kaÅ­zi statÅanÄojn Äe la objekto estas</para>
+<itemizedlist>
+<listitem
+><para
+>Objekto estas kreata</para
+></listitem>
+<listitem
+><para
+>Objekto ricevas mesaÄon AÅ­skultu</para
+></listitem>
+<listitem
+><para
+>Kliento petas konekton perrete</para
+></listitem>
+<listitem
+><para
+>Kliento Äesigas peton</para
+></listitem>
+<listitem
+><para
+>La peto estas efektivigita kaj finis</para
+></listitem>
+<listitem
+><para
+>Objekto ricevas mesaÄon Haltu</para
+></listitem>
+<listitem
+><para
+>etc</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>State Diagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta Statodiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta Statodiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>Stato</title>
+<para
+>Statoj estas la konstruelementoj de Statodiagramoj. Stato apartenas al ekzakte unu klaso kaj reprezentas resumon de la valoroj kiujn atributoj de klaso povas alpreni. &UML; Stato priskribas la internan staton de objekto de unu aparta klaso. </para
+>
+<para
+>Notu ke ne Äiu ÅanÄo en unu el la atributoj de objekto devus esti reprezentita per Stato sed sole tiuj ÅanÄoj kiuj povas grave influi la funkciadon de la objekto.</para>
+<para
+>Ekzistas du specialaj specoj de Statoj: Komenco kaj Fino. Ili estas specialaj tiusence ke neniu evento povas kaÅ­zi revenon al la Komenco, samkiel neniu evento povas kaÅ­zi revenon al la Fina stato unufoje ke Äi atingiÄis. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>Aktivecdiagramo</title>
+<para
+>Aktivecdiagramoj priskribas la sinsekvon de agadoj en sistemo pere de Aktivecoj. Aktivecdiagramoj estas speciala formo de Statodiagramoj, kiuj nure (aÅ­ plejparte) enhavas Aktivecojn. </para>
+<para>
+<screenshot>
+<screeninfo
+>An example Activity Diagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; montranta Aktivecdiagramon</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; montranta Aktivecdiagramon </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>Aktivecdiagramoj estas similaj al proceduraj fludiagramoj, kun la diferenco ke Äiuj aktivecoj estas klare ligataj al objektoj.</para>
+
+<para
+>Aktivecdiagramoj estas Äiam asociitaj al <emphasis
+>klaso</emphasis
+>, <emphasis
+>operacio</emphasis
+> aÅ­ <emphasis
+>uzkazo</emphasis
+>.</para>
+
+<para
+>Aktivecdiagramoj subtenas sinsekvajn kaj ankaÅ­ paralelajn aktivecojn. Paralela ekzekuto estas reprezentita per DisiÄ/Atend ikonoj, kaj por la aktivecoj rulantaj paralele, ne gravas la ordo en kiu ili estas efektivigataj (ili povas okazi samtempe aÅ­ unu post la alia). </para>
+<sect3 id="activity">
+<title
+>Aktiveco</title>
+<para
+>Aktiveco estas unu paÅo ene de procezo. Unu aktiveco estas unu stato en la sistemo kun interna agado kaj almenaÅ­ unu deironta transiro.  Aktiveco ankaÅ­ povas havi pli ol unu deirontan transiron se tiuj transiroj havas malsamajn kondiÄojn. </para
+> 
+<para
+>Aktivecoj povas formi hierarkiojn, tio signifas, ke aktiveco povas konsisti el kelkaj <quote
+>detalaktivecoj</quote
+>, en kiu kazo la envenantaj kaj deirantaj transiroj harmoniu kun la envenantaj kaj deirantaj transiroj de la detalskemo. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>Helpelementoj</title>
+<para
+>Estas kelkaj elementoj en &UML; kiuj havas neniun veran semantikan valoron por la modelo, sed helpas klarigi partojn de la diagramo. Äi tiuj elementoj estas </para>
+<itemizedlist>
+<listitem
+><para
+>Tekstlinioj</para
+></listitem>
+<listitem
+><para
+>Tekstnotoj kaj ties ankroj</para
+></listitem>
+<listitem
+><para
+>Skatoloj</para
+></listitem>
+</itemizedlist
+>
+<para
+>Tekstlinioj estas utilaj por aldoni mallongan klarigtekston al diagramo. Tio estas libera teksto kaj ne havas signifon al la modelo mem. </para
+>
+
+<para
+>Notoj estas utilaj por almeti pli detalajn informojn pri objekto aÅ­ specifa situacio. Ili havas la grandan avantaÄon ke notoj povas esti ankrataj al &UML; elementoj por montri ke la noto <quote
+>apartenas</quote
+> al specifa objekto aÅ­ situacio. </para>
+
+<para
+>Skatoloj estas libere lokataj rektanguloj kiuj estas uzeblaj por kungrupigi elementojn celante pli legeblajn diagramojn. Ili ne havas logikan signifon en la modelo.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>Komponenta Diagramo</title>
+<para
+>Komponentaj Diagramoj montras la softvarajn erojn (aÅ­ komponantoteknologiojn kiel KParts, CORBA Komponentoj aÅ­ Java Beans aÅ­ nur sekcioj de la sistemo kiuj estas klare distingeblaj) kaj la artefaktojn el kiuj ili konsistas kiel ekz. fontkodaj dosieroj, programbibliotekoj aÅ­ rilataj datumbazoj.</para>
+
+<para
+>Komponentoj povas havi interfacojn (t.e. abstraktaj klasoj kun operacioj) kio permesas asociojn inter komponentoj.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>Sterndiagramo</title>
+
+<para
+>Sterndiagramoj montras la rultempajn komponant-instancojn kaj iliajn asociojn. Ili inkluzivas Nodojn kiuj estas fizikaj rimedoj, tipe ununura komputilo. Ili ankaÅ­ montras interfacojn kaj objektojn (klasinstancojn).</para>
+
+</sect2>
+
+</sect1
+> 
+</chapter>

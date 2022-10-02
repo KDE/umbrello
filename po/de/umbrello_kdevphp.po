@@ -1,0 +1,351 @@
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020.
+# Rolf Eike Beer <kde@opensource.sf-tec.de>, 2009.
+# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2015, 2016.
+# Gerhard Stengel <gstengel@gmx.net>, 2010, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevphp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2021-05-10 06:23+0200\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Burkhard Lück,Gerhard Stengel"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "lueck@hube-lueck.de,gstengel@gmx.net"
+
+#: completion/implementationitem.cpp:58
+#, kde-format
+msgid "Override"
+msgstr "Überschreiben"
+
+#: completion/implementationitem.cpp:61
+#, kde-format
+msgid "Implement"
+msgstr "Implementieren"
+
+#: completion/implementationitem.cpp:73
+#, kde-format
+msgid "From %1"
+msgstr "Von %1"
+
+#: duchain/builders/contextbuilder.cpp:395
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Zirkuläre Vererbung von %1 und %2"
+
+#: duchain/builders/declarationbuilder.cpp:314
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "Der Zugriffstyp muss bei der Interface-Methode %1 weggelassen werden."
+
+#: duchain/builders/declarationbuilder.cpp:318
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "Die Interface-Funktion %1 kann keinen Rumpf haben."
+
+#: duchain/builders/declarationbuilder.cpp:330
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"Die Klasse %1 enthält die abstrakte Methode %2. Entweder muss die Klasse als "
+"abstrakt deklariert oder die Methode implementiert werden."
+
+#: duchain/builders/declarationbuilder.cpp:336
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "Die abstrakte Funktion %1 kann keinen Rumpf haben."
+
+#: duchain/builders/declarationbuilder.cpp:339
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr ""
+"Der „final“-Modifizierer kann auf einen abstrakten Member einer Klasse nicht "
+"angewendet werden."
+
+#: duchain/builders/declarationbuilder.cpp:349
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "Die nicht abstrakte Methode %1 muss einen Rumpf haben."
+
+#: duchain/builders/declarationbuilder.cpp:367
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "Eigenschaften können nicht als „final“ deklariert werden."
+
+#: duchain/builders/declarationbuilder.cpp:370
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "Eigenschaften können nicht als abstrakt deklariert werden."
+
+#: duchain/builders/declarationbuilder.cpp:416
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"Die Trait-Methode %1 wurde nicht angewendet, da es eine Kollision mit "
+"anderen Trait-Methoden für %2 gibt"
+
+#: duchain/builders/declarationbuilder.cpp:570
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr ""
+"Die private Eigenschaft %1 kann aus diesem Kontext nicht erneut deklariert "
+"werden."
+
+#: duchain/builders/declarationbuilder.cpp:576
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr ""
+"Die geschützte Eigenschaft %1 kann aus diesem Kontext nicht erneut "
+"deklariert werden."
+
+#: duchain/builders/declarationbuilder.cpp:609
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Traits können keine Konstante haben."
+
+#: duchain/builders/declarationbuilder.cpp:650
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr ""
+"Nur boolsche Werte, Ganzzahlen, Fließkommazahlen und Zeichenfolgen sind für "
+"Konstanten in Klassen zulässig."
+
+#: duchain/builders/declarationbuilder.cpp:702
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "Der „final“-Modifizierer kann nicht für eine Methode verwendet werden"
+
+#: duchain/builders/declarationbuilder.cpp:705
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "Der „static“-Modifizierer kann nicht für eine Methode verwendet werden"
+
+#: duchain/builders/declarationbuilder.cpp:753
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Der Vorgabewert für Parameter, dessen Typhinweis eine Klasse bezeichnet, "
+"darf ausschließlich NULL sein."
+
+#: duchain/builders/declarationbuilder.cpp:756
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "Folgenden Parametern muss ein Vorgabewert zugewiesen werden."
+
+#: duchain/builders/declarationbuilder.cpp:863
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Die PHP-interne Funktion %1 kann nicht erneut deklariert werden."
+
+#: duchain/builders/declarationbuilder.cpp:866
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1 und %2 definieren die gleiche Eigenschaft (%3) in der Zusammenstellung "
+"von %1. Dies kann inkompatibel sein, um die Wartung zu erleichtern, sollten "
+"Sie stattdessen Zugriffsmethoden in Traits verwenden."
+
+#: duchain/builders/declarationbuilder.cpp:874
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr ""
+"%1 kann nicht erneut deklariert werden, da es bereits in %2 in Zeile %3 "
+"deklariert ist."
+
+#: duchain/builders/declarationbuilder.cpp:920
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "$this kann nicht erneut zugewiesen werden."
+
+#: duchain/builders/declarationbuilder.cpp:1358
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr ""
+"Die „Use“-Anweisung mit dem nicht zusammengesetzen Namen „%1“ hat keine "
+"Auswirkung."
+
+#: duchain/builders/declarationbuilder.cpp:1382
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr ""
+"„%1“ kann nicht als „%2“ verwendet werden, da der Name bereits benutzt wird."
+
+#: duchain/builders/usebuilder.cpp:189
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "%1 ist als veraltet markiert."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "Deklaration nicht gefunden: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Verlorener Trait alias %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:114
+#: duchain/navigation/declarationnavigationcontext.cpp:127
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "Vorkommen von %1 in %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:137
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Defekte Member alias Trait."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:152
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP-interne Funktion"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:162
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Konstante"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:49
+#, kde-format
+msgid "magic constant"
+msgstr "Magische Konstante"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:64
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "Leer (nicht innerhalb einer Klasse)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:83
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "Leer (nicht innerhalb einer Methode)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:93
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "Leer (nicht innerhalb einer Funktion)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:102
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "Leer (nicht innerhalb eines Namensraums)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:106
+#, kde-format
+msgid "current value: %1"
+msgstr "Aktueller Wert: %1"
+
+#: parser/main.cpp:28
+#, kde-format
+msgid "php-parser"
+msgstr "PHP-Parser"
+
+#: parser/main.cpp:29
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "Werkzeug zum Debuggen des PHP-Parsers von KDevelop"
+
+#: parser/main.cpp:30
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:62
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Die Datei „%1“ kann nicht geöffnet werden"
+
+#: parser/parsesession.cpp:65
+#, kde-format
+msgid "File could not be read from."
+msgstr "Lesen aus der Datei nicht möglich."
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "File could not be opened."
+msgstr "Die Datei kann nicht geöffnet werden."
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "Die Berechtigungen verhindern das Öffnen der Datei zum Lesen."
+
+#: phplanguagesupport.cpp:54
+#, kde-format
+msgid "PHP Support"
+msgstr "PHP-Unterstützung"
+
+#: phplanguagesupport.cpp:55
+#, kde-format
+msgid "Support for PHP Language"
+msgstr "Unterstützung für die Sprache PHP"
+
+#: phplanguagesupport.cpp:56
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: phplanguagesupport.cpp:56 phplanguagesupport.cpp:57
+#, kde-format
+msgid "Author"
+msgstr "Autor"
+
+#: phplanguagesupport.cpp:57
+#, kde-format
+msgid "Niko Sams"
+msgstr "Niko Sams"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "PHPUnit Integration"
+msgstr "PHPUnit-Integration"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "Finds and runs PHPUnit tests"
+msgstr "Sucht und führt PHPUnit-Tests aus"
+
+#: testprovider/phpunitrunjob.cpp:70
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#, fuzzy
+#~| msgid "PHPUnit Integration"
+#~ msgid "PHP Documentation"
+#~ msgstr "PHPUnit-Integration"
+
+#, fuzzy
+#~| msgid ""
+#~| "Class %1 contains abstract method %2 and must therefore be declared "
+#~| "abstract or implement the method."
+#~ msgid ""
+#~ "Class %1 contains %2 abstract methods and must therefore be declared "
+#~ "abstract or implement the remaining methods."
+#~ msgstr ""
+#~ "Die Klasse %1 enthält die abstrakte Methode %2. Entweder muss die Klasse "
+#~ "als abstrakt deklariert oder die Methode implementiert werden."

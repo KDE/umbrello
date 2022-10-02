@@ -1,0 +1,752 @@
+<chapter id="settings">
+<title
+>Configuració</title>
+
+<sect1 id="general-settings">
+<title
+>Configuració general</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Configuració general</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opcions de la Configuració general a l'&umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opcions de la Configuració general a l'&umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Miscel·lània</title>
+<itemizedlist>
+    <listitem>
+        <para
+>L'opció <guilabel
+>Habilita desfer</guilabel
+> permet desfer una acció prèvia.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Usa els generadors nous de C++/Java/Ruby</guilabel
+> permet a l'usuari seleccionar els generadors de codi antic o nou</para>
+    </listitem>
+    <listitem
+><para
+>Quan se selecciona <guilabel
+>Activa el peu i els números de pàgina en imprimir</guilabel
+>, imprimeix la informació i el número de pàgina del diagrama per al diagrama que s'imprimeix.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Usa diagrames amb pestanyes</guilabel
+> ofereix l'opció de tenir múltiples finestres de diagrama en pestanyes obertes alhora.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Desar automàticament</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Habilita el desament automàtic</guilabel
+> dona l'opció de desar automàticament el fitxer.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Selecciona l'interval de temps del desament automàtic (minuts):</guilabel
+> permet establir el temps abans que es desi automàticament el fitxer.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Estableix el sufix de desament automàtic:</guilabel
+> el valor predeterminat és <filename class="extension"
+>.xmi</filename
+> però permet establir una extensió de fitxer diferent.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Inici</title>
+    <itemizedlist>
+        <listitem
+><para
+>Si s'estableix <guilabel
+>Carrega l'últim projecte</guilabel
+>, sempre es carregarà l'últim projecte de treball en iniciar el programa.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Comença el projecte nou amb:</guilabel
+> permet triar amb quin tipus de diagrama UML començar en un projecte nou.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Idioma predeterminat:</guilabel
+> és una opció per al llenguatge de programació que s'emprarà.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Notificacions</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Activa tots els missatges</guilabel
+> és una opció per veure totes les notificacions o un conjunt reduït de notificacions.</para>
+    </listitem>
+    <listitem
+><para
+>Si està marcada <guilabel
+>Activa els missatges relacionats amb «suprimeix associació»</guilabel
+>, assegura que rebreu tots els missatges d'aquest tipus.</para>
+    </listitem>
+    <listitem
+><para
+>Si està marcada <guilabel
+>Activa els missatges relacionats amb «suprimeix diagrama»</guilabel
+>, assegura que rebreu tots els missatges d'aquest tipus.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Configuració del tipus de lletra</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Configuració del tipus de lletra</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opcions de la Configuració del tipus de lletra del diagrama a l'&umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opcions de la Configuració del tipus de lletra del diagrama a l'&umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Aquesta configuració del tipus de lletra estableix les característiques del text en els diagrames. Els tipus de lletra i la mida són les úniques opcions seleccionables.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Configuració de la interfície d'usuari</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de la interfície d'usuari</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de la interfície d'usuari a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de la interfície d'usuari a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>General</title>
+    <para
+><guilabel
+>Interfície d'usuari de dreta a esquerra</guilabel
+> configura la interfície per als idiomes de dreta a esquerra. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Associacions</title>
+    <para
+><guilabel
+>Usa línies d'associació angulars</guilabel
+> permet que les línies d'associació variïn en qualsevol angle. </para>
+    <para
+><guilabel
+>Crea línies d'associació noves com a:</guilabel
+> dona la possibilitat de canviar l'estil de línia de l'associació. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Color</title>
+    <para
+>La secció de color ofereix diverses opcions per a canviar els colors del text, línia, emplenat, quadrícula i fons, així com l'amplada de la línia.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Configuració de les classes</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de les classes</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de les classes a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de les classes a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Mostra</title>
+        <para
+>La secció Mostra té nombroses opcions que determinen quines característiques de classe es mostraran en el diagrama de classes.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Àmbit inicial</title>
+        <para
+>Opcions per a les opcions predeterminades d'atribut i operació; pública, privada o protegida.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Configuració de l'importador de codi</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de l'importador de codi</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de l'importador de codi a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de l'importador de codi a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Camins de cerca d'inclusions</title>
+    <para
+>Es dona una recomanació general per a millorar la cerca en incloure UMBRELLO INCPATH com a una variable d'entorn.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Importació de C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Crea un artefacte a la vista de components per a cada fitxer importat</guilabel
+>: l'artefacte creat es podrà arrossegar a la vista Diagrama de classes on les dependències es podran veure amb facilitat juntament amb els atributs i funcions de cada fitxer.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Resol les dependències (redueix la velocitat d'importació)</guilabel
+>: assegura que es resolguin totes les dependències de fitxer, el qual es mostrarà a les dependències de classe en el Diagrama de classes.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Activa el C++11 estàndard (experimental)</guilabel
+>: Una característica experimental per complir amb C++11, inhabilitar si no és necessària.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Configuració de la generació de codi</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Pestanya general de Configuració de la generació de codi</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de la generació de codi - General</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de la generació de codi - General a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de la generació de codi - General a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>El modelador &UML; &umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model d'&UML; per ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Llenguatge</title>
+        <para
+>Trieu el llenguatge de programació per a emprar en els projectes. Les opcions que s'ofereixen són ActionScript, Ada, C++, C #, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala i XMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Carpetes</title>
+    <para
+><guilabel
+>Escriu tots els fitxers generats a una carpeta:</guilabel
+> té un camp editable per al camí desitjat per als fitxers generats o de manera opcional un botó d'exploració per a seleccionar el camí.</para>
+    <para
+>Si està marcada <guilabel
+>Inclou els fitxers de capçalera des de la carpeta:</guilabel
+>, permet a l'usuari especificar un camí en un camp editable o triar-lo amb un botó d'exploració.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Política de sobreescriptura</title>
+    <para
+>Quan el codi es genera a la carpeta especificada, aquesta opció determinarà què passa si es troba un fitxer amb el mateix nom. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Sobreescriu</guilabel
+> el fitxer sense cap avís ni opció.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Pregunta</guilabel
+> tant si se sobreescriu el fitxer com si es canvia el nom.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Usa un nom diferent</guilabel
+> quan ja existeix un fitxer que el reanomena amb un sufix.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Pestanya Format de la Configuració de la generació de codi</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de la generació de codi - Format</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de la generació de codi - Format a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de la generació de codi - Format a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Detall en els comentaris</title>
+        <para
+><guilabel
+>Escriu els comentaris de la documentació encara que estiguin buits</guilabel
+>: genera comentaris per a classes i funcions fins i tot si estan buides.</para>
+        <para
+><guilabel
+>Escriu els comentaris per a les seccions encara que la secció estigui buida</guilabel
+>: escriu comentaris per a les seccions privades, protegides i públiques, fins i tot si estan buides.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Línies</title>
+    <para
+><guilabel
+>Tipus de sagnat:</guilabel
+> ofereix una opció entre sense sagnat, tabulació o espai.</para>
+    <para
+><guilabel
+>Quantitat de sagnat:</guilabel
+> permet a l'usuari especificar el nombre d'espais per a la tabulació o l'opció de sagnar amb espais.</para>
+    <para
+><guilabel
+>Estil del final de línia:</guilabel
+> és una opció entre els estils del final de línia de *NIX, Windows i Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Opcions del llenguatge</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Opcions de generació de codi - Llenguatge</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de la generació de codi - Llenguatge a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de la generació de codi - Llenguatge a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Aquesta pàgina canvia per a cada llenguatge de programació seleccionat a la pestanya General. Actualment, les úniques opcions disponibles són per al llenguatge C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>Generació de codi C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Documentació</title>
+        <para
+><guilabel
+>Estil:</guilabel
+> dona l'opció d'utilitzar «/** */» o «//» com a estil de documentació</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>General</title>
+        <para
+>Sota la pestanya <guilabel
+>General</guilabel
+> de la pestanya <guilabel
+>Opcions del llenguatge</guilabel
+>, es llisten diverses opcions de generació de codi.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Prefix dels membres de classe</guilabel
+></para>
+                <para
+>Una opció que permet afegir un prefix determinat per l'usuari als membres de classe quan es genera el codi.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Paquet és un espai de nom</guilabel
+></para>
+                <para
+>Els espais de nom proporcionen un mètode per a prevenir conflictes de nom en els projectes grans. Els símbols declarats dins d'un bloc d'espai de nom es col·loquen en un àmbit amb nom que evita que es confonguin amb els símbols amb noms idèntics en altres àmbits.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Destructors virtuals</guilabel
+></para>
+                <para
+>Tot i que els destructors no s'hereten, si una classe base declara el seu destructor virtual, el destructor derivat sempre l'anul·larà. Això fa possible eliminar objectes assignats dinàmicament de tipus polimòrfic a través de punters a la base.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Genera constructors buits</guilabel
+></para>
+                <para
+>Generarà constructors que tenen claus buides.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Genera mètodes accessoris</guilabel
+></para>
+                <para
+>Generarà mètodes per accedir als tipus de dades.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Operacions són incloses</guilabel
+></para>
+                <para
+>Genera els mètodes com a inclosos, però els compiladors són lliures de triar no incloure el mètode.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Accessors són inclosos</guilabel
+></para>
+                <para
+>Els mètodes que accedeixen a les dades de la classe es generaran inclosos, però els compiladors són lliures de triar no incloure el mètode.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Accessors són públics</guilabel
+></para>
+                <para
+>Els mètodes que es generen com a públics estaran disponibles per a qualsevol instanciació de la classe.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Crea els «getters» amb el prefix «get»</guilabel
+></para>
+                <para
+>Col·locarà el prefix «get» en els mètodes que obtenen/retornen les dades de la classe.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Elimina el prefix «[a-zA-Z]_» dels noms dels mètodes d'accés</guilabel
+></para>
+                <para
+>Si s'ha introduït un prefix a <guilabel
+>Prefix dels membres de classe</guilabel
+>, aquesta opció l'eliminarà.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Els mètodes d'accés comencen per lletres majúscules</guilabel
+></para>
+                <para
+>Això posa en majúscula la primera lletra del nom del mètode.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Usa «\» com a etiqueta de documentació en lloc de «@»</guilabel
+></para>
+                <para
+>Una opció d'etiqueta per utilitzar en documentar els paràmetres d'un mètode.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Generació del cos del mètode</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Opcions de Generació del cos del mètode - Llenguatge</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Opcions de la Configuració de la generació de codi - Generació del cos del mètode l'&umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Opcions de la Configuració de la generació de codi - Generació del cos del mètode l'&umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Llista</guilabel
+></para>
+        <para
+>Té opcions de QPtrList, vector i std::vector per al tipus de llista. Segueix un camp editable o seleccionable per especificar el fitxer d'inclusió juntament amb un botó d'exploració per trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la llista sigui global.</para>
+        <para
+><guilabel
+>Cadena</guilabel
+></para>
+            <para
+>Opcions de cadena QString per al tipus de cadena. Segueix un camp editable o seleccionable per especificar el fitxer d'inclusió juntament amb un botó d'exploració per trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la cadena sigui global. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Configuració del visualitzador de codi</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració del visualitzador de codi</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració del visualitzador de codi a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració del visualitzador de codi a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Permet la personalització del visualitzador de codi. La secció <guilabel
+>Tipus de lletra requerit</guilabel
+> permet seleccionar el tipus de lletra, estil i mida del tipus de lletra. A sota de les eleccions es mostra una representació de les vostres eleccions. </para>
+    <para
+>A la secció <guilabel
+>Colors</guilabel
+>, es poden realitzar canvis en paper, tipus de lletra, seleccionada, bloc d'objecte UML, bloc ocult, text editable i text no editable. Es poden fer canvis en els colors fent clic al quadre de color al costat de l'etiqueta respectiva. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Configuració de la disposició automàtica</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Configuració de la disposició automàtica</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opcions de la Configuració de la disposició automàtica a l'&umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opcions de la Configuració de la disposició automàtica a l'&umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Detecta automàticament el generador de disposicions</guilabel
+></para>
+    <para
+>La funcionalitat de les disposicions automàtiques depèn dels generadors de disposicions proporcionats pel paquet GraphViz, el qual normalment s'instal·la a banda de l'Umbrello pel gestor de paquets. L'Umbrello es construeix amb implementació per a detectar la ubicació de la instal·lació d'aquests generadors de disposicions. Pels casos en què aquesta dependència no està disponible o no s'ajusta, es podrà indicar un camí d'instal·lació diferent. </para>
+    <para
+><guilabel
+>Mostra la disposició d'exportació en el menú contextual del diagrama</guilabel
+></para>
+    <para
+>L'exportació del fitxer «dot» es porta a terme usant la disposició d'exportació. Amb aquesta opció activada, la disposició d'exportació s'afegeix a la llista de disposicions de diagrama disponibles i activa una vista prèvia de l'exportació del «dot». </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

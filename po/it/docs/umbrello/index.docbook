@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY packagename "kdesdk">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY introduction-chapter SYSTEM "introduction.docbook">
+ <!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
+ <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
+ <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
+ <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
+ <!ENTITY authors-chapter SYSTEM "authors.docbook">
+ <!ENTITY credits-chapter SYSTEM "credits.docbook">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Italian "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<book id="Umbrello" lang="&language;">
+<bookinfo>
+<title
+>Manuale di &umbrello;</title>
+
+<authorgroup>
+<corpauthor
+>Autori di &umbrello;</corpauthor>
+<othercredit role="translator"
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+><affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+><contrib
+>Traduzione della documentazione</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<holder
+>Paul Hensgen</holder>
+</copyright>
+<copyright>
+<year
+>2002, 2003</year>
+<holder
+>Autori di &umbrello;</holder>
+</copyright>
+
+
+<date
+>2013-06-01</date>
+<releaseinfo
+>2.11.0</releaseinfo>
+
+<abstract>
+<para
+>&umbrello; aiuta il processo di sviluppo del software usando il Linguaggio di Modellazione Unificato (&UML;), uno standard industriale, per permetterti di creare diagrammi per progettare e documentare i tuoi sistemi. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>UML</keyword>
+<keyword
+>modellazione</keyword>
+<keyword
+>diagrammi</keyword>
+<keyword
+>sviluppo software</keyword>
+<keyword
+>sviluppo</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction-chapter;
+&uml-basics-chapter;
+&working-with-umbrello-chapter;
+&code-import-and-generation-chapter;
+&other-features-chapter;
+&authors-chapter;
+&credits-chapter;
+
+</book>

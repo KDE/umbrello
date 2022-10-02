@@ -1,0 +1,413 @@
+<chapter id="working-with-umbrello">
+<title
+>Werken met &umbrello;</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>Dit hoofdstuk geeft u een inleiding in &umbrello;'s gebruikersinterface en vertelt u alles over wat u moet weten om een begin te maken met modelleren. Alle acties in &umbrello; zijn toegankelijk via het menu en de werkbalken, hoewel &umbrello; ook uitgebreid gebruik maakt van &RMB;-contextmenus. U kunt met de &RMB; klikken op vrijwel ieder element in &umbrello;'s werkblad of boomstructuur om een menu te krijgen met de handigste functies om toe te passen op het afzonderlijke element waar u op dat moment aan werkt. Sommige gebruikers vinden dit aanvankelijk enigszins verwarrend omdat zij er meer aan gewend zijn te werken met het menu of met werkbalken, maar als u er eenmaal aan gewend bent geraakt om <mousebutton
+>rechts</mousebutton
+> te klikken, dan zal uw werktempo aanzienlijk verhogen. </para>
+
+<sect1 id="user-interface">
+<title
+>Gebruikersinterface</title>
+<para
+>&umbrello;'s hoofdvenster is verdeeld in drie gebieden die u erbij helpen om zowel een overzicht te bewaren over uw gehele systeem als snel de verschillende diagrammen te benaderen terwijl u aan uw model werkt. </para>
+<para
+>Deze gebieden heten:</para>
+<itemizedlist>
+<listitem
+><para
+>Boomstructuurweergave</para
+></listitem>
+<listitem
+><para
+>Werkblad</para
+></listitem>
+<listitem
+><para
+>Venster voor documentatie en geschiedenis van commando's</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>&umbrello;'s gebruikersinterface</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello;'s gebruikersinterface</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello;'s gebruikersinterface </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Boomstructuurweergave</title>
+<para
+>De boomstructuur bevindt zich gewoonlijk linksboven in het venster en toont alle diagrammen, klassen, actoren en use cases waaruit uw model is opgebouwd. De boomstructuur geeft u een snel overzicht van de samenstellende elementen van uw model. De boomstructuur maakt het u ook mogelijk om snel tussen de verschillende diagrammen in uw model te wisselen en elementen toe te voegen uit uw model in het actuele diagram. </para>
+<para
+>Als u aan een model werkt met meer dan alleen maar een paar klassen en diagrammen, dan helpt de boomstructuur u om het overzicht te bewaren door de elementen van uw model in mappen te organiseren. U kunt mappen maken door de geeigende keuze uit het context menu te kiezen (klik met de &RMB; op één van de mappen in de boomstructuur) en u kunt uw elementen organiseren door hen naar de van toepassing zijnde map te verplaatsen (slepen en neerzetten) </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Venster voor documentatie en geschiedenis van commando's</title>
+<para
+>Het venster voor documentatie en geschiedenis van commando's is het kleine venster linksonder in &umbrello;, het geeft u een snel voorproefje van de documentatie voor het nu geselecteerde onderdeel en de geschiedenis van de commando's van uw werksessies. Het venster voor documentatie is tamelijk klein omdat het bedoeld is om u alleen maar een glimp van de documentatie van het element en een overzicht van de geschiedenis van de commando's te geven, waarbij het zo min mogelijk beeldschermruimte inneemt. Wilt u de documentatie in groter detail zien dan kunt u ten alle tijde de eigenschappen van het onderdeel openen. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Werkblad</title>
+<para
+>Het Werkblad is het hoofdvenster in &umbrello; waar de echte acties plaats vinden. U gebruikt het werkblad om te diagrammen in uw model te bewerken of te bekijken. Het werkblad toont het op dit moment actieve diagram. In de huidige versie kan op ieder moment slechts een diagram tegelijk getoond worden. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Modellen maken, laden en opslaan</title>
+<para
+>Het eerste wat u moet doen om iets nuttigs met &umbrello; te doen is het maken van een model waaraan u gaat werken. Als u &umbrello; start, dan laadt het altijd het laatst gebruikte model of het maakt een nieuw, leeg model (dit hangt af van uw voorkeurinstellingen in het instellingenvenster). Dit stelt u in de gelegenheid direct aan de slag te gaan. </para>
+<sect2 id="new-model">
+<title
+>Nieuw model</title>
+<para
+>Als u, op welk moment dan ook, een nieuw model moet maken, dan kunt u dit doen door de keuze <guimenuitem
+>Nieuw</guimenuitem
+> te selecteren uit het menu <guimenu
+>Bestad</guimenu
+> , of door te klikken op het pictogram <guiicon
+>Nieuw</guiicon
+> van de toepassingswerkbalk. Als u momenteel met een model bezig bent, dat is gewijzigd, dan zal &umbrello; u vragen of het uw wijzigingen moet opslaan alvorens het nieuwe model te laden. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Model opslaan</title>
+<para
+>U kunt op ieder moment uw model opslaan door de keuze <guimenuitem
+>Opslaan</guimenuitem
+> te selecteren uit het menu <guimenu
+>Bestand</guimenu
+> of door te klikken op de knop <guiicon
+>Opslaan</guiicon
+> uit de toepassingswerkbalk. Als u uw model onder een andere naam wilt opslaan, dan kunt u de keuze <guimenuitem
+>Opslaan als</guimenuitem
+> uit het menu <guimenu
+>Bestand</guimenu
+> gebruiken. </para>
+<para
+>Voor uw gemak biedt &umbrello; u ook de keuze om uw werk automatisch periodiek op te slaan. Als u er prijs op stelt dan kunt zowel deze keuze als het tijdsinterval instellen in <guimenu
+>Instellingen</guimenu
+> uit &umbrello;</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Model laden</title>
+<para
+>Om een reeds bestaand model te laden, kunt u de keuze <guimenuitem
+>Openen</guimenuitem
+> selecteren uit het meun <guimenu
+>Bestand</guimenu
+> of het pictogram <guiicon
+>Openen</guiicon
+> aanklikken uit de toepassingswerkbalk. De meest recent gebruikte modellen zijn eveneens beschikbaar onder het submenu <guimenuitem
+>Openen recent</guimenuitem
+> van het menu <guimenu
+>Bestand</guimenu
+> om zo de toegangssnelheid tot uw meest gebruikte modellen te vergroten. </para>
+<para
+>&umbrello; kan slechts met één model tegelijk werken, dus als u het programma vraagt om een model te laden, en uw actuele model is gewijzigd nadat u het voor de laatste keer bewaarde, zal &umbrello; uvragen of uw wijzigingen bewaard moeten worden om te voorkomen dat u werk kwijt raakt. U kunt op ieder moment twee of meer instanties van &umbrello; starten, u kunt ook kopiëren en plakken tussen instanties. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Modellen bewerken</title>
+<para
+>In &umbrello;, zijn in principe twee manieren om de elementen in uw model te bewerken. <itemizedlist>
+<listitem
+><para
+>Modelelementen direct bewerken via de boomstructuur</para
+></listitem>
+<listitem
+><para
+>Modelelementen bewerken via een diagram</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Door gebruik te maken van de contextmenu's van de verschillende onderdelen in de boomstructuur bent u in staat om vrijwel alle elementen aan uw model toe te voegen, uit uw model te verwijderen en in uw model te wijzigen. <mousebutton
+>Rechts</mousebutton
+> klikken op de mappen in de boomstructuur geeft u de keuze om niet alleen de verschillende soorten diagrammen te maken maar ook, afhankelijk van of de gekozen map een <emphasis
+>use case-weergave</emphasis
+> of een <emphasis
+>logische weergave</emphasis
+> is, actoren, use cases, klassen enz.. </para>
+<para
+>Heeft u eenmaal elementen aan uw model toegevoegd, dan kunt u een element ook bewerken door middel van diens eigenschappenvenster. Dat kunt u vinden door de keuze <emphasis
+>Eigenschappen</emphasis
+> te selecteren uit het contextmenu dat verschijnt als u <mousebutton
+>rechts</mousebutton
+> klikt op de onderdelen in de boomstructuur. </para>
+<para
+>U kunt uw model ook bewerken door elementen te maken of te wijzigen door middel van diagrammen. Meer details over hoe u dit moet doen worden in de volgende secties gegeven. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Diagrammen toevoegen en verwijderen</title>
+<para
+>Uw &UML;-model bestaat uit een set &UML; elementen met hun onderlinge associaties. Alleen kunt u het model niet direct zien, u kijkt ernaar d.m.v. <emphasis
+>diagrammen</emphasis
+>. </para>
+<sect2 id="create-diagram">
+<title
+>Diagrammen maken</title>
+<para
+>Om een nieuw diagram in uw model te maken selecteert u gewoon de diagramsoort die u nodig heeft uit het submenu <guimenuitem
+>Nieuw</guimenuitem
+> submenu van het menu <guimenu
+>Diagram</guimenu
+> en geeft u het een naam. Het diagram wordt gemaakt en wordt geactiveerd, en u krijgt het direct te zien in de boomstructuur. </para>
+<para
+>Onthoud dat &umbrello; uitgebreid gebruik maak van contextmenu's: u kunt evengoed &RMB; klikken op een map in de boomstructuur en de juiste diagramsoort uit het submenu <guisubmenu
+>Nieuw</guisubmenu
+> van het contextmenu selecteren. Merk op dat u alleen use case diagrammen kunt maken in mappen van een use case-weergave, en de andere soorten diagrammen alleen in de mappen van de logische weergave. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Diagrammen verwijderen</title>
+<para
+>Doet het zich voor dat u een diagram uit uw model moet verwijderen, dan doet u dit door het te activeren en <guimenuitem
+>Verwijderen</guimenuitem
+> te selecteren in het menu <guimenu
+>Diagram</guimenu
+>. U kunt dit ook bereiken door <guimenuitem
+>Verwijderen</guimenuitem
+> te selecteren in het diagrammen-contextmenu in de boomstructuur. </para>
+<para
+>Omdat het verwijderen van een diagram een serieuze aangelegeheid is waarbij u per ongeluk werk kunt verliezen, vraagt &umbrello; u om bevestiging van de verwijdereringsoperatie alvorens daadwerkelijk het diagram te verwijderen. Is het diagram eenmaal verwijderd dan is de file opgeslagen, dan kan deze actie op geen wijze ongedaan gemaakt worden. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Diagrammen hernoemen</title>
+<para
+>Als u de naam van een bestaand diagram wilt wijzigen dan kunt u dit gemakkelijk doen door de optie "Hernoemen" uit diens &RMB; menu te selecteren in de boomstructuur. </para>
+<para
+>Een andere manier om een diagram te hernoemen is dit te doen via zijn eigenschappenvenster. U krijgt deze als u "Eigenschappen" uit zijn contextmenu selecteert of door erop dubbel te klikken in de boomstructuur. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Diagrammen bewerken</title>
+<para
+>Bij het werken met een diagram probeert &umbrello; u te assisteren door enkele eenvoudige regels toe te passen met betrekking tot toegestane elementen in de verschillende soorten diagrammen, en de relaties die tussen hun kunnen voorkomen. Als u een &UML;-expert bent dan zal u dit waarschijnlijk niet eens merken, maar dit helpt &UML;-nieuwelingen om aan de standaard voldoende diagrammen te maken. </para>
+<para
+>Als u eenmaal uw diagrammen heeft gemaakt, dan wordt het tijd om ze te bewerken. Hier zou u het (voor beginners subtiele) verschil moeten zien tussen uw diagram bewerken, en het <emphasis
+>model</emphasis
+> bewerken. Zoals u reeds weet, zijn diagrammen <emphasis
+>weergaven</emphasis
+>van uw model. Bijvoorbeeld, als u een klasse maakt door een klassediagram te bewerken, dan bewerkt u in feite beide, uw diagram en uw model. Als u de kleur of andere weergavemogelijkheden van een klasse in uw klassediagram wijzigt, dan bewerkt u alleen uw diagram, en blijft uw model onveranderd. </para>
+<sect2 id="insert-elements">
+<title
+>Elementen toevoegen</title>
+<para
+>Een van de eerste dingen die u zult doen wanneer u een nieuw diagram bewerkt bestaat uit het eraan toevoegen van elementen (klassen, actoren, use cases, &etc;) Er zijn in principe twee manieren om dit te doen.</para>
+<itemizedlist>
+<listitem
+><para
+>Bestaande elementen naar uw model slepen uit de boomstructuur</para
+></listitem>
+<listitem
+><para
+>Nieuwe elementen in uw model maken en ze tegelijkertijd toevoegen aan uw diagram, door middel van de bewerkingsmiddelen in de gereedschappenbalk</para
+></listitem>
+</itemizedlist>
+<para
+>Om reeds bestaande elementen toe te voegen aan uw model, hoeft u ze alleen maar uit de boomstructuur te slepen en ze te laten vallen op het diagram daar waar u ze wilt hebben. U kunt altijd elementen verplaatsen in uw diagram met het selectiehulpmiddel. </para>
+<para
+>De tweede manier om elementen aan uw diagram toe te voegen bestaat uit het toepassen van de bewerkingsmiddelen in de gereedschappenbalk (merk op dat dit tegelijkertijd elementen aan uw model toevoegt). </para>
+<para
+>De hulpmiddelenbalk bevond zich standaard aan de bovenkant van het venster. De in deze hulpmiddelenbalk beschikbare hulpmiddelen (de knoppen die u erop ziet) veranderen afhankelijk van het soort diagram waar u op het moment mee bezig bent. De knop voor het geselecteerde hulpmiddel is geactiveerd in de hulpmiddelenbalk. U kunt omschakelen naar het hulpmiddel voor selectie door op de toets &Esc; te drukken. </para>
+<para
+>Wanneer u een bewerkingsgereedschap heeft geselecteerd uit de gereedschappenbalk (bijvoorbeeld, het gereedschap om klassen toe te voegen) dan verandert de muisaanwijzer in een kruis, en kunt u de elementen aan uw model toevoegen met een enkele muisklik in uw diagram. Merk op dat elementen in &UML; een <emphasis
+>unieke naam</emphasis
+> moeten hebben. Dus als u in een diagram een klasse heeft waarvan de naam <quote
+>KlasseA</quote
+> is, en u gebruikt het klasse-toevoegen gereedschap om de klasse aan een ander diagram toe te voegen, kunt u niet deze nieuwe klasse eveneens <quote
+>KlasseA</quote
+> noemen. Als verondersteld wordt dat deze beide twee verschillende elementen moeten zijn, dan dient u ze een unieke naam te geven. Als u wilt proberen om <emphasis
+>hetzelfde</emphasis
+> element aan uw diagram toe te voegen, dan is "Klasse toevoegen" niet het daartoe geschikte gereedschap. In plaats hiervan kunt u beter de klasse uit de boomstructuur verslepen. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Elementen verwijderen</title>
+<para
+>U kunt ieder element verwijderen door de keuze <guimenuitem
+>Verwijderen</guimenuitem
+> te selecteren in het contextmenu. </para>
+<para
+>Weer is er een <emphasis
+>groot</emphasis
+> verschil tussen een object uit een diagram verwijderen, en object uit uw model verwijderen: Als u een object uit uw diagram verwijdert, dan verwijdert u alleen dat object uit dat ene specifieke diagram: het element blijt nog steeds deel uitmaken van uw model model en als er andere diagrammen zijn die hetzelfde element gebruiken, dan zullen zij geen enkele wijziging krijgen. Als u daarentegen, het element verwijdert uit de boomstructuur, dat verwijdert u feitelijk het element uit uw <emphasis
+>model</emphasis
+>. Als derhalve het element niet langer in uw model voorkomt, dan wordt het automatisch verwijderd uit alle diagrammen waar het in voorkomt. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Elementen bewerken</title>
+<para
+>De meeste van de &UML;-elementen in uw model en diagrammen kunt u bewerken door hun eigenschappenvenster te openen en de van toepassing zijnde mogelijkheden te selecteren. Om de eigenschappen van een object te bewerken, selecteert u <guimenuitem
+>Eigenschappen</guimenuitem
+> in zijn contextmenu (&RMB;-klik). Ieder element heeft een dialoog die uit meerdere pagina's bestaat waarin u de instellingen van dat element kunt aanpassen. Voor sommige elementen, zoals actoren, kunt u slechts een paar instellingen, zoals de naam van het object en documentatie, een waarde geven, terwijl voor andere elementen, zoals klassen, u de attributen en operaties kunt bewerken, en selecteren wat er volgens u in het diagram getoond moet worden (complete operatiesignatuur of alleen namen van operaties, enz.), en zelfs de kleuren die u wilt gebruiken voor de lijnen en opvulling voor de klasserepresentatie in het diagram. </para>
+
+<para
+>Voor &UML;-elementen kunt u het eigenschappenvenster ook openen door er dubbel op te klikken wanneer u het selectiegereedschap (pijl) gebruikt. </para>
+
+<para
+>Merk op dat u de eigenschappen-menukeuze ook kunt selecteren in met contextmenu van de elementen in de boomstructuur. Hiermee kunt u ook de eigenschappen van de diagrammen bewerken, zoals de instelling of er al dan niet een rooster getoond moet worden. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Klassen bewerken</title>
+<para
+>Alhoewel het bewerken van eigenschappen van alle objecten al besproken was in de vorige sectie, verdienen klassen een toegewijde sectie omdat zij wat gecompliceerder zijn en meer instelmogelijkheden hebben dan de meeste andere &UML;-elementen. </para>
+<para
+>In het eigenschappenvenster van een klasse kunt van alles instellen, vanaf de kleur die het gebruikt tot en met zijn operaties en attributen. </para>
+<sect3 id="class-general-settings">
+<title
+>Algemene klasse-instellingen</title>
+<para
+>De algemene instelpagina van het eigenschappenvenster spreekt voor zich. Hier kunt u de naam van de klasse veranderen, de zichtbaarheid, documentatie, &etc;. Deze pagina is altijd beschikbaar. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Klasse-attributen instellen</title>
+<para
+>In de pagina voor attributeninstellingen kunt u klasse-attributen (variabelen) toevoegen, bewerken, of verwijderen. U kunt attributen omhoog en omlaag door de lijst verplaatsen met de pijlknoppen aan de zijkant. Deze pagina is altijd beschikbaar. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Klasse-operaties instellen</title>
+<para
+>Net als in de pagina voor attributeninstellingen, kunt u in de pagina voor operatie-instellingen, klasse-operaties toevoegen, bewerken, of verwijderen. Bij het toevoegen en bewerken van een operatie, geeft u de basisgegevens op in het venster <emphasis
+>Operatie-eigenschappen</emphasis
+>. Als u parameters aan uw operatie wilt toevoegen, dan dient u op de knop <guibutton
+>Nieuwe parameter</guibutton
+> te klikken, waardoor het venster <emphasis
+>Parameter-eigenschappen</emphasis
+> getoond wordt. Deze pagina is altijd beschikbaar. </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Klasse-sjabloon instellen</title>
+<para
+>Met deze pagina kunt klasse-sjablonen toevoegen. Dit zijn niet gespecificeerde klassen of gegevenstypen. In Java 1.5 gaan deze generics heten. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>De pagina "Klasse-associaties"</title>
+<para
+>De pagina <guilabel
+>Klasse-associaties</guilabel
+> toont alle associaties van deze klasse in het huidige diagram. Dubbel klikken op een associatie laat zijn eigenschappen zien, en afhankelijk van de soort associatie kunt u hier enkele parameters wijzigen zoals instellen van menigvuldigheid en de naam van de rol. Als de associatie niet toelaat om dergelijke keuzemogelijkheden te wijzigen, dan geldt voor dit associatie-eigenschappenvenster alleen-lezen, en kunt u alleen de aan deze associatie gekoppelde documentatie wijzigen. </para>
+<para
+>Deze pagina is alleen beschikbaar als u de klasse-eigenschappen vanuit een diagram opent. Als u de klasse-eigenschappen vanuit het contextmenu in de boomstructuur opent, dan is deze pagina niet beschikbaar. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>De pagina "Klasse-weergave"</title>
+<para
+>In de pagina <guilabel
+>Weergave keuzemogelijkheden</guilabel
+> kunt u instellen wat er in het diagram weergegeven moet worden. Een klasse kan weergegeven worden als alleen een rechthoek met de naam van de klasse erin (handig als u veel klassen in uw diagram heeft, of op het moment niet in de details van iedere klasse geïnteresseerd bent) of zo compleet als maar mogelijk met pakketen, stereotypen, attributen en operaties met volledige signatuur en zichtbaarheid </para>
+<para
+>Afhankelijk van de hoeveelheid informatie die u wilt zien, kunt u in deze pagina de corresponderende keuzemogelijkheden selecteren. De wijzigingen die u hier maakt zijn slechts <emphasis
+>weergave-keuzemogelijkheden</emphasis
+> voor het diagram. Dit houdt in dat <quote
+>verbergen</quote
+> van de klasse-operaties alleen tot gevolg heeft dat zij niet in het diagram getoond worden, en de operaties er nog steeds zijn als onderdeel van uw model. Deze keuzemogelijkheid is alleen beschikbaar als u de klasse-eigenschappen vanuit een diagram selecteert. Opent u echter klasse-eigenschappen vanuit de boomstructuur, dan ontbreekt deze pagina aangezien dergelijke keuzemogelijkheden in dat geval geen zin hebben.</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Pagina "Klasse-stijl"</title>
+<para
+>In de pagina <guilabel
+>Widgetstijl</guilabel
+> kunt u de kleuren instellen die u voor de lijnen en opvulling voor de widget wenst. Deze keuzemogelijkheid heeft overduidelijk alleen maar zin voor klassen in diagrammen, en ontbreekt wanneer u het klasse-eigenschappenvenster opent vanuit de boomstructuur. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Associaties</title>
+<para
+>Associatie relateren twee &UML; objecten aan elkaar. Normaal worden associaties gedefinieerd tussen twee klassen, maar sommige soorten associaties kunnen ook voorkomen tussen use cases en actoren. </para>
+<para
+>Om een associatie te maken selecteert u het geëigende gereedschap in degereedschappenbalk (generieke associatie, generalizatie, aggregatie, &etc;). Vervolgens klikt u eenmaal op het eerste element dat deelneemt aan de associatie, en eenmaal op het tweede element dat eraan deelneemt. Merk op dat dit twee klikken zijn, eenmaal op elk van de objecten die aan de associatie deelnemen, het is <emphasis
+>geen</emphasis
+> slepen van het ene object naar het andere. </para>
+<para
+>Als u probeert om een associatie aan te leggen tegen de regels van de &UML;-specificatie dan zal &umbrello; weigeren de associatie te maken en krijgt u een foutmelding. Dit kan het geval zijn als, bijvoorbeeld, er een generalisatie bestaat van klasse A naar klasse B en u vervolgens probeert om een andere generalisatie van klasse B naar klasse A te maken. </para>
+<para
+><mousebutton
+>Rechts</mousebutton
+> klikken op een associatie brengt een contextmenu naar voren met de acties die u erop kunt toepassen. Als u een associatie wilt verwijderen, selecteer dan de optie <guimenuitem
+>Verwijderen</guimenuitem
+> uit dit contextmenu. U kunt ook de optie <guimenuitem
+>Eigenschappen</guimenuitem
+> selecteren, en afhankelijk van de soort associatie, de attributen, zoals rol en multipliciteit, bewerken. </para>
+<sect3 id="anchor-points">
+<title
+>Ankerpunten</title>
+<para
+>Standaard worden associaties getekend als een rechte lijn die de twee objecten in het diagram met elkaar verbindt. </para>
+<para
+>U kunt ankerpunten toevoegen om een associatie te buigen. <mousebutton
+>Dubbelklik</mousebutton
+> hiertoe ergens op de associatielijn. Dit voegt een ankerpunt toe (weergegeven als een blauwe punt wanneer de associatielijn geselecteerd wordt) welke u overal naartoe kunt verplaatsen om de associatie van vorm te veranderen. </para>
+<para
+>Als u een ankerpunt wilt verwijderen, <mousebutton
+>dubbel</mousebutton
+>klik er dan weer om het te verwijderen </para>
+<para
+>Merk op dat de enige manier om de eigenschappen van een associatie te bewerken, via het contextmenu loopt. Er op <mousebutton
+>dubbel</mousebutton
+>klikken, zoals bij andere &UML;-objecten, heeft alleen tot gevolg dat er een ankerpunt toegevoegd wordt. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Notities, tekst en vakken</title>
+<para
+>Notities, tekstregels en vakken zijn elementen die in ieder soort diagram kunnen voorkomen en geen wezenlijke semantische waarde hebben. Maar, zij zijn zeer nuttig om extra commentaar of uitleg toe te voegen, waardoor uw diagram gemakkelijker te begrijpen wordt. </para>
+<para
+>Om een notitie of een tekstregel toe te voegen, selecteert u het corresponderende gereedschap in de gereedschappenwerkbalk en klikt u eenmaal op het diagram waar u uw commentaar wilt hebben. U kunt de tekst bewerken door het element te openen via zijn contextmenu of in het geval van notities evengoed door er op te <mousebutton
+>dubbel</mousebutton
+>klikken. </para>
+<sect3 id="anchors">
+<title
+>Ankers</title>
+<para
+>Ankers worden gebruikt om een tekstaantekening en een &UML; element aan elkaar te koppelen. Bijvoorbeeld, u gebruikt gewoonlijk een tekstaantekening om betreffende een klasse of een of andere associatie, iets te verklaren of er enig commentaar aan toe te voegen, in zo'n geval kunt u een anker gebruiken om aan te geven dat de notitie tot dat ene element <quote
+>behoort</quote
+>. </para>
+<para
+>Om een anker aan een notitie en een &UML;-element toe te voegen, gebruikt u het ankergereedschap uit de gereedschappenbalk. U dient eerst op de notitie te klikken en vervolgens op het &UML;-element waar u de notitie aan wilt verbinden. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

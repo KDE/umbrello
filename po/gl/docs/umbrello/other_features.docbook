@@ -1,0 +1,76 @@
+<chapter id="other-features">
+<title
+>Outras funcionalidades</title>
+<sect1
+> 
+<title
+>Outras funcionalidades de &umbrello;</title>
+<para
+>Este capítulo describe por riba algunhas funcionalidades adicionais que oferece &umbrello;.</para>
+<sect2 id="copying-as-png">
+<title
+>Copiar obxectos como imaxes PNG</title>
+<para
+>Ademais das funcións normais de copiar, cortar e apegar que serven para copiar obxectos entre distintos diagramas, &umbrello; pode copiar os obxectos como imaxes PNG para que os poda inserir en outros tipos de documento. Non precisa facer nada especial para usar esta funcionalidade, só escolla un obxecto no diagrama (Clase, Actor, &etc;) e cópieo (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, ou mediante o menú), logo abra un documento de &kword; (ou de calquer programa onde poda apegar imaxes) e escolla <guimenuitem
+>Apegar</guimenuitem
+>. Esta é unha funcionalidade perfeita para exportar partes do diagrama como imaxes simples. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exportar para unha imaxe</title>
+<para
+>Tamén pode exportar un diagrama inteiro como unha imaxe. A única cousa que precisa facer é escoller o diagrama que quer exportar, e logo a opción <guimenuitem
+>Exportar como imaxe...</guimenuitem
+> no menú <guimenu
+>Diagrama</guimenu
+>. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Imprimir</title>
+<para
+>&umbrello; permítelle imprimir diagramas individualmente. Prema no botón <guiicon
+>Imprimir</guiicon
+> na barra de ferramentas da aplicación ou escolla a opción <guimenuitem
+>Imprimir</guimenuitem
+> no menú <guimenu
+>Ficheiro</guimenu
+> e mostrarase o diálogo estándar de &kde; para imprimir. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Cartafoles lóxicos</title>
+<para
+>Para organizar mellor o modelo, en especial en proxectos grandes, pode criar cartafoles lóxicos na Vista en Árbore. Simplesmente escolla a opción <menuchoice
+><guimenu
+>Novo</guimenu
+><guimenuitem
+>Cartafol</guimenuitem
+></menuchoice
+> no menú contextual dos cartafoles por omisión na vista en árbore para crialos. Os cartafoles poden estar uns dentro dos outros, e pode mover obxectos entre eles arrastrándoo dun para o outro. </para>
+
+<screenshot>
+<screeninfo
+>Organización do modelo en cartafoles</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organizando un modelo con cartafoles lóxicos en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organizando un modelo con cartafoles lóxicos en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

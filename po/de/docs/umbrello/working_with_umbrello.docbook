@@ -1,0 +1,407 @@
+<chapter id="working-with-umbrello">
+<title
+>Mit &umbrello; arbeiten</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>Dieses Kapitel gibt eine Einführung in die Oberfläche von &umbrello; und vermittelt alle Kenntnisse, um sofort mit der Modellierung anzufangen. Wie normalerweise üblich, sind (fast) alle Aktionen über &umbrello;s Menüs und Werkzeugleisten erreichbar. Allerdings nutzt &umbrello; ebenfalls sehr stark die über rechte Maustaste erreichbaren Kontextmenüs. Man kann fast auf jedes Element in &umbrello;s Arbeitsbereich oder Baumansicht mit der rechten Maustaste klicken, um für das gewählte Element sinnvoll erscheinende Funktionen zu erreichen. Für einige Benutzer ist dies am Anfang sehr verwirrend, da sie meist die Arbeit über Menüs und Werkzeugleisten gewöhnt sind. Aber hat man sich erst einmal an den <mousebutton
+>Rechtsklick</mousebutton
+> gewöhnt, kann man sein Arbeitstempo wesentlich erhöhen. </para>
+
+<sect1 id="user-interface">
+<title
+>Benutzeroberfläche</title>
+<para
+>&umbrello;s Hauptfenster unterteilt sich in 3 Bereiche, die dabei helfen den Überblick über das gesamte System zu wahren, verschiedene Diagramme schnell aufzurufen und letztendlich am Modell zu arbeiten. </para>
+<para
+>Diese Bereiche werden folgendermaßen bezeichnet:</para>
+<itemizedlist>
+<listitem
+><para
+>Baumansicht</para
+></listitem>
+<listitem
+><para
+>Arbeitsbereich</para
+></listitem>
+<listitem
+><para
+>Dokumentation und Befehlsverlauf</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>&umbrello;s Benutzeroberfläche</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello;s Benutzeroberfläche</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello;s Benutzeroberfläche </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Baumansicht</title>
+<para
+>Die Baumansicht befindet sich am oberen linken Rand des Fensters und zeigt alle Diagramme, Klassen, Akteure und Anwendungsfälle, aus denen das Modell besteht. Mit der Baumansicht bekommt man einen schnellen Überblick über die Elemente, die das System formen. Weiterhin kann man mit der Baumansicht sehr elegant zwischen den einzelnen Diagrammen wechseln und Elemente aus dem Modell in das aktuelle Diagramm einfügen. </para>
+<para
+>Besteht das Modell aus vielen Klassen und Diagrammen, hilft die Baumansicht bei der Wahrung der Übersicht, indem man das Modell mittels Ordnern besser organisiert. Man kann Ordner anlegen, indem man vom Kontextmenü (Klick mit rechter Maustaste auf ein Ordnerelement in der Baumansicht) den entsprechenden Befehl wählt. Die Elemente kann man einfach in die gewünschten Ordner mittels Drag'n Drop (Ziehen und Ablegen) verschieben. </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Dokumentation und Befehlsverlauf</title>
+<para
+>Das Dokumentation und Befehlsverlauf wird am unteren linken Rand des &umbrello;-Fensters. Es zeigt eine Überblick der für das aktuell gewählte Objekt hinterlegten Dokumentation und den Befehlsverlauf der Arbeitssitzung. Das Dokumentationsfenster ist sehr klein, da es nur einen kurzen Einblick in die hinterlegte Dokumentation und einen Überblick des Befehlsverlaufs geben soll. Die komplette Dokumentation ist natürlich über die Eigenschaften des Elementes verfügbar. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Arbeitsbereich</title>
+<para
+>Der Arbeitsbereich ist der Hauptteil des Fensters. Hier findet die eigentliche Arbeit statt. Er wird zum bearbeiten und anschauen der im Modell hinterlegten Diagramme genutzt. Der Arbeitsbereich zeigt das aktuell aktive Diagramm. Momentan kann immer nur 1 Diagramm im Arbeitsbereich zu einem Zeitpunkt dargestellt werden. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Erstellen, Laden und Speichern von Modellen</title>
+<para
+>Um etwas Sinnvolles mit &umbrello; machen zu können, muss man zuerst ein Modell anlegen, an dem man arbeiten kann. Während &umbrello;s Start wird entweder das zuletzt bearbeitete Modell geladen oder ein neues leeres Modell angelegt. Die hängt von den Einstellungen im Einstellungsfenster ab. Dadurch kann man sofort mit der gewünschten Arbeit beginnen. </para>
+<sect2 id="new-model">
+<title
+>Neues Modell</title>
+<para
+>Um zu irgendeinem Zeitpunkt ein neues Modell anzulegen, wählt man <guimenuitem
+>Neu</guimenuitem
+> aus dem Menü <guimenu
+>Datei</guimenu
+> oder klickt auf das Symbol <guiicon
+>Neu</guiicon
+> in der horizontalen Werkzeugleiste. Arbeitet man gerade an einem Modell, fragt &umbrello; zuerst nach, ob man das aktuelle Modell nicht speichern will, bevor man ein neues Element anlegt. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Modell speichern</title>
+<para
+>Man kann zu jedem Zeitpunkt das Modell speichern indem man den Eintrag <guimenuitem
+>Speichern</guimenuitem
+> aus dem Menü <guimenu
+>Datei</guimenu
+> wählt, oder auf das entsprechende Symbol in der horizontalen Werkzeugleiste klickt. Soll das Modell unter einem anderen Dateinamen gespeichert werden, wählt man den Eintrag <guimenuitem
+>Speichern unter ...</guimenuitem
+> aus dem Menü <guimenu
+>Datei</guimenu
+>. </para>
+<para
+>Zur Absicherung bietet &umbrello; die Möglichkeit, das Modell automatisch nach einem bestimmten Zeitabschnitt zu speichern. Man kann diese Möglichkeit und das Zeitintervall in &umbrello;s <guimenu
+>Einstellungen</guimenu
+> definieren.</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Modell laden</title>
+<para
+>Um ein bereits existierendes Modell zu laden, muss man <guimenuitem
+>Öffnen</guimenuitem
+> aus dem Menü <guimenu
+>Datei</guimenu
+> oder das entsprechende Symbol aus der horizontalen Werkzeugleiste wählen. Die zuletzt bearbeiteten Modelle sind ebenfalls über das Untermenü <guimenuitem
+>Zuletzt geöffnete Dateien</guimenuitem
+> im Menü <guimenu
+>Datei</guimenu
+> verfügbar. Dadurch kann man häufig verwendete Modelle wesentlich schneller aufrufen. </para>
+<para
+>Mit &umbrello; kann man immer nur an einem Modell gleichzeitig arbeiten. Fordert man das Programm zum Laden eines anderen Modells auf und wurde das momentan bearbeitete Modell seit dem letzten Speichern verändert, fragt &umbrello; nach, ob man die Änderungen nicht zuerst speichern will. Dadurch wird ein möglicher Datenverlust verhindert. Man kann aber mehrere Instanzen von &umbrello; starten und auch zwischen den Instanzen Objekte kopieren und einfügen. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Modelle bearbeiten</title>
+<para
+>In &umbrello; gibt es prinzipiell 2 Möglichkeiten die Elemente des Modells zu verändern. <itemizedlist>
+<listitem
+><para
+>Man kann die Elemente direkt in der Baumansicht bearbeiten.</para
+></listitem>
+<listitem
+><para
+>Man kann die Elemente in den Diagrammen bearbeiten.</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Über das mit der rechten Maustaste erreichbare Kontextmenü kann man in der Baumansicht fast alle Elemente des Modells hinzufügen, entfernen oder verändern. Klickt man zum Beispiel mit der <mousebutton
+>rechten</mousebutton
+> Maustaste auf einen Ordner in der Baumansicht, kann man eines der verschiedenen Diagramme sowie Akteure, Klassen und Anwendungsfälle anlegen, je nachdem ob der Ordner der <emphasis
+>logischen Sicht</emphasis
+> oder der <emphasis
+>Anwendungsfallsicht</emphasis
+> untergeordnet ist. </para>
+<para
+>Nachdem man ein Element dem Modell hinzugefügt hat, kann man seine Eigenschaften über den Eigenschaftendialog ändern. Diesen erreicht man über den Punkt <emphasis
+>Eigenschaften</emphasis
+> aus dem Kontextmenü des jeweiligen Elements. </para>
+<para
+>Weiterhin kann man das Modell durch das Anlegen und Ändern von Elementen in den Diagrammen bearbeiten. Weitere Details, wie das geht, sind in den folgenden Abschnitten zu finden. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Diagramme hinzufügen und entfernen</title>
+<para
+>Das &UML;-Modell besteht aus &UML;-Elementen und den Assoziationen zwischen diesen. Man kann aber das Modell nicht direkt sehen, sondern man nutzt <emphasis
+>Diagramme</emphasis
+>, um es zu betrachten. </para>
+<sect2 id="create-diagram">
+<title
+>Diagramme anlegen</title>
+<para
+>Um ein neues Diagramm dem Modell hinzufügen, muss man lediglich den Diagrammtyp aus dem Untermenü <guimenuitem
+>Neu</guimenuitem
+> aus dem Menü <guimenu
+>Diagramm</guimenu
+> wählen und dem Kind einen Namen geben. Das Diagramm wird angelegt und als aktives Diagramm für den Arbeitsplatz ausgewählt. Es taucht sofort in der Baumansicht auf. </para>
+<para
+>Man sollte sich daran erinnern, dass &umbrello; sehr starken Gebrauch von den Kontextmenüs, erreichbar über die rechte Maustaste, macht. So kann man auf einen Ordner in der Baumansicht mit der rechten Maustaste klicken und aus dem Untermenü <guisubmenu
+>Neu</guisubmenu
+> den gewünschten Typ auswählen. Es ist zu beachten, dass man in der Anwendungsfallsicht lediglich Anwendungsfalldiagramme hinzufügen kann und in der logischen Sicht alle anderen Diagrammtypen. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Diagramme entfernen</title>
+<para
+>Will man ein Diagramm aus dem Modell entfernen, muss man es aktivieren und dann <guimenuitem
+>Löschen</guimenuitem
+> aus dem Menü <guimenu
+>Diagramm</guimenu
+> aufrufen. Man kann dies ebenfalls über den Eintrag <guisubmenu
+>Löschen</guisubmenu
+> im Kontextmenü des entsprechenden Diagramms in der Baumansicht machen. </para>
+<para
+>Da das Löschen eines Diagramms ein ernster Eingriff ist, der Datenverlust verursachen kann, falls es unbeabsichtigt passiert, fragt &umbrello; um Bestätigung, bevor die Löschoperation ausgeführt wird. Wurde das Diagramm einmal gelöscht und die Datei gespeichert, gibt es keine Möglichkeit, die Aktion rückgängig zu machen! </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Diagramme umbenennen</title>
+<para
+>Will man ein Diagramm umbenennen, kann man dies durch den Eintrag <guisubmenu
+>Umbenennen</guisubmenu
+> im Kontextmenü des Diagramms in der Baumansicht erreichen. </para>
+<para
+>Ein anderer Weg ist der Eigenschaftendialog des Diagramms, der durch den Eintrag Eigenschaften aus dem über die rechte Maustaste erreichbaren Kontextmenüs des Diagramms aufgerufen werden kann. Weiterhin kann man in der Baumansicht mit einem Doppelklick auf das Diagramm den Eigenschaftendialog ebenfalls aufrufen. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Diagramme bearbeiten</title>
+<para
+>Während der Arbeit mit Diagrammen versucht &umbrello; einen durch die Anwendung einfacher Regeln zu unterstützen, indem nur die möglichen Elemente in einem Diagramm zur Verfügung stehen und nur die sinnvollen Beziehungen zwischen diesen angelegt werden können. Als &UML;-Experte wird man dies vielleicht gar nicht bemerken, für Anfänger ist es eine große Unterstützung bei der Erstellung von standardkonformen Diagrammen. </para>
+<para
+>Nachdem man ein Diagramm angelegt hat, kann man es bearbeiten. Es ist dabei der Unterschied zwischen Diagramm- und Modellbearbeitung, für Anfänger schwieriger verständlich, zu beachten. Wie bereits dargelegt wurde, sind Diagramme eine <emphasis
+>Sicht</emphasis
+> auf das <emphasis
+>Modell</emphasis
+>. Legt man zum Beispiel in einem Klassendiagramm eine Klasse an, dann bearbeitet man eigentlich sowohl Modell wie auch Diagramm. Ändert man hingegen lediglich die Farbe oder andere Darstellungsoptionen einer Klasse in einem Klassendiagramm, dann wird dadurch lediglich das Diagramm, aber nicht das Modell verändert. </para>
+<sect2 id="insert-elements">
+<title
+>Elemente einfügen</title>
+<para
+>Eines der ersten Dinge mit einem neuen Diagramm ist es, Elemente wie Klassen, Akteure oder Anwendungsfälle einzufügen. Es gibt prinzipiell 2 Möglichkeiten, wie dies geschehen kann.</para>
+<itemizedlist>
+<listitem
+><para
+>Existierende Elemente aus der Baumansicht in das Diagramm schieben.</para
+></listitem>
+<listitem
+><para
+>Ein neues Element mithilfe der Werkzeuge in der vertikalen Werkzeugleiste anlegen und gleichzeitig dem aktiven Diagramm hinzuzufügen.</para
+></listitem>
+</itemizedlist>
+<para
+>Um ein im Modell bereits existierendes Element in das aktuelle Diagramm einzufügen, muss man es lediglich von der Baumansicht in das Diagramm an die gewünschte Stelle ziehen. Man kann das Element jederzeit mit dem Auswahlwerkzeug im Diagramm verschieben. </para>
+<para
+>Die zweite Möglichkeit Elemente hinzuzufügen ist es, eines der Werkzeuge aus der vertikalen Werkzeugleiste am rechten Bildschirmrand zu benutzen. Dabei wird das Element ebenfalls dem Modell hinzugefügt. </para>
+<para
+>Die Diagramm-Werkzeugleiste befindet sich standardmäßig am oberen Fenster des Anwendungsfensters, man kann sie allerdings an andere Stellen verschieben oder sie über allen anderen Bereichen schwebend positionieren. Die in dieser Werkzeugleiste verfügbaren Werkzeuge, dargestellt durch die verschiedenen Knöpfe, ändern sich je nach momentan bearbeiteten Diagrammtyp. Das momentan gewählte Werkzeug wird hervorgehoben in der Werkzeugleiste dargestellt. Über die Taste &Esc; kann man das Auswahl-Werkzeug auswählen. </para>
+<para
+>Hat man ein Bearbeitungswerkzeug aus der Werkzeugleiste ausgewählt, zum Beispiel um eine Klasse einzufügen, ändert sich der Mauszeiger in ein Kreuz. Man kann nun das Element in das Diagramm über einen einzelnen Klick mit der linken Maustaste im Diagramm einfügen. &UML;-Elemente müssen immer <emphasis
+>eindeutige Namen</emphasis
+> haben. Gibt es zum Beispiel in einem Diagramm die Klasse <quote
+>KlasseA</quote
+>, dann kann man in einem anderen Diagramm keine neue Klasse mit dem gleichen Namen einfügen. Soll es sich bei den beiden Klassen um unterschiedliche Elemente handeln, dann müssen diese auch unterschiedliche Namen haben. Um das <emphasis
+>gleiche</emphasis
+> Element nochmals einzufügen, ist das Werkzeug Klasse einfügen nicht das richtige Hilfsmitteln. Man muss in solch einem Fall lediglich die gewünschte Klasse aus der Baumansicht in das Diagramm ziehen. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Elemente löschen</title>
+<para
+>Man kann jedes Element über den Eintrag <guimenuitem
+>Löschen</guimenuitem
+> aus dem Kontextmenü entfernen. </para>
+<para
+>Hier zeigt sich wiederum der <emphasis
+>große</emphasis
+> Unterschied zwischen einem Element aus einem Diagramm und einem Element aus dem Modell zu entfernen. Löscht man ein Element in einem Diagramm, dann wird es nur aus diesem speziellen Diagramm entfernt. Das Element ist aber weiterhin Teil des Modells und falls es in anderen Diagrammen genutzt wird, werden diese nicht verändert. Löscht man hingegen das Element in der Baumansicht, dann löscht man das Element im ganzen <emphasis
+>Modell</emphasis
+>. Da das Element dann nicht länger im Modell existiert, wird es ebenfalls in allen Diagrammen gelöscht, in denen es verwendet wird. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Elemente bearbeiten</title>
+<para
+>Man kann die meisten &UML;-Elemente des Modells ändern, indem man den Eigenschaftendialog öffnet und die gewünschten Änderungen vornimmt. Um zum Beispiel ein Objekt zu verändern, ist es auszuwählen und dann <guimenuitem
+>Eigenschaften</guimenuitem
+> aus seinem Kontextmenü (rechte Maustaste) zu wählen. Jedes Element verfügt über solch einen Dialog, der aus mehreren Seiten besteht, abhängig vom Typ des zu bearbeitenden Elementes. Für einige Elemente, wie Akteure, kann man lediglich einige wenige Parameter wie den Namen oder die Dokumentation ändern. Für andere Elemente hingegen, wie Klassen, kann man viele Einstellungen vornehmen wie Attribute und Operationen, Sichtbarkeit und die Darstellung im Diagramm (nur Operationen oder komplette Signatur der Operationen). Man kann sogar die Linienfarben und die Füllfarbe für die Visualisierung der Klasse im Diagramm einstellen. </para>
+
+<para
+>Für &UML;-Elemente kann man diesen Eigenschaftendialog durch einen Doppelklick auf das entsprechende Element mit dem Auswahlwerkzeug (Pfeil) aufrufen.  </para>
+
+<para
+>Man kann den Eigenschaftendialog auch über das Kontextmenü in der Baumansicht erreichen. Dadurch kann man die Eigenschaften für Diagramme bearbeiten, zum Beispiel ob der Raster anzuzeigen ist oder nicht. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Klassen bearbeiten</title>
+<para
+>Obwohl das Bearbeiten der Eigenschaften von Objekten bereits im letzten Abschnitt erörtert wurde, folgt ein weiterer Abschnitt zu Klassen, da sie komplizierter als alle anderen &UML;-Elemente sind. </para>
+<para
+>Im Eigenschaftendialog der Klassen kann man alles von der Farbe bis zu den Operationen und Attributen bearbeiten. </para>
+<sect3 id="class-general-settings">
+<title
+>Allgemeine Klasseneinstellungen</title>
+<para
+>Die Seite im Eigenschaftendialog für die allgemeinen Einstellungen ist selbsterklärend. Dort kann man den Klassennamen, die Sichtbarkeit, die Dokumentation &etc; ändern. Diese Seite ist immer verfügbar. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Attributeinstellungen von Klassen</title>
+<para
+>Auf der Seite für die Attributeinstellungen kann man Attribute der Klasse hinzufügen, bearbeiten und löschen. Man kann weiterhin die Attribute in der Liste nach oben und nach unten über die Pfeile verschieben. Diese Seite ist ebenfalls immer verfügbar. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Operationseinstellungen von Klassen</title>
+<para
+>Wie in der Seite für die Attributeinstellungen, kann man auf der Seite für die Operationseinstellungen Operationen hinzufügen, bearbeiten und aus der Klasse entfernen. Fügt man eine Operation hinzu oder verändert eine bestehende, dann geschieht dies über den Dialog <emphasis
+>Operationseigenschaften</emphasis
+>. Um einen neuen Parameter zu einer Operation hinzuzufügen, muss man den Knopf <guibutton
+>Neuer Parameter</guibutton
+> benutzen, der den Dialog <emphasis
+>Parametereigenschaften</emphasis
+> aufruft. Diese Seite ist immer verfügbar. </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Einstellung für parametrisierbare Klasse</title>
+<para
+>Auf dieser Seite kann man Klassen-Vorlagen, das sind unspezifizierte Klassen und Datentypen, einfügen. In Java 1.5 werden sie unter der Bezeichnung Generics eingeführt. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Seite der Klassenassoziationen</title>
+<para
+>Die Seite <guilabel
+>Assoziationen</guilabel
+> zeigt alle mit der Klasse verbundenen Assoziationen im aktuellen Diagramm. Ein Doppelklick auf eine Assoziation zeigt den entsprechenden Eigenschaftsdialog. Je nach Assoziationstyp kann man einige Parameter wie Multiplizität und Rollennamen ändern. Verfügt die gewählte Assoziation nicht über solche Parameter, dann ist der Eigenschaftendialog nicht änderbar und man kann lediglich die Dokumentation der Assoziation ändern. </para>
+<para
+>Diese Seite ist nur verfügbar, wenn man die Klasseneigenschaften aus einem Diagramm heraus aufruft. Erfolgt hingegen der Aufruf aus der Baumansicht, ist diese Seite nicht verfügbar. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Seite Anzeige</title>
+<para
+>In der Seite <guilabel
+>Anzeige</guilabel
+> kann man einstellen, wie die Klasse im Diagramm dargestellt wird. Eine Klasse kann zum Beispiel als einfaches Rechteck mit dem Namen dargestellt werden. Dies ist besonders nützlich, wenn man sehr viele Klassen im Diagramm hat, oder sich noch nicht für Details interessiert. Man kann aber auch die komplette Klasse mit Paketen, Stereotypen, Attributen und Operationen mit Signatur und Sichtbarkeit anzeigen lassen. </para>
+<para
+>Je nach gewünschtem Informationsumfang, kann man die entsprechenden Optionen auf dieser Seite wählen. Die hier gemachten Einstellungen sind lediglich <emphasis
+>Anzeigeeinstellungen</emphasis
+> für das aktuelle Diagramm. Das bedeutet, <quote
+>ausgeblendete</quote
+> Operationen im Diagramm sind trotzdem weiterhin Teil des gesamten Modells. Diese Seite ist nur verfügbar, wenn der Eigenschaftendialog der Klasse aus einem Diagramm heraus aufgerufen wurde. Wird der Eigenschaftendialog lediglich aus der Baumansicht aufgerufen, fehlen die Darstellungseinstellungen logischerweise.</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Seite Klassenstil</title>
+<para
+>Auf der Seite <guilabel
+>Stil der Bedienelemente</guilabel
+> kann man die Linienfarben und die Füllfarbe einstellen. Diese Seite ist nur verfügbar, wenn die Eigenschaften der Klasse aus einem Diagramm aufgerufen wurden und nicht aus der Baumansicht. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Assoziationen</title>
+<para
+>Assoziationen bringen zwei &UML;-Elemente miteinander in Verbindung. Normalerweise werden Assoziationen zwischen Klassen definiert, aber einige können auch zwischen Anwendungsfällen und Akteuren angelegt werden. </para>
+<para
+>Um eine Assoziation anzulegen, ist das entsprechende Werkzeug aus der vertikalen Werkzeugleiste auszuwählen (zum Beispiel allgemeine Assoziation, Verallgemeinerung, Aggregation &etc;) und auf das Ausgangselement zu klicken. Danach muss man auf den 2. Partner der Assoziation klicken. Es handelt sich dabei um 2 Klicks und <emphasis
+>nicht</emphasis
+> um einen Klick mit anschließendem Ziehen von einem Element zum anderen! </para>
+<para
+>Versucht man eine Assoziation anzulegen, die nicht mit den &UML;-Spezifikationen vereinbar ist, dann verhindert dies &umbrello; und gibt einen entsprechenden Hinweis aus. Dies ist zum Beispiel der Fall, wenn zwischen Klasse A und B eine Verallgemeinerung existiert und nun versucht wird, eine Verallgemeinerung von B nach A anzulegen. </para>
+<para
+>Durch einen <mousebutton
+>Rechtsklick</mousebutton
+> auf eine Assoziation erscheint ein Menü mit den Einträgen, die man auf die Assoziation anwenden kann. Um zum Beispiel eine Assoziation zu löschen, muss man den Eintrag <guimenuitem
+>Löschen</guimenuitem
+> aus dem Kontextmenü auswählen. Man kann über den Eintrag <guimenuitem
+>Eigenschaften</guimenuitem
+> je nach Typ der Assoziation in einem Dialog die Attribute der Assoziation wie Rollenname und Multiplizität ändern. </para>
+<sect3 id="anchor-points">
+<title
+>Ankerpunkte</title>
+<para
+>Assoziationen werden standardmäßig als durchgezogene Linie zwischen den beiden zu verbindenden Objekten im Diagramm gezeichnet. </para>
+<para
+>Man kann solch einen zusätzlichen Ankerpunkt durch einen <mousebutton
+>Doppelklick</mousebutton
+> auf die Assoziation an einer beliebigen Stelle einfügen. Diesen eingefügten Ankerpunkt (dargestellt durch einen blauen Punkt, wenn die Assoziation ausgewählt ist) kann man nun verschieben, um der Assoziation die gewünschte Form zu geben. </para>
+<para
+>Um einen Ankerpunkt zu entfernen, muss man diesen lediglich <mousebutton
+>doppelt</mousebutton
+> mit der linken Maustaste anklicken. </para>
+<para
+>Es ist zu beachten, dass man den Eigenschaftsdialog einer Assoziation lediglich über ihr Kontextmenü aufrufen kann. Ein <mousebutton
+>Doppelklick</mousebutton
+>, wie bei anderen &UML;-Elementen, fügt einen Ankerpunkt ein. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Textnotizen, Anmerkungen und Rahmen</title>
+<para
+>Textnotizen, Textzeilen und Rahmen sind Elemente, die in allen Diagrammtypen verfügbar sind. Sie haben keine inhaltliche Bedeutung für das Modell, sie können aber hilfreiche Kommentare und Erklärungen enthalten, die ein Diagramm leichter lesbar machen. </para>
+<para
+>Um eine Textnotiz oder eine Textzeile einzufügen, wählt man das entsprechende Werkzeug aus der vertikalen Werkzeugleiste und klickt im Diagramm an die Stelle, wo das Kommentar erscheinen soll. Man kann den Text über das Kontextmenü ändern oder im Fall von Textnotizen durch einen <mousebutton
+>Doppelklick</mousebutton
+> auf den Text. </para>
+<sect3 id="anchors">
+<title
+>Anker</title>
+<para
+>Mit Ankern kann man ein &UML;-Element mit einer Textnotiz verbinden. Möchte man zum Beispiel mit einer Textnotiz einige Hinweise über eine Klasse angeben, dann verbindet man diese Textnotiz mit der Klasse. Dadurch ist ersichtlich, dass die Textnotiz sich auf das entsprechende Element <quote
+>bezieht</quote
+>. </para>
+<para
+>Um einen Anker zwischen einer Textnotiz und einem &UML;-Element einzufügen, muss man das entsprechende Werkzeug von der vertikalen Werkzeugleiste wählen. Zuerst klickt man auf die gewünschte Textnotiz und mit dem zweiten Klick auf das zu verknüpfende &UML;-Element. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

@@ -1,0 +1,433 @@
+# translation of kdevphp.po to Slovak
+# Richard Fric <Richard.Fric@kdemail.net>, 2009.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevphp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2022-04-07 18:18+0200\n"
+"Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
+"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 21.12.3\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Roman Paholík"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "wizzardsk@gmail.com"
+
+#: completion/implementationitem.cpp:60
+#, kde-format
+msgid "Override"
+msgstr "Prepísať"
+
+#: completion/implementationitem.cpp:63
+#, kde-format
+msgid "Implement"
+msgstr "Implementácia"
+
+#: completion/implementationitem.cpp:75
+#, kde-format
+msgid "From %1"
+msgstr "Od %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "Integrácia manuálu PHP"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Predvolene sa online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP dokumentácia</span></a> používa vzdialené. Alternatívne "
+"môžete nastaviť umiestnenie na miestnu kópiu dokumentácie v jazyky podľa "
+"vášho výberu. Uistite sa, že ste stiahli balík <span style=\" font-style:"
+"italic;\">\"HTML formát, mnoho súborov\"</span>.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "Umiestnenie:"
+
+#: docs/phpdocsmodel.cpp:96
+#, kde-format
+msgid "<lost declaration>"
+msgstr "<stratená deklarácia>"
+
+#: docs/phpdocsplugin.cpp:207
+#, kde-format
+msgid "PHP Documentation"
+msgstr "Dokumentácia PHP"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "Určuje umiestnenie PHP dokumentácie na použitie."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"Umiestnenie PHP dokumentácie na použitie. Môžete použiť buď vzdialené\n"
+"                 umiestnenie ako http://php.net alebo miestny adresár, "
+"ktorý\n"
+"                 obsahuje PHP dokumentáciu v HTML formáte s mnohými súbormi."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"Uistite sa, že miestne kópie sú stiahnuté v HTML formáte s mnohými súbormi.\n"
+"        "
+
+#: docs/phpdocumentationwidget.cpp:56
+#, kde-format
+msgid "...loading documentation..."
+msgstr "...načítavanie dokumentácie..."
+
+#: duchain/builders/contextbuilder.cpp:397
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Kruhová dedičnosť %1 a %2"
+
+#: duchain/builders/declarationbuilder.cpp:321
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "Prístupový typ pre metódu rozhrania %1 musí byť vynechaný."
+
+#: duchain/builders/declarationbuilder.cpp:325
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "Funkcia rozhrania %1 nemôže obsahovať telo."
+
+#: duchain/builders/declarationbuilder.cpp:337
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"Trieda %1 obsahuje abstraktnú metódu %2 a musí teda byť deklarovaná "
+"abstraktne alebo implementovať metódu."
+
+#: duchain/builders/declarationbuilder.cpp:343
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "Abstraktná funkcia %1 nemôže obsahovať telo."
+
+#: duchain/builders/declarationbuilder.cpp:346
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "Nemôžem použiť konečný modifikátor na členovi abstraktnej triedy."
+
+#: duchain/builders/declarationbuilder.cpp:356
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "Neabstraktná metóda %1 musí obsahovať telo."
+
+#: duchain/builders/declarationbuilder.cpp:374
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "Vlastnosti nemôžu byť deklarované konečne."
+
+#: duchain/builders/declarationbuilder.cpp:377
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "Vlastnosti nemôžu byť deklarované abstraktne."
+
+#: duchain/builders/declarationbuilder.cpp:423
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr "Metóda %1 nebola použitá, pretože sú kolízie s inou metódou na %2"
+
+#: duchain/builders/declarationbuilder.cpp:577
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "Nemôžem predeklarovať súkromnú vlastnosť %1 z tohto kontextu."
+
+#: duchain/builders/declarationbuilder.cpp:583
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "Nemôžem predeklarovať chránenú vlastnosť %1 z tohto kontextu."
+
+#: duchain/builders/declarationbuilder.cpp:616
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Črty nemôžu mať konštanty."
+
+#: duchain/builders/declarationbuilder.cpp:657
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr "Iba typ boolean, int, float a string je povolený pre konštanty triedy."
+
+#: duchain/builders/declarationbuilder.cpp:709
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "Nemôžem použiť 'final' ako modifikátor metódy"
+
+#: duchain/builders/declarationbuilder.cpp:712
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "Nemôžem použiť 'static' ako modifikátor metódy"
+
+#: duchain/builders/declarationbuilder.cpp:760
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Predvolená hodnota pre parametre s pomocou typu triedy môže byť iba NULL."
+
+#: duchain/builders/declarationbuilder.cpp:763
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "Nasledovné parametre musia mať priradenú predvolenú hodnotu."
+
+#: duchain/builders/declarationbuilder.cpp:870
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Nemôžem znovu deklarovať PHP interné %1."
+
+#: duchain/builders/declarationbuilder.cpp:873
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1 a %2 definujú rovnakú vlastnosť (%3) v zložení %1. Toto môže byť "
+"nekompatibilné, na zlepšenie udržateľnosti zvážte použitie prístupových "
+"metód."
+
+#: duchain/builders/declarationbuilder.cpp:881
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "Nemôžem predeklarovať %1, už deklarované v %2 na riadku %3."
+
+#: duchain/builders/declarationbuilder.cpp:967
+#, kde-format
+msgid ""
+"Class %1 contains %2 abstract methods and must therefore be declared "
+"abstract or implement the remaining methods."
+msgstr ""
+"Trieda %1 obsahuje abstraktné metódy %2 a musí teda byť deklarovaná "
+"abstraktne alebo implementovať metódy."
+
+#: duchain/builders/declarationbuilder.cpp:974
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "Nemôžem znovu priradiť $toto."
+
+#: duchain/builders/declarationbuilder.cpp:1410
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "Použitie use s nezmiešaným názvom '%1' nemá žiadny efekt."
+
+#: duchain/builders/declarationbuilder.cpp:1434
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "Nemôžem použiť '%1' ako '%2', pretože názov sa už používa."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "Použitie %1 je zastarané."
+
+#: duchain/builders/usebuilder.cpp:193
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "Deklarácia nenájdená: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Stratený charakteristický alias %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:113
+#: duchain/navigation/declarationnavigationcontext.cpp:126
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "Použitie %1 z %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:136
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Poškodený zvláštny člen aliasu."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:151
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP interné"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:161
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Konštanta"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:47
+#, kde-format
+msgid "magic constant"
+msgstr "magická konštanta"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:62
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "prázdne (nie v triede)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:81
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "prázdne (nie v metóde)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:91
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "prázdne (nie vo funkcii)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:100
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "prázdne (nie v mennom priestore)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:104
+#, kde-format
+msgid "current value: %1"
+msgstr "súčasná hodnota: %1"
+
+#: duchain/types/indexedcontainer.cpp:78
+#, kde-format
+msgctxt "as in list of int, set of string"
+msgid "%1 of %2"
+msgstr "%1 z %2"
+
+#: parser/main.cpp:25
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:26
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "Nástroj na ladenie a spracovanie KDevelop PHP"
+
+#: parser/main.cpp:27
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Nepodarilo sa otvoriť súbor '%1'"
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File could not be read from."
+msgstr "Chyba pri čítaní zo súboru."
+
+#: parser/parsesession.cpp:74
+#, kde-format
+msgid "File could not be opened."
+msgstr "Súbor nie je možné otvoriť."
+
+#: parser/parsesession.cpp:77
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "Oprávnenia súboru neumožňujú otvoriť ho na čítanie."
+
+#: testprovider/phpunitrunjob.cpp:71
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#, fuzzy
+#~| msgid "Cannot use 'static' as method modifier"
+#~ msgid "Cannot use 'abstract' as method modifier"
+#~ msgstr "Nemôžem použiť 'static' ako modifikátor metódy"
+
+#~ msgid "Variadic parameter cannot have a default value"
+#~ msgstr "Premenlivý parameter nesmie mať predvolenú hodnotu"
+
+#~ msgid "Only the last parameter can be variadic."
+#~ msgstr "Iba posledný parameter môže byť premenlivý."
+
+#~ msgid "Cannot use positional argument after argument unpacking"
+#~ msgstr "Nemôžem použiť pozičný argument po rozbalení argumentu"
+
+#, fuzzy
+#~| msgid "empty (not inside a class)"
+#~ msgid "empty (not inside a trait)"
+#~ msgstr "prázdne (nie v triede)"
+
+#~ msgid "Use of "
+#~ msgstr "Použitie "
+
+#~ msgid " from "
+#~ msgstr " od "
+
+#~ msgid "PHP Support"
+#~ msgstr "Podpora PHP"
+
+#~ msgid "Support for PHP Language"
+#~ msgstr "Podpora pre jazyk PHP"
+
+#~ msgid "Milian Wolff"
+#~ msgstr "Milian Wolff"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Niko Sams"
+#~ msgstr "Niko Sams"
+
+#~ msgid "Finds and runs PHPUnit tests"
+#~ msgstr "Nájde a spustí PHPUnit testy"

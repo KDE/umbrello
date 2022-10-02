@@ -1,0 +1,61 @@
+<chapter id="introduction">
+<title
+>Introduzione</title>
+
+<para
+>&umbrello; è uno strumento per diagrammi &UML; che può aiutarti nel processo di sviluppo del software. Specialmente durante le fasi di analisi e progettazione di questo processo, &umbrello; ti aiuterà a ottenere un prodotto di alta qualità. &UML; può anche essere usato per documentare i tuoi progetti software per aiutare te e i tuoi colleghi sviluppatori. </para>
+<para
+>Avere un buon modello del tuo software è il modo migliore per comunicare con altri sviluppatori che lavorano al progetto e con i tuoi clienti. Un buon modello è estremamente importante per i progetti di dimensioni medie e grandi, ma è anche molto utile per quelli piccoli. Anche se stai lavorando su un piccolo progetto da una sola persona, un buon modello ti gioverà perché ti darà una panoramica che ti aiuterà a codificare le cose subito nel modo giusto. </para>
+<para
+>&UML; è il linguaggio di diagrammi usato per descrivere questi modelli. Puoi rappresentare le tue idee in &UML; usando diversi tipi di diagrammi. &umbrello; 2.11 supporta i seguenti tipi: </para>
+<itemizedlist>
+<listitem
+><para
+>Diagrammi di classi</para
+></listitem>
+<listitem
+><para
+>Diagrammi di sequenza</para
+></listitem>
+<listitem
+><para
+>Diagrammi di collaborazione</para
+></listitem>
+<listitem
+><para
+>Diagrammi di caso d'uso</para
+></listitem>
+<listitem
+><para
+>Diagrammi di stato</para
+></listitem>
+<listitem
+><para
+>Diagrammi di attività</para
+></listitem>
+<listitem
+><para
+>Diagrammi di componenti</para
+></listitem>
+<listitem
+><para
+>Diagrammi di dispiegamento</para
+></listitem>
+<listitem
+><para
+>Diagramma di relazione tra entità</para
+></listitem>
+</itemizedlist>
+<para
+>Si possono trovare maggiori informazioni su &UML; al sito Web di <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> che ha creato lo standard &UML;. </para>
+<para
+>Speriamo che &umbrello; ti piaccia e che ti aiuti a creare software di alta qualità. &umbrello; è software libero ed è disponibile gratis, l'unica cosa che ti chiediamo è di comunicare qualsiasi errore, problema o suggerimento agli sviluppatori di &umbrello; a <email
+>umbrello-devel@kde.org</email
+> o <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>

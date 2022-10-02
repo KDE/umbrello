@@ -1,0 +1,466 @@
+# translation of kdevphp.po to Swedish
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevphp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2019-11-30 15:21+0100\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 2.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Stefan Asserhäll"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "stefan.asserhall@bredband.net"
+
+#: completion/implementationitem.cpp:60
+#, kde-format
+msgid "Override"
+msgstr "Överskrid"
+
+#: completion/implementationitem.cpp:63
+#, kde-format
+msgid "Implement"
+msgstr "Implementera"
+
+#: completion/implementationitem.cpp:75
+#, kde-format
+msgid "From %1"
+msgstr "Från %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "Integrering av PHP-handbok"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Normalt används <a href="
+"\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
+"\">PHP-dokumentationen</span></a> på nätet direkt. Som alternativ går det "
+"att ställa in platsen till en lokal kopia av dokumentationen på valfritt "
+"språk. Försäkra dig om att du laddar ner paketet <span style=\" font-style:"
+"italic;\">\"Many HTML files\"</span>.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "Plats:"
+
+#: docs/phpdocsmodel.cpp:96
+#, kde-format
+msgid "<lost declaration>"
+msgstr "<förlorad deklaration>"
+
+#: docs/phpdocsplugin.cpp:207
+#, kde-format
+msgid "PHP Documentation"
+msgstr "PHP-dokumentation"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "Anger plats för PHP-dokumentationen att använda."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"Platsen för PHP-dokumentationen att använda. Du kan antingen använda\n"
+"en nätplats som https://php.net eller en lokal katalog som innehåller\n"
+"PHP-dokumentationen i HTML-format som flera filer."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"Försäkra dig om att lokala kopior laddas ner med HTML-format i flera filer.\n"
+"        "
+
+#: docs/phpdocumentationwidget.cpp:56
+#, kde-format
+msgid "...loading documentation..."
+msgstr "... läser in dokumentation ..."
+
+#: duchain/builders/contextbuilder.cpp:397
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Cirkulärt arv för %1 och %2"
+
+#: duchain/builders/declarationbuilder.cpp:321
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "Accesstyp för gränssnittsmetoden %1 måste utelämnas."
+
+#: duchain/builders/declarationbuilder.cpp:325
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "Gränssnittsfunktionen %1 kan inte innehålla implementering."
+
+#: duchain/builders/declarationbuilder.cpp:337
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"Klassen %1 innehåller den abstrakta metoden %2 och måste därför deklareras "
+"som abstrakt eller implementera metoden."
+
+#: duchain/builders/declarationbuilder.cpp:343
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "Abstrakt funktion %1 kan inte innehålla implementering."
+
+#: duchain/builders/declarationbuilder.cpp:346
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "Kan inte använda modifieraren final för en abstrakt klassmedlem."
+
+#: duchain/builders/declarationbuilder.cpp:356
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "Icke-abstrakt metod %1 måste innehålla implementering."
+
+#: duchain/builders/declarationbuilder.cpp:374
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "Egenskaper kan inte deklareras som final."
+
+#: duchain/builders/declarationbuilder.cpp:377
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "Egenskaper kan inte deklareras som abstrakta."
+
+#: duchain/builders/declarationbuilder.cpp:423
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"Dragmetoden %1 har inte utförts, eftersom det finns kollisioner med andra "
+"dragmetoder för %2"
+
+#: duchain/builders/declarationbuilder.cpp:577
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "Kan inte deklarera om privat egenskap %1 i detta sammanhang."
+
+#: duchain/builders/declarationbuilder.cpp:583
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "Kan inte deklarera om skyddad egenskap %1 i detta sammanhang."
+
+#: duchain/builders/declarationbuilder.cpp:616
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Drag kan inte ha konstanter."
+
+#: duchain/builders/declarationbuilder.cpp:657
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr ""
+"Bara Boolean, heltal, flyttal och strängar är tillåtna i klasskonstanter."
+
+#: duchain/builders/declarationbuilder.cpp:709
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "Kan inte använda 'final' som metodmodifierare"
+
+#: duchain/builders/declarationbuilder.cpp:712
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "Kan inte använda 'static' som metodmodifierare"
+
+#: duchain/builders/declarationbuilder.cpp:760
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Förvalt värde för parametrar med ett tips om klasstyp kan bara vara NULL."
+
+#: duchain/builders/declarationbuilder.cpp:763
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "Följande parametrar måste ha ett tilldelat förvalt värde."
+
+#: duchain/builders/declarationbuilder.cpp:870
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Kan inte deklarera om PHP-internobjekt %1."
+
+#: duchain/builders/declarationbuilder.cpp:873
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1 och %2 definierar samma egenskap (%3) i sammansättningen av %1. Det "
+"kanske inte är kompatibelt. För att förbättra underhållbarhet överväg att "
+"använda dragåtkomstmetoderna istället."
+
+#: duchain/builders/declarationbuilder.cpp:881
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "Kan inte deklarera om %1, redan deklarerad i %2 på rad %3."
+
+#: duchain/builders/declarationbuilder.cpp:967
+#, kde-format
+msgid ""
+"Class %1 contains %2 abstract methods and must therefore be declared "
+"abstract or implement the remaining methods."
+msgstr ""
+"Klassen %1 innehåller %2 abstrakta metoder och måste därför deklareras som "
+"abstrakt eller implementera återstående metoder."
+
+#: duchain/builders/declarationbuilder.cpp:974
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "Kan inte ändra tilldelning av $this."
+
+#: duchain/builders/declarationbuilder.cpp:1410
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr ""
+"Användningssatsen med det icke sammansatta namnet '%1' får igen effekt."
+
+#: duchain/builders/declarationbuilder.cpp:1434
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "Kan inte använda '%1' som '%2' eftersom namnet redan används."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "Användning av %1 avråds från."
+
+#: duchain/builders/usebuilder.cpp:193
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "Deklaration hittades inte: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Förlorat dragalias %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:113
+#: duchain/navigation/declarationnavigationcontext.cpp:126
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "Användning av %1 från %2<br/>"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:136
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Felaktig medlem alias drag."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:151
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP-internt"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:161
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Konstant"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:47
+#, kde-format
+msgid "magic constant"
+msgstr "magisk konstant"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:62
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "tom (inte inne i en klass)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:81
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "tom (inte inne i en metod)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:91
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "tom (inte inne i en funktion)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:100
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "tom (inte inne i en namnrymd)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:104
+#, kde-format
+msgid "current value: %1"
+msgstr "nuvarande värde: %1"
+
+#: duchain/types/indexedcontainer.cpp:78
+#, kde-format
+msgctxt "as in list of int, set of string"
+msgid "%1 of %2"
+msgstr "%1 av %2"
+
+#: parser/main.cpp:25
+#, kde-format
+msgid "php-parser"
+msgstr "PHP-tolk"
+
+#: parser/main.cpp:26
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP-tolk avlusningsverktyg"
+
+#: parser/main.cpp:27
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "© 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Kunde inte öppna filen '%1'"
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File could not be read from."
+msgstr "Det gick inte att läsa från filen."
+
+#: parser/parsesession.cpp:74
+#, kde-format
+msgid "File could not be opened."
+msgstr "Filen kunde inte öppnas."
+
+#: parser/parsesession.cpp:77
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "Filens rättigheter förhindrar att öppna den för läsning."
+
+#: testprovider/phpunitrunjob.cpp:71
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"
+
+#~ msgid ""
+#~ "A class constant must not be called 'class'; it is reserved for class "
+#~ "name fetching"
+#~ msgstr ""
+#~ "En klasskonstant får inte heta 'class', det är reserverat för att hämta "
+#~ "klassnamn"
+
+#~ msgid "Cannot use 'abstract' as method modifier"
+#~ msgstr "Kan inte använda 'abstract' som metodmodifierare"
+
+#~ msgid "Variadic parameter cannot have a default value"
+#~ msgstr "Variadisk parameter kan inte ha ett förvalt värde"
+
+#~ msgid "Only the last parameter can be variadic."
+#~ msgstr "Bara den sista parametern kan vara variadisk."
+
+#~ msgid "Cannot use positional argument after argument unpacking"
+#~ msgstr "Kan inte använda positionsargument efter uppackning av argument"
+
+#~ msgid "empty (not inside a trait)"
+#~ msgstr "tom (inte inne i ett drag)"
+
+#~ msgid "Use of "
+#~ msgstr "Användning av "
+
+#~ msgid " from "
+#~ msgstr " från "
+
+#~ msgid "PHP Support"
+#~ msgstr "PHP-stöd"
+
+#~ msgid "Support for PHP Language"
+#~ msgstr "Stöd för språket PHP"
+
+#~ msgid "Milian Wolff"
+#~ msgstr "Milian Wolff"
+
+#~ msgid "Author"
+#~ msgstr "Upphovsman"
+
+#~ msgid "Niko Sams"
+#~ msgstr "Niko Sams"
+
+#~ msgid "Finds and runs PHPUnit tests"
+#~ msgstr "Söker efter och kör PHPUnit-tester"
+
+#~ msgid "Traits cannot have static properties."
+#~ msgstr "Drag kan inte ha statiska egenskaper."
+
+#~ msgid "print generated AST tree"
+#~ msgstr "skriv ut skapat AST-träd"
+
+#~ msgid "print generated token stream"
+#~ msgstr "skriv ut skapad symbolföljd"
+
+#~ msgid "PHP code to parse"
+#~ msgstr "PHP-kod att tolka"
+
+#~ msgid ""
+#~ "files or - to read from STDIN, the latter is the default if nothing is "
+#~ "provided"
+#~ msgstr ""
+#~ "filer eller - för att läsa från standardinmatningen, det senare är "
+#~ "förvalt om ingenting anges"
+
+#~ msgid "Included file %1 could not be found."
+#~ msgstr "Deklarationsfilen %1 kunde inte hittas."
+
+#~ msgid "File %1 includes itself."
+#~ msgstr "Filen %1 inkluderar sig själv."

@@ -1,0 +1,77 @@
+<chapter id="other-features">
+<title
+>Ceteraj Ecoj</title>
+<sect1
+> 
+<title
+>Aliaj Kapabloj de &umbrello;</title>
+<para
+>Ĉi tiu ĉapitro mallonge klarigos pluajn eblojn kiujn &umbrello; ofertas.</para>
+<sect2 id="copying-as-png">
+<title
+>Kopii objektojn kiel PNG bildoj</title>
+<para
+>Krom la kutimaj funkcioj por kopii, tranĉi kaj almeti kiujn oni aplikas por kopii objektojn inter malsamaj diagramoj, &umbrello; povas kopii la objektojn kiel PNG bildoj tiel, ke vi povas enigi ilin en iun ajn alian specon de dokumento. Vi ne devas fari ion specialan por uzi ĉi tiun kapablon, simple elektu objekton de la diagramo (Klaso, Aktoro, ktp.) kaj kopiu ĝin
+(<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, aŭ uzu la menuon), tiam malfermu &kword; dokumenton (aŭ iun programon kiu permesas almeti bildojn) kaj elektu <guimenuitem
+>Almeti</guimenuitem
+>. Ĉi tiu estas utilega eblo por eksporti partojn de viaj diagramoj kiel simplaj bildoj. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Eksporti al Bildo</title>
+<para
+>Vi povas ankaŭ eksporti kompletan diagramon kiel bildo. La sola kion vi devas fari estas elekti la diagramon kiun vi volas eksporti, kaj poste elekti <guimenuitem
+>Eksport kiel Bildo...</guimenuitem
+> de la menuo <guimenu
+>Diagramo</guimenu
+>. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Presado</title>
+<para
+>&umbrello; permesas al vi presi individuajn skemojn. Premu la butonon <guiicon
+>Presi</guiicon
+> sur la aplikaĵa ilpanelo aŭ elektu la opcion <guimenuitem
+>Presi</guimenuitem
+> de la menuo <guimenu
+>Dosiero</guimenu
+> kaj tio donos la norman &kde; presad-dialogon de kie vi povas presi viaj diagramojn. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Logikaj Tekoj</title>
+<para
+>Por pli bone organizi vian modelon, precipe por pli grandaj projektoj, vi povas krei logikajn tekojn en la Arboperspektivo. Simple elektu la opcion <menuchoice
+><guimenu
+>Nova</guimenu
+><guimenuitem
+>Teko</guimenuitem
+></menuchoice
+> de la kunteksta menuo de la antaŭinstalataj tekoj en la Arboperspektivo por krei tian. Tekoj povas esti ingataj, kaj vi povas movi objekton ĉirkaŭe trenanta ĝin de unu teko kaj faliganta ĝin en alian. </para>
+
+<screenshot>
+<screeninfo
+>Organising your Model with Folders</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organizado de Modelo helpe de Logikaj Tekoj en &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organizado de Modelo helpe de Logikaj Tekoj en &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

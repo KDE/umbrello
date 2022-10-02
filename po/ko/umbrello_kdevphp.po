@@ -1,0 +1,317 @@
+# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdevelop\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2019-05-30 23:24+0200\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.04.3\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "박신조"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#: completion/implementationitem.cpp:58
+#, kde-format
+msgid "Override"
+msgstr "재정의"
+
+#: completion/implementationitem.cpp:61
+#, kde-format
+msgid "Implement"
+msgstr "구현"
+
+#: completion/implementationitem.cpp:73
+#, kde-format
+msgid "From %1"
+msgstr "%1에서"
+
+#: duchain/builders/contextbuilder.cpp:395
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "%1 및 %2의 순환 상속"
+
+#: duchain/builders/declarationbuilder.cpp:314
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "인터페이스 메서드 %1의 접근 형식을 생략해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:318
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "인터페이스 함수 %1에 구현을 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:330
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"클래스 %1에는 추상 메서드 %2이(가) 포함되어 있으며, abstract로 선언하거나 메"
+"서드를 구현해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:336
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "추상 함수 %1에 구현을 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:339
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "추상 클래스 구성원에는 final 수정자를 사용할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:349
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "비 추상 메서드 %1에는 구현이 있어야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:367
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "속성을 final로 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:370
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "속성을 abstract로 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:416
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"트레이트 메서드 %1이(가) 적용되지 않았습니다. %2에 있는 다른 트레이트 메서드"
+"와 충돌합니다"
+
+#: duchain/builders/declarationbuilder.cpp:570
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "private 속성 %1을(를) 이 콘텍스트에서 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:576
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "protected 속성 %1을(를) 이 콘텍스트에서 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:609
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "트레이트에는 상수를 둘 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:650
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr "boolean, int, float, string 자료형만 클래스 상수로 사용할 수 있습니다."
+
+#: duchain/builders/declarationbuilder.cpp:702
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "'final'을 메서드 수정자로 사용할 수 없음"
+
+#: duchain/builders/declarationbuilder.cpp:705
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "'static'을 메서드 수정자로 사용할 수 없음"
+
+#: duchain/builders/declarationbuilder.cpp:753
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr "클래스 형식 힌트가 있는 인자의 기본값은 NULL이어야만 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:756
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "다음 인자의 기본값을 선언해야 합니다."
+
+#: duchain/builders/declarationbuilder.cpp:863
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "PHP 내부 표현 %1을(를) 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:866
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"%1와(과) %2은(는) %1의 합성에서 같은 속성(%3)을 정의합니다. 호환성에 문제가 "
+"발생할 수 있으므로, 트레이트에서 접근 메서드를 구현하는 것을 고려해 보십시오."
+
+#: duchain/builders/declarationbuilder.cpp:874
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "%2의 %3줄에서 이미 선언했으므로 %1을(를) 다시 선언할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:920
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "$this를 재할당할 수 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:1358
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "비 컴파운드 이름 '%1'을(를) 사용한 use 문은 효과가 없습니다."
+
+#: duchain/builders/declarationbuilder.cpp:1382
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "같은 이름이 사용 중이므로 '%1'을(를) '%2'(으)로 사용할 수 없습니다."
+
+#: duchain/builders/usebuilder.cpp:189
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "%1의 사용은 용도 폐기되었습니다."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "선언을 찾을 수 없음: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "트레이트 별명 %1을(를) 잃어버림"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:114
+#: duchain/navigation/declarationnavigationcontext.cpp:127
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "%2에서 %1 사용<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:137
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "깨진 구성원 별명 트레이트입니다."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:152
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP 내부"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:162
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "상수"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:49
+#, kde-format
+msgid "magic constant"
+msgstr "매직 상수"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:64
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "비어 있음(클래스 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:83
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "비어 있음(메서드 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:93
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "비어 있음(함수 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:102
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "비어 있음(네임스페이스 내부에 없음)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:106
+#, kde-format
+msgid "current value: %1"
+msgstr "현재 값: %1"
+
+#: parser/main.cpp:28
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:29
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP 파서 디버그 유틸리티"
+
+#: parser/main.cpp:30
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:62
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "파일 '%1'을(를) 열 수 없음"
+
+#: parser/parsesession.cpp:65
+#, kde-format
+msgid "File could not be read from."
+msgstr "파일에서 읽을 수 없습니다."
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "File could not be opened."
+msgstr "파일을 열 수 없습니다."
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "파일 읽기 권한이 없습니다."
+
+#: phplanguagesupport.cpp:54
+#, kde-format
+msgid "PHP Support"
+msgstr "PHP 지원"
+
+#: phplanguagesupport.cpp:55
+#, kde-format
+msgid "Support for PHP Language"
+msgstr "PHP 언어 지원"
+
+#: phplanguagesupport.cpp:56
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: phplanguagesupport.cpp:56 phplanguagesupport.cpp:57
+#, kde-format
+msgid "Author"
+msgstr "작성자"
+
+#: phplanguagesupport.cpp:57
+#, kde-format
+msgid "Niko Sams"
+msgstr "Niko Sams"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "PHPUnit Integration"
+msgstr "PHPUnit 통합"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "Finds and runs PHPUnit tests"
+msgstr "PHPUnit 테스트를 찾아서 실행합니다"
+
+#: testprovider/phpunitrunjob.cpp:70
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"

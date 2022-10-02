@@ -1,0 +1,167 @@
+<chapter id="code-import-generation">
+<title
+>Kodimport och kodgenerering</title>
+<para
+>&umbrello; är ett &UML;-modelleringsverktyg, och som sådant är dess huvudsakliga syfte att hjälpa dig med <emphasis
+>analys och konstruktion</emphasis
+> av system. För att åstadkomma övergången från konstruktion till <emphasis
+>implementering</emphasis
+>, tillåter &umbrello; dock att generera källkod i olika programspråk för att komma igång. Om du dessutom vill börja använda &UML; i ett projekt som redan har startat, kan &umbrello; hjälpa till att skapa en modell av systemet från källkoden genom att analysera den och importera klasserna som hittas i den. </para>
+<sect1 id="code-generation">
+<title
+>Kodgenerering</title>
+<para
+>&umbrello; kan generera källkod för diverse programspråk, baserad på din &UML;-modell för att hjälpa dig komma igång med implementeringen av projektet. Koden som skapas består av klassdeklarationer, med metoder och attribut, så att du kan <quote
+>fylla i tomrummen</quote
+> genom att tillhandahålla funktionerna i klassernas operationer. </para>
+<para
+>&umbrello; 2 levereras med kodgenereringsstöd för ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL och Pascal. </para>
+<sect2 id="generate-code">
+<title
+>Generera kod</title>
+<para
+>För att generera kod med &umbrello;, måste du först skapa eller ladda en modell som innehåller minst en klass. När du är klar att börja skriva lite kod, välj då alternativet <guimenuitem
+>Kodgenereringsguide</guimenuitem
+> i menyn <guimenuitem
+>Kod</guimenuitem
+>, för att starta guiden som leder dig igenom kodgenereringsprocessen. </para>
+<para
+>Det första steget är att välja klasser, som du vill skapa källkod för. Normalt väljs alla klasser i modellen, och du kan ta bort de som du inte vill generera kod för, genom att flytta dem till listan på vänster sida. </para>
+<para
+>Nästa steg i guiden låter dig ändra parametrar som kodgeneratorn använder när den skriver ut koden. Följande alternativ är tillgängliga: </para>
+<para>
+<screenshot>
+<screeninfo
+>Kodgenereringsalternativ</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Alternativ för kodgenereringen i &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Alternativ för kodgenereringen i &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Kodgenereringsalternativ</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Kommentarnivå</title>
+<para
+>Alternativet <guilabel
+>Skriv dokumenteringskommentarer även om tomma</guilabel
+> instruerar kodgeneratorn att skriva ut kommentarar med stilen /** blaha */, även om kommentarblocken är tomma. Om du lagt till dokumentation i klasser, metoder eller attribut i modellen, skriver kodgeneratorn ut kommentarerna som Doxygen-dokumentation, oberoende av vad du anger här, men om du väljer det här alternativet, skriver &umbrello; ut kommentarblock för alla klasser, metoder och attribut även om det inte finns någon dokumentation i modellen, då detta är fallet bör du dokumentera klasserna senare direkt i källkoden. </para>
+<para
+><guilabel
+>Skriv kommentarer för sektioner även om sektionen är tom</guilabel
+>: &umbrello; skriver kommentarer i källkoden för att avdela de olika sektionerna i en klass. Till exempel <quote
+>Public methods</quote
+> eller <quote
+>Attributes</quote
+> innan motsvarande sektioner. Om du väljer det här alternativet, så skriver &umbrello; kommentarer för alla sektioner i klassen, även om sektionen är tom. Det skulle till exempel skriva en kommentar som lyder <quote
+>Protected methods</quote
+>, även om det inte finns några sådana i klassen. </para>
+</sect4>
+<sect4>
+<title
+>Kataloger</title>
+<para
+><guilabel
+>Skriv alla filer som skapas till katalog</guilabel
+>: Här ska du välja katalogen där du vill att &umbrello; ska lägga källkoden som skapas. </para>
+<para
+>Alternativet <guilabel
+>Infoga huvudfiler från katalog</guilabel
+>, låter dig infoga ett huvud i början av varje fil som genereras. Huvudfiler kan innehålla upphovsrätts- eller licensinformation, och kan innehålla variabler som utvärderas när genereringen sker. Du kan ta en titt på mallar för huvudfiler som levereras med &umbrello;, för att se hur man använder variablerna för att ersätta ditt namn eller dagens datum när genereringen sker. </para>
+</sect4>
+<sect4>
+<title
+>Överskrivningspolicy</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Det här alternativet talar om för &umbrello; vad som ska ske om filen som ska skapas redan finns i destinationskatalogen. &umbrello; 1.1 <emphasis
+>kan inte ändra befintliga källkodsfiler</emphasis
+>, så du måste välja mellan att skriva över den befintliga filen, hoppa över att skapa just den filen, eller låta &umbrello; välja ett annat filnamn. Om du väljer alternativet att använda ett annat filnamn, lägger &umbrello; till ett suffix till filnamnet. </para>
+</sect4>
+<sect4>
+<title
+>Språk</title>
+<para
+>&umbrello; genererar normalt kod för språket som du har valt som aktivt språk, men du har möjlighet att ändra detta till ett annat språk med kodgenereringsguiden. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Generering med kodgenereringsguiden</title>
+<para
+>Det tredje och sista steget i guiden visar status för kodgenereringsprocessen. Du behöver bara klicka på knappen Generera för att få klasserna utskrivna åt dig. </para>
+<para
+>Observera att de alternativ som du väljer med kodgenereringsguiden bara gäller för aktuell generering. Nästa gång du kör guiden, måste du välja alla alternativ igen (din huvudkatalog, överskrivningspolicy, och så vidare). Du kan ställa in standardvärden som används av &umbrello; i avdelningen <guilabel
+>Kodgenerering</guilabel
+> i &umbrello;s inställningar, tillgängliga via <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa &umbrello;...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>Om du har ställt in kodgenereringsalternativ till riktiga inställningar, och vill skapa lite kod direkt utan att gå via guiden, kan du välja <guimenuitem
+>Generera all kod</guimenuitem
+> i menyn <guimenu
+>Kod</guimenu
+>. Det genererar kod för alla klasser i modellen med nuvarande inställningar (inklusive utdatakatalog och överskrivningspolicy, så använd det med försiktighet). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Kodimport</title>
+<para
+>&umbrello; kan importera källkod från befintliga projekt för att hjälpa dig bygga modeller av system. &umbrello; 2 stöder ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL och Pascal källkod. </para>
+<para
+>För att importera klasser till modellen, välj alternativet <guimenuitem
+>Kodimportguide...</guimenuitem
+> i menyn <guimenu
+>Kod</guimenu
+>. Välj filerna som innehåller klassdeklarationer i fildialogrutan och tryck på <guibutton
+>Nästa</guibutton
+> och därefter <guibutton
+>Starta import</guibutton
+> och <guibutton
+>Slutför</guibutton
+>. Klasserna importeras, och du hittar dem som en del av modellen i trädvyn. Observera att &umbrello; inte skapar något sorts diagram för att visa klasserna, de importeras bara till modellen så att du senare kan använda dem i valfritt diagram. </para>
+<para>
+<screenshot>
+<screeninfo
+>Kodimport</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Meny för att importera källkod till &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Meny för att importera källkod till &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

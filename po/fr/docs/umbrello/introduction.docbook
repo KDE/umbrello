@@ -1,0 +1,57 @@
+<chapter id="introduction">
+<title
+>Introduction</title>
+
+<para
+>&umbrello; est un outil pour la création de diagrammes &UML; qui peut vous aider lors du processus de développement d'un logiciel. Particulièrement pendant les phases d'analyse et de conception, &umbrello; vous aidera à créer un produit de qualité. &UML; peut aussi être utilisé pour documenter la conception de logiciel pour vous aider ainsi que vos pauvres développeurs. </para>
+<para
+>Une bonne modélisation de votre logiciel est la meilleure façon de travailler collectivement avec d'autres développeurs et vos clients. Un bon modèle est très important pour des projets de taille moyenne à large, mais également pour les petits. Même si vous travaillez sur un petit projet personnel, vous tirerez bénéfice d'un bon modèle car il vous donnera une vision globale qui vous aidera à coder correctement du premier coup. </para>
+<para
+>&UML; est un langage de diagramme utilisé pour décrire ces modèles. Vous pouvez représenter vos idées en &UML; en utilisant différents types de diagrammes. &umbrello; 1.2 gère les types suivants : </para>
+<itemizedlist>
+<listitem
+><para
+>Diagramme de classes</para
+></listitem>
+<listitem
+><para
+>Diagramme de séquences</para
+></listitem>
+<listitem
+><para
+>Diagramme collaboratif</para
+></listitem>
+<listitem
+><para
+>Diagramme de cas d'utilisations</para
+></listitem>
+<listitem
+><para
+>Diagramme d'états</para
+></listitem>
+<listitem
+><para
+>Diagramme d'activités</para
+></listitem>
+<listitem
+><para
+>Diagramme de composants</para
+></listitem>
+<listitem
+><para
+>Diagramme de déploiements</para
+></listitem>
+</itemizedlist>
+<para
+>Pour plus d'information concernant d'&UML;, visitez le site web <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+> pour connaître qui a créé le standard &UML;. </para>
+<para
+>Nous espérons que vous apprécierez &umbrello; et qu'il vous permettra de créer des logiciels de haute qualité. &umbrello; est un outil libre, et la seule chose demandée est de rapporter tout bogues, problèmes ou suggestions à l'équipe de développeurs &umbrello; à <email
+>uml-devel@lists.sourceforge.net</email
+> ou <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</chapter>

@@ -1,0 +1,750 @@
+<chapter id="settings">
+<title
+>Instellingen</title>
+
+<sect1 id="general-settings">
+<title
+>Algemene instellingen</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Algemene instellingen</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opties voor Algemene instellingen in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opties voor Algemene instellingen in &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Diversen</title>
+<itemizedlist>
+    <listitem>
+        <para
+>De optie <guilabel
+>Voorgaande bewerking opnieuw doen inschakelen</guilabel
+> biedt het ongedaan maken van een vorige actie.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Nieuwe C++/Java/Ruby-generatoren gebruiken</guilabel
+> laat de gebruiker ofwel de oude of nieuwe codegeneratoren selecteren</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Inschakelen van voettekst en paginanummer bij afdrukken</guilabel
+> indien geselecteerd, drukt diagraminformatie af voor het diagram dat wordt afgedrukt en het paginanummer.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Getabte diagrammen gebruiken</guilabel
+> geeft de optie om meerdere diagramvensters in tabbladen tegelijk open te hebben.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Automatisch opslaan</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Automatisch opslaan activeren</guilabel
+> biedt een keuze om het bestand automatisch op te slaan.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Selecteer interval voor automatisch opslaan (in minuten):</guilabel
+> biedt het instellen van de tijd voordat het bestand automatisch wordt opgeslagen.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Achtervoegsel bij automatisch opslaan instellen:</guilabel
+> is standaard .xmi maar biedt een andere instelling voor bestandsextensie.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Opstarten</title>
+    <itemizedlist>
+        <listitem
+><para
+><guilabel
+>Laatste project laden</guilabel
+> indien ingesteld, laadt altijd het laatste werkproject bij opstarten van project.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Nieuw project starten met:</guilabel
+> geeft een keuze van met welk type UML-diagram te beginnen in een nieuw project.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Standaard taal:</guilabel
+> is een instelling voor de standaard te gebruiken programmeertaal.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Meldingen</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Alle meldingen inschakelen</guilabel
+> is een optie om ofwel alle meldingen of een gereduceerde set meldingen te zien.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Meldingen gerelateerd aan 'associatie verwijderen' inschakelen</guilabel
+> maakt zeker dat u alle meldingen van dit type zult ontvangen indien geactiveerd.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Aan 'diagram verwijderen' gerelateerde meldingen inschakelen</guilabel
+> zal alle meldingen van dit type inschakelen indien geactiveerd.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Lettertype-instellingen</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Lettertype-instellingen</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opties voor instellingen voor lettertypen in diagrammen in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opties voor instellingen voor lettertypen in diagrammen in &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Deze instellingen voor lettertypen stelt de karakteristieken in van de tekst in de diagrammen. Stijl van het lettertype en grootte zijn de enige te selecteren opties.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Instellingen voor de gebruikersinterface</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Instellingen voor de gebruikersinterface</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Instellingen voor de gebruikersinterface in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Instellingen voor de gebruikersinterface in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Algemeen</title>
+    <para
+><guilabel
+>Interface voor rechts naar links</guilabel
+> configureert het interface voor de rechts naar links talen. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Associaties</title>
+    <para
+><guilabel
+>Hoekige associatielijnen gebruiken</guilabel
+> biedt associatielijnen met een willekeurig variabele hoek. </para>
+    <para
+><guilabel
+>Nieuwe associatielijnen aanmaken zoals:</guilabel
+> biedt de mogelijkheid om de stijl van associatielijnen te wijzigen. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Kleur</title>
+    <para
+>De kleurensectie biedt verschillende opties om de tekst te wijzigen, lijn, vulling, raster en achtergrondkleuren evenals de lijnbreedte.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Klasse-instellingen</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Klasse-instellingen</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor instellingen voor klasse in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor instellingen voor klasse in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Tonen</title>
+        <para
+>De sectie Tonen heeft vele instellingen die bepalen welke klassekarakteristieken getoond worden in het klassediagram.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Startscope</title>
+        <para
+>Keuzes voor attribuut en standaardinstellingen voor werking, publiek, privé of beschermd.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Instellingen voor code importeren</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Instellingen voor code importeren</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor instellingen voor code importeren in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor instellingen voor code importeren in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Zoekpaden meenemen</title>
+    <para
+>Er is een algemene aanbeveling gegeven om zoeken te verbeteren door UMBRELLO INCPATH als een omgevingsvariabele in te voegen.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Importeren van C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Voor elk geïmporteerd bestand maak een artifact aan in de componentenweergave</guilabel
+> Het aangemakkte artifact kan dan gesleept worden in de klassediagramweergave waar afhankelijkheden gemakkelijk gezien kunnen worden samen met de attributen en functies van elk bestand.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Afhankelijkheden oplossen (reduceert snelheid van importeren)</guilabel
+> Verzekert dat alle afhankelijkheden van bestanden zijn opgelost die dan verschijnen in klasse-afhankelijkheden in het klassediagram.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>C++11 standaard inschakelen (experimenteel)</guilabel
+> Een experimentele functie om te voldoen aan C++11, schakel het uit indien niet nodig.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Instellingen voor de codegeneratie</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Algemeen tabblad Instellingen voor de codegeneratie</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Algemene instellingen voor de codegeneratie</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor de algemene instellingen voor code generatie in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor de algemene instellingen voor code generatie in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Umbrello UML Modeller kan broncode genereren voor talrijke programmeertalen op basis van uw UML model om u te helpen van start te gaan met de implementatie van uw project. De gegenereerde code bestaat uit klasse declaraties, met hun methoden en attributen, dus u kunt de "blanke ruimte" invullen door de functionaliteit van uw klasse-operaties te verschaffen.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Taal</title>
+        <para
+>Kies de te gebruiken programmeertaal voor projecten. De geboden keuzes zijn ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala en XMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Mappen</title>
+    <para
+><guilabel
+>Alle gegenereerde bestanden naar map schrijven:</guilabel
+> heeft een te bewerken veld voor het gewenste pad voor gegeneerde bestanden of optioneel een bladerknop om het pad te selecteren.</para>
+    <para
+><guilabel
+>Header-bestanden uit deze map insluiten:</guilabel
+> indien geactiveerd, laat de gebruiker een pad specificeren in een bewerkbaar veld of kiest dit met een bladerknop.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Overschrijvingsprotocol</title>
+    <para
+>Wanneer de code is gegenereerd in de gespecificeerde map, bepaalt deze instelling wat er gebeurt als een bestand met dezelfde naam wordt gevonden. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Overschrijven</guilabel
+> van het bestand zonder een waarschuwing of optie.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Vragen</guilabel
+> of het bestand wordt overschreven of het hernoemen.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Een andere naam gebruiken</guilabel
+> wanneer een bestand al bestaat door het te herenoemen met een achtervoegsel.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Tabblad Instellingen voor het formaat van de codegeneratie</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Instellingen voor het formaat van de codegeneratie</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor de instellingen van het formaat voor code generatie in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor de instellingen van het formaat voor code generatie in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Uitvoerigheid commentaar</title>
+        <para
+><guilabel
+>Documentatie-toelichting schrijven zelfs als deze leeg zijn</guilabel
+> Genereert toelichting voor klassen en functies zelfs als ze leeg zijn.</para>
+        <para
+><guilabel
+>Toelichting schrijven voor secties zelfs als deze leeg zijn</guilabel
+> Schijft toelichtingen voor de privé, beschermde en publieke secties zelfs als ze leeg zijn.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Lijnen</title>
+    <para
+><guilabel
+>Inspringtype:</guilabel
+> biedt een keuze tussen niet inspringen, tab of spatie.</para>
+    <para
+><guilabel
+>Inspringafstand:</guilabel
+> laat de gebruiker het aantal spaties specificeren voor de keuze inspringen met tab of spatie.</para>
+    <para
+><guilabel
+>Type regeleinde:</guilabel
+> is een keuze tussen de stijl van regeleinde van *NIX, Windows of Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Taalopties</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Codegeneratie taalkeuze-opties</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor de algemene taalinstellingen voor code generatie in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor de algemene taalinstellingen voor code generatie in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Deze pagina wijzigt voor elke programmeertaal geselecteerd onder het tabblad Algemeen opties. Op dit moment zijn alleen voor de C++ taal opties beschikbaar.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>C++ codegeneratie</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Documentatie</title>
+        <para
+><guilabel
+>Stijl:</guilabel
+> geeft een keuze om ofwel "/** */" of "//" als de documentatiestijl te gebruiken</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Algemeen</title>
+        <para
+>Onder het tabblad <guilabel
+>Algemeen</guilabel
+> van het tabblad <guilabel
+>Taalopties</guilabel
+>, staan verschillende opties voor codegeneratie.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Voorvoegsel van klasselid</guilabel
+></para>
+                <para
+>Een optie die een voorvoegsel biedt bepaald door de gebruiker, om toegevoegd te worden aan klasseleden wanneer code wordt gegenereerd.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Pakket als namespace</guilabel
+></para>
+                <para
+>Naamruimten bieden eem methode om naamconflicten in grote projecten te voorkomen. Symbolen gedeclareerd in een naamruimteblok worden placed in een genaamde scope geplaatst die voorkomt dat ze bij vergissing voor identiek genaamde symbolen in andere scopes worden gebruikt.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Virtuele destructors</guilabel
+></para>
+                <para
+>Hoewel destructors niet geërfd worden, als een basis klasse zijn destructor virtueel declareert, zal de afgeleide destructor het altijd overschrijven. Dit maakt het mogelijk om dynamisch toegewezen objecten van veelvormig type via pointers pointers naar de basis te verwijderen.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Lege constructors aanmaken</guilabel
+></para>
+                <para
+>Dit zal constructors genereren die lege accolades hebben.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Toegangsmethoden aanmaken</guilabel
+></para>
+                <para
+>Zal methoden genereren om toegang te krijgen tot gegevenstypes.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Operaties zijn inline</guilabel
+></para>
+                <para
+>Genereer de methoden als inline, maar compilers zijn vrij om niet de inline methode te kiezen.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Accessors zijn inline</guilabel
+></para>
+                <para
+>Methoden die toegang bieden tot de gegevens van klasse zullen inline worden gegenereerd, maar compilers zijn vrij om niet de methode niet inline te gebruiken.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Accessors zijn openbaar</guilabel
+></para>
+                <para
+>Methoden die gegenereerd zijn als publiek zullen beschikbaar zijn aan elk exemplaar van de klasse.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Ophalers aanmaken met voorvoegsel 'get'</guilabel
+></para>
+                <para
+>Dit zal het voorvoegsel "get" op de methoden zetten die de klassegegevens ophalen/teruggeven.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Voorvoegsel '[a-zA-Z]_' verwijderen uit namen van toegangsmethode</guilabel
+></para>
+                <para
+>Als een voorvoegsel was ingevoerd in <guilabel
+>Voorvoegsel van klasselid</guilabel
+>, zal dit verwijderd worden.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Toegangsmethoden beginnen met hoofdletters</guilabel
+></para>
+                <para
+>Dit maakt de eerste letter van de methodenaam een hoofdletter.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>'\' gebruiken als documentatie-tag in plaats van '@'</guilabel
+></para>
+                <para
+>Een keuze van een tag om te gebruiken bij documenteren van parameters van een methode.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Genereren van de body van de Methode</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Codegeneratie taalmethode-inhoud-opties</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Opties voor de algemene taalmethode-inhoud-instellingen voor code generatie in &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Opties voor de algemene taalmethode-inhoud-instellingen voor code generatie in &umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Lijst</guilabel
+></para>
+        <para
+>Heeft opties van QPtrList, vector en std::vector voor de lijst met type. Een te bewerken of te selecteren veld volgt om het in te voegen bestand te specificeren samen met een bladerknop om het in te voegen bestand te zoeken en te selecteren. Er is ook een optie om de lijst globaal te maken.</para>
+        <para
+><guilabel
+>Tekenreeks</guilabel
+></para>
+            <para
+>Opties van tekenreeks of QString voor het type tekenreeks. Een te bewerken of te selecteren veld volgt om het in te voegen bestand te specificeren samen met een bladerknop om het in te voegen bestand te zoeken en te selecteren. Er is ook een optie om de tekenreeks globaal te maken. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Instellingen voor de codeviewer</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Instellingen voor de codeviewer</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor instellingen voor code bekijken in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor instellingen voor code bekijken in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Biedt aanpassen van de codeviewer. De sectie <guilabel
+>Gevraagd lettertype</guilabel
+> biedt de selectio van het lettertype, de stijl ervan en de grootte. Een representatie van uw keuzes wordt onder de keuzes getoond. </para>
+    <para
+>In de sectie <guilabel
+>Kleuren</guilabel
+>, kunnen wijzigingen gemaakt worden aan papier, lettertype, geselecteerd, UML-objectblok, verborgen blok, bewerkbare tekst en niet-bewerkbare tekst. Wijzigingen in de kleuren kunnen gemaakt worden door te klikken op het kleurvakje door het respectievelijke label. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Instellingen voor automatische opmaak</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Instellingen voor automatische opmaak</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opties voor instellingen voor automatische indeling in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opties voor instellingen voor automatische indeling in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Generator voor opmaak automatisch detecteren</guilabel
+></para>
+    <para
+>De functie automatische indeling hangt af van generators voor indeling geleverd door het pakket GraphViz, dat normaal naast Umbrello wordt geïnstalleerd door een pakketbeheerder. Umbrello is gebouwd met ondersteuning voor het detecteren van de locatie van de installatie van deze generators voor indeling. Voor gevallen waar deze afhankelijkheid niet beschikbaar is of niet past, kan een ander installatiepad worden geleverd. </para>
+    <para
+><guilabel
+>Export-indeling in diagram-contextmenu</guilabel
+></para>
+    <para
+>Een .dot-bestand exporteren wordt gedaan met de export-indeling. Met deze optie geactiveerd, wordt de export-indeling toegevoegd aan de beschikbare diagram-indelingen en schakelt een snel voorbeeld in van .dot exporteren. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Altres característiques</title>
+<sect1
+> 
+<title
+>Altres característiques de l'&umbrello;</title>
+<para
+>Aquest capítol explica breument algunes de les altres característiques que us ofereix l'&umbrello;.</para>
+<sect2 id="copying-as-png">
+<title
+>Copiat d'objectes com a imatges PNG</title>
+<para
+>A part d'oferir-vos la còpia normal, la funcionalitat de retallar i enganxar que podríeu esperar per a copiar objectes entre diferents diagrames, l'&umbrello; pot copiar els objectes com a imatges PNG de manera que pugueu inserir-los en qualsevol altre tipus de document. No necessiteu fer res especial per a usar aquesta característica, simplement seleccioneu un objecte d'un diagrama (classe, actor, &etc;) i copieu-lo (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, o usant el menú), llavors obriu un document <application
+>Words del Calligra</application
+> (o qualsevol programa en què pugueu enganxar imatges) i seleccioneu <guimenuitem
+>Enganxa</guimenuitem
+>. Aquesta és una gran característica per exportar parts del diagrama com a imatges senzilles. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Exportació a una imatge</title>
+<para
+>També podeu exportar un diagrama complet com una imatge. L'única cosa que necessiteu fer és seleccionar el diagrama que voleu exportar, i a continuació l'opció del menú <guimenu
+>Diagrama</guimenu
+>, <guimenuitem
+>Exporta com a imatge...</guimenuitem
+>. </para>
+<para
+>Podeu exportar diversos diagrames alhora utilitzant l'opció <guimenuitem
+>Exporta els diagrames com a imatges...</guimenuitem
+> des del menú <guimenu
+>Fitxer</guimenu
+>. Amb això, també es pot establir la resolució de la imatge, perquè les imatges no siguin tan borroses. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Impressió</title>
+<para
+>L'&umbrello; permet imprimir diagrames individuals. Premeu el botó <guiicon
+>Imprimeix</guiicon
+> de la barra d'eines de l'aplicació o seleccioneu l'opció <guimenuitem
+>Imprimeix</guimenuitem
+> del menú <guimenu
+>Fitxer</guimenu
+> i obtindreu un diàleg d'impressió estàndard del &kde; des d'on podreu imprimir els vostres diagrames. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Carpetes lògiques</title>
+<para
+>Per organitzar millor el model, especialment per a projectes grans, podeu crear carpetes lògiques en la vista en arbre. Simplement seleccioneu l'opció <menuchoice
+><guimenu
+>Nou</guimenu
+><guimenuitem
+>Carpeta</guimenuitem
+></menuchoice
+> del menú contextual de les carpetes predeterminades de la vista en arbre per crear-la. Les carpetes poden estar imbricades, i podeu moure objectes arrossegant-los i deixant-los anar des d'una carpeta a una alta. </para>
+
+<screenshot>
+<screeninfo
+>Organització del model amb carpetes</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organització del model amb carpetes lògiques en l'&umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organització del model amb carpetes lògiques en l'&umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

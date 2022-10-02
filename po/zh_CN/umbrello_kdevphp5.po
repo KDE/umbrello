@@ -1,0 +1,383 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kdeorg\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2022-09-20 01:56\n"
+"Last-Translator: \n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /kf5-trunk/messages/umbrello/umbrello_kdevphp5.pot\n"
+"X-Crowdin-File-ID: 6811\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "KDE 中国"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-china@kde.org"
+
+#: completion/implementationitem.cpp:60
+#, kde-format
+msgid "Override"
+msgstr "覆盖"
+
+#: completion/implementationitem.cpp:63
+#, kde-format
+msgid "Implement"
+msgstr "实现"
+
+#: completion/implementationitem.cpp:75
+#, kde-format
+msgid "From %1"
+msgstr "来自 %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "PHP 手册整合"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">默认采取远程方式使用<a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP 文档</span></a>。您也可以设置文档的本地路径，下载的文档必须是"
+"<span style=\" font-style:italic;\">“HTML 多文件”</span>格式。</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "饱和度："
+
+#: docs/phpdocsmodel.cpp:96
+#, kde-format
+msgid "<lost declaration>"
+msgstr "<缺少声明>"
+
+#: docs/phpdocsplugin.cpp:207
+#, kde-format
+msgid "PHP Documentation"
+msgstr "PHP 文档"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "指定要使用的 PHP 文档位置。"
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"要使用的 PHP 文档路径，可以使用远程路径\n"
+"                 (例如http://php.net)或者包含多个\n"
+"                 HTML格式的PHP文档的本地路径."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"请确保本地文档是 HTML 多文件格式。\n"
+"      "
+
+#: docs/phpdocumentationwidget.cpp:56
+#, kde-format
+msgid "...loading documentation..."
+msgstr "...正在加载文档..."
+
+#: duchain/builders/contextbuilder.cpp:397
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "%1 和 %2 循环继承"
+
+#: duchain/builders/declarationbuilder.cpp:321
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "接口方法 %1 的访问类型必须省略。"
+
+#: duchain/builders/declarationbuilder.cpp:325
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "接口函数 %1 不能包含实现。"
+
+#: duchain/builders/declarationbuilder.cpp:337
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr "类 %1 包含抽象方法 %2，因此必须声明为抽象或实现该方法。"
+
+#: duchain/builders/declarationbuilder.cpp:343
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "抽象函数 %1 不能包含实现。"
+
+#: duchain/builders/declarationbuilder.cpp:346
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "无法对类成员使用最终修饰符。"
+
+#: duchain/builders/declarationbuilder.cpp:356
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "非抽象方法 %1 必须包含实现。"
+
+#: duchain/builders/declarationbuilder.cpp:374
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "属性无法声明为最终。"
+
+#: duchain/builders/declarationbuilder.cpp:377
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "属性无法声明为抽象。"
+
+#: duchain/builders/declarationbuilder.cpp:423
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr "Trait 方法 %1 未被应用，因为它与其他 %2 的 Trait 方法冲突"
+
+#: duchain/builders/declarationbuilder.cpp:577
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "无法从上下文重新声明私有属性 %1。"
+
+#: duchain/builders/declarationbuilder.cpp:583
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "无法从上下文重新声明受保护属性 %1。"
+
+#: duchain/builders/declarationbuilder.cpp:616
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "Traits 不能包含常量。"
+
+#: duchain/builders/declarationbuilder.cpp:657
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr "只有布尔型、整型、浮点型和字符串允许用于类常量。"
+
+#: duchain/builders/declarationbuilder.cpp:709
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "无法将“final”用做方法修饰符"
+
+#: duchain/builders/declarationbuilder.cpp:712
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "无法将“static”用做方法修饰符"
+
+#: duchain/builders/declarationbuilder.cpp:760
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr "类类型参数的默认值只能是 NULL。"
+
+#: duchain/builders/declarationbuilder.cpp:763
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "以下参数必须指派默认值。"
+
+#: duchain/builders/declarationbuilder.cpp:870
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "无法重新声明 PHP 内部 %1。"
+
+#: duchain/builders/declarationbuilder.cpp:873
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"在构成 %1 时 %1 和 %2 定义了相同的属性 (%3)。这可能不兼容，要改进可维护性，请"
+"考虑在 Trait 中使用存取器替代。"
+
+#: duchain/builders/declarationbuilder.cpp:881
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "无法重新声明 %1，已经在行 %3 上的 %2 中声明。"
+
+#: duchain/builders/declarationbuilder.cpp:967
+#, kde-format
+msgid ""
+"Class %1 contains %2 abstract methods and must therefore be declared "
+"abstract or implement the remaining methods."
+msgstr "类 %1 包含抽象方法 %2，因此必须声明为抽象或实现该方法。"
+
+#: duchain/builders/declarationbuilder.cpp:974
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "无法重新赋值 $this。"
+
+#: duchain/builders/declarationbuilder.cpp:1410
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "use 语句带有非复合名称“%1”没有效果。"
+
+#: duchain/builders/declarationbuilder.cpp:1434
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "无法将 %1 用作 %2 因为此名称已经被使用了。"
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "不建议使用 %1。"
+
+#: duchain/builders/usebuilder.cpp:193
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "未找到声明：%1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "丢失的 Trait 别名 %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:113
+#: duchain/navigation/declarationnavigationcontext.cpp:126
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "%1 的使用，来自 %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:136
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "破坏成员别名的 Trait。"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:151
+#, kde-format
+msgid "PHP internal"
+msgstr "PHP 内部"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:161
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "常量"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:47
+#, kde-format
+msgid "magic constant"
+msgstr "魔法常量"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:62
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "空(不在类中)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:81
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "空(不在方法中)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:91
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "空(不在函数中)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:100
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "空(不在命名空间中)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:104
+#, kde-format
+msgid "current value: %1"
+msgstr "当前值：%1"
+
+#: duchain/types/indexedcontainer.cpp:78
+#, kde-format
+msgctxt "as in list of int, set of string"
+msgid "%1 of %2"
+msgstr "%1 of %2"
+
+#: parser/main.cpp:25
+#, kde-format
+msgid "php-parser"
+msgstr "php-解析器"
+
+#: parser/main.cpp:26
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP 解析调试工具"
+
+#: parser/main.cpp:27
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "无法打开文件“%1”"
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File could not be read from."
+msgstr "无法读取文件。"
+
+#: parser/parsesession.cpp:74
+#, kde-format
+msgid "File could not be opened."
+msgstr "无法打开文件。"
+
+#: parser/parsesession.cpp:77
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "没有权限打开文件读取。"
+
+#: testprovider/phpunitrunjob.cpp:71
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"

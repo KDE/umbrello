@@ -1,0 +1,397 @@
+<chapter id="working-with-umbrello">
+<title
+>Umbrello kasutamine</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>See peatükk tutvustab Umbrello kasutajaliidest ja selgitab kõike, mida vaja modelleerimise alustamiseks. Kõik Umbrello toimingud on kättesaadavad nii menüü kui tööriistaribade kaudu, lisaks pakub Umbrello laialdast kontekstimenüüde kasutamise võimalust. Klõpsates parema hiirenupuga ükskõik millisel Umbrello tööalal või puuvaates asuval elemendil avaneb kõiki selle elemendi kasulikke käske sisaldav menüü. Mõne kasutaja jaoks on see alguses pisut segadusttekitav, sest nad on harjunud kasutama rohkem menüüd või tööriistaribasid, kuid pärast parema hiireklõpsuga harjumist kiirendab see sinu tööd tublisti. </para>
+
+<sect1 id="user-interface">
+<title
+>Kasutajaliides</title>
+<para
+>Umbrello põhiaken on jagatud kolmeks alaks, mis aitavad anda sulle mudeliga töötades ülevaate kogu süsteemist ja kiire juurdepääsu erinevatele skeemidele. </para>
+<para
+>Neid alasid nimetatakse:</para>
+<itemizedlist>
+<listitem
+><para
+>puuvaade</para
+></listitem>
+<listitem
+><para
+>tööala</para
+></listitem>
+<listitem
+><para
+>Dokumentatsiooni- ja käskude ajaloo aken</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>Umbrello kasutajaliides</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Umbrello kasutajaliides</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Umbrello kasutajaliides </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Puuvaade</title>
+<para
+>Puuvaade asub põhiakna ülemises vasakus osas ja kuvab kõiki skeeme, klasse, tegijaid ja kasutusklasse, millest mudel koosneb. Puuvaade võimaldab saada kiire ülevaate mudelis sisalduvatest elementidest. Samuti võimaldab puuvaade lülituda kiirelt erinevate mudeli skeemide vahel ja lisada mudeli elemente skeemi. </para>
+<para
+>Kui töötad mudeliga, mis sisaldab rohkem kui paari klassi ja skeemi, siis aitab puuvaate elementide kaustadesse jagamise võimalus sul asjade üle kontrolli hoida. Kaustu saab luua valides kontekstimenüüst sobiva käsu ja lohistades vajalikud elemendid õigetesse kaustadesse. </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Dokumentatsiooni- ja käskude ajaloo aken</title>
+<para
+>Dokumentatsiooni- ja käskude ajaloo aken on pisike aken, mis asub Umbrello põhiakna alumises vasakus osas ning annab kiire ülevaate valitud elemendi dokumentatsioonist ja tööseansi ajal antud käskudest. Dokumentatsiooniaken on väike seepärast, et see on mõeldud elemendi dokumentatsioonile ja käskude ajaloole pilgu peale viskamiseks. Kui soovid näha elemendi dokumentatsiooni detailsemalt, siis ava elemendi omaduste dialoog. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Tööala</title>
+<para
+>Tööala on Umbrello akna põhiala, milles toimub põhiline tegevus. Tööala kasutatakse mudeli skeemide redigeerimiseks ja vaatamiseks. Tööala kuvab aktiivset skeemi. Korraga on tööalal võimalik kuvada vaid ühte skeemi. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Mudelite loomine, laadimine ja salvestamine</title>
+<para
+>Umbrelloga millegi kasuliku tegemiseks on esimese asjana vaja luua või avada mudel. Umbrello käivitamisel laaditakse viimati kasutatud mudel või luuakse uus tühi mudel (vastavalt seadistustedialoogis määratud eelistustele). </para>
+<sect2 id="new-model">
+<title
+>Uus mudel</title>
+<para
+>Kui soovid mingil hetkel luua uut mudelit, siis saad seda teha valides menüüst <guimenu
+>Fail</guimenu
+> käsu <guimenuitem
+>Uus</guimenuitem
+> või klõpsates tööriistaribal nuppu <guiicon
+>Uus</guiicon
+>. Kui töötad hetkel mudeliga, mida on muudetud, siis küsib Umbrello, kas sa soovid enne uue mudeli laadimist eelmise mudeli muudatusi salvestada. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Mudeli salvestamine</title>
+<para
+>Mudelit on võimalik igal hetkel salvestada valides menüüst <guimenu
+>Fail</guimenu
+> käsu <guimenuitem
+>Salvesta</guimenuitem
+> või klõpsates tööriistaribal nuppu <guiicon
+>Salvesta</guiicon
+>. Kui soovid salvestada mudelit mõne teise nimega, siis kasuta menüüs <guimenu
+>Fail</guimenu
+> asuvat käsku <guimenuitem
+>Salvesta kui...</guimenuitem
+> </para>
+<para
+>Ohutuse tagamiseks võimaldab Umbrello salvestada tööd ka kindla ajaintervalli tagant. Kui soovid seda kasutada, siis saad seadista see Umbrello menüüs <guimenu
+>Seadistused</guimenu
+>.</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Mudeli laadimine</title>
+<para
+>Olemasoleva mudeli laadimiseks võid valida menüüst <guimenu
+>Fail</guimenu
+> käsu <guimenuitem
+>Ava</guimenuitem
+> või klõpsata tööriistaribal nuppu <guiicon
+>Ava</guiicon
+>. Tihtikasutatavatele mudelitele juurdepääsu kiirendamiseks on hiljuti kasutatud mudelite nimekiri saadaval menüü <guimenu
+>Fail</guimenu
+> alammenüüs <guimenuitem
+>Ava hiljutine</guimenuitem
+>. </para>
+<para
+>Umbrello võimaldab töötada korraga vaid ühe mudeliga, nii et kui käsid rakendusel avada järgmise mudeli ja juba avatud mudelit on pärast viimast salvestamist muudetud, siis küsib Umbrello, kas soovid tehtud muudatusi salvestada. Siiski saab alati käivitada kaks Umbrello protsessi ning nende vahel andmeid kopeerida ja asetada. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Mudelite redigeerimine</title>
+<para
+>Mudeli elementide redigeerimiseks Umbrellos on kaks põhimoodust. <itemizedlist>
+<listitem
+><para
+>mudeli elementide redigeerimine puuvaate kaudu</para
+></listitem>
+<listitem
+><para
+>mudeli elementide redigeerimine skeemi kaudu</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Puuvaates saab erinevate elementide kontekstimenüüga peaaegu kõiki mudeli elemente lisada, eemaldada ja muuta. Puuvaates kataloogidele hiire parema nupuga klõpsates näed valikuid, mis lubavad luua erinevat laadi skeeme ning sõltuvalt sellest, kas tegemist on <emphasis
+>kasutusklassivaate</emphasis
+> või <emphasis
+>loogilise vaatega</emphasis
+>, ka tegijaid, kasutusklasse, klasse jne. </para>
+<para
+>Kui oled oma mudelisse elemente lisanud, saad neid redigeerida ka nende omaduste dialoogis, mille avamiseks klõpsa puuvaates elementidele hiire parema nupuga ja vali kontekstimenüüst <emphasis
+>Omadused</emphasis
+>. </para>
+<para
+>Mudelit saab redigeerida ka elemente skeemidel luues või muutes. Sellest räägitakse lähemalt järgmistes osades. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Skeemide lisamine ja eemaldamine</title>
+<para
+>Sinu &UML; mudel koosneb reast &UML;i elementidest ja nendevahelistest sidemetest. Mudelit ei saa siiski otseselt näha, selle vaatamiseks tuleb kasutada <emphasis
+>skeeme</emphasis
+>. </para>
+<sect2 id="create-diagram">
+<title
+>Skeemide loomine</title>
+<para
+>Mudeli uue skeemi loomiseks vali lihtsalt vajalik skeemitüüp kirje <guimenuitem
+>Uus</guimenuitem
+> alt menüüs <guimenu
+>Skeem</guimenu
+> ja anna sellele nimi. Skeem luuakse ja muudetakse aktiivseks ning sa näed seda kohe puuvaates. </para>
+<para
+>Pane tähele, et Umbrello kasutab ohtralt ka kontekstimenüü võimalusi: sa võid klõpsata &HPN;ga kataloogile puuvaates ja valida vajaliku skeemitüübi kontekstimenüü alammenüüst <guisubmenu
+>Uus</guisubmenu
+>. Arvesta sealjuures seda, et kasutusklassiskeeme saab luua ainult kasutusklassikataloogides, teisi skeemitüüpe aga ainult loogilise vaate kataloogides. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Skeemide eemaldamine</title>
+<para
+>Kui soovid mudelist skeemi eemaldada, muuda see aktiivseks ja vali käsk <guimenuitem
+>Kustuta</guimenuitem
+> menüüst <guimenu
+>Skeem</guimenu
+>. Sama tulemuse saavutab puuvaate skeemide kontekstimenüü käsuga <guimenuitem
+>Kustuta</guimenuitem
+>. </para>
+<para
+>Et skeemi kustutamine on üsna ohtlik tegevus, mis võib kaasa tuua suure töö kaotsimineku, kui teed seda kuidagi kogemata, küsib Umbrello enne skeemi tegelikku eemaldamist sinu käest üle, kas oled oma otsuses kindel. Pärast seda, kui skeem on kustutatud ja fail uuesti salvestatud, ei saa kustutamist enam kuidagi tagasi võtta. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Skeemide ümbernimetamine</title>
+<para
+>Kui soovid olemasolevale skeemile teist nime anda, klõpsa puuvaates &HPN;ga ja vali kontekstimenüüst ümbernimetamiskäsk. </para>
+<para
+>Teine viis skeemile uut nime anda käib omaduste dialoogi vahendusel, mille saab avada kontekstimenüüst käsku Omadused valides või puuvaates topeltklõpsu tehes. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Skeemide redigeerimine</title>
+<para
+>Skeemi kallal töötamise ajal üritab Umbrello sind aidata, rakendades mõningaid lihtsaid reegleid: millised elemendid sobivad millist tüüpi skeemi ja millist laadi seosed saavad nende vahel eksisteerida. Kui oled &UML;i asjatundja, ei pane sa seda tõenäoliselt tähelegi, kuid &UML;i maailma uustulnukatel aitavad need reeglid luua standardile vastavaid skeeme. </para>
+<para
+>Kui oled skeemi loonud, on aeg asuda seda redigeerima. Kindlasti märkad (ehkki algajatele on see vähemärgatav) erinevust skeemi ja <emphasis
+>mudeli</emphasis
+> redigeerimise vahel. Nagu juba selgitatud, on skeem ainult sinu mudeli <emphasis
+>vaade</emphasis
+>. Kui näiteks lood klassiskeemi redigeerides klassi, muudad tegelikult nii skeemi kui ka mudelit. Kui aga muudad oma klassiskeemis klassi värvi või muid esitusvalikuid, siis muudad ainult skeemi, kuid mudelis ei muutu midagi. </para>
+<sect2 id="insert-elements">
+<title
+>Elementide lisamine</title>
+<para
+>Üks esimesi asju uut skeemi redigeerima asudes on neisse elementide (klassid, tegijad, kasutusklassid &etc;) lisamine. Seda saab teha kahel viisil:</para>
+<itemizedlist>
+<listitem
+><para
+>Lohistades olemasolevad elemendid puuvaatest oma mudelisse</para
+></listitem>
+<listitem
+><para
+>Luues uued elemendid mudelis ja lisades nad samal ajal skeemile mõnda diagrammiriba redigeerimistööriista kasutades</para
+></listitem>
+</itemizedlist>
+<para
+>Mudelis juba eksisteerivate elementide lisamiseks lohista need lihtsalt puuvaatest sinna, kuhu soovid neid oma skeemis asetada. Valikutööriistaga saad alati liigutada oma skeemi elemente. </para>
+<para
+>Teine skeemile elementide lisamise viis on diagrammiriba redigeerimistööriistade kasutamine (pane tähele, et see lisab ka elemendid sinu mudelisse). </para>
+<para
+>Diagrammiriba asus varem vaikimisi rakenduse akna ülaservas. Ribal saadaolevad tööriistad (nupud) muutuvad sõltuvalt sellest, millist tüüpi skeemiga on tegemist. Parajasti valitud tööriista nupp on ribal aktiveeritud. Valikutööriistale saab alati naasta klahvile &Esc; vajutades. </para>
+<para
+>Kui valid diagrammiribal tööriista (näiteks klassi lisamise tööriista), võtab hiirekursor risti kuju ning sa võid vastava elemendi lisada mudelisse skeemis klõpsates. Arvesta, et &UML;i elementidel peab olema <emphasis
+>unikaalne nimi</emphasis
+>. See tähendab, et kui sul on ühel skeemil klass nimega <quote
+>KlassA</quote
+> ja sa lisad seejärel klassi lisamise tööriistaga klassi mõnele teisele skeemile, ei saa selle nimeks olla samuti <quote
+>KlassA</quote
+>. Kui nad peavad olema erinevad elemendid, peab neil olema ka unikaalne nimi. Kui aga soovid skeemile lisada <emphasis
+>sama</emphasis
+> elemendi, ei ole klassi lisamise tööriist sugugi õige vahend. Selleks tuleks klass hoopis vajalikku kohta puuvaatest lohistada. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Elementide kustutamine</title>
+<para
+>Kõiki elemente saab kustutada kontekstimenüüst <guimenuitem
+>Kustuta</guimenuitem
+> valides. </para>
+<para
+>Taas tasub märkida <emphasis
+>suurt</emphasis
+> erinevust objekti eemaldamise vahel skeemilt ja objekti kustutamise vahel mudelist: kui kustutad objekti skeemilt, eemaldad ainult objekti konkreetselt skeemilt, element ise aga on endiselt sinu mudeli osa ja kui seda elementi kasutab mõni muu skeem, ei mõjuta kustutamine neid kuidagi. Kui aga kustutad elemendi puuvaatest, siis kustutad selle ka oma <emphasis
+>mudelist</emphasis
+>. Et nüüd pole enam elementi mudelis olemas, eemaldatakse see automaatselt kõigilt skeemidelt, kus see varem oli. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Elementide redigeerimine</title>
+<para
+>Enamikku oma mudeli ja skeemide &UML; elemente saab redigeerida nende omaduste dialoogi avades ja seal vajalikke valikuid langetades. Objekti omaduste redigeerimiseks vali selle kontekstimenüüst (klõps &HPN;ga) <guimenuitem
+>Omadused</guimenuitem
+>. Igal elemendil on mitmest kaardist koosnev dialoog, kus antud elemendi valikuid rakendada või muuta. Mõne elemendi, näiteks tegija korral, on valikuid vaid paar tükki (objekti nimi ja dokumentatsioon), mõne elemendi, näiteks klassi korral, saab aga muuta selle atribuute ja operatsioone, määrata, mida skeemil näidata (tervet operatsiooni signatuuri või ainult operatsioonide nime jne.), ning panna paika isegi värvid, mida kasutada antud klassi joonte ja täidise esitamisel skeemil. </para>
+
+<para
+>&UML; elementide omaduste dialoogi saab avada ka neil topeltkõpsu tehes, kui kasutad valikutööriista (nool). </para>
+
+<para
+>Pane tähele, et omaduste dialoogi saab avada ka elementide kontekstimenüüst puuvaates. See võimaldab redigeerida ka skeemide enda omadusi, näiteks seda, kas alusvõrku näidata või mitte. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Klasside redigeerimine</title>
+<para
+>Ehkki me juba kajastasime kõigi objektide omaduste redigeerimist, väärivad klassid omaette osa, sest nad on mõnevõrra keerukamad ja neil on rohkem valikuid kui ülejäänud &UML;i elementidel. </para>
+<para
+>Klassi omaduste dialoogis saab määrata kõike alates selle värvidest kuni operatsioonide ja atribuutideni. </para>
+<sect3 id="class-general-settings">
+<title
+>Klassi üldseadistused</title>
+<para
+>Omaduste dialoogi üldseadistuste kaart ei vaja ilmselt selgitamist: siin saab muuta klassi nime, nähtavust, dokumentatsiooni &etc; See kaart on alati olemas. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Klassi atribuutide seadistused</title>
+<para
+>Atribuutide kaardil saab lisada, redigeerida ja kustutada klassi atribuute (muutujaid). Atribuute saad nimekirjas üles- ja allapoole liigutada kasti kõrval paiknevaid noolenuppe kasutades. See kaart on alati olemas. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Klassi operatsioonide seadistused</title>
+<para
+>Sarnaselt atribuutide kaardile saab operatsioonide kaardil lisada, redigeerida ja eemaldada oma klassi operatsioone. Operatsiooni lisades või muutes tuleb põhiandmed sisestada <emphasis
+>operatsiooni omaduste</emphasis
+> dialoogi. Kui soovid operatsioonile parameetreid lisada, tuleb klõpsata nupule <guibutton
+>Uus parameeter</guibutton
+>, mis avab <emphasis
+>parameetri omaduste </emphasis
+> dialoogi. See kaart on alati olemas. </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Klassi mallide seadistused</title>
+<para
+>Sellel kaardil saab lisada klassimalle, mis on määratlemata klassid või andmetüübid. Java 1.5 nimetab neid geneerikuteks. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Klassi sidemete seadistused</title>
+<para
+>Kaardil <guilabel
+>Klassi sidemed</guilabel
+> näeb kõiki antud klassi sidemeid aktiivsel skeemil. Topeltklõps sidemel avab selle omaduste dialoogi ning sõltuvalt sideme tüübist saab seal muuta teatud parameetreid, näiteks määrata mitmesuse ja rolli nime. Kui side ei võimalda midagi muuta, on omaduste dialoog kirjutuskaitstud ning sa saad muuta ainult antud sidemega seotud dokumentatsiooni. </para>
+<para
+>See kaart on saadaval ainult siis, kui avad klassi omaduste dialoogi skeemilt. Avades selle puuvaate kontekstimenüüst, ei ole kaarti näha. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Klassi kuvamise seadistused</title>
+<para
+>Kaardil <guilabel
+>Kuvamise seadistused</guilabel
+> saab määrata, mida skeemil näidatakse. Klassi võib näidata ainult ühe nelinurgana, milles on klassi nimi (see on kasuks, kui sul on skeemil palju klasse või kui sind parajasti ei huvita klasside üksikasjad) või ka täielikult kujul koos pakettide, stereotüüpide ning atribuutide ja operatsioonide, operatsioonide signatuuride ja nähtavusega. </para>
+<para
+>Langeta oma valikud sõltuvalt sellest, kui palju infot soovid skeemil näha. Siin tehtud muudatused mõjutavad ainult skeemi <emphasis
+>kuvamist</emphasis
+>. See tähendab, et klassi operatsioonide <quote
+>peitmine</quote
+> ei näita neid lihtsalt skeemil, kuid operatsioon ise kuulub endiselt mudeli koosseisu. See kaart on saadaval ainult siis, kui avad klassi omaduste dialoogi skeemilt. Avades selle puuvaate kontekstimenüüst, ei ole kaarti näha, sest seal ei ole kuvamise seadistustel mingit mõtet.</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Klassi stiili seadistused</title>
+<para
+>Kaardil <guilabel
+>Vidinate stiilid</guilabel
+> saab määrata vidinate joonte ja täidise värvid. Enesestmõistetavalt on see kaart saadaval ainult skeemidel näidatavate klasside jaoks, mitte aga siis, kui valid klassi omaduste dialoogi puuvaatest. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Sidemed</title>
+<para
+>Side seob üksteisega kaks &UML;i objekti. Tavaliselt eksisteerib side kahe klassi vahel, kuid teatud tüüpi sidemed võivad olla ka kasutusklasside ja tegijate vahel. </para>
+<para
+>Sideme loomiseks vali vajalik tööriist diagrammiribalt (tavaline side, üldistus, agregatsioon &etc;) ning klõpsa algul esimesel sidemes osaleval elemendil ja seejärel teisel. Pane tähele, et vaja on kaht klõpsu, üks ühel ja teine teisel sidemega ühendataval objektil, aga <emphasis
+>mitte</emphasis
+> lohistamist ühe objekti juurest teise juurde. </para>
+<para
+>Kui üritad luua sideme, mis ei vasta &UML;i spetsifikatsioonile, keeldub Umbrello seda tegemast ja sa näed veateadet. Nii juhtub näiteks siis, kui klassist A on juba olemas üldistus klassini B ja sa proovid siis luua veel ühe üldistuse klassist B klassini A. </para>
+<para
+>Hiire parema nupu klõpsuga sidemel ilmub kontekstimenüü, kust saab valida mitmesuguseid toiminguid. Kui soovid sideme kustutada, valigi kontekstimenüüst <guimenuitem
+>Kustuta</guimenuitem
+>. Samuti võib sealt valida <guimenuitem
+>Omadused</guimenuitem
+> ning sõltuvalt sideme tüübist võib seejärel olla võimalik redigeerida sideme atribuute, näiteks rolli ja mitmesust. </para>
+<sect3 id="anchor-points">
+<title
+>Ankurpunktid</title>
+<para
+>Vaikimisi luuakse sidemed sirgjoonena, mis ühendab skeemil kaht objekti. </para>
+<para
+>Sideme kuju muutmiseks tuleb sellel vajalikus kohas teha topeltklõps. Sellega lisatakse ankurpunkt (seda näidatakse sideme valimisel sinise punktina), mida liigutades saabki muuta sideme kuju. </para>
+<para
+>Kui soovid ankurpunkti eemaldada, tee selle peal hiirega topeltklõps. </para>
+<para
+>Pane tähele, et ainus viis sideme omadusi muuta käib läbi kontekstimenüü. Kui teed sellel topeltklõpsu, siis erinevalt teistest &UML;i objektidest lisab see vaid sidemel ankurpunkti. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Märkused, tekstid ja kastid</title>
+<para
+>Märkused, tekstid ja kastid on elemendid, mis võivad eksisteerida mis tahes tüüpi skeemil ja millel pole tegelikku semantilist väärtust, kuid millest on abi lisakommentaaride või selgituste pakkumiseks, mis muudab skeemid paremini arusaadavaks. </para>
+<para
+>Märkuse või teksti lisamiseks vali diagrammiribalt vastav tööriist ja klõpsa skeemil kohas, kuhu soovid kommentaari lisada. Teksti saab redigeerida elementi kontekstimenüü abil avades või märkuste puhul ka neil topeltklõpsu tehes. </para>
+<sect3 id="anchors">
+<title
+>Ankrud</title>
+<para
+>Ankruid kasutatakse märkuse ja &UML;i elemendi kokkusidumiseks. Tavaliselt tehakse märkus mõne klassi või sideme selgitamiseks või kommenteerimiseks ning sel juhul on väga kasulik lisada ankur, mis näitab, et see märkus <quote
+>kuulub</quote
+> just konkreetse elemendi juurde. </para>
+<para
+>Ankru lisamiseks märkuse ja &UML;i elemendi vahele vali diagrammiribal ankrutööriist. Seejärel klõpsa kõigepealt märkusele ja seejärel &UML;i elemendile, millega soovid märkust ühendada. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

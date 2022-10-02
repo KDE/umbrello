@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Ukrainian "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Вітаємо</title>
+</articleinfo>
+
+<para
+>Вітаємо у &umbrello; — програмі для роботи з діаграмами &UML;, яка допоможе вам у розробці програмного забезпечення, особливо під час стадій аналізу і розробки компонування проєкту. &umbrello; допоможе вам створити високоякісний продукт. Крім того, &UML; можна використовувати для створення документації до компонування вашого програмного забезпечення, ця документація допоможе вам і вашим партнерам-розробникам. </para>
+<para
+>Для початку, ви можете створити діаграму одного з таких типів: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Діаграма випадків використання</ulink
+></emphasis
+> показує дієвих осіб (людей або інших користувачів системи), випадки використання (сценарії використання системи) та їх взаємодію</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Діаграми класів</ulink
+></emphasis
+>, на яких буде показано класи та зв’язки між ними</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Діаграми послідовності</ulink
+></emphasis
+>, на яких показано об’єкти і послідовність методів, якими ці об’єкти викликають інші об’єкти.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Діаграми співпраці</ulink
+></emphasis
+>, на яких буде показано об’єкти та їх взаємозв’язок з наголосом на об’єкти, які беруть участь у обміні повідомленнями</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Діаграми стану</ulink
+></emphasis
+>, на яких буде показано стани, зміну станів і події у об’єкті або частині системи</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Діаграми діяльності</ulink
+></emphasis
+>, на яких буде показано дії та зміни однієї дії іншою, які є наслідком подій, що сталися у певній частині системи</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Діаграми компонентів</ulink
+></emphasis
+>, на яких буде показано програмні компоненти високого рівня (на зразок KParts або Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Діаграми впровадження</ulink
+></emphasis
+>, на яких буде показано екземпляри компонентів та їх взаємодію.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Діаграми взаємозв’язку сутностей</ulink
+></emphasis
+>, на яких буде показано дані, взаємозв’язки і умови обмеження зв’язків між даними.</para
+></listitem>
+
+</itemizedlist>
+</article>

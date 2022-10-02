@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % German "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Willkommen</title>
+</articleinfo>
+
+<para
+>Willkommen zu &umbrello;, einer Anwendung für &UML;-Diagramme, welches den Entwicklungsprozess von Software unterstützen kann. Hauptsächlich während der Analyse und des Design hilft &umbrello; dabei, ein qualitativ hochwertiges Produkt zu erzeugen. &UML; kann weiterhin zur Dokumentation des Softwaredesigns genutzt werden, um sie und ihre Kollegen zu unterstützen. </para>
+<para
+>Um mit UML zu beginnen, können Sie ein neues Diagramm der im Folgenden genannten Typen erstellen: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Anwendungsfalldiagramm</ulink
+></emphasis
+>, stellt Akteure (Menschen oder andere Benutzer des Systems), Anwendungsfälle (Szenario, wie die Akteure das System nutzen) und die Beziehungen dazwischen dar</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Klassendiagramm</ulink
+></emphasis
+>, stellt Klassen und ihre Beziehungen untereinander dar</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Sequenzdiagramm</ulink
+></emphasis
+>, stellt Objekte und ihre Beziehungen dar, wobei der Schwerpunkt auf dem chronologischen Nachrichtenaustausch zwischen den Objekten liegt</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Kollaborationsdiagramm </ulink
+></emphasis
+>, stellt Objekte und ihre Beziehungen dar, wobei der Schwerpunkt auf Objekten liegt, die am Nachrichtenaustausch beteiligt sind</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Zustandsdiagramm</ulink
+></emphasis
+>, stellt Zustände, Zustandsänderungen und Ereignisse in einem Objekt oder Teilsystem dar</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Aktivitätsdiagramm</ulink
+></emphasis
+>, stellt die Aktivitäten, Zustände und Zustandsänderungen von Objekten und die Ereignisse in Teilsystemen dar</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Komponentendiagramm</ulink
+></emphasis
+>, stellt die höheren Programmierkomponenten (wie KParts und Java Beans) dar.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Verteilungsdiagramm</ulink
+></emphasis
+>, stellt die Instanzen der Komponenten und ihre Beziehungen dar.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-diagram"
+>Entitäten-Beziehungs-Diagramm</ulink
+></emphasis
+>, stellt Daten und ihre Beziehungen beziehungsweise Einschränkungen untereinander dar.</para
+></listitem>
+
+</itemizedlist>
+</article>

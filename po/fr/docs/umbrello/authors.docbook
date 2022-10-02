@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Auteurs et histoire</title>
+<para
+>Ce projet a été initié par Paul Hensgen dans le cadre d'un projet universitaire. Le nom original de l'application était <emphasis
+>UML Modeller</emphasis
+>. Paul a réalisé le développement jusqu'à fin 2001 alors que le programme recevait la version 1.0. </para>
+<para
+>La version 1.0 offrait d'ors et déjà de nombreuses fonctionnalités, mais après que l'université de Paul ai apprécié le projet, d'autres développeurs ont rejoint le projet et ont apporté de nombreuses contributions à <application
+>UML Modeller</application
+>, comme l'abandon d'un format de fichier binaire au profit d'un format &XML;, comme l'apport de types de diagrammes &UML; supplémentaires, ou encore la génération de code et l'import de code.  </para>
+<para
+>Paul a du se retirer de l'équipe de développement lors de l'été 2002 mais, en tant que logiciel libre et Open Source, le programme continue d'évoluer et de s'améliorer, et d'être maintenu par un groupe international de développeurs. Aussi, en septembre 2002, le projet changea son nom de <application
+>UML Modeller</application
+> pour &umbrello;. Plusieurs raisons ont incité au changement de ce nom, notamment parce que <quote
+>uml</quote
+> -- comme il était appelé communément -- était un nom trop générique et posait problème à certaines distributions. L'autre raison importante est que les développeurs ont estimé que <application
+>Umbrello</application
+> était bien plus cool. =) </para>
+<para
+>Le développement de &umbrello;, comme le choix des fonctionnalités à ajouter dans les versions futures, est ouvert et a lieu sur Internet. Si vous souhaitez contribuer au projet, n'hésitez pas à contacter les développeurs. De nombreuses manières d'aider le projet &umbrello; sont envisageables.  </para>
+<itemizedlist>
+<listitem
+><para
+>Rapporter des bogues ou suggérer des améliorations</para
+></listitem>
+<listitem
+><para
+>Corriger des bogues ou ajouter des fonctionnalités</para
+></listitem>
+<listitem
+><para
+>Réaliser une bonne documentation ou traduire l'application vers des langues différentes.</para
+></listitem>
+<listitem
+><para
+>Et bien sûr... programmer avec nous !</para
+></listitem>
+</itemizedlist>
+<para
+>Comme vous pouvez le constater, les possibilités de contribution sont nombreuses. Toutes les contributions sont importantes et tout le monde est le bienvenu pour participer. </para>
+<para
+>Les développeurs d'&umbrello; sont joignables à <email
+>uml-devel@lists.sourceforge.net</email
+>. </para>
+</chapter>

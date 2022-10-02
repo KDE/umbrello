@@ -1,0 +1,750 @@
+<chapter id="settings">
+<title
+>Inställningar</title>
+
+<sect1 id="general-settings">
+<title
+>Allmänna inställningar</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Allmänna inställningar</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Alternativ i de allmänna inställningarna i &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Alternativ i de allmänna inställningarna i &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Diverse</title>
+<itemizedlist>
+    <listitem>
+        <para
+>Alternativet <guilabel
+>Aktivera ångra</guilabel
+> tillåter att en tidigare åtgärd ångras.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Använd nya C++, Java och Ruby kodgeneratorer</guilabel
+> låter användaren antingen välja de gamla eller de nya kodgeneratorerna</para>
+    </listitem>
+    <listitem
+><para
+>När <guilabel
+>Använd sidfot och sidnummer vid utskrift</guilabel
+> är markerad, skrivs diagraminformation och sidnummer ut för diagrammet som skrivs ut.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Använd flikdiagram</guilabel
+> ger möjlighet att ha flera diagramfönster under flikar öppna samtidigt.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Spara automatiskt</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Aktivera spara automatiskt</guilabel
+> ger valet att spara filen automatiskt.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Välj intervall för spara automatiskt (minuter):</guilabel
+> tillåter att tiden innan filen sparas automatiskt ställs in.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Ange ändelse för spara automatiskt</guilabel
+> har standardvärdet .xmi, men tillåter att en annan filändelse ställs in.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Start</title>
+    <itemizedlist>
+        <listitem
+><para
+><guilabel
+>Ladda senaste projekt</guilabel
+> om markerad, laddar alltid det senaste arbetsprojektet när programmet startas.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Starta nytt projekt med:</guilabel
+> ger ett val av vilken UML-diagramtyp som ett nytt projekt startas med.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Standardspråk:</guilabel
+> är en inställning för förvalt programspråk som används.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Underrättelser</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Aktivera alla meddelanden</guilabel
+> är ett alternativ för att antingen se alla underrättelser eller en reducerad mängd av underrättelser.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Aktivera meddelanden relaterade till 'ta bort association'</guilabel
+> säkerställer att du tar emot alla meddelanden av den här typen om markerat.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Aktivera meddelanden relaterade till 'ta bort diagram'</guilabel
+> aktiverar alla meddelanden av den här typen om markerat.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Teckensnittsinställningar</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Teckensnittsinställningar</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Alternativ i inställningarna av diagramteckensnitt i &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Alternativ i inställningarna av diagramteckensnitt i &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Teckensnittsinställningarna ställer in textkarakteristiken i diagrammen. Teckenstil och storlek är de enda valbara alternativen.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Inställning av användargränssnitt</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Inställning av användargränssnitt</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna av användargränssnitt i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna av användargränssnitt i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Allmänt</title>
+    <para
+><guilabel
+>Användargränssnitt från höger till vänster</guilabel
+> anpassar gränssnittet för höger till vänster språk. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Associationer</title>
+    <para
+><guilabel
+>Använd vinklade associationslinjer</guilabel
+> tillåter att associationslinjer varierar med godtycklig vinkel. </para>
+    <para
+><guilabel
+>Skapa nya associationslinjer som:</guilabel
+> ger möjlighet att ändra linjestil för associationer. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Färg</title>
+    <para
+>Färgvalet ger flera alternativ för att ändra text-, linje-, ifyllnads-, rutnäts-, och bakgrundsfärger samt linjebredden.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Klassinställningar</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Klassinställningar</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i klassinställningarna i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i klassinställningarna i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Visa</title>
+        <para
+>Sektionen Visa har flertalet inställningar som bestämmer vilken klasskarakteristik som visas i klassdiagrammen.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Startområde</title>
+        <para
+>Val av standardinställningar för attribut och operationer, öppna, privata eller skyddade.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Inställningar av kodimport</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Inställningar av kodimport</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna av kodimport i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna av kodimport i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Inkludera sökvägar</title>
+    <para
+>En allmän rekommendation ges för att förbättra sökning genom att inkludera UMBRELLO INCPATH som en miljövariabel.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Import av C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Skapa en artefakt i komponentvyn för varje importerad fil</guilabel
+> Artefakten som skapas kan sedan dras till klassdiagramvyn där beroenden enkelt kan observeras tillsammans med attributen och funktionerna i varje fil.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Lös upp beroenden (minskar importhastighet)</guilabel
+> säkerställer att alla filberoenden löses upp vilket sedan dyker upp i klassberoenden i klassdiagrammen.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Aktivera C++ 11-standard (experimentellt</guilabel
+> En experimentell funktion för att överensstämma med C++ 11, inaktivera om det inte behövs.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Inställningar av kodgenerering</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Allmän flik för inställningar av kodgenerering</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Allmänna inställningar av kodgenerering</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i de allmänna inställningarna av kodgenerering i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i de allmänna inställningarna av kodgenerering i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Umbrello UML-modellering kan generera källkod för diverse programspråk, baserad på din UML-modell för att hjälpa dig komma igång med implementeringen av projektet. Koden som skapas består av klassdeklarationer, med metoder och attribut, så att du kan "fylla i tomrummen" genom att tillhandahålla funktionerna i klassernas operationer.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Språk</title>
+        <para
+>Välj programspråk att använda för projekt. Valen som erbjuds är ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala och XMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Kataloger</title>
+    <para
+><guilabel
+>Skriv alla filer som skapas till katalog:</guilabel
+> har ett redigerbart fält för den önskade sökvägen för genererade filer eller en valfri bläddringsknapp för att välja sökvägen.</para>
+    <para
+><guilabel
+>Infoga huvudfiler från katalog:</guilabel
+> Om markerad, låt användaren ange en sökväg i ett redigerbart fält eller välja den med en bläddringsknapp.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Överskrivningspolicy</title>
+    <para
+>När koden genereras i den angivna katalogen, bestämmer den här inställningen vad som händer när en fil med samma namn påträffas. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Skriv över</guilabel
+> filen utan en varning eller alternativ.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Fråga</guilabel
+> om filen ska skrivas över eller om namnet ska ändras.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Använd ett annat namn</guilabel
+> när en fil redan finns genom att byta namn på det med ett suffix.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Flik för inställningar av kodgenereringsformatering</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Inställningar av kodgenereringsformatering</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna av kodgenereringsformatering i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna av kodgenereringsformatering i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Kommentarnivå</title>
+        <para
+><guilabel
+>Skriv dokumenteringskommentarer även om tomma</guilabel
+> Genererar kommentarer för klasser och funktioner även om de är tomma.</para>
+        <para
+><guilabel
+>Skriv kommentarer för sektioner även om sektionen är tom</guilabel
+> Skriver kommentarer för privata, skyddade och öppna sektionerna även om de är tomma.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Rader</title>
+    <para
+><guilabel
+>Intenteringstyp:</guilabel
+> erbjuder ett val mellan ingen indentering, tabulator eller mellanslag.</para>
+    <para
+><guilabel
+>Indenteringssteg:</guilabel
+> låter användaren ange antal mellanslag för indenteringsvalen tabulator eller mellanslag.</para>
+    <para
+><guilabel
+>Radslutstil:</guilabel
+> är ett val mellan radslutstilarna på *NIX, Windows och Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Språkalternativ</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Alternativ för kodgenereringsspråk</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna för kodgenereringsspråk i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna för kodgenereringsspråk i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Sidan ändras för varje programspråk som väljes under fliken Allmänt. För närvarande är de enda alternativen som är tillgängliga för språket C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>C++ kodgenerering</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Dokumentation</title>
+        <para
+><guilabel
+>Stil:</guilabel
+> ger ett val att antingen använda  "/** */" eller "//" som dokumentationsstil</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Allmänt</title>
+        <para
+>Under fliken <guilabel
+>Allmänt</guilabel
+> under fliken <guilabel
+>Språkalternativ</guilabel
+>, listas flera kodgenereringsalternativ.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Prefix för klassmedlem</guilabel
+></para>
+                <para
+>Ett alternativ som tillåter ett prefix bestämt av användaren, för att läggas till i klassmedlemmar när kod genereras.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Paket är en namnrymd</guilabel
+></para>
+                <para
+>Namnrymder tillhandahåller en metod för att förhindra namnkonflikter i stora projekt. Symboler deklarerade inne i ett namnrymdsblock är placerade i en namngiven omgivning som förhindrar att de misstas för symboler med identiska namn i andra omgivningar.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Virtuella destruktorer</guilabel
+></para>
+                <para
+>Även om destruktorer inte ärvs, om en basklass deklarerar sin destruktor virtuell, överskrider de härledda destruktorerna alltid den. Det gör det möjligt att ta bort dynamiskt tilldelade objekten av polymorfiska typer via pekare till basen.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Skapa tomma konstruktormetoder</guilabel
+></para>
+                <para
+>Det här skapar konstruktorer som har tomma klammerparenteser.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Skapa åtkomstmetoder</guilabel
+></para>
+                <para
+>Skapar genereringsmetoder för att komma åt datatyper.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Operationer är infogade</guilabel
+></para>
+                <para
+>Generera metoderna infogade, men kompilatorer är fria att välja att inte infoga metoden.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Åtkomstobjekt är infogade</guilabel
+></para>
+                <para
+>Metoder som kommer åt klassens data genereras infogade, men kompilatorer är fria att välja att inte infoga metoden.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Åtkomstobjekt är öppna</guilabel
+></para>
+                <para
+>Metoder som genereras som öppna kommer att vara tillgängliga för alla instansieringar av klassen.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Skapa hämtningsfunktioner med prefixet 'get'</guilabel
+></para>
+                <para
+>Det här lägger till prefixet "get" för metoderna som hämtar eller returnerar klassdata.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Ta bort prefix '[a-zA-Z]_' från åtkomstmetodnamn</guilabel
+></para>
+                <para
+>Om ett prefix matades in i <guilabel
+>Prefix för klassmedlem</guilabel
+>, tas det bort av det här.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Åtkomstmetoder börjar med stora bokstäver</guilabel
+></para>
+                <para
+>Det här gör metodnamnets första bokstav stor.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Använd '\' som dokumentationstagg istället för @</guilabel
+></para>
+                <para
+>Ett val av tagg att använda när en metods parametrar dokumenteras.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Skapa metodimplementering</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Alternativ för metodimplementering i kodgenereringsspråk</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Alternativ i inställningarna för metodimplementering i kodgenereringsspråk i &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Alternativ i inställningarna för metodimplementering i kodgenereringsspråk i &umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Lista</guilabel
+></para>
+        <para
+>Har alternativen QPtrList, vector och std::vector för listtypen. En redigerbar eller valbart fält följer för att ange deklarationsfilen tillsammans med en bläddringsknapp för att hitta och välja deklarationsfilen. Det finns också ett alternativ för att göra listan global.</para>
+        <para
+><guilabel
+>Sträng</guilabel
+></para>
+            <para
+>Alternativen string eller QString för strängtypen. En redigerbar eller valbart fält följer för att ange deklarationsfilen tillsammans med en bläddringsknapp för att hitta och välja deklarationsfilen. Det finns också ett alternativ för att göra strängen global. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Inställningar av kodvisning</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Inställningar av kodvisning</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna av kodvisning i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna av kodvisning i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Tillåter anpassning av kodvisningen. Sektionen <guilabel
+>Begärt teckensnitt</guilabel
+> tillåter att teckensnittet väljes och teckenstorlek. En representation av det du väljer visas nedanför valen. </para>
+    <para
+>I sektionen <guilabel
+>Färger</guilabel
+> kan ändringar göras av Papper, Teckensnitt, Markerade, UML-objektblock. Gömt block, Text som inte kan redigeras och Text som kan redigeras. Ändringar av färgerna kan göras genom att klicka på färgrutan vid respektive beteckning. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Inställningar för automatisk layout</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Inställningar för automatisk layout</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Alternativ i inställningarna av automatisk layout i &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Alternativ i inställningarna av automatisk layout i &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Detektera layoutgenerering automatiskt</guilabel
+></para>
+    <para
+>Funktionen för automatisk layout beror på layout-generatorer som tillhandahålls av GraphViz-paketet, som normalt installeras tillsammans med Umbrello av en pakethanterare. Umbrello har inbyggt stöd för att detektera installationsplatsen av layout-generatorerna. I fall då beroenden inte är tillgänglig eller inte är lämpliga, kan en annan installationssökväg väljas. </para>
+    <para
+><guilabel
+>Visa Exportera layout i diagrammets sammanhangsberoende meny</guilabel
+></para>
+    <para
+>Export av dot-filer utförs genom att använda exportera layout. När alternativet är markerat läggs den exporterade layouten till i listan med tillgängliga diagramlayouter och gör det möjligt att se en snabb förhandsgranskning av dot-export. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

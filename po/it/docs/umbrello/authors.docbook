@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Autori e storia</title>
+<para
+>Il progetto è stato iniziato da Paul Hengsen come uno dei suoi progetti universitari. Il nome originale dell'applicazione era <application
+>UML Modeller</application
+>. Paul fece tutto lo sviluppo fino alla fine del 2001, quando il programma raggiunse la versione 1.0. </para>
+<para
+>La versione 1.0 offriva già molte funzionalità, ma dopo che il progetto è stato valutato all'università di Paul, altri sviluppatori hanno potuto unirsi dando contributi di valore a <application
+>UML Modeller</application
+>, come passare da un file binario a un file &XML;, supporto per più tipi di diagrammi &UML;, generazione e importazione di codice solo per menzionarne alcuni. </para>
+<para
+>Paul si è dovuto ritirare dalla squadra di sviluppo nell'estate 2002, ma, come software libero, il programma continua a migliorare e evolversi, ed è mantenuto da un gruppo di sviluppatori da diverse parti del mondo. Nel settembre 2002 il progetto ha cambiato il suo nome da <application
+>&UML; Modeller</application
+> in &umbrello;. Ci sono diverse ragioni per il cambio di nome, la più importante è che solo <quote
+>uml</quote
+>, come era comunemente noto, era un nome troppo generico e causava problemi con alcune distribuzioni. L'altra ragione importante è che gli sviluppatori pensano che <application
+>Umbrello</application
+> sia un nome molto più bello. </para>
+<para
+>Lo sviluppo di &umbrello; e le discussioni sugli sviluppi futuri del programma sono aperti e si trovano su Internet. Se vuoi contribuire al progetto, non esitare a contattare gli sviluppatori. Ci sono molti modi in cui puoi aiutare &umbrello;: </para>
+<itemizedlist>
+<listitem
+><para
+>Fare rapporti di errori o suggerire miglioramenti</para
+></listitem>
+<listitem
+><para
+>Correggere errori o aggiungere funzionalità</para
+></listitem>
+<listitem
+><para
+>Scrivere della buona documentazione o tradurla in altre lingue</para
+></listitem>
+<listitem
+><para
+>E ovviamente... scrivere codice con noi!</para
+></listitem>
+</itemizedlist>
+<para
+>Come vedi, ci sono molti modi in cui puoi contribuire. Tutti sono molto importanti e tutti sono i benvenuti a partecipare. </para>
+<para
+>Gli sviluppatori di &umbrello; possono essere raggiunti all'indirizzo <email
+>umbrello-devel@kde.org</email
+>. </para>
+</chapter>

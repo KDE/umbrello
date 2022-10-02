@@ -1,0 +1,163 @@
+<chapter id="code-import-generation">
+<title
+>Code Import and Code Generation</title>
+<para
+>&umbrello; is a &UML; modelling tool, and as such its main purpose is to help you in the <emphasis
+>analysis and design</emphasis
+> of your systems. However, to make the transition between your design and your <emphasis
+>implementation</emphasis
+>, &umbrello; allows you to generate source code in different programming languages to get you started. Also, if you want to start using &UML; in an already started C++ project, &umbrello; can help you create a model of your system from the source code by analysing your source code and importing the classes found in it. </para>
+<sect1 id="code-generation">
+<title
+>Code Generation</title>
+<para
+>&umbrello; can generate source code for various programming languages based on your &UML; Model to help you get started with the implementation of your project. The code generated consists of the class declarations, with their methods and attributes so you can <quote
+>fill in the blanks</quote
+> by providing the functionality of your classes' operations. </para>
+<para
+>&umbrello; 1.2 comes with code generation support for ActionScript, Ada, C++, CORBA IDL, &Java;, JavaScript, <acronym
+>PHP</acronym
+>, Perl, Python, SQL and XMLSchema. </para>
+<sect2 id="generate-code">
+<title
+>Generating Code</title>
+<para
+>In order to generate code with &umbrello;, you first need to create or load a Model containing at least one class. When you are ready to start writing some code, select the <guimenuitem
+>Code Generation Wizard</guimenuitem
+> entry from the <guimenuitem
+>Code</guimenuitem
+> menu to start a wizard which will guide you through the code generation process. </para>
+<para
+>The first step is to select the classes for which you want to generate source code. By default all the classes of your model are selected, and you can remove the ones for which you do not want to generate code by moving them to the left-hand side list. </para>
+<para
+>The next step of the wizard allows you to modify the parameters the Code Generator uses while writing your code. The following options are available: </para>
+<para>
+<screenshot>
+<screeninfo
+>Code Generation Options</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Options for the Code Generation in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Options for the Code Generation in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Generation Options</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Code Verbosity</title>
+<para
+>The option <guilabel
+>Write documentation comments even if empty</guilabel
+> instructs the Code Generator to write comments of the /** blah */ style even if the comment blocks are empty. If you added documentation to your classes, methods or attributes in your Model, the Code Generator will write these comments as <application
+>Doxygen</application
+> documentation regardless of what you set here, but if you select this option &umbrello; will write comment blocks for all classes, methods and attributes even if there is no documentation in the Model, in which case you should document your classes later directly in the source code. </para>
+<para
+><guilabel
+>Write comments for sections even if section is empty</guilabel
+> causes &umbrello; to write comments in the source code to delimit the different sections of a class. For example <quote
+>public methods</quote
+> or <quote
+>Attributes</quote
+> before the corresponding sections. If you select this option &umbrello; will write comments for all sections of the class even if the section is empty. For example, it would write a comment saying <quote
+>protected methods</quote
+> even if there are no protected methods in your class. </para>
+</sect4>
+<sect4>
+<title
+>Folders</title>
+<para
+><guilabel
+>Write all generated files to folder</guilabel
+>. Here you should select the folder where you want &umbrello; to put the generated sources. </para>
+<para
+>The <guilabel
+>Include heading files from folder</guilabel
+> option allows you to insert a heading at the beginning of each generated file. Heading files can contain copyright or licensing information and contain variables that are evaluated at generation time. You can take a look at the template heading files shipped with &umbrello; to see how to use this variables for replacing your name or the current date at generation time. </para>
+</sect4>
+<sect4>
+<title
+>Overwrite Policy</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>This option tells &umbrello; what to do if the file it wants to create already exists in the destination folder. &umbrello; <emphasis
+>cannot modify existing source files</emphasis
+>, so you have to choose between overwriting the existing file, skipping the generation of that particular file or letting &umbrello; choose a different file name. If you choose the option to use a different name, &umbrello; will add a suffix to the file name. </para>
+</sect4>
+<sect4>
+<title
+>Language</title>
+<para
+>&umbrello; will by default generate code in the language you have selected as Active Language, but with the Code Generation Wizard you have the option to change this to another language. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Generation Wizard Generation</title>
+<para
+>The third and last step of the wizard shows the status of the Code Generation process. You need only to click on the Generate button to get your classes written for you. </para>
+<para
+>Note that the Options you select during the Code Generation Wizard are only valid for the current generation. The next time you run the wizard you will need to re-select all the options (your headings folder, overwrite policy, and so on). You can set the defaults used by &umbrello; in the <guilabel
+>Code Generation</guilabel
+> section of the &umbrello; settings, available at <menuchoice
+><guimenu
+>Settings</guimenu
+><guimenuitem
+>Configure &umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>If you have set your Code Generation options to the right settings and want to generate some code right away without going through the wizard, you can select the entire <guimenuitem
+>Generate All Code</guimenuitem
+> from the Code menu. This will generate code for all the classes in your Model using the current settings (including Output Folder and Overwrite Policy, so use with care). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Code Import</title>
+<para
+>&umbrello; can import source code from your existing projects to help you build Model of your systems. &umbrello; 1.2 supports only C++ source code, but other languages should be available in future versions. </para>
+<para
+>To import classes into your Model, select the entry <guimenuitem
+>Import Classes...</guimenuitem
+> from the <guimenu
+>Code</guimenu
+> menu. In the file dialogue select the files containing the C++ class declarations and press OK. The classes will be imported and you will find them as part of your Model in the Tree View. Note that &umbrello; will not create any kind of Diagram for showing your classes, they will only be imported into your Model so that you can use them later in any diagram you want. </para>
+<para>
+<screenshot>
+<screeninfo
+>Code Import</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menu for importing source code in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menu for importing source code in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

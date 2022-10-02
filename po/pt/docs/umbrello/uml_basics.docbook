@@ -1,0 +1,995 @@
+<chapter id="uml-basics">
+<title
+>Bases de &UML;</title>
+<sect1 id="about-uml">
+<title
+>Acerca do &UML;</title>
+<para
+>Este capítulo dar-lhe-á uma ideia geral sobre as bases do &UML;. Tenha em mente que isto não é um tutorial compreensivo sobre o &UML; mas sim uma breve introdução ao mesmo, como tal poderá ser lido como um tutorial de &UML;. Se você quiser aprender mais sobre a Unified Modelling Language ou, na generalidade, sobre a análise e desenho de 'software', baseie-se num dos vários livros disponíveis sobre o tópico. Existem também vários tutoriais na Internet que você poderá usar como ponto de partida. </para>
+
+<para
+>A Unified Modelling Language (&UML;) é uma linguagem ou notação de diagramas para especificar, visualizar e documentar modelos de 'software' orientados por objectos. O &UML; não é um método de desenvolvimento, o que significa que não lhe diz o que fazer primeiro ou o que fazer a seguir ou como desenhar o seu sistema, mas ajuda-o a visualizar o seu desenho e a comunicar com os outros. O &UML; é controlado pelo Object Management Group (<acronym
+>OMG</acronym
+>) e é a norma da indústria para descrever graficamente o 'software'. </para>
+<para
+>O &UML; está desenhado para o desenho de 'software' orientado por objectos e tem uma utilização limitada para outros paradigmas de programação. </para>
+<para
+>O &UML; é composto por vários elementos do modelo que representam as diferentes partes de um sistema de 'software'. Os elementos de &UML; são usados para criar diagramas que representam uma dada parte ou um ponto de vista do sistema. São suportados os seguintes tipos de diagramas pelo &umbrello;: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="use-case-diagram"
+>Diagramas de Casos de Uso</link
+></emphasis
+> mostram os actores (as pessoas ou os outros utilizadores do sistema), os casos de utilização (os cenários em que eles usam o sistema) e as suas relações</para
+> </listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="class-diagram"
+>Diagramas de Classes</link
+></emphasis
+> mostram as classes e as relações entre elas</para
+> </listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="sequence-diagram"
+>Diagramas de Sequência</link
+></emphasis
+> mostram os objectos e uma sequência de chamadas de métodos que eles fazem a outros objectos.</para
+> </listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="collaboration-diagram"
+>Diagramas de Colaboração</link
+></emphasis
+> mostram os objectos e as suas relações, colocando alguma ênfase nos objectos que participam na troca de mensagens</para>
+</listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="state-diagram"
+>Diagramas de Estados</link
+></emphasis
+> mostram os estados, as mudanças de estado e os eventos num objecto ou numa parte do sistema</para
+> </listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="activity-diagram"
+>Diagramas de Actividades</link
+></emphasis
+> mostram as actividades e as mudanças de uma actividade para outra com os eventos a ocorrerem numa parte do sistema</para
+></listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="component-diagram"
+>Diagramas de Componentes</link
+></emphasis
+> mostram os componentes de alto-nível de programação (como as KParts ou os Java Beans).</para
+></listitem>
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="deployment-diagram"
+>Diagramas de Entradas em Produção</link
+></emphasis
+> mostram as instâncias dos componentes e as suas relações.</para
+></listitem
+> 
+
+<listitem
+><para
+>Os <emphasis
+><link linkend="entity-relationship-diagram"
+>Diagramas de Entidade-Associação</link
+></emphasis
+> mostram os dados e as relações e as restrições entre os dados.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>Elementos de &UML;</title>
+<sect2 id="use-case-diagram">
+<title
+>Diagrama de Casos de Utilização</title>
+<para
+>Os Diagramas de Casos de Uso descrevem as relações e as dependências entre um grupo de <emphasis
+>Casos de Uso</emphasis
+> e os Actores que participam no processo.</para>
+<para
+>É importante reparar que os Diagramas de Casos de Uso não são adequados para representar o desenho e também não podem descrever os detalhes internos de um sistema. Os Diagramas de Casos de Uso pretendem facilitar a comunicação com os utilizadores futuros do sistema e com o cliente, e são especialmente úteis para determinar as funcionalidades necessárias que o sistema deverá ter. Os Diagramas de Casos de Uso indicam <emphasis
+>o que</emphasis
+> o sistema deverá fazer mas não devem &mdash; e não podem &mdash; especificar <emphasis
+>como</emphasis
+> isto deverá ser feito.</para>
+<para>
+<screenshot>
+<screeninfo
+>Um exemplo de diagrama de Casos de Utilização.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; a mostrar um diagrama de Casos de Utilização</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; a mostrar um diagrama de Casos de Utilização </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>Caso de Utilização</title>
+<para
+>Um <emphasis
+>Caso de Utilização</emphasis
+> descreve &mdash; do ponto de vista dos actores &mdash; um grupo de actividades de um sistema que produzem um resultado concreto e tangível.</para>
+<para
+>Os Casos de Uso são descrições das interacções típicas entre os utilizadores de um sistema e o sistema propriamente dito. Eles representam a interface externa do sistema e especificam um dado tipo de requisitos sobre o que o sistema tem de fazer (lembre-se, só 'o quê', não 'como'). </para>
+<para
+>Ao lidar com os Casos de Uso, é importante recordar algumas regras simples: <itemizedlist>
+ <listitem
+><para
+>Cada Caso de Utilização está relacionado com pelo menos um actor</para
+></listitem>
+ <listitem
+><para
+>Cada Caso de Utilização tem um iniciador (ou seja, um actor)</para
+></listitem>
+ <listitem
+><para
+>Cada Caso de Uso conduz a um resultado relevante (um resultados com <quote
+>valor de negócio</quote
+>)</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>Os Casos de Uso também poderão ter relações com outros Casos de Uso. Os três tipos de relações mais típicos entre Casos de Uso são:</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;include&gt;&gt; (incluir)</emphasis
+> que indica que um Caso de Uso toma lugar <emphasis
+>dentro</emphasis
+> de outro Caso de Uso</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;extends&gt;&gt; (extende)</emphasis
+> que indica que, em certas situações ou numa dada altura (chamada de ponto de extensão), um Caso de Uso será extendido por outro.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>Generalization</emphasis
+> (generalização) indica que um Caso de Uso herda as características do <quote
+>Super</quote
+>-Caso de Uso e poderá implementar novamente algumas delas ou adicionar novas de uma forma semelhante à da herança de classes. </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>Actor</title>
+<para
+>Um actor é uma entidade externa (fora do sistema) que interage com o sistema ao participar (ou iniciar normalmente) um Caso de Uso. Os actores poderão ser pessoas reais (como, por exemplo, utilizadores do sistema), outros sistemas informáticos ou eventos exteriores. </para>
+<para
+>Os actores não representam as pessoas <emphasis
+>físicas</emphasis
+> ou os sistemas, mas sim o seu <emphasis
+>papel</emphasis
+>. Isto significa que, quando uma pessoa interage com o sistema de formas diferentes (assumindo papéis diferentes), ele será representado por vários actores. Por exemplo, uma pessoa que dá suporte ao cliente por telefone e que recebe encomendas do cliente para colocar no sistema seria representado por um actor <quote
+>Técnico de Suporte</quote
+> e por um actor <quote
+>Representante de Vendas</quote
+> </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>Descrição de Caso de Utilização</title>
+<para
+>As descrições dos Casos de Uso são narrativas textuais do Caso de Uso. Elas normalmente tomam a forma de uma nota ou de um documento que esteja associado de alguma forma ao Caso de Uso e explicam os processos ou actividades que tomam lugar no Caso de Uso. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>Diagrama de Classes</title>
+<para
+>Os Diagramas de Classes mostram as diferentes classes que compõem um sistema e como elas se relacionam umas com as outras. Os Diagramas de Classes são apontados normalmente como <quote
+>estáticos</quote
+> porque mostram as classes, em conjunto com os seus métodos e atributos, assim como as relações estáticas entre elas, quais as classes que <quote
+>conhecem</quote
+> outras classes ou que <quote
+>fazem parte</quote
+> de outra classe, mas não mostram as chamadas de métodos entre elas. </para>
+<para>
+<screenshot>
+<screeninfo
+>Um exemplo de um Diagrama de Classes</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O &umbrello; a mostrar um diagrama de Classes</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O &umbrello; a mostrar um diagrama de Classes </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>Classe</title>
+<para
+>Uma classe define os atributos e os métodos para um conjunto de objectos. Todos os objectos desta classe (as instâncias da mesma) partilham o mesmo comportamento e têm o mesmo conjunto de atributos (cada objecto tem o seu próprio conjunto). O termo <quote
+>Tipo</quote
+> é usado em algumas ocasiões em vez de Classe, mas é importante mencionar que os dois conceitos não são iguais e que o Tipo é um termo mais genérico. </para>
+<para
+>No &UML;, as Classes são representadas por rectângulos com o nome da classe, e poderão também mostrar os atributos e as operações da classe em outros dois <quote
+>compartimentos</quote
+> dentro do rectângulo. </para>
+<para>
+<screenshot>
+<screeninfo
+>Uma Classe em &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual de uma Classe em &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma Classe em &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>Atributos</title>
+<para
+>No &UML;, os Atributos são mostrados como tendo o seu nome, pelo menos, e poderão mostrar também o seu tipo, o seu valor inicial e outras propriedades. Os atributos também poderão ser mostrados com a sua visibilidade: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Representa atributos <emphasis
+>públicos</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Representa atributos <emphasis
+>protegidos</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Representa atributos <emphasis
+>privados</emphasis
+></para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>Operações</title>
+<para
+>As operações (métodos) são também mostradas contendo pelo menos o seu nome e poderão também mostrar os seus parâmetros e tipos de valor devolvidos. As operações podem, assim como os Atributos, mostrar a sua visibilidade: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> Corresponde a operações <emphasis
+>públicas</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> Corresponde a operações <emphasis
+>protegidas</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> Corresponde a operações <emphasis
+>privadas</emphasis
+></para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>Modelos</title>
+<para
+>As Classes poderão ter modelos, um valor que é usado para uma classe ou tipo não especificado. O tipo de modelo é definido quando uma classe é iniciada (&ie; um objecto é criado). Os modelos existem como 'template' no C++ actual e serão introduzidos no Java 1.5 onde serão chamados de 'Generics'. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>Associações da Classe</title>
+<para
+>Uma classe pode-se relacionar (ser associada) com outra qualquer de diferentes maneiras:</para>
+<sect4 id="generalization">
+<title
+>Generalização</title>
+<para
+>A herança é um dos conceitos fundamentais da programação orientada por objectos, nos quais uma classe <quote
+>ganha</quote
+> todos os atributos e operações da classe que herda, podendo sobrepor ou modificar algumas delas, assim como adicionar mais atributos ou operações próprias.</para>
+<para
+>No &UML;, uma associação por <emphasis
+>Generalização</emphasis
+> entre duas classes representa o conceito de herança entre uma classe de base e uma classe derivada. No &UML;, as Generalizações são representadas com uma linha que liga as duas classes, em que existe uma seta do lado da classe de base. <screenshot>
+<screeninfo
+>Generalização</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual de uma generalização em &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma generalização em &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>Associações</title>
+<para
+>Uma associação representa uma relação entre classes e dá a semântica e a estrutura comum para vários tipos de <quote
+>ligações</quote
+> entre os objectos.</para>
+<para
+>As associações são o mecanismo que permite aos objectos comunicarem uns com os outros. Descreve a ligação entre as diferentes classes (a ligação entre os objectos em si é chamada de <emphasis
+>ligação do objecto</emphasis
+>. </para>
+<para
+>As associações podem ter um papel que indica o objectivo da associação e pode ser unidireccionais ou bidireccionais (indica se os dois objectos que participam na relação poderão enviar mensagens um para o outro, ou se só um deles é que conhece o outro). Cada extremo da associação também tem um valor de multiplicidade, que define quantos objectos desse lado da associação poder-se-ão relacionar com um objecto do outro lado. </para>
+<para
+>No &UML;, as associações são representadas como linhas que ligam as classes que participam na relação e poderá também mostrar o papel e a multiplicidade de cada um dos participantes. A multiplicidade é mostrada como um intervalo [mín..máx] de valores não-negativos ou com um asterisco (<literal
+>*</literal
+>) no lado do máximo que representa o infinito. <screenshot>
+<screeninfo
+>Associação &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Uma representação visual de uma associação em &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Uma representação visual de uma associação em &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>Agregação</title>
+<para
+>As agregações são um tipo especial de associações nas quais as duas classes participantes não têm um estado igual, mas têm uma relação <quote
+>do 'todo' para as partes</quote
+>. Uma agregação diz como é que a classe que têm o papel do 'todo' é composta (ou tem) as outras classes, que têm o papel das partes. Para as agregações, a classe que actua como o 'todo' tem sempre uma multiplicidade de um. </para>
+<para
+>No &UML;, as agregações são representados por uma associação com um losango do lado do 'todo'. <screenshot>
+<screeninfo
+>Agregação</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Uma representação visual de uma relação de agregação no &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Uma representação visual de uma relação de agregação no &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>Composição</title>
+<para
+>As composições são associações que representam agregações <emphasis
+>muito fortes</emphasis
+>. Isto significa que as composições formam também relações do 'todo' para as partes, mas a relação é tão forte que as partes não podem existir por si só. Elas só existem dentro do todo e se o todo for destruído, as partes desaparecem também.</para>
+<para
+>No &UML;, as Composições são representadas por um losango a cheio do lado do 'todo'. </para>
+<para
+><screenshot>
+<screeninfo
+>Composição</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Uma representação visual de uma relação de Composição no &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>Outros Itens do Diagrama de Classes</title>
+<para
+>Os diagramas de classe poderão conter outros itens para além das classes.</para>
+<sect4 id="interfaces">
+<title
+>Interfaces</title>
+<para
+>As interfaces são classes abstractas, o que significa que as instâncias não podem ser criadas directamente a partir delas. Elas poderão contem operações, mas não podem conter atributos. As classes podem herdar das interfaces (através de uma relação de realização) e as instâncias poderão então ser compostas a partir desses diagramas.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>Tipos de dados</title>
+<para
+>Os tipos de dados são primitivas que vêm tipicamente incorporadas numa linguagem de programação. Os exemplos comuns incluem os inteiros e os booleanos. Eles não poderão ter relações com as classes, mas as classes poderão ter relações com eles.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>Enumerados</title>
+<para
+>Os enumerados são uma lista simples de valores. Um exemplo típico são os enumerados para os dias da semana. Como os tipos de dados, os enumerados não poderão ter relações com as classes, mas as classes poderão ter relações com eles.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>Pacotes</title>
+<para
+>Os pacotes representam um espaço de nomes numa linguagem de programa. Num diagrama, eles são usados para representar partes de um sistema que contém mais do que uma classe, podendo ser mesmo centenas de classes.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>Diagramas de Sequência</title>
+
+<para
+>Os Diagramas de Sequência mostram a troca de mensagens (&ie; as chamadas aos métodos) entre os vários objectos numa situação específica delimitada no tempo. Os objectos são instâncias das classes. Os Diagramas de Sequência colocam uma ênfase especial na ordem e nas alturas em que as mensagens são enviadas para os objectos.</para>
+
+<para
+>Nos Diagramas de Sequência, os objectos são representados através de linhas tracejadas verticais, com o nome do objecto no topo. O eixo do tempo também é vertical, e vai aumentando de cima para baixo, de modo a que as mensagens sejam enviadas de um objecto para outro, sob o formato de setas com o nome da operação e dos parâmetros. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>Diagrama de Sequência</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O &umbrello; a mostrar um Diagrama de Sequência</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O &umbrello; a mostrar um Diagrama de Sequência </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>As mensagens tanto podem ser síncronas, o que acontece normalmente nas chamadas de mensagens quando o controlo é passado para o objecto que é invocado até que esse método termine a sua execução, ou poderão também ser assíncronas, onde o controlo é passado de volta directamente para o objecto que invoca o método. As mensagens síncronas têm uma caixa vertical do lado do objecto que é chamado para mostrar o fluxo de controlo do programa.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>Diagramas de Colaboração</title>
+
+<para
+>Os Diagramas de Colaboração mostram as interacções entre os objectos que participam numa dada situação. Esta é mais ou menos a mesma informação que é mostrada pelos Diagramas de Sequência, mas existe também uma ênfase posta sobre como as interacções ocorrem no tempo, enquanto que os Diagramas de Colaboração colocam as relações entre os seus objectos e a sua topologia em primeiro plano.</para>
+
+<para
+>Nos Diagramas de Colaboração, as mensagens enviadas de um objecto para o outro são representadas por setas que mostram o nome da mensagem, os parâmetros e a sequência da mensagem. Os Diagramas de Colaboração são particularmente adequados a mostrar um fluxo específico de um programa ou situação, e são uns dos melhores tipos de diagramas para demonstrar ou explicar rapidamente um processo na lógica do programa. </para>
+
+<screenshot>
+<screeninfo
+>Colaboração</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O &umbrello; a mostrar um Diagrama de Colaboração</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O &umbrello; a mostrar um Diagrama de Colaboração </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>Diagramas de Estados</title>
+<para
+>Os Diagramas de Estados mostram os diferentes estados de um objecto durante a sua vida, bem como os estímulos que fazem com que o objecto mude o seu estado. </para
+>                              
+<para
+>Os Diagramas de Estados vêem os objectos como <emphasis
+>máquinas de estados</emphasis
+> ou autónomos finitos que poderão estar num estado pertencente a uma lista de estados finitos e que poderão mudar o seu estado através de um estímulo pertencente a um conjunto finito de estímulos. Por exemplo, um objecto do tipo <emphasis
+>ServidorRede</emphasis
+> poderá estar num dos seguintes estados durante a sua vida: </para>
+<itemizedlist>
+<listitem
+><para
+>Pronto</para
+></listitem>
+<listitem
+><para
+>À espera</para
+></listitem>
+<listitem
+><para
+>A trabalhar</para
+></listitem>
+<listitem
+><para
+>Parado</para
+></listitem>
+</itemizedlist>
+<para
+>e os eventos que poderão fazer com que o Objecto mude de estado são</para>
+<itemizedlist>
+<listitem
+><para
+>O objecto é criado</para
+></listitem>
+<listitem
+><para
+>O objecto atende a mensagem</para
+></listitem>
+<listitem
+><para
+>Um cliente pede uma ligação pela rede</para
+></listitem>
+<listitem
+><para
+>Um cliente termina um pedido</para
+></listitem>
+<listitem
+><para
+>O pedido é executado e terminado</para
+></listitem>
+<listitem
+><para
+>O objecto recebe a mensagem parar</para
+></listitem>
+<listitem
+><para
+>etc</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>Diagrama de Estado</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O &umbrello; a mostrar um Diagrama de Estado</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O &umbrello; a mostrar um Diagrama de Estado </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>Estado</title>
+<para
+>Os estados são os blocos de construção dos Diagramas de Estado. Um estado pertence a exactamente uma classe e representa um resumo dos valores que os atributos de uma classe poderão obter. Um Estado no &UML; descreve o estado interno de um objecto de uma determinada classe </para
+>                       
+<para
+>Tenha em atenção que nem todas as alterações de um atributo de um objecto deverão ser representadas por um estado, mas só mesmo aquelas alterações que poderão afectar significativamente o funcionamento do objecto</para>
+<para
+>Existem dois tipos especiais de Estados: o Inicial e o Final. Eles são especiais na medida em que não existe nenhum evento que possa fazer um objecto voltar ao seu estado inicial, da mesma forma que não há nenhum evento que possa retirar um objecto do seu estado final, logo que o tenha atingido. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>Diagrama de Actividades</title>
+<para
+>Os Diagramas de Actividades descrevem a sequência de actividades de um sistema, com a ajuda das Actividades propriamente ditas. Os Diagramas de Actividades são um tipo especial de Diagramas de Estados, que só (ou em grande parte) contêm Actividades. </para>
+<para>
+<screenshot>
+<screeninfo
+>Um exemplo de Diagrama de Actividades.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O &umbrello; a mostrar um Diagrama de Actividade</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O &umbrello; a mostrar um Diagrama de Actividade </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>Os Diagramas de Actividades são semelhantes aos fluxogramas procedimentais, com a diferença que todas as Actividades estão claramente associadas a objectos.</para>
+
+<para
+>Os Diagramas de Actividades estão sempre associados a uma <emphasis
+>Classe</emphasis
+>, uma <emphasis
+>Operação</emphasis
+> ou um <emphasis
+>Caso de Uso</emphasis
+>.</para>
+
+<para
+>Os Diagramas de Actividades suportam as Actividades sequências, assim como as paralelas. A execução paralela é representada através de ícones de 'Fork' (Bifurcação) ou 'Wait' (Espera) e, para as actividades que decorrem em paralelo, não é importante a ordem pela qual são desempenhadas (elas poderão ser executadas ao mesmo tempo ou uma a seguir à outra)</para>
+<sect3 id="activity">
+<title
+>Actividade</title>
+<para
+>Uma Actividade é um passo único num processo. Uma Actividade é um estado no sistema com actividade interna e, pelo menos, uma transição de saída. As Actividades também poderão conter mais do que uma transição de saída se tiverem diferentes condições. </para
+> 
+<para
+>As Actividades poderão formar hierarquias, o que significa que uma Actividade poderá ser composta por várias Actividades de <quote
+>detalhe</quote
+>, onde nesse caso as transições de entrada e de saída deverão corresponder às transições de entrada e de saída do diagrama de detalhe. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>Elementos Auxiliares</title>
+<para
+>Existem alguns elementos no &UML; que não têm nenhum valor semântico real para o modelo, mas que ajudam a clarificar partes do diagrama. Esses elementos são </para>
+<itemizedlist>
+<listitem
+><para
+>Linhas de texto</para
+></listitem>
+<listitem
+><para
+>Notas de Texto e âncoras</para
+></listitem>
+<listitem
+><para
+>Caixas</para
+></listitem>
+</itemizedlist
+>   
+<para
+>As linhas de texto são úteis para adicionar algumas informações textuais breves para um diagrama. Correspondem a texto livre e não têm nenhum significado para o modelo em si. </para
+>           
+
+<para
+>As notas são úteis para adicionar informações mais detalhada sobre um objecto ou uma dada situação. Têm a grande vantagem de poderem ser anexadas a Elementos de &UML; para mostrar que a nota <quote
+>pertence</quote
+> a um dado objecto ou situação. </para>
+
+<para
+>As caixas são rectângulos livres que poderão ser usados para agrupar os itens em conjunto para tornar os diagramas mais legíveis. Elas não têm significado lógico no modelo.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>Diagramas de Componentes</title>
+<para
+>Os Diagramas de Componentes mostram os componentes do 'software' (sejam referentes a tecnologias de componentes como os KParts, os componentes do CORBA ou Java Beans, ou mesmo secções do sistema que sejam claramente distintas), bem como os artefactos de que são compostos, como os ficheiros de código-fonte, as bibliotecas de programação ou as tabelas de bases de dados relacionais.</para>
+
+<para
+>Os componentes poderão ter interfaces (&ie; classes abstractas com operações) quer permitem associar os componentes.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>Diagramas de Entrada em Produção</title>
+
+<para
+>Os Diagramas de Entrada em Produção mostram as instâncias em execução, bem como as suas associações. Eles incluem os Nós, que são recursos físicos, correspondendo tipicamente a um único computador. Mostram também as interfaces e os objectos (as instâncias das classes).</para>
+
+</sect2>
+
+<sect2 id="entity-relationship-diagram">
+<title
+>Diagramas de Entidade-Associação</title>
+
+<para
+>Os Diagramas de Entidade-Associação (Diagramas ER) mostram o desenho conceptual das aplicações de bases de dados. Estes definem as várias entidades (conceitos) no sistema de informação e as relações e restrições entre eles. Uma extensão dos Diagramas Entidade-Associação, chamada 'Diagramas Estendidos Entidade-Associação' (EER) são usados para incorporar as técnicas de desenho Orientado por Objectos nos diagramas ER. </para
+> 
+<para>
+<screenshot>
+<screeninfo
+>Um exemplo de diagrama Entidade-Associação.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>O Umbrello a mostrar um Diagrama de Entidade-Associação</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>O Umbrello a mostrar um Diagrama de Entidade-Associação </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="entity">
+<title
+>Entidade</title>
+<para
+>Uma <emphasis
+>Entidade</emphasis
+> é qualquer conceito no mundo real com uma existência independente. Poderá ser um objecto com uma existência física (exemplo, Computador, Robot) ou poderá ser um objecto com uma existência conceptual ( p.ex.: Curso Universitário). Cada entidade tem um conjunto de atributos que descrevem as propriedades da Entidade.</para>
+<para
+><emphasis
+>Nota:</emphasis
+> Não existem ainda notações normalizadas para desenhar Diagramas ER. Os diferentes textos sobre este assunto usam notações diferentes. Os conceitos e notações para os diagramas ER usados no Umbrello são do seguinte livro: <emphasis
+>Elmasri R. e Navathe S. (2004). Fundamentals of Database Systems 4a ed. Addison Wesley</emphasis
+> </para>
+<para
+>Num Diagrama ER, as Entidades são representadas por rectângulos com o nome da classe, e poderão também mostrar os atributos de uma entidade noutro <quote
+>compartimento</quote
+> dentro do rectângulo. </para>
+<para>
+<screenshot>
+<screeninfo
+>Uma Entidade num Diagrama ER;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual de uma entidade num Diagrama ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma entidade num Diagrama ER </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="entity-attribute">
+<title
+>Atributos da Entidade</title>
+<para
+>Nos Diagramas ER, os Atributos das Entidades aparecem com o seu nome num compartimento diferente da Entidade a que pertencem. </para>
+</sect4>
+<sect4 id="constraint">
+<title
+>Restrições</title>
+<para
+>As restrições nos diagramas ER definem as limitações sobre os dados no esquema de informação. </para>
+<para
+>Existem quatro tipos de restrições suportados no Umbrello : <itemizedlist>
+ <listitem>
+    <para
+><emphasis
+>Chave Primária:</emphasis
+> O conjunto de atributos declarado como <emphasis
+>chave primária</emphasis
+> é único para a entidade. Só poderá existir uma chave primária numa Entidade e nenhum dos seus atributos constituintes poderá ser nulo. </para>
+</listitem>
+ <listitem>
+    <para
+><emphasis
+>Chave Única:</emphasis
+> O conjunto de atributos declarado como <emphasis
+>chave única</emphasis
+> é único para a entidade. Poderão existir várias restrições de chaves únicas. Os seus atributos constituintes poderão ser nulos. As Chaves Únicas e Chaves Primárias identificam de forma única uma linha numa tabela (entidade)</para>
+ </listitem>
+ <listitem>
+    <para
+><emphasis
+>Chave Estrangeira:</emphasis
+> Uma Chave Estrangeira é uma restrição de referência entre duas tabelas. A chave estrangeira identifica uma coluna ou conjunto de colunas numa tabela (de referência) que aponta para uma coluna ou conjunto de colunas noutra tabela (referenciada). As colunas da tabela referenciada deverão formar uma chave primária ou única. </para>
+ </listitem>
+ <listitem>
+     <para
+><emphasis
+>Restrição de Verificação:</emphasis
+> Uma restrição de verificação (também conhecida como restrição de verificação de tabelas) é uma condição que define os dados válidos ao adicionar ou actualizar um item numa tabela de uma base de dados relacional. Uma restrição de verificação é aplicada a cada linha na tabela. A tabela deverá ser um predicado. Poderá fazer uma referência a uma ou várias colunas da tabela. </para>
+     <para
+>Exemplo: preço 
+>= 0 </para>
+ </listitem>
+ </itemizedlist>
+</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="extended-entity-relationship-concepts">
+<title
+>Conceitos Estendidos dos Diagramas de Entidade-Associação (ER)</title>
+<sect3 id="specialization">
+<title
+>Especialização</title>
+<para
+>A especialização é uma forma de criar novas entidades com base em entidades que já tenham sido definidas. As entidades novas, conhecidas como entidades derivadas, recebem (ou herdam) os atributos das entidades pré-existentes, as quais são referenciadas como entidades de base. Pretende ajudar a reutilizar os dados existentes com poucas ou nenhumas modificações.</para>
+<para
+>No Umbrello, uma pessoa poderá definir Especializações Disjuntas e Sobrepostas</para>
+ <sect4 id="disjoint-specialization">
+   <title
+>Especialização Disjunta</title>
+   <para
+>A Especialização Disjunta define que as sub-classes da especialização deverão ser disjuntas. Isto significa que uma entidade poderá ser um membro de no máximo uma das entidades derivadas da especialização</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entidades que participam na Especialização Disjunta</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual da Especialização Disjunta num Diagrama ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma Especialização Disjunta num Diagrama ER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+    </para>
+ </sect4>
+ <sect4 id="overlapping-specialization">
+   <title
+>Especialização Sobreposta</title>
+   <para
+>Quando as entidades derivadas não estão restritas para serem disjuntas, o seu conjunto de entidades são consideradas uma especialização sobreposta. Isto significa que a mesma entidade no mundo real poderá ser um membro de mais de uma entidade derivada da especialização</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entidades que participam na Especialização Sobreposta</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual de uma Especialização Sobreposta num Diagrama ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma Especialização Sobreposta num Diagrama ER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+ <sect4 id="category">
+
+ <title
+>Categoria</title>
+ <para
+>Diz-se que uma entidade derivada é uma <emphasis
+>Categoria</emphasis
+> quando representa uma colecção de objectos que é um sub-conjunto da União dos tipos de entidades distintos. Uma categoria modela-se quando surge a necessidade de uma relação única de super-classe/sub-classe com mais de uma super-classe, onde as super-classes representam diferentes tipos de entidades (como acontece na herança múltipla da Programação Orientada por Objectos ). </para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entidades que participam numa relação de Categoria</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="category.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Representação visual de uma categoria num Diagrama ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Representação visual de uma categoria num Diagrama ER</para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+
+</sect3>
+</sect2>
+
+</sect1
+> 
+</chapter>

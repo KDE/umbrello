@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>Aŭtoroj kaj Historio</title>
+<para
+>Ĉi tiu projekto estis komencata far Paul Hensgen kiel unu el liaj universitataj projektoj. La originala nomo de la apliko estis <application
+>UML Modeller</application
+>. Paul faris la tutan disvolviĝon ĝis la fino de 2001 kiam la programo atingis version 1.0. </para>
+<para
+>Versio 1.0 jam ofertis multajn funkciojn, sed post kiam la projekto estis reviziita ĉe Paules universitato, aliaj ellaborantoj povis aliĝi kaj ili komencis fari valorajn kontribuaĵojn al <application
+>UML Modeller</application
+>, kiel transmetado de binara dosierformato al &XML; dosiero, subteno por pliaj specoj de &UML; diagramoj, importado kaj generado de programkodo, ktp. </para>
+<para
+>Somere 2002, Paul devis retiriĝi de la disvolviĝa teamo sed, kiel Libera kaj Malfermita Softvaro, la programo daŭre pliboniĝas kaj evoluiĝas kaj estas flegata far grupo de ellaborantoj el diversaj mondopartoj. En Septembro 2002 la projekto ŝanĝis sian nomon de <application
+>&UML; Modeller</application
+> al &umbrello;. Estas kelkaj kialoj por la ŝanĝo de nomo, la plej gravaj estantaj ke ĵus <quote
+>uml</quote
+> &mdash; kiel ĝi estis ofte konata &mdash; estis multe tro ĝenerala nomo kaj kaŭzis konfuzon ĉe iuj disdonadoj. La alia grava kialo estas tio, ke la ellaborantoj pensas ke <application
+>Umbrello</application
+> estas multe pli freŝa nomo. </para>
+<para
+>La disvolviĝo de &umbrello; kaj ankaŭ diskutoj pri kien la programo evoluiĝu survoje al estonta versioj estas malfermata kaj okazas per la Interreto. Se vi ŝatus helpi la projekton, bonvolu ne hezitu kontakti la ellaborantojn. Estas multaj ebloj kiel vi povas helpi al &umbrello;: </para>
+<itemizedlist>
+<listitem
+><para
+>Raporti cimojn aŭ plibonigsugestojn</para
+></listitem>
+<listitem
+><para
+>Forigi cimojn aŭ aldoni programkapablojn</para
+></listitem>
+<listitem
+><para
+>Skribi bonan dokumentaron aŭ traduki ĝin al aliaj lingvoj</para
+></listitem>
+<listitem
+><para
+>Kaj kompreneble... kodadi kun ni!</para
+></listitem>
+</itemizedlist>
+<para
+>Kiel vi vidas, estas multaj vojoj por helpi. Ili ĉiuj estas tre gravaj kaj ĉiu estas bonvena partopreni. </para>
+<para
+>La evoluistoj de &umbrello; povas esti atingitaj ĉe <email
+>uml-devel@lists.sourceforge.net</email
+>. </para>
+</chapter>

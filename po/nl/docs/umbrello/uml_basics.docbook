@@ -1,0 +1,995 @@
+<chapter id="uml-basics">
+<title
+>Grondbeginselen van &UML;</title>
+<sect1 id="about-uml">
+<title
+>Over &UML; ...</title>
+<para
+>Dit hoofdstuk geeft u snel een overzicht van de grondbeginselen van &UML;. Houdt u voor ogen dat dit geen allesomvattende studie is over &UML; maar veeleer een korte inleiding in &UML; die men kan lezen als een basiscursus &UML;. Wilt u meer te weten komen over de Unified Modelling Language, of in bredere zin over software-analyse en -ontwerp, raadpleeg dan een van de vele boeken die over dit onderwerp voorhanden zijn. Er zijn ook een groot aantal cursussen op het Internet voorhanden, waarmee u een goede start kunt maken.  </para>
+
+<para
+>De Unified Modelling Language (&UML;) is een taal om diagrammen te maken of een notatiewijze om modellen van objectgeoriënteerde softwaresystemem te specificeren, te visualiseren en te documenteren. &UML; is geen ontwikkelmethode, d.w.z. het vertelt u niet wat u eerst moet doen en wat daarna, of hoe u uw systeem moet ontwerpen, maar het helpt u om uw systeem te visualiseren en te communiceren met anderen. &UML; staat onder toezicht van de Object Management Group (<acronym
+>OMG</acronym
+>) en is de industriestandaard voor het grafisch weergeven van software. </para>
+<para
+>&UML; is gemaakt voor het ontwerpen van objectgeoriënteerde software en heeft beperkt nut voor andere programmeerparadigma's. </para>
+<para
+>&UML; is opgebouwd uit vele modelelementen die de verschillende delen van een softwaresysteem vertegenwoordigen. De &UML;-elementen worden gebruikt om diagrammen te maken, die een bepaald deel of een gezichtspunt van een systeem voorstellen. De volgende soorten diagrammen worden ondersteund door &umbrello;: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><link linkend="use-case-diagram"
+>use case diagrammen</link
+></emphasis
+> tonen actoren (mensen of andere gebruikers van het systeem), use cases (de scenario's wanneer zij het systeem gebruiken), en hun relaties</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="class-diagram"
+>Klassediagrammen</link
+></emphasis
+> tonen klassen en hun onderlinge relaties</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="sequence-diagram"
+>Volgordediagrammen</link
+></emphasis
+> tonen objecten en een volgorde van methode-aanroepen die zij doen naar andere objecten.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="collaboration-diagram"
+>Collaboratiediagrammen</link
+></emphasis
+> tonen objecten en hun relaties, met nadruk op de objecten die deelnemen aan de berichtenuitwisseling</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="state-diagram"
+>Toestandsdiagrammen</link
+></emphasis
+> tonen toestanden, toestandsveranderingen en gebeurtenissen van een object of een deel van het systeem</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="activity-diagram"
+>Activiteitsdiagrammen</link
+></emphasis
+> tonen activiteiten en de overgang van de ene activiteit naar de andere samen met de gebeurtenissen die in een bepaald deel van het systeem optreden</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="component-diagram"
+>Componentdiagrammen</link
+></emphasis
+> tonen programmacomponenten op het hoogste niveau (zoals bijv. KParts of Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="deployment-diagram"
+>Deploymentdiagrammen</link
+></emphasis
+> tonen de instanties van de componenten en hun relaties.</para
+></listitem
+> 
+
+<listitem
+><para
+><emphasis
+><link linkend="entity-relationship-diagram"
+>Entiteitsrelatie-diagrammen</link
+></emphasis
+> tonen gegevens en de relaties en beperkingen tussen de gegevens.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>&UML;-elementen</title>
+<sect2 id="use-case-diagram">
+<title
+>Use case diagram</title>
+<para
+>Use case-diagrammen beschrijven de relaties en afhankelijkheden tussen een groep van <emphasis
+>use cases</emphasis
+> en de actoren die deelnemen aan het proces.</para>
+<para
+>Belangrijk om op te merken is dat use case-diagrammen niet geschikt zijn om het ontwerp te representeren, en niet het inwendige van een systeem kunnen beschrijven. Use case-diagrammen zijn bedoeld om de communicatie met de toekomstige gebruikers van een systeem, en met de klant, te vergemakkelijken, en zijn in het bijzonder behulpzaam bij het vaststellen van welke benodigde kenmerken een systeem moet hebben. Use case diagrammen vertellen <emphasis
+>wat</emphasis
+> het systeem moet doen maar specificeren niet &mdash; en kunnen dat ook niet &mdash; <emphasis
+>hoe</emphasis
+> dit gerealiseerd moet worden.</para>
+<para>
+<screenshot>
+<screeninfo
+>Een voorbeeld van een use case-diagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een use case-diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een use case-diagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>Use case</title>
+<para
+>Een <emphasis
+>use case</emphasis
+> beschrijft &mdash; vanuit het standpunt van de actoren &mdash; a groep activiteiten in een systeem die een concreet, tastbaar resultaat oplevert.</para>
+<para
+>Use cases zijn beschrijvingen van kenmerkende interacties tussen de gebruikers van een systeem en het systeem zelf. Zij representeren de externe interface van het systeem en specificeren een soort pakket van eisen diehet systeem moet uitvoeren (onthoud: alleen wat, niet hoe). </para>
+<para
+>Bij het werken met use cases is het belangrijk om enkele eenvoudige regels in acht te nemen: <itemizedlist>
+ <listitem
+><para
+>Iedere use case is gerelateerd aan tenminste één actor</para
+></listitem>
+ <listitem
+><para
+>Iedere use case heeft een initiator (&ie; een actor)</para
+></listitem>
+ <listitem
+><para
+>Iedere use case leidt tot een relevant resultaat (een resultaat met <quote
+>waarde</quote
+>)</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>Use cases kunnen ook relaties met andere use cases hebben. De drie meest karakteristieke relaties tussen use cases zijn:</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;include&gt;&gt;</emphasis
+> geeft aan dat een use case zich <emphasis
+>binnen</emphasis
+> een andere use case afspeelt</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;extends&gt;&gt;</emphasis
+> geeft aan dat in bepaalde situaties, of op een zeker moment (ook wel het uitbreidingspunt genoemd) een use case uitgebreid zal worden met een andere.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>Generalisatie</emphasis
+> geeft aan dat een use case de karakteristieken erft van de <quote
+>super</quote
+>-use case, en sommige ervan kan herdefiniëren of nieuwe kan toevoegen, op eenzelfde wijze als bij de overerving bij klassen het geval is. </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>Acteur</title>
+<para
+>Een actor is een externe entiteit (buiten het systeem) die samenwerkt met het systeem door deelname aan (en veelal door initiëren van) een use case. In de dagelijkse werkelijkheid kunnen actoren mensen zijn (bijvoorbeeld gebruikers van een systeem), andere computersystemen of externe gebeurtenissen. </para>
+<para
+>Actoren representeren niet de <emphasis
+>fysieke</emphasis
+> mensen of systemen, maar hun <emphasis
+>rol</emphasis
+>. Dit impliceert dat als een persoon met het systeem samenwerkt op verschillende manieren (hij meet zich verschillende rollen aan) hij door meerdere actoren voorgesteld zal worden. Bijvoorbeeld een persoon die telefonische klantenondersteuning geeft en orders invoert van de klant in het systeem, voorgesteld wordt door een actor <quote
+>afdeling ondersteuning</quote
+> en een actor <quote
+>afdeling verkoop</quote
+> </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>Use case-omschrijving</title>
+<para
+>Use case-omschrijvingen zijn textuele verhandelingen van de use case. Zij nemen gewoonlijk de de vorm van een aantekening of een document aan dat op een bepaalde manier gekoppeld is aan de use case, en de processen of activiteiten die in de use case plaatsvinden, nader toelicht. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>Klassediagram</title>
+<para
+>Klassediagrammen tonen de verschillende klassen waaruit het systeem is gemaakt, en hoe zij aan elkaar gerelateerd zijn. Van klassediagrammen zegt men dat zij <quote
+>statische</quote
+> diagrammen zijn omdat zij weliswaar de klassen weergeven, samen met hun methoden en attributen, alsmede de statische relaties tussen hen (i.e. welke klassen <quote
+>hebben weet</quote
+> van welke klassen of welke klassen <quote
+>maken deel uit</quote
+> van een andere klasse), maar niet de methode-aanroepen tussen hen onderlingweergeven. </para>
+<para>
+<screenshot>
+<screeninfo
+>Een voorbeeld van een klassediagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een klassediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een klassediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>Klasse</title>
+<para
+>Een klasse definieert de attributes en de methoden van een set objecten. Alle objecten die van deze klasse afgeleid zijn (instanties van deze klasse) hebben eenzelfde gedrag, en hebben overeenkomstige verzamelingen met attributen (ieder object heeft zijn eigen set). I.p.v. klasse wordt ook wet de term <quote
+>type</quote
+> gebezigd, maar het moet nadrukkelijk gesteld worden dat deze twee niet identiek zijn, type is een algemenere term. </para>
+<para
+>In &UML;, worden klassen door rechthoeken gerepresenteerd, met de naam van de klasse; hierin kunnen ook de attributen en operaties van de klasse weergegeven worden in twee andere <quote
+>vakken</quote
+> binnen de rechthoek. </para>
+<para>
+<screenshot>
+<screeninfo
+>Een klasse in &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een klasse in &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een klasse in &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>Attributen</title>
+<para
+>In &UML;, worden attributen minsten met hun naam weergegeven, maar ook kunnen hun type, beginwaarde en andere eigenschappen weergegeven worden. Attributen kunnen ook worden getoond met hun zichbaarheid: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> staat voor <emphasis
+>public</emphasis
+> attributen</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> staat voor <emphasis
+>protected</emphasis
+> attributen</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> staat voor <emphasis
+>private</emphasis
+> attributen</para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>Operaties</title>
+<para
+>Operaties (methoden) worden eveneens met minstens hun naam getoond; Ook zij kunnen hun parameters en return typen tonen. Operaties kunnen, net als attributen, hun zichtbaarheid weergeven: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> staat voor <emphasis
+>public</emphasis
+> operaties</para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> staat voor <emphasis
+>protected</emphasis
+> operaties</para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> staat voor <emphasis
+>private</emphasis
+> operaties</para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>Sjablonen</title>
+<para
+>Klassen kunnen sjablonen hebben, een waarde die gebruikt wordt voor een niet gespecificeerde klasse of type. Het sjabloontype wordt gespecificeerd wanneer de klasse geïnstantieerd wordt (&ie; een object wordt aangemaakt). Sjablonen komen voor in modern C++ en zullen in Java 1.5 geïntroduceerd worden onder de naam generics. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>Klassenassociaties</title>
+<para
+>Klassen kunnen op verschillende wijze aan elkaar gerelateerd zijn (met elkaar geassocieerd zijn):</para>
+<sect4 id="generalization">
+<title
+>Generalisatie</title>
+<para
+>Overerving is een van de fundamentele concepten van objectgeoriënteerdprogrammeren, waarbij een klasse <quote
+>toegang krijgt tot</quote
+> (bijna) alle attributen en operaties van de klasse waar het van erft en sommige ervan opnieuw kan implementeren (overriding), alsook meer attributen en operaties van zichzelf kan toevoegen.</para>
+<para
+>In &UML;, plaatst een <emphasis
+>generalisatie</emphasis
+>-associatie tussen twee klassen hen in een hiërarchie die het concept van overerving van een afgeleide klasse van een basisklasse representeert. In &UML;, worden generalizaties weergegeven door een lijn, die de twee klassen met elkaar verbindt, met een pijlpunt aan de kant van de basisklasse. <screenshot>
+<screeninfo
+>Generalisatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een generalisatie in &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een generalisatie in &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>Associaties</title>
+<para
+>Een associatie vertegenwoordigt een relatie tussen klassen, en voorziet in de gemeenschappelijke semantiek en structuur voor vele soorten<quote
+>connecties</quote
+> tussen objecten.</para>
+<para
+>Associaties zijn het mechanisme dat objecten in staat stelt met elkaar te communiceren. Het beschrijft de connectie tussen verschillende klassen (de connectie tussen de eigenlijke objecten noemt men een objectconnectie, of <emphasis
+>link</emphasis
+>). </para>
+<para
+>Associaties kunnen een rol hebben die het doel van de associatie specificeert en zowel uni- als bi-directioneel zijn (dit geeft aan of de twee objecten die een relatie hebben, berichten naar elkaar kunnen sturen, of dat slechts één van hen weet heeft van de ander). Ieder uiteinde van de associatie heeft ook een multipliciteit, die oplegt hoeveel objecten aan deze kant van de associatie gerelateerd kunen zijn aan telkens een object aan de andere kant. </para>
+<para
+>In &UML;, worden associaties weergegeven als lijnen, die de klassen die aan de relatie deelnemen, met elkaar verbinden. Hierbij kan ook de rol en de multipliciteit van elk van de deelnemers worden getoond. De multipliciteit wordt afgebeeld als een bereik [min..max] van niet-negative waarden. Een asterisk (<literal
+>*</literal
+>) aan de maximumkant geeft oneindig weer. <screenshot>
+<screeninfo
+>&UML;-associatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een associatie in &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een associatie in &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>Aggregatie</title>
+<para
+>Aggregaties zijn een speciaal type associaties waarin de twee deelnemende klassen geen gelijkwaardige status hebben, maar een <quote
+>geheel-deel</quote
+> relatie vormen. Een aggregatie beschrijft hoe de klasse die de rol van geheel heeft, samengesteld wordt uit de andere klassen, die de rol van deel hebben. Voor aggregaties heeft de klasse die optreedt als geheel, altijd de multipliciteit één. </para>
+<para
+>In &UML;, worden aggregaties gerepresenteerd door een associatie die een ruit heeft aan de kant van het geheel. <screenshot>
+<screeninfo
+>Aggregatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een aggregatie-relatie in &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een aggregatie-relatie in &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>Compositie</title>
+<para
+>Composities zijn associaties die <emphasis
+>zeer sterke</emphasis
+> aggregaties vertegenwoordigen. Dit betekent dat composities evengoed geheel-deel relaties vormen, maar de relatie is zo sterk dat de delen niet op zichzelf kunnen bestaan. Zij bestaan slechts binnen het geheel, en als het geheel vernietigd wordt, gaan de delen er ook aan.</para>
+<para
+>In &UML;, worden composities gerepresenteerd door een gekleurde ruit aan de kant van het geheel. </para>
+<para
+><screenshot>
+<screeninfo
+>Compositie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een compositie-relatie in &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>Andere klassediagram-onderdelen</title>
+<para
+>Klassediagrammen kunnen verscheidene andere onderdelen bevatten naast klassen.</para>
+<sect4 id="interfaces">
+<title
+>Interfaces</title>
+<para
+>Interfaces zijn abstracte klassen, wat wil zeggen dat instanties niet direct uit hen gemaakt kunnen worden. Zij kunnen operaties bevatten maar geen attributen. Klassen kunnen overerven van interfaces (via een realisatie-associatie) en pas dan kunnen instanties van deze diagrammen gemaakt worden.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>Gegevenstypen</title>
+<para
+>Gegevenstypen zijn primitieven die normaal gesproken ingebouwd zijn in een programmeertaal. Bekende voorbeelden zijn integers en booleans. Zij kunnen geen relatie met klassen hebben, maar klassen kunnen wel een relatie met hen hebben.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>Enumeraties</title>
+<para
+>Enumeratie is een eenvoudige lijst met waarden. Een typisch voorbeeld is een enumeratie voor de dagen van de week. De keuzemogelijkheden binnen een enumeratie noemt men enumeratieconstanten. Evenals gegevenstypen kunnen zij geen relatie met klassen hebben, maar klassen kunnen wel een relatie met hen hebben.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>Pakketten</title>
+<para
+>Pakketten vertegenwoordigen een naamruimte in een programmeertaal. In een diagram worden zij gebruikt om delen van een systeem te representeren, die meer dan één klasse, wellicht zelfs honderden klassen, kunnen bevatten.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>Volgordediagrammen</title>
+
+<para
+>Volgordediagrammen geven de berichtenuitwisseling weer (&ie; methode-aanroep) tussen verscheidene objecten in een specifieke tijd-begrensde situatie. Objecten zijn instanties van klasses. Volgordediagrammen leggen speciale nadruk op de volgorde waarin en de tijdstippen waarop de berichten naar de objecten verstuurd worden.</para>
+
+<para
+>In volgordediagrammen worden objecten gerepresenteerd door vertikale onderbroken lijnen, met de naam van het object bovenaan. De tijd-as loopt ook verticaal, en neemt toe naar beneden, zodat berichten verstuurd worden van het ene object naar de nadere in de vorm van pijlen met de namen van de operatie en de parameters erbij. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>Volgordediagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een volgordediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een volgordediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>Berichten kunnen ofwel synchroon zijn, het normale type bericht aanroep waarbij de besturing wordt doorgegeven aan het aangeroepen object totdat de betreffende methode voleindigd is, of asynchroon, waarbij de besturing direct weer teruggeven wordt aan het aanroepende object. Synchrone berichten hebben een verticaal kader aan de kant van het aangeroepen object om het verloop van de programmabesturing te laten zien.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>Collaboratiediagrammen</title>
+
+<para
+>Collaboratiediagrammen laten de interacties zien die plaatsvinden tussen objects die participeren in een specifieke situatie. Dit is min of meer dezelfde informatie als weergegeven bij volgordediagrammen maar daar valt de nadruk op hoe de interacties plaats vinden in de tijd, terwijl bij Collaboratiediagrammen de relaties tussen de objecten en hun topologie op de voorgrond treden.</para>
+
+<para
+>In collaboratiediagrammen worden berichten die van het ene object naar het andere worden gestuurd, voorgesteld door pijlen, waarbij de naam van het bericht, de parameters, en de bericht-volgorde, weergegeven wordt. Collaboratiediagrammen zijn bij uitstek geschikt om een specifiek programma-verloop of situatie weer te geven, en zijn een van de beste diagramtypen om snel een process in de programmalogica te demonstreren of toe te lichten. </para>
+
+<screenshot>
+<screeninfo
+>Collaboratie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een collaboratiediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een collaboratiediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>Toestandsdiagram</title>
+<para
+>Toestandsdiagrammen geven de verschillende toestanden van een object weer gedurende zijn bestaan, en de stimuli, die er voor zorgen dat het object zijn toestand wijzigt. </para
+>                              
+<para
+>Toestandsdiagrammen kijken naar objecten als <emphasis
+>toestandsmachines</emphasis
+> of eindige automaten, die in een van een set eindige toestanden kunnen verkeren en hun toestand kunnen veranderen middels een van een eindige set stimuli. Bijvoorbeeld een object van het type <emphasis
+>NetServer</emphasis
+> kan in een van de volgende toestanden voorkomen tijdens zijn bestaan: </para>
+<itemizedlist>
+<listitem
+><para
+>Klaar</para
+></listitem>
+<listitem
+><para
+>Luisterend</para
+></listitem>
+<listitem
+><para
+>Werkend</para
+></listitem>
+<listitem
+><para
+>Gestopt</para
+></listitem>
+</itemizedlist>
+<para
+>en de gebeurtenissen die ervoor kunnen zorgen dat het object van toestand verandert, zijn</para>
+<itemizedlist>
+<listitem
+><para
+>Object is aangemaakt</para
+></listitem>
+<listitem
+><para
+>Object ontvangt bericht "luisteren"</para
+></listitem>
+<listitem
+><para
+>Een cliënt vraagt een verbinding aan over het netwerk</para
+></listitem>
+<listitem
+><para
+>Een cliënt beëindigt een aanvraag</para
+></listitem>
+<listitem
+><para
+>De aanvraag is uitgevoerd en beëindigd</para
+></listitem>
+<listitem
+><para
+>Object ontvangt bericht "stoppen"</para
+></listitem>
+<listitem
+><para
+>etc</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>Toestandsdiagram</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een toestandsdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een toestandsdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>Toestand</title>
+<para
+>Toestanden zijn bouwstenen voor toestandsdiagrammen. Een toestand hoort bij exact één klasse en vertegenwoordigt een opsomming van waarden die de  attributen van een klasse kunnen aannemen. Een &UML;-toestand beschrijft de interne toestand van een object van een bepaalde klasse </para
+>                       
+<para
+>Merk op dat niet iedere verandering in een van de attributen van een object door een toestand gerepresenteerd dient te worden, maar slechts die veranderingen die significant de werking van het object kunnen beïnvloeden</para>
+<para
+>Er zijn twee bijzondere toestandstypen: begin en eind. Zij zijn bijzonder omdat er geen gebeurtenis bestaat die ervoor kan zorgen dat een object terugkeert naar zijn begin-toestand, evenals er geen gebeurtenis bestaat die mogelijkerwijs een object uit zijn eind-toestand kan halen, wanneer het die eenmaal bereikt heeft. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>Activiteitsdiagram</title>
+<para
+>Activiteitsdiagrammen beschrijven de volgorde van aktiviteiten in een systeem net behulp van activiteiten. Aktiviteitsdiagrammen zijn een bijzondere vorm van toestandsdiagrammen, die alleen (of voornamelijk) aktiviteiten bevatten. </para>
+<para>
+<screenshot>
+<screeninfo
+>Een voorbeeld van een activiteitsdiagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&umbrello; toont een activiteitsdiagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>&umbrello; toont een activiteitsdiagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>Activiteitsdiagrammen zijn vergelijkbaar met procedurele fluxdiagrammen, met dit verschil dat alle aktiviteiten duidelijk gekoppeld zijn aan objecten.</para>
+
+<para
+>Activiteitsdiagrammen worden altijd geassocieerd met een <emphasis
+>klasse</emphasis
+>, een <emphasis
+>operatie</emphasis
+> of een <emphasis
+>use case</emphasis
+>.</para>
+
+<para
+>Aktiviteitsdiagrammen ondersteunen zowel sequentiële als parallelle activiteiten. Parallelle uitvoering wordt gerepresenteerd m.b.v. pictogrammen voor afsplitsen/wachten, en voor de parallel verlopende activiteiten, is het niet van belang in welke volgorde zij worden uitgevoerd (zij kunnen tegelijkertijd uitgevoerd worden, of na elkaar)</para>
+<sect3 id="activity">
+<title
+>Activiteit</title>
+<para
+>Een activiteit is een enkele stap in een process. Een activiteit is een toestand in het systeem met interne activiteit en, ten minste, één uitgaande transitie. Activiteiten kunnen ook meer dan een uitgaande transitie bezitten als zij verschillende voorwaarden hebben. </para
+> 
+<para
+>Activiteiten kunnen hiërarchieën vormen, dit wil zeggen dat een activiteit samengesteld kan zijn uit meerdere <quote
+>detail</quote
+>-activiteiten, in welk geval de in- en uitgaande transities zouden moeten overeenstemmen met de in- en uitgaande transities van het detaildiagram. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>Hulpelementen</title>
+<para
+>Er zijn een paar elementen in &UML; die geen reële semantische waarde voor het model, maar helpen bij het verhelderen van delen van het diagram. Deze elementen zijn </para>
+<itemizedlist>
+<listitem
+><para
+>Tekstregels</para
+></listitem>
+<listitem
+><para
+>Notities en ankers</para
+></listitem>
+<listitem
+><para
+>Vakken</para
+></listitem>
+</itemizedlist
+>   
+<para
+>Tekstregels zijn nuttig om korte tekstuele informatie aan een diagram toe te voegen. Het is vrijstaande tekst en heeft geen betekenis voor het model zelf. </para
+>           
+
+<para
+>Notities zijn nuttig om meer gedetailleerde informatie over een object of een specifieke situatie toe te voegen. Zij hebben het grote voordeel dat notities aan &UML;-elementen verankerd kunnen worden om te laten zien dat de notitie tot een specifiek object of situatie <quote
+>behoort</quote
+>. </para>
+
+<para
+>Vakken zijn vrijstaande rechthoeken die gebruikt kunnen worden om groepen onderdelen samen te voegen en zo de diagrammen leesbaarder te maken. Zij hebben geen logische betekenis voor het model.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>Componentdiagrammen</title>
+<para
+>Componentdiagrammen tonen de softwarecomponenten (ofwel component technologieën zoals KParts, CORBA-componenten of Java Beans ofwelsecties uit het systeem die duidelijk te onderscheiden zijn) en de artefacten waaruit zij gemaakt zijn zoals broncodebestanden, programmabibliotheken en relationele databasetabellen.</para>
+
+<para
+>Componenten kunnen interfaces bezitten (&ie; abstracte klassen met operaties) die associaties tussen componenten toelaten.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>Deploymentdiagrammen</title>
+
+<para
+>Deploymentdiagrammen tonen de "runtime" componentinstanties en hun associaties. Zij omvatten nodes, die fysieke resources zijn, in het typische geval een enkele computer. Zij tonen ook interfaces en objecten (instanties van klassen).</para>
+
+</sect2>
+
+<sect2 id="entity-relationship-diagram">
+<title
+>Entiteitsrelatie-diagrammen</title>
+
+<para
+>Entity Relationship Diagrams (ER Diagrams) tonen het conceptuele ontwerp van database-toepassingen. Zij laten de verschillende entiteiten (concepten) in het informatiesysteem zien en de bestaande relaties en randvoorwaarden ertussen. Een extensie van Entity Relationship Diagrams genaamd 'Extended Entity Relationship Diagrams' of 'Enhanced Entity Relationship Diagrams' (EER), worden gebruikt om object georiënteerde ontwerptechnieken mee te nemen in ER Diagrams. </para
+> 
+<para>
+<screenshot>
+<screeninfo
+>Een voorbeeld van een entiteitrelatiediagram.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Umbrello toont een Entiteitrelatiediagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Umbrello toont een entiteitrelatiediagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="entity">
+<title
+>Entiteit</title>
+<para
+>Een <emphasis
+>Entiteit</emphasis
+> is elk concept in de echte wereld met een onafhankelijk bestaan. Het kan een object zijn dat fysiek bestaat (voorbeeld, computer, robot) of het kan een object zijn met een conceptueel bestaan (bijv.: universitaire cursus). Elke entiteit heeft een set attributen die de eigenschappen van de entiteit beschrijven.</para>
+<para
+><emphasis
+>Opmerking:</emphasis
+> Er bestaat geen standaard notatie voor het weergeven van ER-diagrammen. Verschillende teksten over dit onderwerp gebruiken verschillende notaties. De concepten en notaties voor EER-diagrammen die in Umbrello worden gebruikt komen uit het volgende boek : <emphasis
+>Elmasri R. and Navathe S. (2004). Fundamentals of Database Systems 4th edn. Addison Wesley</emphasis
+> </para>
+<para
+>In een ER-diagram worden entiteiten door rechthoeken gerepresenteerd, met de naam van de entiteit bovenaan. Hierin kunnen ook de attributen van de eintiteit in een andere <quote
+>vak</quote
+> binnen de rechthoek. </para>
+<para>
+<screenshot>
+<screeninfo
+>Een entiteit in een ER-diagram;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een entiteit in een ER-diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een entiteit in een ER-diagram </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="entity-attribute">
+<title
+>Entiteitattributen</title>
+<para
+>In ER-diagrammen, worden entiteitattributen getoond met hun naam in een apart vak van de entiteit waarbij hij behoort. </para>
+</sect4>
+<sect4 id="constraint">
+<title
+>Voorwaarden</title>
+<para
+>Voorwaarden in ER-diagramen specificeren de voorwaarden van gegevens in het informatieschema. </para>
+<para
+>Er zijn vier typen ondersteunde voorwaarden in Umbrello : <itemizedlist>
+ <listitem>
+    <para
+><emphasis
+>Primaire sleutel:</emphasis
+> De set attributen gedeclareerd als <emphasis
+>primaire sleutel</emphasis
+> zijn uniek voor de entiteit. Er kan maar één primaire sleutel in een entiteit zitten en geen van attributen die er onderdeel van zijn kan NULL zijn. </para>
+</listitem>
+ <listitem>
+    <para
+><emphasis
+>Unieke sleutel:</emphasis
+> De set attributen gedeclareerd als <emphasis
+>uniek</emphasis
+> zijn uniek voor de entiteit. Er kunnen vele unieke voorwaarden aan een entiteit hangen. Zijn attributen die er onderdeel van zijn kunnen NULL zijn. Unieke sleutels en primaire sleutels identificeren een rij in een tabel ( entiteit )</para>
+ </listitem>
+ <listitem>
+    <para
+><emphasis
+>Vreemde sleutel:</emphasis
+> Een vreemde sleutel is een referentie voorwaarde tussen twee tabellen. De vreemde sleutel identificeert een kolom of een set kolommen in één (verwijzende) tabel die verwijst naar een kolom of set kolommen in een andere (verwijzende) tabel. De kolommen in de verwijzende tabel moeten een primaire sleutel of unieke sleutel vormen. </para>
+ </listitem>
+ <listitem>
+     <para
+><emphasis
+>Controle voorwaarde:</emphasis
+> Een controle voorwaarde (ook bekend als tabel controle voorwaarde) is een voorwaarde die geldige gegevens definieert bij het toevoegen of bijwerken van een item in een tabel van een relationele database. Een controle voorwaarde wordt toegepast op elke rij in de tabel. De voorwaarde moet een voorspellend zijn. Het kan refereren naar een enkele of meerdere kolommen van de tabel. </para>
+     <para
+>Voorbeeld: prijs 
+>= 0 </para>
+ </listitem>
+ </itemizedlist>
+</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="extended-entity-relationship-concepts">
+<title
+>Concepten van Extended Entiteitrelatie-(EER)-diagram</title>
+<sect3 id="specialization">
+<title
+>Specialisatie</title>
+<para
+>Specialisatie is een manier om nieuwe entiteiten te vormen met gebruik van entiteiten die al gedefinieerd zijn. De nieuwe entiteiten, bekend als afgeleide entiteiten, nemen over (of erven) attributen van de vooraf-bestaande entiteiten, waarnaar gerefereerd wordt als basis entiteiten . Het is bedoeld om bestaande gegevens met weinig of geen modificatie.</para>
+<para
+>In Umbrello, men kan losse en overlappende specialisatie</para>
+ <sect4 id="disjoint-specialization">
+   <title
+>Losse specialisatie</title>
+   <para
+>Disjoint Specialization (niet verbonden specialisatie) specificeert dat de subclasses van de specialisatie niet verbonden zijn. Dit betekent dat een entiteit een lid kan zijn van ten hoogste één van de afgeleide entiteiten van de specialisatie</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entiteiten die deelnemen in losse specialisatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van losse specialisatie in EER-diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van losse specialisatie in EER-diagram </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+    </para>
+ </sect4>
+ <sect4 id="overlapping-specialization">
+   <title
+>Overlappende specialisatie</title>
+   <para
+>Wanneer de afgeleide entiteiten niet voorwaarde bezitten om niet verbonden te zijn, dan betekent dat dat hun set entiteiten zich in overlappende specialisatie bevinden. Dit betekent dat dezelfde entiteit in de echte wereld lid kan zijn van meer dan één afgeleide entiteit van de specialisatie</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entiteiten die deelnemen in overlappende specialisatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van overlappende specialisatie in EER-diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van overlappende specialisatie in EER-diagram </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+ <sect4 id="category">
+
+ <title
+>Categorie</title>
+ <para
+>Een afgeleide entiteit behoort tot een <emphasis
+>Categorie</emphasis
+> wanneer het een verzameling objecten representeert die een subset zijn van vereniging van de onderscheidende entiteitstypen. Een categorie wordt gemodelleerd wanneer het nodig is voor een enkele superclass/subclass relatie met meer dan één superclass, waar de superclasses verschillende entiteitstypen vertegenwoordigt. (Lijkt erg op overerving in object georiënteerd programmeren). </para>
+   <para>
+   <screenshot>
+    <screeninfo
+>Entiteiten die deelnemen in categorierelatie</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="category.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Visuele representatie van een categorie in EER-diagram</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Visuele representatie van een categorie in EER-diagram</para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+
+</sect3>
+</sect2>
+
+</sect1
+> 
+</chapter>

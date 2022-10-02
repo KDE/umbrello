@@ -1,0 +1,750 @@
+<chapter id="settings">
+<title
+>Параметри</title>
+
+<sect1 id="general-settings">
+<title
+>Загальні параметри</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Загальні параметри</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Пункти загальних параметрів роботи &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Пункти загальних параметрів роботи &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Інше</title>
+<itemizedlist>
+    <listitem>
+        <para
+>За допомогою пункту <guilabel
+>Увімкнути повернення</guilabel
+> ви зможете увімкнути скасовування попередньої дії у програмі.</para>
+    </listitem>
+    <listitem
+><para
+>За допомогою пункту <guilabel
+>Використовувати нові модулі створення C++/Java/Ruby</guilabel
+> можна увімкнути або вимкнути використання нового засобу створення програмного коду.</para>
+    </listitem>
+    <listitem
+><para
+>Якщо позначено пункт <guilabel
+>Увімкнути шапку і номери сторінок під час друку</guilabel
+>, програма виводитиме дані та номер сторінки діаграми, яку буде надруковано.</para>
+    </listitem>
+    <listitem
+><para
+>Пункт <guilabel
+>Використовувати вкладки</guilabel
+> надає змогу користуватися у вікні одночасно декількома діаграмами, які відкрито у вкладках.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Автозбереження</title>
+<itemizedlist>
+    <listitem
+><para
+>За допомогою пункту <guilabel
+>Увімкнути автозбереження</guilabel
+> можна увімкнути або вимкнути автоматичне збереження редагованого файла.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Виберіть інтервал автозбереження (хв):</guilabel
+> — за допомогою цього пункту можна встановити інтервал часу між послідовними процедурами автоматичного збереження редагованих файлів.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Вкажіть суфікс автозбереження:</guilabel
+> — типовим суфіксом назви є .xmi, але ви можете вибрати інший суфікс назви.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Запуск</title>
+    <itemizedlist>
+        <listitem
+><para
+>Якщо позначено пункт <guilabel
+>Завантажити останній проєкт</guilabel
+>, програма після запуску завжди завантажуватиме останній проєкт, над яким ви працювали.</para>
+        </listitem>
+        <listitem
+><para
+>За допомогою пункту <guilabel
+>Починати новий проект з:</guilabel
+> ви можете вибрати тип діаграми UML, який початково встановлюватиметься для нових проєктів.</para>
+        </listitem>
+        <listitem
+><para
+>За допомогою пункту <guilabel
+>Типова мова:</guilabel
+> ви можете вказати типову мову програмування, яку буде використано.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Сповіщення</title>
+<itemizedlist>
+    <listitem
+><para
+>Пункт <guilabel
+>Увімкнути усі повідомлення</guilabel
+> призначено для або вмикання усіх сповіщень, або звуження набору сповіщень.</para>
+    </listitem>
+    <listitem
+><para
+>Якщо позначено пункт <guilabel
+>Увімкнути повідомлення, які пов'язано із вилученням асоціацій</guilabel
+>, ви отримуватимете усі повідомлення відповідного типу.</para>
+    </listitem>
+    <listitem
+><para
+>Якщо позначено пункт <guilabel
+>Увімкнути повідомлення, які пов'язано із вилученням діаграм</guilabel
+>, ви отримуватимете усі повідомлення відповідного типу.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Параметри шрифтів</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Параметри шрифтів</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Параметри шрифту діаграми в &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Параметри шрифту діаграми в &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>За допомогою цих параметрів можна встановити характеристики тексту діаграм. Ви можете вибрати гарнітуру шрифту і розмір символів.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Параметри інтерфейсу користувача</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри інтерфейсу користувача</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри інтерфейсу користувача в &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри інтерфейсу користувача в &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Загальні</title>
+    <para
+>За допомогою пункту <guilabel
+>Інтерфейс користувача справа ліворуч</guilabel
+> можна налаштувати інтерфейс для мов із напрямком запису справа ліворуч. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Асоціації</title>
+    <para
+>За допомогою пункту <guilabel
+>Використовувати кутові лінії зв'язків</guilabel
+> можна варіювати кут для ліній зв'язків. </para>
+    <para
+>Пункт <guilabel
+>Створювати лінії зв'язку як:</guilabel
+> надає змогу змінити стиль ліній зв'язків. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Колір</title>
+    <para
+>У розділі кольору розміщено пункти для зміни тексту, ліній, заповнення, сітки і кольорів тла, а також товщини ліній.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Параметри класу</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри класу</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри параметрів класів в &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри параметрів класів в &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Показ</title>
+        <para
+>У розділі показу розміщено числення параметри, за допомогою яких можна визначити характеристики, які буде показано у діаграмі класів.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Початкова область видимості</title>
+        <para
+>Можна вибрати типові параметри атрибутів та операцій, відкритих, закритих або захищених.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Параметри імпортування коду</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри імпортування коду</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри імпортування коду в &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри імпортування коду в &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Шляхи пошуку включень</title>
+    <para
+>Загалом, рекомендуємо для поліпшення можливостей пошуку включити UMBRELLO INCPATH як змінну середовища.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Імпорт C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Для кожного імпортованого файла створювати пункт на панелі компонентів</guilabel
+> — створений пункт можна буде перетягнути на панель перегляду діаграми класів, де залежності можна просто переглянути разом із атрибутами та функціями у кожному з файлів.</para>
+    </listitem>
+    <listitem>
+        <para
+>За допомогою пункту <guilabel
+>Розв’язувати залежності (зменшує швидкість імпортування)</guilabel
+> можна забезпечити розв'язання залежностей для усіх файлів, які потім буде показано у залежностях класу на панелі діаграми класів.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Увімкнути стандарт C++11 (експериментальна можливість)</guilabel
+> — експериментальна можливість для сумісності зі стандартом C++11. Зніміть позначення, якщо у цьому немає потреби.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Параметри створення коду</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Вкладка «Загальне» параметрів створення коду</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Загальні параметри створення коду</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Пункти загальних параметрів створення коду роботи &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Пункти загальних параметрів створення коду роботи &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Засіб моделювання UML Umbrello може створювати початкові коди різними мовами програмування на основі вашої моделі UML, це допоможе вам розпочати реалізацію вашого проекту. Створений код складатиметься з оголошень класів з їх методами та атрибутами, отже вам залишиться лише «заповнити порожні місця» реалізацією дій, передбачених у ваших класах.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Мова</title>
+        <para
+>Тут можна вибрати мову програмування, яку буде використано для проєктів. Можливі варіанти: ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala і XMLSchema.</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Теки</title>
+    <para
+>У пункті <guilabel
+>Записати всі створені файли в теку:</guilabel
+> передбачено поле для визначення бажаного шляху для створених файлів. Для вибору шляху можна скористатися кнопкою навігації.</para>
+    <para
+>Якщо позначено пункт <guilabel
+>Включати файли заголовків з теки:</guilabel
+>, користувач може визначити шлях у полі для редагування або за допомогою кнопки навігації.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Правила перезапису</title>
+    <para
+>Якщо код створюється у вказаній теці, за допомогою цього пункту можна визначити, що трапиться, якщо буде виявлено файл із тією самою назвою, що і створений файл. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Перезаписати</guilabel
+> файл без попередження або запиту.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Запитати</guilabel
+>, слід перезаписувати чи перейменовувати файл.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Використовувати іншу назву</guilabel
+> — якщо файл вже існує, перейменувати його з додавання до назви суфікса.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Вкладка «Форматування» параметрів створення коду</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри форматування для створення коду</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Пункти параметрів форматування для створення коду роботи &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Пункти параметрів форматування для створення коду роботи &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Докладність коментарів</title>
+        <para
+><guilabel
+>Записувати коментарі документації, навіть якщо елементи порожні</guilabel
+> — пункт для створення коментарів для класів і функції, навіть якщо їхні записи є порожніми.</para>
+        <para
+><guilabel
+>Записувати коментарі у розділи, навіть якщо розділ порожній</guilabel
+> — пункт для запису коментарів для закритих, захищених та відкритих розділів, навіть якщо вони є порожніми.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Рядки</title>
+    <para
+>Пункт <guilabel
+>Тип відступів:</guilabel
+> призначено для вибору між режимом без використання відступів, режимом із використанням символів табуляції і режимом із використанням пробілів.</para>
+    <para
+>За допомогою пункту <guilabel
+>Величина відступу:</guilabel
+> користувач може вказати кількість пробілів у режимах відступів із символами табуляції або символами пробілів.</para>
+    <para
+>Пункт <guilabel
+>Стиль завершення рядків:</guilabel
+> надає змогу вибрати режим розриву рядків *NIX, Windows і Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Параметри мови</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри мови для створення коду</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри мови для створення коду у &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри мови для створення коду у &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>За допомогою цієї сторінки можна змінити параметри для мови, яку вибрано на вкладці загальних параметрів. У поточній версії передбачено пункти налаштовування лише для мови C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>Створення коду C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Документація</title>
+        <para
+>За допомогою пункту <guilabel
+>Стиль:</guilabel
+> можна вибрати варіант коментування для документації — «/** */» або «//».</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Загальні</title>
+        <para
+>На вкладці <guilabel
+>Загальне</guilabel
+> вкладки <guilabel
+>Параметри мови</guilabel
+> розміщено декілька пунктів параметрів створення коду.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Префікс учасника класу</guilabel
+></para>
+                <para
+>Пункт, за допомогою якого ви можете визначити префікс, який буде додано до учасників класу при створенні коду.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Пакунок є простором назв</guilabel
+></para>
+                <para
+>У просторах назв передбачено метод для запобігання конфліктам назв у великих проєктах. Символи, які оголошено у блоці простору назв розташовуються у іменованій області, яка захищає їх від помилкової ідентифікації із символами із такими самими назвами, які належать іншим областям програмного коду.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Віртуальні деструктори</guilabel
+></para>
+                <para
+>Хоча деструктори і не успадковуються, якщо у базовому класі деструктор оголошено як віртуальний, деструктор у похідному класі завжди перевизначатиме його. Це уможливлює вилучення динамічно розміщених об'єктів поліморфного типу за допомогою вказівників на базовий клас.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Створювати порожні конструктори</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати програмі створювати конструктори із порожніми фігурними дужками.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Створювати методи доступу</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати створювати методи для доступу до типів даних.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Вбудовані дії</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати програмі створювати методи як вбудовані. Втім, компілятори зможуть визначити самостійно, чи слід вбудовувати метод.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Вбудовані методи доступу</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати програмі створювати вбудовані методи для доступу до даних класу. Втім, компілятори зможуть визначити самостійно, чи слід вбудовувати метод.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Публічні методи доступу</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна вказати, що методи, які створено як відкриті, будуть доступними будь-якому екземпляру класу.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Створити методи читання із префіксом «get»</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати програмі додавати префікс «get» для методів, які отримують або повертають дані класу.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Вилучати префікс «[a-zA-Z]_» із назв методів доступу</guilabel
+></para>
+                <para
+>Якщо у пункті <guilabel
+>Префікс учасника класу</guilabel
+> було вказано якийсь префікс, за допомогою цього пункту можна вилучити цей префікс.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Назви методів доступу починаються із великих літер</guilabel
+></para>
+                <para
+>За допомогою цього пункту можна наказати програмі робити першу літеру назви методу великою.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Використовувати мітку документації «\» замість «@»</guilabel
+></para>
+                <para
+>Вибір мітки, яку буде використано для документування параметрів методу.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Створення тіла методу</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Параметри тіла методу мови для створення коду</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Параметри тіла методу мови для створення коду у &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Параметри тіла методу мови для створення коду у &umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Список</guilabel
+></para>
+        <para
+>Для типу списку можливі такі варіанти: QPtrList, vector та std::vector. За допомогою розташованого нижче поля можна вказати файл для включення. Передбачено кнопку для вибору файла для включення у файловій системі. Також можна зробити список загальним (глобальним).</para>
+        <para
+><guilabel
+>Рядок</guilabel
+></para>
+            <para
+>Для типу рядка можливі такі варіанти: string або QString. За допомогою розташованого нижче поля можна вказати файл для включення. Передбачено кнопку для вибору файла для включення у файловій системі. Також можна зробити рядок загальним (глобальним). </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Параметри перегляду коду</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри перегляду коду</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри перегляду коду в &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри перегляду коду в &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>За допомогою цієї сторінки можна налаштувати вигляд панелі перегляду коду. На панелі <guilabel
+>Бажаний шрифт</guilabel
+> можна вибрати шрифт, стиль шрифту та розмір символів шрифту. Під панеллю вибору показано зразок застосування визначених параметрів. </para>
+    <para
+>За допомогою панелі <guilabel
+>Кольори</guilabel
+> можна вибрати колір паперу, символів шрифту, позначеного тексту, блоку об'єкта UML, прихованого блоку, придатного до редагування тексту та непридатного до редагування тексту. Зміни у кольори можна внести натисканням поля із кольором навпроти відповідної мітки. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Параметри автокомпонування</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметри автокомпонування</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметри автокомпонування в &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметри автокомпонування в &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Автоматичне виявлення породжувача компонувань</guilabel
+></para>
+    <para
+>Можливість автоматичного компонування реалізовано на основі породжувачів компонувань з пакунка GraphViz, який встановлюється разом з Umbrello програмою для керування пакунками. Umbrello було зібрано з підтримкою виявлення місць встановлення цих породжувачів компонувань. Якщо відповідні програми є недоступними або не задовольняють ваших потреб, ви можете вказати програми з іншого каталогу. </para>
+    <para
+><guilabel
+>Показувати експортоване компонування у контекстному меню діаграми</guilabel
+></para>
+    <para
+>Експортування даних до файла dot виконується на основі компонування, визначеного для експортування. Якщо буде позначено цей пункт, експортоване компонування буде додано до списку доступних компонувань діаграм, а також увімкнено швидкий попередній перегляд експортованих до файла dot даних. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Dutch "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Welkom</title>
+</articleinfo>
+
+<para
+>Welkom bij &umbrello; een &UML; diagramhulpmiddel dat u kan ondersteunen in het proces van software ontwikkeling. Speciaal tijdens de analyse- en ontwerpfase van dit proces, zal &umbrello; u helpen om een product met hoge kwaliteit te krijgen. &UML; kan ook gebruikt worden uw software ontwerpen te documenteren om u te helpen en uw mede-ontwerpers. </para>
+<para
+>Om te beginnen met werken met UML kunt u een nieuw diagram aanmaken uit een van de volgen diagramtypen: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Use case diagram</ulink
+></emphasis
+> - tonen actoren (mensen of andere gebruikers van het systeem), use cases (de scenario's wanneer zij het systeem gebruiken), en hun relaties</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Klassediagrammen</ulink
+></emphasis
+> - tonen klassen en hun onderlinge relaties</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Volgordediagrammen</ulink
+></emphasis
+> tonen objecten en een volgorde van methode-aanroepen die zij doen naar andere objecten.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Collaboratiediagrammen</ulink
+></emphasis
+> - tonen objecten en hun relaties, met nadruk op de objecten die deelnemen aan de berichtenuitwisseling</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Toestandsdiagrammen</ulink
+></emphasis
+> - tonen toestanden, toestandsveranderingen en gebeurtenissen van een object of een deel van het systeem</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Activiteitsdiagrammen</ulink
+></emphasis
+> - tonen activiteiten en de overgang van de ene activiteit naar de andere samen met de gebeurtenissen die in een bepaald deel van het systeem optreden</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Componentdiagrammen</ulink
+></emphasis
+> - tonen programmacomponenten op het hoogste niveau (zoals KParts of Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Deploymentdiagrammen</ulink
+></emphasis
+> - tonen de instanties van de componenten en hun relaties.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Entiteitsrelatie-diagrammen</ulink
+></emphasis
+> - tonen gegevens en de relaties en beperkingen tussen de gegevens.</para
+></listitem>
+
+</itemizedlist>
+</article>

@@ -1,0 +1,46 @@
+<chapter id="authors">
+<title
+>作者和历史</title>
+<para
+>这个工程由 Paul Hensgen 创始，是他大学研究计划中的一个项目。该程序的初始名称是 <application
+>UML Modeller</application
+>。2001 年末发布了 1.0 版，之前所有的开发工作都是由 Paul 完成的。 </para>
+<para
+>1.0 版已经提供了大量的功能。但是，在该项目于 Paul 所在的大学被重新审阅之后，其他开发者得以参加该项目，并且开始为 <application
+>UML Modeller</application
+> 作出了有价值的贡献，例如：从二进制文件格式切换到 &XML; 文件格式，更多 &UML; 图表类型的支持，代码生成器和代码导入等。 </para>
+<para
+>2002 年夏，Paul 不得不从开发团队中退出。但是，作为自由开源软件，这个程序得以继续提高和进化，并且被一个成员来自世界各地的开发组所维护。在 2002 年九月份，该项目名称从 <application
+>&UML; Modeller</application
+> 改为 &umbrello;。改名称有几个原因，最主要的原因是<quote
+>uml</quote
+>&mdash;已经众所周知&mdash;，所以造成原名称太一般化了，并且容易与一些发行版产生问题。另一个重要的原因是开发者觉得 <application
+>Umbrello</application
+>是一个更酷的名字。 </para>
+<para
+>&umbrello; 的开发如同关于未来版本发展方向的讨论一样，是开放的，并且进行于整个因特网上。如果您想为该项目做出贡献，请别犹豫，马上联系开发者吧。您帮助 &umbrello; 的方式有很多。 </para>
+<itemizedlist>
+<listitem
+><para
+>报告臭虫或者改进建议</para
+></listitem>
+<listitem
+><para
+>修复臭虫或者增添新的功能</para
+></listitem>
+<listitem
+><para
+>撰写优秀的文档或者提供翻译</para
+></listitem>
+<listitem
+><para
+>当然包括与我们起来编码</para
+></listitem>
+</itemizedlist>
+<para
+>正如您所看到的，您可以通过多种方式贡献您的力量。各种途径对我们来说都是同样重要的，欢迎任何人参加。 </para>
+<para
+>发送邮件给 <email
+>uml-devel@lists.sourceforge.net</email
+> 可以联系到 &umbrello; 的开发者。 </para>
+</chapter>

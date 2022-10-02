@@ -1,0 +1,325 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the umbrello package.
+#
+# Kristof Kiszel <ulysses@fsf.hu>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: umbrello\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-27 00:18+0000\n"
+"PO-Revision-Date: 2021-12-31 16:35+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
+"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.0\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Kiszel Kristóf"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "ulysses@fsf.hu"
+
+#: completion/implementationitem.cpp:58
+#, kde-format
+msgid "Override"
+msgstr "Felülbírálás"
+
+#: completion/implementationitem.cpp:61
+#, kde-format
+msgid "Implement"
+msgstr "Implementálás"
+
+#: completion/implementationitem.cpp:73
+#, kde-format
+msgid "From %1"
+msgstr "Ettől: %1"
+
+#: duchain/builders/contextbuilder.cpp:395
+#, kde-format
+msgid "Circular inheritance of %1 and %2"
+msgstr "Körkörös öröklődés %1 és %2 között."
+
+#: duchain/builders/declarationbuilder.cpp:314
+#, kde-format
+msgid "Access type for interface method %1 must be omitted."
+msgstr "A(z) %1 interfész-metódus hozzáférési típusát el kell hagyni."
+
+#: duchain/builders/declarationbuilder.cpp:318
+#, kde-format
+msgid "Interface function %1 cannot contain body."
+msgstr "A(z) %1 interfészfüggvény nem tartalmazhat törzset."
+
+#: duchain/builders/declarationbuilder.cpp:330
+#, kde-format
+msgid ""
+"Class %1 contains abstract method %2 and must therefore be declared abstract "
+"or implement the method."
+msgstr ""
+"A(z) %1 osztály tartalmazza a(z) %2 absztrakt metódust, ezért absztraktként "
+"kell deklarálni, vagy implementálni kell a metódust."
+
+#: duchain/builders/declarationbuilder.cpp:336
+#, kde-format
+msgid "Abstract function %1 cannot contain body."
+msgstr "A(z) %1 absztrakt függvény nem tartalmazhat törzset."
+
+#: duchain/builders/declarationbuilder.cpp:339
+#, kde-format
+msgid "Cannot use the final modifier on an abstract class member."
+msgstr "A final módosító nem használható egy absztrakt osztálytagon."
+
+#: duchain/builders/declarationbuilder.cpp:349
+#, kde-format
+msgid "Non-abstract method %1 must contain body."
+msgstr "A(z) %1 nem absztrakt metódusnak tartalmaznia kell törzset."
+
+#: duchain/builders/declarationbuilder.cpp:367
+#, kde-format
+msgid "Properties cannot be declared final."
+msgstr "A tulajdonságok nem definiálhatók véglegesként."
+
+#: duchain/builders/declarationbuilder.cpp:370
+#, kde-format
+msgid "Properties cannot be declared abstract."
+msgstr "A tulajdonságok nem definiálhatók absztraktként."
+
+#: duchain/builders/declarationbuilder.cpp:416
+#, kde-format
+msgid ""
+"Trait method %1 has not been applied, because there are collisions with "
+"other trait methods on %2"
+msgstr ""
+"A(z) %1 trait metódus nem lett alkalmazva, mivel ütközések vannak más trait "
+"metódusokkal itt: %2"
+
+#: duchain/builders/declarationbuilder.cpp:570
+#, kde-format
+msgid "Cannot redeclare private property %1 from this context."
+msgstr "A(z) %1 privát tulajdonság nem deklarálható újra ebből a kontextusból,"
+
+#: duchain/builders/declarationbuilder.cpp:576
+#, kde-format
+msgid "Cannot redeclare protected property %1 from this context."
+msgstr "A(z) %1 védett tulajdonság nem deklarálható újra ebből a kontextusból,"
+
+#: duchain/builders/declarationbuilder.cpp:609
+#, kde-format
+msgid "Traits cannot have constants."
+msgstr "A traiteknek nem lehetnek konstansaik."
+
+#: duchain/builders/declarationbuilder.cpp:650
+#, kde-format
+msgid ""
+"Only booleans, ints, floats and strings are allowed for class constants."
+msgstr ""
+"Csak logikai, egész, lebegőpontos és sztring engedélyezett "
+"osztálykonstansként."
+
+#: duchain/builders/declarationbuilder.cpp:702
+#, kde-format
+msgid "Cannot use 'final' as method modifier"
+msgstr "A „final” nem használható metódusmódosítóként"
+
+#: duchain/builders/declarationbuilder.cpp:705
+#, kde-format
+msgid "Cannot use 'static' as method modifier"
+msgstr "A „static” nem használható metódusmódosítóként"
+
+#: duchain/builders/declarationbuilder.cpp:753
+#, kde-format
+msgid "Default value for parameters with a class type hint can only be NULL."
+msgstr ""
+"Az osztály típusinformációjú paraméterek alapértelmezett értéke csak NULL "
+"lehet."
+
+#: duchain/builders/declarationbuilder.cpp:756
+#, kde-format
+msgid "Following parameters must have a default value assigned."
+msgstr "A következő paraméterekhez alapértelmezett értéket kell rendelni.-"
+
+#: duchain/builders/declarationbuilder.cpp:863
+#, kde-format
+msgid "Cannot redeclare PHP internal %1."
+msgstr "Nem deklarálható újra belső PHP: %1."
+
+#: duchain/builders/declarationbuilder.cpp:866
+#, kde-format
+msgid ""
+"%1 and %2 define the same property (%3) in the composition of %1. This might "
+"be incompatible, to improve maintainability consider using accessor methods "
+"in traits instead."
+msgstr ""
+"A(z) %1 és a(z) %2 ugyanazt a tulajdonságot (%3) definiálja a(z) %1 "
+"összeállításában. Ez inkompatibilis lehet, a karbantarthatóság javítása "
+"érdekében fontolja meg accessor metódusok használatát a traitekben."
+
+#: duchain/builders/declarationbuilder.cpp:874
+#, kde-format
+msgid "Cannot redeclare %1, already declared in %2 on line %3."
+msgstr "A(z) %1 nem deklarálható újra, már deklarált a(z) %2 %3. sorában."
+
+#: duchain/builders/declarationbuilder.cpp:920
+#, kde-format
+msgid "Cannot re-assign $this."
+msgstr "$this nem rendelhető hozzá újra."
+
+#: duchain/builders/declarationbuilder.cpp:1358
+#, kde-format
+msgid "The use statement with non-compound name '%1' has no effect."
+msgstr "A use utasításnak a(z) „%1” nem összetett névvel nincs hatása."
+
+#: duchain/builders/declarationbuilder.cpp:1382
+#, kde-format
+msgid "Cannot use '%1' as '%2' because the name is already in use."
+msgstr "„%1” nem használható, mint „%2„, mert a név már foglalt."
+
+#: duchain/builders/usebuilder.cpp:189
+#, kde-format
+msgid "Usage of %1 is deprecated."
+msgstr "A(z) „%1” használata elavult."
+
+#: duchain/builders/usebuilder.cpp:191
+#, kde-format
+msgid "Declaration not found: %1"
+msgstr "A deklaráció nem található: %1"
+
+#: duchain/declarations/traitmemberaliasdeclaration.cpp:55
+#: duchain/declarations/traitmethodaliasdeclaration.cpp:88
+#, kde-format
+msgid "Lost trait alias %1"
+msgstr "Elveszett trait álnév: %1"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:114
+#: duchain/navigation/declarationnavigationcontext.cpp:127
+#, kde-format
+msgid "Use of %1 from %2<br />"
+msgstr "%1 használata innen: %2<br />"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:137
+#, kde-format
+msgid "Broken member alias trait."
+msgstr "Törött tagálnév trait."
+
+#: duchain/navigation/declarationnavigationcontext.cpp:152
+#, kde-format
+msgid "PHP internal"
+msgstr "Belső PHP"
+
+#: duchain/navigation/declarationnavigationcontext.cpp:162
+#, kde-format
+msgctxt "kind of a php-constant, as shown in the declaration tooltip"
+msgid "Constant"
+msgstr "Konstans"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:49
+#, kde-format
+msgid "magic constant"
+msgstr "mágikus konstans"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:64
+#, kde-format
+msgid "empty (not inside a class)"
+msgstr "üres (nem az osztályon belül)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:83
+#, kde-format
+msgid "empty (not inside a method)"
+msgstr "üres (nem a metóduson belül)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:93
+#, kde-format
+msgid "empty (not inside a function)"
+msgstr "üres (nem a függvényen belül)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:102
+#, kde-format
+msgid "empty (not inside a namespace)"
+msgstr "üres (nem a névteren belül)"
+
+#: duchain/navigation/magicconstantnavigationcontext.cpp:106
+#, kde-format
+msgid "current value: %1"
+msgstr "jelenlegi érték: %1"
+
+#: parser/main.cpp:28
+#, kde-format
+msgid "php-parser"
+msgstr "php-parser"
+
+#: parser/main.cpp:29
+#, kde-format
+msgid "KDevelop PHP parser debugging utility"
+msgstr "KDevelop PHP feldolgozó hibakereső segédprogram"
+
+#: parser/main.cpp:30
+#, kde-format
+msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
+msgstr "© Niko Sams, 2008., Milian Wolff, 2009."
+
+#: parser/parsesession.cpp:62
+#, kde-format
+msgid "Could not open file '%1'"
+msgstr "Nem sikerült megnyitni ezt a fájlt: „%1”"
+
+#: parser/parsesession.cpp:65
+#, kde-format
+msgid "File could not be read from."
+msgstr "A fájlt nem lehetett beolvasni."
+
+#: parser/parsesession.cpp:68
+#, kde-format
+msgid "File could not be opened."
+msgstr "A fájl nem nyitható meg."
+
+#: parser/parsesession.cpp:71
+#, kde-format
+msgid "File permissions prevent opening for read."
+msgstr "A fájl jogosultságai megakadályozzák a megnyitást olvasásra."
+
+#: phplanguagesupport.cpp:54
+#, kde-format
+msgid "PHP Support"
+msgstr "PHP támogatás"
+
+#: phplanguagesupport.cpp:55
+#, kde-format
+msgid "Support for PHP Language"
+msgstr "Támogatás a PHP nyelvhez"
+
+#: phplanguagesupport.cpp:56
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: phplanguagesupport.cpp:56 phplanguagesupport.cpp:57
+#, kde-format
+msgid "Author"
+msgstr "Szerző"
+
+#: phplanguagesupport.cpp:57
+#, kde-format
+msgid "Niko Sams"
+msgstr "Niko Sams"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "PHPUnit Integration"
+msgstr "PHPUnit integráció"
+
+#: testprovider/phpunitprovider.cpp:34
+#, kde-format
+msgid "Finds and runs PHPUnit tests"
+msgstr "PHPUnit tesztek keresése és futtatása"
+
+#: testprovider/phpunitrunjob.cpp:70
+#, kde-format
+msgid "PHPUnit"
+msgstr "PHPUnit"

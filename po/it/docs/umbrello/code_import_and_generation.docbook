@@ -1,0 +1,169 @@
+<chapter id="code-import-generation">
+<title
+>Importazione e generazione di codice</title>
+<para
+>&umbrello; è uno strumento di modellazione &UML;, e come tale il suo obiettivo principale è aiutarti <emphasis
+>nell'analisi e nella progettazione</emphasis
+> dei tuoi sistemi. Tuttavia, per facilitare la transizione tra il tuo progetto e la tua <emphasis
+>implementazione</emphasis
+>, &umbrello; ti permette di generare codice sorgente in diversi linguaggi di programmazione come inizio. Inoltre, se vuoi iniziare a usare &UML; in un progetto C++ già cominciato, &umbrello; può aiutarti a creare un modello del tuo sistema dal codice sorgente analizzandolo e importando le classi trovateci. </para>
+<sect1 id="code-generation">
+<title
+>Generazione di codice</title>
+<para
+>&umbrello; può generare codice sorgente per vari linguaggi di programmazione in base al tuo modello &UML; per aiutarti a iniziare l'implementazione del tuo progetto. Il codice generato consiste di dichiarazioni di classi, con i loro metodi e attributi in modo che tu possa <quote
+>riempire gli spazi vuoti</quote
+> fornendo la funzionalità delle operazioni delle tue classi. </para>
+<para
+>&umbrello; 2 ha supporto per la generazione di codice ActionScript, Ada, C++, D, IDL, &Java;, JavaScript, MySQL e Pascal. </para>
+<sect2 id="generate-code">
+<title
+>Generare il codice</title>
+<para
+>Per generare il codice con &umbrello;, devi prima creare o caricare un modello contenente almeno una classe. Quando sei pronto per iniziare a scrivere del codice, seleziona la voce <guimenuitem
+>Assistente per la generazione del codice</guimenuitem
+> dal menu <guimenuitem
+>Codice</guimenuitem
+> per avviare un assistente che ti guiderà attraverso il processo di generazione del codice. </para>
+<para
+>Il primo passo è selezionare le classi per le quali vuoi generare del codice sorgente. Come impostazione predefinita tutte le classi del tuo modello sono selezionate, e puoi rimuovere quelle per le quali non vuoi generare codice spostandole nell'elenco sulla sinistra. </para>
+<para
+>Il prossimo passo dell'assistente ti permette di modificare i parametri che il generatore di codice userà scrivendo il tuo codice. Sono disponibili le seguenti opzioni: </para>
+<para>
+<screenshot>
+<screeninfo
+>Opzioni di generazione del codice</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Opzioni per la generazione del codice in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Opzioni per la generazione del codice in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Opzioni di generazione</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Verbosità dei commenti</title>
+<para
+>L'opzione <guilabel
+>Scrivi commenti di documentazione anche se vuoto</guilabel
+> dice al generatore di codice di scrivere commenti nello stile /** bla */ anche se i blocchi di commento sono vuoti. Se hai aggiunto della documentazione alle tue classi, metodi o attributi nel tuo modello, il generatore di codice scriverà questi commenti come documentazione <application
+>Doxygen</application
+>, indipendentemente da cosa imposti qui, ma se selezioni questa opzione &umbrello; scriverà blocchi di commento per tutte le classi, i metodi e gli attributi anche se non c'è documentazione nel modello, nel qual caso dovresti documentare le tue classi in seguito, direttamente nel codice sorgente. </para>
+<para
+><guilabel
+>Scrivi commenti per le sezioni anche se la sezione è vuota</guilabel
+> fa in modo che &umbrello; scriva commenti nel codice sorgente per delimitare le diverse sezioni di una classe. Per esempio <quote
+>metodi pubblici</quote
+> o <quote
+>Attributi</quote
+> prima delle sezioni corrispondente. Se selezioni questa opzione &umbrello; scriverà commenti per tutte le sezioni della classe anche se la sezione è vuota. Per esempio, scriverebbe un commento che dice <quote
+>metodi protetti</quote
+> anche se non ci sono metodi protetti nella tua classe. </para>
+</sect4>
+<sect4>
+<title
+>Cartelle</title>
+<para
+><guilabel
+>Scrivi tutti i file generati nella cartella</guilabel
+>. Qui dovresti scegliere la cartella dove vuoi che &umbrello; metta il sorgente generato. </para>
+<para
+>L'opzione <guilabel
+>Includi i file di intestazione dalla cartella</guilabel
+> ti permette di inserire un'intestazione all'inizio di ogni file generato. I file d'intestazione possono contenere informazioni di copyright o licenza e contenere variabili che sono valutate al momento della generazione. Puoi dare un'occhiata ai modelli di file d'intestazione forniti con &umbrello; per vedere come usare queste variabili per sostituire il tuo nome o la data attuale al momento della generazione. </para>
+</sect4>
+<sect4>
+<title
+>Politica di sovrascrittura</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Questa opzione dice a &umbrello; cosa fare se il file che vuole creare esiste già nella cartella di destinazione. &umbrello; <emphasis
+>non può modificare file sorgente esistenti</emphasis
+>, quindi devi scegliere tra sovrascrivere il file esistente, saltare la generazione di un certo file o lasciare che &umbrello; scelga un nome file diverso. Se scegli l'opzione di usare un nome diverso, &umbrello; aggiungerà un suffisso al nome file. </para>
+</sect4>
+<sect4>
+<title
+>Linguaggio</title>
+<para
+>&umbrello; genererà codice, come impostazione predefinita, nel linguaggio che hai selezionato come Linguaggio attivo, ma con l'Assistente per la generazione del codice hai l'opzione di cambiarlo in un altro linguaggio. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Generazione con l'assistente di generazione</title>
+<para
+>Il terzo e ultimo passo dell'assistente mostra lo stato del processo di generazione del codice. Devi solo fare clic sul pulsante Genera per avere le tue classi scritte. </para>
+<para
+>Nota che le opzioni che selezioni nell'assistente per la generazione del codice sono valide solo per la generazione corrente. La prossima volta che esegui l'assistente dovrai riselezionare tutte le opzioni (la cartella delle intestazioni, la politica di sovrascrittura, e così via). Puoi impostare i valori predefiniti usati da &umbrello; nella sezione <guilabel
+>Generazione del codice</guilabel
+> nelle impostazioni di &umbrello;, disponibile a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Configura &umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Se devi impostare le tue opzioni di generazione del codice ai valori giusti e vuoi subito generare del codice subito senza passare per l'assistente, puoi selezionare l'intero <guimenuitem
+>Genera tutto il codice</guimenuitem
+> dal menu <guimenu
+>Codice</guimenu
+>. Ciò genererà codice per tutte le classi nel tuo modello usando le impostazioni correnti (incluse la cartella di output e la politica di sovrascrittura, quindi usalo con attenzione). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Importazione di codice</title>
+<para
+>&umbrello; può importare codice sorgente dai tuoi progetti esistenti per aiutarti a costruire un modello del tuo sistema. &umbrello; 2 supporta codice sorgente in ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL e Pascal. </para>
+<para
+>Per importare classi nel tuo modello, seleziona la voce <guimenuitem
+>Assistente di importazione del codice</guimenuitem
+> dal menu <guimenu
+>Codice</guimenu
+>. Nella finestra apposita, seleziona i file contenenti le dichiarazioni delle classi C++ e premi <guibutton
+>Successivo</guibutton
+>, quindi <guibutton
+>Avvia importazione</guibutton
+> e <guibutton
+>Completa</guibutton
+>. Le classi saranno importare e le troverai come parte del modello nella vista ad albero. Nota che &umbrello; non creerà nessun tipo di diagramma per mostrarti le classi, esse saranno solo importate nel modello in modo che da poterle usare in seguito in qualsiasi diagramma tu voglia. </para>
+<para>
+<screenshot>
+<screeninfo
+>Importazione di codice</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Menu per importare codice sorgente in &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Menu per importare codice sorgente in &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

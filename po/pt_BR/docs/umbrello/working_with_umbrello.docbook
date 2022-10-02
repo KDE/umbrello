@@ -1,0 +1,413 @@
+<chapter id="working-with-umbrello">
+<title
+>Trabalhando com o &umbrello;</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>Este capítulo lhe introduzirá na interface com o usuário do &umbrello; e lhe dirá tudo que você precisa saber para iniciar um modelo. Todas as ações no &umbrello; estão acessíveis através do menu e das barras de ferramentas, mas o &umbrello; também faz uso intensivo de menus de contexto do &RMB;. Você pode clicar o &RMB; na maioria dos elementos da área de trabalho do &umbrello; ou visão de árvore para obter um menu com as funções mais úteis que podem ser aplicadas ao elemento em particular que você está trabalhando. Alguns usuários acharão isto um pouco confuso no início, porque eles estão mais acostumados a trabalhar com o menu ou barras de ferramentas, mas uma vez que você acostume-se a usar o clique <mousebutton
+>direito</mousebutton
+>, isto aumentará significativamente a velocidade do seu trabalho. </para>
+
+<sect1 id="user-interface">
+<title
+>Interface do usuário</title>
+<para
+>A janela principal do &umbrello; é dividida em três áreas que lhe auxiliam a manter uma visão geral de todo sistema e acessar os diferentes diagramas rapidamente enquanto trabalha em seu modelo. </para>
+<para
+>Estas áreas são chamadas:</para>
+<itemizedlist>
+<listitem
+><para
+>Visão de Árvore</para
+></listitem>
+<listitem
+><para
+>Área de Trabalho</para
+></listitem>
+<listitem
+><para
+>Janela de histórico de comandos e documentação</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>Interface com o Usuário do &umbrello;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Interface com o Usuário do &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Interface com o Usuário do &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Visão de Árvore</title>
+<para
+>A Visão de Árvore é localizada na parte superior esquerda da janela, e mostra todos os diagramas, classes, atores e casos de uso que compuserem o seu modelo. A Visão de Árvore lhe permite ter uma rápida visão geral dos elementos componentes de seu modelo. A Visão de Árvore também lhe fornece uma maneira rápida de alternar entre os diferentes diagramas em seu modelo e inserir elementos de seu modelo no diagrama atual. </para>
+<para
+>Se você está trabalhando em um modelo com mais do que algumas poucas classes e diagramas, a Visão de Árvore pode auxiliá-lo a manter no topo as coisas organizando seus elementos do modelo em pastas. Você pode criar pastas selecionando a opção apropriada no menu de contexto (clique &RMB; em uma das pastas na visão de árvore) e você pode organizar seus elementos movendo-os para a pasta apropriada (arrastar e soltar) </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Janela de histórico de comandos e documentação</title>
+<para
+>A janela de histórico de comandos e documentação é a pequena janela localizada na parte inferior esquerda do &umbrello;, e ela lhe fornece uma rápida previsão da documentação para o item atualmente selecionado e o histórico de comandos da sua sessão de trabalho. A janela de documentação é um pouco pequena porque ela pretende permitir-lhe apenas uma rápida observação dos elementos da documentação e uma visão geral do histórico de comandos, ocupando o menor espaço possível na tela. Se você precisar ver a documentação em mais detalhes você pode sempre abrir as propriedades do item. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Área de Trabalho</title>
+<para
+>A Área de Trabalho é a janela principal do &umbrello;, e é onde as ações reais ocorrem. Você usa a Área de Trabalho para editar e ver os diagramas em seu modelo. A Área de Trabalho mostra o diagrama atualmente ativo. Atualmente somente um diagrama pode ser mostrado na Área de Trabalho de cada vez. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Criando, Carregando e Salvando Modelos</title>
+<para
+>A primeira coisa que você precisa para iniciar a fazer algo útil com o &umbrello; é criar um modelo para trabalho. Quando você inicia o &umbrello; ele sempre carrega o último modelo usado ou cria um novo modelo vazio (dependendo de suas configurações de preferências no diálogo de configuração). Isto lhe permitirá iniciar trabalhando rapidamente. </para>
+<sect2 id="new-model">
+<title
+>Novo Modelo</title>
+<para
+>Se a qualquer momento você precisar criar um novo modelo você pode fazer isto selecionando a entrada <guimenuitem
+>Novo</guimenuitem
+> no menu <guimenu
+>Arquivo</guimenu
+>, ou clicando o ícone <guiicon
+>Novo</guiicon
+> na barra de ferramentas do aplicativo. Se você estiver trabalhando no momento em um modelo que foi modificado, o &umbrello; lhe perguntará se deseja salvar as mudanças antes de carregar o novo modelo. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Salvar Modelo</title>
+<para
+>Você pode salvar seu modelo a qualquer momento selecionando a opção <guimenuitem
+>Salvar</guimenuitem
+> do Menu <guimenu
+>Arquivo</guimenu
+> ou clicando no botão <guiicon
+>Salvar</guiicon
+> na barra de ferramentas do aplicativo. Se você precisar salvar seu modelo com um nome diferente você pode usar a opção <guimenuitem
+>Salvar Como</guimenuitem
+> no Menu <guimenu
+>Arquivo</guimenu
+>. </para>
+<para
+>Para sua conveniência, o &umbrello; também oferece a opção de salvar automaticamente seu trabalho a cada período de tempo determinado. Você pode configurar se deseja esta opção bem como o intervalo de tempo nas <guimenu
+>Configurações</guimenu
+> do &umbrello;</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Carregar Modelo</title>
+<para
+>Para carregar um modelo já existente você pode selecionar a opção <guimenuitem
+>Abrir</guimenuitem
+> no Menu <guimenu
+>Arquivo</guimenu
+> ou clicar no ícone <guiicon
+>Abrir</guiicon
+> na barra de ferramentas do aplicativo. Os modelos mais recentemente usados também estão disponíveis no submenu <guimenuitem
+>Abrir Recente</guimenuitem
+> do Menu <guimenu
+>Arquivo</guimenu
+> para acelerar o acesso aos seus modelos mais frequentemente usados. </para>
+<para
+>O &umbrello; pode trabalhar com somente um modelo por vez, logo se você pedir que o programa carregue um modelo e o modelo atual foi modificado desde a última vez que você o salvou, o &umbrello; lhe perguntará se suas mudanças devem ser salvas para evitar qualquer perda de seu trabalho. Você pode iniciar duas ou mais instâncias do &umbrello; ao mesmo tempo, de modo que você possa copiar e colar entre as instâncias. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Editando Modelos</title>
+<para
+>No &umbrello;, existem basicamente duas maneiras de editar os elementos em seu modelo. <itemizedlist>
+<listitem
+><para
+>Editar elementos do modelo diretamente através da Visão de Árvore</para
+></listitem>
+<listitem
+><para
+>Editar elementos do modelo através de um Diagrama</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Usando o menu de contexto dos diferentes itens na Visão de Árvore você será capaz de adicionar, remover e modificar a maioria dos elementos em seu modelo. Clique <mousebutton
+>direito</mousebutton
+> nas pastas na Visão de Árvore lhe fornecerá as opções para criação dos diferentes tipos de diagramas bem como, dependendo se a pasta é uma <emphasis
+>Visão de Caso de Uso</emphasis
+> ou uma <emphasis
+>Visão Lógica</emphasis
+>, Atores, Casos de Uso, Classes, etc. </para>
+<para
+>Uma vez que você tenha adicionado elementos ao seu modelo você pode também editá-los acessando seus diálogos de propriedades, que será encontrado selecionando a opção <emphasis
+>Propriedades</emphasis
+> no menu de contexto mostrado quando der um clique <mousebutton
+>direito</mousebutton
+> nos itens na Visão de Árvore. </para>
+<para
+>Você pode também editar seu modelo criando e modificando elementos pelos diagramas. Mais detalhes sobre como fazer isto são fornecidos nas seguintes seções. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Adicionando e Removendo Diagramas</title>
+<para
+>Seu modelo &UML; consiste de um conjunto de elementos &UML; e associações entre eles. No entanto você não pode ver o modelo diretamente, você usa os <emphasis
+>Diagramas</emphasis
+> para vê-lo. </para>
+<sect2 id="create-diagram">
+<title
+>Criando Diagramas</title>
+<para
+>Para criar um novo diagrama em seu modelo simplesmente selecione o tipo de diagrama que você deseja a partir do submenu <guimenuitem
+>Novo</guimenuitem
+> no menu <guimenu
+>Diagrama</guimenu
+> e dê um nome a ele. O diagrama será criada e tornado ativo, e você imediatamente o verá na visão de árvore. </para>
+<para
+>Lembre-se que o &umbrello; faz um uso intensivo de menus de contexto: você pode também clicar o &RMB; numa pasta na Visão de Árvore e selecionar o tipo apropriado de diagrama a partir do submenu <guisubmenu
+>Novo</guisubmenu
+> no menu de contexto. Observe que você pode criar Diagramas de Caso de Uso somente em pastas de Visão de Caso de Uso, e os outros tipos de diagrama podem somente ser criados em pastas de Visão Lógica. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Removendo Diagramas</title>
+<para
+>Caso você precise remover um diagrama de seu modelo, você pode fazer isto tornando-o ativo e selecionando <guimenuitem
+>Excluir</guimenuitem
+> a partir do Menu <guimenu
+>Diagrama</guimenu
+>. Você pode também conseguir isto selecionando <guimenuitem
+>Excluir</guimenuitem
+> no menu de contexto do diagrama na Visão de Árvore </para>
+<para
+>Uma vez que excluir um diagrama é algo sério que pode causar perda de trabalho se feito por acidente, o &umbrello; lhe pedirá para confirmar a operação de exclusão antes de remover o Diagrama atual. Uma vez que o diagrama seja excluído e o arquivo salvo não existe nenhuma maneira de desfazer esta ação. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Renomeando Diagramas</title>
+<para
+>Se você deseja mudar o nome de um diagrama existente você pode facilmente fazer isto selecionando a opção Renomear no menu &RMB; na Visão de Árvore. </para>
+<para
+>Outra maneira de renomear um diagrama é fazer isto através de seu diálogo de propriedades, que pode ser obtido selecionando Propriedades a partir do Menu de Contexto ou através de um clique duplo nele na Visão de Árvore. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Editando Diagramas</title>
+<para
+>Enquanto trabalha num diagrama, o &umbrello; tentará guiá-lo aplicando algumas regras simples como quais elementos são validados nos diferentes tipos de diagramas, bem como os relacionamentos que podem existir entre eles. Se você é experiente em &UML; você provavelmente não será noticiado, mas isto auxiliará novatos em &UML; a criar diagramas em conformidade com os padrões. </para>
+<para
+>Uma vez que você tenha criado seus diagramas é hora de iniciar a editá-los. Aqui você deve notar (para iniciantes perspicazes) a diferença entre editar seu diagrama e editar o <emphasis
+>modelo</emphasis
+>. Como você já deve saber, Diagramas são <emphasis
+>visões</emphasis
+> do seu modelo. Por exemplo, se você criar uma classe editando um Diagrama de Classe, você estará realmente editando ambos, seu Diagrama e seu modelo. Se você mudar a cor ou outra opção de exibição de uma Classe em seu Diagrama de Classe, você estará somente editando o Diagrama, mas nada será mudado no seu modelo. </para>
+<sect2 id="insert-elements">
+<title
+>Inserir Elementos</title>
+<para
+>Uma das primeiras coisas que você deverá fazer ao editar um novo diagrama é inserir elementos nele (Classes, Atores, Casos de Uso, &etc;). Existem basicamente duas maneiras de fazer isto:</para>
+<itemizedlist>
+<listitem
+><para
+>Arrastando elementos existentes em seu modelo da Visão de Árvore</para
+></listitem>
+<listitem
+><para
+>Criando novos elementos em seu modelo e adicionando-os ao seu diagrama ao mesmo tempo, usando uma das Ferramentas de edição da Barra de Ferramentas de Trabalho</para
+></listitem>
+</itemizedlist>
+<para
+>Para inserir elementos que já existam em seu modelo, apenas arraste-os da Visão de Árvore e solte-os onde você deseja posicioná-los em seu diagrama. Você sempre poderá mover elementos pelo Diagrama usando a Ferramenta Selecionar </para>
+<para
+>A segunda maneira de adicionar elementos ao seu diagrama é usando as ferramentas de edição da Barra de Ferramentas de Trabalho (observe que isto também adicionará elementos ao seu modelo). </para>
+<para
+>A Barra de Ferramentas de Trabalho era localizada por padrão na parte superior da janela. As ferramentas disponíveis nesta barra de ferramentas (os botões que você vê nela) mudam dependendo do tipo de diagrama em que você está atualmente trabalhando. O botão para a ferramenta atualmente selecionada é ativado na barra de ferramentas. Você pode alternar para a ferramenta selecionada pressionando a tecla &Esc;. </para>
+<para
+>Quando você tiver selecionado uma ferramenta de edição da Barra de Ferramentas de Trabalho (por exemplo, a ferramenta para inserir classes) o ponteiro do mouse muda para uma cruz, e você pode inserir os elementos em seu modelo através de um clique simples em seu diagrama. Observe que elementos em &UML; devem ter um <emphasis
+>Nome Único</emphasis
+>. Logo se você tiver uma classe em um diagrama cujo nome é <quote
+>ClasseA</quote
+> e então usar a ferramenta de inserção de classe para inserir um classe em outro diagrama você não pode nomear esta classe com <quote
+>ClasseA</quote
+> também. Se estes dois serão supostamente dois diferentes elementos, você deve fornecer-lhes um nome único. Se você está tentando adicionar o <emphasis
+>mesmo</emphasis
+> elemento em seu diagrama, então a Inserir Classe não é a ferramenta adequada para isto. Ao invés disso, você deve arrastar e soltar a classe da Visão de Árvore. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Excluindo Elementos</title>
+<para
+>Você pode excluir qualquer elemento selecionando a opção <guimenuitem
+>Excluir</guimenuitem
+> do seu menu de contexto. </para>
+<para
+>Novamente, aqui existe uma <emphasis
+>grande</emphasis
+> diferença entre remover um objeto de um diagrama, e remover um objeto de seu modelo. Se você excluir um objeto de dentro de um diagrama, você está somente removendo o objeto daquele diagrama em particular: o elemento ainda faz parte do seu modelo e se existirem outros diagramas usando o mesmo elemento eles não sofrerão nenhuma mudança. Se, por outro lado, você excluir o elemento da Visão de Árvore, você está atualmente excluindo o elemento de seu <emphasis
+>modelo</emphasis
+>. Uma vez que o elemento não mais exista em seu modelo, ele será automaticamente removido de todos os diagramas em que ele aparece. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Editando Elementos</title>
+<para
+>Você pode editar a maioria dos elementos &UML; em seu modelo e diagramas abrindo seu diálogo de Propriedades e selecionando as opções apropriadas. Para editar as propriedades de um objeto, selecione <guimenuitem
+>Propriedades</guimenuitem
+> no seu menu de contexto (clique &RMB;). Cada elemento possui um diálogo consistindo de diversas páginas de onde você pode configurar as opções correspondentes aquele elemento. Para alguns elementos, como atores, você pode somente configurar um par de opções, como o nome do objeto e documentação, enquanto outros elementos, como classes, você pode editar seus atributos e operações, selecionar o que você deseja que seja exibido no diagrama (toda a assinatura da operação ou apenas nomes da operação, etc) e também as cores que deseja usar para a linha e preenchimento da representação da classe no diagrama. </para>
+
+<para
+>Para elementos &UML;, você também poderá abrir a janela de propriedades com um clique duplo sobre ela, caso esteja usando a ferramenta de seleção (seta). </para>
+
+<para
+>Observe que você também pode selecionar a opção propriedades do menu de contexto dos elementos na Visão de Árvore. Isto lhe permite também editar as propriedades para os diagramas, como configurar se a grade deve ser mostrada ou não. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Editando Classes</title>
+<para
+>Apesar da edição de propriedades para todos os objetos já ter sido abordada na seção anterior, as classes merecem uma seção especial porque elas são um pouco mais complexas e possuem mais opções que a maioria dos outros elementos &UML;. </para>
+<para
+>No diálogo de propriedades para uma classe você pode configurar tudo, da cor que ela usa até as operações e atributos que ela possui. </para>
+<sect3 id="class-general-settings">
+<title
+>Configurações Gerais da Classe</title>
+<para
+>A página de Configurações Gerais do diálogo de propriedades é autoexplicativa. Aqui você pode mudar o nome da classe, visibilidade, documentação, &etc; Esta página está sempre disponível. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Configurações de Atributos da Classe</title>
+<para
+>Na página de Configurações de Atributos você pode adicionar, editar ou excluir atributos (variáveis) para esta classe. Você pode também mover atributos para cima e para baixo da lista pressionando o botão de seta ao lado. Esta página está sempre disponível. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Configurações de Operações da Classe</title>
+<para
+>Semelhante à Página de Configurações dos Atributos, na Página de Configurações das Operações você pode adicionar, editar ou remover operações para sua classe. Quando adiciona ou edita uma operação, você insere os dados básicos no diálogo <emphasis
+>Propriedades da Operação</emphasis
+>. Para adicionar parâmetros a sua operação você precisa clicar no botão <guibutton
+>Novo Parâmetro</guibutton
+>, que lhe mostrará o diálogo de <emphasis
+>Propriedades do Parâmetro</emphasis
+>. Esta página está sempre disponível </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Configurações de Modelo de Classe</title>
+<para
+>Esta página permite-lhe adicionar modelos de classe que serão classes não especificadas ou tipos de dados. Em Java 1.5 eles são chamados Genéricos. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Página Associações da Classe</title>
+<para
+>A página <guilabel
+>Associações da Classe</guilabel
+> mostra todas as associações desta classe no diagrama atual. Um clique duplo numa associação mostra suas propriedades, e dependendo do tipo de associação você pode modificar alguns parâmetros como um configuração de multiplicidade e nome da Regra. Se a associação não permitir que opções sejam modificadas, o diálogo de Propriedades da Associação é somente leitura e você pode somente modificar a documentação associada com esta associação. </para>
+<para
+>Esta página está disponível somente se você abrir as Propriedades da Classe de dentro de um diagrama. Se você selecionar as propriedades da classe no menu de contexto na Visão de Árvore esta página não estará disponível. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Página de Exibição da Classe</title>
+<para
+>Na página de <guilabel
+>Opções de Exibição</guilabel
+>, você pode configurar como a classe será mostrada no diagrama. Uma classe pode ser mostrada como somente um retângulo com o nome da classe nele (útil se você possui muitas classes em seu diagrama, ou não está interessado no momento nos detalhes de cada classe) ou completa mostrando pacotes, estereótipos, atributos e operações com assinatura completa e visibilidade </para>
+<para
+>Dependendo da quantidade de informação que você deseja ver você pode selecionar as opções correspondentes nesta página. As mudanças que você realizar aqui serão somente as <emphasis
+>opções de exibição</emphasis
+> para o diagrama. Isto significa que <quote
+>ocultar</quote
+> uma operação de classe somente faz com que ele não seja exibida no diagrama, mas a operação ainda faz parte de seu modelo. Esta opção está somente disponível se você selecionou as propriedades da classe de dentro de um Diagrama. Se você abrir as propriedades de classe a partir da Visão de Árvore esta página estará faltando uma vez que as Opções de Exibição não fazem sentido neste caso</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Página de estilo da classe</title>
+<para
+>Na página <guilabel
+>Estilo do widget</guilabel
+> você pode configurar as cores que deseja para a linha e o preenchimento do widget. Esta opção obviamente faz sentido somente para classes exibidas em diagramas, e não aparecerá se você abrir o diálogo de propriedades da classe a partir da Visão de Árvore. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Associações</title>
+<para
+>Associações relacionam dois objetos &UML; um com o outro. Normalmente associações são definidas entre duas classes, mas alguns tipos de associações podem também existir entre casos de uso e atores. </para>
+<para
+>Para criar uma associação seleciona a ferramenta apropriada na Barra de Ferramentas de Trabalho (Associação genérica, Generalização, Agregação, &etc;) e dê um clique simples no primeiro elemento participante na associação e então um clique simples no segundo elemento participante. Observe que são dois cliques, um em cada um dos objetos participantes da associação, e <emphasis
+>não</emphasis
+> arrastar um objeto para outro. </para>
+<para
+>Se você tentar usar uma associação de uma maneira contrária as especificações &UML; o &umbrello; se recusará a criar a associação e você receberá uma mensagem de erro. Isto pode acontecer se, por exemplo, uma Generalização existir da classe A para classe B e então você tentar criar outra Generalização da classe B para a classe A </para>
+<para
+>Um clique <mousebutton
+>direito</mousebutton
+> numa associação mostrará um menu de contexto com as ações que você pode aplicar nela. Se você precisar excluir uma associação, simplesmente selecione a opção <guimenuitem
+>Excluir</guimenuitem
+> deste menu de contexto. Você pode também selecionar a opção <guimenuitem
+>Propriedades</guimenuitem
+> e, dependendo do tipo de associação, editar os atributos como regras e multiplicidade. </para>
+<sect3 id="anchor-points">
+<title
+>Pontos de Ancoragem</title>
+<para
+>Associações são desenhadas, por padrão, como uma linha reta conectando dois objetos no diagrama. </para>
+<para
+>Você pode adicionar pontos de ancoragem dando um clique <mousebutton
+>duplo</mousebutton
+> ao longo da linha de associação. Isto irá inserir um ponto de ancoragem (exibido como um ponto azul quando a linha de associação é selecionada) o qual você poderá mover para obter a forma da associação </para>
+<para
+>Se você precisar remover um ponto de ancoragem, dê um clique <mousebutton
+>duplo</mousebutton
+> nele novamente para removê-lo </para>
+<para
+>Observe que a única maneira de editar as propriedades de uma associação é através do menu de contexto. Se você tentar das um clique <mousebutton
+>duplo</mousebutton
+> nela como é feito nos outros objetos &UML;, isto somente irá inserir um ponto de ancoragem. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Notas, Texto e Caixas</title>
+<para
+>Notas, Linhas de Texto e Caixas são elementos que podem ser representados em qualquer tipo de diagrama e não possuem nenhum valor semântico, mas são muito úteis para adicionar comentários extras ou explanações que podem tornar seu diagrama mais fácil de entender. </para>
+<para
+>Para adicionar uma Nota ou Linha de Texto, selecione a ferramenta correspondente na Barra de Ferramentas de Trabalho e dê um clique simples no diagrama onde você deseja colocar seu comentário. Você pode editar o texto abrindo o elemento através do menu de contexto ou, no caso de notas, através de um clique <mousebutton
+>duplo</mousebutton
+> nelas. </para>
+<sect3 id="anchors">
+<title
+>Âncoras</title>
+<para
+>Âncoras são usadas para manter uma nota de texto e outro Elemento &UML; juntos. Por exemplo, você normalmente usa uma nota de texto para explanar ou fazer algum comentário sobre uma classe ou uma associação em particular, neste caso você pode usar a âncora para tornar claro que a nota <quote
+>pertence</quote
+> aquele elemento em particular. </para>
+<para
+>Para adicionar uma âncora entre uma nota e outro elemento &UML;, use a ferramenta âncora da barra de ferramentas de trabalho. Você primeiro precisa clicar na nota e então clicar no elemento &UML; ao qual deseja que a nota se ligue. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->
