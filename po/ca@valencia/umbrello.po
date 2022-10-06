@@ -1103,7 +1103,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:193
 #, kde-format
 msgid "&Use a different name"
-msgstr "&Utilitza un nom diferent"
+msgstr "Utilit&za un nom diferent"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabFormatting)
 #: codegenwizard/codegenoptionspage.ui:208
@@ -2482,7 +2482,7 @@ msgstr "Camí cap a l'executable generador:"
 #: dialogs/pages/autolayoutoptionpage.ui:82
 #, kde-format
 msgid "Miscellaneous"
-msgstr "Miscelànea"
+msgstr "Miscel·lània"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:88
@@ -2932,7 +2932,7 @@ msgstr "Seqüència d'increment automàtic"
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
-msgstr "Miscelànea"
+msgstr "Miscel·lània"
 
 #: dialogs/pages/generaloptionpage.cpp:58
 #, kde-format
@@ -3127,7 +3127,7 @@ msgstr "Amplària de línia personalitzada"
 #: dialogs/pages/uioptionspage.cpp:133
 #, kde-format
 msgid "&Use fill color"
-msgstr "&Utilitza el color de farciment"
+msgstr "Utilit&za el color de farciment"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_propsGroupBox)
 #: dialogs/pages/umlrolepropertiesbase.ui:16 dialogs/umlroledialog.cpp:19
@@ -3215,7 +3215,7 @@ msgstr "Pr&edeterminat"
 #: dialogs/pages/umlwidgetstylepage.cpp:144
 #, kde-format
 msgid "&Use fill"
-msgstr "&Utilitza el farciment"
+msgstr "Utilit&za el farciment"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:154
 #, kde-format
@@ -3748,7 +3748,7 @@ msgstr "Columna referenciada"
 #: dialogs/umluniqueconstraintdialog.cpp:118
 #, kde-format
 msgid "&Add"
-msgstr "&Afig"
+msgstr "Afi&g"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:404
 #, kde-format
@@ -3982,7 +3982,7 @@ msgstr "Nou"
 #: dialogs/widgets/umlartifacttypewidget.cpp:24 umbrelloui.rc.cmake:4
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #: dialogs/widgets/umlartifacttypewidget.cpp:25
 #, kde-format
@@ -7224,7 +7224,7 @@ msgstr "&Llenguatge actiu"
 #: umbrelloui.rc.cmake:84
 #, kde-format
 msgid "&Settings"
-msgstr "&Configuració"
+msgstr "Con&figuració"
 
 #: uml.cpp:413
 #, kde-format
@@ -7244,7 +7244,7 @@ msgstr "&Assistent de classe nova..."
 #: uml.cpp:425
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
-msgstr "&Afig els tipus de dades predeterminats per al llenguatge actiu"
+msgstr "Afi&g els tipus de dades predeterminats per al llenguatge actiu"
 
 #: uml.cpp:432
 #, kde-format
