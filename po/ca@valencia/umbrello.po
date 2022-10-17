@@ -2155,7 +2155,7 @@ msgstr "Atribut"
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr "Terme que cal buscar:"
+msgstr "Terme que s'ha de buscar:"
 
 #: dialogs/multipagedialogbase.cpp:69
 #, kde-format
@@ -4178,7 +4178,7 @@ msgstr "Fitxer a transformar"
 #: docgenerators/main.cpp:56
 #, kde-format
 msgid "The XSLT file to use"
-msgstr "El fitxer XSLT que s'utilitzarà"
+msgstr "El fitxer XSLT que s'ha d'utilitzar"
 
 #: docgenerators/xhtmlgenerator.cpp:134
 #, kde-format
@@ -4313,7 +4313,7 @@ msgstr "Molta faena per a la generació de codi C++ i Java. Editor de codi."
 #: main.cpp:152
 #, kde-format
 msgid "File to open"
-msgstr "Fitxer que s'obrirà"
+msgstr "Fitxer que s'ha d'obrir"
 
 #: main.cpp:153
 #, kde-format
@@ -6223,7 +6223,7 @@ msgstr "Tipus de disposició"
 #: umbrello.kcfg:43
 #, kde-format
 msgid "The layout type to use for new lines"
-msgstr "El tipus de disposició que s'utilitzarà per a les línies noves"
+msgstr "El tipus de disposició que s'ha d'utilitzar per a les línies noves"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:55
@@ -6289,13 +6289,13 @@ msgstr "Activa/desactiva la càrrega de l'últim fitxer obert"
 #: umbrello.kcfg:89
 #, kde-format
 msgid "Diagram To Load at Startup"
-msgstr "Diagrama a carregar a l'inici"
+msgstr "Diagrama que s'ha de carregar a l'inici"
 
 #. i18n: ectx: whatsthis, entry (diagram), group (General Options)
 #: umbrello.kcfg:90
 #, kde-format
 msgid "The Diagram to load at startup"
-msgstr "El diagrama a carregar en iniciar"
+msgstr "El diagrama que es carregarà en iniciar"
 
 #. i18n: ectx: label, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:107
@@ -7715,7 +7715,7 @@ msgstr "No es pot veure el codi des d'un simple escriptor de codi."
 #: uml.cpp:2913 uml.cpp:2915
 #, kde-format
 msgid "Select file(s) to import:"
-msgstr "Seleccioneu els fitxers que s'han d'importar:"
+msgstr "Selecció dels fitxers que s'han d'importar:"
 
 #: uml.cpp:2946 uml.cpp:2948
 #, kde-format
@@ -7965,7 +7965,7 @@ msgstr ""
 #: umldoc.cpp:1817
 #, kde-format
 msgid "Use Name"
-msgstr "Nom que s'utilitzarà"
+msgstr "Nom que s'ha d'utilitzar"
 
 #: umldoc.cpp:1817
 #, kde-format

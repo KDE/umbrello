@@ -108,7 +108,7 @@ msgstr "Documentació de PHP"
 #: docs/phpdocssettings.kcfg:10
 #, kde-format
 msgid "Specifies the location of the PHP documentation to use."
-msgstr "Especifica la ubicació a utilitzar per a la documentació de PHP."
+msgstr "Especifica la ubicació que s'utilitzarà per a la documentació de PHP."
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
