@@ -7689,7 +7689,7 @@ msgid ""
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
 "Umbrello no ha pogut apegar el contingut del Porta-retalls. Els objectes del "
-"porta-retalls deuen ser d'un tipus incorrecte a apegar ací."
+"porta-retalls deuen ser d'un tipus incorrecte que s'apegarà ací."
 
 #: uml.cpp:1822 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
 #, kde-format
