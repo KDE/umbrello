@@ -259,7 +259,7 @@ msgstr "Elimina un objecte UML: %1"
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
 msgid "Rename object : %1 to %2"
-msgstr "Canvia el nom l'objecte: %1 a %2"
+msgstr "Canvia el nom de l'objecte: %1 a %2"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
 #, kde-format
@@ -4805,7 +4805,7 @@ msgstr "Canvia el nom..."
 #: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Rename Object..."
-msgstr "Canvia el nom objecte..."
+msgstr "Canvia el nom de l'objecte..."
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
@@ -8609,7 +8609,7 @@ msgstr "Mou ginys"
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
-msgstr "Canvia el nom objecte"
+msgstr "Canvia el nom de l'objecte"
 
 #: umlwidgets/umlwidget.cpp:795
 #, kde-format
@@ -8939,7 +8939,7 @@ msgstr "Introduïu el nom del giny nou:"
 #: umlwidgets/widget_utils.cpp:962
 #, kde-format
 msgid "Rename activity"
-msgstr "Canvia el nom l'activitat"
+msgstr "Canvia el nom de l'activitat"
 
 #: umlwidgets/widget_utils.cpp:966
 #, kde-format
