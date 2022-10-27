@@ -4173,7 +4173,7 @@ msgstr "Autoria del modelador UML Umbrello"
 #: docgenerators/main.cpp:55
 #, kde-format
 msgid "File to transform"
-msgstr "Fitxer a transformar"
+msgstr "Fitxer que s'ha de transformar"
 
 #: docgenerators/main.cpp:56
 #, kde-format
