@@ -18,7 +18,8 @@ of the class declarations, with their methods and attributes so you can <quote>f
 blanks</quote> by providing the functionality of your classes' operations.
 </para>
 <para>
-&umbrello; 2 comes with code generation support for ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL and Pascal. 
+&umbrello; 2 comes with code generation support for ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript,
+MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, and XMLSchema.
 </para>
 <sect2 id="generate-code">
 <title>Generating Code</title>
@@ -138,7 +139,7 @@ This will generate code for all the classes in your Model using the current sett
 <title>Code Import</title>
 <para>
 &umbrello; can import source code from your existing projects to help you build Model of 
-your systems. &umbrello; 2 supports ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, and Pascal source code.
+your systems. &umbrello; 2 supports ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP, and Vala source code.
 </para>
 <para>
 To import classes into your Model, select the entry <guimenuitem>Code Importing Wizard...</guimenuitem> from
