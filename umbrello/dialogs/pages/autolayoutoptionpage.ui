@@ -21,7 +21,7 @@
        <widget class="QCheckBox" name="m_autoDotPath">
         <property name="toolTip">
          <string>&lt;p&gt;The auto layout feature depends on layout generators provided by the GraphViz package, which is normally installed aside Umbrello by a package manager.&lt;/p&gt;
-&lt;p&gt;Umbrello has build in support for detecting the install location of  these layout generators. For cases where this dependency is not available or do not fit, a different installation path could be provided.&lt;/p&gt;</string>
+&lt;p&gt;Umbrello has built in support for detecting the install location of  these layout generators. For cases where this dependency is not available or do not fit, a different installation path could be provided.&lt;/p&gt;</string>
         </property>
         <property name="text">
          <string>Auto detect layout generator</string>
