@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-14 00:52+0000\n"
+"POT-Creation-Date: 2022-11-02 00:52+0000\n"
 "PO-Revision-Date: 2022-09-07 18:20+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2449,16 +2449,23 @@ msgstr "Generador de disposicions"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<p>The auto layout feature depends on layout generators provided by the "
+#| "GraphViz package, which is normally installed aside Umbrello by a package "
+#| "manager.</p>\n"
+#| "<p>Umbrello has build in support for detecting the install location of  "
+#| "these layout generators. For cases where this dependency is not available "
+#| "or do not fit, a different installation path could be provided.</p>"
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
 "manager.</p>\n"
-"<p>Umbrello has build in support for detecting the install location of  "
+"<p>Umbrello has built in support for detecting the install location of  "
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
-"<p>La funcionalitat de disposicions automàtiques depén dels generadors de "
+"<p>La característica de disposicions automàtiques depén dels generadors de "
 "disposicions proporcionats pel paquet GraphViz, el qual normalment "
 "s'instal·la a banda d'Umbrello amb un gestor de paquets.</p>\n"
 "<p>Umbrello es construïx amb implementació per a detectar la ubicació "
@@ -4273,7 +4280,7 @@ msgstr "Oliver Kellogg"
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
-"Esmena d'errors, treball d'adaptació, neteja de codi, funcionalitats noves."
+"Esmena d'errors, treball d'adaptació, neteja de codi, característiques noves."
 
 #: main.cpp:137
 #, kde-format
@@ -4288,7 +4295,7 @@ msgstr "Andi Fischer"
 #: main.cpp:141
 #, kde-format
 msgid "Porting work, code cleanup, new features."
-msgstr "Treball d'adaptació, neteja de codi, funcionalitats noves."
+msgstr "Treball d'adaptació, neteja de codi, característiques noves."
 
 #: main.cpp:143
 #, kde-format
