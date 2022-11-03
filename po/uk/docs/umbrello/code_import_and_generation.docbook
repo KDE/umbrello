@@ -15,7 +15,7 @@
 >заповнити порожні місця</quote
 > реалізацією дій, передбачених у ваших класах. </para>
 <para
->У версії &umbrello; 2 реалізовано підтримку створення коду для мов програмування ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL та Pascal. </para>
+>У версії &umbrello; 2 реалізовано підтримку створення коду для мов програмування ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQ, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala та XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Як створити код</title>
@@ -132,7 +132,7 @@
 <title
 >Імпортування коду</title>
 <para
->&umbrello; може імпортувати код з вже створених вами проєктів, щоб допомогти вам у побудові моделі ваших систем. У версії &umbrello; 2 реалізовано підтримку коду мовами програмування ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL та Pascal. </para>
+>&umbrello; може імпортувати код з вже створених вами проєктів, щоб допомогти вам у побудові моделі ваших систем. У версії &umbrello; 2 реалізовано підтримку коду мовами програмування ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP і Vala. </para>
 <para
 >Щоб імпортувати класи до моделі, скористайтеся пунктом <guimenuitem
 >Майстер імпортування класів...</guimenuitem

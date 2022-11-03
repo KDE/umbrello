@@ -13,7 +13,7 @@
 <para
 >L'&umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model &UML; per ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes. </para>
 <para
->L'&umbrello; 2 proporciona implementació de generació de codi per ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL i Pascal. </para>
+>L'&umbrello; 2 proporciona implementació de generació de codi per ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, i XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Generant el codi</title>
@@ -124,7 +124,7 @@
 <title
 >Importació de codi</title>
 <para
->L'&umbrello; pot importar codi font dels vostres projectes existents per ajudar-vos a construir models dels vostres sistemes. L'&umbrello; 2 només implementa codi font ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL i Pascal. </para>
+>L'&umbrello; pot importar el codi font dels vostres projectes existents per ajudar-vos a construir models dels vostres sistemes. L'&umbrello; 2 implementa el codi font ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP i Vala. </para>
 <para
 >Per importar classes en el model, seleccioneu l'entrada <guimenuitem
 >Assistent d'importació de codi...</guimenuitem

@@ -15,7 +15,7 @@
 >blanke ruimte invullen</quote
 > door de functionaliteit van uw klassen-operaties te verschaffen. </para>
 <para
->&umbrello; 2 komt met code-generatie ondersteuning voor ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL en Pascal. </para>
+>&umbrello; 2 komt met code-generatie ondersteuning voor ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala en XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Code genereren</title>
@@ -132,7 +132,7 @@
 <title
 >Code import</title>
 <para
->&umbrello; kan broncode importeren vanuit uw bestaande projecten om u te helpen met het construeren van een model voor uw systemen. &umbrello; 2 ondersteunt ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL en Pascal broncode. </para>
+>&umbrello; kan broncode importeren vanuit uw bestaande projecten om u te helpen met het construeren van een model voor uw systemen. &umbrello; 2 ondersteunt ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL en Pascal, PHP en Vala-broncode. </para>
 <para
 >Om klasses in uw model te importeren, selecteert u de menukeuze <guimenuitem
 >Assistent voor importeren van broncode...</guimenuitem
