@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2022-10-30 07:48\n"
+"PO-Revision-Date: 2022-11-06 01:06\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2416,14 +2416,7 @@ msgstr "布局生成器"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -2432,10 +2425,6 @@ msgid ""
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
-"<p>\"自动布局\" 功能取决于 GraphViz 包提供的布局生成器, 通常由包管理器在"
-"Umbrello之外安装。</p>\n"
-"<p>Umbrello 支持检测这些布局生成器的安装位置。对于此依赖项不可用或不适合的情"
-"况, 可以提供不同的安装路径。</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:27
