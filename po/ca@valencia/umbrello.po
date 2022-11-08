@@ -1439,7 +1439,7 @@ msgstr "Inclou els subdirectoris."
 #: codeimpwizard/codeimpselectpage.ui:77
 #, kde-format
 msgid "List of file extensions:"
-msgstr "Llista de les extensions de fitxers:"
+msgstr "Llista de les extensions de fitxer:"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_deselectAllButton)
 #: codeimpwizard/codeimpselectpage.ui:117
