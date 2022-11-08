@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2022-09-07 18:20+0200\n"
+"PO-Revision-Date: 2022-11-02 09:04+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1439,7 +1439,7 @@ msgstr "Inclou els subdirectoris."
 #: codeimpwizard/codeimpselectpage.ui:77
 #, kde-format
 msgid "List of file extensions:"
-msgstr "Llista de les extensions de fitxers:"
+msgstr "Llista de les extensions de fitxer:"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_deselectAllButton)
 #: codeimpwizard/codeimpselectpage.ui:117
@@ -2449,14 +2449,7 @@ msgstr "Generador de disposicions"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -2468,7 +2461,7 @@ msgstr ""
 "<p>La característica de disposicions automàtiques depén dels generadors de "
 "disposicions proporcionats pel paquet GraphViz, el qual normalment "
 "s'instal·la a banda d'Umbrello amb un gestor de paquets.</p>\n"
-"<p>Umbrello es construïx amb implementació per a detectar la ubicació "
+"<p>Umbrello s'ha construït amb la implementació per a detectar la ubicació "
 "d'instal·lació d'estos generadors de disposicions. Per als casos en què esta "
 "dependència no estiga disponible o no s'ajusta, es pot indicar un camí "
 "d'instal·lació diferent.</p>"
