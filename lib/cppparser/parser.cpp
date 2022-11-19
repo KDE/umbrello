@@ -1844,7 +1844,7 @@ template<class Type>
 void Parser::eventuallyTakeComment(int startLn, int endLn, Type& ast)
 {
     if (comment().line() >= startLn && comment().line() <= endLn) {
-        if (&(*ast)) {
+        if (ast.get()) {
             if (comment()) {
                 ast->setComment(comment());
             }
@@ -1860,7 +1860,7 @@ void Parser::eventuallyTakeComment(Type& ast)
     int line = currentLine();
     Comment c = m_commentStore.getCommentsInRange(line, true);
 
-    if (&(*ast) && c) {
+    if (ast.get() && c) {
         ast->setComment(c);
     }
 }
@@ -3158,7 +3158,7 @@ bool Parser::parseDeclarationInternal(DeclarationAST::Node& node)
             int endSignature = m_lexer->index();
 
             Comment mcomment;
-            if (&(*declarator)) {
+            if (declarator.get()) {
                 int endLine, endColumn;
                 declarator->getEndPosition(&endLine, &endColumn);
                 mcomment = m_commentStore.getCommentsInRange(endLine);
@@ -3294,7 +3294,7 @@ start_decl:
         }
 
         Comment mcomment;
-        if (&(*decl)) {
+        if (decl.get()) {
             int line, col;
             decl->getEndPosition(&line, &col);
             mcomment = m_commentStore.getCommentsInRange(line);
@@ -3311,7 +3311,7 @@ start_decl:
             SimpleDeclarationAST::Node ast = CreateNode<SimpleDeclarationAST>();
             int line, col;
             ast->setComment(mcomment);
-            if (&(*decl)) {
+            if (decl.get()) {
                 decl->getEndPosition(&line, &col);
 
                 preparseLineComments(line);
@@ -3343,7 +3343,7 @@ start_decl:
                 FunctionDefinitionAST::Node ast = CreateNode<FunctionDefinitionAST>();
 
                 ast->setComment(mcomment);
-                if (&(*decl)) {
+                if (decl.get()) {
                     int line, col;
                     decl->getEndPosition(&line, &col);
 
