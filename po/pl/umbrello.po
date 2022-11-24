@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2022-08-16 18:57+0200\n"
+"PO-Revision-Date: 2022-11-23 20:09+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 ">\n"
 ">\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -2444,14 +2444,7 @@ msgstr "Generator układu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
