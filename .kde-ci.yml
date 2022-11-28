@@ -16,7 +16,7 @@ Dependencies:
     'frameworks/kdelibs4support': '@stable'
     'frameworks/kio': '@stable'
     'frameworks/ktexteditor': '@stable'
-    'frameworks/kwidgetaddons': '@stable'
+    'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kxmlgui': '@stable'
     'kdevelop/kdevelop-pg-qt': '@stable'
