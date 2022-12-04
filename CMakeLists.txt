@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
 project(umbrello)
 
@@ -65,7 +65,6 @@ if(NOT BUILD_KF5)
     set(KDEV_COMPONENTS)
     set(QTQCHDIR ${QT_DOC_DIR}/qch)
 else()
-    cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
