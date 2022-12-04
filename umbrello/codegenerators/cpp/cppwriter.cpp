@@ -588,7 +588,15 @@ void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visi
         list = c->getAttributeList(visibility);
 
     // write accessor methods for attribs we found
-    writeAttributeMethods(list, visibility, true, false, policyExt()->getAccessorsAreInline(), stream);
+    // if getAccessorsArePublic policy is true, all attribute accessors are public.
+    if (policyExt()->getAccessorsArePublic())
+    {
+        writeAttributeMethods(list, Uml::Visibility::Public, true, false, policyExt()->getAccessorsAreInline(), stream);
+    }
+    else 
+    {
+        writeAttributeMethods(list, visibility, true, false, policyExt()->getAccessorsAreInline(), stream);
+    }
 }
 
 /**
