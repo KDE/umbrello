@@ -1300,7 +1300,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
         associationWidgetList().removeAll(pAssoc);
     }
 
-    if (changesShape()) {
+    if (changesShape() && !UMLApp::app()->shuttingDown()) {
         updateGeometry();
     }
 }
