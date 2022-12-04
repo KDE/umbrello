@@ -1,10 +1,20 @@
+# Ignore the following files
+*~
+*.kate-swp
+*.kdev4
+.kdev_include_paths
+*.kdevelop.pcs
+*.moc
+Makefile
+CMakeLists.txt.user*
+/compile_commands.json
+
 # CMake assets 
 CMakeCache.txt
-CMakeLists.txt.user
 CTestTestfile.cmake
 CMakeFiles/
 CMakeTmp/
-Makefile
+
 FindPackageLog.txt
 
 # Umbrello build files 
@@ -21,13 +31,11 @@ unittests/TEST_basictypes_automoc.cpp.files
 doc/index.cache.bz2
 
 # Qt generated files 
-*.moc
 umbrello/moc_*.cpp
 umbrello/ui_*.h
 
 # Vi, Emacs and ctags
 *.sw[p,o,n]
-*~
 \#*
 .\#*
 /tags
@@ -35,9 +43,6 @@ umbrello/ui_*.h
 
 # Dolphin, Kate, KDevelop
 .directory
-.*.kate-swp
-*.kdev4
-.kdev4/
 
 # OSX Finder, TextMate
 .DS_Store
