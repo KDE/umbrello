@@ -237,6 +237,5 @@ int main(int argc, char *argv[])
         }
     }
     int result = app.exec();
-    delete uml;
     return result;
 }
