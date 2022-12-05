@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:52+0000\n"
+"POT-Creation-Date: 2022-12-05 00:49+0000\n"
 "PO-Revision-Date: 2019-08-12 18:54+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4149,7 +4149,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (aka Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:131
+#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Umbrello UML 建模工具作者"
@@ -4211,12 +4211,12 @@ msgstr "焦點變動後啟用文件編輯。"
 msgid "Apply layout"
 msgstr "套用佈局"
 
-#: main.cpp:121
+#: main.cpp:124 main.cpp:173
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML 建模工具"
 
-#: main.cpp:123
+#: main.cpp:126 main.cpp:175
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4226,7 +4226,7 @@ msgstr ""
 "Umbrello – 軟體的視覺化開發環境，基於工業標準的統一塑模語言 (UML)。<br/>參見 "
 "<a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>。"
 
-#: main.cpp:127
+#: main.cpp:130 main.cpp:179
 #, fuzzy, kde-format
 #| msgid ""
 #| "Copyright © 2001 Paul Hensgen,\n"
@@ -4236,104 +4236,104 @@ msgid ""
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr "(c) 2001 Paul Hensgen, (c) 2002-2018 Umbrello UML 建模工具作者"
 
-#: main.cpp:130
+#: main.cpp:133
 #, kde-format
 msgid "Paul Hensgen"
 msgstr "Paul Hensgen"
 
-#: main.cpp:130
+#: main.cpp:133 main.cpp:182
 #, kde-format
 msgid "Author of initial version."
 msgstr "初始版本的作者。"
 
-#: main.cpp:134
+#: main.cpp:137
 #, kde-format
 msgid "Oliver Kellogg"
 msgstr "Oliver Kellogg"
 
-#: main.cpp:135 main.cpp:138
+#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr "錯誤修復、移植工作、程式碼清理、新功能。"
 
-#: main.cpp:137
+#: main.cpp:140
 #, kde-format
 msgid "Ralf Habacker"
 msgstr "Ralf Habacker"
 
-#: main.cpp:140
+#: main.cpp:143
 #, kde-format
 msgid "Andi Fischer"
 msgstr "Andi Fischer"
 
-#: main.cpp:141
+#: main.cpp:144 main.cpp:192
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "移植工作、程式碼清理、新功能。"
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Jonathan Riddell"
 msgstr "Jonathan Riddell"
 
-#: main.cpp:144
+#: main.cpp:147 main.cpp:195
 #, kde-format
 msgid "Current maintainer."
 msgstr "目前維護者。"
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Brian Thomas"
 msgstr "Brian Thomas"
 
-#: main.cpp:147
+#: main.cpp:150 main.cpp:198
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "許多 C++ 與 Java 程式碼生成的工作。程式碼編輯器。"
 
-#: main.cpp:152
+#: main.cpp:155 main.cpp:206
 #, kde-format
 msgid "File to open"
 msgstr "要開啟的檔案"
 
-#: main.cpp:153
+#: main.cpp:156 main.cpp:207
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "將圖表匯出為延伸並離開"
 
-#: main.cpp:154
+#: main.cpp:157 main.cpp:209
 #, kde-format
 msgid "list available export extensions"
 msgstr "列出可用的匯出副檔名"
 
-#: main.cpp:155
+#: main.cpp:158 main.cpp:211
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "要儲存匯出的圖表的本地端目錄"
 
-#: main.cpp:155
+#: main.cpp:158
 #, kde-format
 msgid "the directory of the file"
 msgstr "此檔案的目錄"
 
-#: main.cpp:156
+#: main.cpp:159 main.cpp:213
 #, kde-format
 msgid "import files"
 msgstr "匯入檔案"
 
-#: main.cpp:157
+#: main.cpp:160 main.cpp:215
 #, kde-format
 msgid "list supported languages"
 msgstr "列出支援的語言"
 
-#: main.cpp:158
+#: main.cpp:161 main.cpp:217
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr "在目標目錄中的文件裡保留用於儲存檢視的樹狀結構"
 
-#: main.cpp:159
+#: main.cpp:162 main.cpp:219
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "從目錄匯入 <dir>"
@@ -4341,6 +4341,12 @@ msgstr "從目錄匯入 <dir>"
 #: main.cpp:163
 #, kde-format
 msgid "set active language"
+msgstr "設定使用中的語言"
+
+#: main.cpp:221
+#, fuzzy, kde-format
+#| msgid "set active language"
+msgid "set language"
 msgstr "設定使用中的語言"
 
 #: menus/associationwidgetpopupmenu.cpp:41

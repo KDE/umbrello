@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:52+0000\n"
+"POT-Creation-Date: 2022-12-05 00:49+0000\n"
 "PO-Revision-Date: 2007-08-20 13:11+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -4315,7 +4315,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr ""
 
-#: docgenerators/main.cpp:51 main.cpp:131
+#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "अम्ब्रेलो यूएमएल मोडेलर लेखकहरू"
@@ -4380,12 +4380,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "स्वत: बचत गर्नुहोस्"
 
-#: main.cpp:121
+#: main.cpp:124 main.cpp:173
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "अम्ब्रेलो यूएमएल मोडेलर"
 
-#: main.cpp:123
+#: main.cpp:126 main.cpp:175
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4393,7 +4393,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:130 main.cpp:179
 #, fuzzy, kde-format
 #| msgid "(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"
 msgid ""
@@ -4401,100 +4401,100 @@ msgid ""
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr "(c) 2001 Paul Hensgen, (c) 2002-2006 अम्ब्रेलो यूएमएल मोडेलर लेखक"
 
-#: main.cpp:130
+#: main.cpp:133
 #, kde-format
 msgid "Paul Hensgen"
 msgstr ""
 
-#: main.cpp:130
+#: main.cpp:133 main.cpp:182
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:134
+#: main.cpp:137
 #, kde-format
 msgid "Oliver Kellogg"
 msgstr ""
 
-#: main.cpp:135 main.cpp:138
+#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:137
+#: main.cpp:140
 #, kde-format
 msgid "Ralf Habacker"
 msgstr ""
 
-#: main.cpp:140
+#: main.cpp:143
 #, kde-format
 msgid "Andi Fischer"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:144 main.cpp:192
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Jonathan Riddell"
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:147 main.cpp:195
 #, fuzzy, kde-format
 #| msgid "&Current diagram"
 msgid "Current maintainer."
 msgstr "हालको रेखाचित्र"
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Brian Thomas"
 msgstr ""
 
-#: main.cpp:147
+#: main.cpp:150 main.cpp:198
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:155 main.cpp:206
 #, kde-format
 msgid "File to open"
 msgstr "खोल्नुपर्ने फाइल"
 
-#: main.cpp:153
+#: main.cpp:156 main.cpp:207
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "विस्तारमा रेखाचित्र निर्यात गर्नुहोस् र निस्कनुहोस्"
 
-#: main.cpp:154
+#: main.cpp:157 main.cpp:209
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:155
+#: main.cpp:158 main.cpp:211
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "यसमा निर्यात गरिएको रेखाचित्र बचत गर्न स्थानिय डाइरेक्टरी"
 
-#: main.cpp:155
+#: main.cpp:158
 #, kde-format
 msgid "the directory of the file"
 msgstr "फाइलको डाइरेक्टरी"
 
-#: main.cpp:156
+#: main.cpp:159 main.cpp:213
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "import files"
 msgstr "दृश्य निर्यात गर्दैछ..."
 
-#: main.cpp:157
+#: main.cpp:160 main.cpp:215
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "सबै फाइल"
 
-#: main.cpp:158
+#: main.cpp:161 main.cpp:217
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4502,7 +4502,7 @@ msgid ""
 msgstr ""
 "लक्षित डाइरेक्टरीमा कागजातमा दृश्यहरू भण्डारन गर्न प्रयोग गरिएको ट्री समरचना राख्नुहोस्"
 
-#: main.cpp:159
+#: main.cpp:162 main.cpp:219
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "वर्गहरू आयात गर्नुहोस्..."
@@ -4511,6 +4511,12 @@ msgstr "वर्गहरू आयात गर्नुहोस्..."
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set active language"
+msgstr "सक्रिय भाषा"
+
+#: main.cpp:221
+#, fuzzy, kde-format
+#| msgid "Active &Language"
+msgid "set language"
 msgstr "सक्रिय भाषा"
 
 #: menus/associationwidgetpopupmenu.cpp:41

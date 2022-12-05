@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:52+0000\n"
+"POT-Creation-Date: 2022-12-05 00:49+0000\n"
 "PO-Revision-Date: 2022-11-13 00:11+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4159,7 +4159,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (aka Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:131
+#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Autori del modellatore UML Umbrello"
@@ -4224,12 +4224,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "Applica disposizione"
 
-#: main.cpp:121
+#: main.cpp:124 main.cpp:173
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Modellatore UML Umbrello"
 
-#: main.cpp:123
+#: main.cpp:126 main.cpp:175
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4240,7 +4240,7 @@ msgstr ""
 "industriale UML.<br/>Vedi anche <a href=\"http://www.omg.org/spec/\">http://"
 "www.omg.org/spec/</a>."
 
-#: main.cpp:127
+#: main.cpp:130 main.cpp:179
 #, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
@@ -4249,98 +4249,98 @@ msgstr ""
 "Copyright © 2001 di Paul Hensgen,\n"
 "Copyright © 2002-2022 degli autori del modellatore UML Umbrello"
 
-#: main.cpp:130
+#: main.cpp:133
 #, kde-format
 msgid "Paul Hensgen"
 msgstr "Paul Hensgen"
 
-#: main.cpp:130
+#: main.cpp:133 main.cpp:182
 #, kde-format
 msgid "Author of initial version."
 msgstr "Autore della versione iniziale."
 
-#: main.cpp:134
+#: main.cpp:137
 #, kde-format
 msgid "Oliver Kellogg"
 msgstr "Oliver Kellogg"
 
-#: main.cpp:135 main.cpp:138
+#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr "Correzioni, trasferimento, pulizia e nuove funzioni."
 
-#: main.cpp:137
+#: main.cpp:140
 #, kde-format
 msgid "Ralf Habacker"
 msgstr "Ralf Habacker"
 
-#: main.cpp:140
+#: main.cpp:143
 #, kde-format
 msgid "Andi Fischer"
 msgstr "Andi Fischer"
 
-#: main.cpp:141
+#: main.cpp:144 main.cpp:192
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "Trasferimento, pulizia e nuove funzioni."
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Jonathan Riddell"
 msgstr "Jonathan Riddell"
 
-#: main.cpp:144
+#: main.cpp:147 main.cpp:195
 #, kde-format
 msgid "Current maintainer."
 msgstr "Responsabile attuale."
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Brian Thomas"
 msgstr "Brian Thomas"
 
-#: main.cpp:147
+#: main.cpp:150 main.cpp:198
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 "Molto lavoro per la generazione di codice C++ e Java, editor del codice."
 
-#: main.cpp:152
+#: main.cpp:155 main.cpp:206
 #, kde-format
 msgid "File to open"
 msgstr "File da aprire"
 
-#: main.cpp:153
+#: main.cpp:156 main.cpp:207
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "esporta i diagrammi all'estensione ed esci"
 
-#: main.cpp:154
+#: main.cpp:157 main.cpp:209
 #, kde-format
 msgid "list available export extensions"
 msgstr "elenca le estensioni di esportazione disponibili"
 
-#: main.cpp:155
+#: main.cpp:158 main.cpp:211
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "la cartella locale in cui salvare i diagrammi esportati"
 
-#: main.cpp:155
+#: main.cpp:158
 #, kde-format
 msgid "the directory of the file"
 msgstr "la cartella del file"
 
-#: main.cpp:156
+#: main.cpp:159 main.cpp:213
 #, kde-format
 msgid "import files"
 msgstr "importa file"
 
-#: main.cpp:157
+#: main.cpp:160 main.cpp:215
 #, kde-format
 msgid "list supported languages"
 msgstr "elenco di linguaggi supportati"
 
-#: main.cpp:158
+#: main.cpp:161 main.cpp:217
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4349,7 +4349,7 @@ msgstr ""
 "mantieni la struttura ad albero usata per salvare le viste del documento "
 "nella cartella di destinazione"
 
-#: main.cpp:159
+#: main.cpp:162 main.cpp:219
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "importa file dalla cartella <dir>"
@@ -4357,6 +4357,12 @@ msgstr "importa file dalla cartella <dir>"
 #: main.cpp:163
 #, kde-format
 msgid "set active language"
+msgstr "imposta il linguaggio attivo"
+
+#: main.cpp:221
+#, fuzzy, kde-format
+#| msgid "set active language"
+msgid "set language"
 msgstr "imposta il linguaggio attivo"
 
 #: menus/associationwidgetpopupmenu.cpp:41

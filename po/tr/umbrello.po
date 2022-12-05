@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:52+0000\n"
+"POT-Creation-Date: 2022-12-05 00:49+0000\n"
 "PO-Revision-Date: 2022-11-22 16:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4170,7 +4170,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (aka Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:131
+#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Umbrello UML Modelleyici Yazarları"
@@ -4232,12 +4232,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "Düzeni uygula"
 
-#: main.cpp:121
+#: main.cpp:124 main.cpp:173
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML Modelleyici"
 
-#: main.cpp:123
+#: main.cpp:126 main.cpp:175
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4245,7 +4245,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:130 main.cpp:179
 #, fuzzy, kde-format
 #| msgid ""
 #| "Copyright © 2001 Paul Hensgen,\n"
@@ -4257,105 +4257,105 @@ msgstr ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2016 Umbrello UML Modeller Yazarları"
 
-#: main.cpp:130
+#: main.cpp:133
 #, kde-format
 msgid "Paul Hensgen"
 msgstr "Paul Hensgen"
 
-#: main.cpp:130
+#: main.cpp:133 main.cpp:182
 #, kde-format
 msgid "Author of initial version."
 msgstr "Başlanıç sürümünün yazarı."
 
-#: main.cpp:134
+#: main.cpp:137
 #, kde-format
 msgid "Oliver Kellogg"
 msgstr "Oliver Kellogg"
 
-#: main.cpp:135 main.cpp:138
+#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 "Hata düzeltmesi, geçiş çalışmaları, kod temizlenmesi, yeni özellikler "
 "eklemesi."
 
-#: main.cpp:137
+#: main.cpp:140
 #, kde-format
 msgid "Ralf Habacker"
 msgstr "Ralf Habacker"
 
-#: main.cpp:140
+#: main.cpp:143
 #, kde-format
 msgid "Andi Fischer"
 msgstr "Andi Fischer"
 
-#: main.cpp:141
+#: main.cpp:144 main.cpp:192
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "Geçiş çalışması, kod temizlemesi, yeni özellikler eklemesi."
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Jonathan Riddell"
 msgstr "Jonathan Riddell"
 
-#: main.cpp:144
+#: main.cpp:147 main.cpp:195
 #, kde-format
 msgid "Current maintainer."
 msgstr "Güncel bakımcı."
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Brian Thomas"
 msgstr "Brian Thomas"
 
-#: main.cpp:147
+#: main.cpp:150 main.cpp:198
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "C++ ve java kod oluşturulması için bir çok çalışma. Codeeditor."
 
-#: main.cpp:152
+#: main.cpp:155 main.cpp:206
 #, kde-format
 msgid "File to open"
 msgstr "Açılacak dosya"
 
-#: main.cpp:153
+#: main.cpp:156 main.cpp:207
 #, fuzzy, kde-format
 #| msgid "Export diagrams to extension and exit."
 msgid "export diagrams to extension and exit"
 msgstr "Eklentiye diyagramı aktar ve çık."
 
-#: main.cpp:154
+#: main.cpp:157 main.cpp:209
 #, fuzzy, kde-format
 #| msgid "List available export extensions."
 msgid "list available export extensions"
 msgstr "Dışarıya aktarılabilecek eklentilerin listesi."
 
-#: main.cpp:155
+#: main.cpp:158 main.cpp:211
 #, fuzzy, kde-format
 #| msgid "The local directory to save the exported diagrams in."
 msgid "the local directory to save the exported diagrams in"
 msgstr "Dışarıya aktarılacak diyagramların kayıt edileceği yerel dizin."
 
-#: main.cpp:155
+#: main.cpp:158
 #, fuzzy, kde-format
 #| msgid "The Width of the Line"
 msgid "the directory of the file"
 msgstr "Çizginin Genişliği"
 
-#: main.cpp:156
+#: main.cpp:159 main.cpp:213
 #, fuzzy, kde-format
 #| msgid "importing file ..."
 msgid "import files"
 msgstr "dosya içeriye aktarılıyor ..."
 
-#: main.cpp:157
+#: main.cpp:160 main.cpp:215
 #, fuzzy, kde-format
 #| msgid "All Supported Files"
 msgid "list supported languages"
 msgstr "Desteklenen Tüm Dosyalar"
 
-#: main.cpp:158
+#: main.cpp:161 main.cpp:217
 #, fuzzy, kde-format
 #| msgid ""
 #| "Keep the tree structure used to store the views in the document in the "
@@ -4367,7 +4367,7 @@ msgstr ""
 "Belge içerisinde tutulan görünümleri aynı ağaç yapısını hedef dizinin "
 "içerisinde de sakla."
 
-#: main.cpp:159
+#: main.cpp:162 main.cpp:219
 #, fuzzy, kde-format
 #| msgid "Import from Directory..."
 msgid "import files from directory <dir>"
@@ -4377,6 +4377,12 @@ msgstr "Dizinden İçeriye Aktar..."
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set active language"
+msgstr "&Etkin Dil"
+
+#: main.cpp:221
+#, fuzzy, kde-format
+#| msgid "Active &Language"
+msgid "set language"
 msgstr "&Etkin Dil"
 
 #: menus/associationwidgetpopupmenu.cpp:41
