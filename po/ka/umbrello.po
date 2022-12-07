@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-05 00:49+0000\n"
-"PO-Revision-Date: 2022-09-25 16:46+0200\n"
+"PO-Revision-Date: 2022-12-06 06:20+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,7 +31,7 @@ msgstr "Temuri.doghonadze@gmail.com"
 #: basictypes.cpp:195
 #, kde-format
 msgid "Class Diagram"
-msgstr ""
+msgstr "კლასის დიაგრამა"
 
 #: basictypes.cpp:197
 #, kde-format
@@ -41,47 +41,47 @@ msgstr ""
 #: basictypes.cpp:199
 #, kde-format
 msgid "Sequence Diagram"
-msgstr ""
+msgstr "მიმდევრობის დიაგრამა"
 
 #: basictypes.cpp:201
 #, kde-format
 msgid "Collaboration Diagram"
-msgstr ""
+msgstr "კოლაბორაციის დიაგრამა"
 
 #: basictypes.cpp:203
 #, kde-format
 msgid "State Diagram"
-msgstr ""
+msgstr "მდგომარეობის დიაგრამა"
 
 #: basictypes.cpp:205
 #, kde-format
 msgid "Activity Diagram"
-msgstr ""
+msgstr "აქტივობის დიაგრამა"
 
 #: basictypes.cpp:207
 #, kde-format
 msgid "Component Diagram"
-msgstr ""
+msgstr "კომპონენტის დიაგრამა"
 
 #: basictypes.cpp:209
 #, kde-format
 msgid "Deployment Diagram"
-msgstr ""
+msgstr "გაშლის დიაგრამა"
 
 #: basictypes.cpp:211
 #, kde-format
 msgid "Entity Relationship Diagram"
-msgstr ""
+msgstr "ელემენტების ურთიერთობის დიაგრამა"
 
 #: basictypes.cpp:213
 #, kde-format
 msgid "Object Diagram"
-msgstr ""
+msgstr "ობიექტის დიაგრამა"
 
 #: basictypes.cpp:215
 #, kde-format
 msgid "No Diagram"
-msgstr ""
+msgstr "დიაგრამის გარეშე"
 
 #: basictypes.cpp:331 worktoolbar.cpp:347
 #, kde-format
@@ -91,7 +91,7 @@ msgstr ""
 #: basictypes.cpp:333 worktoolbar.cpp:344
 #, kde-format
 msgid "Aggregation"
-msgstr ""
+msgstr "აგრეგაცია"
 
 #: basictypes.cpp:335 worktoolbar.cpp:343
 #, kde-format
@@ -106,7 +106,7 @@ msgstr "ასოცირება"
 #: basictypes.cpp:339
 #, kde-format
 msgid "Self Association"
-msgstr ""
+msgstr "თვით-ასოცირება"
 
 #: basictypes.cpp:341
 #, kde-format
@@ -1180,7 +1180,7 @@ msgstr "Mac (\"\\r\")"
 #: codegenwizard/codegenselectpage.cpp:29
 #, kde-format
 msgid "Select Classes"
-msgstr ""
+msgstr "აირჩიეთ კლასები"
 
 #: codegenwizard/codegenselectpage.cpp:30
 #, kde-format
@@ -1199,7 +1199,7 @@ msgstr ""
 #: codegenwizard/codegenselectpage.ui:33
 #, kde-format
 msgid "Classes Available"
-msgstr ""
+msgstr "ხელმისაწვდომი კლასები"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:73
@@ -1211,13 +1211,13 @@ msgstr ""
 #: codegenwizard/codegenselectpage.ui:76
 #, kde-format
 msgid "Add >>"
-msgstr ""
+msgstr "დამატება > >"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ui_removeButton)
 #: codegenwizard/codegenselectpage.ui:103
 #, kde-format
 msgid "Remove class from Code Generation"
-msgstr ""
+msgstr "კოდის გენერაციიდან კლასის წაშლა"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_removeButton)
 #: codegenwizard/codegenselectpage.ui:106
@@ -1252,12 +1252,12 @@ msgstr ""
 #: codegenwizard/codegenstatuspage.cpp:176
 #, kde-format
 msgid "Code Generated"
-msgstr ""
+msgstr "კოდი დაგენერირებულია"
 
 #: codegenwizard/codegenstatuspage.cpp:180
 #, kde-format
 msgid "Not Generated"
-msgstr ""
+msgstr "გენერირებული არაა"
 
 #: codegenwizard/codegenstatuspage.cpp:185
 #, kde-format
@@ -1269,7 +1269,7 @@ msgstr "გამოტოვებულია"
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, kde-format
 msgid "Cannot open file!"
-msgstr ""
+msgstr "ფაილის გახსნის შეცდომა!"
 
 #: codegenwizard/codegenstatuspage.cpp:230
 #, kde-format
@@ -1352,7 +1352,7 @@ msgstr ""
 #: codeimpwizard/codeimpselectpage.cpp:109
 #, kde-format
 msgid "File System Model"
-msgstr ""
+msgstr "ფაილური სისტემის მოდელი"
 
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
@@ -1372,7 +1372,7 @@ msgstr ""
 #: codeimpwizard/codeimpselectpage.cpp:139
 #, kde-format
 msgid "Clear all selections."
-msgstr ""
+msgstr "ყველა მონიშნულების გასუფთავება."
 
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
@@ -1413,7 +1413,7 @@ msgstr "მონიშვნის მოხსნა"
 #: codeimpwizard/codeimpselectpage.ui:124
 #, kde-format
 msgid "Select all"
-msgstr ""
+msgstr "ყველას მონიშვნა"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_filesLabel)
 #: codeimpwizard/codeimpselectpage.ui:136
@@ -1554,12 +1554,12 @@ msgstr "საწყისი აქტივობა"
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "End activity"
-msgstr ""
+msgstr "აქტივობის დასრულება"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Final activity"
-msgstr ""
+msgstr "საბოლოო აქტივობა"
 
 #. i18n("Attribute...")); break;
 #: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
@@ -1576,7 +1576,7 @@ msgstr "ქმედების ჩაწოდება"
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Parameter activity"
-msgstr ""
+msgstr "პარამეტრის აქტივობა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:131
@@ -1586,7 +1586,7 @@ msgstr ""
 #: dialogs/umltemplatedialog.cpp:56
 #, kde-format
 msgid "General Properties"
-msgstr ""
+msgstr "ზოგადი თვისებები"
 
 #: dialogs/activitydialog.cpp:146
 #, kde-format
@@ -1622,7 +1622,7 @@ msgstr "&ნორმალური აქტივობა"
 #: dialogs/activitydialog.cpp:181
 #, kde-format
 msgid "&Invoke action "
-msgstr "ქმედების &ჩაწოდება"
+msgstr "ქმედების &ჩაწოდება "
 
 #: dialogs/activitydialog.cpp:184
 #, kde-format
@@ -1818,12 +1818,12 @@ msgstr "ჩვენება"
 #: dialogs/codeeditor.cpp:789 dialogs/codeeditor.cpp:791
 #, kde-format
 msgid "Hide Comment"
-msgstr ""
+msgstr "კომენტარის დამალვა"
 
 #: dialogs/codeeditor.cpp:799 dialogs/codeeditor.cpp:801
 #, kde-format
 msgid "Show Comment"
-msgstr ""
+msgstr "კომენტარის ჩვენება"
 
 #: dialogs/codeeditor.cpp:811 dialogs/codeeditor.cpp:813
 #, kde-format
@@ -1927,7 +1927,7 @@ msgstr ""
 #: dialogs/dialog_utils.cpp:30
 #, kde-format
 msgid "Enable all messages"
-msgstr ""
+msgstr "ყველა შეტყობინების ჩართვა"
 
 #: dialogs/dialog_utils.cpp:31
 #, kde-format
@@ -2442,7 +2442,7 @@ msgstr ""
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
 msgid "Reference:"
-msgstr ""
+msgstr "მიბმა:"
 
 #: dialogs/pages/classgeneralpage.cpp:143
 #, kde-format
@@ -3226,7 +3226,7 @@ msgstr ""
 #: dialogs/selectdiagramdialog.cpp:19
 #, kde-format
 msgid "Diagram"
-msgstr ""
+msgstr "დიაგრამა"
 
 #: dialogs/settingsdialog.cpp:44
 #, kde-format
@@ -3345,7 +3345,7 @@ msgstr "შეერთება"
 #, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr ""
+msgstr "ჯანქშენი"
 
 #: dialogs/statedialog.cpp:151
 #, kde-format
@@ -4261,10 +4261,9 @@ msgid "set active language"
 msgstr ""
 
 #: main.cpp:221
-#, fuzzy, kde-format
-#| msgid "Language"
+#, kde-format
 msgid "set language"
-msgstr "ენა"
+msgstr "ენის დაყენება"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4325,7 +4324,7 @@ msgstr "პირდაპირი"
 #: menus/associationwidgetpopupmenu.cpp:97
 #, kde-format
 msgid "Spline"
-msgstr ""
+msgstr "სპლაინი"
 
 #: menus/associationwidgetpopupmenu.cpp:98
 #, kde-format
@@ -4575,7 +4574,7 @@ msgstr ""
 #: menus/listpopupmenu.cpp:211 worktoolbar.cpp:374
 #, kde-format
 msgid "Junction"
-msgstr ""
+msgstr "ჯანქშენი"
 
 #: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
@@ -4637,7 +4636,7 @@ msgstr "კვანძი"
 #: menus/listpopupmenu.cpp:230
 #, kde-format
 msgid "Note..."
-msgstr ""
+msgstr "შენიშვნა..."
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
@@ -5037,12 +5036,12 @@ msgstr "მარცხნივ სწორება"
 #: menus/widgetbasepopupmenu.cpp:596 uml.cpp:669
 #, kde-format
 msgid "Align Top"
-msgstr ""
+msgstr "ზემოთ სწორება"
 
 #: menus/widgetbasepopupmenu.cpp:597 uml.cpp:674
 #, kde-format
 msgid "Align Bottom"
-msgstr ""
+msgstr "ძირის სწორება"
 
 #: menus/widgetbasepopupmenu.cpp:599 uml.cpp:679
 #, kde-format
@@ -5227,7 +5226,7 @@ msgstr ""
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
 #, kde-format
 msgid "New category"
-msgstr ""
+msgstr "ახალი კატეგორია"
 
 #: model_utils.cpp:614
 #, kde-format
@@ -5332,7 +5331,7 @@ msgstr ""
 #: model_utils.cpp:634
 #, kde-format
 msgid "New template"
-msgstr ""
+msgstr "ახალი ნიმუში"
 
 #: model_utils.cpp:635
 #, kde-format
@@ -7232,7 +7231,7 @@ msgstr "ბოლო ბრძანების გაუქმება"
 #: uml.cpp:509
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "ბოლო დაბრუნებული ცვლილების გამეორება"
 
 #: uml.cpp:511
 #, kde-format
@@ -7501,7 +7500,7 @@ msgstr ""
 #: uml.cpp:1504
 #, kde-format
 msgid "Warning"
-msgstr ""
+msgstr "გაფრთხილება"
 
 #: uml.cpp:1504
 #, kde-format
@@ -7526,7 +7525,7 @@ msgstr ""
 #: uml.cpp:1611
 #, kde-format
 msgid "Print Preview..."
-msgstr ""
+msgstr "დასაბეჭდის გადახედვა..."
 
 #: uml.cpp:1638
 #, kde-format
@@ -7536,7 +7535,7 @@ msgstr "დაბეჭდვა..."
 #: uml.cpp:1645 uml.cpp:1649
 #, kde-format
 msgid "Print %1"
-msgstr ""
+msgstr "%1-ის დაბეჭდვა"
 
 #: uml.cpp:1669
 #, kde-format
@@ -7662,7 +7661,7 @@ msgstr ""
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
-msgstr ""
+msgstr "გაფრთხილება"
 
 #: umldoc.cpp:565
 #, kde-format
@@ -7706,7 +7705,7 @@ msgstr ""
 #: umldoc.cpp:791
 #, kde-format
 msgid "Reason: %1"
-msgstr ""
+msgstr "მიზეზი: %1"
 
 #: umldoc.cpp:874 umldoc.cpp:893 umldoc.cpp:915 umldoc.cpp:973 umldoc.cpp:1018
 #, kde-format
@@ -8233,7 +8232,7 @@ msgstr ""
 #: umlwidgets/associationwidget.cpp:2705
 #, kde-format
 msgid "Role Name"
-msgstr ""
+msgstr "როლის სახელი"
 
 #: umlwidgets/associationwidget.cpp:2706 umlwidgets/floatingtextwidget.cpp:353
 #, kde-format
@@ -8461,7 +8460,7 @@ msgstr ""
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
-msgstr ""
+msgstr "ობიექტის გადარქმევა"
 
 #: umlwidgets/umlwidget.cpp:795
 #, kde-format
